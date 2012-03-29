@@ -1,0 +1,1 @@
+This folder contains the shaders used by OmegaEngine in DirectX's HLSL format.

@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5920CFE3-10CE-4C49-90A6-CE59A8A62EEE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AlphaEditor</RootNamespace>
+    <AssemblyName>AlphaEditor</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\sgKey.snk</AssemblyOriginatorKeyFile>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\build\Debug\</OutputPath>
+    <DocumentationFile>..\..\..\build\Debug\AlphaEditor.xml</DocumentationFile>
+    <DefineConstants>DEBUG;TRACE;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>1591</NoWarn>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <PlatformTarget>x86</PlatformTarget>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\..\Code analysis.ruleset</CodeAnalysisRuleSet>
+    <BaseAddress>2751463424</BaseAddress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseSDK|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\build\ReleaseSDK\</OutputPath>
+    <DocumentationFile>..\..\..\build\ReleaseSDK\AlphaEditor.xml</DocumentationFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>1591</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="SlimDX">
+      <HintPath>..\..\..\lib\SlimDX.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.Global.cs" />
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Graphics\ParticleSystemEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Graphics\ParticleSystemEditor.Designer.cs">
+      <DependentUpon>ParticleSystemEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\CpuParticleSystemEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Graphics\CpuParticleSystemEditor.Designer.cs">
+      <DependentUpon>CpuParticleSystemEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\GpuParticleSystemEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Graphics\GpuParticleSystemEditor.Designer.cs">
+      <DependentUpon>GpuParticleSystemEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CutsceneEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CutsceneEditor.Designer.cs">
+      <DependentUpon>CutsceneEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IToastProvider.cs" />
+    <Compile Include="MainFormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainFormBase.Designer.cs">
+      <DependentUpon>MainFormBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModInfo.cs" />
+    <Compile Include="ModPackageDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModPackageDialog.Designer.cs">
+      <DependentUpon>ModPackageDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModPropertyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModPropertyDialog.Designer.cs">
+      <DependentUpon>ModPropertyDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModSelectorForm.Designer.cs">
+      <DependentUpon>ModSelectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UndoTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UndoCommandTab.cs">
+      <SubType>UserControl</SubType>
+      <DependentUpon>UndoTab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UndoCloneTab.cs">
+      <SubType>UserControl</SubType>
+      <DependentUpon>UndoTab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileSelectorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FileSelectorDialog.Designer.cs">
+      <DependentUpon>FileSelectorDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Dialogs\AddControlTool.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Dialogs\AddControlTool.Designer.cs">
+      <DependentUpon>AddControlTool.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\GuiEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\GuiEditor.Designer.cs">
+      <DependentUpon>GuiEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\LanguageEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\LanguageEditor.Designer.cs">
+      <DependentUpon>LanguageEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.csproj">
+      <Project>{14E9FED0-4989-482D-85DE-448161A6855E}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GUI\GUI.csproj">
+      <Project>{0B5E032B-E8DE-41EB-B66D-6DFD25F9F6E9}</Project>
+      <Name>GUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
+    <None Include="ClassDiagram.cd" />
+    <Content Include="Resources\Editor.png" />
+    <Content Include="Resources\Information.png" />
+    <Content Include="Resources\RedoButton.png" />
+    <Content Include="Resources\UndoButton.png" />
+    <Content Include="Resources\SaveButton.png" />
+    <Content Include="Resources\CopyCopy.png" />
+    <Content Include="Resources\CutButton.png" />
+    <Content Include="Resources\CreateButton.png" />
+    <Content Include="Resources\DeleteButton.png" />
+    <Content Include="Resources\RunButton.png" />
+    <Content Include="Resources\DownButton.png" />
+    <Content Include="Resources\UpButton.png" />
+    <Content Include="Resources\SearchButton.png" />
+    <Content Include="Resources\GoButton.png" />
+    <Content Include="Resources\ValidateButton.png" />
+    <Content Include="Resources\RefreshButton.png" />
+    <Content Include="Resources\RenameButton.png" />
+    <Content Include="Resources\PasteButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileSelectorDialog.de.resx">
+      <DependentUpon>FileSelectorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\ParticleSystemEditor.resx">
+      <DependentUpon>ParticleSystemEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\CpuParticleSystemEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CpuParticleSystemEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\GpuParticleSystemEditor.resx">
+      <DependentUpon>GpuParticleSystemEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Dialogs\AddControlTool.de.resx">
+      <DependentUpon>AddControlTool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CutsceneEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CutsceneEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileSelectorDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FileSelectorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Dialogs\AddControlTool.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AddControlTool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\GuiEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GuiEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\LanguageEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LanguageEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainFormBase.de.resx">
+      <DependentUpon>MainFormBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainFormBase.resx">
+      <DependentUpon>MainFormBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModPackageDialog.de.resx">
+      <DependentUpon>ModPackageDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModPackageDialog.resx">
+      <DependentUpon>ModPackageDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModPropertyDialog.de.resx">
+      <DependentUpon>ModPropertyDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModPropertyDialog.resx">
+      <DependentUpon>ModPropertyDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModSelectorForm.de.resx">
+      <DependentUpon>ModSelectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModSelectorForm.resx">
+      <DependentUpon>ModSelectorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.de.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

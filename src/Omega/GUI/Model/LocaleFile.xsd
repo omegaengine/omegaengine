@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://www.w3.org/2001/XMLSchema" />
+  <xs:element name="locale" nillable="true" type="LocaleFile" />
+  <xs:complexType name="LocaleFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="entry">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="xs:schema" />
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

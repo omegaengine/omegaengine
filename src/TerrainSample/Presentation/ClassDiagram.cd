@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Presentation.Presenter">
+    <Position X="2.75" Y="2.5" Width="2" />
+    <Members>
+      <Method Name="~Presenter" Hidden="true" />
+      <Method Name="AddEntity" Hidden="true" />
+      <Method Name="AddEntityHelper" Hidden="true" />
+      <Method Name="AddWater" Hidden="true" />
+      <Method Name="Dispose" Hidden="true" />
+      <Property Name="Disposed" Hidden="true" />
+      <Method Name="GetDirection" Hidden="true" />
+      <Property Name="Initialized" Hidden="true" />
+      <Method Name="RemoveEntity" Hidden="true" />
+      <Method Name="RemoveEntityHelper" Hidden="true" />
+      <Method Name="RemoveWater" Hidden="true" />
+      <Method Name="SetupEntities" Hidden="true" />
+      <Method Name="SetupLighting" Hidden="true" />
+      <Method Name="SetupTerrain" Hidden="true" />
+      <Method Name="UpdateBleach" Hidden="true" />
+      <Method Name="UpdateEntityHelper" Hidden="true" />
+      <Method Name="UpdateFog" Hidden="true" />
+      <Method Name="UpdateSykbox" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ISiQEABACCAIA6gAjAwlJEwAEoBBAAIgDMGHMIAiAAE=</HashCode>
+      <FileName>Presenter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.138" Collapsed="true" />
+  </Class>
+  <Class Name="OmegaEngine.Engine" Collapsed="true">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <AssociationLine Name="Views" Type="OmegaEngine.Graphics.View" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4" Y="0.688" />
+        <Point X="7.263" Y="0.688" />
+        <Point X="7.263" Y="1.25" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="1.183" Y="0.633" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier />
+    <ShowAsCollectionAssociation>
+      <Property Name="Views" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Scene" Collapsed="true">
+    <Position X="6.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Orientation="Right" Position="0.121" />
+  </Class>
+  <Class Name="World.Universe" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.View" Collapsed="true">
+    <Position X="6.25" Y="1.25" Width="1.5" />
+    <AssociationLine Name="Scene" Type="OmegaEngine.Graphics.Scene" FixedFromPoint="true">
+      <Path>
+        <Point X="7" Y="1.759" />
+        <Point X="7" Y="2.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.639" Y="0.322" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Camera" Type="OmegaEngine.Graphics.Cameras.Camera">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.068" Y="0.071" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Scene" />
+      <Property Name="Camera" />
+    </ShowAsAssociation>
+    <Lollipop Orientation="Right" Position="0.1" />
+  </Class>
+  <Class Name="Presentation.BenchmarkPresenter">
+    <Position X="0.75" Y="7.25" Width="1.75" />
+    <Members>
+      <Method Name="BenchmarkComplete" Hidden="true" />
+      <Method Name="FinishTestCase" Hidden="true" />
+      <Method Name="NextTestCase" Hidden="true" />
+      <Method Name="PostRender" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAEAGAAACEABBAAAAAgBAAQAAAAAAACFAA=</HashCode>
+      <FileName>BenchmarkPresenter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Presentation.InteractivePresenter">
+    <Position X="5" Y="7.25" Width="1.75" />
+    <Members>
+      <Method Name="AddSelectedEntity" Hidden="true" />
+      <Method Name="AddSelectedPositionable" Hidden="true" />
+      <Method Name="DrawSelectionOutline" Hidden="true" />
+      <Method Name="InteractivePresenter" Hidden="true" />
+      <Method Name="RemoveSelectedEntity" Hidden="true" />
+      <Method Name="RemoveSelectedPositionable" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>MAAQBAAACCAgAYABCAAEoAAAEQABCAAAAAAAAAAAAgA=</HashCode>
+      <FileName>InteractivePresenter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Presentation.EditorPresenter">
+    <Position X="4" Y="10.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAkAACAAAAAAAEAAAAAAAAAAAAAAAIAAhA=</HashCode>
+      <FileName>EditorPresenter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Presentation.InGamePresenter">
+    <Position X="6" Y="10.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAACAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InGamePresenter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Presentation.MenuPresenter">
+    <Position X="3" Y="7.25" Width="1.5" />
+    <Members>
+      <Method Name="Dispose" Hidden="true" />
+      <Method Name="RotateCamera" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAiAAAAACAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MenuPresenter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Cameras.Camera" Collapsed="true">
+    <Position X="4" Y="1.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Struct Name="Presentation.TestCase">
+    <Position X="0.75" Y="9" Width="1.5" />
+    <AssociationLine Name="GraphicsSettings" Type="Presentation.TestGraphicsSettings">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.494" Y="0.175" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAEAAAAAAAAIAAACAAAAQAAAAAEAAgAAAAABA=</HashCode>
+      <FileName>TestCase.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="GraphicsSettings" />
+    </ShowAsAssociation>
+  </Struct>
+  <Enum Name="Presentation.TestGraphicsSettings">
+    <Position X="0.75" Y="11.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAABAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TestCase.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

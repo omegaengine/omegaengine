@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CA9D6092-4365-4385-9700-9570A98EF09D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Common</RootNamespace>
+    <AssemblyName>Test.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\build\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>false</DebugSymbols>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="SlimDX">
+      <HintPath>..\..\..\lib\SlimDX.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\..\..\lib\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="C5">
+      <HintPath>..\..\..\lib\C5.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Collections\ComparableTupleTest.cs" />
+    <Compile Include="Collections\EnumerableUtilsTest.cs" />
+    <Compile Include="Collections\XmlDictionaryTest.cs" />
+    <Compile Include="Controls\TrackingLabelTest.cs" />
+    <Compile Include="Controls\TrackingProgressBarTest.cs" />
+    <Compile Include="FutureTest.cs" />
+    <Compile Include="Tasks\ForEachTaskTest.cs" />
+    <Compile Include="Tasks\MockTask.cs" />
+    <Compile Include="Tasks\SimpleTaskTest.cs" />
+    <Compile Include="Undo\CollectionTest.cs" />
+    <Compile Include="Undo\CompositeCommandTest.cs" />
+    <Compile Include="Utils\AppMutexText.cs" />
+    <Compile Include="Utils\FileUtilsTest.cs" />
+    <Compile Include="Utils\MathUtilsTest.cs" />
+    <Compile Include="Utils\StringUtilsTest.cs" />
+    <Compile Include="Streams\StreamUtilsTest.cs" />
+    <Compile Include="Streams\OffsetStreamTest.cs" />
+    <Compile Include="Streams\CircularBufferStreamTest.cs" />
+    <Compile Include="Storage\XmlStorageTest.cs" />
+    <Compile Include="Values\ExpandableRectangleArrayTest.cs" />
+    <Compile Include="Values\QuadrangleTest.cs" />
+    <Compile Include="Values\DoubleVector3Test.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ADBA7A08-3121-4F27-8893-6CD7093743B2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AlphaEditor</RootNamespace>
+    <AssemblyName>TerrainSample.Editor</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\sgKey.snk</AssemblyOriginatorKeyFile>
+    <StartupObject>AlphaEditor.Program</StartupObject>
+    <SignManifests>false</SignManifests>
+    <GenerateManifests>false</GenerateManifests>
+    <ApplicationIcon>Logo.ico</ApplicationIcon>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\build\Debug\</OutputPath>
+    <DocumentationFile>..\..\..\build\Debug\TerrainSample.Editor.xml</DocumentationFile>
+    <DefineConstants>DEBUG;TRACE;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <PlatformTarget>x86</PlatformTarget>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\..\Code analysis.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\build\Release\</OutputPath>
+    <DefineConstants>TRACE;ERROR_REPORT</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>false</DebugSymbols>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="SlimDX">
+      <HintPath>..\..\..\lib\SlimDX.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.Global.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="WelcomeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WelcomeForm.Designer.cs">
+      <DependentUpon>WelcomeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="World\Commands\ChangeEntityTemplates.cs" />
+    <Compile Include="World\Commands\ChangeTerrainTemplate.cs" />
+    <Compile Include="World\Commands\ModifyHeightMap.cs" />
+    <Compile Include="World\Commands\ModifyTextureMap.cs" />
+    <Compile Include="World\Dialogs\AddRenderControlTool.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="World\Dialogs\AddRenderControlTool.Designer.cs">
+      <DependentUpon>AddRenderControlTool.cs</DependentUpon>
+    </Compile>
+    <Compile Include="World\Dialogs\MapPropertiesTool.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="World\Dialogs\MapPropertiesTool.Designer.cs">
+      <DependentUpon>MapPropertiesTool.cs</DependentUpon>
+    </Compile>
+    <Compile Include="World\EntityEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="World\EntityEditor.Designer.cs">
+      <DependentUpon>EntityEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="World\Commands\AddPositionables.cs" />
+    <Compile Include="World\Commands\AddRemovePositionables.cs" />
+    <Compile Include="World\Commands\MovePositionables.cs" />
+    <Compile Include="World\Commands\ImportHeightMap.cs" />
+    <Compile Include="World\Commands\ImportMap.cs" />
+    <Compile Include="World\Commands\ImportTextureMap.cs" />
+    <Compile Include="World\Commands\ImportXml.cs" />
+    <Compile Include="World\Commands\RemovePositionables.cs" />
+    <Compile Include="World\Dialogs\SelectTemplateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="World\ItemEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="World\ItemEditor.Designer.cs">
+      <DependentUpon>ItemEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="World\TerrainModifiers\Base.cs" />
+    <Compile Include="World\TerrainModifiers\Height.cs" />
+    <Compile Include="World\TerrainModifiers\HeightNoise.cs" />
+    <Compile Include="World\TerrainModifiers\HeightShift.cs" />
+    <Compile Include="World\TerrainModifiers\HeightPlateau.cs" />
+    <Compile Include="World\TerrainModifiers\HeightSmooth.cs" />
+    <Compile Include="World\TerrainModifiers\Texture.cs" />
+    <Compile Include="World\TemplateEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="World\TemplateEditor.Designer.cs">
+      <DependentUpon>TemplateEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="World\TemplateEditor_DesignerShims.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="World\TerrainEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="World\TerrainEditor.Designer.cs">
+      <DependentUpon>TerrainEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="World\Dialogs\TerrainSizeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="World\Dialogs\TerrainSizeDialog.Designer.cs">
+      <DependentUpon>TerrainSizeDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="World\MapEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="World\MapEditor.Designer.cs">
+      <DependentUpon>MapEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Omega\Editor\Editor.csproj">
+      <Project>{5920CFE3-10CE-4C49-90A6-CE59A8A62EEE}</Project>
+      <Name>Editor %28Omega\Editor%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Omega\Engine\Engine.csproj">
+      <Project>{14E9FED0-4989-482D-85DE-448161A6855E}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Omega\GUI\GUI.csproj">
+      <Project>{0B5E032B-E8DE-41EB-B66D-6DFD25F9F6E9}</Project>
+      <Name>GUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Omega\Common\Common.csproj">
+      <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation\Presentation.csproj">
+      <Project>{CC40CE7F-892A-42F8-B289-52ACF2C73865}</Project>
+      <Name>Presentation %28TerrainSample\Presentation%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Settings\Settings.csproj">
+      <Project>{F6E7F86F-E69C-4F5B-BBCE-DD81D2A8E824}</Project>
+      <Name>Settings %28TerrainSample\Settings%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\World\World.csproj">
+      <Project>{3EA8E61B-A309-4862-B4B1-7C67537C52A6}</Project>
+      <Name>World %28TerrainSample\World%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
+    <Content Include="Logo.ico" />
+    <None Include="ClassDiagram.cd" />
+    <None Include="Properties\app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MainForm.de.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WelcomeForm.de.resx">
+      <DependentUpon>WelcomeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WelcomeForm.resx">
+      <DependentUpon>WelcomeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="World\Dialogs\AddRenderControlTool.de.resx">
+      <DependentUpon>AddRenderControlTool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="World\Dialogs\AddRenderControlTool.resx">
+      <DependentUpon>AddRenderControlTool.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="World\Dialogs\MapPropertiesTool.resx">
+      <DependentUpon>MapPropertiesTool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="World\EntityEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EntityEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="World\ItemEditor.resx">
+      <DependentUpon>ItemEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="World\TemplateEditor.resx">
+      <DependentUpon>TemplateEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="World\TerrainEditor.resx">
+      <DependentUpon>TerrainEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="World\Dialogs\TerrainSizeDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TerrainSizeDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="World\MapEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MapEditor.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

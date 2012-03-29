@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="statistics" nillable="true" type="Statistics" />
+  <xs:complexType name="Statistics">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="test-case" type="TestCase" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TestCase">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Target" type="BenchmarkPoint" />
+      <xs:element minOccurs="1" maxOccurs="1" name="WaterEffects" type="WaterEffectsType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="ParticleSystemQuality" type="Quality" />
+      <xs:element minOccurs="1" maxOccurs="1" name="GraphicsSettings" type="TestGraphicsSettings" />
+    </xs:sequence>
+    <xs:attribute name="high-res" type="xs:boolean" use="required" />
+    <xs:attribute name="anti-aliasing" type="xs:boolean" use="required" />
+    <xs:attribute name="screenshot" type="xs:boolean" use="required" />
+    <xs:attribute name="average-fps" type="xs:float" use="required" />
+    <xs:attribute name="average-frame-ms" type="xs:float" use="required" />
+  </xs:complexType>
+  <xs:complexType name="BenchmarkPoint">
+    <xs:complexContent mixed="false">
+      <xs:extension base="Positionable">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" default="1000" name="Radius" type="xs:float" />
+          <xs:element minOccurs="0" maxOccurs="1" default="0" name="Rotation" type="xs:float" />
+          <xs:element minOccurs="0" maxOccurs="1" default="false" name="TestWater" type="xs:boolean" />
+          <xs:element minOccurs="0" maxOccurs="1" default="false" name="TestParticleSystem" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Positionable" abstract="true">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="Position" type="Vector2" />
+    </xs:sequence>
+    <xs:attribute name="Name" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Vector2">
+    <xs:attribute name="X" type="xs:float" use="required" />
+    <xs:attribute name="Y" type="xs:float" use="required" />
+  </xs:complexType>
+  <xs:simpleType name="WaterEffectsType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="RefractionOnly" />
+      <xs:enumeration value="ReflectTerrain" />
+      <xs:enumeration value="ReflectAll" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Quality">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Low" />
+      <xs:enumeration value="Medium" />
+      <xs:enumeration value="High" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TestGraphicsSettings">
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Anisotropic" />
+          <xs:enumeration value="DoubleSampling" />
+          <xs:enumeration value="PostScreenEffects" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
+</xs:schema>

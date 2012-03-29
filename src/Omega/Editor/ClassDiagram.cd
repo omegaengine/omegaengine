@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AlphaEditor.FileSelectorDialog" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAEAAigCIAQBAACIRAgCAAAAQAAAAKAAIAJAAAE=</HashCode>
+      <FileName>FileSelectorDialog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaEditor.MainFormBase" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>s8kgDIiEBiB4SEcCAsiANKBCABSZoEAAAYiABADCiwg=</HashCode>
+      <FileName>MainFormBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AlphaEditor.ModPropertyDialog" Collapsed="true">
+    <Position X="2.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AABAFQAgAKAAAAAEUACEBAgCAAAAABEIAKAyAKEBAAA=</HashCode>
+      <FileName>ModPropertyDialog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaEditor.ModSelectorForm" Collapsed="true">
+    <Position X="0.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIABCgEgQAAAACIQACCABAgQAAQAACAIAKEAAA=</HashCode>
+      <FileName>ModSelectorForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaEditor.Tab" Collapsed="true">
+    <Position X="5" Y="0.5" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Events" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAASAANgBgNAAAIAABAAECAABABAJAAAEAEAA=</HashCode>
+      <FileName>Tab.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaEditor.GUI.GuiEditor" Collapsed="true">
+    <Position X="7.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgBAAEkEECAwUAIAIgiGEiCSCAADAEAiABqQAAEAAEA=</HashCode>
+      <FileName>GUI\GuiEditor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_addControlTool" />
+      <Property Name="dialogView" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AlphaEditor.GUI.CutsceneEditor" Collapsed="true">
+    <Position X="1.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAEAAAAACAAAACAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GUI\CutsceneEditor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaEditor.GUI.LanguageEditor" Collapsed="true">
+    <Position X="9" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAgACAAEAAAIACAAAAGAAACEAAARAAAAAEAAAA=</HashCode>
+      <FileName>GUI\LanguageEditor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="locale" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AlphaEditor.Graphics.CpuParticleSystemEditor" Collapsed="true">
+    <Position X="2" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAJAAACCAAkEAAAACAACACAAgCAgCAAAIEQAEAAAA=</HashCode>
+      <FileName>Graphics\CpuParticleSystemEditor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_preset" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AlphaEditor.Graphics.GpuParticleSystemEditor" Collapsed="true">
+    <Position X="4.25" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAACAAEAAAAACAACACAAACAgCAIAIAQAEAAAA=</HashCode>
+      <FileName>Graphics\GpuParticleSystemEditor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_preset" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AlphaEditor.Graphics.ParticleSystemEditor" Collapsed="true">
+    <Position X="3.25" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ABACAAQAECAAAAAAAACAAAACAAAAAEAABAIAAAQACAE=</HashCode>
+      <FileName>Graphics\ParticleSystemEditor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaGUI.Model.Dialog" Collapsed="true">
+    <Position X="7.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Orientation="Bottom" Position="0.188" />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Renderables.CpuParticlePreset" Collapsed="true">
+    <Position X="2.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Orientation="Bottom" Position="0.223" />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Renderables.GpuParticlePreset" Collapsed="true">
+    <Position X="4.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Orientation="Bottom" Position="0.223" />
+  </Class>
+  <Class Name="AlphaEditor.UndoTab&lt;T&gt;" Collapsed="true">
+    <Position X="5" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAFAgAAAAAAEABAwAEAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>UndoTab.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaEditor.UndoCloneTab" Collapsed="true">
+    <Position X="8" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAwAAgAAAAAAAAEAAAgACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UndoCloneTab.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaEditor.UndoCommandTab" Collapsed="true">
+    <Position X="2.25" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAEAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UndoCommandTab.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaEditor.GUI.Dialogs.AddControlTool" Collapsed="true">
+    <Position X="7.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAABAAAACAAgACAIAAgABIAAAAIAABAAA=</HashCode>
+      <FileName>GUI\Dialogs\AddControlTool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaEditor.AboutBox" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EIAAAAgAACAgCBUAAACAAAADAAAAEIAAAAAAAAAAAAA=</HashCode>
+      <FileName>AboutBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlphaEditor.ModPackageDialog" Collapsed="true">
+    <Position X="2.5" Y="1.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>jABEgAAAACQAAIIAAACABIgCABAAAAAAAAAIAQAgAAI=</HashCode>
+      <FileName>ModPackageDialog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Common.Collections.XmlDictionary" Collapsed="true">
+    <Position X="9" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

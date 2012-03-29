@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TemplateList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<TerrainTemplate Name="Earth" Texture="Earth.jpg">
+		<Description>Normal brown earth</Description>
+		<Color A="255" R="165" G="42" B="42" />
+	</TerrainTemplate>
+	<TerrainTemplate Name="Grass" Texture="Grass.dds">
+		<Description>Normal green grass</Description>
+		<Color A="255" R="0" G="128" B="0" />
+	</TerrainTemplate>
+	<TerrainTemplate Name="Ice" Texture="Ice.jpg">
+		<Description>Frozen underground</Description>
+		<Color A="255" R="255" G="255" B="255" />
+	</TerrainTemplate>
+	<TerrainTemplate Name="Sand" Texture="Sand.jpg">
+		<Description>Sandy underground</Description>
+		<Color A="255" R="255" G="255" B="0" />
+	</TerrainTemplate>
+	<TerrainTemplate Name="Snow.1" Texture="Snow\1.jpg">
+		<Description>Snowy underground</Description>
+		<Color A="255" R="255" G="255" B="255" />
+	</TerrainTemplate>
+	<TerrainTemplate Name="Snow.2" Texture="Snow\2.jpg">
+		<Description>Snowy underground</Description>
+		<Color A="255" R="255" G="255" B="255" />
+	</TerrainTemplate>
+	<TerrainTemplate Name="Snow.3" Texture="Snow\3.jpg">
+		<Description>Snowy underground</Description>
+		<Color A="255" R="255" G="255" B="255" />
+	</TerrainTemplate>
+	<TerrainTemplate Name="Snow.4" Texture="Snow\4.jpg">
+		<Description>Snowy underground</Description>
+		<Color A="255" R="255" G="255" B="255" />
+	</TerrainTemplate>
+	<TerrainTemplate Name="Stone" Texture="Stone.jpg">
+		<Description>Gray stone</Description>
+		<Color A="255" R="128" G="128" B="128" />
+	</TerrainTemplate>
+</TemplateList>

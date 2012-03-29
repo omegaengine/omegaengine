@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="hardware" type="Hardware" />
+  <xs:complexType name="Hardware">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="os" type="HardwareOS" />
+      <xs:element minOccurs="1" maxOccurs="1" name="cpu" type="HardwareCpu" />
+      <xs:element minOccurs="1" maxOccurs="1" name="ram" type="HardwareRam" />
+      <xs:element minOccurs="1" maxOccurs="1" name="gpu" type="HardwareGpu" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="HardwareOS">
+    <xs:attribute name="platform" type="PlatformID" use="required" />
+    <xs:attribute name="is64bit" type="xs:boolean" use="required" />
+    <xs:attribute name="version" type="xs:string" />
+    <xs:attribute name="service-pack" type="xs:string" />
+  </xs:complexType>
+  <xs:simpleType name="PlatformID">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Win32S" />
+      <xs:enumeration value="Win32Windows" />
+      <xs:enumeration value="Win32NT" />
+      <xs:enumeration value="WinCE" />
+      <xs:enumeration value="Unix" />
+      <xs:enumeration value="Xbox" />
+      <xs:enumeration value="MacOSX" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="HardwareCpu">
+    <xs:attribute name="manufacturer" type="xs:string" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="speed" type="xs:int" use="required" />
+    <xs:attribute name="cores" type="xs:int" use="required" />
+    <xs:attribute name="logical" type="xs:int" use="required" />
+  </xs:complexType>
+  <xs:complexType name="HardwareRam">
+    <xs:attribute name="size" type="xs:int" use="required" />
+  </xs:complexType>
+  <xs:complexType name="HardwareGpu">
+    <xs:attribute name="manufacturer" type="xs:int" use="required" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="ram" type="xs:int" use="required" />
+    <xs:attribute name="max-aa" type="xs:unsignedByte" use="required" />
+  </xs:complexType>
+</xs:schema>

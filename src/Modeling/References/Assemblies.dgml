@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="TopToBottom" Layout="Sugiyama" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="(@23)" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="TaskDialog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fefb7635387ec9bb" FilePath="$(Personal)\Code\Games\P05\lib\TaskDialog.dll" IsDragSource="True" Label="TaskDialog.dll">
+      <Category Ref="Category10" />
+    </Node>
+    <Node Id="(@32)" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="OggVorbisDecoder, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e56637714ca3c0bf" FilePath="$(Personal)\Code\Games\P05\lib\OggVorbisDecoder.dll" IsDragSource="True" Label="OggVorbisDecoder.dll">
+      <Category Ref="Category10" />
+    </Node>
+    <Node Id="@10" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="C5, Version=1.1.1.0, Culture=neutral, PublicKeyToken=06a1b38866503b69" FilePath="$(Personal)\Code\Games\P05\lib\C5.dll" IsDragSource="True" Label="C5.dll">
+      <Category Ref="Category10" />
+    </Node>
+    <Node Id="@12" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=9dea7c6e17aa31ff" FilePath="$(Personal)\Code\Games\P05\lib\ICSharpCode.SharpZipLib.dll" IsDragSource="True" Label="ICSharpCode.SharpZipLib.dll">
+      <Category Ref="Category10" />
+    </Node>
+    <Node Id="@14" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="Microsoft.VisualC, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" IsDragSource="True" Label="Microsoft.VisualC.dll">
+      <Category Ref="Category10" />
+    </Node>
+    <Node Id="@16" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Test.TerrainSample.World, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" FilePath="$(39540bf8-e6e3-4197-a129-2c849c40121a.OutputPath)" IsDragSource="True" Label="Test.TerrainSample.World.dll">
+      <Category Ref="Category8" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@18" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="TerrainSample.World, Version=0.6.15.0, Culture=neutral, PublicKeyToken=d692014d0482a9a0" FilePath="$(3ea8e61b-a309-4862-b4b1-7c67537c52a6.OutputPath)" IsDragSource="True" Label="TerrainSample.World.dll">
+      <Category Ref="Category9" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@2" Category="FileSystem.Category.FileOfType.exe" CodeSchemaProperty_StrongName="TerrainSample, Version=0.6.15.0, Culture=neutral, PublicKeyToken=d692014d0482a9a0" FilePath="$(9d104552-0123-4eb6-9dea-845c0b95a4fa.OutputPath)" IsDragSource="True" Label="TerrainSample.exe">
+      <Category Ref="Category2" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@20" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="LuaInterface, Version=2.0.0.828, Culture=neutral, PublicKeyToken=1e1fb15b02227b8a" FilePath="$(Personal)\Code\Games\P05\lib\LuaInterface.dll" IsDragSource="True" Label="LuaInterface.dll">
+      <Category Ref="Category10" />
+    </Node>
+    <Node Id="@22" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="OmegaEngine, Version=0.7.0.0, Culture=neutral, PublicKeyToken=5f8d92836f24b92b" FilePath="$(14e9fed0-4989-482d-85de-448161a6855e.OutputPath)" IsDragSource="True" Label="OmegaEngine.dll">
+      <Category Ref="Category9" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@25" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="OmegaGUI, Version=0.7.0.0, Culture=neutral, PublicKeyToken=d692014d0482a9a0" FilePath="$(0b5e032b-e8de-41eb-b66d-6dfd25f9f6e9.OutputPath)" IsDragSource="True" Label="OmegaGUI.dll">
+      <Category Ref="Category9" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@27" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="TerrainSample.Presentation, Version=0.6.15.0, Culture=neutral, PublicKeyToken=d692014d0482a9a0" FilePath="$(cc40ce7f-892a-42f8-b289-52acf2c73865.OutputPath)" IsDragSource="True" Label="TerrainSample.Presentation.dll">
+      <Category Ref="Category9" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@29" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Test.Common, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" FilePath="$(ca9d6092-4365-4385-9700-9570a98ef09d.OutputPath)" IsDragSource="True" Label="Test.Common.dll">
+      <Category Ref="Category8" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@31" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5f8d92836f24b92b" FilePath="$(81af4fa5-44f7-4010-8769-b85b8b542fa2.OutputPath)" IsDragSource="True" Label="Common.dll">
+      <Category Ref="Category9" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@34" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="AlphaEditor, Version=0.7.0.0, Culture=neutral, PublicKeyToken=d692014d0482a9a0" FilePath="$(5920cfe3-10ce-4c49-90a6-ce59a8a62eee.OutputPath)" IsDragSource="True" Label="AlphaEditor.dll">
+      <Category Ref="Category9" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@36" Category="FileSystem.Category.FileOfType.dll" CodeSchemaProperty_StrongName="TerrainSample.Settings, Version=0.6.15.0, Culture=neutral, PublicKeyToken=d692014d0482a9a0" FilePath="$(f6e7f86f-e69c-4f5b-bbce-dd81d2a8e824.OutputPath)" IsDragSource="True" Label="TerrainSample.Settings.dll">
+      <Category Ref="Category9" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@38" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="SlimDX, Version=2.0.11.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9" FilePath="$(ProgramFiles)\SlimDX SDK (March 2011)\Bin\net20\x86\SlimDX.dll" IsDragSource="True" Label="SlimDX.dll">
+      <Category Ref="Category10" />
+    </Node>
+    <Node Id="@4" Category="FileSystem.Category.FileOfType.exe" CodeSchemaProperty_StrongName="Hanoi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5f8d92836f24b92b" FilePath="$(71ab340a-f36f-11e0-bcfb-1ded4724019b.OutputPath)" IsDragSource="True" Label="Hanoi.exe">
+      <Category Ref="Category2" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@6" Category="FileSystem.Category.FileOfType.exe" CodeSchemaProperty_StrongName="Editor, Version=0.6.15.0, Culture=neutral, PublicKeyToken=d692014d0482a9a0" FilePath="$(adba7a08-3121-4f27-8893-6cd7093743b2.OutputPath)" IsDragSource="True" Label="Editor.exe">
+      <Category Ref="Category2" />
+      <Category Ref="CodeSchema_Assembly" />
+    </Node>
+    <Node Id="@8" Category="CodeSchema_Assembly" CodeSchemaProperty_StrongName="lua51, Version=0.0.0.0, Culture=neutral, PublicKeyToken=1e1fb15b02227b8a" IsDragSource="True" Label="lua51.dll">
+      <Category Ref="Category10" />
+    </Node>
+  </Nodes>
+  <Links>
+    <Link Source="@16" Target="@10" Category="References" />
+    <Link Source="@16" Target="@12" Category="References" />
+    <Link Source="@16" Target="@18" Category="References" />
+    <Link Source="@16" Target="@31" Category="References" />
+    <Link Source="@18" Target="@10" Category="References" />
+    <Link Source="@18" Target="@12" Category="References" />
+    <Link Source="@18" Target="@20" Category="References" />
+    <Link Source="@18" Target="@31" Category="References" />
+    <Link Source="@18" Target="@36" Category="References" />
+    <Link Source="@18" Target="@38" Category="References" />
+    <Link Source="@2" Target="@18" Category="References" />
+    <Link Source="@2" Target="@20" Category="References" />
+    <Link Source="@2" Target="@22" Category="References" />
+    <Link Source="@2" Target="@25" Category="References" />
+    <Link Source="@2" Target="@27" Category="References" />
+    <Link Source="@2" Target="@31" Category="References" />
+    <Link Source="@2" Target="@36" Category="References" />
+    <Link Source="@20" Target="@8" Category="References" />
+    <Link Source="@22" Target="(@32)" Category="References" />
+    <Link Source="@22" Target="@10" Category="References" />
+    <Link Source="@22" Target="@14" Category="References" />
+    <Link Source="@22" Target="@20" Category="References" />
+    <Link Source="@22" Target="@31" Category="References" />
+    <Link Source="@22" Target="@38" Category="References" />
+    <Link Source="@25" Target="@20" Category="References" />
+    <Link Source="@25" Target="@22" Category="References" />
+    <Link Source="@25" Target="@31" Category="References" />
+    <Link Source="@25" Target="@38" Category="References" />
+    <Link Source="@27" Target="@12" Category="References" />
+    <Link Source="@27" Target="@18" Category="References" />
+    <Link Source="@27" Target="@20" Category="References" />
+    <Link Source="@27" Target="@22" Category="References" />
+    <Link Source="@27" Target="@31" Category="References" />
+    <Link Source="@27" Target="@36" Category="References" />
+    <Link Source="@27" Target="@38" Category="References" />
+    <Link Source="@29" Target="@10" Category="References" />
+    <Link Source="@29" Target="@12" Category="References" />
+    <Link Source="@29" Target="@31" Category="References" />
+    <Link Source="@29" Target="@38" Category="References" />
+    <Link Source="@31" Target="(@23)" Category="References" />
+    <Link Source="@31" Target="@10" Category="References" />
+    <Link Source="@31" Target="@12" Category="References" />
+    <Link Source="@31" Target="@20" Category="References" />
+    <Link Source="@31" Target="@38" Category="References" />
+    <Link Source="@34" Target="@12" Category="References" />
+    <Link Source="@34" Target="@22" Category="References" />
+    <Link Source="@34" Target="@25" Category="References" />
+    <Link Source="@34" Target="@31" Category="References" />
+    <Link Source="@34" Target="@38" Category="References" />
+    <Link Source="@36" Target="@20" Category="References" />
+    <Link Source="@36" Target="@22" Category="References" />
+    <Link Source="@36" Target="@31" Category="References" />
+    <Link Source="@38" Target="@14" Category="References" />
+    <Link Source="@4" Target="@22" Category="References" />
+    <Link Source="@4" Target="@31" Category="References" />
+    <Link Source="@4" Target="@38" Category="References" />
+    <Link Source="@6" Target="@12" Category="References" />
+    <Link Source="@6" Target="@18" Category="References" />
+    <Link Source="@6" Target="@22" Category="References" />
+    <Link Source="@6" Target="@25" Category="References" />
+    <Link Source="@6" Target="@27" Category="References" />
+    <Link Source="@6" Target="@31" Category="References" />
+    <Link Source="@6" Target="@34" Category="References" />
+    <Link Source="@6" Target="@36" Category="References" />
+    <Link Source="@6" Target="@38" Category="References" />
+    <Link Source="@8" Target="@14" Category="References" />
+  </Links>
+  <Categories>
+    <Category Id="Category10" Label="Category 10" Background="#FF7F006E" IsTag="True" />
+    <Category Id="Category2" Background="#FF7DC633" />
+    <Category Id="Category8" Label="Category 8" Background="#FF008080" IsTag="True" />
+    <Category Id="Category9" Background="#FF004A7F" />
+    <Category Id="CodeSchema_Assembly" Label="Assembly" BasedOn="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Assembly" IsProviderRoot="False" NavigationActionLabel="Assemblies" />
+    <Category Id="File" Label="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="File" IsProviderRoot="False" NavigationActionLabel="Files" />
+    <Category Id="FileSystem.Category.FileOfType.dll" Label="dll File" BasedOn="CodeSchema_Assembly" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="dll Files" />
+    <Category Id="FileSystem.Category.FileOfType.exe" Label="exe File" BasedOn="CodeSchema_Assembly" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="exe Files" />
+    <Category Id="References" Label="References" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Referenced By" OutgoingActionLabel="References" />
+  </Categories>
+  <Properties>
+    <Property Id="Background" Label="Background" Description="The background color" DataType="System.Windows.Media.Brush" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_StrongName" Label="StrongName" Description="StrongName" DataType="System.String" />
+    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
+    <Property Id="FilePath" Label="File Path" Description="File Path" DataType="System.String" />
+    <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Progression.Layout.GraphDirection" />
+    <Property Id="Icon" Label="Icon" Description="Icon" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsDragSource" Label="IsDragSource" Description="IsDragSource" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="IsTag" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+  </Properties>
+  <QualifiedNames>
+    <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
+  </QualifiedNames>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="exe File" ValueLabel="True">
+      <Condition Expression="HasCategory('Category2')" />
+      <Setter Property="Background" Value="#FF008000" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="dll File" ValueLabel="True">
+      <Condition Expression="HasCategory('Category9')" />
+      <Setter Property="Background" Value="#FF0000A0" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Unit tests" ValueLabel="Has category">
+      <Condition Expression="HasCategory('Category8')" />
+      <Setter Property="Background" Value="#FF008080" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="External library" ValueLabel="Has category">
+      <Condition Expression="HasCategory('Category10')" />
+      <Setter Property="Background" Value="#FF7F006E" />
+    </Style>
+  </Styles>
+  <IdentifierAliases>
+    <Alias n="1" Uri="Assembly=$(9d104552-0123-4eb6-9dea-845c0b95a4fa.OutputPathUri)" />
+    <Alias n="2" Id="(@1)" />
+    <Alias n="3" Uri="Assembly=$(71ab340a-f36f-11e0-bcfb-1ded4724019b.OutputPathUri)" />
+    <Alias n="4" Id="(@3)" />
+    <Alias n="5" Uri="Assembly=$(adba7a08-3121-4f27-8893-6cd7093743b2.OutputPathUri)" />
+    <Alias n="6" Id="(@5)" />
+    <Alias n="7" Uri="Assembly=$(PersonalUri)/Code/Games/P05/lib/lua51.dll" />
+    <Alias n="8" Id="(@7)" />
+    <Alias n="9" Uri="Assembly=$(PersonalUri)/Code/Games/P05/lib/C5.dll" />
+    <Alias n="10" Id="(@9)" />
+    <Alias n="11" Uri="Assembly=$(PersonalUri)/Code/Games/P05/lib/ICSharpCode.SharpZipLib.dll" />
+    <Alias n="12" Id="(@11)" />
+    <Alias n="13" Uri="Assembly=$(FxRootUri)/v2.0.50727/Microsoft.VisualC.dll" />
+    <Alias n="14" Id="(@13)" />
+    <Alias n="15" Uri="Assembly=$(39540bf8-e6e3-4197-a129-2c849c40121a.OutputPathUri)" />
+    <Alias n="16" Id="(@15)" />
+    <Alias n="17" Uri="Assembly=$(3ea8e61b-a309-4862-b4b1-7c67537c52a6.OutputPathUri)" />
+    <Alias n="18" Id="(@17)" />
+    <Alias n="19" Uri="Assembly=$(PersonalUri)/Code/Games/P05/lib/LuaInterface.dll" />
+    <Alias n="20" Id="(@19)" />
+    <Alias n="21" Uri="Assembly=$(14e9fed0-4989-482d-85de-448161a6855e.OutputPathUri)" />
+    <Alias n="22" Id="(@21)" />
+    <Alias n="23" Uri="Assembly=$(PersonalUri)/Code/Games/P05/lib/TaskDialog.dll" />
+    <Alias n="24" Uri="Assembly=$(0b5e032b-e8de-41eb-b66d-6dfd25f9f6e9.OutputPathUri)" />
+    <Alias n="25" Id="(@24)" />
+    <Alias n="26" Uri="Assembly=$(cc40ce7f-892a-42f8-b289-52acf2c73865.OutputPathUri)" />
+    <Alias n="27" Id="(@26)" />
+    <Alias n="28" Uri="Assembly=$(ca9d6092-4365-4385-9700-9570a98ef09d.OutputPathUri)" />
+    <Alias n="29" Id="(@28)" />
+    <Alias n="30" Uri="Assembly=$(81af4fa5-44f7-4010-8769-b85b8b542fa2.OutputPathUri)" />
+    <Alias n="31" Id="(@30)" />
+    <Alias n="32" Uri="Assembly=$(PersonalUri)/Code/Games/P05/lib/OggVorbisDecoder.dll" />
+    <Alias n="33" Uri="Assembly=$(5920cfe3-10ce-4c49-90a6-ce59a8a62eee.OutputPathUri)" />
+    <Alias n="34" Id="(@33)" />
+    <Alias n="35" Uri="Assembly=$(f6e7f86f-e69c-4f5b-bbce-dd81d2a8e824.OutputPathUri)" />
+    <Alias n="36" Id="(@35)" />
+    <Alias n="37" Uri="Assembly=$(ProgramFilesUri)/SlimDX SDK (March 2011)/Bin/net20/x86/SlimDX.dll" />
+    <Alias n="38" Id="(@37)" />
+  </IdentifierAliases>
+  <Paths>
+    <Path Id="0b5e032b-e8de-41eb-b66d-6dfd25f9f6e9.OutputPath" Value="F:\Documents\Code\Games\Omega\build\Debug\OmegaGUI.dll" />
+    <Path Id="0b5e032b-e8de-41eb-b66d-6dfd25f9f6e9.OutputPathUri" Value="file:///F:/Documents/Code/Games/Omega/build/Debug/OmegaGUI.dll" />
+    <Path Id="14e9fed0-4989-482d-85de-448161a6855e.OutputPath" Value="F:\Documents\Code\Games\Omega\build\Debug\OmegaEngine.dll" />
+    <Path Id="14e9fed0-4989-482d-85de-448161a6855e.OutputPathUri" Value="file:///F:/Documents/Code/Games/Omega/build/Debug/OmegaEngine.dll" />
+    <Path Id="39540bf8-e6e3-4197-a129-2c849c40121a.OutputPath" Value="F:\Documents\Code\Games\Omega\build\Debug\Test.TerrainSample.World.dll" />
+    <Path Id="39540bf8-e6e3-4197-a129-2c849c40121a.OutputPathUri" Value="file:///F:/Documents/Code/Games/Omega/build/Debug/Test.TerrainSample.World.dll" />
+    <Path Id="3ea8e61b-a309-4862-b4b1-7c67537c52a6.OutputPath" Value="F:\Documents\Code\Games\Omega\build\Debug\TerrainSample.World.dll" />
+    <Path Id="3ea8e61b-a309-4862-b4b1-7c67537c52a6.OutputPathUri" Value="file:///F:/Documents/Code/Games/Omega/build/Debug/TerrainSample.World.dll" />
+    <Path Id="3ee36264-b954-4139-b7c9-d23c3250842f.OutputPath" Value="../../../build/Debug/ModInstaller.exe" />
+    <Path Id="5920cfe3-10ce-4c49-90a6-ce59a8a62eee.OutputPath" Value="F:\Documents\Code\Games\Omega\build\Debug\AlphaEditor.dll" />
+    <Path Id="5920cfe3-10ce-4c49-90a6-ce59a8a62eee.OutputPathUri" Value="file:///F:/Documents/Code/Games/Omega/build/Debug/AlphaEditor.dll" />
+    <Path Id="71ab340a-f36f-11e0-bcfb-1ded4724019b.OutputPath" Value="F:\Documents\Code\Games\Omega\build\Debug\Hanoi.exe" />
+    <Path Id="71ab340a-f36f-11e0-bcfb-1ded4724019b.OutputPathUri" Value="file:///F:/Documents/Code/Games/Omega/build/Debug/Hanoi.exe" />
+    <Path Id="81af4fa5-44f7-4010-8769-b85b8b542fa2.OutputPath" Value="F:\Documents\Code\Games\Omega\build\Debug\Common.dll" />
+    <Path Id="81af4fa5-44f7-4010-8769-b85b8b542fa2.OutputPathUri" Value="file:///F:/Documents/Code/Games/Omega/build/Debug/Common.dll" />
+    <Path Id="9d104552-0123-4eb6-9dea-845c0b95a4fa.OutputPath" Value="F:\Documents\Code\Games\Omega\build\Debug\TerrainSample.exe" />
+    <Path Id="9d104552-0123-4eb6-9dea-845c0b95a4fa.OutputPathUri" Value="file:///F:/Documents/Code/Games/Omega/build/Debug/TerrainSample.exe" />
+    <Path Id="adba7a08-3121-4f27-8893-6cd7093743b2.OutputPath" Value="F:\Documents\Code\Games\Omega\build\Debug\Editor.exe" />
+    <Path Id="adba7a08-3121-4f27-8893-6cd7093743b2.OutputPathUri" Value="file:///F:/Documents/Code/Games/Omega/build/Debug/Editor.exe" />
+    <Path Id="ca9d6092-4365-4385-9700-9570a98ef09d.OutputPath" Value="F:\Documents\Code\Games\Omega\build\Debug\Test.Common.dll" />
+    <Path Id="ca9d6092-4365-4385-9700-9570a98ef09d.OutputPathUri" Value="file:///F:/Documents/Code/Games/Omega/build/Debug/Test.Common.dll" />
+    <Path Id="cc40ce7f-892a-42f8-b289-52acf2c73865.OutputPath" Value="F:\Documents\Code\Games\Omega\build\Debug\TerrainSample.Presentation.dll" />
+    <Path Id="cc40ce7f-892a-42f8-b289-52acf2c73865.OutputPathUri" Value="file:///F:/Documents/Code/Games/Omega/build/Debug/TerrainSample.Presentation.dll" />
+    <Path Id="f6e7f86f-e69c-4f5b-bbce-dd81d2a8e824.OutputPath" Value="F:\Documents\Code\Games\Omega\build\Debug\TerrainSample.Settings.dll" />
+    <Path Id="f6e7f86f-e69c-4f5b-bbce-dd81d2a8e824.OutputPathUri" Value="file:///F:/Documents/Code/Games/Omega/build/Debug/TerrainSample.Settings.dll" />
+    <Path Id="FxRoot" Value="C:\Windows\Microsoft.NET\Framework" />
+    <Path Id="FxRootUri" Value="file:///C:/Windows/Microsoft.NET/Framework" />
+    <Path Id="SystemRoot" Value="C:\Windows" />
+    <Path Id="SystemRootUri" Value="file:///C:/Windows" />
+  </Paths>
+</DirectedGraph>

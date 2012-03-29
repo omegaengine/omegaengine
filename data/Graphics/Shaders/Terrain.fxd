@@ -1,0 +1,775 @@
+// Description: A shader that blends multiple textures together with optional normal map; no specular lighting
+//
+// Techniques:
+// - Simple14 (ps_1_4, 4 textures, no lighting)
+// - Simple20 (ps_2_0, 16 textures, no lighting)
+// - Light14 (ps_1_4, 4 textures, per-vertex lighting)
+// - Light20 (ps_2_0, 16 textures, per-pixel lighting)
+// - Light2a (ps_2_a, 16 textures, per-pixel lighting, double sampling)
+// - Light2b (ps_2_b, 16 textures, per-pixel lighting, double sampling)
+// - SimpleBlack (vs_1_1, all black)
+// - LightBlack (vs_1_1, all black)
+//
+// Passes:
+// - AmbientLight (Light1 must be an ambient-only light, must be calld as first pass)
+// - TwoDirLights (Light1 and Light2 must be directional lights, must be calld as first pass)
+// - TwoDirLightsAdd (Light1 and Light2 must be directional lights, must not be calld as first pass)
+// - OneDirLight (Light1 must be a directional light, must be calld as first pass)
+// - OneDirLightAdd (Light1 must be a directional light, must not be calld as first pass)
+// - OnePointLight (Light1 must be a point light, must be calld as first pass)
+// - OnePointLightAdd (Light1 must be a point light, must not be calld as first pass)
+
+static const float PI = 3.14159265;
+
+//---------------- Parameters ----------------
+
+// Camera
+float3 cameraPosition          : CameraPosition;
+float4x4 world                 : World;
+float4x4 worldViewProjection   : WorldViewProjection;
+float4x4 worldViewProjInv      : WorldViewProjectionInverse;
+float4x4 worldInverseTranspose : WorldInverseTranspose;
+float4x4 viewInverse           : ViewInverse;
+
+// Light 1
+float4 lightDirection1 : Direction < string Object = "Light1"; string Space = "World"; >;
+float4 lightPosition1  : Position < string Object = "Light1"; string Space = "World"; >;
+float3 attenuation1    : Attenuation < string Object = "Light1"; > = {1.0f, 0.0f, 0.0f};
+float4 diffuseColor1   : Diffuse < string Object = "Light1"; > = {1.0f, 1.0f, 1.0f, 1.0f};
+float4 ambientColor1   : Ambient = {0.1f, 0.1f, 0.1f, 1.0f};
+
+// Light 2
+float4 lightDirection2 : Direction < string Object = "Light2"; string Space = "World"; >;
+//float4 lightPosition2  : Position < string Object = "Light2"; string Space = "World"; >;
+float3 attenuation2    : Attenuation < string Object = "Light2"; > = {1.0f, 0.0f, 0.0f};
+float4 diffuseColor2   : Diffuse < string Object = "Light2"; > = {0.0f, 0.0f, 0.0f, 1.0f};
+float4 ambientColor2   : Ambient = {0.0f, 0.0f, 0.0f, 1.0f};
+
+float shadowTwilightSize = 0.05;
+
+// UV blending
+float BlendDistance = 400;
+float BlendWidth = 700;
+
+
+//---------------- Texture samplers ----------------
+
+int FilterMode : FILTERMODE = 2; // 2 = Linear, 3 = Anisotropic
+
+/// <Counter ID="main" Type="int" Min="1" Max="16" />
+/// <Code Type="Repeat" Count="16"><![CDATA[texture Texture{main} : Diffuse;
+/// sampler2D texture{main}Sampler = sampler_state
+/// {
+///   texture = <Texture{main}>;
+///   AddressU = wrap; AddressV = wrap;
+///   MinFilter = <FilterMode>; MagFilter = <FilterMode>; MipFilter = linear;
+/// };]]></Code>
+
+
+//---------------- Structs ----------------
+
+struct inLight
+{
+    float3 entityPos   : POSITION;
+    float3 normal      : NORMAL;
+    float2 texCoord    : TEXCOORD0;
+    float2 lightAngles : TEXCOORD1;
+    float4 texWeights1 : TEXCOORD2;
+    float4 texWeights2 : TEXCOORD3;
+    float4 texWeights3 : TEXCOORD4;
+    float4 texWeights4 : TEXCOORD5;
+    float4 color       : COLOR0;
+};
+
+struct inSimple
+{
+    float3 entityPos   : POSITION;
+    float2 texCoord    : TEXCOORD0;
+    float2 lightAngles : TEXCOORD1;
+    float4 texWeights1 : TEXCOORD2;
+    float4 texWeights2 : TEXCOORD3;
+    float4 texWeights3 : TEXCOORD4;
+    float4 texWeights4 : TEXCOORD5;
+    float4 color       : COLOR0;
+};
+
+/// <BeginnFilter Target="PS2x" Lighting="true" />
+struct outLight2x
+{
+    float4 pos          : POSITION;
+    float3 position     : TEXCOORD1;
+    float3 worldPos     : TEXCOORD2;
+    float3 normal       : TEXCOORD3;
+    float2 texCoord     : TEXCOORD0;
+    float2 lightAngles  : TEXCOORD4;
+    float4 texWeights1  : TEXCOORD5;
+    float4 texWeights2  : TEXCOORD6;
+    float4 texWeights3  : TEXCOORD7;
+    float4 color        : COLOR0;
+};
+/// <EndFilter />
+
+/// <BeginnFilter Target="PS2x" Lighting="false" />
+struct outSimple2x
+{
+    float4 pos         : POSITION;
+    float3 position    : TEXCOORD1;
+    float3 worldPos    : TEXCOORD2;
+    float2 texCoord    : TEXCOORD0;
+    float4 texWeights1 : TEXCOORD3;
+    float4 texWeights2 : TEXCOORD4;
+    float4 texWeights3 : TEXCOORD5;
+};
+/// <EndFilter />
+
+/// <BeginnFilter Target="PS14" Lighting="false" />
+struct outLight14
+{
+    float4 pos          : POSITION;
+    float2 texCoord     : TEXCOORD0;
+    float2 texWeights1  : TEXCOORD1;
+    float2 texWeights2  : TEXCOORD2;
+    float4 diffAmbColor : COLOR0;
+    float4 color        : COLOR1;
+};
+
+struct outSimple14
+{
+    float4 pos         : POSITION;
+    float2 texCoord    : TEXCOORD0;
+    float2 texWeights1 : TEXCOORD1;
+    float2 texWeights2 : TEXCOORD2;
+};
+/// <EndFilter />
+
+struct outBlack {
+  float4 pos   : POSITION;
+  float4 color : COLOR0;
+};
+
+
+//---------------- Helper functions ----------------
+
+// Translate to world space
+float3 transWorld(float3 position)
+{ return mul(float4(position, 1.0), world).xyz; }
+
+// Translate to projection space
+float4 transProj(float3 position)
+{ return mul(float4(position, 1.0), worldViewProjection); }
+
+// Translate to world space and normalize
+float3 transNorm(float3 normal)
+{ normal = mul(float4(normal, 0), worldInverseTranspose).xyz; return normalize(normal); }
+
+/// <BeginnFilter Lighting="true" />
+
+float4 CalcDirLight(float3 transPos, float3 normal, float3 lightDir,
+  float4 diffuseColor, float4 ambientColor) // Overload without shadows
+{
+    // Calculate additional vectors
+    float3 eye = normalize(viewInverse[3].xyz - transPos);
+    float3 halfAngle = normalize(eye + lightDir);
+
+    // Calculate the diffuse contribution
+	// ToDo: Try to make clamp() unnecessary
+    float diffuseFactor = clamp(dot(normal, lightDir), 0, 1);
+
+    // Calculate the final colors
+    return diffuseColor * diffuseFactor + ambientColor;
+}
+
+float4 CalcDirLight(float3 transPos, float3 normal, float3 lightDir,
+  float4 diffuseColor, float4 ambientColor, float2 lightAngles) // Overload with shadows (light angles)
+{
+    // Calculate the angle between the light direction and an arrow pointing straight to the right
+    float angle = acos(dot(float3(1, 0, 0), lightDir));
+
+    // Calculate smooth shadow fringes
+    float riseFactor = (angle - lightAngles.x) / shadowTwilightSize + 0.5;
+    float setFactor = (lightAngles.y - angle) / shadowTwilightSize + 0.5;
+    float shadowFactor = clamp(min(riseFactor, setFactor), 0, 1);
+
+    return CalcDirLight(transPos, normal, lightDir, diffuseColor * shadowFactor, ambientColor);
+}
+
+float4 CalcTwoDirLights(float3 transPos, float3 normal,
+  float3 lightDir1, float3 lightDir2,
+  float4 diffCol1, float4 diffCol2,
+  float4 ambCol1, float4 ambCol2, float2 lightAngles)
+{
+    // Calculate seperate light values
+    float4 light1 = CalcDirLight(transPos, normal, lightDir1, diffCol1, ambCol1, lightAngles);
+    float4 light2 = CalcDirLight(transPos, normal, lightDir2, diffCol2, ambCol2, lightAngles);
+
+    // Add lights together
+    return light1 + light2;
+}
+
+float4 CalcPointLight(float3 worldPos, float3 transPos, float3 normal, float3 lightPos,
+  float4 diffuseColor, float4 ambientColor, float3 att)
+{
+    // Convert point to directional
+    float3 lightDir = lightPos - worldPos;
+    float lightDist = length(lightDir);
+    float attenuation = 1 / (att.x + att.y * lightDist + att.z * lightDist * lightDist);
+
+    // Simulate point-lighting by using pixel-wise directional-lighting
+    return CalcDirLight(transPos, normal, normalize(lightDir), diffuseColor, ambientColor) * attenuation;
+}
+/// <EndFilter />
+
+
+//---------------- Vertex shaders ----------------
+
+/// <BeginnFilter Target="PS2x" Lighting="true" />
+outLight2x VS_Light2x(inLight IN)
+{
+    // Transform data into world space
+    outLight2x OUT;
+    OUT.pos = transProj(IN.entityPos); OUT.position = OUT.pos.xyz;
+    OUT.worldPos = transWorld(IN.entityPos);
+    OUT.normal = transNorm(IN.normal);
+
+    // ToDo: Compact the weights using the DynamicShader system
+    OUT.texWeights1 = IN.texWeights1;
+    OUT.texWeights2 = IN.texWeights2;
+    OUT.texWeights3 = IN.texWeights3;
+
+    OUT.texCoord = IN.texCoord;
+    OUT.color = IN.color;
+    OUT.lightAngles = IN.lightAngles;
+    return OUT;    
+}
+/// <EndFilter />
+
+/// <BeginnFilter Target="PS2x" Lighting="false" />
+outSimple2x VS_Simple20(inSimple IN)
+{
+    // Transform data into world space
+    outSimple2x OUT;
+    OUT.pos = transProj(IN.entityPos); OUT.position = OUT.pos.xyz;
+    OUT.worldPos = transWorld(IN.entityPos);
+
+    // ToDo: Compact the weights using the DynamicShader system
+    OUT.texWeights1 = IN.texWeights1;
+    OUT.texWeights2 = IN.texWeights2;
+    OUT.texWeights3 = IN.texWeights3;
+
+    OUT.texCoord = IN.texCoord;
+    return OUT;    
+}
+/// <EndFilter />
+
+/// <BeginnFilter Target="PS14" Lighting="true" />
+outLight14 VS_Light14(inLight IN,  // Overload for ambient-only light
+  uniform float4 ambCol)
+{
+    // Transform data into world space
+    outLight14 OUT;
+    OUT.pos = transProj(IN.entityPos);
+
+    // ToDo: Compact the weights using the DynamicShader system
+    OUT.texWeights1 = IN.texWeights1.xy;
+    OUT.texWeights2 = IN.texWeights1.zw;
+
+    OUT.texCoord = IN.texCoord;
+    OUT.diffAmbColor = ambCol;
+    OUT.color = IN.color;
+    return OUT;    
+}
+
+outLight14 VS_Light14(inLight IN,  // Overload for two directional lights
+  uniform float3 lightDir1, uniform float3 lightDir2,
+  uniform float4 diffCol1, uniform float4 diffCol2,
+  uniform float4 ambCol1, uniform float4 ambCol2)
+{
+    // Transform data into world space
+    outLight14 OUT;
+    OUT.pos = transProj(IN.entityPos);
+
+    // ToDo: Compact the weights using the DynamicShader system
+    OUT.texWeights1 = IN.texWeights1.xy;
+    OUT.texWeights2 = IN.texWeights1.zw;
+
+    OUT.texCoord = IN.texCoord;
+    OUT.diffAmbColor = CalcTwoDirLights(OUT.pos, transNorm(IN.normal),
+      lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.lightAngles);
+    OUT.color = IN.color;
+    return OUT;    
+}
+
+outLight14 VS_Light14(inLight IN,  // Overload for one directional light
+  uniform float3 lightDir, uniform float4 diffCol, uniform float4 ambCol)
+{
+    // Transform data into world space
+    outLight14 OUT;
+    OUT.pos = transProj(IN.entityPos);
+
+    // ToDo: Compact the weights using the DynamicShader system
+    OUT.texWeights1 = IN.texWeights1.xy;
+    OUT.texWeights2 = IN.texWeights1.zw;
+
+    OUT.texCoord = IN.texCoord;
+    OUT.diffAmbColor = CalcDirLight(OUT.pos, transNorm(IN.normal), lightDir, diffCol, ambCol);
+    OUT.color = IN.color;
+    return OUT;    
+}
+
+outLight14 VS_Light14(inLight IN,  // Overload for one point light
+  uniform float3 lightPos, uniform float4 diffCol, uniform float4 ambCol, uniform float3 att)
+{
+    // Transform data into world space
+    outLight14 OUT;
+    OUT.pos = transProj(IN.entityPos);
+
+    // ToDo: Compact the weights using the DynamicShader system
+    OUT.texWeights1 = IN.texWeights1.xy;
+    OUT.texWeights2 = IN.texWeights1.zw;
+
+    OUT.texCoord = IN.texCoord;
+    OUT.diffAmbColor = CalcPointLight(transWorld(IN.entityPos), OUT.pos, transNorm(IN.normal), lightPos, diffCol, ambCol, att);
+    OUT.color = IN.color;
+    return OUT;    
+}
+/// <EndFilter />
+
+/// <BeginnFilter Target="PS14" Lighting="false" />
+outSimple14 VS_Simple14(inSimple IN)
+{
+    // Transform data into world space
+    outSimple14 OUT;
+    OUT.pos = transProj(IN.entityPos);
+
+    // ToDo: Compact the weights using the DynamicShader system
+    OUT.texWeights1 = IN.texWeights1.xy;
+    OUT.texWeights2 = IN.texWeights1.zw;
+
+    OUT.texCoord = IN.texCoord;
+    return OUT;    
+}
+/// <EndFilter />
+
+outBlack VS_LightBlack(inLight IN)
+{
+    // Transform data into world space
+    outBlack OUT;
+    OUT.pos = transProj(IN.entityPos);
+    
+    OUT.color = 0;
+    return OUT;
+}
+
+outBlack VS_SimpleBlack(inSimple IN)
+{
+    // Transform data into world space
+    outBlack OUT;
+    OUT.pos = transProj(IN.entityPos);
+    
+    OUT.color = 0;
+    return OUT;
+}
+
+
+//---------------- Pixel shaders ----------------
+
+/// <BeginnFilter Target="PS2ab" Lighting="true" />
+float4 PS_Helper2ab(float3 position, float2 texCoord, float4 texWeights1, float4 texWeights2, float4 texWeights3)
+{
+    // Calculate color values for high camera distance
+    float2 farTextureCoords = texCoord * 0.8;
+    float4 farColor = 0;
+    /// <Counter ID="main" Type="int" Min="1" Max="16" />
+    /// <Counter ID="group" Type="int-step" Min="1" Max="3" Step="0.25" />
+    /// <Counter ID="component" Type="char">
+    ///   <Char>x</Char>
+    ///   <Char>y</Char>
+    ///   <Char>z</Char>
+    ///   <Char>w</Char>
+    /// </Counter>
+    /// <Code Type="Sync" Controller="textures" Max="16"><![CDATA[    farColor += tex2D(texture{main}Sampler, farTextureCoords) * texWeights{group}.{component};]]></Code>
+
+    // Calculate color values for low camera distance 
+    float2 nearTextureCoords = texCoord * 3.9;
+    float4 nearColor = 0;
+    /// <Counter ID="main" Type="int" Min="1" Max="16" />
+    /// <Counter ID="group" Type="int-step" Min="1" Max="3" Step="0.25" />
+    /// <Counter ID="component" Type="char">
+    ///   <Char>x</Char>
+    ///   <Char>y</Char>
+    ///   <Char>z</Char>
+    ///   <Char>w</Char>
+    /// </Counter>
+    /// <Code Type="Sync" Controller="textures" Max="16"><![CDATA[    nearColor += tex2D(texture{main}Sampler, nearTextureCoords) * texWeights{group}.{component};]]></Code>
+
+    // Calculate distance blend factor
+    float blendFactor = clamp((position.z-BlendDistance)/BlendWidth, 0.05, 0.95);
+    return farColor*blendFactor + nearColor*(1-blendFactor);
+}
+
+float4 PS_Light2ab(outLight2x IN,  // Overload for ambient-only light
+  uniform float4 ambCol) : COLOR
+{
+    return PS_Helper2ab(IN.position, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * ambCol * IN.color;
+}
+
+float4 PS_Light2ab(outLight2x IN,  // Overload for two directional lights
+  uniform float3 lightDir1, uniform float3 lightDir2,
+  uniform float4 diffCol1, uniform float4 diffCol2,
+  uniform float4 ambCol1, uniform float4 ambCol2) : COLOR
+{
+    float4 diffAmbColor = CalcTwoDirLights(IN.worldPos, IN.normal,
+      lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.lightAngles);
+    return PS_Helper2ab(IN.position, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+}
+
+float4 PS_Light2ab(outLight2x IN,  // Overload for one directional light
+  uniform float3 lightDir, uniform float4 diffCol, uniform float4 ambCol) : COLOR
+{
+    float4 diffAmbColor = CalcDirLight(IN.position, IN.normal, lightDir, diffCol, ambCol, IN.lightAngles);
+    return PS_Helper2ab(IN.position, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+}
+
+float4 PS_Light2ab(outLight2x IN,  // Overload for one point light
+  uniform float3 lightPos, uniform float4 diffCol, uniform float4 ambCol, uniform float3 att) : COLOR
+{
+    float4 diffAmbColor = CalcPointLight(IN.worldPos, IN.position, IN.normal, lightPos, diffCol, ambCol, att);
+    return PS_Helper2ab(IN.position, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+}
+/// <EndFilter />
+
+/// <BeginnFilter Target="PS2x" />
+float4 PS_Helper20(float2 texCoord, float4 texWeights1, float4 texWeights2, float4 texWeights3)
+{
+    // Calculate color values for high camera distance
+    float4 color = 0;
+    /// <Counter ID="main" Type="int" Min="1" Max="16" />
+    /// <Counter ID="group" Type="int-step" Min="1" Max="4" Step="0.25" />
+    /// <Counter ID="component" Type="char">
+    ///   <Char>x</Char>
+    ///   <Char>y</Char>
+    ///   <Char>z</Char>
+    ///   <Char>w</Char>
+    /// </Counter>
+    /// <Code Type="Sync" Controller="textures" Max="16"><![CDATA[    color += tex2D(texture{main}Sampler, texCoord) * texWeights{group}.{component};]]></Code>
+
+    return color;
+}
+/// <EndFilter />
+
+/// <BeginnFilter Target="PS2x" Lighting="true" />
+float4 PS_Light20(outLight2x IN,  // Overload for ambient-only light
+  uniform float4 ambCol) : COLOR
+{
+    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * ambCol * IN.color;
+}
+
+float4 PS_Light20(outLight2x IN,  // Overload for two directional lights
+  uniform float3 lightDir1, uniform float3 lightDir2,
+  uniform float4 diffCol1, uniform float4 diffCol2,
+  uniform float4 ambCol1, uniform float4 ambCol2) : COLOR
+{
+    float4 diffAmbColor = CalcTwoDirLights(IN.worldPos, IN.normal,
+      lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.lightAngles);
+    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+}
+
+float4 PS_Light20(outLight2x IN,  // Overload for one directional light
+  uniform float3 lightDir, uniform float4 diffCol, uniform float4 ambCol) : COLOR
+{
+    float4 diffAmbColor = CalcDirLight(IN.position, IN.normal, lightDir, diffCol, ambCol, IN.lightAngles);
+    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+}
+
+float4 PS_Light20(outLight2x IN,  // Overload for one point light
+  uniform float3 lightPos, uniform float4 diffCol, uniform float4 ambCol, uniform float3 att) : COLOR
+{
+    float4 diffAmbColor = CalcPointLight(IN.worldPos, IN.position, IN.normal, lightPos, diffCol, ambCol, att);
+    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+}
+/// <EndFilter />
+
+/// <BeginnFilter Target="PS2x" Lighting="false" />
+float4 PS_Simple20(outSimple2x IN) : COLOR
+{
+    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3);
+}
+/// <EndFilter />
+
+/// <BeginnFilter Target="PS14" Lighting="false" />
+float4 PS_Light14(outLight14 IN) : COLOR
+{
+    // Calculate color values
+    float4 color = 0;
+    /// <Counter ID="main" Type="int" Min="1" Max="4" />
+    /// <Counter ID="group" Type="int-step" Min="1" Max="2" Step="0.5" />
+    /// <Counter ID="component" Type="char">
+    ///   <Char>x</Char>
+    ///   <Char>y</Char>
+    /// </Counter>
+    /// <Code Type="Sync" Controller="textures" Max="4"><![CDATA[    color += tex2D(texture{main}Sampler, IN.texCoord)*IN.texWeights{group}.{component};]]></Code>
+
+    // Apply lighting and distance blending
+    return color * IN.diffAmbColor * IN.color;
+}
+
+float4 PS_Simple14(outSimple14 IN) : COLOR
+{
+    // Calculate color values
+    float4 color = 0;
+    /// <Counter ID="main" Type="int" Min="1" Max="4" />
+    /// <Counter ID="group" Type="int-step" Min="1" Max="2" Step="0.5" />
+    /// <Counter ID="component" Type="char">
+    ///   <Char>x</Char>
+    ///   <Char>y</Char>
+    /// </Counter>
+    /// <Code Type="Sync" Controller="textures" Max="4"><![CDATA[    color += tex2D(texture{main}Sampler, IN.texCoord)*IN.texWeights{group}.{component};]]></Code>
+
+    // Apply lighting and distance blending
+    return color;
+}
+/// <EndFilter />
+
+
+//---------------- Techniques ----------------
+
+/// <BeginnFilter Target="PS14" Lighting="false" />
+technique Simple14
+{
+  pass NoLights
+  {
+    VertexShader = compile vs_1_1 VS_Simple14();
+    PixelShader = compile ps_1_4 PS_Simple14();
+  }
+}
+/// <EndFilter />
+
+/// <BeginnFilter Target="PS2x" Lighting="false" />
+technique Simple20
+{
+  pass NoLights
+  {
+    VertexShader = compile vs_1_1 VS_Simple20();
+    PixelShader = compile ps_2_0 PS_Simple20();
+  }
+}
+/// <EndFilter />
+
+/// <BeginnFilter Target="PS14" Lighting="true" />
+technique Light14
+{
+  pass AmbientLight
+  {
+    VertexShader = compile vs_1_1 VS_Light14(ambientColor1);
+    PixelShader = compile ps_1_4 PS_Light14();
+  }
+
+  pass TwoDirLights
+  {
+    VertexShader = compile vs_1_1 VS_Light14(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
+    PixelShader = compile ps_1_4 PS_Light14();
+  }
+ 
+  pass TwoDirLights
+  {
+    VertexShader = compile vs_1_1 VS_Light14(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
+    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
+    PixelShader = compile ps_1_4 PS_Light14();
+  }
+
+  pass OneDirLight
+  {
+    VertexShader = compile vs_1_1 VS_Light14(-lightDirection1.xyz, diffuseColor1, ambientColor1);
+    PixelShader = compile ps_1_4 PS_Light14();
+  }
+
+  pass OneDirLight
+  {
+    VertexShader = compile vs_1_1 VS_Light14(-lightDirection1.xyz, diffuseColor1, ambientColor1);
+    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
+    PixelShader = compile ps_1_4 PS_Light14();
+  }
+
+  pass OnePointLight
+  {
+    VertexShader = compile vs_1_1 VS_Light14(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
+    PixelShader = compile ps_1_4 PS_Light14();
+  }
+
+  pass OnePointLightAdd
+  {
+    VertexShader = compile vs_1_1 VS_Light14(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
+    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
+    PixelShader = compile ps_1_4 PS_Light14();
+  }
+}
+/// <EndFilter />
+
+/// <BeginnFilter Target="PS2x" Lighting="true" />
+technique Light20
+{
+  pass AmbientLight
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    PixelShader = compile ps_2_a PS_Light20(ambientColor1);
+  }
+
+  pass TwoDirLights
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    PixelShader = compile ps_2_0 PS_Light20(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
+  }
+
+  pass TwoDirLightsAdd
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
+    PixelShader = compile ps_2_0 PS_Light20(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
+  }
+
+  pass OneDirLight
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    PixelShader = compile ps_2_0 PS_Light20(-lightDirection1.xyz, diffuseColor1, ambientColor1);
+  }
+
+  pass OneDirLightAdd
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
+    PixelShader = compile ps_2_0 PS_Light20(-lightDirection1.xyz, diffuseColor1, ambientColor1);
+  }
+
+  pass OnePointLight
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    PixelShader = compile ps_2_0 PS_Light20(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
+  }
+
+  pass OnePointLightAdd
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
+    PixelShader = compile ps_2_0 PS_Light20(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
+  }
+}
+/// <EndFilter />
+
+
+/// <BeginnFilter Target="PS2a" Lighting="true" />
+technique Light2a
+{
+  pass AmbientLight
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    PixelShader = compile ps_2_a PS_Light2ab(ambientColor1);
+  }
+
+  pass TwoDirLights
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    PixelShader = compile ps_2_a PS_Light2ab(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
+  }
+
+  pass TwoDirLightsAdd
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
+    PixelShader = compile ps_2_a PS_Light2ab(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
+  }
+
+  pass OneDirLight
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    PixelShader = compile ps_2_a PS_Light2ab(-lightDirection1.xyz, diffuseColor1, ambientColor1);
+  }
+
+  pass OneDirLightAdd
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
+    PixelShader = compile ps_2_a PS_Light2ab(-lightDirection1.xyz, diffuseColor1, ambientColor1);
+  }
+
+  pass OnePointLight
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    PixelShader = compile ps_2_a PS_Light2ab(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
+  }
+
+  pass OnePointLightAdd
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
+    PixelShader = compile ps_2_a PS_Light2ab(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
+  }
+}
+/// <EndFilter />
+
+/// <BeginnFilter Target="PS2b" Lighting="true" />
+technique Light2b
+{
+  pass AmbientLight
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    PixelShader = compile ps_2_b PS_Light2ab(ambientColor1);
+  }
+
+  pass TwoDirLights
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    PixelShader = compile ps_2_b PS_Light2ab(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
+  }
+
+  pass TwoDirLightsAdd
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
+    PixelShader = compile ps_2_b PS_Light2ab(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
+  }
+
+  pass OneDirLight
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    PixelShader = compile ps_2_b PS_Light2ab(-lightDirection1.xyz, diffuseColor1, ambientColor1);
+  }
+
+  pass OneDirLightAdd
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
+    PixelShader = compile ps_2_b PS_Light2ab(-lightDirection1.xyz, diffuseColor1, ambientColor1);
+  }
+
+  pass OnePointLight
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    PixelShader = compile ps_2_b PS_Light2ab(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
+  }
+
+  pass OnePointLightAdd
+  {
+    VertexShader = compile vs_1_1 VS_Light2x();
+    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
+    PixelShader = compile ps_2_b PS_Light2ab(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
+  }
+}
+/// <EndFilter />
+
+technique SimpleBlack
+{
+  pass Black
+  {
+    VertexShader = compile vs_1_1 VS_SimpleBlack();
+    PixelShader = null;
+  }
+}
+
+technique LightBlack
+{
+  pass Black
+  {
+    VertexShader = compile vs_1_1 VS_LightBlack();
+    PixelShader = null;
+  }
+}

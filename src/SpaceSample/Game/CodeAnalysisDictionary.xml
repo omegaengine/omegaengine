@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Dictionary>
+  <Words>
+    <Recognized>
+      <Word>OmegaEngine</Word>
+      <Word>fullscreen</Word>
+    </Recognized>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>OmegaEngine</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CpuParticlePreset>
+	<LowerParameters1>
+		<LifeTime>0.6</LifeTime>
+		<Friction>2</Friction>
+		<Size>20</Size>
+		<DeltaSize>-8</DeltaSize>
+		<Color A="255" R="255" G="255" B="255" />
+	</LowerParameters1>
+	<UpperParameters1>
+		<LifeTime>0.8</LifeTime>
+		<Friction>3</Friction>
+		<Size>25</Size>
+		<DeltaSize>-8</DeltaSize>
+		<Color A="255" R="255" G="192" B="128" />
+		<DeltaColor>1</DeltaColor>
+	</UpperParameters1>
+	<LowerParameters2>
+		<LifeTime>1</LifeTime>
+		<Friction>1.75</Friction>
+		<Size>20</Size>
+		<DeltaSize>-1</DeltaSize>
+		<Color A="255" R="255" G="255" B="255" />
+		<DeltaColor>1</DeltaColor>
+	</LowerParameters2>
+	<UpperParameters2>
+		<LifeTime>1.25</LifeTime>
+		<Friction>2</Friction>
+		<Size>25</Size>
+		<DeltaSize>-8</DeltaSize>
+		<Color A="255" R="255" G="255" B="255" />
+		<DeltaColor>2</DeltaColor>
+	</UpperParameters2>
+	<SpawnRate>200</SpawnRate>
+	<SpawnRadius>10</SpawnRadius>
+	<MaxParticles>392</MaxParticles>
+	<EmitterRepelSpeed>300</EmitterRepelSpeed>
+	<EmitterRepelRange>50</EmitterRepelRange>
+	<Gravity X="0" Y="400" Z="0" />
+	<Speed>0.65</Speed>
+	<WarmupTime>2</WarmupTime>
+	<Particle1Texture>fire.png</Particle1Texture>
+	<Particle1Alpha>257</Particle1Alpha>
+	<Particle2Texture>smoke.png</Particle2Texture>
+	<Particle2Alpha>256</Particle2Alpha>
+</CpuParticlePreset>

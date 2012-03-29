@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TemplateList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<EntityTemplate Name="Effects.ColdFire">
+		<CpuParticleSystem Filename="ColdFire.xml" VisibilityDistance="40000">
+			<Shift X="0" Y="30" Z="0" />
+		</CpuParticleSystem>
+		<LightSource Range="500">
+			<Shift X="0" Y="30" Z="0" />
+			<Color A="255" R="40" G="72" B="255" />
+			<Attenuation Constant="0.75" Linear="0" Quadratic="5E-05" />
+		</LightSource>
+		<Circle Radius="40" />
+	</EntityTemplate>
+	<EntityTemplate Name="Effects.Fire">
+		<CpuParticleSystem Filename="Fire.xml" VisibilityDistance="40000">
+			<Shift X="0" Y="30" Z="0" />
+		</CpuParticleSystem>
+		<LightSource Range="500">
+			<Shift X="0" Y="30" Z="0" />
+			<Color A="255" R="255" G="48" B="0" />
+			<Attenuation Constant="0.75" Linear="0" Quadratic="5E-05" />
+		</LightSource>
+		<Circle Radius="40" />
+	</EntityTemplate>
+	<EntityTemplate Name="Effects.Swarm">
+		<CpuParticleSystem Filename="Swarm.xml" VisibilityDistance="40000">
+			<Shift X="0" Y="100" Z="0" />
+		</CpuParticleSystem>
+		<Circle Radius="40" />
+	</EntityTemplate>
+	<EntityTemplate Name="Test.Box.BlockRainbow">
+		<StaticMesh Filename="Test\Box\BlockRainbow\BlockRainbow.x">
+			<Shift X="0" Y="0" Z="0" />
+			<Scale>20</Scale>
+		</StaticMesh>
+		<Box>
+			<Minimum X="-100" Y="-65" />
+			<Maximum X="100" Y="65" />
+		</Box>
+	</EntityTemplate>
+	<EntityTemplate Name="Test.Box.CircularRainbow">
+		<StaticMesh Filename="Test\Box\CircularRainbow\CircularRainbow.x">
+			<Shift X="0" Y="0" Z="0" />
+			<Scale>20</Scale>
+		</StaticMesh>
+		<Box>
+			<Minimum X="-80" Y="-65" />
+			<Maximum X="80" Y="65" />
+		</Box>
+	</EntityTemplate>
+	<EntityTemplate Name="Test.Box.Normal">
+		<StaticMesh Filename="Test\Box\Normal\Normal.x">
+			<Shift X="5" Y="0" Z="14" />
+			<Scale>3</Scale>
+		</StaticMesh>
+		<Box>
+			<Minimum X="-60" Y="-60" />
+			<Maximum X="60" Y="60" />
+		</Box>
+	</EntityTemplate>
+	<EntityTemplate Name="Test.Box.Screen">
+		<StaticMesh Filename="Test\Box\Screen\Screen.x">
+			<Shift X="0" Y="0" Z="0" />
+			<Scale>10</Scale>
+		</StaticMesh>
+		<Box>
+			<Minimum X="-100" Y="-55" />
+			<Maximum X="100" Y="55" />
+		</Box>
+	</EntityTemplate>
+	<EntityTemplate Name="Test.Dwarf">
+		<StaticMesh Filename="Test\Dwarf\Dwarf.x">
+			<Shift X="0" Y="0" Z="0" />
+			<Scale>70</Scale>
+		</StaticMesh>
+		<CpuParticleSystem Filename="CleanFire.xml" VisibilityDistance="40000">
+			<Shift X="0" Y="70" Z="30" />
+		</CpuParticleSystem>
+		<Circle Radius="40" />
+		<MovementControl />
+	</EntityTemplate>
+	<EntityTemplate Name="Test.Sphere.Plain.Opaque.20480">
+		<TestSphere Radius="100" Slices="142" Stacks="142">
+			<Shift X="0" Y="100" Z="0" />
+		</TestSphere>
+		<Circle Radius="120" />
+	</EntityTemplate>
+	<EntityTemplate Name="Test.Sphere.Plain.Opaque.5120">
+		<TestSphere Radius="80" Slices="70" Stacks="70">
+			<Shift X="0" Y="80" Z="0" />
+		</TestSphere>
+		<Circle Radius="80" />
+	</EntityTemplate>
+	<EntityTemplate Name="Test.Sphere.Plain.Transparent.20480">
+		<TestSphere Radius="100" Slices="142" Stacks="142" Alpha="128">
+			<Shift X="0" Y="100" Z="0" />
+		</TestSphere>
+		<Circle Radius="120" />
+	</EntityTemplate>
+	<EntityTemplate Name="Test.Sphere.Plain.Transparent.5120">
+		<TestSphere Radius="80" Slices="70" Stacks="70" Alpha="128">
+			<Shift X="0" Y="80" Z="0" />
+		</TestSphere>
+		<Circle Radius="80" />
+	</EntityTemplate>
+	<EntityTemplate Name="Test.Sphere.Textured.Opaque.20480">
+		<TestSphere Texture="flag.png" Radius="100" Slices="142" Stacks="142">
+			<Shift X="0" Y="100" Z="0" />
+		</TestSphere>
+		<Circle Radius="120" />
+	</EntityTemplate>
+	<EntityTemplate Name="Test.Sphere.Textured.Opaque.5120">
+		<TestSphere Texture="flag.png" Radius="80" Slices="70" Stacks="70">
+			<Shift X="0" Y="80" Z="0" />
+		</TestSphere>
+		<Circle Radius="80" />
+	</EntityTemplate>
+	<EntityTemplate Name="Test.Sphere.Textured.Transparent.20480">
+		<TestSphere Texture="flag.png" Radius="100" Slices="142" Stacks="142" Alpha="128">
+			<Shift X="0" Y="100" Z="0" />
+		</TestSphere>
+		<Circle Radius="120" />
+	</EntityTemplate>
+	<EntityTemplate Name="Test.Sphere.Textured.Transparent.5120">
+		<TestSphere Texture="flag.png" Radius="80" Slices="70" Stacks="70" Alpha="128">
+			<Shift X="0" Y="80" Z="0" />
+		</TestSphere>
+		<Circle Radius="80" />
+	</EntityTemplate>
+</TemplateList>

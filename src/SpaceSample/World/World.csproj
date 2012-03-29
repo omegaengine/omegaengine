@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{600D2C39-1505-400A-BFB7-C052673BBCDF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>World</RootNamespace>
+    <AssemblyName>SpaceSample.World</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\sgKey.snk</AssemblyOriginatorKeyFile>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\build\Debug\</OutputPath>
+    <DocumentationFile>..\..\..\build\Debug\SpaceSampleWorld.xml</DocumentationFile>
+    <DefineConstants>DEBUG;TRACE;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <PlatformTarget>x86</PlatformTarget>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\..\Code analysis.ruleset</CodeAnalysisRuleSet>
+    <BaseAddress>2969567232</BaseAddress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>false</DebugSymbols>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="SlimDX">
+      <HintPath>..\..\..\lib\SlimDX.dll</HintPath>
+    </Reference>
+    <Reference Include="C5">
+      <HintPath>..\..\..\lib\C5.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="LuaInterface">
+      <HintPath>..\..\..\lib\LuaInterface.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.Global.cs" />
+    <Compile Include="EntityComponents\RenderControl.cs" />
+    <Compile Include="EntityComponents\TestSphere.cs">
+      <DependentUpon>RenderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityComponents\Mesh.cs">
+      <DependentUpon>RenderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityComponents\StaticMesh.cs">
+      <DependentUpon>Mesh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityComponents\AnimatedMesh.cs">
+      <DependentUpon>Mesh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityComponents\ParticleSystem.cs">
+      <DependentUpon>RenderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityComponents\CpuParticleSystem.cs">
+      <DependentUpon>ParticleSystem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityComponents\GpuParticleSystem.cs">
+      <DependentUpon>ParticleSystem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityComponents\LightsSource.cs">
+      <DependentUpon>RenderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityComponents\MovementControl.cs" />
+    <Compile Include="TemplateCollection.cs" />
+    <Compile Include="Template.cs" />
+    <Compile Include="TerrainTemplate.cs">
+      <DependentUpon>Template.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityTemplate.cs">
+      <DependentUpon>Template.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ItemTemplate.cs">
+      <DependentUpon>Template.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CameraState.cs" />
+    <Compile Include="Positionable.cs" />
+    <Compile Include="Entity.cs">
+      <DependentUpon>Positionable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BenchmarkPoint.cs">
+      <DependentUpon>Positionable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Memo.cs">
+      <DependentUpon>Positionable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateManager.cs" />
+    <Compile Include="PositionableCollection.cs" />
+    <Compile Include="Session.cs" />
+    <Compile Include="Universe.cs" />
+    <Compile Include="Universe.Storage.cs">
+      <DependentUpon>Universe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Orbit.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.de.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Omega\Common\Common.csproj">
+      <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Settings\Settings.csproj">
+      <Project>{7C603F3B-3812-441C-8B1C-A406E15EC8E0}</Project>
+      <Name>Settings %28SpaceSample\Settings%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="EntityComponents\Components.cd" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

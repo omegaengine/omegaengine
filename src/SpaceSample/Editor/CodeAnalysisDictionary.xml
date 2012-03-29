@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Dictionary>
+  <Words>
+    <Recognized>
+      <Word>AlphaEditor</Word>
+      <Word>OmegaEngine</Word>
+      <Word>Positionables</Word>
+      <Word>mods</Word>
+      <Word>cutscene</Word>
+      <Word>heightmap</Word>
+      <Word>png</Word>
+    </Recognized>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>AlphaEditor</Acronym>
+      <Acronym>OmegaEngine</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

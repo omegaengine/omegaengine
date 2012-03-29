@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Dialog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Fullscreen="true">
+	<ColorBackground A="0" R="0" G="0" B="0" />
+	<ColorCaption A="128" R="96" G="128" B="255" />
+	<ColorText A="255" R="255" G="255" B="255" />
+	<FontSize>19</FontSize>
+	<Size Width="1024" Height="768" />
+	<Shift X="0" Y="0" />
+	<GroupBox>
+		<Location X="0" Y="20" />
+		<Size Width="500" Height="550" />
+		<AlignHorizontal>Center</AlignHorizontal>
+		<ColorBorder A="255" R="0" G="0" B="0" />
+		<ColorFill A="128" R="128" G="128" B="128" />
+	</GroupBox>
+	<PictureBox Name="Logo">
+		<Location X="0" Y="40" />
+		<Size Width="188" Height="63" />
+		<AlignHorizontal>Center</AlignHorizontal>
+		<TextureFile>logo.png</TextureFile>
+		<TextureLocation X="0" Y="0" />
+		<TextureSize Width="188" Height="63" />
+		<Alpha>255</Alpha>
+	</PictureBox>
+	<Button Name="ResumeGame" Text="[Return]" Hotkey="Pause">
+		<Location X="190" Y="510" />
+		<Size Width="100" Height="48" />
+		<AlignHorizontal>Center</AlignHorizontal>
+		<OnClick>Game:TogglePause();</OnClick>
+	</Button>
+	<Button Name="NewGame" Enabled="false" Text="[Save]">
+		<Location X="0" Y="130" />
+		<Size Width="180" Height="48" />
+		<AlignHorizontal>Center</AlignHorizontal>
+	</Button>
+	<Button Name="LoadGame" Enabled="false" Text="[Load]">
+		<Location X="0" Y="188" />
+		<Size Width="180" Height="48" />
+		<AlignHorizontal>Center</AlignHorizontal>
+	</Button>
+	<Button Name="Settings" Text="[Settings]">
+		<Location X="0" Y="276" />
+		<Size Width="180" Height="48" />
+		<AlignHorizontal>Center</AlignHorizontal>
+		<OnClick>Dialog:Close();
+LoadModalDialog("Settings");</OnClick>
+	</Button>
+	<Button Name="ToMainMenu" Text="[MainMenu]">
+		<Location X="0" Y="364" />
+		<Size Width="180" Height="48" />
+		<AlignHorizontal>Center</AlignHorizontal>
+		<OnClick>function CallbackExit(result)
+  if result == MsgBoxResult.Yes then
+    LoadSplashDialog("Loading");
+    Game:SwitchToMenu();
+  end;
+end;
+Dialog:MsgBox('[EndGameSure]', MsgBoxType.YesNo, CallbackExit);</OnClick>
+	</Button>
+	<Button Name="Exit" Text="[ExitGame]">
+		<Location X="0" Y="422" />
+		<Size Width="180" Height="48" />
+		<AlignHorizontal>Center</AlignHorizontal>
+		<OnClick>function CallbackExit(result)
+  if result == MsgBoxResult.Yes then Game:Exit(); end;
+end;
+Dialog:MsgBox('[EndGameSure]', MsgBoxType.YesNo, CallbackExit);</OnClick>
+	</Button>
+</Dialog>

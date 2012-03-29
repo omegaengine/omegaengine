@@ -1,0 +1,18 @@
+syntax: glob
+build
+*.VisualState.xml
+TestResult.xml
+obj
+*.bak
+*.cache
+*.suo
+*.ncb
+*.sdf
+*.opensdf
+*.user
+_ReSharper.*
+**/GameUX/*.res
+**/GameUX/*.tlog
+**/GameUX/*.log
+**/GameUX/*.lastbuildstate
+**/GameUX/*.unsuccessfulbuild

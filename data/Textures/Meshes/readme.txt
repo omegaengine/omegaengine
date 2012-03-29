@@ -1,0 +1,1 @@
+Contains shared textures used by multiple meshes.

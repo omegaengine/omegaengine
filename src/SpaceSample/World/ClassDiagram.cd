@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="World.Universe" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2" Y="1.5" Width="1.25" />
+    <AssociationLine Name="Camera" Type="World.CameraState">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.223" Y="-0.482" Height="0.16" Width="0.68" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Terrain" Type="World.Terrain">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.029" Y="0.058" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AQQCmYAEEQAoQAAOoIAAAgAIMEICQBEADUEIAEARACA=</HashCode>
+      <FileName>Universe.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Camera" />
+      <Property Name="Terrain" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="World.Terrain" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.25" />
+    <AssociationLine Name="Size" Type="World.TerrainSize">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.578" Y="0.248" Height="0.16" Width="0.503" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>IAADgBIABBgAkHAgQEAEhQaAAIAIEgAAABEARAoIiAg=</HashCode>
+      <FileName>Terrain.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Size" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="World.ModInfo">
+    <Position X="6.5" Y="4" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>IAAAgAAAAAAggAAAgAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.Session" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAwAgIAAAIAAAAAAAABIAAAAEAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Session.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Universe" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="World.EntityTemplate" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAQAAAAAIAAAAAAAAAAACAAAAAACAAAA=</HashCode>
+      <FileName>EntityTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.Entity" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <AssociationLine Name="TemplateData" Type="World.EntityTemplate" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.75" Y="3.688" />
+        <Point X="7" Y="3.688" />
+        <Point X="7" Y="2.13" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="PathControl" Type="World.PathControl">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.05" Y="0.214" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAIAIAAAIRAAArIUAAAAgAACAAAAAEAAABAAAAAAAAA=</HashCode>
+      <FileName>Entity.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TemplateData" />
+      <Property Name="PathControl" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="World.Water" Collapsed="true">
+    <Position X="2.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABACBgAEAACAAAAAAAgAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Water.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.TemplateManager">
+    <Position X="8.25" Y="2.25" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>gCAAIAAAAAAAADAAAAEAAAABAAAACAAgQAIAABACAAA=</HashCode>
+      <FileName>TemplateManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.ItemTemplate" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ItemTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.Template&lt;T&gt;" Collapsed="true">
+    <Position X="7.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAgAAAEAAAAAAQAAAAAAAACAAAAAAAAABA=</HashCode>
+      <FileName>Template.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="World.TerrainTemplate" Collapsed="true">
+    <Position X="9.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAQAAAICiAAAAAA=</HashCode>
+      <FileName>TerrainTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.PathControl" Collapsed="true">
+    <Position X="4.25" Y="4.25" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAEAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>PathControl.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.1" />
+  </Class>
+  <Class Name="World.PathFollower" Collapsed="true">
+    <Position X="3.5" Y="5.25" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>PathFollower.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.PathLeader" Collapsed="true">
+    <Position X="5" Y="5.25" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAADCAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PathLeader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.MemoPoint" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>MemoPoint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.BenchmarkPoint" Collapsed="true">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAIAAAAAAAAAIAAAAAgAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>BenchmarkPoint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.CameraState" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAIAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CameraState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.Positionable" Collapsed="true">
+    <Position X="1.25" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAkACAAAAQCAAAAAAAAAAAAgACAABA=</HashCode>
+      <FileName>Positionable.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Struct Name="World.TerrainPoint" Collapsed="true">
+    <Position X="4" Y="0.75" Width="1.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgADAAAAAAAAAAAAAAAEAAgAAAAAA=</HashCode>
+      <FileName>TerrainPoint.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="World.TerrainSize" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAFAAAAAAAAACAQAAAEAAAAAAAAYAA=</HashCode>
+      <FileName>TerrainSize.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

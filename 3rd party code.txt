@@ -1,0 +1,63 @@
+NUnit 2.5.10
+http://www.nunit.org/
+Modified zlib license: nunit.license.txt
+Source unmodified
+Pre-compiled managed DLL: nunit.framework.dll
+
+Moq 4.0.10827
+http://code.google.com/p/moq/
+BSD license: http://www.opensource.org/licenses/bsd-license
+Source unmodified
+Pre-compiled managed DLL: nunit.framework.dll
+
+SharpZipLib 0.86.0
+http://www.icsharpcode.net/OpenSource/SharpZipLib/
+GNU GPL with GNU Classpath exception: ICSharpCode.SharpZipLib.license.txt
+Applied patches: ICSharpCode.SharpZipLib.*.patch
+Self-compiled managed DLL: ICSharpCode.SharpZipLib.dll
+
+TaskDialog
+http://www.codeproject.com/KB/vista/TaskDialogWinForms.aspx
+Public domain
+Source unmodified
+Self-compiled managed DLL: TaskDialog.dll
+
+The C5 Generic Collection Library 1.1.1
+http://www.itu.dk/research/c5/
+MIT-style open license: C5.license.txt
+Source unmodified
+Pre-compiled managed DLL: C5.dll
+
+SlimDX runtime January 2012
+http://slimdx.org/
+MIT license: http://www.opensource.org/licenses/mit-license
+Source unmodified
+Pre-compiled managed DLL: SlimDX.dll
+
+LuaInterface 2.0.3
+http://luaforge.net/projects/luainterface/
+MIT license: http://www.opensource.org/licenses/mit-license
+Source modified and comitted upstream
+Self-compiled managed DLL: LuaInterface.dll
+
+Lua 5.1
+http://www.lua.org/
+MIT license: http://www.opensource.org/licenses/mit-license
+Source unmodified
+Self-compiled hybrid DLL (managed + Visual C++ 2008 runtime): lua51.dll
+
+C# Ogg Vorbis Decoder Wrapper
+http://oggvorbisdecoder.codeplex.com/
+GNU GPL 2 with GNU Classpath exception: OggVorbisDecoder.license.txt
+File references in modified
+Self-compiled managed DLL: OggVorbisDecoder.dll
+
+libogg, libvorbis, vorbisfile
+http://xiph.org/downloads/
+Xiph.Org variant of the BSD license
+Pre-compiled native DLLs: libogg.dll, vorbis.dll, vorbisfile.dll
+
+NVidia Shader Library
+http://developer.download.nvidia.com/shaderlibrary/webpages/shader_library.html
+Custom license: src/Omega/Engine/Shaders/nvidia_license.txt
+Extracted parts of source, modified

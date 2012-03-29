@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="OmegaEngine.Engine" Collapsed="true">
+    <Position X="0.5" Y="5" Width="1.5" />
+    <AssociationLine Name="EngineConfig" Type="OmegaEngine.EngineConfig">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.44" Y="0.141" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="WaterEffects" Type="OmegaEngine.WaterEffectsType" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2" Y="5.25" />
+        <Point X="3.156" Y="5.25" />
+        <Point X="3.156" Y="7.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.409" Y="0.87" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="ParticleSystemQuality" Type="OmegaEngine.Quality" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="0.5" Y="5.312" />
+        <Point X="0.26" Y="5.312" />
+        <Point X="0.26" Y="8.5" />
+        <Point X="2.5" Y="8.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.77" Y="0.073" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="_frameLogMode" Type="OmegaEngine.FrameLog" ManuallyRouted="true">
+      <Path>
+        <Point X="2" Y="5.094" />
+        <Point X="3.917" Y="5.094" />
+        <Point X="3.917" Y="6.125" />
+        <Point X="4.75" Y="6.125" />
+        <Point X="4.75" Y="6.5" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Views" Type="OmegaEngine.Graphics.View" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.625" Y="5" />
+        <Point X="1.625" Y="4.411" />
+        <Point X="3" Y="4.411" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.485" Y="-0.242" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="ZBufferMode" Type="OmegaEngine.ZBufferMode" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2" Y="5.375" />
+        <Point X="2.375" Y="5.375" />
+        <Point X="2.375" Y="6.75" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.411" Y="0.81" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>WyYUEFGuULTHPtoIZN3iPOYKqSV2xHVGAvKq5gkToxw=</HashCode>
+      <FileName>Engine.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_frameLogMode" />
+      <Property Name="EngineConfig" />
+      <Property Name="WaterEffects" />
+      <Property Name="ParticleSystemQuality" />
+      <Property Name="ZBufferMode" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Views" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Scene" Collapsed="true">
+    <Position X="4" Y="2.75" Width="1.5" />
+    <AssociationLine Name="Skybox" Type="OmegaEngine.Graphics.Renderables.Skybox" FixedToPoint="true">
+      <Path>
+        <Point X="5.312" Y="2.75" />
+        <Point X="5.312" Y="2.13" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.711" Y="0.1" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Lights" Type="OmegaEngine.Graphics.LightSource">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.266" Y="0.05" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAEABACACAASIAEgQgAAgAgAAAACAAIAAAAAAICAAA=</HashCode>
+      <FileName>Graphics\Scene.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Skybox" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Positionables" />
+      <Property Name="Lights" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.412" />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Renderables.Renderable" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAwAhAAACAAAAAEAAAAAAQAAAAAAFAIBBCEAAAGAAA=</HashCode>
+      <FileName>Graphics\Renderables\Renderable.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.Shader" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAKkEgAAEYgAACgAAAEAAAAAABAAAAgBCEkA=</HashCode>
+      <FileName>Graphics\Shaders\Shader.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.RenderTarget" Collapsed="true">
+    <Position X="6.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAIAQIAAACAEgQAAAAAAAAAEAEAAQEAIAAIAAAACAAA=</HashCode>
+      <FileName>Graphics\RenderTarget.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.191" />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Cameras.Camera" Collapsed="true">
+    <Position X="4.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BiAoASAMgCEIoAU1AMUhAEWQgCARIAwGCEAiQlIYAgA=</HashCode>
+      <FileName>Graphics\Cameras\Camera.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.19" />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.View" Collapsed="true">
+    <Position X="3" Y="4" Width="2.25" />
+    <AssociationLine Name="Scene" Type="OmegaEngine.Graphics.Scene" FixedToPoint="true">
+      <Path>
+        <Point X="4.188" Y="4" />
+        <Point X="4.188" Y="3.259" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.671" Y="0.289" Height="0.16" Width="0.597" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="PostShaders" Type="OmegaEngine.Graphics.Shaders.PostShader" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3" Y="4.25" />
+        <Point X="1.625" Y="4.25" />
+        <Point X="1.625" Y="3.88" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.015" Y="0.175" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Camera" Type="OmegaEngine.Graphics.Cameras.Camera">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.795" Y="0.214" Height="0.16" Width="0.708" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>DkIrAoggACAAVBAEoIQAxAQQKpTBAWDJBhJAGVwCAMM=</HashCode>
+      <FileName>Graphics\View.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="RenderTarget" />
+      <Property Name="Scene" />
+      <Property Name="Camera" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="PostShaders" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.162" />
+  </Class>
+  <Class Name="OmegaEngine.Audio.MusicManager" Collapsed="true">
+    <Position X="6.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQAAAABACAAAAAAAAAAAAAOAAIAAAAIIAAAQACACBA=</HashCode>
+      <FileName>Audio\MusicManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.152" />
+  </Class>
+  <Class Name="OmegaEngine.Audio.Song" Collapsed="true">
+    <Position X="6.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QCQAAAAAACAAgAAAAAAAAAAIAAAAAAAAAAIAAAACCAA=</HashCode>
+      <FileName>Audio\Song.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.137" />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Renderables.PositionableRenderable" Collapsed="true">
+    <Position X="3" Y="1.5" Width="1.75" />
+    <AssociationLine Name="SurfaceShader" Type="OmegaEngine.Graphics.Shaders.SurfaceShader">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.131" Y="0.05" Height="0.16" Width="0.797" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>EAQABAEAgAAAOMIwgCIUAjAAKCACAAASCJAAxgACIiA=</HashCode>
+      <FileName>Graphics\Renderables\PositionableRenderable.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SurfaceShader" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.171" />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.LightSource" Collapsed="true">
+    <Position X="6.5" Y="2.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAIAEAgAAAIQAgAAAAAAAACAAAEAAAAA=</HashCode>
+      <FileName>Graphics\LightSource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.SurfaceShader" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAMAAQCAABABAACAAAgAAAAAAAAAABQAAAABAAAAAAg=</HashCode>
+      <FileName>Graphics\Shaders\SurfaceShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.PostShader" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAUAAABAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graphics\Shaders\PostShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.PointLight" Collapsed="true">
+    <Position X="8.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAACAAgAAAQAACAAACAAAACABAAgQAAAAA=</HashCode>
+      <FileName>Graphics\PointLight.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.158" />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.DirectionalLight" Collapsed="true">
+    <Position X="8.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Graphics\DirectionalLight.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Audio.Sound3D" Collapsed="true">
+    <Position X="8" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QCAAAAEAACAAAAAgAAAQAQAAAAAAAAAAABAAkAAAAAA=</HashCode>
+      <FileName>Audio\Sound3D.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Bottom" Position="0.1" />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.BufferHelper" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAQAIAAAABAAAAAAgAAAAAABAAAAgQAAAABAAgg=</HashCode>
+      <FileName>Graphics\BufferHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Renderables.Skybox" Collapsed="true">
+    <Position X="5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Graphics\Renderables\Skybox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="OmegaEngine.EngineConfig" Collapsed="true">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAABAABAAAIAAAAAAAAAAAQAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>EngineConfig.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="OmegaEngine.Quality" Collapsed="true">
+    <Position X="2.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAgAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Engine.Effects.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OmegaEngine.WaterEffectsType" Collapsed="true">
+    <Position X="2" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAIAAAAAIAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Engine.Effects.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OmegaEngine.FrameLog" Collapsed="true">
+    <Position X="4" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Engine.Performance.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OmegaEngine.ZBufferMode" Collapsed="true">
+    <Position X="1.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAIAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Engine.RenderStates.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

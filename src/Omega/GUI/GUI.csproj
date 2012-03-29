@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0B5E032B-E8DE-41EB-B66D-6DFD25F9F6E9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OmegaGUI</RootNamespace>
+    <AssemblyName>OmegaGUI</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\sgKey.snk</AssemblyOriginatorKeyFile>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\build\Debug\</OutputPath>
+    <DocumentationFile>..\..\..\build\Debug\OmegaGUI.xml</DocumentationFile>
+    <DefineConstants>DEBUG;TRACE;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>1591</NoWarn>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <PlatformTarget>x86</PlatformTarget>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\..\Code analysis.ruleset</CodeAnalysisRuleSet>
+    <BaseAddress>2734686208</BaseAddress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseSDK|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\build\ReleaseSDK\</OutputPath>
+    <DocumentationFile>..\..\..\build\ReleaseSDK\OmegaGUI.xml</DocumentationFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>1591</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="SlimDX">
+      <HintPath>..\..\..\lib\SlimDX.dll</HintPath>
+    </Reference>
+    <Reference Include="LuaInterface">
+      <HintPath>..\..\..\lib\LuaInterface.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Engine\Engine.csproj">
+      <Project>{14E9FED0-4989-482D-85DE-448161A6855E}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.Global.cs" />
+    <Compile Include="Controller\Dialog.cs" />
+    <Compile Include="Controller\DialogManager.cs" />
+    <Compile Include="Render\Button.cs" />
+    <Compile Include="Render\CheckBox.cs" />
+    <Compile Include="Render\DropdownList.cs" />
+    <Compile Include="Render\Control.cs" />
+    <Compile Include="Render\GroupBox.cs" />
+    <Compile Include="Render\TextBox.cs" />
+    <Compile Include="Render\ListBox.cs" />
+    <Compile Include="Render\PictureBox.cs" />
+    <Compile Include="Render\RadioButton.cs" />
+    <Compile Include="Render\ScrollBar.cs" />
+    <Compile Include="Render\Slider.cs" />
+    <Compile Include="Render\Label.cs" />
+    <Compile Include="Render\Dialog.cs" />
+    <Compile Include="Render\DialogManager.cs" />
+    <Compile Include="Render\Element.cs" />
+    <Compile Include="Render\Enums.cs" />
+    <Compile Include="Render\MessageBox.cs" />
+    <Compile Include="Render\Structs.cs" />
+    <Compile Include="Model\CheckBox.cs" />
+    <Compile Include="Model\Dialog.cs" />
+    <Compile Include="Model\GroupBox.cs" />
+    <Compile Include="Model\Button.cs" />
+    <Compile Include="Model\ButtonBase.cs" />
+    <Compile Include="Model\ButtonStyle.cs" />
+    <Compile Include="Model\DropdownList.cs" />
+    <Compile Include="Model\Control.cs" />
+    <Compile Include="Model\LocaleFile.cs" />
+    <Compile Include="Model\TextBox.cs" />
+    <Compile Include="Model\ListBox.cs" />
+    <Compile Include="Model\PictureBox.cs" />
+    <Compile Include="Model\RadioButton.cs" />
+    <Compile Include="Model\ScrollBar.cs" />
+    <Compile Include="Model\Slider.cs" />
+    <Compile Include="Model\Label.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.de.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="Render\Controls.cd" />
+    <None Include="NamespaceDependencies.dgml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Model\Controls.cd" />
+    <None Include="Model\LocaleFile.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

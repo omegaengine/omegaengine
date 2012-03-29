@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="OmegaGUI.Render.Button" Collapsed="true">
+    <Position X="8" Y="3.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAIAAgAAAAABAAAAAAAAAAAAAABAACAQAIwA=</HashCode>
+      <FileName>Model\Button.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaGUI.Render.Label" Collapsed="true">
+    <Position X="8" Y="2.75" Width="1.25" />
+    <InheritanceLine Type="OmegaGUI.Render.Control" ManuallyRouted="true">
+      <Path>
+        <Point X="4.875" Y="2.009" />
+        <Point X="4.875" Y="2.51" />
+        <Point X="8.625" Y="2.51" />
+        <Point X="8.625" Y="2.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAIAAAAIQAAAAEAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Model\Label.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaGUI.Render.CheckBox" Collapsed="true">
+    <Position X="8.75" Y="5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAaAAAAIABAAAAABIgAAIAAAAEBAAAAQAARA=</HashCode>
+      <FileName>Model\CheckBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaGUI.Render.DropdownList" Collapsed="true">
+    <Position X="7.25" Y="5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AACASIAAIYAQBCCADIBgAAAEhAAKgAQCmZABAyRAAQA=</HashCode>
+      <FileName>Model\DropdownList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaGUI.Render.Control" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.75" />
+    <AssociationLine Name="ControlType" Type="OmegaGUI.Render.ControlType">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.078" Y="-0.474" Height="0.16" Width="0.944" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>oAAAAQAEAYBAkAQESAHIwABQEAgCAAogAJAACSQJAdQ=</HashCode>
+      <FileName>Model\Control.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ControlType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="OmegaGUI.Render.TextBox" Collapsed="true">
+    <Position X="9.5" Y="2.75" Width="1.25" />
+    <InheritanceLine Type="OmegaGUI.Render.Control" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.875" Y="2.009" />
+        <Point X="4.875" Y="2.51" />
+        <Point X="10.125" Y="2.51" />
+        <Point X="10.125" Y="2.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>IIGQAIAkAYAkMgAIBIBACgBMSFEMIwEAELDACAFQEUA=</HashCode>
+      <FileName>Model\TextBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaGUI.Render.ListBox" Collapsed="true">
+    <Position X="5" Y="2.75" Width="1.25" />
+    <AssociationLine Name="Style" Type="OmegaGUI.Render.ListBoxStyle" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.812" Y="3.38" />
+        <Point X="5.812" Y="4" />
+        <Point X="6" Y="4" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.237" Y="0.333" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="itemList" Type="OmegaGUI.Render.ListItem" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.438" Y="3.38" />
+        <Point X="5.438" Y="4.005" />
+        <Point X="5.25" Y="4.005" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.368" Y="0.347" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAIBAIYgAAACRLIBAAABEhQCCgAQAHZQQAQBCQSA=</HashCode>
+      <FileName>Model\ListBox.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Style" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="itemList" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="OmegaGUI.Render.RadioButton" Collapsed="true">
+    <Position X="8.75" Y="6" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAABAAAAAAAAAAgAAAAQQAQA=</HashCode>
+      <FileName>Model\RadioButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaGUI.Render.GroupBox" Collapsed="true">
+    <Position X="3.5" Y="2.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAABAAAAgAAAA=</HashCode>
+      <FileName>Model\GroupBox.cs</FileName>
+      <NewMemberFileName>Model\Slider.cs</NewMemberFileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaGUI.Render.PictureBox" Collapsed="true">
+    <Position X="6.5" Y="2.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Model\PictureBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaGUI.Render.Element" Collapsed="true">
+    <Position X="2.5" Y="1.5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAARCAAAIAAAAAACAAiAAAAAAAAAAQAAAgBA=</HashCode>
+      <FileName>Model\Element.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OmegaGUI.Render.ScrollBar" Collapsed="true">
+    <Position X="2" Y="2.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>EAgBAICCAaQACAAgAAAQACgABAAAAAAAABEwFVAAAgA=</HashCode>
+      <FileName>Model\ScrollBar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaGUI.Render.Slider" Collapsed="true">
+    <Position X="0.5" Y="2.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>IAAAEAAMgYQAAAAABABIAAAAgAAAAKAAABAiDEAAARA=</HashCode>
+      <FileName>Model\Slider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaGUI.Render.Dialog" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.75" />
+    <AssociationLine Name="controlList" Type="OmegaGUI.Render.Control">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.41" Y="0.177" Height="0.16" Width="0.824" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="controlFocus" Type="OmegaGUI.Render.Control" FixedToPoint="true">
+      <Path>
+        <Point X="4.5" Y="1.009" />
+        <Point X="4.5" Y="1.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.357" Y="0.166" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>CQUAILo7FEFQHcYkQVocgEDQMDkCMB0wRAFSKMkUIKU=</HashCode>
+      <FileName>Model\Dialog.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="controlFocus" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="controlList" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="OmegaGUI.Render.DialogManager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAIAKAEggAAAABCACAAAEAMEAAYBBQAABAAAAA=</HashCode>
+      <FileName>Model\DialogManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="OmegaGUI.Render.TextureNode" Collapsed="true">
+    <Position X="5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAQAAAAAAAAEAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Model\DialogManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaGUI.Render.FontNode" Collapsed="true">
+    <Position X="3.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAABAAAAAAAAAAAAAAAACAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Model\DialogManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaGUI.Render.MessageBox" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABACAAAAAEAABAQAABAAAAAAAAAEAAAYIAAAlAAQAAA=</HashCode>
+      <FileName>Model\MessageBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="OmegaGUI.Render.ListItem" Collapsed="true">
+    <Position X="4" Y="3.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAQAQAAAAAgAAgEAAAA=</HashCode>
+      <FileName>Model\Structs.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="OmegaGUI.Render.BlendColor" Collapsed="true">
+    <Position X="1.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAACAAAAAAAAAAEAAAAAABAAAAAA=</HashCode>
+      <FileName>Model\Structs.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="OmegaGUI.Render.ElementHolder" Collapsed="true">
+    <Position X="3.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAACgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Structs.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="OmegaGUI.Render.ListBoxStyle" Collapsed="true">
+    <Position X="6" Y="3.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\ListBox.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OmegaGUI.Render.TextAlign" Collapsed="true">
+    <Position X="3.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAIAAA=</HashCode>
+      <FileName>Model\Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OmegaGUI.Render.ControlType" Collapsed="true">
+    <Position X="6.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AUAAAAAIEAIAAAAAAAAAAAAAAAAAIAAgAEAAAgAIBAA=</HashCode>
+      <FileName>Model\Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OmegaGUI.Render.ControlState" Collapsed="true">
+    <Position X="1.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAgAAIAAAAAAAAAACAAAAAAAAIAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Model\Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OmegaGUI.Render.MsgBoxType" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAACAABAAAAAAA=</HashCode>
+      <FileName>Model\MessageBox.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="OmegaGUI.Render.MsgBoxResult" Collapsed="true">
+    <Position X="8.25" Y="1.25" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAQAAAAAAAAAAAAACAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Model\MessageBox.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

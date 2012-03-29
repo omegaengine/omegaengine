@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Dialog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ColorBackground A="128" R="0" G="0" B="0" />
+	<ColorCaption A="128" R="96" G="128" B="255" />
+	<ColorText A="255" R="255" G="255" B="255" />
+	<CaptionText>[Settings]</CaptionText>
+	<CaptionHeight>30</CaptionHeight>
+	<OnShow>-- Import .NET enumerations
+luanet.load_assembly("OmegaEngine");
+Quality = luanet.import_type("OmegaEngine.Quality");
+WaterEffectsType = luanet.import_type("OmegaEngine.WaterEffectsType");
+
+-- Default to English language, provide German as an option
+if Settings.General.Language == "de" then
+  Language.SelectedItem = "Deutsch";
+end;
+
+PlayMusic.Checked = Settings.Sound.PlayMusic;
+InvertMouse.Checked = Settings.Controls.InvertMouse;
+
+-- Check for each supported resolution if the graphics card can handle it and if so add it to the list
+function ResolutionHelper(width, height)
+  if Engine:CheckResolution(width, height) then Resolution.Items:Add(width.."x"..height) end;
+end;
+ResolutionHelper(800, 600); ResolutionHelper(1024, 600); ResolutionHelper(1024, 768); ResolutionHelper(1152, 864);
+ResolutionHelper(1280, 720); ResolutionHelper(1280, 768); ResolutionHelper(1280, 800); ResolutionHelper(1280, 960); ResolutionHelper(1280, 1024);
+ResolutionHelper(1360, 768); ResolutionHelper(1360, 1024); ResolutionHelper(1366, 768); ResolutionHelper(1400, 1050);
+ResolutionHelper(1440, 900); ResolutionHelper(1440, 960); ResolutionHelper(1440, 1024); ResolutionHelper(1440, 1080);
+ResolutionHelper(1600, 768); ResolutionHelper(1600, 900); ResolutionHelper(1600, 1024); ResolutionHelper(1600, 1200);
+ResolutionHelper(1680, 1050); ResolutionHelper(1792, 1344); ResolutionHelper(1800, 1440); ResolutionHelper(1856, 1392);
+ResolutionHelper(1900, 1200); ResolutionHelper(1920, 1080); ResolutionHelper(1920, 1200); ResolutionHelper(1920, 1400); ResolutionHelper(1920, 1440);
+ResolutionHelper(2048, 1152); ResolutionHelper(2048, 1536);
+
+-- Reselect the previously chosen resolution
+if Resolution.Items:Contains(Settings.Display.ResolutionText) then
+  Resolution.SelectedItem = Settings.Display.ResolutionText;
+end;
+
+-- Check for each supported AA level if the graphics card can handle it and if so add it to the list
+for level=2,16,2 do
+  if Engine:CheckAA(level) then AntiAliasing.Items:Add(level.."x") end;
+end;
+
+-- Reselect the previously chosen AA level
+if Settings.Display.AntiAliasing ~= 0 and AntiAliasing.Items:Contains(Settings.Display.AntiAliasingText) then
+  AntiAliasing.SelectedItem = Settings.Display.AntiAliasingText;
+end;
+
+Anisotropic.Enabled = Engine.SupportsAnisotropic;
+Anisotropic.Checked = Settings.Graphics.Anisotropic;
+Fullscreen.Checked = Settings.Display.Fullscreen;
+VSync.Checked = Settings.Display.VSync;
+
+PostScreenEffects.Enabled = Engine.SupportsPerPixelEffects;
+PostScreenEffects.Checked = Settings.Graphics.PostScreenEffects;
+Shadows.Enabled = Engine.SupportsPerPixelEffects;
+Shadows.Checked = Settings.Graphics.Shadows;
+TerrainDoubleSampling.Enabled = Engine.SupportsDoubleSampling;
+TerrainDoubleSampling.Checked = Settings.Graphics.DoubleSampling;
+
+WaterEffectsLabel.Enabled = Engine.SupportsPerPixelEffects;
+WaterEffects.Enabled = WaterEffectsLabel.Enabled;
+WaterEffects.SelectedItem = "["..Settings.Graphics.WaterEffects:ToString().."]";
+ParticleSystemQuality.SelectedItem = "["..Settings.Graphics.ParticleSystemQuality:ToString().."]";
+
+-- Only allow the user to change the language in the main menu
+if State ~= GameState.Menu then
+  LanguageLabel.Enabled = false;
+  Language.Enabled = false;
+end;</OnShow>
+	<FontSize>15</FontSize>
+	<Size Width="750" Height="520" />
+	<Shift X="0" Y="0" />
+	<GroupBox Name="GeneralBox">
+		<Location X="10" Y="42" />
+		<Size Width="720" Height="82" />
+		<ColorBorder A="255" R="0" G="0" B="0" />
+		<ColorFill A="128" R="128" G="128" B="128" />
+	</GroupBox>
+	<Label Name="GeneralLabel" Text="[General]">
+		<Location X="20" Y="50" />
+		<Size Width="100" Height="20" />
+	</Label>
+	<Label Name="LanguageLabel" Text="[Language]">
+		<Location X="20" Y="80" />
+		<Size Width="80" Height="30" />
+	</Label>
+	<DropdownList Name="Language">
+		<Location X="100" Y="80" />
+		<Size Width="130" Height="30" />
+		<Item>English</Item>
+		<Item>Deutsch</Item>
+		<SelectedItem>English</SelectedItem>
+		<OnChanged>-- Default to English language, provide German as an option
+if Language.SelectedItem=="Deutsch" then
+  Settings.General.Language = "de";
+else
+  Settings.General.Language = "en";
+end;
+
+-- Reload the Settings dialog to apply the language switch
+Dialog:Close();
+LoadModalDialog("Settings").DialogModel.Location = Dialog.DialogModel.Location;</OnChanged>
+	</DropdownList>
+	<CheckBox Name="PlayMusic" Text="[PlayMusic]">
+		<Location X="290" Y="55" />
+		<Size Width="280" Height="20" />
+		<OnChanged>Settings.Sound.PlayMusic = PlayMusic.Checked;</OnChanged>
+	</CheckBox>
+	<CheckBox Name="InvertMouse" Text="[InvertMouse]">
+		<Location X="290" Y="85" />
+		<Size Width="280" Height="20" />
+		<OnChanged>Settings.Controls.InvertMouse = InvertMouse.Checked;</OnChanged>
+	</CheckBox>
+	<GroupBox Name="DisplayBox">
+		<Location X="10" Y="142" />
+		<Size Width="720" Height="122" />
+		<ColorBorder A="255" R="0" G="0" B="0" />
+		<ColorFill A="128" R="128" G="128" B="128" />
+	</GroupBox>
+	<Label Name="DisplayLabel" Text="[Display]">
+		<Location X="20" Y="150" />
+		<Size Width="100" Height="20" />
+	</Label>
+	<Label Name="ResolutionLabel" Text="[Resolution]">
+		<Location X="20" Y="180" />
+		<Size Width="80" Height="30" />
+	</Label>
+	<DropdownList Name="Resolution">
+		<Location X="100" Y="180" />
+		<Size Width="150" Height="30" />
+		<OnChanged>Settings.Display.ResolutionText = Resolution.SelectedItem;</OnChanged>
+	</DropdownList>
+	<Label Name="AntiAliasingLabel" Text="Anti-Aliasing">
+		<Location X="20" Y="220" />
+		<Size Width="100" Height="30" />
+	</Label>
+	<DropdownList Name="AntiAliasing">
+		<Location X="120" Y="220" />
+		<Size Width="100" Height="30" />
+		<Item>[Off]</Item>
+		<SelectedItem>[Off]</SelectedItem>
+		<OnChanged>Settings.Display.AntiAliasingText = AntiAliasing.SelectedItem;</OnChanged>
+	</DropdownList>
+	<CheckBox Name="Anisotropic" Text="[Anisotropic]">
+		<Location X="290" Y="223" />
+		<Size Width="280" Height="20" />
+		<OnChanged>Settings.Graphics.Anisotropic = Anisotropic.Checked;</OnChanged>
+	</CheckBox>
+	<CheckBox Name="Fullscreen" Text="[Fullscreen]">
+		<Location X="290" Y="185" />
+		<Size Width="130" Height="20" />
+		<OnChanged>Settings.Display.Fullscreen = Fullscreen.Checked;</OnChanged>
+	</CheckBox>
+	<CheckBox Name="VSync" Text="VSync">
+		<Location X="440" Y="185" />
+		<Size Width="130" Height="20" />
+		<OnChanged>Settings.Display.VSync = VSync.Checked;</OnChanged>
+	</CheckBox>
+	<GroupBox Name="GeneralBox">
+		<Location X="10" Y="282" />
+		<Size Width="720" Height="162" />
+		<ColorBorder A="255" R="0" G="0" B="0" />
+		<ColorFill A="128" R="128" G="128" B="128" />
+	</GroupBox>
+	<Label Name="EffectsLabel" Text="[Effects]">
+		<Location X="20" Y="290" />
+		<Size Width="100" Height="20" />
+	</Label>
+	<CheckBox Name="PostScreenEffects" Text="[PostScreenEffects]">
+		<Location X="20" Y="325" />
+		<Size Width="220" Height="20" />
+		<OnChanged>Settings.Graphics.PostScreenEffects = PostScreenEffects.Checked;</OnChanged>
+	</CheckBox>
+	<CheckBox Name="Shadows" Text="[ShowUnitShadows]">
+		<Location X="255" Y="325" />
+		<Size Width="300" Height="20" />
+		<OnChanged>Settings.Graphics.Shadows = Shadows.Checked;</OnChanged>
+	</CheckBox>
+	<CheckBox Name="TerrainDoubleSampling" Text="[TerrainDoubleSampling]">
+		<Location X="460" Y="359" />
+		<Size Width="260" Height="20" />
+		<OnChanged>Settings.Graphics.DoubleSampling = TerrainDoubleSampling.Checked;</OnChanged>
+	</CheckBox>
+	<Label Name="WaterEffectsLabel" Text="[WaterEffects]">
+		<Location X="20" Y="360" />
+		<Size Width="160" Height="30" />
+	</Label>
+	<DropdownList Name="WaterEffects">
+		<Location X="185" Y="360" />
+		<Size Width="220" Height="30" />
+		<Item>[None]</Item>
+		<Item>[RefractionOnly]</Item>
+		<Item>[ReflectTerrain]</Item>
+		<Item>[ReflectAll]</Item>
+		<SelectedItem>[RefractionOnly]</SelectedItem>
+		<OnChanged>if WaterEffects.SelectedItem == "[None]" then Settings.Graphics.WaterEffects = WaterEffectsType.None;
+elseif WaterEffects.SelectedItem == "[RefractionOnly]" then Settings.Graphics.WaterEffects = WaterEffectsType.RefractionOnly;
+elseif WaterEffects.SelectedItem == "[ReflectTerrain]" then Settings.Graphics.WaterEffects = WaterEffectsType.ReflectTerrain;
+elseif WaterEffects.SelectedItem == "[ReflectAll]" then Settings.Graphics.WaterEffects = WaterEffectsType.ReflectAll;
+end;</OnChanged>
+	</DropdownList>
+	<Label Name="ParticleSystemQualityLabel" Text="[ParticleSystemQuality]">
+		<Location X="20" Y="400" />
+		<Size Width="200" Height="30" />
+	</Label>
+	<DropdownList Name="ParticleSystemQuality">
+		<Location X="220" Y="400" />
+		<Size Width="120" Height="30" />
+		<Item>[Low]</Item>
+		<Item>[Medium]</Item>
+		<Item>[High]</Item>
+		<SelectedItem>[Medium]</SelectedItem>
+		<OnChanged>if ParticleSystemQuality.SelectedItem == "[Low]" then Settings.Graphics.ParticleSystemQuality = Quality.Low;
+elseif ParticleSystemQuality.SelectedItem == "[Medium]" then Settings.Graphics.ParticleSystemQuality = Quality.Medium;
+elseif ParticleSystemQuality.SelectedItem == "[High]" then Settings.Graphics.ParticleSystemQuality = Quality.High;
+end;</OnChanged>
+	</DropdownList>
+	<Button Name="Exit" Text="OK">
+		<Location X="0" Y="460" />
+		<Size Width="160" Height="40" />
+		<AlignHorizontal>Center</AlignHorizontal>
+		<OnClick>Dialog:Close();
+
+-- Restore the previous dialog
+if State == GameState.Menu then
+  LoadDialog("MainMenu");
+end;
+if State == GameState.Pause then
+  LoadDialog("PauseMenu");
+end;</OnClick>
+	</Button>
+</Dialog>

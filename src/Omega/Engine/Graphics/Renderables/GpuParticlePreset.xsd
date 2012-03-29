@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="GpuParticlePreset" nillable="true" type="GpuParticlePreset" />
+  <xs:complexType name="GpuParticlePreset">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" default="1" name="SpawnRadius" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="80" name="SystemHeight" type="xs:float" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Movement" type="Vector3" />
+      <xs:element minOccurs="0" maxOccurs="1" default="20" name="ParticleSpread" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="7.8" name="ParticleSize" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="0.38" name="ParticleShape" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="Flame.tga" name="ParticleTexture" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Vector3">
+    <xs:attribute name="X" type="xs:float" use="required" />
+    <xs:attribute name="Y" type="xs:float" use="required" />
+    <xs:attribute name="Z" type="xs:float" use="required" />
+  </xs:complexType>
+</xs:schema>

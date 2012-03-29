@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AngleNotBelow90" xml:space="preserve">
+    <value>Der Wert muss kleiner als 90 Grad sein.</value>
+  </data>
+  <data name="BadGraphics" xml:space="preserve">
+    <value>Ihre Grafikkarte wird von diesem Spiel nicht unterstützt.</value>
+  </data>
+  <data name="CallMethodOnlyOnce" xml:space="preserve">
+    <value>Diese Methode darf nur einmal auf diesem Objekt aufgerufen werden.</value>
+  </data>
+  <data name="DirectXMissing" xml:space="preserve">
+    <value>Die benötigte Version von DirectX ist auf Ihrem Computer nicht installiert.</value>
+  </data>
+  <data name="DumpFail" xml:space="preserve">
+    <value>Speichern der View Daten in eine Datei fehlgeschlagen!.</value>
+  </data>
+  <data name="DynamicShaderCompileFail" xml:space="preserve">
+    <value>Der dynamische Shader konnte nicht kompiliert werden.</value>
+  </data>
+  <data name="InvalidScreenshotSize" xml:space="preserve">
+    <value>Die Screenshot-Auflösung darf die aktuelle Render-Auflösung nicht überschreiten!</value>
+  </data>
+  <data name="LightsNotDeactivated" xml:space="preserve">
+    <value>DeactivateLights wurde nach dem letzten Renderdurchlauf nicht aufgerufen!</value>
+  </data>
+  <data name="LoadingMusic" xml:space="preserve">
+    <value>Lade Musik...</value>
+  </data>
+  <data name="MeshIndexBufferNot16bit" xml:space="preserve">
+    <value>Das Mesh verwendet keine 16-bit Indizes.</value>
+  </data>
+  <data name="MeshIndexBufferNot32bit" xml:space="preserve">
+    <value>Das Mesh verwendet keine 32-bit Indizes.</value>
+  </data>
+  <data name="MinimumShaderModel" xml:space="preserve">
+    <value>Sie benötigen eine Grafikkarte die mindestens Shader Model {0} unterstützt.</value>
+  </data>
+  <data name="NoDebugInFullscreen" xml:space="preserve">
+    <value>Die Engine Debug Oberfläche kann nicht im Vollbild-Modus aufgerufen werden.</value>
+  </data>
+  <data name="NoLinearTextureFiltering" xml:space="preserve">
+    <value>Ihre Grafikkarte unterstützt kein lineares Textur Filtern.</value>
+  </data>
+  <data name="NoModifyTerrainColorWithoutLighting" xml:space="preserve">
+    <value>Die Terrain Farbe kann nicht modifziert werden, wenn Terrain Beleuchtung deaktiviert ist.</value>
+  </data>
+  <data name="NoModifyTerrainHeightWithLighting" xml:space="preserve">
+    <value>Die Terrain "Height-Map" kann nicht modifziert werden, wenn Terrain Beleuchtung aktiviert ist.</value>
+  </data>
+  <data name="NoSuchBody" xml:space="preserve">
+    <value>Es wurde kein derartiges Body gefunden: </value>
+  </data>
+  <data name="NoSuchLightSource" xml:space="preserve">
+    <value>Es wurde keine derartige Lichtquelle gefunden: </value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>Ein benötigtes Grafikfeature war nicht verfügbar</value>
+  </data>
+  <data name="NotFoundShaderFile" xml:space="preserve">
+    <value>Die folgende Shader-Datei konnte nicht gefunden werden:</value>
+  </data>
+  <data name="NotSupportedShader" xml:space="preserve">
+    <value>Dieser Shader wird von Ihrer Grafikkarte nicht unterstützt.</value>
+  </data>
+  <data name="NumberNotReal" xml:space="preserve">
+    <value>Der Wert muss eine reelle Zahl sein.</value>
+  </data>
+  <data name="ReleasedTooOften" xml:space="preserve">
+    <value>Die Release Methode wurde zu oft auf {0} aufgerufen.</value>
+  </data>
+  <data name="SongAlreadyLoaded" xml:space="preserve">
+    <value>Dieses Musikstück wurde mehrfach geladen: </value>
+  </data>
+  <data name="SongLoadFailed" xml:space="preserve">
+    <value>Konnte Lied nicht laden: </value>
+  </data>
+  <data name="UnknownVertexFormat" xml:space="preserve">
+    <value>Das angegebene Vertexformat ist unbekannt.</value>
+  </data>
+  <data name="VBMustBeFVF" xml:space="preserve">
+    <value>Der Vertex-Puffer muss ein fixed-function Vertex-Format verwenden.</value>
+  </data>
+  <data name="WrongAngleMapSize" xml:space="preserve">
+    <value>"Angle-Map" muss gleiche Größe wie Terrain haben.</value>
+  </data>
+  <data name="WrongAssetType" xml:space="preserve">
+    <value>Die folgende Datei wurde bereits als ein anderer Asset-Typ geladen: </value>
+  </data>
+  <data name="WrongHeightMapSize" xml:space="preserve">
+    <value>"Height-Map" muss gleiche Größe wie Terrain haben.</value>
+  </data>
+  <data name="WrongTexArrayLength" xml:space="preserve">
+    <value>Das Array muss eine Länge von {0} haben.</value>
+  </data>
+  <data name="WrongTextureMapSize" xml:space="preserve">
+    <value>"Texture-Map" muss genau ein Drittel der Terriangröße sein.</value>
+  </data>
+  <data name="WrongVertexCountLine" xml:space="preserve">
+    <value>Die Anzahl der Vertexes muss für eine LineList ein Vielfaches von 2 sein.</value>
+  </data>
+  <data name="WrongVertexCountTriangle" xml:space="preserve">
+    <value>Die Anzahl der Vertexes muss für eine TriangleList ein Vielfaches von 3 sein.</value>
+  </data>
+</root>

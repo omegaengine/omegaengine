@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CpuParticlePreset" nillable="true" type="CpuParticlePreset" />
+  <xs:complexType name="CpuParticlePreset">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="LowerParameters1" type="CpuParticleParameters" />
+      <xs:element minOccurs="0" maxOccurs="1" name="UpperParameters1" type="CpuParticleParameters" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LowerParameters2" type="CpuParticleParameters" />
+      <xs:element minOccurs="0" maxOccurs="1" name="UpperParameters2" type="CpuParticleParameters" />
+      <xs:element minOccurs="0" maxOccurs="1" default="0" name="SpawnRate" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="0" name="SpawnRadius" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="512" name="MaxParticles" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" default="0" name="EmitterRepelRange" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="0" name="EmitterRepelSpeed" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="32768" name="EmitterSuctionRange" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="0" name="EmitterSuctionSpeed" type="xs:float" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Gravity" type="Vector3" />
+      <xs:element minOccurs="0" maxOccurs="1" default="0" name="RandomAcceleration" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="1" name="Speed" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="0" name="WarmupTime" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="" name="Particle1Texture" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" default="0" name="Particle1Alpha" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" default="" name="Particle2Texture" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" default="0" name="Particle2Alpha" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CpuParticleParameters">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" default="0" name="LifeTime" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="0" name="Friction" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="0" name="Size" type="xs:float" />
+      <xs:element minOccurs="0" maxOccurs="1" default="0" name="DeltaSize" type="xs:float" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Color" type="XColor" />
+      <xs:element minOccurs="0" maxOccurs="1" default="0" name="DeltaColor" type="xs:float" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="XColor">
+    <xs:attribute name="A" type="xs:unsignedByte" use="required" />
+    <xs:attribute name="R" type="xs:unsignedByte" use="required" />
+    <xs:attribute name="G" type="xs:unsignedByte" use="required" />
+    <xs:attribute name="B" type="xs:unsignedByte" use="required" />
+  </xs:complexType>
+  <xs:complexType name="Vector3">
+    <xs:attribute name="X" type="xs:float" use="required" />
+    <xs:attribute name="Y" type="xs:float" use="required" />
+    <xs:attribute name="Z" type="xs:float" use="required" />
+  </xs:complexType>
+</xs:schema>

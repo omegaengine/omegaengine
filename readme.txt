@@ -16,7 +16,15 @@ The setup is build using Inno Setup 5.4.1 or newer (http://files.jrsoftware.org/
 
 Das "build.cmd" script assumes that Visual Studio 2010 is installed and that Inno Setup 5 is installed at its default location.
 
-To open the Debug Console inside a game press Ctrl + Alt + Shift + D.
+The engine requires shader files to be located in a subdirectory of the installation path named "Shaders".
 
 The TerrainSample and SpaceSample projects place "_portable" and "*.Settings.xml" files in the build directories which cause the game content files to be loaded from \data\.
-When releasing the binaries as standalone applications these files are not present and game content files are instead expected be located in a subdirectory of the installation path named "base" by default.
+When releasing the binaries as standalone applications these files are not present and game content files are instead expected be located in a subdirectory of the installation path named "Base" by default.
+
+To open the Debug Console when running one of the sample projects press Ctrl + Alt + Shift + D.
+
+Command-line arguments for the sample projects:
+/map MapName		Loads MapName in normal game mode
+/modify MapName		Loads MapName in modification mode	
+/benchmark			Executes the automatic benchmark
+/menu MapName		Loads MapName as the background map for the main menu

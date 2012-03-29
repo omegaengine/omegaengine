@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Dictionary>
+  <Words>
+    <Recognized>
+      <Word>fullscreen</Word>
+      <Word>framerate</Word>
+      <Word>shader</Word>
+      <Word>shaders</Word>
+      <Word>png</Word>
+    </Recognized>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>OmegaEngine</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

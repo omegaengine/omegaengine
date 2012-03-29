@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GpuParticlePreset>
+	<SpawnRadius>1</SpawnRadius>
+	<SystemHeight>80</SystemHeight>
+	<Movement X="0" Y="0.48" Z="0" />
+	<ParticleSpread>20</ParticleSpread>
+	<ParticleSize>7.8</ParticleSize>
+	<ParticleShape>0.38</ParticleShape>
+	<ParticleTexture>Flame.tga</ParticleTexture>
+</GpuParticlePreset>

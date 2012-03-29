@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="OmegaEngine.Graphics.Shaders.Shader" Collapsed="true">
+    <Position X="3.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACsCAAAERAAACAAAAAAAAAAAIEAEAAQSMgA=</HashCode>
+      <FileName>Graphics\Shaders\Shader.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.PostShader" Collapsed="true">
+    <Position X="1.75" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAUAAABAAAIAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graphics\Shaders\PostShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.SurfaceShader" Collapsed="true">
+    <Position X="6.5" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQCAARAAEAAgAAgAAAQIAAAAAAAAACAAAAAAAUA=</HashCode>
+      <FileName>Graphics\Shaders\SurfaceShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.DynamicShader" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAQAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Graphics\Shaders\DynamicShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.WaterShader" Collapsed="true">
+    <Position X="8" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAMCEBACgFSAAIAECACAQgiAAAgAFCAAGAAgADg=</HashCode>
+      <FileName>Graphics\Shaders\WaterShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.ParticleShader" Collapsed="true">
+    <Position X="5.5" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAABlQAAArUBAAKABAAAgAAAAAIAAAAAEACACI=</HashCode>
+      <FileName>Graphics\Shaders\ParticleShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.PostBleachShader" Collapsed="true">
+    <Position X="0.5" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAIAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Graphics\Shaders\PostBleachShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.PostSepiaShader" Collapsed="true">
+    <Position X="3" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABEEIAAAAAAAAACAIACAACAAgAAAAAARAAAAAAAQACA=</HashCode>
+      <FileName>Graphics\Shaders\PostSepiaShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.PostCameraShakeShader" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAACAgQgAEAAJABAAAYAAEAAAAAAEAAA=</HashCode>
+      <FileName>Graphics\Shaders\PostCameraShakeShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.PostGlowShader" Collapsed="true">
+    <Position X="3" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAUAAUAAAAAAAACAAAAAAAACAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graphics\Shaders\PostGlowShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.PostHaloShader" Collapsed="true">
+    <Position X="3" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAgAAAAAAACAAAAAAAAAQAAAAEAAQAAAAABAAAA=</HashCode>
+      <FileName>Graphics\Shaders\PostHaloShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.PostScratchedFilmShader" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABCAAQABAAABAwAIAQAAABgAAAAAAAA=</HashCode>
+      <FileName>Graphics\Shaders\PostScratchedFilmShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.PostRadialBlurShader" Collapsed="true">
+    <Position X="3" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAIAAAACAAAAAABAAAAAAAAAQAAAAMAEAACA=</HashCode>
+      <FileName>Graphics\Shaders\PostRadialBlurShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.PostBlurShader" Collapsed="true">
+    <Position X="0.5" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAgCAAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graphics\Shaders\PostBlurShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.LightingShader" Collapsed="true">
+    <Position X="6.75" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graphics\Shaders\LightingShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.GeneralShader" Collapsed="true">
+    <Position X="6" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABBAAAACAAAAAAAACAAEgAAACAAAAAIEAAAA=</HashCode>
+      <FileName>Graphics\Shaders\GeneralShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OmegaEngine.Graphics.Shaders.TerrainShader" Collapsed="true">
+    <Position X="7.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEABAAFACAABAAAAAAIAAAACAQAIAAAAAAAAg=</HashCode>
+      <FileName>Graphics\Shaders\TerrainShader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>
