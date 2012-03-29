@@ -185,6 +185,11 @@ namespace OmegaEngine
         /// A shader used for default lighting
         /// </summary>
         public GeneralShader DefaultShader { get; private set; }
+
+        /// <summary>
+        /// A shader used for simple water (no reflection or refraction)
+        /// </summary>
+        public WaterShader SimpleWaterShader { get; private set; }
         #endregion
 
         #endregion

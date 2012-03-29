@@ -141,9 +141,9 @@ namespace OmegaEngine
                 CreateDevice();
                 SetupTextureFiltering();
 
-                // Load the default surface shader if supported
-                if (GeneralShader.MinShaderModel <= MaxShaderModel)
-                    DefaultShader = new GeneralShader(this);
+                // Load shared shaders
+                if (GeneralShader.MinShaderModel <= MaxShaderModel) DefaultShader = new GeneralShader(this);
+                if (WaterShader.MinShaderModel <= MaxShaderModel) SimpleWaterShader = new WaterShader(this);
                 PerPixelLighting = true;
 
                 // Create simple default meshes ready
@@ -248,6 +248,7 @@ namespace OmegaEngine
 
                 // Dispose shaders
                 if (DefaultShader != null) DefaultShader.Dispose();
+                if (SimpleWaterShader != null) SimpleWaterShader.Dispose();
                 DisposeShaders(_terrainShadersLighting);
                 DisposeShaders(_terrainShadersNoLighting);
 

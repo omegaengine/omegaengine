@@ -25,7 +25,7 @@ namespace OmegaEngine.Graphics.Renderables
     {
         #region Variables
         private WaterViewSource _viewSource;
-        private readonly WaterShader _simpleWaterShader;
+        //private readonly WaterShader _simpleWaterShader;
         private readonly ITextureProvider _waterTexture;
         #endregion
 
@@ -56,7 +56,6 @@ namespace OmegaEngine.Graphics.Renderables
             BoundingBox = new BoundingBox(new Vector3(0, 0, 0), new Vector3(size.Width, 0, -size.Height));
             _waterTexture = XTexture.Get(Engine, @"Water\surface.png", false);
             _waterTexture.HoldReference();
-            _simpleWaterShader = new WaterShader(engine);
         }
 
         private static Mesh BuildMesh(Engine engine, SizeF size)
@@ -139,7 +138,7 @@ namespace OmegaEngine.Graphics.Renderables
                         Materials[0].DiffuseMaps[0] = _waterTexture;
                         SurfaceEffect = SurfaceEffect.FixedFunction;
                     }
-                    else SurfaceShader = _simpleWaterShader;
+                    else SurfaceShader = Engine.SimpleWaterShader;
                     break;
                 case WaterEffectsType.RefractionOnly:
                     Alpha = Engine.Opaque;
@@ -177,7 +176,6 @@ namespace OmegaEngine.Graphics.Renderables
             {
                 if (disposing)
                 { // This block will only be executed on manual disposal, not by Garbage Collection
-                    if (_simpleWaterShader != null) _simpleWaterShader.Dispose();
                     if (_waterTexture != null) _waterTexture.ReleaseReference();
 
                     foreach (XMaterial material in Materials)

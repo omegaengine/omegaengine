@@ -185,9 +185,10 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="refractionView">A render target storing the refraction of the current view</param>
         public WaterShader(Engine engine, TextureView refractionView) : base(engine, "Water.fxo")
         {
+            #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.MaxShaderModel)
-                throw new NotSupportedException(Resources.NotSupportedShader);
+            if (MinShaderModel > engine.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+            #endregion
 
             _waterTexture = XTexture.Get(engine, @"Water\surface.png", false);
             _waterTexture.HoldReference();
@@ -211,9 +212,10 @@ namespace OmegaEngine.Graphics.Shaders
         /// <exception cref="NotSupportedException">Thrown if the graphics card does not support this shader</exception>
         public WaterShader(Engine engine) : base(engine, "Water.fxo")
         {
+            #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.MaxShaderModel)
-                throw new NotSupportedException(Resources.NotSupportedShader);
+            if (MinShaderModel > engine.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+            #endregion
 
             _waterTexture = XTexture.Get(engine, @"Water\surface.png", false);
             _waterTexture.HoldReference();
