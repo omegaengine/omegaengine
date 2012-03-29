@@ -238,9 +238,11 @@ namespace OmegaEngine
         /// <param name="size">The window size</param>
         protected void ToWindowed(Size size)
         {
+
             // Restore the default window border
             Form.FormBorderStyle = FormBorderStyle.Sizable;
             Form.TopMost = false;
+            Application.DoEvents(); // Ensure window control box comes back after fullscreen mode
 
             // Update the window size
             Form.ClientSize = size;
