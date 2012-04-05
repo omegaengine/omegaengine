@@ -43,6 +43,11 @@ namespace AlphaEditor
         {
             InitializeComponent();
 
+            // Moved hotkeys out of WinForms designer / resource file to prevent problems with localized versions of Visual Studio
+            toolUniverseEntityEditor.ShortcutKeys = Keys.Control | Keys.Shift | Keys.E;
+            toolUniverseItemEditor.ShortcutKeys = Keys.Control | Keys.Shift | Keys.M;
+            toolUniverseTerrainEditor.ShortcutKeys = Keys.Control | Keys.Shift | Keys.T;
+
             switch (Settings.Current.General.Language)
             {
                 case "de":

@@ -203,9 +203,6 @@
 </value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="toolGuiLanguage.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Shift+L</value>
-  </data>
   <data name="toolGuiLanguage.Size" type="System.Drawing.Size, System.Drawing">
     <value>232, 22</value>
   </data>
@@ -235,9 +232,6 @@
   </data>
   <data name="toolGuiCutscene.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
-  </data>
-  <data name="toolGuiCutscene.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Shift+C</value>
   </data>
   <data name="toolGuiCutscene.Size" type="System.Drawing.Size, System.Drawing">
     <value>232, 22</value>
@@ -397,9 +391,6 @@
   <data name="menuFileCloseTab.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="menuFileCloseTab.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+F4</value>
-  </data>
   <data name="menuFileCloseTab.Size" type="System.Drawing.Size, System.Drawing">
     <value>228, 22</value>
   </data>
@@ -409,9 +400,6 @@
   <data name="menuFileSwitchTab.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="menuFileSwitchTab.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Tab</value>
-  </data>
   <data name="menuFileSwitchTab.Size" type="System.Drawing.Size, System.Drawing">
     <value>228, 22</value>
   </data>
@@ -420,9 +408,6 @@
   </data>
   <data name="menuFileSave.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="menuFileSave.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+S</value>
   </data>
   <data name="menuFileSave.Size" type="System.Drawing.Size, System.Drawing">
     <value>228, 22</value>
@@ -450,9 +435,6 @@
         O+kAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="menuFileModProperties.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Shift+P</value>
-  </data>
   <data name="menuFileModProperties.Size" type="System.Drawing.Size, System.Drawing">
     <value>228, 22</value>
   </data>
@@ -479,17 +461,11 @@
         oe8/hW60pwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="menuFilePackageMod.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Shift+S</value>
-  </data>
   <data name="menuFilePackageMod.Size" type="System.Drawing.Size, System.Drawing">
     <value>228, 22</value>
   </data>
   <data name="menuFilePackageMod.Text" xml:space="preserve">
     <value>Pac&amp;kage Mod</value>
-  </data>
-  <data name="menuFileTestInGame.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Shift+X</value>
   </data>
   <data name="menuFileTestInGame.Size" type="System.Drawing.Size, System.Drawing">
     <value>228, 22</value>
@@ -521,9 +497,6 @@
   <data name="menuEditUndo.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="menuEditUndo.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Z</value>
-  </data>
   <data name="menuEditUndo.Size" type="System.Drawing.Size, System.Drawing">
     <value>163, 22</value>
   </data>
@@ -532,9 +505,6 @@
   </data>
   <data name="menuEditRedo.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="menuEditRedo.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Y</value>
   </data>
   <data name="menuEditRedo.Size" type="System.Drawing.Size, System.Drawing">
     <value>163, 22</value>
@@ -548,17 +518,11 @@
   <data name="menuEditDelete.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="menuEditDelete.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Shift+Del</value>
-  </data>
   <data name="menuEditDelete.Size" type="System.Drawing.Size, System.Drawing">
     <value>163, 22</value>
   </data>
   <data name="menuEditDelete.Text" xml:space="preserve">
     <value>&amp;Delete</value>
-  </data>
-  <data name="menuEdit.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Y</value>
   </data>
   <data name="menuEdit.Size" type="System.Drawing.Size, System.Drawing">
     <value>39, 20</value>

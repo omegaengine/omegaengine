@@ -26,8 +26,8 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
-using AlphaEditor.Graphics;
 using AlphaEditor.GUI;
+using AlphaEditor.Graphics;
 using AlphaEditor.Properties;
 using Common;
 using Common.Controls;
@@ -44,7 +44,6 @@ namespace AlphaEditor
     {
         #region Properties
         private AsyncWaitDialog _waitDialog;
-
         private bool _loading;
 
         /// <summary>
@@ -78,6 +77,20 @@ namespace AlphaEditor
         protected MainFormBase()
         {
             InitializeComponent();
+
+            // Moved hotkeys out of WinForms designer / resource file to prevent problems with localized versions of Visual Studio
+            menuFileCloseTab.ShortcutKeys = Keys.Control | Keys.F4;
+            menuFileSwitchTab.ShortcutKeys = Keys.Control | Keys.Tab;
+            menuFileSave.ShortcutKeys = Keys.Control | Keys.S;
+            menuFileModProperties.ShortcutKeys = Keys.Control | Keys.Shift | Keys.P;
+            menuFilePackageMod.ShortcutKeys = Keys.Control | Keys.Shift | Keys.S;
+            menuFileTestInGame.ShortcutKeys = Keys.Control | Keys.Shift | Keys.X;
+            menuEdit.ShortcutKeys = Keys.Control | Keys.Y;
+            menuEditUndo.ShortcutKeys = Keys.Control | Keys.Z;
+            menuEditRedo.ShortcutKeys = Keys.Control | Keys.Y;
+            menuEditDelete.ShortcutKeys = Keys.Shift | Keys.Delete;
+            toolGuiLanguage.ShortcutKeys = Keys.Control | Keys.Shift | Keys.L;
+            toolGuiCutscene.ShortcutKeys = Keys.Control | Keys.Shift | Keys.C;
         }
 
         private void MainFormBase_Load(object sender, EventArgs e)
