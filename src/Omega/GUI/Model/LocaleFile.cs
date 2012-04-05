@@ -98,15 +98,16 @@ namespace OmegaGUI.Model
         /// Loads a localization table from an XML file if possible.
         /// </summary>
         /// <param name="language">The language to load.</param>
-        /// <returns>The loaded table or <see langword="null"/> if not found.</returns>
+        /// <returns>The loaded table or an empty table if not found.</returns>
         public static XmlDictionary LoadLang(string language)
         {
             if (ContentManager.FileExists("GUI/Language", language + FileExt, true))
                 return FromContent(language + FileExt);
             if (ContentManager.FileExists("GUI/Language", "English" + FileExt, true))
                 return FromContent("English" + FileExt);
-            return ContentManager.FileExists("GUI/Language", "German" + FileExt, true) ?
-                                                                                           FromContent("German" + FileExt) : null;
+            if (ContentManager.FileExists("GUI/Language", "German" + FileExt, true))
+                return FromContent("German" + FileExt);
+            return new XmlDictionary();
         }
 
         /// <summary>

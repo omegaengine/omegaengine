@@ -438,9 +438,9 @@ namespace OmegaGUI.Model
             _locale = LocaleFile.LoadLang(langName).ToDictionary();
 
             // Generate dialog model object
-            DialogModel = TextureFileValid ?
-                                               new Render.Dialog(manager, ColorText.ToColorValue(), _textureFile, _fontName, (uint)(_fontSize * EffectiveScale)) :
-                                                                                                                                                                     new Render.Dialog(manager, ColorText.ToColorValue());
+            DialogModel = TextureFileValid
+                ? new Render.Dialog(manager, ColorText.ToColorValue(), _textureFile, _fontName, (uint)(_fontSize * EffectiveScale))
+                : new Render.Dialog(manager, ColorText.ToColorValue());
 
             // Set dialog properites
             DialogModel.SetCaptionText(GetLocalized(_captionText));
