@@ -77,8 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Global.cs" />
-    <Compile Include="Controller\Dialog.cs" />
-    <Compile Include="Controller\DialogManager.cs" />
+    <Compile Include="DialogRenderer.cs" />
+    <Compile Include="GuiManager.cs" />
     <Compile Include="Render\Button.cs" />
     <Compile Include="Render\CheckBox.cs" />
     <Compile Include="Render\DropdownList.cs" />

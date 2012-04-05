@@ -30,18 +30,18 @@ using Common.Utils;
 using LuaInterface;
 using OmegaEngine;
 
-namespace OmegaGUI.Controller
+namespace OmegaGUI
 {
     /// <summary>
-    /// Maintains lists of all <see cref="Dialog"/>s
+    /// Maintains lists of all <see cref="DialogRenderer"/>s
     /// </summary>
-    public sealed class DialogManager : IDisposable
+    public sealed class GuiManager : IDisposable
     {
         #region Variables
         private readonly Engine _engine;
 
-        private readonly List<Dialog> _normalDialogs = new List<Dialog>();
-        private readonly List<Dialog> _modalDialogs = new List<Dialog>();
+        private readonly List<DialogRenderer> _normalDialogs = new List<DialogRenderer>();
+        private readonly List<DialogRenderer> _modalDialogs = new List<DialogRenderer>();
         private readonly List<Lua> _pendingLuaDisposes = new List<Lua>();
 
         private Stopwatch _timer;
@@ -58,7 +58,7 @@ namespace OmegaGUI.Controller
         /// Sets up the GUI system for rendering with the engine.
         /// </summary>
         /// <param name="engine">The <see cref="Engine"/> to render in.</param>
-        public DialogManager(Engine engine)
+        public GuiManager(Engine engine)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
@@ -74,19 +74,19 @@ namespace OmegaGUI.Controller
 
         #region Open
         /// <summary>
-        /// Adds a normal <see cref="Dialog"/> to the GUI system that shares user-input with all other <see cref="Dialog"/>s.
+        /// Adds a normal <see cref="DialogRenderer"/> to the GUI system that shares user-input with all other <see cref="DialogRenderer"/>s.
         /// </summary>
-        /// <param name="dialog">The <see cref="Dialog"/> to add.</param>
-        public void AddNormal(Dialog dialog)
+        /// <param name="dialog">The <see cref="DialogRenderer"/> to add.</param>
+        internal void AddNormal(DialogRenderer dialog)
         {
             _normalDialogs.Add(dialog);
         }
 
         /// <summary>
-        /// Adds a modal <see cref="Dialog"/> to the GUI system that locks all other <see cref="Dialog"/>s while it is active.
+        /// Adds a modal <see cref="DialogRenderer"/> to the GUI system that locks all other <see cref="DialogRenderer"/>s while it is active.
         /// </summary>
-        /// <param name="dialog">The <see cref="Dialog"/> to add.</param>
-        public void AddModal(Dialog dialog)
+        /// <param name="dialog">The <see cref="DialogRenderer"/> to add.</param>
+        internal void AddModal(DialogRenderer dialog)
         {
             _modalDialogs.Add(dialog);
         }
@@ -94,19 +94,19 @@ namespace OmegaGUI.Controller
 
         #region Close
         /// <summary>
-        /// Removes/closes an open <see cref="Dialog"/>.
+        /// Removes/closes an open <see cref="DialogRenderer"/>.
         /// </summary>
-        /// <param name="dialog">The <see cref="Dialog"/> to close.</param>
-        public void Remove(Dialog dialog)
+        /// <param name="dialog">The <see cref="DialogRenderer"/> to close.</param>
+        internal void Remove(DialogRenderer dialog)
         {
-            dialog.DialogModel.Refresh();
+            dialog.DialogRender.Refresh();
             dialog.Dispose();
             _normalDialogs.Remove(dialog);
             _modalDialogs.Remove(dialog);
         }
 
         /// <summary>
-        /// Closes all open <see cref="Dialog"/>s.
+        /// Closes all open <see cref="DialogRenderer"/>s.
         /// </summary>
         [LuaGlobal(Description = "Closes all open dialogs.")]
         public void CloseAll()
@@ -119,7 +119,7 @@ namespace OmegaGUI.Controller
         }
 
         /// <summary>
-        /// Closes all open <see cref="Dialog"/>s and resets the GUI system (i.e. clears all its caches).
+        /// Closes all open <see cref="DialogRenderer"/>s and resets the GUI system (i.e. clears all its caches).
         /// </summary>
         [LuaGlobal(Description = "Closes all open dialogs and resets the GUI system (i.e. clears all its caches).")]
         public void Reset()
@@ -132,7 +132,7 @@ namespace OmegaGUI.Controller
 
         #region Update
         /// <summary>
-        /// Invokes <see cref="Dialog.Update"/> on all open <see cref="Dialog"/>s.
+        /// Invokes <see cref="DialogRenderer.Update"/> on all open <see cref="DialogRenderer"/>s.
         /// </summary>
         [LuaGlobal(Description = "Invokes the OnUpdate event on all open dialogs.")]
         public void Update()
@@ -165,15 +165,15 @@ namespace OmegaGUI.Controller
 
             using (new ProfilerEvent("Render GUI"))
             {
-                foreach (Dialog dialog in _normalDialogs)
+                foreach (var dialog in _normalDialogs)
                 {
-                    if (dialog.DialogView.Visible)
-                        dialog.DialogModel.OnRender(dialog.DialogView.Animate ? elapsedTime : 1);
+                    if (dialog.DialogModel.Visible)
+                        dialog.DialogRender.OnRender(dialog.DialogModel.Animate ? elapsedTime : 1);
                 }
-                foreach (Dialog dialog in _modalDialogs)
+                foreach (var dialog in _modalDialogs)
                 {
-                    if (dialog.DialogView.Visible)
-                        dialog.DialogModel.OnRender(dialog.DialogView.Animate ? elapsedTime : 1);
+                    if (dialog.DialogModel.Visible)
+                        dialog.DialogRender.OnRender(dialog.DialogModel.Animate ? elapsedTime : 1);
                 }
                 if (ModelManager.MessageBox.Visible)
                     ModelManager.MessageBox.OnRender(elapsedTime);
@@ -210,18 +210,18 @@ namespace OmegaGUI.Controller
             // Exclusive input handling for last modal dialog
             if (_modalDialogs.Count > 0)
             {
-                return _modalDialogs[_modalDialogs.Count - 1].DialogModel.
+                return _modalDialogs[_modalDialogs.Count - 1].DialogRender.
                     MessageProc(m.HWnd, (WindowMessage)m.Msg, m.WParam, m.LParam);
             }
 
             // Copy dialog list to an array first to prevent exceptions if dialogs are removed
-            var currentGuis = new Dialog[_normalDialogs.Count];
+            var currentGuis = new DialogRenderer[_normalDialogs.Count];
             _normalDialogs.CopyTo(currentGuis, 0);
 
             // Pass input to dialogs for handling from last to first
             for (int i = currentGuis.Length - 1; i >= 0; i--)
             {
-                if (currentGuis[i].DialogModel.MessageProc(m.HWnd, (WindowMessage)m.Msg, m.WParam, m.LParam))
+                if (currentGuis[i].DialogRender.MessageProc(m.HWnd, (WindowMessage)m.Msg, m.WParam, m.LParam))
                 {
                     // Input has been handled, no further processing
                     return true;
@@ -257,7 +257,7 @@ namespace OmegaGUI.Controller
         }
 
         /// <inheritdoc/>
-        ~DialogManager()
+        ~GuiManager()
         {
             Dispose(false);
         }

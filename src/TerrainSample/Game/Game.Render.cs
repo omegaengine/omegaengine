@@ -25,7 +25,7 @@ using System.Windows.Forms;
 using Common;
 using Core.Properties;
 using OmegaEngine;
-using OmegaGUI.Controller;
+using OmegaGUI;
 using World;
 
 namespace Core
@@ -125,20 +125,17 @@ namespace Core
             Settings.Current.Sound.Changed += ApplySoundSettings;
 
             UpdateStatus(Resources.LoadingGraphics);
+            Form.ResizeEnd += delegate
+            {
+                if (!Settings.Current.Display.Fullscreen)
+                    Settings.Current.Display.WindowSize = Form.ClientSize;
+            };
 
             using (new TimedLogEvent("Initialize GUI"))
             {
                 // Initialize GUI subsystem
-                DialogManager = new DialogManager(Engine);
-
-                #region Form hooks
-                Form.ResizeEnd += delegate
-                {
-                    if (!Settings.Current.Display.Fullscreen)
-                        Settings.Current.Display.WindowSize = Form.ClientSize;
-                };
-                Form.WindowMessage += DialogManager.OnMsgProc;
-                #endregion
+                GuiManager = new GuiManager(Engine);
+                Form.WindowMessage += GuiManager.OnMsgProc;
             }
 
             using (new TimedLogEvent("Load graphics"))

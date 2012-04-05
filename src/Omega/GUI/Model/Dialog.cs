@@ -434,7 +434,7 @@ namespace OmegaGUI.Model
         public Render.Dialog GenerateDialog(DialogManager manager)
         {
             // Load language XML
-            string langName = StringUtils.GetLeftPartAtFirstOccurrence(Resources.Culture.EnglishName, ' ');
+            string langName = (Resources.Culture == null) ? "English" : StringUtils.GetLeftPartAtFirstOccurrence(Resources.Culture.EnglishName, ' ');
             _locale = LocaleFile.LoadLang(langName).ToDictionary();
 
             // Generate dialog model object

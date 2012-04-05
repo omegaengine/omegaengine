@@ -15,8 +15,8 @@ namespace AlphaEditor.GUI
         {
             if (disposing)
             {
-                if (_dialogManager != null) _dialogManager.Dispose();
-                if (_dialogController != null) _dialogController.Dispose();
+                if (_guiManager != null) _guiManager.Dispose();
+                if (_dialogRenderer != null) _dialogRenderer.Dispose();
                 if (components != null) components.Dispose();
             }
             base.Dispose(disposing);

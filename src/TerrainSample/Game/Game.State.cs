@@ -158,7 +158,7 @@ namespace Core
                     CurrentPresenter.DimDown();
 
                     // Show pause menu
-                    DialogManager.Reset();
+                    GuiManager.Reset();
                     LoadDialog("PauseMenu");
                     break;
 
@@ -173,7 +173,7 @@ namespace Core
                     AddInputReceiver((InteractivePresenter)CurrentPresenter);
 
                     // Restore the correct HUD
-                    DialogManager.Reset();
+                    GuiManager.Reset();
                     if (CurrentState == GameState.InGame) LoadDialog("InGame/HUD");
                     else if (CurrentState == GameState.Modify) LoadDialog("InGame/HUD_Modify");
                     break;
@@ -241,7 +241,7 @@ namespace Core
                 if (Settings.Current.Graphics.Fading) Engine.FadeIn();
 
                 // Show benchmark GUI
-                DialogManager.Reset();
+                GuiManager.Reset();
                 LoadDialog("InGame/HUD_Benchmark");
             }
 
@@ -281,7 +281,7 @@ namespace Core
                 if (Settings.Current.Graphics.Fading) Engine.FadeIn();
 
                 // Show game GUI
-                DialogManager.CloseAll();
+                GuiManager.CloseAll();
                 LoadDialog("MainMenu");
             }
 
@@ -317,7 +317,7 @@ namespace Core
                 if (Settings.Current.Graphics.Fading) Engine.FadeIn();
 
                 // Show game GUI
-                DialogManager.Reset();
+                GuiManager.Reset();
                 LoadDialog("InGame/HUD");
             }
 
@@ -359,7 +359,7 @@ namespace Core
                 if (Settings.Current.Graphics.Fading) Engine.FadeIn();
 
                 // Show game GUI
-                DialogManager.Reset();
+                GuiManager.Reset();
                 LoadDialog("InGame/HUD_Modify");
             }
 

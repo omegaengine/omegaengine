@@ -13,9 +13,12 @@ using System.Windows.Forms;
 using Common;
 using Common.Storage;
 using OmegaEngine;
+using OmegaGUI;
+using OmegaGUI.Model;
 using View = OmegaEngine.Graphics.View;
-using GuiController = OmegaGUI.Controller;
-using GuiView = OmegaGUI.Model;
+using Control = OmegaGUI.Model.Control;
+using GroupBox = OmegaGUI.Model.GroupBox;
+using ListBox = OmegaGUI.Model.ListBox;
 
 namespace AlphaEditor.GUI
 {
@@ -25,13 +28,13 @@ namespace AlphaEditor.GUI
     public partial class GuiEditor : UndoCloneTab
     {
         #region Variables
-        private GuiController.DialogManager _dialogManager;
-        private GuiController.Dialog _dialogController;
+        private GuiManager _guiManager;
+        private DialogRenderer _dialogRenderer;
         private Dialogs.AddControlTool _addControlTool;
 
         // ReSharper disable InconsistentNaming
         /// <summary>Wrapper to save you the trouble of casting all the time</summary>
-        private GuiView.Dialog dialogView { get { return (GuiView.Dialog)Content; } set { Content = value; } }
+        private Dialog dialogView { get { return (Dialog)Content; } set { Content = value; } }
 
         // ReSharper restore InconsistentNaming
 
@@ -45,7 +48,7 @@ namespace AlphaEditor.GUI
         private Rectangle _pickRectangle;
 
         /// <summary>The control currently being dragged/moved with the mouse</summary>
-        private GuiView.Control _dragControl;
+        private Control _dragControl;
         #endregion
 
         #region Constructor
@@ -79,19 +82,19 @@ namespace AlphaEditor.GUI
                 if (!_overwrite && File.Exists(_fullPath))
                 { // Load existing file
                     Log.Info("Load file: " + _fullPath);
-                    dialogView = GuiView.Dialog.Load(_fullPath);
+                    dialogView = Dialog.Load(_fullPath);
                 }
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
-                    dialogView = new GuiView.Dialog();
+                    dialogView = new Dialog();
                     dialogView.Save(_fullPath);
                 }
             }
             else
             { // File name only? Might not save to same dir loaded from!
                 Log.Info("Load file: " + FilePath);
-                dialogView = GuiView.Dialog.FromContent(FilePath);
+                dialogView = Dialog.FromContent(FilePath);
                 _fullPath = ContentManager.CreateFilePath("GUI", FilePath);
             }
             #endregion
@@ -104,7 +107,7 @@ namespace AlphaEditor.GUI
 
             // Render GUI
             renderPanel.Engine.ExtraRender += DialogRender;
-            _dialogManager = new GuiController.DialogManager(renderPanel.Engine);
+            _guiManager = new GuiManager(renderPanel.Engine);
 
             base.OnInitialize();
         }
@@ -127,7 +130,7 @@ namespace AlphaEditor.GUI
             if (buttonRemove.Enabled)
             {
                 foreach (object item in listBox.SelectedItems)
-                    dialogView.Controls.Remove((GuiView.Control)item);
+                    dialogView.Controls.Remove((Control)item);
                 OnChange();
 
                 propertyGrid.SelectedObjects = null;
@@ -154,14 +157,14 @@ namespace AlphaEditor.GUI
             // List the dialog itself as a control aswell
             listBox.Items.Add(dialogView);
 
-            foreach (GuiView.Control control in dialogView.Controls)
+            foreach (Control control in dialogView.Controls)
             {
                 listBox.Items.Add(control);
 
                 // Detect changes even where the PropertyGrid doesn't report back
-                var controlListBox = control as GuiView.ListBox;
+                var controlListBox = control as ListBox;
                 if (controlListBox != null) controlListBox.Items.Changed += OnChange;
-                var controlComboBox = control as GuiView.DropdownList;
+                var controlComboBox = control as DropdownList;
                 if (controlComboBox != null) controlComboBox.Items.Changed += OnChange;
             }
 
@@ -173,8 +176,8 @@ namespace AlphaEditor.GUI
                 listBox.SelectedItem = item;
 
             // Reset the GUI rendering system
-            if (_dialogController != null) _dialogController.Dispose();
-            _dialogController = new GuiController.Dialog(_dialogManager, dialogView, new Point(), false);
+            if (_dialogRenderer != null) _dialogRenderer.Dispose();
+            _dialogRenderer = new DialogRenderer(_guiManager, dialogView, new Point(), false);
             renderPanel.Engine.Render();
 
             base.OnUpdate();
@@ -184,8 +187,8 @@ namespace AlphaEditor.GUI
         protected override void OnClose()
         {
             // Shutdown GUI system
-            if (_dialogController != null) _dialogController.Dispose();
-            if (_dialogManager != null) _dialogManager.Dispose();
+            if (_dialogRenderer != null) _dialogRenderer.Dispose();
+            if (_guiManager != null) _guiManager.Dispose();
 
             base.OnClose();
         }
@@ -198,7 +201,7 @@ namespace AlphaEditor.GUI
         private void DialogRender()
         {
             // Call the GUI render handler
-            if (_dialogController != null) _dialogController.DialogModel.OnRender(1);
+            if (_dialogRenderer != null) _dialogRenderer.DialogRender.OnRender(1);
 
             // Display picking rectangles being pulled up by the mouse
             if (_pickRectangle != Rectangle.Empty)
@@ -207,7 +210,7 @@ namespace AlphaEditor.GUI
             // Display selection rectangles around controls
             foreach (object obj in propertyGrid.SelectedObjects)
             {
-                var control = obj as GuiView.Control;
+                var control = obj as Control;
                 if (control != null) renderPanel.Engine.DrawRectangleOutline(control.DrawBox, Color.Red);
             }
         }
@@ -259,11 +262,11 @@ namespace AlphaEditor.GUI
 
         private void buttonMoveUp_Click(object sender, EventArgs e)
         {
-            dialogView.Controls.Remove((GuiView.Control)listBox.SelectedItem);
+            dialogView.Controls.Remove((Control)listBox.SelectedItem);
 
             int insertIndex = listBox.SelectedIndex - 2;
             if (insertIndex < 0) insertIndex = dialogView.Controls.Count;
-            dialogView.Controls.Insert(insertIndex, (GuiView.Control)listBox.SelectedItem);
+            dialogView.Controls.Insert(insertIndex, (Control)listBox.SelectedItem);
             OnChange();
 
             OnUpdate();
@@ -272,11 +275,11 @@ namespace AlphaEditor.GUI
 
         private void buttonMoveDown_Click(object sender, EventArgs e)
         {
-            dialogView.Controls.Remove((GuiView.Control)listBox.SelectedItem);
+            dialogView.Controls.Remove((Control)listBox.SelectedItem);
 
             int insertIndex = listBox.SelectedIndex;
             if (insertIndex > dialogView.Controls.Count) insertIndex = 0;
-            dialogView.Controls.Insert(insertIndex, (GuiView.Control)listBox.SelectedItem);
+            dialogView.Controls.Insert(insertIndex, (Control)listBox.SelectedItem);
             OnChange();
 
             OnUpdate();
@@ -287,7 +290,7 @@ namespace AlphaEditor.GUI
         {
             foreach (object item in listBox.SelectedItems)
             {
-                GuiView.Control clonedControl = ((GuiView.Control)item).Clone();
+                Control clonedControl = ((Control)item).Clone();
                 clonedControl.Location = new Point();
                 dialogView.Controls.Add(clonedControl);
             }
@@ -301,7 +304,7 @@ namespace AlphaEditor.GUI
         private void listBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             buttonRemove.Enabled = buttonCopy.Enabled = buttonMoveUp.Enabled = buttonMoveDown.Enabled =
-                (listBox.SelectedItem is GuiView.Control);
+                (listBox.SelectedItem is Control);
 
             var selectedControls = new object[listBox.SelectedItems.Count];
             listBox.SelectedItems.CopyTo(selectedControls, 0);
@@ -374,8 +377,8 @@ namespace AlphaEditor.GUI
                 {
                     // Determine how much the mouse has moved
                     var locationDelta = new Point(e.X - _lastLocation.X, e.Y - _lastLocation.Y);
-                    if (_dragControl.AlignHorizontal == GuiView.HorizontalMode.FromRight) locationDelta.X = -locationDelta.X;
-                    if (_dragControl.AlignVertical == GuiView.VerticalMode.FromBottom) locationDelta.Y = -locationDelta.Y;
+                    if (_dragControl.AlignHorizontal == HorizontalMode.FromRight) locationDelta.X = -locationDelta.X;
+                    if (_dragControl.AlignVertical == VerticalMode.FromBottom) locationDelta.Y = -locationDelta.Y;
 
                     // Only move in 2 pixel steps
                     if (Math.Abs(locationDelta.X) > 2 || Math.Abs(locationDelta.Y) > 2)
@@ -429,7 +432,7 @@ namespace AlphaEditor.GUI
                     foreach (var control in selectedControls)
                     {
                         // Don't select GroupBoxes in multi-selections
-                        if (!(selectedControls.Count > 1 && control is GuiView.GroupBox))
+                        if (!(selectedControls.Count > 1 && control is GroupBox))
                         {
                             // Toggle entries when accumulating
                             if (accumulate && listBox.SelectedItems.Contains(control)) listBox.SelectedItems.Remove(control);

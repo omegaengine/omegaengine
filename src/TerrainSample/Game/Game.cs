@@ -25,11 +25,10 @@ using System.Drawing;
 using System.IO;
 using Common;
 using Common.Storage;
-using Core.Gui;
 using Core.Properties;
 using LuaInterface;
 using OmegaEngine;
-using OmegaGUI.Controller;
+using OmegaGUI;
 using Presentation;
 using World;
 
@@ -49,7 +48,7 @@ namespace Core
         /// <summary>
         /// Manages all GUI dialogs displayed in the game
         /// </summary>
-        public DialogManager DialogManager { get; private set; }
+        public GuiManager GuiManager { get; private set; }
         #endregion
 
         #region Constructor
@@ -155,9 +154,8 @@ namespace Core
 
             // Make methods globally accessible (without prepending the class name)
             LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Program));
-            LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(GameDialog));
             LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Settings));
-            LuaRegistrationHelper.TaggedInstanceMethods(lua, DialogManager);
+            LuaRegistrationHelper.TaggedInstanceMethods(lua, GuiManager);
 
             lua["Settings"] = Settings.Current;
             lua["State"] = CurrentState;
@@ -177,9 +175,10 @@ namespace Core
         /// <param name="name">The XML file to load from.</param>
         /// <returns>The newly created dialog.</returns>
         [LuaGlobal(Description = "Loads and displays a new dialog.")]
-        public GameDialog LoadDialog(string name)
+        public DialogRenderer LoadDialog(string name)
         {
-            var dialog = new GameDialog(this, name + ".xml", new Point(25, 25));
+            var dialog = new DialogRenderer(GuiManager, name + ".xml", new Point(25, 25));
+            SetupLua(dialog.Lua);
             dialog.Show();
             Engine.Render(0);
             return dialog;
@@ -191,9 +190,10 @@ namespace Core
         /// <param name="name">The XML file to load from.</param>
         /// <returns>The newly created dialog.</returns>
         [LuaGlobal(Description = "Loads and displays a new modal (exclusivly focused) dialog.")]
-        public GameDialog LoadModalDialog(string name)
+        public DialogRenderer LoadModalDialog(string name)
         {
-            var dialog = new GameDialog(this, name + ".xml", new Point(25, 25));
+            var dialog = new DialogRenderer(GuiManager, name + ".xml", new Point(25, 25));
+            SetupLua(dialog.Lua);
             dialog.ShowModal();
             Engine.Render(0);
             return dialog;
@@ -204,11 +204,11 @@ namespace Core
         /// </summary>
         /// <param name="name">The XML file to load from</param>
         /// <returns>The newly created dialog.</returns>
-        /// <remarks>Calling this method will close all other <see cref="Dialog"/>s.</remarks>
+        /// <remarks>Calling this method will close all other <see cref="DialogRenderer"/>s.</remarks>
         [LuaGlobal(Description = "Loads a new exclusive displayed splash-screen dialog.")]
-        public GameDialog LoadSplashDialog(string name)
+        public DialogRenderer LoadSplashDialog(string name)
         {
-            DialogManager.CloseAll();
+            GuiManager.CloseAll();
             return LoadDialog(name);
         }
         #endregion
@@ -226,7 +226,7 @@ namespace Core
                 if (CurrentPresenter != null) CurrentPresenter.Dispose();
 
                 // Shutdown GUI system
-                if (DialogManager != null) DialogManager.Dispose();
+                if (GuiManager != null) GuiManager.Dispose();
 
                 // Remove settings update hooks
                 Settings.Current.General.Changed -= Program.UpdateLocale;

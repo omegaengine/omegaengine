@@ -100,7 +100,6 @@
     <Compile Include="Game.Render.cs">
       <DependentUpon>Game.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\GameDialog.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
