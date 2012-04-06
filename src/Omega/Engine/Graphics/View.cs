@@ -518,8 +518,9 @@ namespace OmegaEngine.Graphics
 
         #region Dispose
         /// <summary>
-        /// Disposes <see cref="ChildViews"/>, <see cref="FloatingModels"/>, <see cref="PostShaders"/> and all internal DirectX resources
+        /// Disposes <see cref="ChildViews"/>, <see cref="FloatingModels"/>, <see cref="PostShaders"/> and all internal DirectX resources.
         /// </summary>
+        /// <remarks>Does not dispose <see cref="Scene"/>, since it might be used by other <see cref="View"/>s as well.</remarks>
         public void Dispose()
         {
             Dispose(true);
@@ -547,8 +548,6 @@ namespace OmegaEngine.Graphics
             if (disposing)
             { // This block will only be executed on manual disposal, not by Garbage Collection
                 Log.Info("Disposing " + this);
-
-                // Note: Do not dispose the Scene, since it might be used by other Views as well
 
                 _childViews.Apply(view => view.Dispose());
                 _floatingModels.Apply(model => model.Dispose());

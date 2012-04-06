@@ -241,7 +241,11 @@ namespace OmegaEngine
 
                 // Dispose scenes and views
                 ExtraRender = null;
-                _views.Apply(view => view.Dispose());
+                _views.Apply(view =>
+                {
+                    view.Scene.Dispose();
+                    view.Dispose();
+                });
                 _views.Dispose();
 
                 // Dispose shaders
