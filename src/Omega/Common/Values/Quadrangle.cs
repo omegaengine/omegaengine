@@ -272,7 +272,7 @@ namespace Common.Values
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj.GetType() == typeof(Quadrangle) && Equals((Quadrangle)obj);
+            return obj is Quadrangle && Equals((Quadrangle)obj);
         }
 
         /// <inheritdoc/>

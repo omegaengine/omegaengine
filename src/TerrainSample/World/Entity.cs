@@ -221,14 +221,13 @@ namespace World
             if (TemplateData.MovementControl == null) return;
             #endregion
 
-            Vector2 posDifference;
-
             var leader = PathControl as PathLeader;
             if (leader != null && leader.PathNodes.Count > 0)
             { // This entity performs its own path finding
 
                 #region Leader
                 bool loop;
+                Vector2 posDifference;
                 do
                 {
                     // Get the position of the next target node

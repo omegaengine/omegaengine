@@ -42,8 +42,6 @@ namespace OmegaEngine
     public sealed partial class Engine : IDisposable
     {
         #region Variables
-        private Hardware _hardware;
-
         /// <summary>
         /// A list of possible <see cref="View"/>s usable for rendering <see cref="Water"/>
         /// </summary>

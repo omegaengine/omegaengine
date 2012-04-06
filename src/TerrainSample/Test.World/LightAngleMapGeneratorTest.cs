@@ -48,7 +48,7 @@ namespace World
         #endregion
 
         /// <summary>
-        /// Ensures the generator provides correct results when called via <see cref="TaskBase.RunSync"/>
+        /// Ensures the generator provides correct results when called via <see cref="ThreadTask.RunSync"/>
         /// </summary>
         [Test]
         public void TestRunSync()

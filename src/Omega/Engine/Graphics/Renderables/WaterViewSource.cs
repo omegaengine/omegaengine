@@ -54,13 +54,11 @@ namespace OmegaEngine.Graphics.Renderables
         #endregion
 
         #region Properties
-        private int _referenceCount;
-
         /// <summary>
         /// How many <see cref="Water"/>s use this <see cref="WaterViewSource"/>
         /// </summary>
         /// <remarks>When this hits zero you can call <see cref="Dispose"/></remarks>
-        internal int ReferenceCount { get { return _referenceCount; } }
+        internal int ReferenceCount { get; private set; }
         #endregion
 
         #region Constructor
@@ -111,7 +109,7 @@ namespace OmegaEngine.Graphics.Renderables
             {
                 if (viewSource.Height == height && viewSource.BaseView == baseView && viewSource.ClipTolerance == clipTolerance)
                 {
-                    viewSource._referenceCount++;
+                    viewSource.ReferenceCount++;
                     return viewSource;
                 }
             }
@@ -119,7 +117,7 @@ namespace OmegaEngine.Graphics.Renderables
             // Create a new view source
             var newViewSource = new WaterViewSource(engine, height, baseView, clipTolerance);
             engine.WaterViewSources.Add(newViewSource);
-            newViewSource._referenceCount++;
+            newViewSource.ReferenceCount++;
             return newViewSource;
         }
         #endregion
@@ -132,7 +130,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         internal void ReleaseReference()
         {
-            _referenceCount--;
+            ReferenceCount--;
         }
         #endregion
 

@@ -107,7 +107,9 @@ namespace OmegaEngine.Graphics.Renderables
             Initialize(indexes);
 
             _material = material;
+            // ReSharper disable ImpureMethodCallOnReadonlyValueField
             _material.HoldReference();
+            // ReSharper restore ImpureMethodCallOnReadonlyValueField
         }
 
         /// <summary>
@@ -133,7 +135,9 @@ namespace OmegaEngine.Graphics.Renderables
             Initialize(indexes);
 
             _material = material;
+            // ReSharper disable ImpureMethodCallOnReadonlyValueField
             _material.HoldReference();
+            // ReSharper restore ImpureMethodCallOnReadonlyValueField
         }
         #endregion
 
@@ -162,6 +166,7 @@ namespace OmegaEngine.Graphics.Renderables
                 throw new ArgumentException("You need at least 2 vertexes for a Line");
 
             // Primitive count
+            // ReSharper disable CompareOfFloatsByEqualityOperator
             switch (_primitiveType)
             {
                 case PrimitiveType.TriangleStrip:
@@ -184,6 +189,7 @@ namespace OmegaEngine.Graphics.Renderables
                     Pickable = false;
                     break;
             }
+            // ReSharper restore CompareOfFloatsByEqualityOperator
             #endregion
 
             // Calculate bounding bodies
@@ -341,7 +347,9 @@ namespace OmegaEngine.Graphics.Renderables
                     if (_vb != null) _vb.Dispose();
                     if (_ib != null) _ib.Dispose();
 
-                    _material.ReleaseReference();
+                    // ReSharper disable ImpureMethodCallOnReadonlyValueField
+                    _material.HoldReference();
+                    // ReSharper restore ImpureMethodCallOnReadonlyValueField
                 }
             }
             finally

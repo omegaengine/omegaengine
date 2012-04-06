@@ -176,7 +176,9 @@ namespace Common.Values
         /// <inheritdoc/>
         public bool Equals(ColorCorrection other)
         {
+            // ReSharper disable CompareOfFloatsByEqualityOperator
             return other.Brightness == Brightness && other.Contrast == Contrast && other.Saturation == Saturation && other.Hue == Hue;
+            // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
         /// <inheritdoc/>

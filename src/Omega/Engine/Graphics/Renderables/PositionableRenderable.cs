@@ -395,16 +395,11 @@ namespace OmegaEngine.Graphics.Renderables
             // Activate user clip plane if it is set
             if (camera.ClipPlane != default(DoublePlane))
             {
-                if (SurfaceEffect == SurfaceEffect.Shader)
-                {
+                Engine.UserClipPlane = (SurfaceEffect == SurfaceEffect.Shader)
                     // Transform the user clip plane into camera space for rendering with shaders
-                    Engine.UserClipPlane = Plane.Transform(camera.EffectiveClipPlane, camera.ViewProjection);
-                }
-                else
-                {
+                    ? Plane.Transform(camera.EffectiveClipPlane, camera.ViewProjection)
                     // When rendering without shaders the clip plane is in world space
-                    Engine.UserClipPlane = camera.EffectiveClipPlane;
-                }
+                    : camera.EffectiveClipPlane;
             }
 
             switch (SurfaceEffect)

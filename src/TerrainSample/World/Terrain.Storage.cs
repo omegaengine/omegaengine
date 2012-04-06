@@ -264,16 +264,11 @@ namespace World
             {
                 for (int y = 0; y < sourceMap.GetLength(1); y++)
                 {
-                    if (sixteenColors)
-                    {
+                    saveBitmap.SetPixel(x, y, sixteenColors
                         // Use the color defined in the legend for the texture-map
-                        saveBitmap.SetPixel(x, y, ColorUtils.SixteenColors(sourceMap[x, y]));
-                    }
-                    else
-                    {
+                        ? ColorUtils.SixteenColors(sourceMap[x, y])
                         // Store the same value in all three color channels to generate a grayscale image
-                        saveBitmap.SetPixel(x, y, Color.FromArgb(255, sourceMap[x, y], sourceMap[x, y], sourceMap[x, y]));
-                    }
+                        : Color.FromArgb(255, sourceMap[x, y], sourceMap[x, y], sourceMap[x, y]));
                 }
             }
 

@@ -103,7 +103,9 @@ namespace Common.Values
         /// <inheritdoc/>
         public bool Equals(Attenuation other)
         {
+            // ReSharper disable CompareOfFloatsByEqualityOperator
             return other.Constant == Constant && other.Linear == Linear && other.Quadratic == Quadratic;
+            // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
         /// <inheritdoc/>
@@ -122,7 +124,7 @@ namespace Common.Values
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj.GetType() == typeof(Attenuation) && Equals((Attenuation)obj);
+            return obj is Attenuation && Equals((Attenuation)obj);
         }
 
         /// <inheritdoc/>

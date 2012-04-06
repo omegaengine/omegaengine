@@ -50,7 +50,7 @@ namespace Common.Values.Design
             return new object[]
             {
                 value.Position.X, value.Position.Y,
-                value.Direction.X, value.Direction.Y,
+                value.Direction.X, value.Direction.Y
             };
         }
 

@@ -217,7 +217,9 @@ namespace Common.Values
         /// <inheritdoc/>
         public bool Equals(DoubleVector3 other)
         {
+            // ReSharper disable CompareOfFloatsByEqualityOperator
             return other.X == X && other.Y == Y && other.Z == Z;
+            // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
         /// <inheritdoc/>
@@ -236,7 +238,7 @@ namespace Common.Values
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj.GetType() == typeof(DoubleVector3) && Equals((DoubleVector3)obj);
+            return obj is DoubleVector3 && Equals((DoubleVector3)obj);
         }
 
         /// <inheritdoc/>

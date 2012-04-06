@@ -179,7 +179,7 @@ namespace OmegaEngine.Graphics
                 new PositionTextured(new Vector3(-width / 2, -height / 2, 0), 0, 0),
                 new PositionTextured(new Vector3(-width / 2, height / 2, 0), 0, 1),
                 new PositionTextured(new Vector3(width / 2, -height / 2, 0), 1, 0),
-                new PositionTextured(new Vector3(width / 2, height / 2, 0), 1, 1),
+                new PositionTextured(new Vector3(width / 2, height / 2, 0), 1, 1)
             };
             short[] indexes = {0, 1, 3, 3, 2, 0};
 

@@ -77,7 +77,6 @@ namespace Common.Values.Design
         /// <param name="range">The range of valid values the user can select.</param>
         /// <param name="editorService">The editor service used to display the dropdown control.</param>
         /// <returns>The value set by the user.</returns>
-        protected abstract float EditValue(float value,FloatRangeAttribute range, IWindowsFormsEditorService editorService);
-
+        protected abstract float EditValue(float value, FloatRangeAttribute range, IWindowsFormsEditorService editorService);
     }
 }

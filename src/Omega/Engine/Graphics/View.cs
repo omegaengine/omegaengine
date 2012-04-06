@@ -127,7 +127,7 @@ namespace OmegaEngine.Graphics
                     }
                 }
 
-                UpdateHelper.Do(ref _area, value, () => UpdateViewport());
+                UpdateHelper.Do(ref _area, value, UpdateViewport);
             }
         }
 

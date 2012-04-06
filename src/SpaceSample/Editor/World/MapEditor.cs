@@ -290,12 +290,10 @@ namespace AlphaEditor.World
             catch (Win32Exception)
             {
                 Msg.Inform(this, Resources.GameEXENotFound, MsgSeverity.Error);
-                return;
             }
             catch (BadImageFormatException)
             {
                 Msg.Inform(this, Resources.GameEXENotFound, MsgSeverity.Error);
-                return;
             }
             #endregion
         }

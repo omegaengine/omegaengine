@@ -48,7 +48,7 @@ namespace Hanoi
                 ContentManager.BaseDir = new DirectoryInfo(Locations.InstallBase);
                 ContentManager.LoadArchives();
             }
-            #region Error handling
+                #region Error handling
             catch (ArgumentException ex)
             {
                 Msg.Inform(null, ex.Message, MsgSeverity.Error);

@@ -110,7 +110,7 @@ namespace Common.Values
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj.GetType() == typeof(DoublePlane) && Equals((DoublePlane)obj);
+            return obj is DoublePlane && Equals((DoublePlane)obj);
         }
 
         /// <inheritdoc/>

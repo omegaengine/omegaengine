@@ -238,7 +238,6 @@ namespace OmegaEngine
         /// <param name="size">The window size</param>
         protected void ToWindowed(Size size)
         {
-
             // Restore the default window border
             Form.FormBorderStyle = FormBorderStyle.Sizable;
             Form.TopMost = false;

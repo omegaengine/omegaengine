@@ -93,8 +93,10 @@ namespace AlphaEditor.World.Dialogs
 
             // Round values to a multiple of 3
             int roundValue = (int)Math.Round(numericControl.Value / 3) * 3;
+            // ReSharper disable RedundantCheckBeforeAssignment
             if (numericControl.Value != roundValue)
                 numericControl.Value = roundValue;
+            // ReSharper restore RedundantCheckBeforeAssignment
         }
         #endregion
     }

@@ -45,8 +45,8 @@ namespace OmegaEngine
         /// </summary>
         private static void ConnectCollectionToListBox<T>(MonitoredCollection<T> collection, ListBox listBox)
         {
-            collection.Added += delegate(T entry) { listBox.Items.Add(entry); };
-            collection.Removing += delegate(T entry) { listBox.Items.Remove(entry); };
+            collection.Added += entry => listBox.Items.Add(entry);
+            collection.Removing += entry => listBox.Items.Remove(entry);
         }
 
         /// <summary>

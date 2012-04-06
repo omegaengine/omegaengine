@@ -27,6 +27,8 @@ namespace OmegaEngine.Graphics.VertexDecl
         #endregion
 
         #region Variables
+        // ReSharper disable MemberCanBePrivate.Global
+        // ReSharper disable FieldCanBeMadeReadOnly.Global
         /// <summary>The position of the vertex in entity-space</summary>
         public Vector3 Position;
 
@@ -44,6 +46,9 @@ namespace OmegaEngine.Graphics.VertexDecl
 
         /// <summary>The tangent of the vertex in entity-space</summary>
         public Vector3 Tangent;
+
+        // ReSharper restore FieldCanBeMadeReadOnly.Global
+        // ReSharper restore MemberCanBePrivate.Global
         #endregion
 
         #region Properties
@@ -124,7 +129,7 @@ namespace OmegaEngine.Graphics.VertexDecl
                 new VertexElement(0, sizeof(float) * 11, DeclarationType.Float3, DeclarationMethod.Default,
                     DeclarationUsage.Tangent, 0),
                 // End
-                VertexElement.VertexDeclarationEnd,
+                VertexElement.VertexDeclarationEnd
             };
         }
         #endregion

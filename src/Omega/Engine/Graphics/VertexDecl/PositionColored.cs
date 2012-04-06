@@ -32,11 +32,16 @@ namespace OmegaEngine.Graphics.VertexDecl
         #endregion
 
         #region Variables
+        // ReSharper disable MemberCanBePrivate.Global
+        // ReSharper disable FieldCanBeMadeReadOnly.Global
         /// <summary>The position of the vertex in entity-space</summary>
         public Vector3 Position;
 
         /// <summary>The color of the vertex</summary>
         public int Color;
+
+        // ReSharper restore FieldCanBeMadeReadOnly.Global
+        // ReSharper restore MemberCanBePrivate.Global
         #endregion
 
         #region Properties

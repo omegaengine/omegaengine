@@ -114,7 +114,9 @@ namespace OmegaEngine.Graphics.Renderables
             }
             else
             {
+                // ReSharper disable CompareOfFloatsByEqualityOperator
                 if (Parameters1.LifeTime != -32768) // Handle particles with infinite lifetime
+                    // ReSharper restore CompareOfFloatsByEqualityOperator
                 {
                     Parameters1.LifeTime -= elapsedTime;
 

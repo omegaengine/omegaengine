@@ -123,7 +123,7 @@
   <data name="buttonAdd.Text" xml:space="preserve">
     <value>&amp;Hinzufügen</value>
   </data>
-  <data name="buttonCancel.Text" xml:space="preserve">
+  <data name="buttonClose.Text" xml:space="preserve">
     <value>&amp;Schließen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">

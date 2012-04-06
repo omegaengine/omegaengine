@@ -107,7 +107,7 @@ namespace World
 
             _size = size;
             _heightMap = heightMap;
-            
+
 #if !NETFX4
             BytesTotal = size.X * size.Y;
 #endif

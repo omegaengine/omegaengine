@@ -124,7 +124,6 @@ namespace Presentation
             { // Add a selection outline to the screen
                 _selectionRectangle = area;
             }
-            return;
         }
         #endregion
 

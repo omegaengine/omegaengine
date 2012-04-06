@@ -143,11 +143,7 @@ namespace World
         /// </remarks>
         [FloatRange(0f, 4f), DefaultValue(0f), Category("Lighting"), Description("A value between 0 and 4 representing the current sun and moon positions.")]
         [EditorAttribute(typeof(SliderEditor), typeof(UITypeEditor))]
-        public float LightPhase
-        {
-            get { return _lightPhase; }
-            set { UpdateHelper.Do(ref _lightPhase, value % 4, OnLightingChanged); }
-        }
+        public float LightPhase { get { return _lightPhase; } set { UpdateHelper.Do(ref _lightPhase, value % 4, OnLightingChanged); } }
 
         /// <summary>
         /// The speed with which the <see cref="LightPhase"/> is incremented.

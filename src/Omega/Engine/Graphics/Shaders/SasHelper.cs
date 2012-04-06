@@ -173,8 +173,6 @@ namespace OmegaEngine.Graphics.Shaders
                                     float[] value = effect.GetValue<float>(annotationHandle, annotationDesc.Columns);
                                     switch (annotationDesc.Columns)
                                     {
-                                        default:
-                                            break;
                                         case 1:
                                             ret.X = ret.Y = ret.Z = ret.W = value[0];
                                             break;
@@ -249,7 +247,7 @@ namespace OmegaEngine.Graphics.Shaders
             switch (desc.Type)
             {
                 case ParameterType.Bool:
-                    effect.SetValue(handle, (value != 0) ? true : false);
+                    effect.SetValue(handle, (value != 0));
                     break;
                 case ParameterType.Int:
                     effect.SetValue(handle, value);
@@ -310,8 +308,6 @@ namespace OmegaEngine.Graphics.Shaders
                     float[] value = effect.GetValue<float>(handle, desc.Columns);
                     switch (desc.Columns)
                     {
-                        default:
-                            break;
                         case 1:
                             ret.X = ret.Y = ret.Z = ret.W = value[0];
                             break;

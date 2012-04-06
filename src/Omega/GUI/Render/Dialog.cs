@@ -1560,7 +1560,7 @@ namespace OmegaGUI.Render
                     new TransformedColoredTextured(rect.Left - 0.5f, rect.Top - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
                     new TransformedColoredTextured(rect.Right - 0.5f, rect.Top - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
                     new TransformedColoredTextured(rect.Right - 0.5f, rect.Bottom - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
-                    new TransformedColoredTextured(rect.Left - 0.5f, rect.Bottom - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
+                    new TransformedColoredTextured(rect.Left - 0.5f, rect.Bottom - 0.5f, 0.5f, 1.0f, realColor, 0, 0)
                 };
 
             // Get the device

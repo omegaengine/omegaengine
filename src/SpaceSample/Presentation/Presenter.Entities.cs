@@ -355,7 +355,6 @@ namespace Presentation
                 // Add objects to lists
                 Scene.Lights.Add(light);
                 _worldToEngine.Add(lightInfo, light);
-                return;
             }
             #endregion
         }

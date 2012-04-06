@@ -52,7 +52,7 @@ namespace Presentation
 
             float sunPhase = Universe.LightPhase;
             float moonPhase = ((Universe.LightPhase + 2.25f) % 4);
-            
+
             // Calculate lighting directions
             _light1.Direction = GetDirection(0.5f * Math.PI * (1 - sunPhase), MathUtils.DegreeToRadian(Universe.SunInclination));
             _light2.Direction = GetDirection(0.5f * Math.PI * (1 - moonPhase), MathUtils.DegreeToRadian(Universe.MoonInclination));

@@ -31,37 +31,37 @@ namespace Hanoi.Logic
     public class Session
     {
         #region Variables
-        private Universe currentUniverse;
-        private Thread solveThread;
-        private double realTime, gameTime;
-        private float timeWarpFactor = 1;
+        private Universe _currentUniverse;
+        private Thread _solveThread;
+        private double _realTime, _gameTime;
+        private float _timeWarpFactor = 1;
         #endregion
 
         #region Properties
         /// <summary>
         /// The simulation universe as it is at the moment 
         /// </summary>
-        public Universe CurrentUniverse { get { return currentUniverse; } set { currentUniverse = value; } }
+        public Universe CurrentUniverse { get { return _currentUniverse; } set { _currentUniverse = value; } }
 
         /// <summary>
         /// Is this session currently being solved?
         /// </summary>
-        public bool Solving { get { return (solveThread != null && solveThread.IsAlive); } }
+        public bool Solving { get { return (_solveThread != null && _solveThread.IsAlive); } }
 
         /// <summary>
         /// Total elapsed real time in seconds
         /// </summary>
-        public double RealTime { get { return realTime; } set { realTime = value; } }
+        public double RealTime { get { return _realTime; } set { _realTime = value; } }
 
         /// <summary>
         /// Total elapsed game time in seconds
         /// </summary>
-        public double GameTime { get { return gameTime; } set { gameTime = value; } }
+        public double GameTime { get { return _gameTime; } set { _gameTime = value; } }
 
         /// <summary>
         /// The factor by which the game time (not the real time) is multiplied
         /// </summary>
-        public float TimeWarpFactor { get { return timeWarpFactor; } set { timeWarpFactor = value; } }
+        public float TimeWarpFactor { get { return _timeWarpFactor; } set { _timeWarpFactor = value; } }
         #endregion
 
         #region Constructor
@@ -78,7 +78,7 @@ namespace Hanoi.Logic
         public Session(Universe baseUniverse)
         {
             if (baseUniverse == null) throw new ArgumentNullException("baseUniverse");
-            currentUniverse = baseUniverse;
+            _currentUniverse = baseUniverse;
         }
         #endregion
 
@@ -92,10 +92,10 @@ namespace Hanoi.Logic
         /// <param name="elapsedGameTime">Elapsed game time in seconds since last update</param>
         public void Update(double elapsedRealTime, double elapsedGameTime)
         {
-            realTime += elapsedRealTime;
-            gameTime += elapsedGameTime;
+            _realTime += elapsedRealTime;
+            _gameTime += elapsedGameTime;
 
-            currentUniverse.Update(elapsedGameTime);
+            _currentUniverse.Update(elapsedGameTime);
         }
         #endregion
 
@@ -106,8 +106,8 @@ namespace Hanoi.Logic
         #region Selection
         private void Solve()
         {
-            Peg[] pegs = currentUniverse.GetPegs();
-            if (currentUniverse.OrderedSet && currentUniverse.NumberPegs == 3)
+            Peg[] pegs = _currentUniverse.GetPegs();
+            if (_currentUniverse.OrderedSet && _currentUniverse.NumberPegs == 3)
             {
                 // Apply the recursive algorithm for standard situations
                 Recursive(pegs[0].DiscCount, pegs[0], pegs[1], pegs[2]);
@@ -187,9 +187,9 @@ namespace Hanoi.Logic
         /// <param name="target">The peg to place the disc on</param>
         public void MoveDisc(Peg source, Peg target)
         {
-            lock (currentUniverse)
+            lock (_currentUniverse)
             {
-                currentUniverse.MoveDisc(source, target);
+                _currentUniverse.MoveDisc(source, target);
             }
 
             if (Solving) Thread.Sleep((int)(1000 / TimeWarpFactor));
@@ -203,8 +203,8 @@ namespace Hanoi.Logic
             if (Solving)
                 throw new InvalidOperationException("Already solving");
 
-            solveThread = new Thread(Solve);
-            solveThread.Start();
+            _solveThread = new Thread(Solve);
+            _solveThread.Start();
         }
 
         /// <summary>
@@ -214,8 +214,8 @@ namespace Hanoi.Logic
         {
             if (Solving)
             {
-                solveThread.Abort();
-                solveThread = null;
+                _solveThread.Abort();
+                _solveThread = null;
             }
         }
         #endregion

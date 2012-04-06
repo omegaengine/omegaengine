@@ -31,19 +31,19 @@ namespace Hanoi.Logic
     public class Peg : ICloneable
     {
         #region Variables
-        private readonly List<Disc> discs = new List<Disc>();
+        private readonly List<Disc> _discs = new List<Disc>();
         #endregion
 
         #region Properties
         /// <summary>
         /// The number of discs on currently this peg
         /// </summary>
-        public int DiscCount { get { return discs.Count; } }
+        public int DiscCount { get { return _discs.Count; } }
 
         /// <summary>
         /// The currently top-most disc
         /// </summary>
-        public Disc TopDisc { get { return discs.Count == 0 ? null : discs[discs.Count - 1]; } }
+        public Disc TopDisc { get { return _discs.Count == 0 ? null : _discs[_discs.Count - 1]; } }
         #endregion
 
         #region Constructor
@@ -74,8 +74,8 @@ namespace Hanoi.Logic
         /// </summary>
         public Disc[] GetDiscs()
         {
-            var discArray = new Disc[discs.Count];
-            discs.CopyTo(discArray, 0);
+            var discArray = new Disc[_discs.Count];
+            _discs.CopyTo(discArray, 0);
             return discArray;
         }
 
@@ -100,7 +100,7 @@ namespace Hanoi.Logic
         public void AddDisc(Disc disc)
         {
             if (TestDisc(disc))
-                discs.Add(disc);
+                _discs.Add(disc);
             else
                 throw new ArgumentException("The last disc on the peg is smaller than the disc to be added.", "disc");
         }
@@ -112,7 +112,7 @@ namespace Hanoi.Logic
         public Disc RemoveTopDisc()
         {
             Disc topDisc = TopDisc;
-            discs.Remove(topDisc);
+            _discs.Remove(topDisc);
             return topDisc;
         }
         #endregion
@@ -127,9 +127,9 @@ namespace Hanoi.Logic
         public Peg Clone()
         {
             // Clone all discs
-            var clonedDiscs = new Disc[discs.Count];
-            for (int i = 0; i < discs.Count; i++)
-                clonedDiscs[i] = discs[i].Clone();
+            var clonedDiscs = new Disc[_discs.Count];
+            for (int i = 0; i < _discs.Count; i++)
+                clonedDiscs[i] = _discs[i].Clone();
 
             // Create new peg filled with the cloned discs
             return new Peg(clonedDiscs);

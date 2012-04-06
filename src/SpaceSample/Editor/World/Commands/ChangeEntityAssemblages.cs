@@ -20,8 +20,8 @@ namespace AlphaEditor.World.Commands
         /// Creates a new command for changing the <see cref="EntityTemplate"/> of one or more <see cref="Entity"/>s.
         /// </summary>
         /// <param name="entities">The <see cref="Entity"/>s to be modified</param>
-        /// <param name="Template">The name of the new <see cref="EntityTemplate"/> to set</param>
-        public ChangeEntityTemplates(IEnumerable<Entity> entities, string Template)
+        /// <param name="template">The name of the new <see cref="EntityTemplate"/> to set</param>
+        public ChangeEntityTemplates(IEnumerable<Entity> entities, string template)
         {
             // Create local defensive copy of entities
             _enti = new List<Entity>(entities);
@@ -31,7 +31,7 @@ namespace AlphaEditor.World.Commands
             for (int i = 0; i < _enti.Count; i++)
                 _oldTemplates[i] = _enti[i].TemplateName;
 
-            _newTemplates = Template;
+            _newTemplates = template;
         }
         #endregion
 

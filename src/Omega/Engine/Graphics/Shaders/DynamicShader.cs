@@ -79,7 +79,7 @@ namespace OmegaEngine.Graphics.Shaders
                 run--;
                 while (run >= _chars.Length)
                     run -= _chars.Length;
-                return _chars[run].ToString();
+                return _chars[run].ToString(CultureInfo.InvariantCulture);
             }
         }
         #endregion

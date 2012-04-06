@@ -20,6 +20,8 @@ namespace OmegaEngine
     partial class Engine
     {
         #region Properties
+        private Hardware _hardware;
+
         /// <summary>
         /// Information about the hardware of this computer.
         /// </summary>

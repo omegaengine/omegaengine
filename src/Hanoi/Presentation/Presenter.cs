@@ -105,7 +105,7 @@ namespace Hanoi.Presentation
 
         /// <inheritdoc/>
         public virtual void Hover(Point target)
-        { }
+        {}
 
         /// <inheritdoc/>
         public virtual void AreaSelection(Rectangle area, bool accumulate, bool done)

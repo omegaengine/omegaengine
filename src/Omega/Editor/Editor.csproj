@@ -212,6 +212,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FileSelectorDialog.de.resx">
       <DependentUpon>FileSelectorDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Graphics\ParticleSystemEditor.resx">
       <DependentUpon>ParticleSystemEditor.cs</DependentUpon>
@@ -227,6 +228,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Dialogs\AddControlTool.de.resx">
       <DependentUpon>AddControlTool.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CutsceneEditor.resx">
       <SubType>Designer</SubType>
@@ -273,6 +275,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ModSelectorForm.de.resx">
       <DependentUpon>ModSelectorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ModSelectorForm.resx">
       <DependentUpon>ModSelectorForm.cs</DependentUpon>

@@ -214,10 +214,12 @@ namespace OmegaEngine
             double yFrac = y - yInt;
 
             // get four noise values
+            // ReSharper disable InconsistentNaming
             double x0y0 = Noise(xInt, yInt);
             double x1y0 = Noise(xInt + 1, yInt);
             double x0y1 = Noise(xInt, yInt + 1);
             double x1y1 = Noise(xInt + 1, yInt + 1);
+            // ReSharper restore InconsistentNaming
 
             // x interpolation
             double v1 = MathUtils.InterpolateTrigonometric(xFrac, x0y0, x1y0);

@@ -280,7 +280,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelLegendAdded.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 268</value>
+    <value>12, 270</value>
   </data>
   <data name="labelLegendAdded.Size" type="System.Drawing.Size, System.Drawing">
     <value>92, 13</value>

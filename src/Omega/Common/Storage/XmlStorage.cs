@@ -519,7 +519,7 @@ namespace Common.Storage
                     ToZip(fileStream, data, password, additionalFiles, ignoreMembers);
                 FileUtils.Replace(tempPath, path);
             }
-            #region Error handling
+                #region Error handling
             catch (Exception)
             {
                 // Clean up failed transactions

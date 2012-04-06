@@ -32,7 +32,7 @@ namespace Hanoi
     /// </summary>
     public partial class MainForm : Form
     {
-        private Session CurrentSession;
+        private Session _currentSession;
 
         #region Constructor
         public MainForm()
@@ -71,17 +71,17 @@ namespace Hanoi
 
         private void solveButton_Click(object sender, EventArgs e)
         {
-            if (CurrentSession.Solving)
-                CurrentSession.StopSolving();
+            if (_currentSession.Solving)
+                _currentSession.StopSolving();
             else
-                CurrentSession.StartSolving();
+                _currentSession.StartSolving();
         }
         #endregion
 
         #region Speed
         private void ApplySpeed()
         {
-            CurrentSession.TimeWarpFactor = (float)speedSlider.Value / 2;
+            _currentSession.TimeWarpFactor = (float)speedSlider.Value / 2;
         }
 
         private void speedSlider_Scroll(object sender, EventArgs e)
@@ -98,7 +98,7 @@ namespace Hanoi
                 int sourcePeg = sourceBox.SelectedIndex;
                 int targetPeg = targetBox.SelectedIndex;
 
-                Universe universe = CurrentSession.CurrentUniverse;
+                Universe universe = _currentSession.CurrentUniverse;
                 Peg[] pegs = universe.GetPegs();
 
                 try

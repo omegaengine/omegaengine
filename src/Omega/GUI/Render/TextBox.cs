@@ -8,6 +8,7 @@
 
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using Common.Utils;
 using SlimDX;
@@ -314,10 +315,7 @@ namespace OmegaGUI.Render
                     case Keys.End:
                     case Keys.Home:
                         // Move the caret
-                        if (wParam.ToInt32() == (int)Keys.End)
-                            PlaceCaret(textData.Text.Length);
-                        else
-                            PlaceCaret(0);
+                        PlaceCaret(wParam.ToInt32() == (int)Keys.End ? textData.Text.Length : 0);
                         if (!WindowsUtils.IsKeyDown(Keys.ShiftKey))
                         {
                             // Shift is not down. Update selection start along with caret
@@ -594,7 +592,7 @@ namespace OmegaGUI.Render
                         {
                             // Insert the char
                             var c = (char)wParam.ToInt32();
-                            textData.Text = textData.Text.Insert(caretPosition, c.ToString());
+                            textData.Text = textData.Text.Insert(caretPosition, c.ToString(CultureInfo.InvariantCulture));
                         }
 
                         // Move the caret and selection position now

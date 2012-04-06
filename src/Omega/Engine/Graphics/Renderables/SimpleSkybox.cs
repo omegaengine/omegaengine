@@ -70,7 +70,7 @@ namespace OmegaEngine.Graphics.Renderables
                 new PositionTextured(1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
                 new PositionTextured(1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
                 new PositionTextured(-1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
-                new PositionTextured(-1.0f, -1.0f, -1.0f, 1.0f, 1.0f),
+                new PositionTextured(-1.0f, -1.0f, -1.0f, 1.0f, 1.0f)
             };
 
             _vb = BufferHelper.CreateVertexBuffer(engine.Device, vertexes, PositionTextured.Format);

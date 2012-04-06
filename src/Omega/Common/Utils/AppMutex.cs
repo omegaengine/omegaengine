@@ -65,9 +65,9 @@ namespace Common.Utils
 
             if (!WindowsUtils.IsWindowsNT) return false;
 
-            IntPtr handle;
             try
             {
+                IntPtr handle;
                 return WindowsUtils.CreateMutex(name, out handle);
             }
             catch (Win32Exception ex)

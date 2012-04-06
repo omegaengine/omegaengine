@@ -111,7 +111,7 @@ namespace Hanoi.Logic
                 _pegs[i] = new Peg();
 
             // Fill first peg with discs
-            this._numberDiscs = numberDiscs;
+            _numberDiscs = numberDiscs;
             for (int size = numberDiscs - 1; size >= 0; size--)
                 _pegs[0].AddDisc(new Disc((byte)size));
 
@@ -204,10 +204,7 @@ namespace Hanoi.Logic
                 clonedPegs[i] = _pegs[i].Clone();
 
             // Create new simulation universe filled with the cloned pegs
-            var newUniverse = new Universe(clonedPegs);
-            newUniverse.OrderedSet = OrderedSet;
-            newUniverse.Ancestor = Ancestor;
-            return newUniverse;
+            return new Universe(clonedPegs) {OrderedSet = OrderedSet, Ancestor = Ancestor};
         }
 
         object ICloneable.Clone()
