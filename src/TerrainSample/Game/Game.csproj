@@ -118,7 +118,7 @@
     <None Include="config\Settings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\Loading.gif" />
+    <None Include="Resources\Loading.png" />
     <None Include="ClassDiagram.cd" />
     <None Include="State\ClassDiagram.cd" />
     <None Include="State\StateDiagram.vsd" />
