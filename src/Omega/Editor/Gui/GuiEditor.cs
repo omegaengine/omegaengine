@@ -100,14 +100,14 @@ namespace AlphaEditor.GUI
             #endregion
 
             // Initialize engine
-            renderPanel.Setup();
+            var engine =renderPanel.Setup();
 
             // Blue background
-            renderPanel.Engine.Views.Add(new View(renderPanel.Engine, Color.CornflowerBlue));
+            engine.Views.Add(new View(engine, Color.CornflowerBlue));
 
             // Render GUI
-            renderPanel.Engine.ExtraRender += DialogRender;
-            _guiManager = new GuiManager(renderPanel.Engine);
+            engine.ExtraRender += DialogRender;
+            _guiManager = new GuiManager(engine);
 
             base.OnInitialize();
         }

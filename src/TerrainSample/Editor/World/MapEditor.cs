@@ -181,7 +181,7 @@ namespace AlphaEditor.World
             }
             #endregion
 
-            // Intiliaze engine
+            // Initialize engine
             renderPanel.Setup();
 
             base.OnInitialize();
