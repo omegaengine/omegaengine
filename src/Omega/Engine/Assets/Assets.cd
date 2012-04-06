@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="OmegaEngine.Assets.XMesh" Collapsed="true">
-    <Position X="6.5" Y="2" Width="1.5" />
+    <Position X="5.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAACAAAABAAACAAgAAgKAAQAAAAQIAAAAAAAA=</HashCode>
       <FileName>Assets\XMesh.cs</FileName>
@@ -18,7 +18,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="OmegaEngine.Assets.XTexture" Collapsed="true">
-    <Position X="4" Y="2" Width="1.5" />
+    <Position X="3.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAASAAAABAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
       <FileName>Assets\XTexture.cs</FileName>
@@ -26,9 +26,9 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="OmegaEngine.Assets.XAnimatedMesh" Collapsed="true">
-    <Position X="6.5" Y="3.25" Width="1.5" />
+    <Position X="5.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAABACAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAACAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\XAnimatedMesh.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -58,61 +58,44 @@
     </TypeIdentifier>
   </Class>
   <Class Name="OmegaEngine.Assets.Asset" Collapsed="true">
-    <Position X="4" Y="0.75" Width="1.5" />
+    <Position X="3.5" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAkAAAAAAQAAAAAQAAAAAIAAAACAAA=</HashCode>
+      <HashCode>AAAAAAAAACAAAAAkAAAAAAQAAAAAUAAAAAIAAAACAAA=</HashCode>
       <FileName>Assets\Asset.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="OmegaEngine.Graphics.Renderables.Model" Collapsed="true">
-    <Position X="7.5" Y="4.5" Width="1.5" />
+    <Position X="6.5" Y="4.5" Width="1.5" />
     <AssociationLine Name="Materials" Type="OmegaEngine.Graphics.XMaterial" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="8.375" Y="4.5" />
-        <Point X="8.375" Y="2.438" />
-        <Point X="9" Y="2.438" />
+        <Point X="7.375" Y="4.5" />
+        <Point X="7.375" Y="2.438" />
+        <Point X="8" Y="2.438" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-0.117" Y="-0.296" />
       </MemberNameLabel>
     </AssociationLine>
-    <AssociationLine Name="_meshAsset" Type="OmegaEngine.Assets.XMesh" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="8.188" Y="4.5" />
-        <Point X="8.188" Y="2.93" />
-        <Point X="7.75" Y="2.93" />
-        <Point X="7.75" Y="2.63" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-0.419" Y="0.339" />
-      </MemberNameLabel>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AEAAAAACACAAAAQAgCQEAAEgACIAAAAAARQEQAEAAAA=</HashCode>
+      <HashCode>AEAAAAAAACAAAAAAAAQEAAEgACIAAAQAARQEUAEAAIA=</HashCode>
       <FileName>Graphics\Renderables\Model.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="_meshAsset" />
-    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Field Name="Materials" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="OmegaEngine.Graphics.Renderables.AnimatedModel" Collapsed="true">
-    <Position X="5.5" Y="4.5" Width="1.5" />
+    <Position X="4.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAAACAAAAAAgCAAAAAgAAAAAgIkABAAAAAAMgA=</HashCode>
+      <HashCode>AEAAAAAAACAAAAAAAAAAAAAgAAAAAAQAABAAEAAAAAA=</HashCode>
       <FileName>Graphics\Renderables\AnimatedModel.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="_meshAsset" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="OmegaEngine.Graphics.Renderables.PositionableRenderable" Collapsed="true">
-    <Position X="6.25" Y="5.75" Width="2" />
+    <Position X="5.25" Y="5.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>EAQABAEAgAAAOMIwgCIUAjAAKCACAAASCJAAxgACIiA=</HashCode>
+      <HashCode>EAQABAEAgAACOMIwACMQAjAAKCACAAASCJAAxgACIqg=</HashCode>
       <FileName>Graphics\Renderables\PositionableRenderable.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -120,29 +103,26 @@
   <Class Name="OmegaEngine.Audio.Sound3D" Collapsed="true">
     <Position X="1.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QCAAAAEAACAAAAAggAAQAQAAAAAAAAAAABAAgAAAAAA=</HashCode>
-      <FileName>Sounds\Sound3D.cs</FileName>
+      <HashCode>QCAAAAAAACAAAAAgAAEQAQAAAAAAAAAAABAAkAAAAAA=</HashCode>
+      <FileName>Audio\Sound3D.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="OmegaEngine.Audio.Sound" Collapsed="true">
     <Position X="1.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QCQAAAAAASAAAAAAgAAAAAAIAAAAAAAAAAIAAAACCAA=</HashCode>
-      <FileName>Sounds\Sound.cs</FileName>
+      <HashCode>QCQAAAAAACAAAAAAAAAAAAAIAAAAAAAAAAIgEAACCAA=</HashCode>
+      <FileName>Audio\Sound.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="SoundAsset" />
-    </ShowAsAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Struct Name="OmegaEngine.Graphics.XMaterial" Collapsed="true">
-    <Position X="9" Y="2" Width="1.5" />
+    <Position X="8" Y="2" Width="1.5" />
     <AssociationLine Name="DiffuseMaps" Type="OmegaEngine.Graphics.ITextureProvider" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="9.188" Y="2.509" />
-        <Point X="9.188" Y="3.812" />
-        <Point X="10.5" Y="3.812" />
+        <Point X="8.188" Y="2.509" />
+        <Point X="8.188" Y="3.812" />
+        <Point X="9.5" Y="3.812" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.237" Y="-0.078" />
@@ -150,10 +130,10 @@
     </AssociationLine>
     <AssociationLine Name="DefaultMaterial" Type="OmegaEngine.Graphics.XMaterial" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="9.5" Y="2" />
-        <Point X="9.5" Y="1.865" />
-        <Point X="10.062" Y="1.865" />
-        <Point X="10.062" Y="2" />
+        <Point X="8.5" Y="2" />
+        <Point X="8.5" Y="1.865" />
+        <Point X="9.062" Y="1.865" />
+        <Point X="9.062" Y="2" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-0.213" Y="0.154" />
@@ -161,9 +141,9 @@
     </AssociationLine>
     <AssociationLine Name="NormalMap" Type="OmegaEngine.Graphics.ITextureProvider" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="9.328" Y="2.509" />
-        <Point X="9.328" Y="3.562" />
-        <Point X="10.5" Y="3.562" />
+        <Point X="8.328" Y="2.509" />
+        <Point X="8.328" Y="3.562" />
+        <Point X="9.5" Y="3.562" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.102" Y="-0.077" />
@@ -171,9 +151,9 @@
     </AssociationLine>
     <AssociationLine Name="HeightMap" Type="OmegaEngine.Graphics.ITextureProvider" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="9.5" Y="2.509" />
+        <Point X="8.5" Y="2.509" />
+        <Point X="8.5" Y="3.312" />
         <Point X="9.5" Y="3.312" />
-        <Point X="10.5" Y="3.312" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.102" Y="-0.088" />
@@ -181,9 +161,9 @@
     </AssociationLine>
     <AssociationLine Name="SpecularMap" Type="OmegaEngine.Graphics.ITextureProvider" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="10.5" Y="2.188" />
-        <Point X="11.562" Y="2.188" />
-        <Point X="11.562" Y="3.25" />
+        <Point X="9.5" Y="2.188" />
+        <Point X="10.562" Y="2.188" />
+        <Point X="10.562" Y="3.25" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-0.432" Y="0.487" />
@@ -191,17 +171,17 @@
     </AssociationLine>
     <AssociationLine Name="EmissiveMap" Type="OmegaEngine.Graphics.ITextureProvider" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="9.719" Y="2.509" />
-        <Point X="9.719" Y="2.884" />
-        <Point X="11.125" Y="2.884" />
-        <Point X="11.125" Y="3.25" />
+        <Point X="8.719" Y="2.509" />
+        <Point X="8.719" Y="2.884" />
+        <Point X="10.125" Y="2.884" />
+        <Point X="10.125" Y="3.25" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.162" Y="0.3" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AEQgAAAAIAgIEAAAAgAggAAAAAAAQAAAAAoAAEQAAAA=</HashCode>
+      <HashCode>AEQgAAAAIAgIEAAAAgAggAAAAAAAQAAAAAIAAEQAAAA=</HashCode>
       <FileName>Graphics\XMaterial.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -216,7 +196,7 @@
     </ShowAsCollectionAssociation>
   </Struct>
   <Interface Name="OmegaEngine.Graphics.ITextureProvider" Collapsed="true">
-    <Position X="10.5" Y="3.25" Width="1.5" />
+    <Position X="9.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
       <FileName>Graphics\ITextureProvider.cs</FileName>

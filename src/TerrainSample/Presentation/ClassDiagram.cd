@@ -18,17 +18,45 @@
       <Method Name="SetupLighting" Hidden="true" />
       <Method Name="SetupTerrain" Hidden="true" />
       <Method Name="UpdateBleach" Hidden="true" />
+      <Method Name="UpdateColorCorrection" Hidden="true" />
       <Method Name="UpdateEntityHelper" Hidden="true" />
       <Method Name="UpdateFog" Hidden="true" />
+      <Method Name="UpdateLighting" Hidden="true" />
+      <Method Name="UpdateLightingColorMoon" Hidden="true" />
+      <Method Name="UpdateLightingColorSun" Hidden="true" />
       <Method Name="UpdateSykbox" Hidden="true" />
     </Members>
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
+    <AssociationLine Name="Engine" Type="OmegaEngine.Engine">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.036" Y="0.551" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Universe" Type="World.Universe">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.004" Y="0.229" Height="0.16" Width="0.746" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="View" Type="OmegaEngine.Graphics.View" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.499" Y="2.5" />
+        <Point X="4.499" Y="2.125" />
+        <Point X="6.562" Y="2.125" />
+        <Point X="6.562" Y="1.759" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>ISiQEABACCAIA6gAjAwlJEwAEoBBAAIgDMGHMIAiAAE=</HashCode>
+      <HashCode>ISiQEQBAACAIk6AQjAwlJEwgEoBBAAIgDMGHMIAiAAE=</HashCode>
       <FileName>Presenter.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Engine" />
+      <Field Name="Scene" />
+      <Property Name="Universe" />
+      <Property Name="View" />
+    </ShowAsAssociation>
     <Lollipop Position="0.138" Collapsed="true" />
   </Class>
   <Class Name="OmegaEngine.Engine" Collapsed="true">
@@ -82,7 +110,7 @@
     <Lollipop Orientation="Right" Position="0.1" />
   </Class>
   <Class Name="Presentation.BenchmarkPresenter">
-    <Position X="0.75" Y="7.25" Width="1.75" />
+    <Position X="0.75" Y="7.75" Width="1.75" />
     <Members>
       <Method Name="BenchmarkComplete" Hidden="true" />
       <Method Name="FinishTestCase" Hidden="true" />
@@ -98,7 +126,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Presentation.InteractivePresenter">
-    <Position X="5" Y="7.25" Width="1.75" />
+    <Position X="5" Y="7.75" Width="1.75" />
     <Members>
       <Method Name="AddSelectedEntity" Hidden="true" />
       <Method Name="AddSelectedPositionable" Hidden="true" />
@@ -111,27 +139,27 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>MAAQBAAACCAgAYABCAAEoAAAEQABCAAAAAAAAAAAAgA=</HashCode>
+      <HashCode>MAAQBAAACCAgAYABCAAEoAAAEQABCAAAAQAAAAAAAgA=</HashCode>
       <FileName>InteractivePresenter.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Presentation.EditorPresenter">
-    <Position X="4" Y="10.75" Width="1.75" />
+    <Position X="4" Y="11.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAAAAAkAACAAAAAAAEAAAAAAAAAAAAAAAIAAhA=</HashCode>
+      <HashCode>AAEQAAgAAAAgIQCAAAAAAAGAAAAAAAAAAQAAAAIAAhA=</HashCode>
       <FileName>EditorPresenter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Presentation.InGamePresenter">
-    <Position X="6" Y="10.75" Width="1.75" />
+    <Position X="6" Y="11.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAAAACAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>InGamePresenter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Presentation.MenuPresenter">
-    <Position X="3" Y="7.25" Width="1.5" />
+    <Position X="3" Y="7.75" Width="1.5" />
     <Members>
       <Method Name="Dispose" Hidden="true" />
       <Method Name="RotateCamera" Hidden="true" />
@@ -150,7 +178,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Struct Name="Presentation.TestCase">
-    <Position X="0.75" Y="9" Width="1.5" />
+    <Position X="0.75" Y="9.5" Width="1.5" />
     <AssociationLine Name="GraphicsSettings" Type="Presentation.TestGraphicsSettings">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-0.494" Y="0.175" />
@@ -165,7 +193,7 @@
     </ShowAsAssociation>
   </Struct>
   <Enum Name="Presentation.TestGraphicsSettings">
-    <Position X="0.75" Y="11.75" Width="1.75" />
+    <Position X="0.75" Y="12.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAABAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>TestCase.cs</FileName>

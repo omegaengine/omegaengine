@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="815c5f47-154f-4b73-8f1e-1b28444a617b" name="Renderables" linkedPackageId="5f3d86c4-84eb-455a-926e-fce1b8f32e0e" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="42bd48f3-0532-4100-9490-015c98008563">
+      <profileInstance Id="25fdd85d-57ce-433e-863b-0da6aa37a605" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="906491b0-4a82-4773-b2f2-b1f013853af2">
+      <profileInstance Id="07060f4b-7ebd-414b-8596-7d1fa8700976" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="ac9987f7-3f60-49fe-9484-547859a7f5c4" name="Renderable" isAbstract="true" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="4eeea78f-256d-4fae-89e2-e947d56b9653" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="6a5bb1d8-d3be-4fd6-b774-8eb7878e4397" name="PositionableRenderable" isAbstract="true" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="629b237b-47b6-44a2-b016-116ce3d099d4" />
+        <generalsInternal>
+          <generalization Id="c6eea7f5-d727-4fe0-97f4-8a453dcc2b06" isSubstitutable="false">
+            <classMoniker Id="ac9987f7-3f60-49fe-9484-547859a7f5c4" LastKnownName="Renderable" />
+            <elementDefinition Id="bd7dbcb8-12cb-4aa7-8035-bb6104472f13" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="6865d3de-07d4-44aa-9aed-49a18b89f435" name="Skybox" isAbstract="true" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="155502a0-7f5b-4ed2-8bf0-00162bed878d" />
+        <generalsInternal>
+          <generalization Id="93c5f66d-b376-41a5-9719-c09a3fc7b3c2" isSubstitutable="false">
+            <classMoniker Id="ac9987f7-3f60-49fe-9484-547859a7f5c4" LastKnownName="Renderable" />
+            <elementDefinition Id="b2d1fc23-7ba2-4715-9b4e-78d231c2a8e1" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="500fca0f-34be-4dc7-83de-b90754c95d18" name="Model" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="b757880a-aeee-4fa6-a1d4-e80481f73994" />
+        <generalsInternal>
+          <generalization Id="058d7a92-1271-42a3-9138-c0dd3760aba2" isSubstitutable="false">
+            <classMoniker Id="6a5bb1d8-d3be-4fd6-b774-8eb7878e4397" LastKnownName="PositionableRenderable" />
+            <elementDefinition Id="a7fe71c4-5fd9-484c-bb12-66dbdd9318be" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="cfde408a-f3da-491b-8f36-cf4b5fd592fe" name="Terrain" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="846d6472-3fe3-4271-9e79-3f0b93a9839a" />
+        <generalsInternal>
+          <generalization Id="88cb742a-093c-4a1d-ae79-bc1086669226" isSubstitutable="false">
+            <classMoniker Id="6a5bb1d8-d3be-4fd6-b774-8eb7878e4397" LastKnownName="PositionableRenderable" />
+            <elementDefinition Id="8455af7e-1e82-4703-8c90-08a8c0c690c3" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="24f3484f-ab8a-45ef-9c37-69b2aa917eae" name="Water" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="62ce71bb-4988-4791-b9fb-0630e35fec11" />
+        <generalsInternal>
+          <generalization Id="426b9867-2c80-4d3c-808c-3036ff8f17a0" isSubstitutable="false">
+            <classMoniker Id="6a5bb1d8-d3be-4fd6-b774-8eb7878e4397" LastKnownName="PositionableRenderable" />
+            <elementDefinition Id="15497b30-04b8-401b-8aa8-6b94129d4e03" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="f3d4f435-371d-49f7-97bd-a40f2576c9f0" name="ParticleSystem" isAbstract="true" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="0e897405-1c18-4949-9ae9-b12c6c3f750f" />
+        <generalsInternal>
+          <generalization Id="1149b5fe-8e9e-4a8f-94e8-1d563502e8d2" isSubstitutable="false">
+            <classMoniker Id="6a5bb1d8-d3be-4fd6-b774-8eb7878e4397" LastKnownName="PositionableRenderable" />
+            <elementDefinition Id="15b4a297-5400-4071-b572-a7cd5ded818f" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="85b05896-c74a-4c66-915b-06c87dcdd371" name="SimpleSykbox" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="dcd2c5b0-2dc5-4f70-bdad-23787a2d8efa" />
+        <generalsInternal>
+          <generalization Id="cb2a5516-12e9-469e-9957-9a8ebb49f929" isSubstitutable="false">
+            <classMoniker Id="6865d3de-07d4-44aa-9aed-49a18b89f435" LastKnownName="Skybox" />
+            <elementDefinition Id="b6c43b69-fe37-401c-8e0e-f2d674b0a0bd" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="e51b1245-f43f-45ca-8eb5-7bf233097c2f" name="AdvancedSkybox" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="85a3f755-a0aa-4e34-9851-6e7d11c8552b" />
+        <generalsInternal>
+          <generalization Id="ebe09113-ed0d-43e4-a90b-af7102fe1a67" isSubstitutable="false">
+            <classMoniker Id="6865d3de-07d4-44aa-9aed-49a18b89f435" LastKnownName="Skybox" />
+            <elementDefinition Id="2f34ab00-f52c-4fdd-ab5d-b3f01f90377e" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="eb40b9c8-7616-44e1-9e95-631710e84aa2" name="CpuParticleSystem" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="a5d3141d-527e-4070-adcd-b59cae2f5971" />
+        <generalsInternal>
+          <generalization Id="b010e1fe-c03e-4d21-b90e-8b618a335cda" isSubstitutable="false">
+            <classMoniker Id="f3d4f435-371d-49f7-97bd-a40f2576c9f0" LastKnownName="ParticleSystem" />
+            <elementDefinition Id="ff623c73-0f27-424c-ba15-d587e8935ceb" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="0c36716f-25ac-48e5-b574-b0d1fcece97b" name="GpuParticleSystem" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="93672427-3a57-4ded-aead-21673357b09b" />
+        <generalsInternal>
+          <generalization Id="7ee97584-f9d8-460f-ac5a-1d4fe1e41649" isSubstitutable="false">
+            <classMoniker Id="f3d4f435-371d-49f7-97bd-a40f2576c9f0" LastKnownName="ParticleSystem" />
+            <elementDefinition Id="92aeb81a-508d-4e05-b6e5-1804029de0ec" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+  </packagedElements>
+  <package Id="5f3d86c4-84eb-455a-926e-fce1b8f32e0e" name="Modeling">
+    <elementDefinition Id="f182977e-ef17-41f1-860f-ad86f3d92102" />
+  </package>
+</logicalClassDesignerModel>

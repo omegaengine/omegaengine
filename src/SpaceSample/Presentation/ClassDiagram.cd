@@ -6,18 +6,13 @@
       <Method Name="~Presenter" Hidden="true" />
       <Method Name="AddEntity" Hidden="true" />
       <Method Name="AddEntityHelper" Hidden="true" />
-      <Method Name="AddWater" Hidden="true" />
       <Method Name="Dispose" Hidden="true" />
       <Property Name="Disposed" Hidden="true" />
-      <Method Name="GetDirection" Hidden="true" />
       <Property Name="Initialized" Hidden="true" />
       <Method Name="RemoveEntity" Hidden="true" />
       <Method Name="RemoveEntityHelper" Hidden="true" />
-      <Method Name="RemoveWater" Hidden="true" />
       <Method Name="SetupEntities" Hidden="true" />
       <Method Name="SetupLighting" Hidden="true" />
-      <Method Name="SetupTerrain" Hidden="true" />
-      <Method Name="UpdateBleach" Hidden="true" />
       <Method Name="UpdateEntityHelper" Hidden="true" />
       <Method Name="UpdateSykbox" Hidden="true" />
     </Members>
@@ -42,17 +37,8 @@
         <Point X="6.562" Y="1.759" />
       </Path>
     </AssociationLine>
-    <AssociationLine Name="Camera" Type="OmegaEngine.Graphics.Cameras.Camera" FixedFromPoint="true">
-      <Path>
-        <Point X="4.334" Y="2.5" />
-        <Point X="4.334" Y="1.759" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-0.741" Y="0.134" />
-      </MemberNameLabel>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>ISiSEABAACAIA6AAjAwlJEgAEoBBAAIhDMGHIIAiAAE=</HashCode>
+      <HashCode>ISgQEAAAACAAA6AAiAwlAEgAEoBBAAIADICHEIACAAE=</HashCode>
       <FileName>Presenter.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -60,7 +46,6 @@
       <Field Name="Scene" />
       <Property Name="Universe" />
       <Property Name="View" />
-      <Property Name="Camera" />
     </ShowAsAssociation>
     <Lollipop Position="0.138" Collapsed="true" />
   </Class>
@@ -133,18 +118,14 @@
   <Class Name="Presentation.InteractivePresenter">
     <Position X="5" Y="7.25" Width="1.75" />
     <Members>
-      <Method Name="AddSelectedEntity" Hidden="true" />
-      <Method Name="AddSelectedPositionable" Hidden="true" />
       <Method Name="DrawSelectionOutline" Hidden="true" />
       <Method Name="InteractivePresenter" Hidden="true" />
-      <Method Name="RemoveSelectedEntity" Hidden="true" />
-      <Method Name="RemoveSelectedPositionable" Hidden="true" />
     </Members>
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>MAAQBAAACCAgAYABCAAEgAAAEQABCAAAAAAAAAAAAgA=</HashCode>
+      <HashCode>IAAABAAAACAgAYABCAAAAAAAEQABCAAAAQAAAAAAAgA=</HashCode>
       <FileName>InteractivePresenter.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -152,14 +133,14 @@
   <Class Name="Presentation.EditorPresenter">
     <Position X="4" Y="10.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAAAAAAAACAAAAAAAEAAAAQAAAAAAAAAAAAABA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>EditorPresenter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Presentation.InGamePresenter">
     <Position X="6" Y="10.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAgAAAAAAAAAACAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAgAAAAAAAAAACAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>InGamePresenter.cs</FileName>
     </TypeIdentifier>
   </Class>

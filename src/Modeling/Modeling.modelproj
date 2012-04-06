@@ -17,6 +17,27 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" />
   <ItemGroup>
+    <Content Include="EngineHierachy\SceneManagement.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="EngineHierachy\SceneManagement.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>EngineHierachy\SceneManagement.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="EngineHierachy\Renderables.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="EngineHierachy\Renderables.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>EngineHierachy\Renderables.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="EngineHierachy\Shaders.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="EngineHierachy\Shaders.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>EngineHierachy\Shaders.classdiagram</DependentUpon>
+    </Content>
     <Content Include="NamespaceOverview.dgml">
       <SubType>Content</SubType>
     </Content>
@@ -36,6 +57,7 @@
     <Content Include="ModelDefinition\Architecture.uml">
       <SubType>Content</SubType>
     </Content>
+    <Folder Include="EngineHierachy" />
     <Folder Include="References" />
   </ItemGroup>
 </Project>

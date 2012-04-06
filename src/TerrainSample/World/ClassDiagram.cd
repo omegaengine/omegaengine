@@ -13,7 +13,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AQQCmYAEEQAoQAAOoIAAAgAIMEICQBEADUEIAEARACA=</HashCode>
+      <HashCode>AAQGkYBEEQAgQAAehICAU2AYIAYIABGADUAJAEABCCQ=</HashCode>
       <FileName>Universe.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -29,22 +29,12 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>IAADgBIABBgAkHAgQEAEhQaAAIAIEgAAABEARAoIiAg=</HashCode>
+      <HashCode>JABAgIIAAFAAkAAgQIAEkQQAAMgIEAAAABkIAAoICAg=</HashCode>
       <FileName>Terrain.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Size" />
     </ShowAsAssociation>
-  </Class>
-  <Class Name="World.ModInfo">
-    <Position X="6.5" Y="4" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Fields" Collapsed="true" />
-    </Compartments>
-    <TypeIdentifier>
-      <HashCode>IAAAgAAAAAAggAAAgAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ModInfo.cs</FileName>
-    </TypeIdentifier>
   </Class>
   <Class Name="World.Session" Collapsed="true">
     <Position X="1.75" Y="0.5" Width="1.75" />
@@ -59,7 +49,7 @@
   <Class Name="World.EntityTemplate" Collapsed="true">
     <Position X="5.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgAAAAAAAAAAAQAAAAAIAAAAAAAAAAACAAAAAACAAAA=</HashCode>
+      <HashCode>AgAAAAAAAAAAAQAAAAAIAAAAAAAAAAAAAAAAAACAABA=</HashCode>
       <FileName>EntityTemplate.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -78,7 +68,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAIAIAAAIRAAArIUAAAAgAACAAAAAEAAABAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAAAARAAAKCUAAAAAQQCAAkEAAAAABAAAAAAABg=</HashCode>
       <FileName>Entity.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -100,7 +90,7 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>gCAAIAAAAAAAADAAAAEAAAABAAAACAAgQAIAABACAAA=</HashCode>
+      <HashCode>gAAAAAAAAACAAAAAAAEAQAARAAoACkAACAEAAAAAAAA=</HashCode>
       <FileName>TemplateManager.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -114,7 +104,7 @@
   <Class Name="World.Template&lt;T&gt;" Collapsed="true">
     <Position X="7.25" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AACAAAAAAAAgAAAEAAAAAAQAAAAAAAACAAAAAAAAABA=</HashCode>
+      <HashCode>AACAAAAAAAAgAAAMAAAAAAQAAAAACAAAAAAAAAAAABA=</HashCode>
       <FileName>Template.cs</FileName>
     </TypeIdentifier>
     <Lollipop Orientation="Left" Position="0.1" />
@@ -129,7 +119,7 @@
   <Class Name="World.PathControl" Collapsed="true">
     <Position X="4.25" Y="4.25" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAIAAEAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>PathControl.cs</FileName>
     </TypeIdentifier>
     <Lollipop Orientation="Right" Position="0.1" />
@@ -148,31 +138,31 @@
       <FileName>PathLeader.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="World.MemoPoint" Collapsed="true">
+  <Class Name="World.Memo" Collapsed="true">
     <Position X="0.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
-      <FileName>MemoPoint.cs</FileName>
+      <FileName>Memo.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="World.BenchmarkPoint" Collapsed="true">
     <Position X="0.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAAIAAAAAAAAAIAAAAAgAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
       <FileName>BenchmarkPoint.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="World.CameraState" Collapsed="true">
     <Position X="0.5" Y="1.5" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAIAAAAAAAAAIAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAIAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>CameraState.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="World.Positionable" Collapsed="true">
     <Position X="1.25" Y="2.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAkACAAAAQCAAAAAAAAAAAAgACAABA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAsACAAAAQAAAAAAAAAAAAAgACAABA=</HashCode>
       <FileName>Positionable.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />

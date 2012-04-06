@@ -9,9 +9,14 @@
   </Class>
   <Class Name="World.EntityComponents.Mesh" Collapsed="true">
     <Position X="2" Y="1.5" Width="1.25" />
-    <AssociationLine Name="RenderIn" Type="World.EntityComponents.ViewType">
+    <AssociationLine Name="RenderIn" Type="World.EntityComponents.ViewType" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2.375" Y="2.13" />
+        <Point X="2.375" Y="2.755" />
+        <Point X="2" Y="2.755" />
+      </Path>
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-0.317" Y="0.32" />
+        <Position X="-0.452" Y="0.341" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
@@ -23,9 +28,9 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="World.EntityComponents.RenderControl" Collapsed="true">
-    <Position X="2.75" Y="0.5" Width="2" />
+    <Position X="2.5" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAIAgEAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAgMAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>EntityComponents\RenderControl.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -38,14 +43,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="World.EntityComponents.ParticleSystem" Collapsed="true">
-    <Position X="5.5" Y="1.5" Width="1.75" />
+    <Position X="3.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAQAAEAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>EntityComponents\ParticleSystem.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="World.EntityComponents.LightSource" Collapsed="true">
-    <Position X="4" Y="1.5" Width="1.25" />
+    <Position X="5.25" Y="1.5" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAICAAAAAAAAAAAAAAAAAAAAAACoQAAAAA=</HashCode>
       <FileName>EntityComponents\LightsSource.cs</FileName>
@@ -54,7 +59,7 @@
   <Class Name="World.EntityComponents.MovementControl" Collapsed="true">
     <Position X="6.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAAAAAAIAAEAAAAAgABAAAAAAAABAAAAAAAABA=</HashCode>
+      <HashCode>AEAAAAAAAAAAAAAMAAAAAgABAAAAAAAABAAAAAAAABA=</HashCode>
       <FileName>EntityComponents\MovementControl.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -67,21 +72,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="World.EntityComponents.CpuParticleSystem" Collapsed="true">
-    <Position X="4.5" Y="2.5" Width="1.75" />
+    <Position X="3.75" Y="2.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>EntityComponents\CpuParticleSystem.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="World.EntityComponents.GpuParticleSystem" Collapsed="true">
-    <Position X="6.5" Y="2.5" Width="1.75" />
+    <Position X="5.75" Y="2.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>EntityComponents\GpuParticleSystem.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="World.EntityComponents.ViewType" Collapsed="true">
-    <Position X="0.5" Y="2.5" Width="1.25" />
+    <Position X="0.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIIQAAAAIAA=</HashCode>
       <FileName>EntityComponents\Mesh.cs</FileName>

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Struct Name="OmegaEngine.Hardware">
-    <Position X="2.75" Y="2.5" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+  <Struct Name="OmegaEngine.Hardware" Collapsed="true">
+    <Position X="2.75" Y="2.25" Width="1.5" />
+    <Members>
+      <Method Name="ToString" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAAEAAAAAAAAAAAAAAAAAAAAAACIAAE=</HashCode>
       <FileName>Hardware.cs</FileName>
@@ -12,35 +12,35 @@
     <ShowAsAssociation>
       <Field Name="OS" />
       <Field Name="Cpu" />
-      <Field Name="Gpu" />
       <Field Name="Ram" />
+      <Field Name="Gpu" />
     </ShowAsAssociation>
   </Struct>
   <Struct Name="OmegaEngine.HardwareOS">
-    <Position X="2.75" Y="4" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+    <Position X="2.75" Y="3.5" Width="1.5" />
+    <Members>
+      <Method Name="ToString" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>IQAAAAAAAQAAAAAEAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>Hardware.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="OmegaEngine.HardwareCpu">
-    <Position X="0.5" Y="2.25" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+    <Position X="0.5" Y="2" Width="1.5" />
+    <Members>
+      <Method Name="ToString" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAAAAAAEAAAAAgUBAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Hardware.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="OmegaEngine.HardwareGpu">
-    <Position X="5" Y="2.25" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+    <Position X="5" Y="2" Width="1.5" />
+    <Members>
+      <Method Name="ToString" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAAACAAEAAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Hardware.cs</FileName>
@@ -48,9 +48,9 @@
   </Struct>
   <Struct Name="OmegaEngine.HardwareRam">
     <Position X="2.75" Y="0.5" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+    <Members>
+      <Method Name="ToString" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAgAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Hardware.cs</FileName>
