@@ -22,7 +22,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using Common.Collections;
 using World.Properties;
 
@@ -55,7 +54,7 @@ namespace World
             get
             {
                 #region Sanity checks
-                if (_entityTemplates == null) throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture, Resources.TemplateNotLoaded, "Entity"));
+                if (_entityTemplates == null) throw new InvalidOperationException(string.Format(Resources.TemplateNotLoaded, "Entity"));
                 #endregion
 
                 return _entityTemplates;
@@ -72,7 +71,7 @@ namespace World
             get
             {
                 #region Sanity checks
-                if (_itemTemplates == null) throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture, Resources.TemplateNotLoaded, "Item"));
+                if (_itemTemplates == null) throw new InvalidOperationException(string.Format(Resources.TemplateNotLoaded, "Item"));
                 #endregion
 
                 return _itemTemplates;
@@ -89,7 +88,7 @@ namespace World
             get
             {
                 #region Sanity checks
-                if (_terrainTemplates == null) throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture, Resources.TemplateNotLoaded, "Terrain"));
+                if (_terrainTemplates == null) throw new InvalidOperationException(string.Format(Resources.TemplateNotLoaded, "Terrain"));
                 #endregion
 
                 return _terrainTemplates;
@@ -119,7 +118,7 @@ namespace World
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
-            if (_entityTemplates == null) throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture, Resources.TemplateNotLoaded, "Entity"));
+            if (_entityTemplates == null) throw new InvalidOperationException(string.Format(Resources.TemplateNotLoaded, "Entity"));
             #endregion
 
             try
@@ -128,7 +127,7 @@ namespace World
             }
             catch (KeyNotFoundException)
             {
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture, Resources.TemplateUnknown, "Entity", name));
+                throw new InvalidOperationException(string.Format(Resources.TemplateUnknown, "Entity", name));
             }
         }
 
@@ -141,7 +140,7 @@ namespace World
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
-            if (_itemTemplates == null) throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture, Resources.TemplateNotLoaded, "Item"));
+            if (_itemTemplates == null) throw new InvalidOperationException(string.Format(Resources.TemplateNotLoaded, "Item"));
             #endregion
 
             try
@@ -150,7 +149,7 @@ namespace World
             }
             catch (KeyNotFoundException)
             {
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture, Resources.TemplateUnknown, "Item", name));
+                throw new InvalidOperationException(string.Format(Resources.TemplateUnknown, "Item", name));
             }
         }
 
@@ -163,7 +162,7 @@ namespace World
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
-            if (_terrainTemplates == null) throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture, Resources.TemplateNotLoaded, "Terrain"));
+            if (_terrainTemplates == null) throw new InvalidOperationException(string.Format(Resources.TemplateNotLoaded, "Terrain"));
             #endregion
 
             try
@@ -172,7 +171,7 @@ namespace World
             }
             catch (KeyNotFoundException)
             {
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture, Resources.TemplateUnknown, "Terrain", name));
+                throw new InvalidOperationException(string.Format(Resources.TemplateUnknown, "Terrain", name));
             }
         }
         #endregion

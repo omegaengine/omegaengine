@@ -9,7 +9,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using Common;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Audio;
@@ -71,7 +70,7 @@ namespace OmegaEngine.Assets
 
             #region Sanity checks
             if (ReferenceCount < 0)
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture, Resources.ReleasedTooOften, this));
+                throw new InvalidOperationException(string.Format(Resources.ReleasedTooOften, this));
             #endregion
         }
         #endregion

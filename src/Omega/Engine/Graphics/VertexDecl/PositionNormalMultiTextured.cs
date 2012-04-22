@@ -8,7 +8,6 @@
 
 using System;
 using System.Drawing;
-using System.Globalization;
 using System.Runtime.InteropServices;
 using Common.Utils;
 using SlimDX;
@@ -99,7 +98,7 @@ namespace OmegaEngine.Graphics.VertexDecl
             #region Sanity checks
             if (texWeights == null) throw new ArgumentNullException("texWeights");
             if (texWeights.Length != 16)
-                throw new ArgumentException(string.Format(CultureInfo.CurrentUICulture, Resources.WrongTexArrayLength, "16"), "texWeights");
+                throw new ArgumentException(string.Format(Resources.WrongTexArrayLength, "16"), "texWeights");
             #endregion
 
             Position = position;

@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using AlphaEditor.Properties;
@@ -70,7 +69,7 @@ namespace AlphaEditor
             string filetype = Path.GetFileName(type);
             if (filetype == "Meshes") filetype = "Mesh"; // Handle unusual plural form of Mesh
             else if (filetype.EndsWith("s", StringComparison.Ordinal)) filetype = filetype.Remove(filetype.Length - 1, 1); // Remove plural "s"
-            selector.selectLabel.Text = string.Format(CultureInfo.CurrentUICulture, Resources.Select, filetype);
+            selector.selectLabel.Text = string.Format(Resources.Select, filetype);
 
             // Create containing directory
             string directory;

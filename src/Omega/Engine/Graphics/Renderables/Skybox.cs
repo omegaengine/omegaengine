@@ -8,7 +8,6 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using SlimDX;
 using OmegaEngine.Graphics.Cameras;
 using Resources = OmegaEngine.Properties.Resources;
@@ -37,7 +36,7 @@ namespace OmegaEngine.Graphics.Renderables
         {
             #region Sanity checks
             if (textures == null) throw new ArgumentNullException("textures");
-            if (textures.Length != 6) throw new ArgumentException(string.Format(CultureInfo.CurrentUICulture, Resources.WrongTexArrayLength, "6"), "textures");
+            if (textures.Length != 6) throw new ArgumentException(string.Format(Resources.WrongTexArrayLength, "6"), "textures");
             #endregion
 
             for (int i = 0; i < textures.Length; i++)

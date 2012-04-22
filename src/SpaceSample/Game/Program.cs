@@ -104,13 +104,13 @@ namespace Core
         {
             // Query Windows to get the default language
             if (string.IsNullOrEmpty(Settings.Current.General.Language))
-                Settings.Current.General.Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+                Settings.Current.General.Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
             // Propagate selected language to other assemblies
             Resources.Culture = Engine.ResourceCulture = Dialog.ResourceCulture = new CultureInfo(Settings.Current.General.Language);
 
             // Create specific culture for thread
-            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(Resources.Culture.Name);
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(Resources.Culture.Name);
         }
         #endregion
 

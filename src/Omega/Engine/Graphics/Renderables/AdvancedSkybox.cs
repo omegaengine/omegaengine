@@ -9,7 +9,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
@@ -42,7 +41,7 @@ namespace OmegaEngine.Graphics.Renderables
             if (engine == null) throw new ArgumentNullException("engine");
             if (textures == null) throw new ArgumentNullException("textures");
             if (textures.Length != 6)
-                throw new ArgumentException(string.Format(CultureInfo.CurrentUICulture, Resources.WrongTexArrayLength, "6"), "textures");
+                throw new ArgumentException(string.Format(Resources.WrongTexArrayLength, "6"), "textures");
             #endregion
 
             // ToDo: Implement
