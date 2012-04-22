@@ -29,7 +29,7 @@ Game:SwitchToGame();</OnClick>
 		<Location X="40" Y="-60" />
 		<Size Width="200" Height="50" />
 		<AlignVertical>Center</AlignVertical>
-		<OnClick>Dialog:Close();
+		<OnClick>Me:Close();
 LoadDialog("MapSelection");</OnClick>
 	</Button>
 	<Button Name="LoadGame" Enabled="false" Text="[LoadGame]">
@@ -41,7 +41,7 @@ LoadDialog("MapSelection");</OnClick>
 		<Location X="40" Y="60" />
 		<Size Width="200" Height="50" />
 		<AlignVertical>Center</AlignVertical>
-		<OnClick>Dialog:Close();
+		<OnClick>Me:Close();
 LoadModalDialog("Settings");</OnClick>
 	</Button>
 	<Button Name="Exit" Text="[Exit]">

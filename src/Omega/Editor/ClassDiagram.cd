@@ -49,7 +49,7 @@
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="_addControlTool" />
-      <Property Name="dialogView" />
+      <Property Name="dialogModel" />
     </ShowAsAssociation>
   </Class>
   <Class Name="AlphaEditor.GUI.CutsceneEditor" Collapsed="true">

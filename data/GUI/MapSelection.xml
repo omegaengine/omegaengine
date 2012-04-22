@@ -25,27 +25,27 @@ Game:LoadMap("Game/2");</OnClick>
 		<Size Width="140" Height="40" />
 		<AlignHorizontal>Center</AlignHorizontal>
 		<OnClick>LoadSplashDialog("Loading");
-Game:LoadMap("Test/3");</OnClick>
+Game:LoadMap("Game/3");</OnClick>
 	</Button>
 	<Button Name="Map4" Enabled="false" Text="Map 4">
 		<Location X="0" Y="180" />
 		<Size Width="140" Height="40" />
 		<AlignHorizontal>Center</AlignHorizontal>
 		<OnClick>LoadSplashDialog("Loading");
-Game:LoadMap("Test/4");</OnClick>
+Game:LoadMap("Game/4");</OnClick>
 	</Button>
 	<Button Name="Map5" Enabled="false" Text="Map 5">
 		<Location X="0" Y="230" />
 		<Size Width="140" Height="40" />
 		<AlignHorizontal>Center</AlignHorizontal>
 		<OnClick>LoadSplashDialog("Loading");
-Game:LoadMap("Test/5");</OnClick>
+Game:LoadMap("Game/5");</OnClick>
 	</Button>
 	<Button Name="Close" Text="&lt;-">
 		<Location X="48" Y="290" />
 		<Size Width="40" Height="30" />
 		<AlignHorizontal>Center</AlignHorizontal>
-		<OnClick>Dialog:Close();
+		<OnClick>Me:Close();
 LoadDialog("MainMenu");</OnClick>
 	</Button>
 </Dialog>

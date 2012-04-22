@@ -177,11 +177,11 @@ namespace Core
         [LuaGlobal(Description = "Loads and displays a new dialog.")]
         public DialogRenderer LoadDialog(string name)
         {
-            var dialog = new DialogRenderer(GuiManager, name + ".xml", new Point(25, 25));
-            SetupLua(dialog.Lua);
-            dialog.Show();
+            var dialogRenderer = new DialogRenderer(GuiManager, name + ".xml", new Point(25, 25));
+            SetupLua(dialogRenderer.Lua);
+            dialogRenderer.Show();
             Engine.Render(0);
-            return dialog;
+            return dialogRenderer;
         }
 
         /// <summary>
@@ -192,11 +192,11 @@ namespace Core
         [LuaGlobal(Description = "Loads and displays a new modal (exclusivly focused) dialog.")]
         public DialogRenderer LoadModalDialog(string name)
         {
-            var dialog = new DialogRenderer(GuiManager, name + ".xml", new Point(25, 25));
-            SetupLua(dialog.Lua);
-            dialog.ShowModal();
+            var dialogRenderer = new DialogRenderer(GuiManager, name + ".xml", new Point(25, 25));
+            SetupLua(dialogRenderer.Lua);
+            dialogRenderer.ShowModal();
             Engine.Render(0);
-            return dialog;
+            return dialogRenderer;
         }
 
         /// <summary>

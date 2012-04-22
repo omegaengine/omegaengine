@@ -50,21 +50,21 @@ Engine:Debug();</OnClick>
 	<Button Name="LightPhase0" Text="0">
 		<Location X="410" Y="45" />
 		<Size Width="30" Height="30" />
-		<OnClick>Universe.LightPhase = 0; Dialog:Update();</OnClick>
+		<OnClick>Universe.LightPhase = 0; Me:Update();</OnClick>
 	</Button>
 	<Button Name="LightPhase1" Text="1">
 		<Location X="450" Y="45" />
 		<Size Width="30" Height="30" />
-		<OnClick>Universe.LightPhase = 1; Dialog:Update();</OnClick>
+		<OnClick>Universe.LightPhase = 1; Me:Update();</OnClick>
 	</Button>
 	<Button Name="LightPhase2" Text="2">
 		<Location X="490" Y="45" />
 		<Size Width="30" Height="30" />
-		<OnClick>Universe.LightPhase = 2; Dialog:Update();</OnClick>
+		<OnClick>Universe.LightPhase = 2; Me:Update();</OnClick>
 	</Button>
 	<Button Name="LightPhase3" Text="3">
 		<Location X="530" Y="45" />
 		<Size Width="30" Height="30" />
-		<OnClick>Universe.LightPhase = 3; Dialog:Update();</OnClick>
+		<OnClick>Universe.LightPhase = 3; Me:Update();</OnClick>
 	</Button>
 </Dialog>

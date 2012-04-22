@@ -31,16 +31,17 @@ using Common.Storage;
 using Common.Utils;
 using LuaInterface;
 using OmegaEngine;
+using OmegaGUI.Model;
 
 namespace OmegaGUI
 {
     /// <summary>
-    /// Manages the interface between <see cref="Render.Dialog"/> and <see cref="Model.Dialog"/>
+    /// Displays a <see cref="Dialog"/> using <see cref="Render.Dialog"/>.
     /// </summary>
     public class DialogRenderer : IDisposable
     {
         #region Variables
-        private readonly GuiManager _dialogManager;
+        private readonly GuiManager _manager;
 
         private Point _location;
         #endregion
@@ -66,16 +67,16 @@ namespace OmegaGUI
         }
 
         /// <summary>
-        /// The dialog model used for rendering
+        /// The dialog to be displayed
+        /// </summary>
+        [CLSCompliant(false)]
+        public Dialog DialogModel { get; private set; }
+
+        /// <summary>
+        /// The rendering system used to display <see cref="DialogModel"/>
         /// </summary>
         [CLSCompliant(false)]
         public Render.Dialog DialogRender { get; private set; }
-
-        /// <summary>
-        /// The dialog view the dialog model is based on
-        /// </summary>
-        [CLSCompliant(false)]
-        public Model.Dialog DialogModel { get; private set; }
 
         /// <summary>
         /// The <see cref="LuaInterface.Lua"/> interpreter used to execute event scripts
@@ -86,35 +87,35 @@ namespace OmegaGUI
 
         #region Constructor
         /// <summary>
-        /// Creates a new dialog from an XML file
+        /// Creates a new dialog renderer from an XML file
         /// </summary>
-        /// <param name="manager">The DialogManager interfaces dialog view representation and actual rendering</param>
+        /// <param name="manager">The <see cref="GuiManager"/> used to interface with the <see cref="Engine"/></param>
         /// <param name="filename">The filename of the XML file to load</param>
         /// <param name="location">The location of the dialog on the screen</param>
         public DialogRenderer(GuiManager manager, string filename, Point location)
-            : this(manager, Model.Dialog.FromContent(filename), location, true)
+            : this(manager, Dialog.FromContent(filename), location, true)
         {
             Log.Info("Loading GUI dialog: " + filename);
             Name = filename;
         }
 
         /// <summary>
-        /// Creates a new dialog from a <see cref="Model.Dialog"/>
+        /// Creates a new dialog renderer for a <see cref="Model.Dialog"/>
         /// </summary>
-        /// <param name="manager">The DialogManager interfaces dialog view representation and actual rendering</param>
-        /// <param name="dialogView">The dialog to render</param>
+        /// <param name="manager">The <see cref="GuiManager"/> used to interface with the <see cref="Engine"/></param>
+        /// <param name="dialog">The dialog to be displayed</param>
         /// <param name="location">The location of the dialog on the screen</param>
         /// <param name="enableLua">Enable Lua scripting support for this dialog?</param>
         [CLSCompliant(false)]
-        public DialogRenderer(GuiManager manager, Model.Dialog dialogView, Point location, bool enableLua)
+        public DialogRenderer(GuiManager manager, Dialog dialog, Point location, bool enableLua)
         {
-            _dialogManager = manager;
-            DialogModel = dialogView;
-            DialogRender = dialogView.GenerateDialog(_dialogManager.ModelManager);
+            _manager = manager;
+            DialogModel = dialog;
+            DialogRender = dialog.GenerateRender(_manager.ModelManager);
             _location = location;
 
             LayoutHelper();
-            _dialogManager.ModelManager.Engine.DeviceReset += LayoutHelper;
+            _manager.ModelManager.Engine.DeviceReset += LayoutHelper;
 
             if (enableLua)
             {
@@ -122,7 +123,7 @@ namespace OmegaGUI
 
                 #region Register Lua variables and functions
                 // Register all controls as direct variables when possible
-                foreach (var control in dialogView.Controls)
+                foreach (var control in dialog.Controls)
                 {
                     if (!string.IsNullOrEmpty(control.Name))
                     {
@@ -135,13 +136,13 @@ namespace OmegaGUI
                     }
                 }
 
-                Lua["Dialog"] = this;
+                Lua["Me"] = this;
 
                 LuaRegistrationHelper.Enumeration<Render.MsgBoxType>(Lua);
                 LuaRegistrationHelper.Enumeration<Render.MsgBoxResult>(Lua);
                 #endregion
 
-                dialogView.ScriptFired += LuaExecute;
+                dialog.ScriptFired += LuaExecute;
             }
         }
         #endregion
@@ -191,7 +192,7 @@ namespace OmegaGUI
             if (Disposed) throw new ObjectDisposedException(ToString());
             #endregion
 
-            _dialogManager.AddNormal(this);
+            _manager.AddNormal(this);
             LuaExecute(DialogModel.OnShow, "Dialog_Show");
             Update();
         }
@@ -205,7 +206,7 @@ namespace OmegaGUI
             if (Disposed) throw new ObjectDisposedException(ToString());
             #endregion
 
-            _dialogManager.AddModal(this);
+            _manager.AddModal(this);
             LuaExecute(DialogModel.OnShow, "Dialog_Show");
             Update();
         }
@@ -231,7 +232,7 @@ namespace OmegaGUI
             if (Disposed) throw new ObjectDisposedException(ToString());
             #endregion
 
-            _dialogManager.Remove(this);
+            _manager.Remove(this);
         }
         #endregion
 
@@ -276,8 +277,8 @@ namespace OmegaGUI
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
         /// <exception cref="KeyNotFoundException">An element with the specified key does not exist in the dictionary.</exception>
-        // Note: Keep this in addition to the DialogView index accessor for Lua access
-        public Model.Control GetControl(string name)
+        // Note: Keep this in addition to the DialogRender index accessor for Lua access
+        public Control GetControl(string name)
         {
             return DialogModel[name];
         }
@@ -345,7 +346,7 @@ namespace OmegaGUI
                 if (DialogRender.DialogManager.Engine != null)
                     DialogRender.DialogManager.Engine.DeviceReset -= LayoutHelper;
             }
-            if (Lua != null) _dialogManager.QueueLuaDispose(Lua);
+            if (Lua != null) _manager.QueueLuaDispose(Lua);
 
             Disposed = true;
         }

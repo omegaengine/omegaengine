@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Globalization;
 using System.Windows.Forms;
 using Common.Utils;
 using OmegaEngine;
@@ -273,129 +272,132 @@ namespace OmegaGUI.Render
             if (scrollbarControl.HandleMouse(msg, pt, wParam, lParam))
                 return true;
 
-            // Ok, scrollbar didn't handle it, move on
-            switch (msg)
+            unchecked
             {
-                case WindowMessage.MouseMove:
+                // Ok, scrollbar didn't handle it, move on
+                switch (msg)
                 {
-                    if (isComboOpen && dropDownRect.Contains(pt))
+                    case WindowMessage.MouseMove:
                     {
-                        // Determine which item has been selected
-                        for (int i = 0; i < itemList.Count; i++)
+                        if (isComboOpen && dropDownRect.Contains(pt))
                         {
-                            ListItem cbi = itemList[i];
-                            if (cbi.IsItemVisible && cbi.ItemRect.Contains(pt))
-                                focusedIndex = i;
-                        }
-                        return true;
-                    }
-                    break;
-                }
-                case WindowMessage.LeftButtonDoubleClick:
-                case WindowMessage.LeftButtonDown:
-                {
-                    if (ContainsPoint(pt))
-                    {
-                        // Pressed while inside the control
-                        isPressed = true;
-                        parentDialog.DialogManager.Target.Capture = true;
-
-                        if (!hasFocus)
-                            Dialog.RequestFocus(this);
-
-                        // Toggle dropdown
-                        if (hasFocus)
-                        {
-                            isComboOpen = !isComboOpen;
-                            if (!isComboOpen)
+                            // Determine which item has been selected
+                            for (int i = 0; i < itemList.Count; i++)
                             {
-                                if (!parentDialog.IsUsingKeyboardInput)
-                                    Dialog.ClearFocus();
+                                ListItem cbi = itemList[i];
+                                if (cbi.IsItemVisible && cbi.ItemRect.Contains(pt))
+                                    focusedIndex = i;
                             }
+                            return true;
                         }
-
-                        return true;
+                        break;
                     }
-
-                    // Perhaps this click is within the dropdown
-                    if (isComboOpen && dropDownRect.Contains(pt))
+                    case WindowMessage.LeftButtonDoubleClick:
+                    case WindowMessage.LeftButtonDown:
                     {
-                        // Determine which item has been selected
-                        for (int i = scrollbarControl.TrackPosition; i < itemList.Count; i++)
+                        if (ContainsPoint(pt))
                         {
-                            ListItem cbi = itemList[i];
-                            if (cbi.IsItemVisible && cbi.ItemRect.Contains(pt))
+                            // Pressed while inside the control
+                            isPressed = true;
+                            parentDialog.DialogManager.Target.Capture = true;
+
+                            if (!hasFocus)
+                                Dialog.RequestFocus(this);
+
+                            // Toggle dropdown
+                            if (hasFocus)
                             {
-                                selectedIndex = focusedIndex = i;
-                                RaiseChangedEvent(this, true);
-
-                                isComboOpen = false;
-
-                                if (!parentDialog.IsUsingKeyboardInput)
-                                    Dialog.ClearFocus();
-
-                                break;
-                            }
-                        }
-                        return true;
-                    }
-                    // Mouse click not on main control or in dropdown, fire an event if needed
-                    if (isComboOpen)
-                    {
-                        focusedIndex = selectedIndex;
-                        RaiseChangedEvent(this, true);
-                        isComboOpen = false;
-                    }
-
-                    // Make sure the control is no longer 'pressed'
-                    isPressed = false;
-
-                    // Release focus if appropriate
-                    if (!parentDialog.IsUsingKeyboardInput)
-                        Dialog.ClearFocus();
-
-                    break;
-                }
-                case WindowMessage.LeftButtonUp:
-                {
-                    if (isPressed && ContainsPoint(pt))
-                    {
-                        // Button click
-                        isPressed = false;
-                        parentDialog.DialogManager.Target.Capture = false;
-                        return true;
-                    }
-                    break;
-                }
-                case WindowMessage.MouseWheel:
-                {
-                    int zdelta = MathUtils.HiWord((uint)wParam.ToInt32()) / Dialog.WheelDelta;
-                    if (isComboOpen)
-                        scrollbarControl.Scroll(-zdelta * SystemInformation.MouseWheelScrollLines);
-                    else
-                    {
-                        if (zdelta > 0)
-                        {
-                            if (focusedIndex > 0)
-                            {
-                                focusedIndex--;
-                                selectedIndex = focusedIndex;
+                                isComboOpen = !isComboOpen;
                                 if (!isComboOpen)
-                                    RaiseChangedEvent(this, true);
+                                {
+                                    if (!parentDialog.IsUsingKeyboardInput)
+                                        Dialog.ClearFocus();
+                                }
                             }
+
+                            return true;
                         }
+
+                        // Perhaps this click is within the dropdown
+                        if (isComboOpen && dropDownRect.Contains(pt))
+                        {
+                            // Determine which item has been selected
+                            for (int i = scrollbarControl.TrackPosition; i < itemList.Count; i++)
+                            {
+                                ListItem cbi = itemList[i];
+                                if (cbi.IsItemVisible && cbi.ItemRect.Contains(pt))
+                                {
+                                    selectedIndex = focusedIndex = i;
+                                    RaiseChangedEvent(this, true);
+
+                                    isComboOpen = false;
+
+                                    if (!parentDialog.IsUsingKeyboardInput)
+                                        Dialog.ClearFocus();
+
+                                    break;
+                                }
+                            }
+                            return true;
+                        }
+                        // Mouse click not on main control or in dropdown, fire an event if needed
+                        if (isComboOpen)
+                        {
+                            focusedIndex = selectedIndex;
+                            RaiseChangedEvent(this, true);
+                            isComboOpen = false;
+                        }
+
+                        // Make sure the control is no longer 'pressed'
+                        isPressed = false;
+
+                        // Release focus if appropriate
+                        if (!parentDialog.IsUsingKeyboardInput)
+                            Dialog.ClearFocus();
+
+                        break;
+                    }
+                    case WindowMessage.LeftButtonUp:
+                    {
+                        if (isPressed && ContainsPoint(pt))
+                        {
+                            // Button click
+                            isPressed = false;
+                            parentDialog.DialogManager.Target.Capture = false;
+                            return true;
+                        }
+                        break;
+                    }
+                    case WindowMessage.MouseWheel:
+                    {
+                        int zdelta = MathUtils.HiWord((uint)wParam.ToInt32()) / Dialog.WheelDelta;
+                        if (isComboOpen)
+                            scrollbarControl.Scroll(-zdelta * SystemInformation.MouseWheelScrollLines);
                         else
                         {
-                            if (focusedIndex + 1 < NumberItems)
+                            if (zdelta > 0)
                             {
-                                focusedIndex++;
-                                selectedIndex = focusedIndex;
-                                if (!isComboOpen)
-                                    RaiseChangedEvent(this, true);
+                                if (focusedIndex > 0)
+                                {
+                                    focusedIndex--;
+                                    selectedIndex = focusedIndex;
+                                    if (!isComboOpen)
+                                        RaiseChangedEvent(this, true);
+                                }
+                            }
+                            else
+                            {
+                                if (focusedIndex + 1 < NumberItems)
+                                {
+                                    focusedIndex++;
+                                    selectedIndex = focusedIndex;
+                                    if (!isComboOpen)
+                                        RaiseChangedEvent(this, true);
+                                }
                             }
                         }
+                        return true;
                     }
-                    return true;
                 }
             }
 
@@ -641,7 +643,7 @@ namespace OmegaGUI.Render
             for (int i = start; i < itemList.Count; i++)
             {
                 ListItem cbi = itemList[i];
-                if (string.Compare(cbi.ItemText, text, true, CultureInfo.CurrentUICulture) == 0)
+                if (string.Compare(cbi.ItemText, text, StringComparison.InvariantCultureIgnoreCase) == 0)
                     return i;
             }
 

@@ -431,7 +431,7 @@ namespace OmegaGUI.Model
         /// </summary>
         /// <param name="manager">The <see cref="DialogManager"/> instance that provides the resources for rendering of this dialog</param>
         /// <returns>The generated dialog model</returns>
-        public Render.Dialog GenerateDialog(DialogManager manager)
+        internal Render.Dialog GenerateRender(DialogManager manager)
         {
             // Load language XML
             string langName = (Resources.Culture == null) ? "English" : StringUtils.GetLeftPartAtFirstOccurrence(Resources.Culture.EnglishName, ' ');
@@ -579,7 +579,7 @@ namespace OmegaGUI.Model
         #region Clone
         /// <summary>
         /// Creates a deep copy of this dialog.
-        /// You need to call <see cref="GenerateDialog"/> on it before it can be used for rendering.
+        /// You need to call <see cref="GenerateRender"/> on it before it can be used for rendering.
         /// </summary>
         /// <returns>The cloned dialog.</returns>
         public Dialog Clone()

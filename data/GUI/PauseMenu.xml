@@ -42,7 +42,7 @@
 		<Location X="0" Y="276" />
 		<Size Width="180" Height="48" />
 		<AlignHorizontal>Center</AlignHorizontal>
-		<OnClick>Dialog:Close();
+		<OnClick>Me:Close();
 LoadModalDialog("Settings");</OnClick>
 	</Button>
 	<Button Name="ToMainMenu" Text="[MainMenu]">
@@ -55,7 +55,7 @@ LoadModalDialog("Settings");</OnClick>
     Game:SwitchToMenu();
   end;
 end;
-Dialog:MsgBox('[EndGameSure]', MsgBoxType.YesNo, CallbackExit);</OnClick>
+Me:MsgBox('[EndGameSure]', MsgBoxType.YesNo, CallbackExit);</OnClick>
 	</Button>
 	<Button Name="Exit" Text="[ExitGame]">
 		<Location X="0" Y="422" />
@@ -64,6 +64,6 @@ Dialog:MsgBox('[EndGameSure]', MsgBoxType.YesNo, CallbackExit);</OnClick>
 		<OnClick>function CallbackExit(result)
   if result == MsgBoxResult.Yes then Game:Exit(); end;
 end;
-Dialog:MsgBox('[EndGameSure]', MsgBoxType.YesNo, CallbackExit);</OnClick>
+Me:MsgBox('[EndGameSure]', MsgBoxType.YesNo, CallbackExit);</OnClick>
 	</Button>
 </Dialog>
