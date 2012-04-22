@@ -106,7 +106,7 @@ namespace OmegaEngine
                 var mos = new ManagementObjectSearcher("SELECT AdapterRAM FROM Win32_VideoController");
                 foreach (ManagementObject mob in mos.Get())
                 {
-                    _hardware.Gpu.Ram = Convert.ToInt32(mob.Properties["AdapterRAM"].Value, CultureInfo.InvariantCulture) / 1024 / 1024;
+                    _hardware.Gpu.Ram = (int)(Convert.ToInt64(mob.Properties["AdapterRAM"].Value, CultureInfo.InvariantCulture) / 1024 / 1024);
 
                     // Keep first graphics adapter that has RAM
                     if (_hardware.Gpu.Ram > 0) break;
