@@ -3,24 +3,24 @@
 	<ColorBackground A="0" R="0" G="0" B="0" />
 	<ColorCaption A="128" R="96" G="128" B="255" />
 	<ColorText A="255" R="255" G="255" B="255" />
-	<OnShow>FreezeTime.Checked = (Session.TimeWarpFactor==0);</OnShow>
-	<OnUpdate>LightPhase.Value = Universe.LightPhase * 25;
-FPS.Text = Engine.FpsText;</OnUpdate>
+	<OnShow>FreezeTime.Checked = (Session.TimeWarpFactor==0)</OnShow>
+	<OnUpdate>LightPhase.Value = Universe.LightPhase * 25
+FPS.Text = Engine.FpsText</OnUpdate>
 	<Size Width="800" Height="600" />
 	<Shift X="0" Y="0" />
 	<Button Name="ShowMenu" Text="[ShowMenu]" Hotkey="Pause">
 		<Location X="20" Y="20" />
 		<Size Width="130" Height="40" />
-		<OnClick>Game:TogglePause();</OnClick>
+		<OnClick>Game:TogglePause()</OnClick>
 	</Button>
 	<CheckBox Name="FreezeTime" Text="[FreezeTime]" Hotkey="T">
 		<Location X="172" Y="28" />
 		<Size Width="130" Height="20" />
 		<OnChanged>if FreezeTime.Checked then
-  Session.TimeWarpFactor = 0;
+  Session.TimeWarpFactor = 0
 else
-  Session.TimeWarpFactor = 1;
-end;</OnChanged>
+  Session.TimeWarpFactor = 1
+end</OnChanged>
 	</CheckBox>
 	<Label Name="LightPhaseLabel" Text="[LightPhase]">
 		<Location X="275" Y="10" />
@@ -31,14 +31,14 @@ end;</OnChanged>
 		<Location X="420" Y="6" />
 		<Size Width="200" Height="32" />
 		<Max>100</Max>
-		<OnChanged>Universe.LightPhase = LightPhase.Value / 25;</OnChanged>
+		<OnChanged>Universe.LightPhase = LightPhase.Value / 25</OnChanged>
 	</Slider>
 	<Button Name="Debug" Text="Debug">
 		<Location X="20" Y="20" />
 		<Size Width="130" Height="40" />
 		<AlignHorizontal>FromRight</AlignHorizontal>
-		<OnClick>Settings.Display.Fullscreen = false;
-Engine:Debug();</OnClick>
+		<OnClick>Settings.Display.Fullscreen = false
+Engine:Debug()</OnClick>
 	</Button>
 	<Label Name="FPS" Text="FPS: 12,3456">
 		<Location X="20" Y="20" />
@@ -50,21 +50,21 @@ Engine:Debug();</OnClick>
 	<Button Name="LightPhase0" Text="0">
 		<Location X="410" Y="45" />
 		<Size Width="30" Height="30" />
-		<OnClick>Universe.LightPhase = 0; Me:Update();</OnClick>
+		<OnClick>Universe.LightPhase = 0; Me:Update()</OnClick>
 	</Button>
 	<Button Name="LightPhase1" Text="1">
 		<Location X="450" Y="45" />
 		<Size Width="30" Height="30" />
-		<OnClick>Universe.LightPhase = 1; Me:Update();</OnClick>
+		<OnClick>Universe.LightPhase = 1; Me:Update()</OnClick>
 	</Button>
 	<Button Name="LightPhase2" Text="2">
 		<Location X="490" Y="45" />
 		<Size Width="30" Height="30" />
-		<OnClick>Universe.LightPhase = 2; Me:Update();</OnClick>
+		<OnClick>Universe.LightPhase = 2; Me:Update()</OnClick>
 	</Button>
 	<Button Name="LightPhase3" Text="3">
 		<Location X="530" Y="45" />
 		<Size Width="30" Height="30" />
-		<OnClick>Universe.LightPhase = 3; Me:Update();</OnClick>
+		<OnClick>Universe.LightPhase = 3; Me:Update()</OnClick>
 	</Button>
 </Dialog>

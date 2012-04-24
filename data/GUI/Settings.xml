@@ -5,7 +5,7 @@
 	<ColorText A="255" R="255" G="255" B="255" />
 	<CaptionText>[Settings]</CaptionText>
 	<CaptionHeight>30</CaptionHeight>
-	<OnShow>Me:ImportLua("Settings.lua");</OnShow>
+	<OnShow>Me:ImportLua("Settings.lua")</OnShow>
 	<FontSize>15</FontSize>
 	<Size Width="750" Height="520" />
 	<Shift X="0" Y="0" />
@@ -31,24 +31,24 @@
 		<SelectedItem>English</SelectedItem>
 		<OnChanged>-- Default to English language, provide German as an option
 if Language.SelectedItem=="Deutsch" then
-  Settings.General.Language = "de";
+  Settings.General.Language = "de"
 else
-  Settings.General.Language = "en";
-end;
+  Settings.General.Language = "en"
+end
 
 -- Reload the Settings dialog to apply the language switch
-Me:Close();
-LoadModalDialog("Settings").DialogRender.Location = Me.DialogRender.Location;</OnChanged>
+Me:Close()
+LoadModalDialog("Settings").DialogRender.Location = Me.DialogRender.Location</OnChanged>
 	</DropdownList>
 	<CheckBox Name="PlayMusic" Text="[PlayMusic]">
 		<Location X="290" Y="55" />
 		<Size Width="280" Height="20" />
-		<OnChanged>Settings.Sound.PlayMusic = PlayMusic.Checked;</OnChanged>
+		<OnChanged>Settings.Sound.PlayMusic = PlayMusic.Checked</OnChanged>
 	</CheckBox>
 	<CheckBox Name="InvertMouse" Text="[InvertMouse]">
 		<Location X="290" Y="85" />
 		<Size Width="280" Height="20" />
-		<OnChanged>Settings.Controls.InvertMouse = InvertMouse.Checked;</OnChanged>
+		<OnChanged>Settings.Controls.InvertMouse = InvertMouse.Checked</OnChanged>
 	</CheckBox>
 	<GroupBox Name="DisplayBox">
 		<Location X="10" Y="142" />
@@ -67,9 +67,9 @@ LoadModalDialog("Settings").DialogRender.Location = Me.DialogRender.Location;</O
 	<DropdownList Name="Resolution">
 		<Location X="100" Y="180" />
 		<Size Width="150" Height="30" />
-		<OnChanged>LocationBackup = Me.DialogRender.Location;
-Settings.Display.ResolutionText = Resolution.SelectedItem;
-Me.DialogRender.Location = LocationBackup;</OnChanged>
+		<OnChanged>location_backup = Me.DialogRender.Location
+Settings.Display.ResolutionText = Resolution.SelectedItem
+Me.DialogRender.Location = location_backup</OnChanged>
 	</DropdownList>
 	<Label Name="AntiAliasingLabel" Text="Anti-Aliasing">
 		<Location X="20" Y="220" />
@@ -80,28 +80,28 @@ Me.DialogRender.Location = LocationBackup;</OnChanged>
 		<Size Width="100" Height="30" />
 		<Item>[Off]</Item>
 		<SelectedItem>[Off]</SelectedItem>
-		<OnChanged>LocationBackup = Me.DialogRender.Location;
-Settings.Display.AntiAliasingText = AntiAliasing.SelectedItem;
-Me.DialogRender.Location = LocationBackup;</OnChanged>
+		<OnChanged>location_backup = Me.DialogRender.Location
+Settings.Display.AntiAliasingText = AntiAliasing.SelectedItem
+Me.DialogRender.Location = location_backup</OnChanged>
 	</DropdownList>
 	<CheckBox Name="Anisotropic" Text="[Anisotropic]">
 		<Location X="290" Y="223" />
 		<Size Width="280" Height="20" />
-		<OnChanged>Settings.Graphics.Anisotropic = Anisotropic.Checked;</OnChanged>
+		<OnChanged>Settings.Graphics.Anisotropic = Anisotropic.Checked</OnChanged>
 	</CheckBox>
 	<CheckBox Name="Fullscreen" Text="[Fullscreen]">
 		<Location X="290" Y="185" />
 		<Size Width="130" Height="20" />
-		<OnChanged>LocationBackup = Me.DialogRender.Location;
-Settings.Display.Fullscreen = Fullscreen.Checked;
-Me.DialogRender.Location = LocationBackup;</OnChanged>
+		<OnChanged>location_backup = Me.DialogRender.Location
+Settings.Display.Fullscreen = Fullscreen.Checked
+Me.DialogRender.Location = location_backup</OnChanged>
 	</CheckBox>
 	<CheckBox Name="VSync" Text="VSync">
 		<Location X="440" Y="185" />
 		<Size Width="130" Height="20" />
-		<OnChanged>LocationBackup = Me.DialogRender.Location;
-Settings.Display.VSync = VSync.Checked;
-Me.DialogRender.Location = LocationBackup;</OnChanged>
+		<OnChanged>location_backup = Me.DialogRender.Location
+Settings.Display.VSync = VSync.Checked
+Me.DialogRender.Location = location_backup</OnChanged>
 	</CheckBox>
 	<GroupBox Name="GeneralBox">
 		<Location X="10" Y="282" />
@@ -116,17 +116,17 @@ Me.DialogRender.Location = LocationBackup;</OnChanged>
 	<CheckBox Name="PostScreenEffects" Text="[PostScreenEffects]">
 		<Location X="20" Y="325" />
 		<Size Width="220" Height="20" />
-		<OnChanged>Settings.Graphics.PostScreenEffects = PostScreenEffects.Checked;</OnChanged>
+		<OnChanged>Settings.Graphics.PostScreenEffects = PostScreenEffects.Checked</OnChanged>
 	</CheckBox>
 	<CheckBox Name="Shadows" Text="[ShowUnitShadows]">
 		<Location X="255" Y="325" />
 		<Size Width="300" Height="20" />
-		<OnChanged>Settings.Graphics.Shadows = Shadows.Checked;</OnChanged>
+		<OnChanged>Settings.Graphics.Shadows = Shadows.Checked</OnChanged>
 	</CheckBox>
 	<CheckBox Name="TerrainDoubleSampling" Text="[TerrainDoubleSampling]">
 		<Location X="460" Y="359" />
 		<Size Width="260" Height="20" />
-		<OnChanged>Settings.Graphics.DoubleSampling = TerrainDoubleSampling.Checked;</OnChanged>
+		<OnChanged>Settings.Graphics.DoubleSampling = TerrainDoubleSampling.Checked</OnChanged>
 	</CheckBox>
 	<Label Name="WaterEffectsLabel" Text="[WaterEffects]">
 		<Location X="20" Y="360" />
@@ -140,11 +140,11 @@ Me.DialogRender.Location = LocationBackup;</OnChanged>
 		<Item>[ReflectTerrain]</Item>
 		<Item>[ReflectAll]</Item>
 		<SelectedItem>[RefractionOnly]</SelectedItem>
-		<OnChanged>if WaterEffects.SelectedItem == "[None]" then Settings.Graphics.WaterEffects = WaterEffectsType.None;
-elseif WaterEffects.SelectedItem == "[RefractionOnly]" then Settings.Graphics.WaterEffects = WaterEffectsType.RefractionOnly;
-elseif WaterEffects.SelectedItem == "[ReflectTerrain]" then Settings.Graphics.WaterEffects = WaterEffectsType.ReflectTerrain;
-elseif WaterEffects.SelectedItem == "[ReflectAll]" then Settings.Graphics.WaterEffects = WaterEffectsType.ReflectAll;
-end;</OnChanged>
+		<OnChanged>if WaterEffects.SelectedItem == "[None]" then Settings.Graphics.WaterEffects = WaterEffectsType.None
+elseif WaterEffects.SelectedItem == "[RefractionOnly]" then Settings.Graphics.WaterEffects = WaterEffectsType.RefractionOnly
+elseif WaterEffects.SelectedItem == "[ReflectTerrain]" then Settings.Graphics.WaterEffects = WaterEffectsType.ReflectTerrain
+elseif WaterEffects.SelectedItem == "[ReflectAll]" then Settings.Graphics.WaterEffects = WaterEffectsType.ReflectAll
+end</OnChanged>
 	</DropdownList>
 	<Label Name="ParticleSystemQualityLabel" Text="[ParticleSystemQuality]">
 		<Location X="20" Y="400" />
@@ -157,23 +157,23 @@ end;</OnChanged>
 		<Item>[Medium]</Item>
 		<Item>[High]</Item>
 		<SelectedItem>[Medium]</SelectedItem>
-		<OnChanged>if ParticleSystemQuality.SelectedItem == "[Low]" then Settings.Graphics.ParticleSystemQuality = Quality.Low;
-elseif ParticleSystemQuality.SelectedItem == "[Medium]" then Settings.Graphics.ParticleSystemQuality = Quality.Medium;
-elseif ParticleSystemQuality.SelectedItem == "[High]" then Settings.Graphics.ParticleSystemQuality = Quality.High;
-end;</OnChanged>
+		<OnChanged>if ParticleSystemQuality.SelectedItem == "[Low]" then Settings.Graphics.ParticleSystemQuality = Quality.Low
+elseif ParticleSystemQuality.SelectedItem == "[Medium]" then Settings.Graphics.ParticleSystemQuality = Quality.Medium
+elseif ParticleSystemQuality.SelectedItem == "[High]" then Settings.Graphics.ParticleSystemQuality = Quality.High
+end</OnChanged>
 	</DropdownList>
 	<Button Name="Exit" Text="OK">
 		<Location X="0" Y="460" />
 		<Size Width="160" Height="40" />
 		<AlignHorizontal>Center</AlignHorizontal>
-		<OnClick>Me:Close();
+		<OnClick>Me:Close()
 
 -- Restore the previous dialog
 if State == GameState.Menu then
-  LoadDialog("MainMenu");
-end;
+  LoadDialog("MainMenu")
+end
 if State == GameState.Pause then
-  LoadDialog("PauseMenu");
-end;</OnClick>
+  LoadDialog("PauseMenu")
+end</OnClick>
 	</Button>
 </Dialog>

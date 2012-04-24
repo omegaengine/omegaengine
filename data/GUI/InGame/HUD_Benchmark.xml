@@ -3,14 +3,14 @@
 	<ColorBackground A="0" R="0" G="0" B="0" />
 	<ColorCaption A="128" R="96" G="128" B="255" />
 	<ColorText A="255" R="255" G="255" B="255" />
-	<OnUpdate>FPS.Text = Engine.FpsText;</OnUpdate>
+	<OnUpdate>FPS.Text = Engine.FpsText</OnUpdate>
 	<Size Width="800" Height="600" />
 	<Shift X="0" Y="0" />
 	<Button Name="Exit" Text="X">
 		<Location X="20" Y="20" />
 		<Size Width="30" Height="30" />
 		<AlignHorizontal>FromRight</AlignHorizontal>
-		<OnClick>Game:Exit();</OnClick>
+		<OnClick>Game:Exit()</OnClick>
 	</Button>
 	<Label Name="FPS" Text="FPS: 12,3456">
 		<Location X="20" Y="20" />

@@ -17,8 +17,10 @@ using System.Windows.Forms;
 using Common;
 using Common.Controls;
 using Common.Utils;
+using Common.Values;
 using LuaInterface;
 using OmegaEngine.Input;
+using SlimDX;
 
 namespace OmegaEngine
 {
@@ -336,8 +338,32 @@ namespace OmegaEngine
             lua["Game"] = this;
             lua["Engine"] = Engine;
 
+            // Import .NET constructors
+            ImportConstructor(lua, typeof(Point));
+            ImportConstructor(lua, typeof(Size));
+            ImportConstructor(lua, typeof(Rectangle));
+            ImportConstructor(lua, typeof(Color3));
+            ImportConstructor(lua, typeof(Color4));
+            ImportConstructor(lua, typeof(Half2));
+            ImportConstructor(lua, typeof(Half3));
+            ImportConstructor(lua, typeof(Half4));
+            ImportConstructor(lua, typeof(Vector2));
+            ImportConstructor(lua, typeof(Vector3));
+            ImportConstructor(lua, typeof(Vector4));
+            ImportConstructor(lua, typeof(Quaternion));
+            ImportConstructor(lua, typeof(Rational));
+            ImportConstructor(lua, typeof(Vector2Ray));
+            ImportConstructor(lua, typeof(DoubleVector3));
+            ImportConstructor(lua, typeof(XColor));
+
             LuaRegistrationHelper.TaggedInstanceMethods(lua, this);
             LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(GameBase));
+        }
+
+        private static void ImportConstructor(Lua lua, Type type)
+        {
+            lua.DoString("luanet.load_assembly(\"" + type.Assembly.GetName() + "\")");
+            lua.DoString(type.Name + " = luanet.import_type(\"" + type.FullName + "\")");
         }
         #endregion
 

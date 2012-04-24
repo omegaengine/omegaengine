@@ -3,9 +3,7 @@
 	<ColorBackground A="0" R="0" G="0" B="0" />
 	<ColorCaption A="128" R="96" G="128" B="255" />
 	<ColorText A="255" R="255" G="255" B="255" />
-	<OnShow>if(Session == nil) then
-  ResumeGame.Enabled = false;
-end;</OnShow>
+	<OnShow>ResumeGame.Enabled = (Session ~= nil)</OnShow>
 	<FontSize>20</FontSize>
 	<Size Width="1024" Height="768" />
 	<Shift X="0" Y="0" />
@@ -22,15 +20,15 @@ end;</OnShow>
 		<Location X="40" Y="-120" />
 		<Size Width="200" Height="50" />
 		<AlignVertical>Center</AlignVertical>
-		<OnClick>LoadSplashDialog("Loading");
-Game:SwitchToGame();</OnClick>
+		<OnClick>LoadSplashDialog("Loading")
+Game:SwitchToGame()</OnClick>
 	</Button>
 	<Button Name="NewGame" Text="[NewGame]">
 		<Location X="40" Y="-60" />
 		<Size Width="200" Height="50" />
 		<AlignVertical>Center</AlignVertical>
-		<OnClick>Me:Close();
-LoadDialog("MapSelection");</OnClick>
+		<OnClick>Me:Close()
+LoadDialog("MapSelection")</OnClick>
 	</Button>
 	<Button Name="LoadGame" Enabled="false" Text="[LoadGame]">
 		<Location X="40" Y="0" />
@@ -41,14 +39,14 @@ LoadDialog("MapSelection");</OnClick>
 		<Location X="40" Y="60" />
 		<Size Width="200" Height="50" />
 		<AlignVertical>Center</AlignVertical>
-		<OnClick>Me:Close();
-LoadModalDialog("Settings");</OnClick>
+		<OnClick>Me:Close()
+LoadModalDialog("Settings")</OnClick>
 	</Button>
 	<Button Name="Exit" Text="[Exit]">
 		<Location X="40" Y="120" />
 		<Size Width="200" Height="50" />
 		<AlignVertical>Center</AlignVertical>
-		<OnClick>Game:Exit();</OnClick>
+		<OnClick>Game:Exit()</OnClick>
 	</Button>
 	<Label Name="Version" Text="[Version]">
 		<Location X="30" Y="30" />
