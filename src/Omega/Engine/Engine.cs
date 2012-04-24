@@ -170,8 +170,6 @@ namespace OmegaEngine
         /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
         private void CreateDevice()
         {
-            Log.Info("Presentation parameters:\n" + PresentParams);
-
             // Try to create the DirectX device (fall back step-by-step if there's trouble)
             if (MathUtils.CheckFlag((int)Capabilities.DeviceCaps, (int)(DeviceCaps.PureDevice)))
             {
