@@ -21,27 +21,31 @@
  */
 
 using System;
-using System.ComponentModel;
+using System.Net;
 
-namespace Common.Collections
+namespace Common
 {
     /// <summary>
-    /// An equatable element that can be merged using 3-way merging.
+    /// Adds a customizable timout to <see cref="WebClient"/>.
     /// </summary>
-    /// <typeparam name="T">The type the interface is being applied to.</typeparam>
-    public interface IMergeable<T> : IEquatable<T>
+    public class WebClientTimeout : WebClient
     {
-        /// <summary>
-        /// A unique identifier used when comparing for merging. Should always remain the same, even when the element is modified.
-        /// </summary>
-        [DefaultValue(0)]
-        string MergeID { get; }
+        private readonly int _timeout;
 
         /// <summary>
-        /// The time this element was last modified. This is used to determine preceedence with sync conflicts.
+        /// Creates a new <see cref="WebClient"/>.
         /// </summary>
-        /// <remarks>This value is ignored by clone and equality methods.</remarks>
-        [DefaultValue(0)]
-        DateTime Timestamp { get; set; }
+        /// <param name="timeout">The length of time, in milliseconds, before requests made by this <see cref="WebClient"/> time out.</param>
+        public WebClientTimeout(int timeout)
+        {
+            _timeout = timeout;
+        }
+
+        protected override WebRequest GetWebRequest(Uri address)
+        {
+            var result = base.GetWebRequest(address);
+            if (result != null) result.Timeout = _timeout;
+            return result;
+        }
     }
 }

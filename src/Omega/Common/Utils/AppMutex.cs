@@ -52,7 +52,7 @@ namespace Common.Utils
         #endregion
 
         /// <summary>
-        /// Creates or opens a mutex to signal that an application is running.
+        /// Creates or opens a mutex (local and global) to signal that an application is running.
         /// </summary>
         /// <param name="name">The name to be used as a mutex identifier.</param>
         /// <returns><see langword="true"/> if an existing mutex was opened; <see langword="false"/> if a new one was created.</returns>
@@ -65,20 +65,31 @@ namespace Common.Utils
 
             if (!WindowsUtils.IsWindowsNT) return false;
 
+            // Always create the mutex both in the local session and globally and report if any instance already existed
+            bool result = false;
+            IntPtr handle;
             try
             {
-                IntPtr handle;
-                return WindowsUtils.CreateMutex(name, out handle);
+                result = WindowsUtils.CreateMutex("Global\\" + name, out handle);
             }
             catch (Win32Exception ex)
             {
                 Log.Warn(ex.Message);
-                return false;
             }
+            try
+            {
+                result |= WindowsUtils.CreateMutex(name, out handle);
+            }
+            catch (Win32Exception ex)
+            {
+                Log.Warn(ex.Message);
+            }
+
+            return result;
         }
 
         /// <summary>
-        /// Creates or opens a mutex to signal that an application is running.
+        /// Creates or opens a mutex (local and global) to signal that an application is running.
         /// </summary>
         /// <param name="name">The name to be used as a mutex identifier.</param>
         /// <param name="mutex">A pointer to the mutex.</param>
@@ -96,11 +107,20 @@ namespace Common.Utils
                 return false;
             }
 
+            // Always create the mutex both in the local session and globally and report if any instance already existed
             bool result = false;
             IntPtr handle1 = IntPtr.Zero, handle2 = IntPtr.Zero;
             try
             {
-                result = WindowsUtils.CreateMutex(name, out handle1);
+                result = WindowsUtils.CreateMutex("Global\\" + name, out handle1);
+            }
+            catch (Win32Exception ex)
+            {
+                Log.Warn(ex.Message);
+            }
+            try
+            {
+                result |= WindowsUtils.CreateMutex(name, out handle2);
             }
             catch (Win32Exception ex)
             {
@@ -112,7 +132,7 @@ namespace Common.Utils
         }
 
         /// <summary>
-        /// Tries to open an existing mutex signaling that an application is running.
+        /// Tries to open an existing mutex (local and global) signaling that an application is running.
         /// </summary>
         /// <param name="name">The name to be used as a mutex identifier.</param>
         /// <returns><see langword="true"/> if an existing mutex was opened; <see langword="false"/> if none existed.</returns>
@@ -125,19 +145,29 @@ namespace Common.Utils
 
             if (!WindowsUtils.IsWindowsNT) return false;
 
+            // Always create the mutex both in the local session and globally and report if any instance already existed
+            bool result = false;
             try
             {
-                return WindowsUtils.OpenMutex(name);
+                result = WindowsUtils.OpenMutex("Global\\" + name);
             }
             catch (Win32Exception ex)
             {
                 Log.Warn(ex.Message);
-                return false;
             }
+            try
+            {
+                result |= WindowsUtils.OpenMutex(name);
+            }
+            catch (Win32Exception ex)
+            {
+                Log.Warn(ex.Message);
+            }
+            return result;
         }
 
         /// <summary>
-        /// Checks whether a specific mutex exists without openining a lasting handle.
+        /// Checks whether a specific mutex exists (local or global) without openining a lasting handle.
         /// </summary>
         /// <param name="name">The name to be used as a mutex identifier.</param>
         /// <returns><see langword="true"/> if an existing mutex was found; <see langword="false"/> if none existed.</returns>
@@ -149,15 +179,25 @@ namespace Common.Utils
 
             if (!WindowsUtils.IsWindowsNT) return false;
 
+            // Always check for the mutex both in the local session and globally and report if any instance already existed
+            bool result = false;
             try
             {
-                return WindowsUtils.ProbeMutex(name);
+                result = WindowsUtils.ProbeMutex("Global\\" + name);
             }
             catch (Win32Exception ex)
             {
                 Log.Warn(ex.Message);
-                return false;
             }
+            try
+            {
+                result |= WindowsUtils.ProbeMutex(name);
+            }
+            catch (Win32Exception ex)
+            {
+                Log.Warn(ex.Message);
+            }
+            return result;
         }
     }
 
