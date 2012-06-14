@@ -19,7 +19,8 @@ Das "build.cmd" script assumes that Visual Studio 2010 is installed and that Inn
 The engine requires shader files to be located in a subdirectory of the installation path named "Shaders".
 
 The TerrainSample and SpaceSample projects place "_portable" and "*.Settings.xml" files in the build directories which cause the game content files to be loaded from \data\.
-When releasing the binaries as standalone applications these files are not present and game content files are instead expected be located in a subdirectory of the installation path named "Base" by default.
+When releasing the binaries as standalone applications these files are not present and game content files are instead expected be located in a subdirectory of the installation path named "Base".
+This naming scheme is defined by the sample projects and not intrinsic to the OmegaEngine.
 
 To open the Debug Console when running one of the sample projects press Ctrl + Alt + Shift + D.
 
