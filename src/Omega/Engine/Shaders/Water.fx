@@ -103,7 +103,7 @@ struct outSimple
 
 //---------------- Helper functions ----------------
 
-float2 CalcSamplingCoord(float2 texCoord)
+float2 calcSamplingCoord(float2 texCoord)
 {
     float4 rotatedTexCoords = mul(float4(texCoord, 0, 1), WindDirection);
     float2 moveVector = float2(0, 1);
@@ -123,7 +123,7 @@ outRefractionReflection VS_RefractionReflection(inWater IN)
     OUT.normal = normalize(mul(normalize(IN.normal), world));
     OUT.reflectionMapSamplingPos = mul(IN.position, worldReflectionViewProjection).xyw;
     OUT.refractionMapSamplingPos = mul(IN.position, worldViewProjection).xyw;
-    OUT.bumpMapSamplingPos = CalcSamplingCoord(IN.texCoord);
+    OUT.bumpMapSamplingPos = calcSamplingCoord(IN.texCoord);
 
     return OUT;    
 }
@@ -135,9 +135,9 @@ outRefraction VS_Refraction(inWater IN)
     // Transform data into world space
     OUT.pos = mul(float4(IN.position.xyz, 1.0), worldViewProjection); OUT.worldPos = mul(float4(IN.position.xyz, 1.0), world);
     OUT.normal = normalize(mul(normalize(IN.normal), world));
-    OUT.texCoord = CalcSamplingCoord(IN.texCoord);
+    OUT.texCoord = calcSamplingCoord(IN.texCoord);
     OUT.refractionMapSamplingPos = mul(IN.position, worldViewProjection).xyw;
-    OUT.bumpMapSamplingPos = CalcSamplingCoord(IN.texCoord);
+    OUT.bumpMapSamplingPos = calcSamplingCoord(IN.texCoord);
 
     return OUT;    
 }
@@ -148,8 +148,8 @@ outSimple VS_Simple(inWater IN)
 
     // Transform data into world space
     OUT.pos = mul(float4(IN.position.xyz, 1.0), worldViewProjection);
-    OUT.texCoord = CalcSamplingCoord(IN.texCoord);
-    OUT.texCoord = CalcSamplingCoord(IN.texCoord);
+    OUT.texCoord = calcSamplingCoord(IN.texCoord);
+    OUT.texCoord = calcSamplingCoord(IN.texCoord);
 
     return OUT;    
 }

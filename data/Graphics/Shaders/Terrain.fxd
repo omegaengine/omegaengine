@@ -164,7 +164,7 @@ float3 transNorm(float3 normal)
 
 /// <BeginnFilter Lighting="true" />
 
-float4 CalcDirLight(float3 transPos, float3 normal, float3 lightDir,
+float4 calcDirLight(float3 transPos, float3 normal, float3 lightDir,
   float4 diffuseColor, float4 ambientColor) // Overload without shadows
 {
     // Calculate additional vectors
@@ -179,7 +179,7 @@ float4 CalcDirLight(float3 transPos, float3 normal, float3 lightDir,
     return diffuseColor * diffuseFactor + ambientColor;
 }
 
-float4 CalcDirLight(float3 transPos, float3 normal, float3 lightDir,
+float4 calcDirLight(float3 transPos, float3 normal, float3 lightDir,
   float4 diffuseColor, float4 ambientColor, float2 lightAngles) // Overload with shadows (light angles)
 {
     // Calculate the angle between the light direction and an arrow pointing straight to the right
@@ -190,7 +190,7 @@ float4 CalcDirLight(float3 transPos, float3 normal, float3 lightDir,
     float setFactor = (lightAngles.y - angle) / shadowTwilightSize + 0.5;
     float shadowFactor = clamp(min(riseFactor, setFactor), 0, 1);
 
-    return CalcDirLight(transPos, normal, lightDir, diffuseColor * shadowFactor, ambientColor);
+    return calcDirLight(transPos, normal, lightDir, diffuseColor * shadowFactor, ambientColor);
 }
 
 float4 CalcTwoDirLights(float3 transPos, float3 normal,
@@ -199,8 +199,8 @@ float4 CalcTwoDirLights(float3 transPos, float3 normal,
   float4 ambCol1, float4 ambCol2, float2 lightAngles)
 {
     // Calculate seperate light values
-    float4 light1 = CalcDirLight(transPos, normal, lightDir1, diffCol1, ambCol1, lightAngles);
-    float4 light2 = CalcDirLight(transPos, normal, lightDir2, diffCol2, ambCol2, lightAngles);
+    float4 light1 = calcDirLight(transPos, normal, lightDir1, diffCol1, ambCol1, lightAngles);
+    float4 light2 = calcDirLight(transPos, normal, lightDir2, diffCol2, ambCol2, lightAngles);
 
     // Add lights together
     return light1 + light2;
@@ -215,7 +215,7 @@ float4 CalcPointLight(float3 worldPos, float3 transPos, float3 normal, float3 li
     float attenuation = 1 / (att.x + att.y * lightDist + att.z * lightDist * lightDist);
 
     // Simulate point-lighting by using pixel-wise directional-lighting
-    return CalcDirLight(transPos, normal, normalize(lightDir), diffuseColor, ambientColor) * attenuation;
+    return calcDirLight(transPos, normal, normalize(lightDir), diffuseColor, ambientColor) * attenuation;
 }
 /// <EndFilter />
 
@@ -311,7 +311,7 @@ outLight14 VS_Light14(inLight IN,  // Overload for one directional light
     OUT.texWeights2 = IN.texWeights1.zw;
 
     OUT.texCoord = IN.texCoord;
-    OUT.diffAmbColor = CalcDirLight(OUT.pos, transNorm(IN.normal), lightDir, diffCol, ambCol);
+    OUT.diffAmbColor = calcDirLight(OUT.pos, transNorm(IN.normal), lightDir, diffCol, ambCol);
     OUT.color = IN.color;
     return OUT;    
 }
@@ -426,7 +426,7 @@ float4 PS_Light2ab(outLight2x IN,  // Overload for two directional lights
 float4 PS_Light2ab(outLight2x IN,  // Overload for one directional light
   uniform float3 lightDir, uniform float4 diffCol, uniform float4 ambCol) : COLOR
 {
-    float4 diffAmbColor = CalcDirLight(IN.position, IN.normal, lightDir, diffCol, ambCol, IN.lightAngles);
+    float4 diffAmbColor = calcDirLight(IN.position, IN.normal, lightDir, diffCol, ambCol, IN.lightAngles);
     return PS_Helper2ab(IN.position, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
 }
 
@@ -477,7 +477,7 @@ float4 PS_Light20(outLight2x IN,  // Overload for two directional lights
 float4 PS_Light20(outLight2x IN,  // Overload for one directional light
   uniform float3 lightDir, uniform float4 diffCol, uniform float4 ambCol) : COLOR
 {
-    float4 diffAmbColor = CalcDirLight(IN.position, IN.normal, lightDir, diffCol, ambCol, IN.lightAngles);
+    float4 diffAmbColor = calcDirLight(IN.position, IN.normal, lightDir, diffCol, ambCol, IN.lightAngles);
     return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
 }
 
