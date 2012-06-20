@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <version>0.7.0</version>
+    <authors>Bastian Eicher</authors>
+    <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
+    <projectUrl>http://code.google.com/p/omegaengine/</projectUrl>
+    <iconUrl>http://omega.nanobyte.de/images/icon_omega.png</iconUrl>
+    <references>
+      <reference file="C5.dll" />
+      <reference file="ICSharpCode.SharpZipLib.dll" />
+      <reference file="LuaInterface.dll" />
+      <reference file="SlimDX.dll" />
+      <reference file="Common.dll" />
+      <reference file="OmegaEngine.dll" />
+    </references>
+    <id>OmegaEngine</id>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The OmegaEngine is a general-purpose 3D graphics engine written in C# using the .NET Framework 2.0 and DirectX 9 via SlimDX.
+The engine is designed to be light-weight, modular and gameplay-agnostic.</description>
+    <summary>DirectX 9-based general-purpose 3D graphics engine</summary>
+  </metadata>
+  <files>
+    <file src="..\content\Graphics\Shaders\Terrain.fxd" target="content\content\Graphics\Shaders\Terrain.fxd" />
+    <file src="..\content\Meshes\Engine\Circle.x" target="content\content\Meshes\Engine\Circle.x" />
+    <file src="..\content\Meshes\Engine\Particles.x" target="content\content\Meshes\Engine\Particles.x" />
+    <file src="..\content\Meshes\Engine\Rectangle.x" target="content\content\Meshes\Engine\Rectangle.x" />
+    <file src="..\content\Textures\Water\normal.png" target="content\content\Textures\Water\normal.png" />
+    <file src="..\content\Textures\Water\surface.png" target="content\content\Textures\Water\surface.png" />
+    <file src="..\content\Textures\flag.png" target="content\content\Textures\flag.png" />
+    <file src="..\build\ReleaseSDK\Shaders\General.fxo" target="content\Shaders\General.fxo" />
+    <file src="..\build\ReleaseSDK\Shaders\ParticleSystem.fxo" target="content\Shaders\ParticleSystem.fxo" />
+    <file src="..\build\ReleaseSDK\Shaders\Post_Bleach.fxo" target="content\Shaders\Post_Bleach.fxo" />
+    <file src="..\build\ReleaseSDK\Shaders\Post_Blur.fxo" target="content\Shaders\Post_Blur.fxo" />
+    <file src="..\build\ReleaseSDK\Shaders\Post_CameraShake.fxo" target="content\Shaders\Post_CameraShake.fxo" />
+    <file src="..\build\ReleaseSDK\Shaders\Post_ColorCorrection.fxo" target="content\Shaders\Post_ColorCorrection.fxo" />
+    <file src="..\build\ReleaseSDK\Shaders\Post_Halo.fxo" target="content\Shaders\Post_Halo.fxo" />
+    <file src="..\build\ReleaseSDK\Shaders\Post_RadialBlur.fxo" target="content\Shaders\Post_RadialBlur.fxo" />
+    <file src="..\build\ReleaseSDK\Shaders\Post_ScratchedFilm.fxo" target="content\Shaders\Post_ScratchedFilm.fxo" />
+    <file src="..\build\ReleaseSDK\Shaders\Post_Sepia.fxo" target="content\Shaders\Post_Sepia.fxo" />
+    <file src="..\build\ReleaseSDK\Shaders\readme.txt" target="content\Shaders\readme.txt" />
+    <file src="..\build\ReleaseSDK\Shaders\Water.fxo" target="content\Shaders\Water.fxo" />
+    <file src="..\build\ReleaseSDK\de\Common.resources.dll" target="lib\net20\de\Common.resources.dll" />
+    <file src="..\build\ReleaseSDK\de\OmegaEngine.resources.dll" target="lib\net20\de\OmegaEngine.resources.dll" />
+    <file src="..\build\ReleaseSDK\C5.dll" target="lib\net20\C5.dll" />
+    <file src="..\build\ReleaseSDK\C5.xml" target="lib\net20\C5.xml" />
+    <file src="..\build\ReleaseSDK\Common.dll" target="lib\net20\Common.dll" />
+    <file src="..\build\ReleaseSDK\Common.pdb" target="lib\net20\Common.pdb" />
+    <file src="..\build\ReleaseSDK\Common.xml" target="lib\net20\Common.xml" />
+    <file src="..\build\ReleaseSDK\ICSharpCode.SharpZipLib.dll" target="lib\net20\ICSharpCode.SharpZipLib.dll" />
+    <file src="..\build\ReleaseSDK\ICSharpCode.SharpZipLib.xml" target="lib\net20\ICSharpCode.SharpZipLib.xml" />
+    <file src="..\build\ReleaseSDK\libogg.dll" target="lib\net20\libogg.dll" />
+    <file src="..\build\ReleaseSDK\lua51.dll" target="lib\net20\lua51.dll" />
+    <file src="..\build\ReleaseSDK\LuaInterface.dll" target="lib\net20\LuaInterface.dll" />
+    <file src="..\build\ReleaseSDK\LuaInterface.xml" target="lib\net20\LuaInterface.xml" />
+    <file src="..\build\ReleaseSDK\OggVorbisDecoder.dll" target="lib\net20\OggVorbisDecoder.dll" />
+    <file src="..\build\ReleaseSDK\OmegaEngine.dll" target="lib\net20\OmegaEngine.dll" />
+    <file src="..\build\ReleaseSDK\OmegaEngine.pdb" target="lib\net20\OmegaEngine.pdb" />
+    <file src="..\build\ReleaseSDK\OmegaEngine.xml" target="lib\net20\OmegaEngine.xml" />
+    <file src="..\build\ReleaseSDK\SlimDX.dll" target="lib\net20\SlimDX.dll" />
+    <file src="..\build\ReleaseSDK\SlimDX.xml" target="lib\net20\SlimDX.xml" />
+    <file src="..\build\ReleaseSDK\TaskDialog.dll" target="lib\net20\TaskDialog.dll" />
+    <file src="..\build\ReleaseSDK\TaskDialog.xml" target="lib\net20\TaskDialog.xml" />
+    <file src="..\build\ReleaseSDK\vorbis.dll" target="lib\net20\vorbis.dll" />
+    <file src="..\build\ReleaseSDK\vorbisfile.dll" target="lib\net20\vorbisfile.dll" />
+    <file src="install.ps1" target="tools\install.ps1" />
+  </files>
+</package>
