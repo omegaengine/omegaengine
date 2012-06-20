@@ -45,7 +45,7 @@ namespace Common.Storage
         #endregion
 
         #region Variables
-        private static DirectoryInfo _baseDir, _modDir;
+        private static DirectoryInfo _baseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, "content")), _modDir;
         private static List<ZipFile> _baseArchives, _modArchives;
 
         private static readonly Dictionary<string, ContentArchiveEntry>
@@ -64,7 +64,7 @@ namespace Common.Storage
             set
             {
                 if (value != null && !value.Exists)
-                    throw new DirectoryNotFoundException(Resources.NotFoundGameDataDir + "\n" + value.FullName);
+                    throw new DirectoryNotFoundException(Resources.NotFoundGameContentDir + "\n" + value.FullName);
                 _baseDir = value;
             }
         }
@@ -79,7 +79,7 @@ namespace Common.Storage
             set
             {
                 if (value != null && !value.Exists)
-                    throw new DirectoryNotFoundException(Resources.NotFoundModDataDir + "\n" + value.FullName);
+                    throw new DirectoryNotFoundException(Resources.NotFoundModContentDir + "\n" + value.FullName);
                 _modDir = value;
             }
         }
@@ -218,7 +218,7 @@ namespace Common.Storage
             string pathBase;
             if (ModDir != null) pathBase = ModDir.FullName;
             else if (BaseDir != null) pathBase = _baseDir.FullName;
-            else throw new DirectoryNotFoundException(Resources.NotFoundGameDataDir + "\n-");
+            else throw new DirectoryNotFoundException(Resources.NotFoundGameContentDir + "\n-");
 
             // Check the path before returning it
             var directory = new DirectoryInfo(Path.Combine(pathBase, type));

@@ -276,7 +276,7 @@ namespace AlphaEditor.World
             }
             #endregion
 
-            // Trim away the file extension, if the file is located within the regular game data directory
+            // Trim away the file extension, if the file is located within the regular game content directory
             string mapFile = Path.IsPathRooted(FilePath) ? FilePath : FilePath.Replace(Universe.FileExt, "");
 
             // Close the tab in case the map gets changed inside the game

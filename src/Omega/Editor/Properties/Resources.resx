@@ -249,7 +249,7 @@ Note: This is not necessarily the currently selected one.</value>
 {0}</value>
   </data>
   <data name="FailedReadArchives" xml:space="preserve">
-    <value>Failed to read game data archives.</value>
+    <value>Failed to read game content archives.</value>
   </data>
   <data name="FileAlreadyOpen" xml:space="preserve">
     <value>This file is already open.</value>
@@ -302,10 +302,10 @@ Note: This is not necessarily the currently selected one.</value>
   <data name="NoKeep" xml:space="preserve">
     <value>No, keep</value>
   </data>
-  <data name="NotFoundGameDataDir" xml:space="preserve">
-    <value>The game data directory could not be found.</value>
+  <data name="NotFoundGameContentDir" xml:space="preserve">
+    <value>The game content directory could not be found.</value>
   </data>
-  <data name="NotFoundModDataDir" xml:space="preserve">
+  <data name="NotFoundModContentDir" xml:space="preserve">
     <value>The mod directory could not be found.</value>
   </data>
   <data name="OK" xml:space="preserve">

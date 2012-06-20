@@ -62,20 +62,20 @@ namespace Core
         }
         #endregion
 
-        private string _dataDir = "";
+        private string _contentDir;
 
         /// <summary>
         /// Path to the directory to load the game content from
         /// </summary>
         [DefaultValue(""), Description("Path to the directory to load the game content from")]
-        public string DataDir { get { return _dataDir; } set { UpdateHelper.Do(ref _dataDir, value, OnChanged); } }
+        public string ContentDir { get { return _contentDir; } set { UpdateHelper.Do(ref _contentDir, value, OnChanged); } }
 
         private string _language;
 
         /// <summary>
         /// The current game language
         /// </summary>
-        [Description("The current game language")]
+        [DefaultValue(""), Description("The current game language")]
         public string Language { get { return _language; } set { UpdateHelper.Do(ref _language, value, OnChanged); } }
 
         private int _universePredictSecs = 5;

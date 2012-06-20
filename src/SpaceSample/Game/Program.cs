@@ -86,7 +86,7 @@ namespace Core
                 ConfigureSettingsForBenchmark();
             }
 
-            if (!DetermineDataDirs()) return;
+            if (!DetermineContentDirs()) return;
             if (!LoadArchives()) return;
             using (var game = new Game())
                 game.Run();
@@ -139,13 +139,13 @@ namespace Core
         /// </summary>
         /// <returns><see langword="true"/> if all directories were located successfully; <see langword="false"/> if something went wrong.</returns>
         /// <remarks>The <see cref="ContentManager.ModDir"/> is also handled based on <see cref="Args"/>.</remarks>
-        private static bool DetermineDataDirs()
+        private static bool DetermineContentDirs()
         {
             try
             {
                 // Base
-                ContentManager.BaseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase,
-                    string.IsNullOrEmpty(Settings.Current.General.DataDir) ? "Base" : Settings.Current.General.DataDir));
+                if (!string.IsNullOrEmpty(Settings.Current.General.ContentDir))
+                    ContentManager.BaseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, Settings.Current.General.ContentDir));
 
                 // Mod
                 if (Args.Contains("mod"))

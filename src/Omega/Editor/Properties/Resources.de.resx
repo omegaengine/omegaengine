@@ -232,10 +232,10 @@ Beachten Sie: Dies ist nicht zwangsläufig der aktuell ausgewählte Eintrag.</va
   <data name="NoKeep" xml:space="preserve">
     <value>Nein, behalten</value>
   </data>
-  <data name="NotFoundGameDataDir" xml:space="preserve">
+  <data name="NotFoundGameContentDir" xml:space="preserve">
     <value>Der Spieldaten-Ordner konnte nicht gefunden werden.</value>
   </data>
-  <data name="NotFoundModDataDir" xml:space="preserve">
+  <data name="NotFoundModContentDir" xml:space="preserve">
     <value>Der Mod-Ordner konnte nicht gefunden werden.</value>
   </data>
   <data name="OK" xml:space="preserve">

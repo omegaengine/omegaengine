@@ -1,4 +1,5 @@
 The OmegaGame uses the .NET Framework 2.0 (with a C# 4.0 compiler). The recommended IDE is Microsoft Visual Studio 2010.
+The OmegaGame uses the .NET Framework 2.0 (with a C# 4.0 compiler). The recommended IDE is Microsoft Visual Studio 2010.
 To compile the included shader code the DirectX SDK (http://msdn.microsoft.com/directx/) needs to be installed.
 The setup is build using Inno Setup 5.4.1 or newer (http://files.jrsoftware.org/ispack/isdl.htm).
 
@@ -7,7 +8,7 @@ The setup is build using Inno Setup 5.4.1 or newer (http://files.jrsoftware.org/
 \src\ - The actual source code in a Visual Studio project
 \setup\ - Files for creating the installer
 \doc\ - Files for creating source code documentation
-\data\ - Game content files (.X files, PNGs, ...) 
+\content\ - Game content files (.X files, PNGs, ...) 
 \build\Debug\ - The compiled debug binaries
 \build\Release\ - The compiled release binaries
 \build\ReleaseSDK\ - The compiled SDK release binaries (for use in external projects)
@@ -18,9 +19,8 @@ Das "build.cmd" script assumes that Visual Studio 2010 is installed and that Inn
 
 The engine requires shader files to be located in a subdirectory of the installation path named "Shaders".
 
-The TerrainSample and SpaceSample projects place "_portable" and "*.Settings.xml" files in the build directories which cause the game content files to be loaded from \data\.
-When releasing the binaries as standalone applications these files are not present and game content files are instead expected be located in a subdirectory of the installation path named "Base".
-This naming scheme is defined by the sample projects and not intrinsic to the OmegaEngine.
+The TerrainSample and SpaceSample projects place "_portable" and "*.Settings.xml" files in the build directories which cause the game content files to be loaded from \content\.
+When releasing the binaries as standalone applications these files are not present and game content files are instead expected be located in a subdirectory of the installation path named "content".
 
 To open the Debug Console when running one of the sample projects press Ctrl + Alt + Shift + D.
 

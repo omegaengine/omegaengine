@@ -200,10 +200,10 @@ Die Änderungen löschen</value>
   <data name="NotFoundGameContentFile" xml:space="preserve">
     <value>Die folgende Spieldaten-Datei konnte nicht gefunden werden:</value>
   </data>
-  <data name="NotFoundGameDataDir" xml:space="preserve">
-    <value>Der Spieldaten-Ordner konnte nicht gefunden werden:</value>
+  <data name="NotFoundGameContentDir" xml:space="preserve">
+    <value>Der Spielcontent-Ordner konnte nicht gefunden werden:</value>
   </data>
-  <data name="NotFoundModDataDir" xml:space="preserve">
+  <data name="NotFoundModContentDir" xml:space="preserve">
     <value>Der Mod-Ordner konnte nicht gefunden werden:</value>
   </data>
   <data name="NoXmlDataInZip" xml:space="preserve">

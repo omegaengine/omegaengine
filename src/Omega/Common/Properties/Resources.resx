@@ -211,12 +211,12 @@ Delete the changes</value>
     <value>There is currently no active mod.</value>
   </data>
   <data name="NotFoundGameContentFile" xml:space="preserve">
-    <value>The following game data file could not be found:</value>
+    <value>The following game content file could not be found:</value>
   </data>
-  <data name="NotFoundGameDataDir" xml:space="preserve">
-    <value>The game data directory could not be found:</value>
+  <data name="NotFoundGameContentDir" xml:space="preserve">
+    <value>The game content directory could not be found:</value>
   </data>
-  <data name="NotFoundModDataDir" xml:space="preserve">
+  <data name="NotFoundModContentDir" xml:space="preserve">
     <value>The mod directory could not be found:</value>
   </data>
   <data name="NoXmlDataInFile" xml:space="preserve">

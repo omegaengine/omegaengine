@@ -6,7 +6,7 @@
 	Once you modify the Settings.xml files in build\Debug and build\Release this file will be ignored.
 	-->
 	<General>
-		<DataDir>..\..\data</DataDir>
+		<ContentDir>..\..\content</ContentDir>
 	</General>
 	<Display>
 		<Fullscreen>false</Fullscreen>

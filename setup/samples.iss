@@ -60,7 +60,7 @@ Name: en; MessagesFile: compiler:Default.isl
 
 [Files]
 Source: ..\build\Release\*; Excludes: _portable,*.xml,*.log,*.pdb,*.vshost.exe; DestDir: {app}; Flags: ignoreversion recursesubdirs
-Source: ..\data\*; DestDir: {app}\Base; Flags: ignoreversion recursesubdirs
+Source: ..\content\*; DestDir: {app}\content; Flags: ignoreversion recursesubdirs
 
 [Icons]
 Name: {group}\{cm:UninstallProgram,{#AppName}}; Filename: {uninstallexe}

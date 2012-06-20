@@ -146,7 +146,7 @@ Throw away the data and exit</value>
 Send the data and then exit</value>
   </data>
   <data name="FailedReadArchives" xml:space="preserve">
-    <value>Failed to read game data archives.</value>
+    <value>Failed to read game content archives.</value>
   </data>
   <data name="LoadingGraphics" xml:space="preserve">
     <value>Loading graphics...</value>

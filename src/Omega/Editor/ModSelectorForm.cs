@@ -152,7 +152,7 @@ namespace AlphaEditor
             string directory = Path.GetDirectoryName(path);
             if (string.IsNullOrEmpty(directory))
             {
-                Msg.Inform(this, Resources.NotFoundModDataDir, MsgSeverity.Warn);
+                Msg.Inform(this, Resources.NotFoundModContentDir, MsgSeverity.Warn);
                 return;
             }
             ModInfo.CurrentLocation = path;

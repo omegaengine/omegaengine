@@ -114,7 +114,7 @@ namespace Common.Storage
         /// The directory to store per-user data files (should not roam across different machines).
         /// </summary>
         /// <remarks>On Windows this is <c>%localappdata%</c>, on Linux it usually is <c>~/.local/share</c>.</remarks>
-        public static string UserDataDir
+        public static string UserContentDir
         {
             get
             {
@@ -193,7 +193,7 @@ namespace Common.Storage
         /// </summary>
         /// <returns>Directories separated by <see cref="Path.PathSeparator"/> sorted by decreasing importance.</returns>
         /// <remarks>On Windows this is <c>CommonApplicationData</c>, on Linux it usually is <c>/usr/local/share:/usr/share</c>.</remarks>
-        public static string SystemDataDirs
+        public static string SystemContentDirs
         {
             get
             {
@@ -347,13 +347,13 @@ namespace Common.Storage
             {
                 path = _isPortable
                     ? FileUtils.PathCombine(_portableBase, "data", resourceCombined)
-                    : FileUtils.PathCombine(UserDataDir, appName, resourceCombined);
+                    : FileUtils.PathCombine(UserContentDir, appName, resourceCombined);
             }
                 #region Error handling
             catch (ArgumentException ex)
             {
                 // Wrap exception to add context information
-                throw new IOException(string.Format(Resources.InvalidConfigDir, UserDataDir) + "\n" + ex.Message, ex);
+                throw new IOException(string.Format(Resources.InvalidConfigDir, UserContentDir) + "\n" + ex.Message, ex);
             }
             #endregion
 
@@ -396,13 +396,13 @@ namespace Common.Storage
                 // Check in user profile
                 try
                 {
-                    path = FileUtils.PathCombine(UserDataDir, appName, resourceCombined);
+                    path = FileUtils.PathCombine(UserContentDir, appName, resourceCombined);
                 }
                     #region Error handling
                 catch (ArgumentException ex)
                 {
                     // Wrap exception to add context information
-                    throw new IOException(string.Format(Resources.InvalidConfigDir, UserDataDir) + "\n" + ex.Message, ex);
+                    throw new IOException(string.Format(Resources.InvalidConfigDir, UserContentDir) + "\n" + ex.Message, ex);
                 }
                 #endregion
 
@@ -410,7 +410,7 @@ namespace Common.Storage
                 if ((isFile && File.Exists(path)) || (!isFile && Directory.Exists(path))) yield return path;
 
                 // Check in system directories
-                foreach (var dirPath in SystemDataDirs.Split(Path.PathSeparator))
+                foreach (var dirPath in SystemContentDirs.Split(Path.PathSeparator))
                 {
                     try
                     {

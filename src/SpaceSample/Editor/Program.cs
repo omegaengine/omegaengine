@@ -79,7 +79,7 @@ namespace AlphaEditor
             UpdateLocale();
             Settings.SaveCurrent();
 
-            if (!DetermineDataDirs()) return;
+            if (!DetermineContentDirs()) return;
 
             // Show the welcome message if it hasn't been turned off
             if (Settings.Current.Editor.ShowWelcomeMessage)
@@ -169,13 +169,12 @@ namespace AlphaEditor
         /// </summary>
         /// <returns><see langword="true"/> if all directories were located successfully; <see langword="false"/> if something went wrong.</returns>
         /// <remarks>The <see cref="ContentManager.ModDir"/> is not handled yet.</remarks>
-        private static bool DetermineDataDirs()
+        private static bool DetermineContentDirs()
         {
             try
             {
-                // Base
-                ContentManager.BaseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase,
-                    string.IsNullOrEmpty(Settings.Current.General.DataDir) ? "Base" : Settings.Current.General.DataDir));
+                if (!string.IsNullOrEmpty(Settings.Current.General.ContentDir))
+                    ContentManager.BaseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, Settings.Current.General.ContentDir));
             }
                 #region Error handling
             catch (ArgumentException ex)
