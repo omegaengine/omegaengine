@@ -1,11 +1,11 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>OmegaEngine WinForms application</Name>
-    <Description>A WinForms application that embeds a surface with 3D rendering via the OmegaEngine.</Description>
+    <Name>OmegaEngine Windows Forms Application</Name>
+    <Description>A Windows Forms application that embeds a surface with 3D rendering via the OmegaEngine.</Description>
     <ProjectType>CSharp</ProjectType>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
-    <DefaultName>OmegaEngine WinForms application</DefaultName>
+    <DefaultName>OmegaEngineApplication</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
