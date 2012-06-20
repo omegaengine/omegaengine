@@ -57,6 +57,12 @@ Name: en; MessagesFile: compiler:Default.isl
 
 [InstallDelete]
 ;Remove obsolete files from previous versions
+Name: {app}\Base; Type: filesandordirs
+
+;Remove extracted game archives and any installed mods
+Name: {app}\content; Type: filesandordirs
+Name: {app}\Mods; Type: filesandordirs
+Name: {app}; Type: dirifempty
 
 [Files]
 Source: ..\build\Release\*; Excludes: _portable,*.xml,*.log,*.pdb,*.vshost.exe; DestDir: {app}; Flags: ignoreversion recursesubdirs
