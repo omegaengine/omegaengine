@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinForms", "WinForms\WinForms.csproj", "{D85E43B0-1403-45D8-9240-DC22899755CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fullscreen", "Fullscreen\Fullscreen.csproj", "{107BAC7B-4C15-4EDC-B10B-5D2B30CD9A08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "Editor\Editor.csproj", "{A1BE169C-E337-49BB-BC6D-4B09714B062C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D85E43B0-1403-45D8-9240-DC22899755CB}.Debug|x86.ActiveCfg = Debug|x86
+		{D85E43B0-1403-45D8-9240-DC22899755CB}.Debug|x86.Build.0 = Debug|x86
+		{D85E43B0-1403-45D8-9240-DC22899755CB}.Release|x86.ActiveCfg = Release|x86
+		{D85E43B0-1403-45D8-9240-DC22899755CB}.Release|x86.Build.0 = Release|x86
+		{107BAC7B-4C15-4EDC-B10B-5D2B30CD9A08}.Debug|x86.ActiveCfg = Debug|x86
+		{107BAC7B-4C15-4EDC-B10B-5D2B30CD9A08}.Debug|x86.Build.0 = Debug|x86
+		{107BAC7B-4C15-4EDC-B10B-5D2B30CD9A08}.Release|x86.ActiveCfg = Release|x86
+		{107BAC7B-4C15-4EDC-B10B-5D2B30CD9A08}.Release|x86.Build.0 = Release|x86
+		{A1BE169C-E337-49BB-BC6D-4B09714B062C}.Debug|x86.ActiveCfg = Debug|x86
+		{A1BE169C-E337-49BB-BC6D-4B09714B062C}.Debug|x86.Build.0 = Debug|x86
+		{A1BE169C-E337-49BB-BC6D-4B09714B062C}.Release|x86.ActiveCfg = Release|x86
+		{A1BE169C-E337-49BB-BC6D-4B09714B062C}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,40 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>AlphaEditor</Name>
+    <Description>An IDE-like editor for a game based on the OmegaEngine. You can use it to create GUI dialogs, maps, particle systems, etc. for your game.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>1002</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>AlphaEditor</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="Editor.csproj" File="Editor.csproj" ReplaceParameters="false">
+      <ProjectItem ReplaceParameters="false" TargetFileName="MainForm.cs">MainForm.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="MainForm.Designer.cs">MainForm.Designer.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Program.cs">Program.cs</ProjectItem>
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Resources.resx">Resources.resx</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Resources.Designer.cs">Resources.Designer.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Settings.settings">Settings.settings</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Settings.Designer.cs">Settings.Designer.cs</ProjectItem>
+      </Folder>
+    </Project>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>NuGet.VisualStudio.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>NuGet.VisualStudio.TemplateWizard</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <packages repository="extension" repositoryId="OmegaEngine_SDK">
+      <package id="OmegaEngine" version="0.7.0" />
+      <package id="OmegaGUI" version="0.7.0" />
+      <package id="AlphaEditor" version="0.7.0" />
+    </packages>
+  </WizardData>
+</VSTemplate>

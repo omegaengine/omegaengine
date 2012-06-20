@@ -16,3 +16,4 @@ _ReSharper.*
 **/GameUX/*.log
 **/GameUX/*.lastbuildstate
 **/GameUX/*.unsuccessfulbuild
+templates/*/bin
