@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics;
@@ -12,6 +13,7 @@ namespace Fullscreen
     class Game : GameBase
     {
         private TrackCamera _camera;
+        private GuiManager _guiManager;
 
         // TODO: Add icon and background image
         public Game() : base("$projectname$", null, null, false)
@@ -27,7 +29,7 @@ namespace Fullscreen
             InitializeGui();
 
             // Create a scene with a textured sphere
-            Scene scene = new Scene(Engine)
+            var scene = new Scene(Engine)
             {
                 Positionables = {Model.Sphere(Engine, XTexture.Get(Engine, "flag.png", false), 10, 60, 60)}
             };
@@ -45,8 +47,8 @@ namespace Fullscreen
         private void InitializeGui()
         {
             // Initialize GUI subsystem
-            var manager = new GuiManager(Engine);
-            Form.WindowMessage += manager.OnMsgProc;
+            _guiManager = new GuiManager(Engine);
+            Form.WindowMessage += _guiManager.OnMsgProc;
             
             // Create a dialog with an exit button
             var dialog = new Dialog
@@ -55,7 +57,7 @@ namespace Fullscreen
             };
 
             // Render the dialog
-            var dialogRenderer = new DialogRenderer(manager, dialog, new Point(), true);
+            var dialogRenderer = new DialogRenderer(_guiManager, dialog, new Point(), true);
             SetupLua(dialogRenderer.Lua); // Hook up scripting objects
             dialogRenderer.Show();
         }
@@ -66,6 +68,21 @@ namespace Fullscreen
             _camera.HorizontalRotation += elapsedTime * 100;
 
             base.Render(elapsedTime);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                if (disposing)
+                {
+                    if (_guiManager != null) _guiManager.Dispose();
+                }
+            }
+            finally
+            {
+                base.Dispose(disposing);
+            }
         }
     }
 }
