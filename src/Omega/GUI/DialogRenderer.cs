@@ -111,11 +111,11 @@ namespace OmegaGUI
         {
             _manager = manager;
             DialogModel = dialog;
-            DialogRender = dialog.GenerateRender(_manager.ModelManager);
+            DialogRender = dialog.GenerateRender(_manager.DialogManager);
             _location = location;
 
             LayoutHelper();
-            _manager.ModelManager.Engine.DeviceReset += LayoutHelper;
+            _manager.DialogManager.Engine.DeviceReset += LayoutHelper;
 
             if (enableLua)
             {

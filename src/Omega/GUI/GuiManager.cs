@@ -48,9 +48,9 @@ namespace OmegaGUI
         private float _timeSinceLastUpdate;
 
         /// <summary>
-        /// The dialog modelManager to be used by all dialogs
+        /// Manages shared resources of all <see cref="OmegaGUI.Render.Dialog"/>s.
         /// </summary>
-        internal Render.DialogManager ModelManager { get; private set; }
+        internal Render.DialogManager DialogManager { get; private set; }
         #endregion
 
         #region Constructor
@@ -65,7 +65,7 @@ namespace OmegaGUI
             #endregion
 
             _engine = engine;
-            ModelManager = new Render.DialogManager(engine);
+            DialogManager = new Render.DialogManager(engine);
             engine.ExtraRender += Render;
         }
         #endregion
@@ -125,8 +125,8 @@ namespace OmegaGUI
         public void Reset()
         {
             CloseAll();
-            ModelManager.Dispose();
-            ModelManager = new Render.DialogManager(_engine);
+            DialogManager.Dispose();
+            DialogManager = new Render.DialogManager(_engine);
         }
         #endregion
 
@@ -175,8 +175,8 @@ namespace OmegaGUI
                     if (dialog.DialogModel.Visible)
                         dialog.DialogRender.OnRender(dialog.DialogModel.Animate ? elapsedTime : 1);
                 }
-                if (ModelManager.MessageBox.Visible)
-                    ModelManager.MessageBox.OnRender(elapsedTime);
+                if (DialogManager.MessageBox.Visible)
+                    DialogManager.MessageBox.OnRender(elapsedTime);
             }
 
             #region Process pending queues
@@ -201,9 +201,9 @@ namespace OmegaGUI
         public bool OnMsgProc(Message m)
         {
             // Exclusive input handling for MessageBox
-            if (ModelManager.MessageBox != null && ModelManager.MessageBox.Visible)
+            if (DialogManager.MessageBox != null && DialogManager.MessageBox.Visible)
             {
-                return ModelManager.MessageBox.
+                return DialogManager.MessageBox.
                     MessageProc(m.HWnd, (WindowMessage)m.Msg, m.WParam, m.LParam);
             }
 
@@ -265,7 +265,7 @@ namespace OmegaGUI
         [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         private void Dispose(bool disposing)
         {
-            if (ModelManager == null) return;
+            if (DialogManager == null) return;
 
             // Unhook engine events (can't be done in automatic finalization)
             _engine.ExtraRender -= Render;
@@ -273,7 +273,7 @@ namespace OmegaGUI
             if (disposing)
             { // This block will only be executed on manual disposal, not by Garbage Collection
                 CloseAll();
-                ModelManager.Dispose();
+                DialogManager.Dispose();
             }
             else
             { // This block will only be executed on Garbage Collection, not by manual disposal
