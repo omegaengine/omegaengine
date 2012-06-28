@@ -21,10 +21,23 @@ The engine is designed to be light-weight, modular and gameplay-agnostic.</descr
     <summary>DirectX 9-based general-purpose 3D graphics engine</summary>
   </metadata>
   <files>
+    <file src="..\content\Graphics\CpuParticleSystem\CleanFire.xml" target="content\content\Graphics\CpuParticleSystem\CleanFire.xml" />
+    <file src="..\content\Graphics\CpuParticleSystem\ColdFire.xml" target="content\content\Graphics\CpuParticleSystem\ColdFire.xml" />
+    <file src="..\content\Graphics\CpuParticleSystem\Fire.xml" target="content\content\Graphics\CpuParticleSystem\Fire.xml" />
+    <file src="..\content\Graphics\CpuParticleSystem\Swarm.xml" target="content\content\Graphics\CpuParticleSystem\Swarm.xml" />
+    <file src="..\content\Graphics\GpuParticleSystem\Fire.xml" target="content\content\Graphics\GpuParticleSystem\Fire.xml" />
     <file src="..\content\Graphics\Shaders\Terrain.fxd" target="content\content\Graphics\Shaders\Terrain.fxd" />
     <file src="..\content\Meshes\Engine\Circle.x" target="content\content\Meshes\Engine\Circle.x" />
     <file src="..\content\Meshes\Engine\Particles.x" target="content\content\Meshes\Engine\Particles.x" />
     <file src="..\content\Meshes\Engine\Rectangle.x" target="content\content\Meshes\Engine\Rectangle.x" />
+    <file src="..\content\Textures\Particles\explosion_large.png" target="content\content\Textures\Particles\explosion_large.png" />
+    <file src="..\content\Textures\Particles\explosion_small.png" target="content\content\Textures\Particles\explosion_small.png" />
+    <file src="..\content\Textures\Particles\fire.png" target="content\content\Textures\Particles\fire.png" />
+    <file src="..\content\Textures\Particles\point.png" target="content\content\Textures\Particles\point.png" />
+    <file src="..\content\Textures\Particles\smoke.png" target="content\content\Textures\Particles\smoke.png" />
+    <file src="..\content\Textures\Shaders\Flame.tga" target="content\content\Textures\Shaders\Flame.tga" />
+    <file src="..\content\Textures\Shaders\Noise128.dds" target="content\content\Textures\Shaders\Noise128.dds" />
+    <file src="..\content\Textures\Shaders\point.png" target="content\content\Textures\Shaders\point.png" />
     <file src="..\content\Textures\Water\normal.png" target="content\content\Textures\Water\normal.png" />
     <file src="..\content\Textures\Water\surface.png" target="content\content\Textures\Water\surface.png" />
     <file src="..\content\Textures\flag.png" target="content\content\Textures\flag.png" />
