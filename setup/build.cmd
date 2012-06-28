@@ -1,23 +1,11 @@
 @echo off
-::Creates an Inno Setup installer. Assumes "..\src\build.cmd Release" has already been executed.
+::Creates a ZIP archive, a Visual Studio extension and an Inno Setup installer. Assumes "..\nuget\build.cmd" and "..\templates\build.cmd" have already been executed.
 cd /d "%~dp0"
 
 rem Project settings
 set TargetDir=%~dp0..\build\Setup
 
-rem Handle WOW
-if %PROCESSOR_ARCHITECTURE%==x86 set ProgramFiles_temp=%ProgramFiles%
-if not %PROCESSOR_ARCHITECTURE%==x86 set ProgramFiles_temp=%ProgramFiles(x86)%
-
-rem Check for Inno Setup 5 installation (32-bit)
-if not exist "%ProgramFiles_temp%\Inno Setup 5" (
-  echo ERROR: No Inno Setup 5 installation found. >&2
-  pause
-  goto end
-)
-path %ProgramFiles_temp%\Inno Setup 5;%path%
-
-echo Building SDK archive...
+echo Building library archive...
 if not exist "%TargetDir%" mkdir "%TargetDir%"
 if exist "%TargetDir%\omegaengine.zip" del "%TargetDir%\omegaengine.zip"
 cd /d "%~dp0..\build\ReleaseSDK"
@@ -31,16 +19,36 @@ copy ..\..\content\Textures\flag.png content\Textures\flag.png > NUL
 copy ..\..\content\Textures\Water content\Textures\Water\ > NUL
 mkdir content\GUI\Textures
 copy ..\..\content\GUI\Textures content\GUI\Textures\ > NUL
-zip -9 -r "%TargetDir%\omegaengine.zip" . > NUL
+zip -q -9 -r "%TargetDir%\omegaengine.zip" .
 if errorlevel 1 pause
 cd /d "%~dp0"
 
-echo Building SDK installer...
-iscc /Q sdk.iss
+echo Building Visual Studio extension...
+if exist "%TargetDir%\omegaengine_sdk.vsix" del "%TargetDir%\omegaengine_sdk.vsix"
+cd /d "%~dp0vsix"
+zip -q -9 -r "%TargetDir%\omegaengine_sdk.vsix" .
 if errorlevel 1 pause
+cd /d "%~dp0..\build"
+zip -q -9 -r "%TargetDir%\omegaengine_sdk.vsix" ProjectTemplates
+if errorlevel 1 pause
+zip -q -9 -r "%TargetDir%\omegaengine_sdk.vsix" Packages
+if errorlevel 1 pause
+cd /d "%~dp0"
+
+
+rem Handle WOW
+if %PROCESSOR_ARCHITECTURE%==x86 set ProgramFiles_temp=%ProgramFiles%
+if not %PROCESSOR_ARCHITECTURE%==x86 set ProgramFiles_temp=%ProgramFiles(x86)%
+
+rem Check for Inno Setup 5 installation (32-bit)
+if not exist "%ProgramFiles_temp%\Inno Setup 5" (
+  echo ERROR: No Inno Setup 5 installation found. >&2
+  pause
+  goto end
+)
 
 echo Building Samples installer...
-iscc /Q samples.iss
+"%ProgramFiles_temp%\Inno Setup 5\iscc.exe" /Q samples.iss
 if errorlevel 1 pause
 
 :end
