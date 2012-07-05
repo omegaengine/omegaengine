@@ -1,7 +1,7 @@
 ;Constants
 #define AppName "OmegaEngine Samples"
 #define AppNameShort "TerrainSample"
-#define AppVersion "0.7.0"
+#define AppVersion "0.8.0"
 #define Company "NanoByte"
 #define Website "http://omega.nanobyte.de/"
 
