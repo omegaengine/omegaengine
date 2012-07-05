@@ -6,7 +6,7 @@ The setup is build using Inno Setup 5.4.1 or newer (http://files.jrsoftware.org/
 \build.cmd - A script that automatically compiles the source code and then creates an installer (use the command-line argument "+doc" to compile source code documentation)
 \cleanup.cmd - A cleanup script that removes compiled binaries, deletes temporary "obj" directories, resets Visual Studio settings and so on
 \src\ - The actual source code in a Visual Studio project
-\nuget\ - Specification files for building Nuget packages
+\nuget\ - Specification files for building NuGet packages
 \templates\ - Source code for Visual Studio templates
 \setup\ - Files for creating installers
 \doc\ - Files for creating source code documentation
@@ -15,7 +15,7 @@ The setup is build using Inno Setup 5.4.1 or newer (http://files.jrsoftware.org/
 \build\Release\ - The compiled release binaries
 \build\ReleaseSDK\ - The compiled SDK release binaries (with debug symbols and API XML documentation)
 \build\Setup\ - The compiled installers (created by \setup\build.cmd)
-\build\Packages\ - The compiled Nuget packages (created by \nuget\build.cmd)
+\build\Packages\ - The compiled NuGet packages (created by \nuget\build.cmd)
 \build\ProjectTemplates\ - The compiled Visual Studio templates (created by \templates\build.cmd)
 \build\Documentation\ - The compiled source code documentation (created by \doc\build.cmd)
 
