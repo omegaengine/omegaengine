@@ -24,14 +24,14 @@ if errorlevel 1 pause
 cd /d "%~dp0"
 
 echo Building Visual Studio extension...
-if exist "%TargetDir%\omegaengine_sdk.vsix" del "%TargetDir%\omegaengine_sdk.vsix"
+if exist "%TargetDir%\omegaengine-sdk.vsix" del "%TargetDir%\omegaengine-sdk.vsix"
 cd /d "%~dp0vsix"
-zip -q -9 -r "%TargetDir%\omegaengine_sdk.vsix" .
+zip -q -9 -r "%TargetDir%\omegaengine-sdk.vsix" .
 if errorlevel 1 pause
 cd /d "%~dp0..\build"
-zip -q -9 -r "%TargetDir%\omegaengine_sdk.vsix" ProjectTemplates
+zip -q -9 -r "%TargetDir%\omegaengine-sdk.vsix" ProjectTemplates
 if errorlevel 1 pause
-zip -q -9 -r "%TargetDir%\omegaengine_sdk.vsix" Packages
+zip -q -9 -r "%TargetDir%\omegaengine-sdk.vsix" Packages
 if errorlevel 1 pause
 cd /d "%~dp0"
 
