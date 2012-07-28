@@ -66,7 +66,7 @@ namespace Presentation
                 if (target == null) continue;
 
                 // Handle all possible settings combinations
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < TestCase.TestGraphicsSettingsUpperBound; i++)
                 {
                     testCaseList.Add(new TestCase
                     {

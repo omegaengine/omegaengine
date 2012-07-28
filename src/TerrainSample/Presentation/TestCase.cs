@@ -59,6 +59,16 @@ namespace Presentation
         public BenchmarkPoint Target;
 
         /// <summary>
+        /// Boolean flags for <see cref="Settings.Graphics"/>.
+        /// </summary>
+        public TestGraphicsSettings GraphicsSettings;
+
+        /// <summary>
+        /// The exclusive upper bound for values valid for <see cref="GraphicsSettings"/>.
+        /// </summary>
+        public const int TestGraphicsSettingsUpperBound = 8;
+
+        /// <summary>
         /// What kind of effects to display on water (e.g. reflections).
         /// </summary>
         public WaterEffectsType WaterEffects;
@@ -67,11 +77,6 @@ namespace Presentation
         /// The quality of CPU-based particle systems.
         /// </summary>
         public Quality ParticleSystemQuality;
-
-        /// <summary>
-        /// Boolean flags for <see cref="Settings.Graphics"/>.
-        /// </summary>
-        public TestGraphicsSettings GraphicsSettings;
 
         /// <summary>
         /// Run this test-case with twice the default benchmark resolution.
