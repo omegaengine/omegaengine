@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using Common;
 using Common.Storage;
@@ -54,6 +55,14 @@ namespace OmegaEngine
         /// The culture used for loading the assembly resources.
         /// </summary>
         public static CultureInfo ResourceCulture { get { return Resources.Culture; } set { Resources.Culture = value; } }
+
+        /// <summary>
+        /// The version number of the engine.
+        /// </summary>
+        public static Version Version
+        {
+            get { return Assembly.GetExecutingAssembly().GetName().Version; }
+        }
 
         /// <summary>
         /// Access to the Direct3D subsystem.

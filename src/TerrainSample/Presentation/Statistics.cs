@@ -35,6 +35,18 @@ namespace Presentation
     public class Statistics
     {
         /// <summary>
+        /// The version number of the game.
+        /// </summary>
+        [XmlAttribute("game-version")]
+        public string GameVersion { get; set; }
+
+        /// <summary>
+        /// The version number of the engine.
+        /// </summary>
+        [XmlAttribute("engine-version")]
+        public string EngineVersion { get; set; }
+
+        /// <summary>
         /// The set of <see cref="TestCase"/>s.
         /// </summary>
         [XmlElement("test-case")]
@@ -50,12 +62,19 @@ namespace Presentation
         /// <summary>
         /// Creates a set of <see cref="TestCase"/>s based on <see cref="BenchmarkPoint"/>s in a <see cref="Universe"/>.
         /// </summary>
+        /// <param name="gameVersion">The version number of the game.</param>
+        /// <param name="engineVersion">The version number of the engine.</param>
         /// <param name="universe">The <see cref="Universe"/> containing the <see cref="BenchmarkPoint"/>s.</param>
-        public Statistics(Universe universe)
+        public Statistics(string gameVersion, string engineVersion, Universe universe)
         {
             #region Sanity checks
+            if (string.IsNullOrEmpty(gameVersion)) throw new ArgumentNullException("gameVersion");
+            if (string.IsNullOrEmpty(engineVersion)) throw new ArgumentNullException("engineVersion");
             if (universe == null) throw new ArgumentNullException("universe");
             #endregion
+
+            GameVersion = gameVersion;
+            EngineVersion = engineVersion;
 
             var testCaseList = new List<TestCase>();
 
