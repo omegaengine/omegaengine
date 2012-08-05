@@ -229,7 +229,7 @@ namespace Core
                         Form.Visible = false;
                         //if (Msg.Ask(Form, Resources.BenchmarkReady, MsgSeverity.Info, Resources.BenchmarkReadyContinue, Resources.BenchmarkReadyCancel))
                         //{
-                        //    // ToDo: File upload
+                        //    // ToDo: new Uri("http://omegaengine.de/benchmark-upload/?app=" + GeneralSettings.AppNameGrid)
                         //}
                         Msg.Inform(null, string.Format("Please upload the file '{0}'.", path), MsgSeverity.Info);
                         Exit();

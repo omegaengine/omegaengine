@@ -56,7 +56,7 @@ namespace Core
         {
             Application.EnableVisualStyles();
             WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameGrid);
-            ErrorReportForm.SetupMonitoring(new Uri("http://omega.nanobyte.de/error_report/?app=" + GeneralSettings.AppNameGrid));
+            ErrorReportForm.SetupMonitoring(new Uri("http://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameGrid));
 
 #if !DEBUG
     // Prevent multiple instances from running simultaneously

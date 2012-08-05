@@ -65,7 +65,7 @@ namespace AlphaEditor
         {
             Application.EnableVisualStyles();
             WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameGrid + ".AlphaEditor");
-            ErrorReportForm.SetupMonitoring(new Uri("http://omega.nanobyte.de/error_report/?app=" + GeneralSettings.AppNameGrid));
+            ErrorReportForm.SetupMonitoring(new Uri("http://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameGrid));
             ModInfo.FileExt = "." + GeneralSettings.AppNameShort + "Mod";
 
             // Allow setup to detect running instances

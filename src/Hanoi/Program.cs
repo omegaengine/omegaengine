@@ -40,7 +40,7 @@ namespace Hanoi
         {
             Application.EnableVisualStyles();
             WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + ".TowersOfHanoi");
-            ErrorReportForm.SetupMonitoring(new Uri("http://omega.nanobyte.de/error_report/?app=TowersOfHanoi"));
+            ErrorReportForm.SetupMonitoring(new Uri("http://omegaengine.de/error-report/?app=TowersOfHanoi"));
 
             try
             {
