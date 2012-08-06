@@ -207,9 +207,9 @@ namespace OmegaEngine
                         Render(elapsedTime);
                     }
                 };
-            }
 
-            Loading = false;
+                Loading = false;
+            }
         }
         #endregion
 
