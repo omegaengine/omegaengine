@@ -91,8 +91,8 @@ namespace Presentation
                     {
                         Target = target,
                         GraphicsSettings = ((TestGraphicsSettings)i),
-                        // Create screenshots only for "no effects" and for "all effects"
-                        Screenshot = (i == 0 || i == 7)
+                        // Create screenshots only for "all effects"
+                        Screenshot = (i == TestCase.TestGraphicsSettingsUpperBound)
                     });
                 }
 
@@ -147,12 +147,11 @@ namespace Presentation
             #endregion
 
             #region Create High-res and anti-aliasing variations
-            // Copy the test-cases to an array four times
-            TestCases = new TestCase[testCaseList.Count * 4];
+            // Copy the test-cases to an array three times
+            TestCases = new TestCase[testCaseList.Count * 3];
             testCaseList.CopyTo(TestCases);
             testCaseList.CopyTo(TestCases, testCaseList.Count);
             testCaseList.CopyTo(TestCases, testCaseList.Count * 2);
-            testCaseList.CopyTo(TestCases, testCaseList.Count * 3);
 
             // Create the test-case variations block-wise
             for (int i = 0; i < testCaseList.Count; i++)
@@ -171,12 +170,6 @@ namespace Presentation
             {
                 TestCases[i].HighRes = true;
                 TestCases[i].AntiAliasing = false;
-                TestCases[i].Screenshot = false;
-            }
-            for (int i = testCaseList.Count * 3; i < testCaseList.Count * 4; i++)
-            {
-                TestCases[i].HighRes = true;
-                TestCases[i].AntiAliasing = true;
                 TestCases[i].Screenshot = false;
             }
             #endregion
