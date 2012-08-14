@@ -11,6 +11,7 @@ obj
 *.opensdf
 *.user
 _ReSharper.*
+_TeamCity.*
 **/GameUX/*.res
 **/GameUX/*.tlog
 **/GameUX/*.log
