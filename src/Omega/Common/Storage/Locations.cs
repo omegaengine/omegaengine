@@ -105,7 +105,8 @@ namespace Common.Storage
                     default:
                     case PlatformID.Win32Windows:
                     case PlatformID.Win32NT:
-                        return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                        // Use XDG specification or Win32 API
+                        return GetEnvironmentVariable("XDG_CONFIG_HOME", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
                 }
             }
         }
@@ -114,7 +115,7 @@ namespace Common.Storage
         /// The directory to store per-user data files (should not roam across different machines).
         /// </summary>
         /// <remarks>On Windows this is <c>%localappdata%</c>, on Linux it usually is <c>~/.local/share</c>.</remarks>
-        public static string UserContentDir
+        public static string UserDataDir
         {
             get
             {
@@ -130,7 +131,8 @@ namespace Common.Storage
                     default:
                     case PlatformID.Win32Windows:
                     case PlatformID.Win32NT:
-                        return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                        // Use XDG specification or Win32 API
+                        return GetEnvironmentVariable("XDG_DATA_HOME", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
                 }
             }
         }
@@ -155,7 +157,8 @@ namespace Common.Storage
                     default:
                     case PlatformID.Win32Windows:
                     case PlatformID.Win32NT:
-                        return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                        // Use XDG specification or Win32 API
+                        return GetEnvironmentVariable("XDG_CACHE_HOME", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
                 }
             }
         }
@@ -183,7 +186,8 @@ namespace Common.Storage
                     default:
                     case PlatformID.Win32Windows:
                     case PlatformID.Win32NT:
-                        return Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+                        // Use XDG specification or Win32 API
+                        return GetEnvironmentVariable("XDG_CONFIG_DIRS", Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData));
                 }
             }
         }
@@ -193,7 +197,7 @@ namespace Common.Storage
         /// </summary>
         /// <returns>Directories separated by <see cref="Path.PathSeparator"/> sorted by decreasing importance.</returns>
         /// <remarks>On Windows this is <c>CommonApplicationData</c>, on Linux it usually is <c>/usr/local/share:/usr/share</c>.</remarks>
-        public static string SystemContentDirs
+        public static string SystemDataDirs
         {
             get
             {
@@ -209,7 +213,8 @@ namespace Common.Storage
                     default:
                     case PlatformID.Win32Windows:
                     case PlatformID.Win32NT:
-                        return Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+                        // Use XDG specification or Win32 API
+                        return GetEnvironmentVariable("XDG_DATA_DIRS", Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData));
                 }
             }
         }
@@ -288,24 +293,8 @@ namespace Common.Storage
             }
             else
             {
-                // Check in user profile
-                try
-                {
-                    path = FileUtils.PathCombine(UserConfigDir, appName, resourceCombined);
-                }
-                    #region Error handling
-                catch (ArgumentException ex)
-                {
-                    // Wrap exception to add context information
-                    throw new IOException(string.Format(Resources.InvalidConfigDir, UserConfigDir) + "\n" + ex.Message, ex);
-                }
-                #endregion
-
-                path = Path.GetFullPath(path);
-                if ((isFile && File.Exists(path)) || (!isFile && Directory.Exists(path))) yield return path;
-
-                // Check in system directories
-                foreach (var dirPath in SystemConfigDirs.Split(Path.PathSeparator))
+                // Check in user profile and system directories
+                foreach (var dirPath in (UserConfigDir + Path.PathSeparator + SystemConfigDirs).Split(Path.PathSeparator))
                 {
                     try
                     {
@@ -347,13 +336,13 @@ namespace Common.Storage
             {
                 path = _isPortable
                     ? FileUtils.PathCombine(_portableBase, "data", resourceCombined)
-                    : FileUtils.PathCombine(UserContentDir, appName, resourceCombined);
+                    : FileUtils.PathCombine(UserDataDir, appName, resourceCombined);
             }
                 #region Error handling
             catch (ArgumentException ex)
             {
                 // Wrap exception to add context information
-                throw new IOException(string.Format(Resources.InvalidConfigDir, UserContentDir) + "\n" + ex.Message, ex);
+                throw new IOException(string.Format(Resources.InvalidConfigDir, UserDataDir) + "\n" + ex.Message, ex);
             }
             #endregion
 
@@ -393,24 +382,8 @@ namespace Common.Storage
             }
             else
             {
-                // Check in user profile
-                try
-                {
-                    path = FileUtils.PathCombine(UserContentDir, appName, resourceCombined);
-                }
-                    #region Error handling
-                catch (ArgumentException ex)
-                {
-                    // Wrap exception to add context information
-                    throw new IOException(string.Format(Resources.InvalidConfigDir, UserContentDir) + "\n" + ex.Message, ex);
-                }
-                #endregion
-
-                path = Path.GetFullPath(path);
-                if ((isFile && File.Exists(path)) || (!isFile && Directory.Exists(path))) yield return path;
-
-                // Check in system directories
-                foreach (var dirPath in SystemContentDirs.Split(Path.PathSeparator))
+                // Check in user profile and system directories
+                foreach (var dirPath in (UserDataDir + Path.PathSeparator + SystemDataDirs).Split(Path.PathSeparator))
                 {
                     try
                     {

@@ -23,9 +23,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Security.Cryptography;
 using Common.Properties;
-
 #if FS_SECURITY
 using System.Security.AccessControl;
 using System.Security.Principal;
@@ -41,12 +39,12 @@ namespace Common.Utils
     {
         #region Paths
         /// <summary>
-        /// Replaces all slashes (forward and backward) with <see cref="Path.DirectorySeparatorChar"/>.
+        /// Replaces forward slashes with <see cref="Path.DirectorySeparatorChar"/>.
         /// </summary>
         public static string UnifySlashes(string value)
         {
             if (value == null) return null;
-            return value.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar);
+            return value.Replace('/', Path.DirectorySeparatorChar);
         }
 
         /// <summary>
@@ -66,43 +64,13 @@ namespace Common.Utils
             }
             return temp;
         }
-        #endregion
-
-        #region Hash
-        /// <summary>
-        /// Computes the hash value of the content of a file.
-        /// </summary>
-        /// <param name="path">The path of the file to hash.</param>
-        /// <param name="algorithm">The hashing algorithm to use.</param>
-        /// <returns>A hexadecimal string representation of the hash value.</returns>
-        /// <exception cref="IOException">Thrown if there was an error reading the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if you have insufficient rights to read the file.</exception>
-        public static string ComputeHash(string path, HashAlgorithm algorithm)
-        {
-            #region Sanity checks
-            if (path == null) throw new ArgumentNullException("path");
-            if (algorithm == null) throw new ArgumentNullException("algorithm");
-            #endregion
-
-            using (var stream = File.OpenRead(path))
-                return ComputeHash(stream, algorithm);
-        }
 
         /// <summary>
-        /// Computes the hash value of the content of a stream.
+        /// Determines whether a path might escape its parent directory (by being absolute or using ..).
         /// </summary>
-        /// <param name="stream">The stream containing the data to hash.</param>
-        /// <param name="algorithm">The hashing algorithm to use.</param>
-        /// <returns>A hexadecimal string representation of the hash value.</returns>
-        [SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "The returned characters are only 0-9 and A-F")]
-        public static string ComputeHash(Stream stream, HashAlgorithm algorithm)
+        public static bool IsBreakoutPath(string path)
         {
-            #region Sanity checks
-            if (stream == null) throw new ArgumentNullException("stream");
-            if (algorithm == null) throw new ArgumentNullException("algorithm");
-            #endregion
-
-            return BitConverter.ToString(algorithm.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
+            return Path.IsPathRooted(path) || path.EndsWith("..") || path.Contains(".." + Path.DirectorySeparatorChar);
         }
         #endregion
 
@@ -287,7 +255,23 @@ namespace Common.Utils
         }
         #endregion
 
-        #region Directory walking
+        #region Directories
+        /// <summary>
+        /// Lists the names of all subdirectories contained within a directory.
+        /// </summary>
+        /// <param name="path">The path of the directory to search for subdirectories.</param>
+        /// <returns>A C-sorted list of directory names.</returns>
+        public static string[] GetSubdirectoryNames(string path)
+        {
+            #region Sanity checks
+            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
+            #endregion
+
+            var directoryNames = Array.ConvertAll(Directory.GetDirectories(path), Path.GetFileName);
+            Array.Sort(directoryNames, StringComparer.Ordinal);
+            return directoryNames;
+        }
+
         /// <summary>
         /// Walks a directory structure recursivley and performs an action for every directory and file encountered.
         /// </summary>
@@ -340,10 +324,6 @@ namespace Common.Utils
                     ToggleWriteProtectionUnix(directory, true);
                     break;
 
-                case PlatformID.Win32Windows:
-                    ToggleWriteProtectionWin32(directory, true);
-                    break;
-
                 case PlatformID.Win32NT:
                     ToggleWriteProtectionWinNT(directory, true);
                     break;
@@ -374,20 +354,16 @@ namespace Common.Utils
                     ToggleWriteProtectionUnix(directory, false);
                     break;
 
-                case PlatformID.Win32Windows:
-                    ToggleWriteProtectionWin32(directory, false);
-                    break;
-
                 case PlatformID.Win32NT:
                     ToggleWriteProtectionWinNT(directory, false);
-                    //try { ToggleWriteProtectionWin32(directory, false); }
-                    //#region Error handling
-                    //catch (ArgumentException ex)
-                    //{
-                    //    // Wrap exception since only certain exception types are allowed in tasks
-                    //    throw new IOException(ex.Message, ex);
-                    //}
-                    //#endregion
+
+                    // Remove any read-only attributes
+                    try
+                    {
+                        WalkDirectory(directory, dir => dir.Attributes = FileAttributes.Normal, file => file.IsReadOnly = false);
+                    }
+                    catch (ArgumentException)
+                    {}
                     break;
             }
         }
@@ -410,11 +386,6 @@ namespace Common.Utils
                 throw new IOException(Resources.UnixSubsystemFail, ex);
             }
             #endregion
-        }
-
-        private static void ToggleWriteProtectionWin32(DirectoryInfo directory, bool enable)
-        {
-            WalkDirectory(directory, null, file => file.IsReadOnly = enable);
         }
 
         private static void ToggleWriteProtectionWinNT(DirectoryInfo directory, bool enable)

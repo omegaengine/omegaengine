@@ -158,7 +158,7 @@ namespace Common.Utils
             if (value == null) throw new ArgumentNullException("value");
             #endregion
 
-            var ret = new List<string>();
+            var result = new List<string>();
             string[] splitted1 = value.Split('\n');
             string[] splitted2 = value.Split('\r');
             string[] splitted = splitted1.Length >= splitted2.Length ? splitted1 : splitted2;
@@ -167,22 +167,23 @@ namespace Common.Utils
             {
                 // Never add any \r or \n to the single lines
                 if (s.EndsWith("\r", StringComparison.Ordinal) || s.EndsWith("\n", StringComparison.Ordinal))
-                    ret.Add(s.Substring(0, s.Length - 1));
+                    result.Add(s.Substring(0, s.Length - 1));
                 else if (s.StartsWith("\n", StringComparison.Ordinal) || s.StartsWith("\r", StringComparison.Ordinal))
-                    ret.Add(s.Substring(1));
+                    result.Add(s.Substring(1));
                 else
-                    ret.Add(s);
+                    result.Add(s);
             }
 
-            return ret.ToArray();
+            return result.ToArray();
         }
 
         /// <summary>
         /// Combines multiple strings into one, placing a <paramref name="separator"/> between the <paramref name="parts"/>.
         /// </summary>
-        /// <param name="parts">The strings to be combines.</param>
         /// <param name="separator">The separator characters to place between the <paramref name="parts"/>.</param>
-        public static string Concatenate(IEnumerable<string> parts, string separator)
+        /// <param name="parts">The strings to be combines.</param>
+        /// <remarks>Works like <see cref="string.Join(string,string[])"/> but for <see cref="IEnumerable{T}"/>s.</remarks>
+        public static string Join(string separator, IEnumerable<string> parts)
         {
             #region Sanity checks
             if (parts == null) throw new ArgumentNullException("parts");
@@ -332,12 +333,10 @@ namespace Common.Utils
             string[] parts = value.Split('"');
             for (int i = 0; i < parts.Length; i++)
             {
-                // Count slashes preceeding each quotation mark
-                string slashesTrimmed = parts[i].TrimEnd('\\');
-                int slashesCount = parts[i].Length - slashesTrimmed.Length;
+                // Count slashes preceeding the quotation mark
+                int slashesCount = parts[i].Length - parts[i].TrimEnd('\\').Length;
 
                 result.Append(parts[i]);
-
                 if (i < parts.Length - 1)
                 { // Not last part
                     for (int j = 0; j < slashesCount; j++) result.Append('\\'); // Double number of slashes
@@ -361,7 +360,7 @@ namespace Common.Utils
         /// This coressponds to Windows' handling of command-line arguments as specified in:
         /// http://msdn.microsoft.com/library/17w5ykft
         /// </remarks>
-        public static string ConcatenateEscapeArgument(IEnumerable<string> parts)
+        public static string JoinEscapeArguments(IEnumerable<string> parts)
         {
             if (parts == null) return null;
 
@@ -384,7 +383,7 @@ namespace Common.Utils
         /// <summary> 
         /// Encodes a string as UTF-8 in base 64.
         /// </summary>
-        public static string Base64Encode(string value)
+        public static string Base64Utf8Encode(string value)
         {
             return value == null ? null : Convert.ToBase64String(Encoding.UTF8.GetBytes(value));
         }
@@ -393,9 +392,88 @@ namespace Common.Utils
         /// Decodes a UTF-8 in base 64 string.
         /// </summary>
         /// <exception cref="FormatException">Thrown if <paramref name="value"/> is not a valid base 64 string.</exception>
-        public static string Base64Decode(string value)
+        public static string Base64Utf8Decode(string value)
         {
             return value == null ? null : Encoding.UTF8.GetString(Convert.FromBase64String(value));
+        }
+        #endregion
+
+        #region Base 32
+        private static readonly char[] _base32Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567".ToCharArray();
+        private const int NormaleByteSize = 8, Base32ByteSize = 5;
+
+        /// <summary>
+        /// Encodes a byte array in base 32 without padding.
+        /// </summary>
+        public static string Base32Encode(byte[] data)
+        {
+            #region Sanity checks
+            if (data == null) throw new ArgumentNullException("data");
+            if (data.Length == 0) return "";
+            #endregion
+
+            int i = 0, index = 0;
+            var result = new StringBuilder((data.Length + 7) * NormaleByteSize / Base32ByteSize);
+
+            while (i < data.Length)
+            {
+                int currentByte = (data[i] >= 0) ? data[i] : (data[i] + 256);
+                int digit;
+
+                // Is the current digit going to span a byte boundary?
+                if (index > (NormaleByteSize - Base32ByteSize))
+                {
+                    int nextByte = (i + 1) < data.Length
+                        ? ((data[i + 1] >= 0) ? data[i + 1]
+                            : (data[i + 1] + 256)) : 0;
+
+                    digit = currentByte & (0xFF >> index);
+                    index = (index + Base32ByteSize) % NormaleByteSize;
+                    digit <<= index;
+                    digit |= nextByte >> (NormaleByteSize - index);
+                    i++;
+                }
+                else
+                {
+                    digit = (currentByte >> (NormaleByteSize - (index + Base32ByteSize))) & 0x1F;
+                    index = (index + Base32ByteSize) % NormaleByteSize;
+                    if (index == 0)
+                        i++;
+                }
+                result.Append(_base32Alphabet[digit]);
+            }
+
+            return result.ToString();
+        }
+        #endregion
+
+        #region Base 16
+        /// <summary>
+        /// Encodes a byte array in base 16 (hexadecimal).
+        /// </summary>
+        public static string Base16Encode(byte[] data)
+        {
+            #region Sanity checks
+            if (data == null) throw new ArgumentNullException("data");
+            if (data.Length == 0) return "";
+            #endregion
+
+            return BitConverter.ToString(data).Replace("-", "").ToLowerInvariant();
+        }
+
+        /// <summary>
+        /// Decodes a base 16 (hexadecimal) to a byte array.
+        /// </summary>
+        public static byte[] Base16Decode(string encoded)
+        {
+            #region Sanity checks
+            if (encoded == null) throw new ArgumentNullException("encoded");
+            #endregion
+
+            var result = new byte[encoded.Length / 2];
+            for (int i = 0; i < encoded.Length / 2; i++)
+                result[i] = Convert.ToByte(encoded.Substring(i * 2, 2), 16);
+            return result;
         }
         #endregion
 

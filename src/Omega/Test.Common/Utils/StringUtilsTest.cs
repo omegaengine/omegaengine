@@ -77,19 +77,19 @@ namespace Common.Utils
         }
 
         [Test]
-        public void TestConcatenate()
+        public void TestJoin()
         {
-            Assert.AreEqual("part1", StringUtils.Concatenate(new[] {"part1"}, " "));
-            Assert.AreEqual("part1 part2", StringUtils.Concatenate(new[] {"part1", "part2"}, " "));
-            Assert.AreEqual("\"part1 part2\" part3", StringUtils.ConcatenateEscapeArgument(new[] {"part1 part2", "part3"}));
+            Assert.AreEqual("part1", StringUtils.Join(" ", new[] {"part1"}));
+            Assert.AreEqual("part1 part2", StringUtils.Join(" ", new[] {"part1", "part2"}));
+            Assert.AreEqual("\"part1 part2\" part3", StringUtils.JoinEscapeArguments(new[] {"part1 part2", "part3"}));
         }
 
         [Test]
-        public void TestConcatenateEscape()
+        public void TestJoinEscapeArguments()
         {
-            Assert.AreEqual("part1", StringUtils.ConcatenateEscapeArgument(new[] {"part1"}));
-            Assert.AreEqual("part1 part2", StringUtils.ConcatenateEscapeArgument(new[] {"part1", "part2"}));
-            Assert.AreEqual("\"part1 \\\" part2\" part3", StringUtils.ConcatenateEscapeArgument(new[] {"part1 \" part2", "part3"}));
+            Assert.AreEqual("part1", StringUtils.JoinEscapeArguments(new[] {"part1"}));
+            Assert.AreEqual("part1 part2", StringUtils.JoinEscapeArguments(new[] {"part1", "part2"}));
+            Assert.AreEqual("\"part1 \\\" part2\" part3", StringUtils.JoinEscapeArguments(new[] {"part1 \" part2", "part3"}));
         }
 
         [Test]
@@ -123,12 +123,45 @@ namespace Common.Utils
             Assert.AreEqual("test1\\\\\\\"test2", StringUtils.EscapeArgument("test1\\\"test2"), "Slashes with quotation marks should be escaped");
         }
 
-        private const string Sha1ForEmptyString = "da39a3ee5e6b4b0d3255bfef95601890afd80709";
+        [Test]
+        public void TestBase64Utf8Encode()
+        {
+            Assert.AreEqual(null, StringUtils.Base64Utf8Encode(null));
+            Assert.AreEqual("", StringUtils.Base64Utf8Encode(""));
+            Assert.AreEqual("dGVzdA==", StringUtils.Base64Utf8Encode("test"));
+        }
+
+        [Test]
+        public void TestBase64Utf8Decode()
+        {
+            Assert.AreEqual(null, StringUtils.Base64Utf8Decode(null));
+            Assert.AreEqual("", StringUtils.Base64Utf8Decode(""));
+            Assert.AreEqual("test", StringUtils.Base64Utf8Decode("dGVzdA=="));
+        }
+
+        [Test]
+        public void TestBase32Encode()
+        {
+            Assert.AreEqual("IFBA", StringUtils.Base32Encode(new byte[] {65, 66}));
+        }
+
+        [Test]
+        public void TestBase16Encode()
+        {
+            Assert.AreEqual("4142", StringUtils.Base16Encode(new byte[] {65, 66}));
+        }
+
+        [Test]
+        public void TestBase16Decode()
+        {
+            Assert.AreEqual(new byte[] {65, 66}, StringUtils.Base16Decode("4142"));
+        }
 
         [Test]
         public void TestHash()
         {
-            Assert.AreEqual(Sha1ForEmptyString, StringUtils.Hash("", SHA1.Create()));
+            const string sha1ForEmptyString = "da39a3ee5e6b4b0d3255bfef95601890afd80709";
+            Assert.AreEqual(sha1ForEmptyString, StringUtils.Hash("", SHA1.Create()));
         }
 
         [Test]
