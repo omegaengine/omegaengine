@@ -97,7 +97,7 @@ namespace AlphaEditor.GUI
             #endregion
 
             // Initialize engine
-            var engine =renderPanel.Setup();
+            var engine = renderPanel.Setup();
 
             // Blue background
             engine.Views.Add(new View(engine, Color.CornflowerBlue));

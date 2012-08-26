@@ -81,7 +81,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 for (int i = 0; i < lights.Length; i++)
                 {
-                    ShaderPasses pass = ShaderPasses.None;
+                    var pass = ShaderPasses.None;
 
                     // ReSharper disable AccessToModifiedClosure
                     var dirLight = lights[i] as DirectionalLight;

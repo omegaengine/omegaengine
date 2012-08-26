@@ -157,11 +157,11 @@ namespace OmegaEngine
             // Log GPU capabilities
             Log.Info("GPU capabilities:\n" +
                 "HWTransformAndLight: " + MathUtils.CheckFlag((int)Capabilities.DeviceCaps, (int)DeviceCaps.HWTransformAndLight) + "\n" +
-                    "PureDevice: " + MathUtils.CheckFlag((int)Capabilities.DeviceCaps, (int)DeviceCaps.PureDevice) + "\n" +
-                        "Anisotropic: " + SupportsAnisotropic + "\n" +
-                            "VertexShaderVersion: " + Capabilities.VertexShaderVersion + "\n" +
-                                "PixelShaderVersion: " + MaxShaderModel + "\n" +
-                                    "SupportedAA: " + SupportedAA + "\n");
+                "PureDevice: " + MathUtils.CheckFlag((int)Capabilities.DeviceCaps, (int)DeviceCaps.PureDevice) + "\n" +
+                "Anisotropic: " + SupportsAnisotropic + "\n" +
+                "VertexShaderVersion: " + Capabilities.VertexShaderVersion + "\n" +
+                "PixelShaderVersion: " + MaxShaderModel + "\n" +
+                "SupportedAA: " + SupportedAA + "\n");
 
             // Ensure support for linear texture filtering
             if (!MathUtils.CheckFlag((int)Capabilities.TextureFilterCaps, (int)(FilterCaps.MinLinear | FilterCaps.MagLinear | FilterCaps.MipLinear)))

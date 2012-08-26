@@ -106,7 +106,7 @@ namespace OmegaEngine.Graphics.VertexDecl
         {
             return "PositionMultiTextured(position=" + Position + ", " +
                 "tu=" + Tu + ", " + "tv=" + Tv + ", color=" + Color + ", " +
-                    "texWeights=" + TexWeights1 + TexWeights2 + TexWeights3 + TexWeights4 + ")";
+                "texWeights=" + TexWeights1 + TexWeights2 + TexWeights3 + TexWeights4 + ")";
         }
         #endregion
 

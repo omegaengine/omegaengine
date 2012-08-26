@@ -408,7 +408,7 @@ namespace OmegaGUI.Render
         /// <summary>Called when the control should be rendered</summary>
         public override void Render(Device device, float elapsedTime)
         {
-            ControlState state = ControlState.Normal;
+            var state = ControlState.Normal;
             if (!isComboOpen)
                 state = ControlState.Hidden;
 

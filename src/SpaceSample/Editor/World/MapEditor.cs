@@ -516,7 +516,7 @@ namespace AlphaEditor.World
 
             return (checkEntity.Checked && positionable is Entity) ||
                 (checkBenchmarkPoint.Checked && positionable is BenchmarkPoint) ||
-                    (checkMemo.Checked && positionable is Memo);
+                (checkMemo.Checked && positionable is Memo);
         }
         #endregion
 

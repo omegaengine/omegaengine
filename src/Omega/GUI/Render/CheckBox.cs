@@ -105,7 +105,7 @@ namespace OmegaGUI.Render
         /// </summary>
         public override void Render(Device device, float elapsedTime)
         {
-            ControlState state = ControlState.Normal;
+            var state = ControlState.Normal;
             if (IsVisible == false)
                 state = ControlState.Hidden;
             else if (IsEnabled == false)

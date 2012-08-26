@@ -65,7 +65,7 @@ namespace OmegaEngine.Graphics.VertexDecl
         {
             return "PositionColoredTextured(position=" + Position + ", " +
                 "color=" + Color + ", " +
-                    "tu=" + Tu + ", " + "tv=" + Tv + ")";
+                "tu=" + Tu + ", " + "tv=" + Tv + ")";
         }
         #endregion
     }

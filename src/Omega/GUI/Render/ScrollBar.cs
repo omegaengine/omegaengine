@@ -181,7 +181,7 @@ namespace OmegaGUI.Render
         /// <summary>Render the scroll bar control</summary>
         public override void Render(Device device, float elapsedTime)
         {
-            ControlState state = ControlState.Normal;
+            var state = ControlState.Normal;
             if (IsVisible == false)
                 state = ControlState.Hidden;
             else if ((IsEnabled == false) || (showingThumb == false))
@@ -299,7 +299,7 @@ namespace OmegaGUI.Render
 
                         m_position = start + (thumbRect.Top - trackRect.Top +
                             maxThumb / (maxFirstItem * 2)) * // Shift by half a row to avoid last row covered
-                                maxFirstItem / maxThumb;
+                            maxFirstItem / maxThumb;
 
                         return true;
                     }

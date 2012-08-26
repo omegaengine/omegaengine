@@ -120,8 +120,8 @@ namespace OmegaEngine.Graphics.VertexDecl
         {
             return "PositionNormalMultiTextured(position=" + Position + ", " +
                 "normal=" + Normal +
-                    "tu=" + Tu + ", " + "tv=" + Tv + ", " +
-                        "texWeights=" + TexWeights1 + TexWeights2 + TexWeights3 + TexWeights4 + ")";
+                "tu=" + Tu + ", " + "tv=" + Tv + ", " +
+                "texWeights=" + TexWeights1 + TexWeights2 + TexWeights3 + TexWeights4 + ")";
         }
         #endregion
 

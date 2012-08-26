@@ -40,7 +40,7 @@ namespace OmegaGUI.Render
             if (!IsVisible)
                 return; // Nothing to do here
 
-            ControlState state = ControlState.Normal;
+            var state = ControlState.Normal;
             if (!IsEnabled)
                 state = ControlState.Disabled;
 

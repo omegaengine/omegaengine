@@ -97,9 +97,9 @@ namespace OmegaEngine.Graphics.VertexDecl
         {
             return "PositionNormalTangentTextured(position=" + Position + ", " +
                 "normal=" + Normal + ", " +
-                    "tu=" + Tu + ", " + "tv=" + Tv +
-                        "binormal=" + Binormal + ", " +
-                            "tangent=" + Tangent + ", " + ")";
+                "tu=" + Tu + ", " + "tv=" + Tv +
+                "binormal=" + Binormal + ", " +
+                "tangent=" + Tangent + ", " + ")";
         }
         #endregion
 

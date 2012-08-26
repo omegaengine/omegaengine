@@ -92,7 +92,7 @@ namespace OmegaEngine.Graphics.VertexDecl
         {
             return "PositionNormalTextured(position=" + Position + ", " +
                 "normal=" + Normal + ", " +
-                    "tu=" + Tu + ", " + "tv=" + Tv + ")";
+                "tu=" + Tu + ", " + "tv=" + Tv + ")";
         }
         #endregion
     }

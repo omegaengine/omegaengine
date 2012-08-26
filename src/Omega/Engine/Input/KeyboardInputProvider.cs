@@ -64,7 +64,7 @@ namespace OmegaEngine.Input
             // Otherwise only trigger for alpha-numeric and arrow keys
             if ((e.KeyCode >= Keys.A && e.KeyCode <= Keys.Z) ||
                 (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9) ||
-                    (e.KeyCode >= Keys.Left && e.KeyCode <= Keys.Down))
+                (e.KeyCode >= Keys.Left && e.KeyCode <= Keys.Down))
             {
                 _pressedKey = e.KeyCode;
                 _timerKeyboard.Enabled = true;

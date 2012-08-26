@@ -579,7 +579,7 @@ namespace OmegaGUI.Render
                 {
                     if (controlFocus != null &&
                         controlFocus.Parent == this &&
-                            controlFocus.IsEnabled)
+                        controlFocus.IsEnabled)
                     {
                         if (wParam != IntPtr.Zero)
                             controlFocus.OnFocusIn();
@@ -600,7 +600,7 @@ namespace OmegaGUI.Render
                     // it the first chance at handling the message.
                     if (controlFocus != null &&
                         controlFocus.Parent == this &&
-                            controlFocus.IsEnabled)
+                        controlFocus.IsEnabled)
                     {
                         // If the control MsgProc handles it, then we don't.
                         if (controlFocus.HandleKeyboard(msg, wParam, lParam))
@@ -699,7 +699,7 @@ namespace OmegaGUI.Render
                     // it the first chance at handling the message.
                     if (controlFocus != null &&
                         controlFocus.Parent == this &&
-                            controlFocus.IsEnabled)
+                        controlFocus.IsEnabled)
                     {
                         // If the control MsgProc handles it, then we don't.
                         if (controlFocus.HandleMouse(msg, mousePoint, wParam, lParam))

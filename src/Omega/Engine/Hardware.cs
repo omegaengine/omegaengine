@@ -47,9 +47,9 @@ namespace OmegaEngine
         {
             return "Hardware:\n" +
                 "OS: " + OS + "\n" +
-                    "CPU: " + Cpu + "\n" +
-                        "RAM: " + string.Format(CultureInfo.InvariantCulture, "{0} MB", Ram) + "\n" +
-                            "GPU: " + Gpu;
+                "CPU: " + Cpu + "\n" +
+                "RAM: " + string.Format(CultureInfo.InvariantCulture, "{0} MB", Ram) + "\n" +
+                "GPU: " + Gpu;
         }
     }
 

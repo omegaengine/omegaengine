@@ -287,7 +287,7 @@ namespace OmegaGUI.Render
                         // Only proceed if the click falls ontop of an item
                         if (clicked >= scrollbarControl.TrackPosition &&
                             clicked < itemList.Count &&
-                                clicked < scrollbarControl.TrackPosition + scrollbarControl.PageSize)
+                            clicked < scrollbarControl.TrackPosition + scrollbarControl.PageSize)
                         {
                             parentDialog.DialogManager.Target.Capture = true;
                             isDragging = true;
@@ -445,7 +445,7 @@ namespace OmegaGUI.Render
                         // Only proceed if the cursor is on top of an item
                         if (itemIndex >= scrollbarControl.TrackPosition &&
                             itemIndex < itemList.Count &&
-                                itemIndex < scrollbarControl.TrackPosition + scrollbarControl.PageSize)
+                            itemIndex < scrollbarControl.TrackPosition + scrollbarControl.PageSize)
                         {
                             selectedIndex = itemIndex;
                             RaiseSelectionEvent(this, true);

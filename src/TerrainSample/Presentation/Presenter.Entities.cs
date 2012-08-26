@@ -391,7 +391,7 @@ namespace Presentation
                         MathUtils.DegreeToRadian(meshRender.RotationY),
                         MathUtils.DegreeToRadian(meshRender.RotationX),
                         MathUtils.DegreeToRadian(meshRender.RotationZ)) *
-                            Matrix.Translation(meshRender.Shift);
+                    Matrix.Translation(meshRender.Shift);
                 model.Alpha = meshRender.Alpha;
                 model.Pickable = meshRender.Pickable;
                 model.RenderIn = (ViewType)meshRender.RenderIn;

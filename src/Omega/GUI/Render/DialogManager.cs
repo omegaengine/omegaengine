@@ -112,7 +112,7 @@ namespace OmegaGUI.Render
                 FontNode fn = _fontCache[i];
                 if ((string.Compare(fn.FaceName, faceName, StringComparison.OrdinalIgnoreCase) == 0) &&
                     fn.Height == height &&
-                        fn.Weight == weight)
+                    fn.Weight == weight)
                 {
                     // Found it
                     return i;

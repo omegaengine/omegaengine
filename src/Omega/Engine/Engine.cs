@@ -59,10 +59,7 @@ namespace OmegaEngine
         /// <summary>
         /// The version number of the engine.
         /// </summary>
-        public static Version Version
-        {
-            get { return Assembly.GetExecutingAssembly().GetName().Version; }
-        }
+        public static Version Version { get { return Assembly.GetExecutingAssembly().GetName().Version; } }
 
         /// <summary>
         /// Access to the Direct3D subsystem.

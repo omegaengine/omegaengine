@@ -700,9 +700,9 @@ namespace AlphaEditor.World
 
             return (checkEntity.Checked && positionable is Entity) ||
                 (checkWater.Checked && positionable is Water) ||
-                    (checkWaypoint.Checked && positionable is Waypoint) ||
-                        (checkBenchmarkPoint.Checked && positionable is BenchmarkPoint) ||
-                            (checkMemo.Checked && positionable is Memo);
+                (checkWaypoint.Checked && positionable is Waypoint) ||
+                (checkBenchmarkPoint.Checked && positionable is BenchmarkPoint) ||
+                (checkMemo.Checked && positionable is Memo);
         }
         #endregion
 

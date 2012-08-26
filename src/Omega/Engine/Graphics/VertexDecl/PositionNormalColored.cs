@@ -87,7 +87,7 @@ namespace OmegaEngine.Graphics.VertexDecl
         {
             return "PositionNormalColored(position=" + Position + ", " +
                 "normal=" + Normal + ", " +
-                    "color=" + Color + ")";
+                "color=" + Color + ")";
         }
         #endregion
     }

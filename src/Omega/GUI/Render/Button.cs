@@ -136,7 +136,7 @@ namespace OmegaGUI.Render
             int offsetX = 0;
             int offsetY = 0;
 
-            ControlState state = ControlState.Normal;
+            var state = ControlState.Normal;
             if (IsVisible == false)
                 state = ControlState.Hidden;
             else if (IsEnabled == false)

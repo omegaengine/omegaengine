@@ -68,8 +68,8 @@ namespace World
             return _size.StretchV *
                 (HeightMap[xPos0, yPos0] * (1 - xPosDiff) * (1 - yPosDiff) +
                     HeightMap[xPos0, yPos1] * (1 - xPosDiff) * yPosDiff +
-                        HeightMap[xPos1, yPos0] * xPosDiff * (1 - yPosDiff) +
-                            HeightMap[xPos1, yPos1] * xPosDiff * yPosDiff);
+                    HeightMap[xPos1, yPos0] * xPosDiff * (1 - yPosDiff) +
+                    HeightMap[xPos1, yPos1] * xPosDiff * yPosDiff);
         }
         #endregion
 

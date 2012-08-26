@@ -216,7 +216,7 @@ namespace OmegaGUI.Render
         /// <summary>Render the slider</summary>
         public override void Render(Device device, float elapsedTime)
         {
-            ControlState state = ControlState.Normal;
+            var state = ControlState.Normal;
             if (IsVisible == false)
                 state = ControlState.Hidden;
             else if (IsEnabled == false)
