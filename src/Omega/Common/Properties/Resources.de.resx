@@ -182,6 +182,9 @@ Die Änderungen löschen</value>
   <data name="MinLargerMax" xml:space="preserve">
     <value>Der Min Wert darf nicht größer als der Max Wert sein.</value>
   </data>
+  <data name="MissingDispatchAction" xml:space="preserve">
+    <value>Keine Aktion für '{0}' registriert.</value>
+  </data>
   <data name="MissingNanoGrid" xml:space="preserve">
     <value>NanoGrid muss installiert sein damit dieses Spiel korrekt funktioniert.</value>
   </data>

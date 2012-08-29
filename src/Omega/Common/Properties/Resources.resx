@@ -195,6 +195,9 @@ Delete the changes</value>
   <data name="MinLargerMax" xml:space="preserve">
     <value>The Min value may not be larger than the Max value.</value>
   </data>
+  <data name="MissingDispatchAction" xml:space="preserve">
+    <value>No action registered for '{0}'.</value>
+  </data>
   <data name="MissingNanoGrid" xml:space="preserve">
     <value>NanoGrid must be installed for this game to work properly.</value>
   </data>

@@ -352,7 +352,7 @@
     <value>commentBox</value>
   </data>
   <data name="&gt;&gt;commentBox.Type" xml:space="preserve">
-    <value>Common.Controls.HintTextBox, Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3090a828a7702cec</value>
+    <value>Common.Controls.HintTextBox, Common, Version=1.11.0.0, Culture=neutral, PublicKeyToken=3090a828a7702cec</value>
   </data>
   <data name="&gt;&gt;commentBox.Parent" xml:space="preserve">
     <value>$this</value>

@@ -273,6 +273,15 @@ namespace Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No action registered for &apos;{0}&apos;..
+        /// </summary>
+        internal static string MissingDispatchAction {
+            get {
+                return ResourceManager.GetString("MissingDispatchAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NanoGrid must be installed for this game to work properly..
         /// </summary>
         internal static string MissingNanoGrid {

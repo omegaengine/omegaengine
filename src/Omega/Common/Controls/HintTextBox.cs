@@ -98,8 +98,8 @@ namespace Common.Controls
         private readonly PictureBox _buttonClear = new PictureBox
         {
             Visible = false, Cursor = Cursors.Default,
-            Location = new Point(79, -1), Size = new Size(18, 18), Anchor = AnchorStyles.Right,
-            BackColor = SystemColors.Window, BackgroundImageLayout = ImageLayout.Center, BackgroundImage = _clearButton
+            Location = new Point(81, 1), Size = new Size(14, 14), Dock = DockStyle.Right,
+            BackColor = SystemColors.Window, Image = _clearButton, SizeMode = PictureBoxSizeMode.Zoom
         };
         #endregion
 
@@ -146,7 +146,7 @@ namespace Common.Controls
             get { return _hintText; }
             set
             {
-                _hintText = value;
+                AccessibleName = _hintText = value;
 
                 // Update the hint text on-screen if it is already visible
                 if (IsHintTextVisible) ShowHintText();

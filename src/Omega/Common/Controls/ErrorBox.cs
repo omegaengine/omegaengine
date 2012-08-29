@@ -22,7 +22,6 @@
 
 using System;
 using System.Windows.Forms;
-using Common.Properties;
 using Common.Utils;
 
 namespace Common.Controls
@@ -36,10 +35,6 @@ namespace Common.Controls
         private ErrorBox()
         {
             InitializeComponent();
-            ToggleDetails();
-
-            Load += delegate { ToggleDetails(); };
-            buttonDetails.Click += delegate { ToggleDetails(); };
         }
         #endregion
 
@@ -72,18 +67,6 @@ namespace Common.Controls
                 // ReSharper restore AccessToDisposedClosure
                 errorBox.ShowDialog();
             }
-        }
-        #endregion
-
-        #region Details button
-        /// <summary>
-        /// Shows or hides the details field.
-        /// </summary>
-        private void ToggleDetails()
-        {
-            textDetails.Visible = !textDetails.Visible;
-            Height = textDetails.Top + (textDetails.Visible ? 250 : 75);
-            buttonDetails.Text = textDetails.Visible ? Resources.HideDetails : Resources.ShowDetails;
         }
         #endregion
     }

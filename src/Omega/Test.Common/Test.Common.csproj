@@ -64,6 +64,7 @@
     <Compile Include="Collections\ComparableTupleTest.cs" />
     <Compile Include="Collections\EnumerableUtilsTest.cs" />
     <Compile Include="Collections\XmlDictionaryTest.cs" />
+    <Compile Include="Collections\PerTypeDispatcherTest.cs" />
     <Compile Include="Controls\TrackingLabelTest.cs" />
     <Compile Include="Controls\TrackingProgressBarTest.cs" />
     <Compile Include="FutureTest.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Streams\StreamUtilsTest.cs" />
     <Compile Include="Streams\OffsetStreamTest.cs" />
     <Compile Include="Streams\CircularBufferStreamTest.cs" />
+    <Compile Include="Storage\LocationsRedirect.cs" />
     <Compile Include="Storage\XmlStorageTest.cs" />
     <Compile Include="Values\ExpandableRectangleArrayTest.cs" />
     <Compile Include="Values\QuadrangleTest.cs" />

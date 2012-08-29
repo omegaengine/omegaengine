@@ -39,18 +39,18 @@
             this.treeView.Name = "treeView";
             this.treeView.Size = new System.Drawing.Size(156, 161);
             this.treeView.TabIndex = 1;
-            this.treeView.DoubleClick += new System.EventHandler(this.treeView_DoubleClick);
+            this.treeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterCheck);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
+            this.treeView.DoubleClick += new System.EventHandler(this.treeView_DoubleClick);
             this.treeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView_KeyDown);
-            this.treeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(treeView_AfterCheck);
             // 
             // textSearch
             // 
-            this.textSearch.ShowClearButton = true;
             this.textSearch.Dock = System.Windows.Forms.DockStyle.Top;
             this.textSearch.HintText = "(Search)";
             this.textSearch.Location = new System.Drawing.Point(0, 0);
             this.textSearch.Name = "textSearch";
+            this.textSearch.ShowClearButton = true;
             this.textSearch.Size = new System.Drawing.Size(156, 20);
             this.textSearch.TabIndex = 0;
             this.textSearch.Tag = "";
