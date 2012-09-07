@@ -43,7 +43,7 @@ if errorlevel 1 pause
 cd /d "%~dp0..\build"
 zip -q -9 -r "%TargetDir%\omegaengine-sdk.vsix" ProjectTemplates
 if errorlevel 1 pause
-zip -q -9 -r "%TargetDir%\omegaengine-sdk.vsix" NuGet
+zip -q -9 -r "%TargetDir%\omegaengine-sdk.vsix" Packages
 if errorlevel 1 pause
 cd /d "%~dp0"
 echo ##teamcity[publishArtifacts 'build/Setup/omegaengine-sdk.vsix']

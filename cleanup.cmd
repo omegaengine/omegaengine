@@ -5,7 +5,7 @@ rem Clear binaries (but leave Documentation intact since it takes very long to b
 rd /s /q build\Debug > NUL 2>&1
 rd /s /q build\Release > NUL 2>&1
 rd /s /q build\ReleaseSDK > NUL 2>&1
-rd /s /q build\NuGet > NUL 2>&1
+rd /s /q build\Packages > NUL 2>&1
 rd /s /q build\ProjectTemplates > NUL 2>&1
 rd /s /q build\Setup > NUL 2>&1
 rd /s /q build\Documentation\working > NUL 2>&1

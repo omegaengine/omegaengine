@@ -3,7 +3,7 @@
 call "%~dp0..\version.cmd"
 
 rem Project settings
-set TargetDir=%~dp0..\build\NuGet
+set TargetDir=%~dp0..\build\Packages
 
 rem Prepare clean output directory
 if not exist "%TargetDir%" mkdir "%TargetDir%"
