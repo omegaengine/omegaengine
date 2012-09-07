@@ -5,7 +5,11 @@ cd /d "%~dp0"
 rem Project settings
 set TargetDir=%~dp0..\build\Setup
 
-echo Building library archive...
+
+rem Use bundled utility EXEs
+path %~dp0utils;%path%
+
+echo ##teamcity[progressMessage 'Building library archive']
 if not exist "%TargetDir%" mkdir "%TargetDir%"
 if exist "%TargetDir%\omegaengine.zip" del "%TargetDir%\omegaengine.zip"
 cd /d "%~dp0..\build\ReleaseSDK"
@@ -22,8 +26,9 @@ copy ..\..\content\GUI\Textures content\GUI\Textures\ > NUL
 zip -q -9 -r "%TargetDir%\omegaengine.zip" .
 if errorlevel 1 pause
 cd /d "%~dp0"
+echo ##teamcity[publishArtifacts 'build/Setup/omegaengine.zip']
 
-echo Building Visual Studio extension...
+echo ##teamcity[progressMessage 'Building Visual Studio extension']
 if exist "%TargetDir%\omegaengine-sdk.vsix" del "%TargetDir%\omegaengine-sdk.vsix"
 cd /d "%~dp0vsix"
 zip -q -9 -r "%TargetDir%\omegaengine-sdk.vsix" .
@@ -34,7 +39,7 @@ if errorlevel 1 pause
 zip -q -9 -r "%TargetDir%\omegaengine-sdk.vsix" Packages
 if errorlevel 1 pause
 cd /d "%~dp0"
-
+echo ##teamcity[publishArtifacts 'build/Setup/omegaengine-sdk.vsix']
 
 rem Handle WOW
 if %PROCESSOR_ARCHITECTURE%==x86 set ProgramFiles_temp=%ProgramFiles%
@@ -47,8 +52,9 @@ if not exist "%ProgramFiles_temp%\Inno Setup 5" (
   goto end
 )
 
-echo Building Samples installer...
+echo ##teamcity[progressMessage 'Building Samples installer']
 "%ProgramFiles_temp%\Inno Setup 5\iscc.exe" /Q samples.iss
 if errorlevel 1 pause
+echo ##teamcity[publishArtifacts 'build/Setup/omegaengine-samples.exe']
 
 :end
