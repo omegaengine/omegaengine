@@ -1,4 +1,7 @@
 @echo off
-::Outputs the current version number for TeamCity
+::Sets the current version number as an environment variable
 
-echo ##teamcity[buildNumber '0.8.0.{build.number}']
+set /p version= < "%~dp0version"
+
+echo ##teamcity[buildNumber '%version%_{build.number}']
+echo ##teamcity[setParameter name='build.version' value='%version%']

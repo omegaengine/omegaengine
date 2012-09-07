@@ -15,11 +15,14 @@ The setup is build using Inno Setup 5.4.1 or newer (http://files.jrsoftware.org/
 \build\Release\ - The compiled release binaries
 \build\ReleaseSDK\ - The compiled SDK release binaries (with debug symbols and API XML documentation)
 \build\Setup\ - The compiled installers (created by \setup\build.cmd)
-\build\Packages\ - The compiled NuGet packages (created by \nuget\build.cmd)
+\build\NuGet\ - The compiled NuGet packages (created by \nuget\build.cmd)
 \build\ProjectTemplates\ - The compiled Visual Studio templates (created by \templates\build.cmd)
 \build\Documentation\ - The compiled source code documentation (created by \doc\build.cmd)
 
-Das "build.cmd" script assumes that Visual Studio 2010 is installed and that Inno Setup 5 is installed at its default location.
+"version" contains the version numbers used by the build scripts.
+Keep in sync with the version numbers in "src\Omega\AssemblyInfo.Global.cs", "templates\*\MyTemplate.vstemplate" and "setup\vsix\extension.vsixmanifest"!
+
+The "build.cmd" script assumes that Visual Studio 2010 is installed and that Inno Setup 5 is installed at its default location.
 
 The engine requires shader files to be located in a subdirectory of the installation path named "Shaders".
 

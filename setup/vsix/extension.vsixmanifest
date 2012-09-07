@@ -32,6 +32,6 @@
   </References>
   <Content>
     <ProjectTemplate>ProjectTemplates</ProjectTemplate>
-    <CustomExtension Type="NuGet.Package">Packages</CustomExtension>
+    <CustomExtension Type="NuGet.Package">NuGet</CustomExtension>
   </Content>
 </Vsix>

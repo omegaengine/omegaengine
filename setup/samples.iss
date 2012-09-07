@@ -1,7 +1,11 @@
+;Set version number via command-line argument "/dVersion=X.Y"
+#ifndef Version
+  #define Version "0.1"
+#endif
+
 ;Constants
 #define AppName "OmegaEngine Samples"
 #define AppNameShort "TerrainSample"
-#define AppVersion "0.8.0"
 #define Company "NanoByte"
 #define Website "http://omega.nanobyte.de/"
 
@@ -22,28 +26,28 @@ appname={#AppName}
 
 [Setup]
 OutputDir=..\build\Setup
-OutputBaseFilename=omegaengine-samples
+OutputBaseFilename=omegaengine-samples-{#Version}
 
 ;General settings
 ShowLanguageDialog=auto
 MinVersion=0,5.1
 DefaultDirName={pf}\{#AppName}
 AppName={#AppName}
-AppVerName={#AppName} v{#AppVersion}
+AppVerName={#AppName} v{#Version}
 AppCopyright=Copyright 2006-2012 Bastian Eicher
 AppID={#AppName}
 AppMutex=Terrain Sample Game,Terrain Sample Game Editor,Space Sample Game,Space Sample Game Editor,Towers of Hanoi
 DefaultGroupName={#AppName}
 AppPublisher={#Company}
-AppVersion={#AppVersion}
+AppVersion={#Version}
 DisableProgramGroupPage=true
 PrivilegesRequired=admin
 UninstallDisplayIcon={app}\{#AppNameShort}.exe
 UninstallDisplayName={#AppName}
-VersionInfoVersion={#AppVersion}
+VersionInfoVersion={#Version}
 VersionInfoCompany={#Company}
 VersionInfoDescription={#AppName}
-VersionInfoTextVersion={#AppName} {#AppVersion}
+VersionInfoTextVersion={#AppName} {#Version}
 AppPublisherURL={#Website}
 SetupIconFile=setup.ico
 WizardImageFile=compiler:WizModernImage-IS.bmp
