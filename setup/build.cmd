@@ -9,9 +9,6 @@ rem Prepare clean output directory
 if not exist "%TargetDir%" mkdir "%TargetDir%"
 del /q "%TargetDir%\*"
 
-rem Copy version file
-copy "%~dp0..\version" "%TargetDir%\version" > NUL
-
 rem Use bundled utility EXEs
 path %~dp0utils;%path%
 
