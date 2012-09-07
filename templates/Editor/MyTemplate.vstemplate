@@ -32,9 +32,9 @@
   </WizardExtension>
   <WizardData>
     <packages repository="extension" repositoryId="OmegaEngine_SDK">
-      <package id="OmegaEngine" version="0.8.0" />
-      <package id="OmegaGUI" version="0.8.0" />
-      <package id="AlphaEditor" version="0.8.0" />
+      <package id="OmegaEngine" version="0.8.1" />
+      <package id="OmegaGUI" version="0.8.1" />
+      <package id="AlphaEditor" version="0.8.1" />
     </packages>
   </WizardData>
 </VSTemplate>
