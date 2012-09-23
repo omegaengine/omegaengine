@@ -1,5 +1,4 @@
-The OmegaGame uses the .NET Framework 2.0 (with a C# 4.0 compiler). The recommended IDE is Microsoft Visual Studio 2010.
-The OmegaGame uses the .NET Framework 2.0 (with a C# 4.0 compiler). The recommended IDE is Microsoft Visual Studio 2010.
+The OmegaEngine uses the .NET Framework 2.0 (with a C# 4.0 compiler). The recommended IDE is Microsoft Visual Studio 2010 or 2012.
 To compile the included shader code the DirectX SDK (http://msdn.microsoft.com/directx/) needs to be installed.
 The setup is build using Inno Setup 5.4.1 or newer (http://files.jrsoftware.org/ispack/isdl.htm).
 
@@ -22,7 +21,7 @@ The setup is build using Inno Setup 5.4.1 or newer (http://files.jrsoftware.org/
 "version" contains the version numbers used by the build scripts.
 Keep in sync with the version numbers in "src\Omega\AssemblyInfo.Global.cs", "templates\*\MyTemplate.vstemplate" and "setup\vsix\extension.vsixmanifest"!
 
-The "build.cmd" script assumes that Visual Studio 2010 is installed and that Inno Setup 5 is installed at its default location.
+The "build.cmd" script assumes that Visual Studio 2010/2012 is installed and that Inno Setup 5 is installed at its default location.
 
 The engine requires shader files to be located in a subdirectory of the installation path named "Shaders".
 

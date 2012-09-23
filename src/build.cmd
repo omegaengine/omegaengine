@@ -3,9 +3,14 @@
 cd /d "%~dp0"
 
 rem Determine VS version
-if exist %VS100COMNTOOLS% (
+if defined VS110COMNTOOLS (
+  ::Visual Studio 2012
+  call "%VS110COMNTOOLS%vsvars32.bat"
+  goto compile
+)
+if defined VS100COMNTOOLS (
   ::Visual Studio 2010
-  set VS_COMNTOOLS=%VS100COMNTOOLS%
+  call "%VS100COMNTOOLS%vsvars32.bat"
   goto compile
 )
 goto err_no_vs
@@ -16,7 +21,6 @@ goto err_no_vs
 set config=%1
 if "%config%"=="" set config=Debug
 
-call "%VS_COMNTOOLS%vsvars32.bat"
 echo Compiling Visual Studio solution (%config%)...
 if exist ..\build\%config% rd /s /q ..\build\%config%
 msbuild "OmegaEngine.sln" /nologo /v:q /t:Rebuild /p:Configuration=%config%
