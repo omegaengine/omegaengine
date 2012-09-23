@@ -48,6 +48,9 @@ namespace World
         /// <inheritdoc />
         public override string Name { get { return Resources.GeneratingLingleAngleMaps; } }
 
+        /// <inheritdoc />
+        public override bool UnitsByte { get { return false; } }
+
         private byte[,] _lightRiseAngleMap;
 
         /// <summary>
@@ -109,7 +112,7 @@ namespace World
             _heightMap = heightMap;
 
 #if !NETFX4
-            BytesTotal = size.X * size.Y;
+            UnitsTotal = size.X * size.Y;
 #endif
         }
         #endregion
@@ -180,7 +183,7 @@ namespace World
                 }
 
 #if !NETFX4
-                BytesProcessed += _size.Y;
+                UnitsProcessed += _size.Y;
 #endif
                 if (CancelRequest.WaitOne(0)) throw new OperationCanceledException();
             }

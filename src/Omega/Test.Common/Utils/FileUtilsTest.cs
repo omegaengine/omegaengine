@@ -22,7 +22,6 @@
 
 using System;
 using System.IO;
-using System.Security.Cryptography;
 using Common.Storage;
 using NUnit.Framework;
 using Moq;
@@ -267,6 +266,98 @@ namespace Common.Utils
         #endregion
 
 #if FS_SECURITY
+
+        #region Links
+        [Test]
+        public void TestCreateSymlinkPosixFile()
+        {
+            if (!MonoUtils.IsUnix) throw new InconclusiveException("Can only test POSIX symlinks on Unixoid system");
+
+            using (var tempDir = new TemporaryDirectory("unit-tests"))
+            {
+                File.WriteAllText(Path.Combine(tempDir.Path, "target"), @"data");
+                string sourcePath = Path.Combine(tempDir.Path, "symlink");
+                FileUtils.CreateSymlink(sourcePath, "target");
+
+                Assert.IsTrue(File.Exists(sourcePath), "Symlink should look like file");
+                Assert.AreEqual("data", File.ReadAllText(sourcePath), "Symlinked file contents should be equal");
+
+                string target;
+                Assert.IsTrue(FileUtils.IsSymlink(sourcePath, out target), "Should detect symlink as such");
+                Assert.AreEqual(target, "target", "Should retrieve relative link target");
+                Assert.IsFalse(FileUtils.IsRegularFile(sourcePath), "Should not detect symlink as regular file");
+            }
+        }
+
+        [Test]
+        public void TestCreateSymlinkPosixDirectory()
+        {
+            if (!MonoUtils.IsUnix) throw new InconclusiveException("Can only test POSIX symlinks on Unixoid system");
+
+            using (var tempDir = new TemporaryDirectory("unit-tests"))
+            {
+                Directory.CreateDirectory(Path.Combine(tempDir.Path, "target"));
+                string sourcePath = Path.Combine(tempDir.Path, "symlink");
+                FileUtils.CreateSymlink(sourcePath, "target");
+
+                Assert.IsTrue(Directory.Exists(sourcePath), "Symlink should look like directory");
+
+                string contents;
+                Assert.IsTrue(FileUtils.IsSymlink(sourcePath, out contents), "Should detect symlink as such");
+                Assert.AreEqual(contents, "target", "Should retrieve relative link target");
+            }
+        }
+
+        [Test]
+        public void TestCreateSymlinkNtfsFile()
+        {
+            if (!WindowsUtils.IsWindowsVista) throw new InconclusiveException("Can only test NTFS symlinks on Windows Vista or newer");
+            if (!WindowsUtils.IsAdministrator) throw new InconclusiveException("Can only test NTFS symlinks with Administrator privileges");
+
+            using (var tempDir = new TemporaryDirectory("unit-tests"))
+            {
+                File.WriteAllText(Path.Combine(tempDir.Path, "target"), @"data");
+                string sourcePath = Path.Combine(tempDir.Path, "symlink");
+                FileUtils.CreateSymlink(sourcePath, "target");
+
+                Assert.IsTrue(File.Exists(sourcePath), "Symlink should look like file");
+                Assert.AreEqual("data", File.ReadAllText(sourcePath), "Symlinked file contents should be equal");
+            }
+        }
+
+        [Test]
+        public void TestCreateSymlinkNtfsDirectory()
+        {
+            if (!WindowsUtils.IsWindowsVista) throw new InconclusiveException("Can only test NTFS symlinks on Windows Vista or newer");
+            if (!WindowsUtils.IsAdministrator) throw new InconclusiveException("Can only test NTFS symlinks with Administrator privileges");
+
+            using (var tempDir = new TemporaryDirectory("unit-tests"))
+            {
+                Directory.CreateDirectory(Path.Combine(tempDir.Path, "target"));
+                string sourcePath = Path.Combine(tempDir.Path, "symlink");
+                FileUtils.CreateSymlink(sourcePath, "target");
+
+                Assert.IsTrue(Directory.Exists(sourcePath), "Symlink should look like directory");
+            }
+        }
+
+        [Test]
+        public void TestCreateHardlink()
+        {
+            using (var tempDir = new TemporaryDirectory("unit-tests"))
+            {
+                string sourcePath = Path.Combine(tempDir.Path, "hardlink");
+
+                // Create a file and hardlink to it using an absolute path
+                File.WriteAllText(Path.Combine(tempDir.Path, "target"), @"data");
+                FileUtils.CreateHardlink(sourcePath, Path.Combine(tempDir.Path, "target"));
+
+                Assert.IsTrue(File.Exists(sourcePath), "Hardlink should look like regular file");
+                Assert.AreEqual("data", File.ReadAllText(sourcePath), "Hardlinked file contents should be equal");
+            }
+        }
+        #endregion
+
         #region Unix
         [Test]
         public void TestIsRegularFile()
@@ -287,27 +378,6 @@ namespace Common.Utils
         }
 
         [Test]
-        public void TestCreateSymlink()
-        {
-            if (!MonoUtils.IsUnix) throw new InconclusiveException("Unable to test symlinks on non-Unixoid system");
-
-            using (var tempDir = new TemporaryDirectory("unit-tests"))
-            {
-                string symlinkPath = Path.Combine(tempDir.Path, "symlink");
-
-                // Create an empty file and symlink to it using a relative path
-                File.WriteAllText(Path.Combine(tempDir.Path, "target"), "");
-                MonoUtils.CreateSymlink(symlinkPath, "target");
-
-                string contents;
-                Assert.IsTrue(FileUtils.IsSymlink(symlinkPath, out contents), "Should detect symlink as such");
-                Assert.AreEqual(contents, "target", "Should get relative link target");
-
-                Assert.IsFalse(FileUtils.IsRegularFile(symlinkPath), "Should not detect symlink as regular file");
-            }
-        }
-
-        [Test]
         public void TestIsExecutable()
         {
             using (var tempFile = new TemporaryFile("unit-tests"))
@@ -317,7 +387,7 @@ namespace Common.Utils
         [Test]
         public void TestSetExecutable()
         {
-            if (!MonoUtils.IsUnix) throw new InconclusiveException("Unable to test executable bit on non-Unixoid system");
+            if (!MonoUtils.IsUnix) throw new InconclusiveException("Can only test executable bits on Unixoid system");
 
             using (var tempFile = new TemporaryFile("unit-tests"))
             {
@@ -332,6 +402,7 @@ namespace Common.Utils
             }
         }
         #endregion
+
 #endif
     }
 }

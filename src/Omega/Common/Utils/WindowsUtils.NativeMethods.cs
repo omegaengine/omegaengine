@@ -131,7 +131,7 @@ namespace Common.Utils
             [DllImport("user32", CharSet = CharSet.Unicode, SetLastError = true)]
             public static extern bool PostMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam);
 
-            [DllImport("user32")]
+            [DllImport("user32", CharSet = CharSet.Unicode, SetLastError = true)]
             public static extern int RegisterWindowMessage(string message);
 
 
@@ -140,7 +140,7 @@ namespace Common.Utils
             public static extern bool CreateHardLink(string lpFileName, string lpExistingFileName, IntPtr lpSecurityAttributes);
 
             [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
-            public static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
+            public static extern int CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
 
 
 #if SLIMDX

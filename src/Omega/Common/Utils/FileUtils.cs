@@ -21,6 +21,7 @@
  */
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Common.Properties;
@@ -71,6 +72,10 @@ namespace Common.Utils
         /// </summary>
         public static bool IsBreakoutPath(string path)
         {
+            #region Sanity checks
+            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
+            #endregion
+
             return Path.IsPathRooted(path) || path.EndsWith("..") || path.Contains(".." + Path.DirectorySeparatorChar);
         }
         #endregion
@@ -223,21 +228,30 @@ namespace Common.Utils
             #endregion
 
             // Simply move if the destination does not exist
-            if (File.Exists(destinationPath))
+            if (!File.Exists(destinationPath))
             {
-                // Prepend random string for temp file name
-                string directory = Path.GetDirectoryName(Path.GetFullPath(destinationPath));
-                string backupPath = directory + Path.DirectorySeparatorChar + "backup." + Path.GetRandomFileName() + "." + Path.GetFileName(destinationPath);
+                File.Move(sourcePath, destinationPath);
+                return;
+            }
 
-                try
-                {
-                    // Use native replacement method with temporary backup file for rollback
+            // Prepend random string for temp file name
+            string directory = Path.GetDirectoryName(Path.GetFullPath(destinationPath));
+            string backupPath = directory + Path.DirectorySeparatorChar + "backup." + Path.GetRandomFileName() + "." + Path.GetFileName(destinationPath);
+
+            switch (Environment.OSVersion.Platform)
+            {
+                case PlatformID.Win32NT:
+                    // Use native replace method with temporary backup file for rollback
                     File.Replace(sourcePath, destinationPath, backupPath, true);
                     File.Delete(backupPath);
-                }
-                catch (PlatformNotSupportedException)
-                {
-                    // Emulate replacement method
+                    break;
+
+                case PlatformID.MacOSX:
+                case PlatformID.Unix:
+                    // ToDo: Use POSIX move command
+
+                default:
+                    // Emulate replace method
                     File.Move(destinationPath, backupPath);
                     try
                     {
@@ -250,9 +264,8 @@ namespace Common.Utils
                         File.Move(backupPath, destinationPath);
                         throw;
                     }
-                }
+                    break;
             }
-            else File.Move(sourcePath, destinationPath);
         }
         #endregion
 
@@ -402,6 +415,102 @@ namespace Common.Utils
 
         #endregion
 
+        #region Links
+        /// <summary>
+        /// Creates a new symbolic link to a file or directory.
+        /// </summary>
+        /// <param name="source">The path of the link to create.</param>
+        /// <param name="target">The path of the existing file or directory to point to (relative to <paramref name="source"/>).</param>
+        /// <exception cref="PlatformNotSupportedException">Thrown if this method is called on a system with no symbolic link support.</exception>
+        /// <exception cref="UnauthorizedAccessException">Thrown if you have insufficient rights to create the symbolic link.</exception>
+        public static void CreateSymlink(string source, string target)
+        {
+            #region Sanity checks
+            if (string.IsNullOrEmpty(source)) throw new ArgumentNullException("source");
+            if (string.IsNullOrEmpty(target)) throw new ArgumentNullException("target");
+            #endregion
+
+            if (MonoUtils.IsUnix)
+            {
+                try
+                {
+                    MonoUtils.CreateSymlink(source, target);
+                }
+                    #region Error handling
+                catch (InvalidOperationException ex)
+                {
+                    throw new IOException(Resources.UnixSubsystemFail, ex);
+                }
+                catch (IOException ex)
+                {
+                    throw new IOException(Resources.UnixSubsystemFail, ex);
+                }
+                #endregion
+            }
+            else if (WindowsUtils.IsWindowsVista)
+            {
+                try
+                {
+                    WindowsUtils.CreateSymlink(source, target);
+                }
+                    #region Error handling
+                catch (Win32Exception ex)
+                {
+                    throw new IOException(ex.Message, ex);
+                }
+                #endregion
+            }
+            else throw new PlatformNotSupportedException();
+        }
+
+        /// <summary>
+        /// Creates a new hard link between two files.
+        /// </summary>
+        /// <param name="source">The path of the link to create.</param>
+        /// <param name="target">The absolute path of the existing file to point to.</param>
+        /// <exception cref="PlatformNotSupportedException">Thrown if this method is called on a system with no hard link support.</exception>
+        /// <exception cref="UnauthorizedAccessException">Thrown if you have insufficient rights to create the hard link.</exception>
+        public static void CreateHardlink(string source, string target)
+        {
+            #region Sanity checks
+            if (string.IsNullOrEmpty(source)) throw new ArgumentNullException("source");
+            if (string.IsNullOrEmpty(target)) throw new ArgumentNullException("target");
+            #endregion
+
+            if (MonoUtils.IsUnix)
+            {
+                try
+                {
+                    MonoUtils.CreateHardlink(source, target);
+                }
+                    #region Error handling
+                catch (InvalidOperationException ex)
+                {
+                    throw new IOException(Resources.UnixSubsystemFail, ex);
+                }
+                catch (IOException ex)
+                {
+                    throw new IOException(Resources.UnixSubsystemFail, ex);
+                }
+                #endregion
+            }
+            else if (WindowsUtils.IsWindowsNT)
+            {
+                try
+                {
+                    WindowsUtils.CreateHardlink(source, target);
+                }
+                    #region Error handling
+                catch (Win32Exception ex)
+                {
+                    throw new IOException(ex.Message, ex);
+                }
+                #endregion
+            }
+            else throw new PlatformNotSupportedException();
+        }
+        #endregion
+
         #region Unix
         /// <summary>
         /// Checks whether a file is a regular file (i.e. not a device file, symbolic link, etc.).
@@ -414,28 +523,49 @@ namespace Common.Utils
             if (!File.Exists(path)) return false;
 
             // ToDo: Detect special files on Windows
-            if (WindowsUtils.IsWindows)
-                return true;
+            if (!MonoUtils.IsUnix) return true;
 
-            if (MonoUtils.IsUnix)
+            try
             {
-                try
-                {
-                    return MonoUtils.IsRegularFile(path);
-                }
-                    #region Error handling
-                catch (InvalidOperationException ex)
-                {
-                    throw new IOException(Resources.UnixSubsystemFail, ex);
-                }
-                catch (IOException ex)
-                {
-                    throw new IOException(Resources.UnixSubsystemFail, ex);
-                }
-                #endregion
+                return MonoUtils.IsRegularFile(path);
             }
+                #region Error handling
+            catch (InvalidOperationException ex)
+            {
+                throw new IOException(Resources.UnixSubsystemFail, ex);
+            }
+            catch (IOException ex)
+            {
+                throw new IOException(Resources.UnixSubsystemFail, ex);
+            }
+            #endregion
+        }
 
-            return true;
+        /// <summary>
+        /// Checks whether a file is a Unix symbolic link.
+        /// </summary>
+        /// <param name="path">The path of the file to check.</param>
+        /// <return><see lang="true"/> if <paramref name="path"/> points to a symbolic link; <see lang="false"/> otherwise.</return>
+        /// <remarks>Will return <see langword="false"/> for non-existing files. Will always return <see langword="false"/> on non-Unixoid systems.</remarks>
+        /// <exception cref="UnauthorizedAccessException">Thrown if you have insufficient rights to query the file's properties.</exception>
+        public static bool IsSymlink(string path)
+        {
+            if ((!File.Exists(path) && !Directory.Exists(path)) || !MonoUtils.IsUnix) return false;
+
+            try
+            {
+                return MonoUtils.IsSymlink(path);
+            }
+                #region Error handling
+            catch (InvalidOperationException ex)
+            {
+                throw new IOException(Resources.UnixSubsystemFail, ex);
+            }
+            catch (IOException ex)
+            {
+                throw new IOException(Resources.UnixSubsystemFail, ex);
+            }
+            #endregion
         }
 
         /// <summary>
@@ -448,47 +578,15 @@ namespace Common.Utils
         /// <exception cref="UnauthorizedAccessException">Thrown if you have insufficient rights to query the file's properties.</exception>
         public static bool IsSymlink(string path, out string target)
         {
-            if (File.Exists(path) && MonoUtils.IsUnix)
+            if ((!File.Exists(path) && !Directory.Exists(path)) || !MonoUtils.IsUnix)
             {
-                try
-                {
-                    return MonoUtils.IsSymlink(path, out target);
-                }
-                    #region Error handling
-                catch (InvalidOperationException ex)
-                {
-                    throw new IOException(Resources.UnixSubsystemFail, ex);
-                }
-                catch (IOException ex)
-                {
-                    throw new IOException(Resources.UnixSubsystemFail, ex);
-                }
-                #endregion
+                target = null;
+                return false;
             }
-
-            // Return default values
-            target = null;
-            return false;
-        }
-
-        /// <summary>
-        /// Creates a new Unix symbolic link. Only works on Unixoid systems!
-        /// </summary>
-        /// <param name="path">The path of the file to create.</param>
-        /// <param name="target">The target the symbolic link shall point to relative to <paramref name="path"/>.</param>
-        /// <exception cref="PlatformNotSupportedException">Thrown if this method is called on a non-Unixoid system.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if you have insufficient rights to create the symbolic link.</exception>
-        public static void CreateSymlink(string path, string target)
-        {
-            #region Sanity checks
-            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
-            #endregion
-
-            if (!MonoUtils.IsUnix) throw new PlatformNotSupportedException();
 
             try
             {
-                MonoUtils.CreateSymlink(path, target);
+                return MonoUtils.IsSymlink(path, out target);
             }
                 #region Error handling
             catch (InvalidOperationException ex)

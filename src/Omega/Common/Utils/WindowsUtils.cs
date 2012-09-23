@@ -46,6 +46,17 @@ namespace Common.Utils
         public const string NetFx40 = "v4.0.30319";
 
         /// <summary>
+        /// Determines whether a specific version of the .NET framework is available.
+        /// </summary>
+        /// <param name="version">The full .NET version number including the leading "v". Use predefined constants when possible.</param>
+        /// <returns><see langword="true"/> if the specified version is available, <see langword="false"/> otherwise.</returns>
+        /// <remarks>Automatically uses 64-bit directories if <see cref="Is64BitProcess"/> is <see langword="true"/>.</remarks>
+        public static bool HasNetFxVersion(string version)
+        {
+            return Directory.Exists(GetNetFxDirectory(version));
+        }
+
+        /// <summary>
         /// Returns the .NET Framework root directory for a specific version of the .NET framework. Does not verify the directory actually exists!
         /// </summary>
         /// <param name="version">The full .NET version number including the leading "v". Use predefined constants when possible.</param>
@@ -324,29 +335,42 @@ namespace Common.Utils
 
         #region Filesystem
         /// <summary>
-        /// Creates a hard link for a file.
+        /// Creates a symbolic link for a file or directory.
         /// </summary>
-        /// <param name="source">The new hard link to be created.</param>
-        /// <param name="target">The existing file.</param>
-        /// <remarks>Only available on Windows 2000 or newer.</remarks>
-        /// <exception cref="Win32Exception">Thrown if the hard link creation failed.</exception>
-        public static void CreateHardLink(string source, string target)
+        /// <param name="source">The path of the link to create.</param>
+        /// <param name="target">The path of the existing file or directory to point to (relative to <paramref name="source"/>).</param>
+        /// <remarks>Only available on Windows Vista or newer.</remarks>
+        /// <exception cref="Win32Exception">Thrown if the symbolic link creation failed.</exception>
+        public static void CreateSymlink(string source, string target)
         {
-            if (!IsWindowsNT) throw new NotSupportedException(Resources.OnlyAvailableOnWindows);
-            if (!UnsafeNativeMethods.CreateHardLink(source, target, IntPtr.Zero)) throw new Win32Exception();
+            #region Sanity checks
+            if (string.IsNullOrEmpty(source)) throw new ArgumentNullException("source");
+            if (string.IsNullOrEmpty(target)) throw new ArgumentNullException("target");
+            #endregion
+
+            if (!IsWindowsVista) throw new NotSupportedException(Resources.OnlyAvailableOnWindows);
+
+            string targetAbsolute = Path.Combine(Path.GetDirectoryName(source) ?? Environment.CurrentDirectory, target);
+            int retval = UnsafeNativeMethods.CreateSymbolicLink(source, target, Directory.Exists(targetAbsolute) ? 1 : 0);
+            if (retval != 1) throw new Win32Exception(Marshal.GetLastWin32Error());
         }
 
         /// <summary>
-        /// Creates a symbolic link for a file or directory.
+        /// Creates a hard link between two files.
         /// </summary>
-        /// <param name="source">The new symbolic link to be created.</param>
-        /// <param name="target">The existing file or directory to point to.</param>
-        /// <remarks>Only available on Windows Vista or newer.</remarks>
-        /// <exception cref="Win32Exception">Thrown if the symbolic link creation failed.</exception>
-        public static void CreateSymbolicLink(string source, string target)
+        /// <param name="source">The path of the link to create.</param>
+        /// <param name="target">The absolute path of the existing file to point to.</param>
+        /// <remarks>Only available on Windows 2000 or newer.</remarks>
+        /// <exception cref="Win32Exception">Thrown if the hard link creation failed.</exception>
+        public static void CreateHardlink(string source, string target)
         {
-            if (!IsWindowsVista) throw new NotSupportedException(Resources.OnlyAvailableOnWindows);
-            if (!UnsafeNativeMethods.CreateSymbolicLink(source, target, Directory.Exists(target) ? 1 : 0)) throw new Win32Exception();
+            #region Sanity checks
+            if (string.IsNullOrEmpty(source)) throw new ArgumentNullException("source");
+            if (string.IsNullOrEmpty(target)) throw new ArgumentNullException("target");
+            #endregion
+
+            if (!IsWindowsNT) throw new NotSupportedException(Resources.OnlyAvailableOnWindows);
+            if (!UnsafeNativeMethods.CreateHardLink(source, target, IntPtr.Zero)) throw new Win32Exception();
         }
         #endregion
     }

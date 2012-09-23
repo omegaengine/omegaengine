@@ -61,6 +61,15 @@ namespace Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The archive file is invalid or damaged..
+        /// </summary>
+        internal static string ArchiveInvalid {
+            get {
+                return ResourceManager.GetString("ArchiveInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The argument must be greater than zero..
         /// </summary>
         internal static string ArgMustBeGreaterThanZero {
@@ -84,6 +93,15 @@ namespace Common.Properties {
         internal static string AtLeast2Values {
             get {
                 return ResourceManager.GetString("AtLeast2Values", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        internal static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
             }
         }
         
@@ -350,15 +368,6 @@ namespace Common.Properties {
         internal static string NotFoundModContentDir {
             get {
                 return ResourceManager.GetString("NotFoundModContentDir", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There was no XML data found in the file..
-        /// </summary>
-        internal static string NoXmlDataInFile {
-            get {
-                return ResourceManager.GetString("NoXmlDataInFile", resourceCulture);
             }
         }
         

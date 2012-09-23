@@ -46,8 +46,8 @@ namespace Common.Controls
             }
             catch (TypeInitializationException ex)
             {
-                // Don't fail on Server systems
-                throw new InconclusiveException("Unable to create GUI", ex);
+                // Don't fail on headless systems
+                throw new InconclusiveException("Cannot test GUI on headless systems", ex);
             }
         }
 
@@ -68,7 +68,7 @@ namespace Common.Controls
             _task.Start();
             _task.MockStateData();
             Application.DoEvents();
-            Assert.AreEqual("64 Bytes / 128 Bytes", _label.Text);
+            Assert.AreEqual("64 / 128", _label.Text);
 
             _task.MockStateComplete();
             Application.DoEvents();
@@ -84,7 +84,7 @@ namespace Common.Controls
             _label.CreateControl();
             _label.Task = _task;
             Application.DoEvents();
-            Assert.AreEqual("64 Bytes / 128 Bytes", _label.Text);
+            Assert.AreEqual("64 / 128", _label.Text);
 
             _task.MockStateComplete();
             Application.DoEvents();
