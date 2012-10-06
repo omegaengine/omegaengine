@@ -25,7 +25,6 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Common.Properties;
-
 #if FS_SECURITY
 using System.Security.AccessControl;
 using System.Security.Principal;
@@ -271,19 +270,19 @@ namespace Common.Utils
 
         #region Directories
         /// <summary>
-        /// Lists the names of all subdirectories contained within a directory.
+        /// Lists the paths of all subdirectories contained within a directory.
         /// </summary>
         /// <param name="path">The path of the directory to search for subdirectories.</param>
-        /// <returns>A C-sorted list of directory names.</returns>
-        public static string[] GetSubdirectoryNames(string path)
+        /// <returns>A C-sorted list of directory paths.</returns>
+        public static string[] GetSubdirectoryPaths(string path)
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
             #endregion
 
-            var directoryNames = Array.ConvertAll(Directory.GetDirectories(path), Path.GetFileName);
-            Array.Sort(directoryNames, StringComparer.Ordinal);
-            return directoryNames;
+            var paths = Directory.GetDirectories(path);
+            Array.Sort(paths, StringComparer.Ordinal);
+            return paths;
         }
 
         /// <summary>
@@ -402,14 +401,14 @@ namespace Common.Utils
             #endregion
         }
 
+        private static readonly FileSystemAccessRule _denyEveryoneWrite = new FileSystemAccessRule(new SecurityIdentifier("S-1-1-0" /*Everyone*/), FileSystemRights.Write, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Deny);
+
         private static void ToggleWriteProtectionWinNT(DirectoryInfo directory, bool enable)
         {
-            // Add ACL to directory: Everyone = Deny write
-            DirectorySecurity security = directory.GetAccessControl();
-            var denyEveryoneWrite = new FileSystemAccessRule(new SecurityIdentifier("S-1-1-0" /*Everyone*/), FileSystemRights.Write, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Deny);
-            if (enable) security.AddAccessRule(denyEveryoneWrite);
-            else security.RemoveAccessRule(denyEveryoneWrite);
-            directory.SetAccessControl(security);
+            var acl = directory.GetAccessControl();
+            if (enable) acl.AddAccessRule(_denyEveryoneWrite);
+            else acl.RemoveAccessRule(_denyEveryoneWrite);
+            directory.SetAccessControl(acl);
         }
         #endregion
 

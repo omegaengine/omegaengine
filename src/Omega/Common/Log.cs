@@ -26,9 +26,9 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using Common.Utils;
+
 #if LUA
 using LuaInterface;
-
 #endif
 
 namespace Common
@@ -279,6 +279,15 @@ namespace Common
         public static void Error(string message)
         {
             AddEntry(LogSeverity.Error, message);
+        }
+
+        /// <summary>
+        /// Writes an exception as an <see cref="Error(string)"/>. Recursivley handles <see cref="Exception.InnerException"/>s.
+        /// </summary>
+        public static void Error(Exception ex)
+        {
+            Error(ex.Message);
+            if (ex.InnerException != null) Error(ex.InnerException);
         }
         #endregion
     }
