@@ -113,6 +113,7 @@
     <Compile Include="Streams\DisposeWrapperStream.cs" />
     <Compile Include="Utils\AppInfo.cs" />
     <Compile Include="Utils\AppMutex.cs" />
+    <Compile Include="Utils\AttributeUtils.cs" />
     <Compile Include="Utils\ProcessUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\FileUtils.cs" />
@@ -151,7 +152,10 @@
     <Compile Include="Undo\SetInList.cs" />
     <Compile Include="Undo\RemoveFromCollection.cs" />
     <Compile Include="Undo\CompositeCommand.cs" />
-    <Compile Include="Values\Design\ValueTypeConverter.cs" />
+    <Compile Include="Values\Design\EnumDescriptionConverter.cs" />
+    <Compile Include="Values\Design\StringConstructorConverter.cs" />
+    <Compile Include="Values\Design\EnumXmlConverter.cs" />
+    <Compile Include="Values\Design\StructConverter.cs" />
     <Compile Include="Values\Design\TimeSpanEditor.cs" />
     <Compile Include="Values\Design\FloatEditor.cs" />
     <Compile Include="Values\Design\AngleEditor.cs" />

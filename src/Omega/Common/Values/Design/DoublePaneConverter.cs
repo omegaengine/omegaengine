@@ -31,10 +31,10 @@ namespace Common.Values.Design
 {
     internal class DoublePlaneConverter : ValueTypeConverter<DoublePlane>
     {
-        /// <summary>The number of arguments <see cref="DoublePlane"/> has.</summary>
+        /// <inheritdoc/>
         protected override int NoArguments { get { return 6; } }
 
-        /// <returns>The constructor used to create new instances of <see cref="DoublePlane"/> (deserialization).</returns>
+        /// <inheritdoc/>
         protected override ConstructorInfo GetConstructor()
         {
             return typeof(DoublePlane).GetConstructor(new[]
@@ -44,7 +44,7 @@ namespace Common.Values.Design
             });
         }
 
-        /// <returns>The unconverted arguments of <see cref="DoublePlane"/>.</returns>
+        /// <inheritdoc/>
         protected override object[] GetArguments(DoublePlane value)
         {
             return new object[]
@@ -54,7 +54,7 @@ namespace Common.Values.Design
             };
         }
 
-        /// <returns>The arguments of <see cref="DoublePlane"/> converted to string</returns>
+        /// <inheritdoc/>
         protected override string[] GetValues(DoublePlane value, ITypeDescriptorContext context, CultureInfo culture)
         {
             var doubleConverter = TypeDescriptor.GetConverter(typeof(double));
@@ -70,7 +70,7 @@ namespace Common.Values.Design
             };
         }
 
-        /// <returns>A new instance of <see cref="DoublePlane"/>.</returns>
+        /// <inheritdoc/>
         protected override DoublePlane GetObject(string[] values, CultureInfo culture)
         {
             #region Sanity checks
@@ -83,7 +83,7 @@ namespace Common.Values.Design
                 new Vector3(Convert.ToSingle(values[3], culture), Convert.ToSingle(values[4], culture), Convert.ToSingle(values[5], culture)));
         }
 
-        /// <returns>A new instance of <see cref="DoublePlane"/>.</returns>
+        /// <inheritdoc/>
         protected override DoublePlane GetObject(IDictionary propertyValues)
         {
             #region Sanity checks

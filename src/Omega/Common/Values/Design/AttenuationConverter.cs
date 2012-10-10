@@ -30,22 +30,22 @@ namespace Common.Values.Design
 {
     internal class AttenuationConverter : ValueTypeConverter<Attenuation>
     {
-        /// <summary>The number of arguments <see cref="Attenuation"/> has.</summary>
+        /// <inheritdoc/>
         protected override int NoArguments { get { return 3; } }
 
-        /// <returns>The constructor used to create new instances of <see cref="Attenuation"/> (deserialization).</returns>
+        /// <inheritdoc/>
         protected override ConstructorInfo GetConstructor()
         {
             return typeof(Attenuation).GetConstructor(new[] {typeof(float), typeof(float), typeof(float)});
         }
 
-        /// <returns>The unconverted arguments of <see cref="Attenuation"/>.</returns>
+        /// <inheritdoc/>
         protected override object[] GetArguments(Attenuation value)
         {
             return new object[] {value.Constant, value.Linear, value.Quadratic};
         }
 
-        /// <returns>The arguments of <see cref="Attenuation"/> converted to string</returns>
+        /// <inheritdoc/>
         protected override string[] GetValues(Attenuation value, ITypeDescriptorContext context, CultureInfo culture)
         {
             var floatConverter = TypeDescriptor.GetConverter(typeof(float));
@@ -57,7 +57,7 @@ namespace Common.Values.Design
             };
         }
 
-        /// <returns>A new instance of <see cref="Attenuation"/>.</returns>
+        /// <inheritdoc/>
         protected override Attenuation GetObject(string[] values, CultureInfo culture)
         {
             #region Sanity checks
@@ -68,7 +68,7 @@ namespace Common.Values.Design
             return new Attenuation(Convert.ToSingle(values[0], culture), Convert.ToSingle(values[1], culture), Convert.ToSingle(values[2], culture));
         }
 
-        /// <returns>A new instance of <see cref="Attenuation"/>.</returns>
+        /// <inheritdoc/>
         protected override Attenuation GetObject(IDictionary propertyValues)
         {
             #region Sanity checks

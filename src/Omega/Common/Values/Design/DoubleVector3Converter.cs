@@ -30,22 +30,22 @@ namespace Common.Values.Design
 {
     internal class DoubleVector3Converter : ValueTypeConverter<DoubleVector3>
     {
-        /// <summary>The number of arguments <see cref="DoubleVector3"/> has.</summary>
+        /// <inheritdoc/>
         protected override int NoArguments { get { return 3; } }
 
-        /// <returns>The constructor used to create new instances of <see cref="DoubleVector3"/> (deserialization).</returns>
+        /// <inheritdoc/>
         protected override ConstructorInfo GetConstructor()
         {
             return typeof(DoubleVector3).GetConstructor(new[] {typeof(double), typeof(double), typeof(double)});
         }
 
-        /// <returns>The unconverted arguments of <see cref="DoubleVector3"/>.</returns>
+        /// <inheritdoc/>
         protected override object[] GetArguments(DoubleVector3 value)
         {
             return new object[] {value.X, value.Y};
         }
 
-        /// <returns>The arguments of <see cref="DoubleVector3"/> converted to string</returns>
+        /// <inheritdoc/>
         protected override string[] GetValues(DoubleVector3 value, ITypeDescriptorContext context, CultureInfo culture)
         {
             var doubleConverter = TypeDescriptor.GetConverter(typeof(double));
@@ -57,7 +57,7 @@ namespace Common.Values.Design
             };
         }
 
-        /// <returns>A new instance of <see cref="DoubleVector3"/>.</returns>
+        /// <inheritdoc/>
         protected override DoubleVector3 GetObject(string[] values, CultureInfo culture)
         {
             #region Sanity checks
@@ -68,7 +68,7 @@ namespace Common.Values.Design
             return new DoubleVector3(Convert.ToDouble(values[0], culture), Convert.ToDouble(values[1], culture), Convert.ToDouble(values[2], culture));
         }
 
-        /// <returns>A new instance of <see cref="DoubleVector3"/>.</returns>
+        /// <inheritdoc/>
         protected override DoubleVector3 GetObject(IDictionary propertyValues)
         {
             #region Sanity checks

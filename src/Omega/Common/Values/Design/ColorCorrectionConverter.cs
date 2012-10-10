@@ -30,22 +30,22 @@ namespace Common.Values.Design
 {
     internal class ColorCorrectionConverter : ValueTypeConverter<ColorCorrection>
     {
-        /// <summary>The number of arguments <see cref="ColorCorrection"/> has.</summary>
+        /// <inheritdoc/>
         protected override int NoArguments { get { return 4; } }
 
-        /// <returns>The constructor used to create new instances of <see cref="ColorCorrection"/> (deserialization).</returns>
+        /// <inheritdoc/>
         protected override ConstructorInfo GetConstructor()
         {
             return typeof(ColorCorrection).GetConstructor(new[] {typeof(float), typeof(float), typeof(float), typeof(float)});
         }
 
-        /// <returns>The unconverted arguments of <see cref="ColorCorrection"/>.</returns>
+        /// <inheritdoc/>
         protected override object[] GetArguments(ColorCorrection value)
         {
             return new object[] {value.Brightness, value.Contrast, value.Saturation, value.Hue};
         }
 
-        /// <returns>The arguments of <see cref="ColorCorrection"/> converted to string</returns>
+        /// <inheritdoc/>
         protected override string[] GetValues(ColorCorrection value, ITypeDescriptorContext context, CultureInfo culture)
         {
             var floatConverter = TypeDescriptor.GetConverter(typeof(float));
@@ -58,7 +58,7 @@ namespace Common.Values.Design
             };
         }
 
-        /// <returns>A new instance of <see cref="ColorCorrection"/>.</returns>
+        /// <inheritdoc/>
         protected override ColorCorrection GetObject(string[] values, CultureInfo culture)
         {
             #region Sanity checks
@@ -69,7 +69,7 @@ namespace Common.Values.Design
             return new ColorCorrection(Convert.ToSingle(values[0], culture), Convert.ToSingle(values[1], culture), Convert.ToSingle(values[2], culture), Convert.ToSingle(values[2], culture));
         }
 
-        /// <returns>A new instance of <see cref="ColorCorrection"/>.</returns>
+        /// <inheritdoc/>
         protected override ColorCorrection GetObject(IDictionary propertyValues)
         {
             #region Sanity checks

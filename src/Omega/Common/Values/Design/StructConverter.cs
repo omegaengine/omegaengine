@@ -31,10 +31,10 @@ using System.Reflection;
 namespace Common.Values.Design
 {
     /// <summary>
-    /// Abstract base-class for easily creating a <see cref="TypeConverter"/> for a value type (struct).
+    /// Abstract base-class for easily creating a <see cref="TypeConverter"/> for a struct (value type).
     /// </summary>
     /// <typeparam name="T">The struct to create the <see cref="TypeConverter"/> for.</typeparam>
-    /// <remarks>Providing a <see cref="TypeConverter"/> for a struct vastly improves the runtime experience with <see cref="System.Windows.Forms.PropertyGrid"/>s.</remarks>
+    /// <remarks>Providing a <see cref="TypeConverter"/> for a struct improves the runtime experience with <see cref="System.Windows.Forms.PropertyGrid"/>s.</remarks>
     /// <example>
     ///   Add this attribute to the struct:
     ///   <code>[TypeConverter(typeof(ClassDerivedFromThisOne))]</code>
@@ -83,7 +83,7 @@ namespace Common.Values.Design
                 return new InstanceDescriptor(GetConstructor(), GetArguments((T)value));
 
             if (destinationType == typeof(string))
-                return string.Join(culture.TextInfo.ListSeparator + " ", GetValues((T)value, context, culture));
+                return string.Join(GetElementSeparator(culture), GetValues((T)value, context, culture));
 
             return base.ConvertTo(context, culture, value, destinationType);
         }
@@ -101,7 +101,7 @@ namespace Common.Values.Design
             sValue = sValue.Trim();
             if (sValue.Length == 0) return null;
 
-            var arguments = sValue.Split(culture.TextInfo.ListSeparator[0]);
+            var arguments = sValue.Split(GetElementSeparator(culture)[0]);
             if (arguments.Length != NoArguments) return null;
             return GetObject(arguments, culture);
         }
@@ -118,17 +118,23 @@ namespace Common.Values.Design
         //--------------------//
 
         #region Hooks
-        /// <summary>The number of arguments <typeparamref name="T"/> has.</summary>
+        /// <summary>The separator to place between individual elements.</summary>
+        protected virtual string GetElementSeparator(CultureInfo culture)
+        {
+            return culture.TextInfo.ListSeparator + " ";
+        }
+
+        /// <summary>The number of arguments the constructor of <typeparamref name="T"/> has.</summary>
         protected abstract int NoArguments { get; }
 
         /// <returns>The constructor used to create new instances of <typeparamref name="T"/> (deserialization).</returns>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         protected abstract ConstructorInfo GetConstructor();
 
-        /// <returns>The unconverted arguments of <typeparamref name="T"/>.</returns>
+        /// <returns>The arguments for the constructor of <typeparamref name="T"/>.</returns>
         protected abstract object[] GetArguments(T value);
 
-        /// <returns>The arguments of <typeparamref name="T"/> converted to strings.</returns>
+        /// <returns>The elements of <typeparamref name="T"/> converted to strings.</returns>
         protected abstract string[] GetValues(T value, ITypeDescriptorContext context, CultureInfo culture);
 
         /// <returns>A new instance of <typeparamref name="T"/>.</returns>

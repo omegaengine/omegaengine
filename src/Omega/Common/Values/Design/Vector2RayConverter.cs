@@ -31,10 +31,10 @@ namespace Common.Values.Design
 {
     internal class Vector2RayConverter : ValueTypeConverter<Vector2Ray>
     {
-        /// <summary>The number of arguments <see cref="Vector2Ray"/> has.</summary>
+        /// <inheritdoc/>
         protected override int NoArguments { get { return 4; } }
 
-        /// <returns>The constructor used to create new instances of <see cref="Vector2Ray"/> (deserialization).</returns>
+        /// <inheritdoc/>
         protected override ConstructorInfo GetConstructor()
         {
             return typeof(Vector2Ray).GetConstructor(new[]
@@ -44,7 +44,7 @@ namespace Common.Values.Design
             });
         }
 
-        /// <returns>The unconverted arguments of <see cref="Vector2Ray"/>.</returns>
+        /// <inheritdoc/>
         protected override object[] GetArguments(Vector2Ray value)
         {
             return new object[]
@@ -54,7 +54,7 @@ namespace Common.Values.Design
             };
         }
 
-        /// <returns>The arguments of <see cref="Vector2Ray"/> converted to string</returns>
+        /// <inheritdoc/>
         protected override string[] GetValues(Vector2Ray value, ITypeDescriptorContext context, CultureInfo culture)
         {
             var floatConverter = TypeDescriptor.GetConverter(typeof(float));
@@ -67,7 +67,7 @@ namespace Common.Values.Design
             };
         }
 
-        /// <returns>A new instance of <see cref="Vector2Ray"/>.</returns>
+        /// <inheritdoc/>
         protected override Vector2Ray GetObject(string[] values, CultureInfo culture)
         {
             #region Sanity checks
@@ -80,7 +80,7 @@ namespace Common.Values.Design
                 new Vector2(Convert.ToSingle(values[3], culture), Convert.ToSingle(values[4], culture)));
         }
 
-        /// <returns>A new instance of <see cref="Vector2Ray"/>.</returns>
+        /// <inheritdoc/>
         protected override Vector2Ray GetObject(IDictionary propertyValues)
         {
             #region Sanity checks

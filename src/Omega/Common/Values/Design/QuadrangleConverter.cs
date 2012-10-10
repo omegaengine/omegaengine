@@ -31,10 +31,10 @@ namespace Common.Values.Design
 {
     internal class QuadrangleConverter : ValueTypeConverter<Quadrangle>
     {
-        /// <summary>The number of arguments <see cref="Quadrangle"/> has.</summary>
+        /// <inheritdoc/>
         protected override int NoArguments { get { return 8; } }
 
-        /// <returns>The constructor used to create new instances of <see cref="Quadrangle"/> (deserialization).</returns>
+        /// <inheritdoc/>
         protected override ConstructorInfo GetConstructor()
         {
             return typeof(Quadrangle).GetConstructor(new[]
@@ -44,7 +44,7 @@ namespace Common.Values.Design
             });
         }
 
-        /// <returns>The unconverted arguments of <see cref="Quadrangle"/>.</returns>
+        /// <inheritdoc/>
         protected override object[] GetArguments(Quadrangle value)
         {
             return new object[]
@@ -54,7 +54,7 @@ namespace Common.Values.Design
             };
         }
 
-        /// <returns>The arguments of <see cref="Quadrangle"/> converted to string</returns>
+        /// <inheritdoc/>
         protected override string[] GetValues(Quadrangle value, ITypeDescriptorContext context, CultureInfo culture)
         {
             var floatConverter = TypeDescriptor.GetConverter(typeof(float));
@@ -71,7 +71,7 @@ namespace Common.Values.Design
             };
         }
 
-        /// <returns>A new instance of <see cref="Quadrangle"/>.</returns>
+        /// <inheritdoc/>
         protected override Quadrangle GetObject(string[] values, CultureInfo culture)
         {
             #region Sanity checks
@@ -86,7 +86,7 @@ namespace Common.Values.Design
                 new Vector2(Convert.ToSingle(values[6], culture), Convert.ToSingle(values[7], culture)));
         }
 
-        /// <returns>A new instance of <see cref="Quadrangle"/>.</returns>
+        /// <inheritdoc/>
         protected override Quadrangle GetObject(IDictionary propertyValues)
         {
             #region Sanity checks
