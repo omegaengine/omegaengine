@@ -183,7 +183,7 @@ namespace Common.Storage
         {
             if (ReferenceEquals(null, other)) return false;
 
-            return StringUtils.Compare(Name, other.Name);
+            return StringUtils.EqualsIgnoreCase(Name, other.Name);
         }
 
         /// <inheritdoc/>

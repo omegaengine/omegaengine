@@ -28,6 +28,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
 using Common.Utils;
@@ -434,7 +435,7 @@ namespace OmegaGUI.Model
         internal Render.Dialog GenerateRender(DialogManager manager)
         {
             // Load language XML
-            string langName = (Resources.Culture == null) ? "English" : StringUtils.GetLeftPartAtFirstOccurrence(Resources.Culture.EnglishName, ' ');
+            string langName = (Resources.Culture == null) ? "English" : Resources.Culture.EnglishName.GetLeftPartAtFirstOccurrence(' ');
             _locale = LocaleFile.LoadLang(langName).ToDictionary();
 
             // Generate dialog model object
@@ -511,9 +512,7 @@ namespace OmegaGUI.Model
         /// <returns>The requested <see cref="ButtonStyle"/> or <see langword="null"/> if it couldn't be found</returns>
         internal ButtonStyle GetButtonStyle(string name)
         {
-            foreach (ButtonStyle style in _buttonStyles)
-                if (style.Name == name) return style;
-            return null;
+            return _buttonStyles.FirstOrDefault(style => style.Name == name);
         }
 
         /// <summary>

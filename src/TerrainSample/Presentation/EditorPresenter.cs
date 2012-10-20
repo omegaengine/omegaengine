@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Common.Utils;
 using Common.Values;
@@ -229,15 +230,11 @@ namespace Presentation
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Performs a calculation based on the currently set of visible bodies")]
         public Circle GetCollisionCircle()
         {
-            float radius = 0;
-            foreach (var positionable in PositionableRenderables)
-            {
-                if (!positionable.Pickable || !positionable.BoundingSphere.HasValue) continue;
-
-                var boundingSphere = MathUtils.Transform(positionable.BoundingSphere.Value, positionable.PreTransform);
-                radius = Math.Max(radius, boundingSphere.Radius + boundingSphere.Center.Length());
-            }
-
+            float radius =
+                (from positionable in PositionableRenderables
+                 where positionable.Pickable && positionable.BoundingSphere.HasValue
+                 select MathUtils.Transform(positionable.BoundingSphere.Value, positionable.PreTransform)).
+                 Aggregate<BoundingSphere, float>(0, (current, boundingSphere) => Math.Max(current, boundingSphere.Radius + boundingSphere.Center.Length()));
             return new Circle {Radius = radius};
         }
 

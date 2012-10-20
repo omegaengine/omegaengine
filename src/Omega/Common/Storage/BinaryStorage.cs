@@ -27,7 +27,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using Common.Properties;
-using Common.Streams;
 using Common.Utils;
 using ICSharpCode.SharpZipLib.Zip;
 
@@ -105,7 +104,7 @@ namespace Common.Storage
             #endregion
 
             // Copy string to a stream and then parse
-            using (var stream = StreamUtils.CreateFromString(data))
+            using (var stream = data.ToStream())
                 return Load<T>(stream);
         }
         #endregion
@@ -143,7 +142,10 @@ namespace Common.Storage
 
             using (var atomic = new AtomicWrite(path))
             using (var fileStream = File.Create(atomic.WritePath))
+            {
                 Save(fileStream, data);
+                atomic.Commit();
+            }
         }
         #endregion
 

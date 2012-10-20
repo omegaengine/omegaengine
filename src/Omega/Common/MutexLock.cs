@@ -20,37 +20,44 @@
  * THE SOFTWARE.
  */
 
-using NUnit.Framework;
+using System;
+using System.Threading;
 
-namespace Common.Streams
+namespace Common
 {
     /// <summary>
-    /// Contains test methods for <see cref="StreamUtils"/>.
+    /// Provides a wrapper around <see cref="Mutex"/> that automatically aquires on creating and releases on <see cref="Dispose"/>
     /// </summary>
-    [TestFixture]
-    public class StreamUtilsTest
+    /// <example>
+    /// Instead of <code>lock (_object) { code(); }</code> for per-process locking use
+    /// <code>using (new MutexLock("name") { code(); }</code> for inter-process locking.
+    /// </example>
+    public sealed class MutexLock : IDisposable
     {
+        private readonly Mutex _mutex;
+
         /// <summary>
-        /// Ensures <see cref="StreamUtils.Equals(System.IO.Stream,System.IO.Stream)"/> works correctly.
+        /// Acquires <see cref="Mutex"/> with <paramref name="name"/>.
         /// </summary>
-        [Test]
-        public void TestEquals()
+        public MutexLock(string name)
         {
-            Assert.IsTrue(StreamUtils.Equals(StreamUtils.CreateFromString("abc"), StreamUtils.CreateFromString("abc")));
-            Assert.IsFalse(StreamUtils.Equals(StreamUtils.CreateFromString("ab"), StreamUtils.CreateFromString("abc")));
-            Assert.IsFalse(StreamUtils.Equals(StreamUtils.CreateFromString("abc"), StreamUtils.CreateFromString("ab")));
-            Assert.IsFalse(StreamUtils.Equals(StreamUtils.CreateFromString("abc"), StreamUtils.CreateFromString("")));
+            _mutex = new Mutex(false, name);
+            _mutex.WaitOne();
         }
 
         /// <summary>
-        /// Ensures <see cref="StreamUtils.CreateFromString"/> and <see cref="StreamUtils.ReadToString"/> work correctly.
+        /// Releases the <see cref="Mutex"/>.
         /// </summary>
-        [Test]
-        public void TestString()
+        public void Dispose()
         {
-            const string test = "Test";
-            using (var stream = StreamUtils.CreateFromString(test))
-                Assert.AreEqual(test, StreamUtils.ReadToString(stream));
+            try
+            {
+                _mutex.ReleaseMutex();
+            }
+            finally
+            {
+                _mutex.Close();
+            }
         }
     }
 }

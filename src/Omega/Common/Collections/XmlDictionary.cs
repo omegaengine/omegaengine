@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Common.Properties;
 
 namespace Common.Collections
@@ -93,9 +94,7 @@ namespace Common.Collections
         /// <returns><see langword="true"/> if the key was found.</returns>
         public bool ContainsKey(string key)
         {
-            foreach (XmlDictionaryEntry entry in this)
-                if (entry.Key == key) return true;
-            return false;
+            return this.Any(entry => entry.Key == key);
         }
 
         /// <summary>
@@ -105,9 +104,7 @@ namespace Common.Collections
         /// <returns><see langword="true"/> if the value was found.</returns>
         public bool ContainsValue(string value)
         {
-            foreach (XmlDictionaryEntry entry in this)
-                if (entry.Value == value) return true;
-            return false;
+            return this.Any(entry => entry.Value == value);
         }
         #endregion
 
@@ -153,10 +150,7 @@ namespace Common.Collections
         /// <returns>A dictionary containing the same data as this collection.</returns>
         public IDictionary<string, string> ToDictionary()
         {
-            var dictionary = new Dictionary<string, string>();
-            foreach (XmlDictionaryEntry entry in this)
-                dictionary.Add(entry.Key, entry.Value);
-            return dictionary;
+            return this.ToDictionary(entry => entry.Key, entry => entry.Value);
         }
         #endregion
 

@@ -25,39 +25,32 @@ using NUnit.Framework;
 namespace Common.Utils
 {
     /// <summary>
-    /// Contains test methods for <see cref="MathUtils"/>.
+    /// Contains test methods for <see cref="StreamUtils"/>.
     /// </summary>
     [TestFixture]
-    public class MathUtilsTest
+    public class StreamUtilsTest
     {
         /// <summary>
-        /// Ensures all maximum determining functions work correctly.
+        /// Ensures <see cref="StreamUtils.Equals(System.IO.Stream,System.IO.Stream)"/> works correctly.
         /// </summary>
         [Test]
-        public void TestMax()
+        public void TestEquals()
         {
-            Assert.AreEqual(5, MathUtils.Max((byte)2, (byte)3, (byte)1, (byte)5));
-            Assert.AreEqual(5, MathUtils.Max(2, 3, 1, 5));
-            Assert.AreEqual(5L, MathUtils.Max(2L, 3L, 1L, 5L));
-            Assert.AreEqual(5L, MathUtils.Max(2f, 3f, 1f, 5f));
-            Assert.AreEqual(5L, MathUtils.Max(2d, 3d, 1d, 5d));
-            Assert.AreEqual(5L, MathUtils.Max(2d, 3d, 1d, 5d));
-            Assert.AreEqual(5, MathUtils.Max((decimal)2, (decimal)3, (decimal)1, (decimal)5));
+            Assert.IsTrue(StreamUtils.Equals("abc".ToStream(), "abc".ToStream()));
+            Assert.IsFalse(StreamUtils.Equals("ab".ToStream(), "abc".ToStream()));
+            Assert.IsFalse(StreamUtils.Equals("abc".ToStream(), "ab".ToStream()));
+            Assert.IsFalse(StreamUtils.Equals("abc".ToStream(), "".ToStream()));
         }
 
         /// <summary>
-        /// Ensures all minimum determining functions work correctly.
+        /// Ensures <see cref="StreamUtils.ToStream"/> and <see cref="StreamUtils.ReadToString"/> work correctly.
         /// </summary>
         [Test]
-        public void TestMin()
+        public void TestString()
         {
-            Assert.AreEqual(1, MathUtils.Min((byte)2, (byte)3, (byte)1, (byte)5));
-            Assert.AreEqual(1, MathUtils.Min(2, 3, 1, 5));
-            Assert.AreEqual(1L, MathUtils.Min(2L, 3L, 1L, 5L));
-            Assert.AreEqual(1L, MathUtils.Min(2f, 3f, 1f, 5f));
-            Assert.AreEqual(1L, MathUtils.Min(2d, 3d, 1d, 5d));
-            Assert.AreEqual(1L, MathUtils.Min(2d, 3d, 1d, 5d));
-            Assert.AreEqual(1, MathUtils.Min((decimal)2, (decimal)3, (decimal)1, (decimal)5));
+            const string test = "Test";
+            using (var stream = test.ToStream())
+                Assert.AreEqual(test, stream.ReadToString());
         }
     }
 }

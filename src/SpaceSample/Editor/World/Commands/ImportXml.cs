@@ -11,7 +11,7 @@ namespace AlphaEditor.World.Commands
     internal class ImportXml : FirstExecuteCommand
     {
         #region Variables
-        private readonly SimpleResult<Universe> _getUniverse;
+        private readonly Func<Universe> _getUniverse;
         private readonly Action<Universe> _setUniverse;
         private readonly string _fileName;
         private readonly SimpleEventHandler _refreshHandler;
@@ -26,7 +26,7 @@ namespace AlphaEditor.World.Commands
         /// <param name="setUniverse">Called to change the current <see cref="Universe"/> in the editor</param>
         /// <param name="fileName">The file to load the XML data from</param>
         /// <param name="refreshHandler">Called every time the XML data is changed</param>
-        public ImportXml(SimpleResult<Universe> getUniverse, Action<Universe> setUniverse, string fileName, SimpleEventHandler refreshHandler)
+        public ImportXml(Func<Universe> getUniverse, Action<Universe> setUniverse, string fileName, SimpleEventHandler refreshHandler)
         {
             _getUniverse = getUniverse;
             _setUniverse = setUniverse;

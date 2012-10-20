@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Common;
 using Common.Values;
 using OmegaEngine.Graphics.Cameras;
@@ -253,22 +254,14 @@ namespace OmegaEngine.Graphics
             // Copy all directional lights
             _directionalLights.ForEach(effectiveLights.Add);
 
-            foreach (var light in _pseudoDirectionalLights)
-            {
+            effectiveLights.AddRange((from light in _pseudoDirectionalLights
                 // Filter out lights that are too far away
-                if ((light.Position - position).Length() <= light.Range + radius)
+                where (light.Position - position).Length() <= light.Range + radius
+                // Convert pseudo-directional point lights to real directional lights
+                select new DirectionalLight
                 {
-                    // Convert pseudo-directional point lights to real directional lights
-                    effectiveLights.Add(new DirectionalLight
-                    {
-                        Name = light.Name,
-                        Direction = (Vector3)(position - light.Position),
-                        Diffuse = light.Diffuse,
-                        Specular = light.Specular,
-                        Ambient = light.Ambient,
-                    });
-                }
-            }
+                    Name = light.Name, Direction = (Vector3)(position - light.Position), Diffuse = light.Diffuse, Specular = light.Specular, Ambient = light.Ambient,
+                }).Cast<LightSource>());
 
             _pointLights.ForEach(light =>
             {

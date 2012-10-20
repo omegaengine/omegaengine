@@ -22,6 +22,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using ICSharpCode.SharpZipLib.Zip;
 using NUnit.Framework;
 

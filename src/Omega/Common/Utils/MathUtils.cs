@@ -43,214 +43,6 @@ namespace Common.Utils
 
         //--------------------//
 
-        #region Max
-        /// <summary>
-        /// Returns the largest of all values
-        /// </summary>
-        /// <param name="values">The values to compare</param>
-        /// <returns>The largest value; 0 if <paramref name="values"/> contains no elements</returns>
-        public static byte Max(params byte[] values)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException("values");
-            #endregion
-
-            byte retVal = 0;
-            foreach (var value in values)
-                retVal = Math.Max(retVal, value);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Returns the largest of all values
-        /// </summary>
-        /// <param name="values">The values to compare</param>
-        /// <returns>The largest value; 0 if <paramref name="values"/> contains no elements</returns>
-        public static int Max(params int[] values)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException("values");
-            #endregion
-
-            int retVal = 0;
-            foreach (var value in values)
-                retVal = Math.Max(retVal, value);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Returns the largest of all values
-        /// </summary>
-        /// <param name="values">The values to compare</param>
-        /// <returns>The largest value; 0 if <paramref name="values"/> contains no elements</returns>
-        public static long Max(params long[] values)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException("values");
-            #endregion
-
-            long retVal = 0;
-            foreach (var value in values)
-                retVal = Math.Max(retVal, value);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Returns the largest of all values
-        /// </summary>
-        /// <param name="values">The values to compare</param>
-        /// <returns>The largest value; 0 if <paramref name="values"/> contains no elements</returns>
-        public static float Max(params float[] values)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException("values");
-            #endregion
-
-            float retVal = 0;
-            foreach (var value in values)
-                retVal = Math.Max(retVal, value);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Returns the largest of all values
-        /// </summary>
-        /// <param name="values">The values to compare</param>
-        /// <returns>The largest value; 0 if <paramref name="values"/> contains no elements</returns>
-        public static double Max(params double[] values)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException("values");
-            #endregion
-
-            double retVal = 0;
-            foreach (var value in values)
-                retVal = Math.Max(retVal, value);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Returns the largest of all values
-        /// </summary>
-        /// <param name="values">The values to compare</param>
-        /// <returns>The largest value; 0 if <paramref name="values"/> contains no elements</returns>
-        public static decimal Max(params decimal[] values)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException("values");
-            #endregion
-
-            decimal retVal = 0;
-            foreach (var value in values)
-                retVal = Math.Max(retVal, value);
-            return retVal;
-        }
-        #endregion
-
-        #region Min
-        /// <summary>
-        /// Returns the smallest of all values
-        /// </summary>
-        /// <param name="values">The values to compare</param>
-        /// <returns>The smallest value; <see cref="byte.MaxValue"/> if <paramref name="values"/> contains no elements</returns>
-        public static byte Min(params byte[] values)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException("values");
-            #endregion
-
-            byte retVal = byte.MaxValue;
-            foreach (var value in values)
-                retVal = Math.Min(retVal, value);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Returns the smallest of all values
-        /// </summary>
-        /// <param name="values">The values to compare</param>
-        /// <returns>The smallest value; <see cref="int.MaxValue"/> if <paramref name="values"/> contains no elements</returns>
-        public static int Min(params int[] values)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException("values");
-            #endregion
-
-            int retVal = int.MaxValue;
-            foreach (var value in values)
-                retVal = Math.Min(retVal, value);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Returns the smallest of all values
-        /// </summary>
-        /// <param name="values">The values to compare</param>
-        /// <returns>The smallest value; <see cref="long.MaxValue"/> if <paramref name="values"/> contains no elements</returns>
-        public static long Min(params long[] values)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException("values");
-            #endregion
-
-            long retVal = long.MaxValue;
-            foreach (var value in values)
-                retVal = Math.Min(retVal, value);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Returns the smallest of all values
-        /// </summary>
-        /// <param name="values">The values to compare</param>
-        /// <returns>The smallest value; <see cref="float.MaxValue"/> if <paramref name="values"/> contains no elements</returns>
-        public static float Min(params float[] values)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException("values");
-            #endregion
-
-            float retVal = float.MaxValue;
-            foreach (var value in values)
-                retVal = Math.Min(retVal, value);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Returns the smallest of all values
-        /// </summary>
-        /// <param name="values">The values to compare</param>
-        /// <returns>The smallest value; <see cref="double.MaxValue"/> if <paramref name="values"/> contains no elements</returns>
-        public static double Min(params double[] values)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException("values");
-            #endregion
-
-            double retVal = double.MaxValue;
-            foreach (var value in values)
-                retVal = Math.Min(retVal, value);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Returns the smallest of all values
-        /// </summary>
-        /// <param name="values">The values to compare</param>
-        /// <returns>The smallest value; <see cref="decimal.MaxValue"/> if <paramref name="values"/> contains no elements</returns>
-        public static decimal Min(params decimal[] values)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException("values");
-            #endregion
-
-            decimal retVal = decimal.MaxValue;
-            foreach (var value in values)
-                retVal = Math.Min(retVal, value);
-            return retVal;
-        }
-        #endregion
-
         #region Clamp
         /// <summary>
         /// Makes a value stay within a certain range
@@ -268,6 +60,8 @@ namespace Common.Utils
             if (min > max) throw new ArgumentException(Resources.MinLargerMax, "min");
             #endregion
 
+            if (value < min) return min;
+            if (value > max) return max;
             return value;
         }
 
@@ -287,6 +81,8 @@ namespace Common.Utils
             if (min > max) throw new ArgumentException(Resources.MinLargerMax, "min");
             #endregion
 
+            if (value < min) return min;
+            if (value > max) return max;
             return value;
         }
 
@@ -306,6 +102,8 @@ namespace Common.Utils
             if (min > max) throw new ArgumentException(Resources.MinLargerMax, "min");
             #endregion
 
+            if (value < min) return min;
+            if (value > max) return max;
             return value;
         }
 
@@ -324,6 +122,8 @@ namespace Common.Utils
             if (min > max) throw new ArgumentException(Resources.MinLargerMax, "min");
             #endregion
 
+            if (value < min) return min;
+            if (value > max) return max;
             return value;
         }
         #endregion

@@ -23,7 +23,7 @@
  */
 
 using System;
-using System.Collections.Specialized;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -66,7 +66,7 @@ namespace OmegaEngine.Graphics.Shaders
         public int Index;
         public bool IsDirty;
         protected readonly Effect Effect;
-        public StringCollection Options;
+        public List<string> Options;
 
         private readonly CommandType _commandType;
         private string _selector;
@@ -400,7 +400,7 @@ namespace OmegaEngine.Graphics.Shaders
                 for (int tech = 0; tech < Effect.Description.Techniques; tech++)
                 {
                     EffectHandle thisTechHandle = Effect.GetTechnique(tech);
-                    if (StringUtils.Compare(Effect.GetTechniqueDescription(thisTechHandle).Name, selection))
+                    if (StringUtils.EqualsIgnoreCase(Effect.GetTechniqueDescription(thisTechHandle).Name, selection))
                     {
                         Handle = thisTechHandle;
                         break;
@@ -435,7 +435,7 @@ namespace OmegaEngine.Graphics.Shaders
                 for (pass = 0; pass < Effect.GetTechniqueDescription(Effect.Technique).Passes; pass++)
                 {
                     EffectHandle thisPassHandle = Effect.GetPass(Effect.Technique, pass);
-                    if (StringUtils.Compare(Effect.GetPassDescription(thisPassHandle).Name, selection))
+                    if (StringUtils.EqualsIgnoreCase(Effect.GetPassDescription(thisPassHandle).Name, selection))
                     {
                         PassNum = pass;
                         break;
@@ -475,9 +475,9 @@ namespace OmegaEngine.Graphics.Shaders
             if (IsDirty)
             {
                 string selection = EvaluateChoice();
-                if (StringUtils.Compare(selection, "scene")) DrawOption = DrawType.Scene;
-                else if (StringUtils.Compare(selection, "geometry")) DrawOption = DrawType.Geometry;
-                else DrawOption = StringUtils.Compare(selection, "buffer") ? DrawType.Buffer : DrawType.Hint;
+                if (StringUtils.EqualsIgnoreCase(selection, "scene")) DrawOption = DrawType.Scene;
+                else if (StringUtils.EqualsIgnoreCase(selection, "geometry")) DrawOption = DrawType.Geometry;
+                else DrawOption = StringUtils.EqualsIgnoreCase(selection, "buffer") ? DrawType.Buffer : DrawType.Hint;
                 IsDirty = false;
             }
 
@@ -529,11 +529,11 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 int index = 0;
                 string selection = EvaluateChoice(ref index);
-                if (StringUtils.Compare(selection, "color"))
+                if (StringUtils.EqualsIgnoreCase(selection, "color"))
                     _clearType = ClearType.Color;
-                else if (StringUtils.Compare(selection, "depth"))
+                else if (StringUtils.EqualsIgnoreCase(selection, "depth"))
                     _clearType = ClearType.Depth;
-                else if (StringUtils.Compare(selection, "stencil"))
+                else if (StringUtils.EqualsIgnoreCase(selection, "stencil"))
                     _clearType = ClearType.Stencil;
                 else
                     Log.Error("SAS: unrecognized clear command");

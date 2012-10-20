@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using AlphaEditor.GUI;
 using AlphaEditor.Graphics;
@@ -200,12 +201,7 @@ namespace AlphaEditor
         /// </summary>
         protected Tab CurrentTab
         {
-            get
-            {
-                foreach (var pair in Tabs)
-                    if (pair.Value.Checked) return pair.Key;
-                return null;
-            }
+            get { return (from pair in Tabs where pair.Value.Checked select pair.Key).FirstOrDefault(); }
         }
         #endregion
 

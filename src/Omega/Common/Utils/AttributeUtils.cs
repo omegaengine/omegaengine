@@ -22,8 +22,8 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
-using Common.Collections;
 
 namespace Common.Utils
 {
@@ -36,11 +36,11 @@ namespace Common.Utils
         /// Gets the first <typeparamref name="TAttribute"/> attribute set on the <typeparamref name="TTarget"/> type.
         /// </summary>
         /// <returns>Falls back to <see cref="object.ToString"/> if the attribute is missing.</returns>
-        public static TAttribute GetAttribute<TAttribute, TTarget>()
-            where TAttribute : Attribute
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
+        public static TAttribute GetAttribute<TAttribute, TTarget>() where TAttribute : Attribute
         {
             var attributes = typeof(TTarget).GetCustomAttributes(typeof(TAttribute), true);
-            return EnumerableUtils.First(EnumerableUtils.OfType<TAttribute>(attributes));
+            return attributes.OfType<TAttribute>().FirstOrDefault();
         }
 
         /// <summary>
@@ -48,29 +48,40 @@ namespace Common.Utils
         /// Then retrieves a value from the attribute using <paramref name="valueRetriever"/>.
         /// </summary>
         /// <returns>Falls back to <see cref="object.ToString"/> if the attribute is missing.</returns>
-        public static string GetEnumAttributeValue<TAttribute>(Enum target, Converter<TAttribute, string> valueRetriever)
-            where TAttribute : Attribute
+        public static string GetEnumAttributeValue<TAttribute>(this Enum target, Converter<TAttribute, string> valueRetriever) where TAttribute : Attribute
         {
+            #region Sanity checks
+            if (target == null) throw new ArgumentNullException("target");
+            if (valueRetriever == null) throw new ArgumentNullException("valueRetriever");
+            #endregion
+
             FieldInfo fieldInfo = target.GetType().GetField(target.ToString());
             var attributes = (TAttribute[])fieldInfo.GetCustomAttributes(typeof(TAttribute), true);
-            var attribute = EnumerableUtils.First(EnumerableUtils.OfType<TAttribute>(attributes));
-
+            var attribute = attributes.FirstOrDefault();
             return (attribute == null) ? target.ToString() : valueRetriever(attribute);
         }
 
         /// <summary>
         /// Uses the type converter for <typeparamref name="TType"/> (set by <see cref="TypeConverterAttribute"/>) to parse a string.
         /// </summary>
-        public static TType ConvertFromString<TType>(string value)
+        public static TType ConvertFromString<TType>(this string value)
         {
+            #region Sanity checks
+            if (value == null) throw new ArgumentNullException("value");
+            #endregion
+
             return (TType)(TypeDescriptor.GetConverter(typeof(TType)).ConvertFromInvariantString(value));
         }
 
         /// <summary>
         /// Uses the type converter for <typeparamref name="TType"/> (set by <see cref="TypeConverterAttribute"/>) to generate a string.
         /// </summary>
-        public static string ConvertToString<TType>(TType value)
+        public static string ConvertToString<TType>(this TType value)
         {
+            #region Sanity checks
+            if (value == null) throw new ArgumentNullException("value");
+            #endregion
+
             return TypeDescriptor.GetConverter(typeof(TType)).ConvertToInvariantString(value);
         }
     }

@@ -275,7 +275,7 @@ namespace OmegaEngine.Assets
         private static XTexture ShaderTextureHelper(Engine engine, EffectDefault param, string meshName, string textureType)
         {
             // Check if the parameter has the right name and contains a string
-            if (StringUtils.Compare(param.ParameterName, textureType) && param.Type == EffectDefaultType.String)
+            if (StringUtils.EqualsIgnoreCase(param.ParameterName, textureType) && param.Type == EffectDefaultType.String)
             {
                 // Read the string and trim away tailing nul-bytes and spaces
                 string paramData = new StreamReader(param.Value, Encoding.ASCII).ReadToEnd().Trim('\0', ' ');

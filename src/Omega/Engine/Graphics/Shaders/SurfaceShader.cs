@@ -171,9 +171,8 @@ namespace OmegaEngine.Graphics.Shaders
             using (new ProfilerEvent("Set shader parameters"))
             {
                 byte diffuseMapCount = 0;
-                for (int i = 0; i < ParameterInfos.Length; i++)
-                { // Use a for-loop instead of foreach for better performance
-                    ParameterInfo info = ParameterInfos[i];
+                foreach (ParameterInfo info in ParameterInfos)
+                {
                     switch (info.Type)
                     {
                         case ParameterType.Int:

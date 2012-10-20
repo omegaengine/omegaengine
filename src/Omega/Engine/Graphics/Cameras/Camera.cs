@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using Common;
 using Common.Utils;
 using Common.Values;
@@ -475,15 +476,10 @@ namespace OmegaEngine.Graphics.Cameras
 
             UpdateViewFrustum();
 
-            for (int i = 0; i < _viewFrustum.Length; i++)
-            {
-                // Check if the sphere lies completley behind one of the frustum planes
-                if (BoundingSphere.Intersects(boundingSphere, _viewFrustum[i]) == PlaneIntersectionType.Back)
-                    return false;
-            }
+            // Check if the sphere lies completley behind one of the frustum planes
+            return _viewFrustum.All(t => BoundingSphere.Intersects(boundingSphere, t) != PlaneIntersectionType.Back);
 
             // Otherwise the object is at least partially visible
-            return true;
         }
 
         /// <summary>
@@ -499,15 +495,10 @@ namespace OmegaEngine.Graphics.Cameras
 
             UpdateViewFrustum();
 
-            foreach (Plane plane in _viewFrustum)
-            {
-                // Check if the box lies completley behind one of the frustum planes
-                if (BoundingBox.Intersects(boundingBox, plane) == PlaneIntersectionType.Back)
-                    return false;
-            }
+            // Check if the box lies completley behind one of the frustum planes
+            return _viewFrustum.All(plane => BoundingBox.Intersects(boundingBox, plane) != PlaneIntersectionType.Back);
 
             // Otherwise the object is at least partially visible
-            return true;
         }
         #endregion
 

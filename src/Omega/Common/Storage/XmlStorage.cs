@@ -26,6 +26,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
@@ -66,11 +67,8 @@ namespace Common.Storage
             string key = type.FullName ?? "";
             if (ignoreMembers != null)
             {
-                foreach (MemberInfo ignoreMember in ignoreMembers)
-                {
-                    if (ignoreMember != null)
-                        key += " \\ " + ignoreMember.ReflectedType.FullName + ignoreMember.Name;
-                }
+                key = ignoreMembers.Where(ignoreMember => ignoreMember != null).
+                    Aggregate(key, (current, ignoreMember) => current + (" \\ " + ignoreMember.ReflectedType.FullName + ignoreMember.Name));
             }
 
             XmlSerializer serializer;
@@ -220,7 +218,7 @@ namespace Common.Storage
             #endregion
 
             // Copy string to a stream and then parse
-            using (var stream = StreamUtils.CreateFromString(data))
+            using (var stream = data.ToStream())
                 return Load<T>(stream, ignoreMembers);
         }
         #endregion
@@ -281,7 +279,10 @@ namespace Common.Storage
 
             using (var atomic = new AtomicWrite(path))
             using (var fileStream = File.Create(atomic.WritePath))
-                Save(fileStream, data, ignoreMembers);
+            {
+                Save(fileStream, data);
+                atomic.Commit();
+            }
         }
 
         /// <summary>
@@ -299,7 +300,7 @@ namespace Common.Storage
                 Save(stream, data, ignoreMembers);
 
                 // Copy the stream to a string
-                return StreamUtils.ReadToString(stream);
+                return stream.ReadToString();
             }
         }
         #endregion
@@ -369,7 +370,7 @@ namespace Common.Storage
 
                 foreach (ZipEntry zipEntry in zipFile)
                 {
-                    if (StringUtils.Compare(zipEntry.Name, "data.xml"))
+                    if (StringUtils.EqualsIgnoreCase(zipEntry.Name, "data.xml"))
                     {
                         // Read the XML file from the ZIP archive
                         var inputStream = zipFile.GetInputStream(zipEntry);
@@ -383,7 +384,7 @@ namespace Common.Storage
                             // Read additional files from the ZIP archive
                             foreach (EmbeddedFile file in additionalFiles)
                             {
-                                if (StringUtils.Compare(zipEntry.Name, file.Filename))
+                                if (StringUtils.EqualsIgnoreCase(zipEntry.Name, file.Filename))
                                 {
                                     var inputStream = zipFile.GetInputStream(zipEntry);
                                     file.StreamDelegate(inputStream);

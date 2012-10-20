@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using Common.Utils;
@@ -89,9 +90,7 @@ namespace OmegaEngine.Graphics.Shaders
         #region Code helpers
         private static string HandleCounters(string source, IEnumerable<Counter> counters, int run)
         {
-            foreach (Counter counter in counters)
-                source = source.Replace("{" + counter.ID + "}", counter.GetValue(run));
-            return source;
+            return counters.Aggregate(source, (current, counter) => current.Replace("{" + counter.ID + "}", counter.GetValue(run)));
         }
         #endregion
 
@@ -113,7 +112,7 @@ namespace OmegaEngine.Graphics.Shaders
             #endregion
 
             source += "\n";
-            string[] lines = StringUtils.SplitMultilineText(source);
+            string[] lines = source.SplitMultilineText();
             var xmlBuffer = new StringBuilder(); // Accumulates XML data until it is complete and ready to be parsed
             var fxBuffer = new StringBuilder(); // Accumulates the actual HLSL code until it is ready to be compiled
             bool include = true;

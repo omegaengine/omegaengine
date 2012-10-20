@@ -83,7 +83,7 @@ namespace Common.Utils
         /// <summary>
         /// Converts a <see cref="DateTime"/> into the number of seconds since the Unix epoch (1970-1-1).
         /// </summary>
-        public static long ToUnixTime(DateTime time)
+        public static long ToUnixTime(this DateTime time)
         {
             TimeSpan timespan = (time - new DateTime(1970, 1, 1));
             return (long)timespan.TotalSeconds;
@@ -291,7 +291,7 @@ namespace Common.Utils
         /// <param name="directory">The directory to walk.</param>
         /// <param name="dirAction">The action to perform for every found directory (including the starting <paramref name="directory"/>); may be <see langword="null"/>.</param>
         /// <param name="fileAction">The action to perform for every found file; may be <see langword="null"/>.</param>
-        public static void WalkDirectory(DirectoryInfo directory, Action<DirectoryInfo> dirAction, Action<FileInfo> fileAction)
+        public static void WalkDirectory(this DirectoryInfo directory, Action<DirectoryInfo> dirAction, Action<FileInfo> fileAction)
         {
             #region Sanity checks
             if (directory == null) throw new ArgumentNullException("directory");
@@ -368,9 +368,10 @@ namespace Common.Utils
                     break;
 
                 case PlatformID.Win32NT:
-                    ToggleWriteProtectionWinNT(directory, false);
+                    // Find NTFS ACL inheritance starting at any level
+                    WalkDirectory(directory, dir => ToggleWriteProtectionWinNT(dir, false), file => { });
 
-                    // Remove any read-only attributes
+                    // Remove any classic read-only attributes
                     try
                     {
                         WalkDirectory(directory, dir => dir.Attributes = FileAttributes.Normal, file => file.IsReadOnly = false);
@@ -401,7 +402,7 @@ namespace Common.Utils
             #endregion
         }
 
-        private static readonly FileSystemAccessRule _denyEveryoneWrite = new FileSystemAccessRule(new SecurityIdentifier("S-1-1-0" /*Everyone*/), FileSystemRights.Write, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Deny);
+        private static readonly FileSystemAccessRule _denyEveryoneWrite = new FileSystemAccessRule(new SecurityIdentifier("S-1-1-0" /*Everyone*/), FileSystemRights.Write | FileSystemRights.Delete | FileSystemRights.DeleteSubdirectoriesAndFiles, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Deny);
 
         private static void ToggleWriteProtectionWinNT(DirectoryInfo directory, bool enable)
         {

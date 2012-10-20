@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Common;
 using Common.Controls;
@@ -696,7 +697,7 @@ namespace AlphaEditor.World
         /// </summary>
         private bool IsPositionableListed(Positionable positionable)
         {
-            if (!StringUtils.Contains(positionable.Name ?? "", textSearch.Text)) return false;
+            if (!(positionable.Name ?? "").ContainsIgnoreCase(textSearch.Text)) return false;
 
             return (checkEntity.Checked && positionable is Entity) ||
                 (checkWater.Checked && positionable is Water) ||
@@ -735,8 +736,7 @@ namespace AlphaEditor.World
 
             // Copy the currently selected array to a collection
             var selectedEntities = new List<Positionable>(listBoxPositionables.SelectedItems.Count);
-            foreach (Positionable positionable in listBoxPositionables.SelectedItems)
-                selectedEntities.Add(positionable);
+            selectedEntities.AddRange(listBoxPositionables.SelectedItems.Cast<Positionable>());
 
             // Overwrite the presenter's selection list with the new one
             _presenter.SelectedPositionables.SetMany(selectedEntities);
@@ -750,8 +750,7 @@ namespace AlphaEditor.World
             _dontUpdatePositionableSelection = false;
 
             // Copy the currently selected array to a collection and then add the new entity
-            var selectedEntities = new List<object>(propertyGridPositionable.SelectedObjects);
-            selectedEntities.Add(positionable);
+            var selectedEntities = new List<object>(propertyGridPositionable.SelectedObjects) {positionable};
 
             // Convert the collection back to an array and update the PropertyGrid
             propertyGridPositionable.SelectedObjects = selectedEntities.ToArray();

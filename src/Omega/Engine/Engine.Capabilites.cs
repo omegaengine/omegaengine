@@ -8,6 +8,7 @@
 
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Management;
 using System.Text;
 using Common;
@@ -186,12 +187,7 @@ namespace OmegaEngine
         {
             using (var manager = new Direct3D())
             {
-                foreach (DisplayMode mode in manager.Adapters[adapter].GetDisplayModes(Format.X8R8G8B8))
-                {
-                    if (mode.Width == width && mode.Height == height)
-                        return true;
-                }
-                return false;
+                return manager.Adapters[adapter].GetDisplayModes(Format.X8R8G8B8).Any(mode => mode.Width == width && mode.Height == height);
             }
         }
 
@@ -203,9 +199,7 @@ namespace OmegaEngine
         /// <returns><see langword="true"/> if the level is supported</returns>
         public bool CheckResolution(int width, int height)
         {
-            foreach (DisplayMode mode in DisplayModes)
-                if (mode.Width == width && mode.Height == height) return true;
-            return false;
+            return DisplayModes.Any(mode => mode.Width == width && mode.Height == height);
         }
         #endregion
 

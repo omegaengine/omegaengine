@@ -45,6 +45,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="LinqBridge">
+      <HintPath>..\..\..\lib\LinqBridge.dll</HintPath>
+    </Reference>
     <Reference Include="LuaInterface">
       <HintPath>..\..\..\lib\LuaInterface.dll</HintPath>
     </Reference>

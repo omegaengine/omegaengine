@@ -24,7 +24,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
@@ -268,7 +267,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 EffectHandle handleParam = Effect.GetParameter(null, i);
                 ParameterDescription desc = Effect.GetParameterDescription(handleParam);
-                if (desc.Type == ParameterType.Float && StringUtils.Compare(desc.Semantic, "STANDARDSGLOBAL"))
+                if (desc.Type == ParameterType.Float && StringUtils.EqualsIgnoreCase(desc.Semantic, "STANDARDSGLOBAL"))
                 {
                     Log.Info("Loading SAS script");
                     string script = SasHelper.FindAnnotationString(Effect, handleParam, "script");
@@ -278,7 +277,7 @@ namespace OmegaEngine.Graphics.Shaders
                     string scriptClass = SasHelper.FindAnnotationString(Effect, handleParam, "ScriptClass");
                     if (scriptClass != null)
                     {
-                        if (StringUtils.Compare(scriptClass, "scene"))
+                        if (StringUtils.EqualsIgnoreCase(scriptClass, "scene"))
                             ScriptType = ScriptEffectType.Scene;
                     }
 
@@ -371,7 +370,7 @@ namespace OmegaEngine.Graphics.Shaders
                     Enum.Parse(typeof(SasScriptCommand.CommandType), testCommand, true);
 
                 // Options are the choices on the right of the =
-                var optionStrings = new StringCollection();
+                var optionStrings = new List<String>();
 
                 // Selector is the thing that makes the choice
                 string selectorString = null;
@@ -396,8 +395,7 @@ namespace OmegaEngine.Graphics.Shaders
                         // Get the options.
                         var optionsSplit = new Regex(@":");
                         string[] optionList = optionsSplit.Split(options[1]);
-                        for (int opt = 0; opt < optionList.Length; opt++)
-                            optionStrings.Add(optionList[opt]);
+                        optionStrings.AddRange(optionList);
 
                         // No options, which is invalid
                         if (optionStrings.Count == 0) break;

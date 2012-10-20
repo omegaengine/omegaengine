@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Common.Utils;
 using OmegaEngine;
@@ -962,17 +963,7 @@ namespace OmegaGUI.Render
         /// </summary>
         public Element GetDefaultElement(ControlType ctype, uint index)
         {
-            for (int i = 0; i < defaultElementList.Count; i++)
-            {
-                ElementHolder holder = defaultElementList[i];
-                if ((holder.ControlType == ctype) &&
-                    (holder.ElementIndex == index))
-                {
-                    // Found it, return it
-                    return holder.Element;
-                }
-            }
-            return null;
+            return (from holder in defaultElementList where (holder.ControlType == ctype) && (holder.ElementIndex == index) select holder.Element).FirstOrDefault();
         }
         #endregion
 
@@ -1036,10 +1027,8 @@ namespace OmegaGUI.Render
             control.index = (uint)controlList.Count;
 
             // Look for a default element entires
-            for (int i = 0; i < defaultElementList.Count; i++)
+            foreach (var holder in defaultElementList)
             {
-                // Find any elements for this control
-                ElementHolder holder = defaultElementList[i];
                 if (holder.ControlType == control.ControlType)
                     control[holder.ElementIndex] = holder.Element;
             }

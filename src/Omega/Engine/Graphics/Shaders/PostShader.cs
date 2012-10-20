@@ -98,9 +98,8 @@ namespace OmegaEngine.Graphics.Shaders
             #endregion
 
             #region Values
-            for (int i = 0; i < ParameterInfos.Length; i++)
-            { // Use a for-loop instead of foreach for better performance
-                var info = ParameterInfos[i];
+            foreach (var info in ParameterInfos)
+            {
                 switch (info.Type)
                 {
                     case ParameterType.Float:

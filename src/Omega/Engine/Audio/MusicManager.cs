@@ -10,6 +10,7 @@ using System;
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Common;
 using Common.Collections;
@@ -106,8 +107,8 @@ namespace OmegaEngine.Audio
             #endregion
 
             // Cancel if the music manager already knows the song
-            foreach (Song song in _themes.Values)
-                if (song.ID == id) throw new InvalidOperationException(Resources.SongAlreadyLoaded + id);
+            if (_themes.Values.Any(song => song.ID == id))
+                throw new InvalidOperationException(Resources.SongAlreadyLoaded + id);
 
             // Load the song and associate it with its themes
             var newSong = new Song(_engine, id);

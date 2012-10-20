@@ -150,7 +150,7 @@ namespace OmegaEngine
         /// Starts a new profiler event with a certain name.
         /// </summary>
         /// <param name="getName">A delegate for getting the name of the event.</param>
-        public ProfilerEvent(SimpleResult<string> getName)
+        public ProfilerEvent(Func<string> getName)
         {
             #region Sanity checks
             if (getName == null) throw new ArgumentNullException("getName");

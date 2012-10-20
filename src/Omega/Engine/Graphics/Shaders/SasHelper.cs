@@ -50,7 +50,7 @@ namespace OmegaEngine.Graphics.Shaders
                 if (annotationHandle != null)
                 {
                     ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
-                    if (annotationDesc.Type == ParameterType.String && StringUtils.Compare(annotationDesc.Name, name))
+                    if (annotationDesc.Type == ParameterType.String && StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
                         return effect.GetString(annotationHandle);
                 }
             }
@@ -72,7 +72,7 @@ namespace OmegaEngine.Graphics.Shaders
                 if (annotationHandle != null)
                 {
                     ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
-                    if (annotationDesc.Type == ParameterType.String && StringUtils.Compare(annotationDesc.Name, name))
+                    if (annotationDesc.Type == ParameterType.String && StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
                         return effect.GetString(annotationHandle);
                 }
             }
@@ -94,7 +94,7 @@ namespace OmegaEngine.Graphics.Shaders
                 if (annotationHandle != null)
                 {
                     ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
-                    if (annotationDesc.Type == ParameterType.String && StringUtils.Compare(annotationDesc.Name, name))
+                    if (annotationDesc.Type == ParameterType.String && StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
                         return effect.GetString(annotationHandle);
                 }
             }
@@ -116,7 +116,7 @@ namespace OmegaEngine.Graphics.Shaders
                 if (annotationHandle != null)
                 {
                     ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
-                    if (StringUtils.Compare(annotationDesc.Name, name))
+                    if (StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
                     {
                         try
                         {
@@ -161,7 +161,7 @@ namespace OmegaEngine.Graphics.Shaders
                 if (annotationHandle != null)
                 {
                     ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
-                    if (StringUtils.Compare(annotationDesc.Name, name))
+                    if (StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
                     {
                         try
                         {

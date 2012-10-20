@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Linq;
 using Common;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -36,14 +37,10 @@ namespace OmegaEngine.Graphics
             // Cancel if the number of vertex elements is too low (too high is ok, there is and end marker to trim off excess data)
             if (testDecl.Length < baseDecl.Length) return false;
 
-            for (int i = 0; i < baseDecl.Length; i++)
-            {
-                // Cancel as soon as one vertex declaration doesn't match
-                if (!testDecl[i].Equals(baseDecl[i])) return false;
-            }
+            // Cancel as soon as one vertex declaration doesn't match
+            return !baseDecl.Where((t, i) => !testDecl[i].Equals(t)).Any();
 
             // If we reached here, everything is identical
-            return true;
         }
 
         /// <summary>

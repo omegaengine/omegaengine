@@ -58,6 +58,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="LinqBridge">
+      <HintPath>..\..\..\lib\LinqBridge.dll</HintPath>
+    </Reference>
     <Reference Include="SlimDX">
       <HintPath>..\..\..\lib\SlimDX.dll</HintPath>
     </Reference>
@@ -76,14 +79,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Global.cs" />
-    <Compile Include="Future.cs" />
+    <Compile Include="AppInfo.cs" />
+    <Compile Include="AppMutex.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="MutexLock.cs" />
     <Compile Include="PropertyPointer.cs" />
     <Compile Include="TimedLogEvent.cs" />
     <Compile Include="Msg.cs" />
     <Compile Include="ToStringWrapper.cs" />
     <Compile Include="UpdateHelper.cs" />
     <Compile Include="INamed.cs" />
+    <Compile Include="Future.cs" />
     <Compile Include="Tasks\CancellationToken.cs" />
     <Compile Include="Tasks\TaskState.cs" />
     <Compile Include="Tasks\ITask.cs" />
@@ -107,14 +113,12 @@
     <Compile Include="Collections\MonitoredCollection.cs" />
     <Compile Include="Collections\XmlDictionary.cs" />
     <Compile Include="Collections\XmlDictionaryEntry.cs" />
-    <Compile Include="Streams\StreamUtils.cs" />
     <Compile Include="Streams\OffsetStream.cs" />
     <Compile Include="Streams\CircularBufferStream.cs" />
     <Compile Include="Streams\DisposeWrapperStream.cs" />
-    <Compile Include="Utils\AppInfo.cs" />
-    <Compile Include="Utils\AppMutex.cs" />
     <Compile Include="Utils\AttributeUtils.cs" />
     <Compile Include="Utils\ProcessUtils.cs" />
+    <Compile Include="Utils\StreamUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\WindowsUtils.cs" />

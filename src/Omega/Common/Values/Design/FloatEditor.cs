@@ -23,10 +23,10 @@
 using System;
 using System.ComponentModel;
 using System.Drawing.Design;
+using System.Linq;
 using System.Security.Permissions;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
-using Common.Collections;
 
 namespace Common.Values.Design
 {
@@ -56,7 +56,7 @@ namespace Common.Values.Design
             var editorService = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
             if (editorService == null) return value;
 
-            var range = EnumerableUtils.First(EnumerableUtils.OfType<FloatRangeAttribute>(context.PropertyDescriptor.Attributes));
+            var range = context.PropertyDescriptor.Attributes.OfType<FloatRangeAttribute>().FirstOrDefault();
             return (range == null)
                 ? EditValue((float)value, editorService)
                 : EditValue((float)value, range, editorService);
