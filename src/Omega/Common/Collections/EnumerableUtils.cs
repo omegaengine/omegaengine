@@ -32,7 +32,7 @@ namespace Common.Collections
     /// </summary>
     public static class EnumerableUtils
     {
-        #region First
+        #region LINQ
         /// <summary>
         /// Returns the first element in a list or throws a custom exception if no element exists.
         /// </summary>
@@ -55,7 +55,7 @@ namespace Common.Collections
         {
             #region Sanity checks
             if (source == null) throw new ArgumentNullException("source");
-            if (noneException == null) throw new ArgumentNullException("noneException");
+            if (predicate == null) throw new ArgumentNullException("predicate");
             if (noneException == null) throw new ArgumentNullException("noneException");
             #endregion
 
@@ -213,25 +213,15 @@ namespace Common.Collections
             #endregion
 
             // ReSharper disable CompareNonConstrainedGenericWithNull
-            foreach (var mine in mineList)
-            {
-                if (mine == null) continue;
+            foreach (var mine in mineList.Where(mine => mine != null).
+                // Entry in mineList, but not in theirsList
+                Where(mine => !theirsList.Contains(mine)))
+                removed(mine);
 
-                if (!theirsList.Contains(mine))
-                { // Entry in mineList, but not in theirsList
-                    removed(mine);
-                }
-            }
-
-            foreach (var theirs in theirsList)
-            {
-                if (theirs == null) continue;
-
-                if (!mineList.Contains(theirs))
-                { // Entry in theirsList, but not in mineList
-                    added(theirs);
-                }
-            }
+            foreach (var theirs in theirsList.Where(theirs => theirs != null).
+                // Entry in theirsList, but not in mineList
+                Where(theirs => !mineList.Contains(theirs)))
+                added(theirs);
             // ReSharper restore CompareNonConstrainedGenericWithNull
         }
 
@@ -247,7 +237,7 @@ namespace Common.Collections
         /// Modified elements are handled by calling <paramref name="removed"/> for the old state and <paramref name="added"/> for the new state.
         /// <see langword="null"/> elements are completely ignored.
         /// </remarks>
-        public static void Merge<T>(ICollection<T> baseList, IEnumerable<T> theirsList, IEnumerable<T> mineList, Action<T> added, Action<T> removed)
+        public static void Merge<T>(IEnumerable<T> baseList, IEnumerable<T> theirsList, IEnumerable<T> mineList, Action<T> added, Action<T> removed)
             where T : class, IMergeable<T>
         {
             #region Sanity checks
@@ -258,14 +248,12 @@ namespace Common.Collections
             if (removed == null) throw new ArgumentNullException("removed");
             #endregion
 
-            foreach (var theirs in theirsList.Where(theirs => theirs != null))
-            {
-                var matchingMine = FindMergeID(mineList, theirs.MergeID);
-                if (matchingMine == null)
-                { // Entry in theirsList, but not in mineList
-                    if (!baseList.Contains(theirs)) added(theirs); // Added in theirsList
-                }
-            }
+            foreach (var theirs in (
+                from theirs in theirsList.Where(theirs => theirs != null)
+                // Entry in theirsList, but not in mineList
+                where FindMergeID(mineList, theirs.MergeID) == null
+                select theirs).Where(theirs => !baseList.Contains(theirs)))
+                added(theirs); // Added in theirsList
 
             foreach (var mine in mineList)
             {

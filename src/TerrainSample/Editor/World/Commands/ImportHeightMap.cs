@@ -20,8 +20,8 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Diagnostics.CodeAnalysis;
-using Common;
 using Presentation;
 using World;
 
@@ -39,7 +39,7 @@ namespace AlphaEditor.World.Commands
         /// <param name="terrain">The <see cref="Terrain"/> to load new height-map data into.</param>
         /// <param name="fileName">The file to load the height-map data from.</param>
         /// <param name="refreshHandler">Called when the <see cref="Presenter"/> needs to be reset.</param>
-        public ImportHeightMap(Terrain terrain, string fileName, SimpleEventHandler refreshHandler)
+        public ImportHeightMap(Terrain terrain, string fileName, Action refreshHandler)
             : base(terrain, fileName, refreshHandler + (() => terrain.LightAngleMapsOutdated = true)) // Mark the shadow maps for update
         {}
         #endregion

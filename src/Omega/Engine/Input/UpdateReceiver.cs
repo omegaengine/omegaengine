@@ -9,7 +9,6 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Common;
 
 namespace OmegaEngine.Input
 {
@@ -18,13 +17,13 @@ namespace OmegaEngine.Input
     /// </summary>
     public class UpdateReceiver : IInputReceiver
     {
-        private readonly SimpleEventHandler _update;
+        private readonly Action _update;
 
         /// <summary>
         /// Creates a new update receiver.
         /// </summary>
         /// <param name="update">The callback delegate to be called when any kind of input is received.</param>
-        public UpdateReceiver(SimpleEventHandler update)
+        public UpdateReceiver(Action update)
         {
             #region Sanity checks
             if (update == null) throw new ArgumentNullException("update");

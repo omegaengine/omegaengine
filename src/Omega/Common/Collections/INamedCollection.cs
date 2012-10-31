@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Collections
 {
@@ -62,7 +63,8 @@ namespace Common.Collections
         /// <summary>
         /// Is raised after the content of the collection has changed in any way (adding, removing, renaming, etc.).
         /// </summary>
-        event SimpleEventHandler CollectionChanged;
+        [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
+        event Action CollectionChanged;
     }
 
     // ReSharper restore UnusedParameter.Global

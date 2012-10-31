@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
@@ -40,7 +41,7 @@ namespace Core
         /// Occurs when a setting in this group is changed.
         /// </summary>
         [Description("Occurs when a setting in this group is changed.")]
-        public event SimpleEventHandler Changed;
+        public event Action Changed;
 
         private void OnChanged()
         {

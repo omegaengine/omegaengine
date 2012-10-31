@@ -40,7 +40,7 @@ namespace AlphaEditor.World.Commands
         protected readonly string _fileName;
         // ReSharper restore InconsistentNaming
 
-        private readonly SimpleEventHandler _refreshHandler;
+        private readonly Action _refreshHandler;
         private byte[,] _undoMapData, _redoMapData;
         #endregion
 
@@ -51,7 +51,7 @@ namespace AlphaEditor.World.Commands
         /// <param name="terrain">The <see cref="Terrain"/> to load new map data into.</param>
         /// <param name="fileName">The file to load the map data from.</param>
         /// <param name="refreshHandler">Called when the <see cref="Presenter"/> needs to be reset.</param>
-        protected ImportMap(Terrain terrain, string fileName, SimpleEventHandler refreshHandler)
+        protected ImportMap(Terrain terrain, string fileName, Action refreshHandler)
         {
             #region Sanity checks
             if (terrain == null) throw new ArgumentNullException("terrain");

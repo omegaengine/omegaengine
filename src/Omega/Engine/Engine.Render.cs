@@ -32,31 +32,31 @@ namespace OmegaEngine
         /// Occurs once for every frame before rendering.
         /// </summary>
         [Description("Occurs once for every frame before rendering.")]
-        public event SimpleEventHandler PreRender;
+        public event Action PreRender;
 
         /// <summary>
         /// Allows the integration of external render processes at the end of the <see cref="Engine"/>'s presentation scheme.
         /// </summary>
         [Description("Allows the integration of external render processes at the end of the Engine's presentation scheme.")]
-        public event SimpleEventHandler ExtraRender;
+        public event Action ExtraRender;
 
         /// <summary>
         /// Occurs once for every frame after rendering
         /// </summary>
         [Description("Occurs once for every frame after rendering.")]
-        public event SimpleEventHandler PostRender;
+        public event Action PostRender;
 
         /// <summary>
         /// Occurs after the <see cref="Device"/> was lost. This usually happens when switching to or from fullscreen mode.
         /// </summary>
         [Description("Occurs after the DirectX Device was lost. This usually happens when switching to or from fullscreen mode.")]
-        public event SimpleEventHandler DeviceLost;
+        public event Action DeviceLost;
 
         /// <summary>
         /// Occurs after the <see cref="Device"/> was reset. This needs to be done to continue using it after <see cref="DeviceLost"/>.
         /// </summary>
         [Description("Occurs after the DirectX Device was reset. This needs to be done to continue using it after DeviceLost.")]
-        public event SimpleEventHandler DeviceReset;
+        public event Action DeviceReset;
         #endregion
 
         #region Variables
@@ -303,7 +303,7 @@ namespace OmegaEngine
                     }
 
                     // Fade the output to black
-                    SimpleEventHandler fade = delegate
+                    Action fade = delegate
                     {
                         Device.Viewport = RenderViewport;
                         Device.BeginScene();

@@ -38,6 +38,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="LinqBridge">
+      <HintPath>..\..\..\lib\LinqBridge.dll</HintPath>
+      <Aliases>LinqBridge</Aliases>
+    </Reference>
     <Reference Include="SlimDX">
       <HintPath>..\..\..\lib\SlimDX.dll</HintPath>
     </Reference>

@@ -95,7 +95,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="render">The render delegate (is called once for every shader pass)</param>
         /// <param name="sceneSize">The size of the scene on the screen - leave empty for fullscreen</param>
         /// <param name="sceneMap">Should be <see langword="null"/> because a glow map is used instead</param>
-        protected override void RunPasses(SimpleEventHandler render, Size sceneSize, RenderTarget sceneMap)
+        protected override void RunPasses(Action render, Size sceneSize, RenderTarget sceneMap)
         {
             // Pass the glow map instead of the scene map to the blurring filter
             base.RunPasses(render, sceneSize, _glowView.GetRenderTarget());

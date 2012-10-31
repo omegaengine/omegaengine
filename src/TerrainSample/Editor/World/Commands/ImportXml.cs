@@ -37,7 +37,7 @@ namespace AlphaEditor.World.Commands
         private readonly Func<Universe> _getUniverse;
         private readonly Action<Universe> _setUniverse;
         private readonly string _fileName;
-        private readonly SimpleEventHandler _refreshHandler;
+        private readonly Action _refreshHandler;
         private Universe _undoUniverse, _redoUniverse;
         #endregion
 
@@ -49,7 +49,7 @@ namespace AlphaEditor.World.Commands
         /// <param name="setUniverse">Called to change the current <see cref="Universe"/> in the editor.</param>
         /// <param name="fileName">The file to load the XML data from.</param>
         /// <param name="refreshHandler">Called when the <see cref="Presenter"/> needs to be reset.</param>
-        public ImportXml(Func<Universe> getUniverse, Action<Universe> setUniverse, string fileName, SimpleEventHandler refreshHandler)
+        public ImportXml(Func<Universe> getUniverse, Action<Universe> setUniverse, string fileName, Action refreshHandler)
         {
             #region Sanity checks
             if (getUniverse == null) throw new ArgumentNullException("getUniverse");

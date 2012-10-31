@@ -34,7 +34,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Occurs once per frame before rendering the entity.
         /// Will not be executed if the entity is excluded by a culling test.
         /// </summary>
-        public event SimpleEventHandler PreRender;
+        public event Action PreRender;
 
         protected virtual void OnPreRender()
         {

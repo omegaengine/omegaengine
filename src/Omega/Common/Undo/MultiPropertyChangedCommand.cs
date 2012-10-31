@@ -80,18 +80,17 @@ namespace Common.Undo
         //--------------------//
 
         #region Undo / Redo
+        // ReSharper disable ForCanBeConvertedToForeach
         /// <summary>
         /// Set the changed property value again.
         /// </summary>
         protected override void OnRedo()
         {
-            // ReSharper disable ForCanBeConvertedToForeach
             for (int i = 0; i < _targets.Length; i++)
             {
                 // Use refelction to get the specific property for each object and set the new value everywhere
                 _targets[i].GetType().GetProperty(_property.Name).SetValue(_targets[i], _newValue, null);
             }
-            // ReSharper restore ForCanBeConvertedToForeach
         }
 
         /// <summary>
@@ -99,14 +98,14 @@ namespace Common.Undo
         /// </summary>
         protected override void OnUndo()
         {
-            // ReSharper disable ForCanBeConvertedToForeach
             for (int i = 0; i < _targets.Length; i++)
             {
                 // Use reflection to get the specific property for each object and set the corresponding old value for each
                 _targets[i].GetType().GetProperty(_property.Name).SetValue(_targets[i], _oldValues[i], null);
             }
-            // ReSharper restore ForCanBeConvertedToForeach
         }
+
+        // ReSharper restore ForCanBeConvertedToForeach
         #endregion
     }
 }

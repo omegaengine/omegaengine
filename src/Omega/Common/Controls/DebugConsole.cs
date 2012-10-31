@@ -91,7 +91,7 @@ namespace Common.Controls
         /// </summary>
         private void UpdateLog()
         {
-            outputBox.Invoke(new SimpleEventHandler(delegate
+            outputBox.Invoke(new Action(delegate
             { // Update the text-box display
                 outputBox.Text = Log.Content.Trim();
                 outputBox.Select(outputBox.Text.Length, 0);

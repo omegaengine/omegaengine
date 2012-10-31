@@ -36,7 +36,7 @@ namespace AlphaEditor.World.TerrainModifiers
     internal sealed class Texture : Base
     {
         /// <summary>Called when the <see cref="OmegaEngine.Graphics.Renderables.Terrain"/> needs to be reset.</summary>
-        private readonly SimpleEventHandler _refreshHandler;
+        private readonly Action _refreshHandler;
 
         /// <summary>The new texture ID to set.</summary>
         private readonly byte _textureID;
@@ -47,7 +47,7 @@ namespace AlphaEditor.World.TerrainModifiers
         /// <param name="terrain">The <see cref="Terrain"/> to modify.</param>
         /// <param name="refreshHandler">Called when the <see cref="OmegaEngine.Graphics.Renderables.Terrain"/> needs to be reset.</param>
         /// <param name="textureID">The new texture ID to set.</param>
-        public Texture(Terrain terrain, SimpleEventHandler refreshHandler, byte textureID) : base(terrain)
+        public Texture(Terrain terrain, Action refreshHandler, byte textureID) : base(terrain)
         {
             #region Sanity checks
             if (refreshHandler == null) throw new ArgumentNullException("refreshHandler");

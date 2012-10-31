@@ -311,7 +311,7 @@ namespace OmegaEngine.Graphics.Renderables
             Engine.SetVertexBuffer(_vb);
 
             // Prepare a render delegate
-            SimpleEventHandler render;
+            Action render;
             if (_ib != null)
             {
                 // Activate the IndexBuffer and render indexed primitives

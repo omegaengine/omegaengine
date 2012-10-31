@@ -50,7 +50,7 @@ namespace AlphaEditor.World.TerrainModifiers
         /// <param name="refreshHandler">Called when the <see cref="Presenter"/> needs to be reset.</param>
         /// <param name="amplitude">The maximum amplitude of the noise to generate.</param>
         /// <param name="frequency">The frequency of the noise to generate.</param>
-        public HeightNoise(Terrain terrain, EngineTerrain engineTerrain, SimpleEventHandler refreshHandler, double amplitude, double frequency)
+        public HeightNoise(Terrain terrain, EngineTerrain engineTerrain, Action refreshHandler, double amplitude, double frequency)
             : base(terrain, engineTerrain, refreshHandler)
         {
             _amplitude = amplitude;

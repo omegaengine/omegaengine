@@ -22,6 +22,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using AlphaEditor.Properties;
 using Common;
@@ -138,9 +139,9 @@ namespace AlphaEditor.World
         /// </summary>
         protected override void OnDelete()
         {
-            if (TemplateList.CheckedEntries.Length != 0)
+            if (TemplateList.CheckedEntries.Count != 0)
             {
-                if (!Msg.YesNo(this, string.Format(Resources.DeleteCheckedEntries, TemplateList.CheckedEntries.Length), MsgSeverity.Warn, Resources.YesDelete, Resources.NoKeep))
+                if (!Msg.YesNo(this, string.Format(Resources.DeleteCheckedEntries, TemplateList.CheckedEntries.Count), MsgSeverity.Warn, Resources.YesDelete, Resources.NoKeep))
                     return;
 
                 foreach (var entry in TemplateList.CheckedEntries)
@@ -176,11 +177,11 @@ namespace AlphaEditor.World
         private void UpdateHelper()
         {
             buttonRename.Enabled = buttonCopy.Enabled = (TemplateList.SelectedEntry != null);
-            buttonRemove.Enabled = buttonExport.Enabled = (TemplateList.SelectedEntry != null || TemplateList.CheckedEntries.Length > 0);
+            buttonRemove.Enabled = buttonExport.Enabled = (TemplateList.SelectedEntry != null || TemplateList.CheckedEntries.Count > 0);
 
             // Set up PropertyGrid
-            if (TemplateList.CheckedEntries.Length == 0) propertyGridTemplate.SelectedObject = TemplateList.SelectedEntry;
-            else propertyGridTemplate.SelectedObjects = TemplateList.CheckedEntries;
+            if (TemplateList.CheckedEntries.Count == 0) propertyGridTemplate.SelectedObject = TemplateList.SelectedEntry;
+            else propertyGridTemplate.SelectedObjects = TemplateList.CheckedEntries.ToArray();
         }
 
         /// <summary>
@@ -277,9 +278,9 @@ namespace AlphaEditor.World
 
         private void buttonExport_Click(object sender, EventArgs e)
         {
-            if (TemplateList.CheckedEntries.Length != 0)
+            if (TemplateList.CheckedEntries.Count != 0)
             {
-                if (!Msg.YesNo(this, string.Format(Resources.ExportCheckedEntries, TemplateList.CheckedEntries.Length), MsgSeverity.Warn, Resources.OK, Resources.Cancel))
+                if (!Msg.YesNo(this, string.Format(Resources.ExportCheckedEntries, TemplateList.CheckedEntries.Count), MsgSeverity.Warn, Resources.OK, Resources.Cancel))
                     return;
             }
             else if (TemplateList.SelectedEntry != null)
@@ -297,7 +298,7 @@ namespace AlphaEditor.World
         #region Export
         private void dialogExportXml_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (TemplateList.CheckedEntries.Length != 0)
+            if (TemplateList.CheckedEntries.Count != 0)
                 XmlStorage.Save(dialogExportXml.FileName, TemplateList.CheckedEntries);
             else if (TemplateList.SelectedEntry != null)
                 XmlStorage.Save(dialogExportXml.FileName, TemplateList.SelectedEntry);

@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
@@ -39,7 +40,7 @@ namespace World
         /// <see cref="ColorCorrectionPhase0"/>, <see cref="ColorCorrectionPhase1"/>, <see cref="ColorCorrectionPhase2"/> or <see cref="ColorCorrectionPhase3"/> was changed.
         /// </summary>
         [Description("Occurs when LightPhase, AmbientColor, SunColor, ColorCorrectionPhase0, ColorCorrectionPhase1, ColorCorrectionPhase2 or ColorCorrectionPhase3 was changed.")]
-        public event SimpleEventHandler LightingChanged;
+        public event Action LightingChanged;
 
         private void OnLightingChanged()
         {
@@ -50,7 +51,7 @@ namespace World
         /// Occurs when <see cref="Fog"/>, <see cref="FogDistance"/> or <see cref="FogColor"/> was changed.
         /// </summary>
         [Description("Occurs when Fog was changed.")]
-        public event SimpleEventHandler FogChanged;
+        public event Action FogChanged;
 
         private void OnFogChanged()
         {
@@ -61,7 +62,7 @@ namespace World
         /// Occurs when <see cref="Bleach"/> was changed.
         /// </summary>
         [Description("Occurs when Bleach was changed.")]
-        public event SimpleEventHandler BleachChanged;
+        public event Action BleachChanged;
 
         private void OnBleachChanged()
         {

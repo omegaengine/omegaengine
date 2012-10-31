@@ -40,7 +40,7 @@ namespace AlphaEditor.World.TerrainModifiers
         private readonly EngineTerrain _engineTerrain;
 
         /// <summary>Called when the <see cref="Presenter"/> needs to be reset.</summary>
-        private readonly SimpleEventHandler _refreshHandler;
+        private readonly Action _refreshHandler;
 
         /// <summary>
         /// Creates a new terrain height modifier.
@@ -48,7 +48,7 @@ namespace AlphaEditor.World.TerrainModifiers
         /// <param name="terrain">The <see cref="Terrain"/> to modify.</param>
         /// <param name="engineTerrain">The <see cref="OmegaEngine.Graphics.Renderables.Terrain"/> to live-update while modifying.</param>
         /// <param name="refreshHandler">Called when the <see cref="Presenter"/> needs to be reset.</param>
-        protected Height(Terrain terrain, EngineTerrain engineTerrain, SimpleEventHandler refreshHandler) : base(terrain)
+        protected Height(Terrain terrain, EngineTerrain engineTerrain, Action refreshHandler) : base(terrain)
         {
             #region Sanity checks
             if (engineTerrain == null) throw new ArgumentNullException("engineTerrain");

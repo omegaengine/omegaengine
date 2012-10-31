@@ -40,7 +40,7 @@ namespace AlphaEditor.World.TerrainModifiers
         /// <param name="terrain">The <see cref="Terrain"/> to modify.</param>
         /// <param name="engineTerrain">The <see cref="EngineTerrain"/> to live-update while modifying.</param>
         /// <param name="refreshHandler">Called when the <see cref="Presenter"/> needs to be reset.</param>
-        public HeightPlateau(Terrain terrain, EngineTerrain engineTerrain, SimpleEventHandler refreshHandler)
+        public HeightPlateau(Terrain terrain, EngineTerrain engineTerrain, Action refreshHandler)
             : base(terrain, engineTerrain, refreshHandler + (() => terrain.LightAngleMapsOutdated = true)) // Mark the shadow maps for update
         {}
 

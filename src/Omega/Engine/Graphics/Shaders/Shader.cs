@@ -512,7 +512,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="sceneSize">The size of the scene on the screen - leave empty for fullscreen</param>
         /// <param name="sceneMap">A texture containing the rendered scene for <see cref="PostShader"/>), <see langword="null"/> if the shader doesn't need it</param>
         /// <param name="passScipt">Is this a pass script?</param>
-        protected void ExecuteScript(IEnumerable<SasScriptCommand> script, SimpleEventHandler render, Size sceneSize, RenderTarget sceneMap, bool passScipt)
+        protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action render, Size sceneSize, RenderTarget sceneMap, bool passScipt)
         {
             if (script == null) throw new ArgumentNullException("script");
 
@@ -672,7 +672,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// </summary>
         /// <param name="script">A list of script commands</param>
         /// <param name="render">The render delegate (is called once for every shader pass); <see langword="null"/> for global script</param>
-        protected void ExecuteScript(IEnumerable<SasScriptCommand> script, SimpleEventHandler render)
+        protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action render)
         {
             ExecuteScript(script, render, new Size(), null);
         }
@@ -684,7 +684,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="render">The render delegate (is called once for every shader pass); <see langword="null"/> for global script</param>
         /// <param name="sceneSize">The size of the scene on the screen - leave empty for fullscreen</param>
         /// <param name="sceneMap">A texture containing the rendered scene for <see cref="PostShader"/>), <see langword="null"/> if the shader doesn't need it</param>
-        protected void ExecuteScript(IEnumerable<SasScriptCommand> script, SimpleEventHandler render, Size sceneSize, RenderTarget sceneMap)
+        protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action render, Size sceneSize, RenderTarget sceneMap)
         {
             ExecuteScript(script, render, sceneSize, sceneMap, false);
 

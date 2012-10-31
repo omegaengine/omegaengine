@@ -109,7 +109,7 @@ namespace OmegaEngine
             #endregion
 
             // Backup PostRender delegate and deactiavte it
-            SimpleEventHandler postRender = PreRender;
+            Action postRender = PreRender;
             PreRender = null;
 
             // Setup frame for logging and render it

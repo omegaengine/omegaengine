@@ -45,7 +45,7 @@ namespace AlphaEditor.World.TerrainModifiers
         /// <param name="engineTerrain">The <see cref="EngineTerrain"/> to live-update while modifying.</param>
         /// <param name="refreshHandler">Called when the <see cref="Presenter"/> needs to be reset.</param>
         /// <param name="sigma">The standard deviation of the Gaussian distribution.</param>
-        public HeightSmooth(Terrain terrain, EngineTerrain engineTerrain, SimpleEventHandler refreshHandler, double sigma)
+        public HeightSmooth(Terrain terrain, EngineTerrain engineTerrain, Action refreshHandler, double sigma)
             : base(terrain, engineTerrain, refreshHandler)
         {
             _kernel = MathUtils.GaussKernel(sigma, Math.Max(3, (int)(6 * sigma) - 1));
@@ -128,9 +128,11 @@ namespace AlphaEditor.World.TerrainModifiers
         private double GetFiltered(MapAction<int, byte> getValue)
         {
             double result = 0;
+            // ReSharper disable LoopCanBeConvertedToQuery
             for (int i = 0; i < _kernel.Length; i++)
                 result += _kernel[i] * getValue(i - _kernel.Length / 2);
             return result;
+            // ReSharper restore LoopCanBeConvertedToQuery
         }
         #endregion
     }

@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-using Common;
+using System;
 using Common.Undo;
 using World;
 
@@ -36,7 +36,7 @@ namespace AlphaEditor.World.Commands
         private readonly int _templateIndex;
         private string _oldTemplateName;
         private readonly string _newTemplateName;
-        private readonly SimpleEventHandler _refreshHandler;
+        private readonly Action _refreshHandler;
         #endregion
 
         #region Constructor
@@ -47,7 +47,7 @@ namespace AlphaEditor.World.Commands
         /// <param name="templateIndex">The index in <see cref="Terrain.Templates"/> to set.</param>
         /// <param name="templateName">The name of the new <see cref="TerrainTemplate"/> to set.</param>
         /// <param name="refreshHandler">Called when the <see cref="Terrain"/> needs to be reset.</param>
-        public ChangeTerrainTemplate(Terrain terrain, int templateIndex, string templateName, SimpleEventHandler refreshHandler)
+        public ChangeTerrainTemplate(Terrain terrain, int templateIndex, string templateName, Action refreshHandler)
         {
             _terrain = terrain;
             _templateIndex = templateIndex;

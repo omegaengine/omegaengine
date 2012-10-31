@@ -39,7 +39,7 @@ namespace AlphaEditor.World.Commands
         private readonly Terrain _terrain;
         private readonly Point _start;
         private readonly byte[,] _oldPartialData, _newPartialData;
-        private readonly SimpleEventHandler _refreshHandler;
+        private readonly Action _refreshHandler;
         #endregion
 
         #region Constructor
@@ -51,7 +51,7 @@ namespace AlphaEditor.World.Commands
         /// <param name="oldPartialData">The height-map data of the area before it was modified. Do not modify this array after calling this method!</param>
         /// <param name="newPartialData">The height-map data of the area after it was modified. Do not modify this array after calling this method!</param>
         /// <param name="refreshHandler">Called when the <see cref="Presenter"/> needs to be reset.</param>
-        public ModifyHeightMap(Terrain terrain, Point offset, byte[,] oldPartialData, byte[,] newPartialData, SimpleEventHandler refreshHandler)
+        public ModifyHeightMap(Terrain terrain, Point offset, byte[,] oldPartialData, byte[,] newPartialData, Action refreshHandler)
         {
             #region Sanity checks
             if (terrain == null) throw new ArgumentNullException("terrain");

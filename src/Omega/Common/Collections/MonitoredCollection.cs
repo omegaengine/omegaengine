@@ -40,7 +40,7 @@ namespace Common.Collections
         /// Occurs whenever something in the collection changes.
         /// </summary>
         [Description("Occurs whenever something in the collection changes.")]
-        public event SimpleEventHandler Changed;
+        public event Action Changed;
 
         /// <summary>
         /// Occurs when a new item has just been added to the collection.

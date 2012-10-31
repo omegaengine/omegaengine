@@ -378,7 +378,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="material">The material to apply to everything rendered.</param>
         /// <param name="camera">The currently effective <see cref="Camera"/>.</param>
         /// <param name="lights">The currently effective <see cref="LightSource"/>s.</param>
-        protected void RenderHelper(SimpleEventHandler render, XMaterial material, Camera camera, LightSource[] lights)
+        protected void RenderHelper(Action render, XMaterial material, Camera camera, LightSource[] lights)
         {
             #region Sanity checks
             if (render == null) throw new ArgumentNullException("render");

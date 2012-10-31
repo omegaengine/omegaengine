@@ -848,7 +848,7 @@ namespace AlphaEditor.World
                 {
                     // Delay presenter reset until after the input event handling has finished,
                     // otherwise there would be an exception since resetting the presenter removes all input handlers
-                    SimpleEventHandler invokeResetPresenter = () => BeginInvoke((SimpleEventHandler)ResetPresenter);
+                    Action invokeResetPresenter = () => BeginInvoke((Action)ResetPresenter);
 
                     if (radioHeightRaise.Checked)
                         _mapModifier = new TerrainModifiers.HeightShift(_universe.Terrain, _presenter.Terrain, invokeResetPresenter, (short)upDownHeightStrength.Value);

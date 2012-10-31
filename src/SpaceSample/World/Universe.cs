@@ -16,7 +16,7 @@ namespace World
         /// Occurs when <see cref="Skybox"/> was changed.
         /// </summary>
         [Description("Occurs when Skybox was changed")]
-        public event SimpleEventHandler SkyboxChanged;
+        public event Action SkyboxChanged;
         #endregion
 
         #region Constants

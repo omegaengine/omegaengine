@@ -141,7 +141,7 @@ namespace OmegaEngine.Graphics
         /// Renders the content of a delegate to this texture
         /// </summary>
         /// <param name="render">The content to be rendered</param>
-        internal void RenderTo(SimpleEventHandler render)
+        internal void RenderTo(Action render)
         {
             #region Sanity checks
             if (Disposed) throw new ObjectDisposedException(ToString());

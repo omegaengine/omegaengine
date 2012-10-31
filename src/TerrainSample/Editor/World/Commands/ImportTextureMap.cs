@@ -20,8 +20,8 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Diagnostics.CodeAnalysis;
-using Common;
 using World;
 
 namespace AlphaEditor.World.Commands
@@ -38,7 +38,7 @@ namespace AlphaEditor.World.Commands
         /// <param name="terrain">The <see cref="Terrain"/> to load new texture-map data into.</param>
         /// <param name="fileName">The file to load the texture-map data from.</param>
         /// <param name="refreshHandler">Called when the <see cref="Terrain"/> needs to be reset.</param>
-        public ImportTextureMap(Terrain terrain, string fileName, SimpleEventHandler refreshHandler) : base(terrain, fileName, refreshHandler)
+        public ImportTextureMap(Terrain terrain, string fileName, Action refreshHandler) : base(terrain, fileName, refreshHandler)
         {}
         #endregion
 

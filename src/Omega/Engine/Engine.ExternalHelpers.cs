@@ -64,7 +64,7 @@ namespace OmegaEngine
             bool negative = start > target;
 
             Stopwatch interpolationTimer = null;
-            SimpleEventHandler interpolate = null;
+            Action interpolate = null;
             interpolate = delegate
             {
                 double value;
@@ -169,7 +169,7 @@ namespace OmegaEngine
                 throw new ArgumentException(Resources.InvalidScreenshotSize, "size");
 
             // Backup PostRender delegate and deactiavte it
-            SimpleEventHandler postRender = PreRender;
+            Action postRender = PreRender;
             PreRender = null;
 
             var sizeBackup = new Size();

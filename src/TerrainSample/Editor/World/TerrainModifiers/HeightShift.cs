@@ -45,7 +45,7 @@ namespace AlphaEditor.World.TerrainModifiers
         /// <param name="engineTerrain">The <see cref="EngineTerrain"/> to live-update while modifying.</param>
         /// <param name="refreshHandler">Called when the <see cref="Presenter"/> needs to be reset.</param>
         /// <param name="diff">The value by which the terrain height is to be shifted.</param>
-        public HeightShift(Terrain terrain, EngineTerrain engineTerrain, SimpleEventHandler refreshHandler, short diff)
+        public HeightShift(Terrain terrain, EngineTerrain engineTerrain, Action refreshHandler, short diff)
             : base(terrain, engineTerrain, refreshHandler)
         {
             _diff = diff;

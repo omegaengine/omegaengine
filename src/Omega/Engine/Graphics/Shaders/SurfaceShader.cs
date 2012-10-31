@@ -125,7 +125,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="render">The render delegate (is called once for every shader pass)</param>
         /// <param name="lights">An array of all lights this shader should consider; <see langword="null"/> for no lighting</param>
         /// <param name="material">The material to be used by this shader; <see langword="null"/> for device texture</param>
-        protected virtual void RunPasses(SimpleEventHandler render, LightSource[] lights, XMaterial material)
+        protected virtual void RunPasses(Action render, LightSource[] lights, XMaterial material)
         {
             #region Sanity checks
             if (render == null) throw new ArgumentNullException("render");
@@ -158,7 +158,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="camera">The camera for transformation information</param>
         /// <param name="lights">An array of all lights this shader should consider; <see langword="null"/> for no lighting</param>
         [SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode", Justification = "Default parameters are set via a huge set of cascading switch-statements.")]
-        internal virtual void Apply(SimpleEventHandler render, XMaterial material, Camera camera, LightSource[] lights)
+        internal virtual void Apply(Action render, XMaterial material, Camera camera, LightSource[] lights)
         {
             #region Sanity checks
             if (Disposed) throw new ObjectDisposedException(ToString());

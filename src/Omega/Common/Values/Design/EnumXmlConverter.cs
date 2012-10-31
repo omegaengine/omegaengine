@@ -41,8 +41,6 @@ namespace Common.Values.Design
     {
         private static object GetEnumFromString(string stringValue)
         {
-            if (stringValue == "") throw new ArgumentNullException();
-
             foreach (var field in typeof(T).GetFields())
             {
                 var attributes = (XmlEnumAttribute[])field.GetCustomAttributes(typeof(XmlEnumAttribute), false);
@@ -71,7 +69,7 @@ namespace Common.Values.Design
         {
             var enumValue = value as Enum;
             if (enumValue != null && destinationType == typeof(string))
-                return AttributeUtils.GetEnumAttributeValue((Enum)value, (XmlEnumAttribute attribute) => attribute.Name);
+                return ((Enum)value).GetEnumAttributeValue((XmlEnumAttribute attribute) => attribute.Name);
             return base.ConvertTo(context, culture, value, destinationType);
         }
     }

@@ -288,7 +288,7 @@ namespace OmegaEngine.Graphics.Renderables
                 // ReSharper disable AccessToModifiedClosure
                 using (new ProfilerEvent(() => "Subset " + i))
                 {
-                    SimpleEventHandler renderSubset = () => Mesh.DrawSubset(i);
+                    Action renderSubset = () => Mesh.DrawSubset(i);
 
                     if (SurfaceEffect >= SurfaceEffect.Glow)
                     {
