@@ -13,5 +13,8 @@ function applyProperties($items)
 }
 
 # Apply properties to all content files added to the Visual Studio project by the NuGet package
+applyProperties($project.ProjectItems.Item("libogg.dll"))
+applyProperties($project.ProjectItems.Item("vorbis.dll"))
+applyProperties($project.ProjectItems.Item("vorbisfile.dll"))
 applyProperties($project.ProjectItems.Item("content"))
 applyProperties($project.ProjectItems.Item("Shaders"))
