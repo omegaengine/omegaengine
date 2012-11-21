@@ -68,7 +68,8 @@ namespace Common.Controls
                 labelProgress.Task = task;
                 task.StateChanged += OnTaskStateChanged;
 
-                task.Start();
+                // Note: Must perform task start on a separate thread because it might send messages back to the GUI thread (which therefore must not be blocked)
+                new Thread(task.Start).Start();
             };
 
             bool cancellationStarted = false;
@@ -99,6 +100,10 @@ namespace Common.Controls
         public void OnTaskStateChanged(ITask sender)
             // ReSharper restore MemberCanBePrivate.Global
         {
+            #region Sanity checks
+            if (sender == null) throw new ArgumentNullException("sender");
+            #endregion
+
             // Close window when the task has been completed or cancelled (and thus become ready again)
             if (sender.State >= TaskState.Complete || sender.State == TaskState.Ready) Invoke(new Action(Close));
         }

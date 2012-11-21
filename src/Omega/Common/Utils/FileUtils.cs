@@ -50,24 +50,6 @@ namespace Common.Utils
         }
 
         /// <summary>
-        /// Works like <see cref="Path.Combine"/> but supports an arbitrary number of arguments.
-        /// </summary>
-        /// <returns><see langword="null"/> if <paramref name="parts"/> was <see langword="null"/> or empty.</returns>
-        /// <exception cref="ArgumentException">Thrown if any of the <paramref name="parts"/> contains charachters <see cref="Path.GetInvalidPathChars"/>.</exception>
-        public static string PathCombine(params string[] parts)
-        {
-            if (parts == null || parts.Length == 0) return null;
-
-            string temp = parts[0];
-            for (int i = 1; i < parts.Length; i++)
-            {
-                if (parts[i] != null)
-                    temp = Path.Combine(temp, parts[i]);
-            }
-            return temp;
-        }
-
-        /// <summary>
         /// Determines whether a path might escape its parent directory (by being absolute or using ..).
         /// </summary>
         public static bool IsBreakoutPath(string path)
@@ -169,7 +151,7 @@ namespace Common.Utils
         /// Copies the content of a directory to a new location preserving the original file modification times.
         /// </summary>
         /// <param name="sourcePath">The path of source directory. Must exist!</param>
-        /// <param name="destinationPath">The path of the target directory. Must not exist!</param>
+        /// <param name="destinationPath">The path of the target directory. May exist. Must be empty if <paramref name="overwrite"/> is <see langword="false"/>.</param>
         /// <param name="preserveDirectoryModificationTime"><see langword="true"/> to preserve the modification times for directories as well; <see langword="false"/> to preserve only the file modification times.</param>
         /// <param name="overwrite">Overwrite exisiting files and directories at the <paramref name="destinationPath"/>.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="sourcePath"/> and <paramref name="destinationPath"/> are equal.</exception>
@@ -181,11 +163,15 @@ namespace Common.Utils
             if (string.IsNullOrEmpty(sourcePath)) throw new ArgumentNullException("sourcePath");
             if (string.IsNullOrEmpty(destinationPath)) throw new ArgumentNullException("destinationPath");
             if (sourcePath == destinationPath) throw new ArgumentException(Resources.SourceDestinationEqual);
-            if (!Directory.Exists(sourcePath)) throw new DirectoryNotFoundException(Resources.SourceDirNotExist);
-            if (!overwrite && Directory.Exists(destinationPath)) throw new IOException(Resources.DestinationDirExist);
             #endregion
 
-            if (!Directory.Exists(destinationPath)) Directory.CreateDirectory(destinationPath);
+            if (!Directory.Exists(sourcePath)) throw new DirectoryNotFoundException(Resources.SourceDirNotExist);
+            if (Directory.Exists(destinationPath))
+            { // Fail if overwrite is off but the target directory already exists and contains elements
+                if (!overwrite && Directory.GetFileSystemEntries(destinationPath).Length > 0)
+                    throw new IOException(Resources.DestinationDirExist);
+            }
+            else Directory.CreateDirectory(destinationPath);
 
             // Copy individual files
             foreach (string sourceSubPath in Directory.GetFiles(sourcePath))
@@ -313,7 +299,37 @@ namespace Common.Utils
 
 #if FS_SECURITY
 
-        #region Permssions
+        #region ACLs
+        /// <summary>
+        /// Removes any custom ACLs a user may have set, restores ACL inheritance and sets the Administrators group as the owner.
+        /// </summary>
+        public static void ResetAcl(this DirectoryInfo directoryInfo)
+        {
+            directoryInfo.WalkDirectory(
+                dir => ResetAcl(dir.GetAccessControl, dir.SetAccessControl),
+                file => ResetAcl(file.GetAccessControl, file.SetAccessControl));
+        }
+
+        /// <summary>
+        /// Helper method for <see cref="ResetAcl(DirectoryInfo)"/>.
+        /// </summary>
+        private static void ResetAcl<T>(Func<T> getAcl, Action<T> setAcl) where T : FileSystemSecurity
+        {
+            // Give ownership to administrators
+            var acl = getAcl();
+            acl.SetOwner(new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid, null));
+            setAcl(acl);
+
+            // Inherit rules from container and remove any custom rules
+            acl = getAcl();
+            acl.SetAccessRuleProtection(false, true);
+            foreach (FileSystemAccessRule rule in acl.GetAccessRules(true, false, typeof(NTAccount)))
+                acl.RemoveAccessRule(rule);
+            setAcl(acl);
+        }
+        #endregion
+
+        #region Write protection
         /// <summary>
         /// Uses the best means the current platform provides to prevent further write access to a directory (read-only attribute, ACLs, Unix octals, etc.).
         /// </summary>

@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Common.Properties;
 using Common.Utils;
 
 namespace Common
@@ -74,17 +75,16 @@ namespace Common
             {
                 result = WindowsUtils.CreateMutex("Global\\" + name, out handle);
             }
-            catch (Win32Exception ex)
-            {
-                Log.Warn(ex.Message);
-            }
+            catch (Win32Exception)
+            {}
             try
             {
                 result |= WindowsUtils.CreateMutex(name, out handle);
             }
             catch (Win32Exception ex)
             {
-                Log.Warn(ex.Message);
+                Log.Warn(Resources.UnableToCreateMutex);
+                Log.Warn(ex);
             }
 
             return result;

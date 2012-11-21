@@ -61,7 +61,7 @@ namespace Common.Controls
         #endregion
 
         #region Event handlers
-        private void AsyncWaitDialog_Shown(object sender, System.EventArgs e)
+        private void AsyncWaitDialog_Shown(object sender, EventArgs e)
         {
             WindowsUtils.SetProgressState(Handle, WindowsUtils.TaskbarProgressBarState.Indeterminate);
         }
@@ -79,6 +79,7 @@ namespace Common.Controls
         public void Start()
         {
             _thread.Start();
+            _handleReady.WaitOne();
             Application.DoEvents();
         }
 
@@ -87,9 +88,6 @@ namespace Common.Controls
         /// </summary>
         public void Stop()
         {
-            // Window must have finished opening before it can be closed again
-            _handleReady.WaitOne();
-
             Invoke(new Action(Close));
             _thread.Join();
         }

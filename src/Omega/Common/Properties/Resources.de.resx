@@ -123,14 +123,14 @@
   <data name="ArgMustBeGreaterThanZero" xml:space="preserve">
     <value>Das Argument muss größer als Null sein.</value>
   </data>
-  <data name="Back" xml:space="preserve">
-    <value>Zurück</value>
-  </data>
   <data name="ArgMustNotBeNegative" xml:space="preserve">
     <value>Das Argument darf nicht kleiner als null sein.</value>
   </data>
   <data name="AtLeast2Values" xml:space="preserve">
     <value>Sie müssen mindestens zwei Werte übergeben.</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Zurück</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Abbrechen</value>
@@ -152,6 +152,9 @@
   </data>
   <data name="ErrorReportSent" xml:space="preserve">
     <value>Der Fehlerbericht wurde erfolgreich versendet.</value>
+  </data>
+  <data name="FailedToRollback" xml:space="preserve">
+    <value>Konnte '{0}' nicht rückgängig machen.</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
     <value>Die Datei "{0}" konnte nicht gefunden werden.</value>
@@ -206,11 +209,11 @@ Die Änderungen löschen</value>
   <data name="NoModActive" xml:space="preserve">
     <value>Derzeit ist kein Mod aktiv.</value>
   </data>
-  <data name="NotFoundGameContentFile" xml:space="preserve">
-    <value>Die folgende Spieldaten-Datei konnte nicht gefunden werden:</value>
-  </data>
   <data name="NotFoundGameContentDir" xml:space="preserve">
     <value>Der Spielcontent-Ordner konnte nicht gefunden werden:</value>
+  </data>
+  <data name="NotFoundGameContentFile" xml:space="preserve">
+    <value>Die folgende Spieldaten-Datei konnte nicht gefunden werden:</value>
   </data>
   <data name="NotFoundModContentDir" xml:space="preserve">
     <value>Der Mod-Ordner konnte nicht gefunden werden:</value>
@@ -265,6 +268,9 @@ Die Änderungen löschen</value>
   </data>
   <data name="TargetsOldValuesLength" xml:space="preserve">
     <value>Length von targets muss gleich Length von oldValues sein</value>
+  </data>
+  <data name="UnableToCreateMutex" xml:space="preserve">
+    <value>Konnte Mutex nicht erstellen.</value>
   </data>
   <data name="UnableToDelete" xml:space="preserve">
     <value>Die Datei konnte nicht gelöscht werden.</value>

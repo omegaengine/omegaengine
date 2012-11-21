@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Common.Properties;
 
 namespace Common.Collections
 {
@@ -36,7 +37,9 @@ namespace Common.Collections
         /// <summary>
         /// Returns the first element in a list or throws a custom exception if no element exists.
         /// </summary>
-        public static T First<T>(this IEnumerable<T> source, Exception noneException) where T : class
+        /// <param name="source">The list to get the first element from.</param>
+        /// <param name="noneException">Callback to retreive hte exception to be thrown if no element exists.</param>
+        public static T First<T>(this IEnumerable<T> source, Func<Exception> noneException) where T : class
         {
             #region Sanity checks
             if (source == null) throw new ArgumentNullException("source");
@@ -44,14 +47,17 @@ namespace Common.Collections
             #endregion
 
             var result = source.FirstOrDefault();
-            if (result == null) throw noneException;
+            if (result == null) throw noneException();
             return result;
         }
 
         /// <summary>
         /// Returns the first element in a list or that matches a predicate or throws a custom exception if no such element exists.
         /// </summary>
-        public static T First<T>(this IEnumerable<T> source, Func<T, bool> predicate, Exception noneException) where T : class
+        /// <param name="source">The list to get the first element from.</param>
+        /// <param name="predicate">The predicate the element must match.</param>
+        /// <param name="noneException">Callback to retreive hte exception to be thrown if no element exists.</param>
+        public static T First<T>(this IEnumerable<T> source, Func<T, bool> predicate, Func<Exception> noneException) where T : class
         {
             #region Sanity checks
             if (source == null) throw new ArgumentNullException("source");
@@ -60,7 +66,7 @@ namespace Common.Collections
             #endregion
 
             var result = source.FirstOrDefault(predicate);
-            if (result == null) throw noneException;
+            if (result == null) throw noneException();
             return result;
         }
         #endregion
@@ -182,7 +188,8 @@ namespace Common.Collections
                     catch (Exception ex)
                     {
                         // Suppress exceptions during rollback since they would hide the actual exception that caused the rollback in the first place
-                        Log.Error("Failed to rollback " + element + ":\n" + ex.Message);
+                        Log.Error(string.Format(Resources.FailedToRollback, element));
+                        Log.Error(ex);
                     }
                 }
 
