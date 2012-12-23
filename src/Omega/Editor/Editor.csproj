@@ -32,7 +32,7 @@
     <BaseAddress>2751463424</BaseAddress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugSymbols>false</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\build\Release\</OutputPath>
