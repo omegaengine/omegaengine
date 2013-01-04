@@ -234,6 +234,15 @@
     <Compile Include="Controls\TimeSpanControl.Designer.cs">
       <DependentUpon>TimeSpanControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\EditDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\EditDialog.Designer.cs">
+      <DependentUpon>EditDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ResettablePropertyGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\AngleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

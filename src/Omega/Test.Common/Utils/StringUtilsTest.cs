@@ -113,6 +113,12 @@ namespace Common.Utils
         }
 
         [Test]
+        public void TestRemoveAll()
+        {
+            Assert.AreEqual("ac", "abcd".RemoveAll("bd"));
+        }
+
+        [Test]
         public void TestEscapeArgument()
         {
             Assert.AreEqual("test", "test".EscapeArgument(), "Simple strings shouldn't be modified");
@@ -162,6 +168,18 @@ namespace Common.Utils
         {
             const string sha1ForEmptyString = "da39a3ee5e6b4b0d3255bfef95601890afd80709";
             Assert.AreEqual(sha1ForEmptyString, "".Hash(SHA1.Create()));
+        }
+
+        [Test]
+        public void TestGeneratePassword()
+        {
+            for (int i = 0; i < 128; i++)
+            {
+                string result = StringUtils.GeneratePassword(i);
+                Assert.That(result, Is.Not.StringContaining("="));
+                Assert.That(result, Is.Not.StringContaining("l"));
+                Assert.AreEqual(result.Length, i);
+            }
         }
 
         [Test]

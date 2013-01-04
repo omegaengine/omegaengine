@@ -20,29 +20,28 @@
  * THE SOFTWARE.
  */
 
-using NUnit.Framework;
+using System.Windows.Forms;
+using Common.Properties;
 
-namespace Common.Collections
+namespace Common.Controls
 {
     /// <summary>
-    /// Contains test methods for <see cref="ComparableTuple{T}"/>.
+    /// A <see cref="PropertyGrid"/> that provides a "reset value" option in its context menu.
     /// </summary>
-    [TestFixture]
-    public class ComparableTupleTest
+    public sealed class ResettablePropertyGrid : PropertyGrid
     {
-        [Test(Description = "Ensures tuples are compared correctly.")]
-        public void TestComparTo()
+        public ResettablePropertyGrid()
         {
-            var tuple1 = new ComparableTuple<int>(1, 1);
-            var tuple2 = new ComparableTuple<int>(1, 2);
-            var tuple3 = new ComparableTuple<int>(2, 1);
+            var menuItem = new ToolStripMenuItem {Text = Resources.ResetValue};
+            menuItem.Click += delegate { ResetSelectedProperty(); };
+            ContextMenuStrip = new ContextMenuStrip {Items = {menuItem}};
 
-            Assert.AreEqual(tuple1, tuple1);
-
-            Assert.That(tuple1, Is.LessThan(tuple2));
-            Assert.That(tuple2, Is.LessThan(tuple3));
-            Assert.That(tuple3, Is.GreaterThan(tuple2));
-            Assert.That(tuple2, Is.GreaterThan(tuple1));
+            SelectedGridItemChanged += delegate { menuItem.Enabled = CanResetSelectedProperty; };
         }
+
+        /// <summary>
+        /// Indicates whether <see cref="PropertyGrid.ResetSelectedProperty"/> will work.
+        /// </summary>
+        public bool CanResetSelectedProperty { get { return SelectedGridItem != null && SelectedGridItem.PropertyDescriptor != null && SelectedGridItem.PropertyDescriptor.CanResetValue(SelectedGridItem.Parent.Value); } }
     }
 }
