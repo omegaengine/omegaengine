@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <version>0.8.3</version>
+    <authors>Bastian Eicher</authors>
+    <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
+    <projectUrl>http://code.google.com/p/omegaengine/</projectUrl>
+    <iconUrl>http://omega.nanobyte.de/images/icon_omega.png</iconUrl>
+    <dependencies>
+      <dependency id="OmegaEngine.Helpers" version="0.8.3" />
+    </dependencies>
+    <references>
+      <reference file="OmegaEngine.dll" />
+    </references>
+    <id>OmegaEngine.Backend</id>
+    <description>This package contains the actual library binaries for the OmegaEngine without external resources. It is automatically included by the main package. You can reference this directly if another project in your solution with the same build output directory already references the main package.</description>
+    <summary>Library binaries for the OmegaEngine without external resources, automatically included by the main package</summary>
+  </metadata>
+  <files>
+    <file src="..\build\ReleaseSDK\de\OmegaEngine.resources.dll" target="lib\net20\de\OmegaEngine.resources.dll" />
+    <file src="..\build\ReleaseSDK\OggVorbisDecoder.dll" target="lib\net20\OggVorbisDecoder.dll" />
+    <file src="..\build\ReleaseSDK\OmegaEngine.dll" target="lib\net20\OmegaEngine.dll" />
+    <file src="..\build\ReleaseSDK\OmegaEngine.pdb" target="lib\net20\OmegaEngine.pdb" />
+    <file src="..\build\ReleaseSDK\OmegaEngine.xml" target="lib\net20\OmegaEngine.xml" />
+  </files>
+</package>

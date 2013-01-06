@@ -140,7 +140,7 @@ namespace AlphaEditor
             // Add additional arguments
             if (!string.IsNullOrEmpty(arguments)) param += " " + arguments;
 
-            // Launch the game and prevent NanoGrid from hooking in (would be a waste of time)
+            // Launch the game
             Process.Start(new ProcessStartInfo(Path.Combine(Locations.InstallBase, GeneralSettings.AppNameShort + ".exe"), param));
         }
         #endregion

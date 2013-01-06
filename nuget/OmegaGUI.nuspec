@@ -7,7 +7,7 @@
     <projectUrl>http://code.google.com/p/omegaengine/wiki/OmegaGUI</projectUrl>
     <iconUrl>http://omega.nanobyte.de/images/icon_omega.png</iconUrl>
     <dependencies>
-      <dependency id="OmegaEngine" version="0.8.3" />
+      <dependency id="OmegaEngine.Backend" version="0.8.3" />
     </dependencies>
     <references>
       <reference file="OmegaGUI.dll" />
@@ -18,13 +18,9 @@
     <summary>Skinable GUI toolkit for the OmegaEngine</summary>
   </metadata>
   <files>
-    <file src="..\content\GUI\Textures\base.png" target="content\content\GUI\Textures\base.png" />
-    <file src="..\content\GUI\Textures\logo.png" target="content\content\GUI\Textures\logo.png" />
-    <file src="..\content\GUI\Textures\Texture file layout.txt" target="content\content\GUI\Textures\Texture file layout.txt" />
     <file src="..\build\ReleaseSDK\de\OmegaGUI.resources.dll" target="lib\net20\de\OmegaGUI.resources.dll" />
     <file src="..\build\ReleaseSDK\OmegaGUI.dll" target="lib\net20\OmegaGUI.dll" />
     <file src="..\build\ReleaseSDK\OmegaGUI.pdb" target="lib\net20\OmegaGUI.pdb" />
     <file src="..\build\ReleaseSDK\OmegaGUI.xml" target="lib\net20\OmegaGUI.xml" />
-    <file src="install.ps1" target="tools\install.ps1" />
   </files>
 </package>

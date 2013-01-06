@@ -7,7 +7,7 @@
     <projectUrl>http://code.google.com/p/omegaengine/wiki/AlphaEditor</projectUrl>
     <iconUrl>http://omega.nanobyte.de/images/icon_alpha.png</iconUrl>
     <dependencies>
-      <dependency id="OmegaEngine" version="0.8.3" />
+      <dependency id="OmegaEngine.Backend" version="0.8.3" />
       <dependency id="OmegaGUI" version="0.8.3" />
     </dependencies>
     <references>
@@ -19,11 +19,9 @@ You can use it to create GUI dialogs, maps, particle systems, etc. for your game
     <summary>IDE-like editor for OmegaEngine games (GUI, maps, particle systems, etc.)</summary>
   </metadata>
   <files>
-    <file src="..\content\Meshes\Engine\AxisArrows.x" target="content\content\Meshes\Engine\AxisArrows.x" />
     <file src="..\build\ReleaseSDK\de\AlphaEditor.resources.dll" target="lib\net20\de\AlphaEditor.resources.dll" />
     <file src="..\build\ReleaseSDK\AlphaEditor.dll" target="lib\net20\AlphaEditor.dll" />
     <file src="..\build\ReleaseSDK\AlphaEditor.pdb" target="lib\net20\AlphaEditor.pdb" />
     <file src="..\build\ReleaseSDK\AlphaEditor.xml" target="lib\net20\AlphaEditor.xml" />
-    <file src="install.ps1" target="tools\install.ps1" />
   </files>
 </package>
