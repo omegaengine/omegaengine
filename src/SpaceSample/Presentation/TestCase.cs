@@ -22,8 +22,8 @@
 
 using System;
 using System.Xml.Serialization;
+using Common.Values;
 using Core;
-using OmegaEngine;
 using World;
 
 namespace Presentation

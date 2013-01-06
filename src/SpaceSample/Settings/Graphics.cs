@@ -23,7 +23,7 @@
 using System;
 using System.ComponentModel;
 using Common;
-using OmegaEngine;
+using Common.Values;
 
 namespace Core
 {

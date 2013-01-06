@@ -24,6 +24,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using Common;
+using Common.Values;
 using Core.Properties;
 using LuaInterface;
 using OmegaEngine;

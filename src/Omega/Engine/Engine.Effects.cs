@@ -9,41 +9,11 @@
 using System;
 using Common;
 using Common.Utils;
-using LuaInterface;
+using Common.Values;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine
 {
-
-    #region Enumerations
-    /// <summary>
-    /// A generic enumeration for a three-level quality setting
-    /// </summary>
-    public enum Quality
-    {
-        Low,
-        Medium,
-        High
-    }
-
-    /// <seealso cref="Engine.WaterEffects"/>
-    /// <remarks>Not named WaterEffects because <see cref="Lua"/> can't handle conflicting names as good as C#</remarks>
-    public enum WaterEffectsType
-    {
-        /// <summary>Don't apply any water effects (except simple alpha-blending)</summary>
-        None,
-
-        /// <summary>Refract objects below the water surface</summary>
-        RefractionOnly,
-
-        /// <summary>Refract objects below the water surface and reflect the terrain</summary>
-        ReflectTerrain,
-
-        /// <summary>Refract objects below the water surface and reflect objects above</summary>
-        ReflectAll
-    }
-    #endregion
-
     // This file contains properties that control rendering effects that can be turned on or off
     partial class Engine
     {

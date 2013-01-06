@@ -74,10 +74,6 @@
       <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Omega\Engine\Engine.csproj">
-      <Project>{14E9FED0-4989-482D-85DE-448161A6855E}</Project>
-      <Name>Engine</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ConfigForm.resx">

@@ -169,6 +169,7 @@
     <Compile Include="Values\ColorCorrection.cs" />
     <Compile Include="Values\Design\ColorCorrectionConverter.cs" />
     <Compile Include="Values\ExpandableRectangleArray.cs" />
+    <Compile Include="Values\GraphicsEnums.cs" />
     <Compile Include="Values\Quadrangle.cs" />
     <Compile Include="Values\Design\QuadrangleConverter.cs" />
     <Compile Include="Values\FloatRangeAttribute.cs" />
