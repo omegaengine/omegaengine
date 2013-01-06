@@ -32,7 +32,8 @@
   </WizardExtension>
   <WizardData>
     <packages repository="extension" repositoryId="OmegaEngine_SDK">
-      <package id="OmegaEngine" version="0.8.1" />
+      <package id="OmegaEngine.Common" version="0.8.2" />
+      <package id="OmegaEngine" version="0.8.2" />
     </packages>
   </WizardData>
 </VSTemplate>

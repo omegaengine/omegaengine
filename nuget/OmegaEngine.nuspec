@@ -1,18 +1,15 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>0.1.0</version>
+    <version>0.8.2</version>
     <authors>Bastian Eicher</authors>
     <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
     <projectUrl>http://code.google.com/p/omegaengine/</projectUrl>
     <iconUrl>http://omega.nanobyte.de/images/icon_omega.png</iconUrl>
+    <dependencies>
+      <dependency id="OmegaEngine.Common" version="0.8.2" />
+    </dependencies>
     <references>
-      <reference file="LinqBridge.dll" />
-      <reference file="C5.dll" />
-      <reference file="ICSharpCode.SharpZipLib.dll" />
-      <reference file="LuaInterface.dll" />
-      <reference file="SlimDX.dll" />
-      <reference file="Common.dll" />
       <reference file="OmegaEngine.dll" />
     </references>
     <id>OmegaEngine</id>
@@ -57,27 +54,11 @@ The engine is designed to be light-weight, modular and gameplay-agnostic.</descr
     <file src="..\build\ReleaseSDK\Shaders\Post_Sepia.fxo" target="content\Shaders\Post_Sepia.fxo" />
     <file src="..\build\ReleaseSDK\Shaders\readme.txt" target="content\Shaders\readme.txt" />
     <file src="..\build\ReleaseSDK\Shaders\Water.fxo" target="content\Shaders\Water.fxo" />
-    <file src="..\build\ReleaseSDK\de\Common.resources.dll" target="lib\net20\de\Common.resources.dll" />
     <file src="..\build\ReleaseSDK\de\OmegaEngine.resources.dll" target="lib\net20\de\OmegaEngine.resources.dll" />
-    <file src="..\build\ReleaseSDK\LinqBridge.dll" target="lib\net20\LinqBridge.dll" />
-    <file src="..\build\ReleaseSDK\C5.dll" target="lib\net20\C5.dll" />
-    <file src="..\build\ReleaseSDK\C5.xml" target="lib\net20\C5.xml" />
-    <file src="..\build\ReleaseSDK\Common.dll" target="lib\net20\Common.dll" />
-    <file src="..\build\ReleaseSDK\Common.pdb" target="lib\net20\Common.pdb" />
-    <file src="..\build\ReleaseSDK\Common.xml" target="lib\net20\Common.xml" />
-    <file src="..\build\ReleaseSDK\ICSharpCode.SharpZipLib.dll" target="lib\net20\ICSharpCode.SharpZipLib.dll" />
-    <file src="..\build\ReleaseSDK\ICSharpCode.SharpZipLib.xml" target="lib\net20\ICSharpCode.SharpZipLib.xml" />
-    <file src="..\build\ReleaseSDK\lua51.dll" target="lib\net20\lua51.dll" />
-    <file src="..\build\ReleaseSDK\LuaInterface.dll" target="lib\net20\LuaInterface.dll" />
-    <file src="..\build\ReleaseSDK\LuaInterface.xml" target="lib\net20\LuaInterface.xml" />
     <file src="..\build\ReleaseSDK\OggVorbisDecoder.dll" target="lib\net20\OggVorbisDecoder.dll" />
     <file src="..\build\ReleaseSDK\OmegaEngine.dll" target="lib\net20\OmegaEngine.dll" />
     <file src="..\build\ReleaseSDK\OmegaEngine.pdb" target="lib\net20\OmegaEngine.pdb" />
     <file src="..\build\ReleaseSDK\OmegaEngine.xml" target="lib\net20\OmegaEngine.xml" />
-    <file src="..\build\ReleaseSDK\SlimDX.dll" target="lib\net20\SlimDX.dll" />
-    <file src="..\build\ReleaseSDK\SlimDX.xml" target="lib\net20\SlimDX.xml" />
-    <file src="..\build\ReleaseSDK\TaskDialog.dll" target="lib\net20\TaskDialog.dll" />
-    <file src="..\build\ReleaseSDK\TaskDialog.xml" target="lib\net20\TaskDialog.xml" />
     <file src="install.ps1" target="tools\install.ps1" />
   </files>
 </package>

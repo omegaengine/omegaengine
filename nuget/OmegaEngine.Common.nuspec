@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <version>0.8.2</version>
+    <authors>Bastian Eicher</authors>
+    <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
+    <projectUrl>http://code.google.com/p/omegaengine/</projectUrl>
+    <iconUrl>http://omega.nanobyte.de/images/icon_omega.png</iconUrl>
+    <references>
+      <reference file="LinqBridge.dll" />
+      <reference file="C5.dll" />
+      <reference file="ICSharpCode.SharpZipLib.dll" />
+      <reference file="LuaInterface.dll" />
+      <reference file="SlimDX.dll" />
+      <reference file="Common.dll" />
+    </references>
+    <id>OmegaEngine.Common</id>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Helper classes for the OmegaEngine</description>
+    <summary>Helper classes for the OmegaEngine</summary>
+  </metadata>
+  <files>
+    <file src="..\build\ReleaseSDK\de\Common.resources.dll" target="lib\net20\de\Common.resources.dll" />
+    <file src="..\build\ReleaseSDK\LinqBridge.dll" target="lib\net20\LinqBridge.dll" />
+    <file src="..\build\ReleaseSDK\C5.dll" target="lib\net20\C5.dll" />
+    <file src="..\build\ReleaseSDK\C5.xml" target="lib\net20\C5.xml" />
+    <file src="..\build\ReleaseSDK\Common.dll" target="lib\net20\Common.dll" />
+    <file src="..\build\ReleaseSDK\Common.pdb" target="lib\net20\Common.pdb" />
+    <file src="..\build\ReleaseSDK\Common.xml" target="lib\net20\Common.xml" />
+    <file src="..\build\ReleaseSDK\ICSharpCode.SharpZipLib.dll" target="lib\net20\ICSharpCode.SharpZipLib.dll" />
+    <file src="..\build\ReleaseSDK\ICSharpCode.SharpZipLib.xml" target="lib\net20\ICSharpCode.SharpZipLib.xml" />
+    <file src="..\build\ReleaseSDK\lua51.dll" target="lib\net20\lua51.dll" />
+    <file src="..\build\ReleaseSDK\LuaInterface.dll" target="lib\net20\LuaInterface.dll" />
+    <file src="..\build\ReleaseSDK\LuaInterface.xml" target="lib\net20\LuaInterface.xml" />
+    <file src="..\build\ReleaseSDK\SlimDX.dll" target="lib\net20\SlimDX.dll" />
+    <file src="..\build\ReleaseSDK\SlimDX.xml" target="lib\net20\SlimDX.xml" />
+    <file src="..\build\ReleaseSDK\TaskDialog.dll" target="lib\net20\TaskDialog.dll" />
+    <file src="..\build\ReleaseSDK\TaskDialog.xml" target="lib\net20\TaskDialog.xml" />
+  </files>
+</package>
