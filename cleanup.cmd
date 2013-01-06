@@ -11,8 +11,9 @@ rd /s /q build\Setup > NUL 2>&1
 rd /s /q build\Documentation\working > NUL 2>&1
 del build\Documentation\*.log > NUL 2>&1
 
-rem Clear ReSharper's cache
+rem Clear JetBrains caches
 rd /s /q src\_ReSharper.OmegaEngine > NUL 2>&1
+rd /s /q src\_TeamCity.OmegaEngine > NUL 2>&1
 
 rem Clear caches and per-user preferences
 attrib -h src\*.suo > NUL 2>&1
