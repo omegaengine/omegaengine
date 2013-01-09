@@ -22,7 +22,7 @@ namespace AlphaEditor
         {
             InitializeComponent();
             labelTitle.Text = AssemblyTitle;
-            labelVersion.Text = "Version " + AssemblyVersion;
+            labelVersion.Text = @"Version " + AssemblyVersion;
             labelCopyright.Text = AssemblyCopyright;
             labelCompanyName.Text = AssemblyCompany;
             textBoxDescription.Text = AssemblyDescription;
@@ -33,7 +33,9 @@ namespace AlphaEditor
         {
             get
             {
-                object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                var assembly = Assembly.GetEntryAssembly();
+                if (assembly == null) return "";
+                object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
                 if (attributes.Length == 0) return "";
                 return ((AssemblyTitleAttribute)attributes[0]).Title;
             }
