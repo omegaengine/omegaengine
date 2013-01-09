@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Editor.Properties
+namespace $safeprojectname$.Properties
 {
 
 

@@ -1,4 +1,4 @@
-﻿namespace Editor
+﻿namespace $safeprojectname$
 {
     partial class MainForm
     {

@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using Common.Storage;
 
-namespace WinForms
+namespace $safeprojectname$
 {
     static class Program
     {

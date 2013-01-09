@@ -8,7 +8,7 @@ using OmegaEngine.Graphics.Renderables;
 using OmegaGUI;
 using OmegaGUI.Model;
 
-namespace Fullscreen
+namespace $safeprojectname$
 {
     class Game : GameBase
     {

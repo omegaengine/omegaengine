@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using Common.Storage;
 
-namespace Fullscreen
+namespace $safeprojectname$
 {
     static class Program
     {

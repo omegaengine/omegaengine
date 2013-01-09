@@ -2,7 +2,7 @@
 using Common;
 using Resources = AlphaEditor.Properties.Resources;
 
-namespace Editor
+namespace $safeprojectname$
 {
     partial class MainForm : MainFormBase
     {

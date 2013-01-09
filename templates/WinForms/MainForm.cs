@@ -8,7 +8,7 @@ using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using View = OmegaEngine.Graphics.View;
 
-namespace WinForms
+namespace $safeprojectname$
 {
     public partial class MainForm : Form
     {

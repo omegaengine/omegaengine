@@ -8,8 +8,8 @@
     <ProjectGuid>{107BAC7B-4C15-4EDC-B10B-5D2B30CD9A08}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Fullscreen</RootNamespace>
-    <AssemblyName>Fullscreen</AssemblyName>
+    <RootNamespace>$safeprojectname$</RootNamespace>
+    <AssemblyName>$safeprojectname$</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -13,16 +13,16 @@
     <Icon>__TemplateIcon.ico</Icon>
   </TemplateData>
   <TemplateContent>
-    <Project TargetFileName="Editor.csproj" File="Editor.csproj" ReplaceParameters="false">
-      <ProjectItem ReplaceParameters="false" TargetFileName="MainForm.cs">MainForm.cs</ProjectItem>
+    <Project TargetFileName="$safeprojectname$.csproj" File="Editor.csproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" TargetFileName="MainForm.cs">MainForm.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="MainForm.Designer.cs">MainForm.Designer.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="false" TargetFileName="Program.cs">Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="Resources.resx">Resources.resx</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="Resources.Designer.cs">Resources.Designer.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Resources.Designer.cs">Resources.Designer.cs</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="Settings.settings">Settings.settings</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="Settings.Designer.cs">Settings.Designer.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Settings.Designer.cs">Settings.Designer.cs</ProjectItem>
       </Folder>
     </Project>
   </TemplateContent>

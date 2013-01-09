@@ -13,7 +13,7 @@ using Common.Storage;
 using OmegaEngine;
 using OmegaGUI.Model;
 
-namespace Editor
+namespace $safeprojectname$
 {
     internal static class Program
     {

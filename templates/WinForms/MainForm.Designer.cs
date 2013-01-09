@@ -1,4 +1,4 @@
-﻿namespace WinForms
+﻿namespace $safeprojectname$
 {
     partial class MainForm
     {
