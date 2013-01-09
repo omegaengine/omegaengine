@@ -17,6 +17,7 @@
       <ProjectItem ReplaceParameters="true" TargetFileName="MainForm.cs">MainForm.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="MainForm.Designer.cs">MainForm.Designer.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="RenderPanel.cs">RenderPanel.cs</ProjectItem>
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="Resources.resx">Resources.resx</ProjectItem>
