@@ -12,6 +12,7 @@ using System.Linq;
 using System.Management;
 using System.Text;
 using Common;
+using Common.Info;
 using Common.Utils;
 using SlimDX.Direct3D9;
 
@@ -42,12 +43,7 @@ namespace OmegaEngine
         /// </summary>
         private void DetermineHardwareInformation()
         {
-            #region OS
-            _hardware.OS.Platform = Environment.OSVersion.Platform;
-            _hardware.OS.Is64Bit = WindowsUtils.Is64BitOperatingSystem;
-            _hardware.OS.Version = Environment.OSVersion.Version.Major + "." + Environment.OSVersion.Version.Minor;
-            _hardware.OS.ServicePack = Environment.OSVersion.ServicePack;
-            #endregion
+            _hardware.OS = OSInfo.Current;
 
             #region CPU
             try

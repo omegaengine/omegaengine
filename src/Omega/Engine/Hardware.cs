@@ -6,14 +6,14 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Globalization;
 using System.Xml.Serialization;
+using Common.Info;
 
 namespace OmegaEngine
 {
     /// <summary>
-    /// Information about the hardware the <see cref="Engine"/> is running on
+    /// Information about the hardware the <see cref="Engine"/> is running on.
     /// </summary>
     /// <seealso cref="Engine.Hardware"/>
     [XmlRoot("hardware")]
@@ -23,7 +23,7 @@ namespace OmegaEngine
         /// The current operating system.
         /// </summary>
         [XmlElement("os")]
-        public HardwareOS OS;
+        public OSInfo OS;
 
         /// <summary>
         /// Details about the CPU.
@@ -50,39 +50,6 @@ namespace OmegaEngine
                 "CPU: " + Cpu + "\n" +
                 "RAM: " + string.Format(CultureInfo.InvariantCulture, "{0} MB", Ram) + "\n" +
                 "GPU: " + Gpu;
-        }
-    }
-
-    /// <seealso cref="Hardware.OS"/>
-    public struct HardwareOS
-    {
-        /// <summary>
-        /// The operating system platform (e.g. Windows NT).
-        /// </summary>
-        [XmlAttribute("platform")]
-        public PlatformID Platform;
-
-        /// <summary>
-        /// True if the operating system is a 64-bit version of Windows.
-        /// </summary>
-        [XmlAttribute("is64bit")]
-        public bool Is64Bit;
-
-        /// <summary>
-        /// The version of the operating system (e.g. 6.0 for Vista).
-        /// </summary>
-        [XmlAttribute("version")]
-        public string Version;
-
-        /// <summary>
-        /// The service pack level (e.g. "Service Pack 1").
-        /// </summary>
-        [XmlAttribute("service-pack")]
-        public string ServicePack;
-
-        public override string ToString()
-        {
-            return Platform + " " + (Is64Bit ? "64-bit " : "") + Version + " " + ServicePack;
         }
     }
 
