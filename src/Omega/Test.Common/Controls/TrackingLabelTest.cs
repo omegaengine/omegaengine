@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2006-2012 Bastian Eicher
+ * Copyright 2006-2013 Bastian Eicher
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,10 +44,10 @@ namespace Common.Controls
             {
                 _label = new TrackingLabel();
             }
-            catch (TypeInitializationException ex)
+            catch (TypeInitializationException)
             {
                 // Don't fail on headless systems
-                Assert.Ignore("Cannot test GUI on headless systems", ex);
+                Assert.Ignore("Cannot test GUI on headless systems");
             }
         }
 

@@ -10,7 +10,7 @@ using System.Security.Permissions;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NanoByte")]
 [assembly: AssemblyProduct("Towers of Hanoi")]
-[assembly: AssemblyCopyright("Copyright 2006-2012 Bastian Eicher")]
+[assembly: AssemblyCopyright("Copyright 2006-2013 Bastian Eicher")]
 [assembly: NeutralResourcesLanguage("en")]
 
 // Version information

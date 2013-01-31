@@ -1,6 +1,6 @@
 /*
  * Copyright Microsoft Cooperation
- * Modifications Copyright 2006-2012 Bastian Eicher
+ * Modifications Copyright 2006-2013 Bastian Eicher
  *
  * This code is based on sample code from the DiretX SDK and as such is placed
  * under the Microsoft Public License.
