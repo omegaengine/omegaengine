@@ -196,26 +196,7 @@ namespace OmegaEngine.Graphics.Renderables
         public static CpuParticlePreset FromContent(string id)
         {
             using (var stream = ContentManager.GetFileStream("Graphics/CpuParticleSystem", id))
-                return XmlStorage.Load<CpuParticlePreset>(stream);
-        }
-
-        /// <summary>
-        /// Loads a preset from an XML file
-        /// </summary>
-        /// <param name="path">The XML file to load</param>
-        /// <returns>The loaded preset</returns>
-        public static CpuParticlePreset Load(string path)
-        {
-            return XmlStorage.Load<CpuParticlePreset>(path);
-        }
-
-        /// <summary>
-        /// Saves this preset in an XML file
-        /// </summary>
-        /// <param name="path">The XML file to save</param>
-        public void Save(string path)
-        {
-            XmlStorage.Save(path, this);
+                return XmlStorage.LoadXml<CpuParticlePreset>(stream);
         }
         #endregion
 

@@ -552,26 +552,7 @@ namespace OmegaGUI.Model
         public static Dialog FromContent(string id)
         {
             using (var stream = ContentManager.GetFileStream("GUI", id))
-                return XmlStorage.Load<Dialog>(stream);
-        }
-
-        /// <summary>
-        /// Loads a dialog from an XML file
-        /// </summary>
-        /// <param name="path">The file to load from</param>
-        /// <returns>The loaded dialog</returns>
-        public static Dialog Load(string path)
-        {
-            return XmlStorage.Load<Dialog>(path);
-        }
-
-        /// <summary>
-        /// Saves this dialog in an XML file
-        /// </summary>
-        /// <param name="path">The file to save in</param>
-        public void Save(string path)
-        {
-            XmlStorage.Save(path, this);
+                return XmlStorage.LoadXml<Dialog>(stream);
         }
         #endregion
 

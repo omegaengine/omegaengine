@@ -46,7 +46,7 @@ namespace Common.Storage
         // ReSharper restore MemberCanBePrivate.Global
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.Save{T}(Stream,T,MemberInfo[])"/> and <see cref="XmlStorage.Load{T}(Stream,MemberInfo[])"/> work correctly.
+        /// Ensures <see cref="XmlStorage.SaveXml{T}(T,string,MemberInfo[])"/> and <see cref="XmlStorage.LoadXml{T}(string,MemberInfo[])"/> work correctly.
         /// </summary>
         [Test]
         public void TestFile()
@@ -55,8 +55,8 @@ namespace Common.Storage
             using (var tempFile = new TemporaryFile("unit-tests"))
             {
                 // Write and read file
-                XmlStorage.Save(tempFile.Path, testData1);
-                testData2 = XmlStorage.Load<TestData>(tempFile.Path);
+                testData1.SaveXml(tempFile.Path);
+                testData2 = XmlStorage.LoadXml<TestData>(tempFile.Path);
             }
 
             // Ensure data stayed the same
@@ -64,7 +64,7 @@ namespace Common.Storage
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.Save{T}(Stream,T,MemberInfo[])"/> and <see cref="XmlStorage.Load{T}(Stream,MemberInfo[])"/> work correctly with relative paths.
+        /// Ensures <see cref="XmlStorage.SaveXml{T}(T,string,MemberInfo[])"/> and <see cref="XmlStorage.LoadXml{T}(string,MemberInfo[])"/> work correctly with relative paths.
         /// </summary>
         [Test]
         public void TestFileRelative()
@@ -73,8 +73,8 @@ namespace Common.Storage
             using (new TemporaryDirectory("unit-tests", true))
             {
                 // Write and read file
-                XmlStorage.Save("file.xml", testData1);
-                testData2 = XmlStorage.Load<TestData>("file.xml");
+                testData1.SaveXml("file.xml");
+                testData2 = XmlStorage.LoadXml<TestData>("file.xml");
             }
 
             // Ensure data stayed the same
@@ -82,7 +82,7 @@ namespace Common.Storage
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.ToZip{T}(Stream,T,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> and <see cref="XmlStorage.FromZip{T}(Stream,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> work correctly with no password.
+        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,string,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(string,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> work correctly with no password.
         /// </summary>
         [Test]
         public void TestZipNoPassword()
@@ -90,16 +90,16 @@ namespace Common.Storage
             // Write and read file
             var testData1 = new TestData {Data = "Hello"};
             var tempStream = new MemoryStream();
-            XmlStorage.ToZip(tempStream, testData1, null, new EmbeddedFile[0]);
+            testData1.SaveXmlZip(tempStream, null, new EmbeddedFile[0]);
             tempStream.Seek(0, SeekOrigin.Begin);
-            var testData2 = XmlStorage.FromZip<TestData>(tempStream, null, new EmbeddedFile[0]);
+            var testData2 = XmlStorage.LoadXmlZip<TestData>(tempStream, null, new EmbeddedFile[0]);
 
             // Ensure data stayed the same
             Assert.AreEqual(testData1.Data, testData2.Data);
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.ToZip{T}(Stream,T,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> and <see cref="XmlStorage.FromZip{T}(Stream,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> work correctly with a password.
+        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,string,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(string,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> work correctly with a password.
         /// </summary>
         [Test]
         public void TestZipPassword()
@@ -107,29 +107,29 @@ namespace Common.Storage
             // Write and read file
             var testData1 = new TestData {Data = "Hello"};
             var tempStream = new MemoryStream();
-            XmlStorage.ToZip(tempStream, testData1, "Test password", new EmbeddedFile[0]);
+            testData1.SaveXmlZip(tempStream, "Test password", new EmbeddedFile[0]);
             tempStream.Seek(0, SeekOrigin.Begin);
-            var testData2 = XmlStorage.FromZip<TestData>(tempStream, "Test password", new EmbeddedFile[0]);
+            var testData2 = XmlStorage.LoadXmlZip<TestData>(tempStream, "Test password", new EmbeddedFile[0]);
 
             // Ensure data stayed the same
             Assert.AreEqual(testData1.Data, testData2.Data);
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.FromZip{T}(Stream,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> correctly detects incorrect passwords.
+        /// Ensures <see cref="XmlStorage.LoadXmlZip{T}(string,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> correctly detects incorrect passwords.
         /// </summary>
         [Test]
         public void TestIncorrectPassword()
         {
             var tempStream = new MemoryStream();
             var testData = new TestData {Data = "Hello"};
-            XmlStorage.ToZip(tempStream, testData, "Correct password", new EmbeddedFile[0]);
+            testData.SaveXmlZip(tempStream, "Correct password", new EmbeddedFile[0]);
             tempStream.Seek(0, SeekOrigin.Begin);
-            Assert.Throws<ZipException>(() => XmlStorage.FromZip<TestData>(tempStream, "Wront password", new EmbeddedFile[0]));
+            Assert.Throws<ZipException>(() => XmlStorage.LoadXmlZip<TestData>(tempStream, "Wront password", new EmbeddedFile[0]));
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.ToString{T}"/> and <see cref="XmlStorage.FromString{T}"/> work correctly.
+        /// Ensures <see cref="XmlStorage.ToXmlString{T}"/> and <see cref="XmlStorage.FromXmlString{T}"/> work correctly.
         /// </summary>
         [Test]
         public void TestString()
@@ -137,8 +137,8 @@ namespace Common.Storage
             var testData1 = new TestData {Data = "Hello"};
 
             // Serialize and deserialize
-            string xml = XmlStorage.ToString(testData1);
-            var testData2 = XmlStorage.FromString<TestData>(xml);
+            string xml = testData1.ToXmlString();
+            var testData2 = XmlStorage.FromXmlString<TestData>(xml);
 
             Assert.AreEqual(testData1.Data, testData2.Data);
         }

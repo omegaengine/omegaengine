@@ -42,8 +42,8 @@ namespace Common.Collections
             };
 
             // Serialize and deserialize data
-            string data = XmlStorage.ToString(dictionary1);
-            var dictionary2 = XmlStorage.FromString<XmlDictionary>(data);
+            string data = dictionary1.ToXmlString();
+            var dictionary2 = XmlStorage.FromXmlString<XmlDictionary>(data);
 
             // Ensure data stayed the same
             Assert.AreEqual(dictionary1, dictionary2, "Serialized objects should be equal.");

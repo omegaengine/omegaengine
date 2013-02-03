@@ -41,26 +41,7 @@ namespace World
         public static TemplateCollection<T> FromContent(string id)
         {
             using (var stream = ContentManager.GetFileStream("World", id))
-                return XmlStorage.Load<TemplateCollection<T>>(stream);
-        }
-
-        /// <summary>
-        /// Loads a <see cref="TemplateCollection{T}"/> from an XML file.
-        /// </summary>
-        /// <param name="path">The file to load from.</param>
-        /// <returns>The loaded <see cref="TemplateCollection{T}"/>.</returns>
-        public static TemplateCollection<T> Load(string path)
-        {
-            return XmlStorage.Load<TemplateCollection<T>>(path);
-        }
-
-        /// <summary>
-        /// Saves this <see cref="TemplateCollection{T}"/> in an XML file.
-        /// </summary>
-        /// <param name="path">The file to save in.</param>
-        public void Save(string path)
-        {
-            XmlStorage.Save(path, this);
+                return XmlStorage.LoadXml<TemplateCollection<T>>(stream);
         }
         #endregion
 

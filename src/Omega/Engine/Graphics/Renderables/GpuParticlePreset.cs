@@ -95,26 +95,7 @@ namespace OmegaEngine.Graphics.Renderables
         public static GpuParticlePreset FromContent(string id)
         {
             using (var stream = ContentManager.GetFileStream("Graphics/GpuParticleSystem", id))
-                return XmlStorage.Load<GpuParticlePreset>(stream);
-        }
-
-        /// <summary>
-        /// Loads a preset from an XML file
-        /// </summary>
-        /// <param name="path">The XML file to load</param>
-        /// <returns>The loaded preset</returns>
-        public static GpuParticlePreset Load(string path)
-        {
-            return XmlStorage.Load<GpuParticlePreset>(path);
-        }
-
-        /// <summary>
-        /// Saves this preset in an XML file
-        /// </summary>
-        /// <param name="path">The XML file to save</param>
-        public void Save(string path)
-        {
-            XmlStorage.Save(path, this);
+                return XmlStorage.LoadXml<GpuParticlePreset>(stream);
         }
         #endregion
 

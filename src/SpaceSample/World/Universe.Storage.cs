@@ -71,7 +71,7 @@ namespace World
 
             Universe universe;
             using (var stream = ContentManager.GetFileStream("World/Maps", id))
-                universe = XmlStorage.FromZip<Universe>(stream, null, null, _ignoreMemeber);
+                universe = XmlStorage.LoadXmlZip<Universe>(stream, null, null, _ignoreMemeber);
             universe.SourceFile = id;
             universe.Update(0);
 
@@ -88,7 +88,7 @@ namespace World
         public static Universe Load(string path)
         {
             // Load the file
-            var universe = XmlStorage.FromZip<Universe>(path, null, null, _ignoreMemeber);
+            var universe = XmlStorage.LoadXmlZip<Universe>(path, null, null, _ignoreMemeber);
 
             // Store the orginal map filename
             universe.SourceFile = path;
@@ -106,7 +106,7 @@ namespace World
         /// <returns>The loaded <see cref="Universe"/>.</returns>
         public static Universe LoadXml(string path)
         {
-            return XmlStorage.Load<Universe>(path, _ignoreMemeber);
+            return XmlStorage.LoadXml<Universe>(path, _ignoreMemeber);
         }
         #endregion
 
@@ -118,7 +118,7 @@ namespace World
         public void Save(string path)
         {
             // Save the data
-            XmlStorage.ToZip(path, this, null, null, _ignoreMemeber);
+            this.SaveXmlZip(path, null, null, _ignoreMemeber);
 
             SourceFile = path;
         }
@@ -142,7 +142,7 @@ namespace World
         /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
         public void SaveXml(string path)
         {
-            XmlStorage.Save(path, this, _ignoreMemeber);
+            this.SaveXml(path, _ignoreMemeber);
         }
         #endregion
     }

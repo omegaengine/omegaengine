@@ -203,10 +203,10 @@ namespace Presentation
             Log.Info("Benchmark complete - packaging results");
 
             // Store hardware information in an XML file
-            XmlStorage.Save(Path.Combine(_resultDir, "hardware.xml"), Engine.Hardware);
+            Engine.Hardware.SaveXml(Path.Combine(_resultDir, "hardware.xml"));
 
             // Store test-case results in an XML file
-            XmlStorage.Save(Path.Combine(_resultDir, "statistics.xml"), _statistics);
+            _statistics.SaveXml(Path.Combine(_resultDir, "statistics.xml"));
 
             // Copy log-file to benchmark directory
             using (StreamWriter writer = File.CreateText(Path.Combine(_resultDir, "log.txt")))

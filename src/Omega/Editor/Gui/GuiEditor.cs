@@ -79,13 +79,13 @@ namespace AlphaEditor.GUI
                 if (!_overwrite && File.Exists(_fullPath))
                 { // Load existing file
                     Log.Info("Load file: " + _fullPath);
-                    DialogModel = Dialog.Load(_fullPath);
+                    DialogModel = XmlStorage.LoadXml<Dialog>(_fullPath);
                 }
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
                     DialogModel = new Dialog();
-                    DialogModel.Save(_fullPath);
+                    DialogModel.SaveXml(_fullPath);
                 }
             }
             else
@@ -115,7 +115,7 @@ namespace AlphaEditor.GUI
             Log.Info("Save file: " + _fullPath);
             string directory = Path.GetDirectoryName(_fullPath);
             if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
-            DialogModel.Save(_fullPath);
+            DialogModel.SaveXml(_fullPath);
 
             base.OnSaveFile();
         }

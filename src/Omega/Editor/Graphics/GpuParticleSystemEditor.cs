@@ -58,13 +58,13 @@ namespace AlphaEditor.Graphics
                 if (!_overwrite && File.Exists(_fullPath))
                 { // Load existing file
                     Log.Info("Load file: " + _fullPath);
-                    _preset = GpuParticlePreset.Load(_fullPath);
+                    _preset = XmlStorage.LoadXml<GpuParticlePreset>(_fullPath);
                 }
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
                     _preset = new GpuParticlePreset();
-                    _preset.Save(_fullPath);
+                    _preset.SaveXml(_fullPath);
                 }
             }
             else
@@ -96,7 +96,7 @@ namespace AlphaEditor.Graphics
             Log.Info("Save file: " + _fullPath);
             string directory = Path.GetDirectoryName(_fullPath);
             if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
-            _preset.Save(_fullPath);
+            _preset.SaveXml(_fullPath);
 
             base.OnSaveFile();
         }

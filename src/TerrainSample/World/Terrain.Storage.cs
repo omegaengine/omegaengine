@@ -26,7 +26,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using Common;
-using Common.Streams;
 using Common.Utils;
 using LuaInterface;
 using World.Properties;
@@ -287,7 +286,7 @@ namespace World
                 var memory = new MemoryStream();
                 saveBitmap.Save(memory, ImageFormat.Png);
                 saveBitmap.Dispose();
-                StreamUtils.Copy(memory, stream);
+                memory.CopyTo(stream);
             };
         }
         #endregion

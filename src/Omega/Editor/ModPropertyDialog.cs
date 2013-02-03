@@ -64,7 +64,7 @@ namespace AlphaEditor
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 string path = Path.Combine(dialog._location, dialog._info.Name + ModInfo.FileExt);
-                XmlStorage.Save(path, dialog._info);
+                dialog._info.SaveXml(path);
                 return path;
             }
             return null;
@@ -79,7 +79,7 @@ namespace AlphaEditor
         {
             var dialog = new ModPropertyDialog {_info = info, _location = Path.GetDirectoryName(path)};
             if (dialog.ShowDialog() == DialogResult.OK)
-                XmlStorage.Save(path, ModInfo.Current);
+                ModInfo.Current.SaveXml(path);
         }
         #endregion
 

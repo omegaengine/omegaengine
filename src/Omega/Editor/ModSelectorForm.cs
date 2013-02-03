@@ -124,7 +124,7 @@ namespace AlphaEditor
 
             try
             {
-                ModInfo.Current = XmlStorage.Load<ModInfo>(path);
+                ModInfo.Current = XmlStorage.LoadXml<ModInfo>(path);
             }
                 #region Error handling
             catch (ArgumentException)

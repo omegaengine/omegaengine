@@ -25,7 +25,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Common.Collections;
-using Common.Streams;
 using Common.Utils;
 using Common.Properties;
 using ICSharpCode.SharpZipLib.Zip;
@@ -489,7 +488,7 @@ namespace Common.Storage
                     try
                     {
                         using (var inputStream = _modArchiveData[fullID].ZipFile.GetInputStream(_modArchiveData[fullID].ZipEntry))
-                            StreamUtils.Copy(inputStream, memoryStream);
+                            inputStream.CopyTo(memoryStream);
                     }
                         #region Error handling
                     catch (ZipException ex)
@@ -516,7 +515,7 @@ namespace Common.Storage
                     // Copy from ZIP file to MemoryStream to provide seeking capability
                     Stream memoryStream = new MemoryStream();
                     using (var inputStream = _baseArchiveData[fullID].ZipFile.GetInputStream(_baseArchiveData[fullID].ZipEntry))
-                        StreamUtils.Copy(inputStream, memoryStream);
+                        inputStream.CopyTo(memoryStream);
                     return memoryStream;
                 }
             }

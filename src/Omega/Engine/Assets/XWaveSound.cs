@@ -9,7 +9,6 @@
 using System;
 using System.IO;
 using Common;
-using Common.Streams;
 using Common.Utils;
 using Common.Storage;
 using SlimDX.Multimedia;
@@ -38,7 +37,7 @@ namespace OmegaEngine.Assets
             {
                 SoundFormat = waveFile.Format;
                 SoundData = new MemoryStream((int)waveFile.Length);
-                StreamUtils.Copy(waveFile, SoundData);
+                waveFile.CopyTo(SoundData);
             }
         }
         #endregion

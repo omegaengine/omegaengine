@@ -74,7 +74,7 @@ namespace Core
                 string settingsPath = Locations.GetSaveConfigPath(GeneralSettings.AppName, true, "Settings.xml");
                 if (File.Exists(settingsPath))
                 {
-                    Current = XmlStorage.Load<Settings>(settingsPath);
+                    Current = XmlStorage.LoadXml<Settings>(settingsPath);
                     Log.Info("Loaded settings from " + settingsPath);
                     return;
                 }
@@ -110,7 +110,7 @@ namespace Core
             try
             {
                 string settingsPath = Locations.GetSaveConfigPath(GeneralSettings.AppName, true, "Settings.xml");
-                XmlStorage.Save(settingsPath, Current);
+                Current.SaveXml(settingsPath);
                 Log.Info("Saved settings to " + settingsPath);
             }
                 #region Error handling

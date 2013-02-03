@@ -87,13 +87,13 @@ namespace AlphaEditor.World
                 if (!_overwrite && File.Exists(_fullPath))
                 { // Load existing file
                     Log.Info("Load file: " + _fullPath);
-                    Content = TemplateCollection<T>.Load(_fullPath);
+                    Content = XmlStorage.LoadXml<TemplateCollection<T>>(_fullPath);
                 }
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
                     Content = new TemplateCollection<T>();
-                    Templates.Save(_fullPath);
+                    Templates.SaveXml(_fullPath);
                 }
             }
             else
@@ -108,7 +108,7 @@ namespace AlphaEditor.World
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
                     Content = new TemplateCollection<T>();
-                    Templates.Save(_fullPath);
+                    Templates.SaveXml(_fullPath);
                 }
             }
             #endregion
@@ -126,7 +126,7 @@ namespace AlphaEditor.World
             Log.Info("Save file: " + _fullPath);
             string directory = Path.GetDirectoryName(_fullPath);
             if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
-            Templates.Save(_fullPath);
+            Templates.SaveXml(_fullPath);
 
             // Reload all class lists to update other Editor tabs
             TemplateManager.LoadLists();
@@ -299,9 +299,9 @@ namespace AlphaEditor.World
         private void dialogExportXml_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (TemplateList.CheckedEntries.Count != 0)
-                XmlStorage.Save(dialogExportXml.FileName, TemplateList.CheckedEntries);
+                TemplateList.CheckedEntries.SaveXml(dialogExportXml.FileName);
             else if (TemplateList.SelectedEntry != null)
-                XmlStorage.Save(dialogExportXml.FileName, TemplateList.SelectedEntry);
+                TemplateList.SelectedEntry.SaveXml(dialogExportXml.FileName);
 
             ToastProvider.ShowToast(Resources.SavedFile);
         }

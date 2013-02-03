@@ -81,7 +81,7 @@ namespace OmegaGUI.Model
         public static XmlDictionary FromContent(string id)
         {
             using (var stream = ContentManager.GetFileStream("GUI/Language", id))
-                return XmlStorage.Load<LocaleFile>(stream).Entries;
+                return XmlStorage.LoadXml<LocaleFile>(stream).Entries;
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace OmegaGUI.Model
         /// <returns>The loaded table.</returns>
         public static XmlDictionary Load(string path)
         {
-            return XmlStorage.Load<LocaleFile>(path).Entries;
+            return XmlStorage.LoadXml<LocaleFile>(path).Entries;
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace OmegaGUI.Model
         /// <param name="entries">The collection of entries to be stored.</param>
         public static void Save(string path, XmlDictionary entries)
         {
-            XmlStorage.Save(path, new LocaleFile(entries));
+            new LocaleFile(entries).SaveXml(path);
         }
         #endregion
     }

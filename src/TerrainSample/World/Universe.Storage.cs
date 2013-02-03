@@ -85,7 +85,7 @@ namespace World
 
                     // Load the data
                     using (var stream = ContentManager.GetFileStream("World/Maps", SourceFile))
-                        XmlStorage.FromZip<Universe>(stream, null, additionalFiles, _ignoreMemeber);
+                        XmlStorage.LoadXmlZip<Universe>(stream, null, additionalFiles, _ignoreMemeber);
 
                     if (!_terrain.DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
 
@@ -116,7 +116,7 @@ namespace World
 
             Universe universe;
             using (var stream = ContentManager.GetFileStream("World/Maps", id))
-                universe = XmlStorage.FromZip<Universe>(stream, null, null, _ignoreMemeber);
+                universe = XmlStorage.LoadXmlZip<Universe>(stream, null, null, _ignoreMemeber);
             universe.SourceFile = id;
             universe.Update(0);
 
@@ -139,7 +139,7 @@ namespace World
             Universe universe;
             try
             {
-                universe = XmlStorage.FromZip<Universe>(path, null, null, _ignoreMemeber);
+                universe = XmlStorage.LoadXmlZip<Universe>(path, null, null, _ignoreMemeber);
             }
                 #region Error handling
             catch (ZipException ex)
@@ -167,7 +167,7 @@ namespace World
         /// <exception cref="InvalidOperationException">Thrown if a problem occurred while deserializing the XML data.</exception>
         public static Universe LoadXml(string path)
         {
-            return XmlStorage.Load<Universe>(path, _ignoreMemeber);
+            return XmlStorage.LoadXml<Universe>(path, _ignoreMemeber);
         }
         #endregion
 
@@ -207,7 +207,7 @@ namespace World
             }
 
             // Save the data
-            XmlStorage.ToZip(path, this, null, additionalFiles, _ignoreMemeber);
+            this.SaveXmlZip(path, null, additionalFiles, _ignoreMemeber);
 
             SourceFile = path;
         }
@@ -231,7 +231,7 @@ namespace World
         /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
         public void SaveXml(string path)
         {
-            XmlStorage.Save(path, this, _ignoreMemeber);
+            this.SaveXml(path, _ignoreMemeber);
         }
         #endregion
     }
