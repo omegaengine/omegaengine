@@ -8,7 +8,6 @@
 
 using System;
 using System.IO;
-using Common;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Assets;

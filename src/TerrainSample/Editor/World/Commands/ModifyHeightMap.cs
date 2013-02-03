@@ -23,7 +23,6 @@
 using System;
 using System.Drawing;
 using AlphaEditor.Properties;
-using Common;
 using Common.Undo;
 using Presentation;
 using World;

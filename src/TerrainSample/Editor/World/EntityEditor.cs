@@ -28,7 +28,6 @@ using AlphaEditor.Properties;
 using Common;
 using Common.Controls;
 using Common.Values;
-using OmegaEngine;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;
 using Presentation;

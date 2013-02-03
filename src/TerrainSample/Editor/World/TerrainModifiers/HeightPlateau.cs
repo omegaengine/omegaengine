@@ -22,7 +22,6 @@
 
 using System;
 using System.Drawing;
-using Common;
 using Presentation;
 using World;
 using EngineTerrain = OmegaEngine.Graphics.Renderables.Terrain;

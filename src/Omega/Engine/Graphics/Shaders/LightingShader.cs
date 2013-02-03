@@ -8,7 +8,6 @@
 
 using System;
 using System.Drawing;
-using Common;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Shaders

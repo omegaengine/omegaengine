@@ -7,7 +7,6 @@
  */
 
 using System;
-using Common;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
 using Resources = OmegaEngine.Properties.Resources;
