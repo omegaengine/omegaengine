@@ -30,8 +30,7 @@ namespace Common.Controls
     /// Wraps information about an crash in a serializer-friendly format.
     /// </summary>
     // Note: Must be public, not internal, so XML Serialization will work
-    [XmlType("error-report")]
-    [XmlRoot("error-report")]
+    [XmlRoot("error-report"), XmlType("error-report")]
     public class ErrorReport
     {
         /// <summary>

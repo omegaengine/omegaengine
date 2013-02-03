@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Hanoi.Logic
 {
@@ -77,9 +78,7 @@ namespace Hanoi.Logic
         public Universe(IEnumerable<Peg> prefinedPegs)
         {
             // Copy all pegs to an intermediate cache
-            var pegCache = new List<Peg>();
-            foreach (Peg peg in prefinedPegs)
-                pegCache.Add(peg);
+            var pegCache = prefinedPegs.ToList();
 
             // Transfer pegs from cache to final array
             _pegs = new Peg[pegCache.Count];

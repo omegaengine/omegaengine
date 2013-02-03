@@ -42,7 +42,7 @@ namespace Common.Collections
 
         #region Properties
         /// <summary>
-        /// The unique text key.
+        /// The unique text key. Warning: If this is changed the <see cref="XmlDictionary"/> must be rebuilt in order to update its internal hash table.
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown if the new key value already exists in the <see cref="Parent"/> dictionary.</exception>
         [XmlAttribute("key")]
