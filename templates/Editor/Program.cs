@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using AlphaEditor;
 using AlphaEditor.Properties;
 using Common;
 using Common.Storage;

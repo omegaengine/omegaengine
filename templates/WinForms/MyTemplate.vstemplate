@@ -32,7 +32,7 @@
     <FullClassName>NuGet.VisualStudio.TemplateWizard</FullClassName>
   </WizardExtension>
   <WizardData>
-    <packages repository="extension" repositoryId="OmegaEngine_SDK">
+    <packages repository="extension" repositoryId="OmegaEngine_Templates">
       <package id="OmegaEngine.Helpers" version="0.8.3" />
       <package id="OmegaEngine.Backend" version="0.8.3" />
       <package id="OmegaEngine" version="0.8.3" />

@@ -20,8 +20,6 @@
       <ProjectItem ReplaceParameters="true" TargetFileName="RenderPanel.cs">RenderPanel.cs</ProjectItem>
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="Resources.resx">Resources.resx</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Resources.Designer.cs">Resources.Designer.cs</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="Settings.settings">Settings.settings</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="Settings.Designer.cs">Settings.Designer.cs</ProjectItem>
       </Folder>
@@ -32,7 +30,7 @@
     <FullClassName>NuGet.VisualStudio.TemplateWizard</FullClassName>
   </WizardExtension>
   <WizardData>
-    <packages repository="extension" repositoryId="OmegaEngine_SDK">
+    <packages repository="extension" repositoryId="OmegaEngine_Templates">
       <package id="OmegaEngine.Helpers" version="0.8.3" />
       <package id="OmegaEngine.Backend" version="0.8.3" />
       <package id="OmegaEngine" version="0.8.3" />

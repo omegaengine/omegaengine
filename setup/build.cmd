@@ -6,8 +6,8 @@ rem Project settings
 set TargetDir=%~dp0..\build\Setup
 
 rem Prepare clean output directory
-if not exist "%TargetDir%" mkdir "%TargetDir%"
 del /q "%TargetDir%\*"
+if not exist "%TargetDir%" mkdir "%TargetDir%"
 
 rem Use bundled utility EXEs
 path %~dp0utils;%path%
@@ -33,17 +33,17 @@ cd /d "%~dp0"
 echo ##teamcity[publishArtifacts 'build/Setup/omegaengine-%version%.zip']
 
 echo ##teamcity[progressMessage 'Building Visual Studio extension']
-if exist "%TargetDir%\omegaengine-sdk.vsix" del "%TargetDir%\omegaengine-sdk.vsix"
-cd /d "%~dp0vsix"
-zip -q -9 -r "%TargetDir%\omegaengine-sdk.vsix" .
+if exist "%TargetDir%\omegaengine-templates.vsix" del "%TargetDir%\omegaengine-templates.vsix"
+cd /d "%~dp0templates"
+zip -q -9 -r "%TargetDir%\omegaengine-templates.vsix" .
 if errorlevel 1 pause
 cd /d "%~dp0..\build"
-zip -q -9 -r "%TargetDir%\omegaengine-sdk.vsix" ProjectTemplates
+zip -q -9 -r "%TargetDir%\omegaengine-templates.vsix" ProjectTemplates
 if errorlevel 1 pause
-zip -q -9 -r "%TargetDir%\omegaengine-sdk.vsix" Packages
+zip -q -9 -r "%TargetDir%\omegaengine-templates.vsix" Packages
 if errorlevel 1 pause
 cd /d "%~dp0"
-echo ##teamcity[publishArtifacts 'build/Setup/omegaengine-sdk.vsix']
+echo ##teamcity[publishArtifacts 'build/Setup/omegaengine-templates.vsix']
 
 rem Handle WOW
 if %PROCESSOR_ARCHITECTURE%==x86 set ProgramFiles_temp=%ProgramFiles%
