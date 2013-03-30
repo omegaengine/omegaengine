@@ -22,7 +22,7 @@
 
 using System;
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 using Common.Values;
 
 namespace Core
@@ -53,7 +53,7 @@ namespace Core
         /// Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective
         /// </summary>
         [DefaultValue(null), Description("Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective")]
-        public string ForceShaderModel { get { return _forceShaderModel; } set { UpdateHelper.Do(ref _forceShaderModel, value, OnChanged); } }
+        public string ForceShaderModel { get { return _forceShaderModel; } set { value.To(ref _forceShaderModel, OnChanged); } }
 
         private bool _anisotropic;
 
@@ -61,7 +61,7 @@ namespace Core
         /// Use anisotropic texture filtering
         /// </summary>
         [DefaultValue(false), Description("Use anisotropic texture filtering")]
-        public bool Anisotropic { get { return _anisotropic; } set { UpdateHelper.Do(ref _anisotropic, value, OnChanged); } }
+        public bool Anisotropic { get { return _anisotropic; } set { value.To(ref _anisotropic, OnChanged); } }
 
         private bool _normalMapping = true;
 
@@ -69,7 +69,7 @@ namespace Core
         /// Apply normal mapping effects to models when available
         /// </summary>
         [DefaultValue(true), Description("Apply normal mapping effects to models when available")]
-        public bool NormalMapping { get { return _normalMapping; } set { UpdateHelper.Do(ref _normalMapping, value, OnChanged); } }
+        public bool NormalMapping { get { return _normalMapping; } set { value.To(ref _normalMapping, OnChanged); } }
 
         private bool _postScreenEffects = true;
 
@@ -77,7 +77,7 @@ namespace Core
         /// Apply post-screen effects to the scene
         /// </summary>
         [DefaultValue(true), Description("Apply post-screen effects to the scene")]
-        public bool PostScreenEffects { get { return _postScreenEffects; } set { UpdateHelper.Do(ref _postScreenEffects, value, OnChanged); } }
+        public bool PostScreenEffects { get { return _postScreenEffects; } set { value.To(ref _postScreenEffects, OnChanged); } }
 
         private bool _shadows = true;
 
@@ -85,7 +85,7 @@ namespace Core
         /// Cast shadows
         /// </summary>
         [DefaultValue(true), Description("Cast shadows")]
-        public bool Shadows { get { return _shadows; } set { UpdateHelper.Do(ref _shadows, value, OnChanged); } }
+        public bool Shadows { get { return _shadows; } set { value.To(ref _shadows, OnChanged); } }
 
         private bool _doubleSampling;
 
@@ -93,7 +93,7 @@ namespace Core
         /// Sample textures twice with different texture coordinates for better image quality
         /// </summary>
         [DefaultValue(false), Description("Sample textures twice with different texture coordinates for better image quality")]
-        public bool DoubleSampling { get { return _doubleSampling; } set { UpdateHelper.Do(ref _doubleSampling, value, OnChanged); } }
+        public bool DoubleSampling { get { return _doubleSampling; } set { value.To(ref _doubleSampling, OnChanged); } }
 
         private WaterEffectsType _waterEffects = WaterEffectsType.ReflectTerrain;
 
@@ -101,7 +101,7 @@ namespace Core
         /// What kind of effects to display on water (e.g. reflections)
         /// </summary>
         [DefaultValue(WaterEffectsType.ReflectTerrain), Description("What kind of effects to display on water (e.g. reflections)")]
-        public WaterEffectsType WaterEffects { get { return _waterEffects; } set { UpdateHelper.Do(ref _waterEffects, value, OnChanged); } }
+        public WaterEffectsType WaterEffects { get { return _waterEffects; } set { value.To(ref _waterEffects, OnChanged); } }
 
         private Quality _particleSystemQuality = Quality.Medium;
 
@@ -109,7 +109,7 @@ namespace Core
         /// The quality of CPU-based particle systems
         /// </summary>
         [DefaultValue(Quality.Medium), Description("The quality of CPU-based particle systems")]
-        public Quality ParticleSystemQuality { get { return _particleSystemQuality; } set { UpdateHelper.Do(ref _particleSystemQuality, value, OnChanged); } }
+        public Quality ParticleSystemQuality { get { return _particleSystemQuality; } set { value.To(ref _particleSystemQuality, OnChanged); } }
 
         private bool _fading = true;
 
@@ -117,7 +117,7 @@ namespace Core
         /// Fade in game scenes from black
         /// </summary>
         [DefaultValue(true), Description("Fade in game scenes from black")]
-        public bool Fading { get { return _fading; } set { UpdateHelper.Do(ref _fading, value, OnChanged); } }
+        public bool Fading { get { return _fading; } set { value.To(ref _fading, OnChanged); } }
 
         private int _visibilityFactor = 10000;
 
@@ -125,7 +125,7 @@ namespace Core
         /// This factor is multiplied with a body's radius to determine how far it shall be visible
         /// </summary>
         [DefaultValue(1000), Description("This factor is multiplied with a body's radius to determine how far it shall be visible")]
-        public int VisibilityFactor { get { return _visibilityFactor; } set { UpdateHelper.Do(ref _visibilityFactor, value, OnChanged); } }
+        public int VisibilityFactor { get { return _visibilityFactor; } set { value.To(ref _visibilityFactor, OnChanged); } }
 
         private double _sunPower = 0.58;
 
@@ -140,7 +140,7 @@ namespace Core
             {
                 if (value < 0) value = 0;
                 if (value > 1) value = 1;
-                UpdateHelper.Do(ref _sunPower, value, OnChanged);
+                value.To(ref _sunPower, OnChanged);
             }
         }
 
@@ -157,7 +157,7 @@ namespace Core
             {
                 if (value < 0) value = 0;
                 if (value > 1) value = 1;
-                UpdateHelper.Do(ref _mapPower, value, OnChanged);
+                value.To(ref _mapPower, OnChanged);
             }
         }
     }

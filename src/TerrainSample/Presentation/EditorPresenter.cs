@@ -233,7 +233,7 @@ namespace Presentation
             float radius =
                 (from positionable in PositionableRenderables
                  where positionable.Pickable && positionable.BoundingSphere.HasValue
-                 select MathUtils.Transform(positionable.BoundingSphere.Value, positionable.PreTransform)).
+                 select positionable.BoundingSphere.Value.Transform(positionable.PreTransform)).
                  Aggregate<BoundingSphere, float>(0, (current, boundingSphere) => Math.Max(current, boundingSphere.Radius + boundingSphere.Center.Length()));
             return new Circle {Radius = radius};
         }
@@ -249,7 +249,7 @@ namespace Presentation
             {
                 if (!positionable.Pickable || !positionable.BoundingBox.HasValue) continue;
 
-                var boundingBox = MathUtils.Transform(positionable.BoundingBox.Value, positionable.PreTransform);
+                var boundingBox = positionable.BoundingBox.Value.Transform(positionable.PreTransform);
                 xMin = Math.Min(xMin, boundingBox.Minimum.X);
                 yMin = Math.Min(yMin, -boundingBox.Maximum.Z);
                 xMax = Math.Max(xMax, boundingBox.Maximum.X);

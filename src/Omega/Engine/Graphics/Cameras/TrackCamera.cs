@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using Common;
 using Common.Utils;
 using Common.Values;
 using OmegaEngine.Properties;
@@ -42,7 +41,7 @@ namespace OmegaEngine.Graphics.Cameras
                 // Apply limits (in case of conflict minimum is more important than maximum)
                 value = Math.Max(Math.Min(value, MaxRadius), MinRadius);
 
-                UpdateHelper.Do(ref _radius, value, ref ViewDirty, ref ViewFrustumDirty);
+                value.To(ref _radius, ref ViewDirty, ref ViewFrustumDirty);
             }
         }
 
@@ -55,14 +54,14 @@ namespace OmegaEngine.Graphics.Cameras
         [Description("The horizontal rotation in degrees."), Category("Layout")]
         public double HorizontalRotation
         {
-            get { return MathUtils.RadianToDegree(_horizontalRotation); }
+            get { return _horizontalRotation.RadianToDegree(); }
             set
             {
                 #region Sanity checks
                 if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException("value", Resources.NumberNotReal);
                 #endregion
 
-                UpdateHelper.Do(ref _horizontalRotation, MathUtils.DegreeToRadian(value), ref ViewDirty, ref ViewFrustumDirty);
+                value.DegreeToRadian().To(ref _horizontalRotation, ref ViewDirty, ref ViewFrustumDirty);
             }
         }
 
@@ -74,7 +73,7 @@ namespace OmegaEngine.Graphics.Cameras
         [Description("The vertical rotation in degrees."), Category("Layout")]
         public double VerticalRotation
         {
-            get { return MathUtils.RadianToDegree(_verticalRotation); }
+            get { return _verticalRotation.RadianToDegree(); }
             set
             {
                 #region Sanity checks
@@ -82,11 +81,11 @@ namespace OmegaEngine.Graphics.Cameras
                 #endregion
 
                 // Keep rotations between 0 and 2PI
-                value = MathUtils.DegreeToRadian(value);
+                value = value.DegreeToRadian();
                 while (value > 2 * Math.PI) value -= 2 * Math.PI;
                 while (value < 0) value += 2 * Math.PI;
 
-                UpdateHelper.Do(ref _verticalRotation, value, ref ViewDirty, ref ViewFrustumDirty);
+                value.To(ref _verticalRotation, ref ViewDirty, ref ViewFrustumDirty);
             }
         }
 
@@ -107,7 +106,7 @@ namespace OmegaEngine.Graphics.Cameras
                 if (value <= 0) throw new ArgumentOutOfRangeException("value", Resources.ValueNotPositive);
                 #endregion
 
-                UpdateHelper.Do(ref _minRadius, value, ref ViewDirty, ref ViewFrustumDirty);
+                value.To(ref _minRadius, ref ViewDirty, ref ViewFrustumDirty);
             }
         }
 
@@ -128,7 +127,7 @@ namespace OmegaEngine.Graphics.Cameras
                 if (value <= 0) throw new ArgumentOutOfRangeException("value", Resources.ValueNotPositive);
                 #endregion
 
-                UpdateHelper.Do(ref _maxRadius, value, ref ViewDirty, ref ViewFrustumDirty);
+                value.To(ref _maxRadius, ref ViewDirty, ref ViewFrustumDirty);
             }
         }
         #endregion

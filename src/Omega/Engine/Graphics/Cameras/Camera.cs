@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using Common;
 using Common.Utils;
 using Common.Values;
 using SlimDX;
@@ -68,7 +67,7 @@ namespace OmegaEngine.Graphics.Cameras
                 UpdateView(); // Some cameras automatically update their positions
                 return PositionCached;
             }
-            set { UpdateHelper.Do(ref PositionCached, value, ref ViewDirty, ref ViewFrustumDirty); }
+            set { value.To(ref PositionCached, ref ViewDirty, ref ViewFrustumDirty); }
         }
 
         protected DoubleVector3 PositionBaseCached;
@@ -86,7 +85,7 @@ namespace OmegaEngine.Graphics.Cameras
                 UpdateView(); // Some cameras automatically update their positions
                 return PositionBaseCached;
             }
-            set { UpdateHelper.Do(ref PositionBaseCached, value, ref ViewDirty, ref ViewFrustumDirty); }
+            set { value.To(ref PositionBaseCached, ref ViewDirty, ref ViewFrustumDirty); }
         }
 
         protected Matrix ViewCached;
@@ -194,7 +193,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// <summary>
         /// The size of the output (i.e. screen size)
         /// </summary>
-        internal Size Size { get { return _size; } set { UpdateHelper.Do(ref _size, value, ref ProjectionDirty, ref ViewFrustumDirty); } }
+        internal Size Size { get { return _size; } set { value.To(ref _size, ref ProjectionDirty, ref ViewFrustumDirty); } }
 
         private float _fieldOfView = (float)Math.PI / 4.0f;
 
@@ -202,7 +201,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// The view angle in degrees
         /// </summary>
         [DefaultValue(45f), Description("The view angle in degrees"), Category("Layout")]
-        public float FieldOfView { get { return MathUtils.RadianToDegree(_fieldOfView); } set { UpdateHelper.Do(ref _fieldOfView, MathUtils.DegreeToRadian(value), ref ProjectionDirty, ref ViewFrustumDirty); } }
+        public float FieldOfView { get { return _fieldOfView.RadianToDegree(); } set { value.DegreeToRadian().To(ref _fieldOfView, ref ProjectionDirty, ref ViewFrustumDirty); } }
 
         private float _nearClip = 20.0f;
 
@@ -210,7 +209,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// Minimum distance of objects to the camera
         /// </summary>
         [DefaultValue(20.0f), Description("Minimum distance of objects to the camera"), Category("Clipping")]
-        public float NearClip { get { return _nearClip; } set { UpdateHelper.Do(ref _nearClip, value, ref ProjectionDirty, ref ViewFrustumDirty); } }
+        public float NearClip { get { return _nearClip; } set { value.To(ref _nearClip, ref ProjectionDirty, ref ViewFrustumDirty); } }
 
         private float _farClip = 1e+6f;
 
@@ -218,7 +217,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// Maximum distance of objects to the camera
         /// </summary>
         [DefaultValue(1e+6f), Description("Maximum distance of objects to the camera"), Category("Clipping")]
-        public float FarClip { get { return _farClip; } set { UpdateHelper.Do(ref _farClip, value, ref ProjectionDirty, ref ViewFrustumDirty); } }
+        public float FarClip { get { return _farClip; } set { value.To(ref _farClip, ref ProjectionDirty, ref ViewFrustumDirty); } }
 
         private DoublePlane _clipPlane;
 
@@ -226,7 +225,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// A custom clip plane behind which all objects are culled
         /// </summary>
         [DefaultValue(typeof(DoublePlane), "0; 0; 0; 0; 0; 0"), Description("A custom clip plane behind which all objects are culled"), Category("Clipping")]
-        public DoublePlane ClipPlane { get { return _clipPlane; } set { UpdateHelper.Do(ref _clipPlane, value, ref ProjectionDirty, ref ViewFrustumDirty); } }
+        public DoublePlane ClipPlane { get { return _clipPlane; } set { value.To(ref _clipPlane, ref ProjectionDirty, ref ViewFrustumDirty); } }
 
         private Plane _effectiveClipPlane;
 
@@ -451,7 +450,7 @@ namespace OmegaEngine.Graphics.Cameras
         private void UpdateViewProjection()
         {
             // Recalculate only when necessary
-            UpdateHelper.Do(ref _viewProjection, View * Projection, delegate
+            (View * Projection).To(ref _viewProjection, delegate
             {
                 // Cache special matrices
                 _viewProjectionInverse = Matrix.Invert(_viewProjection);

@@ -62,7 +62,7 @@ namespace World
         /// <summary>
         /// The angle in degrees pointing towards the body's current orbital position - auto-updated
         /// </summary>
-        public double Theta { get { return MathUtils.RadianToDegree(_theta); } set { _theta = MathUtils.DegreeToRadian(value); } }
+        public double Theta { get { return _theta.RadianToDegree(); } set { _theta = value.DegreeToRadian(); } }
         #endregion
 
         #region Constructor
@@ -136,7 +136,7 @@ namespace World
         #region Calculate
         private DoubleVector3 CalcPosition(double theta)
         {
-            double inclinationAngle = MathUtils.DegreeToRadian(Inclination);
+            double inclinationAngle = Inclination.DegreeToRadian();
 
             // Calculate current position in 3D-space
             _radius = Periapsis * (1 + Eccentricity) / (1 + Eccentricity * Math.Cos(theta));

@@ -65,6 +65,6 @@ namespace World
         /// How good can units walk on this ground? 0=not at all; 1=with full speed
         /// </summary>
         [DefaultValue(1f), Description("How good can units walk on this ground? 0=not at all; 1=with full speed")]
-        public float MovementAbility { get { return _movementAbility; } set { _movementAbility = MathUtils.Clamp(value, 0, 1); } }
+        public float MovementAbility { get { return _movementAbility; } set { _movementAbility = value.Clamp(0, 1); } }
     }
 }

@@ -25,7 +25,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
-using Common;
+using Common.Utils;
 using SlimDX;
 using Resources = World.Properties.Resources;
 
@@ -65,7 +65,7 @@ namespace World
                     throw new InvalidOperationException(Resources.TerrainSizeMultipleOfThree);
                 #endregion
 
-                UpdateHelper.Do(ref _size, value, delegate
+                value.To(ref _size, delegate
                 { // If the size has changed, the height and texture-maps have become invalid and need to be cleared
                     HeightMap = null;
                     TextureMap = null;

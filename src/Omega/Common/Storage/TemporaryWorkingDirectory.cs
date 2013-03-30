@@ -21,42 +21,36 @@
  */
 
 using System;
-using System.Net;
 
-namespace Common
+namespace Common.Storage
 {
     /// <summary>
-    /// Adds a customizable timout to <see cref="WebClient"/>.
+    /// Like <see cref="TemporaryDirectory"/> but also sets <see cref="Environment.CurrentDirectory"/> to <see cref="TemporaryDirectory.Path"/>.
     /// </summary>
-    public class WebClientTimeout : WebClient
+    public sealed class TemporaryWorkingDirectory : TemporaryDirectory
     {
-        /// <summary>
-        /// The default timeout value, in milliseconds, used when no explicit value is specified.
-        /// </summary>
-        public const int DefaultTimeout = 20000; // 20 seconds
+        #region Variables
+        private readonly string _oldWorkingDir;
+        #endregion
 
-        private readonly int _timeout;
-
-        /// <summary>
-        /// Creates a new <see cref="WebClient"/> using <see cref="DefaultTimeout"/>.
-        /// </summary>
-        public WebClientTimeout() : this(DefaultTimeout)
-        {}
-
-        /// <summary>
-        /// Creates a new <see cref="WebClient"/>.
-        /// </summary>
-        /// <param name="timeout">The length of time, in milliseconds, before requests made by this <see cref="WebClient"/> time out.</param>
-        public WebClientTimeout(int timeout)
+        #region Constructor
+        /// <inheritdoc/>
+        public TemporaryWorkingDirectory(string prefix) : base(prefix)
         {
-            _timeout = timeout;
+            // Remember the current working directory for later restoration and then change it
+            _oldWorkingDir = Environment.CurrentDirectory;
+            Environment.CurrentDirectory = Path;
         }
+        #endregion
 
-        protected override WebRequest GetWebRequest(Uri address)
+        #region Dispose
+        protected override void Dispose(bool disposing)
         {
-            var result = base.GetWebRequest(address);
-            if (result != null) result.Timeout = _timeout;
-            return result;
+            // Restore the original working directory
+            if (disposing) Environment.CurrentDirectory = _oldWorkingDir;
+
+            base.Dispose(disposing);
         }
+        #endregion
     }
 }

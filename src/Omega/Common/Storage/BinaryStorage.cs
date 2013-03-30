@@ -56,6 +56,7 @@ namespace Common.Storage
             if (stream == null) throw new ArgumentNullException("stream");
             #endregion
 
+            if (stream.CanSeek) stream.Position = 0;
             try
             {
                 return (T)_serializer.Deserialize(stream);
@@ -152,6 +153,7 @@ namespace Common.Storage
             bool binaryFound = false;
             T output = default(T);
 
+            if (stream.CanSeek) stream.Position = 0;
             using (var zipFile = new ZipFile(stream) {Password = password})
             {
                 foreach (ZipEntry zipEntry in zipFile)

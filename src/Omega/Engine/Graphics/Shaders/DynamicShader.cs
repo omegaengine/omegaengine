@@ -61,7 +61,7 @@ namespace OmegaEngine.Graphics.Shaders
             public override string GetValue(int run)
             {
                 var num = (int)Math.Ceiling(run * _step);
-                return MathUtils.Clamp(num, _min, _max).ToString(CultureInfo.InvariantCulture);
+                return num.Clamp(_min, _max).ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -124,7 +124,7 @@ namespace OmegaEngine.Graphics.Shaders
                 {
                     // Store XML code for later parsing
                     xmlBuffer.AppendLine((trimmedLine.Substring(3, 1) == " ") ?
-                                                                                  trimmedLine.Substring(4) : trimmedLine.Substring(3));
+                        trimmedLine.Substring(4) : trimmedLine.Substring(3));
                 }
                 else if (!trimmedLine.StartsWith("//", StringComparison.Ordinal))
                 { // Parse XML code once it stops coming
@@ -163,10 +163,7 @@ namespace OmegaEngine.Graphics.Shaders
                                             case "char":
                                                 var chars = new LinkedList<char>();
                                                 foreach (XmlNode subNode in node.ChildNodes)
-                                                {
-                                                    if (subNode.Name == "Char")
-                                                        chars.AddLast(subNode.InnerText[0]);
-                                                }
+                                                    if (subNode.Name == "Char") chars.AddLast(subNode.InnerText[0]);
                                                 counters.AddLast(new CharCounter(node.Attributes["ID"].Value, chars));
                                                 break;
                                         }

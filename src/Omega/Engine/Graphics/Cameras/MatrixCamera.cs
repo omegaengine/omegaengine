@@ -7,7 +7,7 @@
  */
 
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 using Common.Values;
 using SlimDX;
 
@@ -25,7 +25,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// The position the camera is looking at.
         /// </summary>
         [Description("The position the camera is looking at."), Category("Layout")]
-        public virtual DoubleVector3 Target { get { return _target; } set { UpdateHelper.Do(ref _target, value, ref ViewDirty, ref ViewFrustumDirty); } }
+        public virtual DoubleVector3 Target { get { return _target; } set { value.To(ref _target, ref ViewDirty, ref ViewFrustumDirty); } }
 
         private Vector3 _upVector = new Vector3(0, 1, 0);
 
@@ -33,7 +33,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// A vector indicating the up-direction
         /// </summary>
         [DefaultValue(typeof(Vector3), "0; 1; 0"), Description("A vector indicating the up-direction"), Category("Layout")]
-        public Vector3 UpVector { get { return _upVector; } protected set { UpdateHelper.Do(ref _upVector, value, ref ViewDirty, ref ViewFrustumDirty); } }
+        public Vector3 UpVector { get { return _upVector; } protected set { value.To(ref _upVector, ref ViewDirty, ref ViewFrustumDirty); } }
         #endregion
 
         //--------------------//

@@ -7,7 +7,7 @@
  */
 
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 using SlimDX;
 
 namespace OmegaEngine.Graphics.Cameras
@@ -24,7 +24,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// The current camera view as a quaternion
         /// </summary>
         [Browsable(false)]
-        public Quaternion ViewQuat { get { return _viewQuat; } set { UpdateHelper.Do(ref _viewQuat, value, ref ViewDirty, ref ViewFrustumDirty); } }
+        public Quaternion ViewQuat { get { return _viewQuat; } set { value.To(ref _viewQuat, ref ViewDirty, ref ViewFrustumDirty); } }
         #endregion
 
         //--------------------//

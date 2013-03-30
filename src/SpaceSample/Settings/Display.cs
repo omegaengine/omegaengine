@@ -26,7 +26,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using Common;
+using Common.Utils;
 
 namespace Core
 {
@@ -63,7 +63,7 @@ namespace Core
             {
                 if (value == Size.Empty)
                     value = Screen.PrimaryScreen.Bounds.Size;
-                UpdateHelper.Do(ref _resolution, value, OnChanged);
+                value.To(ref _resolution, OnChanged);
             }
         }
 
@@ -101,7 +101,7 @@ namespace Core
             {
                 if (value == Size.Empty)
                     value = new Size(1024, 768);
-                UpdateHelper.Do(ref _windowSize, value, OnChanged);
+                value.To(ref _windowSize, OnChanged);
             }
         }
 
@@ -111,7 +111,7 @@ namespace Core
         /// The level of anti aliasing to use
         /// </summary>
         [Description("The level of anti aliasing to use")]
-        public int AntiAliasing { get { return _antiAliasing; } set { UpdateHelper.Do(ref _antiAliasing, value, OnChanged); } }
+        public int AntiAliasing { get { return _antiAliasing; } set { value.To(ref _antiAliasing, OnChanged); } }
 
         /// <summary>
         /// The level of anti aliasing to use - as a string followed by an x
@@ -137,7 +137,7 @@ namespace Core
         /// Run game in fullscreen mode
         /// </summary>
         [Description("Run game in fullscreen mode")]
-        public bool Fullscreen { get { return _fullscreen; } set { UpdateHelper.Do(ref _fullscreen, value, OnChanged); } }
+        public bool Fullscreen { get { return _fullscreen; } set { value.To(ref _fullscreen, OnChanged); } }
 
         private bool _vSync;
 
@@ -145,6 +145,6 @@ namespace Core
         /// Synchronize the framerate with the monitor's refresh rate
         /// </summary>
         [Description("Synchronize the framerate with the monitor's refresh rate")]
-        public bool VSync { get { return _vSync; } set { UpdateHelper.Do(ref _vSync, value, OnChanged); } }
+        public bool VSync { get { return _vSync; } set { value.To(ref _vSync, OnChanged); } }
     }
 }

@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
@@ -49,7 +49,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _blendDistance, value, () => Effect.SetValue(_blendDistanceHandle, value));
+                value.To(ref _blendDistance, () => Effect.SetValue(_blendDistanceHandle, value));
             }
         }
 
@@ -63,7 +63,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _blendWidth, value, () => Effect.SetValue(_blendWidthHandle, value));
+                value.To(ref _blendWidth, () => Effect.SetValue(_blendWidthHandle, value));
             }
         }
         #endregion

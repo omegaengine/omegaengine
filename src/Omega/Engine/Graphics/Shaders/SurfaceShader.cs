@@ -279,7 +279,7 @@ namespace OmegaEngine.Graphics.Shaders
 
                                     #region Lighting
                                 case SemanticID.Emissive:
-                                    Effect.SetValue(info.Handle, ColorUtils.ColorToVector4(material.Emissive));
+                                    Effect.SetValue(info.Handle, material.Emissive.ToVector4());
                                     break;
 
                                 case SemanticID.Position:

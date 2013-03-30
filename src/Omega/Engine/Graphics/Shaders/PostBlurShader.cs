@@ -8,7 +8,7 @@
 
 using System;
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
@@ -42,7 +42,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < 0 || value > 10) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _blurStrength, value, () => Effect.SetValue(_blurStrengthHandle, value));
+                value.To(ref _blurStrength, () => Effect.SetValue(_blurStrengthHandle, value));
             }
         }
         #endregion

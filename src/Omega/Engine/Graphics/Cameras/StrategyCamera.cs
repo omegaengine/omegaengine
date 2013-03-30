@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using Common;
 using Common.Utils;
 using Common.Values;
 using Common.Values.Design;
@@ -60,7 +59,7 @@ namespace OmegaEngine.Graphics.Cameras
                 // Apply limits (in case of conflict minimum is more important than maximum)
                 value = Math.Max(Math.Min(value, MaxRadius), MinRadius);
 
-                UpdateHelper.Do(ref _radius, value, ref ViewDirty, ref ViewFrustumDirty);
+                value.To(ref _radius, ref ViewDirty, ref ViewFrustumDirty);
             }
         }
 
@@ -74,14 +73,14 @@ namespace OmegaEngine.Graphics.Cameras
         [EditorAttribute(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public float HorizontalRotation
         {
-            get { return MathUtils.RadianToDegree(_horizontalRotation); }
+            get { return _horizontalRotation.RadianToDegree(); }
             set
             {
                 #region Sanity checks
                 if (float.IsInfinity(value) || float.IsNaN(value)) throw new ArgumentOutOfRangeException("value", Resources.NumberNotReal);
                 #endregion
 
-                UpdateHelper.Do(ref _horizontalRotation, MathUtils.DegreeToRadian(value), ref ViewDirty, ref ViewFrustumDirty);
+                value.DegreeToRadian().To(ref _horizontalRotation, ref ViewDirty, ref ViewFrustumDirty);
             }
         }
 
@@ -102,7 +101,7 @@ namespace OmegaEngine.Graphics.Cameras
                 if (value <= 0) throw new ArgumentOutOfRangeException("value", Resources.ValueNotPositive);
                 #endregion
 
-                UpdateHelper.Do(ref _minRadius, value, ref ViewDirty, ref ViewFrustumDirty);
+                value.To(ref _minRadius, ref ViewDirty, ref ViewFrustumDirty);
             }
         }
 
@@ -123,7 +122,7 @@ namespace OmegaEngine.Graphics.Cameras
                 if (value <= 0) throw new ArgumentOutOfRangeException("value", Resources.ValueNotPositive);
                 #endregion
 
-                UpdateHelper.Do(ref _maxRadius, value, ref ViewDirty, ref ViewFrustumDirty);
+                value.To(ref _maxRadius, ref ViewDirty, ref ViewFrustumDirty);
             }
         }
 
@@ -137,7 +136,7 @@ namespace OmegaEngine.Graphics.Cameras
         [EditorAttribute(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public float MinAngle
         {
-            get { return MathUtils.RadianToDegree(_minAngle); }
+            get { return _minAngle.RadianToDegree(); }
             set
             {
                 #region Sanity checks
@@ -146,7 +145,7 @@ namespace OmegaEngine.Graphics.Cameras
                 if (value >= 90) throw new ArgumentOutOfRangeException("value", Resources.AngleNotBelow90);
                 #endregion
 
-                UpdateHelper.Do(ref _minAngle, MathUtils.DegreeToRadian(value), ref ViewDirty, ref ViewFrustumDirty);
+                value.DegreeToRadian().To(ref _minAngle, ref ViewDirty, ref ViewFrustumDirty);
             }
         }
 
@@ -160,7 +159,7 @@ namespace OmegaEngine.Graphics.Cameras
         [EditorAttribute(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public float MaxAngle
         {
-            get { return MathUtils.RadianToDegree(_maxAngle); }
+            get { return _maxAngle.RadianToDegree(); }
             set
             {
                 #region Sanity checks
@@ -169,7 +168,7 @@ namespace OmegaEngine.Graphics.Cameras
                 if (value >= 90) throw new ArgumentOutOfRangeException("value", Resources.AngleNotBelow90);
                 #endregion
 
-                UpdateHelper.Do(ref _maxAngle, MathUtils.DegreeToRadian(value), ref ViewDirty, ref ViewFrustumDirty);
+                value.DegreeToRadian().To(ref _maxAngle, ref ViewDirty, ref ViewFrustumDirty);
             }
         }
 

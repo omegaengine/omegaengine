@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using Common;
 using Common.Utils;
 using Common.Values;
 using SlimDX;
@@ -127,7 +126,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// A transformation matrix that is to be applied before the normal world transform occurs - useful for correcting off-center meshes
         /// </summary>
         [Browsable(false)]
-        public Matrix PreTransform { get { return _preTransform; } set { UpdateHelper.Do(ref _preTransform, value, ref WorldTransformDirty); } }
+        public Matrix PreTransform { get { return _preTransform; } set { value.To(ref _preTransform, ref WorldTransformDirty); } }
 
         private Vector3 _scale = new Vector3(1, 1, 1);
 
@@ -135,7 +134,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Scaling to be performed before rendering
         /// </summary>
         [Description("Scaling to be performed before rendering"), Category("Layout")]
-        public Vector3 Scale { get { return _scale; } set { UpdateHelper.Do(ref _scale, value, ref WorldTransformDirty); } }
+        public Vector3 Scale { get { return _scale; } set { value.To(ref _scale, ref WorldTransformDirty); } }
 
         /// <summary>
         /// Scales this <see cref="PositionableRenderable"/> symmetrically
@@ -143,7 +142,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="factor">The factor by which to scale</param>
         public void SetScale(float factor)
         {
-            UpdateHelper.Do(ref _scale, new Vector3(factor), ref WorldTransformDirty);
+            new Vector3(factor).To(ref _scale, ref WorldTransformDirty);
         }
 
         private Quaternion _rotation = Quaternion.Identity;
@@ -152,7 +151,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// The body's rotation quaternion
         /// </summary>
         [Browsable(false)]
-        public Quaternion Rotation { get { return _rotation; } set { UpdateHelper.Do(ref _rotation, Quaternion.Normalize(value), ref WorldTransformDirty); } }
+        public Quaternion Rotation { get { return _rotation; } set { Quaternion.Normalize(value).To(ref _rotation, ref WorldTransformDirty); } }
 
         private DoubleVector3 _position;
 
@@ -160,14 +159,14 @@ namespace OmegaEngine.Graphics.Renderables
         /// The body's position in world space
         /// </summary>
         [Description("The body's position in world space"), Category("Layout")]
-        public DoubleVector3 Position { get { return _position; } set { UpdateHelper.Do(ref _position, value, ref WorldTransformDirty); } }
+        public DoubleVector3 Position { get { return _position; } set { value.To(ref _position, ref WorldTransformDirty); } }
 
         private DoubleVector3 _positionOffset;
 
         /// <summary>
         /// A value to be added to <see cref="Position"/> in order gain <see cref="IPositionableOffset.EffectivePosition"/> - auto-updated by <see cref="View.Render"/> to the negative <see cref="Camera.Position"/>
         /// </summary>
-        DoubleVector3 IPositionableOffset.Offset { get { return _positionOffset; } set { UpdateHelper.Do(ref _positionOffset, value, ref WorldTransformDirty); } }
+        DoubleVector3 IPositionableOffset.Offset { get { return _positionOffset; } set { value.To(ref _positionOffset, ref WorldTransformDirty); } }
         #endregion
 
         #region Transform results
@@ -182,8 +181,8 @@ namespace OmegaEngine.Graphics.Renderables
             _inverseWorldTransform = Matrix.Invert(_worldTransform);
 
             // Transform bounding bodies into world space
-            _worldBoundingSphere = BoundingSphere.HasValue ? MathUtils.Transform(BoundingSphere.Value, _worldTransform) : (BoundingSphere?)null;
-            _worldBoundingBox = BoundingBox.HasValue ? MathUtils.Transform(BoundingBox.Value, _worldTransform) : (BoundingBox?)null;
+            _worldBoundingSphere = BoundingSphere.HasValue ? BoundingSphere.Value.Transform(_worldTransform) : (BoundingSphere?)null;
+            _worldBoundingBox = BoundingBox.HasValue ? BoundingBox.Value.Transform(_worldTransform) : (BoundingBox?)null;
 
             WorldTransformDirty = false;
         }
@@ -355,7 +354,7 @@ namespace OmegaEngine.Graphics.Renderables
                     WorldTransformDirty = true;
                     break;
                 default:
-                    UpdateHelper.Do(ref _internalRotation, Matrix.Identity, ref WorldTransformDirty);
+                    Matrix.Identity.To(ref _internalRotation, ref WorldTransformDirty);
                     break;
             }
 

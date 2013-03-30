@@ -184,7 +184,7 @@ namespace Presentation
 
             // Update the posistion and rotation of the selection highlighting
             selection.Position = GetEngine(entity.TemplateData.RenderControls[0]).Position;
-            selection.Rotation = Quaternion.RotationYawPitchRoll(MathUtils.DegreeToRadian(entity.Rotation), 0, 0);
+            selection.Rotation = Quaternion.RotationYawPitchRoll(entity.Rotation.DegreeToRadian(), 0, 0);
         }
         #endregion
     }

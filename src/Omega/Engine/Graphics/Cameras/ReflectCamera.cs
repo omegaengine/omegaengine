@@ -7,7 +7,7 @@
  */
 
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 using Common.Values;
 using SlimDX;
 
@@ -51,7 +51,7 @@ namespace OmegaEngine.Graphics.Cameras
         protected override void UpdateView()
         {
             // Note: External update check, clone and conditionally recalc, doesn't call base methods
-            UpdateHelper.Do(ref _parentView, ParentCamera.View, delegate
+            ParentCamera.View.To(ref _parentView, delegate
             {
                 // Reflect the view matrix
                 var reflectMatrix = Matrix.Reflection(ReflectPlane.ApplyOffset(PositionBase));

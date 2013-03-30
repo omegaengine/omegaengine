@@ -55,7 +55,7 @@ namespace Common.Values.Design
                 Minimum = (int)(range.Minimum * 40),
                 Maximum = (int)(range.Maximum * 40),
             };
-            trackBar.Value = MathUtils.Clamp((int)(value * 40), trackBar.Minimum, trackBar.Maximum);
+            trackBar.Value = ((int)(value * 40)).Clamp(trackBar.Minimum, trackBar.Maximum);
 
             editorService.DropDownControl(trackBar);
             return trackBar.Value / 40f;

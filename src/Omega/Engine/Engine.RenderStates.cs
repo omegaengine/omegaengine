@@ -8,7 +8,6 @@
 
 using System;
 using System.Drawing;
-using Common;
 using Common.Utils;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -43,14 +42,14 @@ namespace OmegaEngine
         /// <summary>
         /// Controls how vertexes are filled (normal, wireframe, dotted)
         /// </summary>
-        internal FillMode FillMode { get { return _fillMode; } set { UpdateHelper.Do(ref _fillMode, value, () => Device.SetRenderState(RenderState.FillMode, (int)value)); } }
+        internal FillMode FillMode { get { return _fillMode; } set { value.To(ref _fillMode, () => Device.SetRenderState(RenderState.FillMode, (int)value)); } }
 
         private Cull _cullMode = Cull.Counterclockwise;
 
         /// <summary>
         /// The current culling mode used for rendering
         /// </summary>
-        internal Cull CullMode { get { return _cullMode; } set { UpdateHelper.Do(ref _cullMode, value, () => Device.SetRenderState(RenderState.CullMode, (int)value)); } }
+        internal Cull CullMode { get { return _cullMode; } set { value.To(ref _cullMode, () => Device.SetRenderState(RenderState.CullMode, (int)value)); } }
 
         private ZBufferMode _zBufferMode = ZBufferMode.Normal;
 
@@ -62,7 +61,7 @@ namespace OmegaEngine
             get { return _zBufferMode; }
             set
             {
-                UpdateHelper.Do(ref _zBufferMode, value, delegate
+                value.To(ref _zBufferMode, delegate
                 {
                     switch (value)
                     {
@@ -89,7 +88,7 @@ namespace OmegaEngine
         /// <summary>
         /// Controls whether fixed-function pipeline lighting is used at the moment instead of <see cref="SurfaceShader"/>s
         /// </summary>
-        internal bool FfpLighting { get { return _ffpLighting; } set { UpdateHelper.Do(ref _ffpLighting, value, () => Device.SetRenderState(RenderState.Lighting, value)); } }
+        internal bool FfpLighting { get { return _ffpLighting; } set { value.To(ref _ffpLighting, () => Device.SetRenderState(RenderState.Lighting, value)); } }
         #endregion
 
         #region Fading
@@ -136,19 +135,19 @@ namespace OmegaEngine
         /// <summary>
         /// The color of the fog
         /// </summary>
-        internal Color FogColor { get { return _fogColor; } set { UpdateHelper.Do(ref _fogColor, value, () => Device.SetRenderState(RenderState.FogColor, value.ToArgb())); } }
+        internal Color FogColor { get { return _fogColor; } set { value.To(ref _fogColor, () => Device.SetRenderState(RenderState.FogColor, value.ToArgb())); } }
 
         private float _fogStart, _fogEnd;
 
         /// <summary>
         /// The distance at which the linear fog shall start
         /// </summary>
-        internal float FogStart { get { return _fogStart; } set { UpdateHelper.Do(ref _fogStart, value, () => Device.SetRenderState(RenderState.FogStart, value)); } }
+        internal float FogStart { get { return _fogStart; } set { value.To(ref _fogStart, () => Device.SetRenderState(RenderState.FogStart, value)); } }
 
         /// <summary>
         /// The distance at which the linear fog shall have obscured everything
         /// </summary>
-        internal float FogEnd { get { return _fogEnd; } set { UpdateHelper.Do(ref _fogEnd, value, () => Device.SetRenderState(RenderState.FogEnd, value)); } }
+        internal float FogEnd { get { return _fogEnd; } set { value.To(ref _fogEnd, () => Device.SetRenderState(RenderState.FogEnd, value)); } }
         #endregion
 
         #region Alpha blending
@@ -191,7 +190,7 @@ namespace OmegaEngine
             get { return _alphaBlend; }
             set
             {
-                UpdateHelper.Do(ref _alphaBlend, value, delegate
+                value.To(ref _alphaBlend, delegate
                 {
                     switch (value)
                     {
@@ -243,7 +242,7 @@ namespace OmegaEngine
                             break;
 
                         default:
-                            value = MathUtils.Clamp(value, Opaque, Invisible);
+                            value = value.Clamp(Opaque, Invisible);
                             using (new ProfilerEvent(() => "Alpha blending to constant: " + value))
                             {
                                 // Blend using constant factor
@@ -283,12 +282,12 @@ namespace OmegaEngine
         /// <summary>
         /// The currently active view transformation matrix
         /// </summary>
-        internal Matrix ViewTransform { get { return _viewTransform; } set { UpdateHelper.Do(ref _viewTransform, value, () => Device.SetTransform(TransformState.View, value)); } }
+        internal Matrix ViewTransform { get { return _viewTransform; } set { value.To(ref _viewTransform, () => Device.SetTransform(TransformState.View, value)); } }
 
         /// <summary>
         /// The currently active projection transformation matrix
         /// </summary>
-        internal Matrix ProjectionTransform { get { return _projectionTransform; } set { UpdateHelper.Do(ref _projectionTransform, value, () => Device.SetTransform(TransformState.Projection, value)); } }
+        internal Matrix ProjectionTransform { get { return _projectionTransform; } set { value.To(ref _projectionTransform, () => Device.SetTransform(TransformState.Projection, value)); } }
         #endregion
 
         #region User clip plane
@@ -306,7 +305,7 @@ namespace OmegaEngine
             get { return _userClipPlane; }
             set
             {
-                UpdateHelper.Do(ref _userClipPlane, value, delegate
+                value.To(ref _userClipPlane, delegate
                 {
                     if (value == default(Plane))
                     { // No plane set
@@ -363,7 +362,7 @@ namespace OmegaEngine
             Device.SetSamplerState(0, SamplerState.MaxAnisotropy, Device.Capabilities.MaxAnisotropy);
 
             // Always use linear filtering for mip-maps if possible
-            if (MathUtils.CheckFlag(filter, (int)FilterCaps.MipLinear))
+            if (filter.CheckFlag((int)FilterCaps.MipLinear))
                 Device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.Linear);
 
             if (Anisotropic)
@@ -371,7 +370,7 @@ namespace OmegaEngine
                 Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Anisotropic);
                 Device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Anisotropic);
             }
-            else if (MathUtils.CheckFlag(filter, (int)(FilterCaps.MinLinear | FilterCaps.MagLinear)))
+            else if (filter.CheckFlag((int)(FilterCaps.MinLinear | FilterCaps.MagLinear)))
             { // Otherwise use linear filtering if possible
                 Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
                 Device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);

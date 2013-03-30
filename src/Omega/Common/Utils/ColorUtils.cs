@@ -38,7 +38,7 @@ namespace Common.Utils
         /// </summary>
         /// <param name="color">The Color</param>
         /// <returns>The Vector4</returns>
-        public static Vector4 ColorToVector4(Color color)
+        public static Vector4 ToVector4(this Color color)
         {
             return new Vector4(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
         }
@@ -89,10 +89,10 @@ namespace Common.Utils
 
             // Multiply everything using our floats
             return Color.FromArgb(
-                (byte)(MathUtils.Clamp(alphaValue1 + alphaValue2, 0, 1) * 255f),
-                (byte)(MathUtils.Clamp(redValue1 + redValue2, 0, 1) * 255f),
-                (byte)(MathUtils.Clamp(greenValue1 + greenValue2, 0, 1) * 255f),
-                (byte)(MathUtils.Clamp(blueValue1 + blueValue2, 0, 1) * 255f));
+                (byte)((alphaValue1 + alphaValue2).Clamp(0, 1) * 255f),
+                (byte)((redValue1 + redValue2).Clamp(0, 1) * 255f),
+                (byte)((greenValue1 + greenValue2).Clamp(0, 1) * 255f),
+                (byte)((blueValue1 + blueValue2).Clamp(0, 1) * 255f));
         }
 
         /// <summary>
@@ -105,10 +105,10 @@ namespace Common.Utils
         {
             // Multiply everything using our floats
             return new Color4(
-                MathUtils.Clamp(color1.Alpha + color2.Alpha, 0, 1),
-                MathUtils.Clamp(color1.Red + color2.Red, 0, 1),
-                MathUtils.Clamp(color1.Green + color2.Green, 0, 1),
-                MathUtils.Clamp(color1.Blue + color2.Blue, 0, 1));
+                (color1.Alpha + color2.Alpha).Clamp(0, 1),
+                (color1.Red + color2.Red).Clamp(0, 1),
+                (color1.Green + color2.Green).Clamp(0, 1),
+                (color1.Blue + color2.Blue).Clamp(0, 1));
         }
         #endregion
 
@@ -132,8 +132,8 @@ namespace Common.Utils
         public static Vector4 Multiply(Color color1, Color color2)
         {
             // Check if any of the colors is white, multiplying won't do anything then
-            if (color1 == Color.White) return ColorToVector4(color2);
-            if (color2 == Color.White) return ColorToVector4(color1);
+            if (color1 == Color.White) return ToVector4(color2);
+            if (color2 == Color.White) return ToVector4(color1);
 
             // Get values from color1
             float redValue1 = color1.R / 255f;
@@ -149,10 +149,10 @@ namespace Common.Utils
 
             // Multiply everything using our floats
             return new Vector4(
-                MathUtils.Clamp(redValue1 * redValue2, 0, 1),
-                MathUtils.Clamp(greenValue1 * greenValue2, 0, 1),
-                MathUtils.Clamp(blueValue1 * blueValue2, 0, 1),
-                MathUtils.Clamp(alphaValue1 * alphaValue2, 0, 1));
+                (redValue1 * redValue2).Clamp(0, 1),
+                (greenValue1 * greenValue2).Clamp(0, 1),
+                (blueValue1 * blueValue2).Clamp(0, 1),
+                (alphaValue1 * alphaValue2).Clamp(0, 1));
         }
         #endregion
 
@@ -244,7 +244,7 @@ namespace Common.Utils
         [LuaGlobal(Name = "InterpolateColor", Description = "Interpolates between two colors")]
         public static Color Interpolate(float factor, Color color1, Color color2)
         {
-            factor = MathUtils.Clamp(factor, 0, 1);
+            factor = factor.Clamp(0, 1);
             return Color.FromArgb(
                 (byte)(color1.A * (1.0f - factor) + color2.A * factor),
                 (byte)(color1.R * (1.0f - factor) + color2.R * factor),
@@ -260,7 +260,7 @@ namespace Common.Utils
         /// <param name="color">The color to be inverted</param>
         /// <returns>The inverted color</returns>
         [LuaGlobal(Name = "InvertColor", Description = "Generates the absolute opposite of a color")]
-        public static Color Invert(Color color)
+        public static Color Invert(this Color color)
         {
             return Color.FromArgb(255 - color.R, 255 - color.G, 255 - color.B);
         }

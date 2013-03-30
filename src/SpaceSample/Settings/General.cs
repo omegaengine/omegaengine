@@ -22,7 +22,7 @@
 
 using System;
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 
 namespace Core
 {
@@ -69,7 +69,7 @@ namespace Core
         /// Path to the directory to load the game content from
         /// </summary>
         [DefaultValue(""), Description("Path to the directory to load the game content from")]
-        public string ContentDir { get { return _contentDir; } set { UpdateHelper.Do(ref _contentDir, value, OnChanged); } }
+        public string ContentDir { get { return _contentDir; } set { value.To(ref _contentDir, OnChanged); } }
 
         private string _language;
 
@@ -77,7 +77,7 @@ namespace Core
         /// The current game language
         /// </summary>
         [DefaultValue(""), Description("The current game language")]
-        public string Language { get { return _language; } set { UpdateHelper.Do(ref _language, value, OnChanged); } }
+        public string Language { get { return _language; } set { value.To(ref _language, OnChanged); } }
 
         private int _universePredictSecs = 5;
 
@@ -85,7 +85,7 @@ namespace Core
         /// How many seconds at a time a universe can be predicted - higher value = better performance, lower value = better accuracy
         /// </summary>
         [DefaultValue(5), Description("How many seconds at a time a universe can be predicted - higher value = better performance, lower value = better accuracy")]
-        public int UniversePredictSecs { get { return _universePredictSecs; } set { UpdateHelper.Do(ref _universePredictSecs, value, OnChanged); } }
+        public int UniversePredictSecs { get { return _universePredictSecs; } set { value.To(ref _universePredictSecs, OnChanged); } }
 
         private int _menuSpeed = 250;
 
@@ -93,6 +93,6 @@ namespace Core
         /// How much faster than normal time passes in the main menu
         /// </summary>
         [DefaultValue(250), Description("How much faster than normal time passes in the main menu")]
-        public int MenuSpeed { get { return _menuSpeed; } set { UpdateHelper.Do(ref _menuSpeed, value, OnChanged); } }
+        public int MenuSpeed { get { return _menuSpeed; } set { value.To(ref _menuSpeed, OnChanged); } }
     }
 }

@@ -64,7 +64,7 @@ namespace AlphaEditor.World.TerrainModifiers
 
                     // Shift height and write back
                     newData[x, y] = heightMap[offset.X + x, offset.Y + y] =
-                        (byte)MathUtils.Clamp(oldData[x, y] + (_diff * brush.Factor(x, y)), byte.MinValue, byte.MaxValue);
+                        (byte)(oldData[x, y] + (_diff * brush.Factor(x, y))).Clamp(byte.MinValue, byte.MaxValue);
                 }
             }
         }

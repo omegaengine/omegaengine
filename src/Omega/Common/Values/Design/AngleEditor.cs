@@ -85,7 +85,7 @@ namespace Common.Values.Design
 
             // Draw angle line
             var center = new Point(e.Bounds.Width / 2 + e.Bounds.X, e.Bounds.Height / 2 + e.Bounds.Y);
-            float angle = MathUtils.DegreeToRadian((float)e.Value);
+            float angle = ((float)e.Value).DegreeToRadian();
             var endPoint = new Point(
                 center.X + (int)(center.X * Math.Sin(angle)),
                 center.Y + (int)(center.Y * -Math.Cos(angle)));

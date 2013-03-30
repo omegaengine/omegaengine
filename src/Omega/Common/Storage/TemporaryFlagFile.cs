@@ -22,30 +22,43 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Xml;
+using System.IO;
 
 namespace Common.Storage
 {
     /// <summary>
-    /// Allows you to specify a <see cref="XmlQualifiedName"/> (namespace short-name) for <see cref="XmlStorage"/> to use.
+    /// A temporary directory with a file that may or may not exist to indicate whether a certain condition is true or false.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    [SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "Values set in constructor are available via QualifiedName")]
-    public sealed class XmlNamespaceAttribute : Attribute
+    [SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Flag")]
+    public class TemporaryFlagFile : TemporaryDirectory
     {
+        /// <inheritdoc/>
+        public TemporaryFlagFile(string prefix) : base(prefix)
+        {}
+
+        #region Properties
         /// <summary>
-        /// The <see cref="XmlQualifiedName"/>.
+        /// The fully qualified path of the flag file.
         /// </summary>
-        public XmlQualifiedName QualifiedName { get; set; }
+        public new string Path { get { return System.IO.Path.Combine(base.Path, "flag"); } }
+
+        public static implicit operator string(TemporaryFlagFile dir)
+        {
+            return (dir == null) ? null : dir.Path;
+        }
 
         /// <summary>
-        /// Specified a <see cref="XmlQualifiedName"/> (namespace short-name) for <see cref="XmlStorage"/> to use.
+        /// Indicates or controls whether the file exists.
         /// </summary>
-        /// <param name="name">The short-name.</param>
-        /// <param name="ns">The full namespace URI.</param>
-        public XmlNamespaceAttribute(string name, string ns)
+        public bool Set
         {
-            QualifiedName = new XmlQualifiedName(name, ns);
+            get { return File.Exists(Path); }
+            set
+            {
+                if (value) File.WriteAllText(Path, "");
+                else File.Delete(Path);
+            }
         }
+        #endregion
     }
 }

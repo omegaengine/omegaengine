@@ -206,7 +206,7 @@ namespace World
         private double GetLightAngle(int x1, int x2, int y)
         {
             int xDist = x2 - x1;
-            int heightDist = MathUtils.Clamp(_heightMap[x2, y] - _heightMap[x1, y], 0, 255);
+            int heightDist = (_heightMap[x2, y] - _heightMap[x1, y]).Clamp(0, 255);
             return Math.Atan2(heightDist * _size.StretchV, xDist * _size.StretchH);
         }
 
@@ -215,7 +215,7 @@ namespace World
         /// </summary>
         private static byte RiseAngleToByte(double angle)
         {
-            angle = MathUtils.Clamp(angle, 0, Math.PI / 2);
+            angle = angle.Clamp(0, Math.PI / 2);
             return (byte)(angle / (Math.PI / 2) * 255);
         }
 
@@ -224,7 +224,7 @@ namespace World
         /// </summary>
         private static byte SetAngleToByte(double angle)
         {
-            angle = MathUtils.Clamp(angle, Math.PI / 2, Math.PI);
+            angle = angle.Clamp(Math.PI / 2, Math.PI);
             return (byte)((angle / (Math.PI / 2) - 1) * 255);
         }
         #endregion

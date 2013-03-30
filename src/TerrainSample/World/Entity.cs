@@ -154,7 +154,7 @@ namespace World
         /// </summary>
         [DefaultValue(0f), Description("The horizontal rotation of the view direction in degrees.")]
         [EditorAttribute(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
-        public float Rotation { get { return _rotation; } set { UpdateHelper.Do(ref _rotation, value, OnRenderPropertyChanged); } }
+        public float Rotation { get { return _rotation; } set { value.To(ref _rotation, OnRenderPropertyChanged); } }
         #endregion
 
         //--------------------//
@@ -276,7 +276,7 @@ namespace World
                 } while (loop);
 
                 // Make the entity face the direction it is walking in
-                Rotation = MathUtils.RadianToDegree((float)Math.Atan2(posDifference.Y, posDifference.X)) - 90;
+                Rotation = ((float)Math.Atan2(posDifference.Y, posDifference.X)).RadianToDegree() - 90;
                 #endregion
             }
             else

@@ -9,7 +9,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using Common;
+using Common.Utils;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
@@ -201,7 +201,7 @@ namespace OmegaEngine.Graphics
             }
 
             // Swap the render targets
-            UpdateHelper.Swap(ref RenderTarget, ref _secondaryRenderTarget);
+            UpdateUtils.Swap(ref RenderTarget, ref _secondaryRenderTarget);
         }
 
         /// <summary>

@@ -7,7 +7,6 @@
  */
 
 using System;
-using Common;
 using Common.Utils;
 using Common.Values;
 using SlimDX.Direct3D9;
@@ -24,7 +23,7 @@ namespace OmegaEngine
         /// Does the hardware the engine is running on support anisotropic texture filtering?
         /// </summary>
         /// <seealso cref="Anisotropic"/>
-        public bool SupportsAnisotropic { get { return MathUtils.CheckFlag((int)Manager.GetDeviceCaps(0, DeviceType.Hardware).TextureFilterCaps, (int)(FilterCaps.MinAnisotropic | FilterCaps.MagAnisotropic)); } }
+        public bool SupportsAnisotropic { get { return ((int)Manager.GetDeviceCaps(0, DeviceType.Hardware).TextureFilterCaps).CheckFlag((int)(FilterCaps.MinAnisotropic | FilterCaps.MagAnisotropic)); } }
 
         /// <summary>
         /// Use anisotropic texture filtering
@@ -36,7 +35,7 @@ namespace OmegaEngine
             set
             {
                 if (value && !SupportsAnisotropic) value = false;
-                UpdateHelper.Do(ref _anisotropicFiltering, value, SetupTextureFiltering);
+                value.To(ref _anisotropicFiltering, SetupTextureFiltering);
             }
         }
         #endregion

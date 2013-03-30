@@ -10,8 +10,8 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
-using Common;
 using Common.Storage;
+using Common.Utils;
 using SlimDX;
 using OmegaEngine.Graphics.Shaders;
 
@@ -77,7 +77,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// The ID of the texture to use for color lookup
         /// </summary>
         [DefaultValue("Flame.tga"), Description("The ID of the texture to use for color lookup")]
-        public string ParticleTexture { get { return _particleTexture; } set { UpdateHelper.Do(ref _particleTexture, value, ref TextureDirty); } }
+        public string ParticleTexture { get { return _particleTexture; } set { value.To(ref _particleTexture, ref TextureDirty); } }
         #endregion
 
         //--------------------//

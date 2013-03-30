@@ -126,9 +126,9 @@ namespace OmegaEngine.Graphics.Renderables
             float radiusDiff = Math.Abs(radiusTop - radiusBottom);
             return Cylinder(engine, texture, radiusBottom, radiusTop, length,
                 // Auto-detmerine the number of slices for the cylinder
-                (int)MathUtils.Clamp(radiusMean * radiusMean, 8, 1024),
+                (int)(radiusMean * radiusMean).Clamp(8, 1024),
                 // Auto-detmerine the number of stacks for the cylinder
-                (int)MathUtils.Clamp(radiusDiff * radiusDiff, 4, 512));
+                (int)(radiusDiff * radiusDiff).Clamp(4, 512));
         }
         #endregion
 
@@ -165,7 +165,7 @@ namespace OmegaEngine.Graphics.Renderables
             float radiusMean = radiusInner + (radiusOuter - radiusInner) / 2;
             return Disc(engine, texture, radiusInner, radiusOuter, height,
                 // Auto-detmerine the number of segments for the disc
-                (int)MathUtils.Clamp(radiusMean * radiusMean, 8, 1024));
+                (int)(radiusMean * radiusMean).Clamp(8, 1024));
         }
         #endregion
     }

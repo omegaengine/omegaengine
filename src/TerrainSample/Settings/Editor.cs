@@ -24,8 +24,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
-using Common;
 using Common.Collections;
+using Common.Utils;
 
 namespace Core
 {
@@ -55,7 +55,7 @@ namespace Core
         /// Show the welcome message on startup
         /// </summary>
         [DefaultValue(true), Description("Show the welcome message on startup")]
-        public bool ShowWelcomeMessage { get { return _showWelcomeMessage; } set { UpdateHelper.Do(ref _showWelcomeMessage, value, OnChanged); } }
+        public bool ShowWelcomeMessage { get { return _showWelcomeMessage; } set { value.To(ref _showWelcomeMessage, OnChanged); } }
 
         private bool _editBase;
 
@@ -63,7 +63,7 @@ namespace Core
         /// May the user edit the base game?
         /// </summary>
         [DefaultValue(false), Description("May the user edit the base game?")]
-        public bool EditBase { get { return _editBase; } set { UpdateHelper.Do(ref _editBase, value, OnChanged); } }
+        public bool EditBase { get { return _editBase; } set { value.To(ref _editBase, OnChanged); } }
 
         private Size _windowSize;
 
@@ -71,7 +71,7 @@ namespace Core
         /// The size of the editor window
         /// </summary>
         [Description("The size of the editor window")]
-        public Size WindowSize { get { return _windowSize; } set { UpdateHelper.Do(ref _windowSize, value, OnChanged); } }
+        public Size WindowSize { get { return _windowSize; } set { value.To(ref _windowSize, OnChanged); } }
 
         private bool _windowMaximized;
 
@@ -79,7 +79,7 @@ namespace Core
         /// Is the editor window maximized?
         /// </summary>
         [Description("Is the editor window maximized?")]
-        public bool WindowMaximized { get { return _windowMaximized; } set { UpdateHelper.Do(ref _windowMaximized, value, OnChanged); } }
+        public bool WindowMaximized { get { return _windowMaximized; } set { value.To(ref _windowMaximized, OnChanged); } }
 
         // Note: Can not use ICollection<T> interface with XML Serialization
         private readonly MonitoredCollection<string> _recentMods = new MonitoredCollection<string>();

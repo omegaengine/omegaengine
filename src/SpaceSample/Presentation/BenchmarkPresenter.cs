@@ -151,9 +151,9 @@ namespace Presentation
             Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize =
                 _statistics.TestCases[_testCaseCounter].HighRes ? new Size(1024, 768) : new Size(800, 600);
             Settings.Current.Display.AntiAliasing = _statistics.TestCases[_testCaseCounter].AntiAliasing ? 2 : 0;
-            Settings.Current.Graphics.Anisotropic = MathUtils.CheckFlag((byte)_statistics.TestCases[_testCaseCounter].GraphicsSettings, (byte)TestGraphicsSettings.Anisotropic);
-            Settings.Current.Graphics.DoubleSampling = MathUtils.CheckFlag((byte)_statistics.TestCases[_testCaseCounter].GraphicsSettings, (byte)TestGraphicsSettings.DoubleSampling);
-            Settings.Current.Graphics.PostScreenEffects = MathUtils.CheckFlag((byte)_statistics.TestCases[_testCaseCounter].GraphicsSettings, (byte)TestGraphicsSettings.PostScreenEffects);
+            Settings.Current.Graphics.Anisotropic = ((byte)_statistics.TestCases[_testCaseCounter].GraphicsSettings).CheckFlag((byte)TestGraphicsSettings.Anisotropic);
+            Settings.Current.Graphics.DoubleSampling = ((byte)_statistics.TestCases[_testCaseCounter].GraphicsSettings).CheckFlag((byte)TestGraphicsSettings.DoubleSampling);
+            Settings.Current.Graphics.PostScreenEffects = ((byte)_statistics.TestCases[_testCaseCounter].GraphicsSettings).CheckFlag((byte)TestGraphicsSettings.PostScreenEffects);
             Settings.Current.Graphics.WaterEffects = _statistics.TestCases[_testCaseCounter].WaterEffects;
             Settings.Current.Graphics.ParticleSystemQuality = _statistics.TestCases[_testCaseCounter].ParticleSystemQuality;
 

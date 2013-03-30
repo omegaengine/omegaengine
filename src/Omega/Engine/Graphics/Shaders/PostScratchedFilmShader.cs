@@ -8,7 +8,7 @@
 
 using System;
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 using SlimDX.Direct3D9;
 using OmegaEngine.Assets;
 using Resources = OmegaEngine.Properties.Resources;
@@ -44,7 +44,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _speed, value, () => Effect.SetValue(_speedHandle, value));
+                value.To(ref _speed, () => Effect.SetValue(_speedHandle, value));
             }
         }
 
@@ -58,7 +58,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _speed2, value, () => Effect.SetValue(_speed2Handle, value));
+                value.To(ref _speed2, () => Effect.SetValue(_speed2Handle, value));
             }
         }
 
@@ -72,7 +72,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _scratchIntensity, value, () => Effect.SetValue(_scratchIntensityHandle, value));
+                value.To(ref _scratchIntensity, () => Effect.SetValue(_scratchIntensityHandle, value));
             }
         }
 
@@ -86,7 +86,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _scratchWidth, value, () => Effect.SetValue(_scratchWidthHandle, value));
+                value.To(ref _scratchWidth, () => Effect.SetValue(_scratchWidthHandle, value));
             }
         }
         #endregion

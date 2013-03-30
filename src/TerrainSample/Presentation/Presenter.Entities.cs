@@ -388,9 +388,9 @@ namespace Presentation
                 // Set model properties
                 model.PreTransform = Matrix.Scaling(meshRender.Scale, meshRender.Scale, meshRender.Scale) *
                     Matrix.RotationYawPitchRoll(
-                        MathUtils.DegreeToRadian(meshRender.RotationY),
-                        MathUtils.DegreeToRadian(meshRender.RotationX),
-                        MathUtils.DegreeToRadian(meshRender.RotationZ)) *
+                        meshRender.RotationY.DegreeToRadian(),
+                        meshRender.RotationX.DegreeToRadian(),
+                        meshRender.RotationZ.DegreeToRadian()) *
                     Matrix.Translation(meshRender.Shift);
                 model.Alpha = meshRender.Alpha;
                 model.Pickable = meshRender.Pickable;
@@ -469,7 +469,7 @@ namespace Presentation
             var render = GetEngine(renderControl);
             if (render == null) return;
 
-            var rotation = Quaternion.RotationYawPitchRoll(MathUtils.DegreeToRadian(dirRotation), 0, 0) *
+            var rotation = Quaternion.RotationYawPitchRoll(dirRotation.DegreeToRadian(), 0, 0) *
                 Quaternion.RotationYawPitchRoll(0, terrainPoint.AngleX, terrainPoint.AngleY);
 
             // ----- RenderControl.Shift already applied ----- //

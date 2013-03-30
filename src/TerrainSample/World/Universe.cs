@@ -23,7 +23,7 @@
 using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
-using Common;
+using Common.Utils;
 using SlimDX;
 
 namespace World
@@ -59,7 +59,7 @@ namespace World
         /// The name of the skybox to use for this map; may be <see langword="null"/> or empty.
         /// </summary>
         [DefaultValue(""), Category("Background"), Description("The name of the skybox to use for this map; may be null or empty.")]
-        public string Skybox { get { return _skybox; } set { UpdateHelper.Do(ref _skybox, value, SkyboxChanged); } }
+        public string Skybox { get { return _skybox; } set { value.To(ref _skybox, SkyboxChanged); } }
 
         /// <summary>
         /// The position and direction of the camera in the game.

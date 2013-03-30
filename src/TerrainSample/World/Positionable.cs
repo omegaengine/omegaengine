@@ -24,7 +24,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
-using Common;
+using Common.Utils;
 using SlimDX;
 
 namespace World
@@ -73,7 +73,7 @@ namespace World
         /// The <see cref="Positionable"/>'s position on the <see cref="Terrain"/>.
         /// </summary>
         [Description("The entity's position on the terrain.")]
-        public Vector2 Position { get { return _position; } set { UpdateHelper.Do(ref _position, value, OnRenderPropertyChanged); } }
+        public Vector2 Position { get { return _position; } set { value.To(ref _position, OnRenderPropertyChanged); } }
         #endregion
 
         //--------------------//

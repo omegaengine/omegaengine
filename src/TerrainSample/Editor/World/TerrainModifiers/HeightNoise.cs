@@ -71,7 +71,7 @@ namespace AlphaEditor.World.TerrainModifiers
 
                     // Add noise and write back
                     newData[x, y] = heightMap[offset.X + x, offset.Y + y] =
-                        (byte)MathUtils.Clamp(oldData[x, y] + (noise.Function2D(x, y) * brush.Factor(x, y)), byte.MinValue, byte.MaxValue);
+                        (byte)(oldData[x, y] + (noise.Function2D(x, y) * brush.Factor(x, y))).Clamp(byte.MinValue, byte.MaxValue);
                 }
             }
         }

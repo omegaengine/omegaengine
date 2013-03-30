@@ -77,7 +77,7 @@ namespace Common.Controls
 
             // Draw angle line
             var center = new Point(Width / 2, Height / 2);
-            float angle = MathUtils.DegreeToRadian(Angle);
+            float angle = Angle.DegreeToRadian();
             var endPoint = new Point(
                 center.X + (int)(center.X * Math.Sin(angle)),
                 center.Y + (int)(center.Y * -Math.Cos(angle)));
@@ -115,7 +115,7 @@ namespace Common.Controls
 
             var center = new Point(Width / 2, Height / 2);
             Angle = GetAngle(center, new Point(location.X, distortedY));
-            if (Range != null) Angle = MathUtils.Clamp(Angle, Range.Minimum, Range.Maximum);
+            if (Range != null) Angle = Angle.Clamp(Range.Minimum, Range.Maximum);
 
             Refresh();
         }
@@ -128,7 +128,7 @@ namespace Common.Controls
             if (p2.X - p1.X == 0) return (p2.Y > p1.Y ? 180 : 0);
             else
             {
-                float angle = MathUtils.RadianToDegree((float)Math.Atan((p2.Y - p1.Y) / (float)(p2.X - p1.X))) + 90;
+                float angle = ((float)Math.Atan((p2.Y - p1.Y) / (float)(p2.X - p1.X))).RadianToDegree() + 90;
                 if ((p2.X - p1.X) < 0 || (p2.Y - p1.Y) < 0) angle += 180;
                 if ((p2.X - p1.X) > 0 && (p2.Y - p1.Y) < 0) angle -= 180;
 

@@ -70,6 +70,7 @@
     <Compile Include="Collections\EnumerableUtilsTest.cs" />
     <Compile Include="Collections\XmlDictionaryTest.cs" />
     <Compile Include="Collections\PerTypeDispatcherTest.cs" />
+    <Compile Include="Collections\StringMappedCollectionTest.cs" />
     <Compile Include="Controls\TrackingLabelTest.cs" />
     <Compile Include="Controls\TrackingProgressBarTest.cs" />
     <Compile Include="Tasks\ForEachTaskTest.cs" />

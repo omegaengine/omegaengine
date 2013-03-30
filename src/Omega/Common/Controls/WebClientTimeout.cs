@@ -21,31 +21,42 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Xml;
+using System.Net;
 
-namespace Common.Storage
+namespace Common.Controls
 {
     /// <summary>
-    /// Allows you to specify a <see cref="XmlQualifiedName"/> (namespace short-name) for <see cref="XmlStorage"/> to use.
+    /// Adds a customizable timout to <see cref="WebClient"/>.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    [SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "Values set in constructor are available via QualifiedName")]
-    public sealed class XmlNamespaceAttribute : Attribute
+    public class WebClientTimeout : WebClient
     {
         /// <summary>
-        /// The <see cref="XmlQualifiedName"/>.
+        /// The default timeout value, in milliseconds, used when no explicit value is specified.
         /// </summary>
-        public XmlQualifiedName QualifiedName { get; set; }
+        public const int DefaultTimeout = 20000; // 20 seconds
+
+        private readonly int _timeout;
 
         /// <summary>
-        /// Specified a <see cref="XmlQualifiedName"/> (namespace short-name) for <see cref="XmlStorage"/> to use.
+        /// Creates a new <see cref="WebClient"/> using <see cref="DefaultTimeout"/>.
         /// </summary>
-        /// <param name="name">The short-name.</param>
-        /// <param name="ns">The full namespace URI.</param>
-        public XmlNamespaceAttribute(string name, string ns)
+        public WebClientTimeout() : this(DefaultTimeout)
+        {}
+
+        /// <summary>
+        /// Creates a new <see cref="WebClient"/>.
+        /// </summary>
+        /// <param name="timeout">The length of time, in milliseconds, before requests made by this <see cref="WebClient"/> time out.</param>
+        public WebClientTimeout(int timeout)
         {
-            QualifiedName = new XmlQualifiedName(name, ns);
+            _timeout = timeout;
+        }
+
+        protected override WebRequest GetWebRequest(Uri address)
+        {
+            var result = base.GetWebRequest(address);
+            if (result != null) result.Timeout = _timeout;
+            return result;
         }
     }
 }

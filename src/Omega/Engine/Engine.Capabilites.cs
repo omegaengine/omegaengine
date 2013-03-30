@@ -137,12 +137,12 @@ namespace OmegaEngine
                 if (MaxShaderModel == new Version(2, 0) && Capabilities.MaxPixelShader30InstructionSlots >= 96)
                 {
                     if (Capabilities.PS20Caps.TempCount >= 22 &&
-                        MathUtils.CheckFlag((int)Capabilities.PS20Caps.Caps, (int)(PixelShaderCaps.ArbitrarySwizzle | PixelShaderCaps.GradientInstructions | PixelShaderCaps.Predication | PixelShaderCaps.NoDependentReadLimit | PixelShaderCaps.NoTextureInstructionLimit)))
+                        ((int)Capabilities.PS20Caps.Caps).CheckFlag((int)(PixelShaderCaps.ArbitrarySwizzle | PixelShaderCaps.GradientInstructions | PixelShaderCaps.Predication | PixelShaderCaps.NoDependentReadLimit | PixelShaderCaps.NoTextureInstructionLimit)))
                     { // Pixel shader 2.0a
                         MaxShaderModel = new Version(2, 0, 1);
                     }
                     else if (Capabilities.PS20Caps.TempCount >= 32 &&
-                        MathUtils.CheckFlag((int)Capabilities.PS20Caps.Caps, (int)PixelShaderCaps.NoTextureInstructionLimit))
+                        ((int)Capabilities.PS20Caps.Caps).CheckFlag((int)PixelShaderCaps.NoTextureInstructionLimit))
                     { // Pixel shader 2.0b
                         MaxShaderModel = new Version(2, 0, 2);
                     }
@@ -153,15 +153,15 @@ namespace OmegaEngine
 
             // Log GPU capabilities
             Log.Info("GPU capabilities:\n" +
-                "HWTransformAndLight: " + MathUtils.CheckFlag((int)Capabilities.DeviceCaps, (int)DeviceCaps.HWTransformAndLight) + "\n" +
-                "PureDevice: " + MathUtils.CheckFlag((int)Capabilities.DeviceCaps, (int)DeviceCaps.PureDevice) + "\n" +
+                "HWTransformAndLight: " + ((int)Capabilities.DeviceCaps).CheckFlag((int)DeviceCaps.HWTransformAndLight) + "\n" +
+                "PureDevice: " + ((int)Capabilities.DeviceCaps).CheckFlag((int)DeviceCaps.PureDevice) + "\n" +
                 "Anisotropic: " + SupportsAnisotropic + "\n" +
                 "VertexShaderVersion: " + Capabilities.VertexShaderVersion + "\n" +
                 "PixelShaderVersion: " + MaxShaderModel + "\n" +
                 "SupportedAA: " + SupportedAA + "\n");
 
             // Ensure support for linear texture filtering
-            if (!MathUtils.CheckFlag((int)Capabilities.TextureFilterCaps, (int)(FilterCaps.MinLinear | FilterCaps.MagLinear | FilterCaps.MipLinear)))
+            if (!((int)Capabilities.TextureFilterCaps).CheckFlag((int)(FilterCaps.MinLinear | FilterCaps.MagLinear | FilterCaps.MipLinear)))
             {
                 //throw new NotAvailableException(Properties.Resources.NoLinearTextureFiltering);
                 Log.Warn("Missing support for linear texture filtering");

@@ -33,6 +33,7 @@ using AlphaEditor.Properties;
 using Common;
 using Common.Controls;
 using Common.Storage;
+using Common.Utils;
 using OmegaGUI.Model;
 
 namespace AlphaEditor
@@ -56,7 +57,7 @@ namespace AlphaEditor
             set
             {
                 // Show a "Loading..." dialog in a separate thread
-                UpdateHelper.Do(ref _loading, value, delegate
+                value.To(ref _loading, delegate
                 {
                     if (value)
                     {

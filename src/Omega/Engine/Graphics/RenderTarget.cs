@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using Common;
 using Common.Collections;
+using Common.Utils;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics
@@ -114,7 +115,7 @@ namespace OmegaEngine.Graphics
                 Viewport = (Size == Size.Empty) ? _engine.RenderViewport : new Viewport {Width = Size.Width, Height = Size.Height, MaxZ = 1};
 
                 // Dispose the _rtsHelper if it already exists but the size has changed
-                UpdateHelper.Do(ref _rtsHelperSize, new Size(Viewport.Width, Viewport.Height), delegate
+                new Size(Viewport.Width, Viewport.Height).To(ref _rtsHelperSize, delegate
                 {
                     if (_rtsHelper != null)
                     {

@@ -159,7 +159,7 @@ namespace Hanoi.Presentation
                         double newYPos = height;
 
                         // ToDo: Nicer movement
-                        double blendFactor = MathUtils.Clamp(Universe.StepTime, 0, 1);
+                        double blendFactor = Universe.StepTime.Clamp(0, 1);
 
                         xPos = oldXPos * (1 - blendFactor) + newXPos * blendFactor;
                         yPos = oldYPos * (1 - blendFactor) + newYPos * blendFactor;

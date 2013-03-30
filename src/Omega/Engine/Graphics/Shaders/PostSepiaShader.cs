@@ -44,7 +44,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _paperTone, value, () => Effect.SetValue(_paperToneHandle, ColorUtils.ColorToVector4(value)));
+                value.To(ref _paperTone, () => Effect.SetValue(_paperToneHandle, value.ToVector4()));
             }
         }
 
@@ -58,7 +58,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _stainTone, value, () => Effect.SetValue(_stainToneHandle, ColorUtils.ColorToVector4(value)));
+                value.To(ref _stainTone, () => Effect.SetValue(_stainToneHandle, value.ToVector4()));
             }
         }
 
@@ -73,7 +73,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < 0 || value > 1) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _desaturation, value, () => Effect.SetValue(_desatHandle, value));
+                value.To(ref _desaturation, () => Effect.SetValue(_desatHandle, value));
             }
         }
 
@@ -88,7 +88,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < 0 || value > 1) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _toning, value, () => Effect.SetValue(_tonedHandle, value));
+                value.To(ref _toning, () => Effect.SetValue(_tonedHandle, value));
             }
         }
         #endregion

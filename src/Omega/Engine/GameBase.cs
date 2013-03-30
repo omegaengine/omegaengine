@@ -74,7 +74,7 @@ namespace OmegaEngine
             set
             {
                 // Show taskbar animation on Windows 7 or newer
-                UpdateHelper.Do(ref _loading, value, () =>
+                value.To(ref _loading, () =>
                     WindowsUtils.SetProgressState(Form.Handle, value
                         ? WindowsUtils.TaskbarProgressBarState.Indeterminate
                         : WindowsUtils.TaskbarProgressBarState.NoProgress));
@@ -409,9 +409,9 @@ namespace OmegaEngine
                 if (TouchInputProvider != null) TouchInputProvider.Dispose();
 
                 // Assume this is the only usage of SlimDX in the entire process (true for games, not for editors)
-                if (SlimDX.ObjectTable.Objects.Count > 0)
+                if (ObjectTable.Objects.Count > 0)
                 {
-                    string leaks = SlimDX.ObjectTable.ReportLeaks();
+                    string leaks = ObjectTable.ReportLeaks();
                     Log.Error(leaks);
 #if DEBUG
                     throw new InvalidOperationException(leaks);

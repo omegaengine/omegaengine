@@ -25,7 +25,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Xml.Serialization;
-using Common;
+using Common.Utils;
 using Common.Values;
 using Common.Values.Design;
 using LuaInterface;
@@ -78,7 +78,7 @@ namespace World
         /// </summary>
         /// <remarks>Is not serialized/stored, <see cref="AmbientColorValue"/> is used for that.</remarks>
         [XmlIgnore, Category("Lighting"), Description("The color of the ambient light (background light that is always visible and has no direction).")]
-        public Color AmbientColor { get { return _ambientColor; } set { UpdateHelper.Do(ref _ambientColor, Color.FromArgb(255, value), OnLightingChanged); /* Drop alpha-channel */ } }
+        public Color AmbientColor { get { return _ambientColor; } set { Color.FromArgb(255, value).To(ref _ambientColor, OnLightingChanged); /* Drop alpha-channel */ } }
 
         /// <summary>Used for XML serialization.</summary>
         /// <seealso cref="AmbientColor"/>
@@ -92,7 +92,7 @@ namespace World
         /// </summary>
         /// <remarks>Is not serialized/stored, <see cref="SunColorValue"/> is used for that.</remarks>
         [XmlIgnore, Category("Lighting"), Description("The color of the diffuse light (normal directional light) of the sun.")]
-        public Color SunColor { get { return _sunColor; } set { UpdateHelper.Do(ref _sunColor, Color.FromArgb(255, value), OnLightingChanged); /* Drop alpha-channel */ } }
+        public Color SunColor { get { return _sunColor; } set { Color.FromArgb(255, value).To(ref _sunColor, OnLightingChanged); /* Drop alpha-channel */ } }
 
         private float _sunInclination = 20;
 
@@ -101,7 +101,7 @@ namespace World
         /// </summary>
         [DefaultValue(20f), Category("Lighting"), Description("The angle of inclination of the sun's path away from the zenith towards south in degrees.")]
         [EditorAttribute(typeof(AngleEditor), typeof(UITypeEditor))]
-        public float SunInclination { get { return _sunInclination; } set { UpdateHelper.Do(ref _sunInclination, value, OnLightingChanged); } }
+        public float SunInclination { get { return _sunInclination; } set { value.To(ref _sunInclination, OnLightingChanged); } }
 
         /// <summary>Used for XML serialization.</summary>
         /// <seealso cref="SunColor"/>
@@ -115,7 +115,7 @@ namespace World
         /// </summary>
         /// <remarks>Is not serialized/stored, <see cref="MoonColorValue"/> is used for that.</remarks>
         [XmlIgnore, Category("Lighting"), Description("The color of the diffuse light (normal directional light) of the second moon.")]
-        public Color MoonColor { get { return _moonColor; } set { UpdateHelper.Do(ref _moonColor, Color.FromArgb(255, value), OnLightingChanged); /* Drop alpha-channel */ } }
+        public Color MoonColor { get { return _moonColor; } set { Color.FromArgb(255, value).To(ref _moonColor, OnLightingChanged); /* Drop alpha-channel */ } }
 
         /// <summary>Used for XML serialization.</summary>
         /// <seealso cref="MoonColor"/>
@@ -129,7 +129,7 @@ namespace World
         /// </summary>
         [DefaultValue(340f), Category("Lighting"), Description("The angle of inclination of the second moon's path away from the zenith towards south in degrees.")]
         [EditorAttribute(typeof(AngleEditor), typeof(UITypeEditor))]
-        public float MoonInclination { get { return _moonInclination; } set { UpdateHelper.Do(ref _moonInclination, value, OnLightingChanged); } }
+        public float MoonInclination { get { return _moonInclination; } set { value.To(ref _moonInclination, OnLightingChanged); } }
 
         private float _lightPhase;
 
@@ -144,7 +144,7 @@ namespace World
         /// </remarks>
         [FloatRange(0f, 4f), DefaultValue(0f), Category("Lighting"), Description("A value between 0 and 4 representing the current sun and moon positions.")]
         [EditorAttribute(typeof(SliderEditor), typeof(UITypeEditor))]
-        public float LightPhase { get { return _lightPhase; } set { UpdateHelper.Do(ref _lightPhase, value % 4, OnLightingChanged); } }
+        public float LightPhase { get { return _lightPhase; } set { (value % 4).To(ref _lightPhase, OnLightingChanged); } }
 
         /// <summary>
         /// The speed with which the <see cref="LightPhase"/> is incremented.
@@ -160,7 +160,7 @@ namespace World
         /// Color correction values to apply in light phase 0 or 4 (night).
         /// </summary>
         [Category("Color correction"), Description("Color correction values to apply in light phase 0 or 4 (night).")]
-        public ColorCorrection ColorCorrectionPhase0 { get { return _colorCorrectionPhase0; } set { UpdateHelper.Do(ref _colorCorrectionPhase0, value, OnLightingChanged); } }
+        public ColorCorrection ColorCorrectionPhase0 { get { return _colorCorrectionPhase0; } set { value.To(ref _colorCorrectionPhase0, OnLightingChanged); } }
 
         private ColorCorrection _colorCorrectionPhase1 = ColorCorrection.Default;
 
@@ -168,7 +168,7 @@ namespace World
         /// Color correction values to apply in light phase 1 or 5 (dawn).
         /// </summary>
         [Category("Color correction"), Description("Color correction values to apply in light phase 1 or 5 (dawn).")]
-        public ColorCorrection ColorCorrectionPhase1 { get { return _colorCorrectionPhase1; } set { UpdateHelper.Do(ref _colorCorrectionPhase1, value, OnLightingChanged); } }
+        public ColorCorrection ColorCorrectionPhase1 { get { return _colorCorrectionPhase1; } set { value.To(ref _colorCorrectionPhase1, OnLightingChanged); } }
 
         private ColorCorrection _colorCorrectionPhase2 = ColorCorrection.Default;
 
@@ -176,7 +176,7 @@ namespace World
         /// Color correction values to apply in light phase 2 or 6 (noon).
         /// </summary>
         [Category("Color correction"), Description("Color correction values to apply in light phase 2 or 6 (noon).")]
-        public ColorCorrection ColorCorrectionPhase2 { get { return _colorCorrectionPhase2; } set { UpdateHelper.Do(ref _colorCorrectionPhase2, value, OnLightingChanged); } }
+        public ColorCorrection ColorCorrectionPhase2 { get { return _colorCorrectionPhase2; } set { value.To(ref _colorCorrectionPhase2, OnLightingChanged); } }
 
         private ColorCorrection _colorCorrectionPhase3 = ColorCorrection.Default;
 
@@ -184,7 +184,7 @@ namespace World
         /// Color correction values to apply in light phase 3 or 7 (twilight).
         /// </summary>
         [Category("Color correction"), Description("Color correction values to apply in light phase  3 or 7 (twilight).")]
-        public ColorCorrection ColorCorrectionPhase3 { get { return _colorCorrectionPhase3; } set { UpdateHelper.Do(ref _colorCorrectionPhase3, value, OnLightingChanged); } }
+        public ColorCorrection ColorCorrectionPhase3 { get { return _colorCorrectionPhase3; } set { value.To(ref _colorCorrectionPhase3, OnLightingChanged); } }
         #endregion
 
         #region Effects
@@ -194,7 +194,7 @@ namespace World
         /// Is the fog active?
         /// </summary>
         [DefaultValue(false), Category("Effects"), Description("Is the fog active?")]
-        public bool Fog { get { return _fog; } set { UpdateHelper.Do(ref _fog, value, OnFogChanged); } }
+        public bool Fog { get { return _fog; } set { value.To(ref _fog, OnFogChanged); } }
 
         private float _fogDistance = 5000;
 
@@ -202,7 +202,7 @@ namespace World
         /// The maximum distance one can look through the fog.
         /// </summary>
         [DefaultValue(5000f), Category("Effects"), Description("The maximum distance one can look through the fog.")]
-        public float FogDistance { get { return _fogDistance; } set { UpdateHelper.Do(ref _fogDistance, value, OnFogChanged); } }
+        public float FogDistance { get { return _fogDistance; } set { value.To(ref _fogDistance, OnFogChanged); } }
 
         private Color _fogColor = Color.Gray;
 
@@ -211,7 +211,7 @@ namespace World
         /// </summary>
         /// <remarks>Is not serialized/stored, <see cref="FogColorValue"/> is used for that.</remarks>
         [XmlIgnore, DefaultValue(typeof(Color), "Gray"), Category("Effects"), Description("The color of the fog.")]
-        public Color FogColor { get { return _fogColor; } set { UpdateHelper.Do(ref _fogColor, value, FogChanged); } }
+        public Color FogColor { get { return _fogColor; } set { value.To(ref _fogColor, FogChanged); } }
 
         /// <summary>Used for XML serialization.</summary>
         /// <seealso cref="FogColor"/>
@@ -224,7 +224,7 @@ namespace World
         /// Is the fog active?
         /// </summary>
         [DefaultValue(false), Category("Effects"), Description("Is the bleach effect active?")]
-        public bool Bleach { get { return _bleach; } set { UpdateHelper.Do(ref _bleach, value, OnBleachChanged); } }
+        public bool Bleach { get { return _bleach; } set { value.To(ref _bleach, OnBleachChanged); } }
         #endregion
     }
 }

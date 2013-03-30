@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
-using Common;
+using Common.Utils;
 using Common.Values.Design;
 
 namespace World
@@ -121,7 +121,7 @@ namespace World
         /// </summary>
         [DefaultValue(0f), Description("The horizontal rotation of the view direction in degrees.")]
         [EditorAttribute(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
-        public float Rotation { get { return _rotation; } set { UpdateHelper.Do(ref _rotation, value, OnRenderPropertyChanged); } }
+        public float Rotation { get { return _rotation; } set { value.To(ref _rotation, OnRenderPropertyChanged); } }
         #endregion
 
         //--------------------//

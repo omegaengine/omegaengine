@@ -22,7 +22,7 @@
 
 using System;
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 
 namespace Core
 {
@@ -52,6 +52,6 @@ namespace Core
         /// Invert the mouse axes
         /// </summary>
         [DefaultValue(false), Description("Invert the mouse axes")]
-        public bool InvertMouse { get { return _invertMouse; } set { UpdateHelper.Do(ref _invertMouse, value, OnChanged); } }
+        public bool InvertMouse { get { return _invertMouse; } set { value.To(ref _invertMouse, OnChanged); } }
     }
 }

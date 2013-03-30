@@ -144,8 +144,8 @@ namespace Common.Values
         public Quadrangle Rotate(float rotation)
         {
             return new Quadrangle(
-                MathUtils.Rotate(P1, rotation), MathUtils.Rotate(P2, rotation),
-                MathUtils.Rotate(P3, rotation), MathUtils.Rotate(P4, rotation));
+                P1.Rotate(rotation), P2.Rotate(rotation),
+                P3.Rotate(rotation), P4.Rotate(rotation));
         }
         #endregion
 

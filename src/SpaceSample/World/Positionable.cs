@@ -24,7 +24,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
-using Common;
+using Common.Utils;
 using Common.Values;
 
 namespace World
@@ -73,7 +73,7 @@ namespace World
         /// The <see cref="Positionable"/>'s position in space.
         /// </summary>
         [Description("The entity's position on the terrain.")]
-        public DoubleVector3 Position { get { return _position; } set { UpdateHelper.Do(ref _position, value, OnRenderPropertyChanged); } }
+        public DoubleVector3 Position { get { return _position; } set { value.To(ref _position, OnRenderPropertyChanged); } }
         #endregion
 
         //--------------------//

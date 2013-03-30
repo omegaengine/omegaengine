@@ -204,7 +204,9 @@ namespace OmegaEngine
         #region View
         private void SelectView(View view)
         {
+// ReSharper disable RedundantComparisonWithNull
             dumpViewButton.Enabled = view != null && view is TextureView;
+// ReSharper restore RedundantComparisonWithNull
 
             if (viewPropertyGrid.SelectedObject != view)
             {

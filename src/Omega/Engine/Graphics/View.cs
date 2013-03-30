@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using Common;
+using Common.Utils;
 using Common.Values;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -127,7 +128,7 @@ namespace OmegaEngine.Graphics
                     }
                 }
 
-                UpdateHelper.Do(ref _area, value, UpdateViewport);
+                value.To(ref _area, UpdateViewport);
             }
         }
 
@@ -206,7 +207,7 @@ namespace OmegaEngine.Graphics
         /// The background color and fog color of this scene - <see cref="Color.Empty"/> for no background, may use alpha-channel if <see cref="FullAlpha"/> is not set
         /// </summary>
         [Description("The background color and fog color of this scene - Color.Empty for no background, may use alpha-channel if FullAlpha is not set"), Category("Appearance")]
-        public Color BackgroundColor { set { UpdateHelper.Do(ref _backgroundColor, value, ref BackgroundQuadDirty); } get { return _backgroundColor; } }
+        public Color BackgroundColor { set { value.To(ref _backgroundColor, ref BackgroundQuadDirty); } get { return _backgroundColor; } }
 
         private readonly Scene _scene;
 

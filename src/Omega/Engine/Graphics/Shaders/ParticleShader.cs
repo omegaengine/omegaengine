@@ -8,7 +8,7 @@
 
 using System;
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
@@ -52,7 +52,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _spawnRadius, value, () => Effect.SetValue(_spawnRadiusHandle, value));
+                value.To(ref _spawnRadius, () => Effect.SetValue(_spawnRadiusHandle, value));
             }
         }
 
@@ -66,7 +66,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _systemHeight, value, () => Effect.SetValue(_systemHeightHandle, value));
+                value.To(ref _systemHeight, () => Effect.SetValue(_systemHeightHandle, value));
             }
         }
 
@@ -80,7 +80,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _particleSpeed, value, () => Effect.SetValue(_particleSpeedHandle, value));
+                value.To(ref _particleSpeed, () => Effect.SetValue(_particleSpeedHandle, value));
             }
         }
 
@@ -94,7 +94,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _particleSpread, value, () => Effect.SetValue(_particleSpreadHandle, value));
+                value.To(ref _particleSpread, () => Effect.SetValue(_particleSpreadHandle, value));
             }
         }
 
@@ -108,7 +108,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _particleSize, value, () => Effect.SetValue(_particleSizeHandle, value));
+                value.To(ref _particleSize, () => Effect.SetValue(_particleSizeHandle, value));
             }
         }
 
@@ -122,7 +122,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _particleShape, value, () => Effect.SetValue(_particleShapeHandle, value));
+                value.To(ref _particleShape, () => Effect.SetValue(_particleShapeHandle, value));
             }
         }
         #endregion

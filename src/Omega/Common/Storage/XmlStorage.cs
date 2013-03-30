@@ -70,7 +70,7 @@ namespace Common.Storage
         private static XmlSerializer GetSerializer(Type type, IEnumerable<MemberInfo> ignoreMembers)
         {
             // Create a string key containing the type name and optionally the ignore-type names
-            string key = type.FullName ?? "";
+            string key = type.FullName;
             if (ignoreMembers != null)
             {
                 key = ignoreMembers.Where(ignoreMember => ignoreMember != null).
@@ -164,6 +164,7 @@ namespace Common.Storage
             if (stream == null) throw new ArgumentNullException("stream");
             #endregion
 
+            if (stream.CanSeek) stream.Position = 0;
             try
             {
                 return (T)GetSerializer(typeof(T), ignoreMembers).Deserialize(stream);
@@ -442,6 +443,7 @@ namespace Common.Storage
             if (stream == null) throw new ArgumentNullException("stream");
             #endregion
 
+            if (stream.CanSeek) stream.Position = 0;
             using (var zipStream = new ZipOutputStream(stream) {IsStreamOwner = false})
             {
                 if (!string.IsNullOrEmpty(password)) zipStream.Password = password;

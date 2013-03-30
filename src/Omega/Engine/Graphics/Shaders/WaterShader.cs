@@ -9,7 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using Common;
+using Common.Utils;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Assets;
@@ -57,7 +57,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _dullColor, value, () => Effect.SetValue(_dullColorHandle, new Color4(value)));
+                value.To(ref _dullColor, () => Effect.SetValue(_dullColorHandle, new Color4(value)));
             }
         }
 
@@ -72,7 +72,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < 0 || value > 1) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _dullBlendFactor, value, () => Effect.SetValue(_dullBlendFactorHandle, value));
+                value.To(ref _dullBlendFactor, () => Effect.SetValue(_dullBlendFactorHandle, value));
             }
         }
 
@@ -87,7 +87,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < 0 || value > 1) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _waveLength, value, () => Effect.SetValue(_waveLengthHandle, value));
+                value.To(ref _waveLength, () => Effect.SetValue(_waveLengthHandle, value));
             }
         }
 
@@ -102,7 +102,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < 0 || value > 0.2) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _waveHeight, value, () => Effect.SetValue(_waveHeightHandle, value));
+                value.To(ref _waveHeight, () => Effect.SetValue(_waveHeightHandle, value));
             }
         }
 
@@ -117,7 +117,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < 0 || value > 1) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _windForce, value, () => Effect.SetValue(_windForceHandle, value));
+                value.To(ref _windForce, () => Effect.SetValue(_windForceHandle, value));
             }
         }
 
@@ -131,7 +131,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _windDirection, value, () => Effect.SetValue(_windDirectionHandle, value));
+                value.To(ref _windDirection, () => Effect.SetValue(_windDirectionHandle, value));
             }
         }
 
@@ -145,7 +145,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _reflectionViewProjection, value, () => Effect.SetValue(_reflectionViewProjectionHandle, value));
+                value.To(ref _reflectionViewProjection, () => Effect.SetValue(_reflectionViewProjectionHandle, value));
             }
         }
         #endregion

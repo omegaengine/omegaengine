@@ -97,7 +97,7 @@ namespace OmegaEngine.Graphics.VertexDecl
             TexWeights2 = new Vector4(texWeights[4], texWeights[5], texWeights[6], texWeights[7]);
             TexWeights3 = new Vector4(texWeights[8], texWeights[9], texWeights[10], texWeights[11]);
             TexWeights4 = new Vector4(texWeights[12], texWeights[13], texWeights[14], texWeights[15]);
-            Color = ColorUtils.ColorToVector4(color);
+            Color = color.ToVector4();
         }
         #endregion
 

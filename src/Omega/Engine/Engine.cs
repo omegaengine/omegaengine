@@ -83,7 +83,7 @@ namespace OmegaEngine
             get { return _engineConfig; }
             set
             {
-                UpdateHelper.Do(ref _engineConfig, value, delegate
+                value.To(ref _engineConfig, delegate
                 {
                     // The device needs to be reset with changed presentation parameters
                     if (PresentParams != null)
@@ -177,12 +177,12 @@ namespace OmegaEngine
         private void CreateDevice()
         {
             // Try to create the DirectX device (fall back step-by-step if there's trouble)
-            if (MathUtils.CheckFlag((int)Capabilities.DeviceCaps, (int)(DeviceCaps.PureDevice)))
+            if (((int)Capabilities.DeviceCaps).CheckFlag((int)(DeviceCaps.PureDevice)))
             {
                 Log.Info("Creating Direct3D device with HardwareVertexProcessing & PureDevice");
                 Device = new Device(Manager, EngineConfig.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing | CreateFlags.PureDevice, PresentParams);
             }
-            else if (MathUtils.CheckFlag((int)Capabilities.DeviceCaps, (int)DeviceCaps.HWTransformAndLight))
+            else if (((int)Capabilities.DeviceCaps).CheckFlag((int)DeviceCaps.HWTransformAndLight))
             {
                 Log.Info("Creating Direct3D device with HardwareVertexProcessing");
                 Device = new Device(Manager, EngineConfig.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing, PresentParams);

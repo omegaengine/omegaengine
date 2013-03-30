@@ -24,7 +24,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
-using Common;
+using Common.Utils;
 using Common.Values;
 using SlimDX;
 
@@ -70,7 +70,7 @@ namespace World
         /// The size of the area of the <see cref="Terrain"/> this water plane spans.
         /// </summary>
         [Description("The size of the area of the terrain this water plane spans.")]
-        public Vector2 Size { get { return _size; } set { UpdateHelper.Do(ref _size, value, OnSizeChanged); } }
+        public Vector2 Size { get { return _size; } set { value.To(ref _size, OnSizeChanged); } }
 
         private float _height;
 
@@ -78,7 +78,7 @@ namespace World
         /// The height of the water above reference zero.
         /// </summary>
         [XmlAttribute, DefaultValue(0f), Description("The height of the water above reference zero.")]
-        public float Height { get { return _height; } set { UpdateHelper.Do(ref _height, value, OnRenderPropertyChanged); } }
+        public float Height { get { return _height; } set { value.To(ref _height, OnRenderPropertyChanged); } }
 
         /// <summary>
         /// The maximum depth an <see cref="Entity"/> can walk into this water.

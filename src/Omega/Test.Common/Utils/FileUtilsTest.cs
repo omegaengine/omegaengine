@@ -109,7 +109,9 @@ namespace Common.Utils
             }
             finally
             {
+                File.SetAttributes(Path.Combine(temp1, Path.Combine("subdir", "file")), FileAttributes.Normal);
                 Directory.Delete(temp1, true);
+                File.SetAttributes(Path.Combine(temp2, Path.Combine("subdir", "file")), FileAttributes.Normal);
                 Directory.Delete(temp2, true);
             }
         }
@@ -135,7 +137,9 @@ namespace Common.Utils
             }
             finally
             {
+                File.SetAttributes(Path.Combine(temp1, Path.Combine("subdir", "file")), FileAttributes.Normal);
                 Directory.Delete(temp1, true);
+                File.SetAttributes(Path.Combine(temp2, Path.Combine("subdir", "file")), FileAttributes.Normal);
                 Directory.Delete(temp2, true);
             }
         }
@@ -164,7 +168,9 @@ namespace Common.Utils
             }
             finally
             {
+                File.SetAttributes(Path.Combine(temp1, Path.Combine("subdir", "file")), FileAttributes.Normal);
                 Directory.Delete(temp1, true);
+                File.SetAttributes(Path.Combine(temp2, Path.Combine("subdir", "file")), FileAttributes.Normal);
                 Directory.Delete(temp2, true);
             }
         }
@@ -176,6 +182,7 @@ namespace Common.Utils
             Directory.CreateDirectory(subdir1);
             File.WriteAllText(Path.Combine(subdir1, "file"), @"A");
             File.SetLastWriteTimeUtc(Path.Combine(subdir1, "file"), new DateTime(2000, 1, 1));
+            File.SetAttributes(Path.Combine(subdir1, "file"), FileAttributes.ReadOnly);
             Directory.SetLastWriteTimeUtc(subdir1, new DateTime(2000, 1, 1));
             return tempPath;
         }
@@ -190,8 +197,8 @@ namespace Common.Utils
         {
             using (var tempDir = new TemporaryDirectory("unit-tests"))
             {
-                string sourcePath = Path.Combine(tempDir.Path, "source");
-                string targetPath = Path.Combine(tempDir.Path, "target");
+                string sourcePath = Path.Combine(tempDir, "source");
+                string targetPath = Path.Combine(tempDir, "target");
 
                 File.WriteAllText(sourcePath, @"source");
                 File.WriteAllText(targetPath, @"target");
@@ -208,8 +215,8 @@ namespace Common.Utils
         {
             using (var tempDir = new TemporaryDirectory("unit-tests"))
             {
-                string sourcePath = Path.Combine(tempDir.Path, "source");
-                string targetPath = Path.Combine(tempDir.Path, "target");
+                string sourcePath = Path.Combine(tempDir, "source");
+                string targetPath = Path.Combine(tempDir, "target");
 
                 File.WriteAllText(sourcePath, @"source");
                 FileUtils.Replace(sourcePath, targetPath);
@@ -230,7 +237,7 @@ namespace Common.Utils
         {
             using (var tempDir = new TemporaryDirectory("unit-tests"))
             {
-                string subDirPath = Path.Combine(tempDir.Path, "subdir");
+                string subDirPath = Path.Combine(tempDir, "subdir");
                 Directory.CreateDirectory(subDirPath);
                 string filePath = Path.Combine(subDirPath, "file");
                 File.WriteAllText(filePath, "");
@@ -238,13 +245,13 @@ namespace Common.Utils
                 // Set up delegate mocks
                 var dirCallbackMock = new Mock<IActionSimulator<string>>(MockBehavior.Strict);
                 // ReSharper disable AccessToDisposedClosure
-                dirCallbackMock.Setup(x => x.Invoke(tempDir.Path)).Verifiable();
+                dirCallbackMock.Setup(x => x.Invoke(tempDir)).Verifiable();
                 // ReSharper restore AccessToDisposedClosure
                 dirCallbackMock.Setup(x => x.Invoke(subDirPath)).Verifiable();
                 var fileCallbackMock = new Mock<IActionSimulator<string>>(MockBehavior.Strict);
                 fileCallbackMock.Setup(x => x.Invoke(filePath)).Verifiable();
 
-                new DirectoryInfo(tempDir.Path).WalkDirectory(
+                new DirectoryInfo(tempDir).WalkDirectory(
                     subDir => dirCallbackMock.Object.Invoke(subDir.FullName),
                     file => fileCallbackMock.Object.Invoke(file.FullName));
 
@@ -264,8 +271,8 @@ namespace Common.Utils
 
             using (var tempDir = new TemporaryDirectory("unit-tests"))
             {
-                File.WriteAllText(Path.Combine(tempDir.Path, "target"), @"data");
-                string sourcePath = Path.Combine(tempDir.Path, "symlink");
+                File.WriteAllText(Path.Combine(tempDir, "target"), @"data");
+                string sourcePath = Path.Combine(tempDir, "symlink");
                 FileUtils.CreateSymlink(sourcePath, "target");
 
                 Assert.IsTrue(File.Exists(sourcePath), "Symlink should look like file");
@@ -285,8 +292,8 @@ namespace Common.Utils
 
             using (var tempDir = new TemporaryDirectory("unit-tests"))
             {
-                Directory.CreateDirectory(Path.Combine(tempDir.Path, "target"));
-                string sourcePath = Path.Combine(tempDir.Path, "symlink");
+                Directory.CreateDirectory(Path.Combine(tempDir, "target"));
+                string sourcePath = Path.Combine(tempDir, "symlink");
                 FileUtils.CreateSymlink(sourcePath, "target");
 
                 Assert.IsTrue(Directory.Exists(sourcePath), "Symlink should look like directory");
@@ -305,8 +312,8 @@ namespace Common.Utils
 
             using (var tempDir = new TemporaryDirectory("unit-tests"))
             {
-                File.WriteAllText(Path.Combine(tempDir.Path, "target"), @"data");
-                string sourcePath = Path.Combine(tempDir.Path, "symlink");
+                File.WriteAllText(Path.Combine(tempDir, "target"), @"data");
+                string sourcePath = Path.Combine(tempDir, "symlink");
                 FileUtils.CreateSymlink(sourcePath, "target");
 
                 Assert.IsTrue(File.Exists(sourcePath), "Symlink should look like file");
@@ -322,8 +329,8 @@ namespace Common.Utils
 
             using (var tempDir = new TemporaryDirectory("unit-tests"))
             {
-                Directory.CreateDirectory(Path.Combine(tempDir.Path, "target"));
-                string sourcePath = Path.Combine(tempDir.Path, "symlink");
+                Directory.CreateDirectory(Path.Combine(tempDir, "target"));
+                string sourcePath = Path.Combine(tempDir, "symlink");
                 FileUtils.CreateSymlink(sourcePath, "target");
 
                 Assert.IsTrue(Directory.Exists(sourcePath), "Symlink should look like directory");
@@ -335,11 +342,11 @@ namespace Common.Utils
         {
             using (var tempDir = new TemporaryDirectory("unit-tests"))
             {
-                string sourcePath = Path.Combine(tempDir.Path, "hardlink");
+                string sourcePath = Path.Combine(tempDir, "hardlink");
 
                 // Create a file and hardlink to it using an absolute path
-                File.WriteAllText(Path.Combine(tempDir.Path, "target"), @"data");
-                FileUtils.CreateHardlink(sourcePath, Path.Combine(tempDir.Path, "target"));
+                File.WriteAllText(Path.Combine(tempDir, "target"), @"data");
+                FileUtils.CreateHardlink(sourcePath, Path.Combine(tempDir, "target"));
 
                 Assert.IsTrue(File.Exists(sourcePath), "Hardlink should look like regular file");
                 Assert.AreEqual("data", File.ReadAllText(sourcePath), "Hardlinked file contents should be equal");
@@ -352,7 +359,7 @@ namespace Common.Utils
         public void TestIsRegularFile()
         {
             using (var tempFile = new TemporaryFile("unit-tests"))
-                Assert.IsTrue(FileUtils.IsRegularFile(tempFile.Path), "Regular file should be detected as such");
+                Assert.IsTrue(FileUtils.IsRegularFile(tempFile), "Regular file should be detected as such");
         }
 
         [Test]
@@ -361,7 +368,7 @@ namespace Common.Utils
             using (var tempFile = new TemporaryFile("unit-tests"))
             {
                 string contents;
-                Assert.IsFalse(FileUtils.IsSymlink(tempFile.Path, out contents), "File was incorrectly identified as symlink");
+                Assert.IsFalse(FileUtils.IsSymlink(tempFile, out contents), "File was incorrectly identified as symlink");
                 Assert.IsNull(contents);
             }
         }
@@ -370,7 +377,7 @@ namespace Common.Utils
         public void TestIsExecutable()
         {
             using (var tempFile = new TemporaryFile("unit-tests"))
-                Assert.IsFalse(FileUtils.IsExecutable(tempFile.Path), "File was incorrectly identified as executable");
+                Assert.IsFalse(FileUtils.IsExecutable(tempFile), "File was incorrectly identified as executable");
         }
 
         [Test]
@@ -380,14 +387,14 @@ namespace Common.Utils
 
             using (var tempFile = new TemporaryFile("unit-tests"))
             {
-                Assert.IsFalse(FileUtils.IsExecutable(tempFile.Path), "File should not be executable yet");
+                Assert.IsFalse(FileUtils.IsExecutable(tempFile), "File should not be executable yet");
 
-                FileUtils.SetExecutable(tempFile.Path, true);
-                Assert.IsTrue(FileUtils.IsExecutable(tempFile.Path), "File should now be executable");
-                Assert.IsTrue(FileUtils.IsRegularFile(tempFile.Path), "File should still be considered a regular file");
+                FileUtils.SetExecutable(tempFile, true);
+                Assert.IsTrue(FileUtils.IsExecutable(tempFile), "File should now be executable");
+                Assert.IsTrue(FileUtils.IsRegularFile(tempFile), "File should still be considered a regular file");
 
-                FileUtils.SetExecutable(tempFile.Path, false);
-                Assert.IsFalse(FileUtils.IsExecutable(tempFile.Path), "File should no longer be executable");
+                FileUtils.SetExecutable(tempFile, false);
+                Assert.IsFalse(FileUtils.IsExecutable(tempFile), "File should no longer be executable");
             }
         }
         #endregion

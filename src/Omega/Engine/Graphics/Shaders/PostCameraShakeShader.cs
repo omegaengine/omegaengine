@@ -8,7 +8,7 @@
 
 using System;
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 using SlimDX;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
@@ -48,7 +48,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < -1 || value > 100) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _speed, value, () => Effect.SetValue(_speedHandle, value));
+                value.To(ref _speed, () => Effect.SetValue(_speedHandle, value));
             }
         }
 
@@ -63,7 +63,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < 0 || value > 1) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _shakiness, value, () => Effect.SetValue(_shakinessHandle, value));
+                value.To(ref _shakiness, () => Effect.SetValue(_shakinessHandle, value));
             }
         }
 
@@ -78,7 +78,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < 0 || value > 10) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _sharpness, value, () => Effect.SetValue(_sharpnessHandle, value));
+                value.To(ref _sharpness, () => Effect.SetValue(_sharpnessHandle, value));
             }
         }
 
@@ -88,7 +88,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _timeDelta, value, () => Effect.SetValue(_timeDeltaHandle, new[] {value.X, value.Y}));
+                value.To(ref _timeDelta, () => Effect.SetValue(_timeDeltaHandle, new[] {value.X, value.Y}));
             }
         }
         #endregion

@@ -22,7 +22,7 @@
 
 using System;
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 
 namespace Core
 {
@@ -53,7 +53,7 @@ namespace Core
         /// Play in-game music
         /// </summary>
         [DefaultValue(true), Description("Play in-game music")]
-        public bool PlayMusic { get { return _playMusic; } set { UpdateHelper.Do(ref _playMusic, value, OnChanged); } }
+        public bool PlayMusic { get { return _playMusic; } set { value.To(ref _playMusic, OnChanged); } }
         #endregion
     }
 }

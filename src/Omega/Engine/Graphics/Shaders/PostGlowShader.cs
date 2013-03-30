@@ -9,7 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using Common;
+using Common.Utils;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
@@ -51,7 +51,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < 0 || value > 100) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _glowStrength, value, () => Effect.SetValue(_glowStrengthHandle, value));
+                value.To(ref _glowStrength, () => Effect.SetValue(_glowStrengthHandle, value));
             }
         }
         #endregion

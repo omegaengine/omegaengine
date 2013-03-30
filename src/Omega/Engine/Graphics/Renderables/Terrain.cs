@@ -74,7 +74,7 @@ namespace OmegaEngine.Graphics.Renderables
             {
                 _subsetWorldBoundingBoxes = new BoundingBox[_subsetBoundingBoxes.Length];
                 for (int i = 0; i < NumberSubsets; i++)
-                    _subsetWorldBoundingBoxes[i] = MathUtils.Transform(_subsetBoundingBoxes[i], WorldTransform);
+                    _subsetWorldBoundingBoxes[i] = _subsetBoundingBoxes[i].Transform(WorldTransform);
             }
         }
         #endregion
@@ -210,7 +210,7 @@ namespace OmegaEngine.Graphics.Renderables
 
                 // Check if vertex is within the target area
                 if (modifyArea.Contains(index))
-                    verts[i].Color = ColorUtils.ColorToVector4(partialColorMap[index.X - start.X, index.Y - start.Y]);
+                    verts[i].Color = partialColorMap[index.X - start.X, index.Y - start.Y].ToVector4();
             }
 
             BufferHelper.WriteVertexBuffer(Mesh, verts);

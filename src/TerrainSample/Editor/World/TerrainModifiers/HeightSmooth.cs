@@ -22,7 +22,6 @@
 
 using System;
 using System.Drawing;
-using Common;
 using Common.Utils;
 using Presentation;
 using World;
@@ -118,7 +117,7 @@ namespace AlphaEditor.World.TerrainModifiers
         /// </summary>
         private static T ClampedRead<T>(T[,] array, int x, int y)
         {
-            return array[MathUtils.Clamp(x, 0, array.GetLength(0) - 1), MathUtils.Clamp(y, 0, array.GetLength(1) - 1)];
+            return array[x.Clamp(0, array.GetLength(0) - 1), y.Clamp(0, array.GetLength(1) - 1)];
         }
 
         /// <summary>

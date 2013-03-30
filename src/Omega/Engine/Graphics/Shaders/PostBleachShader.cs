@@ -8,7 +8,7 @@
 
 using System;
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
@@ -42,7 +42,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < 0 || value > 1) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _opacity, value, () => Effect.SetValue(_opacityHandle, value));
+                value.To(ref _opacity, () => Effect.SetValue(_opacityHandle, value));
             }
         }
         #endregion

@@ -70,7 +70,7 @@ namespace Common.Storage
         public void TestFileRelative()
         {
             TestData testData1 = new TestData {Data = "Hello"}, testData2;
-            using (new TemporaryDirectory("unit-tests", true))
+            using (new TemporaryWorkingDirectory("unit-tests"))
             {
                 // Write and read file
                 testData1.SaveXml("file.xml");

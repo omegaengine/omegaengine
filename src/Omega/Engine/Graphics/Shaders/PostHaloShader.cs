@@ -44,7 +44,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 if (Disposed) return;
-                UpdateHelper.Do(ref _glowColor, value, () => Effect.SetValue(_glowColorHandle, ColorUtils.ColorToVector4(value)));
+                value.To(ref _glowColor, () => Effect.SetValue(_glowColorHandle, value.ToVector4()));
             }
         }
 
@@ -59,7 +59,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < 0 || value > 3) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _glowness, value, () => Effect.SetValue(_glownessHandle, value));
+                value.To(ref _glowness, () => Effect.SetValue(_glownessHandle, value));
             }
         }
         #endregion

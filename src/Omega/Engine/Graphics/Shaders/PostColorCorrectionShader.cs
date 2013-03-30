@@ -8,7 +8,7 @@
 
 using System;
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
@@ -42,7 +42,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < 0 || value > 5) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _brightness, value, () => Effect.SetValue(_brightnessHandle, value));
+                value.To(ref _brightness, () => Effect.SetValue(_brightnessHandle, value));
             }
         }
 
@@ -57,7 +57,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < -5 || value > 5) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _contrast, value, () => Effect.SetValue(_contrastHandle, value));
+                value.To(ref _contrast, () => Effect.SetValue(_contrastHandle, value));
             }
         }
 
@@ -72,7 +72,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < -5 || value > 5) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _saturation, value, () => Effect.SetValue(_saturationHandle, value));
+                value.To(ref _saturation, () => Effect.SetValue(_saturationHandle, value));
             }
         }
 
@@ -87,7 +87,7 @@ namespace OmegaEngine.Graphics.Shaders
             {
                 if (Disposed) return;
                 if (value < 0 || value > 360) throw new ArgumentOutOfRangeException("value");
-                UpdateHelper.Do(ref _hue, value, () => Effect.SetValue(_hueHandle, value));
+                value.To(ref _hue, () => Effect.SetValue(_hueHandle, value));
             }
         }
         #endregion

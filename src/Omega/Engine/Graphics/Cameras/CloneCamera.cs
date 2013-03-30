@@ -7,7 +7,7 @@
  */
 
 using System.ComponentModel;
-using Common;
+using Common.Utils;
 
 namespace OmegaEngine.Graphics.Cameras
 {
@@ -53,7 +53,7 @@ namespace OmegaEngine.Graphics.Cameras
         {
             // Note: External update check, clone and conditionally recalc
             bool update = false;
-            UpdateHelper.Do(ref ViewCached, ParentCamera.View, ref update);
+            ParentCamera.View.To(ref ViewCached, ref update);
             if (!update) return;
 
             CacheSpecialMatrices();

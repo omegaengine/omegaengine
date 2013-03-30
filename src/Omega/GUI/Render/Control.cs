@@ -201,8 +201,7 @@ namespace OmegaGUI.Render
         {
             isMouseOver = false;
             hasFocus = false;
-            for (int i = 0; i < elementList.Count; i++)
-                elementList[i].Refresh();
+            foreach (var element in elementList) element.Refresh();
         }
 
         /// <summary>

@@ -52,7 +52,7 @@ namespace Common.Utils
         /// <param name="max">The maximum number to return</param>
         /// <returns>The <paramref name="value"/> if it was in range, otherwise <paramref name="min"/> or <paramref name="max"/>.</returns>
         [LuaGlobal(Description = "Makes a value stay within a certain range")]
-        public static decimal Clamp(decimal value, decimal min, decimal max)
+        public static decimal Clamp(this decimal value, decimal min, decimal max)
         {
             #region Sanity checks
             if (value < min) return min;
@@ -73,7 +73,7 @@ namespace Common.Utils
         /// <param name="max">The maximum number to return</param>
         /// <returns>The <paramref name="value"/> if it was in range, otherwise <paramref name="min"/> or <paramref name="max"/>.</returns>
         [LuaGlobal(Description = "Makes a value stay within a certain range")]
-        public static double Clamp(double value, double min, double max)
+        public static double Clamp(this double value, double min, double max)
         {
             #region Sanity checks
             if (value < min) return min;
@@ -94,7 +94,7 @@ namespace Common.Utils
         /// <param name="max">The maximum number to return</param>
         /// <returns>The <paramref name="value"/> if it was in range, otherwise <paramref name="min"/> or <paramref name="max"/>.</returns>
         [LuaGlobal(Description = "Makes a value stay within a certain range")]
-        public static float Clamp(float value, float min, float max)
+        public static float Clamp(this float value, float min, float max)
         {
             #region Sanity checks
             if (value < min) return min;
@@ -114,7 +114,7 @@ namespace Common.Utils
         /// <param name="min">The minimum number to return</param>
         /// <param name="max">The maximum number to return</param>
         /// <returns>The <paramref name="value"/> if it was in range, otherwise <paramref name="min"/> or <paramref name="max"/>.</returns>
-        public static int Clamp(int value, int min, int max)
+        public static int Clamp(this int value, int min, int max)
         {
             #region Sanity checks
             if (value < min) return min;
@@ -135,7 +135,7 @@ namespace Common.Utils
         /// <param name="value">The angle in degrees</param>
         /// <returns>The angle in radians</returns>
         [LuaGlobal(Description = "Converts an angle in degrees to radians")]
-        public static float DegreeToRadian(float value)
+        public static float DegreeToRadian(this float value)
         {
             return value * ((float)Math.PI / 180);
         }
@@ -145,7 +145,7 @@ namespace Common.Utils
         /// </summary>
         /// <param name="value">The angle in degrees</param>
         /// <returns>The angle in radians</returns>
-        public static double DegreeToRadian(double value)
+        public static double DegreeToRadian(this double value)
         {
             return value * (Math.PI / 180);
         }
@@ -156,7 +156,7 @@ namespace Common.Utils
         /// <param name="value">The angle in radians</param>
         /// <returns>The angle in degrees</returns>
         [LuaGlobal(Description = "Converts an angle in radians to degrees")]
-        public static float RadianToDegree(float value)
+        public static float RadianToDegree(this float value)
         {
             return value * (180 / (float)Math.PI);
         }
@@ -166,7 +166,7 @@ namespace Common.Utils
         /// </summary>
         /// <param name="value">The angle in radians</param>
         /// <returns>The angle in degrees</returns>
-        public static double RadianToDegree(double value)
+        public static double RadianToDegree(this double value)
         {
             return value * (180 / Math.PI);
         }
@@ -210,7 +210,7 @@ namespace Common.Utils
         /// <param name="factor">A factor between 0 and <paramref name="values"/>.Length</param>
         /// <param name="values">The value checkpoints</param>
         [LuaHide]
-        public static float InterpolateTrigonometric(float factor, params float[] values)
+        public static float InterpolateTrigonometric(this float factor, params float[] values)
         {
             #region Sanity checks
             if (values == null) throw new ArgumentNullException("values");
@@ -473,7 +473,7 @@ namespace Common.Utils
         /// <param name="flag">The flag to look for</param>
         /// <returns><see langword="true"/> if the <paramref name="flag"/> was set in <paramref name="value"/>.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", Justification = "The Term 'flag' is still in general use")]
-        public static bool CheckFlag(byte value, byte flag)
+        public static bool CheckFlag(this byte value, byte flag)
         {
             return (value & flag) == flag;
         }
@@ -485,7 +485,7 @@ namespace Common.Utils
         /// <param name="flag">The flag to look for</param>
         /// <returns><see langword="true"/> if the <paramref name="flag"/> was set in <paramref name="value"/>.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", Justification = "The Term 'flag' is still in general use")]
-        public static bool CheckFlag(int value, int flag)
+        public static bool CheckFlag(this int value, int flag)
         {
             return (value & flag) == flag;
         }
@@ -498,19 +498,9 @@ namespace Common.Utils
         /// Calculates a rotation quaternion for a view vector
         /// </summary>
         /// <param name="view">The view vector</param>
-        /// <returns>A normalized quaternion</returns>
-        public static Quaternion ViewQuaternion(Vector3 view)
-        {
-            return ViewQuaternion(view, 0);
-        }
-
-        /// <summary>
-        /// Calculates a rotation quaternion for a view vector
-        /// </summary>
-        /// <param name="view">The view vector</param>
         /// <param name="roll">The roll value</param>
         /// <returns>A normalized quaternion</returns>
-        public static Quaternion ViewQuaternion(Vector3 view, float roll)
+        public static Quaternion ViewQuaternion(this Vector3 view, float roll = 0)
         {
             return Quaternion.Normalize(new Quaternion(view.X, view.Y, view.Z, roll));
         }
@@ -523,7 +513,7 @@ namespace Common.Utils
         /// <param name="value">The original vector.</param>
         /// <param name="rotation">The angle to rotate by in degrees.</param>
         /// <returns>The rotated <see cref="Vector2"/>.</returns>
-        public static Vector2 Rotate(Vector2 value, float rotation)
+        public static Vector2 Rotate(this Vector2 value, float rotation)
         {
             double phi = DegreeToRadian(rotation);
             return new Vector2(
@@ -539,7 +529,7 @@ namespace Common.Utils
         /// <param name="box">The bounding box to apply the transform to.</param>
         /// <param name="matrix">The transformation matrix to apply.</param>
         /// <returns>The transformed bounding box.</returns>
-        public static BoundingBox Transform(BoundingBox box, Matrix matrix)
+        public static BoundingBox Transform(this BoundingBox box, Matrix matrix)
         {
             float[] inputMin = new float[3], inputMax = new float[3];
             float[] outputMin = new float[3], outputMax = new float[3];
@@ -601,7 +591,7 @@ namespace Common.Utils
         /// <param name="sphere">The bounding sphere to apply the transform to.</param>
         /// <param name="matrix">The transformation matrix to apply.</param>
         /// <returns>The transformed bounding sphere.</returns>
-        public static BoundingSphere Transform(BoundingSphere sphere, Matrix matrix)
+        public static BoundingSphere Transform(this BoundingSphere sphere, Matrix matrix)
         {
             // Extract translation data from the matrix
             var translation = new Vector3(matrix.M41, matrix.M42, matrix.M43);
