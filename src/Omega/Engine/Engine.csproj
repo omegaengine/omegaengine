@@ -28,7 +28,7 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\..\Code analysis.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <BaseAddress>2717908992</BaseAddress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">

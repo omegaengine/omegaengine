@@ -52,6 +52,11 @@ namespace Hanoi.Presentation
         /// <param name="universe">The simulation universe to display</param>
         public GamePresenter(Engine engine, Universe universe) : base(engine, universe)
         {
+            #region Sanity checks
+            if (engine == null) throw new ArgumentNullException("engine");
+            if (universe == null) throw new ArgumentNullException("universe");
+            #endregion
+
             Scene = new Scene(engine);
             View = new View(engine, Scene, new TrackCamera(10, 1000) {NearClip = 1, FarClip = 1e+6f, Radius = 50, HorizontalRotation = 90})
             {

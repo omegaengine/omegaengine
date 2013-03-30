@@ -209,6 +209,10 @@ namespace Presentation
         /// <inheritdoc/>
         public override void Click(MouseEventArgs e, bool accumulate)
         {
+            #region Sanity checks
+            if (e == null) throw new ArgumentNullException("e");
+            #endregion
+
             if (TerrainBrush != null)
             {
                 if (TerrainPaint != null && e.Button == MouseButtons.Left)

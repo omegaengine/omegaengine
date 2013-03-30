@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using Common.Storage;
 using OmegaEngine;
 using Presentation;
@@ -52,6 +53,11 @@ namespace Core.State
         /// <param name="session">The game session the user is currently playing.</param>       
         public InGameState(Engine engine, Session session) : base(engine)
         {
+            #region Sanity checks
+            if (engine == null) throw new ArgumentNullException("engine");
+            if (session == null) throw new ArgumentNullException("session");
+            #endregion
+
             Session = session;
             _presenter = new InGamePresenter(engine, session.Universe);
         }

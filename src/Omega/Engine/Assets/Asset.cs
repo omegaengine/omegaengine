@@ -80,7 +80,7 @@ namespace OmegaEngine.Assets
         #region Comparison
         int IComparable<Asset>.CompareTo(Asset other)
         {
-            return string.Compare(Name, other.Name, StringComparison.OrdinalIgnoreCase);
+            return (other == null) ? 0 : string.Compare(Name, other.Name, StringComparison.OrdinalIgnoreCase);
         }
         #endregion
 

@@ -204,7 +204,7 @@ namespace Common.Storage
         #region Comparison
         int IComparable<FileEntry>.CompareTo(FileEntry other)
         {
-            return string.Compare(Name, other.Name, StringComparison.OrdinalIgnoreCase);
+            return (other == null) ? 0 : string.Compare(Name, other.Name, StringComparison.OrdinalIgnoreCase);
         }
         #endregion
     }

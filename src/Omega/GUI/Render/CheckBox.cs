@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
 using Common.Utils;
@@ -27,6 +28,7 @@ namespace OmegaGUI.Render
         public event EventHandler Changed;
 
         /// <summary>Create new button instance</summary>
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
         protected void RaiseChangedEvent(CheckBox sender, bool wasTriggeredByUser)
         {
             // Discard events triggered programatically if these types of events haven't been

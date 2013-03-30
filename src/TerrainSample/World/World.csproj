@@ -27,7 +27,7 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\..\Code analysis.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <BaseAddress>2969567232</BaseAddress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -95,6 +95,7 @@
       <DependentUpon>CollisionControl.cs</DependentUpon>
     </Compile>
     <Compile Include="EntityComponents\MovementControl.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="TemplateCollection.cs" />
     <Compile Include="Template.cs" />
     <Compile Include="LightAngleMapGenerator.cs" />

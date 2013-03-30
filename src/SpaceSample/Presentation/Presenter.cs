@@ -187,7 +187,7 @@ namespace Presentation
         /// </summary>
         /// <param name="state">The state to place the new camera in; may be <see langword="null"/> in which case it will default to looking at the center of the terrain.</param>
         /// <returns>The newly created <see cref="Camera"/>.</returns>
-        public Camera CreateCamera(CameraState state)
+        protected static Camera CreateCamera(CameraState state)
         {
             if (state == null)
                 state = new CameraState {Name = "Main", Position = new DoubleVector3(), Radius = 1500};

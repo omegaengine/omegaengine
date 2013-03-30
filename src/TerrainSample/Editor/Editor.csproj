@@ -33,7 +33,7 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\..\Code analysis.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>

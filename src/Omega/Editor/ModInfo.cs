@@ -33,7 +33,7 @@ namespace AlphaEditor
         /// <summary>
         /// Shall the application be used to edit the main game instead of a mod?
         /// </summary>
-        public static bool MainGame;
+        public static bool MainGame { get; set; }
 
         //--------------------//
 

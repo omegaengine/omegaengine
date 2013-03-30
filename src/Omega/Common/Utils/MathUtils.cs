@@ -500,7 +500,7 @@ namespace Common.Utils
         /// <param name="view">The view vector</param>
         /// <param name="roll">The roll value</param>
         /// <returns>A normalized quaternion</returns>
-        public static Quaternion ViewQuaternion(this Vector3 view, float roll = 0)
+        public static Quaternion ViewQuaternion(this Vector3 view, float roll)
         {
             return Quaternion.Normalize(new Quaternion(view.X, view.Y, view.Z, roll));
         }

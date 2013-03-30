@@ -29,7 +29,8 @@ namespace Common.Values
     /// Stores the mimimum and maximum values allowed for a float field or property.
     /// Controls the behaviour of <see cref="Common.Controls"/>.
     /// </summary>
-    public class FloatRangeAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    public sealed class FloatRangeAttribute : Attribute
     {
         private readonly float _minimum;
 
@@ -48,16 +49,16 @@ namespace Common.Values
         /// <summary>
         /// Creates a new float range attribute.
         /// </summary>
-        /// <param name="min">The minimum value the field or property may have.</param>
-        /// <param name="max">The maximum value the field or property may have.</param>
-        public FloatRangeAttribute(float min, float max)
+        /// <param name="minimum">The minimum value the field or property may have.</param>
+        /// <param name="maximum">The maximum value the field or property may have.</param>
+        public FloatRangeAttribute(float minimum, float maximum)
         {
             #region Sanity checks
-            if (min > max) throw new ArgumentException(Resources.MinLargerMax, "min");
+            if (minimum > maximum) throw new ArgumentException(Resources.MinLargerMax, "minimum");
             #endregion
 
-            _minimum = min;
-            _maximum = max;
+            _minimum = minimum;
+            _maximum = maximum;
         }
     }
 }

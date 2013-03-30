@@ -283,7 +283,7 @@ namespace Common.Storage
             using (var atomic = new AtomicWrite(path))
             using (var fileStream = File.Create(atomic.WritePath))
             {
-                SaveXml(data, fileStream);
+                SaveXml(data, fileStream, ignoreMembers);
                 atomic.Commit();
             }
         }
