@@ -495,7 +495,10 @@ namespace OmegaEngine.Graphics.Shaders
         public void Inject(string path)
         {
             Effect = LoadShaderFile(Engine, path);
+
             LoadParameters();
+
+            GlobalScript = null;
             LoadScript();
             if (GlobalScript != null) ExecuteScript(GlobalScript);
         }
