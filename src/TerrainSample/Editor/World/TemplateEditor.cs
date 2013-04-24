@@ -299,7 +299,7 @@ namespace AlphaEditor.World
         private void dialogExportXml_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (TemplateList.CheckedEntries.Count != 0)
-                TemplateList.CheckedEntries.SaveXml(dialogExportXml.FileName);
+                TemplateList.CheckedEntries.ToList().SaveXml(dialogExportXml.FileName);
             else if (TemplateList.SelectedEntry != null)
                 TemplateList.SelectedEntry.SaveXml(dialogExportXml.FileName);
 
