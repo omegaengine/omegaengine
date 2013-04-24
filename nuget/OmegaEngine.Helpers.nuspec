@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>0.8.3</version>
+    <version>0.8.4</version>
     <authors>Bastian Eicher</authors>
     <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
     <projectUrl>http://code.google.com/p/omegaengine/</projectUrl>

@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <version>0.8.3</version>
+    <version>0.8.4</version>
     <authors>Bastian Eicher</authors>
     <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
     <projectUrl>http://code.google.com/p/omegaengine/wiki/AlphaEditor</projectUrl>
     <iconUrl>http://omega.nanobyte.de/images/icon_alpha.png</iconUrl>
     <dependencies>
-      <dependency id="OmegaEngine.Backend" version="0.8.3" />
-      <dependency id="OmegaGUI" version="0.8.3" />
+      <dependency id="OmegaEngine.Backend" version="0.8.4" />
+      <dependency id="OmegaGUI" version="0.8.4" />
     </dependencies>
     <references>
       <reference file="AlphaEditor.dll" />
