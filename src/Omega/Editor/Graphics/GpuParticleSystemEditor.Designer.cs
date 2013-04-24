@@ -36,10 +36,10 @@ namespace AlphaEditor.Graphics
             this.panelLeft.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panelRender
+            // renderPanel
             // 
-            this.panelRender.Size = new System.Drawing.Size(491, 538);
-            this.panelRender.TabIndex = 3;
+            this.renderPanel.Size = new System.Drawing.Size(491, 538);
+            this.renderPanel.TabIndex = 3;
             // 
             // panelLeft
             // 
@@ -77,7 +77,7 @@ namespace AlphaEditor.Graphics
             this.NameUI = "GPU Particle System Editor";
             this.Name = "GpuParticleSystemEditor";
             this.Size = new System.Drawing.Size(718, 538);
-            this.Controls.SetChildIndex(this.panelRender, 0);
+            this.Controls.SetChildIndex(this.renderPanel, 0);
             this.Controls.SetChildIndex(this.panelLeft, 0);
             this.panelLeft.ResumeLayout(false);
             this.panelLeft.PerformLayout();

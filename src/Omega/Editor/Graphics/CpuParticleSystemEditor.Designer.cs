@@ -43,9 +43,9 @@ namespace AlphaEditor.Graphics
             this.buttonReset = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // panelRender
+            // renderPanel
             // 
-            this.panelRender.TabIndex = 10;
+            this.renderPanel.TabIndex = 10;
             // 
             // propertyGridUpper2
             // 
@@ -180,7 +180,7 @@ namespace AlphaEditor.Graphics
             this.Name = "CpuParticleSystemEditor";
             this.NameUI = "CPU Particle System Editor";
             this.Size = new System.Drawing.Size(718, 538);
-            this.Controls.SetChildIndex(this.panelRender, 0);
+            this.Controls.SetChildIndex(this.renderPanel, 0);
             this.Controls.SetChildIndex(this.labelLower2, 0);
             this.Controls.SetChildIndex(this.labelGridUpper2, 0);
             this.Controls.SetChildIndex(this.propertyGridLower2, 0);

@@ -16,7 +16,6 @@ namespace AlphaEditor.Graphics
             if (disposing)
             {
                 if (components != null) components.Dispose();
-                if (Engine != null) Engine.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -30,22 +29,20 @@ namespace AlphaEditor.Graphics
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.panelRender = new System.Windows.Forms.Panel();
+            this.renderPanel = new OmegaEngine.RenderPanel();
             this.timerRender = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // panelRender
             // 
-            this.panelRender.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.renderPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelRender.Location = new System.Drawing.Point(200, 0);
-            this.panelRender.Name = "panelRender";
-            this.panelRender.Size = new System.Drawing.Size(318, 538);
-            this.panelRender.TabIndex = 0;
-            this.panelRender.Paint += new System.Windows.Forms.PaintEventHandler(this.panelRender_Paint);
-            this.panelRender.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelRender_MouseMove);
-            this.panelRender.Resize += new System.EventHandler(this.panelRender_Resize);
+            this.renderPanel.Location = new System.Drawing.Point(200, 0);
+            this.renderPanel.Name = "panelRender";
+            this.renderPanel.Size = new System.Drawing.Size(318, 538);
+            this.renderPanel.TabIndex = 0;
+            this.renderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelRender_MouseMove);
             // 
             // timerRender
             // 
@@ -56,11 +53,11 @@ namespace AlphaEditor.Graphics
             // ParticleSystemEditor
             // 
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Controls.Add(this.panelRender);
+            this.Controls.Add(this.renderPanel);
             this.NameUI = "Particle System Editor";
             this.Name = "ParticleSystemEditor";
             this.Size = new System.Drawing.Size(718, 538);
-            this.Controls.SetChildIndex(this.panelRender, 0);
+            this.Controls.SetChildIndex(this.renderPanel, 0);
             this.ResumeLayout(false);
 
         }
@@ -68,7 +65,7 @@ namespace AlphaEditor.Graphics
         #endregion
 
         /// <summary>The panel used by the engine for rendering.</summary>
-        protected System.Windows.Forms.Panel panelRender;
+        protected OmegaEngine.RenderPanel renderPanel;
         private System.Windows.Forms.Timer timerRender;
 
     }

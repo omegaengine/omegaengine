@@ -20,9 +20,6 @@ namespace AlphaEditor.Graphics
     public partial class ParticleSystemEditor : UndoCommandTab
     {
         #region Variables
-        /// <summary>The <see cref="OmegaEngine.Engine"/> used to render the particle system preview.</summary>
-        protected Engine Engine;
-
         /// <summary>
         /// The camera used by the presenter
         /// </summary>
@@ -42,30 +39,11 @@ namespace AlphaEditor.Graphics
         //--------------------//
 
         #region Render control
-        /// <summary>
-        /// Creates an <see cref="EngineConfig"/> for rendering in this tab
-        /// </summary>
-        protected EngineConfig BuildEngineConfig()
-        {
-            return new EngineConfig {TargetSize = panelRender.ClientSize};
-        }
-
-        private void panelRender_Paint(object sender, PaintEventArgs e)
-        {
-            if (Engine != null) Engine.Render();
-        }
-
         private void timerRender_Tick(object sender, EventArgs e)
         {
             timerRender.Enabled = false; // Prevent multiple ticks from accumulating
-            if (Visible && Engine != null) Engine.Render();
+            if (Visible && renderPanel.Engine != null) renderPanel.Engine.Render();
             timerRender.Enabled = true;
-        }
-
-        private void panelRender_Resize(object sender, EventArgs e)
-        {
-            if (Engine != null && !Engine.Disposed && Size != new Size())
-                Engine.EngineConfig = BuildEngineConfig();
         }
         #endregion
 
@@ -75,7 +53,7 @@ namespace AlphaEditor.Graphics
         private void panelRender_MouseMove(object sender, MouseEventArgs e)
         {
             // Make sure mouse wheel will work
-            panelRender.Focus();
+            renderPanel.Focus();
 
             var delta = new Point(e.X - _lastMouseLoc.X, e.Y - _lastMouseLoc.Y);
             //if (Settings.Current.Controls.InvertMouse)
@@ -84,7 +62,7 @@ namespace AlphaEditor.Graphics
             //    delta.Y = -delta.Y;
             //}
 
-            if (Engine != null)
+            if (renderPanel.Engine != null)
             {
                 switch (MouseButtons)
                 {
@@ -92,12 +70,12 @@ namespace AlphaEditor.Graphics
                     case MouseButtons.Left | MouseButtons.Right:
                         Camera.HorizontalRotation += delta.X / 2.0;
                         Camera.Radius *= Math.Pow(1.1, delta.Y / 15f);
-                        Engine.Render();
+                        renderPanel.Engine.Render();
                         break;
                     case MouseButtons.Right:
                         Camera.HorizontalRotation += delta.X / 2.0;
                         Camera.VerticalRotation += delta.Y / 2.0;
-                        Engine.Render();
+                        renderPanel.Engine.Render();
                         break;
                 }
             }
@@ -107,10 +85,10 @@ namespace AlphaEditor.Graphics
 
         private void ParticleSystemEditor_MouseWheel(object sender, MouseEventArgs e)
         {
-            if (Engine == null) return;
+            if (renderPanel.Engine == null) return;
 
             Camera.Radius *= Math.Pow(1.1, e.Delta / -60f);
-            Engine.Render();
+            renderPanel.Engine.Render();
         }
         #endregion
     }

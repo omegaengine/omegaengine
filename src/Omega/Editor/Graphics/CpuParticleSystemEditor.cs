@@ -13,7 +13,6 @@ using System.Windows.Forms;
 using Common;
 using Common.Storage;
 using Common.Undo;
-using OmegaEngine;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
 using View = OmegaEngine.Graphics.View;
@@ -77,14 +76,14 @@ namespace AlphaEditor.Graphics
             #endregion
 
             // Initialize engine
-            Engine = new Engine(panelRender, BuildEngineConfig());
+            renderPanel.Setup();
 
             // Setup scene
-            _scene = new Scene(Engine);
-            _particleSystem = new CpuParticleSystem(Engine, _preset);
+            _scene = new Scene(renderPanel.Engine);
+            _particleSystem = new CpuParticleSystem(renderPanel.Engine, _preset);
             _scene.Positionables.Add(_particleSystem);
-            var view = new View(Engine, _scene, Camera) {BackgroundColor = Color.Black};
-            Engine.Views.Add(view);
+            var view = new View(renderPanel.Engine, _scene, Camera) { BackgroundColor = Color.Black };
+            renderPanel.Engine.Views.Add(view);
 
             base.OnInitialize();
         }
@@ -135,7 +134,7 @@ namespace AlphaEditor.Graphics
             _particleSystem.Dispose();
 
             // ... and replace it with a new one using the same _preset
-            _particleSystem = new CpuParticleSystem(Engine, _preset);
+            _particleSystem = new CpuParticleSystem(renderPanel.Engine, _preset);
             _scene.Positionables.Add(_particleSystem);
         }
         #endregion
