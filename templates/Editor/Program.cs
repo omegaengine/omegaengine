@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using AlphaEditor;
 using AlphaEditor.Properties;
 using Common;
 using Common.Storage;
@@ -25,7 +26,7 @@ namespace $safeprojectname$
         /// </summary>
         [STAThread]
         [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.GC.Collect", Justification = "GC.Collect is only called after the main form closes, when a lot of long-lived objects have turned into garbage")]
-        private static void Main(string[] args)
+        private static void Main()
         {
             Application.EnableVisualStyles();
             UpdateLocale();
