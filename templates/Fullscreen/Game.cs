@@ -15,58 +15,50 @@ namespace $safeprojectname$
         private TrackCamera _camera;
         private GuiManager _guiManager;
 
-        // TODO: Add icon and background image
-        public Game() : base("$projectname$", null, null, false)
+        public Game() : base("$projectname$")
         {
-            // Fake fullscreen while loading
-            ToFullscreen();
+            ToFullscreen(); // Fake fullscreen while loading
         }
 
         protected override bool Initialize()
         {
-            // Initialize engine
             if (!base.Initialize()) return false;
             InitializeGui();
-
-            // Create a scene with a textured sphere
-            var scene = new Scene(Engine)
-            {
-                Positionables = {Model.Sphere(Engine, XTexture.Get(Engine, "flag.png", false), 10, 60, 60)}
-            };
-
-            // Create a camera and a blue background to view the scene
-            _camera = new TrackCamera(50, 50) {VerticalRotation = 20};
-            Engine.Views.Add(new View(Engine, scene, _camera) {BackgroundColor = Color.CornflowerBlue});
-
-            // Switch to fullscreen mode and start rendering
-            Engine.EngineConfig = BuildEngineConfig(true);
+            InitializeScene();
+            Engine.EngineConfig = BuildEngineConfig(fullscreen: true); // Real fullscreen
             Engine.FadeIn();
             return true;
+        }
+        
+        private void InitializeScene()
+        {
+            var scene = new Scene(Engine)
+            {
+                Positionables = {Model.Sphere(Engine, XTexture.Get(Engine, "flag.png"))}
+            };
+            _camera = new TrackCamera {VerticalRotation = 20};
+            var view = new View(Engine, scene, _camera) {BackgroundColor = Color.CornflowerBlue};
+            Engine.Views.Add(view);
         }
 
         private void InitializeGui()
         {
-            // Initialize GUI subsystem
             _guiManager = new GuiManager(Engine);
             Form.WindowMessage += _guiManager.OnMsgProc;
             
-            // Create a dialog with an exit button
             var dialog = new Dialog
             {
                 Controls = {new Button {Text = "Exit", Location = new Point(10, 10), OnClick = "Game:Exit()"}}
             };
 
-            // Render the dialog
-            var dialogRenderer = new DialogRenderer(_guiManager, dialog, new Point(), true);
-            SetupLua(dialogRenderer.Lua); // Hook up scripting objects
+            var dialogRenderer = new DialogRenderer(_guiManager, dialog, enableLua: true);
+            SetupLua(dialogRenderer.Lua);
             dialogRenderer.Show();
         }
 
         protected override void Render(double elapsedTime)
         {
-            // Rotate camera (FPS independent)
             _camera.HorizontalRotation += elapsedTime * 100;
-
             base.Render(elapsedTime);
         }
 
