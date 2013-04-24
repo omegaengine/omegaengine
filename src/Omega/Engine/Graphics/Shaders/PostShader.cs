@@ -89,7 +89,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="render">The delegate to call back for rendering the output</param>
         /// <param name="sceneSize">The size of the scene on the screen - leave empty for fullscreen</param>
         /// <param name="sceneMap">A texture containing the rendered scene, <see langword="null"/> if the shader doesn't need it</param>
-        internal virtual void Apply(Action render, Size sceneSize, RenderTarget sceneMap)
+        public virtual void Apply(Action render, Size sceneSize, RenderTarget sceneMap)
         {
             #region Sanity checks
             if (Disposed) throw new ObjectDisposedException(ToString());
