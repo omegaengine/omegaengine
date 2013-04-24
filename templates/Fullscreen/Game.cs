@@ -51,7 +51,7 @@ namespace $safeprojectname$
                 Controls = {new Button {Text = "Exit", Location = new Point(10, 10), OnClick = "Game:Exit()"}}
             };
 
-            var dialogRenderer = new DialogRenderer(_guiManager, dialog, enableLua: true);
+            var dialogRenderer = new DialogRenderer(_guiManager, dialog);
             SetupLua(dialogRenderer.Lua);
             dialogRenderer.Show();
         }

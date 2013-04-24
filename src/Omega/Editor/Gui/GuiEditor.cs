@@ -174,7 +174,7 @@ namespace AlphaEditor.GUI
 
             // Reset the GUI rendering system
             if (_dialogRenderer != null) _dialogRenderer.Dispose();
-            _dialogRenderer = new DialogRenderer(_guiManager, DialogModel, new Point(), false);
+            _dialogRenderer = new DialogRenderer(_guiManager, DialogModel, enableLua: false);
             renderPanel.Engine.Render();
 
             base.OnUpdate();

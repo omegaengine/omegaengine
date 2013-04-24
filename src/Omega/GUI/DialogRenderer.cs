@@ -92,8 +92,9 @@ namespace OmegaGUI
         /// <param name="manager">The <see cref="GuiManager"/> used to interface with the <see cref="Engine"/></param>
         /// <param name="filename">The filename of the XML file to load</param>
         /// <param name="location">The location of the dialog on the screen</param>
-        public DialogRenderer(GuiManager manager, string filename, Point location)
-            : this(manager, Dialog.FromContent(filename), location, true)
+        /// <param name="enableLua">Enable Lua scripting support for this dialog?</param>
+        public DialogRenderer(GuiManager manager, string filename, Point location = new Point(), bool enableLua = true)
+            : this(manager, Dialog.FromContent(filename), location, enableLua)
         {
             Log.Info("Loading GUI dialog: " + filename);
             Name = filename;
@@ -107,7 +108,7 @@ namespace OmegaGUI
         /// <param name="location">The location of the dialog on the screen</param>
         /// <param name="enableLua">Enable Lua scripting support for this dialog?</param>
         [CLSCompliant(false)]
-        public DialogRenderer(GuiManager manager, Dialog dialog, Point location, bool enableLua)
+        public DialogRenderer(GuiManager manager, Dialog dialog, Point location = new Point(), bool enableLua = true)
         {
             _manager = manager;
             DialogModel = dialog;
