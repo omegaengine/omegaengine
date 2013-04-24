@@ -421,7 +421,7 @@ namespace OmegaEngine.Graphics.Renderables
                 // Check if texture path is valid
                 if (ContentManager.FileExists("Textures", texture, true))
                 {
-                    _material1 = new XMaterial(XTexture.Get(Engine, texture, false));
+                    _material1 = new XMaterial(XTexture.Get(Engine, texture));
                     _material1.HoldReference();
                 }
             }
@@ -437,7 +437,7 @@ namespace OmegaEngine.Graphics.Renderables
                 // Check if texture path is valid
                 if (ContentManager.FileExists("Textures", texture, true))
                 {
-                    _material2 = new XMaterial(XTexture.Get(Engine, texture, false));
+                    _material2 = new XMaterial(XTexture.Get(Engine, texture));
                     _material2.HoldReference();
                 }
             }

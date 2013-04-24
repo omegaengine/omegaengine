@@ -73,7 +73,7 @@ namespace OmegaEngine.Assets
         /// <exception cref="UnauthorizedAccessException">Thrown if read access to the file is not permitted.</exception>
         /// <exception cref="InvalidDataException">Thrown if the file does not contain a valid texture.</exception>
         /// <remarks>Remember to call <see cref="CacheManager.Clean"/> when done, otherwise this object will never be released.</remarks>
-        public static XTexture Get(Engine engine, string id, bool meshTexture)
+        public static XTexture Get(Engine engine, string id, bool meshTexture = false)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");

@@ -106,7 +106,7 @@ namespace OmegaEngine
         /// <param name="icon">The icon of the application for the title bar</param>
         /// <param name="background">A background image for the window while loading</param>
         /// <param name="stretch">Stretch <paramref name="background"/> to fit the screen? (<see langword="false"/> will center it instead)</param>
-        protected GameBase(string name, Icon icon, Image background, bool stretch)
+        protected GameBase(string name, Icon icon = null, Image background = null, bool stretch = false)
         {
             // Setup render-target form
             Form = new GameForm

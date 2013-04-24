@@ -55,7 +55,7 @@ namespace OmegaEngine.Graphics.Renderables
             Materials[0].Emissive = Color.LightBlue;
 
             BoundingBox = new BoundingBox(new Vector3(0, 0, 0), new Vector3(size.Width, 0, -size.Height));
-            _waterTexture = XTexture.Get(Engine, @"Water\surface.png", false);
+            _waterTexture = XTexture.Get(Engine, @"Water\surface.png");
             _waterTexture.HoldReference();
         }
 

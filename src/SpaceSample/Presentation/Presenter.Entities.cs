@@ -258,7 +258,7 @@ namespace Presentation
             if (sphereRender != null)
             {
                 // Load the model based on the entity name
-                var model = Model.Sphere(Engine, XTexture.Get(Engine, sphereRender.Texture, false), sphereRender.Radius, sphereRender.Slices, sphereRender.Stacks);
+                var model = Model.Sphere(Engine, XTexture.Get(Engine, sphereRender.Texture), sphereRender.Radius, sphereRender.Slices, sphereRender.Stacks);
                 model.Name = entity.Name;
 
                 // Set model properties

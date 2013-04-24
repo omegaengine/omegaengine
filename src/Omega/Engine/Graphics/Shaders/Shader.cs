@@ -659,32 +659,13 @@ namespace OmegaEngine.Graphics.Shaders
 
         #region Overloads
         /// <summary>
-        /// Executes a SAS global script block
-        /// </summary>
-        /// <param name="script">A list of script commands</param>
-        protected void ExecuteScript(IEnumerable<SasScriptCommand> script)
-        {
-            ExecuteScript(script, null);
-        }
-
-        /// <summary>
-        /// Executes a SAS technique script block
-        /// </summary>
-        /// <param name="script">A list of script commands</param>
-        /// <param name="render">The render delegate (is called once for every shader pass); <see langword="null"/> for global script</param>
-        protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action render)
-        {
-            ExecuteScript(script, render, new Size(), null);
-        }
-
-        /// <summary>
         /// Executes a SAS post-screen shader technique script block
         /// </summary>
         /// <param name="script">A list of script commands</param>
         /// <param name="render">The render delegate (is called once for every shader pass); <see langword="null"/> for global script</param>
         /// <param name="sceneSize">The size of the scene on the screen - leave empty for fullscreen</param>
         /// <param name="sceneMap">A texture containing the rendered scene for <see cref="PostShader"/>), <see langword="null"/> if the shader doesn't need it</param>
-        protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action render, Size sceneSize, RenderTarget sceneMap)
+        protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action render = null, Size sceneSize = new Size(), RenderTarget sceneMap = null)
         {
             ExecuteScript(script, render, sceneSize, sceneMap, false);
 

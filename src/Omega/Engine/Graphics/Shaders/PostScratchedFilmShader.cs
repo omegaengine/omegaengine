@@ -111,7 +111,7 @@ namespace OmegaEngine.Graphics.Shaders
             _scratchWidthHandle = Effect.GetParameter(null, "IS");
 
             // Load noise texture
-            _noiseTexture = XTexture.Get(engine, "Shaders/Noise128.dds", false);
+            _noiseTexture = XTexture.Get(engine, "Shaders/Noise128.dds");
             _noiseTexture.HoldReference();
             Effect.SetTexture("Noise2DTex", _noiseTexture);
         }

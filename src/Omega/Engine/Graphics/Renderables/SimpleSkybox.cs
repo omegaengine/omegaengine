@@ -114,8 +114,8 @@ namespace OmegaEngine.Graphics.Renderables
 
             var textures = new[]
             {
-                XTexture.Get(engine, rt, false), XTexture.Get(engine, lf, false), XTexture.Get(engine, up, false),
-                XTexture.Get(engine, dn, false), XTexture.Get(engine, ft, false), XTexture.Get(engine, bk, false)
+                XTexture.Get(engine, rt), XTexture.Get(engine, lf), XTexture.Get(engine, up),
+                XTexture.Get(engine, dn), XTexture.Get(engine, ft), XTexture.Get(engine, bk)
             };
             return new SimpleSkybox(engine, textures);
         }

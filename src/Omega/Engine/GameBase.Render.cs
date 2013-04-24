@@ -68,7 +68,7 @@ namespace OmegaEngine
                 // Initialize engine
                 try
                 {
-                    Engine = new Engine(Form, BuildEngineConfig(false)); // Startup without fullscreen mode first (will swap later)
+                    Engine = new Engine(Form, BuildEngineConfig(fullscreen: false)); // No fullscreen while loading
                     ApplyGraphicsSettings();
                 }
                     #region Error handling

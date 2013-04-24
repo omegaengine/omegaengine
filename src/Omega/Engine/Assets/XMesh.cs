@@ -124,7 +124,7 @@ namespace OmegaEngine.Assets
                             string normalFilename = baseFilename + "_normal" + fileExt;
                             if (ContentManager.FileExists("Meshes", normalFilename, true))
                             {
-                                Materials[i].NormalMap = XTexture.Get(engine, normalFilename, true);
+                                Materials[i].NormalMap = XTexture.Get(engine, normalFilename, meshTexture: true);
                                 needsTangents = true;
                             }
 
@@ -132,20 +132,20 @@ namespace OmegaEngine.Assets
                             string heightFilename = baseFilename + "_height" + fileExt;
                             if (ContentManager.FileExists("Meshes", heightFilename, true))
                             {
-                                Materials[i].HeightMap = XTexture.Get(engine, heightFilename, true);
+                                Materials[i].HeightMap = XTexture.Get(engine, heightFilename, meshTexture: true);
                                 needsTangents = true;
                             }
 
                             // Specular map
                             string specularFilename = baseFilename + "_specular" + fileExt;
                             if (ContentManager.FileExists("Meshes", specularFilename, true))
-                                Materials[i].SpecularMap = XTexture.Get(engine, specularFilename, true);
+                                Materials[i].SpecularMap = XTexture.Get(engine, specularFilename, meshTexture: true);
 
                             // Glow map (internally represented as emissive map)
                             string glowFilename = baseFilename + "_glow" + fileExt;
                             if (ContentManager.FileExists("Meshes", glowFilename, true))
                             {
-                                Materials[i].EmissiveMap = XTexture.Get(engine, glowFilename, true);
+                                Materials[i].EmissiveMap = XTexture.Get(engine, glowFilename, meshTexture: true);
 
                                 // Automatically set emissive color if a glow map is used (since this color usually defaults to black)
                                 if (Materials[i].Emissive == Color.FromArgb(255, 0, 0, 0)) Materials[i].Emissive = Color.White;
@@ -259,9 +259,9 @@ namespace OmegaEngine.Assets
 
             // Try to find the texture in the directory of its mesh first, then look in the generic mesh textures directory
             string id = Path.Combine("Meshes", textureID);
-            return ContentManager.FileExists("Meshes", meshPath + textureID, true) ?
-                                                                                       XTexture.Get(engine, meshPath + textureID, true) :
-                                                                                                                                            XTexture.Get(engine, id, false);
+            return ContentManager.FileExists("Meshes", meshPath + textureID, true)
+                ? XTexture.Get(engine, meshPath + textureID, meshTexture: true)
+                : XTexture.Get(engine, id);
         }
 
         /// <summary>

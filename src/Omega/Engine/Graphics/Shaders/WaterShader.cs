@@ -164,7 +164,7 @@ namespace OmegaEngine.Graphics.Shaders
             if (MinShaderModel > engine.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 
-            _normalTexture = XTexture.Get(engine, @"Water\normal.png", false);
+            _normalTexture = XTexture.Get(engine, @"Water\normal.png");
             _normalTexture.HoldReference();
             _refractionView = refractionView;
             _reflectionView = reflectionView;
@@ -190,9 +190,9 @@ namespace OmegaEngine.Graphics.Shaders
             if (MinShaderModel > engine.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 
-            _waterTexture = XTexture.Get(engine, @"Water\surface.png", false);
+            _waterTexture = XTexture.Get(engine, @"Water\surface.png");
             _waterTexture.HoldReference();
-            _normalTexture = XTexture.Get(engine, @"Water\normal.png", false);
+            _normalTexture = XTexture.Get(engine, @"Water\normal.png");
             _normalTexture.HoldReference();
             _refractionView = refractionView;
 
@@ -217,7 +217,7 @@ namespace OmegaEngine.Graphics.Shaders
             if (MinShaderModel > engine.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 
-            _waterTexture = XTexture.Get(engine, @"Water\surface.png", false);
+            _waterTexture = XTexture.Get(engine, @"Water\surface.png");
             _waterTexture.HoldReference();
 
             Effect.Technique = "Simple";
@@ -258,7 +258,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="material">The material to be used by this shader; <see langword="null"/> for device texture.</param>
         /// <param name="camera">The camera for transformation information.</param>
         /// <param name="lights">An array of all lights this shader should consider; should be <see langword="null"/>.</param>
-        internal override void Apply(Action render, XMaterial material, Camera camera, LightSource[] lights)
+        public override void Apply(Action render, XMaterial material, Camera camera, LightSource[] lights)
         {
             #region Sanity checks
             if (render == null) throw new ArgumentNullException("render");

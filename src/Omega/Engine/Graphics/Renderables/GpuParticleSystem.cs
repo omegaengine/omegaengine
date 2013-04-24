@@ -43,8 +43,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="preset">The initial configuration of the particle system.</param>
-        public GpuParticleSystem(Engine engine, GpuParticlePreset preset)
-            : base(engine)
+        public GpuParticleSystem(Engine engine, GpuParticlePreset preset) : base(engine)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
@@ -63,7 +62,7 @@ namespace OmegaEngine.Graphics.Renderables
 
             // Load particle shader
             string id = Path.Combine("Shaders", preset.ParticleTexture);
-            _particleShader = new ParticleShader(engine, XTexture.Get(engine, id, false));
+            _particleShader = new ParticleShader(engine, XTexture.Get(engine, id));
 
             // Calculate bounding sphere
             float maxDistance = preset.SpawnRadius > preset.SystemHeight ? preset.SpawnRadius : preset.SystemHeight;
@@ -120,9 +119,9 @@ namespace OmegaEngine.Graphics.Renderables
                 string id = Path.Combine("Shaders", Preset.ParticleTexture);
                 _particleShader.ParticleTexture =
                     // Check the new texture is available/exists
-                    (!string.IsNullOrEmpty(Preset.ParticleTexture) && ContentManager.FileExists("Textures", Path.Combine("Shaders", Preset.ParticleTexture), true)) ?
-                                                                                                                                                                        // Load the new texture
-                        XTexture.Get(Engine, id, false) : null;
+                    (!string.IsNullOrEmpty(Preset.ParticleTexture) && ContentManager.FileExists("Textures", Path.Combine("Shaders", Preset.ParticleTexture), true))
+                        ? XTexture.Get(Engine, id)
+                        : null;
 
                 Preset.TextureDirty = false;
             }

@@ -345,7 +345,7 @@ namespace OmegaEngine.Graphics.Renderables
             for (int i = 0; i < textures.Length; i++)
             {
                 string id = textures[i];
-                material.DiffuseMaps[i] = XTexture.Get(engine, id, false);
+                material.DiffuseMaps[i] = XTexture.Get(engine, id);
             }
             return material;
         }

@@ -222,7 +222,7 @@ namespace OmegaEngine.Graphics.Renderables
             #endregion
 
             return new VertexGroup(engine, primitiveType, vertexes, indexes,
-                new XMaterial(XTexture.Get(engine, id, false)));
+                new XMaterial(XTexture.Get(engine, id)));
         }
         #endregion
 

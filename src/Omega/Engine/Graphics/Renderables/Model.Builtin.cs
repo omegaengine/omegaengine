@@ -25,7 +25,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="texture">The texture to place on the model; <see langword="null"/> for no texture.</param>
         /// <param name="width">The width of the quad.</param>
         /// <param name="height">The height of the quad.</param>
-        public static Model Quad(Engine engine, ITextureProvider texture, float width, float height)
+        public static Model Quad(Engine engine, ITextureProvider texture = null, float width = 5, float height = 5)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
@@ -45,10 +45,11 @@ namespace OmegaEngine.Graphics.Renderables
         /// Creates a model of a textured box.
         /// </summary>
         /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
-        /// <param name="texture">The texture to place on the model; <see langword="null"/> for no texture.</param>        /// <param name="width">The width of the box</param>
+        /// <param name="texture">The texture to place on the model; <see langword="null"/> for no texture.</param>
+        /// <param name="width">The width of the box</param>
         /// <param name="height">The height of the box</param>
         /// <param name="depth">The depth of the box</param>
-        public static Model Box(Engine engine, ITextureProvider texture, float width, float height, float depth)
+        public static Model Box(Engine engine, ITextureProvider texture = null, float width = 5, float height = 5, float depth = 5)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
@@ -72,7 +73,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="radius">The radius of the sphere.</param>
         /// <param name="slices">The number of vertical slices to divide the sphere into.</param>
         /// <param name="stacks">The number of horizontal stacks to divide the sphere into.</param>
-        public static Model Sphere(Engine engine, ITextureProvider texture, float radius, int slices, int stacks)
+        public static Model Sphere(Engine engine, ITextureProvider texture = null, float radius = 10, int slices = 20, int stacks = 20)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
@@ -120,7 +121,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="radiusBottom">The radius of the cylinder at the lower end (negative Z).</param>
         /// <param name="radiusTop">The radius of the cylinder at the upper end (positive Z).</param>
         /// <param name="length">The length of the cylinder.</param>
-        public static Model Cylinder(Engine engine, ITextureProvider texture, float radiusBottom, float radiusTop, float length)
+        public static Model Cylinder(Engine engine, ITextureProvider texture = null, float radiusBottom = 1, float radiusTop = 1, float length = 10)
         {
             float radiusMean = radiusBottom + (radiusTop - radiusBottom) / 2;
             float radiusDiff = Math.Abs(radiusTop - radiusBottom);
@@ -160,7 +161,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="radiusInner">The radius of the inner circle of the ring.</param>
         /// <param name="radiusOuter">The radius of the outer circle of the ring.</param>
         /// <param name="height">The height of the ring.</param>
-        public static Model Disc(Engine engine, ITextureProvider texture, float radiusInner, float radiusOuter, float height)
+        public static Model Disc(Engine engine, ITextureProvider texture = null, float radiusInner = 5, float radiusOuter = 7, float height = 1)
         {
             float radiusMean = radiusInner + (radiusOuter - radiusInner) / 2;
             return Disc(engine, texture, radiusInner, radiusOuter, height,
