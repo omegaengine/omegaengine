@@ -34,7 +34,7 @@ namespace $safeprojectname$
         {
             var scene = new Scene(Engine)
             {
-                Positionables = {Model.Sphere(Engine, XTexture.Get(Engine, "flag.png"))}
+                Positionables = {Model.Sphere(Engine, XTexture.Get(Engine, "flag.png"), slices: 50, stacks: 50)}
             };
             _camera = new TrackCamera {VerticalRotation = 20};
             var view = new View(Engine, scene, _camera) {BackgroundColor = Color.CornflowerBlue};
