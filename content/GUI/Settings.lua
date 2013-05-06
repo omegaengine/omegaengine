@@ -1,7 +1,7 @@
 -- Import .NET enumerations
-luanet.load_assembly("OmegaEngine")
-Quality = luanet.import_type("OmegaEngine.Quality")
-WaterEffectsType = luanet.import_type("OmegaEngine.WaterEffectsType")
+luanet.load_assembly("Common")
+Quality = luanet.import_type("Common.Values.Quality")
+WaterEffectsType = luanet.import_type("Common.Values.WaterEffectsType")
 
 -- Default to English language, provide German as an option
 if Settings.General.Language == "de" then
