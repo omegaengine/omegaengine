@@ -6,13 +6,13 @@ Pre-compiled managed DLL: nunit.framework.dll
 
 Moq 4.0.10827
 http://code.google.com/p/moq/
-BSD license: http://www.opensource.org/licenses/bsd-license
+New BSD license: http://opensource.org/licenses/BSD-3-Clause
 Source unmodified
-Pre-compiled managed DLL: nunit.framework.dll
+Pre-compiled managed DLL: Moq.dll
 
 LinqBridge 1.3
 http://code.google.com/p/linqbridge/
-MIT license: http://www.opensource.org/licenses/mit-license
+MIT license: ttp://opensource.org//licenses/mit-license
 Source unmodified
 Pre-compiled managed DLL: LinqBridge.dll
 
@@ -36,19 +36,19 @@ Pre-compiled managed DLL: C5.dll
 
 SlimDX runtime January 2012
 http://slimdx.org/
-MIT license: http://www.opensource.org/licenses/mit-license
+MIT license: ttp://opensource.org//licenses/mit-license
 Source unmodified
 Pre-compiled managed DLL: SlimDX.dll
 
 LuaInterface 2.0.3
 http://luaforge.net/projects/luainterface/
-MIT license: http://www.opensource.org/licenses/mit-license
+MIT license: ttp://opensource.org//licenses/mit-license
 Source modified and comitted upstream
 Self-compiled managed DLL: LuaInterface.dll
 
 Lua 5.1
 http://www.lua.org/
-MIT license: http://www.opensource.org/licenses/mit-license
+MIT license: ttp://opensource.org//licenses/mit-license
 Source unmodified
 Self-compiled hybrid DLL (managed + Visual C++ 2008 runtime): lua51.dll
 
