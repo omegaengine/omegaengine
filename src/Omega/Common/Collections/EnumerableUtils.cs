@@ -76,7 +76,7 @@ namespace Common.Collections
         /// <summary>
         /// Calls <see cref="ICloneable.Clone"/> for every element in a collection and returns the results as a new collection.
         /// </summary>
-        public static IEnumerable<T> CloneElements<T>(this IEnumerable<T> enumerable) where T: ICloneable
+        public static IEnumerable<T> CloneElements<T>(this IEnumerable<T> enumerable) where T : ICloneable
         {
             return enumerable.Select(entry => (T)entry.Clone());
         }
@@ -207,6 +207,40 @@ namespace Common.Collections
                 throw;
             }
         }
+
+        /// <summary>
+        /// Applies an operation for the first possible element of a collection.
+        /// If the operation succeeds the remaining elements are ignored. If the operation fails it is repeated for the next element.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to operate on.</typeparam>
+        /// <param name="elements">The elements to apply the action for.</param>
+        /// <param name="action">The action to apply to an element.</param>
+        /// <exception cref="Exception">The exception thrown by <paramref name="action"/> for the last element of <paramref name="elements"/>.</exception>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Last excption is rethrown, other exceptions are logged")]
+        public static void Try<T>(this IEnumerable<T> elements, Action<T> action)
+        {
+            #region Sanity checks
+            if (elements == null) throw new ArgumentNullException("elements");
+            if (action == null) throw new ArgumentNullException("action");
+            #endregion
+
+            var enumerator = elements.GetEnumerator();
+            if (!enumerator.MoveNext()) return;
+
+            while (true)
+            {
+                try
+                {
+                    action(enumerator.Current);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    if (enumerator.MoveNext()) Log.Error(ex); // Log exception and try next element
+                    else throw; // Rethrow exception if there are no more elements
+                }
+            }
+        }
         #endregion
 
         #region Merge
@@ -233,12 +267,12 @@ namespace Common.Collections
             // ReSharper disable CompareNonConstrainedGenericWithNull
             foreach (var mine in mineList.Where(mine => mine != null).
                 // Entry in mineList, but not in theirsList
-                Where(mine => !theirsList.Contains(mine)))
+                                          Where(mine => !theirsList.Contains(mine)))
                 removed(mine);
 
             foreach (var theirs in theirsList.Where(theirs => theirs != null).
                 // Entry in theirsList, but not in mineList
-                Where(theirs => !mineList.Contains(theirs)))
+                                              Where(theirs => !mineList.Contains(theirs)))
                 added(theirs);
             // ReSharper restore CompareNonConstrainedGenericWithNull
         }
