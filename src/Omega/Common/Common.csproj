@@ -150,6 +150,7 @@
     <Compile Include="Storage\ContentArchiveEntry.cs" />
     <Compile Include="Storage\FileEntry.cs" />
     <Compile Include="Undo\IUndoCommand.cs" />
+    <Compile Include="Undo\ICommandExecutor.cs" />
     <Compile Include="Undo\CommandManager.cs" />
     <Compile Include="Undo\PreExecutedCommand.cs" />
     <Compile Include="Undo\PropertyChangedCommand.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="Undo\SetInList.cs" />
     <Compile Include="Undo\RemoveFromCollection.cs" />
     <Compile Include="Undo\CompositeCommand.cs" />
+    <Compile Include="StructureEditor\IEditorControl.cs" />
     <Compile Include="Values\Design\EnumDescriptionConverter.cs" />
     <Compile Include="Values\Design\StringConstructorConverter.cs" />
     <Compile Include="Values\Design\EnumXmlConverter.cs" />
@@ -187,7 +189,6 @@
     <Compile Include="Values\DoubleVector3.cs" />
     <Compile Include="Values\Design\DoubleVector3Converter.cs" />
     <Compile Include="Values\XColor.cs" />
-    <Compile Include="Controls\IEntryEditor.cs" />
     <Compile Include="Controls\ErrorReportForm.ErrorReport.cs" />
     <Compile Include="Controls\IContextMenu.cs" />
     <Compile Include="Controls\IHighlightColor.cs" />
@@ -242,6 +243,12 @@
     </Compile>
     <Compile Include="Controls\TimeSpanControl.Designer.cs">
       <DependentUpon>TimeSpanControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\EditorControl.Designer.cs">
+      <DependentUpon>EditorControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\EditorDialog.cs">
       <SubType>Form</SubType>

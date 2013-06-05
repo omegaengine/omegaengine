@@ -124,7 +124,7 @@ namespace AlphaEditor.World.TerrainModifiers
         /// Retreives a single filtered value.
         /// </summary>
         /// <param name="getValue">Called to retreive surrounding base values with relative indexes.</param>
-        private double GetFiltered(MapAction<int, byte> getValue)
+        private double GetFiltered(Func<int, byte> getValue)
         {
             double result = 0;
             // ReSharper disable LoopCanBeConvertedToQuery

@@ -16,22 +16,24 @@
  */
 
 using System;
-using System.Windows.Forms;
+using Common.Undo;
 
-namespace Common.Controls
+namespace Common.StructureEditor
 {
     /// <summary>
-    /// Provides an interface to a dialog that edits a single element in a feed.
+    /// Provides an interface to a control that edits a single element.
     /// </summary>
     /// <typeparam name="T">The type of element to edit.</typeparam>
-    public interface IEntryEditor<T> : IDisposable where T : class
+    public interface IEditorControl<T> : IDisposable where T : class
     {
         /// <summary>
-        /// Displays a modal dialog for editing an element.
+        /// The element to be edited.
         /// </summary>
-        /// <param name="owner">The parent window used to make the dialog modal.</param>
-        /// <param name="element">The element to be edited.</param>
-        /// <returns>Save changes if <see cref="DialogResult.OK"/>; discard changes if  <see cref="DialogResult.Cancel"/>.</returns>
-        DialogResult ShowDialog(IWin32Window owner, T element);
+        T Element { get; set; }
+
+        /// <summary>
+        /// An optional undo system to use for editing.
+        /// </summary>
+        ICommandExecutor CommandExecutor { get; set; }
     }
 }

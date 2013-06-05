@@ -19,7 +19,7 @@ namespace AlphaEditor
     /// </summary>
     /// <remarks>All changes to the content must be performed via the <see cref="ExecuteCommand"/> interface to be handled by the undo-system</remarks>
     // Note: Cannot be abstract to prevent WinForms designer problems
-    public class UndoCommandTab : UndoTab<IUndoCommand>
+    public class UndoCommandTab : UndoTab<IUndoCommand>, ICommandExecutor
     {
         #region Constructor
         // Note: This prevents instatiation without making class abstract
@@ -31,11 +31,8 @@ namespace AlphaEditor
         //--------------------//
 
         #region Command
-        /// <summary>
-        /// Executes an <see cref="IUndoCommand"/> and stores it for later undo-operations
-        /// </summary>
-        /// <param name="command">The command to be executed</param>
-        protected void ExecuteCommand(IUndoCommand command)
+        /// <inheritdoc/>
+        public void ExecuteCommand(IUndoCommand command)
         {
             #region Sanity checks
             if (command == null) throw new ArgumentNullException("command");

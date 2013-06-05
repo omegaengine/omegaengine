@@ -29,7 +29,7 @@ namespace Common.Undo
     /// <summary>
     /// A base class for managing <see cref="IUndoCommand"/>s.
     /// </summary>
-    public abstract class CommandManager
+    public class CommandManager<TTarget> : ICommandExecutor
     {
         #region Variables
         /// <summary>Entries used by the undo-system to undo changes</summary>
@@ -41,9 +41,25 @@ namespace Common.Undo
 
         #region Properties
         /// <summary>
+        /// The object to be editted.
+        /// </summary>
+        public TTarget Target { get; private set; }
+
+        /// <summary>
         /// Indicates the file has unsaved changes
         /// </summary>
         public bool Changed { get; private set; }
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Creates a new command manager.
+        /// </summary>
+        /// <param name="target"> The object to be editted.</param>
+        public CommandManager(TTarget target)
+        {
+            Target = target;
+        }
         #endregion
 
         #region Events
@@ -51,7 +67,7 @@ namespace Common.Undo
         /// Is raised when the content of the data has been updated.
         /// </summary>
         [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
-        public event Action Update;
+        public event Action Updated;
 
         /// <summary>
         /// Is raised when the availability of the <see cref="Undo"/> operation has changed.
@@ -65,9 +81,9 @@ namespace Common.Undo
         [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Cannot rename System.Action<T>.")]
         public event Action<bool> RedoEnabled;
 
-        protected void OnUpdate()
+        protected void OnUpdated()
         {
-            if (Update != null) Update();
+            if (Updated != null) Updated();
         }
 
         protected void OnUndoEnabled(bool value)
@@ -82,10 +98,7 @@ namespace Common.Undo
         #endregion
 
         #region Commands
-        /// <summary>
-        /// Executes an <see cref="IUndoCommand"/> and stores it for later undo-operations.
-        /// </summary>
-        /// <param name="command">The command to be executed.</param>
+        /// <inheritdoc/>
         public void ExecuteCommand(IUndoCommand command)
         {
             #region Sanity checks
@@ -126,7 +139,7 @@ namespace Common.Undo
             }
             OnRedoEnabled(true);
 
-            OnUpdate();
+            OnUpdated();
         }
 
         /// <summary>
@@ -148,7 +161,7 @@ namespace Common.Undo
             OnRedoEnabled(RedoStack.Count > 0);
             OnUndoEnabled(true);
 
-            OnUpdate();
+            OnUpdated();
         }
 
         /// <summary>

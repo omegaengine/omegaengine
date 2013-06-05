@@ -20,28 +20,17 @@
  * THE SOFTWARE.
  */
 
-using System;
-
-namespace Common.Controls
+namespace Common.Undo
 {
     /// <summary>
-    /// A control that can raise touch events.
+    /// An object that can execute <see cref="IUndoCommand"/>s.
     /// </summary>
-    public interface ITouchControl
+    public interface ICommandExecutor
     {
         /// <summary>
-        /// Raised when the user begins touching the screen.
+        /// Executes an <see cref="IUndoCommand"/> and stores it for later undo-operations.
         /// </summary>
-        event EventHandler<TouchEventArgs> TouchDown;
-
-        /// <summary>
-        /// Raised when the user stops touching the screen.
-        /// </summary>
-        event EventHandler<TouchEventArgs> TouchUp;
-
-        /// <summary>
-        /// Raised when the user moves fingers while touching the screen.
-        /// </summary>
-        event EventHandler<TouchEventArgs> TouchMove;
+        /// <param name="command">The command to be executed.</param>
+        void ExecuteCommand(IUndoCommand command);
     }
 }
