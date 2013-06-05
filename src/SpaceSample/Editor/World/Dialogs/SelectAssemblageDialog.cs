@@ -36,7 +36,7 @@ namespace AlphaEditor.World.Dialogs
         /// Creates a new <see cref="Template{T}"/> selection dialog
         /// </summary>
         /// <param name="templates">The list of <see cref="Template{T}"/>es to choose from</param>
-        public SelectTemplateDialog(INamedCollection<T> templates)
+        public SelectTemplateDialog(NamedCollection<T> templates)
         {
             Text = Resources.TemplateSelection;
             _templateList.SelectionConfirmed += delegate

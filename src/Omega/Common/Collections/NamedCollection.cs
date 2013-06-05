@@ -33,16 +33,16 @@ namespace Common.Collections
     /// </summary>
     /// <remarks>Correct behavior with duplicate names or renaming without using the <see cref="Rename"/> method is not guaranteed!</remarks>
     // ToDo: Reimplement without KeyedCollection to be able to use more efficent sorting
-    public class NamedCollection<T> : KeyedCollection<string, T>, INamedCollection<T>, ICloneable where T : INamed<T>
+    public class NamedCollection<T> : KeyedCollection<string, T>, ICloneable where T : INamed<T>
     {
         #region Events
         /// <inheritdoc/>
         [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
-        public event Action CollectionChanged;
+        public event Action<object> CollectionChanged;
 
         private void OnAfterChanged()
         {
-            if (CollectionChanged != null) CollectionChanged();
+            if (CollectionChanged != null) CollectionChanged(this);
         }
         #endregion
 

@@ -81,6 +81,7 @@
     <Compile Include="..\AssemblyInfo.Global.cs" />
     <Compile Include="AppMutex.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="NamedComparer.cs" />
     <Compile Include="MutexLock.cs" />
     <Compile Include="PropertyPointer.cs" />
     <Compile Include="Info\AppInfo.cs" />
@@ -107,7 +108,6 @@
     <Compile Include="Collections\EnumerableUtils.cs" />
     <Compile Include="Collections\CultureComparer.cs" />
     <Compile Include="Collections\PerTypeDispatcher.cs" />
-    <Compile Include="Collections\INamedCollection.cs" />
     <Compile Include="Collections\MultiDictionary.cs" />
     <Compile Include="Collections\Pool.cs" />
     <Compile Include="Collections\NamedCollection.cs" />

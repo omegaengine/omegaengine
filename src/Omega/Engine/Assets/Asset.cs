@@ -27,7 +27,7 @@ namespace OmegaEngine.Assets
         /// <summary>
         /// The filename
         /// </summary>
-        // Mark as read only for PropertyGrid, since direct renames would confuse INamedCollection<T>
+        // Mark as read only for PropertyGrid, since direct renames would confuse NamedCollection<T>
         [ReadOnly(true)]
         public string Name { get; set; }
 

@@ -49,7 +49,7 @@ namespace World
         /// <summary>
         /// A list of all loaded <see cref="EntityTemplate"/>s.
         /// </summary>
-        public static INamedCollection<EntityTemplate> EntityTemplates
+        public static NamedCollection<EntityTemplate> EntityTemplates
         {
             get
             {
@@ -66,7 +66,7 @@ namespace World
         /// <summary>
         /// A list of all loaded <see cref="ItemTemplate"/>s.
         /// </summary>
-        public static INamedCollection<ItemTemplate> ItemTemplates
+        public static NamedCollection<ItemTemplate> ItemTemplates
         {
             get
             {
@@ -83,7 +83,7 @@ namespace World
         /// <summary>
         /// A list of all loaded <see cref="TerrainTemplate"/>s.
         /// </summary>
-        public static INamedCollection<TerrainTemplate> TerrainTemplates
+        public static NamedCollection<TerrainTemplate> TerrainTemplates
         {
             get
             {

@@ -41,7 +41,7 @@ namespace World
         /// <summary>
         /// The name of this class. Used in map files as a reference. Must be unique and is case-sensitive!
         /// </summary>
-        // Mark as read only for PropertyGrid, since direct renames would confuse INamedCollection<T>
+        // Mark as read only for PropertyGrid, since direct renames would confuse NamedCollection<T>
         [XmlAttribute, ReadOnly(true), Description("The name of this class. Used in map files as a reference. Must be unique and is case-sensitive!")]
         public string Name { get; set; }
 

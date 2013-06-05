@@ -287,7 +287,7 @@ namespace Common.Storage
         /// <param name="type">The type-subdirectory the file belongs to.</param>
         /// <param name="name">The file name to be added to the list.</param>
         /// <param name="flagAsMod">Set to <see langword="true"/> when handling mod files to detect added and changed files.</param>
-        private static void AddFileToList(INamedCollection<FileEntry> files, string type, string name, bool flagAsMod)
+        private static void AddFileToList(NamedCollection<FileEntry> files, string type, string name, bool flagAsMod)
         {
             if (flagAsMod)
             {
@@ -321,7 +321,7 @@ namespace Common.Storage
         /// <param name="directory">The directory to look in.</param>
         /// <param name="prefix">A prefix to add before the file name in the list (used to indicate current sub-directory).</param>
         /// <param name="flagAsMod">Set to <see langword="true"/> when handling mod files to detect added and changed files.</param>
-        private static void AddDirectoryToList(INamedCollection<FileEntry> files, string type, string extension, DirectoryInfo directory, string prefix, bool flagAsMod)
+        private static void AddDirectoryToList(NamedCollection<FileEntry> files, string type, string extension, DirectoryInfo directory, string prefix, bool flagAsMod)
         {
             // Add the files in this directory to the list
             foreach (FileInfo file in directory.GetFiles("*" + extension))
@@ -345,7 +345,7 @@ namespace Common.Storage
         /// <param name="type">The type-subdirectory to look in.</param>
         /// <param name="archiveData">The archive data list to look in.</param>
         /// <param name="flagAsMod">Set to <see langword="true"/> when handling mod files to detect added and changed files.</param>
-        private static void AddArchivesToList(INamedCollection<FileEntry> files, string type, string extension, IEnumerable<KeyValuePair<string, ContentArchiveEntry>> archiveData, bool flagAsMod)
+        private static void AddArchivesToList(NamedCollection<FileEntry> files, string type, string extension, IEnumerable<KeyValuePair<string, ContentArchiveEntry>> archiveData, bool flagAsMod)
         {
             foreach (var pair in archiveData)
             {
@@ -364,7 +364,7 @@ namespace Common.Storage
         /// <param name="type">The type of files you want (e.g. Textures, Sounds, ...)</param>
         /// <param name="extension">The file extension to so search for</param>
         /// <returns>An collection of strings with file IDs</returns>
-        public static INamedCollection<FileEntry> GetFileList(string type, string extension)
+        public static NamedCollection<FileEntry> GetFileList(string type, string extension)
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(type)) throw new ArgumentNullException("type");
