@@ -113,7 +113,7 @@ namespace AlphaEditor.World
             }
             #endregion
 
-            TemplateList.Entries = Templates;
+            TemplateList.Nodes = Templates;
 
             base.OnInitialize();
         }
@@ -195,7 +195,7 @@ namespace AlphaEditor.World
         {
             base.Undo();
 
-            TemplateList.Entries = Templates;
+            TemplateList.Nodes = Templates;
 
             // Reasign the selection if the class still exists after the undo-action
             if (TemplateList.SelectedEntry == null) return;
@@ -208,7 +208,7 @@ namespace AlphaEditor.World
         {
             base.Redo();
 
-            TemplateList.Entries = Templates;
+            TemplateList.Nodes = Templates;
 
             // Reasign the selection if the class still exists after the redo-action
             if (TemplateList.SelectedEntry == null) return;

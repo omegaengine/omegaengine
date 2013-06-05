@@ -149,7 +149,7 @@ namespace AlphaEditor
         #region File list
         private void UpdateFileList()
         {
-            _fileList.Entries = ContentManager.GetFileList(_type, _extension);
+            _fileList.Nodes = ContentManager.GetFileList(_type, _extension);
         }
         #endregion
 

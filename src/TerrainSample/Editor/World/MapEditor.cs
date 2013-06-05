@@ -725,7 +725,7 @@ namespace AlphaEditor.World
 
             // Refresh the entity template selection tree list
             _dontSetEntityTemplate = true;
-            _entityTemplateList.Entries = (_entityTemplateList.Enabled ? TemplateManager.EntityTemplates : null);
+            _entityTemplateList.Nodes = (_entityTemplateList.Enabled ? TemplateManager.EntityTemplates : null);
             _entityTemplateList.SelectedEntry = GetCurrentEntityTemplate();
             _dontSetEntityTemplate = false;
         }

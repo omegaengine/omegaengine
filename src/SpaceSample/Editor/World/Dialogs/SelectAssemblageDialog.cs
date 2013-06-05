@@ -47,7 +47,7 @@ namespace AlphaEditor.World.Dialogs
             };
             Controls.Add(_templateList);
 
-            _templateList.Entries = templates;
+            _templateList.Nodes = templates;
         }
         #endregion
     }
