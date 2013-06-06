@@ -29,7 +29,7 @@ namespace Common.Controls
     /// Edits arbitrary types of elements using an <see cref="EditorControl{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of element to edit.</typeparam>
-    public partial class EditorDialog<T> : OKCancelDialog where T : class
+    public partial class EditorDialog<T> : OKCancelDialog, IEditorDialog<T> where T : class
     {
         #region Constructor
         // Don't use WinForms designer for this, since it doesn't understand generics
@@ -37,7 +37,7 @@ namespace Common.Controls
         {
             TabIndex = 0,
             Location = new System.Drawing.Point(12, 12),
-            Size = new System.Drawing.Size(290, 267),
+            Size = new System.Drawing.Size(290, 238),
             Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom
         };
 
@@ -50,12 +50,7 @@ namespace Common.Controls
         }
         #endregion
 
-        /// <summary>
-        /// Displays a modal dialog for editing an element.
-        /// </summary>
-        /// <param name="owner">The parent window used to make the dialog modal.</param>
-        /// <param name="element">The element to be edited.</param>
-        /// <returns>Save changes if <see cref="DialogResult.OK"/>; discard changes if <see cref="DialogResult.Cancel"/>.</returns>
+        /// <inheritdoc/>
         public DialogResult ShowDialog(IWin32Window owner, T element)
         {
             #region Sanity checks
@@ -63,7 +58,7 @@ namespace Common.Controls
             if (element == null) throw new ArgumentNullException("element");
             #endregion
 
-            _editor.Element = element;
+            _editor.Target = element;
 
             return ShowDialog(owner);
         }
@@ -79,7 +74,7 @@ namespace Common.Controls
             if (element == null) throw new ArgumentNullException("element");
             #endregion
 
-            _editor.Element = element;
+            _editor.Target = element;
 
             ShowInTaskbar = true;
             return ShowDialog();

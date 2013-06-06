@@ -15,25 +15,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System;
-using Common.Undo;
+using System.Collections.Generic;
+using Moq;
+using Moq.Language.Flow;
+using NUnit.Framework.Constraints;
 
-namespace Common.StructureEditor
+namespace Common
 {
     /// <summary>
-    /// Provides an interface to a control that edits a single element.
+    /// Extension methods for <see cref="Moq"/>.
     /// </summary>
-    /// <typeparam name="T">The type of element to edit.</typeparam>
-    public interface IEditorControl<T> : IDisposable where T : class
+    public static class MoqExtensions
     {
         /// <summary>
-        /// The element to be edited.
+        /// Ensures a collection is equal to this one (same elements in same order).
         /// </summary>
-        T Element { get; set; }
+        [Matcher]
+        public static IEnumerable<T> IsEqual<T>(this IEnumerable<T> expected)
+        {
+            return Match.Create<IEnumerable<T>>(new EqualConstraint(expected).Matches);
+        }
 
         /// <summary>
-        /// An optional undo system to use for editing.
+        /// Ensures a collection is equivalet to this one (same elements in any order).
         /// </summary>
-        ICommandExecutor CommandExecutor { get; set; }
+        [Matcher]
+        public static IEnumerable<T> IsEquivalent<T>(this IEnumerable<T> expected)
+        {
+            return Match.Create<IEnumerable<T>>(new CollectionEquivalentConstraint(expected).Matches);
+        }
     }
 }

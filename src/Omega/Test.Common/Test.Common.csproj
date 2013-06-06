@@ -68,19 +68,25 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\AggregateDispatcherTest.cs" />
     <Compile Include="Collections\ComparableTupleTest.cs" />
     <Compile Include="Collections\EnumerableUtilsTest.cs" />
+    <Compile Include="Collections\LanguageCollectionTest.cs" />
+    <Compile Include="Collections\LocalizableStringCollectionTest.cs" />
     <Compile Include="Collections\XmlDictionaryTest.cs" />
     <Compile Include="Collections\PerTypeDispatcherTest.cs" />
     <Compile Include="Collections\StringMappedCollectionTest.cs" />
     <Compile Include="Controls\TrackingLabelTest.cs" />
     <Compile Include="Controls\TrackingProgressBarTest.cs" />
+    <Compile Include="MoqExtensions.cs" />
     <Compile Include="Tasks\ForEachTaskTest.cs" />
     <Compile Include="Tasks\MockTask.cs" />
     <Compile Include="Tasks\WaitTaskTest.cs" />
     <Compile Include="Tasks\SimpleTaskTest.cs" />
     <Compile Include="Undo\CollectionTest.cs" />
     <Compile Include="Undo\CompositeCommandTest.cs" />
+    <Compile Include="Undo\ReplaceInListTest.cs" />
+    <Compile Include="Undo\SetLocalizableStringTest.cs" />
     <Compile Include="AppMutexText.cs" />
     <Compile Include="Utils\FileUtilsTest.cs" />
     <Compile Include="Utils\StringUtilsTest.cs" />

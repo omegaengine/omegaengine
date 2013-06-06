@@ -103,14 +103,19 @@
     <Compile Include="Tasks\GuiTaskHandler.cs" />
     <Compile Include="Tasks\WaitTask.cs" />
     <Compile Include="Arguments.cs" />
+    <Compile Include="Collections\AggregateDispatcher.cs" />
     <Compile Include="Collections\ComparableTuple.cs" />
     <Compile Include="Collections\IMergeable.cs" />
     <Compile Include="Collections\EnumerableUtils.cs" />
     <Compile Include="Collections\CultureComparer.cs" />
-    <Compile Include="Collections\PerTypeDispatcher.cs" />
+    <Compile Include="Collections\PerTypeDispatcher.Action.cs" />
+    <Compile Include="Collections\PerTypeDispatcher.Func.cs" />
+    <Compile Include="Collections\LanguageCollection.cs" />
+    <Compile Include="Collections\NamedCollection.cs" />
+    <Compile Include="Collections\LocalizableStringCollection.cs" />
+    <Compile Include="Collections\LocalizableString.cs" />
     <Compile Include="Collections\MultiDictionary.cs" />
     <Compile Include="Collections\Pool.cs" />
-    <Compile Include="Collections\NamedCollection.cs" />
     <Compile Include="Collections\StringMappedCollection.cs" />
     <Compile Include="Collections\MonitoredCollection.cs" />
     <Compile Include="Collections\XmlDictionary.cs" />
@@ -163,8 +168,9 @@
     <Compile Include="Undo\CollectionCommand.cs" />
     <Compile Include="Undo\SetInList.cs" />
     <Compile Include="Undo\RemoveFromCollection.cs" />
+    <Compile Include="Undo\ReplaceInList.cs" />
+    <Compile Include="Undo\SetLocalizableString.cs" />
     <Compile Include="Undo\CompositeCommand.cs" />
-    <Compile Include="StructureEditor\IEditorControl.cs" />
     <Compile Include="Values\Design\EnumDescriptionConverter.cs" />
     <Compile Include="Values\Design\StringConstructorConverter.cs" />
     <Compile Include="Values\Design\EnumXmlConverter.cs" />
@@ -189,7 +195,8 @@
     <Compile Include="Values\DoubleVector3.cs" />
     <Compile Include="Values\Design\DoubleVector3Converter.cs" />
     <Compile Include="Values\XColor.cs" />
-    <Compile Include="Controls\ErrorReportForm.ErrorReport.cs" />
+    <Compile Include="Controls\IEditorControl.cs" />
+    <Compile Include="Controls\IEditorDialog.cs" />
     <Compile Include="Controls\IContextMenu.cs" />
     <Compile Include="Controls\IHighlightColor.cs" />
     <Compile Include="Controls\RtfBuilder.cs" />
@@ -245,10 +252,7 @@
       <DependentUpon>TimeSpanControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\EditorControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\EditorControl.Designer.cs">
-      <DependentUpon>EditorControl.cs</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\EditorDialog.cs">
       <SubType>Form</SubType>
@@ -292,6 +296,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Controls\ErrorReportForm.Designer.cs">
+      <DependentUpon>ErrorReportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ErrorReportForm.ErrorReport.cs">
       <DependentUpon>ErrorReportForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\OKCancelDialog.cs">

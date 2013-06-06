@@ -20,44 +20,43 @@
  * THE SOFTWARE.
  */
 
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
+using NUnit.Framework;
 
-namespace Common.Storage
+namespace Common.Collections
 {
     /// <summary>
-    /// A temporary directory with a file that may or may not exist to indicate whether a certain condition is true or false.
+    /// Contains test methods for <see cref="AggregateDispatcherTest"/>.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Flag")]
-    public class TemporaryFlagFile : TemporaryDirectory
+    [TestFixture]
+    public class AggregateDispatcherTest
     {
-        /// <inheritdoc/>
-        public TemporaryFlagFile(string prefix) : base(prefix)
+        private abstract class Base
         {}
 
-        #region Properties
-        /// <summary>
-        /// The fully qualified path of the flag file.
-        /// </summary>
-        public new string Path { get { return System.IO.Path.Combine(base.Path, "flag"); } }
+        private class Sub1 : Base
+        {}
 
-        public static implicit operator string(TemporaryFlagFile dir)
-        {
-            return (dir == null) ? null : dir.Path;
-        }
+        private class Sub2 : Sub1
+        {}
 
-        /// <summary>
-        /// Indicates or controls whether the file exists.
-        /// </summary>
-        public bool Set
+        [Test]
+        public void Aggregate()
         {
-            get { return File.Exists(Path); }
-            set
+            var dispatcher = new AggregateDispatcher<Base, string>
             {
-                if (value) File.WriteAllText(Path, "");
-                else File.Delete(Path);
-            }
+                (Sub1 sub1) => new[] {"sub1"},
+                (Sub2 sub2) => new[] {"sub2"}
+            };
+
+            CollectionAssert.AreEqual(new[] { "sub1" }, dispatcher.Dispatch(new Sub1()));
+            CollectionAssert.AreEqual(new[] { "sub1", "sub2" }, dispatcher.Dispatch(new Sub2()));
         }
-        #endregion
+
+        [Test]
+        public void UnknownType()
+        {
+            var dispatcher = new AggregateDispatcher<Base, string>();
+            CollectionAssert.IsEmpty(dispatcher.Dispatch(new Sub1()));
+        }
     }
 }

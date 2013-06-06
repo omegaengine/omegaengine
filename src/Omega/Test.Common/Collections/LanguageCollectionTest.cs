@@ -20,44 +20,38 @@
  * THE SOFTWARE.
  */
 
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
+using NUnit.Framework;
 
-namespace Common.Storage
+namespace Common.Collections
 {
     /// <summary>
-    /// A temporary directory with a file that may or may not exist to indicate whether a certain condition is true or false.
+    /// Contains test methods for <see cref="LanguageCollection"/>.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Flag")]
-    public class TemporaryFlagFile : TemporaryDirectory
+    [TestFixture]
+    public class LanguageCollectionTest
     {
-        /// <inheritdoc/>
-        public TemporaryFlagFile(string prefix) : base(prefix)
-        {}
-
-        #region Properties
-        /// <summary>
-        /// The fully qualified path of the flag file.
-        /// </summary>
-        public new string Path { get { return System.IO.Path.Combine(base.Path, "flag"); } }
-
-        public static implicit operator string(TemporaryFlagFile dir)
+        [Test]
+        public void TestToString()
         {
-            return (dir == null) ? null : dir.Path;
+            var collection = new LanguageCollection {"en-US", "de"};
+            Assert.AreEqual("de en_US", collection.ToString());
         }
 
-        /// <summary>
-        /// Indicates or controls whether the file exists.
-        /// </summary>
-        public bool Set
+        [Test]
+        public void TestFromString()
         {
-            get { return File.Exists(Path); }
-            set
-            {
-                if (value) File.WriteAllText(Path, "");
-                else File.Delete(Path);
-            }
+            var collection = new LanguageCollection();
+            collection.FromString("en_US de");
+            CollectionAssert.AreEquivalent(new LanguageCollection {"de", "en-US"}, collection);
         }
-        #endregion
+
+        [Test]
+        public void TestDuplicateDetection()
+        {
+            var collection = new LanguageCollection();
+            collection.FromString("en_US");
+            Assert.IsFalse(collection.Add("en-US"));
+            CollectionAssert.AreEquivalent(new LanguageCollection {"en-US"}, collection);
+        }
     }
 }

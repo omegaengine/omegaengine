@@ -27,9 +27,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace Common.Undo
 {
     /// <summary>
-    /// A base class for managing <see cref="IUndoCommand"/>s.
+    /// A class for managing <see cref="IUndoCommand"/>s.
     /// </summary>
-    public class CommandManager<TTarget> : ICommandExecutor
+    public class CommandManager : ICommandExecutor
     {
         #region Variables
         /// <summary>Entries used by the undo-system to undo changes</summary>
@@ -41,31 +41,13 @@ namespace Common.Undo
 
         #region Properties
         /// <summary>
-        /// The object to be editted.
-        /// </summary>
-        public TTarget Target { get; private set; }
-
-        /// <summary>
         /// Indicates the file has unsaved changes
         /// </summary>
         public bool Changed { get; private set; }
         #endregion
 
-        #region Constructor
-        /// <summary>
-        /// Creates a new command manager.
-        /// </summary>
-        /// <param name="target"> The object to be editted.</param>
-        public CommandManager(TTarget target)
-        {
-            Target = target;
-        }
-        #endregion
-
         #region Events
-        /// <summary>
-        /// Is raised when the content of the data has been updated.
-        /// </summary>
+        /// <inheritdoc/>
         [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
         public event Action Updated;
 
@@ -115,6 +97,7 @@ namespace Common.Undo
             // Only enable the buttons that still have a use
             OnUndoEnabled(true);
             OnRedoEnabled(false);
+            OnUpdated();
 
             Changed = true;
         }

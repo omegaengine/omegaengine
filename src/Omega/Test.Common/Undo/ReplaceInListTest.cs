@@ -20,44 +20,31 @@
  * THE SOFTWARE.
  */
 
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
+using System.Collections.Generic;
+using NUnit.Framework;
 
-namespace Common.Storage
+namespace Common.Undo
 {
     /// <summary>
-    /// A temporary directory with a file that may or may not exist to indicate whether a certain condition is true or false.
+    /// Contains test methods for <see cref="ReplaceInList{T}"/>.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Flag")]
-    public class TemporaryFlagFile : TemporaryDirectory
+    [TestFixture]
+    public class ReplaceInListTest
     {
-        /// <inheritdoc/>
-        public TemporaryFlagFile(string prefix) : base(prefix)
-        {}
-
-        #region Properties
         /// <summary>
-        /// The fully qualified path of the flag file.
+        /// Makes sure <see cref="ReplaceInList{T}"/> correctly performs executions and undos.
         /// </summary>
-        public new string Path { get { return System.IO.Path.Combine(base.Path, "flag"); } }
-
-        public static implicit operator string(TemporaryFlagFile dir)
+        [Test]
+        public void TestExecute()
         {
-            return (dir == null) ? null : dir.Path;
-        }
+            var list = new List<string> {"a", "b", "c"};
+            var command = new ReplaceInList<string>(list, "b", "x");
 
-        /// <summary>
-        /// Indicates or controls whether the file exists.
-        /// </summary>
-        public bool Set
-        {
-            get { return File.Exists(Path); }
-            set
-            {
-                if (value) File.WriteAllText(Path, "");
-                else File.Delete(Path);
-            }
+            command.Execute();
+            CollectionAssert.AreEqual(new[] { "a", "x", "c" }, list);
+
+            command.Undo();
+            CollectionAssert.AreEqual(new[] { "a", "b", "c" }, list);
         }
-        #endregion
     }
 }

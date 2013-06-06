@@ -20,44 +20,45 @@
  * THE SOFTWARE.
  */
 
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 
-namespace Common.Storage
+namespace Common.Undo
 {
     /// <summary>
-    /// A temporary directory with a file that may or may not exist to indicate whether a certain condition is true or false.
+    /// An undo command that replaces an element in a list with a new one.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Flag")]
-    public class TemporaryFlagFile : TemporaryDirectory
+    /// <typeparam name="T">The type of elements the list contains.</typeparam>
+    [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix", Justification = "The complete name is not ambiguous.")]
+    public class ReplaceInList<T> : SimpleCommand
     {
-        /// <inheritdoc/>
-        public TemporaryFlagFile(string prefix) : base(prefix)
-        {}
-
-        #region Properties
-        /// <summary>
-        /// The fully qualified path of the flag file.
-        /// </summary>
-        public new string Path { get { return System.IO.Path.Combine(base.Path, "flag"); } }
-
-        public static implicit operator string(TemporaryFlagFile dir)
-        {
-            return (dir == null) ? null : dir.Path;
-        }
+        private readonly IList<T> _list;
+        private readonly T _oldElement;
+        private readonly T _newElement;
 
         /// <summary>
-        /// Indicates or controls whether the file exists.
+        /// Creates a new replace in list command.
         /// </summary>
-        public bool Set
+        /// <param name="list">The collection to be modified.</param>
+        /// <param name="oldElement">The element to be removed from <paramref name="list"/>.</param>
+        /// <param name="newElement">The element to be added to <paramref name="list"/>.</param>
+        public ReplaceInList(IList<T> list, T oldElement, T newElement)
         {
-            get { return File.Exists(Path); }
-            set
-            {
-                if (value) File.WriteAllText(Path, "");
-                else File.Delete(Path);
-            }
+            _list = list;
+            _oldElement = oldElement;
+            _newElement = newElement;
         }
-        #endregion
+
+        protected override void OnExecute()
+        {
+            int index = _list.IndexOf(_oldElement);
+            _list[index] = _newElement;
+        }
+
+        protected override void OnUndo()
+        {
+            int index = _list.IndexOf(_newElement);
+            _list[index] = _oldElement;
+        }
     }
 }

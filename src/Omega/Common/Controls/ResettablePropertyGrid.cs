@@ -20,6 +20,8 @@
  * THE SOFTWARE.
  */
 
+using System;
+using System.Security.Permissions;
 using System.Windows.Forms;
 using Common.Properties;
 
@@ -28,20 +30,36 @@ namespace Common.Controls
     /// <summary>
     /// A <see cref="PropertyGrid"/> that provides a "reset value" option in its context menu.
     /// </summary>
-    public sealed class ResettablePropertyGrid : PropertyGrid
+    public class ResettablePropertyGrid : PropertyGrid
     {
+        private readonly ToolStripMenuItem _menuReset = new ToolStripMenuItem {Text = Resources.ResetValue};
+
         public ResettablePropertyGrid()
         {
-            var menuItem = new ToolStripMenuItem {Text = Resources.ResetValue};
-            menuItem.Click += delegate { ResetSelectedProperty(); };
-            ContextMenuStrip = new ContextMenuStrip {Items = {menuItem}};
+            _menuReset.Click += delegate
+            {
+                object oldValue = SelectedGridItem.Value;
+                ResetSelectedProperty();
+                OnPropertyValueChanged(new PropertyValueChangedEventArgs(SelectedGridItem, oldValue));
+            };
 
-            SelectedGridItemChanged += delegate { menuItem.Enabled = CanResetSelectedProperty; };
+            // ReSharper disable DoNotCallOverridableMethodsInConstructor
+            ContextMenuStrip = new ContextMenuStrip {Items = {_menuReset}};
+            // ReSharper restore DoNotCallOverridableMethodsInConstructor
         }
 
-        /// <summary>
-        /// Indicates whether <see cref="PropertyGrid.ResetSelectedProperty"/> will work.
-        /// </summary>
-        public bool CanResetSelectedProperty { get { return SelectedGridItem != null && SelectedGridItem.PropertyDescriptor != null && SelectedGridItem.PropertyDescriptor.CanResetValue(SelectedGridItem.Parent.Value); } }
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        protected override void OnSelectedGridItemChanged(SelectedGridItemChangedEventArgs e)
+        {
+            #region Sanity checks
+            if (e == null) throw new ArgumentNullException("e");
+            #endregion
+
+            _menuReset.Enabled =
+                e.NewSelection != null && e.NewSelection.PropertyDescriptor != null && e.NewSelection.Parent != null &&
+                    e.NewSelection.PropertyDescriptor.CanResetValue(e.NewSelection.Parent.Value ?? SelectedObject);
+
+            base.OnSelectedGridItemChanged(e);
+        }
     }
 }
