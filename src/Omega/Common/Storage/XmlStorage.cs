@@ -125,8 +125,8 @@ namespace Common.Storage
             // Ignore specific fields)
             if (ignoreMembers != null)
             {
-                foreach (MemberInfo ignoreMember in ignoreMembers)
-                    if (ignoreMember != null) overrides.Add(ignoreMember.ReflectedType, ignoreMember.Name, _ignore);
+                foreach (MemberInfo ignoreMember in ignoreMembers.Where(ignoreMember => ignoreMember != null))
+                    overrides.Add(ignoreMember.ReflectedType, ignoreMember.Name, _ignore);
             }
 
             var serializer = new XmlSerializer(type, overrides);
@@ -358,7 +358,7 @@ namespace Common.Storage
         /// <exception cref="ZipException">Thrown if a problem occurred while reading the ZIP data or if <paramref name="password"/> is wrong.</exception>
         /// <exception cref="InvalidDataException">Thrown if a problem occurred while deserializing the XML data.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "The type parameter is used to determine the type of returned object")]
-        public static T LoadXmlZip<T>(Stream stream, string password, IEnumerable<EmbeddedFile> additionalFiles, params MemberInfo[] ignoreMembers)
+        public static T LoadXmlZip<T>(Stream stream, string password = null, IEnumerable<EmbeddedFile> additionalFiles = null, params MemberInfo[] ignoreMembers)
         {
             #region Sanity checks
             if (stream == null) throw new ArgumentNullException("stream");
@@ -416,7 +416,7 @@ namespace Common.Storage
         /// <exception cref="ZipException">Thrown if a problem occurred while reading the ZIP data or if <paramref name="password"/> is wrong.</exception>
         /// <exception cref="InvalidDataException">Thrown if a problem occurred while deserializing the XML data.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "The type parameter is used to determine the type of returned object")]
-        public static T LoadXmlZip<T>(string path, string password, IEnumerable<EmbeddedFile> additionalFiles, params MemberInfo[] ignoreMembers)
+        public static T LoadXmlZip<T>(string path, string password = null, IEnumerable<EmbeddedFile> additionalFiles = null, params MemberInfo[] ignoreMembers)
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
@@ -437,7 +437,7 @@ namespace Common.Storage
         /// <param name="password">The password to use for encryption; <see langword="null"/> for no encryption.</param>
         /// <param name="additionalFiles">Additional files to be stored alongside the XML file in the ZIP archive; may be <see langword="null"/>.</param>
         /// <param name="ignoreMembers">Fields to be ignored when serializing.</param>
-        public static void SaveXmlZip<T>(this T data, Stream stream, string password, IEnumerable<EmbeddedFile> additionalFiles, params MemberInfo[] ignoreMembers)
+        public static void SaveXmlZip<T>(this T data, Stream stream, string password = null, IEnumerable<EmbeddedFile> additionalFiles = null, params MemberInfo[] ignoreMembers)
         {
             #region Sanity checks
             if (stream == null) throw new ArgumentNullException("stream");
@@ -485,7 +485,7 @@ namespace Common.Storage
         /// <param name="ignoreMembers">Fields to be ignored when serializing.</param>
         /// <exception cref="IOException">Thrown if a problem occurred while writing the file.</exception>
         /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
-        public static void SaveXmlZip<T>(this T data, string path, string password, IEnumerable<EmbeddedFile> additionalFiles, params MemberInfo[] ignoreMembers)
+        public static void SaveXmlZip<T>(this T data, string path, string password = null, IEnumerable<EmbeddedFile> additionalFiles = null, params MemberInfo[] ignoreMembers)
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");

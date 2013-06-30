@@ -30,22 +30,19 @@ namespace Common.Tasks
     /// </summary>
     public class GuiTaskHandler : MarshalByRefObject, ITaskHandler
     {
-        /// <inheritdoc />
-        public int Verbosity { get; set; }
-
         private readonly CancellationToken _cancellationToken = new CancellationToken();
 
         /// <inheritdoc/>
         public CancellationToken CancellationToken { get { return _cancellationToken; } }
 
         /// <inheritdoc />
-        public void RunTask(ITask task, object tag)
+        public void RunTask(ITask task, object tag = null)
         {
             #region Sanity checks
             if (task == null) throw new ArgumentNullException("task");
             #endregion
 
-            TrackingDialog.Run(null, task, null);
+            TrackingDialog.Run(null, task);
         }
     }
 }

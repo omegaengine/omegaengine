@@ -20,23 +20,70 @@
  * THE SOFTWARE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing.Design;
 using System.Globalization;
+using System.Linq;
 using System.Text;
+using Common.Values.Design;
 
 namespace Common.Collections
 {
     /// <summary>
-    /// A collection of languages that can be serialized as a simple space-separated list of ISO language codes.
+    /// A set of languages that can be serialized as a simple space-separated list of ISO language codes.
     /// </summary>
     /// <remarks>Uses Unix-style language codes with an underscore (_) separator.</remarks>
-    public sealed class LanguageCollection : C5.TreeSet<CultureInfo>
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "A Set is a special case of a Collection.")]
+    [TypeConverter(typeof(StringConstructorConverter<LanguageSet>))]
+    [Editor(typeof(LanguageSetEditor), typeof(UITypeEditor))]
+    public sealed class LanguageSet : C5.TreeSet<CultureInfo>
     {
+        #region Constants
+        /// <summary>
+        /// All known languages in alphabetical order.
+        /// </summary>
+        internal static readonly IEnumerable<CultureInfo> KnownLanguages;
+
+        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline", Justification = "Data must be sorted before use.")]
+        static LanguageSet()
+        {
+            var cultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures | CultureTypes.SpecificCultures);
+            Array.Sort(cultures, new CultureComparer());
+            KnownLanguages = cultures.Skip(1);
+        }
+        #endregion
+
         #region Constructor
         /// <summary>
         /// Creates a new empty language collection.
         /// </summary>
-        public LanguageCollection() : base(new CultureComparer())
+        public LanguageSet() : base(new CultureComparer())
         {}
+
+        /// <summary>
+        /// Deserializes a space-separated list of languages codes (in the same format as used by the $LANG environment variable).
+        /// </summary>
+        public LanguageSet(string value) : this()
+        {
+            if (string.IsNullOrEmpty(value)) return;
+
+            // Replace list by parsing input string split by spaces
+            foreach (string language in value.Split(' '))
+            {
+                // Handle Unix-style language codes (even though they are not actually valid in XML)
+                try
+                {
+                    Add(new CultureInfo(language.Replace('_', '-')));
+                }
+                catch (ArgumentException)
+                {
+                    Log.Error("Ignoring unknown language code: " + language);
+                }
+            }
+        }
         #endregion
 
         //--------------------//
@@ -65,29 +112,12 @@ namespace Common.Collections
             var output = new StringBuilder();
             foreach (var language in this)
             {
-                // .NET uses a hypen while Unix uses an underscore as a separator
+                // .NET uses a hyphen while Unix uses an underscore as a separator
                 output.Append(language.ToString().Replace('-', '_') + ' ');
             }
 
             // Return without trailing whitespaces
             return output.ToString().TrimEnd();
-        }
-
-        /// <summary>
-        /// Deserializes a space-separated list of languages codes (in the same format as used by the $LANG environment variable).
-        /// </summary>
-        public void FromString(string value)
-        {
-            Clear();
-
-            if (string.IsNullOrEmpty(value)) return;
-
-            // Replace list by parsing input string split by spaces
-            foreach (string language in value.Split(' '))
-            {
-                // .NET uses a hypen while Unix uses an underscore as a separator
-                Add(new CultureInfo(language.Replace('_', '-')));
-            }
         }
         #endregion
     }

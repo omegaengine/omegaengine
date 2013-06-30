@@ -147,7 +147,7 @@ namespace World
             Session session;
             try
             {
-                session = XmlStorage.LoadXmlZip<Session>(path, EncryptionKey, null);
+                session = XmlStorage.LoadXmlZip<Session>(path, EncryptionKey);
             }
                 #region Error handling
             catch (ZipException ex)
@@ -176,7 +176,7 @@ namespace World
         /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
         public void Save(string path)
         {
-            this.SaveXmlZip(path, EncryptionKey, null);
+            this.SaveXmlZip(path, EncryptionKey);
         }
         #endregion
     }

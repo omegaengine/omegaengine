@@ -20,28 +20,32 @@
  * THE SOFTWARE.
  */
 
-using System;
+using System.Collections.Generic;
 
-namespace Common.Tasks
+namespace Common.Undo
 {
     /// <summary>
-    /// Ignores progress reports.
+    /// Collects <see cref="IUndoCommand"/>s into a <see cref="CompositeCommand"/> instead of executing them right away.
     /// </summary>
-    public class SilentTaskHandler : MarshalByRefObject, ITaskHandler
+    public class CommandCollector : ICommandExecutor
     {
-        private readonly CancellationToken _cancellationToken = new CancellationToken();
+        private readonly List<IUndoCommand> _commands = new List<IUndoCommand>();
 
-        /// <inheritdoc/>
-        public CancellationToken CancellationToken { get { return _cancellationToken; } }
-
-        /// <inheritdoc />
-        public void RunTask(ITask task, object tag = null)
+        /// <summary>
+        /// Store an <see cref="IUndoCommand"/> for later execution.
+        /// </summary>
+        /// <param name="command">The command to be stored.</param>
+        public void Execute(IUndoCommand command)
         {
-            #region Sanity checks
-            if (task == null) throw new ArgumentNullException("task");
-            #endregion
+            _commands.Add(command);
+        }
 
-            task.RunSync(_cancellationToken);
+        /// <summary>
+        /// Creates a new <see cref="CompositeCommand"/> containing all <see cref="IUndoCommand"/>s collected so far.
+        /// </summary>
+        public IUndoCommand BuildComposite()
+        {
+            return new CompositeCommand(_commands);
         }
     }
 }

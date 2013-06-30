@@ -71,11 +71,10 @@
     <Compile Include="Collections\AggregateDispatcherTest.cs" />
     <Compile Include="Collections\ComparableTupleTest.cs" />
     <Compile Include="Collections\EnumerableUtilsTest.cs" />
-    <Compile Include="Collections\LanguageCollectionTest.cs" />
+    <Compile Include="Collections\LanguageSetTest.cs" />
     <Compile Include="Collections\LocalizableStringCollectionTest.cs" />
     <Compile Include="Collections\XmlDictionaryTest.cs" />
     <Compile Include="Collections\PerTypeDispatcherTest.cs" />
-    <Compile Include="Collections\StringMappedCollectionTest.cs" />
     <Compile Include="Controls\TrackingLabelTest.cs" />
     <Compile Include="Controls\TrackingProgressBarTest.cs" />
     <Compile Include="MoqExtensions.cs" />

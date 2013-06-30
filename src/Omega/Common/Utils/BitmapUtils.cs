@@ -95,8 +95,8 @@ namespace Common.Utils
                         for (int x = 0; x < bitmap.Width; x++)
                         {
                             color[x, y] = x % 2 == 0 ?
-                                                         colorPalette.Entries[MathUtils.LoByte(bitmapData[y * stride + x / 2])] :
-                                                                                                                                    colorPalette.Entries[MathUtils.HiByte(bitmapData[y * stride + x / 2])];
+                                colorPalette.Entries[MathUtils.LoByte(bitmapData[y * stride + x / 2])] :
+                                colorPalette.Entries[MathUtils.HiByte(bitmapData[y * stride + x / 2])];
                         }
                     }
                     for (byte i = 0; i < 16; i++)

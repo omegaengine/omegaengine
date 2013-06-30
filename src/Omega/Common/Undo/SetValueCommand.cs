@@ -28,7 +28,7 @@ namespace Common.Undo
     /// An undo command that uses a delegates for getting and setting values from a backing model.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class SetValueCommand<T> : SimpleCommand
+    public class SetValueCommand<T> : SimpleCommand, IValueCommand
     {
         #region Variables
         private readonly PropertyPointer<T> _pointer;
@@ -36,12 +36,17 @@ namespace Common.Undo
         private T _oldValue;
         #endregion
 
+        #region Properties
+        /// <inheritdoc/>
+        public object Value { get { return _newValue; } }
+        #endregion
+
         #region Constructor
         /// <summary>
         /// Creates a new value-setting command.
         /// </summary>
         /// <param name="pointer">The object controlling how to read/write the value to be modified.</param>
-        /// <param name="newValue">The new value to be set</param>
+        /// <param name="newValue">The new value to be set.</param>
         public SetValueCommand(PropertyPointer<T> pointer, T newValue)
         {
             #region Sanity checks
@@ -51,6 +56,16 @@ namespace Common.Undo
             _newValue = newValue;
             _pointer = pointer;
         }
+
+        /// <summary>
+        /// Creates a new value-setting command.
+        /// </summary>
+        /// <param name="getValue">A delegate that returns the current value.</param>
+        /// <param name="setValue">A delegate that sets the valuel.</param>
+        /// <param name="newValue">The new value to be set.</param>
+        public SetValueCommand(Func<T> getValue, Action<T> setValue, T newValue) :
+            this(new PropertyPointer<T>(getValue, setValue), newValue)
+        {}
         #endregion
 
         //--------------------//

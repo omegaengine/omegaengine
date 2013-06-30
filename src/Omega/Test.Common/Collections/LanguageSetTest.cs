@@ -20,28 +20,35 @@
  * THE SOFTWARE.
  */
 
-using System;
+using NUnit.Framework;
 
-namespace Common.Tasks
+namespace Common.Collections
 {
     /// <summary>
-    /// Ignores progress reports.
+    /// Contains test methods for <see cref="LanguageSet"/>.
     /// </summary>
-    public class SilentTaskHandler : MarshalByRefObject, ITaskHandler
+    [TestFixture]
+    public class LanguageSetTest
     {
-        private readonly CancellationToken _cancellationToken = new CancellationToken();
-
-        /// <inheritdoc/>
-        public CancellationToken CancellationToken { get { return _cancellationToken; } }
-
-        /// <inheritdoc />
-        public void RunTask(ITask task, object tag = null)
+        [Test]
+        public void TestToString()
         {
-            #region Sanity checks
-            if (task == null) throw new ArgumentNullException("task");
-            #endregion
+            var collection = new LanguageSet {"en-US", "de"};
+            Assert.AreEqual("de en_US", collection.ToString());
+        }
 
-            task.RunSync(_cancellationToken);
+        [Test]
+        public void TestFromString()
+        {
+            CollectionAssert.AreEquivalent(new LanguageSet {"de", "en-US"}, new LanguageSet("en_US de"));
+        }
+
+        [Test]
+        public void TestDuplicateDetection()
+        {
+            var collection = new LanguageSet("en_US");
+            Assert.IsFalse(collection.Add("en-US"));
+            CollectionAssert.AreEquivalent(new LanguageSet {"en-US"}, collection);
         }
     }
 }

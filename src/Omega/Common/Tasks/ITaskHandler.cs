@@ -33,12 +33,6 @@ namespace Common.Tasks
     public interface ITaskHandler
     {
         /// <summary>
-        /// The detail level of messages printed to the console or log file.
-        /// 0 = normal, 1 = verbose, 2 = very verbose
-        /// </summary>
-        int Verbosity { get; set; }
-
-        /// <summary>
         /// Signaled when the user wishes to cancel the current process.
         /// </summary>
         CancellationToken CancellationToken { get; }
@@ -56,6 +50,6 @@ namespace Common.Tasks
         /// This may be called multiple times concurrently but the concurrent calls must not depend on each other! The specific implementation of this method may chose whether to actually run the tasks concurrently or in sequence.
         /// There should not be more than one <see cref="ITask"/> running with a specific <paramref name="tag"/> at any given time.
         /// </remarks>
-        void RunTask(ITask task, object tag);
+        void RunTask(ITask task, object tag = null);
     }
 }

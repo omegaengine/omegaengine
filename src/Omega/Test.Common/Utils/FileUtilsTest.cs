@@ -23,8 +23,8 @@
 using System;
 using System.IO;
 using Common.Storage;
-using NUnit.Framework;
 using Moq;
+using NUnit.Framework;
 
 namespace Common.Utils
 {
@@ -34,6 +34,41 @@ namespace Common.Utils
     [TestFixture]
     public class FileUtilsTest
     {
+        #region Paths
+        [Test]
+        public void TestUnifySlashes()
+        {
+            Assert.AreEqual("a" + Path.DirectorySeparatorChar + "b", FileUtils.UnifySlashes("a/b"));
+        }
+
+        [Test]
+        public void TestIsBreakoutPath()
+        {
+                Assert.IsTrue(FileUtils.IsBreakoutPath(WindowsUtils.IsWindows ? @"C:\test" : "/test"), "Should detect absolute paths");
+
+            foreach (string path in new[] {"..", "/..", "../", "/../", "a/../b", "../a", "a/.."})
+                Assert.IsTrue(FileUtils.IsBreakoutPath(path), "Should detect parent directory references");
+
+            foreach (string path in new[] {"..a", "a/..a", "a..", "a/a.."})
+                Assert.IsFalse(FileUtils.IsBreakoutPath(path), "Should not trip on '..' as a part of file/directory names");
+        }
+
+        [Test]
+        public void TestRelativeTo()
+        {
+            if (WindowsUtils.IsWindows)
+            {
+                Assert.AreEqual("a/b", new DirectoryInfo(@"C:\test\a\b").RelativeTo(new DirectoryInfo(@"C:\test")));
+                Assert.AreEqual("a/b", new DirectoryInfo(@"C:\test\a\b").RelativeTo(new DirectoryInfo(@"C:\test\")));
+            }
+            else
+            {
+                Assert.AreEqual("a/b", new DirectoryInfo("/test/a/b").RelativeTo(new DirectoryInfo("/test")));
+                Assert.AreEqual("a/b", new DirectoryInfo("/test/a/b").RelativeTo(new DirectoryInfo("/test/")));
+            }
+        }
+        #endregion
+
         #region Time
         /// <summary>
         /// Ensures <see cref="FileUtils.ToUnixTime"/> correctly converts a <see cref="DateTime"/> value to a Unix epoch value.

@@ -82,7 +82,7 @@ namespace Common.Storage
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,string,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(string,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> work correctly with no password.
+        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,string,string,System.Collections.Generic.IEnumerable{Common.Storage.EmbeddedFile},MemberInfo[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(string,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> work correctly with no password.
         /// </summary>
         [Test]
         public void TestZipNoPassword()

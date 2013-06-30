@@ -110,13 +110,12 @@
     <Compile Include="Collections\CultureComparer.cs" />
     <Compile Include="Collections\PerTypeDispatcher.Action.cs" />
     <Compile Include="Collections\PerTypeDispatcher.Func.cs" />
-    <Compile Include="Collections\LanguageCollection.cs" />
+    <Compile Include="Collections\LanguageSet.cs" />
     <Compile Include="Collections\NamedCollection.cs" />
     <Compile Include="Collections\LocalizableStringCollection.cs" />
     <Compile Include="Collections\LocalizableString.cs" />
     <Compile Include="Collections\MultiDictionary.cs" />
     <Compile Include="Collections\Pool.cs" />
-    <Compile Include="Collections\StringMappedCollection.cs" />
     <Compile Include="Collections\MonitoredCollection.cs" />
     <Compile Include="Collections\XmlDictionary.cs" />
     <Compile Include="Collections\XmlDictionaryEntry.cs" />
@@ -155,6 +154,7 @@
     <Compile Include="Storage\ContentArchiveEntry.cs" />
     <Compile Include="Storage\FileEntry.cs" />
     <Compile Include="Undo\IUndoCommand.cs" />
+    <Compile Include="Undo\IValueCommand.cs" />
     <Compile Include="Undo\ICommandExecutor.cs" />
     <Compile Include="Undo\CommandManager.cs" />
     <Compile Include="Undo\PreExecutedCommand.cs" />
@@ -171,7 +171,9 @@
     <Compile Include="Undo\ReplaceInList.cs" />
     <Compile Include="Undo\SetLocalizableString.cs" />
     <Compile Include="Undo\CompositeCommand.cs" />
+    <Compile Include="Undo\CommandCollector.cs" />
     <Compile Include="Values\Design\EnumDescriptionConverter.cs" />
+    <Compile Include="Values\Design\LanguageSetEditor.cs" />
     <Compile Include="Values\Design\StringConstructorConverter.cs" />
     <Compile Include="Values\Design\EnumXmlConverter.cs" />
     <Compile Include="Values\Design\StructConverter.cs" />
@@ -196,10 +198,17 @@
     <Compile Include="Values\Design\DoubleVector3Converter.cs" />
     <Compile Include="Values\XColor.cs" />
     <Compile Include="Controls\IEditorControl.cs" />
+    <Compile Include="Controls\IEditorControlContainerRef.cs" />
     <Compile Include="Controls\IEditorDialog.cs" />
     <Compile Include="Controls\IContextMenu.cs" />
     <Compile Include="Controls\IHighlightColor.cs" />
     <Compile Include="Controls\RtfBuilder.cs" />
+    <Compile Include="Controls\LocalizableTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LocalizableTextBox.Designer.cs">
+      <DependentUpon>LocalizableTextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\InputBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -217,9 +226,6 @@
     </Compile>
     <Compile Include="Controls\ErrorBox.Designer.cs">
       <DependentUpon>ErrorBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\AddRemoveTabControl.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\TrackingLabel.cs">
       <SubType>Component</SubType>
@@ -251,7 +257,10 @@
     <Compile Include="Controls\TimeSpanControl.Designer.cs">
       <DependentUpon>TimeSpanControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\EditorControl.cs">
+    <Compile Include="Controls\EditorControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GenericEditorControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\EditorDialog.cs">

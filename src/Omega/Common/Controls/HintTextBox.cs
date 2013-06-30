@@ -141,12 +141,13 @@ namespace Common.Controls
         /// A text to be displayed in <see cref="SystemColors.GrayText"/> when <see cref="TextBox.Text"/> is empty.
         /// </summary>
         [Description("A text to be displayed in gray when Text is empty."), Category("Appearance"), Localizable(true)]
+        [DefaultValue("")]
         public string HintText
         {
             get { return _hintText; }
             set
             {
-                AccessibleName = _hintText = value;
+                _hintText = value;
 
                 // Update the hint text on-screen if it is already visible
                 if (IsHintTextVisible) ShowHintText();
@@ -181,8 +182,7 @@ namespace Common.Controls
         #region Constructor
         public HintTextBox()
         {
-            // Since TextBoxes start off empty, hint texts are visible by default
-            IsHintTextVisible = true;
+            ShowHintText();
 
             _buttonClear.Click += delegate
             {

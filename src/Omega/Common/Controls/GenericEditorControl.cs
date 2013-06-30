@@ -23,6 +23,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using Common.Undo;
+using Common.Utils;
 
 namespace Common.Controls
 {
@@ -30,7 +31,7 @@ namespace Common.Controls
     /// Edits arbitrary types of elements using a <see cref="PropertyGrid"/>. Provides optional <see cref="Common.Undo"/> support.
     /// </summary>
     /// <typeparam name="T">The type of element to edit.</typeparam>
-    public class EditorControl<T> : ResettablePropertyGrid, IEditorControl<T> where T : class
+    public sealed class GenericEditorControl<T> : ResettablePropertyGrid, IEditorControl<T> where T : class
     {
         /// <inheritdoc/>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -40,17 +41,31 @@ namespace Common.Controls
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Undo.ICommandExecutor CommandExecutor { get; set; }
 
-        public EditorControl()
+        public GenericEditorControl()
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             ToolbarVisible = false;
             // ReSharper restore DoNotCallOverridableMethodsInConstructor
 
-            PropertyValueChanged += delegate(object sender, PropertyValueChangedEventArgs e)
+#if FS_SECURITY
+            if (MonoUtils.IsUnix)
+            { // WORKAROUND: e.OldValue is not reliable on Mono, use MultiPropertyTracker instead
+                var tracker = new MultiPropertyTracker(this);
+                PropertyValueChanged += delegate(object sender, PropertyValueChangedEventArgs e)
+                {
+                    if (CommandExecutor != null)
+                        CommandExecutor.Execute(tracker.GetCommand(e.ChangedItem));
+                };
+            }
+            else
+#endif
             {
-                if (CommandExecutor != null)
-                    CommandExecutor.ExecuteCommand(new PropertyChangedCommand(Target, e));
-            };
+                PropertyValueChanged += delegate(object sender, PropertyValueChangedEventArgs e)
+                {
+                    if (CommandExecutor != null)
+                        CommandExecutor.Execute(new PropertyChangedCommand(Target, e));
+                };
+            }
         }
     }
 }

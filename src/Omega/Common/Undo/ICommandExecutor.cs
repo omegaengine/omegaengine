@@ -20,9 +20,6 @@
  * THE SOFTWARE.
  */
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-
 namespace Common.Undo
 {
     /// <summary>
@@ -31,15 +28,9 @@ namespace Common.Undo
     public interface ICommandExecutor
     {
         /// <summary>
-        /// Is raised when a command has been executed.
-        /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
-        event Action Updated;
-
-        /// <summary>
         /// Executes an <see cref="IUndoCommand"/> and stores it for later undo-operations.
         /// </summary>
         /// <param name="command">The command to be executed.</param>
-        void ExecuteCommand(IUndoCommand command);
+        void Execute(IUndoCommand command);
     }
 }

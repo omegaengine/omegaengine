@@ -197,7 +197,7 @@ namespace AlphaEditor.World
                 try
                 {
                     var generator = LightAngleMapGenerator.FromTerrain(_universe.Terrain);
-                    TrackingDialog.Run(this, generator, null);
+                    TrackingDialog.Run(this, generator);
 
                     _universe.Terrain.LightRiseAngleMap = generator.LightRiseAngleMap;
                     _universe.Terrain.LightSetAngleMap = generator.LightSetAngleMap;

@@ -20,38 +20,13 @@
  * THE SOFTWARE.
  */
 
-using NUnit.Framework;
-
-namespace Common.Collections
+namespace Common.Undo
 {
     /// <summary>
-    /// Contains test methods for <see cref="LanguageCollection"/>.
+    /// A command that exposes the value it will set.
     /// </summary>
-    [TestFixture]
-    public class LanguageCollectionTest
+    public interface IValueCommand : IUndoCommand
     {
-        [Test]
-        public void TestToString()
-        {
-            var collection = new LanguageCollection {"en-US", "de"};
-            Assert.AreEqual("de en_US", collection.ToString());
-        }
-
-        [Test]
-        public void TestFromString()
-        {
-            var collection = new LanguageCollection();
-            collection.FromString("en_US de");
-            CollectionAssert.AreEquivalent(new LanguageCollection {"de", "en-US"}, collection);
-        }
-
-        [Test]
-        public void TestDuplicateDetection()
-        {
-            var collection = new LanguageCollection();
-            collection.FromString("en_US");
-            Assert.IsFalse(collection.Add("en-US"));
-            CollectionAssert.AreEquivalent(new LanguageCollection {"en-US"}, collection);
-        }
+        object Value { get; }
     }
 }
