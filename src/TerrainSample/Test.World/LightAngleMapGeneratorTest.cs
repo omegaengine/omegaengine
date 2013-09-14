@@ -55,7 +55,7 @@ namespace World
         {
             var generator = new LightAngleMapGenerator(new TerrainSize(4, 4), CreateTestHeightMap());
 
-            generator.RunSync(null);
+            generator.RunSync();
 
             Assert.AreEqual(0, generator.LightRiseAngleMap[0, 0]);
             Assert.AreEqual(127, generator.LightRiseAngleMap[0, 1]);

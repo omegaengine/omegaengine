@@ -15,7 +15,8 @@ namespace OmegaEngine.Graphics
     /// An object that can provide a <see cref="Texture"/> for rendering.
     /// </summary>
     /// <remarks>
-    /// This provides a common interface for static (unchanging) <see cref="XTexture"/> assets and dynamic <see cref="RenderTarget"/>.</remarks>
+    /// This provides a common interface for static (unchanging) <see cref="XTexture"/> assets and dynamic <see cref="RenderTarget"/>s.
+    /// </remarks>
     public interface ITextureProvider : IReferenceCount
     {
         /// <summary>

@@ -15,17 +15,6 @@ using OmegaEngine.Properties;
 
 namespace OmegaEngine.Graphics.Cameras
 {
-
-    #region Delegates
-    /// <summary>
-    /// Gets the camera target height for a certain point in space
-    /// </summary>
-    /// <param name="coordinates">The coordinates of the point to get information for - the Y-component is ignored</param>
-    /// <returns>The height in engine units</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the coordinates lie outside the range of the height-controlling terrain.</exception>
-    public delegate double HeightDeleg(DoubleVector3 coordinates);
-    #endregion
-
     /// <summary>
     /// A RTS-style camera with a rotateable horizontal view and an automatic vertical angle.
     /// </summary>
@@ -70,7 +59,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// </summary>
         /// <remarks>Must be a real number.</remarks>
         [Description("The horizontal rotation in degrees."), Category("Layout")]
-        [EditorAttribute(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public float HorizontalRotation
         {
             get { return _horizontalRotation.RadianToDegree(); }
@@ -133,7 +122,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// </summary>
         /// <remarks>Must be a real number.</remarks>
         [Description("The minimum vertical angle in degrees. Effective when Radius is equal to MinRadius."), Category("Behavior")]
-        [EditorAttribute(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public float MinAngle
         {
             get { return _minAngle.RadianToDegree(); }
@@ -156,7 +145,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// </summary>
         /// <remarks>Must be a real number.</remarks>
         [Description("The maximum vertical angle in degrees. Effective when Radius is equal to MaxRadius."), Category("Behavior")]
-        [EditorAttribute(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public float MaxAngle
         {
             get { return _maxAngle.RadianToDegree(); }
@@ -172,13 +161,13 @@ namespace OmegaEngine.Graphics.Cameras
             }
         }
 
-        private HeightDeleg _heightController;
+        private Func<DoubleVector3, double> _heightController;
 
         /// <summary>
         /// This delegate is called to control the minimum height of the strategy camera based on its 2D coordinates
         /// </summary>
         [Browsable(false)]
-        public HeightDeleg HeightController
+        public Func<DoubleVector3, double> HeightController
         {
             get { return _heightController; }
             set
@@ -204,7 +193,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// <param name="minAngle">The minimum vertical angle in degrees. Effective when <see cref="Radius"/> is equal to <see cref="MinRadius"/>.</param>
         /// <param name="maxAngle">The maximum vertical angle in degrees. Effective when <see cref="Radius"/> is equal to <see cref="MaxRadius"/>.</param>
         /// <param name="heightController">This delegate is called to control the minimum height of the strategy camera based on its 2D coordinates.</param>
-        public StrategyCamera(double minRadius, double maxRadius, float minAngle, float maxAngle, HeightDeleg heightController)
+        public StrategyCamera(double minRadius, double maxRadius, float minAngle, float maxAngle, Func<DoubleVector3, double> heightController)
         {
             Radius = MinRadius = minRadius;
             MaxRadius = maxRadius;
@@ -256,7 +245,7 @@ namespace OmegaEngine.Graphics.Cameras
 
             // Calculate variable vertical rotation based on current radius
             double vRotation = (_minAngle - _maxAngle) / (_minRadius - _maxRadius) * _radius +
-                _minAngle - (_minAngle - _maxAngle) / (_minRadius - _maxRadius) * _minRadius;
+                               _minAngle - (_minAngle - _maxAngle) / (_minRadius - _maxRadius) * _minRadius;
             while (vRotation > 2 * Math.PI) vRotation -= 2 * Math.PI;
             while (vRotation < 0) vRotation += 2 * Math.PI;
 

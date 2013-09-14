@@ -291,7 +291,7 @@ namespace World
             #endregion
 
             var generator = new LightAngleMapGenerator(Size, HeightMap);
-            generator.RunSync(null);
+            generator.RunSync();
 
             // Replace the old angle-maps
             _lightRiseAngleMap = generator.LightRiseAngleMap;
