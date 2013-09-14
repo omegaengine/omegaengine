@@ -191,7 +191,7 @@ namespace OmegaEngine
         /// <summary>
         /// A shader used for simple water (no reflection or refraction)
         /// </summary>
-        public WaterShader SimpleWaterShader { get { return _simpleWaterShader = _simpleWaterShader ?? new WaterShader(this); } }
+        internal WaterShader SimpleWaterShader { get { return _simpleWaterShader = _simpleWaterShader ?? new WaterShader(this); } }
         #endregion
 
         #endregion
@@ -204,7 +204,7 @@ namespace OmegaEngine
         /// </summary>
         /// <param name="elapsedTime">How much game time in seconds has elapsed since the last frame</param>
         /// <param name="noPresent"><see langword="true"/> to supress actually displaying the render output at the end.</param>
-        public void Render(double elapsedTime, bool noPresent)
+        public void Render(double elapsedTime, bool noPresent = false)
         {
             #region Frame counting
             ThisFrameTime = elapsedTime;
@@ -375,15 +375,6 @@ namespace OmegaEngine
 
             // Raise PostRender event only if this is a normal render run
             if (PostRender != null && !noPresent) PostRender();
-        }
-
-        /// <summary>
-        /// To be called by the render loop
-        /// </summary>
-        /// <param name="elapsedTime">How much game time in seconds has elapsed since the last frame</param>
-        public void Render(double elapsedTime)
-        {
-            Render(elapsedTime, false);
         }
 
         /// <summary>

@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Common.Utils;
+using Common.Values;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics;
@@ -394,12 +395,15 @@ namespace Presentation
 
             #region ParticleSystem
             if (renderControl is EntityComp.ParticleSystem)
+            {
+                render.Position = (DoubleVector3)rotatedShift;
                 return;
+            }
             #endregion
 
             #region LightSource
             if (renderControl is EntityComp.LightSource)
-            {}
+                render.Position = (DoubleVector3)rotatedShift;
             #endregion
         }
         #endregion
