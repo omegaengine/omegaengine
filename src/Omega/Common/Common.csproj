@@ -81,6 +81,7 @@
     <Compile Include="..\AssemblyInfo.Global.cs" />
     <Compile Include="AppMutex.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="MsgSeverity.cs" />
     <Compile Include="NamedComparer.cs" />
     <Compile Include="MutexLock.cs" />
     <Compile Include="PropertyPointer.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Collections\NamedCollection.cs" />
     <Compile Include="Collections\LocalizableStringCollection.cs" />
     <Compile Include="Collections\LocalizableString.cs" />
+    <Compile Include="Collections\TransparentCache.cs" />
     <Compile Include="Collections\MultiDictionary.cs" />
     <Compile Include="Collections\Pool.cs" />
     <Compile Include="Collections\MonitoredCollection.cs" />
@@ -171,6 +173,7 @@
     <Compile Include="Undo\ReplaceInList.cs" />
     <Compile Include="Undo\SetLocalizableString.cs" />
     <Compile Include="Undo\CompositeCommand.cs" />
+    <Compile Include="Undo\PreExecutedCompositeCommand.cs" />
     <Compile Include="Undo\CommandCollector.cs" />
     <Compile Include="Values\Design\EnumDescriptionConverter.cs" />
     <Compile Include="Values\Design\LanguageSetEditor.cs" />
@@ -261,7 +264,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\GenericEditorControl.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\EditorDialog.cs">
       <SubType>Form</SubType>

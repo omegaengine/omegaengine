@@ -20,45 +20,20 @@
  * THE SOFTWARE.
  */
 
-using System;
-using System.Threading;
-using Common.Utils;
-
 namespace Common
 {
     /// <summary>
-    /// Implicitly represents the result of an asynchronous operation.
+    /// How severe/important a message is
     /// </summary>
-    /// <typeparam name="T">The type of the result of the operation.</typeparam>
-    public class Future<T>
+    public enum MsgSeverity
     {
-        private readonly Thread _thread;
-        private Func<T> _operation;
-        private T _result;
+        /// <summary>A nice-to-know piece of information.</summary>
+        Info,
 
-        /// <summary>
-        /// Starts an asynchronous operation.
-        /// </summary>
-        /// <param name="operation">The operation returning a result.</param>
-        public Future(Func<T> operation)
-        {
-            _operation = operation;
-            _thread = ProcessUtils.RunBackground(() =>
-            {
-                _result = _operation();
-                _operation = null; // Release input data memory as soon as calculation is complete
-            });
-        }
+        /// <summary>A warning that doesn't have to be acted upon immediately.</summary>
+        Warn,
 
-        /// <summary>
-        /// Waits for the asynchronous operation to complete and returns the result.
-        /// </summary>
-        public static implicit operator T(Future<T> future)
-        {
-            if (future == null) return default(T);
-
-            future._thread.Join();
-            return future._result;
-        }
+        /// <summary>A critical error that should be attended to.</summary>
+        Error
     }
 }

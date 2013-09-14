@@ -136,28 +136,35 @@ namespace Common.Utils
         /// Starts executing a delegate in a new thread suitable for <see cref="System.Windows.Forms"/>.
         /// </summary>
         /// <param name="execute">The delegate to execute.</param>
-        public static void RunAsync(ThreadStart execute)
+        /// <param name="name">A short name for the new thread.</param>
+        /// <returns>The newly launched thread.</returns>
+        public static Thread RunAsync(ThreadStart execute, string name = null)
         {
             #region Sanity checks
             if (execute == null) throw new ArgumentNullException("execute");
             #endregion
 
-            var thread = new Thread(execute);
+            var thread = new Thread(execute) {Name = name};
             thread.SetApartmentState(ApartmentState.STA); // Make COM work
             thread.Start();
+            return thread;
         }
 
         /// <summary>
         /// Starts executing a delegate in a new background thread (automatically terminated when application exits).
         /// </summary>
         /// <param name="execute">The delegate to execute.</param>
-        public static void RunBackground(ThreadStart execute)
+        /// <param name="name">A short name for the new thread.</param>
+        /// <returns>The newly launched thread.</returns>
+        public static Thread RunBackground(ThreadStart execute, string name = null)
         {
             #region Sanity checks
             if (execute == null) throw new ArgumentNullException("execute");
             #endregion
 
-            new Thread(execute) {IsBackground = true}.Start();
+            var thread = new Thread(execute) {Name = name, IsBackground = true};
+            thread.Start();
+            return thread;
         }
         #endregion
     }

@@ -66,16 +66,16 @@ namespace Common.Utils
         }
 
         /// <summary>
-        /// Returns a Unix-style relative path from <paramref name="baseDir"/> to <paramref name="targetDir"/>.
+        /// Returns a Unix-style relative path from <paramref name="basePath"/> to <paramref name="targetPath"/>.
         /// </summary>
-        public static string RelativeTo(this DirectoryInfo targetDir, DirectoryInfo baseDir)
+        public static string RelativeTo(this FileSystemInfo targetPath, FileSystemInfo basePath)
         {
             #region Sanity checks
-            if (targetDir == null) throw new ArgumentNullException("targetDir");
-            if (baseDir == null) throw new ArgumentNullException("baseDir");
+            if (targetPath == null) throw new ArgumentNullException("targetPath");
+            if (basePath == null) throw new ArgumentNullException("basePath");
             #endregion
 
-            string trimmed = targetDir.FullName.Substring(baseDir.FullName.Length);
+            string trimmed = targetPath.FullName.Substring(basePath.FullName.Length);
             if (trimmed.StartsWith(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture))) trimmed = trimmed.Substring(1);
             return trimmed.Replace(Path.DirectorySeparatorChar, '/');
         }
@@ -85,13 +85,11 @@ namespace Common.Utils
         /// <summary>
         /// Like <see cref="File.Exists"/> but case-sensitive, even on Windows.
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
         public static bool ExistsCaseSensitive(string path)
         {
             return File.Exists(path) &&
                    // Make sure the file found is a string-exact match
-                   Directory.GetFiles(Path.GetDirectoryName(path) ?? Environment.CurrentDirectory, Path.GetFileName(path)).Contains(path);
+                   Directory.GetFiles(Path.GetDirectoryName(path) ?? Environment.CurrentDirectory, Path.GetFileName(path) ?? "").Contains(path);
         }
         #endregion
 
@@ -278,7 +276,7 @@ namespace Common.Utils
 
                 case PlatformID.MacOSX:
                 case PlatformID.Unix:
-                    // ToDo: Use POSIX move command
+                    // TODO: Use POSIX move command
 
                 default:
                     // Emulate replace method
@@ -305,7 +303,7 @@ namespace Common.Utils
         /// </summary>
         /// <param name="path">The path of the directory to search for subdirectories.</param>
         /// <returns>A C-sorted list of directory paths.</returns>
-        public static IEnumerable<string> GetSubdirectoryPaths(string path)
+        public static IEnumerable<string> GetDirectories(string path)
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
@@ -330,6 +328,7 @@ namespace Common.Utils
             #endregion
 
             if (dirAction != null) dirAction(directory);
+
             foreach (var subDir in directory.GetDirectories())
                 WalkDirectory(subDir, dirAction, fileAction);
 
@@ -338,6 +337,19 @@ namespace Common.Utils
                 foreach (var file in directory.GetFiles())
                     fileAction(file);
             }
+        }
+
+        /// <summary>
+        /// Recursivley lists Unix-style relative paths for all subdirectories of a directory.
+        /// </summary>
+        /// <param name="baseDirectory">The base directory to search for subdirectories.</param>
+        /// <returns>A list of relative Unix-style paths, starting with <see cref="string.Empty"/>.</returns>
+        public static IEnumerable<string> GetRelativeDirectoriesRecursive(this DirectoryInfo baseDirectory)
+        {
+            var result = new List<string>();
+            baseDirectory.WalkDirectory(
+                dir => result.Add(dir.RelativeTo(baseDirectory).Replace(Path.DirectorySeparatorChar, '/')));
+            return result;
         }
         #endregion
 
@@ -647,7 +659,7 @@ namespace Common.Utils
         {
             if (!File.Exists(path)) return false;
 
-            // ToDo: Detect special files on Windows
+            // TODO: Detect special files on Windows
             if (!MonoUtils.IsUnix) return true;
 
             try

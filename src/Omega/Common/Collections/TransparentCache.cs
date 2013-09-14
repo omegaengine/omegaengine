@@ -21,44 +21,45 @@
  */
 
 using System;
-using System.Threading;
-using Common.Utils;
+using System.Collections.Generic;
 
-namespace Common
+namespace Common.Collections
 {
     /// <summary>
-    /// Implicitly represents the result of an asynchronous operation.
+    /// Transparently caches retrieval requests, passed through to a callback on first request.
     /// </summary>
-    /// <typeparam name="T">The type of the result of the operation.</typeparam>
-    public class Future<T>
+    /// <typeparam name="TKey">The type of keys used to request values.</typeparam>
+    /// <typeparam name="TValue">The type of values returned.</typeparam>
+    public class TransparentCache<TKey, TValue>
     {
-        private readonly Thread _thread;
-        private Func<T> _operation;
-        private T _result;
+        private readonly Dictionary<TKey, TValue> _lookup = new Dictionary<TKey, TValue>();
+
+        private readonly Func<TKey, TValue> _retriever;
 
         /// <summary>
-        /// Starts an asynchronous operation.
+        /// Creates a new transparent cache.
         /// </summary>
-        /// <param name="operation">The operation returning a result.</param>
-        public Future(Func<T> operation)
+        /// <param name="retriever">The callback used to retrieve values not yet in the cache.</param>
+        public TransparentCache(Func<TKey, TValue> retriever)
         {
-            _operation = operation;
-            _thread = ProcessUtils.RunBackground(() =>
-            {
-                _result = _operation();
-                _operation = null; // Release input data memory as soon as calculation is complete
-            });
+            _retriever = retriever;
         }
 
         /// <summary>
-        /// Waits for the asynchronous operation to complete and returns the result.
+        /// Retrieves a value from the cache.
         /// </summary>
-        public static implicit operator T(Future<T> future)
+        public TValue this[TKey key]
         {
-            if (future == null) return default(T);
-
-            future._thread.Join();
-            return future._result;
+            get
+            {
+                lock (_lookup)
+                {
+                    TValue result;
+                    if (!_lookup.TryGetValue(key, out result))
+                        _lookup.Add(key, result = _retriever(key));
+                    return result;
+                }
+            }
         }
     }
 }

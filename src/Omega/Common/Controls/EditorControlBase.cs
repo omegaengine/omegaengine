@@ -22,7 +22,10 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Windows.Forms;
+using Common.Utils;
 using ICommandExecutor = Common.Undo.ICommandExecutor;
 
 namespace Common.Controls
@@ -34,7 +37,6 @@ namespace Common.Controls
     public abstract class EditorControlBase<T> : UserControl, IEditorControl<T> where T : class
     {
         #region Properties
-        private event Action TargetChanged;
         private T _target;
 
         /// <inheritdoc/>
@@ -50,7 +52,11 @@ namespace Common.Controls
             }
         }
 
-        private event Action CommandExecutorChanged;
+        /// <summary>
+        /// Is raised when <see cref="Target"/> has been changed.
+        /// </summary>
+        protected event Action TargetChanged;
+
         private ICommandExecutor _commandExecutor;
 
         /// <inheritdoc/>
@@ -64,10 +70,47 @@ namespace Common.Controls
                 if (CommandExecutorChanged != null) CommandExecutorChanged();
             }
         }
+
+        /// <summary>
+        /// Is raised when <see cref="CommandExecutor"/> has been changed.
+        /// </summary>
+        protected event Action CommandExecutorChanged;
         #endregion
 
+        #region Constructor
+        protected EditorControlBase()
+        {
+            // ReSharper disable once DoNotCallOverridableMethodsInConstructor
+            AutoScroll = true;
+
+            AddDescriptionBox();
+        }
+
+        private void AddDescriptionBox()
+        {
+            var description = AttributeUtils.GetAttributes<DescriptionAttribute, T>().FirstOrDefault();
+            if (description == null) return;
+
+            var descriptionLabel = new Label
+            {
+                Text = description.Description, AutoEllipsis = true,
+                AutoSize = false, Height = 35, Dock = DockStyle.Bottom,
+                BorderStyle = BorderStyle.FixedSingle
+            };
+            descriptionLabel.Click += delegate { Msg.Inform(this, description.Description, MsgSeverity.Info); };
+            Controls.Add(descriptionLabel);
+
+            new ToolTip().SetToolTip(descriptionLabel, description.Description);
+        }
+        #endregion
+
+        //--------------------//
+
         #region Refresh
-        private event Action OnRefresh;
+        /// <summary>
+        /// Is raised when <see cref="Refresh"/> is called.
+        /// </summary>
+        protected event Action OnRefresh;
 
         public override void Refresh()
         {
@@ -82,13 +125,14 @@ namespace Common.Controls
         /// </summary>
         /// <param name="control">The control to hook up (is automatically added to <see cref="Control.Controls"/>).</param>
         /// <param name="pointer">Read/write access to the value the <paramref name="control"/> represents.</param>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "The set-value callback method may throw any kind of exception.")]
         protected void RegisterControl(Control control, PropertyPointer<string> pointer)
         {
             Controls.Add(control);
 
             control.Validated += delegate
             {
-                string text = (control.Text == "") ? null : control.Text;
+                string text = string.IsNullOrEmpty(control.Text) ? null : control.Text;
                 if (text == pointer.Value) return;
 
                 try
