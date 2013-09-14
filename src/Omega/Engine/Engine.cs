@@ -150,8 +150,8 @@ namespace OmegaEngine
                 PerPixelLighting = true;
 
                 // Create simple default meshes ready
-                _simpleSphere = Mesh.CreateSphere(Device, 1, 12, 12);
-                _simpleBox = Mesh.CreateBox(Device, 1, 1, 1);
+                SimpleSphere = Mesh.CreateSphere(Device, 1, 12, 12);
+                SimpleBox = Mesh.CreateBox(Device, 1, 1, 1);
 
                 SetupAudio();
             }
@@ -264,8 +264,8 @@ namespace OmegaEngine
                 _cache.Dispose();
 
                 // Dispose default meshes
-                if (_simpleSphere != null) _simpleSphere.Dispose();
-                if (_simpleBox != null) _simpleBox.Dispose();
+                if (SimpleSphere != null) SimpleSphere.Dispose();
+                if (SimpleBox != null) SimpleBox.Dispose();
 
                 // Dispose Direct3D device
                 if (BackBuffer != null) BackBuffer.Dispose();

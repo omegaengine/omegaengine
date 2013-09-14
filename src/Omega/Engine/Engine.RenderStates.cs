@@ -20,7 +20,7 @@ namespace OmegaEngine
 
     #region Enumerations
     /// <seealso cref="Engine.ZBufferMode"/>
-    internal enum ZBufferMode
+    public enum ZBufferMode
     {
         /// <summary>Test against the ZBuffer before drawing a pixel and write to it afterwards</summary>
         Normal,
@@ -42,21 +42,21 @@ namespace OmegaEngine
         /// <summary>
         /// Controls how vertexes are filled (normal, wireframe, dotted)
         /// </summary>
-        internal FillMode FillMode { get { return _fillMode; } set { value.To(ref _fillMode, () => Device.SetRenderState(RenderState.FillMode, (int)value)); } }
+        public FillMode FillMode { get { return _fillMode; } set { value.To(ref _fillMode, () => Device.SetRenderState(RenderState.FillMode, (int)value)); } }
 
         private Cull _cullMode = Cull.Counterclockwise;
 
         /// <summary>
         /// The current culling mode used for rendering
         /// </summary>
-        internal Cull CullMode { get { return _cullMode; } set { value.To(ref _cullMode, () => Device.SetRenderState(RenderState.CullMode, (int)value)); } }
+        public Cull CullMode { get { return _cullMode; } set { value.To(ref _cullMode, () => Device.SetRenderState(RenderState.CullMode, (int)value)); } }
 
         private ZBufferMode _zBufferMode = ZBufferMode.Normal;
 
         /// <summary>
         /// Controls how the ZBuffer works
         /// </summary>
-        internal ZBufferMode ZBufferMode
+        public ZBufferMode ZBufferMode
         {
             get { return _zBufferMode; }
             set
@@ -88,22 +88,19 @@ namespace OmegaEngine
         /// <summary>
         /// Controls whether fixed-function pipeline lighting is used at the moment instead of <see cref="SurfaceShader"/>s
         /// </summary>
-        internal bool FfpLighting { get { return _ffpLighting; } set { value.To(ref _ffpLighting, () => Device.SetRenderState(RenderState.Lighting, value)); } }
+        public bool FfpLighting { get { return _ffpLighting; } set { value.To(ref _ffpLighting, () => Device.SetRenderState(RenderState.Lighting, value)); } }
         #endregion
 
         #region Fading
         /// <summary>
-        /// The level of scene fading from 0 (fully visible) to 255 (invisible) - use <see cref="FadeIn"/>, <see cref="DimDown"/> and <see cref="DimUp"/> to manipulate
+        /// The level of scene fading from 0 (fully visible) to 255 (invisible).
         /// </summary>
-        public int FadeLevel { get; private set; }
+        public int FadeLevel { get; set; }
 
         /// <summary>
         /// Is <see cref="ExtraRender"/> faded along with the scene?
         /// </summary>
-        /// <seealso cref="FadeIn"/>
-        /// <seealso cref="DimDown"/>
-        /// <seealso cref="DimUp"/>
-        public bool FadeExtra { get; private set; }
+        public bool FadeExtra { get; set; }
         #endregion
 
         #region Fog
@@ -112,7 +109,7 @@ namespace OmegaEngine
         /// <summary>
         /// Shall a linear fog effect be applied?
         /// </summary>
-        internal bool Fog
+        public bool Fog
         {
             get { return _fog; }
             set
@@ -135,19 +132,19 @@ namespace OmegaEngine
         /// <summary>
         /// The color of the fog
         /// </summary>
-        internal Color FogColor { get { return _fogColor; } set { value.To(ref _fogColor, () => Device.SetRenderState(RenderState.FogColor, value.ToArgb())); } }
+        public Color FogColor { get { return _fogColor; } set { value.To(ref _fogColor, () => Device.SetRenderState(RenderState.FogColor, value.ToArgb())); } }
 
         private float _fogStart, _fogEnd;
 
         /// <summary>
         /// The distance at which the linear fog shall start
         /// </summary>
-        internal float FogStart { get { return _fogStart; } set { value.To(ref _fogStart, () => Device.SetRenderState(RenderState.FogStart, value)); } }
+        public float FogStart { get { return _fogStart; } set { value.To(ref _fogStart, () => Device.SetRenderState(RenderState.FogStart, value)); } }
 
         /// <summary>
         /// The distance at which the linear fog shall have obscured everything
         /// </summary>
-        internal float FogEnd { get { return _fogEnd; } set { value.To(ref _fogEnd, () => Device.SetRenderState(RenderState.FogEnd, value)); } }
+        public float FogEnd { get { return _fogEnd; } set { value.To(ref _fogEnd, () => Device.SetRenderState(RenderState.FogEnd, value)); } }
         #endregion
 
         #region Alpha blending
@@ -156,27 +153,27 @@ namespace OmegaEngine
         /// <summary>
         /// Value for <see cref="AlphaBlend"/> to use no alpha blending
         /// </summary>
-        internal const int Opaque = 0;
+        public const int Opaque = 0;
 
         /// <summary>
         /// Value for <see cref="AlphaBlend"/> to make something completley transparent (i.e., invisible)
         /// </summary>
-        internal const int Invisible = 255;
+        public const int Invisible = 255;
 
         /// <summary>
         /// Value for <see cref="AlphaBlend"/> to use alpha channel for transparency (augmented with alpha testing)
         /// </summary>
-        internal const int AlphaChannel = 256;
+        public const int AlphaChannel = 256;
 
         /// <summary>
         /// Value for <see cref="AlphaBlend"/> to use alpha channel for binary alpha testing
         /// </summary>
-        internal const int BinaryAlphaChannel = -256;
+        public const int BinaryAlphaChannel = -256;
 
         /// <summary>
         /// Value for <see cref="AlphaBlend"/> to apply additive blending (use color map)
         /// </summary>
-        internal const int AdditivBlending = 257;
+        public const int AdditivBlending = 257;
         #endregion
 
         private int _alphaBlend;
@@ -185,7 +182,7 @@ namespace OmegaEngine
         /// The level of transparency from 0 (solid) to 255 (invisible),
         /// <see cref="AlphaChannel"/>, <see cref="BinaryAlphaChannel"/> or <see cref="AdditivBlending"/>
         /// </summary>
-        internal int AlphaBlend
+        public int AlphaBlend
         {
             get { return _alphaBlend; }
             set
@@ -269,7 +266,7 @@ namespace OmegaEngine
         /// <summary>
         /// The currently active world transformation matrix
         /// </summary>
-        internal Matrix WorldTransform
+        public Matrix WorldTransform
         {
             get { return _worldTransform; }
             set
@@ -282,12 +279,12 @@ namespace OmegaEngine
         /// <summary>
         /// The currently active view transformation matrix
         /// </summary>
-        internal Matrix ViewTransform { get { return _viewTransform; } set { value.To(ref _viewTransform, () => Device.SetTransform(TransformState.View, value)); } }
+        public Matrix ViewTransform { get { return _viewTransform; } set { value.To(ref _viewTransform, () => Device.SetTransform(TransformState.View, value)); } }
 
         /// <summary>
         /// The currently active projection transformation matrix
         /// </summary>
-        internal Matrix ProjectionTransform { get { return _projectionTransform; } set { value.To(ref _projectionTransform, () => Device.SetTransform(TransformState.Projection, value)); } }
+        public Matrix ProjectionTransform { get { return _projectionTransform; } set { value.To(ref _projectionTransform, () => Device.SetTransform(TransformState.Projection, value)); } }
         #endregion
 
         #region User clip plane
@@ -300,7 +297,7 @@ namespace OmegaEngine
         /// When rendering without <see cref="SurfaceShader"/>s the clip plane must be in world space.
         /// When rendering with <see cref="SurfaceShader"/>s it must be in camera space.
         /// </remarks>
-        internal Plane UserClipPlane
+        public Plane UserClipPlane
         {
             get { return _userClipPlane; }
             set
@@ -356,7 +353,7 @@ namespace OmegaEngine
         /// <summary>
         /// Apply texture filtering modes to <see cref="Device"/>.
         /// </summary>
-        private void SetupTextureFiltering()
+        internal void SetupTextureFiltering()
         {
             var filter = (int)Device.Capabilities.TextureFilterCaps;
             Device.SetSamplerState(0, SamplerState.MaxAnisotropy, Device.Capabilities.MaxAnisotropy);

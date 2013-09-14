@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Xml;
@@ -62,7 +63,8 @@ namespace OmegaEngine
         #region Variables
         private bool _firstFrame = true;
         private bool _isResetting;
-        private readonly Mesh _simpleSphere, _simpleBox;
+        internal readonly Mesh SimpleSphere;
+        internal readonly Mesh SimpleBox;
         #endregion
 
         #region Properties
@@ -300,8 +302,8 @@ namespace OmegaEngine
                     #region Render
                     using (new ProfilerEvent("Render engine views"))
                     {
-                        foreach (View view in _views)
-                            if (view.Visible) view.Render();
+                        foreach (View view in _views.Where(view => view.Visible))
+                            view.Render();
                     }
 
                     // Fade the output to black
@@ -310,7 +312,7 @@ namespace OmegaEngine
                         Device.Viewport = RenderViewport;
                         Device.BeginScene();
                         AlphaBlend = 255 - FadeLevel;
-                        DrawQuadColored(Color.Black);
+                        this.DrawQuadColored(Color.Black);
                         Device.EndScene();
                     };
 

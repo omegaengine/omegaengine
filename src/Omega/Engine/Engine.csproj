@@ -87,10 +87,7 @@
     <Compile Include="Engine.Audio.cs">
       <DependentUpon>Engine.cs</DependentUpon>
     </Compile>
-    <Compile Include="Engine.InternalHelpers.cs">
-      <DependentUpon>Engine.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Engine.ExternalHelpers.cs">
+    <Compile Include="Engine.Debug.cs">
       <DependentUpon>Engine.cs</DependentUpon>
     </Compile>
     <Compile Include="Engine.Effects.cs">
@@ -105,7 +102,12 @@
     <Compile Include="Engine.RenderStates.cs">
       <DependentUpon>Engine.cs</DependentUpon>
     </Compile>
+    <Compile Include="Engine.Terrain.cs">
+      <DependentUpon>Engine.cs</DependentUpon>
+    </Compile>
     <Compile Include="EngineConfig.cs" />
+    <Compile Include="EngineUtilsAnimation.cs" />
+    <Compile Include="EngineUtilsDraw.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Graphics\BufferHelper.cs" />
     <Compile Include="Input\IInputReceiver.cs" />
