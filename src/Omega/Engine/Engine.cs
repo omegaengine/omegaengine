@@ -145,9 +145,8 @@ namespace OmegaEngine
                 CreateDevice();
                 SetupTextureFiltering();
 
-                // Load shared shaders
+                // Load shared shader
                 if (GeneralShader.MinShaderModel <= MaxShaderModel) DefaultShader = new GeneralShader(this);
-                if (WaterShader.MinShaderModel <= MaxShaderModel) SimpleWaterShader = new WaterShader(this);
                 PerPixelLighting = true;
 
                 // Create simple default meshes ready

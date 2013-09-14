@@ -13,13 +13,13 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Threading;
-using OmegaEngine.Graphics;
 using System.Xml;
 using Common;
 using LuaInterface;
+using OmegaEngine.Graphics;
+using OmegaEngine.Graphics.Shaders;
 using SlimDX;
 using SlimDX.Direct3D9;
-using OmegaEngine.Graphics.Shaders;
 using WinForms = System.Windows.Forms;
 
 namespace OmegaEngine
@@ -186,10 +186,12 @@ namespace OmegaEngine
         /// </summary>
         public GeneralShader DefaultShader { get; private set; }
 
+        private WaterShader _simpleWaterShader;
+
         /// <summary>
         /// A shader used for simple water (no reflection or refraction)
         /// </summary>
-        public WaterShader SimpleWaterShader { get; private set; }
+        public WaterShader SimpleWaterShader { get { return _simpleWaterShader = _simpleWaterShader ?? new WaterShader(this); } }
         #endregion
 
         #endregion

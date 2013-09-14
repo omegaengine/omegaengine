@@ -8,10 +8,11 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Common;
 using Common.Values;
-using SlimDX;
 using OmegaEngine.Graphics.Shaders;
+using SlimDX;
 
 namespace OmegaEngine.Graphics.Renderables
 {
@@ -104,21 +105,14 @@ namespace OmegaEngine.Graphics.Renderables
             if (baseView == null) throw new ArgumentNullException("baseView");
             #endregion
 
-            // Try to find an existing view source
-            foreach (var viewSource in engine.WaterViewSources)
-            {
-                if (viewSource.Height == height && viewSource.BaseView == baseView && viewSource.ClipTolerance == clipTolerance)
-                {
-                    viewSource.ReferenceCount++;
-                    return viewSource;
-                }
-            }
+            var view = engine.WaterViewSources.FirstOrDefault(
+                candidate => candidate.Height == height &&
+                              candidate.BaseView == baseView &&
+                              candidate.ClipTolerance == clipTolerance);
+            if (view == null) engine.WaterViewSources.Add(view = new WaterViewSource(engine, height, baseView, clipTolerance));
 
-            // Create a new view source
-            var newViewSource = new WaterViewSource(engine, height, baseView, clipTolerance);
-            engine.WaterViewSources.Add(newViewSource);
-            newViewSource.ReferenceCount++;
-            return newViewSource;
+            view.ReferenceCount++;
+            return view;
         }
         #endregion
 
