@@ -71,7 +71,7 @@ namespace OmegaEngine.Graphics.Shaders
 
         #region Apply
         /// <inheritdoc />
-        public override void Apply(Action render, XMaterial material, Camera camera, LightSource[] lights)
+        public override void Apply(Action render, XMaterial material, Camera camera, params LightSource[] lights)
         {
             #region Sanity checks
             if (render == null) throw new ArgumentNullException("render");

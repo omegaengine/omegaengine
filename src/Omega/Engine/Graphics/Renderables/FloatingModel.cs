@@ -8,10 +8,10 @@
 
 using System;
 using System.IO;
-using SlimDX;
-using SlimDX.Direct3D9;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
+using SlimDX;
+using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Renderables
 {
@@ -109,23 +109,10 @@ namespace OmegaEngine.Graphics.Renderables
             // Never light a floating model
             SurfaceEffect = SurfaceEffect.Plain;
 
-            #region Subsets
-            for (int i = 0; i < NumberSubsets; i++)
-            {
-                // ReSharper disable AccessToModifiedClosure
-                using (new ProfilerEvent(() => "Subset " + i))
-                {
-                    // Load the subset-material (default to first one, if the subset has no own)
-                    XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
-
-                    // Handle lights for fixed-function or shader rendering
-                    var effectiveLights = (SurfaceEffect < SurfaceEffect.FixedFunction) ? null : lights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
-
-                    RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, effectiveLights);
-                }
-                // ReSharper restore AccessToModifiedClosure
-            }
-            #endregion
+            var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain)
+                ? new LightSource[0]
+                : lights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
+            for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, effectiveLights);
         }
         #endregion
     }

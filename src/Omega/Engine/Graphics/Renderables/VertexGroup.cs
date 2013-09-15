@@ -8,18 +8,19 @@
 
 using System;
 using System.IO;
-using SlimDX;
-using SlimDX.Direct3D9;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.VertexDecl;
+using SlimDX;
+using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Renderables
 {
     /// <summary>
-    /// A group of textured or colored vertexes that can be rendered by the engine
+    /// A simple set of vertexes that can be rendered.
     /// </summary>
+    /// <remarks>No culling, intersect testing, etc.. Use <see cref="Model"/> for that.</remarks>
     public class VertexGroup : PositionableRenderable
     {
         #region Variables
@@ -228,12 +229,13 @@ namespace OmegaEngine.Graphics.Renderables
 
         #region Predefined Quad
         /// <summary>
-        /// Creates a new textured quad with uniformly sized borders.
+        /// Creates a new textured quad.
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
-        /// <param name="texture">The texture to place on the vertex group; <see langword="null"/> for no texture.</param>
+        /// <param name="engine">The <see cref="Engine"/> to load the texture from.</param>
         /// <param name="size">The length of a border of the quad.</param>
-        public static VertexGroup Quad(Engine engine, ITextureProvider texture, float size)
+        /// <param name="texture">The texture to place on the vertex group; <see langword="null"/> for no texture.</param>
+        /// <returns>The vertex group that was created.</returns>
+        public static VertexGroup Quad(Engine engine, float size, ITextureProvider texture = null)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
@@ -250,48 +252,6 @@ namespace OmegaEngine.Graphics.Renderables
 
             return new VertexGroup(engine, PrimitiveType.TriangleStrip, vertexes, null, new XMaterial(texture));
         }
-
-        /// <summary>
-        /// Creates a new textured quad with an external material
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the texture from</param>
-        /// <param name="size">The length of a border of the quad</param>
-        /// <param name="material">A material containing a texture and lighting information</param>
-        /// <returns>The vertex group that was created</returns>
-        public static VertexGroup Quad(Engine engine, float size, XMaterial material)
-        {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            #endregion
-
-            var normalVector = new Vector3(0, 0, 1);
-            var vertexes = new[]
-            {
-                new PositionNormalTextured(new Vector3(size * -0.5f, size * 0.5f, 0), normalVector, 0, 0),
-                new PositionNormalTextured(new Vector3(size * 0.5f, size * 0.5f, 0), normalVector, 1, 0),
-                new PositionNormalTextured(new Vector3(size * -0.5f, size * -0.5f, 0), normalVector, 0, 1),
-                new PositionNormalTextured(new Vector3(size * 0.5f, size * -0.5f, 0), normalVector, 1, 1)
-            };
-
-            return new VertexGroup(engine, PrimitiveType.TriangleStrip, vertexes, null, material);
-        }
-
-        /// <summary>
-        /// Creates a new textured quad with an external texture
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the texture from</param>
-        /// <param name="size">The length of a border of the quad</param>
-        /// <param name="textureSource">The <see cref="View"/> generating the texture</param>
-        /// <returns>The vertex group that was created</returns>
-        public static VertexGroup Quad(Engine engine, float size, TextureView textureSource)
-        {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (textureSource == null) throw new ArgumentNullException("textureSource");
-            #endregion
-
-            return Quad(engine, size, new XMaterial(textureSource.GetRenderTarget()));
-        }
         #endregion
 
         //--------------------//
@@ -301,8 +261,6 @@ namespace OmegaEngine.Graphics.Renderables
         internal override void Render(Camera camera, GetLights lights)
         {
             base.Render(camera, lights);
-
-            // Set world transform in the engine
             Engine.State.WorldTransform = WorldTransform;
 
             #region Draw
@@ -324,9 +282,9 @@ namespace OmegaEngine.Graphics.Renderables
             }
 
             // Handle lights for fixed-function or shader rendering
-            var effectiveLights = (SurfaceEffect < SurfaceEffect.FixedFunction) ? null : lights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
-
-            // Execute the render delegate
+            var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain)
+                ? new LightSource[0]
+                : lights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
             RenderHelper(render, _material, camera, effectiveLights);
             #endregion
         }

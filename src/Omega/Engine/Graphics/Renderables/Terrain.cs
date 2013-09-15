@@ -12,11 +12,11 @@ using System.Drawing;
 using System.IO;
 using Common;
 using Common.Utils;
-using SlimDX;
-using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
+using SlimDX;
+using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Renderables
@@ -272,51 +272,48 @@ namespace OmegaEngine.Graphics.Renderables
 
             // Note: Doesn't call base methods
             PrepareRender();
-
-            // Set world transform in the engine
             Engine.State.WorldTransform = WorldTransform;
 
             // Update bounding bodies
             if (WorldTransformDirty) RecalcWorldTransform();
 
-            #region Subsets
-            for (int i = 0; i < NumberSubsets; i++)
+            for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, lights);
+        }
+
+        private void RenderSubset(int i, Camera camera, GetLights lights)
+        {
+            // Frustum culling with the bouding box
+            if (_subsetWorldBoundingBoxes != null && !camera.InFrustum(_subsetWorldBoundingBoxes[i])) return;
+
+            using (new ProfilerEvent(() => "Subset " + i))
             {
-                // Frustum culling with the bouding box
-                if (_subsetWorldBoundingBoxes != null && !camera.InFrustum(_subsetWorldBoundingBoxes[i])) continue;
+                Action renderSubset = () => Mesh.DrawSubset(i);
 
-                // ReSharper disable AccessToModifiedClosure
-                using (new ProfilerEvent(() => "Subset " + i))
+                if (SurfaceEffect >= SurfaceEffect.Glow)
                 {
-                    Action renderSubset = () => Mesh.DrawSubset(i);
-
-                    if (SurfaceEffect >= SurfaceEffect.Glow)
-                    {
-                        // The terrain will always appear completely black on the glow/shadow map
-                        using (new ProfilerEvent(() => "Apply black " + _subsetShaders[i]))
-                            _subsetShaders[i].Apply(renderSubset, XMaterial.DefaultMaterial, camera, new LightSource[0]);
-                    }
-                    else
-                    {
-                        // Apply the normal terrain shader
-                        if (_subsetShaders[i] != null) SurfaceShader = _subsetShaders[i];
-                        XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
-
-                        // Handle lights for fixed-function or shader rendering
-                        Vector3 boxCenter = (_subsetBoundingBoxes == null ? new Vector3() : _subsetBoundingBoxes[i].Minimum + (_subsetBoundingBoxes[i].Maximum - _subsetBoundingBoxes[i].Minimum) * 0.5f);
-                        var effectiveLights = (SurfaceEffect < SurfaceEffect.FixedFunction) ? null : lights(Position + boxCenter, _blockSize * StretchH * (float)(Math.Sqrt(2) / 2));
-
-                        // Execute the render delegate
-                        RenderHelper(renderSubset, currentMaterial, camera, effectiveLights);
-                    }
+                    // The terrain will always appear completely black on the glow/shadow map
+                    using (new ProfilerEvent(() => "Apply black " + _subsetShaders[i]))
+                        _subsetShaders[i].Apply(renderSubset, XMaterial.DefaultMaterial, camera);
                 }
-                // ReSharper restore AccessToModifiedClosure
+                else
+                {
+                    // Apply the normal terrain shader
+                    if (_subsetShaders[i] != null) SurfaceShader = _subsetShaders[i];
+                    XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
-                // Only allow the visualization of bounding bodies in normal view
-                if (DrawBoundingBox && _subsetWorldBoundingBoxes != null && SurfaceEffect < SurfaceEffect.Glow)
-                    Engine.DrawBoundingBox(_subsetWorldBoundingBoxes[i]);
+                    // Handle lights for fixed-function or shader rendering
+                    Vector3 boxCenter = (_subsetBoundingBoxes == null ? new Vector3() : _subsetBoundingBoxes[i].Minimum + (_subsetBoundingBoxes[i].Maximum - _subsetBoundingBoxes[i].Minimum) * 0.5f);
+
+                    var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain)
+                        ? new LightSource[0]
+                        : lights(Position + boxCenter, _blockSize * StretchH * (float)(Math.Sqrt(2) / 2));
+                    RenderHelper(renderSubset, currentMaterial, camera, effectiveLights);
+                }
             }
-            #endregion
+
+            // Only allow the visualization of bounding bodies in normal view
+            if (DrawBoundingBox && _subsetWorldBoundingBoxes != null && SurfaceEffect < SurfaceEffect.Glow)
+                Engine.DrawBoundingBox(_subsetWorldBoundingBoxes[i]);
         }
         #endregion
 

@@ -10,17 +10,18 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using OmegaEngine.Assets;
+using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;
 using SlimDX.Direct3D9;
-using OmegaEngine.Assets;
-using OmegaEngine.Graphics.Cameras;
 
 namespace OmegaEngine.Graphics.Renderables
 {
     /// <summary>
-    /// A static (non-animated) model.
+    /// A model (stored as a Direct3DX <see cref="Mesh"/> with one or more subsets). Handle
     /// </summary>
+    /// <remarks>No custom <see cref="PrimitiveType"/>s. Use <see cref="VertexGroup"/> for that.</remarks>
     [SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces")]
     public partial class Model : PositionableRenderable
     {
@@ -191,27 +192,23 @@ namespace OmegaEngine.Graphics.Renderables
         internal override void Render(Camera camera, GetLights lights)
         {
             base.Render(camera, lights);
-
-            // Set world transform in the engine
             Engine.State.WorldTransform = WorldTransform;
 
-            #region Subsets
-            for (int i = 0; i < NumberSubsets; i++)
+            var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain)
+                ? new LightSource[0]
+                : lights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
+            for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, effectiveLights);
+        }
+
+        protected void RenderSubset(int i, Camera camera, LightSource[] lights)
+        {
+            using (new ProfilerEvent(() => "Subset " + i))
             {
-                // ReSharper disable AccessToModifiedClosure
-                using (new ProfilerEvent(() => "Subset " + i))
-                {
-                    // Load the subset-material (default to first one, if the subset has no own)
-                    XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
+                // Load the subset-material (default to first one, if the subset has no own)
+                XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
-                    // Handle lights for fixed-function or shader rendering
-                    var effectiveLights = (SurfaceEffect < SurfaceEffect.FixedFunction) ? null : lights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
-
-                    RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, effectiveLights);
-                }
-                // ReSharper restore AccessToModifiedClosure
+                RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, lights);
             }
-            #endregion
         }
         #endregion
 

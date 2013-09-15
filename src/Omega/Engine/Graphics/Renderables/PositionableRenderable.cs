@@ -12,10 +12,10 @@ using System.ComponentModel;
 using System.Drawing;
 using Common.Utils;
 using Common.Values;
-using SlimDX;
-using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
+using SlimDX;
+using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Renderables
 {
@@ -377,20 +377,48 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="material">The material to apply to everything rendered.</param>
         /// <param name="camera">The currently effective <see cref="Camera"/>.</param>
         /// <param name="lights">The currently effective <see cref="LightSource"/>s.</param>
-        protected void RenderHelper(Action render, XMaterial material, Camera camera, LightSource[] lights)
+        protected void RenderHelper(Action render, XMaterial material, Camera camera, params LightSource[] lights)
         {
             #region Sanity checks
             if (render == null) throw new ArgumentNullException("render");
             if (camera == null) throw new ArgumentNullException("camera");
+            if (lights == null) throw new ArgumentNullException("lights");
             #endregion
 
+            SetEngineState(material);
+            SetEngineState(camera);
+
+            switch (SurfaceEffect)
+            {
+                case SurfaceEffect.Plain:
+                    RenderPlain(render, material);
+                    break;
+                case SurfaceEffect.Glow:
+                    RenderGlow(render, material);
+                    break;
+                case SurfaceEffect.FixedFunction:
+                    RenderFixedFunction(render, material);
+                    break;
+                case SurfaceEffect.Shader:
+                    RenderShader(render, material, camera, lights);
+                    break;
+            }
+
+            Engine.State.UserClipPlane = default(Plane);
+        }
+
+        private void SetEngineState(XMaterial material)
+        {
             // Set texture
             Engine.State.SetTexture(material.DiffuseMaps[0]);
 
             // Fall back to fixed-function pipeline if no shader was set for this body
             if (SurfaceEffect == SurfaceEffect.Shader && SurfaceShader == null)
                 SurfaceEffect = SurfaceEffect.FixedFunction;
+        }
 
+        private void SetEngineState(Camera camera)
+        {
             // Activate user clip plane if it is set
             if (camera.ClipPlane != default(DoublePlane))
             {
@@ -400,74 +428,65 @@ namespace OmegaEngine.Graphics.Renderables
                     // When rendering without shaders the clip plane is in world space
                     : camera.EffectiveClipPlane;
             }
+        }
 
-            switch (SurfaceEffect)
+        private void RenderPlain(Action render, XMaterial material)
+        {
+            using (new ProfilerEvent("Surface effect: None"))
             {
-                    #region None
-                case SurfaceEffect.Plain:
-                    using (new ProfilerEvent("Surface effect: None"))
-                    {
-                        if (material.Diffuse == Color.White)
-                        { // A plain white surface needs no lighting at all
-                            Engine.State.FfpLighting = false;
-                        }
-                        else
-                        { // Simulate a plain colored surface by using emissive lighting
-                            Engine.State.FfpLighting = true;
-                            var emissiveMaterial = new Material {Emissive = material.Diffuse};
-                            Engine.Device.Material = emissiveMaterial;
-                        }
+                if (material.Diffuse == Color.White)
+                { // A plain white surface needs no lighting at all
+                    Engine.State.FfpLighting = false;
+                }
+                else
+                { // Simulate a plain colored surface by using emissive lighting
+                    Engine.State.FfpLighting = true;
+                    var emissiveMaterial = new Material {Emissive = material.Diffuse};
+                    Engine.Device.Material = emissiveMaterial;
+                }
 
-                        render();
-                    }
-                    break;
-                    #endregion
-
-                    #region Glow
-                case SurfaceEffect.Glow:
-                    using (new ProfilerEvent("Surface effect: Glow"))
-                    {
-                        Engine.State.SetTexture(material.EmissiveMap);
-                        var emissiveMaterial = new Material {Emissive = material.Emissive};
-
-                        // Use simple DirectX lighting
-                        Engine.Device.Material = emissiveMaterial;
-                        Engine.State.FfpLighting = true;
-
-                        render();
-                    }
-                    break;
-                    #endregion
-
-                    #region Fixed-function
-                case SurfaceEffect.FixedFunction:
-                    using (new ProfilerEvent("Surface effect: Fixed-function"))
-                    {
-                        Engine.Device.Material = material.D3DMaterial;
-                        Engine.State.FfpLighting = true;
-
-                        render();
-                    }
-                    break;
-                    #endregion
-
-                    #region Shader
-                case SurfaceEffect.Shader:
-                    using (new ProfilerEvent("Surface effect: Shader"))
-                    {
-                        Engine.State.FfpLighting = false;
-
-                        if (SurfaceShader != null)
-                        {
-                            using (new ProfilerEvent(() => "Apply " + SurfaceShader))
-                                SurfaceShader.Apply(render, material, camera, lights);
-                        }
-                    }
-                    break;
-                    #endregion
+                render();
             }
+        }
 
-            Engine.State.UserClipPlane = default(Plane);
+        private void RenderGlow(Action render, XMaterial material)
+        {
+            using (new ProfilerEvent("Surface effect: Glow"))
+            {
+                Engine.State.SetTexture(material.EmissiveMap);
+                var emissiveMaterial = new Material {Emissive = material.Emissive};
+
+                // Use simple DirectX lighting
+                Engine.Device.Material = emissiveMaterial;
+                Engine.State.FfpLighting = true;
+
+                render();
+            }
+        }
+
+        private void RenderFixedFunction(Action render, XMaterial material)
+        {
+            using (new ProfilerEvent("Surface effect: Fixed-function"))
+            {
+                Engine.Device.Material = material.D3DMaterial;
+                Engine.State.FfpLighting = true;
+
+                render();
+            }
+        }
+
+        private void RenderShader(Action render, XMaterial material, Camera camera, LightSource[] lights)
+        {
+            using (new ProfilerEvent("Surface effect: Shader"))
+            {
+                Engine.State.FfpLighting = false;
+
+                if (SurfaceShader != null)
+                {
+                    using (new ProfilerEvent(() => "Apply " + SurfaceShader))
+                        SurfaceShader.Apply(render, material, camera, lights);
+                }
+            }
         }
         #endregion
 

@@ -146,7 +146,44 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         private void Update()
         {
-            #region Level of detail
+            float lodFactor = GetLodFactor();
+            double elapsedTime = GetElapsedTime();
+
+            using (new ProfilerEvent("Update particles"))
+            {
+                // Update in intervals to increase accuracy
+                while (elapsedTime > 0.06f)
+                {
+                    UpdateParticles(0.06f, lodFactor);
+                    elapsedTime -= 0.06f;
+                }
+                UpdateParticles((float)elapsedTime, lodFactor);
+            }
+        }
+
+        private double GetElapsedTime()
+        {
+            double elapsedTime;
+            if (_firstUpdate)
+            {
+                // Fast forward the elapsed time for the first render
+                elapsedTime = _preset.WarmupTime;
+                _firstUpdate = false;
+            }
+            else
+            {
+                elapsedTime = Engine.LastFrameGameTime * _preset.Speed;
+
+                // Prevent extremly large updates
+                float maxUpdate = _preset.WarmupTime;
+                if (maxUpdate < 0.2f) maxUpdate = 0.2f;
+                if (elapsedTime > maxUpdate) elapsedTime = maxUpdate;
+            }
+            return elapsedTime;
+        }
+
+        private float GetLodFactor()
+        {
             float lodFactor;
             if (VisibilityDistance > 0 && _lastCamera != null)
             {
@@ -167,39 +204,7 @@ namespace OmegaEngine.Graphics.Renderables
                     lodFactor *= 1.0f;
                     break;
             }
-            #endregion
-
-            #region Time management
-            double elapsedTime;
-            if (_firstUpdate)
-            {
-                // Fast forward the elapsed time for the first render
-                elapsedTime = _preset.WarmupTime;
-                _firstUpdate = false;
-            }
-            else
-            {
-                elapsedTime = Engine.LastFrameGameTime * _preset.Speed;
-
-                // Prevent extremly large updates
-                float maxUpdate = _preset.WarmupTime;
-                if (maxUpdate < 0.2f) maxUpdate = 0.2f;
-                if (elapsedTime > maxUpdate) elapsedTime = maxUpdate;
-            }
-            #endregion
-
-            #region Update particles
-            using (new ProfilerEvent("Update particles"))
-            {
-                // Update in intervals to increase accuracy
-                while (elapsedTime > 0.06f)
-                {
-                    UpdateParticles(0.06f, lodFactor);
-                    elapsedTime -= 0.06f;
-                }
-                UpdateParticles((float)elapsedTime, lodFactor);
-            }
-            #endregion
+            return lodFactor;
         }
         #endregion
 
@@ -213,7 +218,17 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="lodFactor">A factor by which sizes and spawn-rates are multiplied for level-of-detail purposes</param>
         private void UpdateParticles(float elapsedTime, float lodFactor)
         {
-            #region Update existing first-life particles
+            UpdateFirstLifeParticles(elapsedTime);
+            UpdateSecondLifeParticles(elapsedTime);
+
+            // Don't add new particles if the maximum amount has been reached
+            if (_firstLifeParticles.Count + _secondLifeParticles.Count >= _preset.MaxParticles * lodFactor) return;
+
+            SpawnNewParticles(elapsedTime, lodFactor);
+        }
+
+        private void UpdateFirstLifeParticles(float elapsedTime)
+        {
             // Similar to a foreach loop, but allows you to remove elements while iterating
             _firstLifeParticles.RemoveWhere(particle =>
             {
@@ -237,9 +252,10 @@ namespace OmegaEngine.Graphics.Renderables
 
                 return false; // Keep in the pool
             });
-            #endregion
+        }
 
-            #region Update existing second-life particles
+        private void UpdateSecondLifeParticles(float elapsedTime)
+        {
             // Similar to a foreach loop, but allows you to remove elements while iterating
             _secondLifeParticles.RemoveWhere(particle =>
             {
@@ -254,12 +270,10 @@ namespace OmegaEngine.Graphics.Renderables
 
                 return false; // Keep in the pool
             });
-            #endregion
+        }
 
-            // Don't add new particles if the maximum amount has been reached
-            if (_firstLifeParticles.Count + _secondLifeParticles.Count >= _preset.MaxParticles * lodFactor) return;
-
-            #region Spawn new particles
+        private void SpawnNewParticles(float elapsedTime, float lodFactor)
+        {
             // Use a float buffer so that decimals don't get lost
             _newParticlesBuffer += elapsedTime * _preset.SpawnRate * lodFactor;
             while (_newParticlesBuffer >= 1)
@@ -267,7 +281,6 @@ namespace OmegaEngine.Graphics.Renderables
                 _newParticlesBuffer--;
                 AddParticle(1 / (float)Math.Sqrt(lodFactor - 0.05f));
             }
-            #endregion
         }
         #endregion
 
@@ -313,24 +326,32 @@ namespace OmegaEngine.Graphics.Renderables
         }
         #endregion
 
-        #region Add Particle
+        #region Add particle
         /// <summary>
         /// Adds a new particle with random values
         /// </summary>
         /// <param name="lodFactor">A factor by which sizes are multiplied for level-of-detail purposes</param>
         private void AddParticle(float lodFactor)
         {
-            #region Spawn position
+            AddParticle(
+                Position + GetSpawnPosition(),
+                GetFirstLifeParameters(lodFactor),
+                GetSecondLifeParameters(lodFactor));
+        }
+
+        private Vector3 GetSpawnPosition()
+        {
             float randomSpawnRadius = RandomUtils.GetRandomFloat(0, _preset.SpawnRadius);
             var rotationMatrix = Matrix.RotationYawPitchRoll(
                 RandomUtils.GetRandomFloat(0, 2 * (float)Math.PI), 0,
                 RandomUtils.GetRandomFloat(0, 2 * (float)Math.PI));
 
-            var particlePosition = Vector3.TransformCoordinate(new Vector3(randomSpawnRadius, 0, 0), rotationMatrix);
-            #endregion
+            return Vector3.TransformCoordinate(new Vector3(randomSpawnRadius, 0, 0), rotationMatrix);
+        }
 
-            #region Initial parameters
-            var parameters1 = new CpuParticleParametersStruct
+        private CpuParticleParametersStruct GetFirstLifeParameters(float lodFactor)
+        {
+            return new CpuParticleParametersStruct
             {
                 LifeTime =
                     // If any of the two values is set to infinite...
@@ -345,10 +366,11 @@ namespace OmegaEngine.Graphics.Renderables
                 Color = RandomUtils.GetRandomColor(_preset.LowerParameters1.Color, _preset.UpperParameters1.Color),
                 DeltaColor = RandomUtils.GetRandomFloat(_preset.LowerParameters1.DeltaColor, _preset.UpperParameters1.DeltaColor)
             };
-            #endregion
+        }
 
-            #region Second life parameters
-            var parameters2 = new CpuParticleParametersStruct
+        private CpuParticleParametersStruct GetSecondLifeParameters(float lodFactor)
+        {
+            return new CpuParticleParametersStruct
             {
                 LifeTime =
                     // If any of the two values is set to infinite...
@@ -363,10 +385,6 @@ namespace OmegaEngine.Graphics.Renderables
                 Color = RandomUtils.GetRandomColor(_preset.LowerParameters2.Color, _preset.UpperParameters2.Color),
                 DeltaColor = RandomUtils.GetRandomFloat(_preset.LowerParameters2.DeltaColor, _preset.UpperParameters2.DeltaColor)
             };
-            #endregion
-
-            // Create new particle relative to the emitter position
-            AddParticle(Position + particlePosition, parameters1, parameters2);
         }
 
         /// <summary>
@@ -379,9 +397,7 @@ namespace OmegaEngine.Graphics.Renderables
         {
             if (_deadParticles.Count > 0)
             {
-                #region Revive dead particle
                 CpuParticle particle = _deadParticles.Pop();
-
                 particle.Alive = true;
                 particle.Position = position;
                 particle.Velocity = default(Vector3);
@@ -389,12 +405,9 @@ namespace OmegaEngine.Graphics.Renderables
                 particle.Parameters2 = parameters2;
                 particle.Color = new Color4(parameters1.Color);
                 particle.SecondLife = false;
-
                 _firstLifeParticles.Add(particle);
-                #endregion
             }
-            else
-                _firstLifeParticles.Add(new CpuParticle(position, parameters1, parameters2));
+            else _firstLifeParticles.Add(new CpuParticle(position, parameters1, parameters2));
         }
         #endregion
 
@@ -467,7 +480,15 @@ namespace OmegaEngine.Graphics.Renderables
                 Engine.State.UserClipPlane = camera.EffectiveClipPlane;
             }
 
-            #region Render
+            RenderParticles(camera);
+
+            // Restore defaults
+            Engine.State.UserClipPlane = default(Plane);
+            Engine.State.ZBufferMode = ZBufferMode.Normal;
+        }
+
+        private void RenderParticles(Camera camera)
+        {
             // Set shared settings for all particles
             Engine.State.FfpLighting = true;
             Engine.State.SetVertexBuffer(_vb);
@@ -497,11 +518,6 @@ namespace OmegaEngine.Graphics.Renderables
 
             Engine.State.FfpLighting = false;
             Engine.State.Fog = fog;
-            #endregion
-
-            // Restore defaults
-            Engine.State.UserClipPlane = default(Plane);
-            Engine.State.ZBufferMode = ZBufferMode.Normal;
         }
         #endregion
 

@@ -53,7 +53,7 @@ namespace OmegaEngine.Graphics.Shaders
 
         #region Passes
         /// <inheritdoc />
-        protected override void RunPasses(Action render, LightSource[] lights, XMaterial material)
+        protected override void RunPasses(Action render, XMaterial material, params LightSource[] lights)
         {
             #region Sanity checks
             if (render == null) throw new ArgumentNullException("render");

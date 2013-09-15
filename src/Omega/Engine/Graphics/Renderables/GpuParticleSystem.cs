@@ -94,11 +94,21 @@ namespace OmegaEngine.Graphics.Renderables
         internal override void Render(Camera camera, GetLights lights)
         {
             base.Render(camera, lights);
-
-            // Set world transform in the engine
             Engine.State.WorldTransform = WorldTransform;
 
-            #region Update shader
+            UpdateShader();
+
+            // Disable ZBuffer writing so particles can flow into each other
+            Engine.State.ZBufferMode = ZBufferMode.ReadOnly;
+
+            RenderHelper(() => _particleMesh.DrawSubset(0), XMaterial.DefaultMaterial, camera);
+
+            // Restore defaults
+            Engine.State.ZBufferMode = ZBufferMode.Normal;
+        }
+
+        private void UpdateShader()
+        {
             // Always apply the shader
             SurfaceEffect = SurfaceEffect.Shader;
             SurfaceShader = _particleShader;
@@ -125,16 +135,6 @@ namespace OmegaEngine.Graphics.Renderables
 
                 Preset.TextureDirty = false;
             }
-            #endregion
-
-            // Disable ZBuffer writing so particles can flow into each other
-            Engine.State.ZBufferMode = ZBufferMode.ReadOnly;
-
-            // Render the particle mesh
-            RenderHelper(() => _particleMesh.DrawSubset(0), XMaterial.DefaultMaterial, camera, null);
-
-            // Restore defaults
-            Engine.State.ZBufferMode = ZBufferMode.Normal;
         }
         #endregion
 

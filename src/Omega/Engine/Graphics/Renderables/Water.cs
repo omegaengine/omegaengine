@@ -123,11 +123,17 @@ namespace OmegaEngine.Graphics.Renderables
 
             // Note: Doesn't call base methods
             PrepareRender();
-
-            // Set world transform in the engine
             Engine.State.WorldTransform = WorldTransform;
 
-            #region Auto-select shader
+            SelectShader();
+
+            RenderHelper(() => Mesh.DrawSubset(0), Materials[0], camera);
+            if (DrawBoundingBox && WorldBoundingBox.HasValue && SurfaceEffect < SurfaceEffect.Glow)
+                Engine.DrawBoundingBox(WorldBoundingBox.Value);
+        }
+
+        private void SelectShader()
+        {
             SurfaceEffect = SurfaceEffect.Shader;
             switch (Engine.Effects.WaterEffects)
             {
@@ -151,18 +157,10 @@ namespace OmegaEngine.Graphics.Renderables
                     SurfaceShader = _viewSource.RefractionReflectionShader;
                     break;
             }
-            #endregion
 
             // Transfer the reflection view matrix and the current time value to the shader
             if (_viewSource != null)
                 _viewSource.RefractionReflectionShader.ReflectionViewProjection = _viewSource.ReflectedView.Camera.ViewProjection;
-
-            // Render the mesh
-            RenderHelper(() => Mesh.DrawSubset(0), Materials[0], camera, null);
-
-            // Only allow the visualization of bounding bodies in normal view
-            if (SurfaceEffect < SurfaceEffect.Glow)
-                if (DrawBoundingBox && WorldBoundingBox.HasValue) Engine.DrawBoundingBox(WorldBoundingBox.Value);
         }
         #endregion
 
