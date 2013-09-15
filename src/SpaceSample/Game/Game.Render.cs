@@ -174,7 +174,7 @@ namespace Core
             // Note: Doesn't call base methods
 
             // Check if we are currently in fake fullscreen mode (just a big window)
-            if (Fullscreen && !Engine.EngineConfig.Fullscreen)
+            if (Fullscreen && !Engine.Config.Fullscreen)
             {
                 // Now switch the Direct3D device to real fullscreen mode
                 Log.Info("Switch to real fullscreen mode");

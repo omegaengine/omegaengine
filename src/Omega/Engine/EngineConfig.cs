@@ -14,7 +14,7 @@ namespace OmegaEngine
     /// <summary>
     /// Stores settings for initializing <see cref="Engine"/>
     /// </summary>
-    /// <seealso cref="Engine.EngineConfig"/>
+    /// <seealso cref="Engine.Config"/>
     public struct EngineConfig
     {
         /// <summary>

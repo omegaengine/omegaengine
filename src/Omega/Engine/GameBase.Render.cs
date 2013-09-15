@@ -26,7 +26,7 @@ namespace OmegaEngine
         [LuaGlobal(Description = "Resets the graphics engine")]
         protected virtual void ResetEngine()
         {
-            Engine.EngineConfig = BuildEngineConfig(Fullscreen);
+            Engine.Config = BuildEngineConfig(Fullscreen);
             Engine.Render();
         }
         #endregion

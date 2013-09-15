@@ -32,8 +32,8 @@ namespace OmegaEngine
         /// Creates a new engine capabilities object.
         /// </summary>
         /// <param name="direct3D">Provides access to the Direct3D subsystem.</param>
-        /// <param name="engineConfig">The settings used to initialize the <see cref="Engine"/>.</param>
-        internal EngineCapabilities(Direct3D direct3D, EngineConfig engineConfig)
+        /// <param name="config">The settings used to initialize the <see cref="Engine"/>.</param>
+        internal EngineCapabilities(Direct3D direct3D, EngineConfig config)
         {
             #region Sanity checks
             if (direct3D == null) throw new ArgumentNullException("direct3D");
@@ -41,7 +41,7 @@ namespace OmegaEngine
 
             _direct3D = direct3D;
             _capabilities = _direct3D.GetDeviceCaps(0, DeviceType.Hardware);
-            _engineConfig = engineConfig;
+            _engineConfig = config;
 
             DetermineHardwareInformation();
             DetermineDeviceCapabilities();

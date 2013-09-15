@@ -87,7 +87,7 @@ namespace OmegaEngine
         {
             base.OnResize(eventargs);
 
-            if (Engine != null) Engine.EngineConfig = new EngineConfig {TargetSize = ClientSize};
+            if (Engine != null) Engine.Config = new EngineConfig {TargetSize = ClientSize};
         }
         #endregion
 

@@ -69,26 +69,26 @@ namespace OmegaEngine
         [LuaHide]
         public Control Target { get; private set; }
 
-        private EngineConfig _engineConfig;
+        private EngineConfig _config;
 
         /// <summary>
         /// The settings the engine was initialized with.
         /// </summary>
         /// <remarks>Changing this will cause the engine to reset on the next <see cref="Render()" /> call</remarks>
-        public EngineConfig EngineConfig
+        public EngineConfig Config
         {
-            get { return _engineConfig; }
+            get { return _config; }
             set
             {
-                value.To(ref _engineConfig, delegate
+                value.To(ref _config, delegate
                 {
                     // The device needs to be reset with changed presentation parameters
                     if (PresentParams != null)
                     {
-                        Log.Info("EngineConfig modified");
+                        Log.Info("Engine.Config modified");
                         NeedsReset = true;
                     }
-                    PresentParams = BuildPresentParams(_engineConfig);
+                    PresentParams = BuildPresentParams(_config);
                 });
             }
         }
@@ -127,13 +127,13 @@ namespace OmegaEngine
         /// Initializes the Engine and its components.
         /// </summary>
         /// <param name="target">The <see cref="System.Windows.Forms.Control"/> the engine should draw onto.</param>
-        /// <param name="engineConfig">Settings for initializing the engine.</param>
+        /// <param name="config">Settings for initializing the engine.</param>
         /// <exception cref="NotSupportedException">Thrown if the graphics card does not meet the engine's minimum requirements.</exception>
         /// <exception cref="Direct3D9NotFoundException">Throw if required DirectX version is missing.</exception>
         /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
         /// <exception cref="Direct3D9Exception">Thrown if internal errors occurred while intiliazing the graphics card.</exception>
         /// <exception cref="SlimDX.DirectSound.DirectSoundException">Thrown if internal errors occurred while intiliazing the sound card.</exception>
-        public Engine(Control target, EngineConfig engineConfig)
+        public Engine(Control target, EngineConfig config)
         {
             #region Sanity checks
             if (target == null) throw new ArgumentNullException("target");
@@ -141,10 +141,10 @@ namespace OmegaEngine
 
             _direct3D = new Direct3D();
             Target = target;
-            EngineConfig = engineConfig;
+            Config = config;
             ShaderDir = Path.Combine(Locations.InstallBase, "Shaders");
 
-            Capabilities = new EngineCapabilities(_direct3D, engineConfig);
+            Capabilities = new EngineCapabilities(_direct3D, config);
             Effects = new EngineEffects(Capabilities) {PerPixelLighting = true};
 
             try
@@ -185,17 +185,17 @@ namespace OmegaEngine
             if (Capabilities.PureDevice)
             {
                 Log.Info("Creating Direct3D device with HardwareVertexProcessing & PureDevice");
-                Device = new Device(_direct3D, EngineConfig.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing | CreateFlags.PureDevice, PresentParams);
+                Device = new Device(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing | CreateFlags.PureDevice, PresentParams);
             }
             else if (Capabilities.HardwareVertexProcessing)
             {
                 Log.Info("Creating Direct3D device with HardwareVertexProcessing");
-                Device = new Device(_direct3D, EngineConfig.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing, PresentParams);
+                Device = new Device(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing, PresentParams);
             }
             else
             {
                 Log.Info("Creating Direct3D device with SoftwareVertexProcessing");
-                Device = new Device(_direct3D, EngineConfig.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.SoftwareVertexProcessing, PresentParams);
+                Device = new Device(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.SoftwareVertexProcessing, PresentParams);
             }
 
             // Store the default Viewport and BackBuffer

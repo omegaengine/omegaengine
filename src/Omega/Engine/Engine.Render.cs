@@ -96,26 +96,26 @@ namespace OmegaEngine
         /// <summary>
         /// Generates a set of <see cref="SlimDX.Direct3D9.PresentParameters"/> for the engine
         /// </summary>
-        /// <param name="engineConfig">The <see cref="EngineConfig"/> with settings to initialize the engine</param>
+        /// <param name="config">The <see cref="Config"/> with settings to initialize the engine</param>
         /// <returns>The generated set of <see cref="SlimDX.Direct3D9.PresentParameters"/>.</returns>
-        private static PresentParameters BuildPresentParams(EngineConfig engineConfig)
+        private static PresentParameters BuildPresentParams(EngineConfig config)
         {
             var presentParams = new PresentParameters
             {
-                Windowed = (!engineConfig.Fullscreen),
+                Windowed = (!config.Fullscreen),
                 SwapEffect = SwapEffect.Discard,
-                PresentationInterval = (engineConfig.VSync ? PresentInterval.One : PresentInterval.Immediate),
-                Multisample = (MultisampleType)engineConfig.AntiAliasing,
-                BackBufferWidth = engineConfig.TargetSize.Width,
-                BackBufferHeight = engineConfig.TargetSize.Height,
+                PresentationInterval = (config.VSync ? PresentInterval.One : PresentInterval.Immediate),
+                Multisample = (MultisampleType)config.AntiAliasing,
+                BackBufferWidth = config.TargetSize.Width,
+                BackBufferHeight = config.TargetSize.Height,
                 BackBufferFormat = Format.X8R8G8B8, // Format.R5G6B5 for 16bit
                 EnableAutoDepthStencil = true
             };
 
             // Automatically use best-possible ZBuffer
-            if (EngineCapabilities.TestDepthStencil(engineConfig.Adapter, Format.D32))
+            if (EngineCapabilities.TestDepthStencil(config.Adapter, Format.D32))
                 presentParams.AutoDepthStencilFormat = Format.D32;
-            else if (EngineCapabilities.TestDepthStencil(engineConfig.Adapter, Format.D24X8))
+            else if (EngineCapabilities.TestDepthStencil(config.Adapter, Format.D24X8))
                 presentParams.AutoDepthStencilFormat = Format.D24X8;
             else
                 presentParams.AutoDepthStencilFormat = Format.D16;
@@ -125,7 +125,7 @@ namespace OmegaEngine
         #endregion
 
         /// <summary>
-        /// The <see cref="PresentParameters"/> auto-generated from <see cref="EngineConfig"/>
+        /// The <see cref="PresentParameters"/> auto-generated from <see cref="Config"/>
         /// </summary>
         internal PresentParameters PresentParams { get; private set; }
 
@@ -236,7 +236,7 @@ namespace OmegaEngine
             }
 
             // Lock mouse cursor inside window to prevent glitches with multi-monitor systems
-            if (_engineConfig.Fullscreen) WinForms.Cursor.Clip = new Rectangle(new Point(), RenderSize);
+            if (_config.Fullscreen) WinForms.Cursor.Clip = new Rectangle(new Point(), RenderSize);
 
             // Detect and handle lost device (Note: Reset can also be triggered from elsewhere)
             if (Device.TestCooperativeLevel() != ResultCode.Success)
