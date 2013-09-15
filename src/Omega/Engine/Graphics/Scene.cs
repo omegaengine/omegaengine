@@ -12,12 +12,13 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Common;
+using Common.Collections;
 using Common.Values;
 using OmegaEngine.Graphics.Cameras;
-using SlimDX;
-using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
+using SlimDX;
+using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics
@@ -124,38 +125,6 @@ namespace OmegaEngine.Graphics
 
         //--------------------//
 
-        #region Access
-        /// <summary>
-        /// Retrieves a specific <see cref="PositionableRenderable"/>
-        /// </summary>
-        /// <param name="name">The name of the body to retrieve</param>
-        /// <exception cref="ArgumentException">Thrown if the body was not found</exception>
-        public PositionableRenderable GetBody(string name)
-        {
-            foreach (PositionableRenderable body in _positionables)
-            {
-                if (body.Name == name)
-                    return body;
-            }
-            throw new ArgumentException(Resources.NoSuchBody + name, "name");
-        }
-
-        /// <summary>
-        /// Retrieves a specific <see cref="LightSource"/>
-        /// </summary>
-        /// <param name="name">The name of the light source to retrieve</param>
-        /// <exception cref="ArgumentException">Thrown if the light source was not found</exception>
-        public LightSource GetLight(string name)
-        {
-            foreach (LightSource light in _lights)
-            {
-                if (light.Name == name)
-                    return light;
-            }
-            throw new ArgumentException(Resources.NoSuchLightSource + name, "name");
-        }
-        #endregion
-
         #region Activate lights
         /// <summary>
         /// Must be called before rendering this scene or calling <see cref="GetEffectiveLights"/>
@@ -169,53 +138,45 @@ namespace OmegaEngine.Graphics
             if (_dxLightCounter != 0) throw new InvalidOperationException(Resources.LightsNotDeactivated);
             #endregion
 
-            foreach (LightSource light in _lights)
+            var dispatcher = new PerTypeDispatcher<LightSource, Light>(false)
             {
-                // Skip disabled lights
-                if (!light.Enabled) continue;
-
-                // Fixed-function lighting
-                var dxLight = new Light {Diffuse = light.Diffuse, Specular = light.Specular, Ambient = light.Ambient};
-
-                var directionalLight = light as DirectionalLight;
-                if (directionalLight != null)
-                { // Handle directional lights
+                (DirectionalLight light) =>
+                {
                     // Shader lighting
-                    _directionalLights.Add(directionalLight);
+                    _directionalLights.Add(light);
 
                     // Fixed-function lighting
-                    dxLight.Type = LightType.Directional;
-                    dxLight.Direction = directionalLight.Direction;
-                }
-
-                else
+                    return new Light
+                    {
+                        Type = LightType.Directional, Direction = light.Direction,
+                        Diffuse = light.Diffuse, Specular = light.Specular, Ambient = light.Ambient
+                    };
+                },
+                (PointLight light) =>
                 {
-                    var pointLight = light as PointLight;
-                    if (pointLight != null)
-                    { // Handle point lights
-                        view.ApplyCameraBase(pointLight);
+                    // Shader lighting
+                    if (light.DirectionalForShader) _pseudoDirectionalLights.Add(light);
+                    else _pointLights.Add(light);
 
-                        // Shader lighting
-                        // Place pseudo-directional lights into a different queue, to optimize sorting for shaders
-                        if (pointLight.DirectionalForShader) _pseudoDirectionalLights.Add(pointLight);
-                        else _pointLights.Add(pointLight);
+                    // Fixed-function lighting
+                    return new Light
+                    {
+                        Type = LightType.Point, Position = ((IPositionableOffset)light).EffectivePosition, Range = light.Range,
+                        Attenuation0 = light.Attenuation.Constant, Attenuation1 = light.Attenuation.Linear, Attenuation2 = light.Attenuation.Quadratic,
+                        Diffuse = light.Diffuse, Specular = light.Specular, Ambient = light.Ambient
+                    };
+                },
+            };
 
-                        // Fixed-function lighting
-                        dxLight.Type = LightType.Point;
-                        dxLight.Position = ((IPositionableOffset)pointLight).EffectivePosition;
-                        dxLight.Range = pointLight.Range;
-                        dxLight.Attenuation0 = pointLight.Attenuation.Constant;
-                        dxLight.Attenuation1 = pointLight.Attenuation.Linear;
-                        dxLight.Attenuation2 = pointLight.Attenuation.Quadratic;
-                    }
-                }
+            foreach (var light in _lights.Where(light => light.Enabled))
+            {
+                var dxLight = dispatcher.Dispatch(light);
 
-                // Only use entry for fixed-function lighting if we haven't reached the hardware limit yet
                 if (_dxLightCounter < _engine.Device.Capabilities.MaxActiveLights)
                 {
                     _engine.Device.SetLight(_dxLightCounter, dxLight);
                     _engine.Device.EnableLight(_dxLightCounter, true);
-                    _dxLightCounter++;
+                    _dxLightCounter++;                    
                 }
             }
         }
