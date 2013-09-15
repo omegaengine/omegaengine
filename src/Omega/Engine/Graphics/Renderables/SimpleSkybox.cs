@@ -129,7 +129,7 @@ namespace OmegaEngine.Graphics.Renderables
         {
             base.Render(camera, lights);
 
-            Engine.SetVertexBuffer(_vb);
+            Engine.State.SetVertexBuffer(_vb);
             Engine.Device.Indices = _ib;
 
             // Turn off texture wrapping at edges to prevent seams
@@ -142,7 +142,7 @@ namespace OmegaEngine.Graphics.Renderables
                 // Skip any "empty" sides without errors
                 if (Textures[i] == null) continue;
 
-                Engine.SetTexture(Textures[i]);
+                Engine.State.SetTexture(Textures[i]);
                 Engine.Device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, i * 4, 4, i * 6, 2);
             }
 

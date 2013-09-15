@@ -385,7 +385,7 @@ namespace OmegaEngine.Graphics.Renderables
             #endregion
 
             // Set texture
-            Engine.SetTexture(material.DiffuseMaps[0]);
+            Engine.State.SetTexture(material.DiffuseMaps[0]);
 
             // Fall back to fixed-function pipeline if no shader was set for this body
             if (SurfaceEffect == SurfaceEffect.Shader && SurfaceShader == null)
@@ -394,7 +394,7 @@ namespace OmegaEngine.Graphics.Renderables
             // Activate user clip plane if it is set
             if (camera.ClipPlane != default(DoublePlane))
             {
-                Engine.UserClipPlane = (SurfaceEffect == SurfaceEffect.Shader)
+                Engine.State.UserClipPlane = (SurfaceEffect == SurfaceEffect.Shader)
                     // Transform the user clip plane into camera space for rendering with shaders
                     ? Plane.Transform(camera.EffectiveClipPlane, camera.ViewProjection)
                     // When rendering without shaders the clip plane is in world space
@@ -409,11 +409,11 @@ namespace OmegaEngine.Graphics.Renderables
                     {
                         if (material.Diffuse == Color.White)
                         { // A plain white surface needs no lighting at all
-                            Engine.FfpLighting = false;
+                            Engine.State.FfpLighting = false;
                         }
                         else
                         { // Simulate a plain colored surface by using emissive lighting
-                            Engine.FfpLighting = true;
+                            Engine.State.FfpLighting = true;
                             var emissiveMaterial = new Material {Emissive = material.Diffuse};
                             Engine.Device.Material = emissiveMaterial;
                         }
@@ -427,12 +427,12 @@ namespace OmegaEngine.Graphics.Renderables
                 case SurfaceEffect.Glow:
                     using (new ProfilerEvent("Surface effect: Glow"))
                     {
-                        Engine.SetTexture(material.EmissiveMap);
+                        Engine.State.SetTexture(material.EmissiveMap);
                         var emissiveMaterial = new Material {Emissive = material.Emissive};
 
                         // Use simple DirectX lighting
                         Engine.Device.Material = emissiveMaterial;
-                        Engine.FfpLighting = true;
+                        Engine.State.FfpLighting = true;
 
                         render();
                     }
@@ -444,7 +444,7 @@ namespace OmegaEngine.Graphics.Renderables
                     using (new ProfilerEvent("Surface effect: Fixed-function"))
                     {
                         Engine.Device.Material = material.D3DMaterial;
-                        Engine.FfpLighting = true;
+                        Engine.State.FfpLighting = true;
 
                         render();
                     }
@@ -455,7 +455,7 @@ namespace OmegaEngine.Graphics.Renderables
                 case SurfaceEffect.Shader:
                     using (new ProfilerEvent("Surface effect: Shader"))
                     {
-                        Engine.FfpLighting = false;
+                        Engine.State.FfpLighting = false;
 
                         if (SurfaceShader != null)
                         {
@@ -467,7 +467,7 @@ namespace OmegaEngine.Graphics.Renderables
                     #endregion
             }
 
-            Engine.UserClipPlane = default(Plane);
+            Engine.State.UserClipPlane = default(Plane);
         }
         #endregion
 
@@ -486,7 +486,7 @@ namespace OmegaEngine.Graphics.Renderables
             #endregion
 
             // Filter invisible bodies
-            if (!Visible || Alpha == Engine.Invisible)
+            if (!Visible || Alpha == EngineState.Invisible)
                 return false;
 
             // Frustum-culling

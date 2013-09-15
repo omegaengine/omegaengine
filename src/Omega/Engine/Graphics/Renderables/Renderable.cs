@@ -152,8 +152,8 @@ namespace OmegaEngine.Graphics.Renderables
             RenderCount++; // Culling-debug information
             Engine.QueueReset(this);
 
-            Engine.FillMode = Wireframe ? FillMode.Wireframe : FillMode.Solid;
-            Engine.AlphaBlend = Alpha;
+            Engine.State.FillMode = Wireframe ? FillMode.Wireframe : FillMode.Solid;
+            Engine.State.AlphaBlend = Alpha;
         }
 
         /// <summary>

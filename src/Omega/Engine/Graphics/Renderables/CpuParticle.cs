@@ -181,7 +181,7 @@ namespace OmegaEngine.Graphics.Renderables
             #endregion
 
             // Calculate the world transform
-            engine.WorldTransform =
+            engine.State.WorldTransform =
                 Matrix.Scaling(new Vector3(Size)) *
                     camera.SphericalBillboard *
                     Matrix.Translation(Position.ApplyOffset(camera.PositionBase));

@@ -58,7 +58,7 @@ namespace OmegaEngine.Graphics
             // Immediately output simple alpha-blended views
             if (!TextureRenderTarget && _effectivePostShaders.Count == 0)
             {
-                Engine.SetTexture(RenderTarget);
+                Engine.State.SetTexture(RenderTarget);
                 OutputRenderTarget(FullAlpha);
             }
         }
@@ -73,8 +73,8 @@ namespace OmegaEngine.Graphics
                 RenderBackground();
 
                 // Set up normal transfromations for bodies
-                Engine.ViewTransform = Camera.View;
-                Engine.ProjectionTransform = Camera.Projection;
+                Engine.State.ViewTransform = Camera.View;
+                Engine.State.ProjectionTransform = Camera.Projection;
 
                 #region Activate lights
                 if (Lighting && _scene.Lights.Count > 0)
@@ -136,7 +136,7 @@ namespace OmegaEngine.Graphics
                 {
                     // Clear ZBuffer and turn off view transformation so the models float on top of everything else
                     Engine.Device.Clear(ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
-                    Engine.ViewTransform = Matrix.Identity;
+                    Engine.State.ViewTransform = Matrix.Identity;
 
                     foreach (FloatingModel model in FloatingModels)
                     {
@@ -174,13 +174,13 @@ namespace OmegaEngine.Graphics
                 {
                     using (new ProfilerEvent("Taint background"))
                     {
-                        Engine.ZBufferMode = ZBufferMode.Off;
+                        Engine.State.ZBufferMode = ZBufferMode.Off;
 
                         // Draw alpha blended quad for transparent background color
-                        Engine.AlphaBlend = 255 - BackgroundColor.A;
+                        Engine.State.AlphaBlend = 255 - BackgroundColor.A;
                         Engine.DrawQuadColored(BackgroundColor);
 
-                        Engine.ZBufferMode = ZBufferMode.Normal;
+                        Engine.State.ZBufferMode = ZBufferMode.Normal;
                     }
                 }
             }
@@ -194,11 +194,11 @@ namespace OmegaEngine.Graphics
                 using (new ProfilerEvent(() => "Render " + _scene.Skybox))
                 {
                     // Render Skybox with no ZBuffer and no positioning information
-                    Engine.ZBufferMode = ZBufferMode.Off;
-                    Engine.ViewTransform = Camera.SimpleView;
-                    Engine.ProjectionTransform = Camera.SimpleProjection;
+                    Engine.State.ZBufferMode = ZBufferMode.Off;
+                    Engine.State.ViewTransform = Camera.SimpleView;
+                    Engine.State.ProjectionTransform = Camera.SimpleProjection;
                     _scene.Skybox.Render(Camera, null);
-                    Engine.ZBufferMode = ZBufferMode.Normal;
+                    Engine.State.ZBufferMode = ZBufferMode.Normal;
                 }
             }
             #endregion
@@ -268,17 +268,17 @@ namespace OmegaEngine.Graphics
                 if (PreRender != null) PreRender(Camera);
 
                 Engine.Device.Viewport = _viewport;
-                Engine.CullMode = InvertCull ? Cull.Clockwise : Cull.Counterclockwise;
+                Engine.State.CullMode = InvertCull ? Cull.Clockwise : Cull.Counterclockwise;
 
                 // Setup fog
                 if (Fog)
                 {
-                    Engine.Fog = true;
-                    Engine.FogColor = _backgroundColor;
-                    Engine.FogStart = Camera.NearClip;
-                    Engine.FogEnd = Camera.FarClip;
+                    Engine.State.Fog = true;
+                    Engine.State.FogColor = _backgroundColor;
+                    Engine.State.FogStart = Camera.NearClip;
+                    Engine.State.FogEnd = Camera.FarClip;
                 }
-                else Engine.Fog = false;
+                else Engine.State.Fog = false;
 
                 // Activate render-to-texture for external render targets and alpha blending
                 bool sceneOnBackBuffer = !TextureRenderTarget && FullAlpha == 0;

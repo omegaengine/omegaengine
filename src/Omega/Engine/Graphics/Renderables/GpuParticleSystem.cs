@@ -54,7 +54,7 @@ namespace OmegaEngine.Graphics.Renderables
             RenderIn = ViewType.NormalOnly;
             SurfaceEffect = SurfaceEffect.Shader;
             Preset = preset;
-            Alpha = Engine.AdditivBlending; // Set alpha blending value here to get correct sorting behaviour
+            Alpha = EngineState.AdditivBlending; // Set alpha blending value here to get correct sorting behaviour
 
             // Load particle mesh
             using (var stream = ContentManager.GetFileStream("Meshes", "Engine/Particles.x"))
@@ -96,7 +96,7 @@ namespace OmegaEngine.Graphics.Renderables
             base.Render(camera, lights);
 
             // Set world transform in the engine
-            Engine.WorldTransform = WorldTransform;
+            Engine.State.WorldTransform = WorldTransform;
 
             #region Update shader
             // Always apply the shader
@@ -128,13 +128,13 @@ namespace OmegaEngine.Graphics.Renderables
             #endregion
 
             // Disable ZBuffer writing so particles can flow into each other
-            Engine.ZBufferMode = ZBufferMode.ReadOnly;
+            Engine.State.ZBufferMode = ZBufferMode.ReadOnly;
 
             // Render the particle mesh
             RenderHelper(() => _particleMesh.DrawSubset(0), XMaterial.DefaultMaterial, camera, null);
 
             // Restore defaults
-            Engine.ZBufferMode = ZBufferMode.Normal;
+            Engine.State.ZBufferMode = ZBufferMode.Normal;
         }
         #endregion
 

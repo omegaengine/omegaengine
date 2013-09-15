@@ -464,23 +464,23 @@ namespace OmegaEngine.Graphics.Renderables
             if (camera.ClipPlane != default(DoublePlane))
             {
                 // Rendering without shaders, so the clip plane is in world space
-                Engine.UserClipPlane = camera.EffectiveClipPlane;
+                Engine.State.UserClipPlane = camera.EffectiveClipPlane;
             }
 
             #region Render
             // Set shared settings for all particles
-            Engine.FfpLighting = true;
-            Engine.SetVertexBuffer(_vb);
-            Engine.ZBufferMode = ZBufferMode.ReadOnly;
-            bool fog = Engine.Fog;
-            Engine.Fog = false;
+            Engine.State.FfpLighting = true;
+            Engine.State.SetVertexBuffer(_vb);
+            Engine.State.ZBufferMode = ZBufferMode.ReadOnly;
+            bool fog = Engine.State.Fog;
+            Engine.State.Fog = false;
 
             if (_material1.DiffuseMaps[0] != null)
             {
                 using (new ProfilerEvent("Render first-life particles"))
                 {
-                    Engine.AlphaBlend = _preset.Particle1Alpha;
-                    Engine.SetTexture(_material1.DiffuseMaps[0]);
+                    Engine.State.AlphaBlend = _preset.Particle1Alpha;
+                    Engine.State.SetTexture(_material1.DiffuseMaps[0]);
                     _firstLifeParticles.ForEach(particle => particle.Render(Engine, camera));
                 }
             }
@@ -489,19 +489,19 @@ namespace OmegaEngine.Graphics.Renderables
             {
                 using (new ProfilerEvent("Render second-life particles"))
                 {
-                    Engine.AlphaBlend = _preset.Particle2Alpha;
-                    Engine.SetTexture(_material2.DiffuseMaps[0]);
+                    Engine.State.AlphaBlend = _preset.Particle2Alpha;
+                    Engine.State.SetTexture(_material2.DiffuseMaps[0]);
                     _secondLifeParticles.ForEach(particle => particle.Render(Engine, camera));
                 }
             }
 
-            Engine.FfpLighting = false;
-            Engine.Fog = fog;
+            Engine.State.FfpLighting = false;
+            Engine.State.Fog = fog;
             #endregion
 
             // Restore defaults
-            Engine.UserClipPlane = default(Plane);
-            Engine.ZBufferMode = ZBufferMode.Normal;
+            Engine.State.UserClipPlane = default(Plane);
+            Engine.State.ZBufferMode = ZBufferMode.Normal;
         }
         #endregion
 

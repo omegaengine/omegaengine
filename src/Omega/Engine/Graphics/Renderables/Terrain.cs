@@ -274,7 +274,7 @@ namespace OmegaEngine.Graphics.Renderables
             PrepareRender();
 
             // Set world transform in the engine
-            Engine.WorldTransform = WorldTransform;
+            Engine.State.WorldTransform = WorldTransform;
 
             // Update bounding bodies
             if (WorldTransformDirty) RecalcWorldTransform();

@@ -303,11 +303,11 @@ namespace OmegaEngine.Graphics.Renderables
             base.Render(camera, lights);
 
             // Set world transform in the engine
-            Engine.WorldTransform = WorldTransform;
+            Engine.State.WorldTransform = WorldTransform;
 
             #region Draw
             // Activate the VertexBuffer
-            Engine.SetVertexBuffer(_vb);
+            Engine.State.SetVertexBuffer(_vb);
 
             // Prepare a render delegate
             Action render;

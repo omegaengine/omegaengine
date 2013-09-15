@@ -40,7 +40,7 @@ namespace OmegaEngine
                 new TransformedColored(rectangle.Left, rectangle.Bottom, 0, 1, color.ToArgb())
             };
             engine.Device.VertexFormat = TransformedColored.Format;
-            engine.SetTexture(null);
+            engine.State.SetTexture(null);
             engine.Device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0, 5, 4,
                 // ToDo: Properly determine vertex stride
                 new[] {0, 1, 2, 3, 0}, Format.Index32, vertexes, 20);
@@ -59,10 +59,10 @@ namespace OmegaEngine
             using (new ProfilerEvent("Rendering textured quad for post-screen shaders"))
             {
                 // Prepare render states
-                engine.FillMode = FillMode.Solid;
-                engine.CullMode = Cull.Counterclockwise;
-                engine.FfpLighting = false;
-                engine.Fog = false;
+                engine.State.FillMode = FillMode.Solid;
+                engine.State.CullMode = Cull.Counterclockwise;
+                engine.State.FfpLighting = false;
+                engine.State.Fog = false;
 
                 var vertexes = new[]
                 {
@@ -88,10 +88,10 @@ namespace OmegaEngine
             using (new ProfilerEvent("Rendering textured quad"))
             {
                 // Prepare render states
-                engine.FillMode = FillMode.Solid;
-                engine.CullMode = Cull.Counterclockwise;
-                engine.FfpLighting = false;
-                engine.Fog = false;
+                engine.State.FillMode = FillMode.Solid;
+                engine.State.CullMode = Cull.Counterclockwise;
+                engine.State.FfpLighting = false;
+                engine.State.Fog = false;
 
                 // Calculate texture coordinates in the centers of the corner texels
                 var vertexes = new[]
@@ -130,10 +130,10 @@ namespace OmegaEngine
                 int colVal = color.ToArgb();
 
                 // Prepare render states
-                engine.FillMode = FillMode.Solid;
-                engine.CullMode = Cull.Counterclockwise;
-                engine.FfpLighting = false;
-                engine.Fog = false;
+                engine.State.FillMode = FillMode.Solid;
+                engine.State.CullMode = Cull.Counterclockwise;
+                engine.State.FfpLighting = false;
+                engine.State.Fog = false;
 
                 var vertexes = new[]
                 {
@@ -143,7 +143,7 @@ namespace OmegaEngine
                     new TransformedColored(engine.Device.Viewport.X + engine.Device.Viewport.Width - 1, engine.Device.Viewport.Y, 0, 1, colVal)
                 };
 
-                engine.SetTexture(null);
+                engine.State.SetTexture(null);
                 engine.Device.VertexFormat = TransformedColored.Format;
                 engine.Device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, vertexes);
             }
@@ -163,26 +163,26 @@ namespace OmegaEngine
             using (new ProfilerEvent("Draw bounding sphere"))
             {
                 // Backup current render states
-                Matrix lastWorldTransform = engine.WorldTransform;
-                Cull lastCullMode = engine.CullMode;
-                FillMode lastFillMode = engine.FillMode;
-                bool lastLighting = engine.FfpLighting;
+                Matrix lastWorldTransform = engine.State.WorldTransform;
+                Cull lastCullMode = engine.State.CullMode;
+                FillMode lastFillMode = engine.State.FillMode;
+                bool lastLighting = engine.State.FfpLighting;
 
                 // Set new states
-                engine.WorldTransform = Matrix.Scaling(new Vector3(sphere.Radius)) * Matrix.Translation(sphere.Center);
-                engine.CullMode = Cull.None;
-                engine.FillMode = FillMode.Wireframe;
-                engine.FfpLighting = false;
+                engine.State.WorldTransform = Matrix.Scaling(new Vector3(sphere.Radius)) * Matrix.Translation(sphere.Center);
+                engine.State.CullMode = Cull.None;
+                engine.State.FillMode = FillMode.Wireframe;
+                engine.State.FfpLighting = false;
 
                 // Render the sphere
-                engine.SetTexture(null);
+                engine.State.SetTexture(null);
                 engine.SimpleSphere.DrawSubset(0);
 
                 // Restore the old states
-                engine.WorldTransform = lastWorldTransform;
-                engine.CullMode = lastCullMode;
-                engine.FillMode = lastFillMode;
-                engine.FfpLighting = lastLighting;
+                engine.State.WorldTransform = lastWorldTransform;
+                engine.State.CullMode = lastCullMode;
+                engine.State.FillMode = lastFillMode;
+                engine.State.FfpLighting = lastLighting;
             }
         }
 
@@ -200,27 +200,27 @@ namespace OmegaEngine
             using (new ProfilerEvent("Draw bounding box"))
             {
                 // Backup current render states
-                Matrix lastWorldTransform = engine.WorldTransform;
-                Cull lastCullMode = engine.CullMode;
-                FillMode lastFillMode = engine.FillMode;
-                bool lastLighting = engine.FfpLighting;
+                Matrix lastWorldTransform = engine.State.WorldTransform;
+                Cull lastCullMode = engine.State.CullMode;
+                FillMode lastFillMode = engine.State.FillMode;
+                bool lastLighting = engine.State.FfpLighting;
 
                 // Set new states
                 Vector3 boxCenter = box.Minimum + (box.Maximum - box.Minimum) * 0.5f;
-                engine.WorldTransform = Matrix.Scaling(box.Maximum - box.Minimum) * Matrix.Translation(boxCenter);
-                engine.CullMode = Cull.None;
-                engine.FillMode = FillMode.Wireframe;
-                engine.FfpLighting = false;
+                engine.State.WorldTransform = Matrix.Scaling(box.Maximum - box.Minimum) * Matrix.Translation(boxCenter);
+                engine.State.CullMode = Cull.None;
+                engine.State.FillMode = FillMode.Wireframe;
+                engine.State.FfpLighting = false;
 
                 // Render the box
-                engine.SetTexture(null);
+                engine.State.SetTexture(null);
                 engine.SimpleBox.DrawSubset(0);
 
                 // Restore the old states
-                engine.WorldTransform = lastWorldTransform;
-                engine.CullMode = lastCullMode;
-                engine.FillMode = lastFillMode;
-                engine.FfpLighting = lastLighting;
+                engine.State.WorldTransform = lastWorldTransform;
+                engine.State.CullMode = lastCullMode;
+                engine.State.FillMode = lastFillMode;
+                engine.State.FfpLighting = lastLighting;
             }
         }
     }

@@ -143,7 +143,7 @@ namespace OmegaEngine.Graphics.Shaders
                     #endregion
 
                     // Only apply one pass if fog is turned on, since it would mess up additive blending
-                    if (Engine.Fog) break;
+                    if (Engine.State.Fog) break;
                 }
             }
 

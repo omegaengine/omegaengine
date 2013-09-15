@@ -125,7 +125,7 @@ namespace OmegaEngine.Graphics.Renderables
             PrepareRender();
 
             // Set world transform in the engine
-            Engine.WorldTransform = WorldTransform;
+            Engine.State.WorldTransform = WorldTransform;
 
             #region Auto-select shader
             SurfaceEffect = SurfaceEffect.Shader;
@@ -142,12 +142,12 @@ namespace OmegaEngine.Graphics.Renderables
                     else SurfaceShader = Engine.SimpleWaterShader;
                     break;
                 case WaterEffectsType.RefractionOnly:
-                    Alpha = Engine.Opaque;
+                    Alpha = EngineState.Opaque;
                     SurfaceShader = _viewSource.RefractionOnlyShader;
                     break;
                 case WaterEffectsType.ReflectTerrain:
                 case WaterEffectsType.ReflectAll:
-                    Alpha = Engine.Opaque;
+                    Alpha = EngineState.Opaque;
                     SurfaceShader = _viewSource.RefractionReflectionShader;
                     break;
             }

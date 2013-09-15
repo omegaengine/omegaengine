@@ -152,7 +152,7 @@ namespace OmegaEngine.Graphics
                 if (water != null) _sortedWaters.Add(water);
 
                     // Separate out transparent bodies
-                else if (body.Alpha <= Engine.Opaque)
+                else if (body.Alpha <= EngineState.Opaque)
                     _sortedOpaqueBodies.Add(body);
                 else _sortedTransparentBodies.Add(body);
             }

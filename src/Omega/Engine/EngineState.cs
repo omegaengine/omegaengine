@@ -9,17 +9,16 @@
 using System;
 using System.Drawing;
 using Common.Utils;
-using SlimDX;
-using SlimDX.Direct3D9;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;
+using SlimDX;
+using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine
 {
-
     #region Enumerations
-    /// <seealso cref="Engine.ZBufferMode"/>
+    /// <seealso cref="EngineState.ZBufferMode"/>
     public enum ZBufferMode
     {
         /// <summary>Test against the ZBuffer before drawing a pixel and write to it afterwards</summary>
@@ -33,23 +32,60 @@ namespace OmegaEngine
     }
     #endregion
 
-    // This file contains methods and properties for manipulating the RenderState (mainly used be Entity.Render(...) methods)
-    partial class Engine
+    /// <summary>
+    /// Represents the current graphics render state of the <see cref="Engine.Device"/>.
+    /// </summary>
+    public sealed class EngineState
     {
+        #region Dependencies
+        private readonly Device _device;
+
+        /// <summary>
+        /// Creates an engine state object.
+        /// </summary>
+        /// <param name="device">The Direct3D device to be manipulated internally.</param>
+        internal EngineState(Device device)
+        {
+            #region Sanity checks
+            if (device == null) throw new ArgumentNullException("device");
+            #endregion
+
+            _device = device;
+        }
+
+        /// <summary>
+        /// Call when render states got reset to their default values on the device.
+        /// </summary>
+        internal void Reset()
+        {
+            _fillMode = FillMode.Solid;
+            _cullMode = Cull.Counterclockwise;
+            _zBufferMode = ZBufferMode.Normal;
+            _ffpLighting = true;
+            _fog = false;
+            _fogColor = Color.Empty;
+            _fogStart = _fogEnd = 0;
+            _alphaBlend = 0;
+            _worldTransform = _viewTransform = _projectionTransform = new Matrix();
+        }
+        #endregion
+
+        //--------------------//
+
         #region Drawing mode
         private FillMode _fillMode = FillMode.Solid;
 
         /// <summary>
         /// Controls how vertexes are filled (normal, wireframe, dotted)
         /// </summary>
-        public FillMode FillMode { get { return _fillMode; } set { value.To(ref _fillMode, () => Device.SetRenderState(RenderState.FillMode, (int)value)); } }
+        public FillMode FillMode { get { return _fillMode; } set { value.To(ref _fillMode, () => _device.SetRenderState(RenderState.FillMode, (int)value)); } }
 
         private Cull _cullMode = Cull.Counterclockwise;
 
         /// <summary>
         /// The current culling mode used for rendering
         /// </summary>
-        public Cull CullMode { get { return _cullMode; } set { value.To(ref _cullMode, () => Device.SetRenderState(RenderState.CullMode, (int)value)); } }
+        public Cull CullMode { get { return _cullMode; } set { value.To(ref _cullMode, () => _device.SetRenderState(RenderState.CullMode, (int)value)); } }
 
         private ZBufferMode _zBufferMode = ZBufferMode.Normal;
 
@@ -66,15 +102,15 @@ namespace OmegaEngine
                     switch (value)
                     {
                         case ZBufferMode.Normal:
-                            Device.SetRenderState(RenderState.ZEnable, true);
-                            Device.SetRenderState(RenderState.ZWriteEnable, true);
+                            _device.SetRenderState(RenderState.ZEnable, true);
+                            _device.SetRenderState(RenderState.ZWriteEnable, true);
                             break;
                         case ZBufferMode.ReadOnly:
-                            Device.SetRenderState(RenderState.ZEnable, true);
-                            Device.SetRenderState(RenderState.ZWriteEnable, false);
+                            _device.SetRenderState(RenderState.ZEnable, true);
+                            _device.SetRenderState(RenderState.ZWriteEnable, false);
                             break;
                         case ZBufferMode.Off:
-                            Device.SetRenderState(RenderState.ZEnable, false);
+                            _device.SetRenderState(RenderState.ZEnable, false);
                             break;
                     }
                 });
@@ -88,19 +124,7 @@ namespace OmegaEngine
         /// <summary>
         /// Controls whether fixed-function pipeline lighting is used at the moment instead of <see cref="SurfaceShader"/>s
         /// </summary>
-        public bool FfpLighting { get { return _ffpLighting; } set { value.To(ref _ffpLighting, () => Device.SetRenderState(RenderState.Lighting, value)); } }
-        #endregion
-
-        #region Fading
-        /// <summary>
-        /// The level of scene fading from 0 (fully visible) to 255 (invisible).
-        /// </summary>
-        public int FadeLevel { get; set; }
-
-        /// <summary>
-        /// Is <see cref="ExtraRender"/> faded along with the scene?
-        /// </summary>
-        public bool FadeExtra { get; set; }
+        public bool FfpLighting { get { return _ffpLighting; } set { value.To(ref _ffpLighting, () => _device.SetRenderState(RenderState.Lighting, value)); } }
         #endregion
 
         #region Fog
@@ -116,13 +140,13 @@ namespace OmegaEngine
             {
                 _fog = value;
 
-                Device.SetRenderState(RenderState.FogEnable, value);
+                _device.SetRenderState(RenderState.FogEnable, value);
                 if (value)
                 {
-                    Device.SetRenderState(RenderState.FogTableMode, (int)FogMode.Linear);
+                    _device.SetRenderState(RenderState.FogTableMode, (int)FogMode.Linear);
 
                     // Reset projection matrix, otherwise fog settings will be ignored
-                    Device.SetTransform(TransformState.Projection, _projectionTransform);
+                    _device.SetTransform(TransformState.Projection, _projectionTransform);
                 }
             }
         }
@@ -132,19 +156,19 @@ namespace OmegaEngine
         /// <summary>
         /// The color of the fog
         /// </summary>
-        public Color FogColor { get { return _fogColor; } set { value.To(ref _fogColor, () => Device.SetRenderState(RenderState.FogColor, value.ToArgb())); } }
+        public Color FogColor { get { return _fogColor; } set { value.To(ref _fogColor, () => _device.SetRenderState(RenderState.FogColor, value.ToArgb())); } }
 
         private float _fogStart, _fogEnd;
 
         /// <summary>
         /// The distance at which the linear fog shall start
         /// </summary>
-        public float FogStart { get { return _fogStart; } set { value.To(ref _fogStart, () => Device.SetRenderState(RenderState.FogStart, value)); } }
+        public float FogStart { get { return _fogStart; } set { value.To(ref _fogStart, () => _device.SetRenderState(RenderState.FogStart, value)); } }
 
         /// <summary>
         /// The distance at which the linear fog shall have obscured everything
         /// </summary>
-        public float FogEnd { get { return _fogEnd; } set { value.To(ref _fogEnd, () => Device.SetRenderState(RenderState.FogEnd, value)); } }
+        public float FogEnd { get { return _fogEnd; } set { value.To(ref _fogEnd, () => _device.SetRenderState(RenderState.FogEnd, value)); } }
         #endregion
 
         #region Alpha blending
@@ -194,8 +218,8 @@ namespace OmegaEngine
                         case Opaque:
                             using (new ProfilerEvent("Alpha blending off"))
                             {
-                                Device.SetRenderState(RenderState.AlphaBlendEnable, false);
-                                Device.SetRenderState(RenderState.AlphaTestEnable, false);
+                                _device.SetRenderState(RenderState.AlphaBlendEnable, false);
+                                _device.SetRenderState(RenderState.AlphaTestEnable, false);
                             }
                             break;
 
@@ -203,26 +227,26 @@ namespace OmegaEngine
                             using (new ProfilerEvent("Alpha blending to alpha channel"))
                             {
                                 // Blend using alpha channel
-                                Device.SetRenderState(RenderState.AlphaBlendEnable, true);
-                                Device.SetRenderState(RenderState.SourceBlend, (int)Blend.SourceAlpha);
-                                Device.SetRenderState(RenderState.DestinationBlend, (int)Blend.InverseSourceAlpha);
+                                _device.SetRenderState(RenderState.AlphaBlendEnable, true);
+                                _device.SetRenderState(RenderState.SourceBlend, (int)Blend.SourceAlpha);
+                                _device.SetRenderState(RenderState.DestinationBlend, (int)Blend.InverseSourceAlpha);
 
                                 // Cut out invisible parts
-                                Device.SetRenderState(RenderState.AlphaTestEnable, true);
-                                Device.SetRenderState(RenderState.AlphaFunc, (int)Compare.Greater);
-                                Device.SetRenderState(RenderState.AlphaRef, 0);
+                                _device.SetRenderState(RenderState.AlphaTestEnable, true);
+                                _device.SetRenderState(RenderState.AlphaFunc, (int)Compare.Greater);
+                                _device.SetRenderState(RenderState.AlphaRef, 0);
                             }
                             break;
 
                         case BinaryAlphaChannel:
                             using (new ProfilerEvent("Alpha blending to binary alpha channel"))
                             {
-                                Device.SetRenderState(RenderState.AlphaBlendEnable, false);
+                                _device.SetRenderState(RenderState.AlphaBlendEnable, false);
 
                                 // Cut off in the middle
-                                Device.SetRenderState(RenderState.AlphaTestEnable, true);
-                                Device.SetRenderState(RenderState.AlphaFunc, (int)Compare.Greater);
-                                Device.SetRenderState(RenderState.AlphaRef, 127);
+                                _device.SetRenderState(RenderState.AlphaTestEnable, true);
+                                _device.SetRenderState(RenderState.AlphaFunc, (int)Compare.Greater);
+                                _device.SetRenderState(RenderState.AlphaRef, 127);
                             }
                             break;
 
@@ -230,11 +254,11 @@ namespace OmegaEngine
                             using (new ProfilerEvent("Alpha blending to additive blending"))
                             {
                                 // Blend using color
-                                Device.SetRenderState(RenderState.AlphaBlendEnable, true);
-                                Device.SetRenderState(RenderState.SourceBlend, (int)Blend.One);
-                                Device.SetRenderState(RenderState.DestinationBlend, (int)Blend.One);
+                                _device.SetRenderState(RenderState.AlphaBlendEnable, true);
+                                _device.SetRenderState(RenderState.SourceBlend, (int)Blend.One);
+                                _device.SetRenderState(RenderState.DestinationBlend, (int)Blend.One);
 
-                                Device.SetRenderState(RenderState.AlphaTestEnable, false);
+                                _device.SetRenderState(RenderState.AlphaTestEnable, false);
                             }
                             break;
 
@@ -243,13 +267,13 @@ namespace OmegaEngine
                             using (new ProfilerEvent(() => "Alpha blending to constant: " + value))
                             {
                                 // Blend using constant factor
-                                Device.SetRenderState(RenderState.AlphaBlendEnable, true);
-                                Device.SetRenderState(RenderState.DestinationBlend, (int)Blend.BlendFactor);
-                                Device.SetRenderState(RenderState.SourceBlend, (int)Blend.InverseBlendFactor);
-                                Device.SetRenderState(RenderState.BlendFactor,
+                                _device.SetRenderState(RenderState.AlphaBlendEnable, true);
+                                _device.SetRenderState(RenderState.DestinationBlend, (int)Blend.BlendFactor);
+                                _device.SetRenderState(RenderState.SourceBlend, (int)Blend.InverseBlendFactor);
+                                _device.SetRenderState(RenderState.BlendFactor,
                                     Color.FromArgb(255, value, value, value).ToArgb());
 
-                                Device.SetRenderState(RenderState.AlphaTestEnable, false);
+                                _device.SetRenderState(RenderState.AlphaTestEnable, false);
                             }
                             break;
                     }
@@ -272,19 +296,19 @@ namespace OmegaEngine
             set
             {
                 _worldTransform = value;
-                Device.SetTransform(TransformState.World, value);
+                _device.SetTransform(TransformState.World, value);
             }
         }
 
         /// <summary>
         /// The currently active view transformation matrix
         /// </summary>
-        public Matrix ViewTransform { get { return _viewTransform; } set { value.To(ref _viewTransform, () => Device.SetTransform(TransformState.View, value)); } }
+        public Matrix ViewTransform { get { return _viewTransform; } set { value.To(ref _viewTransform, () => _device.SetTransform(TransformState.View, value)); } }
 
         /// <summary>
         /// The currently active projection transformation matrix
         /// </summary>
-        public Matrix ProjectionTransform { get { return _projectionTransform; } set { value.To(ref _projectionTransform, () => Device.SetTransform(TransformState.Projection, value)); } }
+        public Matrix ProjectionTransform { get { return _projectionTransform; } set { value.To(ref _projectionTransform, () => _device.SetTransform(TransformState.Projection, value)); } }
         #endregion
 
         #region User clip plane
@@ -306,12 +330,12 @@ namespace OmegaEngine
                 {
                     if (value == default(Plane))
                     { // No plane set
-                        Device.SetRenderState(RenderState.ClipPlaneEnable, 0);
+                        _device.SetRenderState(RenderState.ClipPlaneEnable, 0);
                     }
                     else
                     { // Apply new plane
-                        Device.SetClipPlane(0, value);
-                        Device.SetRenderState(RenderState.ClipPlaneEnable, 1);
+                        _device.SetClipPlane(0, value);
+                        _device.SetRenderState(RenderState.ClipPlaneEnable, 1);
                     }
                 });
             }
@@ -332,8 +356,8 @@ namespace OmegaEngine
             if (buffer.Description.FVF == VertexFormat.None) throw new ArgumentException(Resources.VBMustBeFVF, "buffer");
             #endregion
 
-            Device.SetStreamSource(0, buffer, 0, D3DX.GetFVFVertexSize(buffer.Description.FVF));
-            Device.VertexFormat = buffer.Description.FVF;
+            _device.SetStreamSource(0, buffer, 0, D3DX.GetFVFVertexSize(buffer.Description.FVF));
+            _device.VertexFormat = buffer.Description.FVF;
         }
         #endregion
 
@@ -345,33 +369,7 @@ namespace OmegaEngine
         /// <remarks>Corresponds to calling <see cref="SlimDX.Direct3D9.Device.SetTexture"/> with the texture stage parameter set to 0.</remarks>
         public void SetTexture(ITextureProvider texture)
         {
-            Device.SetTexture(0, (texture == null) ? null : texture.Texture);
-        }
-        #endregion
-
-        #region Texture filtering
-        /// <summary>
-        /// Apply texture filtering modes to <see cref="Device"/>.
-        /// </summary>
-        internal void SetupTextureFiltering()
-        {
-            var filter = (int)Device.Capabilities.TextureFilterCaps;
-            Device.SetSamplerState(0, SamplerState.MaxAnisotropy, Device.Capabilities.MaxAnisotropy);
-
-            // Always use linear filtering for mip-maps if possible
-            if (filter.CheckFlag((int)FilterCaps.MipLinear))
-                Device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.Linear);
-
-            if (Anisotropic)
-            { // Use anisotropic filtering for magnifying and minifying if it was enabled
-                Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Anisotropic);
-                Device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Anisotropic);
-            }
-            else if (filter.CheckFlag((int)(FilterCaps.MinLinear | FilterCaps.MagLinear)))
-            { // Otherwise use linear filtering if possible
-                Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
-                Device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);
-            }
+            _device.SetTexture(0, (texture == null) ? null : texture.Texture);
         }
         #endregion
     }

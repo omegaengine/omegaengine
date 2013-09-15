@@ -16,10 +16,10 @@ using System.Text;
 using System.Threading;
 using System.Xml;
 using Common;
+using Common.Utils;
 using LuaInterface;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;
-using SlimDX;
 using SlimDX.Direct3D9;
 using WinForms = System.Windows.Forms;
 
@@ -78,7 +78,7 @@ namespace OmegaEngine
 
         #region DirectX
         /// <summary>
-        /// The Direct3D device
+        /// The Direct3D device. Use <see cref="State"/> instead of manipulating this directly when possible.
         /// </summary>
         [LuaHide]
         public Device Device { get; private set; }
@@ -196,6 +196,18 @@ namespace OmegaEngine
         internal WaterShader SimpleWaterShader { get { return _simpleWaterShader = _simpleWaterShader ?? new WaterShader(this); } }
         #endregion
 
+        #region Fading
+        /// <summary>
+        /// The level of scene fading from 0 (fully visible) to 255 (invisible).
+        /// </summary>
+        public int FadeLevel { get; set; }
+
+        /// <summary>
+        /// Is <see cref="Engine.ExtraRender"/> faded along with the scene?
+        /// </summary>
+        public bool FadeExtra { get; set; }
+        #endregion
+
         #endregion
 
         //--------------------//
@@ -311,7 +323,7 @@ namespace OmegaEngine
                     {
                         Device.Viewport = RenderViewport;
                         Device.BeginScene();
-                        AlphaBlend = 255 - FadeLevel;
+                        State.AlphaBlend = 255 - FadeLevel;
                         this.DrawQuadColored(Color.Black);
                         Device.EndScene();
                     };
@@ -326,7 +338,7 @@ namespace OmegaEngine
                         {
                             Device.Viewport = RenderViewport;
                             Device.BeginScene();
-                            AlphaBlend = 0;
+                            State.AlphaBlend = 0;
                             ExtraRender();
                             Device.EndScene();
                         }
@@ -388,6 +400,32 @@ namespace OmegaEngine
         }
         #endregion
 
+        #region Texture filtering
+        /// <summary>
+        /// Apply texture filtering modes to <see cref="Device"/>.
+        /// </summary>
+        internal void SetupTextureFiltering()
+        {
+            var filter = (int)Device.Capabilities.TextureFilterCaps;
+            Device.SetSamplerState(0, SamplerState.MaxAnisotropy, Device.Capabilities.MaxAnisotropy);
+
+            // Always use linear filtering for mip-maps if possible
+            if (filter.CheckFlag((int)FilterCaps.MipLinear))
+                Device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.Linear);
+
+            if (Anisotropic)
+            { // Use anisotropic filtering for magnifying and minifying if it was enabled
+                Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Anisotropic);
+                Device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Anisotropic);
+            }
+            else if (filter.CheckFlag((int)(FilterCaps.MinLinear | FilterCaps.MagLinear)))
+            { // Otherwise use linear filtering if possible
+                Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
+                Device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);
+            }
+        }
+        #endregion
+
         #region Reset
         /// <summary>
         /// Resets the engine
@@ -427,16 +465,7 @@ namespace OmegaEngine
             BackBuffer = Device.GetBackBuffer(0, 0);
             if (DeviceReset != null) DeviceReset();
 
-            // Render states got reset to their default values on the device. Update the engine variables accordingly.
-            _fillMode = FillMode.Solid;
-            _cullMode = Cull.Counterclockwise;
-            _zBufferMode = ZBufferMode.Normal;
-            _ffpLighting = true;
-            _fog = false;
-            _fogColor = Color.Empty;
-            _fogStart = _fogEnd = 0;
-            _alphaBlend = 0;
-            _worldTransform = _viewTransform = _projectionTransform = new Matrix();
+            State.Reset();
 
             // Reset the framerate timer
             _fpsTimer.Reset();

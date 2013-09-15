@@ -96,13 +96,13 @@ namespace OmegaEngine.Graphics.Renderables
             switch (Billboard)
             {
                 case BillboardMode.Spherical:
-                    Engine.WorldTransform = transform * Matrix.Translation((Vector3)Position);
+                    Engine.State.WorldTransform = transform * Matrix.Translation((Vector3)Position);
                     break;
                 case BillboardMode.Cylindrical:
-                    Engine.WorldTransform = transform * camera.CylindricalBillboard * camera.SimpleView * Matrix.Translation((Vector3)Position);
+                    Engine.State.WorldTransform = transform * camera.CylindricalBillboard * camera.SimpleView * Matrix.Translation((Vector3)Position);
                     break;
                 default:
-                    Engine.WorldTransform = transform * camera.SimpleView * Matrix.Translation((Vector3)Position);
+                    Engine.State.WorldTransform = transform * camera.SimpleView * Matrix.Translation((Vector3)Position);
                     break;
             }
 

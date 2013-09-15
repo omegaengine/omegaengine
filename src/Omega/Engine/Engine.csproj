@@ -99,13 +99,11 @@
     <Compile Include="Engine.Render.cs">
       <DependentUpon>Engine.cs</DependentUpon>
     </Compile>
-    <Compile Include="Engine.RenderStates.cs">
-      <DependentUpon>Engine.cs</DependentUpon>
-    </Compile>
     <Compile Include="Engine.Terrain.cs">
       <DependentUpon>Engine.cs</DependentUpon>
     </Compile>
     <Compile Include="EngineConfig.cs" />
+    <Compile Include="EngineState.cs" />
     <Compile Include="EngineUtilsAnimation.cs" />
     <Compile Include="EngineUtilsDraw.cs" />
     <Compile Include="GlobalSuppressions.cs" />

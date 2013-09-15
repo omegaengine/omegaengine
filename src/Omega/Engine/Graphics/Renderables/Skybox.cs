@@ -55,10 +55,10 @@ namespace OmegaEngine.Graphics.Renderables
             base.Render(camera, lights);
 
             // Scale by factor 3, which should be safe within a simple projection matrix (near=1 and far=10)
-            Engine.WorldTransform = Matrix.Scaling(3, 3, 3);
+            Engine.State.WorldTransform = Matrix.Scaling(3, 3, 3);
 
             // Deactivate lighting
-            Engine.FfpLighting = false;
+            Engine.State.FfpLighting = false;
         }
         #endregion
 

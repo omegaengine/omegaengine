@@ -197,16 +197,16 @@ namespace OmegaEngine.Graphics.Shaders
 
                                     #region Normal transformations
                                 case SemanticID.World:
-                                    Effect.SetValue(info.Handle, Engine.WorldTransform);
+                                    Effect.SetValue(info.Handle, Engine.State.WorldTransform);
                                     break;
                                 case SemanticID.WorldInverse:
-                                    Effect.SetValue(info.Handle, Matrix.Invert(Engine.WorldTransform));
+                                    Effect.SetValue(info.Handle, Matrix.Invert(Engine.State.WorldTransform));
                                     break;
                                 case SemanticID.WorldTranspose:
-                                    Effect.SetValue(info.Handle, Matrix.Transpose(Engine.WorldTransform));
+                                    Effect.SetValue(info.Handle, Matrix.Transpose(Engine.State.WorldTransform));
                                     break;
                                 case SemanticID.WorldInverseTranspose:
-                                    Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.WorldTransform)));
+                                    Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform)));
                                     break;
 
                                 case SemanticID.View:
@@ -238,16 +238,16 @@ namespace OmegaEngine.Graphics.Shaders
 
                                     #region Composite transformations
                                 case SemanticID.WorldView:
-                                    Effect.SetValue(info.Handle, Engine.WorldTransform * camera.View);
+                                    Effect.SetValue(info.Handle, Engine.State.WorldTransform * camera.View);
                                     break;
                                 case SemanticID.WorldViewInverse:
-                                    Effect.SetValue(info.Handle, Matrix.Invert(Engine.WorldTransform * camera.View));
+                                    Effect.SetValue(info.Handle, Matrix.Invert(Engine.State.WorldTransform * camera.View));
                                     break;
                                 case SemanticID.WorldViewTranspose:
-                                    Effect.SetValue(info.Handle, Matrix.Transpose(Engine.WorldTransform * camera.View));
+                                    Effect.SetValue(info.Handle, Matrix.Transpose(Engine.State.WorldTransform * camera.View));
                                     break;
                                 case SemanticID.WorldViewInverseTranspose:
-                                    Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.WorldTransform * camera.View)));
+                                    Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform * camera.View)));
                                     break;
 
                                 case SemanticID.ViewProjection:
@@ -264,16 +264,16 @@ namespace OmegaEngine.Graphics.Shaders
                                     break;
 
                                 case SemanticID.WorldViewProjection:
-                                    Effect.SetValue(info.Handle, Engine.WorldTransform * camera.ViewProjection);
+                                    Effect.SetValue(info.Handle, Engine.State.WorldTransform * camera.ViewProjection);
                                     break;
                                 case SemanticID.WorldViewProjectionInverse:
-                                    Effect.SetValue(info.Handle, Matrix.Invert(Engine.WorldTransform * camera.ViewProjection));
+                                    Effect.SetValue(info.Handle, Matrix.Invert(Engine.State.WorldTransform * camera.ViewProjection));
                                     break;
                                 case SemanticID.WorldViewProjectionTranspose:
-                                    Effect.SetValue(info.Handle, Matrix.Transpose(Engine.WorldTransform * camera.ViewProjection));
+                                    Effect.SetValue(info.Handle, Matrix.Transpose(Engine.State.WorldTransform * camera.ViewProjection));
                                     break;
                                 case SemanticID.WorldViewProjectionInverseTranspose:
-                                    Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.WorldTransform * camera.ViewProjection)));
+                                    Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform * camera.ViewProjection)));
                                     break;
                                     #endregion
 

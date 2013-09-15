@@ -228,7 +228,7 @@ namespace OmegaEngine.Graphics
         /// <param name="alpha">The level of transparency from 0 (solid) to 255 (invisible)</param>
         private void ShaderToBackBuffer(PostShader shader, int alpha)
         {
-            Engine.AlphaBlend = alpha;
+            Engine.State.AlphaBlend = alpha;
             using (new ProfilerEvent(() => "Apply " + shader))
             {
                 shader.Apply(delegate
@@ -267,8 +267,8 @@ namespace OmegaEngine.Graphics
         {
             Engine.Device.Viewport = _viewport;
             Engine.Device.BeginScene();
-            Engine.AlphaBlend = alpha;
-            Engine.SetTexture(RenderTarget);
+            Engine.State.AlphaBlend = alpha;
+            Engine.State.SetTexture(RenderTarget);
             Engine.DrawQuadTextured();
             Engine.Device.EndScene();
         }

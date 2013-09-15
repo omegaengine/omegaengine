@@ -96,6 +96,11 @@ namespace OmegaEngine
             }
         }
 
+        /// <summary>
+        /// Used by <see cref="Renderable"/> implementations to manipulate the graphics render state. Should not be manipulated manually.
+        /// </summary>
+        public EngineState State { get; private set; }
+
         private readonly CacheManager _cache = new CacheManager();
 
         /// <summary>
@@ -143,6 +148,7 @@ namespace OmegaEngine
             try
             {
                 CreateDevice();
+                State = new EngineState(Device);
                 SetupTextureFiltering();
 
                 // Load shared shader
@@ -254,8 +260,10 @@ namespace OmegaEngine
                 // Dispose shaders
                 if (DefaultShader != null) DefaultShader.Dispose();
                 if (SimpleWaterShader != null) SimpleWaterShader.Dispose();
+                // ReSharper disable CoVariantArrayConversion
                 DisposeShaders(_terrainShadersLighting);
                 DisposeShaders(_terrainShadersNoLighting);
+                // ReSharper restore CoVariantArrayConversion
 
                 // Shutdown music
                 Music.Dispose();
