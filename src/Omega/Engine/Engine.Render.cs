@@ -113,26 +113,14 @@ namespace OmegaEngine
             };
 
             // Automatically use best-possible ZBuffer
-            if (TestDepthStencil(engineConfig.Adapter, Format.D32))
+            if (EngineCapabilities.TestDepthStencil(engineConfig.Adapter, Format.D32))
                 presentParams.AutoDepthStencilFormat = Format.D32;
-            else if (TestDepthStencil(engineConfig.Adapter, Format.D24X8))
+            else if (EngineCapabilities.TestDepthStencil(engineConfig.Adapter, Format.D24X8))
                 presentParams.AutoDepthStencilFormat = Format.D24X8;
             else
                 presentParams.AutoDepthStencilFormat = Format.D16;
 
             return presentParams;
-        }
-
-        /// <summary>
-        /// Checks whether a certain depth stencil format is supported by the <see cref="SlimDX.Direct3D9.Device"/>
-        /// </summary>
-        private static bool TestDepthStencil(int adapter, Format depthFormat)
-        {
-            using (var manager = new Direct3D())
-            {
-                return manager.CheckDeviceFormat(adapter, DeviceType.Hardware, Format.X8R8G8B8,
-                    Usage.DepthStencil, ResourceType.Surface, depthFormat);
-            }
         }
         #endregion
 
@@ -172,16 +160,29 @@ namespace OmegaEngine
         }
         #endregion
 
+        #region Anisotropic filtering
+        private bool _anisotropicFiltering;
+
+        /// <summary>
+        /// Use anisotropic texture filtering
+        /// </summary>
+        /// <seealso cref="EngineCapabilities.Anisotropic"/>
+        public bool Anisotropic
+        {
+            get { return _anisotropicFiltering; }
+            set
+            {
+                if (value && !Capabilities.Anisotropic) value = false;
+                value.To(ref _anisotropicFiltering, SetupTextureFiltering);
+            }
+        }
+        #endregion
+
         #region Shader
         /// <summary>
         /// The base directory where shader files are stored
         /// </summary>
         public string ShaderDir { private set; get; }
-
-        /// <summary>
-        /// The maximum shader model version to be used (2.a is replaced by 2.0.1, 2.b is replaced by 2.0.2)
-        /// </summary>
-        public Version MaxShaderModel { get; private set; }
 
         /// <summary>
         /// A shader used for default lighting

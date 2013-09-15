@@ -82,7 +82,7 @@ namespace OmegaEngine.Graphics.Shaders
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
             if (controllers == null) throw new ArgumentNullException("controllers");
-            if (MinShaderModel > engine.MaxShaderModel)
+            if (MinShaderModel > engine.Capabilities.MaxShaderModel)
                 throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 
@@ -128,14 +128,14 @@ namespace OmegaEngine.Graphics.Shaders
                 Effect.Technique = _lighting ? _lightBlack : _simpleBlack;
             else
             {
-                if (Engine.DoubleSampling && _lighting)
+                if (Engine.Effects.DoubleSampling && _lighting)
                 {
-                    if (Engine.MaxShaderModel >= new Version(2, 0, 2))
+                    if (Engine.Capabilities.MaxShaderModel >= new Version(2, 0, 2))
                         Effect.Technique = _light2B;
-                    else if (Engine.MaxShaderModel == new Version(2, 0, 1))
+                    else if (Engine.Capabilities.MaxShaderModel == new Version(2, 0, 1))
                         Effect.Technique = _light2A;
                 }
-                else if (Engine.MaxShaderModel >= new Version(2, 0))
+                else if (Engine.Capabilities.MaxShaderModel >= new Version(2, 0))
                     Effect.Technique = _lighting ? _light20 : _simple20;
                 else
                     Effect.Technique = _lighting ? _light14 : _simple14;

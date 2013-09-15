@@ -185,7 +185,7 @@ namespace OmegaEngine.Assets
                     }
 
                     // Generate normals (plus tagents if normal/height maps are available)
-                    if (needsTangents && engine.SupportsPerPixelEffects)
+                    if (needsTangents && engine.Capabilities.PerPixelEffects)
                         MeshHelper.GenerateNormalsAndTangents(engine.Device, ref _mesh, true);
                     else
                         MeshHelper.GenerateNormals(engine.Device, ref _mesh);

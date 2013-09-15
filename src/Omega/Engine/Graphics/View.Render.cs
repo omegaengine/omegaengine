@@ -288,7 +288,7 @@ namespace OmegaEngine.Graphics
                 else RenderSceneToTexture();
 
                 // Post-screen shaders
-                if (Engine.PostScreenEffects && PostShaders.Count > 0)
+                if (Engine.Effects.PostScreenEffects && PostShaders.Count > 0)
                 {
                     using (new ProfilerEvent("Applying post-screen shaders"))
                         ApplyPostShaders(sceneOnBackBuffer);

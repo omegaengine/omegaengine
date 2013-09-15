@@ -21,8 +21,8 @@ using LuaInterface;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
+using OmegaEngine.Properties;
 using SlimDX.Direct3D9;
-using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine
 {
@@ -43,6 +43,8 @@ namespace OmegaEngine
     public sealed partial class Engine : IDisposable
     {
         #region Variables
+        private readonly Direct3D _direct3D;
+
         /// <summary>
         /// A list of possible <see cref="View"/>s usable for rendering <see cref="Water"/>
         /// </summary>
@@ -60,11 +62,6 @@ namespace OmegaEngine
         /// The version number of the engine.
         /// </summary>
         public static Version Version { get { return Assembly.GetExecutingAssembly().GetName().Version; } }
-
-        /// <summary>
-        /// Access to the Direct3D subsystem.
-        /// </summary>
-        internal Direct3D Manager { get; private set; }
 
         /// <summary>
         /// The <see cref="System.Windows.Forms.Control"/> the engine draws onto.
@@ -97,6 +94,16 @@ namespace OmegaEngine
         }
 
         /// <summary>
+        /// Methods for determining the rendering capabilities of the graphics hardware.
+        /// </summary>
+        public EngineCapabilities Capabilities { get; private set; }
+
+        /// <summary>
+        /// Turn specific rendering effects in the engine on or off.
+        /// </summary>
+        public EngineEffects Effects { get; private set; }
+
+        /// <summary>
         /// Used by <see cref="Renderable"/> implementations to manipulate the graphics render state. Should not be manipulated manually.
         /// </summary>
         public EngineState State { get; private set; }
@@ -107,11 +114,6 @@ namespace OmegaEngine
         /// The central cache used for all graphics and sound assets.
         /// </summary>
         public CacheManager Cache { get { return _cache; } }
-
-        /// <summary>
-        /// A list of all supported monitor resolutions.
-        /// </summary>
-        public DisplayModeCollection DisplayModes { get; private set; }
 
         /// <summary>
         /// Has the engine been shut down?
@@ -137,13 +139,13 @@ namespace OmegaEngine
             if (target == null) throw new ArgumentNullException("target");
             #endregion
 
-            Manager = new Direct3D();
+            _direct3D = new Direct3D();
             Target = target;
             EngineConfig = engineConfig;
             ShaderDir = Path.Combine(Locations.InstallBase, "Shaders");
 
-            DetermineHardwareInformation();
-            DetermineDeviceCapabilities(engineConfig);
+            Capabilities = new EngineCapabilities(_direct3D, engineConfig);
+            Effects = new EngineEffects(Capabilities) {PerPixelLighting = true};
 
             try
             {
@@ -151,9 +153,7 @@ namespace OmegaEngine
                 State = new EngineState(Device);
                 SetupTextureFiltering();
 
-                // Load shared shader
-                if (GeneralShader.MinShaderModel <= MaxShaderModel) DefaultShader = new GeneralShader(this);
-                PerPixelLighting = true;
+                if (GeneralShader.MinShaderModel <= Capabilities.MaxShaderModel) DefaultShader = new GeneralShader(this);
 
                 // Create simple default meshes ready
                 SimpleSphere = Mesh.CreateSphere(Device, 1, 12, 12);
@@ -182,26 +182,27 @@ namespace OmegaEngine
         private void CreateDevice()
         {
             // Try to create the DirectX device (fall back step-by-step if there's trouble)
-            if (((int)Capabilities.DeviceCaps).CheckFlag((int)(DeviceCaps.PureDevice)))
+            if (Capabilities.PureDevice)
             {
                 Log.Info("Creating Direct3D device with HardwareVertexProcessing & PureDevice");
-                Device = new Device(Manager, EngineConfig.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing | CreateFlags.PureDevice, PresentParams);
+                Device = new Device(_direct3D, EngineConfig.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing | CreateFlags.PureDevice, PresentParams);
             }
-            else if (((int)Capabilities.DeviceCaps).CheckFlag((int)DeviceCaps.HWTransformAndLight))
+            else if (Capabilities.HardwareVertexProcessing)
             {
                 Log.Info("Creating Direct3D device with HardwareVertexProcessing");
-                Device = new Device(Manager, EngineConfig.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing, PresentParams);
+                Device = new Device(_direct3D, EngineConfig.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing, PresentParams);
             }
             else
             {
                 Log.Info("Creating Direct3D device with SoftwareVertexProcessing");
-                Device = new Device(Manager, EngineConfig.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.SoftwareVertexProcessing, PresentParams);
+                Device = new Device(_direct3D, EngineConfig.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.SoftwareVertexProcessing, PresentParams);
             }
 
             // Store the default Viewport and BackBuffer
             RenderViewport = Device.Viewport;
             BackBuffer = Device.GetBackBuffer(0, 0);
         }
+
         #endregion
 
         //--------------------//
@@ -283,7 +284,7 @@ namespace OmegaEngine
                 //if (_listener != null) _listener.Dispose();
                 if (AudioDevice != null) AudioDevice.Dispose();
 
-                if (Manager != null) Manager.Dispose();
+                if (_direct3D != null) _direct3D.Dispose();
 
                 // Dispose debug window
                 if (_debugForm != null) _debugForm.Dispose();

@@ -203,7 +203,7 @@ namespace Presentation
             Log.Info("Benchmark complete - packaging results");
 
             // Store hardware information in an XML file
-            Engine.Hardware.SaveXml(Path.Combine(_resultDir, "hardware.xml"));
+            Engine.Capabilities.Hardware.SaveXml(Path.Combine(_resultDir, "hardware.xml"));
 
             // Store test-case results in an XML file
             _statistics.SaveXml(Path.Combine(_resultDir, "statistics.xml"));

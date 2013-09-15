@@ -45,7 +45,7 @@ namespace OmegaEngine.Graphics.Shaders
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.MaxShaderModel)
+            if (MinShaderModel > engine.Capabilities.MaxShaderModel)
                 throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 
@@ -82,21 +82,21 @@ namespace OmegaEngine.Graphics.Shaders
             #region Auto-select technique
             if (lights.Length == 0)
             { // Only emissive lighting
-                if (Engine.PerPixelLighting && material.EmissiveMap != null)
+                if (Engine.Effects.PerPixelLighting && material.EmissiveMap != null)
                     Effect.Technique = _texturedEmissiveMapOnly;
                 else
                     Effect.Technique = (material.DiffuseMaps[0] == null) ? _coloredEmissiveOnly : _texturedEmissiveOnly;
             }
             else
             {
-                if (Engine.PerPixelLighting)
+                if (Engine.Effects.PerPixelLighting)
                 { // Normal per-pixel lighting
                     if (material.DiffuseMaps[0] == null)
                         Effect.Technique = _coloredPerPixel;
                     else
                     {
                         #region Flags
-                        bool normal = material.NormalMap != null && Engine.NormalMapping;
+                        bool normal = material.NormalMap != null && Engine.Effects.NormalMapping;
                         bool specular = material.SpecularMap != null;
                         bool emissive = material.EmissiveMap != null;
                         #endregion

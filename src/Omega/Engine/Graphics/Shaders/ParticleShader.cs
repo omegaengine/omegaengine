@@ -138,7 +138,7 @@ namespace OmegaEngine.Graphics.Shaders
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
             if (particleTexture == null) throw new ArgumentNullException("particleTexture");
-            if (MinShaderModel > engine.MaxShaderModel)
+            if (MinShaderModel > engine.Capabilities.MaxShaderModel)
                 throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 

@@ -1,0 +1,102 @@
+/*
+ * Copyright 2006-2013 Bastian Eicher
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+using System;
+using Common.Values;
+
+namespace OmegaEngine
+{
+    /// <summary>
+    /// Turn specific rendering effects in the <see cref="Engine"/> on or off.
+    /// </summary>
+    public sealed class EngineEffects
+    {
+        #region Dependencies
+        private readonly EngineCapabilities _capabilities;
+
+        /// <summary>
+        /// Creates a new engine effects object.
+        /// </summary>
+        /// <param name="capabilities">Determines which effects can be turned on.</param>
+        internal EngineEffects(EngineCapabilities capabilities)
+        {
+            #region Sanity checks
+            if (capabilities == null) throw new ArgumentNullException("engine");
+            #endregion
+
+            _capabilities = capabilities;
+        }
+        #endregion
+
+        //--------------------//
+
+        #region Per-pixel effects
+        private bool _perPixelLighting, _normalMapping, _postScreenEffects, _shadows;
+
+        /// <summary>
+        /// Use per-pixel lighting
+        /// </summary>
+        /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
+        public bool PerPixelLighting { get { return _perPixelLighting; } set { _perPixelLighting = _capabilities.PerPixelEffects && value; } }
+
+        /// <summary>
+        /// Use normal mapping
+        /// </summary>
+        /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
+        public bool NormalMapping { get { return _normalMapping; } set { _normalMapping = _capabilities.PerPixelEffects && value; } }
+
+        /// <summary>
+        /// Use post-screen effects
+        /// </summary>
+        /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
+        public bool PostScreenEffects { get { return _postScreenEffects; } set { _postScreenEffects = _capabilities.PerPixelEffects && value; } }
+
+        /// <summary>
+        /// Apply shadows
+        /// </summary>
+        /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
+        public bool Shadows { get { return _shadows; } set { _shadows = _capabilities.PerPixelEffects && value; } }
+        #endregion
+
+        #region Double sampling
+        private bool _doubleSampling;
+
+        /// <summary>
+        /// Sample terrain textures twice with different texture coordinates for better image quality
+        /// </summary>
+        /// <seealso cref="EngineCapabilities.DoubleSampling"/>
+        public bool DoubleSampling { get { return _doubleSampling; } set { _doubleSampling = _capabilities.DoubleSampling && value; } }
+        #endregion
+
+        #region Water effects
+        private WaterEffectsType _waterEffects = WaterEffectsType.None;
+
+        /// <summary>
+        /// The effects to be display on water (e.g. reflections)
+        /// </summary>
+        public WaterEffectsType WaterEffects
+        {
+            get { return _waterEffects; }
+            set
+            {
+                // Check if the selected effect mode is supported by the hardware
+                _waterEffects = _capabilities.PerPixelEffects ? value : WaterEffectsType.None;
+            }
+        }
+        #endregion
+
+        #region Particle system quality
+        private Quality _particleSystemQuality = Quality.Medium;
+
+        /// <summary>
+        /// The quality of CPU-based particle systems
+        /// </summary>
+        public Quality ParticleSystemQuality { get { return _particleSystemQuality; } set { _particleSystemQuality = value; } }
+        #endregion
+    }
+}

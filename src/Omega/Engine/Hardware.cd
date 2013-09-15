@@ -10,21 +10,11 @@
       <FileName>Hardware.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="OS" />
       <Field Name="Cpu" />
       <Field Name="Ram" />
       <Field Name="Gpu" />
+      <Field Name="OS" />
     </ShowAsAssociation>
-  </Struct>
-  <Struct Name="OmegaEngine.HardwareOS">
-    <Position X="2.75" Y="3.5" Width="1.5" />
-    <Members>
-      <Method Name="ToString" Hidden="true" />
-    </Members>
-    <TypeIdentifier>
-      <HashCode>IQAAAAAAAQAAAAAEAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
-      <FileName>Hardware.cs</FileName>
-    </TypeIdentifier>
   </Struct>
   <Struct Name="OmegaEngine.HardwareCpu">
     <Position X="0.5" Y="2" Width="1.5" />
@@ -55,6 +45,16 @@
       <HashCode>AAAAAAAAAAAAgAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Hardware.cs</FileName>
     </TypeIdentifier>
+  </Struct>
+  <Struct Name="Common.Info.OSInfo">
+    <Position X="2.75" Y="3.25" Width="1.5" />
+    <Members>
+      <Property Name="Current" Hidden="true" />
+      <Property Name="FrameworkVersionString" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+      <Property Name="VersionString" Hidden="true" />
+    </Members>
+    <TypeIdentifier />
   </Struct>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

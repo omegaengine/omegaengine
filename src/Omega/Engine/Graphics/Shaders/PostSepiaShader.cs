@@ -103,7 +103,7 @@ namespace OmegaEngine.Graphics.Shaders
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 
             // Get handles to shader parameters for quick access

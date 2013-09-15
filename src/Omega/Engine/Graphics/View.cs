@@ -323,7 +323,7 @@ namespace OmegaEngine.Graphics
                     var glowView = childView as GlowView;
                     if (glowView != null)
                     {
-                        if (Engine.PostScreenEffects) glowView.Render();
+                        if (Engine.Effects.PostScreenEffects) glowView.Render();
                         continue;
                     }
                     #endregion
@@ -332,7 +332,7 @@ namespace OmegaEngine.Graphics
                     var shadowView = childView as ShadowView;
                     if (shadowView != null)
                     {
-                        if (Engine.Shadows) shadowView.Render();
+                        if (Engine.Effects.Shadows) shadowView.Render();
                         continue;
                     }
                     #endregion
@@ -343,8 +343,8 @@ namespace OmegaEngine.Graphics
                     {
                         // Check we actually use water-refractions/reflections...
                         if ((waterView.Reflection) ?
-                                                       (Engine.WaterEffects < WaterEffectsType.ReflectTerrain) :
-                                                                                                                   (Engine.WaterEffects < WaterEffectsType.RefractionOnly))
+                                                       (Engine.Effects.WaterEffects < WaterEffectsType.ReflectTerrain) :
+                                                                                                                   (Engine.Effects.WaterEffects < WaterEffectsType.RefractionOnly))
                             continue;
 
                         // ... and one of the currently visible water planes needs this view

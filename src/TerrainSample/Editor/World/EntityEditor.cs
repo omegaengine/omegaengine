@@ -88,10 +88,10 @@ namespace AlphaEditor.World
 
             // Activate some effects
             renderPanel.Engine.Anisotropic = true;
-            renderPanel.Engine.PerPixelLighting = true;
-            renderPanel.Engine.NormalMapping = checkNormalMapping.Checked;
-            renderPanel.Engine.PostScreenEffects = true;
-            renderPanel.Engine.WaterEffects = WaterEffectsType.ReflectAll;
+            renderPanel.Engine.Effects.PerPixelLighting = true;
+            renderPanel.Engine.Effects.NormalMapping = checkNormalMapping.Checked;
+            renderPanel.Engine.Effects.PostScreenEffects = true;
+            renderPanel.Engine.Effects.WaterEffects = WaterEffectsType.ReflectAll;
 
             propertyGridUniverse.SelectedObject = _universe;
         }
@@ -437,7 +437,7 @@ namespace AlphaEditor.World
 
         private void checkBoxNormalMap_CheckedChanged(object sender, EventArgs e)
         {
-            renderPanel.Engine.NormalMapping = checkNormalMapping.Checked;
+            renderPanel.Engine.Effects.NormalMapping = checkNormalMapping.Checked;
         }
 
         private void checkWireframe_CheckedChanged(object sender, EventArgs e)

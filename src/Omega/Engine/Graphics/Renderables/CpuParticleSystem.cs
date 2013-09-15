@@ -155,7 +155,7 @@ namespace OmegaEngine.Graphics.Renderables
             }
             else lodFactor = 1;
 
-            switch (Engine.ParticleSystemQuality)
+            switch (Engine.Effects.ParticleSystemQuality)
             {
                 case Quality.Low:
                     lodFactor *= 0.2f;

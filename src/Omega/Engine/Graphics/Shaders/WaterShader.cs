@@ -161,7 +161,7 @@ namespace OmegaEngine.Graphics.Shaders
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 
             _normalTexture = XTexture.Get(engine, @"Water\normal.png");
@@ -187,7 +187,7 @@ namespace OmegaEngine.Graphics.Shaders
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 
             _waterTexture = XTexture.Get(engine, @"Water\surface.png");
@@ -214,7 +214,7 @@ namespace OmegaEngine.Graphics.Shaders
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 
             _waterTexture = XTexture.Get(engine, @"Water\surface.png");

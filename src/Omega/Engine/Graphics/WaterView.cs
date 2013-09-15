@@ -130,7 +130,7 @@ namespace OmegaEngine.Graphics
             #endregion
 
             // Filter bodies if this is a terrain-only reflection
-            if (Reflection && Engine.WaterEffects <= WaterEffectsType.ReflectTerrain && !(body is Terrain))
+            if (Reflection && Engine.Effects.WaterEffects <= WaterEffectsType.ReflectTerrain && !(body is Terrain))
                 return false;
 
             // Perform the the more generic tests

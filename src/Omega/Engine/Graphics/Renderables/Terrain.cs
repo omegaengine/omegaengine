@@ -94,7 +94,7 @@ namespace OmegaEngine.Graphics.Renderables
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
             if (mesh == null) throw new ArgumentNullException("mesh");
-            if (TerrainShader.MinShaderModel > engine.MaxShaderModel)
+            if (TerrainShader.MinShaderModel > engine.Capabilities.MaxShaderModel)
                 throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 

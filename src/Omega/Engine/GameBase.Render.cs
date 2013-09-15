@@ -105,7 +105,7 @@ namespace OmegaEngine
                 }
                 #endregion
 
-                if (Engine.MaxShaderModel < TerrainShader.MinShaderModel)
+                if (Engine.Capabilities.MaxShaderModel < TerrainShader.MinShaderModel)
                 {
                     Log.Error("No support for Pixel Shader " + TerrainShader.MinShaderModel);
                     Msg.Inform(Form, Resources.BadGraphics + "\n" +

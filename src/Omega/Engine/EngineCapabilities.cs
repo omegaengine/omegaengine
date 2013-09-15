@@ -18,26 +18,37 @@ using SlimDX.Direct3D9;
 
 namespace OmegaEngine
 {
-    // This file contains methods for determining the rendering capabilities of the graphics hardware
-    partial class Engine
+    /// <summary>
+    /// Methods for determining the rendering capabilities of the graphics hardware.
+    /// </summary>
+    public sealed class EngineCapabilities
     {
-        #region Properties
-        private Hardware _hardware;
+        #region Dependencies
+        private readonly Direct3D _direct3D;
+        private readonly Capabilities _capabilities;
+        private readonly EngineConfig _engineConfig;
 
         /// <summary>
-        /// Information about the hardware of this computer.
+        /// Creates a new engine capabilities object.
         /// </summary>
-        public Hardware Hardware { get { return _hardware; } }
+        /// <param name="direct3D">Provides access to the Direct3D subsystem.</param>
+        /// <param name="engineConfig">The settings used to initialize the <see cref="Engine"/>.</param>
+        internal EngineCapabilities(Direct3D direct3D, EngineConfig engineConfig)
+        {
+            #region Sanity checks
+            if (direct3D == null) throw new ArgumentNullException("direct3D");
+            #endregion
 
-        /// <summary>
-        /// The capabilities of the <see cref="Direct3D"/> device.
-        /// </summary>
-        internal Capabilities Capabilities { get; private set; }
+            _direct3D = direct3D;
+            _capabilities = _direct3D.GetDeviceCaps(0, DeviceType.Hardware);
+            _engineConfig = engineConfig;
+
+            DetermineHardwareInformation();
+            DetermineDeviceCapabilities();
+        }
         #endregion
 
-        //--------------------//
-
-        #region Hardware information
+        #region Determine information
         /// <summary>
         /// Helper method for the constructor that fills <see cref="Hardware"/> with information.
         /// </summary>
@@ -92,8 +103,8 @@ namespace OmegaEngine
             #endregion
 
             #region GPU
-            DisplayModes = Manager.Adapters[EngineConfig.Adapter].GetDisplayModes(Format.X8R8G8B8);
-            var adapter = Manager.Adapters[EngineConfig.Adapter].Details;
+            DisplayModes = _direct3D.Adapters[_engineConfig.Adapter].GetDisplayModes(Format.X8R8G8B8);
+            var adapter = _direct3D.Adapters[_engineConfig.Adapter].Details;
             _hardware.Gpu.Manufacturer = adapter.VendorId;
             _hardware.Gpu.Name = adapter.Description;
             _hardware.Gpu.MaxAA = MaxAA;
@@ -118,50 +129,45 @@ namespace OmegaEngine
             Log.Info(_hardware.ToString());
             #endregion
         }
-        #endregion
 
-        #region Device capabilities
         /// <summary>
-        /// Helper method for the constructor that fills <see cref="Capabilities"/> and <see cref="MaxShaderModel"/> with information and checks certain conditions are met.
+        /// Helper method for the constructor that fills <see cref="_capabilities"/> and <see cref="MaxShaderModel"/> with information and checks certain conditions are met.
         /// </summary>
-        /// <param name="engineConfig"></param>
-        private void DetermineDeviceCapabilities(EngineConfig engineConfig)
+        private void DetermineDeviceCapabilities()
         {
-            Capabilities = Manager.GetDeviceCaps(0, DeviceType.Hardware);
-
             #region Pixel shader
-            if (engineConfig.ForceShaderModel == null)
+            if (_engineConfig.ForceShaderModel == null)
             {
                 // Detect pixel shader version (and find subversions of Pixel Shader 2.0)
-                MaxShaderModel = Capabilities.PixelShaderVersion;
-                if (MaxShaderModel == new Version(2, 0) && Capabilities.MaxPixelShader30InstructionSlots >= 96)
+                MaxShaderModel = _capabilities.PixelShaderVersion;
+                if (MaxShaderModel == new Version(2, 0) && _capabilities.MaxPixelShader30InstructionSlots >= 96)
                 {
-                    if (Capabilities.PS20Caps.TempCount >= 22 &&
-                        ((int)Capabilities.PS20Caps.Caps).CheckFlag((int)(PixelShaderCaps.ArbitrarySwizzle | PixelShaderCaps.GradientInstructions | PixelShaderCaps.Predication | PixelShaderCaps.NoDependentReadLimit | PixelShaderCaps.NoTextureInstructionLimit)))
+                    if (_capabilities.PS20Caps.TempCount >= 22 &&
+                        ((int)_capabilities.PS20Caps.Caps).CheckFlag((int)(PixelShaderCaps.ArbitrarySwizzle | PixelShaderCaps.GradientInstructions | PixelShaderCaps.Predication | PixelShaderCaps.NoDependentReadLimit | PixelShaderCaps.NoTextureInstructionLimit)))
                     { // Pixel shader 2.0a
                         MaxShaderModel = new Version(2, 0, 1);
                     }
-                    else if (Capabilities.PS20Caps.TempCount >= 32 &&
-                        ((int)Capabilities.PS20Caps.Caps).CheckFlag((int)PixelShaderCaps.NoTextureInstructionLimit))
+                    else if (_capabilities.PS20Caps.TempCount >= 32 &&
+                             ((int)_capabilities.PS20Caps.Caps).CheckFlag((int)PixelShaderCaps.NoTextureInstructionLimit))
                     { // Pixel shader 2.0b
                         MaxShaderModel = new Version(2, 0, 2);
                     }
                 }
             }
-            else MaxShaderModel = engineConfig.ForceShaderModel;
+            else MaxShaderModel = _engineConfig.ForceShaderModel;
             #endregion
 
             // Log GPU capabilities
             Log.Info("GPU capabilities:\n" +
-                "HWTransformAndLight: " + ((int)Capabilities.DeviceCaps).CheckFlag((int)DeviceCaps.HWTransformAndLight) + "\n" +
-                "PureDevice: " + ((int)Capabilities.DeviceCaps).CheckFlag((int)DeviceCaps.PureDevice) + "\n" +
-                "Anisotropic: " + SupportsAnisotropic + "\n" +
-                "VertexShaderVersion: " + Capabilities.VertexShaderVersion + "\n" +
-                "PixelShaderVersion: " + MaxShaderModel + "\n" +
-                "SupportedAA: " + SupportedAA + "\n");
+                     "HWTransformAndLight: " + ((int)_capabilities.DeviceCaps).CheckFlag((int)DeviceCaps.HWTransformAndLight) + "\n" +
+                     "PureDevice: " + ((int)_capabilities.DeviceCaps).CheckFlag((int)DeviceCaps.PureDevice) + "\n" +
+                     "Anisotropic: " + Anisotropic + "\n" +
+                     "VertexShaderVersion: " + _capabilities.VertexShaderVersion + "\n" +
+                     "PixelShaderVersion: " + MaxShaderModel + "\n" +
+                     "SupportedAA: " + SupportedAA + "\n");
 
             // Ensure support for linear texture filtering
-            if (!((int)Capabilities.TextureFilterCaps).CheckFlag((int)(FilterCaps.MinLinear | FilterCaps.MagLinear | FilterCaps.MipLinear)))
+            if (!((int)_capabilities.TextureFilterCaps).CheckFlag((int)(FilterCaps.MinLinear | FilterCaps.MagLinear | FilterCaps.MipLinear)))
             {
                 //throw new NotAvailableException(Properties.Resources.NoLinearTextureFiltering);
                 Log.Warn("Missing support for linear texture filtering");
@@ -170,6 +176,56 @@ namespace OmegaEngine
         #endregion
 
         //--------------------//
+
+        #region Properties
+        private Hardware _hardware;
+
+        /// <summary>
+        /// Information about the hardware of this computer.
+        /// </summary>
+        public Hardware Hardware { get { return _hardware; } }
+
+        /// <summary>
+        /// A list of all supported monitor resolutions.
+        /// </summary>
+        public DisplayModeCollection DisplayModes { get; private set; }
+
+        /// <summary>
+        /// Does the graphics support rasterization, transform, lighting, and shading in hardware?
+        /// </summary>
+        public bool PureDevice { get { return ((int)_capabilities.DeviceCaps).CheckFlag((int)(DeviceCaps.PureDevice)); } }
+
+        /// <summary>
+        /// Does the graphics support hardware transformation and lighting?
+        /// </summary>
+        public bool HardwareVertexProcessing { get { return ((int)_capabilities.DeviceCaps).CheckFlag((int)DeviceCaps.HWTransformAndLight); } }
+
+        /// <summary>
+        /// Does the hardware the engine is running on support anisotropic texture filtering?
+        /// </summary>
+        /// <seealso cref="Engine.Anisotropic"/>
+        public bool Anisotropic { get { return ((int)_direct3D.GetDeviceCaps(0, DeviceType.Hardware).TextureFilterCaps).CheckFlag((int)(FilterCaps.MinAnisotropic | FilterCaps.MagAnisotropic)); } }
+
+        /// <summary>
+        /// The maximum shader model version to be used (2.a is replaced by 2.0.1, 2.b is replaced by 2.0.2)
+        /// </summary>
+        public Version MaxShaderModel { get; private set; }
+
+        /// <summary>
+        /// Does the hardware the engine is running on support per-pixel effects?
+        /// </summary>
+        /// <seealso cref="EngineEffects.PerPixelLighting"/>
+        /// <seealso cref="EngineEffects.NormalMapping"/>
+        /// <seealso cref="EngineEffects.PostScreenEffects"/>
+        /// <seealso cref="EngineEffects.Shadows"/>
+        public bool PerPixelEffects { get { return MaxShaderModel >= new Version(2, 0); } }
+
+        /// <summary>
+        /// Does the hardware the engine is running on support terrain texture double sampling?
+        /// </summary>
+        /// <seealso cref="EngineEffects.DoubleSampling"/>
+        public bool DoubleSampling { get { return MaxShaderModel >= new Version(2, 0, 1); } }
+        #endregion
 
         #region Resolution check
         /// <summary>
@@ -182,9 +238,7 @@ namespace OmegaEngine
         public static bool CheckResolution(int adapter, int width, int height)
         {
             using (var manager = new Direct3D())
-            {
                 return manager.Adapters[adapter].GetDisplayModes(Format.X8R8G8B8).Any(mode => mode.Width == width && mode.Height == height);
-            }
         }
 
         /// <summary>
@@ -196,6 +250,18 @@ namespace OmegaEngine
         public bool CheckResolution(int width, int height)
         {
             return DisplayModes.Any(mode => mode.Width == width && mode.Height == height);
+        }
+
+        /// <summary>
+        /// Checks whether a certain depth stencil format is supported by the <see cref="SlimDX.Direct3D9.Device"/>
+        /// </summary>
+        internal static bool TestDepthStencil(int adapter, Format depthFormat)
+        {
+            using (var manager = new Direct3D())
+            {
+                return manager.CheckDeviceFormat(adapter, DeviceType.Hardware, Format.X8R8G8B8,
+                    Usage.DepthStencil, ResourceType.Surface, depthFormat);
+            }
         }
         #endregion
 
@@ -222,8 +288,8 @@ namespace OmegaEngine
         /// <returns><see langword="true"/> if the level is supported</returns>
         public bool CheckAA(int sample)
         {
-            return (Manager.CheckDeviceMultisampleType(EngineConfig.Adapter, DeviceType.Hardware,
-                Manager.Adapters[EngineConfig.Adapter].CurrentDisplayMode.Format, true, (MultisampleType)sample));
+            return (_direct3D.CheckDeviceMultisampleType(_engineConfig.Adapter, DeviceType.Hardware,
+                _direct3D.Adapters[_engineConfig.Adapter].CurrentDisplayMode.Format, true, (MultisampleType)sample));
         }
 
         /// <summary>

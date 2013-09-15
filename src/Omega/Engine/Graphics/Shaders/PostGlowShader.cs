@@ -70,7 +70,7 @@ namespace OmegaEngine.Graphics.Shaders
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
             if (glowView == null) throw new ArgumentNullException("glowView");
-            if (MinShaderModel > engine.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 
             _glowView = glowView;

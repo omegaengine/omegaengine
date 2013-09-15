@@ -201,22 +201,22 @@ namespace OmegaEngine.Graphics.Shaders
                                             switch (targetValue.Value)
                                             {
                                                 case "PS14":
-                                                    include = (engine.MaxShaderModel == new Version(1, 4));
+                                                    include = (engine.Capabilities.MaxShaderModel == new Version(1, 4));
                                                     break;
                                                 case "PS20":
-                                                    include = (engine.MaxShaderModel == new Version(2, 0));
+                                                    include = (engine.Capabilities.MaxShaderModel == new Version(2, 0));
                                                     break;
                                                 case "PS2x":
-                                                    include = (engine.MaxShaderModel >= new Version(2, 0));
+                                                    include = (engine.Capabilities.MaxShaderModel >= new Version(2, 0));
                                                     break;
                                                 case "PS2ab":
-                                                    include = (engine.MaxShaderModel > new Version(2, 0));
+                                                    include = (engine.Capabilities.MaxShaderModel > new Version(2, 0));
                                                     break;
                                                 case "PS2a":
-                                                    include = (engine.MaxShaderModel == new Version(2, 0, 1));
+                                                    include = (engine.Capabilities.MaxShaderModel == new Version(2, 0, 1));
                                                     break;
                                                 case "PS2b":
-                                                    include = (engine.MaxShaderModel >= new Version(2, 0, 2));
+                                                    include = (engine.Capabilities.MaxShaderModel >= new Version(2, 0, 2));
                                                     break;
                                             }
                                         }

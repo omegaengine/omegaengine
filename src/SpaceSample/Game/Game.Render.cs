@@ -63,9 +63,9 @@ namespace Core
             // Note: Doesn't call base methods
 
             #region Safety checks
-            if (!Engine.CheckResolution(0, Settings.Current.Display.Resolution.Width, Settings.Current.Display.Resolution.Height))
+            if (!EngineCapabilities.CheckResolution(0, Settings.Current.Display.Resolution.Width, Settings.Current.Display.Resolution.Height))
                 Settings.Current.Display.Resolution = Screen.PrimaryScreen.Bounds.Size;
-            if (!Engine.CheckAA(0, Settings.Current.Display.AntiAliasing))
+            if (!EngineCapabilities.CheckAA(0, Settings.Current.Display.AntiAliasing))
                 Settings.Current.Display.AntiAliasing = 0;
             #endregion
 
@@ -89,21 +89,21 @@ namespace Core
         {
             #region Apply settings
             Engine.Anisotropic = Settings.Current.Graphics.Anisotropic;
-            Engine.NormalMapping = Settings.Current.Graphics.NormalMapping;
-            Engine.PostScreenEffects = Settings.Current.Graphics.PostScreenEffects;
-            Engine.Shadows = Settings.Current.Graphics.Shadows;
-            Engine.DoubleSampling = Settings.Current.Graphics.DoubleSampling;
-            Engine.WaterEffects = Settings.Current.Graphics.WaterEffects;
-            Engine.ParticleSystemQuality = Settings.Current.Graphics.ParticleSystemQuality;
+            Engine.Effects.NormalMapping = Settings.Current.Graphics.NormalMapping;
+            Engine.Effects.PostScreenEffects = Settings.Current.Graphics.PostScreenEffects;
+            Engine.Effects.Shadows = Settings.Current.Graphics.Shadows;
+            Engine.Effects.DoubleSampling = Settings.Current.Graphics.DoubleSampling;
+            Engine.Effects.WaterEffects = Settings.Current.Graphics.WaterEffects;
+            Engine.Effects.ParticleSystemQuality = Settings.Current.Graphics.ParticleSystemQuality;
             #endregion
 
             #region Read settings back to repair any invalid stuff
             Settings.Current.Graphics.Anisotropic = Engine.Anisotropic;
-            Settings.Current.Graphics.NormalMapping = Engine.NormalMapping;
-            Settings.Current.Graphics.PostScreenEffects = Engine.PostScreenEffects;
-            Settings.Current.Graphics.Shadows = Engine.Shadows;
-            Settings.Current.Graphics.DoubleSampling = Engine.DoubleSampling;
-            Settings.Current.Graphics.WaterEffects = Engine.WaterEffects;
+            Settings.Current.Graphics.NormalMapping = Engine.Effects.NormalMapping;
+            Settings.Current.Graphics.PostScreenEffects = Engine.Effects.PostScreenEffects;
+            Settings.Current.Graphics.Shadows = Engine.Effects.Shadows;
+            Settings.Current.Graphics.DoubleSampling = Engine.Effects.DoubleSampling;
+            Settings.Current.Graphics.WaterEffects = Engine.Effects.WaterEffects;
             #endregion
         }
         #endregion

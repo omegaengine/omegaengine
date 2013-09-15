@@ -13,7 +13,7 @@ InvertMouse.Checked = Settings.Controls.InvertMouse
 
 -- Check for each supported resolution if the graphics card can handle it and if so add it to the list
 function resolution_helper(width, height)
-  if Engine:CheckResolution(width, height) then Resolution.Items:Add(width.."x"..height); end
+  if Engine.Capabilities:CheckResolution(width, height) then Resolution.Items:Add(width.."x"..height); end
 end
 resolution_helper(800, 600); resolution_helper(1024, 600); resolution_helper(1024, 768); resolution_helper(1152, 864);
 resolution_helper(1280, 720); resolution_helper(1280, 768); resolution_helper(1280, 800); resolution_helper(1280, 960); resolution_helper(1280, 1024);
@@ -31,7 +31,7 @@ end
 
 -- Check for each supported AA level if the graphics card can handle it and if so add it to the list
 for level=2,16,2 do
-  if Engine:CheckAA(level) then AntiAliasing.Items:Add(level.."x"); end
+  if Engine.Capabilities:CheckAA(level) then AntiAliasing.Items:Add(level.."x"); end
 end
 
 -- Reselect the previously chosen AA level
@@ -39,19 +39,19 @@ if Settings.Display.AntiAliasing ~= 0 and AntiAliasing.Items:Contains(Settings.D
   AntiAliasing.SelectedItem = Settings.Display.AntiAliasingText
 end
 
-Anisotropic.Enabled = Engine.SupportsAnisotropic
+Anisotropic.Enabled = Engine.Capabilities.Anisotropic
 Anisotropic.Checked = Settings.Graphics.Anisotropic
 Fullscreen.Checked = Settings.Display.Fullscreen
 VSync.Checked = Settings.Display.VSync
 
-PostScreenEffects.Enabled = Engine.SupportsPerPixelEffects
+PostScreenEffects.Enabled = Engine.Capabilities.PerPixelEffects
 PostScreenEffects.Checked = Settings.Graphics.PostScreenEffects
-Shadows.Enabled = Engine.SupportsPerPixelEffects
+Shadows.Enabled = Engine.Capabilities.PerPixelEffects
 Shadows.Checked = Settings.Graphics.Shadows
-TerrainDoubleSampling.Enabled = Engine.SupportsDoubleSampling
+TerrainDoubleSampling.Enabled = Engine.Capabilities.DoubleSampling
 TerrainDoubleSampling.Checked = Settings.Graphics.DoubleSampling
 
-WaterEffectsLabel.Enabled = Engine.SupportsPerPixelEffects
+WaterEffectsLabel.Enabled = Engine.Capabilities.PerPixelEffects
 WaterEffects.Enabled = WaterEffectsLabel.Enabled
 WaterEffects.SelectedItem = "["..Settings.Graphics.WaterEffects:ToString().."]"
 ParticleSystemQuality.SelectedItem = "["..Settings.Graphics.ParticleSystemQuality:ToString().."]"

@@ -61,7 +61,7 @@ namespace Presentation
         private void SetupLighting()
         {
             // Prepare post-screen shaders if the hardware supports them
-            if (Engine.MaxShaderModel >= PostBleachShader.MinShaderModel)
+            if (Engine.Capabilities.MaxShaderModel >= PostBleachShader.MinShaderModel)
             {
                 // Load color correction shader
                 _colorCorrectionShader = new PostColorCorrectionShader(Engine) {Enabled = false};

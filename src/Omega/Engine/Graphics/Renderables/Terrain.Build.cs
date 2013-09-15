@@ -236,7 +236,7 @@ namespace OmegaEngine.Graphics.Renderables
             var shaders = new SurfaceShader[textureMasks.Length];
 
             // Load the dynamic multitexturing shader if supported
-            if (TerrainShader.MinShaderModel <= engine.MaxShaderModel)
+            if (TerrainShader.MinShaderModel <= engine.Capabilities.MaxShaderModel)
             {
 #if NETFX4
     // Remove any duplicates and then generate all required shaders in parallel

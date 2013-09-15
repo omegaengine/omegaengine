@@ -81,16 +81,10 @@
     <Compile Include="Assets\IReferenceCount.cs" />
     <Compile Include="Assets\XAnimatedMesh.cs" />
     <Compile Include="Engine.cs" />
-    <Compile Include="Engine.Capabilites.cs">
-      <DependentUpon>Engine.cs</DependentUpon>
-    </Compile>
     <Compile Include="Engine.Audio.cs">
       <DependentUpon>Engine.cs</DependentUpon>
     </Compile>
     <Compile Include="Engine.Debug.cs">
-      <DependentUpon>Engine.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Engine.Effects.cs">
       <DependentUpon>Engine.cs</DependentUpon>
     </Compile>
     <Compile Include="Engine.Performance.cs">
@@ -102,7 +96,9 @@
     <Compile Include="Engine.Terrain.cs">
       <DependentUpon>Engine.cs</DependentUpon>
     </Compile>
+    <Compile Include="EngineCapabilities.cs" />
     <Compile Include="EngineConfig.cs" />
+    <Compile Include="EngineEffects.cs" />
     <Compile Include="EngineState.cs" />
     <Compile Include="EngineUtilsAnimation.cs" />
     <Compile Include="EngineUtilsDraw.cs" />

@@ -15,7 +15,7 @@ namespace OmegaEngine
     /// <summary>
     /// Information about the hardware the <see cref="Engine"/> is running on.
     /// </summary>
-    /// <seealso cref="Engine.Hardware"/>
+    /// <seealso cref="EngineCapabilities.Hardware"/>
     [XmlRoot("hardware")]
     public struct Hardware
     {

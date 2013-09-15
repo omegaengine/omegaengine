@@ -129,11 +129,11 @@ namespace OmegaEngine.Graphics.Renderables
 
             #region Auto-select shader
             SurfaceEffect = SurfaceEffect.Shader;
-            switch (Engine.WaterEffects)
+            switch (Engine.Effects.WaterEffects)
             {
                 case WaterEffectsType.None:
                     Alpha = 128;
-                    if (WaterShader.MinShaderModel > Engine.MaxShaderModel)
+                    if (WaterShader.MinShaderModel > Engine.Capabilities.MaxShaderModel)
                     {
                         // No shader usage at all, render the surface map with the fixed-function pipeline
                         Materials[0].DiffuseMaps[0] = _waterTexture;

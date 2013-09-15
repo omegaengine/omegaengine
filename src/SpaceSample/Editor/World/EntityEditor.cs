@@ -375,7 +375,7 @@ namespace AlphaEditor.World
 
         private void checkBoxNormalMap_CheckedChanged(object sender, EventArgs e)
         {
-            renderPanel.Engine.NormalMapping = checkNormalMapping.Checked;
+            renderPanel.Engine.Effects.NormalMapping = checkNormalMapping.Checked;
         }
 
         private void checkWireframe_CheckedChanged(object sender, EventArgs e)
