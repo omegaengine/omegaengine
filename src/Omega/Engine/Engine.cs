@@ -108,6 +108,11 @@ namespace OmegaEngine
         /// </summary>
         public EngineState State { get; private set; }
 
+        /// <summary>
+        /// Tracks the performance/speed of the engine.
+        /// </summary>
+        public EnginePerformance Performance { get; private set; }
+
         private readonly CacheManager _cache = new CacheManager();
 
         /// <summary>
@@ -152,6 +157,7 @@ namespace OmegaEngine
                 CreateDevice();
                 State = new EngineState(Device);
                 SetupTextureFiltering();
+                Performance = new EnginePerformance(Device, RenderPure);
 
                 if (GeneralShader.MinShaderModel <= Capabilities.MaxShaderModel) DefaultShader = new GeneralShader(this);
 
@@ -202,7 +208,6 @@ namespace OmegaEngine
             RenderViewport = Device.Viewport;
             BackBuffer = Device.GetBackBuffer(0, 0);
         }
-
         #endregion
 
         //--------------------//
@@ -247,7 +252,7 @@ namespace OmegaEngine
 
             if (disposing)
             { // This block will only be executed on manual disposal, not by Garbage Collection
-                Log.Info("Disposing engine\nLast framerate: " + Fps);
+                Log.Info("Disposing engine\nLast framerate: " + Performance.Fps);
 
                 // Dispose scenes and views
                 ExtraRender = null;

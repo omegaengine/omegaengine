@@ -163,7 +163,7 @@ namespace Presentation
             Log.Info("Start test-case #" + _testCaseCounter);
 
             // Start the timer
-            _lastTotalFrames = Engine.TotalFrames;
+            _lastTotalFrames = Engine.Performance.TotalFrames;
             _testCaseTimer = Stopwatch.StartNew();
         }
         #endregion
@@ -174,14 +174,14 @@ namespace Presentation
         /// </summary>
         private void FinishTestCase(double elapsedTime)
         {
-            long frames = Engine.TotalFrames - _lastTotalFrames;
+            long frames = Engine.Performance.TotalFrames - _lastTotalFrames;
 
             // Store results
             _statistics.TestCases[_testCaseCounter].AverageFps = (float)(frames / elapsedTime);
             _statistics.TestCases[_testCaseCounter].AverageFrameMs = (float)(elapsedTime / frames);
 
             // Log a frame with all details
-            Engine.LogFrameCpuGpu(Path.Combine(_resultDir, "test-case" + _testCaseCounter + ".xml"));
+            Engine.Performance.LogFrame(Path.Combine(_resultDir, "test-case" + _testCaseCounter + ".xml"));
 
             if (_statistics.TestCases[_testCaseCounter].Screenshot)
                 Engine.Screenshot(Path.Combine(_resultDir, "test-case" + _testCaseCounter + ".jpg"), new Size(640, 480));

@@ -12,9 +12,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Xml;
 using Common;
 using Common.Utils;
 using LuaInterface;
@@ -61,8 +59,7 @@ namespace OmegaEngine
         #endregion
 
         #region Variables
-        private bool _firstFrame = true;
-        private bool _isResetting;
+        private bool _firstFrameDone, _isResetting;
         internal readonly Mesh SimpleSphere;
         internal readonly Mesh SimpleBox;
         #endregion
@@ -75,6 +72,18 @@ namespace OmegaEngine
         /// A list of all views to be rendered by the engine
         /// </summary>
         public IList<View> Views { get { return _views; } }
+
+        #region Time
+        /// <summary>
+        /// How many seconds of game time have elapsed since the last frame started drawing.
+        /// </summary>
+        public double LastFrameGameTime { get; private set; }
+
+        /// <summary>
+        /// How many seconds of game time have elapsed in total.
+        /// </summary>
+        public double TotalGameTime { get; private set; }
+        #endregion
 
         #region DirectX
         /// <summary>
@@ -215,19 +224,24 @@ namespace OmegaEngine
 
         #region Render
         /// <summary>
-        /// To be called by the render loop
+        /// Renders all <see cref="Views"/>. Tracks elapsed game time automatically.
         /// </summary>
-        /// <param name="elapsedTime">How much game time in seconds has elapsed since the last frame</param>
-        /// <param name="noPresent"><see langword="true"/> to supress actually displaying the render output at the end.</param>
-        public void Render(double elapsedTime, bool noPresent = false)
+        public void Render()
         {
-            #region Frame counting
-            ThisFrameTime = elapsedTime;
-            TotalTime += elapsedTime;
-            TotalFrames++;
-            #endregion
+            Render(Performance.LastFrameTime);
+        }
 
-            #region Sanity checks
+        /// <summary>
+        /// Renders all <see cref="Views"/>. Uses external game time tracking.
+        /// </summary>
+        /// <param name="elapsedGameTime">How many seconds of game time have elapsed since the last frame was drawn.</param>
+        /// <param name="noPresent"><see langword="true"/> to supress actually displaying the render output at the end.</param>
+        public void Render(double elapsedGameTime, bool noPresent = false)
+        {
+            LastFrameGameTime = elapsedGameTime;
+            TotalGameTime += elapsedGameTime;
+
+            #region Status checks
             // Unlock the mouse and skip rendering if the target is invisible or the device disposed
             if (!Target.Visible || _isResetting || Disposed)
             {
@@ -253,103 +267,21 @@ namespace OmegaEngine
             // Raise PreRender event only if this is a normal render run
             if (PreRender != null && !noPresent) PreRender();
 
-            #region Frame log
-            if (_frameLogMode != FrameLog.Off)
-            {
-                // Setup log XML document
-                Profiler.LogXml = new XmlDocument();
-
-                // Log the GPU time as well
-                if (_frameLogMode == FrameLog.CpuGpu)
-                {
-                    Profiler.DeviceQuery = new Query(Device, QueryType.Event);
-                    Profiler.AddEvent("Forcing render pipeline stalls to log GPU performance");
-                }
-            }
-
-            if (_firstFrame)
-            {
-                _firstFrame = false;
-                Log.Info("Render first frame");
-            }
-            #endregion
-
-            #region Timing
-            if (_frameTimer.IsRunning)
-            {
-                _lastFrameTime = _frameTimer.Elapsed.TotalSeconds;
-                _frameTimer.Reset();
-            }
-            _frameTimer.Start();
-
-            if (_fpsTimer.IsRunning)
-            {
-                _fpsFrames++;
-                if (_fpsFrames > FpsResetLimit)
-                {
-                    _fpsTimer.Stop();
-
-                    Fps = (float)(_fpsFrames / _fpsTimer.Elapsed.TotalSeconds);
-                    FrameMs = (float)(_fpsTimer.Elapsed.TotalMilliseconds / _fpsFrames);
-                    _fpsFrames = 0;
-
-                    _fpsTimer.Reset();
-                }
-            }
-            _fpsTimer.Start();
-            #endregion
-
-            #region 3D Sound
-            // ToDo: Properly sync with camera
-            //Camera camera = mainView.Camera;
-            //_listener.Deferred = true;
-            //_listener.Position = camera.EffectivePosition;
-            //_listener.Orientation = new DirectSound.Listener3DOrientation();
-            //_listener.CommitDeferredSettings();
-            #endregion
+            Performance.OnNewFrame();
 
             if (!Disposed)
             {
+                if (!_firstFrameDone)
+                {
+                    _firstFrameDone = true;
+                    Log.Info("Render first frame");
+                }
+
+                Performance.BeforeRender();
                 try
                 {
-                    #region Render
-                    using (new ProfilerEvent("Render engine views"))
-                    {
-                        foreach (View view in _views.Where(view => view.Visible))
-                            view.Render();
-                    }
-
-                    // Fade the output to black
-                    Action fade = delegate
-                    {
-                        Device.Viewport = RenderViewport;
-                        Device.BeginScene();
-                        State.AlphaBlend = 255 - FadeLevel;
-                        this.DrawQuadColored(Color.Black);
-                        Device.EndScene();
-                    };
-
-                    if (FadeLevel > 0 && !FadeExtra)
-                        using (new ProfilerEvent("Fullscreen fading before ExtraRender")) fade();
-
-                    // Render extenal stuff like GUIs
-                    if (ExtraRender != null)
-                    {
-                        using (new ProfilerEvent("ExtraRender delegate"))
-                        {
-                            Device.Viewport = RenderViewport;
-                            Device.BeginScene();
-                            State.AlphaBlend = 0;
-                            ExtraRender();
-                            Device.EndScene();
-                        }
-                    }
-
-                    if (FadeLevel > 0 && FadeExtra)
-                        using (new ProfilerEvent("Fullscreen fading after GUI")) fade();
-
+                    RenderHelper();
                     if (!noPresent) Device.Present();
-                    #endregion
                 }
                     #region Error handling
                 catch (Direct3D9Exception ex)
@@ -365,39 +297,68 @@ namespace OmegaEngine
 
                     throw;
                 }
+                finally
+                {
+                    Performance.AfterRender();
+                }
                 #endregion
             }
-
-            #region Frame log
-            if (_frameLogMode != FrameLog.Off)
-            {
-                _frameLogMode = FrameLog.Off;
-
-                // Write to disk
-                var writer = new XmlTextWriter(_frameLogFile, new UTF8Encoding(false)) {Formatting = Formatting.Indented};
-                Profiler.LogXml.Save(writer);
-                writer.Close();
-
-                // Clean up
-                Profiler.LogXml = null;
-                if (Profiler.DeviceQuery != null)
-                {
-                    Profiler.DeviceQuery.Dispose();
-                    Profiler.DeviceQuery = null;
-                }
-            }
-            #endregion
 
             // Raise PostRender event only if this is a normal render run
             if (PostRender != null && !noPresent) PostRender();
         }
 
         /// <summary>
-        /// To be called by the render loop
+        /// Render one invisible frame without <see cref="PreRender"/> and <see cref="PostRender"/> hooks.
         /// </summary>
-        public void Render()
+        private void RenderPure()
         {
-            Render(_lastFrameTime);
+            Action postRender = PreRender;
+            PreRender = null;
+            Render(0, noPresent: true);
+            PreRender = postRender;
+        }
+
+        /// <summary>
+        /// Called by <see cref="Render(double,bool)"/> to perform the actual rendering.
+        /// </summary>
+        private void RenderHelper()
+        {
+            using (new ProfilerEvent("Render engine views"))
+            {
+                foreach (View view in _views.Where(view => view.Visible))
+                    view.Render();
+            }
+
+            if (FadeLevel > 0 && !FadeExtra)
+                using (new ProfilerEvent("Fullscreen fading before ExtraRender")) Fade();
+
+            if (ExtraRender != null)
+            {
+                using (new ProfilerEvent("ExtraRender delegate"))
+                {
+                    Device.Viewport = RenderViewport;
+                    Device.BeginScene();
+                    State.AlphaBlend = 0;
+                    ExtraRender();
+                    Device.EndScene();
+                }
+            }
+
+            if (FadeLevel > 0 && FadeExtra)
+                using (new ProfilerEvent("Fullscreen fading after GUI")) Fade();
+        }
+
+        /// <summary>
+        /// Applies the current <see cref="FadeLevel"/>.
+        /// </summary>
+        private void Fade()
+        {
+            Device.Viewport = RenderViewport;
+            Device.BeginScene();
+            State.AlphaBlend = 255 - FadeLevel;
+            this.DrawQuadColored(Color.Black);
+            Device.EndScene();
         }
         #endregion
 
@@ -467,9 +428,7 @@ namespace OmegaEngine
             if (DeviceReset != null) DeviceReset();
 
             State.Reset();
-
-            // Reset the framerate timer
-            _fpsTimer.Reset();
+            Performance.Reset();
             #endregion
 
             _isResetting = NeedsReset = false;

@@ -264,7 +264,7 @@ namespace OmegaEngine
 
         private void logFrameSaveFileDialog_FileOk(object sender, CancelEventArgs e)
         {
-            _engine.LogFrameCpuGpu(logFrameSaveFileDialog.FileName);
+            _engine.Performance.LogFrame(logFrameSaveFileDialog.FileName);
             logFrameSaveFileDialog.FileName = "";
         }
         #endregion

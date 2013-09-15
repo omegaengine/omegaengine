@@ -87,9 +87,6 @@
     <Compile Include="Engine.Debug.cs">
       <DependentUpon>Engine.cs</DependentUpon>
     </Compile>
-    <Compile Include="Engine.Performance.cs">
-      <DependentUpon>Engine.cs</DependentUpon>
-    </Compile>
     <Compile Include="Engine.Render.cs">
       <DependentUpon>Engine.cs</DependentUpon>
     </Compile>
@@ -99,6 +96,7 @@
     <Compile Include="EngineCapabilities.cs" />
     <Compile Include="EngineConfig.cs" />
     <Compile Include="EngineEffects.cs" />
+    <Compile Include="EnginePerformance.cs" />
     <Compile Include="EngineState.cs" />
     <Compile Include="EngineUtilsAnimation.cs" />
     <Compile Include="EngineUtilsDraw.cs" />

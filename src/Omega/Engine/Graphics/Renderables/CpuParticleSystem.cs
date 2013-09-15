@@ -179,7 +179,7 @@ namespace OmegaEngine.Graphics.Renderables
             }
             else
             {
-                elapsedTime = Engine.ThisFrameTime * _preset.Speed;
+                elapsedTime = Engine.LastFrameGameTime * _preset.Speed;
 
                 // Prevent extremly large updates
                 float maxUpdate = _preset.WarmupTime;

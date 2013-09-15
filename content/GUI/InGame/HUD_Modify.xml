@@ -5,7 +5,7 @@
 	<ColorText A="255" R="255" G="255" B="255" />
 	<OnShow>FreezeTime.Checked = (Session.TimeWarpFactor==0)</OnShow>
 	<OnUpdate>LightPhase.Value = Universe.LightPhase * 25
-FPS.Text = Engine.FpsText</OnUpdate>
+FPS.Text = Engine.Performance.FpsText</OnUpdate>
 	<Size Width="800" Height="600" />
 	<Shift X="0" Y="0" />
 	<Button Name="ShowMenu" Text="[ShowMenu]" Hotkey="Pause">

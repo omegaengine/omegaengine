@@ -113,10 +113,10 @@ namespace OmegaEngine.Graphics.Shaders
 
                                 #region Timer
                             case SemanticID.Time:
-                                Effect.SetValue(info.Handle, (float)Engine.TotalTime);
+                                Effect.SetValue(info.Handle, (float)Engine.TotalGameTime);
                                 break;
                             case SemanticID.ElapsedTime:
-                                Effect.SetValue(info.Handle, (float)Engine.ThisFrameTime);
+                                Effect.SetValue(info.Handle, (float)Engine.LastFrameGameTime);
                                 break;
                                 #endregion
                         }
