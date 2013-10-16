@@ -25,8 +25,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Common.Collections;
-using Common.Utils;
 using Common.Properties;
+using Common.Utils;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace Common.Storage
@@ -92,57 +92,35 @@ namespace Common.Storage
         /// </summary>
         public static void LoadArchives()
         {
-            if (_baseArchives != null)
-                throw new InvalidOperationException(Resources.ContentArchivesAlreadyLoaded);
+            if (_baseArchives != null) throw new InvalidOperationException(Resources.ContentArchivesAlreadyLoaded);
 
-            #region Base files
-            FileInfo[] baseFiles = BaseDir.GetFiles("*" + FileExt);
-            _baseArchives = new List<ZipFile>(baseFiles.Length); // Use exact size for list capacity
-            foreach (FileInfo file in baseFiles)
+            _baseArchives = LoadArchives(BaseDir, _baseArchiveData);
+            if (ModDir != null) _modArchives = LoadArchives(ModDir, _modArchiveData);
+        }
+
+        private static List<ZipFile> LoadArchives(DirectoryInfo directory, Dictionary<string, ContentArchiveEntry> dictionary)
+        {
+            FileInfo[] files = directory.GetFiles("*" + FileExt);
+            var archives = new List<ZipFile>(files.Length); // Use exact size for list capacity
+            foreach (FileInfo file in files)
             {
                 Log.Info("Load base data archive: " + file.Name);
                 var zipFile = new ZipFile(file.FullName);
                 foreach (ZipEntry zipEntry in zipFile)
-                {
-                    if (zipEntry.IsFile)
-                    {
-                        // Unify directory directory separator character
-                        string filename = FileUtils.UnifySlashes(zipEntry.Name);
-
-                        // Overwrite existing entries
-                        if (_baseArchiveData.ContainsKey(filename)) _baseArchiveData.Remove(filename);
-                        _baseArchiveData.Add(filename, new ContentArchiveEntry(zipFile, zipEntry));
-                    }
-                }
-                _baseArchives.Add(zipFile);
+                    dictionary.Add(zipEntry, zipFile);
+                archives.Add(zipFile);
             }
-            #endregion
+            return archives;
+        }
 
-            #region Mod files
-            if (ModDir != null)
-            {
-                FileInfo[] modFiles = ModDir.GetFiles("*" + FileExt);
-                _modArchives = new List<ZipFile>(modFiles.Length); // Use exact size for list capacity
-                foreach (FileInfo file in modFiles)
-                {
-                    Log.Info("Load mod data archive: " + file.Name);
-                    var zipFile = new ZipFile(file.FullName);
-                    foreach (ZipEntry zipEntry in zipFile)
-                    {
-                        if (zipEntry.IsFile)
-                        {
-                            // Unify directory directory separator character
-                            string filename = FileUtils.UnifySlashes(zipEntry.Name);
+        private static void Add(this Dictionary<string, ContentArchiveEntry> dictionary, ZipEntry zipEntry, ZipFile zipFile)
+        {
+            if (!zipEntry.IsFile) return;
+            string filename = FileUtils.UnifySlashes(zipEntry.Name);
 
-                            // Overwrite existing entries
-                            if (_modArchiveData.ContainsKey(filename)) _modArchiveData.Remove(filename);
-                            _modArchiveData.Add(filename, new ContentArchiveEntry(zipFile, zipEntry));
-                        }
-                    }
-                    _modArchives.Add(zipFile);
-                }
-            }
-            #endregion
+            // Overwrite existing entries
+            if (dictionary.ContainsKey(filename)) _baseArchiveData.Remove(filename);
+            dictionary.Add(filename, new ContentArchiveEntry(zipFile, zipEntry));
         }
         #endregion
 
@@ -153,45 +131,31 @@ namespace Common.Storage
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Errors on shutdown because of an inconsistent state are useless and annoying")]
         public static void CloseArchives()
         {
-            #region Base files
             if (_baseArchives != null)
             {
-                foreach (ZipFile zipFile in _baseArchives)
-                {
-                    Log.Info("Close base data archive: " + zipFile.Name);
-                    try
-                    {
-                        zipFile.Close();
-                    }
-                        // ReSharper disable EmptyGeneralCatchClause
-                    catch
-                    {}
-                    // ReSharper restore EmptyGeneralCatchClause
-                }
+                _baseArchives.ForEach(CloseSafe);
                 _baseArchives = null;
                 _baseArchiveData.Clear();
             }
-            #endregion
 
-            #region Mod files
             if (_modArchives != null)
             {
-                foreach (ZipFile zipFile in _modArchives)
-                {
-                    Log.Info("Close mod data archive: " + zipFile.Name);
-                    try
-                    {
-                        zipFile.Close();
-                    }
-                        // ReSharper disable EmptyGeneralCatchClause
-                    catch
-                    {}
-                    // ReSharper restore EmptyGeneralCatchClause
-                }
+                _modArchives.ForEach(CloseSafe);
                 _modArchives = null;
                 _modArchiveData.Clear();
             }
-            #endregion
+        }
+
+        private static void CloseSafe(this ZipFile zipFile)
+        {
+            Log.Info("Close archive: " + zipFile.Name);
+            try
+            {
+                zipFile.Close();
+            }
+                // ReSharper disable once EmptyGeneralCatchClause
+            catch
+            {}
         }
         #endregion
 
@@ -210,7 +174,6 @@ namespace Common.Storage
             if (string.IsNullOrEmpty(type)) throw new ArgumentNullException("type");
             #endregion
 
-            // Unify directory directory separator character
             type = FileUtils.UnifySlashes(type);
 
             // Use mod directory if available
@@ -240,10 +203,8 @@ namespace Common.Storage
             if (string.IsNullOrEmpty(id)) throw new ArgumentNullException("id");
             #endregion
 
-            // Unify directory directory separator character
             type = FileUtils.UnifySlashes(type);
             id = FileUtils.UnifySlashes(id);
-
             return Path.Combine(CreateDirPath(type), id);
         }
         #endregion
@@ -263,10 +224,8 @@ namespace Common.Storage
             if (string.IsNullOrEmpty(id)) throw new ArgumentNullException("id");
             #endregion
 
-            // Unify directory directory separator character
             type = FileUtils.UnifySlashes(type);
             id = FileUtils.UnifySlashes(id);
-
             string fullID = Path.Combine(type, id);
 
             if (ModDir != null && File.Exists(Path.Combine(ModDir.FullName, fullID)))
@@ -371,7 +330,6 @@ namespace Common.Storage
             if (string.IsNullOrEmpty(extension)) throw new ArgumentNullException("extension");
             #endregion
 
-            // Unify directory directory separator character
             type = FileUtils.UnifySlashes(type);
 
             // Create an alphabetical list of files without duplicates
@@ -423,7 +381,6 @@ namespace Common.Storage
             if (string.IsNullOrEmpty(id)) throw new ArgumentNullException("id");
             #endregion
 
-            // Unify directory directory separator character
             type = FileUtils.UnifySlashes(type);
             id = FileUtils.UnifySlashes(id);
 
@@ -462,7 +419,6 @@ namespace Common.Storage
             if (string.IsNullOrEmpty(id)) throw new ArgumentNullException("id");
             #endregion
 
-            // Unify directory directory separator character
             type = FileUtils.UnifySlashes(type);
             id = FileUtils.UnifySlashes(id);
 
