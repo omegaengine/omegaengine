@@ -36,7 +36,7 @@ AppName={#AppName}
 AppVerName={#AppName} v{#Version}
 AppCopyright=Copyright 2006-2012 Bastian Eicher
 AppID={#AppName}
-AppMutex=Terrain Sample Game,Terrain Sample Game Editor,Space Sample Game,Space Sample Game Editor,Towers of Hanoi
+AppMutex=Terrain Sample Game,Terrain Sample Game Editor,Space Sample Game,Space Sample Game Editor
 DefaultGroupName={#AppName}
 AppPublisher={#Company}
 AppVersion={#Version}
@@ -81,12 +81,10 @@ Name: {group}\Terrain Sample Editor; Filename: {app}\TerrainSample.Editor.exe
 Name: {group}\Space Sample Game; Filename: {app}\SpaceSample.exe
 Name: {group}\Space Sample Benchmark; Filename: {app}\SpaceSample.exe; Parameters: /benchmark
 Name: {group}\Space Sample Editor; Filename: {app}\SpaceSample.Editor.exe
-Name: {group}\Towers of Hanoi; Filename: {app}\Hanoi.exe
 
 [Run]
 Filename: {app}\TerrainSample.exe; Description: {cm:LaunchProgram,Terrain Sample Game}; Flags: nowait postinstall runasoriginaluser skipifsilent
 Filename: {app}\SpaceSample.exe; Description: {cm:LaunchProgram,Space Sample Game}; Flags: nowait postinstall runasoriginaluser skipifsilent unchecked
-Filename: {app}\Hanoi.exe; Description: {cm:LaunchProgram,Tower of Hanoi}; Flags: nowait postinstall runasoriginaluser skipifsilent unchecked
 
 [Code]
 function InitializeSetup(): Boolean;

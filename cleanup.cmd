@@ -35,7 +35,6 @@ rd /s /q "%~dp0src\SpaceSample\Settings\obj" > NUL 2>&1
 rd /s /q "%~dp0src\SpaceSample\World\obj" > NUL 2>&1
 rd /s /q "%~dp0src\SpaceSample\Test.World\obj" > NUL 2>&1
 rd /s /q "%~dp0src\SpaceSample\Presentation\obj" > NUL 2>&1
-rd /s /q "%~dp0src\Hanoi\obj" > NUL 2>&1
 rd /s /q "%~dp0src\Omega\Common\obj" > NUL 2>&1
 rd /s /q "%~dp0src\Omega\Test.Common\obj" > NUL 2>&1
 rd /s /q "%~dp0src\Omega\Engine\obj" > NUL 2>&1

@@ -1,79 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DirectedGraph GraphDirection="LeftToRight" Layout="Sugiyama" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="(Namespace=AlphaEditor.Graphics)" Category="CodeSchema_Namespace" IsDragSource="True" Label="AlphaEditor.Graphics" />
-    <Node Id="(Namespace=Common.Collections)" Category="CodeSchema_Namespace" IsDragSource="True" Label="Common.Collections" />
-    <Node Id="(Namespace=Common.Controls)" Category="CodeSchema_Namespace" IsDragSource="True" Label="Common.Controls" />
-    <Node Id="(Namespace=Common.PathFinding)" Category="CodeSchema_Namespace" IsDragSource="True" Label="Common.PathFinding" />
-    <Node Id="(Namespace=Common.Storage)" Category="CodeSchema_Namespace" IsDragSource="True" Label="Common.Storage" />
-    <Node Id="(Namespace=Common.Undo)" Category="CodeSchema_Namespace" IsDragSource="True" Label="Common.Undo" />
-    <Node Id="(Namespace=Common.Utils)" Category="CodeSchema_Namespace" IsDragSource="True" Label="Common.Utils" />
-    <Node Id="(Namespace=Common.Values)" Category="CodeSchema_Namespace" IsDragSource="True" Label="Common.Values" />
-    <Node Id="(Namespace=Core.Gui)" Category="CodeSchema_Namespace" IsDragSource="True" Label="Core.Gui" />
-    <Node Id="(Namespace=OmegaEngine.Assets)" Category="CodeSchema_Namespace" IsDragSource="True" Label="OmegaEngine.Assets" />
-    <Node Id="(Namespace=OmegaEngine.Audio)" Category="CodeSchema_Namespace" IsDragSource="True" Label="OmegaEngine.Audio" />
-    <Node Id="(Namespace=OmegaEngine.Graphics.Cameras)" Category="CodeSchema_Namespace" IsDragSource="True" Label="OmegaEngine.Graphics.Cameras" />
-    <Node Id="(Namespace=OmegaEngine.Graphics.Renderables)" Category="CodeSchema_Namespace" IsDragSource="True" Label="OmegaEngine.Graphics.Renderables" />
-    <Node Id="(Namespace=OmegaEngine.Graphics.Shaders)" Category="CodeSchema_Namespace" IsDragSource="True" Label="OmegaEngine.Graphics.Shaders" />
-    <Node Id="(Namespace=OmegaEngine.Graphics.VertexDecl)" Category="CodeSchema_Namespace" IsDragSource="True" Label="OmegaEngine.Graphics.VertexDecl" />
-    <Node Id="(Namespace=OmegaGUI.Controller)" Category="CodeSchema_Namespace" IsDragSource="True" Label="OmegaGUI.Controller" />
-    <Node Id="(Namespace=OmegaGUI.Model)" Category="CodeSchema_Namespace" IsDragSource="True" Label="OmegaGUI.Model" />
-    <Node Id="(Namespace=OmegaGUI.Render)" Category="CodeSchema_Namespace" IsDragSource="True" Label="OmegaGUI.Render" />
-    <Node Id="(Namespace=Presentation)" Category="CodeSchema_Namespace" IsDragSource="True" Label="Presentation" />
-    <Node Id="(Namespace=World.EntityComponents)" Category="CodeSchema_Namespace" IsDragSource="True" Label="World.EntityComponents" />
-    <Node Id="@1" Category="CodeSchema_Namespace" IsDragSource="True" Label="AlphaEditor.GUI" />
-    <Node Id="@10" Category="CodeSchema_Namespace" IsDragSource="True" Label="Hanoi.Presentation" />
-    <Node Id="@11" Category="CodeSchema_Namespace" IsDragSource="True" Label="Hanoi.Settings" />
-    <Node Id="@12" Category="CodeSchema_Namespace" IsDragSource="True" Label="OmegaEngine" />
-    <Node Id="@13" Category="CodeSchema_Namespace" IsDragSource="True" Label="OmegaEngine.Graphics" />
-    <Node Id="@14" Category="CodeSchema_Namespace" IsDragSource="True" Label="OmegaGUI" />
-    <Node Id="@15" Category="CodeSchema_Namespace" IsDragSource="True" Label="World" />
-    <Node Id="@2" Category="CodeSchema_Namespace" IsDragSource="True" Label="AlphaEditor.GUI.Dialogs" />
-    <Node Id="@3" Category="CodeSchema_Namespace" IsDragSource="True" Label="AlphaEditor.World" />
-    <Node Id="@4" Category="CodeSchema_Namespace" IsDragSource="True" Label="AlphaEditor.World.Commands" />
-    <Node Id="@5" Category="CodeSchema_Namespace" IsDragSource="True" Label="AlphaEditor.World.Dialogs" />
-    <Node Id="@6" Category="CodeSchema_Namespace" IsDragSource="True" Label="Common" />
-    <Node Id="@7" Category="CodeSchema_Namespace" IsDragSource="True" Label="Core" />
-    <Node Id="@8" Category="CodeSchema_Namespace" IsDragSource="True" Label="Hanoi" />
-    <Node Id="@9" Category="CodeSchema_Namespace" IsDragSource="True" Label="Hanoi.Logic" />
-    <Node Id="NewGroup1" Category="Category2" Group="Expanded" Label="Editor.exe" />
-    <Node Id="NewGroup10" Group="Expanded" Label="TerrainSample" />
-    <Node Id="NewGroup11" Category="Category2" Group="Expanded" Label="Hanoi.exe" />
-    <Node Id="NewGroup2" Category="Category9" Group="Expanded" Label="OmegaEngine.dll" />
-    <Node Id="NewGroup3" Category="Category9" Group="Expanded" Label="OmegaGUI.dll" />
-    <Node Id="NewGroup4" Category="Category9" Group="Expanded" Label="Common.dll" />
-    <Node Id="NewGroup5" Category="Category9" Group="Expanded" Label="AlphaEditor.dll" />
-    <Node Id="NewGroup6" Category="Category2" Group="Expanded" Label="TerrainSample.exe / TerrainSample.Settings.dll" />
-    <Node Id="NewGroup7" Category="Category9" Group="Expanded" Label="TerrainSample.Presentation.dll" />
-    <Node Id="NewGroup8" Category="Category9" Group="Expanded" Label="TerrainSample.World.dll" />
-    <Node Id="NewGroup9" Group="Expanded" Label="Omega" />
+    <Node Id="(Namespace=AlphaEditor.Graphics)" Category="CodeSchema_Namespace" Bounds="396.39,596,152.41,27" IsDragSource="True" Label="AlphaEditor.Graphics" />
+    <Node Id="(Namespace=Common.Collections)" Category="CodeSchema_Namespace" Bounds="163.498333333333,422,151.533333333333,27" IsDragSource="True" Label="Common.Collections" />
+    <Node Id="(Namespace=Common.Controls)" Category="CodeSchema_Namespace" Bounds="170.228333333333,365,138.073333333333,27" IsDragSource="True" Label="Common.Controls" />
+    <Node Id="(Namespace=Common.PathFinding)" Category="CodeSchema_Namespace" Bounds="160.953333333333,308,156.623333333333,27" IsDragSource="True" Label="Common.PathFinding" />
+    <Node Id="(Namespace=Common.Storage)" Category="CodeSchema_Namespace" Bounds="171.941666666667,251,134.646666666667,27" IsDragSource="True" Label="Common.Storage" />
+    <Node Id="(Namespace=Common.Undo)" Category="CodeSchema_Namespace" Bounds="177.923333333333,194,122.683333333333,27" IsDragSource="True" Label="Common.Undo" />
+    <Node Id="(Namespace=Common.Utils)" Category="CodeSchema_Namespace" Bounds="180.88,137,116.77,27" IsDragSource="True" Label="Common.Utils" />
+    <Node Id="(Namespace=Common.Values)" Category="CodeSchema_Namespace" Bounds="175.175,80,128.18,27" IsDragSource="True" Label="Common.Values" />
+    <Node Id="(Namespace=Core.Gui)" Category="CodeSchema_Namespace" Bounds="1199.39,254,87.4400000000001,27" IsDragSource="True" Label="Core.Gui" />
+    <Node Id="(Namespace=OmegaEngine.Assets)" Category="CodeSchema_Namespace" Bounds="540.578333333333,251,152.696666666667,27" IsDragSource="True" Label="OmegaEngine.Assets" />
+    <Node Id="(Namespace=OmegaEngine.Audio)" Category="CodeSchema_Namespace" Bounds="541.493333333334,194,150.866666666667,27" IsDragSource="True" Label="OmegaEngine.Audio" />
+    <Node Id="(Namespace=OmegaEngine.Graphics.Cameras)" Category="CodeSchema_Namespace" Bounds="739.38,251,213.356666666667,27" IsDragSource="True" Label="OmegaEngine.Graphics.Cameras" />
+    <Node Id="(Namespace=OmegaEngine.Graphics.Renderables)" Category="CodeSchema_Namespace" Bounds="729.543333333334,194,233.03,27" IsDragSource="True" Label="OmegaEngine.Graphics.Renderables" />
+    <Node Id="(Namespace=OmegaEngine.Graphics.Shaders)" Category="CodeSchema_Namespace" Bounds="741.201666666667,137,209.713333333333,27" IsDragSource="True" Label="OmegaEngine.Graphics.Shaders" />
+    <Node Id="(Namespace=OmegaEngine.Graphics.VertexDecl)" Category="CodeSchema_Namespace" Bounds="733.695,80,224.726666666667,27" IsDragSource="True" Label="OmegaEngine.Graphics.VertexDecl" />
+    <Node Id="(Namespace=OmegaGUI.Controller)" Category="CodeSchema_Namespace" Bounds="170.503333333333,653,155.886666666667,27" IsDragSource="True" Label="OmegaGUI.Controller" />
+    <Node Id="(Namespace=OmegaGUI.Model)" Category="CodeSchema_Namespace" Bounds="179.866666666667,596,137.16,27" IsDragSource="True" Label="OmegaGUI.Model" />
+    <Node Id="(Namespace=OmegaGUI.Render)" Category="CodeSchema_Namespace" Bounds="178.015,539,140.863333333333,27" IsDragSource="True" Label="OmegaGUI.Render" />
+    <Node Id="(Namespace=Presentation)" Category="CodeSchema_Namespace" Bounds="1098.49666666667,371,108.296666666667,27" IsDragSource="True" Label="Presentation" />
+    <Node Id="(Namespace=World.EntityComponents)" Category="CodeSchema_Namespace" Bounds="1491.12333333333,254,174.59,27" IsDragSource="True" Label="World.EntityComponents" />
+    <Node Id="@1" Category="CodeSchema_Namespace" Bounds="396.39,539,126.18,27" IsDragSource="True" Label="AlphaEditor.GUI" />
+    <Node Id="@12" Category="CodeSchema_Namespace" Bounds="387.576666666667,194,116.733333333333,27" IsDragSource="True" Label="OmegaEngine" />
+    <Node Id="@13" Category="CodeSchema_Namespace" Bounds="534.31,137,165.233333333333,27" IsDragSource="True" Label="OmegaEngine.Graphics" />
+    <Node Id="@14" Category="CodeSchema_Namespace" Bounds="40,596,100.503333333333,27" IsDragSource="True" Label="OmegaGUI" />
+    <Node Id="@15" Category="CodeSchema_Namespace" Bounds="1386.73666666667,254,74.3866666666665,27" IsDragSource="True" Label="World" />
+    <Node Id="@2" Category="CodeSchema_Namespace" Bounds="552.57,539,168.303333333333,27" IsDragSource="True" Label="AlphaEditor.GUI.Dialogs" />
+    <Node Id="@3" Category="CodeSchema_Namespace" Bounds="1072.57333333333,80,138.896666666667,27" IsDragSource="True" Label="AlphaEditor.World" />
+    <Node Id="@4" Category="CodeSchema_Namespace" Bounds="1241.47,137,201.686666666667,27" IsDragSource="True" Label="AlphaEditor.World.Commands" />
+    <Node Id="@5" Category="CodeSchema_Namespace" Bounds="1251.80333333333,80,181.02,27" IsDragSource="True" Label="AlphaEditor.World.Dialogs" />
+    <Node Id="@6" Category="CodeSchema_Namespace" Bounds="40,251,90.9533333333333,27" IsDragSource="True" Label="Common" />
+    <Node Id="@7" Category="CodeSchema_Namespace" Bounds="1102.48,254,66.9100000000001,27" IsDragSource="True" Label="Core" />
+    <Node Id="NewGroup1" Category="Category2" Bounds="1052.57333333333,40,410.583333333333,144" Group="Expanded" Label="Editor.exe" />
+    <Node Id="NewGroup10" Bounds="1032.57333333333,0,673.14,438" Group="Expanded" Label="TerrainSample" />
+    <Node Id="NewGroup2" Category="Category9" Bounds="367.576666666667,40,614.996666666667,258" Group="Expanded" Label="OmegaEngine.dll" />
+    <Node Id="NewGroup3" Category="Category9" Bounds="20,499,326.39,201" Group="Expanded" Label="OmegaGUI.dll" />
+    <Node Id="NewGroup4" Category="Category9" Bounds="20,40,317.576666666667,429" Group="Expanded" Label="Common.dll" />
+    <Node Id="NewGroup5" Category="Category9" Bounds="376.39,499,364.483333333333,144" Group="Expanded" Label="AlphaEditor.dll" />
+    <Node Id="NewGroup6" Category="Category2" Bounds="1052.57333333333,214,284.163333333333,87" Group="Expanded" Label="TerrainSample.exe / TerrainSample.Settings.dll" />
+    <Node Id="NewGroup7" Category="Category9" Bounds="1052.57333333333,331,200.143333333333,87" Group="Expanded" Label="TerrainSample.Presentation.dll" />
+    <Node Id="NewGroup8" Category="Category9" Bounds="1366.73666666667,214,318.976666666667,87" Group="Expanded" Label="TerrainSample.World.dll" />
+    <Node Id="NewGroup9" Bounds="0,0,1002.57333333333,720" Group="Expanded" Label="Omega" />
   </Nodes>
   <Links>
-    <Link Source="@1" Target="@2" Category="Contains" />
-    <Link Source="@12" Target="(Namespace=OmegaEngine.Assets)" Category="Contains" />
-    <Link Source="@12" Target="(Namespace=OmegaEngine.Audio)" Category="Contains" />
-    <Link Source="@12" Target="@13" Category="Contains" />
-    <Link Source="@13" Target="(Namespace=OmegaEngine.Graphics.Cameras)" Category="Contains" />
-    <Link Source="@13" Target="(Namespace=OmegaEngine.Graphics.Renderables)" Category="Contains" />
-    <Link Source="@13" Target="(Namespace=OmegaEngine.Graphics.Shaders)" Category="Contains" />
-    <Link Source="@13" Target="(Namespace=OmegaEngine.Graphics.VertexDecl)" Category="Contains" />
-    <Link Source="@14" Target="(Namespace=OmegaGUI.Controller)" Category="Contains" />
-    <Link Source="@14" Target="(Namespace=OmegaGUI.Model)" Category="Contains" />
-    <Link Source="@14" Target="(Namespace=OmegaGUI.Render)" Category="Contains" />
-    <Link Source="@15" Target="(Namespace=World.EntityComponents)" Category="Contains" />
-    <Link Source="@3" Target="@4" Category="Contains" />
-    <Link Source="@3" Target="@5" Category="Contains" />
-    <Link Source="@6" Target="(Namespace=Common.Collections)" Category="Contains" />
-    <Link Source="@6" Target="(Namespace=Common.Controls)" Category="Contains" />
-    <Link Source="@6" Target="(Namespace=Common.PathFinding)" Category="Contains" />
-    <Link Source="@6" Target="(Namespace=Common.Storage)" Category="Contains" />
-    <Link Source="@6" Target="(Namespace=Common.Undo)" Category="Contains" />
-    <Link Source="@6" Target="(Namespace=Common.Utils)" Category="Contains" />
-    <Link Source="@6" Target="(Namespace=Common.Values)" Category="Contains" />
-    <Link Source="@7" Target="(Namespace=Core.Gui)" Category="Contains" />
-    <Link Source="@8" Target="@10" Category="Contains" />
-    <Link Source="@8" Target="@11" Category="Contains" />
-    <Link Source="@8" Target="@9" Category="Contains" />
+    <Link Source="@1" Target="@2" Category="Contains" Bounds="522.570007324219,552.5,21,0" />
+    <Link Source="@12" Target="(Namespace=OmegaEngine.Assets)" Category="Contains" Bounds="486.439392089844,221,81.453125,27.1537017822266" />
+    <Link Source="@12" Target="(Namespace=OmegaEngine.Audio)" Category="Contains" Bounds="504.309997558594,207.5,28.183349609375,0" />
+    <Link Source="@12" Target="@13" Category="Contains" Bounds="486.439392089844,166.846298217773,81.453125,27.1537017822266" />
+    <Link Source="@13" Target="(Namespace=OmegaEngine.Graphics.Cameras)" Category="Contains" Bounds="652.950561523438,164,128.812377929688,84.8638000488281" />
+    <Link Source="@13" Target="(Namespace=OmegaEngine.Graphics.Renderables)" Category="Contains" Bounds="671.194702148438,164,111.86181640625,27.8273315429688" />
+    <Link Source="@13" Target="(Namespace=OmegaEngine.Graphics.Shaders)" Category="Contains" Bounds="699.543334960938,150.5,32.6583251953125,0" />
+    <Link Source="@13" Target="(Namespace=OmegaEngine.Graphics.VertexDecl)" Category="Contains" Bounds="671.194702148438,109.172668457031,111.86181640625,27.8273315429688" />
+    <Link Source="@14" Target="(Namespace=OmegaGUI.Controller)" Category="Contains" Bounds="127.718902587891,623,74.7933959960938,26.9491577148438" />
+    <Link Source="@14" Target="(Namespace=OmegaGUI.Model)" Category="Contains" Bounds="140.503326416016,609.5,30.3633422851563,0" />
+    <Link Source="@14" Target="(Namespace=OmegaGUI.Render)" Category="Contains" Bounds="127.718902587891,569.050842285156,74.7933959960938,26.9491577148438" />
+    <Link Source="@15" Target="(Namespace=World.EntityComponents)" Category="Contains" Bounds="1461.12329101563,267.5,21,0" />
+    <Link Source="@3" Target="@4" Category="Contains" Bounds="1189.45910644531,107,96.7603759765625,27.5365447998047" />
+    <Link Source="@3" Target="@5" Category="Contains" Bounds="1211.46997070313,93.5,31.3333740234375,0" />
+    <Link Source="@6" Target="(Namespace=Common.Collections)" Category="Contains" Bounds="93.146484375,278,108.902160644531,140.207580566406" />
+    <Link Source="@6" Target="(Namespace=Common.Controls)" Category="Contains" Bounds="96.6216583251953,278,98.1025238037109,83.8421630859375" />
+    <Link Source="@6" Target="(Namespace=Common.PathFinding)" Category="Contains" Bounds="121.90022277832,278,72.5022277832031,26.8721618652344" />
+    <Link Source="@6" Target="(Namespace=Common.Storage)" Category="Contains" Bounds="130.953338623047,264.5,31.9883270263672,0" />
+    <Link Source="@6" Target="(Namespace=Common.Undo)" Category="Contains" Bounds="121.90022277832,224.127822875977,72.5022277832031,26.8721771240234" />
+    <Link Source="@6" Target="(Namespace=Common.Utils)" Category="Contains" Bounds="102.066398620605,168.839294433594,108.44181060791,82.1607055664063" />
+    <Link Source="@6" Target="(Namespace=Common.Values)" Category="Contains" Bounds="93.6131286621094,110.80908203125,108.13948059082,140.19091796875" />
+    <Link Source="@7" Target="(Namespace=Core.Gui)" Category="Contains" Bounds="1169.39001464844,267.5,21,0" />
     <Link Source="NewGroup1" Target="@3" Category="Contains" />
     <Link Source="NewGroup1" Target="@4" Category="Contains" />
     <Link Source="NewGroup1" Target="@5" Category="Contains" />
@@ -81,10 +73,6 @@
     <Link Source="NewGroup10" Target="NewGroup6" Category="Contains" />
     <Link Source="NewGroup10" Target="NewGroup7" Category="Contains" />
     <Link Source="NewGroup10" Target="NewGroup8" Category="Contains" />
-    <Link Source="NewGroup11" Target="@10" Category="Contains" />
-    <Link Source="NewGroup11" Target="@11" Category="Contains" />
-    <Link Source="NewGroup11" Target="@8" Category="Contains" />
-    <Link Source="NewGroup11" Target="@9" Category="Contains" />
     <Link Source="NewGroup2" Target="@12" Category="Contains" />
     <Link Source="NewGroup3" Target="@14" Category="Contains" />
     <Link Source="NewGroup4" Target="@6" Category="Contains" />
@@ -100,34 +88,54 @@
     <Link Source="NewGroup9" Target="NewGroup5" Category="Contains" />
   </Links>
   <Categories>
-    <Category Id="Category2" Background="#FF7DC633" />
+    <Category Id="Category2" Label="Category 2" Background="#FF7DC633" IsTag="True" />
     <Category Id="Category9" Label="dll File" Background="#FF004A7F" IsTag="True" />
     <Category Id="CodeSchema_Block" Label="Block" BasedOn="CodeSchema_Statement" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" IsProviderRoot="False" NavigationActionLabel="Blocks" />
     <Category Id="CodeSchema_Namespace" Label="Namespace" BasedOn="CodeSchema_Block" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Type" Icon="CodeSchema_Namespace" IsProviderRoot="False" NavigationActionLabel="Namespaces" />
     <Category Id="CodeSchema_Statement" Label="Statement" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" IsProviderRoot="False" NavigationActionLabel="Statement" />
-    <Category Id="Contains" Label="Contains" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
+    <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
   </Categories>
   <Properties>
     <Property Id="Background" Label="Background" Description="The background color" DataType="System.Windows.Media.Brush" />
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
     <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
     <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
     <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
-    <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Progression.Layout.GraphDirection" />
-    <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.Progression.GraphModel.GroupStyle" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation" />
+    <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="GroupLabel" DataType="System.String" />
     <Property Id="Icon" Label="Icon" Description="Icon" DataType="System.String" />
     <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
     <Property Id="IsContainment" DataType="System.Boolean" />
     <Property Id="IsDragSource" Label="IsDragSource" Description="IsDragSource" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
     <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
     <Property Id="IsTag" DataType="System.Boolean" />
     <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
     <Property Id="Layout" DataType="System.String" />
     <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
     <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
   </Properties>
   <QualifiedNames>
     <Name Id="Namespace" Label="Namespace" ValueType="System.String" />
   </QualifiedNames>
+  <IdentifierAliases>
+    <Alias n="1" Id="(Namespace=AlphaEditor.GUI)" />
+    <Alias n="2" Id="(Namespace=AlphaEditor.GUI.Dialogs)" />
+    <Alias n="3" Id="(Namespace=AlphaEditor.World)" />
+    <Alias n="4" Id="(Namespace=AlphaEditor.World.Commands)" />
+    <Alias n="5" Id="(Namespace=AlphaEditor.World.Dialogs)" />
+    <Alias n="6" Id="(Namespace=Common)" />
+    <Alias n="7" Id="(Namespace=Core)" />
+    <Alias n="12" Id="(Namespace=OmegaEngine)" />
+    <Alias n="13" Id="(Namespace=OmegaEngine.Graphics)" />
+    <Alias n="14" Id="(Namespace=OmegaGUI)" />
+    <Alias n="15" Id="(Namespace=World)" />
+  </IdentifierAliases>
   <Styles>
     <Style TargetType="Node" GroupLabel="exe File" ValueLabel="True">
       <Condition Expression="HasCategory('Category2')" />
@@ -143,25 +151,8 @@
       <Setter Property="Icon" Value="pack://application:,,,/Microsoft.VisualStudio.Progression.VSPackage;component/Icons/Namespace.png" />
     </Style>
   </Styles>
-  <IdentifierAliases>
-    <Alias n="1" Id="(Namespace=AlphaEditor.GUI)" />
-    <Alias n="2" Id="(Namespace=AlphaEditor.GUI.Dialogs)" />
-    <Alias n="3" Id="(Namespace=AlphaEditor.World)" />
-    <Alias n="4" Id="(Namespace=AlphaEditor.World.Commands)" />
-    <Alias n="5" Id="(Namespace=AlphaEditor.World.Dialogs)" />
-    <Alias n="6" Id="(Namespace=Common)" />
-    <Alias n="7" Id="(Namespace=Core)" />
-    <Alias n="8" Id="(Namespace=Hanoi)" />
-    <Alias n="9" Id="(Namespace=Hanoi.Logic)" />
-    <Alias n="10" Id="(Namespace=Hanoi.Presentation)" />
-    <Alias n="11" Id="(Namespace=Hanoi.Settings)" />
-    <Alias n="12" Id="(Namespace=OmegaEngine)" />
-    <Alias n="13" Id="(Namespace=OmegaEngine.Graphics)" />
-    <Alias n="14" Id="(Namespace=OmegaGUI)" />
-    <Alias n="15" Id="(Namespace=World)" />
-  </IdentifierAliases>
   <Paths>
-    <Path Id="adba7a08-3121-4f27-8893-6cd7093743b2.OutputPath" Value="..\..\build\Debug\Twilight.exe" />
-    <Path Id="VsSolution" Value=".." />
+    <Path Id="adba7a08-3121-4f27-8893-6cd7093743b2.OutputPath" Value="F:\Code\Games\Omega\build\Debug\TerrainSample.Editor.exe" />
+    <Path Id="VsSolution" Value="F:\Code\Games\Omega\src" />
   </Paths>
 </DirectedGraph>
