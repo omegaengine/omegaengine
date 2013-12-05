@@ -145,7 +145,7 @@ namespace OmegaEngine.Graphics.Renderables
 
         /// <summary>
         /// The level of transparency from 0 (solid) to 255 (invisible),
-        /// <see cref="Engine.AlphaChannel"/>, <see cref="Engine.BinaryAlphaChannel"/> or <see cref="Engine.AdditivBlending"/>
+        /// <see cref="EngineState.AlphaChannel"/>, <see cref="EngineState.BinaryAlphaChannel"/> or <see cref="EngineState.AdditivBlending"/>
         /// </summary>
         [DefaultValue(0), Category("Render"), Description("The level of transparency from 0 (solid) to 255 (invisible), 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending")]
         public int Particle1Alpha { get; set; }
@@ -158,7 +158,7 @@ namespace OmegaEngine.Graphics.Renderables
 
         /// <summary>
         /// The level of transparency from 0 (solid) to 255 (invisible) for particles' "second life",
-        /// <see cref="Engine.AlphaChannel"/>, <see cref="Engine.BinaryAlphaChannel"/> or <see cref="Engine.AdditivBlending"/>
+        /// <see cref="EngineState.AlphaChannel"/>, <see cref="EngineState.BinaryAlphaChannel"/> or <see cref="EngineState.AdditivBlending"/>
         /// </summary>
         [DefaultValue(0), Category("Render"), Description("The level of transparency from 0 (solid) to 255 (invisible) for particles' \"second life\", 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending")]
         public int Particle2Alpha { get; set; }
