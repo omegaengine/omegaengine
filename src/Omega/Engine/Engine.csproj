@@ -77,22 +77,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Global.cs" />
+    <Compile Include="Assets\Asset.cs" />
     <Compile Include="Assets\CacheManager.cs" />
     <Compile Include="Assets\IReferenceCount.cs" />
     <Compile Include="Assets\XAnimatedMesh.cs" />
+    <Compile Include="Assets\XMesh.cs" />
+    <Compile Include="Assets\XOggSound.cs" />
+    <Compile Include="Assets\XSound.cs" />
+    <Compile Include="Assets\XTexture.cs" />
+    <Compile Include="Assets\XWaveSound.cs" />
+    <Compile Include="Audio\MusicManager.cs" />
+    <Compile Include="Audio\Song.cs" />
+    <Compile Include="Audio\Sound.cs" />
+    <Compile Include="Audio\Sound3D.cs" />
+    <Compile Include="DebugForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DebugForm.Designer.cs">
+      <DependentUpon>DebugForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Engine.Audio.cs" />
     <Compile Include="Engine.cs" />
-    <Compile Include="Engine.Audio.cs">
-      <DependentUpon>Engine.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Engine.Debug.cs">
-      <DependentUpon>Engine.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Engine.Render.cs">
-      <DependentUpon>Engine.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Engine.Terrain.cs">
-      <DependentUpon>Engine.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Engine.Debug.cs" />
+    <Compile Include="Engine.Render.cs" />
+    <Compile Include="Engine.Terrain.cs" />
     <Compile Include="EngineCapabilities.cs" />
     <Compile Include="EngineConfig.cs" />
     <Compile Include="EngineEffects.cs" />
@@ -100,289 +108,168 @@
     <Compile Include="EngineState.cs" />
     <Compile Include="EngineUtilsAnimation.cs" />
     <Compile Include="EngineUtilsDraw.cs" />
+    <Compile Include="GameBase.cs" />
+    <Compile Include="GameBase.Form.cs" />
+    <Compile Include="GameBase.Render.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Graphics\BufferHelper.cs" />
-    <Compile Include="Input\IInputReceiver.cs" />
-    <Compile Include="Input\KeyboardInputProvider.cs" />
-    <Compile Include="Input\MouseInputProvider.cs" />
-    <Compile Include="Input\UpdateReceiver.cs" />
-    <Compile Include="Input\TouchInputProvider.cs" />
-    <Compile Include="IPositionable.cs" />
-    <Compile Include="IPositionableOffset.cs" />
+    <Compile Include="Graphics\Cameras\Camera.cs" />
+    <Compile Include="Graphics\Cameras\CinematicCamera.cs" />
+    <Compile Include="Graphics\Cameras\CloneCamera.cs" />
+    <Compile Include="Graphics\Cameras\EgoCamera.cs" />
+    <Compile Include="Graphics\Cameras\MatrixCamera.cs" />
+    <Compile Include="Graphics\Cameras\QuaternionCamera.cs" />
+    <Compile Include="Graphics\Cameras\ReflectCamera.cs" />
+    <Compile Include="Graphics\Cameras\SpaceCamera.cs" />
+    <Compile Include="Graphics\Cameras\StrategyCamera.cs" />
+    <Compile Include="Graphics\Cameras\TrackCamera.cs" />
+    <Compile Include="Graphics\DirectionalLight.cs" />
+    <Compile Include="Graphics\GlowView.cs" />
+    <Compile Include="Graphics\ITextureProvider.cs" />
+    <Compile Include="Graphics\LazyView.cs" />
+    <Compile Include="Graphics\LightSource.cs" />
     <Compile Include="Graphics\MeshGenerator.cs" />
     <Compile Include="Graphics\MeshHelper.cs" />
-    <Compile Include="DebugForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DebugForm.Designer.cs">
-      <DependentUpon>DebugForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Cameras\Camera.cs" />
-    <Compile Include="Graphics\Cameras\MatrixCamera.cs" />
-    <Compile Include="Graphics\Cameras\TrackCamera.cs">
-      <DependentUpon>MatrixCamera.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Cameras\EgoCamera.cs">
-      <DependentUpon>MatrixCamera.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Cameras\StrategyCamera.cs">
-      <DependentUpon>MatrixCamera.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Cameras\QuaternionCamera.cs" />
-    <Compile Include="Graphics\Cameras\SpaceCamera.cs">
-      <DependentUpon>QuaternionCamera.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Cameras\CinematicCamera.cs">
-      <DependentUpon>QuaternionCamera.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Cameras\CloneCamera.cs" />
-    <Compile Include="Graphics\Cameras\ReflectCamera.cs">
-      <DependentUpon>CloneCamera.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Graphics\PointLight.cs" />
+    <Compile Include="Graphics\Renderables\AdvancedSkybox.cs" />
+    <Compile Include="Graphics\Renderables\AnimatedModel.cs" />
+    <Compile Include="Graphics\Renderables\CpuParticle.cs" />
+    <Compile Include="Graphics\Renderables\CpuParticleParameters.cs" />
+    <Compile Include="Graphics\Renderables\CpuParticleParametersStruct.cs" />
+    <Compile Include="Graphics\Renderables\CpuParticlePreset.cs" />
     <Compile Include="Graphics\Renderables\CpuParticleSystem.cs" />
-    <Compile Include="Graphics\Renderables\CpuParticle.cs">
-      <DependentUpon>CpuParticleSystem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Renderables\CpuParticlePreset.cs">
-      <DependentUpon>CpuParticleSystem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Renderables\CpuParticleParameters.cs">
-      <DependentUpon>CpuParticleSystem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Renderables\CpuParticleParametersStruct.cs">
-      <DependentUpon>CpuParticleSystem.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Graphics\Renderables\FloatingModel.cs" />
+    <Compile Include="Graphics\Renderables\GpuParticlePreset.cs" />
     <Compile Include="Graphics\Renderables\GpuParticleSystem.cs" />
-    <Compile Include="Graphics\Renderables\GpuParticlePreset.cs">
-      <DependentUpon>GpuParticleSystem.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Graphics\Renderables\Model.Builtin.cs" />
+    <Compile Include="Graphics\Renderables\Model.cs" />
+    <Compile Include="Graphics\Renderables\PositionableRenderable.cs" />
+    <Compile Include="Graphics\Renderables\Renderable.cs" />
+    <Compile Include="Graphics\Renderables\SimpleSkybox.cs" />
+    <Compile Include="Graphics\Renderables\Skybox.cs" />
+    <Compile Include="Graphics\Renderables\Terrain.Build.cs" />
     <Compile Include="Graphics\Renderables\Terrain.cs" />
-    <Compile Include="Graphics\Renderables\Terrain.Build.cs">
-      <DependentUpon>Terrain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\LightSource.cs" />
-    <Compile Include="Graphics\PointLight.cs">
-      <DependentUpon>LightSource.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\DirectionalLight.cs">
-      <DependentUpon>LightSource.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Graphics\Renderables\VertexGroup.cs" />
+    <Compile Include="Graphics\Renderables\Water.cs" />
+    <Compile Include="Graphics\Renderables\WaterViewSource.cs" />
+    <Compile Include="Graphics\RenderTarget.cs" />
+    <Compile Include="Graphics\Scene.cs" />
     <Compile Include="Graphics\Shaders\DynamicShader.cs" />
-    <Compile Include="Graphics\Shaders\ShaderCompileException.cs">
-      <DependentUpon>DynamicShader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\Shader.cs" />
+    <Compile Include="Graphics\Shaders\GeneralShader.cs" />
+    <Compile Include="Graphics\Shaders\LightingShader.cs" />
+    <Compile Include="Graphics\Shaders\ParticleShader.cs" />
+    <Compile Include="Graphics\Shaders\PostBleachShader.cs" />
+    <Compile Include="Graphics\Shaders\PostBlurShader.cs" />
+    <Compile Include="Graphics\Shaders\PostCameraShakeShader.cs" />
+    <Compile Include="Graphics\Shaders\PostColorCorrectionShader.cs" />
+    <Compile Include="Graphics\Shaders\PostGlowShader.cs" />
+    <Compile Include="Graphics\Shaders\PostHaloShader.cs" />
+    <Compile Include="Graphics\Shaders\PostRadialBlurShader.cs" />
+    <Compile Include="Graphics\Shaders\PostScratchedFilmShader.cs" />
+    <Compile Include="Graphics\Shaders\PostSepiaShader.cs" />
     <Compile Include="Graphics\Shaders\PostShader.cs" />
-    <Compile Include="Graphics\Shaders\PostSepiaShader.cs">
-      <DependentUpon>PostShader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\PostBleachShader.cs">
-      <DependentUpon>PostShader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\PostColorCorrectionShader.cs">
-      <DependentUpon>PostShader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\PostRadialBlurShader.cs">
-      <DependentUpon>PostShader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\PostScratchedFilmShader.cs">
-      <DependentUpon>PostShader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\PostCameraShakeShader.cs">
-      <DependentUpon>PostShader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\PostBlurShader.cs">
-      <DependentUpon>PostShader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\PostGlowShader.cs">
-      <DependentUpon>PostShader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\PostHaloShader.cs">
-      <DependentUpon>PostShader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\SurfaceShader.cs" />
-    <Compile Include="Graphics\Shaders\LightingShader.cs">
-      <DependentUpon>SurfaceShader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\GeneralShader.cs">
-      <DependentUpon>SurfaceShader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\TerrainShader.cs">
-      <DependentUpon>SurfaceShader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\ParticleShader.cs">
-      <DependentUpon>SurfaceShader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\WaterShader.cs">
-      <DependentUpon>SurfaceShader.cs</DependentUpon>
-    </Compile>
     <Compile Include="Graphics\Shaders\SasHelper.cs" />
-    <Compile Include="Graphics\Shaders\SasScriptCommand.cs">
-      <DependentUpon>SasHelper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Shaders\SasScriptEngine.cs">
-      <DependentUpon>SasHelper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\ITextureProvider.cs" />
+    <Compile Include="Graphics\Shaders\SasScriptCommand.cs" />
+    <Compile Include="Graphics\Shaders\SasScriptEngine.cs" />
+    <Compile Include="Graphics\Shaders\Shader.cs" />
+    <Compile Include="Graphics\Shaders\ShaderCompileException.cs" />
+    <Compile Include="Graphics\Shaders\SurfaceShader.cs" />
+    <Compile Include="Graphics\Shaders\TerrainShader.cs" />
+    <Compile Include="Graphics\Shaders\WaterShader.cs" />
+    <Compile Include="Graphics\ShadowView.cs" />
+    <Compile Include="Graphics\SpecialView.cs" />
+    <Compile Include="Graphics\SupportView.cs" />
+    <Compile Include="Graphics\TextureView.cs" />
     <Compile Include="Graphics\VertexDecl\PositionColored.cs" />
     <Compile Include="Graphics\VertexDecl\PositionColoredTextured.cs" />
+    <Compile Include="Graphics\VertexDecl\PositionMultiTextured.cs" />
+    <Compile Include="Graphics\VertexDecl\PositionNormalBinormalTangentTextured.cs" />
     <Compile Include="Graphics\VertexDecl\PositionNormalColored.cs" />
     <Compile Include="Graphics\VertexDecl\PositionNormalMultiTextured.cs" />
-    <Compile Include="Graphics\VertexDecl\PositionMultiTextured.cs" />
     <Compile Include="Graphics\VertexDecl\PositionNormalTextured.cs" />
     <Compile Include="Graphics\VertexDecl\PositionTextured.cs" />
     <Compile Include="Graphics\VertexDecl\TransformedColored.cs" />
     <Compile Include="Graphics\VertexDecl\TransformedColoredTextured.cs" />
     <Compile Include="Graphics\VertexDecl\TransformedTextured.cs" />
-    <Compile Include="Assets\Asset.cs" />
-    <Compile Include="Assets\XSound.cs" />
-    <Compile Include="Assets\XWaveSound.cs" />
-    <Compile Include="Assets\XOggSound.cs" />
-    <Compile Include="Assets\XTexture.cs" />
-    <Compile Include="Graphics\XMaterial.cs" />
-    <Compile Include="Assets\XMesh.cs" />
-    <Compile Include="Graphics\VertexDecl\PositionNormalBinormalTangentTextured.cs" />
-    <Compile Include="Graphics\RenderTarget.cs" />
-    <Compile Include="Graphics\Scene.cs" />
     <Compile Include="Graphics\View.cs" />
-    <Compile Include="Graphics\View.Helpers.cs">
-      <DependentUpon>View.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\View.Render.cs">
-      <DependentUpon>View.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\View.Sorting.cs">
-      <DependentUpon>View.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\TextureView.cs" />
-    <Compile Include="Graphics\LazyView.cs">
-      <DependentUpon>TextureView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\SupportView.cs">
-      <DependentUpon>TextureView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\WaterView.cs">
-      <DependentUpon>TextureView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\SpecialView.cs">
-      <DependentUpon>TextureView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\GlowView.cs">
-      <DependentUpon>TextureView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\ShadowView.cs">
-      <DependentUpon>TextureView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Renderables\PositionableRenderable.cs" />
-    <Compile Include="Graphics\Renderables\Renderable.cs" />
-    <Compile Include="Graphics\Renderables\VertexGroup.cs" />
-    <Compile Include="Graphics\Renderables\Model.cs" />
-    <Compile Include="Graphics\Renderables\Model.Builtin.cs">
-      <DependentUpon>Model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Renderables\FloatingModel.cs">
-      <DependentUpon>Model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Renderables\AnimatedModel.cs" />
-    <Compile Include="Graphics\Renderables\Skybox.cs" />
-    <Compile Include="Graphics\Renderables\SimpleSkybox.cs">
-      <DependentUpon>Skybox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Renderables\AdvancedSkybox.cs">
-      <DependentUpon>Skybox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Graphics\Renderables\Water.cs" />
-    <Compile Include="Graphics\Renderables\WaterViewSource.cs">
-      <DependentUpon>Water.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Graphics\View.Helpers.cs" />
+    <Compile Include="Graphics\View.Render.cs" />
+    <Compile Include="Graphics\View.Sorting.cs" />
+    <Compile Include="Graphics\WaterView.cs" />
+    <Compile Include="Graphics\XMaterial.cs" />
     <Compile Include="Hardware.cs" />
     <Compile Include="IAudio.cs" />
+    <Compile Include="Input\IInputReceiver.cs" />
     <Compile Include="Input\InputProvider.cs" />
-    <Compile Include="Audio\MusicManager.cs" />
-    <Compile Include="Audio\Song.cs" />
-    <Compile Include="Audio\Sound.cs" />
-    <Compile Include="Audio\Sound3D.cs" />
-    <Compile Include="GameBase.cs">
-    </Compile>
-    <Compile Include="GameBase.Render.cs">
-      <DependentUpon>GameBase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GameBase.Form.cs">
-      <DependentUpon>GameBase.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Input\KeyboardInputProvider.cs" />
+    <Compile Include="Input\MouseInputProvider.cs" />
+    <Compile Include="Input\TouchInputProvider.cs" />
+    <Compile Include="Input\UpdateReceiver.cs" />
+    <Compile Include="IPositionable.cs" />
+    <Compile Include="IPositionableOffset.cs" />
     <Compile Include="PerlinNoise.cs" />
     <Compile Include="Profiler.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
     <Compile Include="RenderPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Assets.cd" />
+    <None Include="ClassDiagram.cd" />
+    <None Include="Graphics\Cameras\Cameras.cd" />
+    <None Include="Graphics\Renderables\CpuParticlePreset.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Graphics\Renderables\GpuParticlePreset.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Graphics\Renderables\Renderables.cd" />
+    <None Include="Graphics\Shaders\Shaders.cd" />
+    <None Include="Graphics\Views.cd" />
+    <None Include="Hardware.cd" />
+    <None Include="Hardware.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Input\InputProviders.cd" />
+    <None Include="Shaders\compile.cmd" />
+    <None Include="Shaders\General.fx" />
+    <None Include="Shaders\General.Techniques.fxh" />
+    <None Include="Shaders\include\noise_2d.fxh" />
+    <None Include="Shaders\include\Quad.fxh" />
+    <None Include="Shaders\include\vertex_noise.fxh" />
+    <None Include="Shaders\include\vnoise-table.fxh" />
+    <None Include="Shaders\nvidia_license.txt" />
+    <None Include="Shaders\ParticleSystem.fx" />
+    <None Include="Shaders\Post_Bleach.fx" />
+    <None Include="Shaders\Post_Blur.fx" />
+    <None Include="Shaders\Post_CameraShake.fx" />
+    <None Include="Shaders\Post_ColorCorrection.fx" />
+    <None Include="Shaders\Post_Halo.fx" />
+    <None Include="Shaders\Post_RadialBlur.fx" />
+    <None Include="Shaders\Post_ScratchedFilm.fx" />
+    <None Include="Shaders\Post_Sepia.fx" />
+    <None Include="Shaders\readme.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\Water.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DebugForm.resx">
+      <DependentUpon>DebugForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.de.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
       <Name>Common</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="DebugForm.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>DebugForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.de.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="Assets\Assets.cd" />
-    <None Include="Graphics\Cameras\Cameras.cd" />
-    <None Include="Graphics\Views.cd" />
-    <None Include="Graphics\Renderables\Renderables.cd" />
-    <None Include="Graphics\Renderables\GpuParticlePreset.xsd">
-      <SubType>Designer</SubType>
-      <DependentUpon>GpuParticleSystem.cs</DependentUpon>
-    </None>
-    <None Include="Graphics\Renderables\CpuParticlePreset.xsd">
-      <SubType>Designer</SubType>
-      <DependentUpon>CpuParticleSystem.cs</DependentUpon>
-    </None>
-    <None Include="Graphics\Shaders\Shaders.cd" />
-    <None Include="Hardware.cd" />
-    <None Include="Hardware.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Input\InputProviders.cd" />
-    <None Include="Shaders\include\Quad.fxh" />
-    <None Include="Shaders\include\noise_2d.fxh" />
-    <None Include="Shaders\compile.cmd" />
-    <None Include="Shaders\General.fx" />
-    <None Include="Shaders\include\vertex_noise.fxh" />
-    <None Include="Shaders\include\vnoise-table.fxh" />
-    <None Include="Shaders\ParticleSystem.fx" />
-    <None Include="Shaders\Water.fx" />
-    <None Include="Shaders\Post_Sepia.fx" />
-    <None Include="Shaders\Post_Bleach.fx" />
-    <None Include="Shaders\Post_ColorCorrection.fx" />
-    <None Include="Shaders\Post_RadialBlur.fx" />
-    <None Include="Shaders\Post_ScratchedFilm.fx" />
-    <None Include="Shaders\Post_CameraShake.fx" />
-    <None Include="Shaders\Post_Blur.fx" />
-    <None Include="Shaders\Post_Halo.fx" />
-    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
-    <Content Include="Shaders\readme.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Shaders\nvidia_license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
