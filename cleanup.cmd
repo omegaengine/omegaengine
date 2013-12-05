@@ -1,15 +1,8 @@
 @echo off
 ::Removes compilation artifacts and other temporary files.
 
-rem Clear binaries (but leave Documentation intact since it takes very long to "%~dp0build)
-rd /s /q "%~dp0build\Debug" > NUL 2>&1
-rd /s /q "%~dp0build\Release" > NUL 2>&1
-rd /s /q "%~dp0build\ReleaseSDK" > NUL 2>&1
-rd /s /q "%~dp0build\Packages" > NUL 2>&1
-rd /s /q "%~dp0build\ProjectTemplates" > NUL 2>&1
-rd /s /q "%~dp0build\Setup" > NUL 2>&1
-rd /s /q "%~dp0build\Documentation\working" > NUL 2>&1
-del "%~dp0build\Documentation\*.log" > NUL 2>&1
+rem Clear binaries
+rd /s /q "%~dp0build"
 
 rem Clear JetBrains caches
 rd /s /q "%~dp0src\_ReSharper.OmegaEngine" > NUL 2>&1
