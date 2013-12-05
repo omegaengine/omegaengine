@@ -20,46 +20,33 @@
  * THE SOFTWARE.
  */
 
-using System;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace Common.Collections
 {
     /// <summary>
-    /// Transparently caches retrieval requests, passed through to a callback on first request.
+    /// Contains test methods for <see cref="Bucketizer{T}"/>.
     /// </summary>
-    /// <typeparam name="TKey">The type of keys used to request values.</typeparam>
-    /// <typeparam name="TValue">The type of values returned.</typeparam>
-    public class TransparentCache<TKey, TValue>
+    [TestFixture]
+    public class BucketizerTest
     {
-        private readonly Dictionary<TKey, TValue> _lookup = new Dictionary<TKey, TValue>();
-
-        private readonly Func<TKey, TValue> _retriever;
-
-        /// <summary>
-        /// Creates a new transparent cache.
-        /// </summary>
-        /// <param name="retriever">The callback used to retrieve values not yet in the cache.</param>
-        public TransparentCache(Func<TKey, TValue> retriever)
+        [Test]
+        public void TestBucketize()
         {
-            _retriever = retriever;
-        }
-
-        /// <summary>
-        /// Retrieves a value from the cache.
-        /// </summary>
-        public TValue this[TKey key]
-        {
-            get
+            var even = new List<int>();
+            var lessThanThree = new List<int>();
+            var rest = new List<int>();
+            new Bucketizer<int>
             {
-                lock (_lookup)
-                {
-                    TValue result;
-                    if (!_lookup.TryGetValue(key, out result))
-                        _lookup.Add(key, result = _retriever(key));
-                    return result;
-                }
-            }
+                {x => x % 2 == 0, even},
+                {x => x < 3, lessThanThree},
+                {x => true, rest}
+            }.Bucketize(new[] {1, 2, 3, 4});
+
+            CollectionAssert.AreEqual(expected: new[] {2, 4}, actual: even);
+            CollectionAssert.AreEqual(expected: new[] {1}, actual: lessThanThree);
+            CollectionAssert.AreEqual(expected: new[] {3}, actual: rest);
         }
     }
 }

@@ -20,20 +20,16 @@
  * THE SOFTWARE.
  */
 
-namespace Common
+namespace Common.Controls
 {
     /// <summary>
-    /// How severe/important a message is
+    /// An interface that <see cref="Wizard"/> pages can optionally implement to receive additional event notifications.
     /// </summary>
-    public enum MsgSeverity
+    public interface IWizardPage
     {
-        /// <summary>A nice-to-know piece of information.</summary>
-        Info,
-
-        /// <summary>A warning that doesn't have to be acted upon immediately.</summary>
-        Warn,
-
-        /// <summary>A critical error that should be attended to.</summary>
-        Error
+        /// <summary>
+        /// Called when the wizard page is shown.
+        /// </summary>
+        void OnPageShow();
     }
 }

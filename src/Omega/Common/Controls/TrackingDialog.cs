@@ -59,24 +59,21 @@ namespace Common.Controls
 
             Icon = icon;
             Text = task.Name;
+            CreateHandle();
 
-            // Start and stop the task with the dialog
-            Shown += delegate
-            {
-                // Hook up event tracking
-                trackingProgressBar.Task = task;
-                labelProgress.Task = task;
-                task.StateChanged += OnTaskStateChanged;
+            // Hook up event tracking
+            trackingProgressBar.Task = task;
+            labelProgress.Task = task;
+            task.StateChanged += OnTaskStateChanged;
 
-                // Note: Must perform task start on a separate thread because it might send messages back to the GUI thread (which therefore must not be blocked)
-                new Thread(task.Start).Start();
-            };
+            // Note: Must perform task start on a separate thread because it might send messages back to the GUI thread (which therefore must not be blocked)
+            new Thread(task.Start).Start();
 
             bool cancellationStarted = false;
             FormClosing += delegate(object sender, FormClosingEventArgs e)
             {
                 // Only close the window if the task has been completed or canceled
-                if (task.State >= TaskState.Complete || _allowWindowClose.WaitOne(0, false)) return;
+                if (task.State >= TaskState.Complete || _allowWindowClose.WaitOne(0, exitContext: false)) return;
 
                 if (task.CanCancel || !cancellationStarted)
                 {
@@ -96,9 +93,8 @@ namespace Common.Controls
         }
 
         // Must be public for IPC
-        // ReSharper disable MemberCanBePrivate.Global
+        // ReSharper disable once MemberCanBePrivate.Global
         public void OnTaskStateChanged(ITask sender)
-            // ReSharper restore MemberCanBePrivate.Global
         {
             #region Sanity checks
             if (sender == null) throw new ArgumentNullException("sender");

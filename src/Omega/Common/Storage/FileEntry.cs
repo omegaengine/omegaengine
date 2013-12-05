@@ -150,7 +150,7 @@ namespace Common.Storage
                 // Prevent multiple calls
                 if (EntryType == FileEntryType.Normal || EntryType == FileEntryType.Deleted) return;
 
-                if (!Msg.YesNo(null, Resources.LoseChangesAsk, MsgSeverity.Warn, Resources.LoseChangesYes, Resources.LoseChangesNo)) return;
+                if (!Msg.YesNo(null, Resources.LoseChangesAsk, MsgSeverity.Warn)) return;
 
                 try
                 {

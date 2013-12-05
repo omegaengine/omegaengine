@@ -41,7 +41,7 @@ namespace Common.Utils
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         public static IEnumerable<TAttribute> GetAttributes<TAttribute, TTarget>() where TAttribute : Attribute
         {
-            var attributes = typeof(TTarget).GetCustomAttributes(typeof(TAttribute), true);
+            var attributes = typeof(TTarget).GetCustomAttributes(typeof(TAttribute), inherit: true);
             return attributes.OfType<TAttribute>();
         }
 
@@ -58,7 +58,7 @@ namespace Common.Utils
             #endregion
 
             FieldInfo fieldInfo = target.GetType().GetField(target.ToString());
-            var attributes = (TAttribute[])fieldInfo.GetCustomAttributes(typeof(TAttribute), true);
+            var attributes = (TAttribute[])fieldInfo.GetCustomAttributes(typeof(TAttribute), inherit: true);
             var attribute = attributes.FirstOrDefault();
             return (attribute == null) ? target.ToString() : valueRetriever(attribute);
         }
@@ -87,6 +87,26 @@ namespace Common.Utils
             #endregion
 
             return TypeDescriptor.GetConverter(typeof(TType)).ConvertToInvariantString(value);
+        }
+
+        /// <summary>
+        /// Retrieves a single value from a Custom <see cref="Attribute"/> associated with an <see cref="Assembly"/>.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of Custom <see cref="Attribute"/> associated with the <paramref name="assembly"/> to retrieve.</typeparam>
+        /// <typeparam name="TValue">The type of the value to retrieve from the <typeparamref name="TAttribute"/>.</typeparam>
+        /// <param name="assembly">The <see cref="Assembly"/> to retrieve the <typeparamref name="TAttribute"/> from.</param>
+        /// <param name="valueRetrieval">A callback used to retrieve a <typeparamref name="TValue"/> from a <typeparamref name="TAttribute"/>.</param>
+        /// <returns>The retrieved value or <see langword="null"/> if no <typeparamref name="TAttribute"/> was found.</returns>
+        public static TValue GetAttributeValue<TAttribute, TValue>(this Assembly assembly, Func<TAttribute, TValue> valueRetrieval)
+            where TAttribute : Attribute
+        {
+            #region Sanity checks
+            if (assembly == null) throw new ArgumentNullException("assembly");
+            if (valueRetrieval == null) throw new ArgumentNullException("valueRetrieval");
+            #endregion
+
+            var attributes = assembly.GetCustomAttributes(typeof(TAttribute), inherit: false);
+            return (attributes.Length > 0) ? valueRetrieval((TAttribute)attributes[0]) : default(TValue);
         }
     }
 }

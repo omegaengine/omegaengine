@@ -79,8 +79,8 @@ namespace Common.Utils
         [Test]
         public void TestJoin()
         {
-            Assert.AreEqual("part1", " ".Join(new[] {"part1"}));
-            Assert.AreEqual("part1 part2", " ".Join(new[] {"part1", "part2"}));
+            Assert.AreEqual("part1", StringUtils.Join(" ", new[] {"part1"}));
+            Assert.AreEqual("part1 part2", StringUtils.Join(" ", new[] {"part1", "part2"}));
             Assert.AreEqual("\"part1 part2\" part3", new[] {"part1 part2", "part3"}.JoinEscapeArguments());
         }
 
@@ -116,6 +116,12 @@ namespace Common.Utils
         public void TestRemoveAll()
         {
             Assert.AreEqual("ac", "abcd".RemoveAll("bd"));
+        }
+
+        [Test]
+        public void TestStripCharacters()
+        {
+            Assert.AreEqual("ab", "a!b?".StripCharacters(new[] {'!', '?'}));
         }
 
         [Test]

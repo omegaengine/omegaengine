@@ -22,6 +22,8 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Remoting;
+using System.Security.Permissions;
 
 namespace Common.Tasks
 {
@@ -57,9 +59,19 @@ namespace Common.Tasks
         {
             lock (_lock)
             {
-                if (_isCancellationRequested) return; // Don't trigger more than once
+                // Don't trigger more than once
+                if (_isCancellationRequested) return;
+
                 _isCancellationRequested = true;
-                if (CancellationRequested != null) CancellationRequested();
+                if (CancellationRequested != null)
+                {
+                    try
+                    {
+                        CancellationRequested();
+                    }
+                    catch (RemotingException)
+                    {}
+                }
             }
         }
 
@@ -77,5 +89,14 @@ namespace Common.Tasks
         {
             return "CancellationToken {IsCancellationRequested=" + IsCancellationRequested + "}";
         }
+
+        #region IPC timeout
+        /// <inheritdoc/>
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
+        public override object InitializeLifetimeService()
+        {
+            return null; // Do not timeout progress reporting callbacks
+        }
+        #endregion
     }
 }

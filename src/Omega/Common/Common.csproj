@@ -70,6 +70,9 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.TextEditor">
+      <HintPath>..\..\..\lib\ICSharpCode.TextEditor.dll</HintPath>
+    </Reference>
     <Reference Include="TaskDialog">
       <HintPath>..\..\..\lib\TaskDialog.dll</HintPath>
     </Reference>
@@ -80,149 +83,49 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Global.cs" />
     <Compile Include="AppMutex.cs" />
-    <Compile Include="Log.cs" />
-    <Compile Include="MsgSeverity.cs" />
-    <Compile Include="NamedComparer.cs" />
-    <Compile Include="MutexLock.cs" />
-    <Compile Include="PropertyPointer.cs" />
-    <Compile Include="Info\AppInfo.cs" />
-    <Compile Include="Info\ExceptionInfo.cs" />
-    <Compile Include="Info\OSInfo.cs" />
-    <Compile Include="TimedLogEvent.cs" />
-    <Compile Include="Msg.cs" />
-    <Compile Include="ToStringWrapper.cs" />
-    <Compile Include="INamed.cs" />
-    <Compile Include="Future.cs" />
-    <Compile Include="Tasks\CancellationToken.cs" />
-    <Compile Include="Tasks\TaskState.cs" />
-    <Compile Include="Tasks\ITask.cs" />
-    <Compile Include="Tasks\SimpleTask.cs" />
-    <Compile Include="Tasks\ForEachTask.cs" />
-    <Compile Include="Tasks\ThreadTask.cs" />
-    <Compile Include="Tasks\ITaskHandler.cs" />
-    <Compile Include="Tasks\SilentTaskHandler.cs" />
-    <Compile Include="Tasks\GuiTaskHandler.cs" />
-    <Compile Include="Tasks\WaitTask.cs" />
     <Compile Include="Arguments.cs" />
     <Compile Include="Collections\AggregateDispatcher.cs" />
+    <Compile Include="Collections\Bucketizer.cs" />
+    <Compile Include="Collections\BucketRule.cs" />
     <Compile Include="Collections\ComparableTuple.cs" />
-    <Compile Include="Collections\IMergeable.cs" />
-    <Compile Include="Collections\EnumerableUtils.cs" />
     <Compile Include="Collections\CultureComparer.cs" />
+    <Compile Include="Collections\EnumerableUtils.cs" />
+    <Compile Include="Collections\IMergeable.cs" />
+    <Compile Include="Collections\LanguageSet.cs" />
+    <Compile Include="Collections\LocalizableString.cs" />
+    <Compile Include="Collections\LocalizableStringCollection.cs" />
+    <Compile Include="Collections\MonitoredCollection.cs" />
+    <Compile Include="Collections\MultiDictionary.cs" />
+    <Compile Include="Collections\NamedCollection.cs" />
     <Compile Include="Collections\PerTypeDispatcher.Action.cs" />
     <Compile Include="Collections\PerTypeDispatcher.Func.cs" />
-    <Compile Include="Collections\LanguageSet.cs" />
-    <Compile Include="Collections\NamedCollection.cs" />
-    <Compile Include="Collections\LocalizableStringCollection.cs" />
-    <Compile Include="Collections\LocalizableString.cs" />
-    <Compile Include="Collections\TransparentCache.cs" />
-    <Compile Include="Collections\MultiDictionary.cs" />
     <Compile Include="Collections\Pool.cs" />
-    <Compile Include="Collections\MonitoredCollection.cs" />
+    <Compile Include="Collections\TransparentCache.cs" />
     <Compile Include="Collections\XmlDictionary.cs" />
     <Compile Include="Collections\XmlDictionaryEntry.cs" />
-    <Compile Include="Streams\OffsetStream.cs" />
-    <Compile Include="Streams\CircularBufferStream.cs" />
-    <Compile Include="Streams\DisposeWrapperStream.cs" />
-    <Compile Include="Utils\AttributeUtils.cs" />
-    <Compile Include="Utils\ProcessUtils.cs" />
-    <Compile Include="Utils\StringUtils.cs" />
-    <Compile Include="Utils\FileUtils.cs" />
-    <Compile Include="Utils\StreamUtils.cs" />
-    <Compile Include="Utils\UpdateUtils.cs" />
-    <Compile Include="Utils\WindowsUtils.cs" />
-    <Compile Include="Utils\WindowsUtils.NativeMethods.cs" />
-    <Compile Include="Utils\WindowsUtils.Platform.cs" />
-    <Compile Include="Utils\WindowsUtils.Properties.cs" />
-    <Compile Include="Utils\WindowsUtils.Touch.cs" />
-    <Compile Include="Utils\WindowsUtils.WindowMessages.cs" />
-    <Compile Include="Utils\WindowsUtils.Taskbar.cs" />
-    <Compile Include="Utils\RandomUtils.cs" />
-    <Compile Include="Utils\MathUtils.cs" />
-    <Compile Include="Utils\BitmapUtils.cs" />
-    <Compile Include="Utils\ColorUtils.cs" />
-    <Compile Include="Utils\LuaBuilder.cs" />
-    <Compile Include="Storage\Locations.cs" />
-    <Compile Include="Storage\BinaryStorage.cs" />
-    <Compile Include="Storage\XmlStorage.cs" />
-    <Compile Include="Storage\XmlNamespaceAttribute.cs" />
-    <Compile Include="Storage\EmbeddedFile.cs" />
-    <Compile Include="Storage\TemporaryFile.cs" />
-    <Compile Include="Storage\TemporaryDirectory.cs" />
-    <Compile Include="Storage\TemporaryFlagFile.cs" />
-    <Compile Include="Storage\TemporaryWorkingDirectory.cs" />
-    <Compile Include="Storage\AtomicWrite.cs" />
-    <Compile Include="Storage\ContentManager.cs" />
-    <Compile Include="Storage\ContentArchiveEntry.cs" />
-    <Compile Include="Storage\FileEntry.cs" />
-    <Compile Include="Undo\IUndoCommand.cs" />
-    <Compile Include="Undo\IValueCommand.cs" />
-    <Compile Include="Undo\ICommandExecutor.cs" />
-    <Compile Include="Undo\CommandManager.cs" />
-    <Compile Include="Undo\PreExecutedCommand.cs" />
-    <Compile Include="Undo\PropertyChangedCommand.cs" />
-    <Compile Include="Undo\SimpleCommand.cs" />
-    <Compile Include="Undo\MultiPropertyChangedCommand.cs" />
-    <Compile Include="Undo\MultiPropertyTracker.cs" />
-    <Compile Include="Undo\FirstExecuteCommand.cs" />
-    <Compile Include="Undo\SetValueCommand.cs" />
-    <Compile Include="Undo\AddToCollection.cs" />
-    <Compile Include="Undo\CollectionCommand.cs" />
-    <Compile Include="Undo\SetInList.cs" />
-    <Compile Include="Undo\RemoveFromCollection.cs" />
-    <Compile Include="Undo\ReplaceInList.cs" />
-    <Compile Include="Undo\SetLocalizableString.cs" />
-    <Compile Include="Undo\CompositeCommand.cs" />
-    <Compile Include="Undo\PreExecutedCompositeCommand.cs" />
-    <Compile Include="Undo\CommandCollector.cs" />
-    <Compile Include="Values\Design\EnumDescriptionConverter.cs" />
-    <Compile Include="Values\Design\LanguageSetEditor.cs" />
-    <Compile Include="Values\Design\StringConstructorConverter.cs" />
-    <Compile Include="Values\Design\EnumXmlConverter.cs" />
-    <Compile Include="Values\Design\StructConverter.cs" />
-    <Compile Include="Values\Design\TimeSpanEditor.cs" />
-    <Compile Include="Values\Design\FloatEditor.cs" />
-    <Compile Include="Values\Design\AngleEditor.cs" />
-    <Compile Include="Values\Design\SliderEditor.cs" />
-    <Compile Include="Values\Attenuation.cs" />
-    <Compile Include="Values\Design\AttenuationConverter.cs" />
-    <Compile Include="Values\ColorCorrection.cs" />
-    <Compile Include="Values\Design\ColorCorrectionConverter.cs" />
-    <Compile Include="Values\ExpandableRectangleArray.cs" />
-    <Compile Include="Values\GraphicsEnums.cs" />
-    <Compile Include="Values\Quadrangle.cs" />
-    <Compile Include="Values\Design\QuadrangleConverter.cs" />
-    <Compile Include="Values\FloatRangeAttribute.cs" />
-    <Compile Include="Values\Vector2Ray.cs" />
-    <Compile Include="Values\Design\Vector2RayConverter.cs" />
-    <Compile Include="Values\DoublePlane.cs" />
-    <Compile Include="Values\Design\DoublePaneConverter.cs" />
-    <Compile Include="Values\DoubleVector3.cs" />
-    <Compile Include="Values\Design\DoubleVector3Converter.cs" />
-    <Compile Include="Values\XColor.cs" />
-    <Compile Include="Controls\IEditorControl.cs" />
-    <Compile Include="Controls\IEditorControlContainerRef.cs" />
-    <Compile Include="Controls\IEditorDialog.cs" />
-    <Compile Include="Controls\IContextMenu.cs" />
-    <Compile Include="Controls\IHighlightColor.cs" />
-    <Compile Include="Controls\RtfBuilder.cs" />
-    <Compile Include="Controls\LocalizableTextBox.cs">
+    <Compile Include="Controls\AngleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\LocalizableTextBox.Designer.cs">
-      <DependentUpon>LocalizableTextBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\InputBox.cs">
+    <Compile Include="Controls\AsyncWaitDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\InputBox.Designer.cs">
-      <DependentUpon>InputBox.cs</DependentUpon>
+    <Compile Include="Controls\AsyncWaitDialog.Designer.cs">
+      <DependentUpon>AsyncWaitDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\OutputBox.cs">
+    <Compile Include="Controls\DebugConsole.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\OutputBox.Designer.cs">
-      <DependentUpon>OutputBox.cs</DependentUpon>
+    <Compile Include="Controls\DebugConsole.Designer.cs">
+      <DependentUpon>DebugConsole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EditorControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\EditorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\EditorDialog.Designer.cs">
+      <DependentUpon>EditorDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ErrorBox.cs">
       <SubType>Form</SubType>
@@ -230,10 +133,86 @@
     <Compile Include="Controls\ErrorBox.Designer.cs">
       <DependentUpon>ErrorBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TrackingLabel.cs">
+    <Compile Include="Controls\ErrorReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ErrorReportForm.Designer.cs">
+      <DependentUpon>ErrorReportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ErrorReportForm.ErrorReport.cs" />
+    <Compile Include="Controls\FilteredTreeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FilteredTreeView.Designer.cs">
+      <DependentUpon>FilteredTreeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GenericEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\HintTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\TrackingProgressBar.cs">
+    <Compile Include="Controls\IContextMenu.cs" />
+    <Compile Include="Controls\IEditorControl.cs" />
+    <Compile Include="Controls\IEditorControlContainerRef.cs" />
+    <Compile Include="Controls\IEditorDialog.cs" />
+    <Compile Include="Controls\IHighlightColor.cs" />
+    <Compile Include="Controls\InputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\InputBox.Designer.cs">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InspectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\InspectionForm.Designer.cs">
+      <DependentUpon>InspectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ITouchControl.cs" />
+    <Compile Include="Controls\IWizardPage.cs" />
+    <Compile Include="Controls\LiveEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LiveEditor.Designer.cs">
+      <DependentUpon>LiveEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LocalizableTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LocalizableTextBox.Designer.cs">
+      <DependentUpon>LocalizableTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OKCancelDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\OKCancelDialog.Designer.cs">
+      <DependentUpon>OKCancelDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OutputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\OutputBox.Designer.cs">
+      <DependentUpon>OutputBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ResettablePropertyGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\RtfBuilder.cs" />
+    <Compile Include="Controls\SplitButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TimeSpanControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TimeSpanControl.Designer.cs">
+      <DependentUpon>TimeSpanControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TouchEventArgs.cs" />
+    <Compile Include="Controls\TouchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\TouchPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\TrackingControl.cs">
@@ -248,141 +227,160 @@
     <Compile Include="Controls\TrackingDialog.Designer.cs">
       <DependentUpon>TrackingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\AsyncWaitDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\AsyncWaitDialog.Designer.cs">
-      <DependentUpon>AsyncWaitDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\TimeSpanControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\TimeSpanControl.Designer.cs">
-      <DependentUpon>TimeSpanControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\EditorControlBase.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\GenericEditorControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\EditorDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\EditorDialog.Designer.cs">
-      <DependentUpon>EditorDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ResettablePropertyGrid.cs">
+    <Compile Include="Controls\TrackingLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\AngleControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\TouchEventArgs.cs" />
-    <Compile Include="Controls\ITouchControl.cs" />
-    <Compile Include="Controls\TouchPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\TouchForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\DebugConsole.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\DebugConsole.Designer.cs">
-      <DependentUpon>DebugConsole.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\InspectionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\InspectionForm.Designer.cs">
-      <DependentUpon>InspectionForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\FilteredTreeView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\FilteredTreeView.Designer.cs">
-      <DependentUpon>FilteredTreeView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ErrorReportForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\ErrorReportForm.Designer.cs">
-      <DependentUpon>ErrorReportForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ErrorReportForm.ErrorReport.cs">
-      <DependentUpon>ErrorReportForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\OKCancelDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\OKCancelDialog.Designer.cs">
-      <DependentUpon>OKCancelDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\HintTextBox.cs">
+    <Compile Include="Controls\TrackingProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\UriTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\SplitButton.cs">
+    <Compile Include="Controls\WebClientTimeout.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\Wizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\Wizard.Designer.cs">
-      <DependentUpon>Wizard.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Future.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="INamed.cs" />
+    <Compile Include="Info\AppInfo.cs" />
+    <Compile Include="Info\ExceptionInfo.cs" />
+    <Compile Include="Info\OSInfo.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Msg.cs" />
+    <Compile Include="MsgSeverity.cs" />
+    <Compile Include="MutexLock.cs" />
+    <Compile Include="NamedComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Controls\WebClientTimeout.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Properties\ImageResources.Designer.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="PropertyPointer.cs" />
+    <Compile Include="Storage\AtomicWrite.cs" />
+    <Compile Include="Storage\BinaryStorage.cs" />
+    <Compile Include="Storage\ContentArchiveEntry.cs" />
+    <Compile Include="Storage\ContentManager.cs" />
+    <Compile Include="Storage\EmbeddedFile.cs" />
+    <Compile Include="Storage\FileEntry.cs" />
+    <Compile Include="Storage\Locations.cs" />
+    <Compile Include="Storage\TemporaryDirectory.cs" />
+    <Compile Include="Storage\TemporaryFile.cs" />
+    <Compile Include="Storage\TemporaryFlagFile.cs" />
+    <Compile Include="Storage\TemporaryWorkingDirectory.cs" />
+    <Compile Include="Storage\XmlNamespaceAttribute.cs" />
+    <Compile Include="Storage\XmlStorage.cs" />
+    <Compile Include="Streams\CircularBufferStream.cs" />
+    <Compile Include="Streams\DisposeWrapperStream.cs" />
+    <Compile Include="Streams\OffsetStream.cs" />
+    <Compile Include="Tasks\CancellationToken.cs" />
+    <Compile Include="Tasks\ForEachTask.cs" />
+    <Compile Include="Tasks\GuiTaskHandler.cs" />
+    <Compile Include="Tasks\ITask.cs" />
+    <Compile Include="Tasks\ITaskHandler.cs" />
+    <Compile Include="Tasks\SilentTaskHandler.cs" />
+    <Compile Include="Tasks\SimpleTask.cs" />
+    <Compile Include="Tasks\TaskState.cs" />
+    <Compile Include="Tasks\ThreadTask.cs" />
+    <Compile Include="Tasks\WaitTask.cs" />
+    <Compile Include="TimedLogEvent.cs" />
+    <Compile Include="ToStringWrapper.cs" />
+    <Compile Include="Undo\AddToCollection.cs" />
+    <Compile Include="Undo\CollectionCommand.cs" />
+    <Compile Include="Undo\CommandCollector.cs" />
+    <Compile Include="Undo\CommandManager.cs" />
+    <Compile Include="Undo\CompositeCommand.cs" />
+    <Compile Include="Undo\FirstExecuteCommand.cs" />
+    <Compile Include="Undo\ICommandExecutor.cs" />
+    <Compile Include="Undo\IUndoCommand.cs" />
+    <Compile Include="Undo\IValueCommand.cs" />
+    <Compile Include="Undo\MultiPropertyChangedCommand.cs" />
+    <Compile Include="Undo\MultiPropertyTracker.cs" />
+    <Compile Include="Undo\PreExecutedCommand.cs" />
+    <Compile Include="Undo\PreExecutedCompositeCommand.cs" />
+    <Compile Include="Undo\PropertyChangedCommand.cs" />
+    <Compile Include="Undo\RemoveFromCollection.cs" />
+    <Compile Include="Undo\ReplaceInList.cs" />
+    <Compile Include="Undo\SetInList.cs" />
+    <Compile Include="Undo\SetLocalizableString.cs" />
+    <Compile Include="Undo\SetValueCommand.cs" />
+    <Compile Include="Undo\SimpleCommand.cs" />
+    <Compile Include="Utils\AttributeUtils.cs" />
+    <Compile Include="Utils\BitmapUtils.cs" />
+    <Compile Include="Utils\ColorUtils.cs" />
+    <Compile Include="Utils\FileUtils.cs" />
+    <Compile Include="Utils\LuaBuilder.cs" />
+    <Compile Include="Utils\MathUtils.cs" />
+    <Compile Include="Utils\ProcessUtils.cs" />
+    <Compile Include="Utils\RandomUtils.cs" />
+    <Compile Include="Utils\StreamUtils.cs" />
+    <Compile Include="Utils\StringUtils.cs" />
+    <Compile Include="Utils\UpdateUtils.cs" />
+    <Compile Include="Utils\WindowsUtils.cs" />
+    <Compile Include="Utils\WindowsUtils.NativeMethods.cs" />
+    <Compile Include="Utils\WindowsUtils.Platform.cs" />
+    <Compile Include="Utils\WindowsUtils.Properties.cs" />
+    <Compile Include="Utils\WindowsUtils.Taskbar.cs" />
+    <Compile Include="Utils\WindowsUtils.Touch.cs" />
+    <Compile Include="Utils\WindowsUtils.WindowMessages.cs" />
+    <Compile Include="Values\Attenuation.cs" />
+    <Compile Include="Values\ColorCorrection.cs" />
+    <Compile Include="Values\Design\AngleEditor.cs" />
+    <Compile Include="Values\Design\AttenuationConverter.cs" />
+    <Compile Include="Values\Design\ColorCorrectionConverter.cs" />
+    <Compile Include="Values\Design\DoublePaneConverter.cs" />
+    <Compile Include="Values\Design\DoubleVector3Converter.cs" />
+    <Compile Include="Values\Design\EnumDescriptionConverter.cs" />
+    <Compile Include="Values\Design\EnumXmlConverter.cs" />
+    <Compile Include="Values\Design\FloatEditor.cs" />
+    <Compile Include="Values\Design\LanguageSetEditor.cs" />
+    <Compile Include="Values\Design\QuadrangleConverter.cs" />
+    <Compile Include="Values\Design\SliderEditor.cs" />
+    <Compile Include="Values\Design\StringConstructorConverter.cs" />
+    <Compile Include="Values\Design\StructConverter.cs" />
+    <Compile Include="Values\Design\TimeSpanEditor.cs" />
+    <Compile Include="Values\Design\Vector2RayConverter.cs" />
+    <Compile Include="Values\DoublePlane.cs" />
+    <Compile Include="Values\DoubleVector3.cs" />
+    <Compile Include="Values\ExpandableRectangleArray.cs" />
+    <Compile Include="Values\FloatRangeAttribute.cs" />
+    <Compile Include="Values\GraphicsEnums.cs" />
+    <Compile Include="Values\Quadrangle.cs" />
+    <Compile Include="Values\Vector2Ray.cs" />
+    <Compile Include="Values\XColor.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\ErrorReportForm.de.resx">
       <DependentUpon>ErrorReportForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ErrorReportForm.resx">
       <DependentUpon>ErrorReportForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\InputBox.de.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\OKCancelDialog.de.resx">
       <DependentUpon>OKCancelDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\OKCancelDialog.resx">
       <DependentUpon>OKCancelDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.de.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\ImageResources.resx" />
+    <EmbeddedResource Include="Properties\Resources.de.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\ClearButton.png" />
-    <None Include="Resources\Error.png" />
-    <None Include="Resources\Info.png" />
+    <Content Include="Resources\CreateButton.png" />
+    <Content Include="Resources\DeleteButton.png" />
+    <Content Include="Resources\Error.png" />
+    <Content Include="Resources\Info.png" />
     <Content Include="Resources\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Undo\ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

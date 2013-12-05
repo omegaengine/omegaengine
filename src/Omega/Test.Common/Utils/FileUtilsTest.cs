@@ -22,6 +22,7 @@
 
 using System;
 using System.IO;
+using System.Text;
 using Common.Storage;
 using Moq;
 using NUnit.Framework;
@@ -44,13 +45,15 @@ namespace Common.Utils
         [Test]
         public void TestIsBreakoutPath()
         {
-                Assert.IsTrue(FileUtils.IsBreakoutPath(WindowsUtils.IsWindows ? @"C:\test" : "/test"), "Should detect absolute paths");
+            Assert.IsTrue(FileUtils.IsBreakoutPath(WindowsUtils.IsWindows ? @"C:\test" : "/test"), "Should detect absolute paths");
 
             foreach (string path in new[] {"..", "/..", "../", "/../", "a/../b", "../a", "a/.."})
                 Assert.IsTrue(FileUtils.IsBreakoutPath(path), "Should detect parent directory references");
 
             foreach (string path in new[] {"..a", "a/..a", "a..", "a/a.."})
                 Assert.IsFalse(FileUtils.IsBreakoutPath(path), "Should not trip on '..' as a part of file/directory names");
+
+            Assert.IsFalse(FileUtils.IsBreakoutPath(""));
         }
 
         [Test]
@@ -148,22 +151,22 @@ namespace Common.Utils
 
             try
             {
-                Assert.Throws<ArgumentException>(() => FileUtils.CopyDirectory(temp1, temp1, true, false));
-                Assert.Throws<DirectoryNotFoundException>(() => FileUtils.CopyDirectory(temp2, temp1, true, false));
+                Assert.Throws<ArgumentException>(() => FileUtils.CopyDirectory(temp1, temp1));
+                Assert.Throws<DirectoryNotFoundException>(() => FileUtils.CopyDirectory(temp2, temp1));
 
-                FileUtils.CopyDirectory(temp1, temp2, true, false);
+                FileUtils.CopyDirectory(temp1, temp2);
                 FileAssert.AreEqual(Path.Combine(Path.Combine(temp1, "subdir"), "file"), Path.Combine(Path.Combine(temp2, "subdir"), "file"));
                 Assert.AreEqual(new DateTime(2000, 1, 1), Directory.GetLastWriteTimeUtc(Path.Combine(temp2, "subdir")), "Last-write time for copied directory is invalid");
                 Assert.AreEqual(new DateTime(2000, 1, 1), File.GetLastWriteTimeUtc(Path.Combine(Path.Combine(temp2, "subdir"), "file")), "Last-write time for copied file is invalid");
 
-                Assert.Throws<IOException>(() => FileUtils.CopyDirectory(temp1, temp2, true, false));
+                Assert.Throws<IOException>(() => FileUtils.CopyDirectory(temp1, temp2));
             }
             finally
             {
                 File.SetAttributes(Path.Combine(temp1, Path.Combine("subdir", "file")), FileAttributes.Normal);
-                Directory.Delete(temp1, true);
+                Directory.Delete(temp1, recursive: true);
                 File.SetAttributes(Path.Combine(temp2, Path.Combine("subdir", "file")), FileAttributes.Normal);
-                Directory.Delete(temp2, true);
+                Directory.Delete(temp2, recursive: true);
             }
         }
 
@@ -179,19 +182,19 @@ namespace Common.Utils
 
             try
             {
-                FileUtils.CopyDirectory(temp1, temp2, false, false);
+                FileUtils.CopyDirectory(temp1, temp2, preserveDirectoryModificationTime: false);
                 FileAssert.AreEqual(Path.Combine(Path.Combine(temp1, "subdir"), "file"), Path.Combine(Path.Combine(temp2, "subdir"), "file"));
                 Assert.AreNotEqual(new DateTime(2000, 1, 1), Directory.GetLastWriteTimeUtc(Path.Combine(temp2, "subdir")), "Last-write time for copied directory is invalid");
                 Assert.AreEqual(new DateTime(2000, 1, 1), File.GetLastWriteTimeUtc(Path.Combine(Path.Combine(temp2, "subdir"), "file")), "Last-write time for copied file is invalid");
 
-                Assert.Throws<IOException>(() => FileUtils.CopyDirectory(temp1, temp2, true, false));
+                Assert.Throws<IOException>(() => FileUtils.CopyDirectory(temp1, temp2));
             }
             finally
             {
                 File.SetAttributes(Path.Combine(temp1, Path.Combine("subdir", "file")), FileAttributes.Normal);
-                Directory.Delete(temp1, true);
+                Directory.Delete(temp1, recursive: true);
                 File.SetAttributes(Path.Combine(temp2, Path.Combine("subdir", "file")), FileAttributes.Normal);
-                Directory.Delete(temp2, true);
+                Directory.Delete(temp2, recursive: true);
             }
         }
 
@@ -212,7 +215,7 @@ namespace Common.Utils
 
             try
             {
-                FileUtils.CopyDirectory(temp1, temp2, true, true);
+                FileUtils.CopyDirectory(temp1, temp2, preserveDirectoryModificationTime: true, overwrite: true);
                 FileAssert.AreEqual(Path.Combine(Path.Combine(temp1, "subdir"), "file"), Path.Combine(Path.Combine(temp2, "subdir"), "file"));
                 Assert.AreEqual(new DateTime(2000, 1, 1), Directory.GetLastWriteTimeUtc(Path.Combine(temp2, "subdir")), "Last-write time for copied directory is invalid");
                 Assert.AreEqual(new DateTime(2000, 1, 1), File.GetLastWriteTimeUtc(Path.Combine(Path.Combine(temp2, "subdir"), "file")), "Last-write time for copied file is invalid");
@@ -220,9 +223,9 @@ namespace Common.Utils
             finally
             {
                 File.SetAttributes(Path.Combine(temp1, Path.Combine("subdir", "file")), FileAttributes.Normal);
-                Directory.Delete(temp1, true);
+                Directory.Delete(temp1, recursive: true);
                 File.SetAttributes(Path.Combine(temp2, Path.Combine("subdir", "file")), FileAttributes.Normal);
-                Directory.Delete(temp2, true);
+                Directory.Delete(temp2, recursive: true);
             }
         }
 
@@ -276,15 +279,28 @@ namespace Common.Utils
         }
         #endregion
 
+        #region Read
+        [Test]
+        public void TestReadFirstline()
+        {
+            using (var tempFile = new TemporaryFile("unit-tests"))
+            {
+                File.WriteAllText(tempFile, "line1\nline2");
+                Assert.AreEqual("line1", new FileInfo(tempFile).ReadFirstLine(Encoding.ASCII));
+            }
+        }
+        #endregion
+
         #region Directory walking
         // Interfaces used for mocking delegates
+        // ReSharper disable once MemberCanBePrivate.Global
         public interface IActionSimulator<in T>
         {
             void Invoke(T obj);
         }
 
         [Test]
-        public void TestWalkDirectory()
+        public void TestWalk()
         {
             using (var tempDir = new TemporaryDirectory("unit-tests"))
             {
@@ -302,8 +318,8 @@ namespace Common.Utils
                 var fileCallbackMock = new Mock<IActionSimulator<string>>(MockBehavior.Strict);
                 fileCallbackMock.Setup(x => x.Invoke(filePath)).Verifiable();
 
-                new DirectoryInfo(tempDir).WalkDirectory(
-                    subDir => dirCallbackMock.Object.Invoke(subDir.FullName),
+                new DirectoryInfo(tempDir).Walk(
+                    dir => dirCallbackMock.Object.Invoke(dir.FullName),
                     file => fileCallbackMock.Object.Invoke(file.FullName));
 
                 dirCallbackMock.Verify();

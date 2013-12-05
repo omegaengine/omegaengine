@@ -25,11 +25,12 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Xml.Serialization;
+using Common.Utils;
 
 namespace Common.Info
 {
     /// <summary>
-    /// Wraps information about the current application in a serializer-friendly format.
+    /// Wraps information about an application in a serializer-friendly format.
     /// </summary>
     [XmlType("application")]
     public struct AppInfo
@@ -52,10 +53,16 @@ namespace Common.Info
         public string VersionString { get { return (Version == null ? null : Version.ToString()); } set { Version = string.IsNullOrEmpty(value) ? null : new Version(value); } }
 
         /// <summary>
-        /// The copyright information for the entry assembly.
+        /// The copyright information for the application.
         /// </summary>
         [XmlIgnore]
         public string Copyright { get; set; }
+
+        /// <summary>
+        /// A description of the application.
+        /// </summary>
+        [XmlIgnore]
+        public string Description { get; set; }
 
         /// <summary>
         /// The command-line arguments the application was started with.
@@ -64,34 +71,39 @@ namespace Common.Info
         [XmlElement("arg")]
         public string[] Arguments { get; set; }
 
-        #region Static
+        #region Load
+        private static readonly AppInfo _current = Load();
+
         /// <summary>
-        /// Information about the current operating system.
+        /// Information about the currently running application.
         /// </summary>
-        public static AppInfo Current { get; private set; }
+        public static AppInfo Current { get { return _current; } }
 
-        [SuppressMessage("Microsoft.Usage", "CA2207:InitializeValueTypeStaticFieldsInline")]
-        static AppInfo()
+        /// <summary>
+        /// Loads application information for the currently running application.
+        /// </summary>
+        /// <returns></returns>
+        private static AppInfo Load()
         {
-            var assembly = Assembly.GetEntryAssembly();
-            if (assembly == null) return;
+            var appInfo = Load(Assembly.GetEntryAssembly());
+            appInfo.Arguments = Environment.GetCommandLineArgs();
+            return appInfo;
+        }
+
+        /// <summary>
+        /// Loads application information for a specific <see cref="Assembly"/>.
+        /// </summary>
+        public static AppInfo Load(Assembly assembly)
+        {
+            if (assembly == null) return new AppInfo();
+
             var assemblyInfo = assembly.GetName();
-
-            // Try to determine assembly title, fall back to assembly name on failure
-            var assemblyTitleAttributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-            string name = (assemblyTitleAttributes.Length > 0 ? ((AssemblyTitleAttribute)assemblyTitleAttributes[0]).Title : assemblyInfo.Name);
-
-            // Try to determine copyright information
-            string copyright = null;
-            var assemblyCopyrightAttributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-            if (assemblyCopyrightAttributes.Length > 0) copyright = ((AssemblyCopyrightAttribute)assemblyCopyrightAttributes[0]).Copyright;
-
-            Current = new AppInfo
+            return new AppInfo
             {
-                Name = name,
+                Name = assembly.GetAttributeValue((AssemblyTitleAttribute x) => x.Title) ?? assemblyInfo.Name,
                 Version = new Version(assemblyInfo.Version.Major, assemblyInfo.Version.Minor, assemblyInfo.Version.Build),
-                Copyright = copyright,
-                Arguments = Environment.GetCommandLineArgs()
+                Description = assembly.GetAttributeValue((AssemblyDescriptionAttribute x) => x.Description),
+                Copyright = assembly.GetAttributeValue((AssemblyCopyrightAttribute x) => x.Copyright)
             };
         }
         #endregion

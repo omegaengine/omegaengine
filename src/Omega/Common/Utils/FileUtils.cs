@@ -29,6 +29,7 @@ using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
+using System.Text;
 using Common.Properties;
 
 #if FS_SECURITY
@@ -58,7 +59,7 @@ namespace Common.Utils
         public static bool IsBreakoutPath(string path)
         {
             #region Sanity checks
-            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
+            if (path == null) throw new ArgumentNullException("path");
             #endregion
 
             path = UnifySlashes(path);
@@ -66,7 +67,7 @@ namespace Common.Utils
         }
 
         /// <summary>
-        /// Returns a Unix-style relative path from <paramref name="basePath"/> to <paramref name="targetPath"/>.
+        /// Returns a relative path pointing to <paramref name="targetPath"/> from <paramref name="basePath"/> using Unix-style directory separators.
         /// </summary>
         public static string RelativeTo(this FileSystemInfo targetPath, FileSystemInfo basePath)
         {
@@ -188,7 +189,7 @@ namespace Common.Utils
         /// <exception cref="ArgumentException">Thrown if <paramref name="sourcePath"/> and <paramref name="destinationPath"/> are equal.</exception>
         /// <exception cref="DirectoryNotFoundException">Thrown if <paramref name="sourcePath"/> does not exist.</exception>
         /// <exception cref="IOException">Thrown if <paramref name="destinationPath"/> already exists and <paramref name="overwrite"/> is <see langword="false"/>.</exception>
-        public static void CopyDirectory(string sourcePath, string destinationPath, bool preserveDirectoryModificationTime, bool overwrite)
+        public static void CopyDirectory(string sourcePath, string destinationPath, bool preserveDirectoryModificationTime = true, bool overwrite = false)
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(sourcePath)) throw new ArgumentNullException("sourcePath");
@@ -270,7 +271,7 @@ namespace Common.Utils
             {
                 case PlatformID.Win32NT:
                     // Use native replace method with temporary backup file for rollback
-                    File.Replace(sourcePath, destinationPath, backupPath, true);
+                    File.Replace(sourcePath, destinationPath, backupPath, ignoreMetadataErrors: true);
                     File.Delete(backupPath);
                     break;
 
@@ -297,6 +298,27 @@ namespace Common.Utils
         }
         #endregion
 
+        #region Read
+        /// <summary>
+        /// Reads the first line of text from a file.
+        /// </summary>
+        /// <param name="file">The file to read from.</param>
+        /// <param name="encoding">The text encoding to use for reading.</param>
+        /// <returns>The first line of text in the file; <see langword="null"/> if decoding does not work on the contents.</returns>
+        /// <exception cref="IOException">Thrown if a problem occurred while reading the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Thrown if read access to the file is not permitted.</exception>
+        public static string ReadFirstLine(this FileInfo file, Encoding encoding)
+        {
+            #region Sanity checks
+            if (file == null) throw new ArgumentNullException("file");
+            if (encoding == null) throw new ArgumentNullException("encoding");
+            #endregion
+
+            using (var stream = file.OpenRead())
+                return new StreamReader(stream, encoding).ReadLine();
+        }
+        #endregion
+
         #region Directories
         /// <summary>
         /// Lists the paths of all subdirectories contained within a directory.
@@ -320,7 +342,7 @@ namespace Common.Utils
         /// <param name="directory">The directory to walk.</param>
         /// <param name="dirAction">The action to perform for every found directory (including the starting <paramref name="directory"/>); may be <see langword="null"/>.</param>
         /// <param name="fileAction">The action to perform for every found file; may be <see langword="null"/>.</param>
-        public static void WalkDirectory(this DirectoryInfo directory, Action<DirectoryInfo> dirAction = null, Action<FileInfo> fileAction = null)
+        public static void Walk(this DirectoryInfo directory, Action<DirectoryInfo> dirAction = null, Action<FileInfo> fileAction = null)
         {
             #region Sanity checks
             if (directory == null) throw new ArgumentNullException("directory");
@@ -329,27 +351,14 @@ namespace Common.Utils
 
             if (dirAction != null) dirAction(directory);
 
-            foreach (var subDir in directory.GetDirectories())
-                WalkDirectory(subDir, dirAction, fileAction);
-
             if (fileAction != null)
             {
                 foreach (var file in directory.GetFiles())
                     fileAction(file);
             }
-        }
 
-        /// <summary>
-        /// Recursivley lists Unix-style relative paths for all subdirectories of a directory.
-        /// </summary>
-        /// <param name="baseDirectory">The base directory to search for subdirectories.</param>
-        /// <returns>A list of relative Unix-style paths, starting with <see cref="string.Empty"/>.</returns>
-        public static IEnumerable<string> GetRelativeDirectoriesRecursive(this DirectoryInfo baseDirectory)
-        {
-            var result = new List<string>();
-            baseDirectory.WalkDirectory(
-                dir => result.Add(dir.RelativeTo(baseDirectory).Replace(Path.DirectorySeparatorChar, '/')));
-            return result;
+            foreach (var subDir in directory.GetDirectories())
+                Walk(subDir, dirAction, fileAction);
         }
         #endregion
 
@@ -361,7 +370,7 @@ namespace Common.Utils
         /// </summary>
         public static void ResetAcl(this DirectoryInfo directoryInfo)
         {
-            directoryInfo.WalkDirectory(
+            directoryInfo.Walk(
                 dir => ResetAcl(dir.GetAccessControl, dir.SetAccessControl),
                 file => ResetAcl(file.GetAccessControl, file.SetAccessControl));
         }
@@ -379,7 +388,7 @@ namespace Common.Utils
             // Inherit rules from container and remove any custom rules
             acl = getAcl();
             acl.CanonicalizeAcl();
-            acl.SetAccessRuleProtection(false, true);
+            acl.SetAccessRuleProtection(isProtected: false, preserveInheritance: true);
             foreach (FileSystemAccessRule rule in acl.GetAccessRules(true, false, typeof(NTAccount)))
                 acl.RemoveAccessRule(rule);
             setAcl(acl);
@@ -461,11 +470,11 @@ namespace Common.Utils
             {
                 case PlatformID.Unix:
                 case PlatformID.MacOSX:
-                    ToggleWriteProtectionUnix(directory, true);
+                    directory.ToggleWriteProtectionUnix(true);
                     break;
 
                 case PlatformID.Win32NT:
-                    ToggleWriteProtectionWinNT(directory, true);
+                    directory.ToggleWriteProtectionWinNT(true);
                     break;
             }
         }
@@ -496,12 +505,12 @@ namespace Common.Utils
 
                 case PlatformID.Win32NT:
                     // Find NTFS ACL inheritance starting at any level
-                    WalkDirectory(directory, dir => ToggleWriteProtectionWinNT(dir, false));
+                    Walk(directory, dir => dir.ToggleWriteProtectionWinNT(false));
 
                     // Remove any classic read-only attributes
                     try
                     {
-                        WalkDirectory(directory,
+                        Walk(directory,
                             dir => dir.Attributes = FileAttributes.Normal,
                             file => file.IsReadOnly = false);
                     }
@@ -512,12 +521,12 @@ namespace Common.Utils
         }
 
         #region Helpers
-        private static void ToggleWriteProtectionUnix(DirectoryInfo directory, bool enable)
+        private static void ToggleWriteProtectionUnix(this DirectoryInfo directory, bool enable)
         {
             try
             {
-                if (enable) WalkDirectory(directory, subDir => MonoUtils.MakeReadOnly(subDir.FullName), file => MonoUtils.MakeReadOnly(file.FullName));
-                else WalkDirectory(directory, subDir => MonoUtils.MakeWritable(subDir.FullName), file => MonoUtils.MakeWritable(file.FullName));
+                if (enable) Walk(directory, dir => MonoUtils.MakeReadOnly(dir.FullName), file => MonoUtils.MakeReadOnly(file.FullName));
+                else Walk(directory, dir => MonoUtils.MakeWritable(dir.FullName), file => MonoUtils.MakeWritable(file.FullName));
             }
                 #region Error handling
             catch (InvalidOperationException ex)
@@ -533,7 +542,7 @@ namespace Common.Utils
 
         private static readonly FileSystemAccessRule _denyEveryoneWrite = new FileSystemAccessRule(new SecurityIdentifier("S-1-1-0" /*Everyone*/), FileSystemRights.Write | FileSystemRights.Delete | FileSystemRights.DeleteSubdirectoriesAndFiles, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Deny);
 
-        private static void ToggleWriteProtectionWinNT(DirectoryInfo directory, bool enable)
+        private static void ToggleWriteProtectionWinNT(this DirectoryInfo directory, bool enable)
         {
             try
             {

@@ -117,19 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ClearButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ClearButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Warning.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Info" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Info.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Error" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Error.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ArchiveInvalid" xml:space="preserve">
     <value>The archive file is invalid or damaged.</value>
   </data>
@@ -150,9 +137,6 @@
   </data>
   <data name="CannotAddCollectionToSelf" xml:space="preserve">
     <value>The collection cannot be added to itself.</value>
-  </data>
-  <data name="CollectionIsEmpty" xml:space="preserve">
-    <value>The collection is empty.</value>
   </data>
   <data name="ContentArchivesAlreadyLoaded" xml:space="preserve">
     <value>The content archives were already loaded</value>
@@ -190,14 +174,6 @@
   <data name="LoseChangesAsk" xml:space="preserve">
     <value>Warning! All your changes to this file will be lost. Do you wish to continue?</value>
   </data>
-  <data name="LoseChangesNo" xml:space="preserve">
-    <value>No
-Keep the changes</value>
-  </data>
-  <data name="LoseChangesYes" xml:space="preserve">
-    <value>Yes
-Delete the changes</value>
-  </data>
   <data name="MaxElementsExceeded" xml:space="preserve">
     <value>The maximum amount of elements in the collection has been exceeded.</value>
   </data>
@@ -206,9 +182,6 @@ Delete the changes</value>
   </data>
   <data name="MissingDispatchAction" xml:space="preserve">
     <value>No action registered for '{0}'.</value>
-  </data>
-  <data name="MissingNanoGrid" xml:space="preserve">
-    <value>NanoGrid must be installed for this game to work properly.</value>
   </data>
   <data name="MissingStreamSeekSupport" xml:space="preserve">
     <value>The stream must support seeking.</value>

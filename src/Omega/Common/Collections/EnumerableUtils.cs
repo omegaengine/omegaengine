@@ -280,14 +280,14 @@ namespace Common.Collections
             #endregion
 
             // ReSharper disable CompareNonConstrainedGenericWithNull
-            foreach (var mine in mineList.Where(mine => mine != null).
+            foreach (var mine in mineList.Where(mine => mine != null)
                 // Entry in mineList, but not in theirsList
-                                          Where(mine => !theirsList.Contains(mine)))
+                .Where(mine => !theirsList.Contains(mine)))
                 removed(mine);
 
             foreach (var theirs in theirsList.Where(theirs => theirs != null).
                 // Entry in theirsList, but not in mineList
-                                              Where(theirs => !mineList.Contains(theirs)))
+                Where(theirs => !mineList.Contains(theirs)))
                 added(theirs);
             // ReSharper restore CompareNonConstrainedGenericWithNull
         }
@@ -350,6 +350,24 @@ namespace Common.Collections
             where T : class, IMergeable<T>
         {
             return elements.FirstOrDefault(element => element != null && element.MergeID == id);
+        }
+        #endregion
+
+        #region List
+        /// <summary>
+        /// Removes the last n elements from the list.
+        /// </summary>
+        /// <param name="list">The list to remove the elements from.</param>
+        /// <param name="number">The number of elements to remove.</param>
+        [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "Specifically extends List<T>")]
+        public static void RemoveLast<T>(this List<T> list, int number = 1)
+        {
+            #region Sanity checks
+            if (list == null) throw new ArgumentNullException("list");
+            if (number < 0) throw new ArgumentOutOfRangeException("number", "Must not be negative.");
+            #endregion
+
+            list.RemoveRange(list.Count - number, number);
         }
         #endregion
     }

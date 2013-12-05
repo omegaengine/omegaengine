@@ -165,6 +165,15 @@ namespace Common.Utils
         {
             return toRemove.Aggregate(value, (acc, target) => acc.Replace(target.ToString(CultureInfo.InvariantCulture), ""));
         }
+
+        /// <summary>
+        /// Removes all occurences of a specific set of characters from a string.
+        /// </summary>
+        // ReSharper disable once ParameterTypeCanBeEnumerable.Global
+        public static string StripCharacters(this string value, char[] characters)
+        {
+            return new string(value.Where(x => !characters.Contains(x)).ToArray());
+        }
         #endregion
 
         #region Splitting
@@ -202,7 +211,7 @@ namespace Common.Utils
         /// <param name="separator">The separator characters to place between the <paramref name="parts"/>.</param>
         /// <param name="parts">The strings to be combined.</param>
         /// <remarks>Works like <see cref="string.Join(string,string[])"/> but for <see cref="IEnumerable{T}"/>s.</remarks>
-        public static string Join(this string separator, IEnumerable<string> parts)
+        public static string Join(string separator, IEnumerable<string> parts)
         {
             #region Sanity checks
             if (parts == null) throw new ArgumentNullException("parts");

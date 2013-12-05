@@ -71,7 +71,18 @@ namespace Common.Utils
             if (destination == null) throw new ArgumentNullException("destination");
             #endregion
 
-            CopyTo(source, destination, 4096);
+            source.CopyTo(destination, 4096);
+        }
+
+        /// <summary>
+        /// Writes the entire content of a stream to a file.
+        /// </summary>
+        /// <param name="stream">The stream to read from.</param>
+        /// <param name="path">The path of the file to write.</param>
+        public static void WriteTo(this Stream stream, string path)
+        {
+            using (var fileStream = File.Create(path))
+                stream.CopyTo(fileStream);
         }
 
         /// <summary>
@@ -130,14 +141,21 @@ namespace Common.Utils
         }
 
         /// <summary>
-        /// Writes the entire content of a stream to a file.
+        /// Reads the entire content of a stream to a byte array (will seek from zero to end).
         /// </summary>
         /// <param name="stream">The stream to read from.</param>
-        /// <param name="path">The path of the file to write.</param>
-        public static void WriteToFile(this Stream stream, string path)
+        /// <returns>A entire content of the stream.</returns>
+        public static byte[] ReadToArray(this Stream stream)
         {
-            using (var fileStream = File.Create(path))
-                stream.CopyTo(fileStream);
+            #region Sanity checks
+            if (stream == null) throw new ArgumentNullException("stream");
+            #endregion
+
+            using (var memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                return memoryStream.ToArray();
+            }
         }
     }
 }

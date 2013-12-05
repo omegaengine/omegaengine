@@ -30,7 +30,7 @@ namespace Common.Controls
     /// <summary>
     /// Combines a <see cref="TrackingProgressBar"/> and a <see cref="TrackingLabel"/>.
     /// </summary>
-    public partial class TrackingControl : UserControl
+    public sealed partial class TrackingControl : UserControl
     {
         #region Properties
         /// <summary>
@@ -67,6 +67,15 @@ namespace Common.Controls
         public TrackingControl()
         {
             InitializeComponent();
+            CreateHandle();
+        }
+        #endregion
+
+        #region IPC timeout
+        /// <inheritdoc/>
+        public override object InitializeLifetimeService()
+        {
+            return null; // Do not timeout progress reporting callbacks
         }
         #endregion
     }

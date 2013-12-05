@@ -25,7 +25,7 @@ using NUnit.Framework;
 namespace Common.Collections
 {
     /// <summary>
-    /// Contains test methods for <see cref="AggregateDispatcherTest"/>.
+    /// Contains test methods for <see cref="AggregateDispatcher{TBase,TResultElement}"/>.
     /// </summary>
     [TestFixture]
     public class AggregateDispatcherTest

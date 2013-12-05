@@ -22,6 +22,12 @@ GNU GPL with GNU Classpath exception: ICSharpCode.SharpZipLib.license.txt
 Applied patches: ICSharpCode.SharpZipLib.*.patch
 Self-compiled managed DLL: ICSharpCode.SharpZipLib.dll
 
+ICSharpCode.TextEditor
+http://www.icsharpcode.net/OpenSource/SD/
+GNU LGPL: http://www.gnu.org/copyleft/lesser.html
+Applied patches: ICSharpCode.TextEditor.*.patch
+Self-compiled managed DLL: ICSharpCode.TextEditor.dll
+
 TaskDialog
 http://www.codeproject.com/KB/vista/TaskDialogWinForms.aspx
 Public domain

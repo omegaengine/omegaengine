@@ -26,40 +26,34 @@ using System.Collections.Generic;
 namespace Common.Collections
 {
     /// <summary>
-    /// Transparently caches retrieval requests, passed through to a callback on first request.
+    /// A rule for <see cref="Bucketizer{T}"/>.
     /// </summary>
-    /// <typeparam name="TKey">The type of keys used to request values.</typeparam>
-    /// <typeparam name="TValue">The type of values returned.</typeparam>
-    public class TransparentCache<TKey, TValue>
+    public class BucketRule<T>
     {
-        private readonly Dictionary<TKey, TValue> _lookup = new Dictionary<TKey, TValue>();
-
-        private readonly Func<TKey, TValue> _retriever;
+        /// <summary>
+        /// A condition to check elements against.
+        /// </summary>
+        public readonly Predicate<T> Predicate;
 
         /// <summary>
-        /// Creates a new transparent cache.
+        /// The collection elements are added to if they match the <see cref="Predicate"/>.
         /// </summary>
-        /// <param name="retriever">The callback used to retrieve values not yet in the cache.</param>
-        public TransparentCache(Func<TKey, TValue> retriever)
-        {
-            _retriever = retriever;
-        }
+        public readonly ICollection<T> Bucket;
 
         /// <summary>
-        /// Retrieves a value from the cache.
+        /// Creates a new bucket rule.
         /// </summary>
-        public TValue this[TKey key]
+        /// <param name="predicate">A condition to check elements against.</param>
+        /// <param name="bucket">The collection elements are added to if they match the <paramref name="predicate"/>.</param>
+        public BucketRule(Predicate<T> predicate, ICollection<T> bucket)
         {
-            get
-            {
-                lock (_lookup)
-                {
-                    TValue result;
-                    if (!_lookup.TryGetValue(key, out result))
-                        _lookup.Add(key, result = _retriever(key));
-                    return result;
-                }
-            }
+            #region Sanity checks
+            if (predicate == null) throw new ArgumentNullException("predicate");
+            if (bucket == null) throw new ArgumentNullException("bucket");
+            #endregion
+
+            Predicate = predicate;
+            Bucket = bucket;
         }
     }
 }
