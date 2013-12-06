@@ -33,6 +33,9 @@ using OmegaEngine.Input;
 using Presentation;
 using World;
 using World.EntityComponents;
+using World.Positionables;
+using World.Templates;
+using World.Terrains;
 using Mesh = World.EntityComponents.Mesh;
 
 namespace AlphaEditor.World

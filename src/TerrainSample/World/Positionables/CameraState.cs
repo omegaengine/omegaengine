@@ -20,24 +20,30 @@
  * THE SOFTWARE.
  */
 
-namespace World
+using System.ComponentModel;
+using Common.Values.Design;
+
+namespace World.Positionables
 {
-    /// <summary>.
-    /// A following member in a pathfinding group (follows <see cref="PathLeader{TCoordinates}"/>).
+    /// <summary>
+    /// Stores the position and direction of the camera in the game.
     /// </summary>
+    /// <seealso cref="Universe.Camera"/>
     /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
-    /// <seealso cref="Entity{TCoordinates}.PathControl"/>
-    public class PathFollower<TCoordinates> : PathControl<TCoordinates>
+    public class CameraState<TCoordinates> : Positionable<TCoordinates>
         where TCoordinates : struct
     {
         /// <summary>
-        /// Stores the <see cref="PathLeader{TCoordinates}.ID"/>.
+        /// The camera's distance from the focused position.
         /// </summary>
-        public int LeaderID { get; set; }
+        [Description("The camera's distance from the focused position.")]
+        public float Radius { get; set; }
 
         /// <summary>
-        /// The relative position to the <see cref="PathLeader{TCoordinates}"/>.
+        /// The horizontal rotation of the view direction in degrees.
         /// </summary>
-        public TCoordinates Position { get; set; }
+        [DefaultValue(0f), Description("The horizontal rotation of the view direction in degrees.")]
+        [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        public float Rotation { get; set; }
     }
 }

@@ -25,8 +25,9 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using Common.Utils;
+using World.Terrains;
 
-namespace World
+namespace World.Positionables
 {
     /// <summary>
     /// An object that can be positioned in the game world.

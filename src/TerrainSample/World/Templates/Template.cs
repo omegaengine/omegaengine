@@ -28,7 +28,7 @@ using System.Xml.Serialization;
 using Common;
 using Common.Controls;
 
-namespace World
+namespace World.Templates
 {
     /// <summary>
     /// A set of data used as a prototype for constructing new objects at runtime.

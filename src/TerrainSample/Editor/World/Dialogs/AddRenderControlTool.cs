@@ -25,6 +25,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using World;
 using World.EntityComponents;
+using World.Templates;
 
 namespace AlphaEditor.World.Dialogs
 {

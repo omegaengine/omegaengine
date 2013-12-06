@@ -34,6 +34,7 @@ using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;
 using World;
+using World.Positionables;
 using Terrain = OmegaEngine.Graphics.Renderables.Terrain;
 
 namespace Presentation
@@ -59,7 +60,7 @@ namespace Presentation
         private PostSepiaShader _sepiaShader;
 
         /// <summary>
-        /// The engine scene containing the graphical representations of <see cref="World.Positionable{TCoordinates}"/>s
+        /// The engine scene containing the graphical representations of <see cref="Positionable{TCoordinates}"/>s
         /// </summary>
         protected readonly Scene Scene;
         #endregion
@@ -243,7 +244,7 @@ namespace Presentation
                 return new CameraState<Vector2>
                 {
                     Name = camera.Name,
-                    Position = World.Terrain.ToWorldCoords(camera.Target),
+                    Position = World.Terrains.Terrain.ToWorldCoords(camera.Target),
                     Radius = (float)camera.Radius,
                     Rotation = camera.HorizontalRotation
                 };

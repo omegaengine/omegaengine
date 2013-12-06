@@ -29,6 +29,7 @@ using Common;
 using Common.Controls;
 using Common.Storage;
 using World;
+using World.Templates;
 
 namespace AlphaEditor.World
 {

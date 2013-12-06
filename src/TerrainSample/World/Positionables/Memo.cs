@@ -20,13 +20,21 @@
  * THE SOFTWARE.
  */
 
-namespace World
+using System.ComponentModel;
+
+namespace World.Positionables
 {
     /// <summary>
-    /// A marker used as a hint for pathfinding.
+    /// A marker that designers can leave in the map to remember stuff. Will be ignored in the actual game.
     /// </summary>
     /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
-    public class Waypoint<TCoordinates> : Positionable<TCoordinates>
+    public class Memo<TCoordinates> : Positionable<TCoordinates>
         where TCoordinates : struct
-    {}
+    {
+        /// <summary>
+        /// A short text describing the memo.
+        /// </summary>
+        [Description("A short text describing the memo.")]
+        public string Text { get; set; }
+    }
 }

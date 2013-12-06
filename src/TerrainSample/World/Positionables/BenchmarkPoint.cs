@@ -21,29 +21,26 @@
  */
 
 using System.ComponentModel;
-using Common.Values.Design;
 
-namespace World
+namespace World.Positionables
 {
     /// <summary>
-    /// Stores the position and direction of the camera in the game.
+    /// A marker that controls camera positions for the benchmark mode of the game.
     /// </summary>
-    /// <seealso cref="Universe.Camera"/>
     /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
-    public class CameraState<TCoordinates> : Positionable<TCoordinates>
+    public class BenchmarkPoint<TCoordinates> : CameraState<TCoordinates>
         where TCoordinates : struct
     {
         /// <summary>
-        /// The camera's distance from the focused position.
+        /// Cycle through different water quality settings here (will take 3x as long).
         /// </summary>
-        [Description("The camera's distance from the focused position.")]
-        public float Radius { get; set; }
+        [DefaultValue(false)]
+        public bool TestWater { get; set; }
 
         /// <summary>
-        /// The horizontal rotation of the view direction in degrees.
+        /// Cycle through particle system quality settings here (will take 2x as long).
         /// </summary>
-        [DefaultValue(0f), Description("The horizontal rotation of the view direction in degrees.")]
-        [EditorAttribute(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
-        public float Rotation { get; set; }
+        [DefaultValue(false)]
+        public bool TestParticleSystem { get; set; }
     }
 }

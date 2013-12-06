@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using Common.Collections;
 using World.Properties;
 
-namespace World
+namespace World.Templates
 {
     /// <summary>
     /// Manages lists of <see cref="Template{T}"/>s.

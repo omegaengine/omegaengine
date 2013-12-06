@@ -34,6 +34,7 @@ using OmegaEngine;
 using OmegaEngine.Assets;
 using World;
 using World.EntityComponents;
+using World.Positionables;
 using EngineRenderable = OmegaEngine.Graphics.Renderables;
 using View = OmegaEngine.Graphics.View;
 
@@ -195,7 +196,7 @@ namespace Presentation
                     DoubleVector3 paintPoint;
                     if (Terrain.Intersects(View.PickingRay(new Point(area.Right, area.Bottom)), out paintPoint))
                     { // Determine the terrain point at the location the user is currently "selecting" and "paint" on it
-                        TerrainPaint(World.Terrain.ToWorldCoords(paintPoint), done);
+                        TerrainPaint(World.Terrains.Terrain.ToWorldCoords(paintPoint), done);
                     }
                     else if (done)
                     { // If there is no terrain where the user is currently "selecting" finish running "paint" operations with a null operation (indicated by negative value)
@@ -220,7 +221,7 @@ namespace Presentation
                     // Determine the point the user click on and "paint" on it
                     DoubleVector3 paintPoint;
                     if (Terrain.Intersects(View.PickingRay(e.Location), out paintPoint))
-                        TerrainPaint(World.Terrain.ToWorldCoords(paintPoint), true);
+                        TerrainPaint(World.Terrains.Terrain.ToWorldCoords(paintPoint), true);
                 }
             }
             else base.Click(e, accumulate);

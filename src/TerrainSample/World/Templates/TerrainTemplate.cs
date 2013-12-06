@@ -27,7 +27,7 @@ using Common.Utils;
 using Common.Values;
 using LuaInterface;
 
-namespace World
+namespace World.Templates
 {
     /// <summary>
     /// Defines a type of terrain (texture, effects on units, etc.).

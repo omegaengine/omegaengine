@@ -23,6 +23,8 @@
 using System;
 using System.ComponentModel;
 using SlimDX;
+using World.Positionables;
+using World.Templates;
 
 namespace World.EntityComponents
 {

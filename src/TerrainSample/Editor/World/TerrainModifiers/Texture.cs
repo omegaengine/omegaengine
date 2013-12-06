@@ -26,6 +26,7 @@ using Common.Undo;
 using Presentation;
 using SlimDX;
 using World;
+using World.Terrains;
 
 namespace AlphaEditor.World.TerrainModifiers
 {

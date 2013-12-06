@@ -25,6 +25,7 @@ using System.Drawing;
 using System.Xml.Serialization;
 using Common.Values;
 using SlimDX;
+using World.Templates;
 
 namespace World.EntityComponents
 {

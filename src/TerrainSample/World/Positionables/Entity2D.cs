@@ -21,8 +21,9 @@ using System.Xml.Serialization;
 using Common.Utils;
 using Common.Values;
 using SlimDX;
+using World.Pathfinding;
 
-namespace World
+namespace World.Positionables
 {
     /// <summary>
     /// A two-dimensional <see cref="Entity{TCoordinates}"/>.

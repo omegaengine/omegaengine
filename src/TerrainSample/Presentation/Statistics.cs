@@ -27,6 +27,7 @@ using System.Xml.Serialization;
 using Common.Values;
 using SlimDX;
 using World;
+using World.Positionables;
 
 namespace Presentation
 {

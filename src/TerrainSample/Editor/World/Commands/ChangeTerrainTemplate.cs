@@ -23,6 +23,8 @@
 using System;
 using Common.Undo;
 using World;
+using World.Templates;
+using World.Terrains;
 
 namespace AlphaEditor.World.Commands
 {

@@ -23,6 +23,7 @@
 using System.ComponentModel;
 using System.Xml.Serialization;
 using SlimDX;
+using World.Templates;
 
 namespace World.EntityComponents
 {

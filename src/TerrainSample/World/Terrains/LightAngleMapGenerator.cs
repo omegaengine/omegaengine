@@ -30,7 +30,7 @@ using World.Properties;
 using System.Threading.Tasks;
 #endif
 
-namespace World
+namespace World.Terrains
 {
     /// <summary>
     /// Generates light-angle maps from a height map for a <see cref="Terrain"/> as a background task.

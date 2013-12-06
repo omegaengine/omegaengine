@@ -25,6 +25,7 @@ using AlphaEditor.Properties;
 using Common.Collections;
 using Common.Controls;
 using World;
+using World.Templates;
 
 namespace AlphaEditor.World.Dialogs
 {

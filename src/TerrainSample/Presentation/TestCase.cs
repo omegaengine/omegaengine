@@ -26,6 +26,7 @@ using Common.Values;
 using Core;
 using SlimDX;
 using World;
+using World.Positionables;
 
 namespace Presentation
 {

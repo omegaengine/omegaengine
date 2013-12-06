@@ -21,6 +21,7 @@
  */
 
 using World;
+using World.Templates;
 
 namespace AlphaEditor.World
 {

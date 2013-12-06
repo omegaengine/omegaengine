@@ -17,7 +17,7 @@
 
 using System.Collections.Generic;
 
-namespace World
+namespace World.Pathfinding
 {
     /// <summary>
     /// An interface for 2D pathfinding.

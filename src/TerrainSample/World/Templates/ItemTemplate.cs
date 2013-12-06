@@ -22,25 +22,18 @@
 
 using System.ComponentModel;
 
-namespace World
+namespace World.Templates
 {
     /// <summary>
-    /// A marker that controls camera positions for the benchmark mode of the game.
+    /// Defines the behavior for a certain class of item.
     /// </summary>
-    /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
-    public class BenchmarkPoint<TCoordinates> : CameraState<TCoordinates>
-        where TCoordinates : struct
+    /// <seealso cref="TemplateManager.ItemTemplates"/>
+    public sealed class ItemTemplate : Template<ItemTemplate>
     {
         /// <summary>
-        /// Cycle through different water quality settings here (will take 3x as long).
+        /// How much is an item of this class worth (as in money).
         /// </summary>
-        [DefaultValue(false)]
-        public bool TestWater { get; set; }
-
-        /// <summary>
-        /// Cycle through particle system quality settings here (will take 2x as long).
-        /// </summary>
-        [DefaultValue(false)]
-        public bool TestParticleSystem { get; set; }
+        [Description("How much is an item of this class worth (as in money).")]
+        public int Worth { get; set; }
     }
 }

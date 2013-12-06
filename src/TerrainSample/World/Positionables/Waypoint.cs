@@ -20,20 +20,13 @@
  * THE SOFTWARE.
  */
 
-using System.ComponentModel;
-
-namespace World
+namespace World.Positionables
 {
     /// <summary>
-    /// Defines the behavior for a certain class of item.
+    /// A marker used as a hint for pathfinding.
     /// </summary>
-    /// <seealso cref="TemplateManager.ItemTemplates"/>
-    public sealed class ItemTemplate : Template<ItemTemplate>
-    {
-        /// <summary>
-        /// How much is an item of this class worth (as in money).
-        /// </summary>
-        [Description("How much is an item of this class worth (as in money).")]
-        public int Worth { get; set; }
-    }
+    /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
+    public class Waypoint<TCoordinates> : Positionable<TCoordinates>
+        where TCoordinates : struct
+    {}
 }

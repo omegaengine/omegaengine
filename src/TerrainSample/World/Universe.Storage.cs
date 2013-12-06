@@ -31,6 +31,8 @@ using Core;
 using ICSharpCode.SharpZipLib.Zip;
 using LuaInterface;
 using SlimDX;
+using World.Positionables;
+using World.Terrains;
 using Resources = World.Properties.Resources;
 
 namespace World

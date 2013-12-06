@@ -25,8 +25,9 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using SlimDX;
 using World.EntityComponents;
+using World.Positionables;
 
-namespace World
+namespace World.Templates
 {
     /// <summary>
     /// A collection of components used as a prototype for constructing new <see cref="Entity{TCoordinates}"/>s. Defines the behavior and look for a certain class of <see cref="Entity{TCoordinates}"/>.

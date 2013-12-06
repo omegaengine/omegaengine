@@ -26,6 +26,7 @@ using Common.Utils;
 using OmegaEngine;
 using Presentation;
 using World;
+using World.Terrains;
 using EngineTerrain = OmegaEngine.Graphics.Renderables.Terrain;
 
 namespace AlphaEditor.World.TerrainModifiers

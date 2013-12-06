@@ -25,6 +25,7 @@ using System.Diagnostics.CodeAnalysis;
 using Common.Undo;
 using Presentation;
 using World;
+using World.Terrains;
 
 namespace AlphaEditor.World.Commands
 {

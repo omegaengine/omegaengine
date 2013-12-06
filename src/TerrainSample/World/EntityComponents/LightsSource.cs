@@ -26,6 +26,7 @@ using System.Xml.Serialization;
 using Common.Values;
 using LuaInterface;
 using SlimDX;
+using World.Templates;
 
 namespace World.EntityComponents
 {

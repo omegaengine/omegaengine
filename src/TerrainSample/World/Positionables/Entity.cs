@@ -28,8 +28,10 @@ using Common.Utils;
 using Common.Values;
 using Common.Values.Design;
 using World.EntityComponents;
+using World.Pathfinding;
+using World.Templates;
 
-namespace World
+namespace World.Positionables
 {
     /// <summary>
     /// A <see cref="Positionable{TCoordinates}"/> whose behaviour and graphical representation is controlled by <see cref="World.EntityComponents"/>.
@@ -151,7 +153,7 @@ namespace World
         /// The horizontal rotation of the view direction in degrees.
         /// </summary>
         [DefaultValue(0f), Description("The horizontal rotation of the view direction in degrees.")]
-        [EditorAttribute(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public float Rotation { get { return _rotation; } set { value.To(ref _rotation, OnRenderPropertyChanged); } }
         #endregion
 
@@ -181,7 +183,7 @@ namespace World
         public abstract TCoordinates[] GetPathFindingOutline();
 
         /// <summary>
-        /// Perform movements queued up in <see cref="World.PathControl{TCoordinates}"/>.
+        /// Perform movements queued up in <see cref="PathControl{TCoordinates}"/>.
         /// </summary>
         /// <param name="elapsedTime">How much game time in seconds has elapsed since this method was last called.</param>
         public abstract void UpdatePosition(double elapsedTime);

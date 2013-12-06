@@ -29,6 +29,7 @@ using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;
 using SlimDX;
+using World.Positionables;
 using EngineRenderable = OmegaEngine.Graphics.Renderables;
 using Common;
 using Common.Values;
@@ -42,7 +43,7 @@ namespace Presentation
     {
         #region Variables
         // Note: Using custom collection-class to allow external update-notification
-        private readonly World.PositionableCollection<Vector2> _selectedPositionables = new World.PositionableCollection<Vector2>();
+        private readonly PositionableCollection<Vector2> _selectedPositionables = new PositionableCollection<Vector2>();
 
         /// <summary>An outline to show on the screen</summary>
         private Rectangle? _selectionRectangle;
@@ -52,9 +53,9 @@ namespace Presentation
 
         #region Properties
         /// <summary>
-        /// The <see cref="World.Positionable{TCoordinates}"/>s the user has selected with the mouse
+        /// The <see cref="Positionable{TCoordinates}"/>s the user has selected with the mouse
         /// </summary>
-        public World.PositionableCollection<Vector2> SelectedPositionables { get { return _selectedPositionables; } }
+        public PositionableCollection<Vector2> SelectedPositionables { get { return _selectedPositionables; } }
         #endregion
 
         #region Constructor
@@ -162,19 +163,19 @@ namespace Presentation
             {
                 DoubleVector3 topLeftPoint;
                 if (!Terrain.Intersects(View.PickingRay(new Point(area.Left, area.Top)), out topLeftPoint)) return new Quadrangle();
-                topLeftCoord = World.Terrain.ToWorldCoords(topLeftPoint);
+                topLeftCoord = World.Terrains.Terrain.ToWorldCoords(topLeftPoint);
 
                 DoubleVector3 bottomLeftPoint;
                 if (!Terrain.Intersects(View.PickingRay(new Point(area.Left, area.Bottom)), out bottomLeftPoint)) return new Quadrangle();
-                bottomLeftCoord = World.Terrain.ToWorldCoords(bottomLeftPoint);
+                bottomLeftCoord = World.Terrains.Terrain.ToWorldCoords(bottomLeftPoint);
 
                 DoubleVector3 bottomRightPoint;
                 if (!Terrain.Intersects(View.PickingRay(new Point(area.Right, area.Bottom)), out bottomRightPoint)) return new Quadrangle();
-                bottomRightCoord = World.Terrain.ToWorldCoords(bottomRightPoint);
+                bottomRightCoord = World.Terrains.Terrain.ToWorldCoords(bottomRightPoint);
 
                 DoubleVector3 topRightPoint;
                 if (!Terrain.Intersects(View.PickingRay(new Point(area.Right, area.Top)), out topRightPoint)) return new Quadrangle();
-                topRightCoord = World.Terrain.ToWorldCoords(topRightPoint);
+                topRightCoord = World.Terrains.Terrain.ToWorldCoords(topRightPoint);
             }
 
             var terrainArea = new Quadrangle(topLeftCoord, bottomLeftCoord, bottomRightCoord, topRightCoord);
@@ -210,7 +211,7 @@ namespace Presentation
                         foreach (var entity in Universe.Positionables.Entities)
                         {
                             // Check each entity in World if it is positioned at the selection point
-                            if (entity.CollisionTest(World.Terrain.ToWorldCoords(intersectPosition)))
+                            if (entity.CollisionTest(World.Terrains.Terrain.ToWorldCoords(intersectPosition)))
                             {
                                 // Toggle entries when accumulating
                                 if (accumulate && _selectedPositionables.Contains(entity)) _selectedPositionables.Remove(entity);
@@ -223,7 +224,7 @@ namespace Presentation
                     }
                     else
                     { // Action: Left-click on entity to select it
-                        World.Positionable<Vector2> pickedEntity = GetWorld(pickedObject);
+                        Positionable<Vector2> pickedEntity = GetWorld(pickedObject);
                         if (pickedEntity != null)
                         {
                             // Toggle entries when accumulating
@@ -237,7 +238,7 @@ namespace Presentation
                     if (_selectedPositionables.Count != 0 && pickedTerrain)
                     { // Action: Right-click on terrain to move
                         // Depending on the actual presenter type this may invoke pathfinding or teleportation
-                        MovePositionables(_selectedPositionables, World.Terrain.ToWorldCoords(intersectPosition));
+                        MovePositionables(_selectedPositionables, World.Terrains.Terrain.ToWorldCoords(intersectPosition));
                     }
                     break;
             }
@@ -260,10 +261,10 @@ namespace Presentation
             // Action: Double-click on entity to select and focus camera
             if (pickedObject != null && !(pickedObject is EngineRenderable.Terrain) && !(View.Camera is CinematicCamera)) /* Each swing must complete before the next one can start */
             {
-                var newState = new World.CameraState<Vector2>
+                var newState = new CameraState<Vector2>
                 {
                     Name = View.Camera.Name,
-                    Position = World.Terrain.ToWorldCoords(pickedObject.Position),
+                    Position = World.Terrains.Terrain.ToWorldCoords(pickedObject.Position),
                     Radius = pickedObject.WorldBoundingSphere.HasValue ? pickedObject.WorldBoundingSphere.Value.Radius * 2.5f : 50,
                 };
 
@@ -288,11 +289,11 @@ namespace Presentation
 
         #region User movement
         /// <summary>
-        /// Moves one or more <see cref="World.Positionable{TCoordinates}"/>s to a new position.
+        /// Moves one or more <see cref="Positionable{TCoordinates}"/>s to a new position.
         /// </summary>
-        /// <param name="positionables">The <see cref="World.Positionable{TCoordinates}"/>s to be moved.</param>
+        /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to be moved.</param>
         /// <param name="target">The terrain position to move the <paramref name="positionables"/> to.</param>
-        protected virtual void MovePositionables(World.PositionableCollection<Vector2> positionables, Vector2 target)
+        protected virtual void MovePositionables(PositionableCollection<Vector2> positionables, Vector2 target)
         {
             #region Sanity checks
             if (positionables == null) throw new ArgumentNullException("positionables");

@@ -23,6 +23,8 @@
 using System;
 using Common.Values;
 using SlimDX;
+using World.Positionables;
+using World.Templates;
 
 namespace World.EntityComponents
 {

@@ -26,6 +26,7 @@ using Common.Undo;
 using Presentation;
 using SlimDX;
 using World;
+using World.Terrains;
 using EngineTerrain = OmegaEngine.Graphics.Renderables.Terrain;
 
 namespace AlphaEditor.World.TerrainModifiers

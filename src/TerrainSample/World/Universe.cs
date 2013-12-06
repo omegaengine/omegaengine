@@ -25,6 +25,9 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using Common.Utils;
 using SlimDX;
+using World.Pathfinding;
+using World.Positionables;
+using World.Terrains;
 
 namespace World
 {

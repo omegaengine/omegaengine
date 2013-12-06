@@ -26,6 +26,7 @@ using System.Windows.Forms;
 using Common.Controls;
 using Common.Utils;
 using World;
+using World.Terrains;
 
 namespace AlphaEditor.World.Dialogs
 {

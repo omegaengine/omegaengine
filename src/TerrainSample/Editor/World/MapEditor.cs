@@ -37,6 +37,9 @@ using OmegaEngine.Input;
 using Presentation;
 using SlimDX;
 using World;
+using World.Positionables;
+using World.Templates;
+using World.Terrains;
 using Resources = AlphaEditor.Properties.Resources;
 
 namespace AlphaEditor.World

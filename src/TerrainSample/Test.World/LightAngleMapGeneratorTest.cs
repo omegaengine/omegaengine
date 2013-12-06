@@ -22,6 +22,7 @@
 
 using Common.Tasks;
 using NUnit.Framework;
+using World.Terrains;
 
 namespace World
 {

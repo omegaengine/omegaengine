@@ -25,6 +25,8 @@ using System.Collections.Generic;
 using Common.Undo;
 using SlimDX;
 using World;
+using World.Positionables;
+using World.Templates;
 
 namespace AlphaEditor.World.Commands
 {

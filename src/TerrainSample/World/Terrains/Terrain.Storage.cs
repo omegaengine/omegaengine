@@ -30,7 +30,7 @@ using Common.Utils;
 using LuaInterface;
 using World.Properties;
 
-namespace World
+namespace World.Terrains
 {
     partial class Terrain
     {

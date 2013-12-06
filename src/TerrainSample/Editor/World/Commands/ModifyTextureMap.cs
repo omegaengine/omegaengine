@@ -25,6 +25,7 @@ using System.Drawing;
 using AlphaEditor.Properties;
 using Common.Undo;
 using World;
+using World.Terrains;
 
 namespace AlphaEditor.World.Commands
 {

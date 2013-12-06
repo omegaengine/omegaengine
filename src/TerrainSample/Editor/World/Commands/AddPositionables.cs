@@ -23,6 +23,7 @@
 using System.Collections.Generic;
 using SlimDX;
 using World;
+using World.Positionables;
 
 namespace AlphaEditor.World.Commands
 {

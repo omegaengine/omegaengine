@@ -20,37 +20,44 @@
  * THE SOFTWARE.
  */
 
-using System.Collections.Generic;
 using System.Xml.Serialization;
+using Common.Collections;
+using Common.Storage;
 
-namespace World
+namespace World.Templates
 {
     /// <summary>
-    /// The leader in a pathfinding group (followed by <see cref="PathFollower{TCoordinates}"/>).
+    /// A string-keyed dictionary of <see cref="Template{T}"/>es that can be XML serialized.
     /// </summary>
-    /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
-    /// <seealso cref="Entity{TCoordinates}.PathControl"/>
-    public class PathLeader<TCoordinates> : PathControl<TCoordinates>
-        where TCoordinates : struct
+    [XmlType("TemplateList")]
+    public class TemplateCollection<T> : NamedCollection<T> where T : Template<T>
     {
+        #region Storage
         /// <summary>
-        /// The ID of the group leader.
+        /// Loads a <see cref="TemplateCollection{T}"/> from an XML file via the <see cref="ContentManager"/>.
         /// </summary>
-        public int ID { get; set; }
+        /// <param name="id">The ID of the file to load from.</param>
+        /// <returns>The loaded <see cref="TemplateCollection{T}"/>.</returns>
+        public static TemplateCollection<T> FromContent(string id)
+        {
+            using (var stream = ContentManager.GetFileStream("World", id))
+                return XmlStorage.LoadXml<TemplateCollection<T>>(stream);
+        }
+        #endregion
 
+        #region Clone
         /// <summary>
-        /// The final target of the pathfinding.
+        /// Creates a deep copy of this <see cref="TemplateCollection{T}"/> (<see cref="Template{T}"/> elements are cloned).
         /// </summary>
-        public TCoordinates Target { get; set; }
+        /// <returns>The cloned <see cref="TemplateCollection{T}"/>.</returns>
+        public override object Clone()
+        {
+            var newCollection = new TemplateCollection<T>();
+            foreach (T entry in this)
+                newCollection.Add(entry.Clone());
 
-        // ToDo: Replace Stack with Queue, by turning PathFinder output around
-        private readonly Stack<TCoordinates> _pathNodes = new Stack<TCoordinates>();
-
-        /// <summary>
-        /// The path to walk.
-        /// </summary>
-        /// <remarks>Is not serialized/stored, will be recalculated by <see cref="Universe.RecalcPaths"/>.</remarks>
-        [XmlIgnore]
-        public Stack<TCoordinates> PathNodes { get { return _pathNodes; } }
+            return newCollection;
+        }
+        #endregion
     }
 }

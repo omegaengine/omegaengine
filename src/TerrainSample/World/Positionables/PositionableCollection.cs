@@ -28,7 +28,7 @@ using System.Xml.Serialization;
 using Common.Collections;
 using World.Properties;
 
-namespace World
+namespace World.Positionables
 {
     /// <summary>
     /// Stores a collection of <see cref="Positionable{TCoordinates}"/>s.

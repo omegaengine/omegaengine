@@ -20,6 +20,8 @@
  * THE SOFTWARE.
  */
 
+using World.Templates;
+
 namespace World.EntityComponents
 {
     /// <summary>
