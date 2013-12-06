@@ -3,6 +3,5 @@
   <Config name="Debug" buildpathtype="Auto">
     <assembly path="build\Debug\Test.Common.dll" />
     <assembly path="build\Debug\Test.TerrainSample.World.dll" />
-    <assembly path="build\Debug\Test.SpaceSample.World.dll" />
   </Config>
 </NUnitProject>

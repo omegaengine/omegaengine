@@ -48,6 +48,12 @@ namespace Core.State
         /// <param name="callback">A delegate to execute after the benchmark is complete with the path of the result file.</param>
         public BenchmarkState(Engine engine, Session session, Action<string> callback) : base(engine, session)
         {
+            #region Sanity checks
+            if (engine == null) throw new ArgumentNullException("engine");
+            if (session == null) throw new ArgumentNullException("session");
+            if (callback == null) throw new ArgumentNullException("callback");
+            #endregion
+
             _presenter = new BenchmarkPresenter(engine, session.Universe, callback);
         }
         #endregion

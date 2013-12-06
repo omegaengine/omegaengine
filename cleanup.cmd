@@ -22,12 +22,6 @@ rd /s /q "%~dp0src\TerrainSample\Settings\obj" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\World\obj" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\Test.World\obj" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\Presentation\obj" > NUL 2>&1
-rd /s /q "%~dp0src\SpaceSample\Game\obj" > NUL 2>&1
-rd /s /q "%~dp0src\SpaceSample\Editor\obj" > NUL 2>&1
-rd /s /q "%~dp0src\SpaceSample\Settings\obj" > NUL 2>&1
-rd /s /q "%~dp0src\SpaceSample\World\obj" > NUL 2>&1
-rd /s /q "%~dp0src\SpaceSample\Test.World\obj" > NUL 2>&1
-rd /s /q "%~dp0src\SpaceSample\Presentation\obj" > NUL 2>&1
 rd /s /q "%~dp0src\Omega\Common\obj" > NUL 2>&1
 rd /s /q "%~dp0src\Omega\Test.Common\obj" > NUL 2>&1
 rd /s /q "%~dp0src\Omega\Engine\obj" > NUL 2>&1

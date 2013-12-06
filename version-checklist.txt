@@ -1,7 +1,6 @@
 /version
 /src/Omega/AssemblyInfo.Global.cs
 /src/TerrainSample/AssemblyInfo.Global.cs
-/src/SpaceSample/AssemblyInfo.Global.cs
 /templates/*/MyTemplate.vstemplate
 /nuget/*.nuspec
 /setup/templates/extension.vsixmanifest

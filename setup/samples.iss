@@ -36,7 +36,7 @@ AppName={#AppName}
 AppVerName={#AppName} v{#Version}
 AppCopyright=Copyright 2006-2012 Bastian Eicher
 AppID={#AppName}
-AppMutex=Terrain Sample Game,Terrain Sample Game Editor,Space Sample Game,Space Sample Game Editor
+AppMutex=Terrain Sample Game,Terrain Sample Game Editor
 DefaultGroupName={#AppName}
 AppPublisher={#Company}
 AppVersion={#Version}
@@ -78,13 +78,9 @@ Name: {group}\Website; Filename: {#Website}
 Name: {group}\Terrain Sample Game; Filename: {app}\TerrainSample.exe
 Name: {group}\Terrain Sample Benchmark; Filename: {app}\TerrainSample.exe; Parameters: /benchmark
 Name: {group}\Terrain Sample Editor; Filename: {app}\TerrainSample.Editor.exe
-Name: {group}\Space Sample Game; Filename: {app}\SpaceSample.exe
-Name: {group}\Space Sample Benchmark; Filename: {app}\SpaceSample.exe; Parameters: /benchmark
-Name: {group}\Space Sample Editor; Filename: {app}\SpaceSample.Editor.exe
 
 [Run]
 Filename: {app}\TerrainSample.exe; Description: {cm:LaunchProgram,Terrain Sample Game}; Flags: nowait postinstall runasoriginaluser skipifsilent
-Filename: {app}\SpaceSample.exe; Description: {cm:LaunchProgram,Space Sample Game}; Flags: nowait postinstall runasoriginaluser skipifsilent unchecked
 
 [Code]
 function InitializeSetup(): Boolean;
