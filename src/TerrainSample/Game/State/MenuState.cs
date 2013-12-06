@@ -45,7 +45,7 @@ namespace Core.State
         /// </summary>
         /// <param name="engine">The engine to use for rendering.</param>
         /// <param name="universe">The universe to display as a map backgroud.</param>
-        public MenuState(Engine engine, Universe universe) : base(engine)
+        public MenuState(Engine engine, TerrainUniverse universe) : base(engine)
         {
             _presenter = new MenuPresenter(engine, universe);
         }

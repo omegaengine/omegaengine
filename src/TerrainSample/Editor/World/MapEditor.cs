@@ -52,7 +52,7 @@ namespace AlphaEditor.World
         #region Variables
         private EditorPresenter _presenter;
         private UpdateReceiver _updateReceiver;
-        private Universe _universe;
+        private TerrainUniverse _universe;
         private Dialogs.MapPropertiesTool _mapPropertiesTool;
 
         /// <summary>Don't handle <see cref="FilteredTreeView{T}.SelectedEntryChanged"/> event when <see langword="true"/>.</summary>
@@ -157,12 +157,12 @@ namespace AlphaEditor.World
                 if (!_overwrite && File.Exists(_fullPath))
                 { // Load existing file
                     Log.Info("Load file: " + _fullPath);
-                    _universe = Universe.Load(_fullPath);
+                    _universe = TerrainUniverse.Load(_fullPath);
                 }
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
-                    _universe = new Universe(new Terrain(Dialogs.TerrainSizeDialog.Create()));
+                    _universe = new TerrainUniverse(new Terrain(Dialogs.TerrainSizeDialog.Create()));
                     _universe.Save(_fullPath);
                 }
             }
@@ -171,7 +171,7 @@ namespace AlphaEditor.World
                 Log.Info("Load file: " + FilePath);
                 try
                 {
-                    _universe = Universe.FromContent(FilePath);
+                    _universe = TerrainUniverse.FromContent(FilePath);
                 }
                     #region Error handling
                 catch (ZipException ex)
@@ -362,7 +362,7 @@ namespace AlphaEditor.World
             #endregion
 
             // Trim away the file extension, if the file is located within the regular game content directory
-            string mapFile = Path.IsPathRooted(FilePath) ? FilePath : FilePath.Replace(Universe.FileExt, "");
+            string mapFile = Path.IsPathRooted(FilePath) ? FilePath : FilePath.Replace(TerrainUniverse.FileExt, "");
 
             // Close the tab in case the map gets changed inside the game
             ForceClose();

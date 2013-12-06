@@ -28,7 +28,7 @@ namespace World.Positionables
     /// <summary>
     /// Stores the position and direction of the camera in the game.
     /// </summary>
-    /// <seealso cref="Universe.Camera"/>
+    /// <seealso cref="Universe{TCoordinates}.Camera"/>
     /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
     public class CameraState<TCoordinates> : Positionable<TCoordinates>
         where TCoordinates : struct

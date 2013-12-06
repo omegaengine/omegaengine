@@ -42,7 +42,7 @@ namespace World.Terrains
         /// Initializes the pathfinding engine.
         /// </summary>
         /// <param name="entities">The <see cref="Positionable{TCoordinates}"/>s to consider for obstacles.</param>
-        /// <remarks>Is automatically called on first access to <see cref="Universe.Terrain"/>.</remarks>
+        /// <remarks>Is automatically called on first access to <see cref="TerrainUniverse.Terrain"/>.</remarks>
         [LuaHide]
         public void SetupPathfinding(IEnumerable<Positionable<Vector2>> entities)
         {

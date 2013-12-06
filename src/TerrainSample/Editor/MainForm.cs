@@ -68,7 +68,7 @@ namespace AlphaEditor
             // Open files passed as command-line arguments
             foreach (string file in Program.Args.Files)
             {
-                if (file.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase))
+                if (file.EndsWith(TerrainUniverse.FileExt, StringComparison.OrdinalIgnoreCase))
                     AddTab(new MapEditor(file, false));
             }
         }
@@ -111,7 +111,7 @@ namespace AlphaEditor
             // Get the file path
             string path;
             bool overwrite;
-            if (!FileSelectorDialog.TryGetPath("World/Maps", Universe.FileExt, out path, out overwrite)) return;
+            if (!FileSelectorDialog.TryGetPath("World/Maps", TerrainUniverse.FileExt, out path, out overwrite)) return;
 
             // Don't open a file twice
             foreach (Tab tab in Tabs.Keys)

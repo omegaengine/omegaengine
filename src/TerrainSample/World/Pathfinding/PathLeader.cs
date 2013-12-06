@@ -50,7 +50,7 @@ namespace World.Pathfinding
         /// <summary>
         /// The path to walk.
         /// </summary>
-        /// <remarks>Is not serialized/stored, will be recalculated by <see cref="Universe.RecalcPaths"/>.</remarks>
+        /// <remarks>Is not serialized/stored, will be recalculated by <see cref="Universe{TCoordinates}.RecalcPaths"/>.</remarks>
         [XmlIgnore]
         public Stack<TCoordinates> PathNodes { get { return _pathNodes; } }
     }

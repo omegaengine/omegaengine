@@ -28,27 +28,27 @@ using World;
 namespace AlphaEditor.World.Commands
 {
     /// <summary>
-    /// Loads new XML data into a <see cref="Universe"/>.
+    /// Loads new XML data into a <see cref="TerrainUniverse"/>.
     /// </summary>
     internal class ImportXml : FirstExecuteCommand
     {
         #region Variables
-        private readonly Func<Universe> _getUniverse;
-        private readonly Action<Universe> _setUniverse;
+        private readonly Func<TerrainUniverse> _getUniverse;
+        private readonly Action<TerrainUniverse> _setUniverse;
         private readonly string _fileName;
         private readonly Action _refreshHandler;
-        private Universe _undoUniverse, _redoUniverse;
+        private TerrainUniverse _undoUniverse, _redoUniverse;
         #endregion
 
         #region Constructor
         /// <summary>
-        /// Creates a new command for loading XML data into a <see cref="Universe"/>.
+        /// Creates a new command for loading XML data into a <see cref="TerrainUniverse"/>.
         /// </summary>
-        /// <param name="getUniverse">Called to get the current <see cref="Universe"/> in the editor.</param>
-        /// <param name="setUniverse">Called to change the current <see cref="Universe"/> in the editor.</param>
+        /// <param name="getUniverse">Called to get the current <see cref="TerrainUniverse"/> in the editor.</param>
+        /// <param name="setUniverse">Called to change the current <see cref="TerrainUniverse"/> in the editor.</param>
         /// <param name="fileName">The file to load the XML data from.</param>
         /// <param name="refreshHandler">Called when the <see cref="Presenter"/> needs to be reset.</param>
-        public ImportXml(Func<Universe> getUniverse, Action<Universe> setUniverse, string fileName, Action refreshHandler)
+        public ImportXml(Func<TerrainUniverse> getUniverse, Action<TerrainUniverse> setUniverse, string fileName, Action refreshHandler)
         {
             #region Sanity checks
             if (getUniverse == null) throw new ArgumentNullException("getUniverse");
@@ -77,7 +77,7 @@ namespace AlphaEditor.World.Commands
             _undoUniverse.Terrain.LightAngleMapsOutdated = true;
 
             // Create new universe from XML and partially restore old data
-            var newUniverse = Universe.LoadXml(_fileName);
+            var newUniverse = TerrainUniverse.LoadXml(_fileName);
             newUniverse.Terrain.LightAngleMapsOutdated = true;
             newUniverse.SourceFile = _undoUniverse.SourceFile;
             newUniverse.Terrain.HeightMap = _undoUniverse.Terrain.HeightMap;

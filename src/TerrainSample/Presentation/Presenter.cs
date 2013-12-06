@@ -72,7 +72,7 @@ namespace Presentation
         public bool Initialized { get; protected set; }
 
         /// <summary> 
-        /// The <see cref="OmegaEngine"/> representation of <see cref="World.Universe.Terrain"/>
+        /// The <see cref="OmegaEngine"/> representation of <see cref="TerrainUniverse.Terrain"/>
         /// </summary>
         public Terrain Terrain { get; private set; }
 
@@ -143,7 +143,7 @@ namespace Presentation
         /// The universe data for this scene
         /// </summary>
         [LuaHide]
-        public Universe Universe { get; protected set; }
+        public TerrainUniverse Universe { get; protected set; }
 
         /// <summary>
         /// The engine view used to display the <see cref="Scene"/>
@@ -163,7 +163,7 @@ namespace Presentation
         /// </summary>
         /// <param name="engine">The engine to use for rendering</param>
         /// <param name="universe">The universe to display</param>
-        protected Presenter(Engine engine, Universe universe)
+        protected Presenter(Engine engine, TerrainUniverse universe)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");

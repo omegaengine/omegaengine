@@ -64,7 +64,7 @@ namespace Presentation
         /// </summary>
         /// <param name="engine">The engine to use for rendering</param>
         /// <param name="universe">The universe to display</param>
-        protected InteractivePresenter(Engine engine, World.Universe universe) : base(engine, universe)
+        protected InteractivePresenter(Engine engine, World.TerrainUniverse universe) : base(engine, universe)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");

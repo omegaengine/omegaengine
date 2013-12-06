@@ -255,7 +255,7 @@ namespace World.Terrains
         /// <param name="sixteenColors">If <see langword="true"/>, use <see cref="ColorUtils.SixteenColors(byte)"/>;
         /// if <see langword="false"/>, handle as grayscale</param>
         /// <returns>A delegate to be called when the <see cref="Stream"/> for writing the bitmap is ready.</returns>
-        private static Action<Stream> GetSaveBitmapDelegate(byte[,] sourceMap, bool sixteenColors)
+        private static Action<Stream> GetSaveBitmapDelegate(byte[,] sourceMap, bool sixteenColors = false)
         {
             // Transfer data from byte-array to Bitmap
             var saveBitmap = new Bitmap(sourceMap.GetLength(0), sourceMap.GetLength(1));
@@ -300,7 +300,7 @@ namespace World.Terrains
         [LuaHide]
         public Action<Stream> GetSaveHeightMapDelegate()
         {
-            return GetSaveBitmapDelegate(_heightMap, false);
+            return GetSaveBitmapDelegate(_heightMap);
         }
 
         /// <summary>
@@ -329,7 +329,7 @@ namespace World.Terrains
         [LuaHide]
         public Action<Stream> GetSaveLightRiseAngleMapDelegate()
         {
-            return GetSaveBitmapDelegate(_lightRiseAngleMap, false);
+            return GetSaveBitmapDelegate(_lightRiseAngleMap);
         }
 
         /// <summary>
@@ -358,7 +358,7 @@ namespace World.Terrains
         [LuaHide]
         public Action<Stream> GetSaveLightSetAngleMapDelegate()
         {
-            return GetSaveBitmapDelegate(_lightSetAngleMap, false);
+            return GetSaveBitmapDelegate(_lightSetAngleMap);
         }
 
         /// <summary>
@@ -387,7 +387,7 @@ namespace World.Terrains
         [LuaHide]
         public Action<Stream> GetSaveTextureMapDelegate()
         {
-            return GetSaveBitmapDelegate(_textureMap, true);
+            return GetSaveBitmapDelegate(_textureMap, sixteenColors: true);
         }
 
         /// <summary>

@@ -28,17 +28,17 @@ using World.Positionables;
 namespace AlphaEditor.World.Commands
 {
     /// <summary>
-    /// Adds one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="Universe"/>.
+    /// Adds one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="TerrainUniverse"/>.
     /// </summary>
     internal class AddPositionables : AddRemovePositionables
     {
         #region Constructor
         /// <summary>
-        /// Creates a new command for adding one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="Universe"/>.
+        /// Creates a new command for adding one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="TerrainUniverse"/>.
         /// </summary>
-        /// <param name="universe">The <see cref="Universe"/> to add to.</param>
+        /// <param name="universe">The <see cref="TerrainUniverse"/> to add to.</param>
         /// <param name="entities">The <see cref="Positionable{TCoordinates}"/>ies to add.</param>
-        internal AddPositionables(Universe universe, IEnumerable<Positionable<Vector2>> entities)
+        internal AddPositionables(TerrainUniverse universe, IEnumerable<Positionable<Vector2>> entities)
             : base(universe, entities)
         {}
         #endregion
@@ -47,7 +47,7 @@ namespace AlphaEditor.World.Commands
 
         #region Execute
         /// <summary>
-        /// Adds the <see cref="Positionable{TCoordinates}"/> to the <see cref="Universe"/>
+        /// Adds the <see cref="Positionable{TCoordinates}"/> to the <see cref="TerrainUniverse"/>
         /// </summary>
         protected override void OnExecute()
         {
@@ -57,7 +57,7 @@ namespace AlphaEditor.World.Commands
 
         #region Undo
         /// <summary>
-        /// Removes the <see cref="Positionable{TCoordinates}"/> from the <see cref="Universe"/> again
+        /// Removes the <see cref="Positionable{TCoordinates}"/> from the <see cref="TerrainUniverse"/> again
         /// </summary>
         protected override void OnUndo()
         {

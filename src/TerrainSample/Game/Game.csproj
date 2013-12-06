@@ -53,6 +53,9 @@
     <Reference Include="LinqBridge">
       <HintPath>..\..\..\lib\LinqBridge.dll</HintPath>
     </Reference>
+    <Reference Include="SlimDX">
+      <HintPath>..\..\..\lib\SlimDX.dll</HintPath>
+    </Reference>
     <Reference Include="LuaInterface">
       <HintPath>..\..\..\lib\LuaInterface.dll</HintPath>
     </Reference>

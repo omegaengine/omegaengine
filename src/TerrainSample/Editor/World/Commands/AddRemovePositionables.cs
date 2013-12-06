@@ -30,12 +30,12 @@ using World.Positionables;
 namespace AlphaEditor.World.Commands
 {
     /// <summary>
-    /// Adds/removes one or more <see cref="Positionable{TCoordinates}"/>ies to/from a <see cref="Universe"/>.
+    /// Adds/removes one or more <see cref="Positionable{TCoordinates}"/>ies to/from a <see cref="TerrainUniverse"/>.
     /// </summary>
     internal abstract class AddRemovePositionables : SimpleCommand
     {
         #region Variables
-        private readonly Universe _universe;
+        private readonly TerrainUniverse _universe;
 
         // Note: Use List<> instead of Array, because the size of the incoming IEnumerable<> will be unkown
         private readonly List<Positionable<Vector2>> _positionables;
@@ -43,11 +43,11 @@ namespace AlphaEditor.World.Commands
 
         #region Constructor
         /// <summary>
-        /// Creates a new command for adding/removing one or more <see cref="Positionable{TCoordinates}"/>ies to/from a <see cref="Universe"/>.
+        /// Creates a new command for adding/removing one or more <see cref="Positionable{TCoordinates}"/>ies to/from a <see cref="TerrainUniverse"/>.
         /// </summary>
-        /// <param name="universe">The <see cref="Universe"/> to add to / remove from.</param>
+        /// <param name="universe">The <see cref="TerrainUniverse"/> to add to / remove from.</param>
         /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to add/remove.</param>
-        protected AddRemovePositionables(Universe universe, IEnumerable<Positionable<Vector2>> positionables)
+        protected AddRemovePositionables(TerrainUniverse universe, IEnumerable<Positionable<Vector2>> positionables)
         {
             #region Sanity checks
             if (universe == null) throw new ArgumentNullException("universe");

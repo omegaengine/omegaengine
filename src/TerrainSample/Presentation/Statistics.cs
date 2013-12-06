@@ -63,12 +63,12 @@ namespace Presentation
         {}
 
         /// <summary>
-        /// Creates a set of <see cref="TestCase"/>s based on <see cref="BenchmarkPoint{TCoordinates}"/>s in a <see cref="Universe"/>.
+        /// Creates a set of <see cref="TestCase"/>s based on <see cref="BenchmarkPoint{TCoordinates}"/>s in a <see cref="TerrainUniverse"/>.
         /// </summary>
         /// <param name="gameVersion">The version number of the game.</param>
         /// <param name="engineVersion">The version number of the engine.</param>
-        /// <param name="universe">The <see cref="Universe"/> containing the <see cref="BenchmarkPoint{TCoordinates}"/>s.</param>
-        public Statistics(string gameVersion, string engineVersion, Universe universe)
+        /// <param name="universe">The <see cref="TerrainUniverse"/> containing the <see cref="BenchmarkPoint{TCoordinates}"/>s.</param>
+        public Statistics(string gameVersion, string engineVersion, TerrainUniverse universe)
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(gameVersion)) throw new ArgumentNullException("gameVersion");

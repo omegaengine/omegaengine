@@ -30,7 +30,7 @@ using World;
 namespace AlphaEditor.World.Dialogs
 {
     /// <summary>
-    /// Allows the user to modify the properties of a <see cref="Universe"/>.
+    /// Allows the user to modify the properties of a <see cref="TerrainUniverse"/>.
     /// </summary>
     /// <remarks>This is a non-modal floating toolbox window. Communication is handled via events (<see cref="ExecuteCommand"/>).</remarks>
     public sealed partial class MapPropertiesTool : Form
@@ -50,7 +50,7 @@ namespace AlphaEditor.World.Dialogs
         #endregion
 
         #region Variables
-        private Universe _universe;
+        private TerrainUniverse _universe;
         #endregion
 
         #region Constructor
@@ -58,7 +58,7 @@ namespace AlphaEditor.World.Dialogs
         /// Creates a new map properties tool window.
         /// </summary>
         /// <param name="universe">The map data to modify.</param>
-        public MapPropertiesTool(Universe universe)
+        public MapPropertiesTool(TerrainUniverse universe)
         {
             InitializeComponent();
 
@@ -69,10 +69,10 @@ namespace AlphaEditor.World.Dialogs
         //--------------------//
 
         /// <summary>
-        /// Updates the <see cref="Universe"/> object being represented by this window.
+        /// Updates the <see cref="TerrainUniverse"/> object being represented by this window.
         /// </summary>
-        /// <param name="universe">The new <see cref="Universe"/> object. If it is the same object as the old one, cached values will be refreshed.</param>
-        public void UpdateUniverse(Universe universe)
+        /// <param name="universe">The new <see cref="TerrainUniverse"/> object. If it is the same object as the old one, cached values will be refreshed.</param>
+        public void UpdateUniverse(TerrainUniverse universe)
         {
             _universe = universe;
             propertyGridUniverse.SelectedObject = universe;

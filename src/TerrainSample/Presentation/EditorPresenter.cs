@@ -115,7 +115,7 @@ namespace Presentation
         /// <param name="engine">The engine to use for rendering</param>
         /// <param name="universe">The universe to display</param>
         /// <param name="lighting">Shall lighting be used for rendering?</param>
-        public EditorPresenter(Engine engine, Universe universe, bool lighting) : base(engine, universe)
+        public EditorPresenter(Engine engine, TerrainUniverse universe, bool lighting) : base(engine, universe)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");

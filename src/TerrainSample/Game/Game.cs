@@ -40,7 +40,7 @@ namespace Core
     public partial class Game : GameBase
     {
         #region Variables
-        private Universe _menuUniverse;
+        private TerrainUniverse _menuUniverse;
         private MenuPresenter _menuPresenter;
         #endregion
 

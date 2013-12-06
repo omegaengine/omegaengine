@@ -1,42 +1,54 @@
-/*
+﻿/*
  * Copyright 2006-2013 Bastian Eicher
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 using System;
 using System.ComponentModel;
+using System.IO;
+using System.Reflection;
 using System.Xml.Serialization;
+using Common.Storage;
 using Common.Utils;
-using SlimDX;
+using Core;
 using World.Pathfinding;
 using World.Positionables;
-using World.Terrains;
 
 namespace World
 {
     /// <summary>
-    /// This class represents a complete game world (but not a running game).
-    /// It is equivalent to the content of a map file.
+    /// Represents a game world (but not a running game). It is equivalent to the content of a map file.
     /// </summary>
-    public sealed partial class Universe
+    /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
+    public abstract partial class Universe<TCoordinates>
+        where TCoordinates : struct
     {
+        #region Constants
+        /// <summary>
+        /// The file extensions when this class is stored as a file.
+        /// </summary>
+        public const string FileExt = "." + GeneralSettings.AppNameShort + "Map";
+
+        /// <summary>
+        /// Don't save or load the <see cref="Entity{TCoordinates}.TemplateData"/> in map files - that's only sensible in savegames.
+        /// Instead <see cref="Entity{TCoordinates}.TemplateName"/> is used.
+        /// </summary>
+        // ReSharper disable once StaticFieldInGenericType
+        protected static readonly MemberInfo IgnoreMemeber = typeof(Entity<TCoordinates>).GetProperty("TemplateData");
+        #endregion
+
         #region Events
         /// <summary>
         /// Occurs when <see cref="Skybox"/> was changed.
@@ -46,15 +58,12 @@ namespace World
         #endregion
 
         #region Properties
-        private readonly PositionableCollection<Vector2> _positionables = new PositionableCollection<Vector2>();
-
         /// <summary>
-        /// A collection of all <see cref="Positionable{TCoordinates}"/>s in this <see cref="Universe"/>.
+        /// A collection of all <see cref="Positionable{TCoordinates}"/>s in this <see cref="TerrainUniverse"/>.
         /// </summary>
-        [Browsable(false)]
         // Note: Can not use ICollection<T> interface with XML Serialization
-        [XmlElement(typeof(Entity<Vector2>)), XmlElement(typeof(Water)), XmlElement(typeof(Waypoint<Vector2>)), XmlElement(typeof(BenchmarkPoint<Vector2>)), XmlElement(typeof(Memo<Vector2>))]
-        public PositionableCollection<Vector2> Positionables { get { return _positionables; } }
+        [XmlIgnore]
+        public abstract PositionableCollection<TCoordinates> Positionables { get; }
 
         private string _skybox;
 
@@ -69,57 +78,26 @@ namespace World
         /// </summary>
         /// <remarks>This is updated only when leaving the game, not continuously.</remarks>
         [Browsable(false)]
-        public CameraState<Vector2> Camera { get; set; }
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Base-constructor for XML serialization. Do not call manually!
-        /// </summary>
-        public Universe()
-        {
-            LightPhaseSpeedFactor = 1;
-        }
+        public CameraState<TCoordinates> Camera { get; set; }
 
         /// <summary>
-        /// Creates a new <see cref="Universe"/> with a terrain.
+        /// The map file this world was loaded from.
         /// </summary>
-        /// <param name="terrain">The terrain for the new <see cref="Universe"/>.</param>
-        public Universe(Terrain terrain) : this()
-        {
-            _terrain = terrain;
-        }
+        /// <remarks>Is not serialized/stored, is set by whatever method loads the <see cref="Universe{TCoordinates}"/>.</remarks>
+        [XmlIgnore, Browsable(false)]
+        public string SourceFile { get; set; }
         #endregion
 
         //--------------------//
 
         #region Path finding
         /// <summary>
-        /// Moves an <see cref="Entity{TCoordinates}"/> to a new position using basic pathfinding.
+        /// Moves an <see cref="Entity{TCoordinates}"/> to a new position using pathfinding.
         /// </summary>
         /// <param name="entity">The <see cref="Entity{TCoordinates}"/> to be moved.</param>
         /// <param name="target">The terrain position to move <paramref name="entity"/> to.</param>
         /// <remarks>The actual movement occurs whenever <see cref="Update"/> is called.</remarks>
-        public void MoveEntity(Entity<Vector2> entity, Vector2 target)
-        {
-            #region Sanity checks
-            if (entity == null) throw new ArgumentNullException("entity");
-            #endregion
-
-            // Get path and cancel if none was found
-            var pathNodes = Terrain.Pathfinder.FindPathPlayer(entity.Position * (1.0f / Terrain.Size.StretchH), target * (1.0f / Terrain.Size.StretchH));
-            if (pathNodes == null)
-            {
-                entity.PathControl = null;
-                return;
-            }
-
-            // Store path data in entity
-            var pathLeader = new PathLeader<Vector2> {ID = 0, Target = target};
-            foreach (var node in pathNodes)
-                pathLeader.PathNodes.Push(node * Terrain.Size.StretchH);
-            entity.PathControl = pathLeader;
-        }
+        public abstract void MoveEntity(Entity<TCoordinates> entity, TCoordinates target);
 
         /// <summary>
         /// Recalculates all paths stored in <see cref="Entity2D.PathControl"/>.
@@ -129,7 +107,7 @@ namespace World
         {
             foreach (var entity in Positionables.Entities)
             {
-                var pathLeader = entity.PathControl as PathLeader<Vector2>;
+                var pathLeader = entity.PathControl as PathLeader<TCoordinates>;
                 if (pathLeader != null)
                     MoveEntity(entity, pathLeader.Target);
             }
@@ -138,7 +116,7 @@ namespace World
 
         #region Update
         /// <summary>
-        /// Updates the <see cref="Universe"/> and all <see cref="Positionable{TCoordinates}"/>s in it.
+        /// Updates the <see cref="TerrainUniverse"/> and all <see cref="Positionable{TCoordinates}"/>s in it.
         /// </summary>
         /// <param name="elapsedTime">How much game time in seconds has elapsed since this method was last called.</param>
         /// <remarks>This is usually called by <see cref="Session.Update"/>.</remarks>
@@ -148,6 +126,40 @@ namespace World
 
             foreach (var entity in Positionables.Entities)
                 entity.UpdatePosition(elapsedTime);
+        }
+        #endregion
+
+        //--------------------//
+
+        #region Storage
+        /// <summary>
+        /// Saves this <see cref="Universe{TCoordinates}"/> in a compressed XML file (map file).
+        /// </summary>
+        /// <param name="path">The file to save in.</param>
+        /// <exception cref="IOException">Thrown if a problem occurred while writing the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
+        public abstract void Save(string path);
+
+        /// <summary>
+        /// Overwrites the map file this <see cref="Universe{TCoordinates}"/> was loaded from with the changed data.
+        /// </summary>
+        /// <exception cref="IOException">Thrown if a problem occurred while writing the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
+        public void Save()
+        {
+            // Determine the original filename to overweite
+            Save(Path.IsPathRooted(SourceFile) ? SourceFile : ContentManager.CreateFilePath("World/Maps", SourceFile));
+        }
+
+        /// <summary>
+        /// Saves this <see cref="Universe{TCoordinates}"/> in an uncompressed XML file.
+        /// </summary>
+        /// <param name="path">The file to save in</param>
+        /// <exception cref="IOException">Thrown if a problem occurred while writing the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
+        public void SaveXml(string path)
+        {
+            this.SaveXml(path, IgnoreMemeber);
         }
         #endregion
     }

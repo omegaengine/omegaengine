@@ -28,17 +28,17 @@ using World.Positionables;
 namespace AlphaEditor.World.Commands
 {
     /// <summary>
-    /// Removes one or more <see cref="Positionable{TCoordinates}"/>s from a <see cref="Universe"/>.
+    /// Removes one or more <see cref="Positionable{TCoordinates}"/>s from a <see cref="TerrainUniverse"/>.
     /// </summary>
     internal class RemovePositionables : AddRemovePositionables
     {
         #region Constructor
         /// <summary>
-        /// Creates a new command for removing one or more <see cref="Positionable{TCoordinates}"/>s from a <see cref="Universe"/>.
+        /// Creates a new command for removing one or more <see cref="Positionable{TCoordinates}"/>s from a <see cref="TerrainUniverse"/>.
         /// </summary>
-        /// <param name="universe">The <see cref="Universe"/> to remove from.</param>
+        /// <param name="universe">The <see cref="TerrainUniverse"/> to remove from.</param>
         /// <param name="entities">The <see cref="Positionable{TCoordinates}"/>s to remove.</param>
-        internal RemovePositionables(Universe universe, IEnumerable<Positionable<Vector2>> entities)
+        internal RemovePositionables(TerrainUniverse universe, IEnumerable<Positionable<Vector2>> entities)
             : base(universe, entities)
         {}
         #endregion
@@ -47,7 +47,7 @@ namespace AlphaEditor.World.Commands
 
         #region Execute
         /// <summary>
-        /// Removes the <see cref="Positionable{TCoordinates}"/> from the <see cref="Universe"/>
+        /// Removes the <see cref="Positionable{TCoordinates}"/> from the <see cref="TerrainUniverse"/>
         /// </summary>
         protected override void OnExecute()
         {
@@ -57,7 +57,7 @@ namespace AlphaEditor.World.Commands
 
         #region Undo
         /// <summary>
-        /// Adds the <see cref="Positionable{TCoordinates}"/> back to the <see cref="Universe"/>
+        /// Adds the <see cref="Positionable{TCoordinates}"/> back to the <see cref="TerrainUniverse"/>
         /// </summary>
         protected override void OnUndo()
         {

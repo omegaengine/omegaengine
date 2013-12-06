@@ -48,7 +48,7 @@ namespace AlphaEditor.World
     {
         #region Variables
         private EditorPresenter _presenter;
-        private Universe _universe;
+        private TerrainUniverse _universe;
 
         private Dialogs.AddRenderControlTool _addRenderControlTool;
         #endregion
@@ -82,7 +82,7 @@ namespace AlphaEditor.World
             TemplateManager.LoadLists();
 
             // Create an empty testing universe with a plain terrain
-            _universe = new Universe(new Terrain(new TerrainSize(27, 27, 30, 30))) {LightPhase = 2};
+            _universe = new TerrainUniverse(new Terrain(new TerrainSize(27, 27, 30, 30))) {LightPhase = 2};
 
             base.OnInitialize();
 

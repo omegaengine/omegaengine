@@ -55,7 +55,7 @@ namespace World
         /// The current state of the game world.
         /// </summary>
         [LuaHide]
-        public Universe Universe { get; set; }
+        public TerrainUniverse Universe { get; set; }
 
         /// <summary>
         /// The filename of the map file the <see cref="Universe"/> was loaded from.
@@ -91,7 +91,7 @@ namespace World
         /// Creates a new game session based upon a given <see cref="Universe"/>
         /// </summary>
         /// <param name="baseUniverse">The universe to base the new game session on</param>
-        public Session(Universe baseUniverse) : this()
+        public Session(TerrainUniverse baseUniverse) : this()
         {
             #region Sanity checks
             if (baseUniverse == null) throw new ArgumentNullException("baseUniverse");
