@@ -92,7 +92,7 @@ namespace World
 
         #region Path finding
         /// <summary>
-        /// Moves an <see cref="Entity"/> to a new position using basic path-finding.
+        /// Moves an <see cref="Entity"/> to a new position using basic pathfinding.
         /// </summary>
         /// <param name="entity">The <see cref="Entity"/> to be moved.</param>
         /// <param name="target">The terrain position to move <paramref name="entity"/> to.</param>
@@ -103,13 +103,25 @@ namespace World
             if (entity == null) throw new ArgumentNullException("entity");
             #endregion
 
-            // ToDo: Implement path finding
+            // Get path and cancel if none was found
+            var pathNodes = Terrain.Pathfinder.FindPathPlayer(entity.Position * (1.0f / Terrain.Size.StretchH), target * (1.0f / Terrain.Size.StretchH));
+            if (pathNodes == null)
+            {
+                entity.PathControl = null;
+                return;
+            }
+
+            // Store path data in entity
+            var pathLeader = new PathLeader {ID = 0, Target = target};
+            foreach (Vector2 node in pathNodes)
+                pathLeader.PathNodes.Push(node * Terrain.Size.StretchH);
+            entity.PathControl = pathLeader;
         }
 
         /// <summary>
         /// Recalculates all paths stored in <see cref="Entity.PathControl"/>.
         /// </summary>
-        /// <remarks>This needs to be called when new obstacles have appeared or when a savegame was loaded (which doesn't store the complete path).</remarks>
+        /// <remarks>This needs to be called when new obstacles have appeared or when a savegame was loaded (which does not store paths).</remarks>
         internal void RecalcPaths()
         {
             foreach (Entity entity in Positionables.Entities)

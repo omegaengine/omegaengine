@@ -61,7 +61,7 @@ namespace World.EntityComponents
         /// Returns a list of positions that outline this collision body.
         /// </summary>
         /// <param name="rotation">How the collision body shall be rotated before performing the outline calculation.</param>
-        /// <returns>Positions in entity space for use by the path finding system.</returns>
+        /// <returns>Positions in entity space for use by the pathfinding system.</returns>
         internal abstract Vector2[] GetPathFindingOutline(float rotation);
         #endregion
 

@@ -236,7 +236,7 @@ namespace Presentation
                 case MouseButtons.Right:
                     if (_selectedPositionables.Count != 0 && pickedTerrain)
                     { // Action: Right-click on terrain to move
-                        // Depending on the actual presenter type this may invoke path-finding or teleportation
+                        // Depending on the actual presenter type this may invoke pathfinding or teleportation
                         MovePositionables(_selectedPositionables, World.Terrain.ToWorldCoords(intersectPosition));
                     }
                     break;
@@ -300,7 +300,7 @@ namespace Presentation
 
             foreach (var entity in positionables.Entities)
             {
-                // Start path-finding if this entity can move
+                // Start pathfinding if this entity can move
                 if (entity.TemplateData.MovementControl != null)
                     Universe.MoveEntity(entity, target);
                 else

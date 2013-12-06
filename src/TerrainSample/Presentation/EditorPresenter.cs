@@ -159,7 +159,7 @@ namespace Presentation
         /// </summary>
         /// <param name="positionables">The <see cref="Positionable"/>s to be moved.</param>
         /// <param name="target">The terrain position to move the <paramref name="positionables"/> to.</param>
-        /// <remarks>This replaces <see cref="InteractivePresenter"/>s path-finding based movement with a callback event.</remarks>
+        /// <remarks>This replaces <see cref="InteractivePresenter"/>s pathfinding based movement with a callback event.</remarks>
         protected override void MovePositionables(PositionableCollection positionables, Vector2 target)
         {
             if (PostionableMove != null) PostionableMove(positionables, target);

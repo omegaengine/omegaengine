@@ -23,7 +23,7 @@
 namespace World
 {
     /// <summary>
-    /// A marker used as a hint for path finding.
+    /// A marker used as a hint for pathfinding.
     /// </summary>
     public class Waypoint : Positionable
     {}

@@ -27,7 +27,7 @@ using SlimDX;
 namespace World
 {
     /// <summary>
-    /// The leader in a path finding group (followed by <see cref="PathFollower"/>).
+    /// The leader in a pathfinding group (followed by <see cref="PathFollower"/>).
     /// </summary>
     /// <seealso cref="Entity.PathControl"/>
     public class PathLeader : PathControl
@@ -38,7 +38,7 @@ namespace World
         public int ID { get; set; }
 
         /// <summary>
-        /// The final target of the path finding.
+        /// The final target of the pathfinding.
         /// </summary>
         public Vector2 Target { get; set; }
 

@@ -25,7 +25,7 @@ using SlimDX;
 namespace World
 {
     /// <summary>.
-    /// A following member in a path finding group (follows <see cref="PathLeader"/>).
+    /// A following member in a pathfinding group (follows <see cref="PathLeader"/>).
     /// </summary>
     /// <seealso cref="Entity.PathControl"/>
     public class PathFollower : PathControl

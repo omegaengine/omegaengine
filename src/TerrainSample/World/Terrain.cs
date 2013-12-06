@@ -32,7 +32,7 @@ using Resources = World.Properties.Resources;
 namespace World
 {
     /// <summary>
-    /// This class contains a height-map-based Terrain including texturing and path-finding data.
+    /// This class contains a height-map-based Terrain including texturing and pathfinding data.
     /// </summary>
     /// <remarks>
     ///   The positive X-axis points towards east (the direction from which light sources in the sky rise),

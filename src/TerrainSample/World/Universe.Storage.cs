@@ -89,8 +89,8 @@ namespace World
 
                     if (!_terrain.DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
 
-                    using (new TimedLogEvent("Setup path finding"))
-                        _terrain.SetupPathFinding(Positionables, 30);
+                    using (new TimedLogEvent("Setup pathfinding"))
+                        _terrain.SetupPathfinding(Positionables);
                     #endregion
                 }
                 return _terrain;

@@ -96,6 +96,8 @@
     </Compile>
     <Compile Include="EntityComponents\MovementControl.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IPathfinder.cs" />
+    <Compile Include="SimplePathfinder.cs" />
     <Compile Include="TemplateCollection.cs" />
     <Compile Include="Template.cs" />
     <Compile Include="LightAngleMapGenerator.cs" />
