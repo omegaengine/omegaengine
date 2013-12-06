@@ -66,7 +66,7 @@ namespace World
 
             // Calculate weighted average of surrounding four points
             return _size.StretchV *
-                (HeightMap[xPos0, yPos0] * (1 - xPosDiff) * (1 - yPosDiff) +
+                   (HeightMap[xPos0, yPos0] * (1 - xPosDiff) * (1 - yPosDiff) +
                     HeightMap[xPos0, yPos1] * (1 - xPosDiff) * yPosDiff +
                     HeightMap[xPos1, yPos0] * xPosDiff * (1 - yPosDiff) +
                     HeightMap[xPos1, yPos1] * xPosDiff * yPosDiff);
@@ -114,7 +114,7 @@ namespace World
                 xHeightDiff = HeightMap[xPos1, yPos0] - HeightMap[xPos0, yPos0];
                 yHeightDiff = HeightMap[xPos0, yPos1] - HeightMap[xPos0, yPos0];
                 height = HeightMap[xPos0, yPos0] +
-                    ((xHeightDiff * xPosDiff) + (yHeightDiff * yPosDiff));
+                         ((xHeightDiff * xPosDiff) + (yHeightDiff * yPosDiff));
             }
             else
             {
@@ -122,7 +122,7 @@ namespace World
                 xHeightDiff = HeightMap[xPos1, yPos1] - HeightMap[xPos0, yPos1];
                 yHeightDiff = HeightMap[xPos1, yPos1] - HeightMap[xPos1, yPos0];
                 height = HeightMap[xPos1, yPos1] -
-                    ((xHeightDiff * (1 - xPosDiff)) + (yHeightDiff * (1 - yPosDiff)));
+                         ((xHeightDiff * (1 - xPosDiff)) + (yHeightDiff * (1 - yPosDiff)));
             }
 
             // Apply vertical stretch factor

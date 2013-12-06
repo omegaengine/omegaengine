@@ -63,7 +63,7 @@ namespace World
                     Color[,] pixels = BitmapUtils.GetColorArray(mapBitmap);
 
                     // Transfer data from Color-array to byte-array
-                    targetMap = new byte[size.Width,size.Height];
+                    targetMap = new byte[size.Width, size.Height];
                     for (int x = 0; x < targetMap.GetLength(0); x++)
                     {
                         for (int y = 0; y < targetMap.GetLength(1); y++)

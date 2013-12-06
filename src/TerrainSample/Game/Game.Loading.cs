@@ -98,9 +98,9 @@ namespace Core
             _menuUniverse = name.EndsWith(
                 // Does the name have file ending?
                 Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
-                                                                          // Real filename
+                // Real filename
                 Universe.Load(Path.Combine(Locations.InstallBase, name)) :
-                                                                             // Internal map name
+                // Internal map name
                 Universe.FromContent(name + Universe.FileExt);
 
             CleanupPresenter();
@@ -127,9 +127,9 @@ namespace Core
             CurrentSession = new Session(
                 // Does the name have file ending?
                 name.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
-                                                                                        // Real filename
+                    // Real filename
                     Universe.Load(Path.Combine(Locations.InstallBase, name)) :
-                                                                                 // Internal map name
+                    // Internal map name
                     Universe.FromContent(name + Universe.FileExt));
 
             CleanupPresenter();
@@ -149,9 +149,9 @@ namespace Core
             CurrentSession = new Session(
                 // Does the name have file ending?
                 name.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
-                                                                                        // Real filename
+                    // Real filename
                     Universe.Load(Path.Combine(Locations.InstallBase, name)) :
-                                                                                 // Internal map name
+                    // Internal map name
                     Universe.FromContent(name + Universe.FileExt));
 
             CleanupPresenter();

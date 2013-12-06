@@ -251,8 +251,8 @@ namespace World
         public Terrain(TerrainSize size)
         {
             Size = size;
-            _heightMap = new byte[size.X,size.Y];
-            _textureMap = new byte[size.X / 3,size.Y / 3];
+            _heightMap = new byte[size.X, size.Y];
+            _textureMap = new byte[size.X / 3, size.Y / 3];
 
             // Try to use "Grass" as the default Terrain type
             try

@@ -141,8 +141,8 @@ namespace World
         protected override void RunTask()
         {
             // Create new angle-map arrays
-            _lightRiseAngleMap = new byte[_size.X,_size.Y];
-            _lightSetAngleMap = new byte[_size.X,_size.Y];
+            _lightRiseAngleMap = new byte[_size.X, _size.Y];
+            _lightSetAngleMap = new byte[_size.X, _size.Y];
 
             lock (StateLock) State = TaskState.Data;
 

@@ -65,8 +65,8 @@ namespace AlphaEditor.World.TerrainModifiers
                 (int)Math.Round(terrainCoords.X / Terrain.Size.StretchH / 3) - brush.Size / 2,
                 (int)Math.Round(terrainCoords.Y / Terrain.Size.StretchH / 3) - brush.Size / 2);
 
-            var oldData = new byte[brush.Size,brush.Size];
-            var newData = new byte[brush.Size,brush.Size];
+            var oldData = new byte[brush.Size, brush.Size];
+            var newData = new byte[brush.Size, brush.Size];
             if (!ModifyTerrain(offset, brush, oldData, newData)) return;
 
             OldData.AddFirst(offset, oldData);

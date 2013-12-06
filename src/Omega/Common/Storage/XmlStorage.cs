@@ -74,7 +74,7 @@ namespace Common.Storage
             if (ignoreMembers != null)
             {
                 key = ignoreMembers.Where(ignoreMember => ignoreMember != null).
-                                    Aggregate(key, (current, ignoreMember) => current + (" \\ " + ignoreMember.ReflectedType.FullName + ignoreMember.Name));
+                    Aggregate(key, (current, ignoreMember) => current + (" \\ " + ignoreMember.ReflectedType.FullName + ignoreMember.Name));
             }
 
             XmlSerializer serializer;
