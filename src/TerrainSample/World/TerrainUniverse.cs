@@ -40,7 +40,7 @@ namespace World
     /// <summary>
     /// Represents a 2.5D terrain world (two dimensional plane with height field).
     /// </summary>
-    public sealed class TerrainUniverse : Universe<Vector2>
+    public sealed partial class TerrainUniverse : Universe<Vector2>
     {
         #region Properties
         private readonly PositionableCollection<Vector2> _positionables = new PositionableCollection<Vector2>();
@@ -93,6 +93,16 @@ namespace World
         #endregion
 
         //--------------------//
+
+        #region Update
+        /// <inheritdoc/>
+        internal override void Update(double elapsedTime)
+        {
+            LightPhase += (float)(elapsedTime / 40 * LightPhaseSpeedFactor);
+
+            base.Update(elapsedTime);
+        }
+        #endregion
 
         #region Path finding
         /// <inheritdoc/>

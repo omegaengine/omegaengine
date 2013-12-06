@@ -32,7 +32,7 @@ using LuaInterface;
 
 namespace World
 {
-    partial class Universe<TCoordinates>
+    partial class TerrainUniverse
     {
         #region Events
         /// <summary>

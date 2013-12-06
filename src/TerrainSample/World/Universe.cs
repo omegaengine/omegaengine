@@ -32,7 +32,7 @@ namespace World
     /// Represents a game world (but not a running game). It is equivalent to the content of a map file.
     /// </summary>
     /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
-    public abstract partial class Universe<TCoordinates>
+    public abstract class Universe<TCoordinates>
         where TCoordinates : struct
     {
         #region Constants
@@ -59,7 +59,7 @@ namespace World
 
         #region Properties
         /// <summary>
-        /// A collection of all <see cref="Positionable{TCoordinates}"/>s in this <see cref="TerrainUniverse"/>.
+        /// A collection of all <see cref="Positionable{TCoordinates}"/>s in this <see cref="Universe{TCoordinates}"/>.
         /// </summary>
         // Note: Can not use ICollection<T> interface with XML Serialization
         [XmlIgnore]
@@ -90,6 +90,19 @@ namespace World
 
         //--------------------//
 
+        #region Update
+        /// <summary>
+        /// Updates the <see cref="Universe{TCoordinates}"/> and all <see cref="Positionable{TCoordinates}"/>s in it.
+        /// </summary>
+        /// <param name="elapsedTime">How much game time in seconds has elapsed since this method was last called.</param>
+        /// <remarks>This is usually called by <see cref="Session.Update"/>.</remarks>
+        internal virtual void Update(double elapsedTime)
+        {
+            foreach (var entity in Positionables.Entities)
+                entity.UpdatePosition(elapsedTime);
+        }
+        #endregion
+
         #region Path finding
         /// <summary>
         /// Moves an <see cref="Entity{TCoordinates}"/> to a new position using pathfinding.
@@ -111,21 +124,6 @@ namespace World
                 if (pathLeader != null)
                     MoveEntity(entity, pathLeader.Target);
             }
-        }
-        #endregion
-
-        #region Update
-        /// <summary>
-        /// Updates the <see cref="TerrainUniverse"/> and all <see cref="Positionable{TCoordinates}"/>s in it.
-        /// </summary>
-        /// <param name="elapsedTime">How much game time in seconds has elapsed since this method was last called.</param>
-        /// <remarks>This is usually called by <see cref="Session.Update"/>.</remarks>
-        internal void Update(double elapsedTime)
-        {
-            LightPhase += (float)(elapsedTime / 40 * LightPhaseSpeedFactor);
-
-            foreach (var entity in Positionables.Entities)
-                entity.UpdatePosition(elapsedTime);
         }
         #endregion
 

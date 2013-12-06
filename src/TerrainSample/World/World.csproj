@@ -62,10 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Global.cs" />
-    <Compile Include="Positionables\BenchmarkPoint.cs" />
-    <Compile Include="Positionables\CameraState.cs" />
-    <Compile Include="Positionables\Entity.cs" />
-    <Compile Include="Positionables\Entity2D.cs" />
     <Compile Include="EntityComponents\AnimatedMesh.cs" />
     <Compile Include="EntityComponents\Box.cs" />
     <Compile Include="EntityComponents\Circle.cs" />
@@ -79,50 +75,40 @@
     <Compile Include="EntityComponents\RenderControl.cs" />
     <Compile Include="EntityComponents\StaticMesh.cs" />
     <Compile Include="EntityComponents\TestSphere.cs" />
-    <Compile Include="Templates\EntityTemplate.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Pathfinding\IPathfinder.cs" />
-    <Compile Include="Templates\ItemTemplate.cs" />
-    <Compile Include="Terrains\LightAngleMapGenerator.cs" />
-    <Compile Include="Positionables\Memo.cs" />
     <Compile Include="Pathfinding\PathControl.cs" />
     <Compile Include="Pathfinding\PathFollower.cs" />
     <Compile Include="Pathfinding\PathLeader.cs" />
+    <Compile Include="Pathfinding\SimplePathfinder.cs" />
+    <Compile Include="Positionables\BenchmarkPoint.cs" />
+    <Compile Include="Positionables\CameraState.cs" />
+    <Compile Include="Positionables\Entity.cs" />
+    <Compile Include="Positionables\Entity2D.cs" />
+    <Compile Include="Positionables\Memo.cs" />
     <Compile Include="Positionables\Positionable.cs" />
     <Compile Include="Positionables\PositionableCollection.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
+    <Compile Include="Positionables\Water.cs" />
+    <Compile Include="Positionables\Waypoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
     <Compile Include="Session.cs" />
-    <Compile Include="Pathfinding\SimplePathfinder.cs" />
+    <Compile Include="Templates\EntityTemplate.cs" />
+    <Compile Include="Templates\ItemTemplate.cs" />
     <Compile Include="Templates\Template.cs" />
     <Compile Include="Templates\TemplateCollection.cs" />
     <Compile Include="Templates\TemplateManager.cs" />
+    <Compile Include="Templates\TerrainTemplate.cs" />
+    <Compile Include="Terrains\LightAngleMapGenerator.cs" />
     <Compile Include="Terrains\Terrain.Coordinates.cs" />
     <Compile Include="Terrains\Terrain.cs" />
     <Compile Include="Terrains\Terrain.PathFinding.cs" />
     <Compile Include="Terrains\Terrain.Storage.cs" />
     <Compile Include="Terrains\TerrainPoint.cs" />
     <Compile Include="Terrains\TerrainSize.cs" />
-    <Compile Include="Templates\TerrainTemplate.cs" />
     <Compile Include="TerrainUniverse.cs" />
+    <Compile Include="TerrainUniverse.Lighting.cs" />
     <Compile Include="Universe.cs" />
-    <Compile Include="Universe.Lighting.cs" />
-    <Compile Include="Positionables\Water.cs" />
-    <Compile Include="Positionables\Waypoint.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.de.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Omega\Common\Common.csproj">
@@ -137,6 +123,10 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="EntityComponents\Components.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.de.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
