@@ -110,7 +110,7 @@ namespace World
 
         #region Update
         /// <summary>
-        /// Updates the <see cref="Session"/>, the contained <see cref="Universe"/> and all <see cref="Positionable"/>s in it.
+        /// Updates the <see cref="Session"/>, the contained <see cref="Universe"/> and all <see cref="Positionable{TCoordinates}"/>s in it.
         /// </summary>
         /// <param name="elapsedRealTime">How much real time in seconds has elapsed since this method was last called.</param>
         /// <param name="elapsedGameTime">How much game time in seconds has elapsed since this method was last called.</param>

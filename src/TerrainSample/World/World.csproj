@@ -62,110 +62,57 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Global.cs" />
-    <Compile Include="EntityComponents\RenderControl.cs" />
-    <Compile Include="EntityComponents\TestSphere.cs">
-      <DependentUpon>RenderControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EntityComponents\Mesh.cs">
-      <DependentUpon>RenderControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EntityComponents\StaticMesh.cs">
-      <DependentUpon>Mesh.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EntityComponents\AnimatedMesh.cs">
-      <DependentUpon>Mesh.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EntityComponents\ParticleSystem.cs">
-      <DependentUpon>RenderControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EntityComponents\CpuParticleSystem.cs">
-      <DependentUpon>ParticleSystem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EntityComponents\GpuParticleSystem.cs">
-      <DependentUpon>ParticleSystem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EntityComponents\LightsSource.cs">
-      <DependentUpon>RenderControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="BenchmarkPoint.cs" />
+    <Compile Include="CameraState.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="Entity2D.cs" />
+    <Compile Include="EntityComponents\AnimatedMesh.cs" />
+    <Compile Include="EntityComponents\Box.cs" />
+    <Compile Include="EntityComponents\Circle.cs" />
     <Compile Include="EntityComponents\CollisionControl.cs" />
-    <Compile Include="EntityComponents\Circle.cs">
-      <DependentUpon>CollisionControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EntityComponents\Box.cs">
-      <DependentUpon>CollisionControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="EntityComponents\CpuParticleSystem.cs" />
+    <Compile Include="EntityComponents\GpuParticleSystem.cs" />
+    <Compile Include="EntityComponents\LightsSource.cs" />
+    <Compile Include="EntityComponents\Mesh.cs" />
     <Compile Include="EntityComponents\MovementControl.cs" />
+    <Compile Include="EntityComponents\ParticleSystem.cs" />
+    <Compile Include="EntityComponents\RenderControl.cs" />
+    <Compile Include="EntityComponents\StaticMesh.cs" />
+    <Compile Include="EntityComponents\TestSphere.cs" />
+    <Compile Include="EntityTemplate.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IPathfinder.cs" />
-    <Compile Include="SimplePathfinder.cs" />
-    <Compile Include="TemplateCollection.cs" />
-    <Compile Include="Template.cs" />
+    <Compile Include="ItemTemplate.cs" />
     <Compile Include="LightAngleMapGenerator.cs" />
-    <Compile Include="TerrainTemplate.cs">
-      <DependentUpon>Template.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EntityTemplate.cs">
-      <DependentUpon>Template.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ItemTemplate.cs">
-      <DependentUpon>Template.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CameraState.cs" />
-    <Compile Include="Positionable.cs" />
-    <Compile Include="Entity.cs">
-      <DependentUpon>Positionable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Water.cs">
-      <DependentUpon>Positionable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Waypoint.cs">
-      <DependentUpon>Positionable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BenchmarkPoint.cs">
-      <DependentUpon>Positionable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Memo.cs">
-      <DependentUpon>Positionable.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Memo.cs" />
     <Compile Include="PathControl.cs" />
-    <Compile Include="PathLeader.cs">
-      <DependentUpon>PathControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PathFollower.cs">
-      <DependentUpon>PathControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TemplateManager.cs" />
+    <Compile Include="PathFollower.cs" />
+    <Compile Include="PathLeader.cs" />
+    <Compile Include="Positionable.cs" />
     <Compile Include="PositionableCollection.cs" />
-    <Compile Include="Session.cs" />
-    <Compile Include="Universe.cs" />
-    <Compile Include="Universe.Storage.cs">
-      <DependentUpon>Universe.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Universe.Lighting.cs">
-      <DependentUpon>Universe.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Terrain.cs" />
-    <Compile Include="Terrain.Storage.cs">
-      <DependentUpon>Terrain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Terrain.PathFinding.cs">
-      <DependentUpon>Terrain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Terrain.Coordinates.cs">
-      <DependentUpon>Terrain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TerrainPoint.cs">
-      <DependentUpon>Terrain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TerrainSize.cs">
-      <DependentUpon>Terrain.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Session.cs" />
+    <Compile Include="SimplePathfinder.cs" />
+    <Compile Include="Template.cs" />
+    <Compile Include="TemplateCollection.cs" />
+    <Compile Include="TemplateManager.cs" />
+    <Compile Include="Terrain.Coordinates.cs" />
+    <Compile Include="Terrain.cs" />
+    <Compile Include="Terrain.PathFinding.cs" />
+    <Compile Include="Terrain.Storage.cs" />
+    <Compile Include="TerrainPoint.cs" />
+    <Compile Include="TerrainSize.cs" />
+    <Compile Include="TerrainTemplate.cs" />
+    <Compile Include="Universe.cs" />
+    <Compile Include="Universe.Lighting.cs" />
+    <Compile Include="Universe.Storage.cs" />
+    <Compile Include="Water.cs" />
+    <Compile Include="Waypoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

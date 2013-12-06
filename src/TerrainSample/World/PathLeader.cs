@@ -22,15 +22,16 @@
 
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using SlimDX;
 
 namespace World
 {
     /// <summary>
-    /// The leader in a pathfinding group (followed by <see cref="PathFollower"/>).
+    /// The leader in a pathfinding group (followed by <see cref="PathFollower{TCoordinates}"/>).
     /// </summary>
-    /// <seealso cref="Entity.PathControl"/>
-    public class PathLeader : PathControl
+    /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
+    /// <seealso cref="Entity{TCoordinates}.PathControl"/>
+    public class PathLeader<TCoordinates> : PathControl<TCoordinates>
+        where TCoordinates : struct
     {
         /// <summary>
         /// The ID of the group leader.
@@ -40,16 +41,16 @@ namespace World
         /// <summary>
         /// The final target of the pathfinding.
         /// </summary>
-        public Vector2 Target { get; set; }
+        public TCoordinates Target { get; set; }
 
         // ToDo: Replace Stack with Queue, by turning PathFinder output around
-        private readonly Stack<Vector2> _pathNodes = new Stack<Vector2>();
+        private readonly Stack<TCoordinates> _pathNodes = new Stack<TCoordinates>();
 
         /// <summary>
         /// The path to walk.
         /// </summary>
         /// <remarks>Is not serialized/stored, will be recalculated by <see cref="Universe.RecalcPaths"/>.</remarks>
         [XmlIgnore]
-        public Stack<Vector2> PathNodes { get { return _pathNodes; } }
+        public Stack<TCoordinates> PathNodes { get { return _pathNodes; } }
     }
 }

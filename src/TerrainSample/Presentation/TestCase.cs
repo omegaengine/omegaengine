@@ -24,6 +24,7 @@ using System;
 using System.Xml.Serialization;
 using Common.Values;
 using Core;
+using SlimDX;
 using World;
 
 namespace Presentation
@@ -56,7 +57,7 @@ namespace Presentation
         /// <summary>
         /// The camera settings to use.
         /// </summary>
-        public BenchmarkPoint Target;
+        public BenchmarkPoint<Vector2> Target;
 
         /// <summary>
         /// Boolean flags for <see cref="Settings.Graphics"/>.

@@ -43,15 +43,15 @@ namespace World
         #endregion
 
         #region Properties
-        private readonly PositionableCollection _positionables = new PositionableCollection();
+        private readonly PositionableCollection<Vector2> _positionables = new PositionableCollection<Vector2>();
 
         /// <summary>
-        /// A collection of all <see cref="Positionable"/>s in this <see cref="Universe"/>.
+        /// A collection of all <see cref="Positionable{TCoordinates}"/>s in this <see cref="Universe"/>.
         /// </summary>
         [Browsable(false)]
         // Note: Can not use ICollection<T> interface with XML Serialization
-        [XmlElement(typeof(Entity)), XmlElement(typeof(Water)), XmlElement(typeof(Waypoint)), XmlElement(typeof(BenchmarkPoint)), XmlElement(typeof(Memo))]
-        public PositionableCollection Positionables { get { return _positionables; } }
+        [XmlElement(typeof(Entity<Vector2>)), XmlElement(typeof(Water)), XmlElement(typeof(Waypoint<Vector2>)), XmlElement(typeof(BenchmarkPoint<Vector2>)), XmlElement(typeof(Memo<Vector2>))]
+        public PositionableCollection<Vector2> Positionables { get { return _positionables; } }
 
         private string _skybox;
 
@@ -66,7 +66,7 @@ namespace World
         /// </summary>
         /// <remarks>This is updated only when leaving the game, not continuously.</remarks>
         [Browsable(false)]
-        public CameraState Camera { get; set; }
+        public CameraState<Vector2> Camera { get; set; }
         #endregion
 
         #region Constructor
@@ -92,12 +92,12 @@ namespace World
 
         #region Path finding
         /// <summary>
-        /// Moves an <see cref="Entity"/> to a new position using basic pathfinding.
+        /// Moves an <see cref="Entity{TCoordinates}"/> to a new position using basic pathfinding.
         /// </summary>
-        /// <param name="entity">The <see cref="Entity"/> to be moved.</param>
+        /// <param name="entity">The <see cref="Entity{TCoordinates}"/> to be moved.</param>
         /// <param name="target">The terrain position to move <paramref name="entity"/> to.</param>
         /// <remarks>The actual movement occurs whenever <see cref="Update"/> is called.</remarks>
-        public void MoveEntity(Entity entity, Vector2 target)
+        public void MoveEntity(Entity<Vector2> entity, Vector2 target)
         {
             #region Sanity checks
             if (entity == null) throw new ArgumentNullException("entity");
@@ -112,21 +112,21 @@ namespace World
             }
 
             // Store path data in entity
-            var pathLeader = new PathLeader {ID = 0, Target = target};
-            foreach (Vector2 node in pathNodes)
+            var pathLeader = new PathLeader<Vector2> {ID = 0, Target = target};
+            foreach (var node in pathNodes)
                 pathLeader.PathNodes.Push(node * Terrain.Size.StretchH);
             entity.PathControl = pathLeader;
         }
 
         /// <summary>
-        /// Recalculates all paths stored in <see cref="Entity.PathControl"/>.
+        /// Recalculates all paths stored in <see cref="Entity2D.PathControl"/>.
         /// </summary>
         /// <remarks>This needs to be called when new obstacles have appeared or when a savegame was loaded (which does not store paths).</remarks>
         internal void RecalcPaths()
         {
-            foreach (Entity entity in Positionables.Entities)
+            foreach (var entity in Positionables.Entities)
             {
-                var pathLeader = entity.PathControl as PathLeader;
+                var pathLeader = entity.PathControl as PathLeader<Vector2>;
                 if (pathLeader != null)
                     MoveEntity(entity, pathLeader.Target);
             }
@@ -135,7 +135,7 @@ namespace World
 
         #region Update
         /// <summary>
-        /// Updates the <see cref="Universe"/> and all <see cref="Positionable"/>s in it.
+        /// Updates the <see cref="Universe"/> and all <see cref="Positionable{TCoordinates}"/>s in it.
         /// </summary>
         /// <param name="elapsedTime">How much game time in seconds has elapsed since this method was last called.</param>
         /// <remarks>This is usually called by <see cref="Session.Update"/>.</remarks>
@@ -143,7 +143,7 @@ namespace World
         {
             LightPhase += (float)(elapsedTime / 40 * LightPhaseSpeedFactor);
 
-            foreach (Entity entity in Positionables.Entities)
+            foreach (var entity in Positionables.Entities)
                 entity.UpdatePosition(elapsedTime);
         }
         #endregion

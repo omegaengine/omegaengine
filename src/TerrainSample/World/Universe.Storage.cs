@@ -30,7 +30,8 @@ using Common.Storage;
 using Core;
 using ICSharpCode.SharpZipLib.Zip;
 using LuaInterface;
-using World.Properties;
+using SlimDX;
+using Resources = World.Properties.Resources;
 
 namespace World
 {
@@ -45,10 +46,10 @@ namespace World
 
         #region Variables
         /// <summary>
-        /// Don't save or load the <see cref="Entity.TemplateData"/> in map files - that's only sensible in savegames.
-        /// Instead <see cref="Entity.TemplateName"/> is used.
+        /// Don't save or load the <see cref="Entity{TCoordinates}.TemplateData"/> in map files - that's only sensible in savegames.
+        /// Instead <see cref="Entity{TCoordinates}.TemplateName"/> is used.
         /// </summary>
-        private static readonly MemberInfo _ignoreMemeber = typeof(Entity).GetProperty("TemplateData");
+        private static readonly MemberInfo _ignoreMemeber = typeof(Entity<Vector2>).GetProperty("TemplateData");
         #endregion
 
         #region Properties
@@ -62,7 +63,7 @@ namespace World
         private Terrain _terrain;
 
         /// <summary>
-        /// The <see cref="Terrain"/> on which <see cref="Entity"/>s are placed.
+        /// The <see cref="Terrain"/> on which <see cref="Entity{TCoordinates}"/>s are placed.
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown if the <see cref="Terrain"/> could not be properly loaded from the file.</exception>
         /// <remarks>Is not serialized/stored, <see cref="TerrainSerialize"/> is used for that.</remarks>

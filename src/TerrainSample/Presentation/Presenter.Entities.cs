@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using Common.Utils;
 using OmegaEngine;
 using OmegaEngine.Assets;
@@ -37,7 +38,7 @@ namespace Presentation
     /*
      * This file provides helper methods for visualizing World.Positionables.
      * 
-     * The method AddPositionable() is to be called once for every new World.Positionable in the Universe.
+     * The method AddPositionable() is to be called once for every new World.Positionable<Vector2> in the Universe.
      * It internally uses either AddEntity() or AddWater() to create the actual visual representations in OmegaEngine.
      * 
      * AddEntity() creates one or multiple Engine.PositionableRenderables for a single World.Entity, based on the RenderControls the Entity lists.
@@ -48,7 +49,7 @@ namespace Presentation
      * 
      * _engineToWorld is maintained to allow reverse lookups, which are needed for mouse picking.
      * 
-     * The method RemovePositionable() is to be called once for every World.Positionable removed from the Universe.
+     * The method RemovePositionable() is to be called once for every World.Positionable<Vector2> removed from the Universe.
      * It internally uses RemoveEntity() or RemoveWater() to remove the visual representations from OmegaEngine.
      * 
      * The method UpdatePositionable() is automatically called every time a World.Positionable's position or other rendering-relevant property has changed.
@@ -65,29 +66,15 @@ namespace Presentation
         /// <summary>1:1 association of <see cref="World.Water"/> to <see cref="Water"/>.</summary>
         private readonly Dictionary<World.Water, Water> _worldToEngineWater = new Dictionary<World.Water, Water>();
 
-        /// <summary>n:1 association of <see cref="PositionableRenderable"/> to <see cref="World.Positionable"/>.</summary>
-        private readonly Dictionary<PositionableRenderable, World.Positionable> _engineToWorld = new Dictionary<PositionableRenderable, World.Positionable>();
+        /// <summary>n:1 association of <see cref="PositionableRenderable"/> to <see cref="World.Positionable{TCoordinates}"/>.</summary>
+        private readonly Dictionary<PositionableRenderable, World.Positionable<Vector2>> _engineToWorld = new Dictionary<PositionableRenderable, World.Positionable<Vector2>>();
         #endregion
 
         #region Properties
         /// <summary>
         /// Returns a list of all <see cref="PositionableRenderable"/>s associated with elements in <see cref="Universe"/>.
         /// </summary>
-        protected IEnumerable<PositionableRenderable> PositionableRenderables
-        {
-            get
-            {
-                // ToDo: Simplify with LINQ in .NET 4.0
-                var result = new LinkedList<PositionableRenderable>();
-                foreach (var positionable in _worldToEngine.Values)
-                {
-                    if (positionable is Terrain) continue;
-                    var renderable = positionable as PositionableRenderable;
-                    if (renderable != null) result.AddLast(renderable);
-                }
-                return result;
-            }
-        }
+        protected IEnumerable<PositionableRenderable> PositionableRenderables { get { return _worldToEngine.Values.Where(positionable => !(positionable is Terrain)).OfType<PositionableRenderable>().ToList(); } }
         #endregion
 
         //--------------------//
@@ -106,9 +93,9 @@ namespace Presentation
         }
 
         /// <summary>
-        /// Returns the <see cref="World.Positionable"/> a <see cref="PositionableRenderable"/> was created from or <see langword="null"/>.
+        /// Returns the <see cref="World.Positionable{TCoordinates}"/> a <see cref="PositionableRenderable"/> was created from or <see langword="null"/>.
         /// </summary>
-        protected World.Positionable GetWorld(PositionableRenderable engineEntity)
+        protected World.Positionable<Vector2> GetWorld(PositionableRenderable engineEntity)
         {
             #region Sanity checks
             if (Disposed) throw new ObjectDisposedException(ToString());
@@ -122,14 +109,14 @@ namespace Presentation
 
         #region Add positionables
         /// <summary>
-        /// Sets up a <see cref="World.Positionable"/> for rendering via a <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>.
+        /// Sets up a <see cref="World.Positionable{TCoordinates}"/> for rendering via a <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>.
         /// </summary>
-        /// <param name="positionable">The <see cref="World.Positionable"/> to be displayed.</param>
+        /// <param name="positionable">The <see cref="World.Positionable{TCoordinates}"/> to be displayed.</param>
         /// <exception cref="FileNotFoundException">Thrown if a required <see cref="Asset"/> file could not be found.</exception>
         /// <exception cref="IOException">Thrown if there was an error reading an <see cref="Asset"/> file.</exception>
         /// <exception cref="InvalidDataException">Thrown if an <see cref="Asset"/> file contains invalid data.</exception>
         /// <remarks>Calls <see cref="AddEntity"/>.</remarks>
-        protected virtual void AddPositionable(World.Positionable positionable)
+        protected virtual void AddPositionable(World.Positionable<Vector2> positionable)
         {
             #region Sanity checks
             if (positionable == null) throw new ArgumentNullException("positionable");
@@ -137,7 +124,7 @@ namespace Presentation
             #endregion
 
             #region Entity
-            var entity = positionable as World.Entity;
+            var entity = positionable as World.Entity<Vector2>;
             if (entity != null)
             {
                 AddEntity(entity);
@@ -168,11 +155,11 @@ namespace Presentation
         }
 
         /// <summary>
-        /// Sets up a <see cref="World.Entity"/> for rendering via a <see cref="PositionableRenderable"/>
+        /// Sets up a <see cref="World.Entity{TCoordinates}"/> for rendering via a <see cref="PositionableRenderable"/>
         /// </summary>
-        /// <param name="entity">The <see cref="World.Entity"/> to be displayed</param>
+        /// <param name="entity">The <see cref="World.Entity{TCoordinates}"/> to be displayed</param>
         /// <remarks>This is a helper method for <see cref="AddPositionable"/>.</remarks>
-        private void AddEntity(World.Entity entity)
+        private void AddEntity(World.Entity<Vector2> entity)
         {
             try
             {
@@ -222,10 +209,10 @@ namespace Presentation
 
         #region Remove positionables
         /// <summary>
-        /// Removes a <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/> used to render a <see cref="World.Positionable"/>
+        /// Removes a <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/> used to render a <see cref="World.Positionable{TCoordinates}"/>
         /// </summary>
-        /// <param name="positionable">The <see cref="World.Positionable"/> to be removed</param>
-        protected virtual void RemovePositionable(World.Positionable positionable)
+        /// <param name="positionable">The <see cref="World.Positionable{TCoordinates}"/> to be removed</param>
+        protected virtual void RemovePositionable(World.Positionable<Vector2> positionable)
         {
             #region Sanity checks
             if (positionable == null) throw new ArgumentNullException("positionable");
@@ -233,7 +220,7 @@ namespace Presentation
             #endregion
 
             #region Entity
-            var entity = positionable as World.Entity;
+            var entity = positionable as World.Entity<Vector2>;
             if (entity != null)
             {
                 RemoveEntity(entity);
@@ -264,11 +251,11 @@ namespace Presentation
         }
 
         /// <summary>
-        /// Removes a <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/> used to render a <see cref="World.Positionable"/>
+        /// Removes a <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/> used to render a <see cref="World.Positionable{TCoordinates}"/>
         /// </summary>
-        /// <param name="entity">The <see cref="World.Positionable"/> to be removed</param>
+        /// <param name="entity">The <see cref="World.Positionable{TCoordinates}"/> to be removed</param>
         /// <remarks>This is a helper method for <see cref="RemovePositionable"/>.</remarks>
-        private void RemoveEntity(World.Entity entity)
+        private void RemoveEntity(World.Entity<Vector2> entity)
         {
             foreach (var renderControl in entity.TemplateData.RenderControls)
                 RemoveEntityHelper(renderControl);
@@ -290,11 +277,11 @@ namespace Presentation
 
         #region Update positionables
         /// <summary>
-        /// Updates the position and other properties of one or more <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>s based on data from a <see cref="World.Positionable"/>.
+        /// Updates the position and other properties of one or more <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>s based on data from a <see cref="World.Positionable{TCoordinates}"/>.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when the entity's coordinates lie outside the range of the terrain and this application does not have "Editor" in its name.</exception>
-        /// <param name="positionable">The <see cref="World.Positionable"/> to update.</param>
-        protected virtual void UpdatePositionable(World.Positionable positionable)
+        /// <param name="positionable">The <see cref="World.Positionable{TCoordinates}"/> to update.</param>
+        protected virtual void UpdatePositionable(World.Positionable<Vector2> positionable)
         {
             #region Sanity checks
             if (positionable == null) throw new ArgumentNullException("positionable");
@@ -316,7 +303,7 @@ namespace Presentation
             #endregion
 
             #region Entity
-            var entity = positionable as World.Entity;
+            var entity = positionable as World.Entity<Vector2>;
             if (entity != null)
             {
                 foreach (var renderControl in entity.TemplateData.RenderControls)
@@ -341,12 +328,12 @@ namespace Presentation
         /// <summary>
         /// Adds a graphical representation to the engine, <see cref="_worldToEngine"/> and <see cref="_engineToWorld"/>.
         /// </summary>
-        /// <param name="entity">The <see cref="World.Positionable "/> <paramref name="renderControl"/> is associated with.</param>
+        /// <param name="entity">The <see cref="World.Positionable{Vector2}"/> <paramref name="renderControl"/> is associated with.</param>
         /// <param name="renderControl">The <see cref="EntityComp.RenderControl"/> to be displayed.</param>
         /// <exception cref="FileNotFoundException">Thrown if a required <see cref="Asset"/> file could not be found.</exception>
         /// <exception cref="IOException">Thrown if there was an error reading an <see cref="Asset"/> file.</exception>
         /// <exception cref="InvalidDataException">Thrown if an <see cref="Asset"/> file contains invalid data.</exception>
-        private void AddEntityHelper(World.Entity entity, EntityComp.RenderControl renderControl)
+        private void AddEntityHelper(World.Entity<Vector2> entity, EntityComp.RenderControl renderControl)
         {
             // ----- Apply RenderControl.Shift directly with PreTransform ----- //
 
@@ -387,11 +374,11 @@ namespace Presentation
 
                 // Set model properties
                 model.PreTransform = Matrix.Scaling(meshRender.Scale, meshRender.Scale, meshRender.Scale) *
-                    Matrix.RotationYawPitchRoll(
-                        meshRender.RotationY.DegreeToRadian(),
-                        meshRender.RotationX.DegreeToRadian(),
-                        meshRender.RotationZ.DegreeToRadian()) *
-                    Matrix.Translation(meshRender.Shift);
+                                     Matrix.RotationYawPitchRoll(
+                                         meshRender.RotationY.DegreeToRadian(),
+                                         meshRender.RotationX.DegreeToRadian(),
+                                         meshRender.RotationZ.DegreeToRadian()) *
+                                     Matrix.Translation(meshRender.Shift);
                 model.Alpha = meshRender.Alpha;
                 model.Pickable = meshRender.Pickable;
                 model.RenderIn = (ViewType)meshRender.RenderIn;
@@ -462,15 +449,15 @@ namespace Presentation
         /// Updates a specific <see cref="EntityComp.RenderControl"/> representation in the engine
         /// </summary>
         /// <param name="renderControl">The <see cref="EntityComp.RenderControl"/> to be updated</param>
-        /// <param name="terrainPoint">The location of the associated <see cref="World.Positionable"/> on the terrain</param>
-        /// <param name="dirRotation">The rotation of the associated <see cref="World.Positionable"/> on the terrain</param>
+        /// <param name="terrainPoint">The location of the associated <see cref="World.Positionable{TCoordinates}"/> on the terrain</param>
+        /// <param name="dirRotation">The rotation of the associated <see cref="World.Positionable{TCoordinates}"/> on the terrain</param>
         private void UpdateEntityHelper(EntityComp.RenderControl renderControl, World.TerrainPoint terrainPoint, float dirRotation)
         {
             var render = GetEngine(renderControl);
             if (render == null) return;
 
             var rotation = Quaternion.RotationYawPitchRoll(dirRotation.DegreeToRadian(), 0, 0) *
-                Quaternion.RotationYawPitchRoll(0, terrainPoint.AngleX, terrainPoint.AngleY);
+                           Quaternion.RotationYawPitchRoll(0, terrainPoint.AngleX, terrainPoint.AngleY);
 
             // ----- RenderControl.Shift already applied ----- //
 

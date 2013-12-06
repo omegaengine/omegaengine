@@ -32,7 +32,7 @@ namespace World.EntityComponents
     /// Collision-detection using an axis-aligned box.
     /// </summary>
     /// <seealso cref="EntityTemplate.CollisionControl"/>
-    public class Box : CollisionControl
+    public class Box : CollisionControl<Vector2>
     {
         #region Properties
         /// <summary>
@@ -69,7 +69,7 @@ namespace World.EntityComponents
             {
                 // Perform simple test if no rotation is to be performed
                 return (point.X >= Minimum.X && point.X <= Maximum.X &&
-                    point.Y >= Minimum.Y && point.Y <= Maximum.Y);
+                        point.Y >= Minimum.Y && point.Y <= Maximum.Y);
             }
             // Empty boxes can never intersect
             if (Minimum == Maximum) return false;
@@ -108,7 +108,7 @@ namespace World.EntityComponents
         internal override Vector2[] GetPathFindingOutline(float rotation)
         {
             // ToDo: Implement
-            return new Vector2[] {};
+            return new Vector2[0];
         }
         #endregion
     }

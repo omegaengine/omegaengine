@@ -48,21 +48,21 @@ namespace Presentation
     partial class InteractivePresenter
     {
         #region Variables
-        /// <summary>1:1 association of <see cref="World.Entity"/> to selection highlighting <see cref="EngineRenderable.PositionableRenderable"/>.</summary>
-        private readonly Dictionary<World.Entity, EngineRenderable.PositionableRenderable> _worldToEngine = new Dictionary<World.Entity, EngineRenderable.PositionableRenderable>();
+        /// <summary>1:1 association of <see cref="World.Entity{TCoordinates}"/> to selection highlighting <see cref="EngineRenderable.PositionableRenderable"/>.</summary>
+        private readonly Dictionary<World.Entity<Vector2>, EngineRenderable.PositionableRenderable> _worldToEngine = new Dictionary<World.Entity<Vector2>, EngineRenderable.PositionableRenderable>();
         #endregion
 
         //--------------------//
 
         #region Add selected positionables
         /// <summary>
-        /// Adds the selection highlighting for an <see cref="World.Positionable"/>
+        /// Adds the selection highlighting for an <see cref="World.Positionable{TCoordinates}"/>
         /// </summary>
-        /// <param name="positionable">The <see cref="World.Positionable"/> to add the selection highlighting for</param>
-        private void AddSelectedPositionable(World.Positionable positionable)
+        /// <param name="positionable">The <see cref="World.Positionable{TCoordinates}"/> to add the selection highlighting for</param>
+        private void AddSelectedPositionable(World.Positionable<Vector2> positionable)
         {
             // Only continue if the positionable is a entity
-            var entity = positionable as World.Entity;
+            var entity = positionable as World.Entity<Vector2>;
             if (entity == null) return;
 
             AddSelectedEntity(entity);
@@ -73,11 +73,11 @@ namespace Presentation
         }
 
         /// <summary>
-        /// Adds the selection highlighting for a <see cref="World.Entity"/>
+        /// Adds the selection highlighting for a <see cref="World.Entity{TCoordinates}"/>
         /// </summary>
-        /// <param name="entity">The <see cref="World.Entity"/> to add the selection highlighting for</param>
+        /// <param name="entity">The <see cref="World.Entity{TCoordinates}"/> to add the selection highlighting for</param>
         /// <remarks>This is a helper method for <see cref="AddSelectedPositionable"/>.</remarks>
-        private void AddSelectedEntity(World.Entity entity)
+        private void AddSelectedEntity(World.Entity<Vector2> entity)
         {
             // Prepare a selection highlighting around the entity
             EngineRenderable.Model selectionHighlight;
@@ -124,13 +124,13 @@ namespace Presentation
 
         #region Remove selected positionables
         /// <summary>
-        /// Removes the selection highlighting for an <see cref="World.Positionable"/>
+        /// Removes the selection highlighting for an <see cref="World.Positionable{TCoordinates}"/>
         /// </summary>
-        /// <param name="positionable">The <see cref="World.Positionable"/> to remove the selection highlighting for</param>
-        private void RemoveSelectedPositionable(World.Positionable positionable)
+        /// <param name="positionable">The <see cref="World.Positionable{TCoordinates}"/> to remove the selection highlighting for</param>
+        private void RemoveSelectedPositionable(World.Positionable<Vector2> positionable)
         {
             // Only continue if the positionable is a entity that has a selection highlighting associated to it
-            var entity = positionable as World.Entity;
+            var entity = positionable as World.Entity<Vector2>;
             if (entity == null) return;
 
             RemoveSelectedEntity(entity);
@@ -141,11 +141,11 @@ namespace Presentation
         }
 
         /// <summary>
-        /// Removes the selection highlighting for an <see cref="World.Entity"/>
+        /// Removes the selection highlighting for an <see cref="World.Entity{TCoordinates}"/>
         /// </summary>
-        /// <param name="entity">The <see cref="World.Entity"/> to remove the selection highlighting for</param>
+        /// <param name="entity">The <see cref="World.Entity{TCoordinates}"/> to remove the selection highlighting for</param>
         /// <remarks>This is a helper method for <see cref="RemoveSelectedPositionable"/>.</remarks>
-        private void RemoveSelectedEntity(World.Entity entity)
+        private void RemoveSelectedEntity(World.Entity<Vector2> entity)
         {
             EngineRenderable.PositionableRenderable selection;
             if (!_worldToEngine.TryGetValue(entity, out selection)) return;
@@ -161,7 +161,7 @@ namespace Presentation
 
         #region Remove positionables
         /// <inheritdoc />
-        protected override void RemovePositionable(World.Positionable positionable)
+        protected override void RemovePositionable(World.Positionable<Vector2> positionable)
         {
             // Entities that are no longer in the Universe can't be selected
             SelectedPositionables.Remove(positionable);
@@ -172,12 +172,12 @@ namespace Presentation
 
         #region Update positionables
         /// <inheritdoc />
-        protected override void UpdatePositionable(World.Positionable positionable)
+        protected override void UpdatePositionable(World.Positionable<Vector2> positionable)
         {
             base.UpdatePositionable(positionable);
 
             // Only continue if the positionable is a entity that has a selection highlighting associated to it
-            var entity = positionable as World.Entity;
+            var entity = positionable as World.Entity<Vector2>;
             if (entity == null) return;
             EngineRenderable.PositionableRenderable selection;
             if (!_worldToEngine.TryGetValue(entity, out selection)) return;

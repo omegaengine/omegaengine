@@ -27,7 +27,9 @@ namespace World
     /// <summary>
     /// A marker that designers can leave in the map to remember stuff. Will be ignored in the actual game.
     /// </summary>
-    public class Memo : Positionable
+    /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
+    public class Memo<TCoordinates> : Positionable<TCoordinates>
+        where TCoordinates : struct
     {
         /// <summary>
         /// A short text describing the memo.

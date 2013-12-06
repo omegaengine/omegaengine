@@ -31,7 +31,7 @@ namespace World.EntityComponents
     /// Collision-detection using a simple uniform circle.
     /// </summary>
     /// <seealso cref="EntityTemplate.CollisionControl"/>
-    public class Circle : CollisionControl
+    public class Circle : CollisionControl<Vector2>
     {
         #region Properties
         /// <summary>
@@ -84,7 +84,7 @@ namespace World.EntityComponents
         internal override Vector2[] GetPathFindingOutline(float rotation)
         {
             // ToDo: Implement
-            return new Vector2[] {};
+            return new Vector2[0];
         }
         #endregion
     }

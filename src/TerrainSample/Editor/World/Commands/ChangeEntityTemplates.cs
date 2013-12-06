@@ -23,28 +23,29 @@
 using System;
 using System.Collections.Generic;
 using Common.Undo;
+using SlimDX;
 using World;
 
 namespace AlphaEditor.World.Commands
 {
     /// <summary>
-    /// Changes the <see cref="Entity.TemplateName"/> property of one or more <see cref="Entity"/>s.
+    /// Changes the <see cref="Entity{TCoordinates}.TemplateName"/> property of one or more <see cref="Entity{TCoordinates}"/>s.
     /// </summary>
     public class ChangeEntityTemplates : SimpleCommand
     {
         #region Variables
-        private readonly List<Entity> _entities;
+        private readonly List<Entity<Vector2>> _entities;
         private readonly string[] _oldTemplates;
         private readonly string _newTemplates;
         #endregion
 
         #region Constructor
         /// <summary>
-        /// Creates a new command for changing the <see cref="EntityTemplate"/> of one or more <see cref="Entity"/>s.
+        /// Creates a new command for changing the <see cref="EntityTemplate"/> of one or more <see cref="Entity{TCoordinates}"/>s.
         /// </summary>
-        /// <param name="entities">The <see cref="Entity"/>s to modify.</param>
+        /// <param name="entities">The <see cref="Entity{TCoordinates}"/>s to modify.</param>
         /// <param name="template">The name of the new <see cref="EntityTemplate"/> to set.</param>
-        public ChangeEntityTemplates(IEnumerable<Entity> entities, string template)
+        public ChangeEntityTemplates(IEnumerable<Entity<Vector2>> entities, string template)
         {
             #region Sanity checks
             if (entities == null) throw new ArgumentNullException("entities");
@@ -52,7 +53,7 @@ namespace AlphaEditor.World.Commands
             #endregion
 
             // Create local defensive copy of entities
-            _entities = new List<Entity>(entities);
+            _entities = new List<Entity<Vector2>>(entities);
 
             // Backup the old class names
             _oldTemplates = new string[_entities.Count];
@@ -69,7 +70,7 @@ namespace AlphaEditor.World.Commands
         /// <inheritdoc />
         protected override void OnExecute()
         {
-            foreach (Entity entity in _entities)
+            foreach (var entity in _entities)
                 entity.TemplateName = _newTemplates;
         }
 

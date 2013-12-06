@@ -23,12 +23,13 @@
 using System;
 using System.Collections.Generic;
 using Common.Undo;
+using SlimDX;
 using World;
 
 namespace AlphaEditor.World.Commands
 {
     /// <summary>
-    /// Adds/removes one or more <see cref="Positionable"/>ies to/from a <see cref="Universe"/>.
+    /// Adds/removes one or more <see cref="Positionable{TCoordinates}"/>ies to/from a <see cref="Universe"/>.
     /// </summary>
     internal abstract class AddRemovePositionables : SimpleCommand
     {
@@ -36,16 +37,16 @@ namespace AlphaEditor.World.Commands
         private readonly Universe _universe;
 
         // Note: Use List<> instead of Array, because the size of the incoming IEnumerable<> will be unkown
-        private readonly List<Positionable> _positionables;
+        private readonly List<Positionable<Vector2>> _positionables;
         #endregion
 
         #region Constructor
         /// <summary>
-        /// Creates a new command for adding/removing one or more <see cref="Positionable"/>ies to/from a <see cref="Universe"/>.
+        /// Creates a new command for adding/removing one or more <see cref="Positionable{TCoordinates}"/>ies to/from a <see cref="Universe"/>.
         /// </summary>
         /// <param name="universe">The <see cref="Universe"/> to add to / remove from.</param>
-        /// <param name="positionables">The <see cref="Positionable"/>s to add/remove.</param>
-        protected AddRemovePositionables(Universe universe, IEnumerable<Positionable> positionables)
+        /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to add/remove.</param>
+        protected AddRemovePositionables(Universe universe, IEnumerable<Positionable<Vector2>> positionables)
         {
             #region Sanity checks
             if (universe == null) throw new ArgumentNullException("universe");
@@ -55,7 +56,7 @@ namespace AlphaEditor.World.Commands
             _universe = universe;
 
             // Create local defensive copy of entities
-            _positionables = new List<Positionable>(positionables);
+            _positionables = new List<Positionable<Vector2>>(positionables);
         }
         #endregion
 
@@ -67,7 +68,7 @@ namespace AlphaEditor.World.Commands
         /// </summary>
         protected void AddPositionables()
         {
-            foreach (Positionable positionable in _positionables)
+            foreach (var positionable in _positionables)
                 _universe.Positionables.Add(positionable);
         }
 
@@ -76,7 +77,7 @@ namespace AlphaEditor.World.Commands
         /// </summary>
         protected void RemovePositionables()
         {
-            foreach (Positionable positionable in _positionables)
+            foreach (var positionable in _positionables)
                 _universe.Positionables.Remove(positionable);
         }
         #endregion

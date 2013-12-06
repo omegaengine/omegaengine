@@ -25,7 +25,7 @@ namespace World
     /// <summary>
     /// A simple A* pathfinder.
     /// </summary>
-    public class SimplePathfinder : IPathfinder
+    public class SimplePathfinder : IPathfinder<Vector2>
     {
         private struct Node
         {

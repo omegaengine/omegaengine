@@ -155,7 +155,7 @@ namespace AlphaEditor.World
                 {
                     // Select previous render controller or first one in list
                     comboRender.SelectedItem = (prevRender != null && comboRender.Items.Contains(prevRender)) ?
-                                                                                                                  prevRender : comboRender.Items[0];
+                        prevRender : comboRender.Items[0];
                     buttonRemoveRender.Enabled = buttonBrowseRender.Enabled = true;
                 }
                 else
@@ -177,7 +177,7 @@ namespace AlphaEditor.World
                 buttonRemoveMovement.Enabled = !buttonAddMovement.Enabled;
                 propertyGridMovement.SelectedObject = selectedClass.MovementControl;
                 labelMovement.Text = (selectedClass.MovementControl == null) ? "None" :
-                                                                                          selectedClass.MovementControl.ToString();
+                    selectedClass.MovementControl.ToString();
                 #endregion
 
                 #region Setup sample rendering
@@ -187,7 +187,7 @@ namespace AlphaEditor.World
                 // Add new Entity to Universe (Presenter will auto-update engine)
                 try
                 {
-                    _universe.Positionables.Add(new Entity
+                    _universe.Positionables.Add(new Entity2D
                     {
                         Name = "Entity",
                         Position = _universe.Terrain.Center,

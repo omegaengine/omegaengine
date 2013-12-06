@@ -27,7 +27,9 @@ namespace World
     /// <summary>
     /// A marker that controls camera positions for the benchmark mode of the game.
     /// </summary>
-    public class BenchmarkPoint : CameraState
+    /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
+    public class BenchmarkPoint<TCoordinates> : CameraState<TCoordinates>
+        where TCoordinates : struct
     {
         /// <summary>
         /// Cycle through different water quality settings here (will take 3x as long).

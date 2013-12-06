@@ -16,14 +16,15 @@
  */
 
 using System.Collections.Generic;
-using SlimDX;
 
 namespace World
 {
     /// <summary>
     /// An interface for 2D pathfinding.
     /// </summary>
-    public interface IPathfinder
+    /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
+    public interface IPathfinder<TCoordinates>
+        where TCoordinates : struct
     {
         /// <summary>
         /// Requests a path for a player character.
@@ -31,6 +32,6 @@ namespace World
         /// <param name="start">The starting coordinates.</param>
         /// <param name="end">The end coordinates.</param>
         /// <returns>A list of points forming a path; <see langword="null"/> if no path was found.</returns>
-        IEnumerable<Vector2> FindPathPlayer(Vector2 start, Vector2 end);
+        IEnumerable<TCoordinates> FindPathPlayer(TCoordinates start, TCoordinates end);
     }
 }

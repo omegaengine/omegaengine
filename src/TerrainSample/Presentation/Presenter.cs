@@ -32,6 +32,7 @@ using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
+using SlimDX;
 using World;
 using Terrain = OmegaEngine.Graphics.Renderables.Terrain;
 
@@ -58,7 +59,7 @@ namespace Presentation
         private PostSepiaShader _sepiaShader;
 
         /// <summary>
-        /// The engine scene containing the graphical representations of <see cref="World.Positionable"/>s
+        /// The engine scene containing the graphical representations of <see cref="World.Positionable{TCoordinates}"/>s
         /// </summary>
         protected readonly Scene Scene;
         #endregion
@@ -208,10 +209,10 @@ namespace Presentation
         /// </summary>
         /// <param name="state">The state to place the new camera in; may be <see langword="null"/> in which case it will default to looking at the center of the terrain.</param>
         /// <returns>The newly created <see cref="Camera"/>.</returns>
-        public Camera CreateCamera(CameraState state)
+        public Camera CreateCamera(CameraState<Vector2> state)
         {
             if (state == null)
-                state = new CameraState {Name = "Main", Position = Universe.Terrain.Center, Radius = 1500};
+                state = new CameraState<Vector2> {Name = "Main", Position = Universe.Terrain.Center, Radius = 1500};
 
             const float minCameraRadius = 150, maxCameraRadius = 10000;
             const float minCameraAngle = 35, maxCameraAngle = 55;
@@ -232,14 +233,14 @@ namespace Presentation
         /// Retreives the current state of the <see cref="Camera"/> for storage in the <see cref="Universe"/>.
         /// </summary>
         /// <returns>The current state of  the <see cref="Camera"/> or <see langword="null"/> if it can not be determined at this time (e.g. cinematic animation in progress).</returns>
-        public CameraState CameraState
+        public CameraState<Vector2> CameraState
         {
             get
             {
                 var camera = View.Camera as StrategyCamera;
                 if (camera == null) return null;
 
-                return new CameraState
+                return new CameraState<Vector2>
                 {
                     Name = camera.Name,
                     Position = World.Terrain.ToWorldCoords(camera.Target),

@@ -42,9 +42,9 @@ namespace Presentation
 
     #region Delegates
     /// <seealso cref="EditorPresenter.PostionableMove"/>
-    /// <param name="positionables">The <see cref="Positionable"/>s to be moved.</param>
+    /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to be moved.</param>
     /// <param name="target">The terrain position to move the entities to.</param>
-    public delegate void PostionableMoveHandler(IEnumerable<Positionable> positionables, Vector2 target);
+    public delegate void PostionableMoveHandler(IEnumerable<Positionable<Vector2>> positionables, Vector2 target);
 
     /// <seealso cref="EditorPresenter.TerrainPaint"/>
     /// <param name="terrainCoords">The terrain coordinates in world space.</param>
@@ -59,7 +59,7 @@ namespace Presentation
     {
         #region Events
         /// <summary>
-        /// Occurs when an <see cref="Positionable"/> is to be moved.
+        /// Occurs when an <see cref="Positionable{TCoordinates}"/> is to be moved.
         /// </summary>
         [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
         [Description("Occurs when an entity is to be moved")]
@@ -83,7 +83,7 @@ namespace Presentation
         /// <summary>
         /// Controls the shape and size of the area that is visuallly highlighted for <see cref="TerrainPaint"/>ing.
         /// </summary>
-        /// <remarks>Raise the <see cref="TerrainPaint"/> event instead of selecting <see cref="Positionable"/>s when set to a value other than <see langword="null"/>.</remarks>
+        /// <remarks>Raise the <see cref="TerrainPaint"/> event instead of selecting <see cref="Positionable{TCoordinates}"/>s when set to a value other than <see langword="null"/>.</remarks>
         public TerrainBrush? TerrainBrush
         {
             get { return _terrainBrush; }
@@ -155,12 +155,12 @@ namespace Presentation
 
         #region Movement
         /// <summary>
-        /// Informs observers that one or more <see cref="Positionable"/>s are to be moved to a new position.
+        /// Informs observers that one or more <see cref="Positionable{TCoordinates}"/>s are to be moved to a new position.
         /// </summary>
-        /// <param name="positionables">The <see cref="Positionable"/>s to be moved.</param>
+        /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to be moved.</param>
         /// <param name="target">The terrain position to move the <paramref name="positionables"/> to.</param>
         /// <remarks>This replaces <see cref="InteractivePresenter"/>s pathfinding based movement with a callback event.</remarks>
-        protected override void MovePositionables(PositionableCollection positionables, Vector2 target)
+        protected override void MovePositionables(PositionableCollection<Vector2> positionables, Vector2 target)
         {
             if (PostionableMove != null) PostionableMove(positionables, target);
         }
@@ -236,9 +236,9 @@ namespace Presentation
         {
             float radius =
                 (from positionable in PositionableRenderables
-                 where positionable.Pickable && positionable.BoundingSphere.HasValue
-                 select positionable.BoundingSphere.Value.Transform(positionable.PreTransform)).
-                 Aggregate<BoundingSphere, float>(0, (current, boundingSphere) => Math.Max(current, boundingSphere.Radius + boundingSphere.Center.Length()));
+                    where positionable.Pickable && positionable.BoundingSphere.HasValue
+                    select positionable.BoundingSphere.Value.Transform(positionable.PreTransform)).
+                    Aggregate<BoundingSphere, float>(0, (current, boundingSphere) => Math.Max(current, boundingSphere.Radius + boundingSphere.Center.Length()));
             return new Circle {Radius = radius};
         }
 

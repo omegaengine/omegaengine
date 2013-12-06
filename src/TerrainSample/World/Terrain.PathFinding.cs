@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LuaInterface;
+using SlimDX;
 
 namespace World
 {
@@ -33,21 +34,21 @@ namespace World
         /// The pathfinding engine used on this <see cref="Terrain"/>.
         /// Is <see langword="null"/> until <see cref="SetupPathfinding"/> has been called.
         /// </summary>
-        internal IPathfinder Pathfinder { get; private set; }
+        internal IPathfinder<Vector2> Pathfinder { get; private set; }
 
         /// <summary>
         /// Initializes the pathfinding engine.
         /// </summary>
-        /// <param name="entities">The <see cref="Positionable"/>s in the <see cref="Universe"/> to consider for obstacles.</param>
+        /// <param name="entities">The <see cref="Positionable{TCoordinates}"/>s to consider for obstacles.</param>
         /// <remarks>Is automatically called on first access to <see cref="Universe.Terrain"/>.</remarks>
         [LuaHide]
-        public void SetupPathfinding(IEnumerable<Positionable> entities)
+        public void SetupPathfinding(IEnumerable<Positionable<Vector2>> entities)
         {
             #region Sanity checks
             if (entities == null) throw new ArgumentNullException("entities");
             #endregion
 
-            var initMap = new bool[_size.X,_size.Y];
+            var initMap = new bool[_size.X, _size.Y];
             foreach (var water in entities.OfType<Water>())
             {
                 var xStart = (int)Math.Floor(water.Position.X / _size.StretchH);

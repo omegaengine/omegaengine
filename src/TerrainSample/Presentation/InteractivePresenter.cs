@@ -42,7 +42,7 @@ namespace Presentation
     {
         #region Variables
         // Note: Using custom collection-class to allow external update-notification
-        private readonly World.PositionableCollection _selectedPositionables = new World.PositionableCollection();
+        private readonly World.PositionableCollection<Vector2> _selectedPositionables = new World.PositionableCollection<Vector2>();
 
         /// <summary>An outline to show on the screen</summary>
         private Rectangle? _selectionRectangle;
@@ -52,9 +52,9 @@ namespace Presentation
 
         #region Properties
         /// <summary>
-        /// The <see cref="World.Positionable"/>s the user has selected with the mouse
+        /// The <see cref="World.Positionable{TCoordinates}"/>s the user has selected with the mouse
         /// </summary>
-        public World.PositionableCollection SelectedPositionables { get { return _selectedPositionables; } }
+        public World.PositionableCollection<Vector2> SelectedPositionables { get { return _selectedPositionables; } }
         #endregion
 
         #region Constructor
@@ -223,7 +223,7 @@ namespace Presentation
                     }
                     else
                     { // Action: Left-click on entity to select it
-                        World.Positionable pickedEntity = GetWorld(pickedObject);
+                        World.Positionable<Vector2> pickedEntity = GetWorld(pickedObject);
                         if (pickedEntity != null)
                         {
                             // Toggle entries when accumulating
@@ -260,7 +260,7 @@ namespace Presentation
             // Action: Double-click on entity to select and focus camera
             if (pickedObject != null && !(pickedObject is EngineRenderable.Terrain) && !(View.Camera is CinematicCamera)) /* Each swing must complete before the next one can start */
             {
-                var newState = new World.CameraState
+                var newState = new World.CameraState<Vector2>
                 {
                     Name = View.Camera.Name,
                     Position = World.Terrain.ToWorldCoords(pickedObject.Position),
@@ -288,11 +288,11 @@ namespace Presentation
 
         #region User movement
         /// <summary>
-        /// Moves one or more <see cref="World.Positionable"/>s to a new position.
+        /// Moves one or more <see cref="World.Positionable{TCoordinates}"/>s to a new position.
         /// </summary>
-        /// <param name="positionables">The <see cref="World.Positionable"/>s to be moved.</param>
+        /// <param name="positionables">The <see cref="World.Positionable{TCoordinates}"/>s to be moved.</param>
         /// <param name="target">The terrain position to move the <paramref name="positionables"/> to.</param>
-        protected virtual void MovePositionables(World.PositionableCollection positionables, Vector2 target)
+        protected virtual void MovePositionables(World.PositionableCollection<Vector2> positionables, Vector2 target)
         {
             #region Sanity checks
             if (positionables == null) throw new ArgumentNullException("positionables");

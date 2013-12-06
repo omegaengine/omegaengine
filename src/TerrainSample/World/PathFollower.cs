@@ -20,24 +20,24 @@
  * THE SOFTWARE.
  */
 
-using SlimDX;
-
 namespace World
 {
     /// <summary>.
-    /// A following member in a pathfinding group (follows <see cref="PathLeader"/>).
+    /// A following member in a pathfinding group (follows <see cref="PathLeader{TCoordinates}"/>).
     /// </summary>
-    /// <seealso cref="Entity.PathControl"/>
-    public class PathFollower : PathControl
+    /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
+    /// <seealso cref="Entity{TCoordinates}.PathControl"/>
+    public class PathFollower<TCoordinates> : PathControl<TCoordinates>
+        where TCoordinates : struct
     {
         /// <summary>
-        /// Stores the <see cref="PathLeader.ID"/>.
+        /// Stores the <see cref="PathLeader{TCoordinates}.ID"/>.
         /// </summary>
         public int LeaderID { get; set; }
 
         /// <summary>
-        /// The relative position to the <see cref="PathLeader"/>.
+        /// The relative position to the <see cref="PathLeader{TCoordinates}"/>.
         /// </summary>
-        public Vector2 Position { get; set; }
+        public TCoordinates Position { get; set; }
     }
 }

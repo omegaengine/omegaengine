@@ -29,13 +29,13 @@ using World;
 namespace AlphaEditor.World.Commands
 {
     /// <summary>
-    /// Moves one or more <see cref="Positionable"/>s.
+    /// Moves one or more <see cref="Positionable{TCoordinates}"/>s.
     /// </summary>
     public class MovePositionables : SimpleCommand
     {
         #region Variables
         // Note: Use List<> instead of Array, because the size of the incoming IEnumerable<> will be unkown
-        private readonly List<Positionable> _positionables = new List<Positionable>();
+        private readonly List<Positionable<Vector2>> _positionables = new List<Positionable<Vector2>>();
 
         private readonly Vector2[] _oldPositions;
         private readonly Vector2 _newPosition;
@@ -43,18 +43,18 @@ namespace AlphaEditor.World.Commands
 
         #region Constructor
         /// <summary>
-        /// Creates a new command for moving one or more <see cref="Positionable"/>s.
+        /// Creates a new command for moving one or more <see cref="Positionable{TCoordinates}"/>s.
         /// </summary>
-        /// <param name="positionables">The <see cref="Positionable"/>s to be moved.</param>
+        /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to be moved.</param>
         /// <param name="target">The terrain position to move the entities to.</param>
-        public MovePositionables(IEnumerable<Positionable> positionables, Vector2 target)
+        public MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
         {
             #region Sanity checks
             if (positionables == null) throw new ArgumentNullException("positionables");
             #endregion
 
             // Create local defensive copy of entities
-            _positionables = new List<Positionable>(positionables);
+            _positionables = new List<Positionable<Vector2>>(positionables);
 
             // Create array based on collection size to backup old positions
             _oldPositions = new Vector2[_positionables.Count];
@@ -69,17 +69,17 @@ namespace AlphaEditor.World.Commands
 
         #region Undo / Redo
         /// <summary>
-        /// Set the changed <see cref="Positionable.Position"/>s.
+        /// Set the changed <see cref="Positionable{TCoordinates}.Position"/>s.
         /// </summary>
         protected override void OnExecute()
         {
             // ToDo: Perform grid-alignment
-            foreach (Positionable positionable in _positionables)
+            foreach (var positionable in _positionables)
                 positionable.Position = _newPosition;
         }
 
         /// <summary>
-        /// Restore the original <see cref="Positionable.Position"/>s.
+        /// Restore the original <see cref="Positionable{TCoordinates}.Position"/>s.
         /// </summary>
         protected override void OnUndo()
         {

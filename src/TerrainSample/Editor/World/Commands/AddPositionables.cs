@@ -21,22 +21,24 @@
  */
 
 using System.Collections.Generic;
+using SlimDX;
 using World;
 
 namespace AlphaEditor.World.Commands
 {
     /// <summary>
-    /// Adds one or more <see cref="Positionable"/>ies to a <see cref="Universe"/>.
+    /// Adds one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="Universe"/>.
     /// </summary>
     internal class AddPositionables : AddRemovePositionables
     {
         #region Constructor
         /// <summary>
-        /// Creates a new command for adding one or more <see cref="Positionable"/>ies to a <see cref="Universe"/>.
+        /// Creates a new command for adding one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="Universe"/>.
         /// </summary>
         /// <param name="universe">The <see cref="Universe"/> to add to.</param>
-        /// <param name="entities">The <see cref="Positionable"/>ies to add.</param>
-        internal AddPositionables(Universe universe, IEnumerable<Positionable> entities) : base(universe, entities)
+        /// <param name="entities">The <see cref="Positionable{TCoordinates}"/>ies to add.</param>
+        internal AddPositionables(Universe universe, IEnumerable<Positionable<Vector2>> entities)
+            : base(universe, entities)
         {}
         #endregion
 
@@ -44,7 +46,7 @@ namespace AlphaEditor.World.Commands
 
         #region Execute
         /// <summary>
-        /// Adds the <see cref="Positionable"/> to the <see cref="Universe"/>
+        /// Adds the <see cref="Positionable{TCoordinates}"/> to the <see cref="Universe"/>
         /// </summary>
         protected override void OnExecute()
         {
@@ -54,7 +56,7 @@ namespace AlphaEditor.World.Commands
 
         #region Undo
         /// <summary>
-        /// Removes the <see cref="Positionable"/> from the <see cref="Universe"/> again
+        /// Removes the <see cref="Positionable{TCoordinates}"/> from the <see cref="Universe"/> again
         /// </summary>
         protected override void OnUndo()
         {

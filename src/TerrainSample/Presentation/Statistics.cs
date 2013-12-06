@@ -22,8 +22,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 using Common.Values;
+using SlimDX;
 using World;
 
 namespace Presentation
@@ -60,11 +62,11 @@ namespace Presentation
         {}
 
         /// <summary>
-        /// Creates a set of <see cref="TestCase"/>s based on <see cref="BenchmarkPoint"/>s in a <see cref="Universe"/>.
+        /// Creates a set of <see cref="TestCase"/>s based on <see cref="BenchmarkPoint{TCoordinates}"/>s in a <see cref="Universe"/>.
         /// </summary>
         /// <param name="gameVersion">The version number of the game.</param>
         /// <param name="engineVersion">The version number of the engine.</param>
-        /// <param name="universe">The <see cref="Universe"/> containing the <see cref="BenchmarkPoint"/>s.</param>
+        /// <param name="universe">The <see cref="Universe"/> containing the <see cref="BenchmarkPoint{TCoordinates}"/>s.</param>
         public Statistics(string gameVersion, string engineVersion, Universe universe)
         {
             #region Sanity checks
@@ -79,11 +81,8 @@ namespace Presentation
             var testCaseList = new List<TestCase>();
 
             #region Read benchmark points from settings
-            foreach (var entity in universe.Positionables)
+            foreach (var target in universe.Positionables.OfType<BenchmarkPoint<Vector2>>())
             {
-                var target = entity as BenchmarkPoint;
-                if (target == null) continue;
-
                 // Handle all possible settings combinations
                 for (int i = 0; i < TestCase.TestGraphicsSettingsUpperBound; i++)
                 {

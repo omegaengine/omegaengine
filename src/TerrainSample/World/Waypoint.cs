@@ -25,6 +25,8 @@ namespace World
     /// <summary>
     /// A marker used as a hint for pathfinding.
     /// </summary>
-    public class Waypoint : Positionable
+    /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
+    public class Waypoint<TCoordinates> : Positionable<TCoordinates>
+        where TCoordinates : struct
     {}
 }

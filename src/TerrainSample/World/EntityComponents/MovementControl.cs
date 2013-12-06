@@ -40,7 +40,7 @@ namespace World.EntityComponents
         private float _speed = 200;
 
         /// <summary>
-        /// How many units the <see cref="Entity"/> can walk per second.
+        /// How many units the <see cref="Entity{TCoordinates}"/> can walk per second.
         /// </summary>
         [DefaultValue(200f), Description("How many units the entity can walk per second.")]
         public float Speed { get { return _speed; } set { _speed = value; } }

@@ -31,35 +31,36 @@ using World.Properties;
 namespace World
 {
     /// <summary>
-    /// Stores a collection of <see cref="Positionable"/>s.
+    /// Stores a collection of <see cref="Positionable{TCoordinates}"/>s.
     /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "C5 types only need to be disposed when using snapshots")]
-    public class PositionableCollection : MonitoredCollection<Positionable>
+    public class PositionableCollection<TCoordinates> : MonitoredCollection<Positionable<TCoordinates>>
+        where TCoordinates : struct
     {
         #region Variables
         // Preserver order, duplicate entries are not allowed
-        private readonly IList<Entity> _entities = new C5.HashedLinkedList<Entity>();
+        private readonly IList<Entity<TCoordinates>> _entities = new C5.HashedLinkedList<Entity<TCoordinates>>();
         #endregion
 
         #region Properties
-        private readonly ReadOnlyCollection<Entity> _entitiesReadonly;
+        private readonly ReadOnlyCollection<Entity<TCoordinates>> _entitiesReadonly;
 
         /// <summary>
-        /// A read-only sub-collection of all <see cref="Entity"/>s within this collection.
+        /// A read-only sub-collection of all <see cref="Entity{TCoordinates}"/>s within this collection.
         /// </summary>
-        /// <remarks>When <see cref="MonitoredCollection{T}.Removing"/> is raised corresponding <see cref="Entity"/>s have already been removed from this list.</remarks>
+        /// <remarks>When <see cref="MonitoredCollection{T}.Removing"/> is raised corresponding <see cref="Entity{TCoordinates}"/>s have already been removed from this list.</remarks>
         [XmlIgnore]
-        public ICollection<Entity> Entities { get { return _entitiesReadonly; } }
+        public ICollection<Entity<TCoordinates>> Entities { get { return _entitiesReadonly; } }
         #endregion
 
         #region Constructor
         /// <summary>
-        /// Creates a new <see cref="Positionable"/> collection
+        /// Creates a new <see cref="Positionable{TCoordinates}"/> collection
         /// </summary>
         public PositionableCollection()
         {
             // Create a read-only wrapper to prevent outside modification
-            _entitiesReadonly = new ReadOnlyCollection<Entity>(_entities);
+            _entitiesReadonly = new ReadOnlyCollection<Entity<TCoordinates>>(_entities);
         }
         #endregion
 
@@ -67,13 +68,13 @@ namespace World
 
         #region Hooks
         /// <inheritdoc />
-        protected override void InsertItem(int index, Positionable item)
+        protected override void InsertItem(int index, Positionable<TCoordinates> item)
         {
             // Make sure we don't track operations that are bound to fail
             if (MaxElements == 0 || Count != MaxElements)
             {
                 // Keep track of bodies in an additional sub-collection
-                var entity = item as Entity;
+                var entity = item as Entity<TCoordinates>;
                 if (entity != null) _entities.Add(entity);
             }
 
@@ -84,7 +85,7 @@ namespace World
         protected override void RemoveItem(int index)
         {
             // Keep track of bodies in an additional sub-collection
-            var entity = Items[index] as Entity;
+            var entity = Items[index] as Entity<TCoordinates>;
             if (entity != null) _entities.Remove(entity);
 
             base.RemoveItem(index);
@@ -102,11 +103,11 @@ namespace World
 
         #region Access
         /// <summary>
-        /// Gets the <see cref="Positionable"/> with the specified <paramref name="name"/>.
+        /// Gets the <see cref="Positionable{TCoordinates}"/> with the specified <paramref name="name"/>.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
         /// <exception cref="KeyNotFoundException">An element with the specified key does not exist in the dictionary.</exception>
-        public Positionable this[string name]
+        public Positionable<TCoordinates> this[string name]
         {
             get
             {
@@ -114,9 +115,8 @@ namespace World
                 if (name == null) throw new ArgumentNullException("name");
                 #endregion
 
-                foreach (Positionable positionable in this)
-                    if (positionable.Name == name) return positionable;
-                throw new KeyNotFoundException(Resources.EntryNotFound);
+                return this.First(positionable => positionable.Name == name,
+                    noneException: () => new KeyNotFoundException(Resources.EntryNotFound));
             }
         }
         #endregion

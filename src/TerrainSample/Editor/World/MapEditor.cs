@@ -58,7 +58,7 @@ namespace AlphaEditor.World
         /// <summary>Don't handle <see cref="ListBox.SelectedIndexChanged"/> event when <see langword="true"/>.</summary>
         private bool _dontUpdatePositionableSelection;
 
-        /// <summary>Contains backups of <see cref="Positionable"/> property values for the undo system.</summary>
+        /// <summary>Contains backups of <see cref="Positionable{TCoordinates}"/> property values for the undo system.</summary>
         private readonly MultiPropertyTracker _propertyGridPositionableTracker;
 
         // Don't use WinForms designer for this, since it doesn't understand generics
@@ -306,13 +306,13 @@ namespace AlphaEditor.World
 
         #region Helpers
         /// <summary>
-        /// Determines the <see cref="EntityTemplate"/> of the currently selected <see cref="Entity"/>s
+        /// Determines the <see cref="EntityTemplate"/> of the currently selected <see cref="Entity{TCoordinates}"/>s
         /// </summary>
-        /// <returns>The <see cref="EntityTemplate"/> if all currently selected <see cref="Entity"/>s have the same; <see langword="null"/> otherwise.</returns>
+        /// <returns>The <see cref="EntityTemplate"/> if all currently selected <see cref="Entity{TCoordinates}"/>s have the same; <see langword="null"/> otherwise.</returns>
         private EntityTemplate GetCurrentEntityTemplate()
         {
             EntityTemplate currentTemplate = null;
-            foreach (Entity entity in _presenter.SelectedPositionables.Entities)
+            foreach (var entity in _presenter.SelectedPositionables.Entities)
             {
                 // First class
                 if (currentTemplate == null) currentTemplate = entity.TemplateData;
@@ -451,7 +451,7 @@ namespace AlphaEditor.World
             if (selectTemplate.ShowDialog(this) != DialogResult.OK) return;
 
             // Create a new entity from the selected template
-            var newEntity = new Entity {TemplateName = selectTemplate.SelectedTemplate, Position = GetScreenTerrainCenter()};
+            var newEntity = new Entity2D {TemplateName = selectTemplate.SelectedTemplate, Position = GetScreenTerrainCenter()};
 
             // Add the new Entity to the Universe
             ExecuteCommand(new Commands.AddPositionables(_universe, new[] {newEntity}));
@@ -467,7 +467,7 @@ namespace AlphaEditor.World
             // Create a benchmark point based on the current camera settings
             var cameraState = _presenter.CameraState;
             if (cameraState == null) return;
-            var newEntity = new BenchmarkPoint {Position = cameraState.Position, Rotation = cameraState.Rotation, Radius = cameraState.Radius};
+            var newEntity = new BenchmarkPoint<Vector2> {Position = cameraState.Position, Rotation = cameraState.Rotation, Radius = cameraState.Radius};
 
             // Add the new entity to the Universe
             ExecuteCommand(new Commands.AddPositionables(_universe, new[] {newEntity}));
@@ -486,9 +486,9 @@ namespace AlphaEditor.World
         private void buttonCopy_Click(object sender, EventArgs e)
         {
             // Clone the selected entities
-            var clonedEntities = new Positionable[_presenter.SelectedPositionables.Count];
+            var clonedEntities = new Positionable<Vector2>[_presenter.SelectedPositionables.Count];
             int i = 0;
-            foreach (Positionable positionable in _presenter.SelectedPositionables)
+            foreach (var positionable in _presenter.SelectedPositionables)
             {
                 clonedEntities[i] = positionable.Clone();
                 clonedEntities[i].Position = GetScreenTerrainCenter();
@@ -500,7 +500,7 @@ namespace AlphaEditor.World
 
             // Select the newly added entities
             _presenter.SelectedPositionables.Clear();
-            foreach (Positionable positionable in clonedEntities)
+            foreach (var positionable in clonedEntities)
                 _presenter.SelectedPositionables.Add(positionable);
 
             // Switch to the Entity tab, to allow the user to customize the entities
@@ -529,8 +529,8 @@ namespace AlphaEditor.World
             if (!Msg.OkCancel(this, Resources.StoreCameraPerspective, MsgSeverity.Info, Resources.StoreCameraPerspectiveOK, Resources.StoreCameraPerspectiveCancel)) return;
 
             // ToDo: Simplify with static reflection in .NET 4.0
-            var cameraStatePointer = new PropertyPointer<CameraState>(() => _universe.Camera, camera => _universe.Camera = camera);
-            ExecuteCommand(new SetValueCommand<CameraState>(cameraStatePointer, _presenter.CameraState));
+            var cameraStatePointer = new PropertyPointer<CameraState<Vector2>>(() => _universe.Camera, camera => _universe.Camera = camera);
+            ExecuteCommand(new SetValueCommand<CameraState<Vector2>>(cameraStatePointer, _presenter.CameraState));
         }
         #endregion
 
@@ -684,7 +684,7 @@ namespace AlphaEditor.World
 
             // Update selection
             listBoxPositionables.ClearSelected();
-            foreach (Positionable positionable in _presenter.SelectedPositionables)
+            foreach (var positionable in _presenter.SelectedPositionables)
                 listBoxPositionables.SelectedItems.Add(positionable);
 
             // Restore deactivated stuff
@@ -693,23 +693,23 @@ namespace AlphaEditor.World
         }
 
         /// <summary>
-        /// Determines whether a <see cref="Positionable"/> is to be displayed in the <see cref="listBoxPositionables"/> based on the current filter criteria.
+        /// Determines whether a <see cref="Positionable{TCoordinates}"/> is to be displayed in the <see cref="listBoxPositionables"/> based on the current filter criteria.
         /// </summary>
-        private bool IsPositionableListed(Positionable positionable)
+        private bool IsPositionableListed(Positionable<Vector2> positionable)
         {
             if (!(positionable.Name ?? "").ContainsIgnoreCase(textSearch.Text)) return false;
 
-            return (checkEntity.Checked && positionable is Entity) ||
-                (checkWater.Checked && positionable is Water) ||
-                (checkWaypoint.Checked && positionable is Waypoint) ||
-                (checkBenchmarkPoint.Checked && positionable is BenchmarkPoint) ||
-                (checkMemo.Checked && positionable is Memo);
+            return (checkEntity.Checked && positionable is Entity<Vector2>) ||
+                   (checkWater.Checked && positionable is Water) ||
+                   (checkWaypoint.Checked && positionable is Waypoint<Vector2>) ||
+                   (checkBenchmarkPoint.Checked && positionable is BenchmarkPoint<Vector2>) ||
+                   (checkMemo.Checked && positionable is Memo<Vector2>);
         }
         #endregion
 
         #region Positionable selection
         /// <summary>
-        /// Updates all UI controls related to selected <see cref="Positionable"/>s
+        /// Updates all UI controls related to selected <see cref="Positionable{TCoordinates}"/>s
         /// </summary>
         /// <remarks>Used by <see cref="OnUpdate"/>.</remarks>
         private void UpdateSelectionControls()
@@ -735,14 +735,14 @@ namespace AlphaEditor.World
             if (_dontUpdatePositionableSelection) return;
 
             // Copy the currently selected array to a collection
-            var selectedEntities = new List<Positionable>(listBoxPositionables.SelectedItems.Count);
-            selectedEntities.AddRange(listBoxPositionables.SelectedItems.Cast<Positionable>());
+            var selectedEntities = new List<Positionable<Vector2>>(listBoxPositionables.SelectedItems.Count);
+            selectedEntities.AddRange(listBoxPositionables.SelectedItems.Cast<Positionable<Vector2>>());
 
             // Overwrite the presenter's selection list with the new one
             _presenter.SelectedPositionables.SetMany(selectedEntities);
         }
 
-        private void SelectedPositionables_Added(Positionable positionable)
+        private void SelectedPositionables_Added(Positionable<Vector2> positionable)
         {
             // Update the list box without causing unexpected loops
             _dontUpdatePositionableSelection = true;
@@ -759,7 +759,7 @@ namespace AlphaEditor.World
             UpdateSelectionControls();
         }
 
-        private void SelectedPositionables_Removing(Positionable positionable)
+        private void SelectedPositionables_Removing(Positionable<Vector2> positionable)
         {
             // Update the list box without causing unexpected loops
             _dontUpdatePositionableSelection = true;
@@ -774,7 +774,7 @@ namespace AlphaEditor.World
             propertyGridPositionable.SelectedObjects = selectedEntities.ToArray();
         }
 
-        private void SelectedPositionables_Removed(Positionable positionable)
+        private void SelectedPositionables_Removed(Positionable<Vector2> positionable)
         {
             UpdatePositionablesListBox();
             UpdateSelectionControls();
@@ -783,11 +783,11 @@ namespace AlphaEditor.World
 
         #region Positionable modification
         /// <summary>
-        /// To be called when an <see cref="Positionable"/> is to be moved
+        /// To be called when an <see cref="Positionable{TCoordinates}"/> is to be moved
         /// </summary>
-        /// <param name="positionables">The <see cref="Positionable"/>s to be moved.</param>
+        /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to be moved.</param>
         /// <param name="target">The terrain position to move the <paramref name="positionables"/> to</param>
-        private void presenter_PositionableMove(IEnumerable<Positionable> positionables, Vector2 target)
+        private void presenter_PositionableMove(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
         {
             ExecuteCommand(new Commands.MovePositionables(positionables, target));
         }
@@ -817,7 +817,7 @@ namespace AlphaEditor.World
             for (int i = 0; i < _textureRadios.Length; i++)
             {
                 _textureRadios[i].Text = (i < 10 ? @"&" : "") + i + @" " +
-                    ((_universe.Terrain.Templates[i] == null) ? "(empty)" : _universe.Terrain.Templates[i].Name);
+                                         ((_universe.Terrain.Templates[i] == null) ? "(empty)" : _universe.Terrain.Templates[i].Name);
             }
         }
 

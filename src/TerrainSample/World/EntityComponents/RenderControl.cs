@@ -27,7 +27,7 @@ using SlimDX;
 namespace World.EntityComponents
 {
     /// <summary>
-    /// Controls how an <see cref="Entity"/> shall be rendered.
+    /// Controls how an <see cref="Entity{TCoordinates}"/> shall be rendered.
     /// </summary>
     /// <seealso cref="EntityTemplate.RenderControls"/>
     public abstract class RenderControl : ICloneable

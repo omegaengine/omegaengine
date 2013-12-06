@@ -25,14 +25,15 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using Common.Utils;
-using SlimDX;
 
 namespace World
 {
     /// <summary>
-    /// An object that can be positioned on the <see cref="Terrain"/>.
+    /// An object that can be positioned in the game world.
     /// </summary>
-    public abstract class Positionable : ICloneable
+    /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
+    public abstract class Positionable<TCoordinates> : ICloneable
+        where TCoordinates : struct
     {
         #region Events
         /// <summary>
@@ -40,7 +41,7 @@ namespace World
         /// </summary>
         [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
         [Description("Occurs when a property relevant for rendering has changed.")]
-        public event Action<Positionable> RenderPropertyChanged;
+        public event Action<Positionable<TCoordinates>> RenderPropertyChanged;
 
         /// <summary>
         /// To be called when a property relevant for rendering has changed.
@@ -67,25 +68,25 @@ namespace World
             return value;
         }
 
-        private Vector2 _position;
+        private TCoordinates _position;
 
         /// <summary>
-        /// The <see cref="Positionable"/>'s position on the <see cref="Terrain"/>.
+        /// The <see cref="Positionable{TCoordinates}"/>'s position on the <see cref="Terrain"/>.
         /// </summary>
         [Description("The entity's position on the terrain.")]
-        public Vector2 Position { get { return _position; } set { value.To(ref _position, OnRenderPropertyChanged); } }
+        public TCoordinates Position { get { return _position; } set { value.To(ref _position, OnRenderPropertyChanged); } }
         #endregion
 
         //--------------------//
 
         #region Clone
         /// <summary>
-        /// Creates a deep copy of this <see cref="Positionable"/>.
+        /// Creates a deep copy of this <see cref="Positionable{TCoordinates}"/>.
         /// </summary>
-        /// <returns>The cloned <see cref="Positionable"/>.</returns>
-        public virtual Positionable Clone()
+        /// <returns>The cloned <see cref="Positionable{TCoordinates}"/>.</returns>
+        public virtual Positionable<TCoordinates> Clone()
         {
-            var clonedPositionable = (Positionable)MemberwiseClone();
+            var clonedPositionable = (Positionable<TCoordinates>)MemberwiseClone();
 
             // Don't clone event handlers
             clonedPositionable.RenderPropertyChanged = null;

@@ -33,7 +33,7 @@ namespace World
     /// <summary>
     /// A water plane spanning a certain part of the <see cref="Terrain"/>.
     /// </summary>
-    public class Water : Positionable
+    public class Water : Positionable<Vector2>
     {
         #region Events
         /// <summary>
@@ -81,7 +81,7 @@ namespace World
         public float Height { get { return _height; } set { value.To(ref _height, OnRenderPropertyChanged); } }
 
         /// <summary>
-        /// The maximum depth an <see cref="Entity"/> can walk into this water.
+        /// The maximum depth an <see cref="Entity{TCoordinates}"/> can walk into this water.
         /// </summary>
         [XmlAttribute, DefaultValue(0f), Description("The maximum depth a entity can walk into this water")]
         public float TraversableDepth { get; set; }

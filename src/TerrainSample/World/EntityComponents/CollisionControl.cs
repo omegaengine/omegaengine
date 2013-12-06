@@ -27,10 +27,11 @@ using SlimDX;
 namespace World.EntityComponents
 {
     /// <summary>
-    /// Controls how <see cref="Entity"/>s occupy space around them.
+    /// Controls how <see cref="Entity{TCoordinates}"/>s occupy space around them.
     /// </summary>
     /// <seealso cref="EntityTemplate.CollisionControl"/>
-    public abstract class CollisionControl : ICloneable
+    public abstract class CollisionControl<TCoordinates> : ICloneable
+        where TCoordinates : struct
     {
         /// <inheritdoc/>
         public override string ToString()
@@ -45,7 +46,7 @@ namespace World.EntityComponents
         /// <param name="point">The point to check for collision in entity space.</param>
         /// <param name="rotation">How the collision body shall be rotated before performing the collision test.</param>
         /// <returns><see langword="true"/> if <paramref name="point"/> does collide with the body, <see langword="false"/> otherwise.</returns>
-        internal abstract bool CollisionTest(Vector2 point, float rotation);
+        internal abstract bool CollisionTest(TCoordinates point, float rotation);
 
         /// <summary>
         /// Determines whether a certain area lies within the collision body.
@@ -62,18 +63,18 @@ namespace World.EntityComponents
         /// </summary>
         /// <param name="rotation">How the collision body shall be rotated before performing the outline calculation.</param>
         /// <returns>Positions in entity space for use by the pathfinding system.</returns>
-        internal abstract Vector2[] GetPathFindingOutline(float rotation);
+        internal abstract TCoordinates[] GetPathFindingOutline(float rotation);
         #endregion
 
         #region Clone
         /// <summary>
-        /// Creates a copy of this <see cref="CollisionControl"/>.
+        /// Creates a copy of this <see cref="CollisionControl{TCoordinates}"/>.
         /// </summary>
-        /// <returns>The cloned <see cref="CollisionControl"/>.</returns>
-        public CollisionControl Clone()
+        /// <returns>The cloned <see cref="CollisionControl{TCoordinates}"/>.</returns>
+        public CollisionControl<TCoordinates> Clone()
         {
             // Perform initial shallow copy
-            return (CollisionControl)MemberwiseClone();
+            return (CollisionControl<TCoordinates>)MemberwiseClone();
         }
 
         object ICloneable.Clone()

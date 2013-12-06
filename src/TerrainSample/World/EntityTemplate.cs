@@ -23,12 +23,13 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Xml.Serialization;
+using SlimDX;
 using World.EntityComponents;
 
 namespace World
 {
     /// <summary>
-    /// A collection of components used as a prototype for constructing new <see cref="Entity"/>s. Defines the behavior and look for a certain class of <see cref="Entity"/>.
+    /// A collection of components used as a prototype for constructing new <see cref="Entity{TCoordinates}"/>s. Defines the behavior and look for a certain class of <see cref="Entity{TCoordinates}"/>.
     /// </summary>
     /// <seealso cref="TemplateManager.EntityTemplates"/>
     public sealed class EntityTemplate : Template<EntityTemplate>
@@ -44,11 +45,11 @@ namespace World
         public Collection<RenderControl> RenderControls { get { return _renderControls; } }
 
         /// <summary>
-        /// Controls how <see cref="Entity"/>s occupy space around them.
+        /// Controls how <see cref="Entity{TCoordinates}"/>s occupy space around them.
         /// </summary>
         [Browsable(false)]
         [XmlElement(typeof(Circle)), XmlElement(typeof(Box))]
-        public CollisionControl CollisionControl { get; set; }
+        public CollisionControl<Vector2> CollisionControl { get; set; }
 
         /// <summary>
         /// Controls the basic movement parameters.
