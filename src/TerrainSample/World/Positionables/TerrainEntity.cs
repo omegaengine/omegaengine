@@ -22,13 +22,14 @@ using Common.Utils;
 using Common.Values;
 using SlimDX;
 using World.Pathfinding;
+using World.Terrains;
 
 namespace World.Positionables
 {
     /// <summary>
-    /// A two-dimensional <see cref="Entity{TCoordinates}"/>.
+    /// An <see cref="Entity{TCoordinates}"/> that can be placed on a <see cref="Terrain"/>.
     /// </summary>
-    public class Entity2D : Entity<Vector2>
+    public class TerrainEntity : Entity<Vector2>
     {
         #region Properties
         /// <inheritdoc/>

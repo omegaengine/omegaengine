@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="World.Positionables.BenchmarkPoint&lt;TCoordinates&gt;" Collapsed="true">
+    <Position X="8.5" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Positionables\BenchmarkPoint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.Positionables.Entity&lt;TCoordinates&gt;" Collapsed="true">
+    <Position X="2.5" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAARAAAKCUAAAAAQQCAAkEAAAAABAAAAAAABg=</HashCode>
+      <FileName>Positionables\Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.Positionables.Memo&lt;TCoordinates&gt;" Collapsed="true">
+    <Position X="6.5" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Positionables\Memo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.Positionables.Positionable&lt;TCoordinates&gt;" Collapsed="true">
+    <Position X="4.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAsACAAAAQAAAAAAAAAAAAAgACAABA=</HashCode>
+      <FileName>Positionables\Positionable.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="World.Positionables.PositionableCollection&lt;TCoordinates&gt;" Collapsed="true">
+    <Position X="1" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAIAAAACAAAAAAAQAAAAAAEAAEAAAAAAAE=</HashCode>
+      <FileName>Positionables\PositionableCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.Positionables.TerrainEntity" Collapsed="true">
+    <Position X="2.5" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAARAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Positionables\TerrainEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.Positionables.Water" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABACBgAEAACAAAAAAAgAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Positionables\Water.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.Positionables.Waypoint&lt;TCoordinates&gt;" Collapsed="true">
+    <Position X="4.5" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Positionables\Waypoint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World.Positionables.CameraState&lt;TCoordinates&gt;" Collapsed="true">
+    <Position X="8.5" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Positionables\CameraState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

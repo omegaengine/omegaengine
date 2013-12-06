@@ -123,6 +123,11 @@ namespace World
 
             // ToDo: Add some game logic here
 
+            UpdateUniverse(elapsedGameTime);
+        }
+
+        private void UpdateUniverse(double elapsedGameTime)
+        {
             // Split Universe update into multiple steps to increase accuracy
             while (elapsedGameTime > Settings.Current.General.UniversePredictSecs)
             {
@@ -157,14 +162,12 @@ namespace World
             }
             #endregion
 
-            var universe = session.Universe;
-
             // Restore the orginal map filename
-            universe.SourceFile = session.MapSourceFile;
+            session.Universe.SourceFile = session.MapSourceFile;
 
             // Perform updates to regenerate data lost in the savegame
-            universe.Update(0);
-            universe.RecalcPaths();
+            session.Universe.Update(0);
+            session.Universe.RecalcPaths();
 
             return session;
         }

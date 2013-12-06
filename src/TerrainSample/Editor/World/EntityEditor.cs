@@ -190,7 +190,7 @@ namespace AlphaEditor.World
                 // Add new Entity to Universe (Presenter will auto-update engine)
                 try
                 {
-                    _universe.Positionables.Add(new Entity2D
+                    _universe.Positionables.Add(new TerrainEntity
                     {
                         Name = "Entity",
                         Position = _universe.Terrain.Center,

@@ -38,7 +38,7 @@ using Resources = World.Properties.Resources;
 namespace World
 {
     /// <summary>
-    /// Represents a 2.5D terrain world (two dimensional plane with height field).
+    /// Represents a world with a height-map based <see cref="Terrain"/>.
     /// </summary>
     public sealed partial class TerrainUniverse : Universe<Vector2>
     {
@@ -48,7 +48,7 @@ namespace World
         /// <inheritoc/>
         [Browsable(false)]
         // Note: Can not use ICollection<T> interface with XML Serialization
-        [XmlElement(typeof(Entity<Vector2>)), XmlElement(typeof(Water)), XmlElement(typeof(Waypoint<Vector2>)), XmlElement(typeof(BenchmarkPoint<Vector2>)), XmlElement(typeof(Memo<Vector2>))]
+        [XmlElement(typeof(TerrainEntity)), XmlElement(typeof(Water)), XmlElement(typeof(Waypoint<Vector2>)), XmlElement(typeof(BenchmarkPoint<Vector2>)), XmlElement(typeof(Memo<Vector2>))]
         public override PositionableCollection<Vector2> Positionables { get { return _positionables; } }
 
         private Terrain _terrain;
@@ -96,7 +96,7 @@ namespace World
 
         #region Update
         /// <inheritdoc/>
-        internal override void Update(double elapsedTime)
+        public override void Update(double elapsedTime)
         {
             LightPhase += (float)(elapsedTime / 40 * LightPhaseSpeedFactor);
 

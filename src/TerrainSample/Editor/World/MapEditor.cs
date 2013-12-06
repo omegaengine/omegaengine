@@ -454,7 +454,7 @@ namespace AlphaEditor.World
             if (selectTemplate.ShowDialog(this) != DialogResult.OK) return;
 
             // Create a new entity from the selected template
-            var newEntity = new Entity2D {TemplateName = selectTemplate.SelectedTemplate, Position = GetScreenTerrainCenter()};
+            var newEntity = new TerrainEntity {TemplateName = selectTemplate.SelectedTemplate, Position = GetScreenTerrainCenter()};
 
             // Add the new Entity to the Universe
             ExecuteCommand(new Commands.AddPositionables(_universe, new[] {newEntity}));

@@ -32,7 +32,7 @@ namespace World
     /// Represents a game world (but not a running game). It is equivalent to the content of a map file.
     /// </summary>
     /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
-    public abstract class Universe<TCoordinates>
+    public abstract class Universe<TCoordinates> : IUniverse
         where TCoordinates : struct
     {
         #region Constants
@@ -62,7 +62,8 @@ namespace World
         /// A collection of all <see cref="Positionable{TCoordinates}"/>s in this <see cref="Universe{TCoordinates}"/>.
         /// </summary>
         // Note: Can not use ICollection<T> interface with XML Serialization
-        [XmlIgnore]
+        [Browsable(false)]
+        [XmlIgnore] // XML serialization configuration is configured in sub-type
         public abstract PositionableCollection<TCoordinates> Positionables { get; }
 
         private string _skybox;
@@ -80,10 +81,7 @@ namespace World
         [Browsable(false)]
         public CameraState<TCoordinates> Camera { get; set; }
 
-        /// <summary>
-        /// The map file this world was loaded from.
-        /// </summary>
-        /// <remarks>Is not serialized/stored, is set by whatever method loads the <see cref="Universe{TCoordinates}"/>.</remarks>
+        /// <inheritdoc/>
         [XmlIgnore, Browsable(false)]
         public string SourceFile { get; set; }
         #endregion
@@ -91,12 +89,8 @@ namespace World
         //--------------------//
 
         #region Update
-        /// <summary>
-        /// Updates the <see cref="Universe{TCoordinates}"/> and all <see cref="Positionable{TCoordinates}"/>s in it.
-        /// </summary>
-        /// <param name="elapsedTime">How much game time in seconds has elapsed since this method was last called.</param>
-        /// <remarks>This is usually called by <see cref="Session.Update"/>.</remarks>
-        internal virtual void Update(double elapsedTime)
+        /// <inheritdoc/>
+        public virtual void Update(double elapsedTime)
         {
             foreach (var entity in Positionables.Entities)
                 entity.UpdatePosition(elapsedTime);
@@ -112,11 +106,8 @@ namespace World
         /// <remarks>The actual movement occurs whenever <see cref="Update"/> is called.</remarks>
         public abstract void MoveEntity(Entity<TCoordinates> entity, TCoordinates target);
 
-        /// <summary>
-        /// Recalculates all paths stored in <see cref="Entity2D.PathControl"/>.
-        /// </summary>
-        /// <remarks>This needs to be called when new obstacles have appeared or when a savegame was loaded (which does not store paths).</remarks>
-        internal void RecalcPaths()
+        /// <inheritdoc/>
+        public void RecalcPaths()
         {
             foreach (var entity in Positionables.Entities)
             {
@@ -130,31 +121,17 @@ namespace World
         //--------------------//
 
         #region Storage
-        /// <summary>
-        /// Saves this <see cref="Universe{TCoordinates}"/> in a compressed XML file (map file).
-        /// </summary>
-        /// <param name="path">The file to save in.</param>
-        /// <exception cref="IOException">Thrown if a problem occurred while writing the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
+        /// <inheritdoc/>
         public abstract void Save(string path);
 
-        /// <summary>
-        /// Overwrites the map file this <see cref="Universe{TCoordinates}"/> was loaded from with the changed data.
-        /// </summary>
-        /// <exception cref="IOException">Thrown if a problem occurred while writing the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
+        /// <inheritdoc/>
         public void Save()
         {
             // Determine the original filename to overweite
             Save(Path.IsPathRooted(SourceFile) ? SourceFile : ContentManager.CreateFilePath("World/Maps", SourceFile));
         }
 
-        /// <summary>
-        /// Saves this <see cref="Universe{TCoordinates}"/> in an uncompressed XML file.
-        /// </summary>
-        /// <param name="path">The file to save in</param>
-        /// <exception cref="IOException">Thrown if a problem occurred while writing the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
+        /// <inheritdoc/>
         public void SaveXml(string path)
         {
             this.SaveXml(path, IgnoreMemeber);
