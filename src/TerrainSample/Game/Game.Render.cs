@@ -23,14 +23,13 @@
 using System;
 using System.Windows.Forms;
 using Common;
-using Core.Properties;
+using Game.Properties;
 using OmegaEngine;
 using OmegaGUI;
-using World;
 using World.Config;
 using World.Templates;
 
-namespace Core
+namespace Game
 {
     partial class Game
     {

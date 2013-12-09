@@ -28,15 +28,15 @@ using System.Threading;
 using System.Windows.Forms;
 using Common;
 using Common.Controls;
-using Common.Utils;
 using Common.Storage;
+using Common.Utils;
 using Common.Values;
-using Core.Properties;
+using Game.Properties;
 using OmegaEngine;
 using OmegaGUI.Model;
 using World.Config;
 
-namespace Core
+namespace Game
 {
     internal static class Program
     {

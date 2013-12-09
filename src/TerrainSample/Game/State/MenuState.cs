@@ -25,7 +25,7 @@ using OmegaEngine;
 using Presentation;
 using World;
 
-namespace Core.State
+namespace Game.State
 {
     /// <summary>
     /// Represents a state where the game's main menu is visible.

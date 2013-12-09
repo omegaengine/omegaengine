@@ -23,7 +23,7 @@
 using OmegaEngine;
 using World;
 
-namespace Core.State
+namespace Game.State
 {
     /// <summary>
     /// Represents a state where the user can modify the live game world.

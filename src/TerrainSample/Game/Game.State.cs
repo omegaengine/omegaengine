@@ -25,14 +25,14 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using Common;
 using Common.Values;
-using Core.Properties;
+using Game.Properties;
 using LuaInterface;
 using OmegaEngine;
 using Presentation;
 using World;
 using World.Config;
 
-namespace Core
+namespace Game
 {
 
     #region Game state

@@ -23,7 +23,7 @@
 using OmegaEngine;
 using Presentation;
 
-namespace Core.State
+namespace Game.State
 {
     /// <summary>
     /// Represents a state where the game is starting up for the first time.

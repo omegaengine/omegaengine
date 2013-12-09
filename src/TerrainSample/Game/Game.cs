@@ -25,7 +25,7 @@ using System.Drawing;
 using System.IO;
 using Common;
 using Common.Storage;
-using Core.Properties;
+using Game.Properties;
 using LuaInterface;
 using OmegaEngine;
 using OmegaGUI;
@@ -33,7 +33,7 @@ using Presentation;
 using World;
 using World.Config;
 
-namespace Core
+namespace Game
 {
     /// <summary>
     /// Represents a running instance of the game

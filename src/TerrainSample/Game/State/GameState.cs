@@ -24,7 +24,7 @@ using OmegaEngine;
 using Presentation;
 using World;
 
-namespace Core.State
+namespace Game.State
 {
     /// <summary>
     /// 

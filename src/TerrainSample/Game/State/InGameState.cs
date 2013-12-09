@@ -27,7 +27,7 @@ using Presentation;
 using World;
 using World.Config;
 
-namespace Core.State
+namespace Game.State
 {
     /// <summary>
     /// Represents a state where the user is currently playing the game.

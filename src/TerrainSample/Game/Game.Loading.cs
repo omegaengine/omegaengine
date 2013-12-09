@@ -30,7 +30,7 @@ using Presentation;
 using World;
 using World.Config;
 
-namespace Core
+namespace Game
 {
     partial class Game
     {
