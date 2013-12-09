@@ -12,15 +12,15 @@
     <AssemblyName>Common</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>..\..\sgKey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\sgKey.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\build\Debug\</OutputPath>
-    <DocumentationFile>..\..\..\build\Debug\Common.xml</DocumentationFile>
+    <OutputPath>..\..\build\Debug\</OutputPath>
+    <DocumentationFile>..\..\build\Debug\Common.xml</DocumentationFile>
     <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;LUA;SLIMDX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,14 +28,14 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\..\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <BaseAddress>2701131776</BaseAddress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\build\Release\</OutputPath>
+    <OutputPath>..\..\build\Release\</OutputPath>
     <DefineConstants>TRACE;LUA;SLIMDX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -45,8 +45,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\build\ReleaseSDK\</OutputPath>
-    <DocumentationFile>..\..\..\build\ReleaseSDK\Common.xml</DocumentationFile>
+    <OutputPath>..\..\build\ReleaseSDK\</OutputPath>
+    <DocumentationFile>..\..\build\ReleaseSDK\Common.xml</DocumentationFile>
     <DefineConstants>TRACE;LUA;SLIMDX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -59,25 +59,25 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="LinqBridge">
-      <HintPath>..\..\..\lib\LinqBridge.dll</HintPath>
+      <HintPath>..\..\lib\LinqBridge.dll</HintPath>
     </Reference>
     <Reference Include="SlimDX">
-      <HintPath>..\..\..\lib\SlimDX.dll</HintPath>
+      <HintPath>..\..\lib\SlimDX.dll</HintPath>
     </Reference>
     <Reference Include="C5">
-      <HintPath>..\..\..\lib\C5.dll</HintPath>
+      <HintPath>..\..\lib\C5.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.TextEditor">
-      <HintPath>..\..\..\lib\ICSharpCode.TextEditor.dll</HintPath>
+      <HintPath>..\..\lib\ICSharpCode.TextEditor.dll</HintPath>
     </Reference>
     <Reference Include="TaskDialog">
-      <HintPath>..\..\..\lib\TaskDialog.dll</HintPath>
+      <HintPath>..\..\lib\TaskDialog.dll</HintPath>
     </Reference>
     <Reference Include="LuaInterface">
-      <HintPath>..\..\..\lib\LuaInterface.dll</HintPath>
+      <HintPath>..\..\lib\LuaInterface.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

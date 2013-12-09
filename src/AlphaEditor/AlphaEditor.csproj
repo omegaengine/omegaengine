@@ -12,15 +12,15 @@
     <AssemblyName>AlphaEditor</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>..\..\sgKey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\sgKey.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\build\Debug\</OutputPath>
-    <DocumentationFile>..\..\..\build\Debug\AlphaEditor.xml</DocumentationFile>
+    <OutputPath>..\..\build\Debug\</OutputPath>
+    <DocumentationFile>..\..\build\Debug\AlphaEditor.xml</DocumentationFile>
     <DefineConstants>DEBUG;TRACE;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,14 +28,14 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\..\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <BaseAddress>2751463424</BaseAddress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\build\Release\</OutputPath>
+    <OutputPath>..\..\build\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -45,8 +45,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\build\ReleaseSDK\</OutputPath>
-    <DocumentationFile>..\..\..\build\ReleaseSDK\AlphaEditor.xml</DocumentationFile>
+    <OutputPath>..\..\build\ReleaseSDK\</OutputPath>
+    <DocumentationFile>..\..\build\ReleaseSDK\AlphaEditor.xml</DocumentationFile>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -59,16 +59,16 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="LinqBridge">
-      <HintPath>..\..\..\lib\LinqBridge.dll</HintPath>
+      <HintPath>..\..\lib\LinqBridge.dll</HintPath>
     </Reference>
     <Reference Include="SlimDX">
-      <HintPath>..\..\..\lib\SlimDX.dll</HintPath>
+      <HintPath>..\..\lib\SlimDX.dll</HintPath>
     </Reference>
     <Reference Include="C5">
-      <HintPath>..\..\..\lib\C5.dll</HintPath>
+      <HintPath>..\..\lib\C5.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -136,11 +136,11 @@
     <Compile Include="UndoTab.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Engine\Engine.csproj">
+    <ProjectReference Include="..\OmegaEngine\OmegaEngine.csproj">
       <Project>{14E9FED0-4989-482D-85DE-448161A6855E}</Project>
       <Name>Engine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GUI\GUI.csproj">
+    <ProjectReference Include="..\OmegaGUI\OmegaGUI.csproj">
       <Project>{0B5E032B-E8DE-41EB-B66D-6DFD25F9F6E9}</Project>
       <Name>GUI</Name>
     </ProjectReference>

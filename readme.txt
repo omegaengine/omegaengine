@@ -20,7 +20,7 @@ The setup is build using Inno Setup 5.4.1 or newer (http://files.jrsoftware.org/
 \build\Documentation\ - The compiled source code documentation (created by \doc\build.cmd)
 
 "VERSION" contains the version numbers used by the build scripts.
-Keep in sync with the version numbers in "src\Omega\AssemblyInfo.Global.cs", "templates\*\MyTemplate.vstemplate" and "setup\vsix\extension.vsixmanifest"!
+Keep in sync with the version numbers in "src\AssemblyInfo.Global.cs", "templates\*\MyTemplate.vstemplate" and "setup\vsix\extension.vsixmanifest"!
 
 The "build.cmd" script assumes that Visual Studio 2010/2012 is installed and that Inno Setup 5 is installed at its default location.
 

@@ -86,17 +86,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Omega\Common\Common.csproj">
+    <ProjectReference Include="..\..\Common\Common.csproj">
       <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Omega\Engine\Engine.csproj">
+    <ProjectReference Include="..\..\OmegaEngine\OmegaEngine.csproj">
       <Project>{14E9FED0-4989-482D-85DE-448161A6855E}</Project>
-      <Name>Engine</Name>
+      <Name>OmegaEngine</Name>
     </ProjectReference>
     <ProjectReference Include="..\World\World.csproj">
       <Project>{3EA8E61B-A309-4862-B4B1-7C67537C52A6}</Project>
-      <Name>World %28TerrainSample\World%29</Name>
+      <Name>World</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -12,15 +12,15 @@
     <AssemblyName>OmegaGUI</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>..\..\sgKey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\sgKey.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\build\Debug\</OutputPath>
-    <DocumentationFile>..\..\..\build\Debug\OmegaGUI.xml</DocumentationFile>
+    <OutputPath>..\..\build\Debug\</OutputPath>
+    <DocumentationFile>..\..\build\Debug\OmegaGUI.xml</DocumentationFile>
     <DefineConstants>DEBUG;TRACE;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,14 +28,14 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\..\NoAnalysis.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\NoAnalysis.ruleset</CodeAnalysisRuleSet>
     <BaseAddress>2734686208</BaseAddress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\build\Release\</OutputPath>
+    <OutputPath>..\..\build\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -45,8 +45,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\build\ReleaseSDK\</OutputPath>
-    <DocumentationFile>..\..\..\build\ReleaseSDK\OmegaGUI.xml</DocumentationFile>
+    <OutputPath>..\..\build\ReleaseSDK\</OutputPath>
+    <DocumentationFile>..\..\build\ReleaseSDK\OmegaGUI.xml</DocumentationFile>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -59,13 +59,13 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="LinqBridge">
-      <HintPath>..\..\..\lib\LinqBridge.dll</HintPath>
+      <HintPath>..\..\lib\LinqBridge.dll</HintPath>
     </Reference>
     <Reference Include="SlimDX">
-      <HintPath>..\..\..\lib\SlimDX.dll</HintPath>
+      <HintPath>..\..\lib\SlimDX.dll</HintPath>
     </Reference>
     <Reference Include="LuaInterface">
-      <HintPath>..\..\..\lib\LuaInterface.dll</HintPath>
+      <HintPath>..\..\lib\LuaInterface.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -73,9 +73,9 @@
       <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Engine\Engine.csproj">
+    <ProjectReference Include="..\OmegaEngine\OmegaEngine.csproj">
       <Project>{14E9FED0-4989-482D-85DE-448161A6855E}</Project>
-      <Name>Engine</Name>
+      <Name>OmegaEngine</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
