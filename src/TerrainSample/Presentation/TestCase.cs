@@ -24,7 +24,6 @@ using System;
 using System.Xml.Serialization;
 using Common.Values;
 using SlimDX;
-using World;
 using World.Config;
 using World.Positionables;
 

@@ -70,7 +70,7 @@ namespace Presentation
         /// <summary>1:1 association of <see cref="World.Positionables.Water"/> to <see cref="OmegaEngine.Graphics.Renderables.Water"/>.</summary>
         private readonly Dictionary<World.Positionables.Water, Water> _worldToEngineWater = new Dictionary<World.Positionables.Water, Water>();
 
-        /// <summary>n:1 association of <see cref="PositionableRenderable"/> to <see cref="Positionable{TCoordinates}"/>.</summary>
+        /// <summary>n:1 association of <see cref="PositionableRenderable"/> to <see cref="World.Positionables.Positionable{TCoordinates}"/>.</summary>
         private readonly Dictionary<PositionableRenderable, Positionable<Vector2>> _engineToWorld = new Dictionary<PositionableRenderable, Positionable<Vector2>>();
         #endregion
 

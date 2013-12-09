@@ -35,7 +35,6 @@ using SlimDX;
 using World;
 using World.Config;
 using World.Positionables;
-using Terrain = OmegaEngine.Graphics.Renderables.Terrain;
 
 namespace Presentation
 {

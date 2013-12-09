@@ -24,6 +24,8 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
+using Common;
+using Common.Values;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
@@ -31,8 +33,6 @@ using OmegaEngine.Input;
 using SlimDX;
 using World.Positionables;
 using EngineRenderable = OmegaEngine.Graphics.Renderables;
-using Common;
-using Common.Values;
 
 namespace Presentation
 {
