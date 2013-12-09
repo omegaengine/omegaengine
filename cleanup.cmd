@@ -27,7 +27,6 @@ rd /s /q "%~dp0src\Omega\Test.Common\obj" > NUL 2>&1
 rd /s /q "%~dp0src\Omega\Engine\obj" > NUL 2>&1
 rd /s /q "%~dp0src\Omega\GUI\obj" > NUL 2>&1
 rd /s /q "%~dp0src\Omega\Editor\obj" > NUL 2>&1
-rd /s /q "%~dp0src\Modeling\obj" > NUL 2>&1
 
 rem Remove NUnit logs
 del "%~dp0*.VisualState.xml" > NUL 2>&1
