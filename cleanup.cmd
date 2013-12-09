@@ -18,7 +18,6 @@ del "%~dp0src\*.ncb" > NUL 2>&1
 del "%~dp0src\*.sdf" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\Game\obj" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\Editor\obj" > NUL 2>&1
-rd /s /q "%~dp0src\TerrainSample\Settings\obj" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\World\obj" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\Test.World\obj" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\Presentation\obj" > NUL 2>&1

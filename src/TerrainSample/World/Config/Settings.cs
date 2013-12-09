@@ -28,7 +28,7 @@ using Common;
 using Common.Storage;
 using LuaInterface;
 
-namespace Core
+namespace World.Config
 {
     /// <summary>
     /// Stores settings for the application

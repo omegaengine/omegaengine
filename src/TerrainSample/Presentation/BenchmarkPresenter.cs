@@ -28,11 +28,11 @@ using Common;
 using Common.Info;
 using Common.Utils;
 using Common.Storage;
-using Core;
 using ICSharpCode.SharpZipLib.Zip;
 using OmegaEngine;
 using OmegaEngine.Graphics;
 using World;
+using World.Config;
 
 namespace Presentation
 {

@@ -23,11 +23,11 @@
 using System;
 using System.IO;
 using Common.Storage;
-using Core;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
 using World;
+using World.Config;
 
 namespace Presentation
 {

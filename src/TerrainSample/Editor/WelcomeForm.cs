@@ -21,7 +21,7 @@
  */
 
 using System.Windows.Forms;
-using Core;
+using World.Config;
 
 namespace AlphaEditor
 {

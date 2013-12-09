@@ -25,7 +25,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using Common;
-using Core;
 using LuaInterface;
 using OmegaEngine;
 using OmegaEngine.Graphics;
@@ -34,6 +33,7 @@ using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;
 using World;
+using World.Config;
 using World.Positionables;
 using Terrain = OmegaEngine.Graphics.Renderables.Terrain;
 

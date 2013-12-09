@@ -28,6 +28,7 @@ using Common.Storage;
 using LuaInterface;
 using Presentation;
 using World;
+using World.Config;
 
 namespace Core
 {

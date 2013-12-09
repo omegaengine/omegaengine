@@ -27,6 +27,7 @@ using Core.Properties;
 using OmegaEngine;
 using OmegaGUI;
 using World;
+using World.Config;
 using World.Templates;
 
 namespace Core

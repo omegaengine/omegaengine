@@ -26,7 +26,7 @@ using System.IO;
 using Common.Storage;
 using ICSharpCode.SharpZipLib.Zip;
 using LuaInterface;
-using Core;
+using World.Config;
 using World.Positionables;
 
 namespace World

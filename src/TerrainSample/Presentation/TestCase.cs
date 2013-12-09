@@ -23,9 +23,9 @@
 using System;
 using System.Xml.Serialization;
 using Common.Values;
-using Core;
 using SlimDX;
 using World;
+using World.Config;
 using World.Positionables;
 
 namespace Presentation

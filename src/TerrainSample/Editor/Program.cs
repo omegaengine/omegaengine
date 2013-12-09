@@ -33,9 +33,9 @@ using Common;
 using Common.Controls;
 using Common.Utils;
 using Common.Storage;
-using Core;
 using OmegaEngine;
 using OmegaGUI.Model;
+using World.Config;
 
 namespace AlphaEditor
 {

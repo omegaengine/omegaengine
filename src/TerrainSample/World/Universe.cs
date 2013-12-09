@@ -22,7 +22,7 @@ using System.Reflection;
 using System.Xml.Serialization;
 using Common.Storage;
 using Common.Utils;
-using Core;
+using World.Config;
 using World.Pathfinding;
 using World.Positionables;
 

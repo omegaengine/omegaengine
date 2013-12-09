@@ -34,6 +34,7 @@ using Common.Values;
 using Core.Properties;
 using OmegaEngine;
 using OmegaGUI.Model;
+using World.Config;
 
 namespace Core
 {

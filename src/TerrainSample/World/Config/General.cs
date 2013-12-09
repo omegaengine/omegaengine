@@ -24,7 +24,7 @@ using System;
 using System.ComponentModel;
 using Common.Utils;
 
-namespace Core
+namespace World.Config
 {
     /// <summary>
     /// Stores general game settings (UI language, difficulty level, etc.).

@@ -43,6 +43,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="LinqBridge">
       <HintPath>..\..\..\lib\LinqBridge.dll</HintPath>
@@ -62,6 +63,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Global.cs" />
+    <Compile Include="Config\ConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Config\ConfigForm.Designer.cs">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Config\Controls.cs" />
+    <Compile Include="Config\Display.cs" />
+    <Compile Include="Config\Editor.cs" />
+    <Compile Include="Config\General.cs" />
+    <Compile Include="Config\Graphics.cs" />
+    <Compile Include="Config\Settings.cs" />
+    <Compile Include="Config\Sound.cs" />
     <Compile Include="EntityComponents\AnimatedMesh.cs" />
     <Compile Include="EntityComponents\Box.cs" />
     <Compile Include="EntityComponents\Circle.cs" />
@@ -116,10 +130,6 @@
       <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Settings\Settings.csproj">
-      <Project>{F6E7F86F-E69C-4F5B-BBCE-DD81D2A8E824}</Project>
-      <Name>Settings %28TerrainSample\Settings%29</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -128,6 +138,10 @@
     <None Include="Templates\ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Config\ConfigForm.resx">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.de.resx" />
     <EmbeddedResource Include="Properties\Resources.resx" />
   </ItemGroup>

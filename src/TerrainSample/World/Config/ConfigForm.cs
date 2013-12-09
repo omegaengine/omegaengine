@@ -24,7 +24,7 @@ using System;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Core
+namespace World.Config
 {
     internal partial class ConfigForm : Form
     {

@@ -31,6 +31,7 @@ using OmegaEngine;
 using OmegaGUI;
 using Presentation;
 using World;
+using World.Config;
 
 namespace Core
 {

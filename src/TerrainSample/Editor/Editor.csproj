@@ -175,10 +175,6 @@
       <Project>{CC40CE7F-892A-42F8-B289-52ACF2C73865}</Project>
       <Name>Presentation %28TerrainSample\Presentation%29</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Settings\Settings.csproj">
-      <Project>{F6E7F86F-E69C-4F5B-BBCE-DD81D2A8E824}</Project>
-      <Name>Settings %28TerrainSample\Settings%29</Name>
-    </ProjectReference>
     <ProjectReference Include="..\World\World.csproj">
       <Project>{3EA8E61B-A309-4862-B4B1-7C67537C52A6}</Project>
       <Name>World %28TerrainSample\World%29</Name>

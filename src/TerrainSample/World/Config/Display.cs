@@ -28,7 +28,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using Common.Utils;
 
-namespace Core
+namespace World.Config
 {
     /// <summary>
     /// Stores display settings (resolution, etc.). Changes here require the engine to be reset.

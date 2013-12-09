@@ -1,4 +1,4 @@
-namespace Core
+namespace World.Config
 {
     partial class ConfigForm
     {

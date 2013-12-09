@@ -30,6 +30,7 @@ using LuaInterface;
 using OmegaEngine;
 using Presentation;
 using World;
+using World.Config;
 
 namespace Core
 {

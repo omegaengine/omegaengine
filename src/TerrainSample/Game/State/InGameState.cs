@@ -25,6 +25,7 @@ using Common.Storage;
 using OmegaEngine;
 using Presentation;
 using World;
+using World.Config;
 
 namespace Core.State
 {
