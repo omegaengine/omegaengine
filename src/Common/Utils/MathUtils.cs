@@ -533,7 +533,7 @@ namespace Common.Utils
         {
             float[] inputMin = new float[3], inputMax = new float[3];
             float[] outputMin = new float[3], outputMax = new float[3];
-            var m = new float[3,3];
+            var m = new float[3, 3];
 
             // Copy data into arrays for easy reference
             inputMin[0] = box.Minimum.X;

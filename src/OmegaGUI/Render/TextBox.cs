@@ -627,7 +627,7 @@ namespace OmegaGUI.Render
             int xFirst = textData.GetPositionFromCharIndex(firstVisible).X;
             int xCaret = textData.GetPositionFromCharIndex(caretPosition).X;
             int xSel = caretPosition != textData.SelectionStart ?
-                                                                    textData.GetPositionFromCharIndex(textData.SelectionStart).X : xCaret;
+                textData.GetPositionFromCharIndex(textData.SelectionStart).X : xCaret;
 
             // Render the selection rectangle
             Rectangle selRect = Rectangle.Empty;

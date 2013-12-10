@@ -343,8 +343,8 @@ namespace OmegaEngine.Graphics
                     {
                         // Check we actually use water-refractions/reflections...
                         if ((waterView.Reflection) ?
-                                                       (Engine.Effects.WaterEffects < WaterEffectsType.ReflectTerrain) :
-                                                                                                                   (Engine.Effects.WaterEffects < WaterEffectsType.RefractionOnly))
+                            (Engine.Effects.WaterEffects < WaterEffectsType.ReflectTerrain) :
+                            (Engine.Effects.WaterEffects < WaterEffectsType.RefractionOnly))
                             continue;
 
                         // ... and one of the currently visible water planes needs this view

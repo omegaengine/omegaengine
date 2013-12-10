@@ -17,6 +17,7 @@ using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine
 {
+
     #region Enumerations
     /// <seealso cref="EngineState.ZBufferMode"/>
     public enum ZBufferMode

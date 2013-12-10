@@ -530,7 +530,7 @@ namespace OmegaGUI.Render
                     else if (ctrlStyle == ListBoxStyle.MultiSelection)
                     {
                         if (isDragging && ((i >= selectedIndex && i < selectedStarted) ||
-                            (i <= selectedIndex && i > selectedStarted)))
+                                           (i <= selectedIndex && i > selectedStarted)))
                         {
                             ListItem selStart = itemList[selectedStarted];
                             isSelectedStyle = selStart.IsItemSelected;

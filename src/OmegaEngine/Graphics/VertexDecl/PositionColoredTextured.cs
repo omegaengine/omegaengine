@@ -64,8 +64,8 @@ namespace OmegaEngine.Graphics.VertexDecl
         public override string ToString()
         {
             return "PositionColoredTextured(position=" + Position + ", " +
-                "color=" + Color + ", " +
-                "tu=" + Tu + ", " + "tv=" + Tv + ")";
+                   "color=" + Color + ", " +
+                   "tu=" + Tu + ", " + "tv=" + Tv + ")";
         }
         #endregion
     }

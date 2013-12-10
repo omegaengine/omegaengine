@@ -122,7 +122,7 @@ namespace Common.Values
         public T[,] GetArray()
         {
             // Create a result array filled with default values
-            var result = new T[TotalArea.Width,TotalArea.Height];
+            var result = new T[TotalArea.Width, TotalArea.Height];
 
             CopySubsetsToArray(result);
             return result;
@@ -142,7 +142,7 @@ namespace Common.Values
             // Build the result array and fill it with base values if possible
             int width = Math.Min(TotalArea.Width, baseValues.GetLength(0) - TotalArea.X);
             int height = Math.Min(TotalArea.Height, baseValues.GetLength(1) - TotalArea.Y);
-            var result = new T[width,height];
+            var result = new T[width, height];
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)

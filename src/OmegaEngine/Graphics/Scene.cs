@@ -176,7 +176,7 @@ namespace OmegaEngine.Graphics
                 {
                     _engine.Device.SetLight(_dxLightCounter, dxLight);
                     _engine.Device.EnableLight(_dxLightCounter, true);
-                    _dxLightCounter++;                    
+                    _dxLightCounter++;
                 }
             }
         }

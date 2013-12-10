@@ -89,7 +89,7 @@ namespace OmegaEngine.Graphics
 
             // Select the appropriate new vertex format
             decl = CompareDecl(PositionMultiTextured.GetVertexElements(), decl) ?
-                                                                                    PositionNormalMultiTextured.GetVertexElements() : PositionNormalBinormalTangentTextured.GetVertexElements();
+                PositionNormalMultiTextured.GetVertexElements() : PositionNormalBinormalTangentTextured.GetVertexElements();
 
             // Clone the mesh to change the vertex format
             Mesh tempMesh = mesh.Clone(device, mesh.CreationOptions, decl);

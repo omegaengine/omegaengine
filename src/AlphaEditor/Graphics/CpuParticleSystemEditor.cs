@@ -82,7 +82,7 @@ namespace AlphaEditor.Graphics
             _scene = new Scene(renderPanel.Engine);
             _particleSystem = new CpuParticleSystem(renderPanel.Engine, _preset);
             _scene.Positionables.Add(_particleSystem);
-            var view = new View(renderPanel.Engine, _scene, Camera) { BackgroundColor = Color.Black };
+            var view = new View(renderPanel.Engine, _scene, Camera) {BackgroundColor = Color.Black};
             renderPanel.Engine.Views.Add(view);
 
             base.OnInitialize();

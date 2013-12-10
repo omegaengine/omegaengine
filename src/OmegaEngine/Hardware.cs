@@ -46,10 +46,10 @@ namespace OmegaEngine
         public override string ToString()
         {
             return "Hardware:\n" +
-                "OS: " + OS + "\n" +
-                "CPU: " + Cpu + "\n" +
-                "RAM: " + string.Format(CultureInfo.InvariantCulture, "{0} MB", Ram) + "\n" +
-                "GPU: " + Gpu;
+                   "OS: " + OS + "\n" +
+                   "CPU: " + Cpu + "\n" +
+                   "RAM: " + string.Format(CultureInfo.InvariantCulture, "{0} MB", Ram) + "\n" +
+                   "GPU: " + Gpu;
         }
     }
 

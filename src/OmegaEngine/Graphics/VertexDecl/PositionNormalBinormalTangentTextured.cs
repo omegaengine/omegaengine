@@ -96,10 +96,10 @@ namespace OmegaEngine.Graphics.VertexDecl
         public override string ToString()
         {
             return "PositionNormalTangentTextured(position=" + Position + ", " +
-                "normal=" + Normal + ", " +
-                "tu=" + Tu + ", " + "tv=" + Tv +
-                "binormal=" + Binormal + ", " +
-                "tangent=" + Tangent + ", " + ")";
+                   "normal=" + Normal + ", " +
+                   "tu=" + Tu + ", " + "tv=" + Tv +
+                   "binormal=" + Binormal + ", " +
+                   "tangent=" + Tangent + ", " + ")";
         }
         #endregion
 

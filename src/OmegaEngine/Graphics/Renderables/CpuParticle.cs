@@ -183,8 +183,8 @@ namespace OmegaEngine.Graphics.Renderables
             // Calculate the world transform
             engine.State.WorldTransform =
                 Matrix.Scaling(new Vector3(Size)) *
-                    camera.SphericalBillboard *
-                    Matrix.Translation(Position.ApplyOffset(camera.PositionBase));
+                camera.SphericalBillboard *
+                Matrix.Translation(Position.ApplyOffset(camera.PositionBase));
 
             // Set the particle color
             var material = new Material {Emissive = Color};

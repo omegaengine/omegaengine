@@ -1487,7 +1487,7 @@ namespace OmegaGUI.Render
                 // Black shadow for bright text, gray shadow for dark text
                 Color shadowColor =
                     (element.FontColor.Current.Red + element.FontColor.Current.Green + element.FontColor.Current.Blue > 1.5f) ?
-                                                                                                                                  Color.Black : Color.Gray;
+                        Color.Black : Color.Gray;
 
                 // ToDo: Optimize performance
                 fNode.Font.DrawString(dialogManager.Sprite, text, shadowRect, element.textFormat, shadowColor);
@@ -1545,12 +1545,12 @@ namespace OmegaGUI.Render
             int realColor = color.ToArgb();
             // Create some vertexes
             TransformedColoredTextured[] vertexes =
-                {
-                    new TransformedColoredTextured(rect.Left - 0.5f, rect.Top - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
-                    new TransformedColoredTextured(rect.Right - 0.5f, rect.Top - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
-                    new TransformedColoredTextured(rect.Right - 0.5f, rect.Bottom - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
-                    new TransformedColoredTextured(rect.Left - 0.5f, rect.Bottom - 0.5f, 0.5f, 1.0f, realColor, 0, 0)
-                };
+            {
+                new TransformedColoredTextured(rect.Left - 0.5f, rect.Top - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
+                new TransformedColoredTextured(rect.Right - 0.5f, rect.Top - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
+                new TransformedColoredTextured(rect.Right - 0.5f, rect.Bottom - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
+                new TransformedColoredTextured(rect.Left - 0.5f, rect.Bottom - 0.5f, 0.5f, 1.0f, realColor, 0, 0)
+            };
 
             // Get the device
             Device device = dialogManager.Device;

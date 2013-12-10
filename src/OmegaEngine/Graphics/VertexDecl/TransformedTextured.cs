@@ -94,7 +94,7 @@ namespace OmegaEngine.Graphics.VertexDecl
         public override string ToString()
         {
             return "TransformedTextured(position=" + Position + ", rhw=" + Rhw + ", " +
-                "tu=" + Tu + ", " + "tv=" + Tv + ")";
+                   "tu=" + Tu + ", " + "tv=" + Tv + ")";
         }
         #endregion
     }

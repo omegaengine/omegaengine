@@ -58,7 +58,7 @@ namespace Common.Utils
             var bitmapData = new byte[bytes];
             Marshal.Copy(ptr, bitmapData, 0, bytes);
             bitmap.UnlockBits(bmpData);
-            var color = new Color[bitmap.Width,bitmap.Height];
+            var color = new Color[bitmap.Width, bitmap.Height];
 
             switch (pixelFormat)
             {

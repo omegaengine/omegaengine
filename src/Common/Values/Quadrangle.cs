@@ -210,8 +210,8 @@ namespace Common.Values
             return
                 // this and quadrangle intersect or quadrangle fully inside this
                 IntersectWith(quadrangle.P1) || IntersectWith(quadrangle.P2) || IntersectWith(quadrangle.P3) || IntersectWith(quadrangle.P4) ||
-                    // this fully inside quadrangle
-                    quadrangle.IntersectWith(P1) /*|| quadrangle.IntersectWith(_p2) || quadrangle.IntersectWith(_p3) || quadrangle.IntersectWith(_p4)*/;
+                // this fully inside quadrangle
+                quadrangle.IntersectWith(P1) /*|| quadrangle.IntersectWith(_p2) || quadrangle.IntersectWith(_p3) || quadrangle.IntersectWith(_p4)*/;
         }
         #endregion
 

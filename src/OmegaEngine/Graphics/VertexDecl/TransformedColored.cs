@@ -88,7 +88,7 @@ namespace OmegaEngine.Graphics.VertexDecl
         public override string ToString()
         {
             return "TransformedColored(position=" + Position + ", rhw=" + Rhw + ", " +
-                "color=" + Color + ")";
+                   "color=" + Color + ")";
         }
         #endregion
     }

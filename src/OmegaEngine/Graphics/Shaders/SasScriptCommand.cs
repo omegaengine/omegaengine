@@ -66,6 +66,7 @@ namespace OmegaEngine.Graphics.Shaders
         public int Index;
         public bool IsDirty;
         protected readonly Effect Effect;
+
         [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists")]
         public List<string> Options;
 

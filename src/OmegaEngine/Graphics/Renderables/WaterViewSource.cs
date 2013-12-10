@@ -107,8 +107,8 @@ namespace OmegaEngine.Graphics.Renderables
 
             var view = engine.WaterViewSources.FirstOrDefault(
                 candidate => candidate.Height == height &&
-                              candidate.BaseView == baseView &&
-                              candidate.ClipTolerance == clipTolerance);
+                             candidate.BaseView == baseView &&
+                             candidate.ClipTolerance == clipTolerance);
             if (view == null) engine.WaterViewSources.Add(view = new WaterViewSource(engine, height, baseView, clipTolerance));
 
             view.ReferenceCount++;

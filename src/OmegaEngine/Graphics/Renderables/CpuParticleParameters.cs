@@ -69,7 +69,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <seealso cref="Color"/>
         [XmlElement("Color"), LuaHide, Browsable(false)]
         // ReSharper disable UnusedMember.Global
-            public XColor Color4
+        public XColor Color4
         {
             get { return _color; }
             set { _color = (Color)value; }

@@ -298,8 +298,8 @@ namespace OmegaGUI.Render
                         int maxThumb = trackRect.Height - thumbRect.Height; // Largest possible thumb position
 
                         m_position = start + (thumbRect.Top - trackRect.Top +
-                            maxThumb / (maxFirstItem * 2)) * // Shift by half a row to avoid last row covered
-                            maxFirstItem / maxThumb;
+                                              maxThumb / (maxFirstItem * 2)) * // Shift by half a row to avoid last row covered
+                                     maxFirstItem / maxThumb;
 
                         return true;
                     }

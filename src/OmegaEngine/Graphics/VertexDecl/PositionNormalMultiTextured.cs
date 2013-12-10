@@ -119,9 +119,9 @@ namespace OmegaEngine.Graphics.VertexDecl
         public override string ToString()
         {
             return "PositionNormalMultiTextured(position=" + Position + ", " +
-                "normal=" + Normal +
-                "tu=" + Tu + ", " + "tv=" + Tv + ", " +
-                "texWeights=" + TexWeights1 + TexWeights2 + TexWeights3 + TexWeights4 + ")";
+                   "normal=" + Normal +
+                   "tu=" + Tu + ", " + "tv=" + Tv + ", " +
+                   "texWeights=" + TexWeights1 + TexWeights2 + TexWeights3 + TexWeights4 + ")";
         }
         #endregion
 

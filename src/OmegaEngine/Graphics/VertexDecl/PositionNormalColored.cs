@@ -86,8 +86,8 @@ namespace OmegaEngine.Graphics.VertexDecl
         public override string ToString()
         {
             return "PositionNormalColored(position=" + Position + ", " +
-                "normal=" + Normal + ", " +
-                "color=" + Color + ")";
+                   "normal=" + Normal + ", " +
+                   "color=" + Color + ")";
         }
         #endregion
     }

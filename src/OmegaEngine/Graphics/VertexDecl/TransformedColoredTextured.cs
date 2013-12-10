@@ -100,7 +100,7 @@ namespace OmegaEngine.Graphics.VertexDecl
         public override string ToString()
         {
             return "TransformedColoredTextured(position=" + Position + ", rhw=" + Rhw + ", " +
-                "color=" + Color + ", " + "tu=" + Tu + ", " + "tv=" + Tv + ")";
+                   "color=" + Color + ", " + "tu=" + Tu + ", " + "tv=" + Tv + ")";
         }
         #endregion
     }

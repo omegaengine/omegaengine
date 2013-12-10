@@ -109,7 +109,7 @@ namespace OmegaEngine
                 {
                     Log.Error("No support for Pixel Shader " + TerrainShader.MinShaderModel);
                     Msg.Inform(Form, Resources.BadGraphics + "\n" +
-                        string.Format(Resources.MinimumShaderModel, TerrainShader.MinShaderModel),
+                                     string.Format(Resources.MinimumShaderModel, TerrainShader.MinShaderModel),
                         MsgSeverity.Warn);
                     Exit();
                     return false;
