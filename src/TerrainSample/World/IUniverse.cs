@@ -24,9 +24,9 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
-using World.Positionables;
+using TerrainSample.World.Positionables;
 
-namespace World
+namespace TerrainSample.World
 {
     /// <summary>
     /// A common base for all <see cref="Universe{TCoordinates}"/> types.

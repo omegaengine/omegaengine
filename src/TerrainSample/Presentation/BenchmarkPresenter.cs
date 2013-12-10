@@ -31,10 +31,10 @@ using Common.Utils;
 using ICSharpCode.SharpZipLib.Zip;
 using OmegaEngine;
 using OmegaEngine.Graphics;
-using World;
-using World.Config;
+using TerrainSample.World;
+using TerrainSample.World.Config;
 
-namespace Presentation
+namespace TerrainSample.Presentation
 {
     /// <summary>
     /// Performs rendering for the benchmark mode

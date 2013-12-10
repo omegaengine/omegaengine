@@ -20,9 +20,9 @@
  * THE SOFTWARE.
  */
 
-using World.Templates;
+using TerrainSample.World.Templates;
 
-namespace World.EntityComponents
+namespace TerrainSample.World.EntityComponents
 {
     /// <summary>
     /// Represents a particle system whose particles are tracked by the GPU.

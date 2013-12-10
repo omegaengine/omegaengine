@@ -22,9 +22,9 @@
 
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using World.Positionables;
+using TerrainSample.World.Positionables;
 
-namespace World.Pathfinding
+namespace TerrainSample.World.Pathfinding
 {
     /// <summary>
     /// The leader in a pathfinding group (followed by <see cref="PathFollower{TCoordinates}"/>).

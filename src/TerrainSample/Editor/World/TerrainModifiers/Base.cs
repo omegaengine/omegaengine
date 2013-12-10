@@ -23,12 +23,11 @@
 using System;
 using Common.Undo;
 using Common.Values;
-using Presentation;
 using SlimDX;
-using World;
-using World.Terrains;
+using TerrainSample.Presentation;
+using TerrainSample.World.Terrains;
 
-namespace AlphaEditor.World.TerrainModifiers
+namespace TerrainSample.Editor.World.TerrainModifiers
 {
     /// <summary>
     /// Abstract base class for interactivley modifying a <see cref="Terrain"/>.

@@ -27,9 +27,9 @@ using System.Xml.Serialization;
 using Common.Utils;
 using Common.Values;
 using SlimDX;
-using World.Terrains;
+using TerrainSample.World.Terrains;
 
-namespace World.Positionables
+namespace TerrainSample.World.Positionables
 {
     /// <summary>
     /// A water plane spanning a certain part of the <see cref="Terrain"/>.

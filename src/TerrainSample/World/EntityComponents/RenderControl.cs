@@ -23,10 +23,10 @@
 using System;
 using System.ComponentModel;
 using SlimDX;
-using World.Positionables;
-using World.Templates;
+using TerrainSample.World.Positionables;
+using TerrainSample.World.Templates;
 
-namespace World.EntityComponents
+namespace TerrainSample.World.EntityComponents
 {
     /// <summary>
     /// Controls how an <see cref="Entity{TCoordinates}"/> shall be rendered.

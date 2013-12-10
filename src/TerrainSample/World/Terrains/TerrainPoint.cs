@@ -22,7 +22,7 @@
 
 using Common.Values;
 
-namespace World.Terrains
+namespace TerrainSample.World.Terrains
 {
     /// <summary>
     /// Contains positioning and orientation information for a specific point on a <see cref="Terrain"/>

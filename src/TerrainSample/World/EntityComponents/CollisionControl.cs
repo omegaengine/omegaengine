@@ -22,11 +22,10 @@
 
 using System;
 using Common.Values;
-using SlimDX;
-using World.Positionables;
-using World.Templates;
+using TerrainSample.World.Positionables;
+using TerrainSample.World.Templates;
 
-namespace World.EntityComponents
+namespace TerrainSample.World.EntityComponents
 {
     /// <summary>
     /// Controls how <see cref="Entity{TCoordinates}"/>s occupy space around them.

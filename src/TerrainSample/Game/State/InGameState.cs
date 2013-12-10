@@ -23,11 +23,11 @@
 using System;
 using Common.Storage;
 using OmegaEngine;
-using Presentation;
-using World;
-using World.Config;
+using TerrainSample.Presentation;
+using TerrainSample.World;
+using TerrainSample.World.Config;
 
-namespace Game.State
+namespace TerrainSample.State
 {
     /// <summary>
     /// Represents a state where the user is currently playing the game.

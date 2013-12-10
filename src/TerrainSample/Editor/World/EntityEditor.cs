@@ -21,24 +21,24 @@
  */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Windows.Forms;
-using System.Diagnostics.CodeAnalysis;
+using AlphaEditor;
 using AlphaEditor.Properties;
 using Common;
 using Common.Controls;
 using Common.Values;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;
-using Presentation;
-using World;
-using World.EntityComponents;
-using World.Positionables;
-using World.Templates;
-using World.Terrains;
-using Mesh = World.EntityComponents.Mesh;
+using TerrainSample.Presentation;
+using TerrainSample.World;
+using TerrainSample.World.EntityComponents;
+using TerrainSample.World.Positionables;
+using TerrainSample.World.Templates;
+using TerrainSample.World.Terrains;
 
-namespace AlphaEditor.World
+namespace TerrainSample.Editor.World
 {
     /// <summary>
     /// Allows the user to edit <see cref="EntityTemplate"/>s

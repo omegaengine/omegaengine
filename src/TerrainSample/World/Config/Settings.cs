@@ -28,7 +28,7 @@ using Common;
 using Common.Storage;
 using LuaInterface;
 
-namespace World.Config
+namespace TerrainSample.World.Config
 {
     /// <summary>
     /// Stores settings for the application

@@ -23,7 +23,7 @@
 using System.ComponentModel;
 using Common.Values.Design;
 
-namespace World.Positionables
+namespace TerrainSample.World.Positionables
 {
     /// <summary>
     /// Stores the position and direction of the camera in the game.

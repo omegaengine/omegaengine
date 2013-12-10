@@ -24,14 +24,14 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using AlphaEditor;
 using AlphaEditor.Properties;
 using Common;
 using Common.Controls;
 using Common.Storage;
-using World;
-using World.Templates;
+using TerrainSample.World.Templates;
 
-namespace AlphaEditor.World
+namespace TerrainSample.Editor.World
 {
     /// <summary>
     /// Abstract base tab for editing <see cref="Template{T}"/>es

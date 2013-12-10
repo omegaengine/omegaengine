@@ -21,10 +21,10 @@ using System.Xml.Serialization;
 using Common.Utils;
 using Common.Values;
 using SlimDX;
-using World.Pathfinding;
-using World.Terrains;
+using TerrainSample.World.Pathfinding;
+using TerrainSample.World.Terrains;
 
-namespace World.Positionables
+namespace TerrainSample.World.Positionables
 {
     /// <summary>
     /// An <see cref="Entity{TCoordinates}"/> that can be placed on a <see cref="Terrain"/>.

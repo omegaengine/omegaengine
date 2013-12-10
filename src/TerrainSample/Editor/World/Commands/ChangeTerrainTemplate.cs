@@ -22,11 +22,10 @@
 
 using System;
 using Common.Undo;
-using World;
-using World.Templates;
-using World.Terrains;
+using TerrainSample.World.Templates;
+using TerrainSample.World.Terrains;
 
-namespace AlphaEditor.World.Commands
+namespace TerrainSample.Editor.World.Commands
 {
     /// <summary>
     /// Changes a <see cref="TerrainTemplate"/> of a <see cref="Terrain"/>s.

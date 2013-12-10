@@ -24,10 +24,10 @@ using System;
 using System.Collections.Generic;
 using Common.Undo;
 using SlimDX;
-using World;
-using World.Positionables;
+using TerrainSample.World;
+using TerrainSample.World.Positionables;
 
-namespace AlphaEditor.World.Commands
+namespace TerrainSample.Editor.World.Commands
 {
     /// <summary>
     /// Adds/removes one or more <see cref="Positionable{TCoordinates}"/>ies to/from a <see cref="TerrainUniverse"/>.

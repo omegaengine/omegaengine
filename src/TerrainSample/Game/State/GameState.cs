@@ -21,10 +21,10 @@
  */
 
 using OmegaEngine;
-using Presentation;
-using World;
+using TerrainSample.Presentation;
+using TerrainSample.World;
 
-namespace Game.State
+namespace TerrainSample.State
 {
     /// <summary>
     /// 

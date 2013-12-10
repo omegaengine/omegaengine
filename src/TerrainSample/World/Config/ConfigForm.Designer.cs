@@ -1,4 +1,4 @@
-namespace World.Config
+namespace TerrainSample.World.Config
 {
     partial class ConfigForm
     {

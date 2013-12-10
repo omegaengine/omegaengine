@@ -1,4 +1,4 @@
-﻿namespace AlphaEditor.World.Dialogs
+﻿namespace TerrainSample.Editor.World.Dialogs
 {
     partial class MapPropertiesTool
     {

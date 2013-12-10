@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using Common;
 using SlimDX;
 
-namespace World.Pathfinding
+namespace TerrainSample.World.Pathfinding
 {
     /// <summary>
     /// A simple A* pathfinder.

@@ -32,13 +32,12 @@ using Common.Values;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using SlimDX;
-using World;
-using World.EntityComponents;
-using World.Positionables;
-using EngineRenderable = OmegaEngine.Graphics.Renderables;
+using TerrainSample.World;
+using TerrainSample.World.EntityComponents;
+using TerrainSample.World.Positionables;
 using View = OmegaEngine.Graphics.View;
 
-namespace Presentation
+namespace TerrainSample.Presentation
 {
 
     #region Delegates
@@ -75,7 +74,7 @@ namespace Presentation
         #endregion
 
         #region Variables
-        private EngineRenderable.Model _terrainPaintingBrushCircle, _terrainPaintingBrushSquare;
+        private OmegaEngine.Graphics.Renderables.Model _terrainPaintingBrushCircle, _terrainPaintingBrushSquare;
         #endregion
 
         #region Properties
@@ -130,7 +129,7 @@ namespace Presentation
             View = new View(engine, Scene, mainCamera) {Name = "Editor", BackgroundColor = universe.FogColor};
 
             // Floating axis-arrows for easier orientation
-            var axisArrows = new EngineRenderable.FloatingModel(engine, XMesh.Get(engine, "Engine/AxisArrows.x"))
+            var axisArrows = new OmegaEngine.Graphics.Renderables.FloatingModel(engine, XMesh.Get(engine, "Engine/AxisArrows.x"))
             {Name = "AxisArrows", Alpha = 160, Position = new DoubleVector3(-16, -12, 40), Rotation = Quaternion.RotationYawPitchRoll(0, 0, 0)};
             axisArrows.SetScale(0.03f);
             View.FloatingModels.Add(axisArrows);
@@ -146,8 +145,8 @@ namespace Presentation
             base.Initialize();
 
             // Prepare painting brush meshes
-            Scene.Positionables.Add(_terrainPaintingBrushCircle = EngineRenderable.Model.FromAsset(Engine, "Engine/Circle.x"));
-            Scene.Positionables.Add(_terrainPaintingBrushSquare = EngineRenderable.Model.FromAsset(Engine, "Engine/Rectangle.x"));
+            Scene.Positionables.Add(_terrainPaintingBrushCircle = OmegaEngine.Graphics.Renderables.Model.FromAsset(Engine, "Engine/Circle.x"));
+            Scene.Positionables.Add(_terrainPaintingBrushSquare = OmegaEngine.Graphics.Renderables.Model.FromAsset(Engine, "Engine/Rectangle.x"));
             _terrainPaintingBrushCircle.Visible = _terrainPaintingBrushSquare.Visible = false;
         }
         #endregion
@@ -230,7 +229,7 @@ namespace Presentation
 
         #region Collision bodies
         /// <summary>
-        /// Calculates a collision <see cref="Circle"/> from the <see cref="BoundingSphere"/>s of pickable <see cref="EngineRenderable.PositionableRenderable"/>s.
+        /// Calculates a collision <see cref="Circle"/> from the <see cref="BoundingSphere"/>s of pickable <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>s.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Performs a calculation based on the currently set of visible bodies")]
         public Circle GetCollisionCircle()
@@ -244,7 +243,7 @@ namespace Presentation
         }
 
         /// <summary>
-        /// Calculates a collision <see cref="Box"/> from the <see cref="BoundingBox"/>s of pickable <see cref="EngineRenderable.PositionableRenderable"/>s.
+        /// Calculates a collision <see cref="Box"/> from the <see cref="BoundingBox"/>s of pickable <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>s.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Performs a calculation based on the currently set of visible bodies")]
         public Box GetCollisionBox()

@@ -23,9 +23,9 @@
 using System.ComponentModel;
 using System.Xml.Serialization;
 using SlimDX;
-using World.Templates;
+using TerrainSample.World.Templates;
 
-namespace World.EntityComponents
+namespace TerrainSample.World.EntityComponents
 {
     /// <summary>
     /// Renders a simple (optionally textured) sphere for benchmarks, etc.

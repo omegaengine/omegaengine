@@ -22,12 +22,10 @@
 
 using System;
 using System.Drawing;
-using Presentation;
-using World;
-using World.Terrains;
-using EngineTerrain = OmegaEngine.Graphics.Renderables.Terrain;
+using TerrainSample.Presentation;
+using TerrainSample.World.Terrains;
 
-namespace AlphaEditor.World.TerrainModifiers
+namespace TerrainSample.Editor.World.TerrainModifiers
 {
     /// <summary>
     /// Interactivley turns a <see cref="Terrain"/> area into a plateau (all points have the same height).
@@ -38,9 +36,9 @@ namespace AlphaEditor.World.TerrainModifiers
         /// Creates a new terrain plateau creator.
         /// </summary>
         /// <param name="terrain">The <see cref="Terrain"/> to modify.</param>
-        /// <param name="engineTerrain">The <see cref="EngineTerrain"/> to live-update while modifying.</param>
+        /// <param name="engineTerrain">The <see cref="OmegaEngine.Graphics.Renderables.Terrain"/> to live-update while modifying.</param>
         /// <param name="refreshHandler">Called when the <see cref="Presenter"/> needs to be reset.</param>
-        public HeightPlateau(Terrain terrain, EngineTerrain engineTerrain, Action refreshHandler)
+        public HeightPlateau(Terrain terrain, OmegaEngine.Graphics.Renderables.Terrain engineTerrain, Action refreshHandler)
             : base(terrain, engineTerrain, refreshHandler + (() => terrain.LightAngleMapsOutdated = true)) // Mark the shadow maps for update
         {}
 

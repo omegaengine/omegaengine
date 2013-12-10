@@ -23,12 +23,11 @@
 using System;
 using System.Drawing;
 using Common.Undo;
-using Presentation;
 using SlimDX;
-using World;
-using World.Terrains;
+using TerrainSample.Presentation;
+using TerrainSample.World.Terrains;
 
-namespace AlphaEditor.World.TerrainModifiers
+namespace TerrainSample.Editor.World.TerrainModifiers
 {
     /// <summary>
     /// Interactivley changes the texture ID of an area on a <see cref="Terrain"/>.

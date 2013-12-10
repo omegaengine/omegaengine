@@ -8,12 +8,12 @@
     <ProjectGuid>{9D104552-0123-4EB6-9DEA-845C0B95A4FA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Game</RootNamespace>
+    <RootNamespace>TerrainSample</RootNamespace>
     <AssemblyName>TerrainSample</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>..\..\sgKey.snk</AssemblyOriginatorKeyFile>
-    <StartupObject>Game.Program</StartupObject>
+    <StartupObject>TerrainSample.Program</StartupObject>
     <SignManifests>false</SignManifests>
     <GenerateManifests>false</GenerateManifests>
     <ApplicationIcon>Logo.ico</ApplicationIcon>

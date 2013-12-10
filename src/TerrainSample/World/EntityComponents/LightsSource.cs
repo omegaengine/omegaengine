@@ -26,9 +26,9 @@ using System.Xml.Serialization;
 using Common.Values;
 using LuaInterface;
 using SlimDX;
-using World.Templates;
+using TerrainSample.World.Templates;
 
-namespace World.EntityComponents
+namespace TerrainSample.World.EntityComponents
 {
     /// <summary>
     /// Represents a point light source.

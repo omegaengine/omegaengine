@@ -26,10 +26,10 @@ using System.IO;
 using Common.Storage;
 using ICSharpCode.SharpZipLib.Zip;
 using LuaInterface;
-using World.Config;
-using World.Positionables;
+using TerrainSample.World.Config;
+using TerrainSample.World.Positionables;
 
-namespace World
+namespace TerrainSample.World
 {
     /// <summary>
     /// Represents a game session (i.e. a game actually being played).

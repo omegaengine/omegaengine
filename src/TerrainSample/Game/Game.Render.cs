@@ -23,13 +23,13 @@
 using System;
 using System.Windows.Forms;
 using Common;
-using Game.Properties;
 using OmegaEngine;
 using OmegaGUI;
-using World.Config;
-using World.Templates;
+using TerrainSample.Properties;
+using TerrainSample.World.Config;
+using TerrainSample.World.Templates;
 
-namespace Game
+namespace TerrainSample
 {
     partial class Game
     {

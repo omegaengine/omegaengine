@@ -23,7 +23,7 @@
 using System;
 using Common.Utils;
 
-namespace Presentation
+namespace TerrainSample.Presentation
 {
     /// <summary>
     /// Describes a square or circle terrain area that is to be modified.

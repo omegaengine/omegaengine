@@ -8,7 +8,7 @@
     <ProjectGuid>{3EA8E61B-A309-4862-B4B1-7C67537C52A6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>World</RootNamespace>
+    <RootNamespace>TerrainSample.World</RootNamespace>
     <AssemblyName>TerrainSample.World</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>

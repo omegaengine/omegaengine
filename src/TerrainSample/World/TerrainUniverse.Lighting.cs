@@ -30,7 +30,7 @@ using Common.Values;
 using Common.Values.Design;
 using LuaInterface;
 
-namespace World
+namespace TerrainSample.World
 {
     partial class TerrainUniverse
     {
@@ -100,7 +100,7 @@ namespace World
         /// The angle of inclination of the sun's path away from the zenith in degrees.
         /// </summary>
         [DefaultValue(20f), Category("Lighting"), Description("The angle of inclination of the sun's path away from the zenith towards south in degrees.")]
-        [EditorAttribute(typeof(AngleEditor), typeof(UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
         public float SunInclination { get { return _sunInclination; } set { value.To(ref _sunInclination, OnLightingChanged); } }
 
         /// <summary>Used for XML serialization.</summary>
@@ -128,7 +128,7 @@ namespace World
         /// The angle of inclination of the second moon's path away from the zenith in degrees.
         /// </summary>
         [DefaultValue(340f), Category("Lighting"), Description("The angle of inclination of the second moon's path away from the zenith towards south in degrees.")]
-        [EditorAttribute(typeof(AngleEditor), typeof(UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
         public float MoonInclination { get { return _moonInclination; } set { value.To(ref _moonInclination, OnLightingChanged); } }
 
         private float _lightPhase;
@@ -143,7 +143,7 @@ namespace World
         /// 3 = twilight<br/>
         /// </remarks>
         [FloatRange(0f, 4f), DefaultValue(0f), Category("Lighting"), Description("A value between 0 and 4 representing the current sun and moon positions.")]
-        [EditorAttribute(typeof(SliderEditor), typeof(UITypeEditor))]
+        [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
         public float LightPhase { get { return _lightPhase; } set { (value % 4).To(ref _lightPhase, OnLightingChanged); } }
 
         /// <summary>

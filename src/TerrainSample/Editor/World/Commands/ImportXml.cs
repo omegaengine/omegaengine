@@ -22,10 +22,10 @@
 
 using System;
 using Common.Undo;
-using Presentation;
-using World;
+using TerrainSample.Presentation;
+using TerrainSample.World;
 
-namespace AlphaEditor.World.Commands
+namespace TerrainSample.Editor.World.Commands
 {
     /// <summary>
     /// Loads new XML data into a <see cref="TerrainUniverse"/>.

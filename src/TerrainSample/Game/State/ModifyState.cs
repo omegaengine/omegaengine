@@ -21,9 +21,9 @@
  */
 
 using OmegaEngine;
-using World;
+using TerrainSample.World;
 
-namespace Game.State
+namespace TerrainSample.State
 {
     /// <summary>
     /// Represents a state where the user can modify the live game world.

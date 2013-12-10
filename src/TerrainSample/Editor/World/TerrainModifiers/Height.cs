@@ -23,21 +23,19 @@
 using System;
 using System.Drawing;
 using Common.Undo;
-using Presentation;
+using OmegaEngine.Graphics.Renderables;
 using SlimDX;
-using World;
-using World.Terrains;
-using EngineTerrain = OmegaEngine.Graphics.Renderables.Terrain;
+using TerrainSample.Presentation;
 
-namespace AlphaEditor.World.TerrainModifiers
+namespace TerrainSample.Editor.World.TerrainModifiers
 {
     /// <summary>
-    /// Abstract base class for interactivley changing the height of an area on a <see cref="Terrain"/>.
+    /// Abstract base class for interactivley changing the height of an area on a <see cref="TerrainSample.World.Terrains.Terrain"/>.
     /// </summary>
     internal abstract class Height : Base
     {
-        /// <summary>The <see cref="EngineTerrain"/> to live-update while modifying.</summary>
-        private readonly EngineTerrain _engineTerrain;
+        /// <summary>The <see cref="Terrain"/> to live-update while modifying.</summary>
+        private readonly Terrain _engineTerrain;
 
         /// <summary>Called when the <see cref="Presenter"/> needs to be reset.</summary>
         private readonly Action _refreshHandler;
@@ -45,10 +43,10 @@ namespace AlphaEditor.World.TerrainModifiers
         /// <summary>
         /// Creates a new terrain height modifier.
         /// </summary>
-        /// <param name="terrain">The <see cref="Terrain"/> to modify.</param>
+        /// <param name="terrain">The <see cref="TerrainSample.World.Terrains.Terrain"/> to modify.</param>
         /// <param name="engineTerrain">The <see cref="OmegaEngine.Graphics.Renderables.Terrain"/> to live-update while modifying.</param>
         /// <param name="refreshHandler">Called when the <see cref="Presenter"/> needs to be reset.</param>
-        protected Height(Terrain terrain, EngineTerrain engineTerrain, Action refreshHandler) : base(terrain)
+        protected Height(TerrainSample.World.Terrains.Terrain terrain, Terrain engineTerrain, Action refreshHandler) : base(terrain)
         {
             #region Sanity checks
             if (engineTerrain == null) throw new ArgumentNullException("engineTerrain");
@@ -77,12 +75,12 @@ namespace AlphaEditor.World.TerrainModifiers
         }
 
         /// <summary>
-        /// Modifies the <see cref="Terrain"/> and fills arrays with undo/redo data.
+        /// Modifies the <see cref="TerrainSample.World.Terrains.Terrain"/> and fills arrays with undo/redo data.
         /// </summary>
-        /// <param name="offset">The <see cref="Terrain.HeightMap"/> index that corresponds to the top-left corner of the area to modify.</param>
+        /// <param name="offset">The <see cref="TerrainSample.World.Terrains.Terrain.HeightMap"/> index that corresponds to the top-left corner of the area to modify.</param>
         /// <param name="brush">The shape and size of the area to the lower-right of <paramref name="offset"/> to modify.</param>
-        /// <param name="oldData">An array to be filled with data from <see cref="Terrain.HeightMap"/> before the modification. Both dimensions must be equal to <see cref="TerrainBrush.Size"/>.</param>
-        /// <param name="newData">An array to be filled with data from <see cref="Terrain.HeightMap"/> after the modification. Both dimensions must be equal to <see cref="TerrainBrush.Size"/>.</param>
+        /// <param name="oldData">An array to be filled with data from <see cref="TerrainSample.World.Terrains.Terrain.HeightMap"/> before the modification. Both dimensions must be equal to <see cref="TerrainBrush.Size"/>.</param>
+        /// <param name="newData">An array to be filled with data from <see cref="TerrainSample.World.Terrains.Terrain.HeightMap"/> after the modification. Both dimensions must be equal to <see cref="TerrainBrush.Size"/>.</param>
         protected abstract void ModifyTerrain(Point offset, TerrainBrush brush, byte[,] oldData, byte[,] newData);
 
         /// <inheritdoc/>

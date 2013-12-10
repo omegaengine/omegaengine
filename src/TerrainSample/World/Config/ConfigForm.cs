@@ -24,7 +24,7 @@ using System;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace World.Config
+namespace TerrainSample.World.Config
 {
     internal partial class ConfigForm : Form
     {

@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-namespace World.Positionables
+namespace TerrainSample.World.Positionables
 {
     /// <summary>
     /// A marker used as a hint for pathfinding.

@@ -26,9 +26,9 @@ using Common.Values;
 using OmegaEngine;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Cameras;
-using World;
+using TerrainSample.World;
 
-namespace Presentation
+namespace TerrainSample.Presentation
 {
     /// <summary>
     /// Displays the background world for the main menu

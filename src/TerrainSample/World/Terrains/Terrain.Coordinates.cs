@@ -23,9 +23,9 @@
 using System;
 using Common.Values;
 using SlimDX;
-using Resources = World.Properties.Resources;
+using Resources = TerrainSample.World.Properties.Resources;
 
-namespace World.Terrains
+namespace TerrainSample.World.Terrains
 {
     partial class Terrain
     {

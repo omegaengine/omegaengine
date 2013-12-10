@@ -25,15 +25,15 @@ using System.Drawing;
 using System.IO;
 using Common;
 using Common.Storage;
-using Game.Properties;
 using LuaInterface;
 using OmegaEngine;
 using OmegaGUI;
-using Presentation;
-using World;
-using World.Config;
+using TerrainSample.Presentation;
+using TerrainSample.Properties;
+using TerrainSample.World;
+using TerrainSample.World.Config;
 
-namespace Game
+namespace TerrainSample
 {
     /// <summary>
     /// Represents a running instance of the game

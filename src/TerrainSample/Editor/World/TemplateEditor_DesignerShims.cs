@@ -20,10 +20,9 @@
  * THE SOFTWARE.
  */
 
-using World;
-using World.Templates;
+using TerrainSample.World.Templates;
 
-namespace AlphaEditor.World
+namespace TerrainSample.Editor.World
 {
     /// <summary>
     /// Intermediate dummy class for <see cref="TemplateEditor{TerrainTemplate}"/> to prevent WinForms designer confusion with generics

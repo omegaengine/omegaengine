@@ -27,7 +27,7 @@ using System.Drawing;
 using Common.Collections;
 using Common.Utils;
 
-namespace World.Config
+namespace TerrainSample.World.Config
 {
     /// <summary>
     /// Stores settings for the game's editor.

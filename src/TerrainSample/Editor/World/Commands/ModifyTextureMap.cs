@@ -24,10 +24,9 @@ using System;
 using System.Drawing;
 using AlphaEditor.Properties;
 using Common.Undo;
-using World;
-using World.Terrains;
+using TerrainSample.World.Terrains;
 
-namespace AlphaEditor.World.Commands
+namespace TerrainSample.Editor.World.Commands
 {
     /// <summary>
     /// Modifies texture-map data in a <see cref="Terrain"/>.

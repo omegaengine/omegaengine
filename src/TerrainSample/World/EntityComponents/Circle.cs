@@ -24,9 +24,9 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using Common.Values;
 using SlimDX;
-using World.Templates;
+using TerrainSample.World.Templates;
 
-namespace World.EntityComponents
+namespace TerrainSample.World.EntityComponents
 {
     /// <summary>
     /// Collision-detection using a simple uniform circle.

@@ -24,10 +24,9 @@ using System.Diagnostics.CodeAnalysis;
 using AlphaEditor.Properties;
 using Common;
 using Common.Controls;
-using World;
-using World.Templates;
+using TerrainSample.World.Templates;
 
-namespace AlphaEditor.World
+namespace TerrainSample.Editor.World
 {
     /// <summary>
     /// Allows the user to edit <see cref="ItemTemplate"/>s

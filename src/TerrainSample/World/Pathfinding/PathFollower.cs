@@ -20,9 +20,9 @@
  * THE SOFTWARE.
  */
 
-using World.Positionables;
+using TerrainSample.World.Positionables;
 
-namespace World.Pathfinding
+namespace TerrainSample.World.Pathfinding
 {
     /// <summary>.
     /// A following member in a pathfinding group (follows <see cref="PathLeader{TCoordinates}"/>).

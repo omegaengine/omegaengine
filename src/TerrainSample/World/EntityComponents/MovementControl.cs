@@ -22,10 +22,10 @@
 
 using System;
 using System.ComponentModel;
-using World.Positionables;
-using World.Templates;
+using TerrainSample.World.Positionables;
+using TerrainSample.World.Templates;
 
-namespace World.EntityComponents
+namespace TerrainSample.World.EntityComponents
 {
     /// <summary>
     /// Controls the basic movement parameters.

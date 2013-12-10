@@ -31,13 +31,17 @@ using OmegaEngine.Assets;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
-using World.Positionables;
-using World.Terrains;
-using EntityComp = World.EntityComponents;
+using TerrainSample.World.EntityComponents;
+using TerrainSample.World.Positionables;
+using TerrainSample.World.Terrains;
+using CpuParticleSystem = TerrainSample.World.EntityComponents.CpuParticleSystem;
+using GpuParticleSystem = TerrainSample.World.EntityComponents.GpuParticleSystem;
+using LightSource = TerrainSample.World.EntityComponents.LightSource;
 using Terrain = OmegaEngine.Graphics.Renderables.Terrain;
+using ViewType = OmegaEngine.Graphics.Renderables.ViewType;
 using Water = OmegaEngine.Graphics.Renderables.Water;
 
-namespace Presentation
+namespace TerrainSample.Presentation
 {
     /*
      * This file provides helper methods for visualizing World.Positionables.
@@ -64,8 +68,8 @@ namespace Presentation
     partial class Presenter
     {
         #region Variables
-        /// <summary>1:1 association of <see cref="EntityComp.RenderControl"/> to <see cref="IPositionableOffset"/> (usually <see cref="PositionableRenderable"/>.</summary>
-        private readonly Dictionary<EntityComp.RenderControl, IPositionable> _worldToEngine = new Dictionary<EntityComp.RenderControl, IPositionable>();
+        /// <summary>1:1 association of <see cref="RenderControl"/> to <see cref="IPositionableOffset"/> (usually <see cref="PositionableRenderable"/>.</summary>
+        private readonly Dictionary<RenderControl, IPositionable> _worldToEngine = new Dictionary<RenderControl, IPositionable>();
 
         /// <summary>1:1 association of <see cref="World.Positionables.Water"/> to <see cref="OmegaEngine.Graphics.Renderables.Water"/>.</summary>
         private readonly Dictionary<World.Positionables.Water, Water> _worldToEngineWater = new Dictionary<World.Positionables.Water, Water>();
@@ -85,9 +89,9 @@ namespace Presentation
 
         #region Dictionary access
         /// <summary>
-        /// Returns the <see cref="IPositionable"/> that was created for a <see cref="EntityComp.RenderControl"/>.
+        /// Returns the <see cref="IPositionable"/> that was created for a <see cref="RenderControl"/>.
         /// </summary>
-        protected IPositionable GetEngine(EntityComp.RenderControl renderControl)
+        protected IPositionable GetEngine(RenderControl renderControl)
         {
             #region Sanity checks
             if (Disposed) throw new ObjectDisposedException(ToString());
@@ -333,16 +337,16 @@ namespace Presentation
         /// Adds a graphical representation to the engine, <see cref="_worldToEngine"/> and <see cref="_engineToWorld"/>.
         /// </summary>
         /// <param name="entity">The <see cref="Positionable{TCoordinates}"/> <paramref name="renderControl"/> is associated with.</param>
-        /// <param name="renderControl">The <see cref="EntityComp.RenderControl"/> to be displayed.</param>
+        /// <param name="renderControl">The <see cref="RenderControl"/> to be displayed.</param>
         /// <exception cref="FileNotFoundException">Thrown if a required <see cref="Asset"/> file could not be found.</exception>
         /// <exception cref="IOException">Thrown if there was an error reading an <see cref="Asset"/> file.</exception>
         /// <exception cref="InvalidDataException">Thrown if an <see cref="Asset"/> file contains invalid data.</exception>
-        private void AddEntityHelper(Entity<Vector2> entity, EntityComp.RenderControl renderControl)
+        private void AddEntityHelper(Entity<Vector2> entity, RenderControl renderControl)
         {
             // ----- Apply RenderControl.Shift directly with PreTransform ----- //
 
             #region Test sphere
-            var sphereRender = renderControl as EntityComp.TestSphere;
+            var sphereRender = renderControl as TestSphere;
             if (sphereRender != null)
             {
                 // Load the model based on the entity name
@@ -366,13 +370,13 @@ namespace Presentation
             #endregion
 
             #region Mesh
-            var meshRender = renderControl as EntityComp.Mesh;
+            var meshRender = renderControl as Mesh;
             if (meshRender != null && !string.IsNullOrEmpty(meshRender.Filename))
             {
                 // Load the model based on the entity name (differentiate between static and animated meshes)
                 PositionableRenderable model;
-                if (meshRender is EntityComp.StaticMesh) model = Model.FromAsset(Engine, meshRender.Filename);
-                else if (meshRender is EntityComp.AnimatedMesh) model = AnimatedModel.FromAsset(Engine, meshRender.Filename);
+                if (meshRender is StaticMesh) model = Model.FromAsset(Engine, meshRender.Filename);
+                else if (meshRender is AnimatedMesh) model = AnimatedModel.FromAsset(Engine, meshRender.Filename);
                 else throw new InvalidOperationException();
                 model.Name = entity.Name;
 
@@ -402,15 +406,15 @@ namespace Presentation
             // ----- Don't apply RenderControl.Shift yet ----- //
 
             #region ParticleSystem
-            var particleRender = renderControl as EntityComp.ParticleSystem;
+            var particleRender = renderControl as ParticleSystem;
             if (particleRender != null && !string.IsNullOrEmpty(particleRender.Filename))
             {
                 PositionableRenderable particleSystem;
 
-                if (particleRender is EntityComp.CpuParticleSystem)
-                    particleSystem = CpuParticleSystem.FromPreset(Engine, particleRender.Filename);
-                else if (particleRender is EntityComp.GpuParticleSystem)
-                    particleSystem = GpuParticleSystem.FromPreset(Engine, particleRender.Filename);
+                if (particleRender is CpuParticleSystem)
+                    particleSystem = OmegaEngine.Graphics.Renderables.CpuParticleSystem.FromPreset(Engine, particleRender.Filename);
+                else if (particleRender is GpuParticleSystem)
+                    particleSystem = OmegaEngine.Graphics.Renderables.GpuParticleSystem.FromPreset(Engine, particleRender.Filename);
                 else return;
 
                 particleSystem.Name = entity.Name;
@@ -429,7 +433,7 @@ namespace Presentation
 
             #region LightSource
             if (!Lighting) return;
-            var lightInfo = renderControl as EntityComp.LightSource;
+            var lightInfo = renderControl as LightSource;
             if (lightInfo != null)
             {
                 var light = new PointLight
@@ -450,12 +454,12 @@ namespace Presentation
 
         #region Update entity helper
         /// <summary>
-        /// Updates a specific <see cref="EntityComp.RenderControl"/> representation in the engine
+        /// Updates a specific <see cref="RenderControl"/> representation in the engine
         /// </summary>
-        /// <param name="renderControl">The <see cref="EntityComp.RenderControl"/> to be updated</param>
+        /// <param name="renderControl">The <see cref="RenderControl"/> to be updated</param>
         /// <param name="terrainPoint">The location of the associated <see cref="Positionable{TCoordinates}"/> on the terrain</param>
         /// <param name="dirRotation">The rotation of the associated <see cref="Positionable{TCoordinates}"/> on the terrain</param>
-        private void UpdateEntityHelper(EntityComp.RenderControl renderControl, TerrainPoint terrainPoint, float dirRotation)
+        private void UpdateEntityHelper(RenderControl renderControl, TerrainPoint terrainPoint, float dirRotation)
         {
             var render = GetEngine(renderControl);
             if (render == null) return;
@@ -466,8 +470,8 @@ namespace Presentation
             // ----- RenderControl.Shift already applied ----- //
 
             #region Mesh / TestSphere
-            var meshRender = renderControl as EntityComp.Mesh;
-            if ((meshRender != null && !string.IsNullOrEmpty(meshRender.Filename)) || renderControl is EntityComp.TestSphere)
+            var meshRender = renderControl as Mesh;
+            if ((meshRender != null && !string.IsNullOrEmpty(meshRender.Filename)) || renderControl is TestSphere)
             {
                 // Cast to entity to be able to access Rotation in addition to Position
                 var renderable = (PositionableRenderable)render;
@@ -484,7 +488,7 @@ namespace Presentation
                 renderControl.Shift, Matrix.RotationQuaternion(rotation));
 
             #region ParticleSystem
-            if (renderControl is EntityComp.ParticleSystem)
+            if (renderControl is ParticleSystem)
             {
                 render.Position = Terrain.Position + terrainPoint.Position + rotatedShift;
                 return;
@@ -492,7 +496,7 @@ namespace Presentation
             #endregion
 
             #region LightSource
-            if (renderControl is EntityComp.LightSource)
+            if (renderControl is LightSource)
                 render.Position = Terrain.Position + terrainPoint.Position + rotatedShift;
             #endregion
         }
@@ -502,8 +506,8 @@ namespace Presentation
         /// <summary>
         /// Removes a graphical representation from the engine, <see cref="_worldToEngine"/> and <see cref="_engineToWorld"/>
         /// </summary>
-        /// <param name="renderControl">The <see cref="EntityComp.RenderControl"/> to be </param>
-        private void RemoveEntityHelper(EntityComp.RenderControl renderControl)
+        /// <param name="renderControl">The <see cref="RenderControl"/> to be </param>
+        private void RemoveEntityHelper(RenderControl renderControl)
         {
             var render = GetEngine(renderControl);
             if (render == null) return;

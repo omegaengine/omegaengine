@@ -27,11 +27,11 @@ using System.Xml.Serialization;
 using Common.Utils;
 using Common.Values;
 using Common.Values.Design;
-using World.EntityComponents;
-using World.Pathfinding;
-using World.Templates;
+using TerrainSample.World.EntityComponents;
+using TerrainSample.World.Pathfinding;
+using TerrainSample.World.Templates;
 
-namespace World.Positionables
+namespace TerrainSample.World.Positionables
 {
     /// <summary>
     /// A <see cref="Positionable{TCoordinates}"/> whose behaviour and graphical representation is controlled by <see cref="World.EntityComponents"/>.

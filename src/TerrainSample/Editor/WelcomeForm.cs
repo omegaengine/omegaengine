@@ -21,9 +21,10 @@
  */
 
 using System.Windows.Forms;
-using World.Config;
+using AlphaEditor;
+using TerrainSample.World.Config;
 
-namespace AlphaEditor
+namespace TerrainSample.Editor
 {
     /// <summary>
     /// Displays an introduction text for new users

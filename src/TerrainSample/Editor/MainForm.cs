@@ -24,13 +24,14 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using AlphaEditor;
 using AlphaEditor.Properties;
-using AlphaEditor.World;
 using Common;
-using World;
-using World.Config;
+using TerrainSample.Editor.World;
+using TerrainSample.World;
+using TerrainSample.World.Config;
 
-namespace AlphaEditor
+namespace TerrainSample.Editor
 {
     /// <summary>
     /// The main window of the editor, container for the editor tabs.

@@ -22,11 +22,10 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using Presentation;
-using World;
-using World.Terrains;
+using TerrainSample.Presentation;
+using TerrainSample.World.Terrains;
 
-namespace AlphaEditor.World.Commands
+namespace TerrainSample.Editor.World.Commands
 {
     /// <summary>
     /// Loads new height-map data into a <see cref="Terrain"/>.

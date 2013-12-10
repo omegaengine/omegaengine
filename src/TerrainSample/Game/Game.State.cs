@@ -25,14 +25,14 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using Common;
 using Common.Values;
-using Game.Properties;
 using LuaInterface;
 using OmegaEngine;
-using Presentation;
-using World;
-using World.Config;
+using TerrainSample.Presentation;
+using TerrainSample.Properties;
+using TerrainSample.World;
+using TerrainSample.World.Config;
 
-namespace Game
+namespace TerrainSample
 {
 
     #region Game state

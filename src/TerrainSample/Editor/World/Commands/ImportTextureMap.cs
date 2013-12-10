@@ -22,10 +22,9 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using World;
-using World.Terrains;
+using TerrainSample.World.Terrains;
 
-namespace AlphaEditor.World.Commands
+namespace TerrainSample.Editor.World.Commands
 {
     /// <summary>
     /// Loads new texture-map data into a <see cref="Terrain"/>.

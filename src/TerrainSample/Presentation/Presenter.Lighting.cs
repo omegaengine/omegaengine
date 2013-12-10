@@ -27,7 +27,7 @@ using Common.Values;
 using OmegaEngine.Graphics;
 using SlimDX;
 
-namespace Presentation
+namespace TerrainSample.Presentation
 {
     partial class Presenter
     {

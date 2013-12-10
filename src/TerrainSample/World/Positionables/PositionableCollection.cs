@@ -26,9 +26,9 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using Common.Collections;
-using World.Properties;
+using TerrainSample.World.Properties;
 
-namespace World.Positionables
+namespace TerrainSample.World.Positionables
 {
     /// <summary>
     /// Stores a collection of <see cref="Positionable{TCoordinates}"/>s.

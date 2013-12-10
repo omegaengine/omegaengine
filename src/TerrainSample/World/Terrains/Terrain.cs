@@ -27,10 +27,10 @@ using System.IO;
 using System.Xml.Serialization;
 using Common.Utils;
 using SlimDX;
-using World.Templates;
-using Resources = World.Properties.Resources;
+using TerrainSample.World.Templates;
+using Resources = TerrainSample.World.Properties.Resources;
 
-namespace World.Terrains
+namespace TerrainSample.World.Terrains
 {
     /// <summary>
     /// This class contains a height-map-based Terrain including texturing and pathfinding data.

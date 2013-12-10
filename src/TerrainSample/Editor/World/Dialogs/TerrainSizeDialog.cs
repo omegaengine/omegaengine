@@ -25,10 +25,9 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using Common.Controls;
 using Common.Utils;
-using World;
-using World.Terrains;
+using TerrainSample.World.Terrains;
 
-namespace AlphaEditor.World.Dialogs
+namespace TerrainSample.Editor.World.Dialogs
 {
     /// <summary>
     /// Displays and edits a <see cref="TerrainSize"/>. Can also be used to create a new <see cref="TerrainSize"/>.

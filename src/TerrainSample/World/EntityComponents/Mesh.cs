@@ -23,9 +23,9 @@
 using System.ComponentModel;
 using System.Xml.Serialization;
 using Common.Values.Design;
-using World.Templates;
+using TerrainSample.World.Templates;
 
-namespace World.EntityComponents
+namespace TerrainSample.World.EntityComponents
 {
 
     #region Enumerations
@@ -72,21 +72,21 @@ namespace World.EntityComponents
         /// How the mesh loaded from the file shall be rotated around the X axis (east to west).
         /// </summary>
         [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the X axis (east to west).")]
-        [EditorAttribute(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public float RotationX { get; set; }
 
         /// <summary>
         /// How the mesh loaded from the file shall be rotated around the Y axis (top to bottom).
         /// </summary>
         [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Y axis (top to bottom).")]
-        [EditorAttribute(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public float RotationY { get; set; }
 
         /// <summary>
         /// How the mesh loaded from the file shall be rotated around the Z axis (north to south).
         /// </summary>
         [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Z axis (north to south).")]
-        [EditorAttribute(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public float RotationZ { get; set; }
 
         private float _scale = 1;

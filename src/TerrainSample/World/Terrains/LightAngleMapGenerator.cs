@@ -24,13 +24,12 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Common.Tasks;
 using Common.Utils;
-using World.Properties;
-
 #if NETFX4
 using System.Threading.Tasks;
 #endif
+using TerrainSample.World.Properties;
 
-namespace World.Terrains
+namespace TerrainSample.World.Terrains
 {
     /// <summary>
     /// Generates light-angle maps from a height map for a <see cref="Terrain"/> as a background task.

@@ -23,9 +23,9 @@
 using System;
 using OmegaEngine;
 using OmegaEngine.Graphics;
-using World;
+using TerrainSample.World;
 
-namespace Presentation
+namespace TerrainSample.Presentation
 {
     /// <summary>
     /// Main in-game interaction

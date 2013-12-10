@@ -31,12 +31,12 @@ using Common.Controls;
 using Common.Storage;
 using Common.Utils;
 using Common.Values;
-using Game.Properties;
 using OmegaEngine;
 using OmegaGUI.Model;
-using World.Config;
+using TerrainSample.Properties;
+using TerrainSample.World.Config;
 
-namespace Game
+namespace TerrainSample
 {
     internal static class Program
     {

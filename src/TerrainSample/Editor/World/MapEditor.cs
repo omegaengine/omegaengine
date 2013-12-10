@@ -27,22 +27,23 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using AlphaEditor;
 using Common;
 using Common.Controls;
-using Common.Utils;
 using Common.Storage;
 using Common.Undo;
+using Common.Utils;
 using ICSharpCode.SharpZipLib.Zip;
 using OmegaEngine.Input;
-using Presentation;
 using SlimDX;
-using World;
-using World.Positionables;
-using World.Templates;
-using World.Terrains;
+using TerrainSample.Presentation;
+using TerrainSample.World;
+using TerrainSample.World.Positionables;
+using TerrainSample.World.Templates;
+using TerrainSample.World.Terrains;
 using Resources = AlphaEditor.Properties.Resources;
 
-namespace AlphaEditor.World
+namespace TerrainSample.Editor.World
 {
     /// <summary>
     /// Allows the user to edit game maps

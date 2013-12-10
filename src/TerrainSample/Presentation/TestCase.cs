@@ -24,10 +24,10 @@ using System;
 using System.Xml.Serialization;
 using Common.Values;
 using SlimDX;
-using World.Config;
-using World.Positionables;
+using TerrainSample.World.Config;
+using TerrainSample.World.Positionables;
 
-namespace Presentation
+namespace TerrainSample.Presentation
 {
 
     #region Enumerations

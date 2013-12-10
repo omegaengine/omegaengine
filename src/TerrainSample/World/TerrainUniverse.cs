@@ -30,12 +30,12 @@ using Common.Storage;
 using ICSharpCode.SharpZipLib.Zip;
 using LuaInterface;
 using SlimDX;
-using World.Pathfinding;
-using World.Positionables;
-using World.Terrains;
-using Resources = World.Properties.Resources;
+using TerrainSample.World.Pathfinding;
+using TerrainSample.World.Positionables;
+using TerrainSample.World.Terrains;
+using Resources = TerrainSample.World.Properties.Resources;
 
-namespace World
+namespace TerrainSample.World
 {
     /// <summary>
     /// Represents a world with a height-map based <see cref="Terrain"/>.

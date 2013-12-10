@@ -1,4 +1,4 @@
-namespace AlphaEditor
+namespace TerrainSample.Editor
 {
     partial class MainForm
     {

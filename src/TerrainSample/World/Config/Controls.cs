@@ -24,7 +24,7 @@ using System;
 using System.ComponentModel;
 using Common.Utils;
 
-namespace World.Config
+namespace TerrainSample.World.Config
 {
     /// <summary>
     /// Stores settings for the user controls (mouse, keyboard, etc.).

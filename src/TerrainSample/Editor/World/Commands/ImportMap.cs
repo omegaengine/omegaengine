@@ -23,11 +23,10 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Common.Undo;
-using Presentation;
-using World;
-using World.Terrains;
+using TerrainSample.Presentation;
+using TerrainSample.World.Terrains;
 
-namespace AlphaEditor.World.Commands
+namespace TerrainSample.Editor.World.Commands
 {
     /// <summary>
     /// Abstract base class for commands that load new map data into a <see cref="Terrain"/>.

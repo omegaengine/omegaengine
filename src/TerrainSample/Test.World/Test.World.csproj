@@ -8,7 +8,7 @@
     <ProjectGuid>{39540BF8-E6E3-4197-A129-2C849C40121A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>World</RootNamespace>
+    <RootNamespace>TerrainSample.World</RootNamespace>
     <AssemblyName>Test.TerrainSample.World</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>

@@ -22,10 +22,10 @@
 
 using System;
 using OmegaEngine;
-using Presentation;
-using World;
+using TerrainSample.Presentation;
+using TerrainSample.World;
 
-namespace Game.State
+namespace TerrainSample.State
 {
     /// <summary>
     /// Represents a state where the game's main menu is visible.

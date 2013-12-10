@@ -24,7 +24,7 @@ using System.Xml.Serialization;
 using Common.Collections;
 using Common.Storage;
 
-namespace World.Templates
+namespace TerrainSample.World.Templates
 {
     /// <summary>
     /// A string-keyed dictionary of <see cref="Template{T}"/>es that can be XML serialized.

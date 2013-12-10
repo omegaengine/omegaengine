@@ -1,4 +1,4 @@
-namespace AlphaEditor.World
+namespace TerrainSample.Editor.World
 {
     partial class MapEditor
     {

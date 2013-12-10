@@ -26,11 +26,11 @@ using System.IO;
 using Common;
 using Common.Storage;
 using LuaInterface;
-using Presentation;
-using World;
-using World.Config;
+using TerrainSample.Presentation;
+using TerrainSample.World;
+using TerrainSample.World.Config;
 
-namespace Game
+namespace TerrainSample
 {
     partial class Game
     {

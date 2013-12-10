@@ -22,9 +22,9 @@
 
 using Common.Tasks;
 using NUnit.Framework;
-using World.Terrains;
+using TerrainSample.World.Terrains;
 
-namespace World
+namespace TerrainSample.World
 {
     /// <summary>
     /// Contains test methods for <see cref="LightAngleMapGenerator"/>.

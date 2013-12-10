@@ -23,12 +23,12 @@
 using System;
 using System.Collections.Generic;
 using Common.Utils;
+using OmegaEngine.Graphics.Renderables;
 using SlimDX;
-using World.Positionables;
-using EngineRenderable = OmegaEngine.Graphics.Renderables;
-using EntityComp = World.EntityComponents;
+using TerrainSample.World.EntityComponents;
+using TerrainSample.World.Positionables;
 
-namespace Presentation
+namespace TerrainSample.Presentation
 {
     /*
      * This file provides helper methods for visualizing selections.
@@ -49,8 +49,8 @@ namespace Presentation
     partial class InteractivePresenter
     {
         #region Variables
-        /// <summary>1:1 association of <see cref="Entity{TCoordinates}"/> to selection highlighting <see cref="EngineRenderable.PositionableRenderable"/>.</summary>
-        private readonly Dictionary<Entity<Vector2>, EngineRenderable.PositionableRenderable> _worldToEngine = new Dictionary<Entity<Vector2>, EngineRenderable.PositionableRenderable>();
+        /// <summary>1:1 association of <see cref="Entity{TCoordinates}"/> to selection highlighting <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>.</summary>
+        private readonly Dictionary<Entity<Vector2>, PositionableRenderable> _worldToEngine = new Dictionary<Entity<Vector2>, PositionableRenderable>();
         #endregion
 
         //--------------------//
@@ -81,22 +81,22 @@ namespace Presentation
         private void AddSelectedEntity(Entity<Vector2> entity)
         {
             // Prepare a selection highlighting around the entity
-            EngineRenderable.Model selectionHighlight;
+            OmegaEngine.Graphics.Renderables.Model selectionHighlight;
 
-            var circle = entity.TemplateData.CollisionControl as EntityComp.Circle;
+            var circle = entity.TemplateData.CollisionControl as Circle;
             if (circle != null)
             { // Create a circle around the entity based on the radius
-                selectionHighlight = EngineRenderable.Model.FromAsset(Engine, "Engine/Circle.x");
+                selectionHighlight = OmegaEngine.Graphics.Renderables.Model.FromAsset(Engine, "Engine/Circle.x");
                 float scale = circle.Radius / 20 + 1;
                 selectionHighlight.PreTransform = Matrix.Scaling(scale, 1, scale);
             }
 
             else
             {
-                var box = entity.TemplateData.CollisionControl as EntityComp.Box;
+                var box = entity.TemplateData.CollisionControl as Box;
                 if (box != null)
                 { // Create a rectangle around the entity based on the box corners
-                    selectionHighlight = EngineRenderable.Model.FromAsset(Engine, "Engine/Rectangle.x");
+                    selectionHighlight = OmegaEngine.Graphics.Renderables.Model.FromAsset(Engine, "Engine/Rectangle.x");
 
                     // Determine the component-wise minimums and maxmimums and the absolute difference
                     var min = new Vector2(Math.Min(box.Minimum.X, box.Maximum.X), Math.Min(box.Minimum.Y, box.Maximum.Y));
@@ -148,7 +148,7 @@ namespace Presentation
         /// <remarks>This is a helper method for <see cref="RemoveSelectedPositionable"/>.</remarks>
         private void RemoveSelectedEntity(Entity<Vector2> entity)
         {
-            EngineRenderable.PositionableRenderable selection;
+            OmegaEngine.Graphics.Renderables.PositionableRenderable selection;
             if (!_worldToEngine.TryGetValue(entity, out selection)) return;
 
             // Remove the selection highlighting from the dictionary and the engine and dispose it
@@ -180,7 +180,7 @@ namespace Presentation
             // Only continue if the positionable is a entity that has a selection highlighting associated to it
             var entity = positionable as Entity<Vector2>;
             if (entity == null) return;
-            EngineRenderable.PositionableRenderable selection;
+            OmegaEngine.Graphics.Renderables.PositionableRenderable selection;
             if (!_worldToEngine.TryGetValue(entity, out selection)) return;
 
             // Update the posistion and rotation of the selection highlighting

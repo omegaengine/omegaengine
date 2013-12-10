@@ -31,10 +31,9 @@ using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;
 using SlimDX;
-using World.Positionables;
-using EngineRenderable = OmegaEngine.Graphics.Renderables;
+using TerrainSample.World.Positionables;
 
-namespace Presentation
+namespace TerrainSample.Presentation
 {
     /// <summary>
     /// Handles the visual representation of <see cref="World"/> content where the user can manually control the perspective
@@ -196,7 +195,7 @@ namespace Presentation
             DoubleVector3 intersectPosition;
             var pickedObject = View.Pick(e.Location, out intersectPosition);
             if (pickedObject == null) return;
-            bool pickedTerrain = pickedObject is EngineRenderable.Terrain;
+            bool pickedTerrain = pickedObject is OmegaEngine.Graphics.Renderables.Terrain;
 
             // ToDo: Optimize performance by using .SetMany()
 
@@ -259,7 +258,7 @@ namespace Presentation
             var pickedObject = View.Pick(e.Location, out intersectPosition);
 
             // Action: Double-click on entity to select and focus camera
-            if (pickedObject != null && !(pickedObject is EngineRenderable.Terrain) && !(View.Camera is CinematicCamera)) /* Each swing must complete before the next one can start */
+            if (pickedObject != null && !(pickedObject is OmegaEngine.Graphics.Renderables.Terrain) && !(View.Camera is CinematicCamera)) /* Each swing must complete before the next one can start */
             {
                 var newState = new CameraState<Vector2>
                 {

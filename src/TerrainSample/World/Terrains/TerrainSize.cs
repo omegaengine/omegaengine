@@ -23,7 +23,7 @@
 using System.Drawing;
 using System.Xml.Serialization;
 
-namespace World.Terrains
+namespace TerrainSample.World.Terrains
 {
     /// <summary>
     /// Contains information about the size of a <see cref="Terrain"/>.

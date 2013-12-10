@@ -28,9 +28,9 @@ using System.IO;
 using Common;
 using Common.Utils;
 using LuaInterface;
-using World.Properties;
+using TerrainSample.World.Properties;
 
-namespace World.Terrains
+namespace TerrainSample.World.Terrains
 {
     partial class Terrain
     {

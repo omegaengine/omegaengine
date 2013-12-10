@@ -22,7 +22,7 @@
 
 using System.ComponentModel;
 
-namespace World.Positionables
+namespace TerrainSample.World.Positionables
 {
     /// <summary>
     /// A marker that controls camera positions for the benchmark mode of the game.

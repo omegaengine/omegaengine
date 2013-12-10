@@ -24,10 +24,9 @@ using System.Windows.Forms;
 using AlphaEditor.Properties;
 using Common.Collections;
 using Common.Controls;
-using World;
-using World.Templates;
+using TerrainSample.World.Templates;
 
-namespace AlphaEditor.World.Dialogs
+namespace TerrainSample.Editor.World.Dialogs
 {
     /// <summary>
     /// Dialog for selecting <see cref="Template{T}"/>es (with a preview pane).

@@ -24,12 +24,10 @@ using System;
 using System.Drawing;
 using Common.Utils;
 using OmegaEngine;
-using Presentation;
-using World;
-using World.Terrains;
-using EngineTerrain = OmegaEngine.Graphics.Renderables.Terrain;
+using TerrainSample.Presentation;
+using TerrainSample.World.Terrains;
 
-namespace AlphaEditor.World.TerrainModifiers
+namespace TerrainSample.Editor.World.TerrainModifiers
 {
     /// <summary>
     /// Interactivley adds height noise to a <see cref="Terrain"/>.
@@ -46,11 +44,11 @@ namespace AlphaEditor.World.TerrainModifiers
         /// Creates a new terrain height noise generator.
         /// </summary>
         /// <param name="terrain">The <see cref="Terrain"/> to modify.</param>
-        /// <param name="engineTerrain">The <see cref="EngineTerrain"/> to live-update while modifying.</param>
+        /// <param name="engineTerrain">The <see cref="OmegaEngine.Graphics.Renderables.Terrain"/> to live-update while modifying.</param>
         /// <param name="refreshHandler">Called when the <see cref="Presenter"/> needs to be reset.</param>
         /// <param name="amplitude">The maximum amplitude of the noise to generate.</param>
         /// <param name="frequency">The frequency of the noise to generate.</param>
-        public HeightNoise(Terrain terrain, EngineTerrain engineTerrain, Action refreshHandler, double amplitude, double frequency)
+        public HeightNoise(Terrain terrain, OmegaEngine.Graphics.Renderables.Terrain engineTerrain, Action refreshHandler, double amplitude, double frequency)
             : base(terrain, engineTerrain, refreshHandler)
         {
             _amplitude = amplitude;

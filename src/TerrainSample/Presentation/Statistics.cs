@@ -26,10 +26,10 @@ using System.Linq;
 using System.Xml.Serialization;
 using Common.Values;
 using SlimDX;
-using World;
-using World.Positionables;
+using TerrainSample.World;
+using TerrainSample.World.Positionables;
 
-namespace Presentation
+namespace TerrainSample.Presentation
 {
     /// <summary>
     /// Represents a set of <see cref="TestCase"/>s that can be executed, recorded and serialized.

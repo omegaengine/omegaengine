@@ -22,10 +22,10 @@
 
 using System.Collections.Generic;
 using SlimDX;
-using World;
-using World.Positionables;
+using TerrainSample.World;
+using TerrainSample.World.Positionables;
 
-namespace AlphaEditor.World.Commands
+namespace TerrainSample.Editor.World.Commands
 {
     /// <summary>
     /// Adds one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="TerrainUniverse"/>.

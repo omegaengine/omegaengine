@@ -25,9 +25,9 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
 using Common.Undo;
-using World;
+using TerrainSample.World;
 
-namespace AlphaEditor.World.Dialogs
+namespace TerrainSample.Editor.World.Dialogs
 {
     /// <summary>
     /// Allows the user to modify the properties of a <see cref="TerrainUniverse"/>.

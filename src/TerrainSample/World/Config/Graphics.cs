@@ -25,7 +25,7 @@ using System.ComponentModel;
 using Common.Utils;
 using Common.Values;
 
-namespace World.Config
+namespace TerrainSample.World.Config
 {
     /// <summary>
     /// Stores graphics settings (effect details, etc.). Changes here don't require the engine to be reset.

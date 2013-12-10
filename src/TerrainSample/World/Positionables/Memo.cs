@@ -22,7 +22,7 @@
 
 using System.ComponentModel;
 
-namespace World.Positionables
+namespace TerrainSample.World.Positionables
 {
     /// <summary>
     /// A marker that designers can leave in the map to remember stuff. Will be ignored in the actual game.

@@ -32,11 +32,11 @@ using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;
-using World;
-using World.Config;
-using World.Positionables;
+using TerrainSample.World;
+using TerrainSample.World.Config;
+using TerrainSample.World.Positionables;
 
-namespace Presentation
+namespace TerrainSample.Presentation
 {
     /// <summary>
     /// Handles the visual representation of <see cref="World"/> content in the <see cref="OmegaEngine"/>

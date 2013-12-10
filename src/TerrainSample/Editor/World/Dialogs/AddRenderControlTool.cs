@@ -23,11 +23,10 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using World;
-using World.EntityComponents;
-using World.Templates;
+using TerrainSample.World.EntityComponents;
+using TerrainSample.World.Templates;
 
-namespace AlphaEditor.World.Dialogs
+namespace TerrainSample.Editor.World.Dialogs
 {
     /// <summary>
     /// Allows the user to add a new <see cref="RenderControl"/> to an <see cref="EntityTemplate"/>.

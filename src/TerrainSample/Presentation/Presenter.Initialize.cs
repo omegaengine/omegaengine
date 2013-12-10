@@ -26,10 +26,10 @@ using Common.Storage;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
-using World;
-using World.Config;
+using TerrainSample.World;
+using TerrainSample.World.Config;
 
-namespace Presentation
+namespace TerrainSample.Presentation
 {
     partial class Presenter
     {

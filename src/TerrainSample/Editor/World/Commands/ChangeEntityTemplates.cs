@@ -24,11 +24,10 @@ using System;
 using System.Collections.Generic;
 using Common.Undo;
 using SlimDX;
-using World;
-using World.Positionables;
-using World.Templates;
+using TerrainSample.World.Positionables;
+using TerrainSample.World.Templates;
 
-namespace AlphaEditor.World.Commands
+namespace TerrainSample.Editor.World.Commands
 {
     /// <summary>
     /// Changes the <see cref="Entity{TCoordinates}.TemplateName"/> property of one or more <see cref="Entity{TCoordinates}"/>s.

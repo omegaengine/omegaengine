@@ -20,9 +20,9 @@
  * THE SOFTWARE.
  */
 
-using World.Templates;
+using TerrainSample.World.Templates;
 
-namespace World.EntityComponents
+namespace TerrainSample.World.EntityComponents
 {
     /// <summary>
     /// Represents an animated mesh loaded from a file.

@@ -25,14 +25,14 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using AlphaEditor;
 using AlphaEditor.Properties;
 using Common;
 using Common.Controls;
 using Common.Storage;
-using World;
-using World.Templates;
+using TerrainSample.World.Templates;
 
-namespace AlphaEditor.World
+namespace TerrainSample.Editor.World
 {
     /// <summary>
     /// Allows the user to edit <see cref="TerrainTemplate"/>s

@@ -25,10 +25,10 @@ using System.Collections.Generic;
 using System.Linq;
 using LuaInterface;
 using SlimDX;
-using World.Pathfinding;
-using World.Positionables;
+using TerrainSample.World.Pathfinding;
+using TerrainSample.World.Positionables;
 
-namespace World.Terrains
+namespace TerrainSample.World.Terrains
 {
     partial class Terrain
     {

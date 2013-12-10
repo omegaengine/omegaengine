@@ -22,11 +22,11 @@ using System.Reflection;
 using System.Xml.Serialization;
 using Common.Storage;
 using Common.Utils;
-using World.Config;
-using World.Pathfinding;
-using World.Positionables;
+using TerrainSample.World.Config;
+using TerrainSample.World.Pathfinding;
+using TerrainSample.World.Positionables;
 
-namespace World
+namespace TerrainSample.World
 {
     /// <summary>
     /// Represents a game world (but not a running game). It is equivalent to the content of a map file.

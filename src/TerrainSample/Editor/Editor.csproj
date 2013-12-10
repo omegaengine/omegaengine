@@ -8,12 +8,12 @@
     <ProjectGuid>{ADBA7A08-3121-4F27-8893-6CD7093743B2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlphaEditor</RootNamespace>
+    <RootNamespace>TerrainSample.Editor</RootNamespace>
     <AssemblyName>TerrainSample.Editor</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>..\..\sgKey.snk</AssemblyOriginatorKeyFile>
-    <StartupObject>AlphaEditor.Program</StartupObject>
+    <StartupObject>TerrainSample.Editor.Program</StartupObject>
     <SignManifests>false</SignManifests>
     <GenerateManifests>false</GenerateManifests>
     <ApplicationIcon>Logo.ico</ApplicationIcon>

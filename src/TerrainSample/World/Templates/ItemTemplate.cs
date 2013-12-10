@@ -22,7 +22,7 @@
 
 using System.ComponentModel;
 
-namespace World.Templates
+namespace TerrainSample.World.Templates
 {
     /// <summary>
     /// Defines the behavior for a certain class of item.

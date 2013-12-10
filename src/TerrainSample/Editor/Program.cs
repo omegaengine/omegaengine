@@ -28,16 +28,16 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using AlphaEditor;
 using AlphaEditor.Properties;
 using Common;
 using Common.Controls;
-using Common.Utils;
 using Common.Storage;
+using Common.Utils;
 using OmegaEngine;
-using OmegaGUI.Model;
-using World.Config;
+using TerrainSample.World.Config;
 
-namespace AlphaEditor
+namespace TerrainSample.Editor
 {
     internal static class Program
     {
@@ -156,7 +156,7 @@ namespace AlphaEditor
                 Settings.Current.General.Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
             // Propagate selected language to other assemblies
-            Resources.Culture = Engine.ResourceCulture = Dialog.ResourceCulture = new CultureInfo(Settings.Current.General.Language);
+            Resources.Culture = Engine.ResourceCulture = OmegaGUI.Model.Dialog.ResourceCulture = new CultureInfo(Settings.Current.General.Language);
 
             // Create specific culture for thread
             Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(Resources.Culture.Name);

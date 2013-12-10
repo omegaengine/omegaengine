@@ -21,9 +21,9 @@
  */
 
 using OmegaEngine;
-using Presentation;
+using TerrainSample.Presentation;
 
-namespace Game.State
+namespace TerrainSample.State
 {
     /// <summary>
     /// Represents a state where the game is starting up for the first time.
