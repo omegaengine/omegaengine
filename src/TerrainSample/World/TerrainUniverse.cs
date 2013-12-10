@@ -26,6 +26,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
 using Common;
+using Common.Collections;
 using Common.Storage;
 using ICSharpCode.SharpZipLib.Zip;
 using LuaInterface;
@@ -43,13 +44,13 @@ namespace TerrainSample.World
     public sealed partial class TerrainUniverse : Universe<Vector2>
     {
         #region Properties
-        private readonly PositionableCollection<Vector2> _positionables = new PositionableCollection<Vector2>();
+        private readonly MonitoredCollection<Positionable<Vector2>> _positionables = new MonitoredCollection<Positionable<Vector2>>();
 
         /// <inheritoc/>
         [Browsable(false)]
         // Note: Can not use ICollection<T> interface with XML Serialization
         [XmlElement(typeof(TerrainEntity)), XmlElement(typeof(Water)), XmlElement(typeof(Waypoint<Vector2>)), XmlElement(typeof(BenchmarkPoint<Vector2>)), XmlElement(typeof(Memo<Vector2>))]
-        public override PositionableCollection<Vector2> Positionables { get { return _positionables; } }
+        public override MonitoredCollection<Positionable<Vector2>> Positionables { get { return _positionables; } }
 
         private Terrain _terrain;
 

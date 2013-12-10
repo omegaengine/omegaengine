@@ -100,7 +100,6 @@
     <Compile Include="Positionables\Entity.cs" />
     <Compile Include="Positionables\Memo.cs" />
     <Compile Include="Positionables\Positionable.cs" />
-    <Compile Include="Positionables\PositionableCollection.cs" />
     <Compile Include="Positionables\TerrainEntity.cs" />
     <Compile Include="Positionables\Water.cs" />
     <Compile Include="Positionables\Waypoint.cs" />

@@ -160,7 +160,7 @@ namespace TerrainSample.Presentation
         /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to be moved.</param>
         /// <param name="target">The terrain position to move the <paramref name="positionables"/> to.</param>
         /// <remarks>This replaces <see cref="InteractivePresenter"/>s pathfinding based movement with a callback event.</remarks>
-        protected override void MovePositionables(PositionableCollection<Vector2> positionables, Vector2 target)
+        protected override void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
         {
             if (PostionableMove != null) PostionableMove(positionables, target);
         }

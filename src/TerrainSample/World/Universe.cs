@@ -18,8 +18,10 @@
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
+using Common.Collections;
 using Common.Storage;
 using Common.Utils;
 using TerrainSample.World.Config;
@@ -64,7 +66,7 @@ namespace TerrainSample.World
         // Note: Can not use ICollection<T> interface with XML Serialization
         [Browsable(false)]
         [XmlIgnore] // XML serialization configuration is configured in sub-type
-        public abstract PositionableCollection<TCoordinates> Positionables { get; }
+        public abstract MonitoredCollection<Positionable<TCoordinates>> Positionables { get; }
 
         private string _skybox;
 
@@ -92,7 +94,7 @@ namespace TerrainSample.World
         /// <inheritdoc/>
         public virtual void Update(double elapsedTime)
         {
-            foreach (var entity in Positionables.Entities)
+            foreach (var entity in Positionables.OfType<Entity<TCoordinates>>())
                 entity.UpdatePosition(elapsedTime);
         }
         #endregion
@@ -109,7 +111,7 @@ namespace TerrainSample.World
         /// <inheritdoc/>
         public void RecalcPaths()
         {
-            foreach (var entity in Positionables.Entities)
+            foreach (var entity in Positionables.OfType<Entity<TCoordinates>>())
             {
                 var pathLeader = entity.PathControl as PathLeader<TCoordinates>;
                 if (pathLeader != null)

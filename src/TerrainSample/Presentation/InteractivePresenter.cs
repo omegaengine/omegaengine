@@ -21,10 +21,13 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Common;
+using Common.Collections;
 using Common.Values;
 using OmegaEngine;
 using OmegaEngine.Assets;
@@ -42,7 +45,7 @@ namespace TerrainSample.Presentation
     {
         #region Variables
         // Note: Using custom collection-class to allow external update-notification
-        private readonly PositionableCollection<Vector2> _selectedPositionables = new PositionableCollection<Vector2>();
+        private readonly MonitoredCollection<Positionable<Vector2>> _selectedPositionables = new MonitoredCollection<Positionable<Vector2>>();
 
         /// <summary>An outline to show on the screen</summary>
         private Rectangle? _selectionRectangle;
@@ -54,7 +57,7 @@ namespace TerrainSample.Presentation
         /// <summary>
         /// The <see cref="Positionable{TCoordinates}"/>s the user has selected with the mouse
         /// </summary>
-        public PositionableCollection<Vector2> SelectedPositionables { get { return _selectedPositionables; } }
+        public MonitoredCollection<Positionable<Vector2>> SelectedPositionables { get { return _selectedPositionables; } }
         #endregion
 
         #region Constructor
@@ -133,14 +136,12 @@ namespace TerrainSample.Presentation
                 if (!accumulate) _selectedPositionables.Clear();
 
                 // Check each entity in World if it is positioned on top of the selection area
-                foreach (var entity in Universe.Positionables.Entities)
+                foreach (var entity in Universe.Positionables.OfType<Entity<Vector2>>()
+                    .Where(entity => entity.CollisionTest(terrainArea)))
                 {
-                    if (entity.CollisionTest(terrainArea))
-                    {
-                        // Toggle entries when accumulating
-                        if (accumulate && _selectedPositionables.Contains(entity)) _selectedPositionables.Remove(entity);
-                        else _selectedPositionables.Add(entity);
-                    }
+                    // Toggle entries when accumulating
+                    if (accumulate && _selectedPositionables.Contains(entity)) _selectedPositionables.Remove(entity);
+                    else _selectedPositionables.Add(entity);
                 }
 
                 // Remove the outline from the screen
@@ -207,18 +208,15 @@ namespace TerrainSample.Presentation
 
                     if (pickedTerrain)
                     { // Action: Left-click on terrain to select one nearby entity
-                        foreach (var entity in Universe.Positionables.Entities)
+                        foreach (var entity in Universe.Positionables.OfType<Entity<Vector2>>()
+                            .Where(entity => entity.CollisionTest(World.Terrains.Terrain.ToWorldCoords(intersectPosition))))
                         {
-                            // Check each entity in World if it is positioned at the selection point
-                            if (entity.CollisionTest(World.Terrains.Terrain.ToWorldCoords(intersectPosition)))
-                            {
-                                // Toggle entries when accumulating
-                                if (accumulate && _selectedPositionables.Contains(entity)) _selectedPositionables.Remove(entity);
-                                else _selectedPositionables.Add(entity);
+                            // Toggle entries when accumulating
+                            if (accumulate && _selectedPositionables.Contains(entity)) _selectedPositionables.Remove(entity);
+                            else _selectedPositionables.Add(entity);
 
-                                // Stop after first hit (multi-selection only when dragging mouse)
-                                break;
-                            }
+                            // Stop after first hit (multi-selection only when dragging mouse)
+                            break;
                         }
                     }
                     else
@@ -292,13 +290,13 @@ namespace TerrainSample.Presentation
         /// </summary>
         /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to be moved.</param>
         /// <param name="target">The terrain position to move the <paramref name="positionables"/> to.</param>
-        protected virtual void MovePositionables(PositionableCollection<Vector2> positionables, Vector2 target)
+        protected virtual void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
         {
             #region Sanity checks
             if (positionables == null) throw new ArgumentNullException("positionables");
             #endregion
 
-            foreach (var entity in positionables.Entities)
+            foreach (var entity in positionables.OfType<Entity<Vector2>>())
             {
                 // Start pathfinding if this entity can move
                 if (entity.TemplateData.MovementControl != null)

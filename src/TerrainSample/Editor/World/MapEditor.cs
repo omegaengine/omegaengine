@@ -316,7 +316,7 @@ namespace TerrainSample.Editor.World
         private EntityTemplate GetCurrentEntityTemplate()
         {
             EntityTemplate currentTemplate = null;
-            foreach (var entity in _presenter.SelectedPositionables.Entities)
+            foreach (var entity in _presenter.SelectedPositionables.OfType<Entity<Vector2>>())
             {
                 // First class
                 if (currentTemplate == null) currentTemplate = entity.TemplateData;
@@ -722,7 +722,7 @@ namespace TerrainSample.Editor.World
             buttonRemove.Enabled = buttonCopy.Enabled = (_presenter.SelectedPositionables.Count > 0);
 
             // Enable/disable EntityTemplate selection
-            _entityTemplateList.Enabled = (_presenter.SelectedPositionables.Entities.Count > 0);
+            _entityTemplateList.Enabled = _presenter.SelectedPositionables.OfType<Entity<Vector2>>().Any();
 
             // Refresh PropertyGrid
             propertyGridPositionable.SelectedObjects = propertyGridPositionable.SelectedObjects;
@@ -808,7 +808,7 @@ namespace TerrainSample.Editor.World
 
             // Set the new entity template for all currently selected bodies
             ExecuteCommand(new Commands.ChangeEntityTemplates(
-                _presenter.SelectedPositionables.Entities, _entityTemplateList.SelectedEntry.Name));
+                _presenter.SelectedPositionables.OfType<Entity<Vector2>>(), _entityTemplateList.SelectedEntry.Name));
         }
         #endregion
 
