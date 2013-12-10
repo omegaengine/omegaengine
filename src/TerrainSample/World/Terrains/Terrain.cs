@@ -197,6 +197,12 @@ namespace TerrainSample.World.Terrains
         }
 
         /// <summary>
+        /// Indicates whether <see cref="LightRiseAngleMap"/> and <see cref="LightSetAngleMap"/> have been calculated yet.
+        /// </summary>
+        [XmlIgnore]
+        public bool LightAngleMapsSet { get { return LightRiseAngleMap != null && LightSetAngleMap != null; } }
+
+        /// <summary>
         /// Indicates that the data stored in <see cref="LightRiseAngleMap"/> and <see cref="LightSetAngleMap"/> is outdated and should be recalculated using <see cref="LightAngleMapGenerator"/>.
         /// </summary>
         [XmlAttribute, DefaultValue(false)]

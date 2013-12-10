@@ -46,11 +46,8 @@ namespace TerrainSample.World.Templates
         #endregion
 
         #region Clone
-        /// <summary>
-        /// Creates a deep copy of this <see cref="TemplateCollection{T}"/> (<see cref="Template{T}"/> elements are cloned).
-        /// </summary>
-        /// <returns>The cloned <see cref="TemplateCollection{T}"/>.</returns>
-        public override object Clone()
+        /// <inheritdoc/>
+        public override NamedCollection<T> Clone()
         {
             var newCollection = new TemplateCollection<T>();
             foreach (T entry in this)

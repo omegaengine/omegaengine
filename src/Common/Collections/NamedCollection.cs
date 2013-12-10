@@ -131,13 +131,17 @@ namespace Common.Collections
         /// Creates a shallow copy of this collection (elements are not cloned).
         /// </summary>
         /// <returns>The cloned collection.</returns>
-        public virtual object Clone()
+        public virtual NamedCollection<T> Clone()
         {
             var newCollection = new NamedCollection<T>();
             foreach (T entry in this)
                 newCollection.Add(entry);
-
             return newCollection;
+        }
+
+        object ICloneable.Clone()
+        {
+            return Clone();
         }
         #endregion
     }
