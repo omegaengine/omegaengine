@@ -21,6 +21,7 @@
  */
 
 using System;
+using Common.Storage;
 using Common.Undo;
 using TerrainSample.Presentation;
 using TerrainSample.World;
@@ -77,7 +78,7 @@ namespace TerrainSample.Editor.World.Commands
             _undoUniverse.Terrain.LightAngleMapsOutdated = true;
 
             // Create new universe from XML and partially restore old data
-            var newUniverse = TerrainUniverse.LoadXml(_fileName);
+            var newUniverse = XmlStorage.LoadXml<TerrainUniverse>(_fileName);
             newUniverse.Terrain.LightAngleMapsOutdated = true;
             newUniverse.SourceFile = _undoUniverse.SourceFile;
             newUniverse.Terrain.HeightMap = _undoUniverse.Terrain.HeightMap;

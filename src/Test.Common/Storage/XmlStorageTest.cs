@@ -20,9 +20,7 @@
  * THE SOFTWARE.
  */
 
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using ICSharpCode.SharpZipLib.Zip;
 using NUnit.Framework;
 
@@ -46,7 +44,7 @@ namespace Common.Storage
         // ReSharper restore MemberCanBePrivate.Global
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.SaveXml{T}(T,string,MemberInfo[])"/> and <see cref="XmlStorage.LoadXml{T}(string,MemberInfo[])"/> work correctly.
+        /// Ensures <see cref="XmlStorage.SaveXml{T}(T,string)"/> and <see cref="XmlStorage.LoadXml{T}(string)"/> work correctly.
         /// </summary>
         [Test]
         public void TestFile()
@@ -55,8 +53,8 @@ namespace Common.Storage
             using (var tempFile = new TemporaryFile("unit-tests"))
             {
                 // Write and read file
-                testData1.SaveXml(tempFile.Path);
-                testData2 = XmlStorage.LoadXml<TestData>(tempFile.Path);
+                testData1.SaveXml(tempFile);
+                testData2 = XmlStorage.LoadXml<TestData>(tempFile);
             }
 
             // Ensure data stayed the same
@@ -64,7 +62,7 @@ namespace Common.Storage
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.SaveXml{T}(T,string,MemberInfo[])"/> and <see cref="XmlStorage.LoadXml{T}(string,MemberInfo[])"/> work correctly with relative paths.
+        /// Ensures <see cref="XmlStorage.SaveXml{T}(T,string)"/> and <see cref="XmlStorage.LoadXml{T}(string)"/> work correctly with relative paths.
         /// </summary>
         [Test]
         public void TestFileRelative()
@@ -82,7 +80,7 @@ namespace Common.Storage
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,string,string,System.Collections.Generic.IEnumerable{Common.Storage.EmbeddedFile},MemberInfo[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(string,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> work correctly with no password.
+        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,string,string,EmbeddedFile[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(string,string,EmbeddedFile[])"/> work correctly with no password.
         /// </summary>
         [Test]
         public void TestZipNoPassword()
@@ -92,14 +90,14 @@ namespace Common.Storage
             var tempStream = new MemoryStream();
             testData1.SaveXmlZip(tempStream, null, new EmbeddedFile[0]);
             tempStream.Seek(0, SeekOrigin.Begin);
-            var testData2 = XmlStorage.LoadXmlZip<TestData>(tempStream, null, new EmbeddedFile[0]);
+            var testData2 = XmlStorage.LoadXmlZip<TestData>(tempStream);
 
             // Ensure data stayed the same
             Assert.AreEqual(testData1.Data, testData2.Data);
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,string,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(string,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> work correctly with a password.
+        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,string,string,EmbeddedFile[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(string,string,EmbeddedFile[])"/> work correctly with a password.
         /// </summary>
         [Test]
         public void TestZipPassword()
@@ -109,14 +107,14 @@ namespace Common.Storage
             var tempStream = new MemoryStream();
             testData1.SaveXmlZip(tempStream, "Test password", new EmbeddedFile[0]);
             tempStream.Seek(0, SeekOrigin.Begin);
-            var testData2 = XmlStorage.LoadXmlZip<TestData>(tempStream, "Test password", new EmbeddedFile[0]);
+            var testData2 = XmlStorage.LoadXmlZip<TestData>(tempStream, password: "Test password");
 
             // Ensure data stayed the same
             Assert.AreEqual(testData1.Data, testData2.Data);
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.LoadXmlZip{T}(string,string,IEnumerable{EmbeddedFile},MemberInfo[])"/> correctly detects incorrect passwords.
+        /// Ensures <see cref="XmlStorage.LoadXmlZip{T}(string,string,EmbeddedFile[])"/> correctly detects incorrect passwords.
         /// </summary>
         [Test]
         public void TestIncorrectPassword()
@@ -125,7 +123,7 @@ namespace Common.Storage
             var testData = new TestData {Data = "Hello"};
             testData.SaveXmlZip(tempStream, "Correct password", new EmbeddedFile[0]);
             tempStream.Seek(0, SeekOrigin.Begin);
-            Assert.Throws<ZipException>(() => XmlStorage.LoadXmlZip<TestData>(tempStream, "Wront password", new EmbeddedFile[0]));
+            Assert.Throws<ZipException>(() => XmlStorage.LoadXmlZip<TestData>(tempStream, password: "Wrong password"));
         }
 
         /// <summary>

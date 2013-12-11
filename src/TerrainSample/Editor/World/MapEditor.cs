@@ -565,7 +565,8 @@ namespace TerrainSample.Editor.World
             try
             {
                 // Save the map stats, entities, etc. to an XML file
-                _universe.SaveXml(dialogExportXml.FileName);
+                using (Entity<Vector2>.MaskTemplateData())
+                    _universe.SaveXml(dialogExportXml.FileName);
             }
                 #region Error handling
             catch (IOException ex)

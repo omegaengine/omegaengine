@@ -21,7 +21,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
@@ -139,7 +138,7 @@ namespace TerrainSample.World
 
         //--------------------//
 
-        #region Content
+        #region Storage
         /// <summary>
         /// Loads a <see cref="TerrainUniverse"/> from the game content source via the <see cref="ContentManager"/>.
         /// </summary>
@@ -151,15 +150,13 @@ namespace TerrainSample.World
 
             TerrainUniverse universe;
             using (var stream = ContentManager.GetFileStream("World/Maps", id))
-                universe = XmlStorage.LoadXmlZip<TerrainUniverse>(stream, null, null, IgnoreMemeber);
+                universe = XmlStorage.LoadXmlZip<TerrainUniverse>(stream);
             universe.SourceFile = id;
             universe.Update(0);
 
             return universe;
         }
-        #endregion
 
-        #region Load
         /// <summary>
         /// Loads a <see cref="TerrainUniverse"/> from a compressed XML file (map file).
         /// </summary>
@@ -174,7 +171,7 @@ namespace TerrainSample.World
             TerrainUniverse universe;
             try
             {
-                universe = XmlStorage.LoadXmlZip<TerrainUniverse>(path, null, null, IgnoreMemeber);
+                universe = XmlStorage.LoadXmlZip<TerrainUniverse>(path);
             }
                 #region Error handling
             catch (ZipException ex)
@@ -193,74 +190,55 @@ namespace TerrainSample.World
         }
 
         /// <summary>
-        /// Loads a <see cref="TerrainUniverse"/> from an uncompressed XML file.
-        /// </summary>
-        /// <param name="path">The file to load from.</param>
-        /// <returns>The loaded <see cref="TerrainUniverse"/>.</returns>
-        /// <exception cref="IOException">Thrown if a problem occurred while reading the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to the file is not permitted.</exception>
-        /// <exception cref="InvalidOperationException">Thrown if a problem occurred while deserializing the XML data.</exception>
-        public static TerrainUniverse LoadXml(string path)
-        {
-            return XmlStorage.LoadXml<TerrainUniverse>(path, IgnoreMemeber);
-        }
-
-        /// <summary>
         /// Performs the deferred loading of <see cref="Terrain"/> data.
         /// </summary>
         private void LoadTerrainData()
         {
-            // Setup callbacks for loading terrain data
-            var additionalFiles = new[]
-            {
-                new EmbeddedFile("height.png", _terrain.LoadHeightMap),
-                new EmbeddedFile("texture.png", _terrain.LoadTextureMap),
-                new EmbeddedFile("lightRiseAngle.png", _terrain.LoadLightRiseAngleMap),
-                new EmbeddedFile("lightSetAngle.png", _terrain.LoadLightSetAngleMap)
-            };
-
             // Load the data
             using (var stream = ContentManager.GetFileStream("World/Maps", SourceFile))
-                XmlStorage.LoadXmlZip<TerrainUniverse>(stream, null, additionalFiles, IgnoreMemeber);
+            {
+                XmlStorage.LoadXmlZip<TerrainUniverse>(stream, additionalFiles: new[]
+                {
+                    // Callbacks for loading terrain data
+                    new EmbeddedFile("height.png", _terrain.LoadHeightMap),
+                    new EmbeddedFile("texture.png", _terrain.LoadTextureMap),
+                    new EmbeddedFile("lightRiseAngle.png", _terrain.LoadLightRiseAngleMap),
+                    new EmbeddedFile("lightSetAngle.png", _terrain.LoadLightSetAngleMap)
+                });
+            }
 
             if (!_terrain.DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
 
             using (new TimedLogEvent("Setup pathfinding"))
                 _terrain.SetupPathfinding(Positionables);
         }
-        #endregion
 
-        #region Save
         /// <inheritdoc/>
         public override void Save(string path)
         {
-            this.SaveXmlZip(path, null, GetAdditionalFiles(), IgnoreMemeber);
-            SourceFile = path;
-        }
-
-        /// <summary>
-        /// Generates a list of <see cref="EmbeddedFile"/> to be stored in the map file.
-        /// </summary>
-        private IEnumerable<EmbeddedFile> GetAdditionalFiles()
-        {
-            #region Sanity checks
-            if (_terrain == null) throw new InvalidOperationException("No terrain data!");
-            #endregion
-
-            // Encode the terrain data and setup callbacks to save it
-            return (_terrain.LightRiseAngleMap != null && _terrain.LightSetAngleMap != null)
-                ? new[]
+            using (Entity<Vector2>.MaskTemplateData())
+            {
+                if (_terrain.LightAngleMapsSet)
                 {
-                    new EmbeddedFile("height.png", 0, Terrain.GetSaveHeightMapDelegate()),
-                    new EmbeddedFile("texture.png", 0, Terrain.GetSaveTextureMapDelegate()),
-                    new EmbeddedFile("lightRiseAngle.png", 0, Terrain.GetSaveLightRiseAngleMapDelegate()),
-                    new EmbeddedFile("lightSetAngle.png", 0, Terrain.GetSaveLightSetAngleMapDelegate())
+                    this.SaveXmlZip(path, additionalFiles: new[]
+                    {
+                        new EmbeddedFile("height.png", 0, Terrain.GetSaveHeightMapDelegate()),
+                        new EmbeddedFile("texture.png", 0, Terrain.GetSaveTextureMapDelegate()),
+                        new EmbeddedFile("lightRiseAngle.png", 0, Terrain.GetSaveLightRiseAngleMapDelegate()),
+                        new EmbeddedFile("lightSetAngle.png", 0, Terrain.GetSaveLightSetAngleMapDelegate())
+                    });
                 }
-                : new[]
+                else
                 {
-                    new EmbeddedFile("height.png", 0, Terrain.GetSaveHeightMapDelegate()),
-                    new EmbeddedFile("texture.png", 0, Terrain.GetSaveTextureMapDelegate())
-                };
+                    this.SaveXmlZip(path, additionalFiles: new[]
+                    {
+                        new EmbeddedFile("height.png", 0, Terrain.GetSaveHeightMapDelegate()),
+                        new EmbeddedFile("texture.png", 0, Terrain.GetSaveTextureMapDelegate())
+                    });
+                }
+            }
+
+            SourceFile = path;
         }
         #endregion
     }

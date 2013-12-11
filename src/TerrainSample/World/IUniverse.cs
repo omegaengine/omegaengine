@@ -67,13 +67,5 @@ namespace TerrainSample.World
         /// <exception cref="IOException">Thrown if a problem occurred while writing the file.</exception>
         /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
         void Save();
-
-        /// <summary>
-        /// Saves this <see cref="Universe{TCoordinates}"/> in an uncompressed XML file.
-        /// </summary>
-        /// <param name="path">The file to save in</param>
-        /// <exception cref="IOException">Thrown if a problem occurred while writing the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
-        void SaveXml(string path);
     }
 }

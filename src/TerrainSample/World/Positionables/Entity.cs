@@ -108,7 +108,7 @@ namespace TerrainSample.World.Positionables
         [Browsable(false)]
         public EntityTemplate TemplateData
         {
-            get { return _template; }
+            get { return _templateDataMasked ? null : _template; }
             set
             {
                 OnTemplateChanging();
@@ -157,6 +157,28 @@ namespace TerrainSample.World.Positionables
         [DefaultValue(0f), Description("The horizontal rotation of the view direction in degrees.")]
         [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public float Rotation { get { return _rotation; } set { value.To(ref _rotation, OnRenderPropertyChanged); } }
+        #endregion
+
+        #region Masking
+        // ReSharper disable once StaticFieldInGenericType
+        private static bool _templateDataMasked;
+
+        private struct TemplateDataMasking : IDisposable
+        {
+            public void Dispose()
+            {
+                _templateDataMasked = false;
+            }
+        }
+        
+        /// <summary>
+        /// Makes all <see cref="TemplateData"/> values return <see langword="null"/> until <see cref="IDisposable.Dispose"/> is called on the returned object. This is not thread-safe!
+        /// </summary>
+        public static IDisposable MaskTemplateData()
+        {
+            _templateDataMasked = true;
+            return new TemplateDataMasking();
+        }
         #endregion
 
         //--------------------//

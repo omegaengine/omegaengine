@@ -19,7 +19,6 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Xml.Serialization;
 using Common.Collections;
 using Common.Storage;
@@ -42,13 +41,6 @@ namespace TerrainSample.World
         /// The file extensions when this class is stored as a file.
         /// </summary>
         public const string FileExt = "." + GeneralSettings.AppNameShort + "Map";
-
-        /// <summary>
-        /// Don't save or load the <see cref="Entity{TCoordinates}.TemplateData"/> in map files - that's only sensible in savegames.
-        /// Instead <see cref="Entity{TCoordinates}.TemplateName"/> is used.
-        /// </summary>
-        // ReSharper disable once StaticFieldInGenericType
-        protected static readonly MemberInfo IgnoreMemeber = typeof(Entity<TCoordinates>).GetProperty("TemplateData");
         #endregion
 
         #region Events
@@ -131,12 +123,6 @@ namespace TerrainSample.World
         {
             // Determine the original filename to overweite
             Save(Path.IsPathRooted(SourceFile) ? SourceFile : ContentManager.CreateFilePath("World/Maps", SourceFile));
-        }
-
-        /// <inheritdoc/>
-        public void SaveXml(string path)
-        {
-            this.SaveXml(path, IgnoreMemeber);
         }
         #endregion
     }
