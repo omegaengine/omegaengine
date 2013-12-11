@@ -27,7 +27,6 @@ using System.Xml.Serialization;
 using Common;
 using Common.Collections;
 using Common.Storage;
-using ICSharpCode.SharpZipLib.Zip;
 using LuaInterface;
 using SlimDX;
 using TerrainSample.World.Pathfinding;
@@ -140,24 +139,6 @@ namespace TerrainSample.World
 
         #region Storage
         /// <summary>
-        /// Loads a <see cref="TerrainUniverse"/> from the game content source via the <see cref="ContentManager"/>.
-        /// </summary>
-        /// <param name="id">The ID of the <see cref="TerrainUniverse"/> to load.</param>
-        /// <returns>The loaded <see cref="TerrainUniverse"/>.</returns>
-        public static TerrainUniverse FromContent(string id)
-        {
-            Log.Info("Loading map: " + id);
-
-            TerrainUniverse universe;
-            using (var stream = ContentManager.GetFileStream("World/Maps", id))
-                universe = XmlStorage.LoadXmlZip<TerrainUniverse>(stream);
-            universe.SourceFile = id;
-            universe.Update(0);
-
-            return universe;
-        }
-
-        /// <summary>
         /// Loads a <see cref="TerrainUniverse"/> from a compressed XML file (map file).
         /// </summary>
         /// <param name="path">The file to load from.</param>
@@ -168,25 +149,26 @@ namespace TerrainSample.World
         public static TerrainUniverse Load(string path)
         {
             // Load the core data but without terrain data yet (that is delay-loaded)
-            TerrainUniverse universe;
-            try
-            {
-                universe = XmlStorage.LoadXmlZip<TerrainUniverse>(path);
-            }
-                #region Error handling
-            catch (ZipException ex)
-            {
-                throw new IOException(ex.Message, ex);
-            }
-            #endregion
-
-            // Store the orginal map filename
+            var universe = XmlStorage.LoadXmlZip<TerrainUniverse>(path);
             universe.SourceFile = path;
-
-            // Perform updates to initialize basic data
-            universe.Update(0);
-
             return universe;
+        }
+
+        /// <summary>
+        /// Loads a <see cref="TerrainUniverse"/> from the game content source via the <see cref="ContentManager"/>.
+        /// </summary>
+        /// <param name="id">The ID of the <see cref="TerrainUniverse"/> to load.</param>
+        /// <returns>The loaded <see cref="TerrainUniverse"/>.</returns>
+        public static TerrainUniverse FromContent(string id)
+        {
+            Log.Info("Loading map: " + id);
+
+            using (var stream = ContentManager.GetFileStream("World/Maps", id))
+            {
+                var universe = XmlStorage.LoadXmlZip<TerrainUniverse>(stream);
+                universe.SourceFile = id;
+                return universe;
+            }
         }
 
         /// <summary>

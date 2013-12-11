@@ -51,24 +51,13 @@ namespace Common.Storage
 
         #region Serializer generation
         /// <summary>An internal cache of XML serializers identified by the target type and ignored sub-types.</summary>
-        private static readonly TransparentCache<Type, XmlSerializer> _serializersCache = new TransparentCache<Type, XmlSerializer>(CreateSerializer);
+        private static readonly TransparentCache<Type, XmlSerializer> _serializers = new TransparentCache<Type, XmlSerializer>(CreateSerializer);
 
         /// <summary>Used to mark something as "serialize as XML attribute".</summary>
         private static readonly XmlAttributes _asAttribute = new XmlAttributes {XmlAttribute = new XmlAttributeAttribute()};
 
         /// <summary>Used to mark something to be ignored when serializing.</summary>
         private static readonly XmlAttributes _ignore = new XmlAttributes {XmlIgnore = true};
-
-        /// <summary>
-        /// Gets a <see cref="XmlSerializer"/> for classes of the type <paramref name="type"/>. Results are cached internally.
-        /// </summary>
-        /// <param name="type">The type to get the serializer for.</param>
-        /// <returns>The cached or newly created <see cref="XmlSerializer"/>.</returns>
-        /// <remarks>Can't use .NET's built-in <see cref="XmlSerializer"/>-caching because we apply custom overrides.</remarks>
-        private static XmlSerializer GetSerializer(Type type)
-        {
-            return _serializersCache[type];
-        }
 
         /// <summary>
         /// Creates a new <see cref="XmlSerializer"/> for the type <paramref name="type"/> and applies a set of default augmentations for .NET types.
@@ -139,7 +128,7 @@ namespace Common.Storage
             if (stream.CanSeek) stream.Position = 0;
             try
             {
-                return (T)GetSerializer(typeof(T)).Deserialize(stream);
+                return (T)_serializers[typeof(T)].Deserialize(stream);
             }
                 #region Error handling
             catch (InvalidOperationException ex)
@@ -214,7 +203,7 @@ namespace Common.Storage
             #endregion
 
             var xmlWriter = XmlWriter.Create(stream, new XmlWriterSettings {Encoding = new UTF8Encoding(false), Indent = true, IndentChars = "\t", NewLineChars = "\n"});
-            var serializer = GetSerializer(typeof(T));
+            var serializer = _serializers[typeof(T)];
 
             // Detect and handle namespace attributes
             var rootAttribute = AttributeUtils.GetAttributes<XmlRootAttribute, T>().FirstOrDefault();
