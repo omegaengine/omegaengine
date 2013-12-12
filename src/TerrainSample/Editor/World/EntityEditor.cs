@@ -62,7 +62,7 @@ namespace TerrainSample.Editor.World
             InitializeComponent();
 
             // Hard-coded filename
-            FilePath = TemplateManager.EntityFileName;
+            FilePath = Template<EntityTemplate>.FileName;
 
             // Ugly hack to make mouse wheel work
             splitRender.Panel2.MouseMove += delegate { splitRender.Panel2.Focus(); };
@@ -78,8 +78,9 @@ namespace TerrainSample.Editor.World
         /// <inheritdoc />
         protected override void OnInitialize()
         {
-            // Load template lists before creating testing universe
-            TemplateManager.LoadLists();
+            Template<EntityTemplate>.LoadAll();
+            Template<ItemTemplate>.LoadAll();
+            Template<TerrainTemplate>.LoadAll();
 
             // Create an empty testing universe with a plain terrain
             _universe = new TerrainUniverse(new Terrain(new TerrainSize(27, 27, 30, 30))) {LightPhase = 2};

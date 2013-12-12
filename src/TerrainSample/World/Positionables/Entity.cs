@@ -89,7 +89,7 @@ namespace TerrainSample.World.Positionables
             set
             {
                 // Create copy of the class so run-time modifications for individual entities are possible
-                TemplateData = TemplateManager.GetEntityTemplate(value).Clone();
+                TemplateData = Template<EntityTemplate>.All[TemplateName].Clone();
 
                 // Only set the new name once the according class was successfully located
                 _className = value;

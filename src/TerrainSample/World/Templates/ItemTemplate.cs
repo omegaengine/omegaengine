@@ -27,7 +27,6 @@ namespace TerrainSample.World.Templates
     /// <summary>
     /// Defines the behavior for a certain class of item.
     /// </summary>
-    /// <seealso cref="TemplateManager.ItemTemplates"/>
     public sealed class ItemTemplate : Template<ItemTemplate>
     {
         /// <summary>

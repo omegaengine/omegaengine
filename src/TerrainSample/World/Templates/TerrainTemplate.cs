@@ -32,7 +32,6 @@ namespace TerrainSample.World.Templates
     /// <summary>
     /// Defines a type of terrain (texture, effects on units, etc.).
     /// </summary>
-    /// <seealso cref="TemplateManager.TerrainTemplates"/>
     public sealed class TerrainTemplate : Template<TerrainTemplate>
     {
         /// <summary>

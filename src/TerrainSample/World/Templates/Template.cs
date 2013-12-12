@@ -26,7 +26,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Xml.Serialization;
 using Common;
+using Common.Collections;
 using Common.Controls;
+using Common.Storage;
+using TerrainSample.World.Properties;
 
 namespace TerrainSample.World.Templates
 {
@@ -91,6 +94,42 @@ namespace TerrainSample.World.Templates
         object ICloneable.Clone()
         {
             return Clone();
+        }
+        #endregion
+
+        //--------------------//
+
+        #region Storage
+        /// <summary>
+        /// The XML file <see cref="Template{T}"/> instances are stored in.
+        /// </summary>
+        public static string FileName { get { return typeof(T).Name + "s.xml"; } }
+
+        private static NamedCollection<T> _all;
+
+        /// <summary>
+        /// A list of all loaded <see cref="Template{T}"/>s.
+        /// </summary>
+        /// <seealso cref="LoadAll"/>
+        public static NamedCollection<T> All
+        {
+            get
+            {
+                #region Sanity checks
+                if (_all == null) throw new InvalidOperationException(string.Format(Resources.NotLoaded, typeof(T).Name));
+                #endregion
+
+                return _all;
+            }
+        }
+
+        /// <summary>
+        /// Loads the list of <see cref="Template{T}"/>s from <seealso cref="FileName"/>.
+        /// </summary>
+        public static void LoadAll()
+        {
+            using (var stream = ContentManager.GetFileStream("World", FileName))
+                _all = XmlStorage.LoadXml<NamedCollection<T>>(stream);
         }
         #endregion
     }

@@ -144,8 +144,8 @@
   <data name="NotAnImage" xml:space="preserve">
     <value>Die Datei ist kein gültiges Bild.</value>
   </data>
-  <data name="TemplateNotLoaded" xml:space="preserve">
-    <value>Die Liste der {0} Templates wurde noch nicht geladen.</value>
+  <data name="NotLoaded" xml:space="preserve">
+    <value>Die Liste der {0} wurde noch nicht geladen.</value>
   </data>
   <data name="TemplateUnknown" xml:space="preserve">
     <value>Diese {0} Template ist unbekannt: {1}</value>

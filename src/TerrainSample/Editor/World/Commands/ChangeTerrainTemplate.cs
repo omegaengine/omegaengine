@@ -64,14 +64,14 @@ namespace TerrainSample.Editor.World.Commands
         protected override void OnExecute()
         {
             _oldTemplateName = (_terrain.Templates[_templateIndex] == null) ? null : _terrain.Templates[_templateIndex].Name;
-            _terrain.Templates[_templateIndex] = string.IsNullOrEmpty(_newTemplateName) ? null : TemplateManager.GetTerrainTemplate(_newTemplateName);
+            _terrain.Templates[_templateIndex] = string.IsNullOrEmpty(_newTemplateName) ? null : Template<TerrainTemplate>.All[_newTemplateName];
             _refreshHandler();
         }
 
         /// <inheritdoc />
         protected override void OnUndo()
         {
-            _terrain.Templates[_templateIndex] = string.IsNullOrEmpty(_oldTemplateName) ? null : TemplateManager.GetTerrainTemplate(_oldTemplateName);
+            _terrain.Templates[_templateIndex] = string.IsNullOrEmpty(_oldTemplateName) ? null : Template<TerrainTemplate>.All[_oldTemplateName];
             _refreshHandler();
         }
         #endregion

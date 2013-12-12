@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TemplateList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<ArrayOfTerrainTemplate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<TerrainTemplate Name="Earth" Texture="Earth.jpg">
 		<Description>Normal brown earth</Description>
 		<Color A="255" R="165" G="42" B="42" />
@@ -36,4 +36,4 @@
 		<Description>Gray stone</Description>
 		<Color A="255" R="128" G="128" B="128" />
 	</TerrainTemplate>
-</TemplateList>
+</ArrayOfTerrainTemplate>

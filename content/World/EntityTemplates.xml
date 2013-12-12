@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TemplateList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<ArrayOfEntityTemplate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<EntityTemplate Name="Effects.ColdFire">
 		<CpuParticleSystem Filename="ColdFire.xml" VisibilityDistance="40000">
 			<Shift X="0" Y="30" Z="0" />
@@ -127,4 +127,4 @@
 		</TestSphere>
 		<Circle Radius="80" />
 	</EntityTemplate>
-</TemplateList>
+</ArrayOfEntityTemplate>

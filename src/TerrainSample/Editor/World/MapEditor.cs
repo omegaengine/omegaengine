@@ -132,7 +132,7 @@ namespace TerrainSample.Editor.World
                 int templateIndex = i; // Copy to local variable to prevent modification by loop outside of closure
                 _textureButtons[i].Click += delegate
                 {
-                    var dialog = new Dialogs.SelectTemplateDialog<TerrainTemplate>(TemplateManager.TerrainTemplates);
+                    var dialog = new Dialogs.SelectTemplateDialog<TerrainTemplate>(Template<TerrainTemplate>.All);
                     if (dialog.ShowDialog() == DialogResult.OK)
                         ExecuteCommand(new Commands.ChangeTerrainTemplate(_universe.Terrain, templateIndex, dialog.SelectedTemplate, _presenter.RebuildTerrain));
                 };
@@ -149,7 +149,9 @@ namespace TerrainSample.Editor.World
         protected override void OnInitialize()
         {
             // Load template lists before touching any map files
-            TemplateManager.LoadLists();
+            Template<EntityTemplate>.LoadAll();
+            Template<ItemTemplate>.LoadAll();
+            Template<TerrainTemplate>.LoadAll();
 
             #region File handling
             if (Path.IsPathRooted(FilePath))
@@ -451,7 +453,7 @@ namespace TerrainSample.Editor.World
         private void buttonNewEntity_Click(object sender, EventArgs e)
         {
             // Ask the user which entity template to use as a basis for the new entity
-            var selectTemplate = new Dialogs.SelectTemplateDialog<EntityTemplate>(TemplateManager.EntityTemplates);
+            var selectTemplate = new Dialogs.SelectTemplateDialog<EntityTemplate>(Template<EntityTemplate>.All);
             if (selectTemplate.ShowDialog(this) != DialogResult.OK) return;
 
             // Create a new entity from the selected template
@@ -730,7 +732,7 @@ namespace TerrainSample.Editor.World
 
             // Refresh the entity template selection tree list
             _dontSetEntityTemplate = true;
-            _entityTemplateList.Nodes = (_entityTemplateList.Enabled ? TemplateManager.EntityTemplates : null);
+            _entityTemplateList.Nodes = (_entityTemplateList.Enabled ? Template<EntityTemplate>.All : null);
             _entityTemplateList.SelectedEntry = GetCurrentEntityTemplate();
             _dontSetEntityTemplate = false;
         }

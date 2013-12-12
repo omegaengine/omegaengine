@@ -32,8 +32,7 @@ namespace TerrainSample.World.Templates
     /// <summary>
     /// A collection of components used as a prototype for constructing new <see cref="Entity{TCoordinates}"/>s. Defines the behavior and look for a certain class of <see cref="Entity{TCoordinates}"/>.
     /// </summary>
-    /// <seealso cref="TemplateManager.EntityTemplates"/>
-    public sealed class EntityTemplate : Template<EntityTemplate>
+    public class EntityTemplate : Template<EntityTemplate>
     {
         private Collection<RenderControl> _renderControls = new Collection<RenderControl>();
 

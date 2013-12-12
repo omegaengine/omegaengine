@@ -27,6 +27,7 @@ using System.Windows.Forms;
 using AlphaEditor;
 using AlphaEditor.Properties;
 using Common;
+using Common.Collections;
 using Common.Controls;
 using Common.Storage;
 using TerrainSample.World.Templates;
@@ -37,7 +38,6 @@ namespace TerrainSample.Editor.World
     /// Abstract base tab for editing <see cref="Template{T}"/>es
     /// </summary>
     /// <typeparam name="T">The type of <see cref="Template{T}"/>es to edit</typeparam>
-    /// <seealso cref="TemplateManager"/>
     public abstract partial class TemplateEditor<T> : UndoCloneTab where T : Template<T>
     {
         #region Variables
@@ -57,7 +57,7 @@ namespace TerrainSample.Editor.World
         /// <summary>
         /// The list of <see cref="Template{T}"/> to visualize
         /// </summary>
-        protected TemplateCollection<T> Templates { get { return (TemplateCollection<T>)Content; } }
+        protected NamedCollection<T> Templates { get { return (NamedCollection<T>)Content; } }
         #endregion
 
         #region Constructor
@@ -88,12 +88,12 @@ namespace TerrainSample.Editor.World
                 if (!_overwrite && File.Exists(_fullPath))
                 { // Load existing file
                     Log.Info("Load file: " + _fullPath);
-                    Content = XmlStorage.LoadXml<TemplateCollection<T>>(_fullPath);
+                    Content = XmlStorage.LoadXml<NamedCollection<T>>(_fullPath);
                 }
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
-                    Content = new TemplateCollection<T>();
+                    Content = new NamedCollection<T>();
                     Templates.SaveXml(_fullPath);
                 }
             }
@@ -103,12 +103,14 @@ namespace TerrainSample.Editor.World
                 _fullPath = ContentManager.CreateFilePath("World", FilePath);
                 if (ContentManager.FileExists("World", FilePath, true))
                 { // Load existing file, might be from an Archive and not fullPath
-                    Content = TemplateCollection<T>.FromContent(FilePath);
+                    string id = FilePath;
+                    using (var stream = ContentManager.GetFileStream("World", id))
+                        Content = XmlStorage.LoadXml<NamedCollection<T>>(stream);
                 }
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
-                    Content = new TemplateCollection<T>();
+                    Content = new NamedCollection<T>();
                     Templates.SaveXml(_fullPath);
                 }
             }
@@ -130,7 +132,9 @@ namespace TerrainSample.Editor.World
             Templates.SaveXml(_fullPath);
 
             // Reload all class lists to update other Editor tabs
-            TemplateManager.LoadLists();
+            Template<EntityTemplate>.LoadAll();
+            Template<ItemTemplate>.LoadAll();
+            Template<TerrainTemplate>.LoadAll();
 
             base.OnSaveFile();
         }

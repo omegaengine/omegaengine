@@ -43,7 +43,7 @@ namespace TerrainSample.Editor.World
             InitializeComponent();
 
             // Hard-coded filename
-            FilePath = TemplateManager.ItemFileName;
+            FilePath = Template<ItemTemplate>.FileName;
         }
         #endregion
 

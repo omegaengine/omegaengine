@@ -141,8 +141,9 @@ namespace TerrainSample
 
             using (new TimedLogEvent("Load graphics"))
             {
-                // Load terrain, entity and entity classes
-                TemplateManager.LoadLists();
+                Template<EntityTemplate>.LoadAll();
+                Template<ItemTemplate>.LoadAll();
+                Template<TerrainTemplate>.LoadAll();
 
                 // Handle command-line arguments
                 if (Program.Args.Contains("map") && !string.IsNullOrEmpty(Program.Args["map"]))

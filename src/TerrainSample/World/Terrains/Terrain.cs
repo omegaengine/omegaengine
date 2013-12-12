@@ -21,6 +21,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -106,7 +107,7 @@ namespace TerrainSample.World.Terrains
                 for (int i = 0; i < Templates.Length; i++)
                 {
                     Templates[i] = (value != null && i < value.Length && !string.IsNullOrEmpty(value[i]))
-                        ? TemplateManager.GetTerrainTemplate(value[i])
+                        ? Template<TerrainTemplate>.All[value[i]]
                         : null;
                 }
             }
@@ -264,9 +265,9 @@ namespace TerrainSample.World.Terrains
             // Try to use "Grass" as the default Terrain type
             try
             {
-                Templates[0] = TemplateManager.GetTerrainTemplate("Grass");
+                Templates[0] = Template<TerrainTemplate>.All["Grass"];
             }
-            catch (InvalidOperationException)
+            catch (KeyNotFoundException)
             {}
         }
         #endregion
