@@ -73,7 +73,7 @@ namespace TerrainSample.World.Positionables
         #endregion
 
         #region Properties
-        private string _className;
+        private string _templateName;
 
         /// <summary>
         /// The name of the <see cref="EntityTemplate"/>.
@@ -85,14 +85,14 @@ namespace TerrainSample.World.Positionables
         [XmlAttribute("Template"), Description("The name of the entity template")]
         public string TemplateName
         {
-            get { return _className; }
+            get { return _templateName; }
             set
             {
                 // Create copy of the class so run-time modifications for individual entities are possible
-                TemplateData = Template<EntityTemplate>.All[TemplateName].Clone();
+                TemplateData = Template<EntityTemplate>.All[value].Clone();
 
                 // Only set the new name once the according class was successfully located
-                _className = value;
+                _templateName = value;
             }
         }
 
@@ -144,8 +144,8 @@ namespace TerrainSample.World.Positionables
         public override string ToString()
         {
             string value = base.ToString();
-            if (!string.IsNullOrEmpty(_className))
-                value += " (" + _className + ")";
+            if (!string.IsNullOrEmpty(_templateName))
+                value += " (" + _templateName + ")";
             return value;
         }
 
