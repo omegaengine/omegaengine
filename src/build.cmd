@@ -3,6 +3,11 @@
 cd /d "%~dp0"
 
 rem Determine VS version
+if defined VS120COMNTOOLS (
+  ::Visual Studio 2013
+  call "%VS120COMNTOOLS%vsvars32.bat"
+  goto compile
+)
 if defined VS110COMNTOOLS (
   ::Visual Studio 2012
   call "%VS110COMNTOOLS%vsvars32.bat"
