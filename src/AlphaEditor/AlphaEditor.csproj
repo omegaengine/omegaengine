@@ -73,67 +73,101 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Global.cs" />
-    <Compile Include="AboutBox.cs" />
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="FileSelectorDialog.cs" />
+    <Compile Include="FileSelectorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FileSelectorDialog.Designer.cs">
       <DependentUpon>FileSelectorDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Graphics\CpuParticleSystemEditor.cs" />
+    <Compile Include="Graphics\CpuParticleSystemEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Graphics\CpuParticleSystemEditor.Designer.cs">
       <DependentUpon>CpuParticleSystemEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Graphics\GpuParticleSystemEditor.cs" />
+    <Compile Include="Graphics\GpuParticleSystemEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Graphics\GpuParticleSystemEditor.Designer.cs">
       <DependentUpon>GpuParticleSystemEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Graphics\ParticleSystemEditor.cs" />
+    <Compile Include="Graphics\ParticleSystemEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Graphics\ParticleSystemEditor.Designer.cs">
       <DependentUpon>ParticleSystemEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\CutsceneEditor.cs" />
+    <Compile Include="Gui\CutsceneEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Gui\CutsceneEditor.Designer.cs">
       <DependentUpon>CutsceneEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\Dialogs\AddControlTool.cs" />
+    <Compile Include="Gui\Dialogs\AddControlTool.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Gui\Dialogs\AddControlTool.Designer.cs">
       <DependentUpon>AddControlTool.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\GuiEditor.cs" />
+    <Compile Include="Gui\GuiEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Gui\GuiEditor.Designer.cs">
       <DependentUpon>GuiEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\LanguageEditor.cs" />
+    <Compile Include="Gui\LanguageEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Gui\LanguageEditor.Designer.cs">
       <DependentUpon>LanguageEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="IToastProvider.cs" />
-    <Compile Include="MainFormBase.cs" />
+    <Compile Include="MainFormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainFormBase.Designer.cs">
       <DependentUpon>MainFormBase.cs</DependentUpon>
     </Compile>
     <Compile Include="ModInfo.cs" />
-    <Compile Include="ModPackageDialog.cs" />
+    <Compile Include="ModPackageDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ModPackageDialog.Designer.cs">
       <DependentUpon>ModPackageDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="ModPropertyDialog.cs" />
+    <Compile Include="ModPropertyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ModPropertyDialog.Designer.cs">
       <DependentUpon>ModPropertyDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="ModSelectorForm.cs" />
+    <Compile Include="ModSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ModSelectorForm.Designer.cs">
       <DependentUpon>ModSelectorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs" />
-    <Compile Include="Tab.cs" />
-    <Compile Include="UndoCloneTab.cs" />
-    <Compile Include="UndoCommandTab.cs" />
-    <Compile Include="UndoTab.cs" />
+    <Compile Include="Tab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UndoCloneTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UndoCommandTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UndoTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OmegaEngine\OmegaEngine.csproj">

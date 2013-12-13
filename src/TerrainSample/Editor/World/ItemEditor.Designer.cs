@@ -36,7 +36,6 @@
             this.NameUI = "Item Editor";
             this.Name = "ItemEditor";
             this.Size = new System.Drawing.Size(718, 538);
-            this.Controls.SetChildIndex(this.splitVertical, 0);
             this.splitVertical.ResumeLayout(false);
             this.ResumeLayout(false);
 

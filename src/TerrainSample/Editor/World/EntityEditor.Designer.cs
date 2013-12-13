@@ -501,11 +501,6 @@ namespace TerrainSample.Editor.World
             this.Name = "EntityEditor";
             this.NameUI = "Entity Editor";
             this.Size = new System.Drawing.Size(718, 538);
-            this.Controls.SetChildIndex(this.buttonOrthographicView, 0);
-            this.Controls.SetChildIndex(this.buttonNormalView, 0);
-            this.Controls.SetChildIndex(this.buttonRedo, 0);
-            this.Controls.SetChildIndex(this.buttonUndo, 0);
-            this.Controls.SetChildIndex(this.splitVertical, 0);
             this.splitVertical.Panel2.ResumeLayout(false);
             this.splitVertical.ResumeLayout(false);
             this.groupBoxTest.ResumeLayout(false);
