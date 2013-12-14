@@ -25,17 +25,14 @@ using System.Drawing;
 using System.Xml.Serialization;
 using Common.Values;
 using SlimDX;
-using TerrainSample.World.Templates;
 
 namespace TerrainSample.World.EntityComponents
 {
     /// <summary>
     /// Collision-detection using an axis-aligned box.
     /// </summary>
-    /// <seealso cref="EntityTemplate.CollisionControl"/>
     public class Box : CollisionControl<Vector2>
     {
-        #region Properties
         /// <summary>
         /// The lower left corner of the box (originating from the body's position).
         /// </summary>
@@ -53,7 +50,6 @@ namespace TerrainSample.World.EntityComponents
         /// </summary>
         [Browsable(false), XmlIgnore]
         public RectangleF Area { get { return RectangleF.FromLTRB(Minimum.X, Minimum.Y, Maximum.X, Maximum.Y); } }
-        #endregion
 
         //--------------------//
 
@@ -64,8 +60,9 @@ namespace TerrainSample.World.EntityComponents
         /// <param name="point">The point to check for collision in entity space.</param>
         /// <param name="rotation">How the box shall be rotated before performing the collision test.</param>
         /// <returns><see langword="true"/> if <paramref name="point"/> does collide with the box, <see langword="false"/> otherwise.</returns>
-        internal override bool CollisionTest(Vector2 point, float rotation)
+        public override bool CollisionTest(Vector2 point, float rotation)
         {
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (rotation == 0)
             {
                 // Perform simple test if no rotation is to be performed
@@ -86,8 +83,9 @@ namespace TerrainSample.World.EntityComponents
         /// <param name="area">The area to check for collision in entity space.</param>
         /// <param name="rotation">How the box shall be rotated before performing the collision test.</param>
         /// <returns><see langword="true"/> if <paramref name="area"/> does collide with the box, <see langword="false"/>.</returns>
-        internal override bool CollisionTest(Quadrangle area, float rotation)
+        public override bool CollisionTest(Quadrangle area, float rotation)
         {
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (rotation == 0)
             {
                 // Perform simple test if no rotation is to be performed
@@ -106,7 +104,7 @@ namespace TerrainSample.World.EntityComponents
         /// </summary>
         /// <param name="rotation">How the collision body shall be rotated before performing the outline calculation.</param>
         /// <returns>Positions in entity space for use by the pathfinding system.</returns>
-        internal override Vector2[] GetPathFindingOutline(float rotation)
+        public override Vector2[] GetPathFindingOutline(float rotation)
         {
             // ToDo: Implement
             return new Vector2[0];

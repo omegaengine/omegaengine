@@ -117,7 +117,7 @@ namespace OmegaEngine.Assets
                             Materials[i].DiffuseMaps[0] = ShaderLoadHelper(engine, meshName, textureFilename);
 
                             #region Auto-detect extra texture maps
-                            string baseFilename = Path.Combine(Path.GetDirectoryName(meshName) ?? "", Path.GetFileNameWithoutExtension(textureFilename) ?? "");
+                            string baseFilename = Path.Combine(Path.GetDirectoryName(meshName) ?? "", Path.GetFileNameWithoutExtension(textureFilename));
                             string fileExt = Path.GetExtension(textureFilename);
 
                             // Normal map

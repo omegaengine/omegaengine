@@ -30,6 +30,7 @@ using AlphaEditor.Properties;
 using Common;
 using Common.Controls;
 using Common.Storage;
+using TemplateWorld.Templates;
 using TerrainSample.World.Templates;
 
 namespace TerrainSample.Editor.World

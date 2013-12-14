@@ -28,6 +28,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using AlphaEditor;
+using AlphaEditor.World.Commands;
+using AlphaEditor.World.Dialogs;
+using AlphaEditor.World.TerrainModifiers;
 using Common;
 using Common.Controls;
 using Common.Storage;
@@ -36,11 +39,12 @@ using Common.Utils;
 using ICSharpCode.SharpZipLib.Zip;
 using OmegaEngine.Input;
 using SlimDX;
+using TemplateWorld.Positionables;
+using TemplateWorld.Templates;
+using TemplateWorld.Terrains;
 using TerrainSample.Presentation;
 using TerrainSample.World;
-using TerrainSample.World.Positionables;
 using TerrainSample.World.Templates;
-using TerrainSample.World.Terrains;
 using Resources = AlphaEditor.Properties.Resources;
 
 namespace TerrainSample.Editor.World
@@ -53,8 +57,8 @@ namespace TerrainSample.Editor.World
         #region Variables
         private EditorPresenter _presenter;
         private UpdateReceiver _updateReceiver;
-        private TerrainUniverse _universe;
-        private Dialogs.MapPropertiesTool _mapPropertiesTool;
+        private Universe _universe;
+        private MapPropertiesTool _mapPropertiesTool;
 
         /// <summary>Don't handle <see cref="FilteredTreeView{T}.SelectedEntryChanged"/> event when <see langword="true"/>.</summary>
         private bool _dontSetEntityTemplate;
@@ -132,9 +136,9 @@ namespace TerrainSample.Editor.World
                 int templateIndex = i; // Copy to local variable to prevent modification by loop outside of closure
                 _textureButtons[i].Click += delegate
                 {
-                    var dialog = new Dialogs.SelectTemplateDialog<TerrainTemplate>(Template<TerrainTemplate>.All);
+                    var dialog = new SelectTemplateDialog<TerrainTemplate>(Template<TerrainTemplate>.All);
                     if (dialog.ShowDialog() == DialogResult.OK)
-                        ExecuteCommand(new Commands.ChangeTerrainTemplate(_universe.Terrain, templateIndex, dialog.SelectedTemplate, _presenter.RebuildTerrain));
+                        ExecuteCommand(new ChangeTerrainTemplate<TerrainTemplate>(_universe.Terrain, templateIndex, dialog.SelectedTemplate, _presenter.RebuildTerrain));
                 };
                 tabPageTexture.Controls.Add(_textureButtons[i]);
             }
@@ -149,9 +153,9 @@ namespace TerrainSample.Editor.World
         protected override void OnInitialize()
         {
             // Load template lists before touching any map files
-            Template<EntityTemplate>.LoadAll();
-            Template<ItemTemplate>.LoadAll();
-            Template<TerrainTemplate>.LoadAll();
+            EntityTemplate.LoadAll();
+            ItemTemplate.LoadAll();
+            TerrainTemplate.LoadAll();
 
             #region File handling
             if (Path.IsPathRooted(FilePath))
@@ -160,12 +164,12 @@ namespace TerrainSample.Editor.World
                 if (!_overwrite && File.Exists(_fullPath))
                 { // Load existing file
                     Log.Info("Load file: " + _fullPath);
-                    _universe = TerrainUniverse.Load(_fullPath);
+                    _universe = Universe.Load(_fullPath);
                 }
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
-                    _universe = new TerrainUniverse(new Terrain(Dialogs.TerrainSizeDialog.Create()));
+                    _universe = new Universe(new Terrain<TerrainTemplate>(TerrainSizeDialog.Create()));
                     _universe.Save(_fullPath);
                 }
             }
@@ -174,7 +178,7 @@ namespace TerrainSample.Editor.World
                 Log.Info("Load file: " + FilePath);
                 try
                 {
-                    _universe = TerrainUniverse.FromContent(FilePath);
+                    _universe = Universe.FromContent(FilePath);
                 }
                     #region Error handling
                 catch (ZipException ex)
@@ -227,7 +231,7 @@ namespace TerrainSample.Editor.World
             // Since this might be triggered by a hotkey instead of the actual button, we must check
             if (!buttonRemove.Enabled) return;
 
-            ExecuteCommand(new Commands.RemovePositionables(_universe, _presenter.SelectedPositionables));
+            ExecuteCommand(new RemovePositionables<Vector2>(_universe, _presenter.SelectedPositionables));
         }
 
         /// <inheritdoc />
@@ -295,14 +299,14 @@ namespace TerrainSample.Editor.World
 
         #region Dialogs
         /// <summary>
-        /// Helper function for configuring the <see cref="Dialogs.MapPropertiesTool"/> form with event hooks.
+        /// Helper function for configuring the <see cref="MapPropertiesTool"/> form with event hooks.
         /// </summary>
         private void SetupMapPropertiesTool()
         {
             // Keep existing dialog instance
             if (_mapPropertiesTool != null) return;
 
-            _mapPropertiesTool = new Dialogs.MapPropertiesTool(_universe);
+            _mapPropertiesTool = new MapPropertiesTool(_universe);
             _mapPropertiesTool.ExecuteCommand += ExecuteCommand;
 
             // Clear the reference when the dialog is disposed
@@ -312,13 +316,13 @@ namespace TerrainSample.Editor.World
 
         #region Helpers
         /// <summary>
-        /// Determines the <see cref="EntityTemplate"/> of the currently selected <see cref="Entity{TCoordinates}"/>s
+        /// Determines the <see cref="EntityTemplate"/> of the currently selected <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>s
         /// </summary>
-        /// <returns>The <see cref="EntityTemplate"/> if all currently selected <see cref="Entity{TCoordinates}"/>s have the same; <see langword="null"/> otherwise.</returns>
+        /// <returns>The <see cref="EntityTemplate"/> if all currently selected <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>s have the same; <see langword="null"/> otherwise.</returns>
         private EntityTemplate GetCurrentEntityTemplate()
         {
             EntityTemplate currentTemplate = null;
-            foreach (var entity in _presenter.SelectedPositionables.OfType<Entity<Vector2>>())
+            foreach (var entity in _presenter.SelectedPositionables.OfType<Entity>())
             {
                 // First class
                 if (currentTemplate == null) currentTemplate = entity.TemplateData;
@@ -332,9 +336,9 @@ namespace TerrainSample.Editor.World
         }
 
         /// <summary>
-        /// Determines the point on the <see cref="Terrain"/> that is currently at the center of the screen
+        /// Determines the point on the <see cref="Terrain{TTemplate}"/> that is currently at the center of the screen
         /// </summary>
-        /// <returns>The world coordinates of the <see cref="Terrain"/> point currently at the center of the screen</returns>
+        /// <returns>The world coordinates of the <see cref="Terrain{TTemplate}"/> point currently at the center of the screen</returns>
         private Vector2 GetScreenTerrainCenter()
         {
             // ToDo: Place at center of screen
@@ -365,7 +369,7 @@ namespace TerrainSample.Editor.World
             #endregion
 
             // Trim away the file extension, if the file is located within the regular game content directory
-            string mapFile = Path.IsPathRooted(FilePath) ? FilePath : FilePath.Replace(TerrainUniverse.FileExt, "");
+            string mapFile = Path.IsPathRooted(FilePath) ? FilePath : FilePath.Replace(Universe.FileExt, "");
 
             // Close the tab in case the map gets changed inside the game
             ForceClose();
@@ -453,14 +457,14 @@ namespace TerrainSample.Editor.World
         private void buttonNewEntity_Click(object sender, EventArgs e)
         {
             // Ask the user which entity template to use as a basis for the new entity
-            var selectTemplate = new Dialogs.SelectTemplateDialog<EntityTemplate>(Template<EntityTemplate>.All);
+            var selectTemplate = new SelectTemplateDialog<EntityTemplate>(Template<EntityTemplate>.All);
             if (selectTemplate.ShowDialog(this) != DialogResult.OK) return;
 
             // Create a new entity from the selected template
-            var newEntity = new TerrainEntity {TemplateName = selectTemplate.SelectedTemplate, Position = GetScreenTerrainCenter()};
+            var newEntity = new Entity {TemplateName = selectTemplate.SelectedTemplate, Position = GetScreenTerrainCenter()};
 
             // Add the new Entity to the Universe
-            ExecuteCommand(new Commands.AddPositionables(_universe, new[] {newEntity}));
+            ExecuteCommand(new AddPositionables<Vector2>(_universe, new[] {newEntity}));
 
             // Select the newly added entity
             _presenter.SelectedPositionables.Clear();
@@ -476,7 +480,7 @@ namespace TerrainSample.Editor.World
             var newEntity = new BenchmarkPoint<Vector2> {Position = cameraState.Position, Rotation = cameraState.Rotation, Radius = cameraState.Radius};
 
             // Add the new entity to the Universe
-            ExecuteCommand(new Commands.AddPositionables(_universe, new[] {newEntity}));
+            ExecuteCommand(new AddPositionables<Vector2>(_universe, new[] {newEntity}));
 
             // Select the newly added entity
             _presenter.SelectedPositionables.Clear();
@@ -502,7 +506,7 @@ namespace TerrainSample.Editor.World
             }
 
             // Add the new entities to the Universe
-            ExecuteCommand(new Commands.AddPositionables(_universe, clonedEntities));
+            ExecuteCommand(new AddPositionables<Vector2>(_universe, clonedEntities));
 
             // Select the newly added entities
             _presenter.SelectedPositionables.Clear();
@@ -567,7 +571,7 @@ namespace TerrainSample.Editor.World
             try
             {
                 // Save the map stats, entities, etc. to an XML file
-                using (Entity<Vector2>.MaskTemplateData())
+                using (Entity.MaskTemplateData())
                     _universe.SaveXml(dialogExportXml.FileName);
             }
                 #region Error handling
@@ -593,7 +597,7 @@ namespace TerrainSample.Editor.World
             int undoCount = UndoBackups.Count;
 
             // Load the height-map from the PNG file but keep everything else
-            ExecuteCommand(new Commands.ImportHeightMap(
+            ExecuteCommand(new ImportHeightMap(
                 _universe.Terrain, dialogImportHeightMap.FileName, _presenter.RebuildTerrain));
 
             if (UndoBackups.Count > undoCount)
@@ -630,7 +634,7 @@ namespace TerrainSample.Editor.World
             int undoCount = UndoBackups.Count;
 
             // Load the texture-map from the PNG file but keep everything else
-            ExecuteCommand(new Commands.ImportTextureMap(
+            ExecuteCommand(new ImportTextureMap(
                 _universe.Terrain, dialogImportTextureMap.FileName, _presenter.RebuildTerrain));
 
             if (UndoBackups.Count > undoCount)
@@ -706,7 +710,7 @@ namespace TerrainSample.Editor.World
         {
             if (!(positionable.Name ?? "").ContainsIgnoreCase(textSearch.Text)) return false;
 
-            return (checkEntity.Checked && positionable is Entity<Vector2>) ||
+            return (checkEntity.Checked && positionable is Entity) ||
                    (checkWater.Checked && positionable is Water) ||
                    (checkWaypoint.Checked && positionable is Waypoint<Vector2>) ||
                    (checkBenchmarkPoint.Checked && positionable is BenchmarkPoint<Vector2>) ||
@@ -725,7 +729,7 @@ namespace TerrainSample.Editor.World
             buttonRemove.Enabled = buttonCopy.Enabled = (_presenter.SelectedPositionables.Count > 0);
 
             // Enable/disable EntityTemplate selection
-            _entityTemplateList.Enabled = _presenter.SelectedPositionables.OfType<Entity<Vector2>>().Any();
+            _entityTemplateList.Enabled = _presenter.SelectedPositionables.OfType<Entity>().Any();
 
             // Refresh PropertyGrid
             propertyGridPositionable.SelectedObjects = propertyGridPositionable.SelectedObjects;
@@ -796,7 +800,7 @@ namespace TerrainSample.Editor.World
         /// <param name="target">The terrain position to move the <paramref name="positionables"/> to</param>
         private void presenter_PositionableMove(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
         {
-            ExecuteCommand(new Commands.MovePositionables(positionables, target));
+            ExecuteCommand(new MovePositionables(positionables, target));
         }
 
         private void propertyGridPositionable_PropertyValueChanged(object sender, PropertyValueChangedEventArgs e)
@@ -810,14 +814,14 @@ namespace TerrainSample.Editor.World
             if (_dontSetEntityTemplate || _entityTemplateList.SelectedEntry == null) return;
 
             // Set the new entity template for all currently selected bodies
-            ExecuteCommand(new Commands.ChangeEntityTemplates(
-                _presenter.SelectedPositionables.OfType<Entity<Vector2>>(), _entityTemplateList.SelectedEntry.Name));
+            ExecuteCommand(new ChangeEntityTemplates(
+                _presenter.SelectedPositionables.OfType<ITemplateName>(), _entityTemplateList.SelectedEntry.Name));
         }
         #endregion
 
         #region Terrain modification
         /// <summary>
-        /// Updates the <see cref="_textureRadios"/> based on the <see cref="Terrain.Templates"/>.
+        /// Updates the <see cref="_textureRadios"/> based on the <see cref="Terrain{TTemplate}.Templates"/>.
         /// </summary>
         private void UpdateTextureControls()
         {
@@ -840,7 +844,7 @@ namespace TerrainSample.Editor.World
             else _presenter.TerrainBrush = null;
         }
 
-        private TerrainModifiers.Base _mapModifier;
+        private Base _mapModifier;
 
         /// <summary>
         /// Handles terrain painting (changing the height- or texture-map).
@@ -858,19 +862,19 @@ namespace TerrainSample.Editor.World
                     Action invokeResetPresenter = () => BeginInvoke((Action)ResetPresenter);
 
                     if (radioHeightRaise.Checked)
-                        _mapModifier = new TerrainModifiers.HeightShift(_universe.Terrain, _presenter.Terrain, invokeResetPresenter, (short)upDownHeightStrength.Value);
+                        _mapModifier = new HeightShift(_universe.Terrain, _presenter.Terrain, invokeResetPresenter, (short)upDownHeightStrength.Value);
                     else if (radioHeightLower.Checked)
-                        _mapModifier = new TerrainModifiers.HeightShift(_universe.Terrain, _presenter.Terrain, invokeResetPresenter, (short)-upDownHeightStrength.Value);
+                        _mapModifier = new HeightShift(_universe.Terrain, _presenter.Terrain, invokeResetPresenter, (short)-upDownHeightStrength.Value);
                     else if (radioHeightSmooth.Checked)
-                        _mapModifier = new TerrainModifiers.HeightSmooth(_universe.Terrain, _presenter.Terrain, invokeResetPresenter, (double)upDownHeightStrength.Value / 6);
+                        _mapModifier = new HeightSmooth(_universe.Terrain, _presenter.Terrain, invokeResetPresenter, (double)upDownHeightStrength.Value / 6);
                     else if (radioHeightNoise.Checked)
-                        _mapModifier = new TerrainModifiers.HeightNoise(_universe.Terrain, _presenter.Terrain, invokeResetPresenter, (double)upDownHeightStrength.Value, (double)upDownHeightNoiseFrequency.Value);
+                        _mapModifier = new HeightNoise(_universe.Terrain, _presenter.Terrain, invokeResetPresenter, (double)upDownHeightStrength.Value, (double)upDownHeightNoiseFrequency.Value);
                     else if (radioHeightPlateau.Checked)
-                        _mapModifier = new TerrainModifiers.HeightPlateau(_universe.Terrain, _presenter.Terrain, invokeResetPresenter);
+                        _mapModifier = new HeightPlateau(_universe.Terrain, _presenter.Terrain, invokeResetPresenter);
                     else return;
                 }
                 else if (tabControl.SelectedTab == tabPageTexture)
-                    _mapModifier = new TerrainModifiers.Texture(_universe.Terrain, () => _presenter.RebuildTerrain(), SelectedTextureRadioIndex);
+                    _mapModifier = new Texture(_universe.Terrain, () => _presenter.RebuildTerrain(), SelectedTextureRadioIndex);
                 else return;
             }
 

@@ -21,13 +21,11 @@
  */
 
 using System;
-using System.ComponentModel;
 using System.IO;
 using Common.Storage;
 using ICSharpCode.SharpZipLib.Zip;
-using LuaInterface;
+using TemplateWorld;
 using TerrainSample.World.Config;
-using TerrainSample.World.Positionables;
 
 namespace TerrainSample.World
 {
@@ -35,7 +33,7 @@ namespace TerrainSample.World
     /// Represents a game session (i.e. a game actually being played).
     /// It is equivalent to the content of a savegame.
     /// </summary>
-    public sealed class Session
+    public sealed class Session : SessionBase<Universe>
     {
         #region Constants
         /// <summary>
@@ -50,36 +48,6 @@ namespace TerrainSample.World
         private const string EncryptionKey = "Session";
         #endregion
 
-        #region Properties
-        /// <summary>
-        /// The current state of the game world.
-        /// </summary>
-        [LuaHide]
-        public TerrainUniverse Universe { get; set; }
-
-        /// <summary>
-        /// The filename of the map file the <see cref="Universe"/> was loaded from.
-        /// </summary>
-        public string MapSourceFile { get; set; }
-
-        /// <summary>
-        /// Total elapsed real time in seconds.
-        /// </summary>
-        public double RealTime { get; set; }
-
-        /// <summary>
-        /// Total elapsed game time in seconds.
-        /// </summary>
-        public double GameTime { get; set; }
-
-        /// <summary>
-        /// The factor by which <see cref="GameTime"/> (not <see cref="RealTime"/>) progression should be multiplied.
-        /// </summary>
-        /// <remarks>This multiplication is not done in <see cref="Update"/>!</remarks>
-        [DefaultValue(1f)]
-        public float TimeWarpFactor { get; set; }
-        #endregion
-
         #region Constructor
         /// <summary>
         /// Base-constructor for XML serialization. Do not call manually!
@@ -88,47 +56,27 @@ namespace TerrainSample.World
         {}
 
         /// <summary>
-        /// Creates a new game session based upon a given <see cref="Universe"/>
+        /// Creates a new game session based upon a given <see cref="Universe"/>.
         /// </summary>
-        /// <param name="baseUniverse">The universe to base the new game session on</param>
-        public Session(TerrainUniverse baseUniverse) : this()
-        {
-            #region Sanity checks
-            if (baseUniverse == null) throw new ArgumentNullException("baseUniverse");
-            #endregion
-
-            // Note: This path is only taken when creating a new session, loading a savegame does not go through here!
-
-            Universe = baseUniverse;
-            TimeWarpFactor = 1;
-
-            // Transfer map name from universe to session, because it will persist there
-            MapSourceFile = baseUniverse.SourceFile;
-        }
+        /// <param name="baseUniverse">The universe to base the new game session on.</param>
+        public Session(Universe baseUniverse) : base(baseUniverse)
+        {}
         #endregion
 
         //--------------------//
 
-        #region Update
-        /// <summary>
-        /// Updates the <see cref="Session"/>, the contained <see cref="Universe"/> and all <see cref="Positionable{TCoordinates}"/>s in it.
-        /// </summary>
-        /// <param name="elapsedRealTime">How much real time in seconds has elapsed since this method was last called.</param>
-        /// <param name="elapsedGameTime">How much game time in seconds has elapsed since this method was last called.</param>
-        /// <remarks>This needs to be called as a part of the render loop.</remarks>
-        public void Update(double elapsedRealTime, double elapsedGameTime)
+        /// <inheritdoc/>
+        public override void Update(double elapsedRealTime, double elapsedGameTime)
         {
-            RealTime += elapsedRealTime;
-            GameTime += elapsedGameTime;
-
-            // ToDo: Add some game logic here
-
-            UpdateUniverse(elapsedGameTime);
+            base.Update(elapsedRealTime, elapsedGameTime);
+            IncrementalUpdate(elapsedGameTime);
         }
 
-        private void UpdateUniverse(double elapsedGameTime)
+        /// <summary>
+        /// Split <see cref="Universe.Update"/> calls into multiple steps to increase accuracy.
+        /// </summary>
+        private void IncrementalUpdate(double elapsedGameTime)
         {
-            // Split Universe update into multiple steps to increase accuracy
             while (elapsedGameTime > Settings.Current.General.UniversePredictSecs)
             {
                 Universe.Update(Settings.Current.General.UniversePredictSecs);
@@ -136,7 +84,6 @@ namespace TerrainSample.World
             }
             if (elapsedGameTime > 0) Universe.Update(elapsedGameTime);
         }
-        #endregion
 
         #region Storage
         /// <summary>
@@ -164,10 +111,6 @@ namespace TerrainSample.World
 
             // Restore the orginal map filename
             session.Universe.SourceFile = session.MapSourceFile;
-
-            // Perform updates to regenerate data lost in the savegame
-            session.Universe.Update(0);
-            session.Universe.RecalcPaths();
 
             return session;
         }

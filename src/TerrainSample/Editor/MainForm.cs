@@ -23,6 +23,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using AlphaEditor;
 using AlphaEditor.Properties;
@@ -67,11 +68,8 @@ namespace TerrainSample.Editor
             if (Settings.Current.Editor.WindowMaximized) WindowState = FormWindowState.Maximized;
 
             // Open files passed as command-line arguments
-            foreach (string file in Program.Args.Files)
-            {
-                if (file.EndsWith(TerrainUniverse.FileExt, StringComparison.OrdinalIgnoreCase))
-                    AddTab(new MapEditor(file, false));
-            }
+            foreach (string file in Program.Args.Files.Where(file => file.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase)))
+                AddTab(new MapEditor(file, false));
         }
         #endregion
 
@@ -106,74 +104,6 @@ namespace TerrainSample.Editor
 
         //--------------------//
 
-        #region Editors
-        private void MapEditor()
-        {
-            // Get the file path
-            string path;
-            bool overwrite;
-            if (!FileSelectorDialog.TryGetPath("World/Maps", TerrainUniverse.FileExt, out path, out overwrite)) return;
-
-            // Don't open a file twice
-            foreach (Tab tab in Tabs.Keys)
-            {
-                var previousEditor = tab as MapEditor;
-                if (previousEditor != null && previousEditor.FilePath == path)
-                {
-                    ShowTab(tab);
-                    return;
-                }
-            }
-
-            AddTab(new MapEditor(path, overwrite));
-        }
-
-        private void EntityEditor()
-        {
-            // Don't open a file twice
-            foreach (Tab tab in Tabs.Keys)
-            {
-                if (tab is EntityEditor)
-                {
-                    ShowTab(tab);
-                    return;
-                }
-            }
-
-            AddTab(new EntityEditor());
-        }
-
-        private void ItemClassEditor()
-        {
-            // Don't open a file twice
-            foreach (Tab tab in Tabs.Keys)
-            {
-                if (tab is ItemEditor)
-                {
-                    ShowTab(tab);
-                    return;
-                }
-            }
-
-            AddTab(new ItemEditor());
-        }
-
-        private void TerrainEditor()
-        {
-            // Don't open a file twice
-            foreach (Tab tab in Tabs.Keys)
-            {
-                if (tab is TerrainEditor)
-                {
-                    ShowTab(tab);
-                    return;
-                }
-            }
-
-            AddTab(new TerrainEditor());
-        }
-        #endregion
-
         #region Language
         /// <inheritdoc/>
         protected override void ChangeLanguage(string language)
@@ -194,22 +124,22 @@ namespace TerrainSample.Editor
         #region Toolbar
         private void toolUniverseEditor_Click(object sender, EventArgs e)
         {
-            MapEditor();
+            OpenFileTab("World/Maps", Universe.FileExt, (path, overwrite) => new MapEditor(path, overwrite));
         }
 
         private void toolUniverseEntityEditor_Click(object sender, EventArgs e)
         {
-            EntityEditor();
+            ShowSingleInstanceTab<EntityEditor>();
         }
 
         private void toolUniverseItemEditor_Click(object sender, EventArgs e)
         {
-            ItemClassEditor();
+            ShowSingleInstanceTab<ItemEditor>();
         }
 
         private void toolUniverseTerrainEditor_Click(object sender, EventArgs e)
         {
-            TerrainEditor();
+            ShowSingleInstanceTab<TerrainEditor>();
         }
         #endregion
     }

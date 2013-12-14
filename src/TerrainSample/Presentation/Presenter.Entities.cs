@@ -26,17 +26,18 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using Common.Utils;
+using Common.Values;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
-using TerrainSample.World.EntityComponents;
-using TerrainSample.World.Positionables;
-using TerrainSample.World.Terrains;
-using CpuParticleSystem = TerrainSample.World.EntityComponents.CpuParticleSystem;
-using GpuParticleSystem = TerrainSample.World.EntityComponents.GpuParticleSystem;
-using LightSource = TerrainSample.World.EntityComponents.LightSource;
+using TemplateWorld.EntityComponents;
+using TemplateWorld.Positionables;
+using TerrainSample.World;
+using CpuParticleSystem = TemplateWorld.EntityComponents.CpuParticleSystem;
+using GpuParticleSystem = TemplateWorld.EntityComponents.GpuParticleSystem;
+using LightSource = TemplateWorld.EntityComponents.LightSource;
 using Terrain = OmegaEngine.Graphics.Renderables.Terrain;
 using ViewType = OmegaEngine.Graphics.Renderables.ViewType;
 using Water = OmegaEngine.Graphics.Renderables.Water;
@@ -71,10 +72,10 @@ namespace TerrainSample.Presentation
         /// <summary>1:1 association of <see cref="RenderControl"/> to <see cref="IPositionableOffset"/> (usually <see cref="PositionableRenderable"/>.</summary>
         private readonly Dictionary<RenderControl, IPositionable> _worldToEngine = new Dictionary<RenderControl, IPositionable>();
 
-        /// <summary>1:1 association of <see cref="World.Positionables.Water"/> to <see cref="OmegaEngine.Graphics.Renderables.Water"/>.</summary>
-        private readonly Dictionary<World.Positionables.Water, Water> _worldToEngineWater = new Dictionary<World.Positionables.Water, Water>();
+        /// <summary>1:1 association of <see cref="TemplateWorld.Positionables.Water"/> to <see cref="OmegaEngine.Graphics.Renderables.Water"/>.</summary>
+        private readonly Dictionary<TemplateWorld.Positionables.Water, Water> _worldToEngineWater = new Dictionary<TemplateWorld.Positionables.Water, Water>();
 
-        /// <summary>n:1 association of <see cref="PositionableRenderable"/> to <see cref="World.Positionables.Positionable{TCoordinates}"/>.</summary>
+        /// <summary>n:1 association of <see cref="PositionableRenderable"/> to <see cref="Positionable{TCoordinates}"/>.</summary>
         private readonly Dictionary<PositionableRenderable, Positionable<Vector2>> _engineToWorld = new Dictionary<PositionableRenderable, Positionable<Vector2>>();
         #endregion
 
@@ -132,7 +133,7 @@ namespace TerrainSample.Presentation
             #endregion
 
             #region Entity
-            var entity = positionable as Entity<Vector2>;
+            var entity = positionable as Entity;
             if (entity != null)
             {
                 AddEntity(entity);
@@ -146,7 +147,7 @@ namespace TerrainSample.Presentation
             else
             {
                 #region Water
-                var water = positionable as World.Positionables.Water;
+                var water = positionable as TemplateWorld.Positionables.Water;
                 if (water != null)
                 {
                     AddWater(water);
@@ -163,11 +164,11 @@ namespace TerrainSample.Presentation
         }
 
         /// <summary>
-        /// Sets up a <see cref="Entity{TCoordinates}"/> for rendering via a <see cref="PositionableRenderable"/>
+        /// Sets up a <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/> for rendering via a <see cref="PositionableRenderable"/>
         /// </summary>
-        /// <param name="entity">The <see cref="Entity{TCoordinates}"/> to be displayed</param>
+        /// <param name="entity">The <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/> to be displayed</param>
         /// <remarks>This is a helper method for <see cref="AddPositionable"/>.</remarks>
-        private void AddEntity(Entity<Vector2> entity)
+        private void AddEntity(Entity entity)
         {
             try
             {
@@ -191,10 +192,10 @@ namespace TerrainSample.Presentation
         }
 
         /// <summary>
-        /// Sets up a <see cref="World.Positionables.Water"/> for rendering via a <see cref="Water"/>
+        /// Sets up a <see cref="TemplateWorld.Positionables.Water"/> for rendering via a <see cref="Water"/>
         /// </summary>
-        /// <param name="water">The <see cref="World.Positionables.Water"/> to be displayed</param>
-        private void AddWater(World.Positionables.Water water)
+        /// <param name="water">The <see cref="TemplateWorld.Positionables.Water"/> to be displayed</param>
+        private void AddWater(TemplateWorld.Positionables.Water water)
         {
             // Create an engine representation of the water plane
             var engineWater = new Water(Engine, new SizeF(water.Size.X, water.Size.Y))
@@ -228,7 +229,7 @@ namespace TerrainSample.Presentation
             #endregion
 
             #region Entity
-            var entity = positionable as Entity<Vector2>;
+            var entity = positionable as Entity;
             if (entity != null)
             {
                 RemoveEntity(entity);
@@ -242,7 +243,7 @@ namespace TerrainSample.Presentation
             else
             {
                 #region Water
-                var water = positionable as World.Positionables.Water;
+                var water = positionable as TemplateWorld.Positionables.Water;
                 if (water != null)
                 {
                     RemoveWater(water);
@@ -263,17 +264,17 @@ namespace TerrainSample.Presentation
         /// </summary>
         /// <param name="entity">The <see cref="Positionable{TCoordinates}"/> to be removed</param>
         /// <remarks>This is a helper method for <see cref="RemovePositionable"/>.</remarks>
-        private void RemoveEntity(Entity<Vector2> entity)
+        private void RemoveEntity(Entity entity)
         {
             foreach (var renderControl in entity.TemplateData.RenderControls)
                 RemoveEntityHelper(renderControl);
         }
 
         /// <summary>
-        /// Removes a <see cref="OmegaEngine.Graphics.Renderables.Water"/> used to render a <see cref="World.Positionables.Water"/>
+        /// Removes a <see cref="OmegaEngine.Graphics.Renderables.Water"/> used to render a <see cref="TemplateWorld.Positionables.Water"/>
         /// </summary>
-        /// <param name="water">The <see cref="World.Positionables.Water"/> to be removed</param>
-        private void RemoveWater(World.Positionables.Water water)
+        /// <param name="water">The <see cref="TemplateWorld.Positionables.Water"/> to be removed</param>
+        private void RemoveWater(TemplateWorld.Positionables.Water water)
         {
             Water engineWater = _worldToEngineWater[water];
             Scene.Positionables.Remove(engineWater);
@@ -297,7 +298,7 @@ namespace TerrainSample.Presentation
             #endregion
 
             // Determine the entity's position on the terrain
-            TerrainPoint terrainPoint;
+            DoubleVector3 terrainPoint;
             try
             {
                 terrainPoint = Universe.Terrain.ToEngineCoords(positionable.Position);
@@ -311,7 +312,7 @@ namespace TerrainSample.Presentation
             #endregion
 
             #region Entity
-            var entity = positionable as Entity<Vector2>;
+            var entity = positionable as Entity;
             if (entity != null)
             {
                 foreach (var renderControl in entity.TemplateData.RenderControls)
@@ -322,7 +323,7 @@ namespace TerrainSample.Presentation
             else
             {
                 #region Water
-                var water = positionable as World.Positionables.Water;
+                var water = positionable as TemplateWorld.Positionables.Water;
                 if (water != null)
                     _worldToEngineWater[water].Position = Terrain.Position + water.EnginePosition;
                 #endregion
@@ -341,7 +342,7 @@ namespace TerrainSample.Presentation
         /// <exception cref="FileNotFoundException">Thrown if a required <see cref="Asset"/> file could not be found.</exception>
         /// <exception cref="IOException">Thrown if there was an error reading an <see cref="Asset"/> file.</exception>
         /// <exception cref="InvalidDataException">Thrown if an <see cref="Asset"/> file contains invalid data.</exception>
-        private void AddEntityHelper(Entity<Vector2> entity, RenderControl renderControl)
+        private void AddEntityHelper(Entity entity, RenderControl renderControl)
         {
             // ----- Apply RenderControl.Shift directly with PreTransform ----- //
 
@@ -459,13 +460,12 @@ namespace TerrainSample.Presentation
         /// <param name="renderControl">The <see cref="RenderControl"/> to be updated</param>
         /// <param name="terrainPoint">The location of the associated <see cref="Positionable{TCoordinates}"/> on the terrain</param>
         /// <param name="dirRotation">The rotation of the associated <see cref="Positionable{TCoordinates}"/> on the terrain</param>
-        private void UpdateEntityHelper(RenderControl renderControl, TerrainPoint terrainPoint, float dirRotation)
+        private void UpdateEntityHelper(RenderControl renderControl, DoubleVector3 terrainPoint, float dirRotation)
         {
             var render = GetEngine(renderControl);
             if (render == null) return;
 
-            var rotation = Quaternion.RotationYawPitchRoll(dirRotation.DegreeToRadian(), 0, 0) *
-                           Quaternion.RotationYawPitchRoll(0, terrainPoint.AngleX, terrainPoint.AngleY);
+            var rotation = Quaternion.RotationYawPitchRoll(dirRotation.DegreeToRadian(), 0, 0);
 
             // ----- RenderControl.Shift already applied ----- //
 
@@ -475,7 +475,7 @@ namespace TerrainSample.Presentation
             {
                 // Cast to entity to be able to access Rotation in addition to Position
                 var renderable = (PositionableRenderable)render;
-                renderable.Position = Terrain.Position + terrainPoint.Position;
+                renderable.Position = Terrain.Position + terrainPoint;
                 renderable.Rotation = rotation;
                 return;
             }
@@ -490,14 +490,14 @@ namespace TerrainSample.Presentation
             #region ParticleSystem
             if (renderControl is ParticleSystem)
             {
-                render.Position = Terrain.Position + terrainPoint.Position + rotatedShift;
+                render.Position = Terrain.Position + terrainPoint + rotatedShift;
                 return;
             }
             #endregion
 
             #region LightSource
             if (renderControl is LightSource)
-                render.Position = Terrain.Position + terrainPoint.Position + rotatedShift;
+                render.Position = Terrain.Position + terrainPoint + rotatedShift;
             #endregion
         }
         #endregion

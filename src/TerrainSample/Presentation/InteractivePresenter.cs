@@ -34,7 +34,8 @@ using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;
 using SlimDX;
-using TerrainSample.World.Positionables;
+using TemplateWorld.Positionables;
+using TerrainSample.World;
 
 namespace TerrainSample.Presentation
 {
@@ -66,7 +67,7 @@ namespace TerrainSample.Presentation
         /// </summary>
         /// <param name="engine">The engine to use for rendering</param>
         /// <param name="universe">The universe to display</param>
-        protected InteractivePresenter(Engine engine, World.TerrainUniverse universe) : base(engine, universe)
+        protected InteractivePresenter(Engine engine, Universe universe) : base(engine, universe)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
@@ -136,7 +137,7 @@ namespace TerrainSample.Presentation
                 if (!accumulate) _selectedPositionables.Clear();
 
                 // Check each entity in World if it is positioned on top of the selection area
-                foreach (var entity in Universe.Positionables.OfType<Entity<Vector2>>()
+                foreach (var entity in Universe.Positionables.OfType<Entity>()
                     .Where(entity => entity.CollisionTest(terrainArea)))
                 {
                     // Toggle entries when accumulating
@@ -163,19 +164,19 @@ namespace TerrainSample.Presentation
             {
                 DoubleVector3 topLeftPoint;
                 if (!Terrain.Intersects(View.PickingRay(new Point(area.Left, area.Top)), out topLeftPoint)) return new Quadrangle();
-                topLeftCoord = World.Terrains.Terrain.ToWorldCoords(topLeftPoint);
+                topLeftCoord = topLeftPoint.Flatten();
 
                 DoubleVector3 bottomLeftPoint;
                 if (!Terrain.Intersects(View.PickingRay(new Point(area.Left, area.Bottom)), out bottomLeftPoint)) return new Quadrangle();
-                bottomLeftCoord = World.Terrains.Terrain.ToWorldCoords(bottomLeftPoint);
+                bottomLeftCoord = bottomLeftPoint.Flatten();
 
                 DoubleVector3 bottomRightPoint;
                 if (!Terrain.Intersects(View.PickingRay(new Point(area.Right, area.Bottom)), out bottomRightPoint)) return new Quadrangle();
-                bottomRightCoord = World.Terrains.Terrain.ToWorldCoords(bottomRightPoint);
+                bottomRightCoord = bottomRightPoint.Flatten();
 
                 DoubleVector3 topRightPoint;
                 if (!Terrain.Intersects(View.PickingRay(new Point(area.Right, area.Top)), out topRightPoint)) return new Quadrangle();
-                topRightCoord = World.Terrains.Terrain.ToWorldCoords(topRightPoint);
+                topRightCoord = topRightPoint.Flatten();
             }
 
             var terrainArea = new Quadrangle(topLeftCoord, bottomLeftCoord, bottomRightCoord, topRightCoord);
@@ -208,8 +209,8 @@ namespace TerrainSample.Presentation
 
                     if (pickedTerrain)
                     { // Action: Left-click on terrain to select one nearby entity
-                        foreach (var entity in Universe.Positionables.OfType<Entity<Vector2>>()
-                            .Where(entity => entity.CollisionTest(World.Terrains.Terrain.ToWorldCoords(intersectPosition))))
+                        foreach (var entity in Universe.Positionables.OfType<Entity>()
+                            .Where(entity => entity.CollisionTest(intersectPosition.Flatten())))
                         {
                             // Toggle entries when accumulating
                             if (accumulate && _selectedPositionables.Contains(entity)) _selectedPositionables.Remove(entity);
@@ -235,7 +236,7 @@ namespace TerrainSample.Presentation
                     if (_selectedPositionables.Count != 0 && pickedTerrain)
                     { // Action: Right-click on terrain to move
                         // Depending on the actual presenter type this may invoke pathfinding or teleportation
-                        MovePositionables(_selectedPositionables, World.Terrains.Terrain.ToWorldCoords(intersectPosition));
+                        MovePositionables(_selectedPositionables, intersectPosition.Flatten());
                     }
                     break;
             }
@@ -261,7 +262,7 @@ namespace TerrainSample.Presentation
                 var newState = new CameraState<Vector2>
                 {
                     Name = View.Camera.Name,
-                    Position = World.Terrains.Terrain.ToWorldCoords(pickedObject.Position),
+                    Position = pickedObject.Position.Flatten(),
                     Radius = pickedObject.WorldBoundingSphere.HasValue ? pickedObject.WorldBoundingSphere.Value.Radius * 2.5f : 50,
                 };
 
@@ -296,7 +297,7 @@ namespace TerrainSample.Presentation
             if (positionables == null) throw new ArgumentNullException("positionables");
             #endregion
 
-            foreach (var entity in positionables.OfType<Entity<Vector2>>())
+            foreach (var entity in positionables.OfType<Entity>())
             {
                 // Start pathfinding if this entity can move
                 if (entity.TemplateData.MovementControl != null)

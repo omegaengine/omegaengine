@@ -64,9 +64,6 @@
     <Reference Include="SlimDX">
       <HintPath>..\..\lib\SlimDX.dll</HintPath>
     </Reference>
-    <Reference Include="C5">
-      <HintPath>..\..\lib\C5.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -168,6 +165,52 @@
     <Compile Include="UndoTab.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="World\Commands\AddPositionables.cs" />
+    <Compile Include="World\Commands\AddRemovePositionables.cs" />
+    <Compile Include="World\Commands\ChangeEntityTemplates.cs" />
+    <Compile Include="World\Commands\ChangeTerrainTemplate.cs" />
+    <Compile Include="World\Commands\ImportHeightMap.cs" />
+    <Compile Include="World\Commands\ImportMap.cs" />
+    <Compile Include="World\Commands\ImportTextureMap.cs" />
+    <Compile Include="World\Commands\ImportXmlBase.cs" />
+    <Compile Include="World\Commands\ModifyHeightMap.cs" />
+    <Compile Include="World\Commands\ModifyTextureMap.cs" />
+    <Compile Include="World\Commands\MovePositionables.cs" />
+    <Compile Include="World\Commands\RemovePositionables.cs" />
+    <Compile Include="World\Dialogs\AddRenderControlTool.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="World\Dialogs\AddRenderControlTool.Designer.cs">
+      <DependentUpon>AddRenderControlTool.cs</DependentUpon>
+    </Compile>
+    <Compile Include="World\Dialogs\MapPropertiesTool.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="World\Dialogs\MapPropertiesTool.Designer.cs">
+      <DependentUpon>MapPropertiesTool.cs</DependentUpon>
+    </Compile>
+    <Compile Include="World\Dialogs\SelectTemplateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="World\Dialogs\TerrainSizeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="World\Dialogs\TerrainSizeDialog.Designer.cs">
+      <DependentUpon>TerrainSizeDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="World\TemplateEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="World\TemplateEditor.Designer.cs">
+      <DependentUpon>TemplateEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="World\TerrainModifiers\Base.cs" />
+    <Compile Include="World\TerrainModifiers\Height.cs" />
+    <Compile Include="World\TerrainModifiers\HeightNoise.cs" />
+    <Compile Include="World\TerrainModifiers\HeightPlateau.cs" />
+    <Compile Include="World\TerrainModifiers\HeightShift.cs" />
+    <Compile Include="World\TerrainModifiers\HeightSmooth.cs" />
+    <Compile Include="World\TerrainModifiers\Texture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OmegaEngine\OmegaEngine.csproj">
@@ -181,6 +224,10 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TemplateWorld\TemplateWorld.csproj">
+      <Project>{C9062BE0-1762-4907-BA23-9D60AF183993}</Project>
+      <Name>TemplateWorld</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +293,25 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.de.resx" />
     <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="World\Dialogs\AddRenderControlTool.de.resx">
+      <DependentUpon>AddRenderControlTool.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="World\Dialogs\AddRenderControlTool.resx">
+      <DependentUpon>AddRenderControlTool.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="World\Dialogs\MapPropertiesTool.resx">
+      <DependentUpon>MapPropertiesTool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="World\Dialogs\TerrainSizeDialog.resx">
+      <DependentUpon>TerrainSizeDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="World\TemplateEditor.resx">
+      <DependentUpon>TemplateEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\CopyCopy.png" />

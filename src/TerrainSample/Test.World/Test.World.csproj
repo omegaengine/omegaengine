@@ -44,17 +44,15 @@
     <Reference Include="Moq">
       <HintPath>..\..\..\lib\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="C5">
-      <HintPath>..\..\..\lib\C5.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common.csproj">
       <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TemplateWorld\TemplateWorld.csproj">
+      <Project>{c9062be0-1762-4907-ba23-9d60af183993}</Project>
+      <Name>TemplateWorld</Name>
     </ProjectReference>
     <ProjectReference Include="..\World\World.csproj">
       <Project>{3EA8E61B-A309-4862-B4B1-7C67537C52A6}</Project>
@@ -64,9 +62,6 @@
       <Project>{3EA8E61B-A309-4862-B4B1-7C67537C52A6}</Project>
       <Name>World</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="LightAngleMapGeneratorTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

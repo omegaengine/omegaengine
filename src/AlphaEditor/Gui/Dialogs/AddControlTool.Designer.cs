@@ -1,4 +1,4 @@
-namespace AlphaEditor.GUI.Dialogs
+namespace AlphaEditor.Gui.Dialogs
 {
     partial class AddControlTool
     {

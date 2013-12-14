@@ -98,11 +98,11 @@ namespace TerrainSample
 
             _menuUniverse = name.EndsWith(
                 // Does the name have file ending?
-                TerrainUniverse.FileExt, StringComparison.OrdinalIgnoreCase) ?
+                Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
                 // Real filename
-                TerrainUniverse.Load(Path.Combine(Locations.InstallBase, name)) :
+                Universe.Load(Path.Combine(Locations.InstallBase, name)) :
                 // Internal map name
-                TerrainUniverse.FromContent(name + TerrainUniverse.FileExt);
+                Universe.FromContent(name + Universe.FileExt);
 
             CleanupPresenter();
             if (_menuPresenter != null)
@@ -127,11 +127,11 @@ namespace TerrainSample
 
             CurrentSession = new Session(
                 // Does the name have file ending?
-                name.EndsWith(TerrainUniverse.FileExt, StringComparison.OrdinalIgnoreCase) ?
+                name.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
                     // Real filename
-                    TerrainUniverse.Load(Path.Combine(Locations.InstallBase, name)) :
+                    Universe.Load(Path.Combine(Locations.InstallBase, name)) :
                     // Internal map name
-                    TerrainUniverse.FromContent(name + TerrainUniverse.FileExt));
+                    Universe.FromContent(name + Universe.FileExt));
 
             CleanupPresenter();
             InitializeGameMode();
@@ -149,11 +149,11 @@ namespace TerrainSample
 
             CurrentSession = new Session(
                 // Does the name have file ending?
-                name.EndsWith(TerrainUniverse.FileExt, StringComparison.OrdinalIgnoreCase) ?
+                name.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
                     // Real filename
-                    TerrainUniverse.Load(Path.Combine(Locations.InstallBase, name)) :
+                    Universe.Load(Path.Combine(Locations.InstallBase, name)) :
                     // Internal map name
-                    TerrainUniverse.FromContent(name + TerrainUniverse.FileExt));
+                    Universe.FromContent(name + Universe.FileExt));
 
             CleanupPresenter();
             InitializeModifyMode();

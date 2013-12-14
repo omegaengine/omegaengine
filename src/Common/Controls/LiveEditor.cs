@@ -24,10 +24,8 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 using Common.Properties;
-using Common.Utils;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 

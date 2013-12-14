@@ -11,7 +11,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using OmegaGUI.Model;
 
-namespace AlphaEditor.GUI.Dialogs
+namespace AlphaEditor.Gui.Dialogs
 {
     /// <summary>
     /// Allows the user to add a new <see cref="Control"/> to a <see cref="Dialog"/>.

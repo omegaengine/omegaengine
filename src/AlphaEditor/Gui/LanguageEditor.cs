@@ -13,7 +13,7 @@ using Common.Collections;
 using Common.Storage;
 using OmegaGUI.Model;
 
-namespace AlphaEditor.GUI
+namespace AlphaEditor.Gui
 {
     /// <summary>
     /// Allows a user to edit language localizations for the GUI

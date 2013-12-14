@@ -26,17 +26,19 @@ using System.IO;
 using System.Windows.Forms;
 using AlphaEditor;
 using AlphaEditor.Properties;
+using AlphaEditor.World.Dialogs;
 using Common;
 using Common.Controls;
 using Common.Values;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;
+using TemplateWorld.EntityComponents;
+using TemplateWorld.Templates;
+using TemplateWorld.Terrains;
 using TerrainSample.Presentation;
 using TerrainSample.World;
 using TerrainSample.World.EntityComponents;
-using TerrainSample.World.Positionables;
 using TerrainSample.World.Templates;
-using TerrainSample.World.Terrains;
 
 namespace TerrainSample.Editor.World
 {
@@ -48,9 +50,9 @@ namespace TerrainSample.Editor.World
     {
         #region Variables
         private EditorPresenter _presenter;
-        private TerrainUniverse _universe;
+        private Universe _universe;
 
-        private Dialogs.AddRenderControlTool _addRenderControlTool;
+        private AddRenderControlTool _addRenderControlTool;
         #endregion
 
         #region Constructor
@@ -78,12 +80,12 @@ namespace TerrainSample.Editor.World
         /// <inheritdoc />
         protected override void OnInitialize()
         {
-            Template<EntityTemplate>.LoadAll();
-            Template<ItemTemplate>.LoadAll();
-            Template<TerrainTemplate>.LoadAll();
+            EntityTemplate.LoadAll();
+            ItemTemplate.LoadAll();
+            TerrainTemplate.LoadAll();
 
             // Create an empty testing universe with a plain terrain
-            _universe = new TerrainUniverse(new Terrain(new TerrainSize(27, 27, 30, 30))) {LightPhase = 2};
+            _universe = new Universe(new Terrain<TerrainTemplate>(new TerrainSize(27, 27, 30, 30))) {LightPhase = 2};
 
             base.OnInitialize();
 
@@ -191,7 +193,7 @@ namespace TerrainSample.Editor.World
                 // Add new Entity to Universe (Presenter will auto-update engine)
                 try
                 {
-                    _universe.Positionables.Add(new TerrainEntity
+                    _universe.Positionables.Add(new Entity
                     {
                         Name = "Entity",
                         Position = _universe.Terrain.Center,
@@ -260,14 +262,14 @@ namespace TerrainSample.Editor.World
 
         #region Dialogs
         /// <summary>
-        /// Helper function for configuring the <see cref="Dialogs.AddRenderControlTool"/> form with event hooks.
+        /// Helper function for configuring the <see cref="AddRenderControlTool"/> form with event hooks.
         /// </summary>
         private void SetupAddRenderControlTool()
         {
             // Keep existing dialog instance
             if (_addRenderControlTool != null) return;
 
-            _addRenderControlTool = new Dialogs.AddRenderControlTool();
+            _addRenderControlTool = new AddRenderControlTool();
             _addRenderControlTool.NewRenderControl += delegate(RenderControl renderControl)
             { // Callback when the "Add" button is clicked
                 TemplateList.SelectedEntry.RenderControls.Add(renderControl);
@@ -471,7 +473,7 @@ namespace TerrainSample.Editor.World
             _presenter.View.SwingCameraTo(new TrackCamera(50, 2000)
             {
                 Name = "Orthographic",
-                Target = _universe.Terrain.ToEngineCoords(_universe.Terrain.Center).Position + new DoubleVector3(0, 100, 0),
+                Target = _universe.Terrain.ToEngineCoords(_universe.Terrain.Center) + new DoubleVector3(0, 100, 0),
                 Radius = 500
             }, 1);
         }

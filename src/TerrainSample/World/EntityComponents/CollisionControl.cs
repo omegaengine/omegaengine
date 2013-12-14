@@ -22,15 +22,13 @@
 
 using System;
 using Common.Values;
-using TerrainSample.World.Positionables;
-using TerrainSample.World.Templates;
+using TemplateWorld.Positionables;
 
 namespace TerrainSample.World.EntityComponents
 {
     /// <summary>
-    /// Controls how <see cref="Entity{TCoordinates}"/>s occupy space around them.
+    /// Controls how <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>s occupy space around them.
     /// </summary>
-    /// <seealso cref="EntityTemplate.CollisionControl"/>
     public abstract class CollisionControl<TCoordinates> : ICloneable
         where TCoordinates : struct
     {
@@ -40,6 +38,8 @@ namespace TerrainSample.World.EntityComponents
             return GetType().Name;
         }
 
+        //--------------------//
+
         #region Collision test
         /// <summary>
         /// Determines whether a a certain point lies within the collision body.
@@ -47,7 +47,7 @@ namespace TerrainSample.World.EntityComponents
         /// <param name="point">The point to check for collision in entity space.</param>
         /// <param name="rotation">How the collision body shall be rotated before performing the collision test.</param>
         /// <returns><see langword="true"/> if <paramref name="point"/> does collide with the body, <see langword="false"/> otherwise.</returns>
-        internal abstract bool CollisionTest(TCoordinates point, float rotation);
+        public abstract bool CollisionTest(TCoordinates point, float rotation);
 
         /// <summary>
         /// Determines whether a certain area lies within the collision body.
@@ -55,7 +55,7 @@ namespace TerrainSample.World.EntityComponents
         /// <param name="area">The area to check for collision in entity space.</param>
         /// <param name="rotation">How the collision body shall be rotated before performing the collision test.</param>
         /// <returns><see langword="true"/> if <paramref name="area"/> does collide with the body, <see langword="false"/> otherwise.</returns>
-        internal abstract bool CollisionTest(Quadrangle area, float rotation);
+        public abstract bool CollisionTest(Quadrangle area, float rotation);
         #endregion
 
         #region Path finding
@@ -64,7 +64,7 @@ namespace TerrainSample.World.EntityComponents
         /// </summary>
         /// <param name="rotation">How the collision body shall be rotated before performing the outline calculation.</param>
         /// <returns>Positions in entity space for use by the pathfinding system.</returns>
-        internal abstract TCoordinates[] GetPathFindingOutline(float rotation);
+        public abstract TCoordinates[] GetPathFindingOutline(float rotation);
         #endregion
 
         #region Clone

@@ -191,6 +191,16 @@ namespace Common.Values
         }
         #endregion
 
+        #region Flatten
+        /// <summary>
+        /// Maps X to X and Z to -Y. Drops Y.
+        /// </summary>
+        public Vector2 Flatten()
+        {
+            return new Vector2((float)X, (float)-Z);
+        }
+        #endregion
+
         //--------------------//
 
         #region Conversion

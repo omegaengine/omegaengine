@@ -26,7 +26,6 @@ using Common.Storage;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
-using TerrainSample.World;
 using TerrainSample.World.Config;
 
 namespace TerrainSample.Presentation
@@ -35,7 +34,7 @@ namespace TerrainSample.Presentation
     {
         #region Initialize
         /// <summary>
-        /// Generate <see cref="Terrain"/> and <see cref="Renderable"/>s from <see cref="TerrainUniverse.Positionables"/> and keeps everything in sync using events
+        /// Generate <see cref="Terrain"/> and <see cref="Renderable"/>s from <see cref="World.Universe.Positionables"/> and keeps everything in sync using events
         /// </summary>
         /// <exception cref="FileNotFoundException">Thrown if a required <see cref="Asset"/> file could not be found.</exception>
         /// <exception cref="IOException">Thrown if there was an error reading an <see cref="Asset"/> file.</exception>
@@ -133,7 +132,7 @@ namespace TerrainSample.Presentation
         }
 
         /// <summary>
-        /// Rebuilds the terrain from <see cref="TerrainUniverse.Terrain"/> to reflect any modifications performed.
+        /// Rebuilds the terrain from <see cref="World.Universe.Terrain"/> to reflect any modifications performed.
         /// </summary>
         public void RebuildTerrain()
         {

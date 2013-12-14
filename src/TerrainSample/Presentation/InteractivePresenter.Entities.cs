@@ -25,8 +25,9 @@ using System.Collections.Generic;
 using Common.Utils;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
+using TemplateWorld.Positionables;
+using TerrainSample.World;
 using TerrainSample.World.EntityComponents;
-using TerrainSample.World.Positionables;
 
 namespace TerrainSample.Presentation
 {
@@ -49,8 +50,8 @@ namespace TerrainSample.Presentation
     partial class InteractivePresenter
     {
         #region Variables
-        /// <summary>1:1 association of <see cref="Entity{TCoordinates}"/> to selection highlighting <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>.</summary>
-        private readonly Dictionary<Entity<Vector2>, PositionableRenderable> _worldToEngine = new Dictionary<Entity<Vector2>, PositionableRenderable>();
+        /// <summary>1:1 association of <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/> to selection highlighting <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>.</summary>
+        private readonly Dictionary<Entity, PositionableRenderable> _worldToEngine = new Dictionary<Entity, PositionableRenderable>();
         #endregion
 
         //--------------------//
@@ -63,7 +64,7 @@ namespace TerrainSample.Presentation
         private void AddSelectedPositionable(Positionable<Vector2> positionable)
         {
             // Only continue if the positionable is a entity
-            var entity = positionable as Entity<Vector2>;
+            var entity = positionable as Entity;
             if (entity == null) return;
 
             AddSelectedEntity(entity);
@@ -74,19 +75,19 @@ namespace TerrainSample.Presentation
         }
 
         /// <summary>
-        /// Adds the selection highlighting for a <see cref="Entity{TCoordinates}"/>
+        /// Adds the selection highlighting for a <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>
         /// </summary>
-        /// <param name="entity">The <see cref="Entity{TCoordinates}"/> to add the selection highlighting for</param>
+        /// <param name="entity">The <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/> to add the selection highlighting for</param>
         /// <remarks>This is a helper method for <see cref="AddSelectedPositionable"/>.</remarks>
-        private void AddSelectedEntity(Entity<Vector2> entity)
+        private void AddSelectedEntity(Entity entity)
         {
             // Prepare a selection highlighting around the entity
-            OmegaEngine.Graphics.Renderables.Model selectionHighlight;
+            Model selectionHighlight;
 
             var circle = entity.TemplateData.CollisionControl as Circle;
             if (circle != null)
             { // Create a circle around the entity based on the radius
-                selectionHighlight = OmegaEngine.Graphics.Renderables.Model.FromAsset(Engine, "Engine/Circle.x");
+                selectionHighlight = Model.FromAsset(Engine, "Engine/Circle.x");
                 float scale = circle.Radius / 20 + 1;
                 selectionHighlight.PreTransform = Matrix.Scaling(scale, 1, scale);
             }
@@ -96,7 +97,7 @@ namespace TerrainSample.Presentation
                 var box = entity.TemplateData.CollisionControl as Box;
                 if (box != null)
                 { // Create a rectangle around the entity based on the box corners
-                    selectionHighlight = OmegaEngine.Graphics.Renderables.Model.FromAsset(Engine, "Engine/Rectangle.x");
+                    selectionHighlight = Model.FromAsset(Engine, "Engine/Rectangle.x");
 
                     // Determine the component-wise minimums and maxmimums and the absolute difference
                     var min = new Vector2(Math.Min(box.Minimum.X, box.Maximum.X), Math.Min(box.Minimum.Y, box.Maximum.Y));
@@ -131,7 +132,7 @@ namespace TerrainSample.Presentation
         private void RemoveSelectedPositionable(Positionable<Vector2> positionable)
         {
             // Only continue if the positionable is a entity that has a selection highlighting associated to it
-            var entity = positionable as Entity<Vector2>;
+            var entity = positionable as Entity;
             if (entity == null) return;
 
             RemoveSelectedEntity(entity);
@@ -142,13 +143,13 @@ namespace TerrainSample.Presentation
         }
 
         /// <summary>
-        /// Removes the selection highlighting for an <see cref="Entity{TCoordinates}"/>
+        /// Removes the selection highlighting for an <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>
         /// </summary>
-        /// <param name="entity">The <see cref="Entity{TCoordinates}"/> to remove the selection highlighting for</param>
+        /// <param name="entity">The <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/> to remove the selection highlighting for</param>
         /// <remarks>This is a helper method for <see cref="RemoveSelectedPositionable"/>.</remarks>
-        private void RemoveSelectedEntity(Entity<Vector2> entity)
+        private void RemoveSelectedEntity(Entity entity)
         {
-            OmegaEngine.Graphics.Renderables.PositionableRenderable selection;
+            PositionableRenderable selection;
             if (!_worldToEngine.TryGetValue(entity, out selection)) return;
 
             // Remove the selection highlighting from the dictionary and the engine and dispose it
@@ -178,9 +179,9 @@ namespace TerrainSample.Presentation
             base.UpdatePositionable(positionable);
 
             // Only continue if the positionable is a entity that has a selection highlighting associated to it
-            var entity = positionable as Entity<Vector2>;
+            var entity = positionable as Entity;
             if (entity == null) return;
-            OmegaEngine.Graphics.Renderables.PositionableRenderable selection;
+            PositionableRenderable selection;
             if (!_worldToEngine.TryGetValue(entity, out selection)) return;
 
             // Update the posistion and rotation of the selection highlighting

@@ -20,32 +20,22 @@
  * THE SOFTWARE.
  */
 
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using SlimDX;
+using TemplateWorld.Positionables;
+using TemplateWorld.Templates;
 using TerrainSample.World.EntityComponents;
-using TerrainSample.World.Positionables;
 
 namespace TerrainSample.World.Templates
 {
     /// <summary>
-    /// A collection of components used as a prototype for constructing new <see cref="Entity{TCoordinates}"/>s. Defines the behavior and look for a certain class of <see cref="Entity{TCoordinates}"/>.
+    /// A collection of components used as a prototype for constructing new <see cref="Entity"/>s.
     /// </summary>
-    public class EntityTemplate : Template<EntityTemplate>
+    public class EntityTemplate : EntityTemplateBase<EntityTemplate>
     {
-        private Collection<RenderControl> _renderControls = new Collection<RenderControl>();
-
         /// <summary>
-        /// Controls how this class of entities shall be rendered.
-        /// </summary>
-        [Browsable(false)]
-        // Note: Can not use ICollection<T> interface with XML Serialization
-        [XmlElement(typeof(TestSphere)), XmlElement(typeof(StaticMesh)), XmlElement(typeof(AnimatedMesh)), XmlElement(typeof(CpuParticleSystem)), XmlElement(typeof(GpuParticleSystem)), XmlElement(typeof(LightSource))]
-        public Collection<RenderControl> RenderControls { get { return _renderControls; } }
-
-        /// <summary>
-        /// Controls how <see cref="Entity{TCoordinates}"/>s occupy space around them.
+        /// Controls how <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>s occupy space around them.
         /// </summary>
         [Browsable(false)]
         [XmlElement(typeof(Circle)), XmlElement(typeof(Box))]
@@ -70,9 +60,6 @@ namespace TerrainSample.World.Templates
             var newClass = base.Clone();
 
             // Replace contained lists with deep copies
-            newClass._renderControls = new Collection<RenderControl>();
-            foreach (RenderControl renderControl in RenderControls)
-                newClass.RenderControls.Add(renderControl.Clone());
             if (CollisionControl != null) newClass.CollisionControl = CollisionControl.Clone();
             if (MovementControl != null) newClass.MovementControl = MovementControl.Clone();
 

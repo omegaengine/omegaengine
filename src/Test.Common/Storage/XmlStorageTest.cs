@@ -21,7 +21,6 @@
  */
 
 using System.IO;
-using System.Reflection;
 using ICSharpCode.SharpZipLib.Zip;
 using NUnit.Framework;
 
@@ -45,7 +44,7 @@ namespace Common.Storage
         // ReSharper restore MemberCanBePrivate.Global
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.SaveXml{T}(T,string,MemberInfo[])"/> and <see cref="XmlStorage.LoadXml{T}(string)"/> work correctly.
+        /// Ensures <see cref="XmlStorage.SaveXml{T}(T,string)"/> and <see cref="XmlStorage.LoadXml{T}(string)"/> work correctly.
         /// </summary>
         [Test]
         public void TestFile()
@@ -63,7 +62,7 @@ namespace Common.Storage
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.SaveXml{T}(T,string,MemberInfo[])"/> and <see cref="XmlStorage.LoadXml{T}(string)"/> work correctly with relative paths.
+        /// Ensures <see cref="XmlStorage.SaveXml{T}(T,string)"/> and <see cref="XmlStorage.LoadXml{T}(string)"/> work correctly with relative paths.
         /// </summary>
         [Test]
         public void TestFileRelative()
@@ -81,7 +80,7 @@ namespace Common.Storage
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,System.IO.Stream,string,System.Collections.Generic.IEnumerable{Common.Storage.EmbeddedFile},System.Reflection.MemberInfo[])"/> work correctly with no password.
+        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,System.IO.Stream,string,Common.Storage.EmbeddedFile[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(System.IO.Stream,string,Common.Storage.EmbeddedFile[])"/> work correctly with no password.
         /// </summary>
         [Test]
         public void TestZipNoPassword()
@@ -98,7 +97,7 @@ namespace Common.Storage
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,System.IO.Stream,string,System.Collections.Generic.IEnumerable{Common.Storage.EmbeddedFile},System.Reflection.MemberInfo[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(System.IO.Stream,string,Common.Storage.EmbeddedFile[])"/> work correctly with a password.
+        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,System.IO.Stream,string,Common.Storage.EmbeddedFile[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(System.IO.Stream,string,Common.Storage.EmbeddedFile[])"/> work correctly with a password.
         /// </summary>
         [Test]
         public void TestZipPassword()

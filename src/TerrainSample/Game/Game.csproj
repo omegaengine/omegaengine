@@ -73,6 +73,10 @@
       <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\TemplateWorld\TemplateWorld.csproj">
+      <Project>{C9062BE0-1762-4907-BA23-9D60AF183993}</Project>
+      <Name>TemplateWorld</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Presentation\Presentation.csproj">
       <Project>{CC40CE7F-892A-42F8-B289-52ACF2C73865}</Project>
       <Name>Presentation</Name>

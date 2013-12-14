@@ -21,111 +21,32 @@
  */
 
 using System;
-using Common.Storage;
-using Common.Undo;
-using TerrainSample.Presentation;
+using AlphaEditor.World.Commands;
 using TerrainSample.World;
 
 namespace TerrainSample.Editor.World.Commands
 {
     /// <summary>
-    /// Loads new XML data into a <see cref="TerrainUniverse"/>.
+    /// Loads new XML data into a <see cref="Universe"/>.
     /// </summary>
-    internal class ImportXml : FirstExecuteCommand
+    public class ImportXml : ImportXmlBase<Universe>
     {
-        #region Variables
-        private readonly Func<TerrainUniverse> _getUniverse;
-        private readonly Action<TerrainUniverse> _setUniverse;
-        private readonly string _fileName;
-        private readonly Action _refreshHandler;
-        private TerrainUniverse _undoUniverse, _redoUniverse;
-        #endregion
-
-        #region Constructor
         /// <summary>
-        /// Creates a new command for loading XML data into a <see cref="TerrainUniverse"/>.
+        /// Creates a new command for loading XML data into a <see cref="Universe"/>.
         /// </summary>
-        /// <param name="getUniverse">Called to get the current <see cref="TerrainUniverse"/> in the editor.</param>
-        /// <param name="setUniverse">Called to change the current <see cref="TerrainUniverse"/> in the editor.</param>
+        /// <param name="getUniverse">Called to get the current <see cref="Universe"/> in the editor.</param>
+        /// <param name="setUniverse">Called to change the current <see cref="Universe"/> in the editor.</param>
         /// <param name="fileName">The file to load the XML data from.</param>
-        /// <param name="refreshHandler">Called when the <see cref="Presenter"/> needs to be reset.</param>
-        public ImportXml(Func<TerrainUniverse> getUniverse, Action<TerrainUniverse> setUniverse, string fileName, Action refreshHandler)
+        /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
+        public ImportXml(Func<Universe> getUniverse, Action<Universe> setUniverse, string fileName, Action refreshHandler) : base(getUniverse, setUniverse, fileName, refreshHandler)
+        {}
+
+        /// <inheritdoc/>
+        protected override void TransferNonXmlData(Universe oldUniverse, Universe newUniverse)
         {
-            #region Sanity checks
-            if (getUniverse == null) throw new ArgumentNullException("getUniverse");
-            if (setUniverse == null) throw new ArgumentNullException("setUniverse");
-            if (string.IsNullOrEmpty(fileName)) throw new ArgumentNullException("fileName");
-            if (refreshHandler == null) throw new ArgumentNullException("refreshHandler");
-            #endregion
-
-            _getUniverse = getUniverse;
-            _setUniverse = setUniverse;
-            _fileName = fileName;
-            _refreshHandler = refreshHandler;
+            newUniverse.Terrain.LightAngleMapsOutdated = oldUniverse.Terrain.LightAngleMapsOutdated = true;
+            newUniverse.Terrain.HeightMap = oldUniverse.Terrain.HeightMap;
+            newUniverse.Terrain.TextureMap = oldUniverse.Terrain.TextureMap;
         }
-        #endregion
-
-        //--------------------//
-
-        #region Execute
-        /// <summary>
-        /// Imports the XML data
-        /// </summary>
-        protected override void OnFirstExecute()
-        {
-            // Backup current state for undo
-            _undoUniverse = _getUniverse();
-            _undoUniverse.Terrain.LightAngleMapsOutdated = true;
-
-            // Create new universe from XML and partially restore old data
-            var newUniverse = XmlStorage.LoadXml<TerrainUniverse>(_fileName);
-            newUniverse.Terrain.LightAngleMapsOutdated = true;
-            newUniverse.SourceFile = _undoUniverse.SourceFile;
-            newUniverse.Terrain.HeightMap = _undoUniverse.Terrain.HeightMap;
-            newUniverse.Terrain.TextureMap = _undoUniverse.Terrain.TextureMap;
-
-            // Apply new data
-            _setUniverse(newUniverse);
-
-            // Update rendering
-            _refreshHandler();
-        }
-        #endregion
-
-        #region Redo
-        /// <summary>
-        /// Restores the imported XML data
-        /// </summary>
-        protected override void OnRedo()
-        {
-            // Backup current state for undo
-            _undoUniverse = _getUniverse();
-
-            // Restore redo-backup and then clear it
-            _setUniverse(_redoUniverse);
-            _redoUniverse = null;
-
-            // Update rendering
-            _refreshHandler();
-        }
-        #endregion
-
-        #region Undo
-        /// <summary>
-        /// Restores the original XML data
-        /// </summary>
-        protected override void OnUndo()
-        {
-            // Backup current state for redo
-            _redoUniverse = _getUniverse();
-
-            // Restore undo-backup and then clear it
-            _setUniverse(_undoUniverse);
-            _undoUniverse = null;
-
-            // Update rendering
-            _refreshHandler();
-        }
-        #endregion
     }
 }

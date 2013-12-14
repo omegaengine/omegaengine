@@ -32,9 +32,9 @@ using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;
+using TemplateWorld.Positionables;
 using TerrainSample.World;
 using TerrainSample.World.Config;
-using TerrainSample.World.Positionables;
 
 namespace TerrainSample.Presentation
 {
@@ -71,7 +71,7 @@ namespace TerrainSample.Presentation
         public bool Initialized { get; protected set; }
 
         /// <summary> 
-        /// The <see cref="OmegaEngine"/> representation of <see cref="TerrainUniverse.Terrain"/>
+        /// The <see cref="OmegaEngine"/> representation of <see cref="World.Universe.Terrain"/>
         /// </summary>
         public Terrain Terrain { get; private set; }
 
@@ -142,7 +142,7 @@ namespace TerrainSample.Presentation
         /// The universe data for this scene
         /// </summary>
         [LuaHide]
-        public TerrainUniverse Universe { get; protected set; }
+        public Universe Universe { get; protected set; }
 
         /// <summary>
         /// The engine view used to display the <see cref="Scene"/>
@@ -162,7 +162,7 @@ namespace TerrainSample.Presentation
         /// </summary>
         /// <param name="engine">The engine to use for rendering</param>
         /// <param name="universe">The universe to display</param>
-        protected Presenter(Engine engine, TerrainUniverse universe)
+        protected Presenter(Engine engine, Universe universe)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
@@ -219,10 +219,10 @@ namespace TerrainSample.Presentation
             const float floatAboveGround = 100;
 
             return new StrategyCamera(minCameraRadius, maxCameraRadius, minCameraAngle, maxCameraAngle,
-                coordinates => Universe.Terrain.GetCameraHeight(coordinates) + floatAboveGround)
+                heightController: coordinates => Universe.Terrain.ToEngineCoords(coordinates.Flatten()).Y + floatAboveGround)
             {
                 Name = state.Name,
-                Target = Universe.Terrain.ToEngineCoords(state.Position).Position,
+                Target = Universe.Terrain.ToEngineCoords(state.Position),
                 Radius = state.Radius,
                 HorizontalRotation = state.Rotation,
                 FarClip = Universe.Fog ? Universe.FogDistance : 1e+6f
@@ -243,7 +243,7 @@ namespace TerrainSample.Presentation
                 return new CameraState<Vector2>
                 {
                     Name = camera.Name,
-                    Position = World.Terrains.Terrain.ToWorldCoords(camera.Target),
+                    Position = camera.Target.Flatten(),
                     Radius = (float)camera.Radius,
                     Rotation = camera.HorizontalRotation
                 };

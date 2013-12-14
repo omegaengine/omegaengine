@@ -10,7 +10,7 @@ using System.IO;
 using Common;
 using Common.Storage;
 
-namespace AlphaEditor.GUI
+namespace AlphaEditor.Gui
 {
     /// <summary>
     /// Allows a user to design a cutscene

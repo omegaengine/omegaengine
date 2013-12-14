@@ -41,7 +41,7 @@ namespace TerrainSample
     public partial class Game : GameBase
     {
         #region Variables
-        private TerrainUniverse _menuUniverse;
+        private Universe _menuUniverse;
         private MenuPresenter _menuPresenter;
         #endregion
 

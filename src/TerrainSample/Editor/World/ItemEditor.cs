@@ -24,6 +24,7 @@ using System.Diagnostics.CodeAnalysis;
 using AlphaEditor.Properties;
 using Common;
 using Common.Controls;
+using TemplateWorld.Templates;
 using TerrainSample.World.Templates;
 
 namespace TerrainSample.Editor.World

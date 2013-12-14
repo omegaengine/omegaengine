@@ -56,9 +56,6 @@
     <Reference Include="SlimDX">
       <HintPath>..\..\..\lib\SlimDX.dll</HintPath>
     </Reference>
-    <Reference Include="C5">
-      <HintPath>..\..\..\lib\C5.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -72,44 +69,12 @@
     <Compile Include="WelcomeForm.Designer.cs">
       <DependentUpon>WelcomeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="World\Commands\ChangeEntityTemplates.cs" />
-    <Compile Include="World\Commands\ChangeTerrainTemplate.cs" />
-    <Compile Include="World\Commands\ModifyHeightMap.cs" />
-    <Compile Include="World\Commands\ModifyTextureMap.cs" />
-    <Compile Include="World\Dialogs\AddRenderControlTool.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="World\Dialogs\AddRenderControlTool.Designer.cs">
-      <DependentUpon>AddRenderControlTool.cs</DependentUpon>
-    </Compile>
-    <Compile Include="World\Dialogs\MapPropertiesTool.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="World\Dialogs\MapPropertiesTool.Designer.cs">
-      <DependentUpon>MapPropertiesTool.cs</DependentUpon>
-    </Compile>
-    <Compile Include="World\EntityEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="World\EntityEditor.Designer.cs">
-      <DependentUpon>EntityEditor.cs</DependentUpon>
-    </Compile>
+    <Compile Include="World\Commands\ImportXml.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="World\Commands\AddPositionables.cs" />
-    <Compile Include="World\Commands\AddRemovePositionables.cs" />
-    <Compile Include="World\Commands\MovePositionables.cs" />
-    <Compile Include="World\Commands\ImportHeightMap.cs" />
-    <Compile Include="World\Commands\ImportMap.cs" />
-    <Compile Include="World\Commands\ImportTextureMap.cs" />
-    <Compile Include="World\Commands\ImportXml.cs" />
-    <Compile Include="World\Commands\RemovePositionables.cs" />
-    <Compile Include="World\Dialogs\SelectTemplateDialog.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="World\ItemEditor.cs">
       <SubType>UserControl</SubType>
@@ -117,33 +82,20 @@
     <Compile Include="World\ItemEditor.Designer.cs">
       <DependentUpon>ItemEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="World\TerrainModifiers\Base.cs" />
-    <Compile Include="World\TerrainModifiers\Height.cs" />
-    <Compile Include="World\TerrainModifiers\HeightNoise.cs" />
-    <Compile Include="World\TerrainModifiers\HeightShift.cs" />
-    <Compile Include="World\TerrainModifiers\HeightPlateau.cs" />
-    <Compile Include="World\TerrainModifiers\HeightSmooth.cs" />
-    <Compile Include="World\TerrainModifiers\Texture.cs" />
-    <Compile Include="World\TemplateEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="World\TemplateEditor.Designer.cs">
-      <DependentUpon>TemplateEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="World\TemplateEditor_DesignerShims.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="World\TerrainEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="World\TerrainEditor.Designer.cs">
       <DependentUpon>TerrainEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="World\Dialogs\TerrainSizeDialog.cs">
-      <SubType>Form</SubType>
+    <Compile Include="World\EntityEditor.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="World\Dialogs\TerrainSizeDialog.Designer.cs">
-      <DependentUpon>TerrainSizeDialog.cs</DependentUpon>
+    <Compile Include="World\EntityEditor.Designer.cs">
+      <DependentUpon>EntityEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="World\TemplateEditor_DesignerShims.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="World\MapEditor.cs">
       <SubType>UserControl</SubType>
@@ -170,6 +122,10 @@
     <ProjectReference Include="..\..\Common\Common.csproj">
       <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TemplateWorld\TemplateWorld.csproj">
+      <Project>{C9062BE0-1762-4907-BA23-9D60AF183993}</Project>
+      <Name>TemplateWorld</Name>
     </ProjectReference>
     <ProjectReference Include="..\Presentation\Presentation.csproj">
       <Project>{CC40CE7F-892A-42F8-B289-52ACF2C73865}</Project>
@@ -199,21 +155,6 @@
       <DependentUpon>WelcomeForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="World\Dialogs\AddRenderControlTool.de.resx">
-      <DependentUpon>AddRenderControlTool.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="World\Dialogs\AddRenderControlTool.resx">
-      <DependentUpon>AddRenderControlTool.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="World\Dialogs\MapPropertiesTool.resx">
-      <DependentUpon>MapPropertiesTool.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="World\EntityEditor.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>EntityEditor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -222,16 +163,12 @@
       <DependentUpon>ItemEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="World\TemplateEditor.resx">
-      <DependentUpon>TemplateEditor.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="World\TerrainEditor.resx">
       <DependentUpon>TerrainEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="World\Dialogs\TerrainSizeDialog.resx">
+    <EmbeddedResource Include="World\EntityEditor.resx">
+      <DependentUpon>EntityEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
-      <DependentUpon>TerrainSizeDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="World\MapEditor.resx">
       <SubType>Designer</SubType>

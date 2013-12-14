@@ -10,6 +10,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Linq;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
@@ -138,14 +139,11 @@ namespace OmegaEngine.Graphics
                     Engine.Device.Clear(ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
                     Engine.State.ViewTransform = Matrix.Identity;
 
-                    foreach (FloatingModel model in FloatingModels)
+                    foreach (FloatingModel model in FloatingModels.Where(model => model.Visible))
                     {
-                        if (!model.Visible) continue;
-
-                        // ReSharper disable AccessToModifiedClosure
+                        // ReSharper disable once AccessToForEachVariableInClosure
                         using (new ProfilerEvent(() => "Render " + model))
                             model.Render(Camera, null);
-                        // ReSharper restore AccessToModifiedClosure
                     }
                 }
             }

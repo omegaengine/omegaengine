@@ -15,12 +15,12 @@ using Common.Storage;
 using OmegaEngine;
 using OmegaGUI;
 using OmegaGUI.Model;
-using View = OmegaEngine.Graphics.View;
 using Control = OmegaGUI.Model.Control;
 using GroupBox = OmegaGUI.Model.GroupBox;
 using ListBox = OmegaGUI.Model.ListBox;
+using View = OmegaEngine.Graphics.View;
 
-namespace AlphaEditor.GUI
+namespace AlphaEditor.Gui
 {
     /// <summary>
     /// Allows a user to design a GUI dialog

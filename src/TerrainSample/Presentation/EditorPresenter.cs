@@ -32,9 +32,10 @@ using Common.Values;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using SlimDX;
+using TemplateWorld.Positionables;
+using TemplateWorld.Terrains;
 using TerrainSample.World;
 using TerrainSample.World.EntityComponents;
-using TerrainSample.World.Positionables;
 using View = OmegaEngine.Graphics.View;
 
 namespace TerrainSample.Presentation
@@ -114,7 +115,7 @@ namespace TerrainSample.Presentation
         /// <param name="engine">The engine to use for rendering</param>
         /// <param name="universe">The universe to display</param>
         /// <param name="lighting">Shall lighting be used for rendering?</param>
-        public EditorPresenter(Engine engine, TerrainUniverse universe, bool lighting) : base(engine, universe)
+        public EditorPresenter(Engine engine, Universe universe, bool lighting) : base(engine, universe)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
@@ -195,7 +196,7 @@ namespace TerrainSample.Presentation
                     DoubleVector3 paintPoint;
                     if (Terrain.Intersects(View.PickingRay(new Point(area.Right, area.Bottom)), out paintPoint))
                     { // Determine the terrain point at the location the user is currently "selecting" and "paint" on it
-                        TerrainPaint(World.Terrains.Terrain.ToWorldCoords(paintPoint), done);
+                        TerrainPaint(paintPoint.Flatten(), done);
                     }
                     else if (done)
                     { // If there is no terrain where the user is currently "selecting" finish running "paint" operations with a null operation (indicated by negative value)
@@ -220,7 +221,7 @@ namespace TerrainSample.Presentation
                     // Determine the point the user click on and "paint" on it
                     DoubleVector3 paintPoint;
                     if (Terrain.Intersects(View.PickingRay(e.Location), out paintPoint))
-                        TerrainPaint(World.Terrains.Terrain.ToWorldCoords(paintPoint), true);
+                        TerrainPaint(paintPoint.Flatten(), true);
                 }
             }
             else base.Click(e, accumulate);
@@ -237,6 +238,7 @@ namespace TerrainSample.Presentation
             float radius =
                 (from positionable in PositionableRenderables
                     where positionable.Pickable && positionable.BoundingSphere.HasValue
+                    // ReSharper disable once PossibleInvalidOperationException
                     select positionable.BoundingSphere.Value.Transform(positionable.PreTransform)).
                     Aggregate<BoundingSphere, float>(0, (current, boundingSphere) => Math.Max(current, boundingSphere.Radius + boundingSphere.Center.Length()));
             return new Circle {Radius = radius};

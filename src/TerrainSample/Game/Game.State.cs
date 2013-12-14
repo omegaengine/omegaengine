@@ -197,7 +197,7 @@ namespace TerrainSample
             using (new TimedLogEvent("Start benchmark"))
             {
                 // Load map
-                CurrentSession = new Session(TerrainUniverse.FromContent("Benchmark" + TerrainUniverse.FileExt));
+                CurrentSession = new Session(Universe.FromContent("Benchmark" + Universe.FileExt));
 
                 // Switch mode
                 CurrentState = GameState.Benchmark;
@@ -226,7 +226,7 @@ namespace TerrainSample
 
                 // Load benchmark universe
                 CurrentPresenter = new BenchmarkPresenter(Engine,
-                    TerrainUniverse.FromContent("Benchmark" + TerrainUniverse.FileExt), path =>
+                    Universe.FromContent("Benchmark" + Universe.FileExt), path =>
                     { // Callback for sumbitting the benchmark results
                         Form.Visible = false;
                         //if (Msg.Ask(Form, Resources.BenchmarkReady, MsgSeverity.Info, Resources.BenchmarkReadyContinue, Resources.BenchmarkReadyCancel))

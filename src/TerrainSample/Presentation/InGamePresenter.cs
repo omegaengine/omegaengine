@@ -38,7 +38,7 @@ namespace TerrainSample.Presentation
         /// </summary>
         /// <param name="engine">The engine to use for rendering</param>
         /// <param name="universe">The universe to display</param>
-        public InGamePresenter(Engine engine, TerrainUniverse universe) : base(engine, universe)
+        public InGamePresenter(Engine engine, Universe universe) : base(engine, universe)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
@@ -74,7 +74,7 @@ namespace TerrainSample.Presentation
 
         #region Save
         /// <summary>
-        /// Writes back data to <see cref="TerrainUniverse"/> so that state gets stored in savegames.
+        /// Writes back data to <see cref="Universe"/> so that state gets stored in savegames.
         /// </summary>
         public void PrepareSave()
         {

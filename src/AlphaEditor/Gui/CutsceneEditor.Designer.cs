@@ -1,4 +1,4 @@
-namespace AlphaEditor.GUI
+namespace AlphaEditor.Gui
 {
     partial class CutsceneEditor
     {

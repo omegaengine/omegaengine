@@ -1,18 +1,23 @@
-﻿/*
+/*
  * Copyright 2006-2013 Bastian Eicher
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 using System;
@@ -20,21 +25,25 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using Common;
 using Common.Collections;
 using Common.Storage;
-using Common.Utils;
+using LuaInterface;
+using SlimDX;
+using TemplateWorld;
+using TemplateWorld.Paths;
+using TemplateWorld.Positionables;
+using TemplateWorld.Terrains;
 using TerrainSample.World.Config;
-using TerrainSample.World.Pathfinding;
-using TerrainSample.World.Positionables;
+using TerrainSample.World.Templates;
+using Resources = TemplateWorld.Properties.Resources;
 
 namespace TerrainSample.World
 {
     /// <summary>
-    /// Represents a game world (but not a running game). It is equivalent to the content of a map file.
+    /// Represents a world with a height-map based <see cref="Terrain"/>.
     /// </summary>
-    /// <typeparam name="TCoordinates">Coordinate data type (2D, 3D, ...)</typeparam>
-    public abstract class Universe<TCoordinates> : IUniverse
-        where TCoordinates : struct
+    public sealed partial class Universe : UniverseBase<Vector2>
     {
         #region Constants
         /// <summary>
@@ -43,86 +52,210 @@ namespace TerrainSample.World
         public const string FileExt = "." + GeneralSettings.AppNameShort + "Map";
         #endregion
 
-        #region Events
+        #region Properties
+        private readonly MonitoredCollection<Positionable<Vector2>> _positionables = new MonitoredCollection<Positionable<Vector2>>();
+
+        /// <inheritoc/>
+        [Browsable(false)]
+        // Note: Can not use ICollection<T> interface with XML Serialization
+        [XmlElement(typeof(Entity)),
+         XmlElement(typeof(Water)),
+         XmlElement(typeof(Waypoint<Vector2>), ElementName = "Waypoint"),
+         XmlElement(typeof(BenchmarkPoint<Vector2>), ElementName = "BenchmarkPoint"),
+         XmlElement(typeof(Memo<Vector2>), ElementName = "Memo")]
+        public override MonitoredCollection<Positionable<Vector2>> Positionables { get { return _positionables; } }
+
+        private Terrain<TerrainTemplate> _terrain;
+
         /// <summary>
-        /// Occurs when <see cref="Skybox"/> was changed.
+        /// The <see cref="Terrain"/> on which <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>s are placed.
         /// </summary>
-        [Description("Occurs when Skybox was changed")]
-        public event Action SkyboxChanged;
+        /// <exception cref="InvalidOperationException">Thrown if the <see cref="Terrain"/> could not be properly loaded from the file.</exception>
+        /// <remarks>Is not serialized/stored, <see cref="TerrainSerialize"/> is used for that.</remarks>
+        [Browsable(false)]
+        public Terrain<TerrainTemplate> Terrain
+        {
+            get
+            {
+                if (_terrain != null && SourceFile != null && !_terrain.DataLoaded) LoadTerrainData();
+                return _terrain;
+            }
+        }
+
+        /// <summary>Used for XML serialization.</summary>
+        [XmlElement("Terrain"), LuaHide, Browsable(false)]
+        public Terrain<TerrainTemplate> TerrainSerialize { get { return _terrain; } set { _terrain = value; } }
         #endregion
 
-        #region Properties
+        #region Constructor
         /// <summary>
-        /// A collection of all <see cref="Positionable{TCoordinates}"/>s in this <see cref="Universe{TCoordinates}"/>.
+        /// Base-constructor for XML serialization. Do not call manually!
         /// </summary>
-        // Note: Can not use ICollection<T> interface with XML Serialization
-        [Browsable(false)]
-        [XmlIgnore] // XML serialization configuration is configured in sub-type
-        public abstract MonitoredCollection<Positionable<TCoordinates>> Positionables { get; }
-
-        private string _skybox;
+        public Universe()
+        {
+            LightPhaseSpeedFactor = 1;
+        }
 
         /// <summary>
-        /// The name of the skybox to use for this map; may be <see langword="null"/> or empty.
+        /// Creates a new <see cref="Universe"/> with a terrain.
         /// </summary>
-        [DefaultValue(""), Category("Background"), Description("The name of the skybox to use for this map; may be null or empty.")]
-        public string Skybox { get { return _skybox; } set { value.To(ref _skybox, SkyboxChanged); } }
-
-        /// <summary>
-        /// The position and direction of the camera in the game.
-        /// </summary>
-        /// <remarks>This is updated only when leaving the game, not continuously.</remarks>
-        [Browsable(false)]
-        public CameraState<TCoordinates> Camera { get; set; }
-
-        /// <inheritdoc/>
-        [XmlIgnore, Browsable(false)]
-        public string SourceFile { get; set; }
+        /// <param name="terrain">The terrain for the new <see cref="Universe"/>.</param>
+        public Universe(Terrain<TerrainTemplate> terrain)
+        {
+            _terrain = terrain;
+        }
         #endregion
 
         //--------------------//
 
         #region Update
         /// <inheritdoc/>
-        public virtual void Update(double elapsedTime)
+        public override void Update(double elapsedTime)
         {
-            foreach (var entity in Positionables.OfType<Entity<TCoordinates>>())
-                entity.UpdatePosition(elapsedTime);
+            LightPhase += (float)(elapsedTime / 40 * LightPhaseSpeedFactor);
+
+            base.Update(elapsedTime);
         }
         #endregion
 
         #region Path finding
         /// <summary>
-        /// Moves an <see cref="Entity{TCoordinates}"/> to a new position using pathfinding.
+        /// Recalculates all cached pathfinding results.
         /// </summary>
-        /// <param name="entity">The <see cref="Entity{TCoordinates}"/> to be moved.</param>
-        /// <param name="target">The terrain position to move <paramref name="entity"/> to.</param>
-        /// <remarks>The actual movement occurs whenever <see cref="Update"/> is called.</remarks>
-        public abstract void MoveEntity(Entity<TCoordinates> entity, TCoordinates target);
-
-        /// <inheritdoc/>
+        /// <remarks>This needs to be called when new obstacles have appeared or when a savegame was loaded (which does not store paths).</remarks>
         public void RecalcPaths()
         {
-            foreach (var entity in Positionables.OfType<Entity<TCoordinates>>())
+            foreach (var entity in Positionables.OfType<Entity>())
             {
-                var pathLeader = entity.PathControl as PathLeader<TCoordinates>;
+                var pathLeader = entity.PathControl as PathLeader<Vector2>;
                 if (pathLeader != null)
                     MoveEntity(entity, pathLeader.Target);
             }
+        }
+
+        /// <inheritdoc/>
+        public void MoveEntity(Entity entity, Vector2 target)
+        {
+            #region Sanity checks
+            if (entity == null) throw new ArgumentNullException("entity");
+            #endregion
+
+            // Get path and cancel if none was found
+            var pathNodes = Terrain.Pathfinder.FindPathPlayer(GetScaledPosition(entity.Position), GetScaledPosition(target));
+            if (pathNodes == null)
+            {
+                entity.PathControl = null;
+                return;
+            }
+
+            // Store path data in entity
+            var pathLeader = new PathLeader<Vector2> {ID = 0, Target = target};
+            foreach (var node in pathNodes)
+                pathLeader.PathNodes.Push(node * Terrain.Size.StretchH);
+            entity.PathControl = pathLeader;
+        }
+
+        /// <summary>
+        /// Applies <see cref="TerrainSize"/> scaling to a position.
+        /// </summary>
+        private Vector2 GetScaledPosition(Vector2 position)
+        {
+            return position * (1.0f / Terrain.Size.StretchH);
         }
         #endregion
 
         //--------------------//
 
         #region Storage
-        /// <inheritdoc/>
-        public abstract void Save(string path);
+        /// <summary>
+        /// Loads a <see cref="Universe"/> from a compressed XML file (map file).
+        /// </summary>
+        /// <param name="path">The file to load from.</param>
+        /// <returns>The loaded <see cref="Universe"/>.</returns>
+        /// <exception cref="IOException">Thrown if a problem occurred while reading the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Thrown if read access to the file is not permitted.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if a problem occurred while deserializing the XML data.</exception>
+        public static Universe Load(string path)
+        {
+            // Load the core data but without terrain data yet (that is delay-loaded)
+            var universe = XmlStorage.LoadXmlZip<Universe>(path);
+            universe.SourceFile = path;
+            return universe;
+        }
+
+        /// <summary>
+        /// Loads a <see cref="Universe"/> from the game content source via the <see cref="ContentManager"/>.
+        /// </summary>
+        /// <param name="id">The ID of the <see cref="Universe"/> to load.</param>
+        /// <returns>The loaded <see cref="Universe"/>.</returns>
+        public static Universe FromContent(string id)
+        {
+            Log.Info("Loading map: " + id);
+
+            using (var stream = ContentManager.GetFileStream("World/Maps", id))
+            {
+                var universe = XmlStorage.LoadXmlZip<Universe>(stream);
+                universe.SourceFile = id;
+                return universe;
+            }
+        }
+
+        /// <summary>
+        /// Performs the deferred loading of <see cref="Terrain"/> data.
+        /// </summary>
+        private void LoadTerrainData()
+        {
+            // Load the data
+            using (var stream = ContentManager.GetFileStream("World/Maps", SourceFile))
+            {
+                XmlStorage.LoadXmlZip<Universe>(stream, additionalFiles: new[]
+                {
+                    // Callbacks for loading terrain data
+                    new EmbeddedFile("height.png", _terrain.LoadHeightMap),
+                    new EmbeddedFile("texture.png", _terrain.LoadTextureMap),
+                    new EmbeddedFile("lightRiseAngle.png", _terrain.LoadLightRiseAngleMap),
+                    new EmbeddedFile("lightSetAngle.png", _terrain.LoadLightSetAngleMap)
+                });
+            }
+
+            if (!_terrain.DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
+
+            using (new TimedLogEvent("Setup pathfinding"))
+            {
+                _terrain.SetupPathfinding(Positionables);
+
+                // Perform updates to regenerate data lost in the savegame
+                RecalcPaths();
+                Update(0);
+            }
+        }
 
         /// <inheritdoc/>
-        public void Save()
+        public override void Save(string path)
         {
-            // Determine the original filename to overweite
-            Save(Path.IsPathRooted(SourceFile) ? SourceFile : ContentManager.CreateFilePath("World/Maps", SourceFile));
+            using (Entity.MaskTemplateData())
+            {
+                if (_terrain.LightAngleMapsSet)
+                {
+                    this.SaveXmlZip(path, additionalFiles: new[]
+                    {
+                        new EmbeddedFile("height.png", 0, Terrain.GetSaveHeightMapDelegate()),
+                        new EmbeddedFile("texture.png", 0, Terrain.GetSaveTextureMapDelegate()),
+                        new EmbeddedFile("lightRiseAngle.png", 0, Terrain.GetSaveLightRiseAngleMapDelegate()),
+                        new EmbeddedFile("lightSetAngle.png", 0, Terrain.GetSaveLightSetAngleMapDelegate())
+                    });
+                }
+                else
+                {
+                    this.SaveXmlZip(path, additionalFiles: new[]
+                    {
+                        new EmbeddedFile("height.png", 0, Terrain.GetSaveHeightMapDelegate()),
+                        new EmbeddedFile("texture.png", 0, Terrain.GetSaveTextureMapDelegate())
+                    });
+                }
+            }
+
+            SourceFile = path;
         }
         #endregion
     }

@@ -22,15 +22,13 @@
 
 using System;
 using System.ComponentModel;
-using TerrainSample.World.Positionables;
-using TerrainSample.World.Templates;
+using TemplateWorld.Positionables;
 
 namespace TerrainSample.World.EntityComponents
 {
     /// <summary>
     /// Controls the basic movement parameters.
     /// </summary>
-    /// <seealso cref="EntityTemplate.MovementControl"/>
     public class MovementControl : ICloneable
     {
         /// <inheritdoc/>
@@ -42,7 +40,7 @@ namespace TerrainSample.World.EntityComponents
         private float _speed = 200;
 
         /// <summary>
-        /// How many units the <see cref="Entity{TCoordinates}"/> can walk per second.
+        /// How many units the <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/> can walk per second.
         /// </summary>
         [DefaultValue(200f), Description("How many units the entity can walk per second.")]
         public float Speed { get { return _speed; } set { _speed = value; } }
@@ -54,6 +52,8 @@ namespace TerrainSample.World.EntityComponents
         /// </summary>
         [DefaultValue(1f), Description("The length of the curve radius.")]
         public float CurveRadius { get { return _curveRadius; } set { _curveRadius = value; } }
+
+        //--------------------//
 
         #region Clone
         /// <summary>

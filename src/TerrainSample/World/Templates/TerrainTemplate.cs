@@ -26,6 +26,7 @@ using System.Xml.Serialization;
 using Common.Utils;
 using Common.Values;
 using LuaInterface;
+using TemplateWorld.Templates;
 
 namespace TerrainSample.World.Templates
 {
@@ -47,16 +48,12 @@ namespace TerrainSample.World.Templates
         /// </summary>
         /// <remarks>Is not serialized/stored, <see cref="ColorValue"/> is used for that.</remarks>
         [XmlIgnore, LuaHide, Description("The mini-map color for this terrain type. Should be unique.")]
-        public Color Color { get { return _color; } set { _color = Color.FromArgb(255, value); } }
-
-        // Drop alpha-value
+        public Color Color { get { return _color; } set { _color = Color.FromArgb(255, value); /* Drop alpha-channel */ } }
 
         /// <summary>Used for XML serialization.</summary>
         /// <seealso cref="Color"/>
         [XmlElement("Color"), LuaHide, Browsable(false)]
-        public XColor ColorValue { get { return Color; } set { Color = Color.FromArgb(value.R, value.G, value.B); } }
-
-        // Drop alpha-value
+        public XColor ColorValue { get { return Color; } set { Color = Color.FromArgb(value.R, value.G, value.B); /* Drop alpha-channel */ } }
 
         private float _movementAbility = 1;
 

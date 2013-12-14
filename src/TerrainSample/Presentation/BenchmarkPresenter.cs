@@ -68,7 +68,7 @@ namespace TerrainSample.Presentation
         /// <param name="engine">The engine to use for rendering</param>
         /// <param name="universe">The universe to display</param>
         /// <param name="callback">A delegate to execute after the benchmark is complete with the path of the result file</param>
-        public BenchmarkPresenter(Engine engine, TerrainUniverse universe, Action<string> callback) : base(engine, universe)
+        public BenchmarkPresenter(Engine engine, Universe universe, Action<string> callback) : base(engine, universe)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");

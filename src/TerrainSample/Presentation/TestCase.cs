@@ -24,8 +24,8 @@ using System;
 using System.Xml.Serialization;
 using Common.Values;
 using SlimDX;
+using TemplateWorld.Positionables;
 using TerrainSample.World.Config;
-using TerrainSample.World.Positionables;
 
 namespace TerrainSample.Presentation
 {

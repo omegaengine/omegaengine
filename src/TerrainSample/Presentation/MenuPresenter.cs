@@ -41,7 +41,7 @@ namespace TerrainSample.Presentation
         /// </summary>
         /// <param name="engine">The engine to use for rendering</param>
         /// <param name="universe">The universe to display</param>
-        public MenuPresenter(Engine engine, TerrainUniverse universe) : base(engine, universe)
+        public MenuPresenter(Engine engine, Universe universe) : base(engine, universe)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");

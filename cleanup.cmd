@@ -20,6 +20,8 @@ rd /s /q "%~dp0src\Common\obj" > NUL 2>&1
 rd /s /q "%~dp0src\Test.Common\obj" > NUL 2>&1
 rd /s /q "%~dp0src\OmegaEngine\obj" > NUL 2>&1
 rd /s /q "%~dp0src\OmegaGUI\obj" > NUL 2>&1
+rd /s /q "%~dp0src\TemplateWorld\obj" > NUL 2>&1
+rd /s /q "%~dp0src\Test.TemplateWorld\obj" > NUL 2>&1
 rd /s /q "%~dp0src\AlphaEditor\obj" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\Game\obj" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\Editor\obj" > NUL 2>&1

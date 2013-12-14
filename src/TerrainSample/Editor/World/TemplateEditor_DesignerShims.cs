@@ -20,20 +20,21 @@
  * THE SOFTWARE.
  */
 
+using AlphaEditor.World;
 using TerrainSample.World.Templates;
 
 namespace TerrainSample.Editor.World
 {
     /// <summary>
-    /// Intermediate dummy class for <see cref="TemplateEditor{TerrainTemplate}"/> to prevent WinForms designer confusion with generics
+    /// Intermediate dummy class for <see cref="TemplateEditor{T}"/> to prevent WinForms designer confusion with generics
     /// </summary>
-    public class TerrainEditorDesignerShim : TemplateEditor<TerrainTemplate>
+    public class EntityEditorDesignerShim : TemplateEditor<EntityTemplate>
     {}
 
     /// <summary>
-    /// Intermediate dummy class for <see cref="TemplateEditor{EntityTemplate}"/> to prevent WinForms designer confusion with generics
+    /// Intermediate dummy class for <see cref="TemplateEditor{TerrainTemplate}"/> to prevent WinForms designer confusion with generics
     /// </summary>
-    public class EntityEditorDesignerShim : TemplateEditor<EntityTemplate>
+    public class TerrainEditorDesignerShim : TemplateEditor<TerrainTemplate>
     {}
 
     /// <summary>

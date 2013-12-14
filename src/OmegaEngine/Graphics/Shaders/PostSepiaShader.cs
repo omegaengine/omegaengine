@@ -9,7 +9,6 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using Common;
 using Common.Utils;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;

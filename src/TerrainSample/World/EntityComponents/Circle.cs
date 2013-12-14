@@ -24,24 +24,20 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using Common.Values;
 using SlimDX;
-using TerrainSample.World.Templates;
 
 namespace TerrainSample.World.EntityComponents
 {
     /// <summary>
     /// Collision-detection using a simple uniform circle.
     /// </summary>
-    /// <seealso cref="EntityTemplate.CollisionControl"/>
     public class Circle : CollisionControl<Vector2>
     {
-        #region Properties
         /// <summary>
         /// The radius of the circle.
         /// </summary>
         [DefaultValue(0f), Description("The radius of the circle.")]
         [XmlAttribute]
         public float Radius { get; set; }
-        #endregion
 
         //--------------------//
 
@@ -52,7 +48,7 @@ namespace TerrainSample.World.EntityComponents
         /// <param name="point">The point to check for collision in entity space.</param>
         /// <param name="rotation">This is ignored for circles.</param>
         /// <returns><see langword="true"/> if the <paramref name="point"/> does collide with the circle, <see langword="false"/>.</returns>
-        internal override bool CollisionTest(Vector2 point, float rotation)
+        public override bool CollisionTest(Vector2 point, float rotation)
         {
             // Empty or negative circles can never intersect
             if (Radius <= 0) return false;
@@ -66,7 +62,7 @@ namespace TerrainSample.World.EntityComponents
         /// <param name="area">The area to check for collision in entity space.</param>
         /// <param name="rotation">This is ignored for circles.</param>
         /// <returns><see langword="true"/> if <paramref name="area"/> does collide with the circle, <see langword="false"/>.</returns>
-        internal override bool CollisionTest(Quadrangle area, float rotation)
+        public override bool CollisionTest(Quadrangle area, float rotation)
         {
             // Empty or negative circles can never intersect
             if (Radius <= 0) return false;
@@ -82,7 +78,7 @@ namespace TerrainSample.World.EntityComponents
         /// </summary>
         /// <param name="rotation">How the collision body shall be rotated before performing the outline calculation.</param>
         /// <returns>Positions in entity space for use by the pathfinding system.</returns>
-        internal override Vector2[] GetPathFindingOutline(float rotation)
+        public override Vector2[] GetPathFindingOutline(float rotation)
         {
             // ToDo: Implement
             return new Vector2[0];

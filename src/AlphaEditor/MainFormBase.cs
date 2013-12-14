@@ -27,14 +27,13 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using AlphaEditor.GUI;
 using AlphaEditor.Graphics;
+using AlphaEditor.Gui;
 using AlphaEditor.Properties;
 using Common;
 using Common.Controls;
 using Common.Storage;
 using Common.Utils;
-using OmegaGUI.Model;
 
 namespace AlphaEditor
 {
@@ -267,119 +266,6 @@ namespace AlphaEditor
 
         //--------------------//
 
-        #region Editors
-
-        #region Particle System
-        private void CpuParticleSystemEditor()
-        {
-            // Get the file path
-            string path;
-            bool overwrite;
-            if (!FileSelectorDialog.TryGetPath("Graphics/CpuParticleSystem", ".xml", out path, out overwrite)) return;
-
-            // Don't open a file twice
-            foreach (Tab tab in Tabs.Keys)
-            {
-                var previousEditor = tab as CpuParticleSystemEditor;
-                if (previousEditor != null && previousEditor.FilePath == path)
-                {
-                    ShowTab(tab);
-                    return;
-                }
-            }
-
-            AddTab(new CpuParticleSystemEditor(path, overwrite));
-        }
-
-        private void GpuParticleSystemEditor()
-        {
-            // Get the file path
-            string path;
-            bool overwrite;
-            if (!FileSelectorDialog.TryGetPath("Graphics/GpuParticleSystem", ".xml", out path, out overwrite)) return;
-
-            // Don't open a file twice
-            foreach (Tab tab in Tabs.Keys)
-            {
-                var previousEditor = tab as GpuParticleSystemEditor;
-                if (previousEditor != null && previousEditor.FilePath == path)
-                {
-                    ShowTab(tab);
-                    return;
-                }
-            }
-
-            AddTab(new GpuParticleSystemEditor(path, overwrite));
-        }
-        #endregion
-
-        #region GUI
-        private void GuiEditor()
-        {
-            // Get the file path
-            string path;
-            bool overwrite;
-            if (!FileSelectorDialog.TryGetPath("GUI", ".xml", out path, out overwrite)) return;
-
-            // Don't open a file twice
-            foreach (Tab tab in Tabs.Keys)
-            {
-                var previousEditor = tab as GuiEditor;
-                if (previousEditor != null && previousEditor.FilePath == path)
-                {
-                    ShowTab(tab);
-                    return;
-                }
-            }
-
-            AddTab(new GuiEditor(path, overwrite));
-        }
-
-        private void LanguageEditor()
-        {
-            // Get the file path
-            string path;
-            bool overwrite;
-            if (!FileSelectorDialog.TryGetPath("GUI/Language", LocaleFile.FileExt, out path, out overwrite)) return;
-
-            // Don't open a file twice
-            foreach (Tab tab in Tabs.Keys)
-            {
-                var previousEditor = tab as LanguageEditor;
-                if (previousEditor != null && previousEditor.FilePath == path)
-                {
-                    ShowTab(tab);
-                    return;
-                }
-            }
-
-            AddTab(new LanguageEditor(path, overwrite));
-        }
-
-        private void CutsceneEditor()
-        {
-            // Get the file path
-            string path;
-            bool overwrite;
-            if (!FileSelectorDialog.TryGetPath("GUI/Cutscenes", ".xml", out path, out overwrite)) return;
-
-            // Don't open a file twice
-            foreach (Tab tab in Tabs.Keys)
-            {
-                var previousEditor = tab as CutsceneEditor;
-                if (previousEditor != null && previousEditor.FilePath == path)
-                {
-                    ShowTab(tab);
-                    return;
-                }
-            }
-
-            AddTab(new CutsceneEditor(path, overwrite));
-        }
-        #endregion
-
-        #endregion
-
         #region Menu
         private void ToogleMenuCommands(bool enabled)
         {
@@ -506,27 +392,61 @@ namespace AlphaEditor
         #region Toolbar
         private void toolParticleSystemCpu_Click(object sender, EventArgs e)
         {
-            CpuParticleSystemEditor();
+            OpenFileTab("Graphics/CpuParticleSystem", ".xml", (path, overwrite) => new CpuParticleSystemEditor(path, overwrite));
         }
 
         private void toolParticleSystemGpu_Click(object sender, EventArgs e)
         {
-            GpuParticleSystemEditor();
+            OpenFileTab("Graphics/GpuParticleSystem", ".xml", (path, overwrite) => new GpuParticleSystemEditor(path, overwrite));
         }
 
         private void toolGuiEditor_Click(object sender, EventArgs e)
         {
-            GuiEditor();
+            OpenFileTab("GUI", ".xml", (path, overwrite) => new GuiEditor(path, overwrite));
         }
 
         private void toolGuiLanguage_Click(object sender, EventArgs e)
         {
-            LanguageEditor();
+            OpenFileTab("GUI/Language", ".locale", (path, overwrite) => new LanguageEditor(path, overwrite));
         }
 
         private void toolGuiCutscene_Click(object sender, EventArgs e)
         {
-            CutsceneEditor();
+            OpenFileTab("GUI/Cutscenes", ".xml", (path, overwrite) => new CutsceneEditor(path, overwrite));
+        }
+
+        /// <summary>
+        /// Displays a file-editing tab.
+        /// </summary>
+        /// <typeparam name="T">The tab type to display.</typeparam>
+        /// <param name="type">The type of file the tab edits (e.g. Textures, Sounds, ...).</param>
+        /// <param name="extension">The file extension of the file type with a dot, but without a asterisk (e.g. .xml, .png, ...).</param>
+        /// <param name="getInstance">A callback for creating an instance of the tab.</param>
+        protected void OpenFileTab<T>(string type, string extension, Func<string, bool, T> getInstance) where T : Tab
+        {
+            // Get the file path
+            string path;
+            bool overwrite;
+            if (!FileSelectorDialog.TryGetPath(type, extension, out path, out overwrite)) return;
+
+            // ReSharper disable PossibleMultipleEnumeration
+            var previousInstances = Tabs.Keys.OfType<T>();
+            if (previousInstances.Any()) ShowTab(previousInstances.First());
+            else AddTab(getInstance(path, overwrite));
+            // ReSharper restore PossibleMultipleEnumeration
+        }
+
+        /// <summary>
+        /// Displays a single-instance tab.
+        /// </summary>
+        /// <typeparam name="T">The tab type to display.</typeparam>
+        protected void ShowSingleInstanceTab<T>() where T : Tab, new()
+        {
+            // ReSharper disable PossibleMultipleEnumeration
+            var previousInstances = Tabs.Keys.OfType<T>();
+            if (previousInstances.Any()) ShowTab(previousInstances.First());
+            else AddTab(new T());
+            // ReSharper restore PossibleMultipleEnumeration
         }
         #endregion
     }

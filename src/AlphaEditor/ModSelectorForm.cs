@@ -49,7 +49,7 @@ namespace AlphaEditor
 
             public override string ToString()
             {
-                return Path.GetFileNameWithoutExtension(FullPath ?? "") ?? "";
+                return Path.GetFileNameWithoutExtension(FullPath ?? "");
             }
         }
         #endregion
