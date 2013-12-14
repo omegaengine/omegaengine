@@ -29,6 +29,8 @@
     <file src="..\build\ReleaseSDK\Common.xml" target="lib\net20\Common.xml" />
     <file src="..\build\ReleaseSDK\ICSharpCode.SharpZipLib.dll" target="lib\net20\ICSharpCode.SharpZipLib.dll" />
     <file src="..\build\ReleaseSDK\ICSharpCode.SharpZipLib.xml" target="lib\net20\ICSharpCode.SharpZipLib.xml" />
+    <file src="..\build\ReleaseSDK\ICSharpCode.TextEditor.dll" target="lib\net20\ICSharpCode.TextEditor.dll" />
+    <file src="..\build\ReleaseSDK\ICSharpCode.TextEditor.xml" target="lib\net20\ICSharpCode.TextEditor.xml" />
     <file src="..\build\ReleaseSDK\lua51.dll" target="lib\net20\lua51.dll" />
     <file src="..\build\ReleaseSDK\LuaInterface.dll" target="lib\net20\LuaInterface.dll" />
     <file src="..\build\ReleaseSDK\LuaInterface.xml" target="lib\net20\LuaInterface.xml" />
