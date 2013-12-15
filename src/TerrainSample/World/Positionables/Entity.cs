@@ -33,7 +33,7 @@ namespace TerrainSample.World.Positionables
     /// <summary>
     /// An entity that can be placed on a <see cref="Terrain{TTemplate}"/>.
     /// </summary>
-    public class Entity : EntityBase<Entity, Vector2, EntityTemplate>
+    public sealed class Entity : EntityBase<Entity, Vector2, EntityTemplate>
     {
         /// <inheritdoc/>
         [Browsable(false)]

@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using Common.Collections;
 using Common.Utils;
 using Common.Values;
 using OmegaEngine;
@@ -98,7 +99,8 @@ namespace TerrainSample.Presentation
             if (Disposed) throw new ObjectDisposedException(ToString());
             #endregion
 
-            return _worldToEngine.ContainsKey(renderControl) ? _worldToEngine[renderControl] : null;
+            IPositionable value;
+            return _worldToEngine.TryGetValue(renderControl, out value) ? value : null;
         }
 
         /// <summary>
@@ -110,7 +112,8 @@ namespace TerrainSample.Presentation
             if (Disposed) throw new ObjectDisposedException(ToString());
             #endregion
 
-            return _engineToWorld.ContainsKey(engineEntity) ? _engineToWorld[engineEntity] : null;
+            Positionable<Vector2> value;
+            return _engineToWorld.TryGetValue(engineEntity, out value) ? value : null;
         }
         #endregion
 
@@ -132,23 +135,17 @@ namespace TerrainSample.Presentation
             if (Disposed) throw new ObjectDisposedException(ToString());
             #endregion
 
-            #region Entity
-            var entity = positionable as Entity;
-            if (entity != null)
+            new PerTypeDispatcher<Positionable<Vector2>>(ignoreMissing: true)
             {
-                AddEntity(entity);
+                (Entity entity) =>
+                {
+                    AddEntity(entity);
 
-                // Remove and then re-add entity to apply the new entity template
-                entity.TemplateChanging += RemoveEntity;
-                entity.TemplateChanged += AddEntity;
-            }
-                #endregion
-
-            else
-            {
-                #region Water
-                var water = positionable as TemplateWorld.Positionables.Water;
-                if (water != null)
+                    // Remove and then re-add entity to apply the new entity template
+                    entity.TemplateChanging += RemoveEntity;
+                    entity.TemplateChanged += AddEntity;
+                },
+                (TemplateWorld.Positionables.Water water) =>
                 {
                     AddWater(water);
 
@@ -156,8 +153,7 @@ namespace TerrainSample.Presentation
                     water.SizeChanged += RemoveWater;
                     water.SizeChanged += AddWater;
                 }
-                #endregion
-            }
+            }.Dispatch(positionable);
 
             // Keep entity and model in sync via events
             positionable.RenderPropertyChanged += UpdatePositionable;
@@ -228,23 +224,17 @@ namespace TerrainSample.Presentation
             if (Disposed) throw new ObjectDisposedException(ToString());
             #endregion
 
-            #region Entity
-            var entity = positionable as Entity;
-            if (entity != null)
+            new PerTypeDispatcher<Positionable<Vector2>>(ignoreMissing: true)
             {
-                RemoveEntity(entity);
+                (Entity entity) =>
+                {
+                    RemoveEntity(entity);
 
-                // Unhook class update event
-                entity.TemplateChanging -= RemoveEntity;
-                entity.TemplateChanged -= AddEntity;
-            }
-                #endregion
-
-            else
-            {
-                #region Water
-                var water = positionable as TemplateWorld.Positionables.Water;
-                if (water != null)
+                    // Unhook class update event
+                    entity.TemplateChanging -= RemoveEntity;
+                    entity.TemplateChanged -= AddEntity;
+                },
+                (TemplateWorld.Positionables.Water water) =>
                 {
                     RemoveWater(water);
 
@@ -252,8 +242,7 @@ namespace TerrainSample.Presentation
                     water.SizeChanged -= RemoveWater;
                     water.SizeChanged -= AddWater;
                 }
-                #endregion
-            }
+            }.Dispatch(positionable);
 
             // Unhook sync event
             positionable.RenderPropertyChanged -= UpdatePositionable;
@@ -311,23 +300,16 @@ namespace TerrainSample.Presentation
             }
             #endregion
 
-            #region Entity
-            var entity = positionable as Entity;
-            if (entity != null)
+            new PerTypeDispatcher<Positionable<Vector2>>(ignoreMissing: true)
             {
-                foreach (var renderControl in entity.TemplateData.RenderControls)
-                    UpdateEntityHelper(renderControl, terrainPoint, entity.Rotation);
-            }
-                #endregion
-
-            else
-            {
-                #region Water
-                var water = positionable as TemplateWorld.Positionables.Water;
-                if (water != null)
-                    _worldToEngineWater[water].Position = Terrain.Position + water.EnginePosition;
-                #endregion
-            }
+                (Entity entity) =>
+                {
+                    foreach (var renderControl in entity.TemplateData.RenderControls)
+                        UpdateEntityHelper(renderControl, terrainPoint, entity.Rotation);
+                },
+                (TemplateWorld.Positionables.Water water) =>
+                    _worldToEngineWater[water].Position = Terrain.Position + water.EnginePosition
+            }.Dispatch(positionable);
         }
         #endregion
 
@@ -344,112 +326,117 @@ namespace TerrainSample.Presentation
         /// <exception cref="InvalidDataException">Thrown if an <see cref="Asset"/> file contains invalid data.</exception>
         private void AddEntityHelper(Entity entity, RenderControl renderControl)
         {
-            // ----- Apply RenderControl.Shift directly with PreTransform ----- //
-
-            #region Test sphere
-            var sphereRender = renderControl as TestSphere;
-            if (sphereRender != null)
+            new AggregateDispatcher<RenderControl>
             {
-                // Load the model based on the entity name
-                var model = Model.Sphere(Engine, XTexture.Get(Engine, sphereRender.Texture), sphereRender.Radius, sphereRender.Slices, sphereRender.Stacks);
-                model.Name = entity.Name;
-
-                // Set model properties
-                model.PreTransform = Matrix.Translation(sphereRender.Shift);
-                model.Alpha = sphereRender.Alpha;
-                if (Lighting) model.SurfaceEffect = SurfaceEffect.Shader;
-                model.Wireframe = WireframeEntities;
-                model.DrawBoundingSphere = BoundingSphereEntities;
-                model.DrawBoundingBox = BoundingBoxEntities;
-
-                // Add objects to lists
-                Scene.Positionables.Add(model);
-                _engineToWorld.Add(model, entity);
-                _worldToEngine.Add(renderControl, model);
-                return;
-            }
-            #endregion
-
-            #region Mesh
-            var meshRender = renderControl as Mesh;
-            if (meshRender != null && !string.IsNullOrEmpty(meshRender.Filename))
-            {
-                // Load the model based on the entity name (differentiate between static and animated meshes)
-                PositionableRenderable model;
-                if (meshRender is StaticMesh) model = Model.FromAsset(Engine, meshRender.Filename);
-                else if (meshRender is AnimatedMesh) model = AnimatedModel.FromAsset(Engine, meshRender.Filename);
-                else throw new InvalidOperationException();
-                model.Name = entity.Name;
-
-                // Set model properties
-                model.PreTransform = Matrix.Scaling(meshRender.Scale, meshRender.Scale, meshRender.Scale) *
-                                     Matrix.RotationYawPitchRoll(
-                                         meshRender.RotationY.DegreeToRadian(),
-                                         meshRender.RotationX.DegreeToRadian(),
-                                         meshRender.RotationZ.DegreeToRadian()) *
-                                     Matrix.Translation(meshRender.Shift);
-                model.Alpha = meshRender.Alpha;
-                model.Pickable = meshRender.Pickable;
-                model.RenderIn = (ViewType)meshRender.RenderIn;
-                if (Lighting) model.SurfaceEffect = SurfaceEffect.Shader;
-                model.Wireframe = WireframeEntities;
-                model.DrawBoundingSphere = BoundingSphereEntities;
-                model.DrawBoundingBox = BoundingBoxEntities;
-
-                // Add objects to lists
-                Scene.Positionables.Add(model);
-                _engineToWorld.Add(model, entity);
-                _worldToEngine.Add(renderControl, model);
-                return;
-            }
-            #endregion
-
-            // ----- Don't apply RenderControl.Shift yet ----- //
-
-            #region ParticleSystem
-            var particleRender = renderControl as ParticleSystem;
-            if (particleRender != null && !string.IsNullOrEmpty(particleRender.Filename))
-            {
-                PositionableRenderable particleSystem;
-
-                if (particleRender is CpuParticleSystem)
-                    particleSystem = OmegaEngine.Graphics.Renderables.CpuParticleSystem.FromPreset(Engine, particleRender.Filename);
-                else if (particleRender is GpuParticleSystem)
-                    particleSystem = OmegaEngine.Graphics.Renderables.GpuParticleSystem.FromPreset(Engine, particleRender.Filename);
-                else return;
-
-                particleSystem.Name = entity.Name;
-                particleSystem.VisibilityDistance = particleRender.VisibilityDistance;
-                particleSystem.Wireframe = WireframeEntities;
-                particleSystem.DrawBoundingSphere = BoundingSphereEntities;
-                particleSystem.DrawBoundingBox = BoundingBoxEntities;
-
-                // Add objects to lists
-                Scene.Positionables.Add(particleSystem);
-                _engineToWorld.Add(particleSystem, entity);
-                _worldToEngine.Add(renderControl, particleSystem);
-                return;
-            }
-            #endregion
-
-            #region LightSource
-            if (!Lighting) return;
-            var lightInfo = renderControl as LightSource;
-            if (lightInfo != null)
-            {
-                var light = new PointLight
+                // ----- Apply RenderControl.Shift directly with PreTransform ----- //
+                (StaticMesh meshRender) =>
                 {
-                    Name = entity.Name,
-                    Range = lightInfo.Range,
-                    Attenuation = lightInfo.Attenuation,
-                    Diffuse = lightInfo.Color
-                };
+                    // Load the model based on the entity name
+                    var model = Model.FromAsset(Engine, meshRender.Filename);
+                    model.Name = entity.Name;
+                    ConfigureModel(model, meshRender);
 
-                // Add objects to lists
-                Scene.Lights.Add(light);
-                _worldToEngine.Add(lightInfo, light);
-            }
-            #endregion
+                    // Add objects to lists
+                    Scene.Positionables.Add(model);
+                    _engineToWorld.Add(model, entity);
+                    _worldToEngine.Add(renderControl, model);
+                },
+                (AnimatedMesh meshRender) =>
+                {
+                    // Load the model based on the entity name
+                    var model = AnimatedModel.FromAsset(Engine, meshRender.Filename);
+                    model.Name = entity.Name;
+                    ConfigureModel(model, meshRender);
+
+                    // Add objects to lists
+                    Scene.Positionables.Add(model);
+                    _engineToWorld.Add(model, entity);
+                    _worldToEngine.Add(renderControl, model);
+                },
+                (TestSphere sphereRender) =>
+                {
+                    // Load the model based on the entity name
+                    var model = Model.Sphere(Engine, XTexture.Get(Engine, sphereRender.Texture), sphereRender.Radius, sphereRender.Slices, sphereRender.Stacks);
+                    model.Name = entity.Name;
+
+                    // Set model properties
+                    model.PreTransform = Matrix.Translation(sphereRender.Shift);
+                    model.Alpha = sphereRender.Alpha;
+                    if (Lighting) model.SurfaceEffect = SurfaceEffect.Shader;
+                    model.Wireframe = WireframeEntities;
+                    model.DrawBoundingSphere = BoundingSphereEntities;
+                    model.DrawBoundingBox = BoundingBoxEntities;
+
+                    // Add objects to lists
+                    Scene.Positionables.Add(model);
+                    _engineToWorld.Add(model, entity);
+                    _worldToEngine.Add(renderControl, model);
+                },
+
+                // ----- Don't apply RenderControl.Shift yet ----- //
+                (CpuParticleSystem particleRender) =>
+                {
+                    var particleSystem = OmegaEngine.Graphics.Renderables.CpuParticleSystem.FromPreset(Engine, particleRender.Filename);
+                    ConfigureParticleSystem(entity, particleSystem, particleRender);
+
+                    // Add objects to lists
+                    Scene.Positionables.Add(particleSystem);
+                    _engineToWorld.Add(particleSystem, entity);
+                    _worldToEngine.Add(renderControl, particleSystem);
+                },
+                (GpuParticleSystem particleRender) =>
+                {
+                    var particleSystem = OmegaEngine.Graphics.Renderables.GpuParticleSystem.FromPreset(Engine, particleRender.Filename);
+                    ConfigureParticleSystem(entity, particleSystem, particleRender);
+
+                    // Add objects to lists
+                    Scene.Positionables.Add(particleSystem);
+                    _engineToWorld.Add(particleSystem, entity);
+                    _worldToEngine.Add(renderControl, particleSystem);
+                },
+                (LightSource lightInfo) =>
+                {
+                    if (!Lighting) return;
+
+                    var light = new PointLight
+                    {
+                        Name = entity.Name,
+                        Range = lightInfo.Range,
+                        Attenuation = lightInfo.Attenuation,
+                        Diffuse = lightInfo.Color
+                    };
+
+                    // Add objects to lists
+                    Scene.Lights.Add(light);
+                    _worldToEngine.Add(lightInfo, light);
+                }
+            }.Dispatch(renderControl);
+        }
+
+        private void ConfigureParticleSystem(Entity entity, PositionableRenderable particleSystem, ParticleSystem particleRender)
+        {
+            particleSystem.Name = entity.Name;
+            particleSystem.VisibilityDistance = particleRender.VisibilityDistance;
+            particleSystem.Wireframe = WireframeEntities;
+            particleSystem.DrawBoundingSphere = BoundingSphereEntities;
+            particleSystem.DrawBoundingBox = BoundingBoxEntities;
+        }
+
+        private void ConfigureModel(PositionableRenderable model, Mesh meshRender)
+        {
+            model.PreTransform = Matrix.Scaling(meshRender.Scale, meshRender.Scale, meshRender.Scale) *
+                                 Matrix.RotationYawPitchRoll(
+                                     meshRender.RotationY.DegreeToRadian(),
+                                     meshRender.RotationX.DegreeToRadian(),
+                                     meshRender.RotationZ.DegreeToRadian()) *
+                                 Matrix.Translation(meshRender.Shift);
+            model.Alpha = meshRender.Alpha;
+            model.Pickable = meshRender.Pickable;
+            model.RenderIn = (ViewType)meshRender.RenderIn;
+            if (Lighting) model.SurfaceEffect = SurfaceEffect.Shader;
+            model.Wireframe = WireframeEntities;
+            model.DrawBoundingSphere = BoundingSphereEntities;
+            model.DrawBoundingBox = BoundingBoxEntities;
         }
         #endregion
 
@@ -467,38 +454,44 @@ namespace TerrainSample.Presentation
 
             var rotation = Quaternion.RotationYawPitchRoll(dirRotation.DegreeToRadian(), 0, 0);
 
-            // ----- RenderControl.Shift already applied ----- //
-
-            #region Mesh / TestSphere
-            var meshRender = renderControl as Mesh;
-            if ((meshRender != null && !string.IsNullOrEmpty(meshRender.Filename)) || renderControl is TestSphere)
+            new AggregateDispatcher<RenderControl>
             {
-                // Cast to entity to be able to access Rotation in addition to Position
-                var renderable = (PositionableRenderable)render;
-                renderable.Position = Terrain.Position + terrainPoint;
-                renderable.Rotation = rotation;
-                return;
-            }
-            #endregion
+                // ----- RenderControl.Shift already applied ----- //
+                (Mesh meshRender) =>
+                {
+                    if (!string.IsNullOrEmpty(meshRender.Filename))
+                    {
+                        // Cast to entity to be able to access Rotation in addition to Position
+                        var renderable = (PositionableRenderable)render;
+                        renderable.Position = Terrain.Position + terrainPoint;
+                        renderable.Rotation = rotation;
+                    }
+                },
+                (TestSphere meshRender) =>
+                {
+                    // Cast to entity to be able to access Rotation in addition to Position
+                    var renderable = (PositionableRenderable)render;
+                    renderable.Position = Terrain.Position + terrainPoint;
+                    renderable.Rotation = rotation;
+                },
 
-            // ----- Apply RenderControl.Shift directly to position ----- //
+                // ----- Apply RenderControl.Shift directly to position ----- //
+                (ParticleSystem particleSystem) =>
+                {
+                    // Calculate the rotated position shift
+                    var rotatedShift = Vector3.TransformCoordinate(
+                        particleSystem.Shift, Matrix.RotationQuaternion(rotation));
 
-            // Calculate the rotated position shift
-            var rotatedShift = Vector3.TransformCoordinate(
-                renderControl.Shift, Matrix.RotationQuaternion(rotation));
-
-            #region ParticleSystem
-            if (renderControl is ParticleSystem)
-            {
-                render.Position = Terrain.Position + terrainPoint + rotatedShift;
-                return;
-            }
-            #endregion
-
-            #region LightSource
-            if (renderControl is LightSource)
-                render.Position = Terrain.Position + terrainPoint + rotatedShift;
-            #endregion
+                    render.Position = Terrain.Position + terrainPoint + rotatedShift;
+                },
+                (LightSource lightSource) =>
+                {
+                    // Calculate the rotated position shift
+                    var rotatedShift = Vector3.TransformCoordinate(
+                        lightSource.Shift, Matrix.RotationQuaternion(rotation));
+                    render.Position = Terrain.Position + terrainPoint + rotatedShift;
+                }
+            }.Dispatch(renderControl);
         }
         #endregion
 
@@ -509,19 +502,20 @@ namespace TerrainSample.Presentation
         /// <param name="renderControl">The <see cref="RenderControl"/> to be </param>
         private void RemoveEntityHelper(RenderControl renderControl)
         {
-            var render = GetEngine(renderControl);
-            if (render == null) return;
+            var positionable = GetEngine(renderControl);
+            if (positionable == null) return;
 
-            var renderable = render as PositionableRenderable;
-            if (renderable != null)
+            new AggregateDispatcher<IPositionable>
             {
-                Scene.Positionables.Remove(renderable);
-                _engineToWorld.Remove(renderable);
-                renderable.Dispose();
-            }
-
-            var light = render as PointLight;
-            if (light != null) Scene.Lights.Remove(light);
+                (PositionableRenderable renderable) =>
+                {
+                    Scene.Positionables.Remove(renderable);
+                    _engineToWorld.Remove(renderable);
+                    renderable.Dispose();
+                },
+                (PointLight light) =>
+                    Scene.Lights.Remove(light)
+            }.Dispatch(positionable);
 
             _worldToEngine.Remove(renderControl);
         }

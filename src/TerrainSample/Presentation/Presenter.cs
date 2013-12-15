@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using Common;
+using Common.Collections;
 using LuaInterface;
 using OmegaEngine;
 using OmegaEngine.Graphics;
@@ -237,16 +238,16 @@ namespace TerrainSample.Presentation
         {
             get
             {
-                var camera = View.Camera as StrategyCamera;
-                if (camera == null) return null;
-
-                return new CameraState<Vector2>
+                return new PerTypeDispatcher<Camera, CameraState<Vector2>>(ignoreMissing: true)
                 {
-                    Name = camera.Name,
-                    Position = camera.Target.Flatten(),
-                    Radius = (float)camera.Radius,
-                    Rotation = camera.HorizontalRotation
-                };
+                    (StrategyCamera camera) => new CameraState<Vector2>
+                    {
+                        Name = camera.Name,
+                        Position = camera.Target.Flatten(),
+                        Radius = (float)camera.Radius,
+                        Rotation = camera.HorizontalRotation
+                    }
+                }.Dispatch(View.Camera);
             }
         }
         #endregion

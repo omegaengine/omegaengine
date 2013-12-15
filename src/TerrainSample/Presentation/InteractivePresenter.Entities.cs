@@ -22,11 +22,11 @@
 
 using System;
 using System.Collections.Generic;
+using Common.Collections;
 using Common.Utils;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 using TemplateWorld.Positionables;
-using TerrainSample.World;
 using TerrainSample.World.EntityComponents;
 using TerrainSample.World.Positionables;
 
@@ -64,15 +64,17 @@ namespace TerrainSample.Presentation
         /// <param name="positionable">The <see cref="Positionable{TCoordinates}"/> to add the selection highlighting for</param>
         private void AddSelectedPositionable(Positionable<Vector2> positionable)
         {
-            // Only continue if the positionable is a entity
-            var entity = positionable as Entity;
-            if (entity == null) return;
+            new PerTypeDispatcher<Positionable<Vector2>>(ignoreMissing: true)
+            {
+                (Entity entity) =>
+                {
+                    AddSelectedEntity(entity);
 
-            AddSelectedEntity(entity);
-
-            // Remove and then re-add an entity to apply the new entity template
-            entity.TemplateChanging += RemoveSelectedEntity;
-            entity.TemplateChanged += AddSelectedEntity;
+                    // Remove and then re-add an entity to apply the new entity template
+                    entity.TemplateChanging += RemoveSelectedEntity;
+                    entity.TemplateChanged += AddSelectedEntity;
+                }
+            }.Dispatch(positionable);
         }
 
         /// <summary>
@@ -82,37 +84,31 @@ namespace TerrainSample.Presentation
         /// <remarks>This is a helper method for <see cref="AddSelectedPositionable"/>.</remarks>
         private void AddSelectedEntity(Entity entity)
         {
-            // Prepare a selection highlighting around the entity
-            Model selectionHighlight;
-
-            var circle = entity.TemplateData.CollisionControl as Circle;
-            if (circle != null)
-            { // Create a circle around the entity based on the radius
-                selectionHighlight = Model.FromAsset(Engine, "Engine/Circle.x");
-                float scale = circle.Radius / 20 + 1;
-                selectionHighlight.PreTransform = Matrix.Scaling(scale, 1, scale);
-            }
-
-            else
+            var selectionHighlight = new PerTypeDispatcher<CollisionControl<Vector2>, Model>(ignoreMissing: true)
             {
-                var box = entity.TemplateData.CollisionControl as Box;
-                if (box != null)
-                { // Create a rectangle around the entity based on the box corners
-                    selectionHighlight = Model.FromAsset(Engine, "Engine/Rectangle.x");
+                (Circle circle) =>
+                {
+                    // Create a circle around the entity based on the radius
+                    var hightlight = Model.FromAsset(Engine, "Engine/Circle.x");
+                    float scale = circle.Radius / 20 + 1;
+                    hightlight.PreTransform = Matrix.Scaling(scale, 1, scale);
+                    return hightlight;
+                },
+                (Box box) =>
+                {
+                    // Create a rectangle around the entity based on the box corners
+                    var highlight = Model.FromAsset(Engine, "Engine/Rectangle.x");
 
                     // Determine the component-wise minimums and maxmimums and the absolute difference
                     var min = new Vector2(Math.Min(box.Minimum.X, box.Maximum.X), Math.Min(box.Minimum.Y, box.Maximum.Y));
                     var max = new Vector2(Math.Max(box.Minimum.X, box.Maximum.X), Math.Max(box.Minimum.Y, box.Maximum.Y));
                     var diff = max - min;
 
-                    selectionHighlight.PreTransform = Matrix.Scaling(diff.X, 1, diff.Y) * Matrix.Translation(min.X, 0, -min.Y);
+                    highlight.PreTransform = Matrix.Scaling(diff.X, 1, diff.Y) * Matrix.Translation(min.X, 0, -min.Y);
+                    return highlight;
                 }
-
-                else
-                { // No or unkown collision control type
-                    return;
-                }
-            }
+            }.Dispatch(entity.TemplateData.CollisionControl);
+            if (selectionHighlight == null) return;
 
             selectionHighlight.Name = entity.Name + " Selection";
 
@@ -132,15 +128,17 @@ namespace TerrainSample.Presentation
         /// <param name="positionable">The <see cref="Positionable{TCoordinates}"/> to remove the selection highlighting for</param>
         private void RemoveSelectedPositionable(Positionable<Vector2> positionable)
         {
-            // Only continue if the positionable is a entity that has a selection highlighting associated to it
-            var entity = positionable as Entity;
-            if (entity == null) return;
+            new PerTypeDispatcher<Positionable<Vector2>>(ignoreMissing: true)
+            {
+                (Entity entity) =>
+                {
+                    RemoveSelectedEntity(entity);
 
-            RemoveSelectedEntity(entity);
-
-            // Unhook class update event
-            entity.TemplateChanging -= RemoveSelectedEntity;
-            entity.TemplateChanged -= AddSelectedEntity;
+                    // Unhook class update event
+                    entity.TemplateChanging -= RemoveSelectedEntity;
+                    entity.TemplateChanged -= AddSelectedEntity;
+                }
+            }.Dispatch(positionable);
         }
 
         /// <summary>
@@ -179,15 +177,18 @@ namespace TerrainSample.Presentation
         {
             base.UpdatePositionable(positionable);
 
-            // Only continue if the positionable is a entity that has a selection highlighting associated to it
-            var entity = positionable as Entity;
-            if (entity == null) return;
-            PositionableRenderable selection;
-            if (!_worldToEngine.TryGetValue(entity, out selection)) return;
+            new PerTypeDispatcher<Positionable<Vector2>>(ignoreMissing: true)
+            {
+                (Entity entity) =>
+                {
+                    PositionableRenderable selection;
+                    if (!_worldToEngine.TryGetValue(entity, out selection)) return;
 
-            // Update the posistion and rotation of the selection highlighting
-            selection.Position = GetEngine(entity.TemplateData.RenderControls[0]).Position;
-            selection.Rotation = Quaternion.RotationYawPitchRoll(entity.Rotation.DegreeToRadian(), 0, 0);
+                    // Update the position and rotation of the selection highlighting
+                    selection.Position = GetEngine(entity.TemplateData.RenderControls[0]).Position;
+                    selection.Rotation = Quaternion.RotationYawPitchRoll(entity.Rotation.DegreeToRadian(), 0, 0);
+                }
+            }.Dispatch(positionable);
         }
         #endregion
     }
