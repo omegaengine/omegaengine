@@ -84,7 +84,8 @@
     <Compile Include="..\AssemblyInfo.Global.cs" />
     <Compile Include="AppMutex.cs" />
     <Compile Include="Arguments.cs" />
-    <Compile Include="Collections\AggregateDispatcher.cs" />
+    <Compile Include="Collections\AggregateDispatcher.Action.cs" />
+    <Compile Include="Collections\AggregateDispatcher.Func.cs" />
     <Compile Include="Collections\Bucketizer.cs" />
     <Compile Include="Collections\BucketRule.cs" />
     <Compile Include="Collections\ComparableTuple.cs" />
