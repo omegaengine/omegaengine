@@ -92,7 +92,6 @@
     <Compile Include="Positionables\Memo.cs" />
     <Compile Include="Positionables\Positionable.cs" />
     <Compile Include="Positionables\Water.cs" />
-    <Compile Include="Positionables\Waypoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>

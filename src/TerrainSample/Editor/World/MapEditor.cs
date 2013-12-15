@@ -44,6 +44,7 @@ using TemplateWorld.Templates;
 using TemplateWorld.Terrains;
 using TerrainSample.Presentation;
 using TerrainSample.World;
+using TerrainSample.World.Positionables;
 using TerrainSample.World.Templates;
 using Resources = AlphaEditor.Properties.Resources;
 
@@ -712,7 +713,7 @@ namespace TerrainSample.Editor.World
 
             return (checkEntity.Checked && positionable is Entity) ||
                    (checkWater.Checked && positionable is Water) ||
-                   (checkWaypoint.Checked && positionable is Waypoint<Vector2>) ||
+                   (checkWaypoint.Checked && positionable is Waypoint) ||
                    (checkBenchmarkPoint.Checked && positionable is BenchmarkPoint<Vector2>) ||
                    (checkMemo.Checked && positionable is Memo<Vector2>);
         }

@@ -76,7 +76,8 @@
     <Compile Include="EntityComponents\Circle.cs" />
     <Compile Include="EntityComponents\CollisionControl.cs" />
     <Compile Include="EntityComponents\MovementControl.cs" />
-    <Compile Include="Entity.cs" />
+    <Compile Include="Positionables\Entity.cs" />
+    <Compile Include="Positionables\Waypoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -34,7 +34,7 @@ using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 using TemplateWorld.EntityComponents;
 using TemplateWorld.Positionables;
-using TerrainSample.World;
+using TerrainSample.World.Positionables;
 using CpuParticleSystem = TemplateWorld.EntityComponents.CpuParticleSystem;
 using GpuParticleSystem = TemplateWorld.EntityComponents.GpuParticleSystem;
 using LightSource = TemplateWorld.EntityComponents.LightSource;

@@ -28,6 +28,7 @@ using SlimDX;
 using TemplateWorld.Positionables;
 using TerrainSample.World;
 using TerrainSample.World.EntityComponents;
+using TerrainSample.World.Positionables;
 
 namespace TerrainSample.Presentation
 {

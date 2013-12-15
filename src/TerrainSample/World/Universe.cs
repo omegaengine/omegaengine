@@ -35,6 +35,7 @@ using TemplateWorld.Paths;
 using TemplateWorld.Positionables;
 using TemplateWorld.Terrains;
 using TerrainSample.World.Config;
+using TerrainSample.World.Positionables;
 using TerrainSample.World.Templates;
 using Resources = TemplateWorld.Properties.Resources;
 
@@ -58,9 +59,7 @@ namespace TerrainSample.World
         /// <inheritoc/>
         [Browsable(false)]
         // Note: Can not use ICollection<T> interface with XML Serialization
-        [XmlElement(typeof(Entity)),
-         XmlElement(typeof(Water)),
-         XmlElement(typeof(Waypoint<Vector2>), ElementName = "Waypoint"),
+        [XmlElement(typeof(Entity)), XmlElement(typeof(Water)), XmlElement(typeof(Waypoint)),
          XmlElement(typeof(BenchmarkPoint<Vector2>), ElementName = "BenchmarkPoint"),
          XmlElement(typeof(Memo<Vector2>), ElementName = "Memo")]
         public override MonitoredCollection<Positionable<Vector2>> Positionables { get { return _positionables; } }

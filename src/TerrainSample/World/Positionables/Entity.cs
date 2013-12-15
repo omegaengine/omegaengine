@@ -28,7 +28,7 @@ using TemplateWorld.Terrains;
 using TerrainSample.World.EntityComponents;
 using TerrainSample.World.Templates;
 
-namespace TerrainSample.World
+namespace TerrainSample.World.Positionables
 {
     /// <summary>
     /// An entity that can be placed on a <see cref="Terrain{TTemplate}"/>.

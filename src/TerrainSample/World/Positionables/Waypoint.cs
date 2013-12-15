@@ -20,13 +20,14 @@
  * THE SOFTWARE.
  */
 
-namespace TemplateWorld.Positionables
+using SlimDX;
+using TemplateWorld.Positionables;
+
+namespace TerrainSample.World.Positionables
 {
     /// <summary>
     /// A marker used as a hint for pathfinding.
-    /// </summary>
-    /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
-    public class Waypoint<TCoordinates> : Positionable<TCoordinates>
-        where TCoordinates : struct
+    /// </summary>>
+    public class Waypoint : Positionable<Vector2>
     {}
 }

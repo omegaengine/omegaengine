@@ -38,6 +38,7 @@ using TemplateWorld.Terrains;
 using TerrainSample.Presentation;
 using TerrainSample.World;
 using TerrainSample.World.EntityComponents;
+using TerrainSample.World.Positionables;
 using TerrainSample.World.Templates;
 
 namespace TerrainSample.Editor.World

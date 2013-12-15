@@ -36,6 +36,7 @@ using OmegaEngine.Input;
 using SlimDX;
 using TemplateWorld.Positionables;
 using TerrainSample.World;
+using TerrainSample.World.Positionables;
 
 namespace TerrainSample.Presentation
 {
