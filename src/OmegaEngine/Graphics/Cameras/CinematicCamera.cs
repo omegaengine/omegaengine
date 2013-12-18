@@ -39,13 +39,13 @@ namespace OmegaEngine.Graphics.Cameras
         /// <summary>
         /// Creates a new cinematic camera for the engine
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> containing this camera</param>
         /// <param name="sourcePosition">The initial camera position</param>
         /// <param name="targetPosition">The target camera position</param>
         /// <param name="sourceQuat">The initial view as a quaternion</param>
         /// <param name="targetQuat">The target view as a quaternion</param>
-        /// <param name="time">The complete transition time in seconds</param>
-        public CinematicCamera(DoubleVector3 sourcePosition, DoubleVector3 targetPosition, Quaternion sourceQuat, Quaternion targetQuat, Engine engine, float time)
+        /// <param name="duration">The complete transition time in seconds</param>
+        /// <param name="engine">The <see cref="Engine"/> containing this camera</param>
+        public CinematicCamera(DoubleVector3 sourcePosition, DoubleVector3 targetPosition, Quaternion sourceQuat, Quaternion targetQuat, float duration, Engine engine)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
@@ -57,11 +57,14 @@ namespace OmegaEngine.Graphics.Cameras
             _sourceQuat = sourceQuat;
             _targetQuat = targetQuat;
 
-            engine.Interpolate(0, 1, time, true, value =>
-            {
-                _factor = value;
-                _needsRecalc = true;
-            });
+            engine.Interpolate(
+                start: 0, target: 1,
+                callback: value =>
+                {
+                    _factor = value;
+                    _needsRecalc = true;
+                },
+                duration: duration);
             Moving = true;
 
             Position = sourcePosition;

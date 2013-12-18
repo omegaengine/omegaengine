@@ -449,15 +449,21 @@ namespace OmegaEngine.Graphics
         /// Switches from the current camera view to a new view using a cinematic effect
         /// </summary>
         /// <param name="target">The new camera</param>
-        /// <param name="time">The complete transition time in seconds</param>
-        public void SwingCameraTo(Camera target, float time)
+        /// <param name="duration">The complete transition time in seconds</param>
+        public void SwingCameraTo(Camera target, float duration)
         {
             #region Sanity checks
             if (target == null) throw new ArgumentNullException("target");
             #endregion
 
             // Create the transitional camera and make it active
-            Camera = _cinematicCamera = new CinematicCamera(Camera.Position, target.Position, Quaternion.RotationMatrix(Camera.View), Quaternion.RotationMatrix(target.View), Engine, time)
+            Camera = _cinematicCamera = new CinematicCamera(
+                sourcePosition: Camera.Position,
+                targetPosition: target.Position,
+                sourceQuat: Quaternion.RotationMatrix(Camera.View),
+                targetQuat: Quaternion.RotationMatrix(target.View),
+                duration: duration,
+                engine: Engine)
             {
                 Name = ("Swing to: " + target.Name),
                 NearClip = Camera.NearClip,

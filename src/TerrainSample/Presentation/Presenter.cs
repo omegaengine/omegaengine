@@ -215,11 +215,10 @@ namespace TerrainSample.Presentation
             if (state == null)
                 state = new CameraState<Vector2> {Name = "Main", Position = Universe.Terrain.Center, Radius = 1500};
 
-            const float minCameraRadius = 150, maxCameraRadius = 10000;
-            const float minCameraAngle = 35, maxCameraAngle = 55;
             const float floatAboveGround = 100;
-
-            return new StrategyCamera(minCameraRadius, maxCameraRadius, minCameraAngle, maxCameraAngle,
+            return new StrategyCamera(
+                minRadius: 150, maxRadius: 10000,
+                minAngle: 35, maxAngle: 55,
                 heightController: coordinates => Universe.Terrain.ToEngineCoords(coordinates.Flatten()).Y + floatAboveGround)
             {
                 Name = state.Name,
@@ -267,7 +266,10 @@ namespace TerrainSample.Presentation
             {
                 // Gradually apply sepia effect
                 _sepiaShader.Enabled = true;
-                Engine.Interpolate(0, 0.6, 4, true, value => _sepiaShader.Desaturation = _sepiaShader.Toning = (float)value);
+                Engine.Interpolate(
+                    start: 0, target: 0.6,
+                    callback: value => _sepiaShader.Desaturation = _sepiaShader.Toning = (float)value,
+                    duration: 4);
             }
 
             // Dim down screen

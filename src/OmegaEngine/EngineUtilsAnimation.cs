@@ -23,10 +23,10 @@ namespace OmegaEngine
         /// <param name="engine">The engine to use for rendering</param>
         /// <param name="start">The value to start off with</param>
         /// <param name="target">The value to end up at</param>
-        /// <param name="time">The time for complete transition in seconds</param>
-        /// <param name="trigonometric"><see false="true"/> smooth (trigonometric) and <see langword="false"/> for linear interpolation</param>
         /// <param name="callback">The delegate to call for with the updated interpolated value each frame</param>
-        public static void Interpolate(this Engine engine, double start, double target, double time, bool trigonometric, Action<double> callback)
+        /// <param name="duration">The time for complete transition in seconds</param>
+        /// <param name="trigonometric"><see false="true"/> smooth (trigonometric) and <see langword="false"/> for linear interpolation</param>
+        public static void Interpolate(this Engine engine, double start, double target, Action<double> callback, double duration = 1, bool trigonometric = true)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
@@ -51,8 +51,8 @@ namespace OmegaEngine
                 {
                     // Calc the interpolated value based on the elapsed time
                     double interpolationTime = interpolationTimer.Elapsed.TotalSeconds;
-                    if (trigonometric) value = MathUtils.InterpolateTrigonometric(interpolationTime / time, start, target);
-                    else value = interpolationTime / time * (target - start) + start;
+                    if (trigonometric) value = MathUtils.InterpolateTrigonometric(interpolationTime / duration, start, target);
+                    else value = interpolationTime / duration * (target - start) + start;
 
                     // Don't shoot past the target
                     if ((negative && value < target) || (!negative && value > target)) value = target;
@@ -79,7 +79,9 @@ namespace OmegaEngine
             if (engine == null) throw new ArgumentNullException("engine");
             #endregion
 
-            engine.Interpolate(255, 0, 1, true, value => engine.FadeLevel = (int)value);
+            engine.Interpolate(
+                start: 255, target: 0,
+                callback: value => engine.FadeLevel = (int)value);
             engine.FadeExtra = true;
         }
 
@@ -92,7 +94,9 @@ namespace OmegaEngine
             if (engine == null) throw new ArgumentNullException("engine");
             #endregion
 
-            engine.Interpolate(engine.FadeLevel, 80, 1, true, value => engine.FadeLevel = (int)value);
+            engine.Interpolate(
+                start: engine.FadeLevel, target: 80,
+                callback: value => engine.FadeLevel = (int)value);
             engine.FadeExtra = false;
         }
 
@@ -105,7 +109,9 @@ namespace OmegaEngine
             if (engine == null) throw new ArgumentNullException("engine");
             #endregion
 
-            engine.Interpolate(engine.FadeLevel, 0, 1, true, value => engine.FadeLevel = (int)value);
+            engine.Interpolate(
+                start: engine.FadeLevel, target: 0,
+                callback: value => engine.FadeLevel = (int)value);
             engine.FadeExtra = false;
         }
     }

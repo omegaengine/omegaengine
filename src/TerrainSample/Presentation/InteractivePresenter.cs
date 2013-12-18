@@ -109,7 +109,11 @@ namespace TerrainSample.Presentation
             // Adapt panning speed based on view frustum size
             float panFactor = 1.0f / Math.Max(Engine.RenderSize.Width, Engine.RenderSize.Height);
 
-            View.Camera.PerspectiveChange(pan.X * panFactor, pan.Y * panFactor, rotation / 2.0f, (float)Math.Pow(1.1, zoom / 15.0));
+            View.Camera.PerspectiveChange(
+                panX: pan.X * panFactor,
+                panY: pan.Y * panFactor,
+                rotation: rotation / 2.0f,
+                zoom: (float)Math.Pow(1.1, zoom / 15.0));
         }
         #endregion
 
