@@ -11,14 +11,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using Common;
+using System.Linq;
 using Common.Utils;
 using Common.Values;
-using SlimDX;
-using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
+using SlimDX;
+using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics
 {
@@ -27,13 +27,9 @@ namespace OmegaEngine.Graphics
     /// </summary>
     /// <remarks>Multiple <see cref="View"/>s can share the same <see cref="OmegaEngine.Graphics.Scene"/>, but they should all have separate <see cref="Cameras.Camera"/>s.</remarks>
     [SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces")]
-    public partial class View : IResetable, IDisposable
+    public partial class View : EngineElement, IResetable
     {
         #region Variables
-        /// <summary>
-        /// The <see cref="Engine"/> reference to use for rendering operations
-        /// </summary>
-        protected internal readonly Engine Engine;
 
         #region Flags
         private bool _visible = true;
@@ -155,12 +151,6 @@ namespace OmegaEngine.Graphics
         public bool Visible { get { return _visible; } set { _visible = value; } }
 
         /// <summary>
-        /// Was this object already disposed?
-        /// </summary>
-        [Browsable(false)]
-        public bool Disposed { get; private set; }
-
-        /// <summary>
         /// Cull clockwise instead of counter-clockwise?
         /// </summary>
         [Description("Cull clockwise instead of counter-clockwise?"), Category("Behavior")]
@@ -246,60 +236,35 @@ namespace OmegaEngine.Graphics
         #endregion
 
         #region Constructor
-
-        #region Screen
         /// <summary>
         /// Creates a new view for rendering
         /// </summary>
-        /// <param name="engine">The <see cref="OmegaEngine.Engine"/> to be used for rendering</param>
         /// <param name="scene">The <see cref="Scene"/> to render</param>
         /// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
         /// <param name="area">The screen area this view should fill (leave empty for fullscreen)</param>
-        public View(Engine engine, Scene scene, Camera camera, Rectangle area)
+        public View(Scene scene, Camera camera, Rectangle area = new Rectangle())
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (scene == null) throw new ArgumentNullException("scene");
             if (camera == null) throw new ArgumentNullException("camera");
             if (area.X < 0 || area.Y < 0 || area.Width < 0 || area.Height < 0)
                 throw new ArgumentOutOfRangeException("area");
             #endregion
 
-            Engine = engine;
             _scene = scene;
             Camera = camera;
             _area = area;
-
-            // Calculate the effective viewport and continuously update it, if it is fullscreen
-            UpdateViewport();
-            if (area == Rectangle.Empty) engine.DeviceReset += UpdateViewport;
         }
-        #endregion
 
-        #region Fullscreen
-        /// <summary>
-        /// Creates a new view for rendering fullscreen
-        /// </summary>
-        /// <param name="engine">The <see cref="OmegaEngine.Engine"/> to be used for rendering</param>
-        /// <param name="scene">The <see cref="Scene"/> to render</param>
-        /// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
-        public View(Engine engine, Scene scene, Camera camera) : this(engine, scene, camera, new Rectangle())
-        {}
-        #endregion
-
-        #region Fullscreen plain-color
         /// <summary>
         /// Creates a new view for rendering a plain color fullscreen
         /// </summary>
-        /// <param name="engine">The <see cref="OmegaEngine.Engine"/> to be used for rendering</param>
         /// <param name="color">The plain color to render</param>
-        public View(Engine engine, Color color) : this(engine, new Scene(engine), new TrackCamera(1, 10))
+        public View(Color color) : this(new Scene(), new TrackCamera(1, 10))
         {
             _backgroundColor = color;
             _disposeScene = true;
         }
-        #endregion
-
         #endregion
 
         //--------------------//
@@ -491,7 +456,7 @@ namespace OmegaEngine.Graphics
             _glowSetup = true;
 
             // Create the new view, make sure the camera stays in sync, copy default properties
-            var newView = new GlowView(this) {Name = Name + " Glow"};
+            var newView = new GlowView(this) {Engine = Engine, Name = Name + " Glow"};
 
             // Apply PostScreen shader to current scene (hooked with output from new scene)
             PostShaders.Add(new PostGlowShader(Engine, newView, blurStrength, glowStrength));
@@ -523,70 +488,40 @@ namespace OmegaEngine.Graphics
 
         //--------------------//
 
-        #region Dispose
-        /// <summary>
-        /// Disposes <see cref="ChildViews"/>, <see cref="FloatingModels"/>, <see cref="PostShaders"/> and all internal DirectX resources.
-        /// </summary>
-        /// <remarks>Does not dispose <see cref="Scene"/>, since it might be used by other <see cref="View"/>s as well.</remarks>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
+        #region Engine
         /// <inheritdoc/>
-        ~View()
+        protected override void OnEngineSet()
         {
-            Dispose(false);
+            Scene.Engine = Engine;
+
+            // Calculate the effective viewport and continuously update it, if it is fullscreen
+            UpdateViewport();
+            if (_area == Rectangle.Empty) Engine.DeviceReset += UpdateViewport;
         }
+        #endregion
 
-        /// <summary>
-        /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
-        /// </summary>
-        /// <param name="disposing"><see langword="true"/> if called manually and not by the garbage collector.</param>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
-        protected virtual void Dispose(bool disposing)
+        #region Dispose
+        /// <inheritdoc/>
+        protected override void OnDispose()
         {
-            if (Disposed || Engine.Disposed) return; // Don't try to dispose more than once
-
             // Unhook device events
             Engine.DeviceReset -= UpdateViewport;
 
-            if (disposing)
-            { // This block will only be executed on manual disposal, not by Garbage Collection
-                Log.Info("Disposing " + this);
+            _childViews.Apply(view => view.Dispose());
+            _floatingModels.Apply(model => model.Dispose());
+            _postShaders.ForEach(shader => shader.Dispose());
+            if (RenderTarget != null) RenderTarget.Dispose();
+            if (_secondaryRenderTarget != null) _secondaryRenderTarget.Dispose();
+            _childViews.Dispose();
 
-                _childViews.Apply(view => view.Dispose());
-                _floatingModels.Apply(model => model.Dispose());
-                _postShaders.ForEach(shader => shader.Dispose());
-                if (RenderTarget != null) RenderTarget.Dispose();
-                if (_secondaryRenderTarget != null) _secondaryRenderTarget.Dispose();
-                _childViews.Dispose();
+            // Dispose and remove all water view sources associated to this view
+            var toRemove = Engine.WaterViewSources
+                .Where(viewSource => viewSource.RefractedView == this || viewSource.RefractedView == this)
+                .ToList();
+            foreach (var viewSource in toRemove) viewSource.Dispose();
+            Engine.WaterViewSources.RemoveAll(toRemove);
 
-                // Dispose and remove all water view sources associated to this view
-                var toRemove = new C5.LinkedList<WaterViewSource>();
-                foreach (var viewSource in Engine.WaterViewSources)
-                {
-                    if (viewSource.RefractedView == this || viewSource.RefractedView == this)
-                    {
-                        // Prepare to remove later since it isn't possible within the foreach loop
-                        toRemove.Add(viewSource);
-                        viewSource.Dispose();
-                    }
-                }
-                Engine.WaterViewSources.RemoveAll(toRemove);
-
-                if (_disposeScene && _scene != null) _scene.Dispose();
-            }
-            else
-            { // This block will only be executed on Garbage Collection, not by manual disposal
-                Log.Error("Forgot to call Dispose on " + this);
-#if DEBUG
-                throw new InvalidOperationException("Forgot to call Dispose on " + this);
-#endif
-            }
-
-            Disposed = true;
+            if (_disposeScene && _scene != null) _scene.Dispose();
         }
         #endregion
     }

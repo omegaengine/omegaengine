@@ -104,6 +104,7 @@
     <Compile Include="EngineCapabilities.cs" />
     <Compile Include="EngineConfig.cs" />
     <Compile Include="EngineEffects.cs" />
+    <Compile Include="EngineElement.cs" />
     <Compile Include="EnginePerformance.cs" />
     <Compile Include="EngineState.cs" />
     <Compile Include="EngineUtilsAnimation.cs" />

@@ -71,8 +71,9 @@ namespace OmegaEngine.Graphics
             };
 
             // Create the new view, make sure the camera stays in sync, copy default properties
-            var newView = new WaterView(baseView, newCamera, false)
+            var newView = new WaterView(baseView, newCamera, reflection: false)
             {
+                Engine = baseView.Engine,
                 Name = baseView.Name + " Refraction",
                 BackgroundColor = baseView.BackgroundColor
             };
@@ -105,8 +106,9 @@ namespace OmegaEngine.Graphics
             };
 
             // Create the new view, make sure the camera stays in sync, copy default properties
-            var newView = new WaterView(baseView, newCamera, true)
+            var newView = new WaterView(baseView, newCamera, reflection: true)
             {
+                Engine = baseView.Engine,
                 Name = baseView.Name + " Reflection",
                 InvertCull = true,
                 BackgroundColor = baseView.BackgroundColor

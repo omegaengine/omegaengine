@@ -38,15 +38,12 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// Creates a new view for rendering to a texture
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to be used for rendering</param>
         /// <param name="scene">The <see cref="Scene"/> to render</param>
         /// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
         /// <param name="size">The size of screen area this view should fill (leave empty for fullscreen)</param>
-        public TextureView(Engine engine, Scene scene, Camera camera, Size size) :
-            base(engine, scene, camera, new Rectangle(new Point(), size))
-        {
-            PrepareRenderTarget();
-        }
+        public TextureView(Scene scene, Camera camera, Size size) :
+            base(scene, camera, new Rectangle(new Point(), size))
+        {}
         #endregion
 
         //--------------------//
@@ -78,6 +75,17 @@ namespace OmegaEngine.Graphics
                 // Update the RenderTarget texture to incorporate the PostShader effect
                 if (shader.Enabled) ShaderToRenderTarget(shader);
             }
+        }
+        #endregion
+
+        //--------------------//
+
+        #region Engine
+        /// <inheritdoc/>
+        protected override void OnEngineSet()
+        {
+            base.OnEngineSet();
+            PrepareRenderTarget();
         }
         #endregion
     }

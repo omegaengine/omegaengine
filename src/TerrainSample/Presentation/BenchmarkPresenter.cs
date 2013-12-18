@@ -87,7 +87,7 @@ namespace TerrainSample.Presentation
             // Target camera on first BenchmarkPoint
             var mainCamera = CreateCamera(_statistics.TestCases.Length > 0 ? _statistics.TestCases[0].Target : null);
 
-            View = new View(engine, Scene, mainCamera) {Name = "Benchmark", BackgroundColor = universe.FogColor};
+            View = new View(Scene, mainCamera) {Engine = Engine, Name = "Benchmark", BackgroundColor = universe.FogColor};
         }
         #endregion
 

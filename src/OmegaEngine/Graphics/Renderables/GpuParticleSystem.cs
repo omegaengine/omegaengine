@@ -25,8 +25,8 @@ namespace OmegaEngine.Graphics.Renderables
     public class GpuParticleSystem : PositionableRenderable
     {
         #region Variables
-        private readonly Mesh _particleMesh;
-        private readonly ParticleShader _particleShader;
+        private Mesh _particleMesh;
+        private ParticleShader _particleShader;
         #endregion
 
         #region Properties
@@ -41,12 +41,10 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new particle system.
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="preset">The initial configuration of the particle system.</param>
-        public GpuParticleSystem(Engine engine, GpuParticlePreset preset) : base(engine)
+        public GpuParticleSystem(GpuParticlePreset preset)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (preset == null) throw new ArgumentNullException("preset");
             #endregion
 
@@ -55,14 +53,6 @@ namespace OmegaEngine.Graphics.Renderables
             SurfaceEffect = SurfaceEffect.Shader;
             Preset = preset;
             Alpha = EngineState.AdditivBlending; // Set alpha blending value here to get correct sorting behaviour
-
-            // Load particle mesh
-            using (var stream = ContentManager.GetFileStream("Meshes", "Engine/Particles.x"))
-                _particleMesh = Mesh.FromStream(engine.Device, stream, MeshFlags.Managed);
-
-            // Load particle shader
-            string id = Path.Combine("Shaders", preset.ParticleTexture);
-            _particleShader = new ParticleShader(engine, XTexture.Get(engine, id));
 
             // Calculate bounding sphere
             float maxDistance = preset.SpawnRadius > preset.SystemHeight ? preset.SpawnRadius : preset.SystemHeight;
@@ -83,7 +73,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <exception cref="InvalidOperationException">Thrown if a problem occurred while deserializing the XML data.</exception>
         public static GpuParticleSystem FromPreset(Engine engine, string id)
         {
-            return new GpuParticleSystem(engine, GpuParticlePreset.FromContent(id));
+            return new GpuParticleSystem(GpuParticlePreset.FromContent(id)) {Engine = engine};
         }
         #endregion
 
@@ -140,22 +130,33 @@ namespace OmegaEngine.Graphics.Renderables
 
         //--------------------//
 
-        #region Dispose
-        protected override void Dispose(bool disposing)
+        #region Engine
+        protected override void OnEngineSet()
         {
-            if (Disposed || Engine == null || Engine.Disposed) return; // Don't try to dispose more than once
+            base.OnEngineSet();
 
+            // Load particle mesh
+            using (var stream = ContentManager.GetFileStream("Meshes", "Engine/Particles.x"))
+                _particleMesh = Mesh.FromStream(Engine.Device, stream, MeshFlags.Managed);
+
+            // Load particle shader
+            string id = Path.Combine("Shaders", Preset.ParticleTexture);
+            _particleShader = new ParticleShader(Engine, XTexture.Get(Engine, id));
+        }
+        #endregion
+
+        #region Dispose
+        /// <inheritdoc/>
+        protected override void OnDispose()
+        {
             try
             {
-                if (disposing)
-                { // This block will only be executed on manual disposal, not by Garbage Collection
-                    if (_particleShader != null) _particleShader.Dispose();
-                    if (_particleMesh != null) _particleMesh.Dispose();
-                }
+                if (_particleShader != null) _particleShader.Dispose();
+                if (_particleMesh != null) _particleMesh.Dispose();
             }
             finally
             {
-                base.Dispose(disposing);
+                base.OnDispose();
             }
         }
         #endregion

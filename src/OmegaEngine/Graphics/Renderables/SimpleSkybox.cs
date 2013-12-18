@@ -8,10 +8,10 @@
 
 using System;
 using System.IO;
-using SlimDX.Direct3D9;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.VertexDecl;
+using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Renderables
 {
@@ -21,73 +21,18 @@ namespace OmegaEngine.Graphics.Renderables
     public class SimpleSkybox : Skybox
     {
         #region Variables
-        private readonly VertexBuffer _vb;
-        private readonly IndexBuffer _ib;
+        private VertexBuffer _vb;
+        private IndexBuffer _ib;
         #endregion
 
         #region Constructor
         /// <summary>
         /// Creates a new skybox using texture-files
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="textures">An array of the 6 textures to be uses (right, left, top, bottom, front, back)</param>
         /// <exception cref="ArgumentException">Thrown if there are not exactly 6 textures</exception>
-        protected SimpleSkybox(Engine engine, XTexture[] textures) : base(engine, textures)
-        {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            #endregion
-
-            #region Vertexes
-            var vertexes = new[]
-            {
-                // Right
-                new PositionTextured(1.0f, -1.0f, 1.0f, 0.0f, 1.0f),
-                new PositionTextured(1.0f, 1.0f, 1.0f, 0.0f, 0.0f),
-                new PositionTextured(1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
-                new PositionTextured(1.0f, -1.0f, -1.0f, 1.0f, 1.0f),
-                // Left
-                new PositionTextured(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
-                new PositionTextured(-1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
-                new PositionTextured(-1.0f, 1.0f, 1.0f, 1.0f, 0.0f),
-                new PositionTextured(-1.0f, -1.0f, 1.0f, 1.0f, 1.0f),
-                // Top
-                new PositionTextured(-1.0f, 1.0f, 1.0f, 0.0f, 1.0f),
-                new PositionTextured(-1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
-                new PositionTextured(1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
-                new PositionTextured(1.0f, 1.0f, 1.0f, 1.0f, 1.0f),
-                // Bottom
-                new PositionTextured(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
-                new PositionTextured(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f),
-                new PositionTextured(1.0f, -1.0f, 1.0f, 1.0f, 0.0f),
-                new PositionTextured(1.0f, -1.0f, -1.0f, 1.0f, 1.0f),
-                // Front
-                new PositionTextured(-1.0f, -1.0f, 1.0f, 0.0f, 1.0f),
-                new PositionTextured(-1.0f, 1.0f, 1.0f, 0.0f, 0.0f),
-                new PositionTextured(1.0f, 1.0f, 1.0f, 1.0f, 0.0f),
-                new PositionTextured(1.0f, -1.0f, 1.0f, 1.0f, 1.0f),
-                // Back
-                new PositionTextured(1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
-                new PositionTextured(1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
-                new PositionTextured(-1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
-                new PositionTextured(-1.0f, -1.0f, -1.0f, 1.0f, 1.0f)
-            };
-
-            _vb = BufferHelper.CreateVertexBuffer(engine.Device, vertexes, PositionTextured.Format);
-            #endregion
-
-            #region Indexes
-            _ib = BufferHelper.CreateIndexBuffer(engine.Device, new short[]
-            {
-                0, 2, 3, 0, 1, 2, // Right
-                4, 5, 6, 4, 6, 7, // Left
-                8, 9, 10, 8, 10, 11, // Top
-                12, 13, 14, 12, 14, 15, // Bottom
-                16, 18, 19, 16, 17, 18, // Front
-                20, 21, 22, 20, 22, 23 // Back
-            });
-            #endregion
-        }
+        protected SimpleSkybox(XTexture[] textures) : base(textures)
+        {}
         #endregion
 
         #region Static access
@@ -117,7 +62,7 @@ namespace OmegaEngine.Graphics.Renderables
                 XTexture.Get(engine, rt), XTexture.Get(engine, lf), XTexture.Get(engine, up),
                 XTexture.Get(engine, dn), XTexture.Get(engine, ft), XTexture.Get(engine, bk)
             };
-            return new SimpleSkybox(engine, textures);
+            return new SimpleSkybox(textures) {Engine = engine};
         }
         #endregion
 
@@ -154,22 +99,76 @@ namespace OmegaEngine.Graphics.Renderables
 
         //--------------------//
 
-        #region Dispose
-        protected override void Dispose(bool disposing)
+        #region Engine
+        /// <inheritdoc/>
+        protected override void OnEngineSet()
         {
-            if (Disposed || Engine == null || Engine.Disposed) return; // Don't try to dispose more than once
+            base.OnEngineSet();
 
+            #region Vertexes
+            var vertexes = new[]
+            {
+                // Right
+                new PositionTextured(1.0f, -1.0f, 1.0f, 0.0f, 1.0f),
+                new PositionTextured(1.0f, 1.0f, 1.0f, 0.0f, 0.0f),
+                new PositionTextured(1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
+                new PositionTextured(1.0f, -1.0f, -1.0f, 1.0f, 1.0f),
+                // Left
+                new PositionTextured(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
+                new PositionTextured(-1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
+                new PositionTextured(-1.0f, 1.0f, 1.0f, 1.0f, 0.0f),
+                new PositionTextured(-1.0f, -1.0f, 1.0f, 1.0f, 1.0f),
+                // Top
+                new PositionTextured(-1.0f, 1.0f, 1.0f, 0.0f, 1.0f),
+                new PositionTextured(-1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
+                new PositionTextured(1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
+                new PositionTextured(1.0f, 1.0f, 1.0f, 1.0f, 1.0f),
+                // Bottom
+                new PositionTextured(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
+                new PositionTextured(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f),
+                new PositionTextured(1.0f, -1.0f, 1.0f, 1.0f, 0.0f),
+                new PositionTextured(1.0f, -1.0f, -1.0f, 1.0f, 1.0f),
+                // Front
+                new PositionTextured(-1.0f, -1.0f, 1.0f, 0.0f, 1.0f),
+                new PositionTextured(-1.0f, 1.0f, 1.0f, 0.0f, 0.0f),
+                new PositionTextured(1.0f, 1.0f, 1.0f, 1.0f, 0.0f),
+                new PositionTextured(1.0f, -1.0f, 1.0f, 1.0f, 1.0f),
+                // Back
+                new PositionTextured(1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
+                new PositionTextured(1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
+                new PositionTextured(-1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
+                new PositionTextured(-1.0f, -1.0f, -1.0f, 1.0f, 1.0f)
+            };
+
+            _vb = BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionTextured.Format);
+            #endregion
+
+            #region Indexes
+            _ib = BufferHelper.CreateIndexBuffer(Engine.Device, new short[]
+            {
+                0, 2, 3, 0, 1, 2, // Right
+                4, 5, 6, 4, 6, 7, // Left
+                8, 9, 10, 8, 10, 11, // Top
+                12, 13, 14, 12, 14, 15, // Bottom
+                16, 18, 19, 16, 17, 18, // Front
+                20, 21, 22, 20, 22, 23 // Back
+            });
+            #endregion
+        }
+        #endregion
+
+        #region Dispose
+        /// <inheritdoc/>
+        protected override void OnDispose()
+        {
             try
             {
-                if (disposing)
-                { // This block will only be executed on manual disposal, not by Garbage Collection
-                    if (_vb != null) _vb.Dispose();
-                    if (_ib != null) _ib.Dispose();
-                }
+                if (_vb != null) _vb.Dispose();
+                if (_ib != null) _ib.Dispose();
             }
             finally
             {
-                base.Dispose(disposing);
+                base.OnDispose();
             }
         }
         #endregion

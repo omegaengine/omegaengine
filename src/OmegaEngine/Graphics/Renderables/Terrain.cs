@@ -85,17 +85,13 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Internal helper constructor
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to create the terrain in</param>
         /// <param name="mesh">The mesh use for rendering</param>
         /// <param name="material">The material to use for rendering the terrain</param>
         /// <param name="lighting">Use/support lighting when rendering this terrain?</param>
-        protected Terrain(Engine engine, Mesh mesh, XMaterial material, bool lighting) : base(engine, mesh, material)
+        protected Terrain(Mesh mesh, XMaterial material, bool lighting) : base(mesh, material)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (mesh == null) throw new ArgumentNullException("mesh");
-            if (TerrainShader.MinShaderModel > engine.Capabilities.MaxShaderModel)
-                throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 
             SurfaceEffect = SurfaceEffect.Shader;
@@ -161,14 +157,18 @@ namespace OmegaEngine.Graphics.Renderables
             if (textures == null) throw new ArgumentNullException("textures");
             #endregion
 
+            if (TerrainShader.MinShaderModel > engine.Capabilities.MaxShaderModel)
+                throw new NotSupportedException(Resources.NotSupportedShader);
+
             // Generate mesh with subsets and bounding bodies
             BoundingBox[] subsetBoundingBoxes;
             SurfaceShader[] subsetShaders;
-            var terrain = new Terrain(engine,
+            var terrain = new Terrain(
                 BuildMesh(engine, size, stretchH, stretchV, heightMap, lightRiseAngleMap, lightSetAngleMap, textureMap, lighting, blockSize, out subsetShaders, out subsetBoundingBoxes),
                 BuildMaterial(engine, textures),
                 lighting)
             {
+                Engine = engine,
                 // Set properties here to keep contructor nice and simple
                 Size = size, StretchH = stretchH, StretchV = stretchV,
                 _blockSize = blockSize,

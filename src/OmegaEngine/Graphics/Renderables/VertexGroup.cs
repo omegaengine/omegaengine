@@ -24,7 +24,7 @@ namespace OmegaEngine.Graphics.Renderables
     public class VertexGroup : PositionableRenderable
     {
         #region Variables
-        private readonly VertexBuffer _vb;
+        private VertexBuffer _vb;
         private readonly int _vertexCount;
 
         private IndexBuffer _ib;
@@ -39,20 +39,17 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new colored vertex group
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="primitiveType">The type of primitives to generate from the vertexes</param>
         /// <param name="vertexes">An array for vertexes with position and color information</param>
         /// <param name="indexes">An array of indexes for the index buffer; <see langword="null"/> for no indexes</param>
-        public VertexGroup(Engine engine, PrimitiveType primitiveType, PositionColored[] vertexes,
-            short[] indexes) : base(engine)
+        public VertexGroup(PrimitiveType primitiveType, PositionColored[] vertexes, short[] indexes = null)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (vertexes == null) throw new ArgumentNullException("vertexes");
             #endregion
 
             _vertexCount = vertexes.Length;
-            _vb = BufferHelper.CreateVertexBuffer(engine.Device, vertexes, PositionColored.Format);
+            _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionColored.Format);
 
             _primitiveType = primitiveType;
             Initialize(indexes);
@@ -63,20 +60,17 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new colored vertex group
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="primitiveType">The type of primitives to generate from the vertexes</param>
         /// <param name="vertexes">An array for vertexes with position and color information</param>
         /// <param name="indexes">An array of indexes for the index buffer; <see langword="null"/> for no indexes</param>
-        public VertexGroup(Engine engine, PrimitiveType primitiveType, PositionNormalColored[] vertexes,
-            short[] indexes) : base(engine)
+        public VertexGroup(PrimitiveType primitiveType, PositionNormalColored[] vertexes, short[] indexes = null)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (vertexes == null) throw new ArgumentNullException("vertexes");
             #endregion
 
             _vertexCount = vertexes.Length;
-            _vb = BufferHelper.CreateVertexBuffer(engine.Device, vertexes, PositionNormalColored.Format);
+            _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionNormalColored.Format);
 
             _primitiveType = primitiveType;
             Initialize(indexes);
@@ -87,21 +81,19 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new textured vertex group
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="primitiveType">The type of primitives to generate from the vertexes</param>
         /// <param name="vertexes">An array for vertexes with position and texture information</param>
         /// <param name="indexes">An array of indexes for the index buffer; <see langword="null"/> for no indexes</param>
         /// <param name="material">The material to use for rendering</param>
-        public VertexGroup(Engine engine, PrimitiveType primitiveType, PositionTextured[] vertexes,
-            short[] indexes, XMaterial material) : base(engine)
+        public VertexGroup(PrimitiveType primitiveType, PositionTextured[] vertexes,
+            short[] indexes, XMaterial material)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (vertexes == null) throw new ArgumentNullException("vertexes");
             #endregion
 
             _vertexCount = vertexes.Length;
-            _vb = BufferHelper.CreateVertexBuffer(engine.Device, vertexes, PositionTextured.Format);
+            _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionTextured.Format);
 
             _primitiveType = primitiveType;
             Initialize(indexes);
@@ -115,21 +107,19 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new textured vertex group
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="primitiveType">The type of primitives to generate from the vertexes</param>
         /// <param name="vertexes">An array for vertexes with position and texture information</param>
         /// <param name="indexes">An array of indexes for the index buffer; <see langword="null"/> for no indexes</param>
         /// <param name="material">The material to use for rendering</param>
-        public VertexGroup(Engine engine, PrimitiveType primitiveType, PositionNormalTextured[] vertexes,
-            short[] indexes, XMaterial material) : base(engine)
+        public VertexGroup(PrimitiveType primitiveType, PositionNormalTextured[] vertexes,
+            short[] indexes, XMaterial material)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (vertexes == null) throw new ArgumentNullException("vertexes");
             #endregion
 
             _vertexCount = vertexes.Length;
-            _vb = BufferHelper.CreateVertexBuffer(engine.Device, vertexes, PositionNormalTextured.Format);
+            _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionNormalTextured.Format);
 
             _primitiveType = primitiveType;
             Initialize(indexes);
@@ -222,8 +212,7 @@ namespace OmegaEngine.Graphics.Renderables
             if (vertexes == null) throw new ArgumentNullException("vertexes");
             #endregion
 
-            return new VertexGroup(engine, primitiveType, vertexes, indexes,
-                new XMaterial(XTexture.Get(engine, id)));
+            return new VertexGroup(primitiveType, vertexes, indexes, new XMaterial(XTexture.Get(engine, id))) {Engine = engine};
         }
         #endregion
 
@@ -250,7 +239,7 @@ namespace OmegaEngine.Graphics.Renderables
                 new PositionNormalTextured(new Vector3(size * 0.5f, size * -0.5f, 0), normalVector, 1, 1)
             };
 
-            return new VertexGroup(engine, PrimitiveType.TriangleStrip, vertexes, null, new XMaterial(texture));
+            return new VertexGroup(PrimitiveType.TriangleStrip, vertexes, null, new XMaterial(texture)) {Engine = engine};
         }
         #endregion
 
@@ -292,26 +281,33 @@ namespace OmegaEngine.Graphics.Renderables
 
         //--------------------//
 
-        #region Dispose
-        protected override void Dispose(bool disposing)
-        {
-            if (Disposed || Engine == null || Engine.Disposed) return; // Don't try to dispose more than once
+        #region Engine
+        /// <summary>
+        /// A callback used by different constructors to build the <see cref="_vb"/> as soon as <see cref="EngineElement.Engine"/> is set.
+        /// </summary>
+        private readonly Func<VertexBuffer> _buildVertexBuffer;
 
+        protected override void OnEngineSet()
+        {
+            base.OnEngineSet();
+            _vb = _buildVertexBuffer();
+        }
+        #endregion
+
+        #region Dispose
+        /// <inheritdoc/>
+        protected override void OnDispose()
+        {
             try
             {
-                if (disposing)
-                { // This block will only be executed on manual disposal, not by Garbage Collection
-                    if (_vb != null) _vb.Dispose();
-                    if (_ib != null) _ib.Dispose();
+                if (_vb != null) _vb.Dispose();
+                if (_ib != null) _ib.Dispose();
 
-                    // ReSharper disable ImpureMethodCallOnReadonlyValueField
-                    _material.HoldReference();
-                    // ReSharper restore ImpureMethodCallOnReadonlyValueField
-                }
+                _material.HoldReference();
             }
             finally
             {
-                base.Dispose(disposing);
+                base.OnDispose();
             }
         }
         #endregion

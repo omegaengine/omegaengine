@@ -43,9 +43,8 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new animated model based upon a cached animated mesh, using its internal material data if available
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="mesh">The animated mesh to use for rendering</param>
-        public AnimatedModel(Engine engine, XAnimatedMesh mesh) : base(engine)
+        public AnimatedModel(XAnimatedMesh mesh)
         {
             #region Sanity checks
             if (mesh == null) throw new ArgumentNullException("mesh");
@@ -83,7 +82,7 @@ namespace OmegaEngine.Graphics.Renderables
             if (string.IsNullOrEmpty(id)) throw new ArgumentNullException("id");
             #endregion
 
-            return new AnimatedModel(engine, XAnimatedMesh.Get(engine, id));
+            return new AnimatedModel(XAnimatedMesh.Get(engine, id)) {Engine = engine};
         }
         #endregion
 
@@ -103,24 +102,20 @@ namespace OmegaEngine.Graphics.Renderables
         //--------------------//
 
         #region Dispose
-        protected override void Dispose(bool disposing)
+        /// <inheritdoc/>
+        protected override void OnDispose()
         {
-            if (Disposed || Engine == null || Engine.Disposed) return; // Don't try to dispose more than once
-
             try
             {
-                if (disposing)
-                { // This block will only be executed on manual disposal, not by Garbage Collection
-                    if (_asset != null)
-                    {
-                        _asset.ReleaseReference();
-                        _asset = null;
-                    }
+                if (_asset != null)
+                {
+                    _asset.ReleaseReference();
+                    _asset = null;
                 }
             }
             finally
             {
-                base.Dispose(disposing);
+                base.OnDispose();
             }
         }
         #endregion

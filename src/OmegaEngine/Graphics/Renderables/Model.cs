@@ -50,7 +50,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>True if the <see cref="Mesh"/> is created or owned by this class and therefore should also be disposed by it.</summary>
         private readonly bool _ownMesh;
 
-        /// <summary>True if the <see cref="Materials"/> are not owned by <see cref="_asset"/> and therefor need to be released on <see cref="Dispose"/>.</summary>
+        /// <summary>True if the <see cref="Materials"/> are not owned by <see cref="_asset"/> and therefor need to be released by <see cref="OnDispose"/>.</summary>
         private readonly bool _separateMaterials;
         #endregion
 
@@ -74,14 +74,11 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new model based upon a <see cref="XMesh"/>, using its internal material data if available.
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="mesh">The <see cref="XMesh"/> providing the mesh data.</param>
-        /// <remarks>Calling <see cref="Dispose"/> will not dispose the <paramref name="mesh"/>. This is handled by the <see cref="CacheManager"/>.</remarks>
-        /// <remarks>Calling <see cref="Dispose"/> will call <see cref="IReferenceCount.ReleaseReference"/> on <paramref name="mesh"/>.</remarks>
-        public Model(Engine engine, XMesh mesh) : base(engine)
+        /// <remarks>Calling <see cref="IDisposable.Dispose"/> will not dispose the <paramref name="mesh"/>. This is handled by the <see cref="CacheManager"/>.</remarks>
+        public Model(XMesh mesh)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (mesh == null) throw new ArgumentNullException("mesh");
             #endregion
 
@@ -105,14 +102,12 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new model based upon a <see cref="XMesh"/>, using an external texture and a plain white material.
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="mesh">The <see cref="XMesh"/> providing the mesh data.</param>
         /// <param name="materials">The materials to use for rendering the model.</param>
-        /// <remarks>Calling <see cref="Dispose"/> will call <see cref="IReferenceCount.ReleaseReference"/> on <paramref name="mesh"/> and <paramref name="materials"/>.</remarks>
-        public Model(Engine engine, XMesh mesh, params XMaterial[] materials) : base(engine)
+        /// <remarks>Calling <see cref="IDisposable.Dispose"/> will call <see cref="IReferenceCount.ReleaseReference"/> on <paramref name="mesh"/> and <paramref name="materials"/>.</remarks>
+        public Model(XMesh mesh, params XMaterial[] materials)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (mesh == null) throw new ArgumentNullException("mesh");
             #endregion
 
@@ -138,14 +133,12 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new model based upon a custom mesh.
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="mesh">The mesh to render. Normals should be calculated before-hand if they will be used (e.g. by <see cref="SurfaceShader"/>s).</param>
         /// <param name="materials">The materials to use for rendering the model.</param>
-        /// <remarks>Calling <see cref="Dispose"/> will call <see cref="IDisposable.Dispose"/> on <paramref name="mesh"/> and <see cref="IReferenceCount.ReleaseReference"/> on <paramref name="materials"/>.</remarks>
-        public Model(Engine engine, Mesh mesh, params XMaterial[] materials) : base(engine)
+        /// <remarks>Calling <see cref="IDisposable.Dispose"/> will call <see cref="IDisposable.Dispose"/> on <paramref name="mesh"/> and <see cref="IReferenceCount.ReleaseReference"/> on <paramref name="materials"/>.</remarks>
+        public Model(Mesh mesh, params XMaterial[] materials)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (mesh == null) throw new ArgumentNullException("mesh");
             #endregion
 
@@ -181,7 +174,7 @@ namespace OmegaEngine.Graphics.Renderables
             if (string.IsNullOrEmpty(id)) throw new ArgumentNullException("id");
             #endregion
 
-            return new Model(engine, XMesh.Get(engine, id));
+            return new Model(XMesh.Get(engine, id)) {Engine = engine};
         }
         #endregion
 
@@ -240,29 +233,25 @@ namespace OmegaEngine.Graphics.Renderables
         //--------------------//
 
         #region Dispose
-        protected override void Dispose(bool disposing)
+        /// <inheritdoc/>
+        protected override void OnDispose()
         {
-            if (Disposed || Engine == null || Engine.Disposed) return; // Don't try to dispose more than once
-
             try
             {
-                if (disposing)
-                { // This block will only be executed on manual disposal, not by Garbage Collection
-                    if (_ownMesh && Mesh != null) Mesh.Dispose();
+                if (_ownMesh && Mesh != null) Mesh.Dispose();
 
-                    if (_asset != null)
-                    {
-                        _asset.ReleaseReference();
-                        _asset = null;
-                    }
-
-                    if (_separateMaterials)
-                        foreach (var material in Materials) material.ReleaseReference();
+                if (_asset != null)
+                {
+                    _asset.ReleaseReference();
+                    _asset = null;
                 }
+
+                if (_separateMaterials)
+                    foreach (var material in Materials) material.ReleaseReference();
             }
             finally
             {
-                base.Dispose(disposing);
+                base.OnDispose();
             }
         }
         #endregion

@@ -8,10 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Common;
 using Common.Collections;
 using Common.Values;
 using OmegaEngine.Graphics.Cameras;
@@ -40,15 +37,12 @@ namespace OmegaEngine.Graphics
     /// </summary>
     /// <remarks>Multiple <see cref="View"/>s can share one <see cref="Scene"/>.</remarks>
     /// <seealso cref="View.Scene"/>
-    public sealed class Scene : IDisposable
+    public sealed class Scene : EngineElement
     {
         #region Variables
-        private readonly Engine _engine;
-
         /// <summary>Number of fixed-function light sources used so far</summary>
         private int _dxLightCounter;
 
-        #region Cache lists
         // Note: Using Lists here, because the size of the internal arrays will auto-optimize after a few frames
 
         /// <summary>
@@ -80,22 +74,13 @@ namespace OmegaEngine.Graphics
         private readonly List<PointLight> _pointLights = new List<PointLight>();
         #endregion
 
-        #endregion
-
         #region Properties
-        /// <summary>
-        /// Has this scene been disposed?
-        /// </summary>
-        [Browsable(false)]
-        public bool Disposed { get; private set; }
-
         // Order is not important, duplicate entries are not allowed
         private readonly C5.ICollection<PositionableRenderable> _positionables = new C5.HashSet<PositionableRenderable>();
 
         /// <summary>
         /// All <see cref="PositionableRenderable"/>s contained within this scene.
         /// </summary>
-        /// <remarks>All contained elements will automatically be disposed when <see cref="Dispose"/> is called.</remarks>
         public ICollection<PositionableRenderable> Positionables { get { return _positionables; } }
 
         /// <summary>
@@ -110,17 +95,6 @@ namespace OmegaEngine.Graphics
         /// All light sources affecting the entities in this scene
         /// </summary>
         public ICollection<LightSource> Lights { get { return _lights; } }
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Creates a new scene for the engine
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to render the scene with</param>
-        public Scene(Engine engine)
-        {
-            _engine = engine;
-        }
         #endregion
 
         //--------------------//
@@ -168,14 +142,12 @@ namespace OmegaEngine.Graphics
                 },
             };
 
-            foreach (var light in _lights.Where(light => light.Enabled))
+            foreach (var dxLight in _lights.Where(light => light.Enabled).Select(dispatcher.Dispatch))
             {
-                var dxLight = dispatcher.Dispatch(light);
-
-                if (_dxLightCounter < _engine.Device.Capabilities.MaxActiveLights)
+                if (_dxLightCounter < Engine.Device.Capabilities.MaxActiveLights)
                 {
-                    _engine.Device.SetLight(_dxLightCounter, dxLight);
-                    _engine.Device.EnableLight(_dxLightCounter, true);
+                    Engine.Device.SetLight(_dxLightCounter, dxLight);
+                    Engine.Device.EnableLight(_dxLightCounter, true);
                     _dxLightCounter++;
                 }
             }
@@ -193,7 +165,7 @@ namespace OmegaEngine.Graphics
 
             #region Fixed-function lighting
             for (int i = 0; i < _dxLightCounter; i++)
-                _engine.Device.EnableLight(i, false);
+                Engine.Device.EnableLight(i, false);
 
             _dxLightCounter = 0;
             #endregion
@@ -238,30 +210,11 @@ namespace OmegaEngine.Graphics
         //--------------------//
 
         #region Dispose
-        /// <summary>
-        /// Disposes <see cref="Positionables"/> and <see cref="Skybox"/>
-        /// </summary>
-        public void Dispose()
+        /// <inheritdoc/>
+        protected override void OnDispose()
         {
-            if (Disposed || _engine == null || _engine.Disposed) return; // Don't try to dispose more than once
-
-            Log.Info("Disposing scene");
             _positionables.Apply(body => body.Dispose());
             if (Skybox != null) Skybox.Dispose();
-
-            Disposed = true;
-            GC.SuppressFinalize(this);
-        }
-
-        /// <inheritdoc/>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
-        ~Scene()
-        {
-            // This block will only be executed on Garbage Collection, not by manual disposal
-            Log.Error("Forgot to call Dispose on " + this);
-#if DEBUG
-            throw new InvalidOperationException("Forgot to call Dispose on " + this);
-#endif
         }
         #endregion
     }

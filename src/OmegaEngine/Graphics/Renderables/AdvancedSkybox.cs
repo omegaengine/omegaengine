@@ -32,13 +32,11 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new skybox using texture-files
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="textures">An array of the 6 textures to be uses (front, right, back, left, top, bottom)</param>
         /// <exception cref="ArgumentException">Thrown if there are not exactly 6 textures</exception>
-        protected AdvancedSkybox(Engine engine, ITextureProvider[] textures) : base(engine, textures)
+        protected AdvancedSkybox(ITextureProvider[] textures) : base(textures)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (textures == null) throw new ArgumentNullException("textures");
             if (textures.Length != 6)
                 throw new ArgumentException(string.Format(Resources.WrongTexArrayLength, "6"), "textures");
@@ -76,7 +74,7 @@ namespace OmegaEngine.Graphics.Renderables
                 XTexture.Get(engine, rt), XTexture.Get(engine, lf), XTexture.Get(engine, up),
                 XTexture.Get(engine, dn), XTexture.Get(engine, ft), XTexture.Get(engine, bk)
             };
-            return new AdvancedSkybox(engine, textures);
+            return new AdvancedSkybox(textures) {Engine = engine};
         }
         #endregion
 
@@ -105,27 +103,6 @@ namespace OmegaEngine.Graphics.Renderables
         {
             // ToDo: Implement
             throw new NotImplementedException();
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Dispose
-        protected override void Dispose(bool disposing)
-        {
-            if (Disposed || Engine == null || Engine.Disposed) return; // Don't try to dispose more than once
-
-            try
-            {
-                if (disposing)
-                { // This block will only be executed on manual disposal, not by Garbage Collection
-                    // ToDo: Implement
-                }
-            }
-            finally
-            {
-                base.Dispose(disposing);
-            }
         }
         #endregion
     }

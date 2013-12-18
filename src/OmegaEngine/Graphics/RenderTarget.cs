@@ -7,10 +7,7 @@
  */
 
 using System;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using Common;
 using Common.Collections;
 using Common.Utils;
 using SlimDX.Direct3D9;
@@ -22,10 +19,9 @@ namespace OmegaEngine.Graphics
     /// </summary>
     /// <remarks>Lost devices are automatically handled.</remarks>
     /// <seealso cref="TextureView.GetRenderTarget"/>
-    public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<RenderTarget>
+    public sealed class RenderTarget : EngineElement, ITextureProvider, IPoolable<RenderTarget>
     {
         #region Variables
-        private readonly Engine _engine;
         private RenderToSurface _rtsHelper;
         private Size _rtsHelperSize;
         #endregion
@@ -40,12 +36,6 @@ namespace OmegaEngine.Graphics
         /// The texture containing the rendered content.
         /// </summary>
         public Texture Texture { get; private set; }
-
-        /// <summary>
-        /// Was this object already disposed?
-        /// </summary>
-        [Browsable(false)]
-        public bool Disposed { get; private set; }
 
         /// <summary>
         /// A reference to the next element in the <see cref="Pool{T}"/> chain.
@@ -77,27 +67,17 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// Creates a new render target texture wrapper
         /// </summary>
-        /// <param name="engine">The <see cref="OmegaEngine.Engine"/> to store the texture in</param>
         /// <param name="size">The size of the texture - leave empty for fullscreen</param>
-        public RenderTarget(Engine engine, Size size)
+        public RenderTarget(Size size)
         {
-            if (engine == null) throw new ArgumentNullException("engine");
-
-            _engine = engine;
             Size = size;
-
-            // Hook device events
-            engine.DeviceLost += OnLostDevice;
-            engine.DeviceReset += Initialize;
-
-            Initialize();
         }
         #endregion
 
         #region Device Lost
         private void OnLostDevice()
         {
-            if (!_engine.Disposed)
+            if (!Engine.Disposed)
             {
                 Texture.Dispose();
                 Surface.Dispose();
@@ -109,10 +89,10 @@ namespace OmegaEngine.Graphics
         #region Initialize
         private void Initialize()
         {
-            if (!_engine.Disposed)
+            if (!Engine.Disposed)
             {
                 // Use the engine's default viewport if selected
-                Viewport = (Size == Size.Empty) ? _engine.RenderViewport : new Viewport {Width = Size.Width, Height = Size.Height, MaxZ = 1};
+                Viewport = (Size == Size.Empty) ? Engine.RenderViewport : new Viewport {Width = Size.Width, Height = Size.Height, MaxZ = 1};
 
                 // Dispose the _rtsHelper if it already exists but the size has changed
                 new Size(Viewport.Width, Viewport.Height).To(ref _rtsHelperSize, delegate
@@ -128,8 +108,8 @@ namespace OmegaEngine.Graphics
                 if (_rtsHelper != null) _rtsHelper.OnResetDevice();
 
                 // Create the target texture and surface
-                Texture = new Texture(_engine.Device, Viewport.Width, Viewport.Height, 1,
-                    Usage.RenderTarget, _engine.PresentParams.BackBufferFormat, Pool.Default);
+                Texture = new Texture(Engine.Device, Viewport.Width, Viewport.Height, 1,
+                    Usage.RenderTarget, Engine.PresentParams.BackBufferFormat, Pool.Default);
                 Surface = Texture.GetSurfaceLevel(0);
             }
         }
@@ -152,8 +132,8 @@ namespace OmegaEngine.Graphics
             // Don't initialise this earlier, would cause trouble with resetting the device
             if (_rtsHelper == null)
             {
-                _rtsHelper = new RenderToSurface(_engine.Device, _rtsHelperSize.Width, _rtsHelperSize.Height,
-                    _engine.PresentParams.BackBufferFormat, _engine.PresentParams.AutoDepthStencilFormat);
+                _rtsHelper = new RenderToSurface(Engine.Device, _rtsHelperSize.Width, _rtsHelperSize.Height,
+                    Engine.PresentParams.BackBufferFormat, Engine.PresentParams.AutoDepthStencilFormat);
             }
 
             using (new ProfilerEvent("Rendering to texture"))
@@ -183,51 +163,31 @@ namespace OmegaEngine.Graphics
 
         //--------------------//
 
-        #region Dispose
-        /// <summary>
-        /// Disposes the <see cref="Texture"/> this object wraps
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
+        #region Engine
         /// <inheritdoc/>
-        ~RenderTarget()
+        protected override void OnEngineSet()
         {
-            Dispose(false);
+            base.OnEngineSet();
+
+            // Hook device events
+            Engine.DeviceLost += OnLostDevice;
+            Engine.DeviceReset += Initialize;
+
+            Initialize();
         }
+        #endregion
 
-        /// <summary>
-        /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
-        /// </summary>
-        /// <param name="disposing"><see langword="true"/> if called manually and not by the garbage collector.</param>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
-        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_rtsHelper", Justification = "_rtsHelper is queued for disposal at the end of the frame")]
-        private void Dispose(bool disposing)
+        #region Dispose
+        /// <inheritdoc/>
+        protected override void OnDispose()
         {
-            if (Disposed || Texture == null || _engine == null || _engine.Disposed) return; // Don't try to dispose more than once
-
             // Unhook device events
-            _engine.DeviceLost -= OnLostDevice;
-            _engine.DeviceReset -= Initialize;
+            Engine.DeviceLost -= OnLostDevice;
+            Engine.DeviceReset -= Initialize;
 
-            if (disposing)
-            { // This block will only be executed on manual disposal, not by Garbage Collection
-                if (_rtsHelper != null) _rtsHelper.Dispose();
-                if (Surface != null) Surface.Dispose();
-                Texture.Dispose();
-            }
-            else
-            { // This block will only be executed on Garbage Collection, not by manual disposal
-                Log.Error("Forgot to call Dispose on " + this);
-#if DEBUG
-                throw new InvalidOperationException("Forgot to call Dispose on " + this);
-#endif
-            }
-
-            Disposed = true;
+            if (_rtsHelper != null) _rtsHelper.Dispose();
+            if (Surface != null) Surface.Dispose();
+            Texture.Dispose();
         }
         #endregion
     }

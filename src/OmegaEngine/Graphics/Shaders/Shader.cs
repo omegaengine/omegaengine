@@ -25,15 +25,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using Common;
 using Common.Collections;
 using Common.Utils;
+using OmegaEngine.Properties;
 using SlimDX.Direct3D9;
-using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders
 {
@@ -119,14 +118,9 @@ namespace OmegaEngine.Graphics.Shaders
     /// <summary>
     /// Provides access to the properties of shader-programm executing on the GPU.
     /// </summary>
-    public abstract class Shader : IDisposable
+    public abstract class Shader : EngineElement
     {
         #region Variables
-        /// <summary>
-        /// The <see cref="OmegaEngine.Engine"/> reference to use for rendering operations
-        /// </summary>
-        protected readonly Engine Engine;
-
         /// <summary>The type of shader the SAS scripts were written for</summary>
         protected ScriptEffectType ScriptType;
 
@@ -156,11 +150,6 @@ namespace OmegaEngine.Graphics.Shaders
         /// </summary>
         [Browsable(false)]
         public Effect Effect { get; private set; }
-
-        /// <summary>
-        /// Has this object been disposed?
-        /// </summary>
-        public bool Disposed { get; private set; }
 
         public override string ToString()
         {
@@ -603,7 +592,7 @@ namespace OmegaEngine.Graphics.Shaders
                                     // Create new RenderTargets if necessary
                                     if (_activeRenderTarget == null)
                                     {
-                                        _activeRenderTarget = new RenderTarget(Engine, sceneSize);
+                                        _activeRenderTarget = new RenderTarget(sceneSize) {Engine = Engine};
                                         _usedRenderTargets.Add(_activeRenderTarget);
                                     }
                                     Effect.SetTexture(renderColorTarget.TextureHandle, _activeRenderTarget);
@@ -700,54 +689,21 @@ namespace OmegaEngine.Graphics.Shaders
         //--------------------//
 
         #region Dispose
-        /// <summary>
-        /// Disposes the internal DirectX resources of this shader
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
         /// <inheritdoc/>
-        ~Shader()
+        protected override void OnDispose()
         {
-            Dispose(false);
-        }
-
-        /// <summary>
-        /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
-        /// </summary>
-        /// <param name="disposing"><see langword="true"/> if called manually and not by the garbage collector.</param>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
-        protected virtual void Dispose(bool disposing)
-        {
-            if (Disposed || Engine == null || Engine.Disposed || Effect == null) return; // Don't try to dispose more than once
-
             // Unhook device events
             Engine.DeviceLost -= OnLostDevice;
             Engine.DeviceReset -= OnResetDevice;
 
-            if (disposing)
-            { // This block will only be executed on manual disposal, not by Garbage Collection
-                if (!Engine.Disposed)
-                {
-                    if (_activeRenderTarget != null) _activeRenderTarget.Dispose();
-                    _availableRenderTargets.ForEach(target => target.Dispose());
-                    _usedRenderTargets.ForEach(target => target.Dispose());
+            if (!Engine.Disposed)
+            {
+                if (_activeRenderTarget != null) _activeRenderTarget.Dispose();
+                _availableRenderTargets.ForEach(target => target.Dispose());
+                _usedRenderTargets.ForEach(target => target.Dispose());
 
-                    Effect.Dispose();
-                }
+                Effect.Dispose();
             }
-            else
-            { // This block will only be executed on Garbage Collection, not by manual disposal
-                Log.Error("Forgot to call Dispose on " + this);
-#if DEBUG
-                throw new InvalidOperationException("Forgot to call Dispose on " + this);
-#endif
-            }
-
-            Disposed = true;
         }
         #endregion
     }

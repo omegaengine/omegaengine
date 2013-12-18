@@ -28,9 +28,8 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new floating model based upon a cached mesh, using its internal material data if available
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="mesh">The mesh to use for rendering</param>
-        public FloatingModel(Engine engine, XMesh mesh) : base(engine, mesh)
+        public FloatingModel(XMesh mesh) : base(mesh)
         {}
         #endregion
 
@@ -38,11 +37,10 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new floating model based upon a cached mesh, using an external texture and a white material
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="mesh">The mesh use for rendering</param>
         /// <param name="materials">The materials to use for rendering the mesh</param>
-        public FloatingModel(Engine engine, XMesh mesh, params XMaterial[] materials)
-            : base(engine, mesh, materials)
+        public FloatingModel(XMesh mesh, params XMaterial[] materials)
+            : base(mesh, materials)
         {}
         #endregion
 
@@ -51,11 +49,10 @@ namespace OmegaEngine.Graphics.Renderables
         /// Creates a new floating model based upon a custom mesh. Normals should be already calculated if they are required.
         /// Warning: The custom mesh and materials will be automatically disposed!
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="mesh">The mesh use for rendering</param>
         /// <param name="materials">The materials to use for rendering the mesh</param>
-        public FloatingModel(Engine engine, Mesh mesh, params XMaterial[] materials)
-            : base(engine, mesh, materials)
+        public FloatingModel(Mesh mesh, params XMaterial[] materials)
+            : base( mesh, materials)
         {}
         #endregion
 
@@ -78,7 +75,7 @@ namespace OmegaEngine.Graphics.Renderables
             if (string.IsNullOrEmpty(id)) throw new ArgumentNullException("id");
             #endregion
 
-            return new FloatingModel(engine, XMesh.Get(engine, id));
+            return new FloatingModel(XMesh.Get(engine, id)) {Engine = engine};
         }
         #endregion
 

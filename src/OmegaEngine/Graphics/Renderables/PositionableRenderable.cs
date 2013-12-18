@@ -87,11 +87,13 @@ namespace OmegaEngine.Graphics.Renderables
         #region Properties
 
         #region Flags
+        private bool _pickable = true;
+
         /// <summary>
         /// Shall this <see cref="PositionableRenderable"/> be pickable with the mouse?
         /// </summary>
         [DefaultValue(true), Description("Shall this body be pickable with the mouse?"), Category("Behavior")]
-        public bool Pickable { get; set; }
+        public bool Pickable { get { return _pickable; } set { _pickable = value; } }
 
         /// <summary>
         /// In what kind of <see cref="View"/>s shall this body be rendered?
@@ -306,29 +308,12 @@ namespace OmegaEngine.Graphics.Renderables
 
         // Order is not important, duplicate entries are not allowed
         private readonly C5.ICollection<View> _requiredViews = new C5.HashSet<View>();
-
+        
         /// <summary>
         /// A list of <see cref="View"/>s that must be rendered before this <see cref="PositionableRenderable"/> can be rendered
         /// </summary>
         [Browsable(false)]
         public ICollection<View> RequiredViews { get { return _requiredViews; } }
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Creates a rendering body
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
-        protected PositionableRenderable(Engine engine) : base(engine)
-        {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            #endregion
-
-            Pickable = true;
-            // Set default surface shader
-            SurfaceShader = engine.DefaultShader;
-        }
         #endregion
 
         //--------------------//
@@ -571,6 +556,17 @@ namespace OmegaEngine.Graphics.Renderables
             if (WorldBoundingBox.HasValue && !SlimDX.BoundingBox.Intersects(WorldBoundingBox.Value, ray, out distance))
                 return false;
             return true;
+        }
+        #endregion
+
+        //--------------------//
+
+        #region Engine
+        /// <inheritdoc/>
+        protected override void OnEngineSet()
+        {
+            base.OnEngineSet();
+            SurfaceShader = Engine.DefaultShader;
         }
         #endregion
     }

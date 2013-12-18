@@ -8,10 +8,7 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using Common;
 using SlimDX.Direct3D9;
-using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 
 namespace OmegaEngine.Graphics.Renderables
@@ -19,17 +16,11 @@ namespace OmegaEngine.Graphics.Renderables
     /// <summary>
     /// An object that can be <see cref="Render"/>ed by the <see cref="Engine"/>.
     /// </summary>
-    public abstract class Renderable : IDisposable, IResetable
+    public abstract class Renderable : EngineElement, IResetable
     {
         #region Variables
-        /// <summary>
-        /// The <see cref="Engine"/> reference to use for rendering operations
-        /// </summary>
-        protected readonly Engine Engine;
-
-        #region PreRender
         private bool _preRenderDone;
-
+        
         /// <summary>
         /// Occurs once per frame before rendering the entity.
         /// Will not be executed if the entity is excluded by a culling test.
@@ -45,8 +36,6 @@ namespace OmegaEngine.Graphics.Renderables
                 _preRenderDone = true;
             }
         }
-        #endregion
-
         #endregion
 
         #region Properties
@@ -80,11 +69,12 @@ namespace OmegaEngine.Graphics.Renderables
         [Browsable(false)]
         public bool Disposed { get; private set; }
 
+        private bool _visible = true;
         /// <summary>
         /// Shall the entity be rendered?
         /// </summary>
         [DefaultValue(true), Description("Shall the entity be rendered?"), Category("Appearance")]
-        public bool Visible { get; set; }
+        public bool Visible { get { return _visible; } set { _visible = value; } }
 
         /// <summary>
         /// Shall this entity be drawn in wireframe-mode? (used for debugging)
@@ -106,22 +96,6 @@ namespace OmegaEngine.Graphics.Renderables
         public int Alpha { get; set; }
         #endregion
 
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Creates a rendering entity
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
-        protected Renderable(Engine engine)
-        {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            #endregion
-
-            Visible = true;
-            Engine = engine;
-        }
         #endregion
 
         //--------------------//
@@ -164,43 +138,6 @@ namespace OmegaEngine.Graphics.Renderables
         internal virtual void Render(Camera camera, GetLights lights)
         {
             PrepareRender();
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Dispose
-        /// <summary>
-        /// Disposes any local unmanaged resources and releases any <see cref="Asset"/>s used.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <inheritdoc/>
-        ~Renderable()
-        {
-            Dispose(false);
-        }
-
-        /// <summary>
-        /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
-        /// </summary>
-        /// <param name="disposing"><see langword="true"/> if called manually and not by the garbage collector.</param>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposing)
-            { // This block will only be executed on Garbage Collection, not by manual disposal
-                Log.Error("Forgot to call Dispose on " + this);
-#if DEBUG
-                throw new InvalidOperationException("Forgot to call Dispose on " + this);
-#endif
-            }
-
-            Disposed = true;
         }
         #endregion
     }

@@ -184,7 +184,7 @@ namespace OmegaEngine.Graphics
             if (RenderTarget != null) return;
 
             using (new ProfilerEvent("Prepare render target texture"))
-                RenderTarget = new RenderTarget(Engine, _area.Size);
+                RenderTarget = new RenderTarget(_area.Size) {Engine = Engine};
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace OmegaEngine.Graphics
             if (_secondaryRenderTarget == null)
             {
                 using (new ProfilerEvent("Prepare secondary render target texture"))
-                    _secondaryRenderTarget = new RenderTarget(Engine, _area.Size);
+                    _secondaryRenderTarget = new RenderTarget(_area.Size) {Engine = Engine};
             }
 
             // Swap the render targets

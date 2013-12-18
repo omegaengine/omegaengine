@@ -45,8 +45,9 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="size">The size of the water plane.</param>
-        public Water(Engine engine, SizeF size) : base(engine, BuildMesh(engine, size), XMaterial.DefaultMaterial)
+        public Water(Engine engine, SizeF size) : base(BuildMesh(engine, size), XMaterial.DefaultMaterial)
         {
+            Engine = engine;
             _size = size;
 
             RenderIn = ViewType.NormalOnly;
@@ -167,14 +168,11 @@ namespace OmegaEngine.Graphics.Renderables
         //--------------------//
 
         #region Dispose
-        protected override void Dispose(bool disposing)
+        /// <inheritdoc/>
+        protected override void OnDispose()
         {
-            if (Disposed || Engine == null || Engine.Disposed) return; // Don't try to dispose more than once
-
             try
             {
-                if (disposing)
-                { // This block will only be executed on manual disposal, not by Garbage Collection
                     if (_waterTexture != null) _waterTexture.ReleaseReference();
 
                     foreach (XMaterial material in Materials)
@@ -192,11 +190,10 @@ namespace OmegaEngine.Graphics.Renderables
                             Engine.WaterViewSources.Remove(_viewSource);
                         }
                     }
-                }
             }
             finally
             {
-                base.Dispose(disposing);
+                base.OnDispose();
             }
         }
         #endregion

@@ -127,11 +127,11 @@ namespace TerrainSample.Presentation
             // Restore previous camera position (or default to center of terrain)
             var mainCamera = CreateCamera(universe.Camera);
 
-            View = new View(engine, Scene, mainCamera) {Name = "Editor", BackgroundColor = universe.FogColor};
+            View = new View(Scene, mainCamera) {Engine = engine, Name = "Editor", BackgroundColor = universe.FogColor};
 
             // Floating axis-arrows for easier orientation
-            var axisArrows = new OmegaEngine.Graphics.Renderables.FloatingModel(engine, XMesh.Get(engine, "Engine/AxisArrows.x"))
-            {Name = "AxisArrows", Alpha = 160, Position = new DoubleVector3(-16, -12, 40), Rotation = Quaternion.RotationYawPitchRoll(0, 0, 0)};
+            var axisArrows = new OmegaEngine.Graphics.Renderables.FloatingModel(XMesh.Get(engine, "Engine/AxisArrows.x"))
+            {Engine = engine, Name = "AxisArrows", Alpha = 160, Position = new DoubleVector3(-16, -12, 40), Rotation = Quaternion.RotationYawPitchRoll(0, 0, 0)};
             axisArrows.SetScale(0.03f);
             View.FloatingModels.Add(axisArrows);
         }

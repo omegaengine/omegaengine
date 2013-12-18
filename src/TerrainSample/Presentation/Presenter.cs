@@ -172,7 +172,7 @@ namespace TerrainSample.Presentation
 
             Engine = engine;
             Universe = universe;
-            Scene = new Scene(engine);
+            Scene = new Scene {Engine = engine};
         }
         #endregion
 

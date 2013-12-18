@@ -9,10 +9,10 @@
 using System;
 using System.ComponentModel;
 using Common.Utils;
-using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
-using Resources = OmegaEngine.Properties.Resources;
+using OmegaEngine.Properties;
+using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Shaders
 {
@@ -184,24 +184,20 @@ namespace OmegaEngine.Graphics.Shaders
         //--------------------//
 
         #region Dispose
-        protected override void Dispose(bool disposing)
+        /// <inheritdoc/>
+        protected override void OnDispose()
         {
-            if (Disposed || Engine == null || Engine.Disposed) return; // Don't try to dispose more than once
-
             try
             {
-                if (disposing)
-                { // This block will only be executed on manual disposal, not by Garbage Collection
-                    if (ParticleTexture != null)
-                    {
-                        ParticleTexture.ReleaseReference();
-                        ParticleTexture = null;
-                    }
+                if (ParticleTexture != null)
+                {
+                    ParticleTexture.ReleaseReference();
+                    ParticleTexture = null;
                 }
             }
             finally
             {
-                base.Dispose(disposing);
+                base.OnDispose();
             }
         }
         #endregion

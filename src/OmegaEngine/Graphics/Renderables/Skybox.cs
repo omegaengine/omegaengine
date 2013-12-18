@@ -29,10 +29,9 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new skybox using texture-files
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="textures">An array of the 6 textures to be uses (right, left, top, bottom, front, back)</param>
         /// <exception cref="ArgumentException">Thrown if there are not exactly 6 textures</exception>
-        protected Skybox(Engine engine, ITextureProvider[] textures) : base(engine)
+        protected Skybox(ITextureProvider[] textures)
         {
             #region Sanity checks
             if (textures == null) throw new ArgumentNullException("textures");
@@ -65,28 +64,23 @@ namespace OmegaEngine.Graphics.Renderables
         //--------------------//
 
         #region Dispose
-        protected override void Dispose(bool disposing)
+        /// <inheritdoc/>
+        protected override void OnDispose()
         {
-            if (Disposed || Engine == null || Engine.Disposed) return; // Don't try to dispose more than once
-
             try
             {
-                if (disposing)
+                for (int i = 0; i < Textures.Length; i++)
                 {
-                    // This block will only be executed on manual disposal, not by Garbage Collection
-                    for (int i = 0; i < Textures.Length; i++)
+                    if (Textures[i] != null)
                     {
-                        if (Textures[i] != null)
-                        {
-                            Textures[i].ReleaseReference();
-                            Textures[i] = null;
-                        }
+                        Textures[i].ReleaseReference();
+                        Textures[i] = null;
                     }
                 }
             }
             finally
             {
-                base.Dispose(disposing);
+                base.OnDispose();
             }
         }
         #endregion

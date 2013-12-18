@@ -11,14 +11,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using Common.Collections;
-using Common.Utils;
 using Common.Storage;
+using Common.Utils;
 using Common.Values;
-using SlimDX;
-using SlimDX.Direct3D9;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.VertexDecl;
+using SlimDX;
+using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Renderables
 {
@@ -38,7 +38,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>The last <see cref="Camera"/> <see cref="Render"/> was called with</summary>
         private Camera _lastCamera;
 
-        private readonly VertexBuffer _vb;
+        private VertexBuffer _vb;
         private XMaterial _material1, _material2;
 
         private CpuParticlePreset _preset;
@@ -63,12 +63,10 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new particle system.
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
         /// <param name="preset">The initial configuration of the particle system.</param>
-        public CpuParticleSystem(Engine engine, CpuParticlePreset preset) : base(engine)
+        public CpuParticleSystem(CpuParticlePreset preset)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (preset == null) throw new ArgumentNullException("preset");
             #endregion
 
@@ -79,19 +77,10 @@ namespace OmegaEngine.Graphics.Renderables
             // Set the highest alpha blending value here to get correct sorting behaviour
             Alpha = preset.Particle1Alpha > preset.Particle2Alpha ? preset.Particle1Alpha : preset.Particle2Alpha;
 
-            // Create single vertex for all particles
-            var vertexes = new[]
-            {
-                new PositionTextured(new Vector3(-0.5f, 0.5f, 0), 0, 0),
-                new PositionTextured(new Vector3(0.5f, 0.5f, 0), 1, 0),
-                new PositionTextured(new Vector3(-0.5f, -0.5f, 0), 0, 1),
-                new PositionTextured(new Vector3(0.5f, -0.5f, 0), 1, 1)
-            };
-            _vb = BufferHelper.CreateVertexBuffer(engine.Device, vertexes, PositionTextured.Format);
-
             // Load textures for the first time
             UpdateSpriteTextures();
 
+            // ReSharper disable CompareOfFloatsByEqualityOperator
             // Calculate bounding sphere
             // If any of the four values is set to infinite...
             if (preset.LowerParameters1.LifeTime == CpuParticleParameters.InfiniteFlag || preset.UpperParameters1.LifeTime == CpuParticleParameters.InfiniteFlag ||
@@ -101,6 +90,8 @@ namespace OmegaEngine.Graphics.Renderables
 
                 BoundingSphere = new BoundingSphere(new Vector3(), maxDistance / 2);
             }
+            // ReSharper restore CompareOfFloatsByEqualityOperator
+
             else
             { // ... otherwise sum up the maximums
                 float maxLifeTime = preset.UpperParameters1.LifeTime + preset.UpperParameters2.LifeTime;
@@ -132,7 +123,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <exception cref="InvalidOperationException">Thrown if a problem occurred while deserializing the XML data.</exception>
         public static CpuParticleSystem FromPreset(Engine engine, string id)
         {
-            return new CpuParticleSystem(engine, CpuParticlePreset.FromContent(id));
+            return new CpuParticleSystem(CpuParticlePreset.FromContent(id)) {Engine = engine};
         }
         #endregion
 
@@ -523,24 +514,37 @@ namespace OmegaEngine.Graphics.Renderables
 
         //--------------------//
 
-        #region Dispose
-        protected override void Dispose(bool disposing)
+        #region Engine
+        protected override void OnEngineSet()
         {
-            if (Disposed || Engine == null || Engine.Disposed) return; // Don't try to dispose more than once
+            base.OnEngineSet();
 
+            // Create single vertex for all particles
+            var vertexes = new[]
+            {
+                new PositionTextured(new Vector3(-0.5f, 0.5f, 0), 0, 0),
+                new PositionTextured(new Vector3(0.5f, 0.5f, 0), 1, 0),
+                new PositionTextured(new Vector3(-0.5f, -0.5f, 0), 0, 1),
+                new PositionTextured(new Vector3(0.5f, -0.5f, 0), 1, 1)
+            };
+            _vb = BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionTextured.Format);
+        }
+        #endregion
+
+        #region Dispose
+        /// <inheritdoc/>
+        protected override void OnDispose()
+        {
             try
             {
-                if (disposing)
-                { // This block will only be executed on manual disposal, not by Garbage Collection
-                    _material1.ReleaseReference();
-                    _material2.ReleaseReference();
+                _material1.ReleaseReference();
+                _material2.ReleaseReference();
 
-                    if (_vb != null) _vb.Dispose();
-                }
+                if (_vb != null) _vb.Dispose();
             }
             finally
             {
-                base.Dispose(disposing);
+                base.OnDispose();
             }
         }
         #endregion
