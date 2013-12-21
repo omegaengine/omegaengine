@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Information" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Information.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -172,17 +172,17 @@
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="ImportExportButton" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-      iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-      YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHUSURBVDhPpZPNSxtBGMb3HxIqiJeCXjwEKpRSxUsOEkhC
-      CUIPS1A0guKppYFW0R5qQGtpm0B6sNqMmPVzkyYhponGENbNavzazdQIam00rE93BaVVNlrywssMM8/z
-      m3eGeRmm2ijbGEG1MeMXVubRfVm6VvfoXkabjF4ZVVX1aUkmQ0ViHkiTFlecNNq/kZrWCVLzZJgkhQLR
-      Ndd63fs3oFQqUWhxdq5iyC/BNnKIhu4jPLCE4Q8KUNUL6Jo7ATqkeHSGPk8atdYIPgYElMuqvlwZcHJa
-      ohvbB8huUqyLMqKrebjefkcoISKSFBFOCKD02LgCRdvcUw7wS5nHiTx3mcUdDnu5Waxmsxj5NA9+JWUM
-      2KeUygUZv0XnrcxrkP43n7HEVwBIBUqzmwp2lUNEUjls7f7URhHLCQlcfBu97g9Y4H8YVyDJlGZy+9cA
-      aYde3p+LSSDRPHpevUeAX6kAkCiNrW0hvSEjGM4goj3i1OIavnBp+IIZdL0YQ2A5XglQoP6ZKLzTIYx6
-      g/D4OAyOT8PtmcLLd1/h6BlCYIk3Boh5xWHvfM02t3eyJrOTbWp7zjY+7WAfPn7G1jfb2TqThSULUYfh
-      R7pvL/wDqLqZ/vfUm/o/glWm0hc7RRYAAAAASUVORK5CYII=
-    </value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAdJJREFUOE+lk89LG0EcxfcfEhSKF6FeeggoiLTixYMIJkgQelhE0RQUTxaFtlJ7
+        0IA/SlsD6cFGM6VZfySbNJGYRk1DWDer8dduxiRgrY2G9XU3LlKQbJE8eMzwnfc+MAPDVK2SlRFUKzN3
+        0800GaP/Ss/qHb3LaJsZY86oqurSTJaCedIxmiDPHFHSaFshNW0LpKb1LYkLWaJnjPht919AsVik0HR1
+        rWLSLcE6VcDjwXPUdoXg9glQ1RvoGSNeGaArf36FYWcCdd1hfPAKKJXU8twUcHFZpHuHOaT2KX6KMiI7
+        GTjefUcwJiIcFxGKCaD0V2WAoh2eKDn8VtZwIa+WnT/icJL+hp1UClMf18BvbVcGnFJK5ayMP2LfPWc0
+        yMjrT/DzJgApS2lqX8GxUkB4O42D4zNtFRGISeCih3gx8R7r/A8TgExpMn16B5COaPn+3KYEEslgaHwe
+        Xn7LBCBRurl7gMSeDF8oibD2iJ6NXXzmEnD5khgYm4U3EDUDZKn7awSLy0HMLPrgdHF4M7eMCacHL6e/
+        wD40Ca+frwwQM4rd1v+Kbe7sZy0dfeyT9uds49NetqGlh61vtrGPLF0sWY/Yjfh9wENV7lb9maoTw/wF
+        glWm0karelQAAAAASUVORK5CYII=
+</value>
   </data>
   <data name="RunButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RunButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
