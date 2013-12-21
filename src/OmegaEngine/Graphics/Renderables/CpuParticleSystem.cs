@@ -77,9 +77,6 @@ namespace OmegaEngine.Graphics.Renderables
             // Set the highest alpha blending value here to get correct sorting behaviour
             Alpha = preset.Particle1Alpha > preset.Particle2Alpha ? preset.Particle1Alpha : preset.Particle2Alpha;
 
-            // Load textures for the first time
-            UpdateSpriteTextures();
-
             // ReSharper disable CompareOfFloatsByEqualityOperator
             // Calculate bounding sphere
             // If any of the four values is set to infinite...
@@ -107,23 +104,6 @@ namespace OmegaEngine.Graphics.Renderables
 
             // Make the update function execute once per frame
             PreRender += Update;
-        }
-        #endregion
-
-        #region Static access
-        /// <summary>
-        /// Creates a new particle system based upon a preset file.
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to add the particle system into.</param>
-        /// <param name="id">The ID of the preset file to load.</param>
-        /// <returns>The model that was created.</returns>
-        /// <exception cref="FileNotFoundException">Thrown if the specified file could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to the file is not permitted.</exception>
-        /// <exception cref="InvalidOperationException">Thrown if a problem occurred while deserializing the XML data.</exception>
-        public static CpuParticleSystem FromPreset(Engine engine, string id)
-        {
-            return new CpuParticleSystem(CpuParticlePreset.FromContent(id)) {Engine = engine};
         }
         #endregion
 
@@ -528,6 +508,9 @@ namespace OmegaEngine.Graphics.Renderables
                 new PositionTextured(new Vector3(0.5f, -0.5f, 0), 1, 1)
             };
             _vb = BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionTextured.Format);
+
+            // Load textures for the first time
+            UpdateSpriteTextures();
         }
         #endregion
 

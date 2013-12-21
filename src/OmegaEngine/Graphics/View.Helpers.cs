@@ -9,6 +9,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using Common.Utils;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Renderables;
@@ -92,7 +93,7 @@ namespace OmegaEngine.Graphics
         {
             // Note: We need a separate list, because we have to be able to determine which is the last effective post-screen shader
             _effectivePostShaders.Clear();
-            _postShaders.ForEach(shader => { if (shader.Enabled) _effectivePostShaders.Add(shader); });
+            _effectivePostShaders.AddRange(_postShaders.Where(shader => shader.Enabled));
 
             for (int i = 0; i < _effectivePostShaders.Count; i++)
             {
@@ -184,7 +185,7 @@ namespace OmegaEngine.Graphics
             if (RenderTarget != null) return;
 
             using (new ProfilerEvent("Prepare render target texture"))
-                RenderTarget = new RenderTarget(_area.Size) {Engine = Engine};
+                RenderTarget = new RenderTarget(Engine, _area.Size);
         }
 
         /// <summary>
@@ -197,7 +198,7 @@ namespace OmegaEngine.Graphics
             if (_secondaryRenderTarget == null)
             {
                 using (new ProfilerEvent("Prepare secondary render target texture"))
-                    _secondaryRenderTarget = new RenderTarget(_area.Size) {Engine = Engine};
+                    _secondaryRenderTarget = new RenderTarget(Engine, _area.Size);
             }
 
             // Swap the render targets

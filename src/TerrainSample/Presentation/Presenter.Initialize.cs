@@ -47,6 +47,9 @@ namespace TerrainSample.Presentation
             if (Initialized) return;
             #endregion
 
+            // NOTE: May be able to remove this after some Engine refactoring
+            View.Engine = Engine;
+
             // Handle fog and keep updated
             Universe.FogChanged += UpdateFog;
             UpdateFog();
@@ -190,11 +193,11 @@ namespace TerrainSample.Presentation
 
             if (ContentManager.FileExists("Textures", up, true) && ContentManager.FileExists("Textures", dn, true))
             { // Full skybox
-                Scene.Skybox = SimpleSkybox.FromAsset(Engine, rt, lf, up, dn, ft, bk);
+                Scene.Skybox = SimpleSkybox.FromAssets(Engine, rt, lf, up, dn, ft, bk);
             }
             else
             { // Cardboard-style skybox (missing top and bottom)
-                Scene.Skybox = SimpleSkybox.FromAsset(Engine, rt, lf, null, null, ft, bk);
+                Scene.Skybox = SimpleSkybox.FromAssets(Engine, rt, lf, null, null, ft, bk);
             }
         }
         #endregion

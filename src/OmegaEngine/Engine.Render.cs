@@ -65,13 +65,12 @@ namespace OmegaEngine
         #endregion
 
         #region Properties
-        // Order is important, duplicate entries are not allowed
-        private readonly C5.IList<View> _views = new C5.HashedArrayList<View>();
+        private readonly EngineElementCollection<View> _views = new EngineElementCollection<View>();
 
         /// <summary>
         /// A list of all views to be rendered by the engine
         /// </summary>
-        public IList<View> Views { get { return _views; } }
+        public ICollection<View> Views { get { return _views;  } }
 
         #region Time
         /// <summary>
@@ -203,7 +202,14 @@ namespace OmegaEngine
         /// <summary>
         /// A shader used for simple water (no reflection or refraction)
         /// </summary>
-        internal WaterShader SimpleWaterShader { get { return _simpleWaterShader = _simpleWaterShader ?? new WaterShader(this); } }
+        internal WaterShader SimpleWaterShader
+        {
+            get
+            {
+                if (_simpleWaterShader == null) RegisterChild(_simpleWaterShader = new WaterShader(this));
+                return _simpleWaterShader;
+            }
+        }
         #endregion
 
         #region Fading
@@ -326,7 +332,7 @@ namespace OmegaEngine
         {
             using (new ProfilerEvent("Render engine views"))
             {
-                foreach (View view in _views.Where(view => view.Visible))
+                foreach (View view in Views.Where(view => view.Visible))
                     view.Render();
             }
 

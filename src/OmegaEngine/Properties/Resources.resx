@@ -135,11 +135,17 @@
   <data name="DynamicShaderCompileFail" xml:space="preserve">
     <value>The dynamic shader could not be compiled.</value>
   </data>
+  <data name="EngineCannotChange" xml:space="preserve">
+    <value>Engine can not be changed again once it has been set.</value>
+  </data>
+  <data name="EngineNotSetYet" xml:space="preserve">
+    <value>Engine has not been set yet.</value>
+  </data>
   <data name="InvalidScreenshotSize" xml:space="preserve">
-    <value>The screenshot resolution must not exceed the current render resolution!</value>
+    <value>The screenshot resolution must not exceed the current render resolution.</value>
   </data>
   <data name="LightsNotDeactivated" xml:space="preserve">
-    <value>DeactivateLights was not called after the last render pass!</value>
+    <value>DeactivateLights was not called after the last render pass.</value>
   </data>
   <data name="LoadingMusic" xml:space="preserve">
     <value>Loading music...</value>

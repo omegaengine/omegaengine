@@ -60,23 +60,6 @@ namespace OmegaEngine.Graphics.Renderables
         }
         #endregion
 
-        #region Static access
-        /// <summary>
-        /// Creates a new particle system based upon a preset file.
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to add the particle system into.</param>
-        /// <param name="id">The ID of the preset file to load.</param>
-        /// <returns>The model that was created.</returns>
-        /// <exception cref="FileNotFoundException">Thrown if the specified file could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to the file is not permitted.</exception>
-        /// <exception cref="InvalidOperationException">Thrown if a problem occurred while deserializing the XML data.</exception>
-        public static GpuParticleSystem FromPreset(Engine engine, string id)
-        {
-            return new GpuParticleSystem(GpuParticlePreset.FromContent(id)) {Engine = engine};
-        }
-        #endregion
-
         //--------------------//
 
         #region Render

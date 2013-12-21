@@ -34,7 +34,6 @@ namespace OmegaEngine.Graphics.Renderables
             Log.Info("Generate predefined model: Quad");
             return new Model(MeshGenerator.Quad(engine.Device, width, height), new XMaterial(texture))
             {
-                Engine = engine,
                 BoundingSphere = new BoundingSphere(default(Vector3), (float)Math.Sqrt(width * width + height * height) / 2f),
                 BoundingBox = new BoundingBox(default(Vector3), new Vector3(width, height, 0))
             };
@@ -62,7 +61,6 @@ namespace OmegaEngine.Graphics.Renderables
 
             return new Model(mesh, new XMaterial(texture))
             {
-                Engine = engine,
                 BoundingBox = new BoundingBox(default(Vector3), new Vector3(width, height, depth))
             };
         }
@@ -117,7 +115,7 @@ namespace OmegaEngine.Graphics.Renderables
             MeshHelper.GenerateNormals(engine.Device, ref mesh);
 
             // ToDo: Calculate bounding box
-            return new Model(mesh, new XMaterial(texture)) {Engine = engine};
+            return new Model(mesh, new XMaterial(texture));
         }
 
         /// <summary>
@@ -157,7 +155,7 @@ namespace OmegaEngine.Graphics.Renderables
             #endregion
 
             // ToDo: Calculate bounding box
-            return new Model(MeshGenerator.Disc(engine.Device, radiusInner, radiusOuter, height, segments), new XMaterial(texture)) {Engine = engine};
+            return new Model(MeshGenerator.Disc(engine.Device, radiusInner, radiusOuter, height, segments), new XMaterial(texture));
         }
 
         /// <summary>

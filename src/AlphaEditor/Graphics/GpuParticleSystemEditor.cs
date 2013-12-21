@@ -77,14 +77,10 @@ namespace AlphaEditor.Graphics
             // Initialize engine
             renderPanel.Setup();
 
-            // Load particle system mesh and shader
-            _particleSystem = new GpuParticleSystem(_preset) {Engine = renderPanel.Engine};
-
             // Setup scene
-            _scene = new Scene();
-            _scene.Positionables.Add(_particleSystem);
-            var view = new View(_scene, Camera) {Engine = renderPanel.Engine, BackgroundColor = Color.Black};
-            renderPanel.Engine.Views.Add(view);
+            _particleSystem = new GpuParticleSystem(_preset);
+            _scene = new Scene { Positionables = { _particleSystem } };
+            renderPanel.Engine.Views.Add(new View(_scene, Camera) {BackgroundColor = Color.Black});
 
             base.OnInitialize();
         }

@@ -48,7 +48,7 @@ namespace TerrainSample.Presentation
             // Restore previous camera position (or default to center of terrain)
             var mainCamera = CreateCamera(universe.Camera);
 
-            View = new View(Scene, mainCamera) {Engine = engine, Name = "InGame", BackgroundColor = universe.FogColor};
+            View = new View(Scene, mainCamera) {Name = "InGame", BackgroundColor = universe.FogColor};
         }
         #endregion
 

@@ -111,7 +111,7 @@ namespace OmegaEngine.Audio
                 throw new InvalidOperationException(Resources.SongAlreadyLoaded + id);
 
             // Load the song and associate it with its themes
-            var newSong = new Song(_engine, id);
+            var newSong = new Song(id) {Engine = _engine};
             foreach (string theme in themes)
                 _themes.Add(theme, newSong);
         }

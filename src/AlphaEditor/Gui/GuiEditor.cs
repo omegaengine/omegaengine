@@ -100,7 +100,7 @@ namespace AlphaEditor.Gui
             var engine = renderPanel.Setup();
 
             // Blue background
-            engine.Views.Add(new View(Color.CornflowerBlue) {Engine = engine});
+            engine.Views.Add(new View(Color.CornflowerBlue));
 
             // Render GUI
             engine.ExtraRender += DialogRender;

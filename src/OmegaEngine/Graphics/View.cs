@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
+using Common.Collections;
 using Common.Utils;
 using Common.Values;
 using OmegaEngine.Graphics.Cameras;
@@ -181,15 +182,14 @@ namespace OmegaEngine.Graphics
         #endregion
 
         #region Content
-        // Order is important, duplicate entries are not allowed
-        private readonly C5.IList<TextureView> _childViews = new C5.HashedArrayList<TextureView>();
+        private readonly EngineElementCollection<TextureView> _childViews = new EngineElementCollection<TextureView>();
 
         /// <summary>
         /// A list of <see cref="TextureView"/>s that are to be <see cref="Render"/>ed before this <see cref="View"/>
         /// </summary>
         /// <remarks>Usually only <see cref="Render"/>ed if a <see cref="PositionableRenderable"/> in <see cref="OmegaEngine.Graphics.Scene.Positionables"/> has it listed in <see cref="PositionableRenderable.RequiredViews"/></remarks>
         [Browsable(false)]
-        public IList<TextureView> ChildViews { get { return _childViews; } }
+        public ICollection<TextureView> ChildViews { get { return _childViews; } }
 
         private Color _backgroundColor = Color.Black;
 
@@ -207,8 +207,7 @@ namespace OmegaEngine.Graphics
         [Browsable(false)]
         public Scene Scene { get { return _scene; } }
 
-        // Order is not important, duplicate entries are not allowed
-        private readonly C5.ICollection<FloatingModel> _floatingModels = new C5.HashSet<FloatingModel>();
+        private readonly EngineElementCollection<FloatingModel> _floatingModels = new EngineElementCollection<FloatingModel>();
 
         /// <summary>
         /// A list of <see cref="FloatingModel"/>s to be overlayed on top of the <see cref="Scene"/>
@@ -217,14 +216,13 @@ namespace OmegaEngine.Graphics
         [Browsable(false)]
         public ICollection<FloatingModel> FloatingModels { get { return _floatingModels; } }
 
-        // Order is important, duplicate entries are allowed
-        private readonly List<PostShader> _postShaders = new List<PostShader>();
+        private readonly EngineElementCollection<PostShader> _postShaders = new EngineElementCollection<PostShader>();
 
         /// <summary>
         /// A list of post-processing shaders to be applied after rendering the scene
         /// </summary>
         [Browsable(false)]
-        public IList<PostShader> PostShaders { get { return _postShaders; } }
+        public ICollection<PostShader> PostShaders { get { return _postShaders; } }
 
         /// <summary>
         /// The camera describing how to look at the scene
@@ -251,9 +249,13 @@ namespace OmegaEngine.Graphics
                 throw new ArgumentOutOfRangeException("area");
             #endregion
 
+            RegisterChild(_childViews);
+            RegisterChild(_floatingModels);
+            RegisterChild(_postShaders);
+
             _scene = scene;
-            Camera = camera;
             _area = area;
+            Camera = camera;
         }
 
         /// <summary>
@@ -273,62 +275,30 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// Handles the rendering of the <see cref="ChildViews"/>, intelligently filtering out those that aren't needed
         /// </summary>
-        protected virtual void HandleChildViews()
+        private void HandleChildViews()
         {
-            foreach (var childView in _childViews)
+            new PerTypeDispatcher<TextureView>(ignoreMissing: false)
             {
-                if (childView.Visible && !childView.Disposed)
+                (GlowView glowView) => { if (Engine.Effects.PostScreenEffects) glowView.Render(); },
+                (ShadowView shadowView) => { if (Engine.Effects.Shadows) shadowView.Render(); },
+                (WaterView waterView) =>
                 {
-                    // Copy the fog flag (view types that can't handle fog will automatically ignore it)
-                    childView.Fog = Fog;
-
-                    // ReSharper disable AccessToModifiedClosure
-
-                    #region Glow
-                    var glowView = childView as GlowView;
-                    if (glowView != null)
+                    var effectLevel = waterView.Reflection ? WaterEffectsType.ReflectTerrain : WaterEffectsType.RefractionOnly;
+                    if (Engine.Effects.WaterEffects >= effectLevel &&
+                        _sortedWaters.Exists(water => water.RequiredViews.Contains(waterView)))
                     {
-                        if (Engine.Effects.PostScreenEffects) glowView.Render();
-                        continue;
+                        waterView.Fog = Fog;
+                        waterView.Render();
                     }
-                    #endregion
-
-                    #region Shadow
-                    var shadowView = childView as ShadowView;
-                    if (shadowView != null)
-                    {
-                        if (Engine.Effects.Shadows) shadowView.Render();
-                        continue;
-                    }
-                    #endregion
-
-                    #region Water
-                    var waterView = childView as WaterView;
-                    if (waterView != null)
-                    {
-                        // Check we actually use water-refractions/reflections...
-                        if ((waterView.Reflection) ?
-                            (Engine.Effects.WaterEffects < WaterEffectsType.ReflectTerrain) :
-                            (Engine.Effects.WaterEffects < WaterEffectsType.RefractionOnly))
-                            continue;
-
-                        // ... and one of the currently visible water planes needs this view
-                        if (_sortedWaters.Exists(water => water.RequiredViews.Contains(childView)))
-                            childView.Render();
-                        continue;
-                    }
-                    #endregion
-
-                    #region Generic
-                    // We only need to render this view if a body that needs it is currently visible
-                    if (_sortedOpaqueBodies.Exists(body => body.RequiredViews.Contains(childView)) ||
-                        _sortedTransparentBodies.Exists(body => body.RequiredViews.Contains(childView)))
-                        childView.Render();
-                    #endregion
-
-                    // ReSharper restore AccessToModifiedClosure
+                },
+                (LazyView lazyView) =>
+                {
+                    lazyView.Fog = Fog;
+                    if (_sortedOpaqueBodies.Exists(body => body.RequiredViews.Contains(lazyView)) ||
+                        _sortedTransparentBodies.Exists(body => body.RequiredViews.Contains(lazyView)))
+                        lazyView.Render();
                 }
-            }
+            }.Dispatch(_childViews.Where(childView => childView.Visible && !childView.Disposed));
         }
         #endregion
 
@@ -456,7 +426,7 @@ namespace OmegaEngine.Graphics
             _glowSetup = true;
 
             // Create the new view, make sure the camera stays in sync, copy default properties
-            var newView = new GlowView(this) {Engine = Engine, Name = Name + " Glow"};
+            var newView = new GlowView(this) {Name = Name + " Glow"};
 
             // Apply PostScreen shader to current scene (hooked with output from new scene)
             PostShaders.Add(new PostGlowShader(Engine, newView, blurStrength, glowStrength));
@@ -492,6 +462,8 @@ namespace OmegaEngine.Graphics
         /// <inheritdoc/>
         protected override void OnEngineSet()
         {
+            base.OnEngineSet();
+
             Scene.Engine = Engine;
 
             // Calculate the effective viewport and continuously update it, if it is fullscreen
@@ -504,24 +476,27 @@ namespace OmegaEngine.Graphics
         /// <inheritdoc/>
         protected override void OnDispose()
         {
-            // Unhook device events
-            Engine.DeviceReset -= UpdateViewport;
+            try
+            {
+                // Unhook device events
+                Engine.DeviceReset -= UpdateViewport;
 
-            _childViews.Apply(view => view.Dispose());
-            _floatingModels.Apply(model => model.Dispose());
-            _postShaders.ForEach(shader => shader.Dispose());
-            if (RenderTarget != null) RenderTarget.Dispose();
-            if (_secondaryRenderTarget != null) _secondaryRenderTarget.Dispose();
-            _childViews.Dispose();
+                if (_disposeScene) Scene.Dispose();
 
-            // Dispose and remove all water view sources associated to this view
-            var toRemove = Engine.WaterViewSources
-                .Where(viewSource => viewSource.RefractedView == this || viewSource.RefractedView == this)
-                .ToList();
-            foreach (var viewSource in toRemove) viewSource.Dispose();
-            Engine.WaterViewSources.RemoveAll(toRemove);
+                if (RenderTarget != null) RenderTarget.Dispose();
+                if (_secondaryRenderTarget != null) _secondaryRenderTarget.Dispose();
 
-            if (_disposeScene && _scene != null) _scene.Dispose();
+                // Dispose and remove all water view sources associated to this view
+                var toRemove = Engine.WaterViewSources
+                    .Where(viewSource => viewSource.RefractedView == this || viewSource.RefractedView == this)
+                    .ToList();
+                foreach (var viewSource in toRemove) viewSource.Dispose();
+                Engine.WaterViewSources.RemoveAll(toRemove);
+            }
+            finally
+            {
+                base.OnDispose();
+            }
         }
         #endregion
     }

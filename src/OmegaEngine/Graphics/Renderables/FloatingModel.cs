@@ -6,8 +6,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using System.IO;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using SlimDX;
@@ -56,27 +54,6 @@ namespace OmegaEngine.Graphics.Renderables
         {}
         #endregion
 
-        #endregion
-
-        #region Static access
-        /// <summary>
-        /// Creates a new static (non-animated) model using a cached <see cref="XMesh"/> (loading a new one if none is cached).
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> providing the cache and rendering capabilities.</param>
-        /// <param name="id">The ID of the asset to use.</param>
-        /// <exception cref="FileNotFoundException">Thrown if the specified file could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading the file.</exception>
-        /// <exception cref="InvalidDataException">Thrown if the file does not contain a valid mesh.</exception>
-        /// <returns>The static (non-animated) model that was created.</returns>
-        public new static FloatingModel FromAsset(Engine engine, string id)
-        {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (string.IsNullOrEmpty(id)) throw new ArgumentNullException("id");
-            #endregion
-
-            return new FloatingModel(XMesh.Get(engine, id)) {Engine = engine};
-        }
         #endregion
 
         //--------------------//

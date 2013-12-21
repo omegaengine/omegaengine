@@ -7,8 +7,6 @@
  */
 
 using System;
-using System.IO;
-using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.VertexDecl;
 using SlimDX;
@@ -190,46 +188,15 @@ namespace OmegaEngine.Graphics.Renderables
 
         #endregion
 
-        #region Static access
-        /// <summary>
-        /// Creates a new vertex group using a cached <see cref="XTexture"/> (loading a new one if none is cached).
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> providing the cache and rendering capabilities.</param>
-        /// <param name="vertexes">An array for vertexes with position and texture information.</param>
-        /// <param name="primitiveType">The type of primitives to generate from the vertexes,</param>
-        /// <param name="indexes">An array of indexes for the index buffer; <see langword="null"/> for no indexes.</param>
-        /// <param name="id">The ID of the texture asset to use.</param>
-        /// <returns>The vertex group that was created.</returns>
-        /// <exception cref="FileNotFoundException">Thrown if the specified file could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to the file is not permitted.</exception>
-        /// <exception cref="InvalidDataException">Thrown if the file does not contain a valid texture.</exception>
-        public static VertexGroup FromAsset(Engine engine, PrimitiveType primitiveType, PositionNormalTextured[] vertexes,
-            short[] indexes, string id)
-        {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (vertexes == null) throw new ArgumentNullException("vertexes");
-            #endregion
-
-            return new VertexGroup(primitiveType, vertexes, indexes, new XMaterial(XTexture.Get(engine, id))) {Engine = engine};
-        }
-        #endregion
-
         #region Predefined Quad
         /// <summary>
         /// Creates a new textured quad.
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the texture from.</param>
         /// <param name="size">The length of a border of the quad.</param>
         /// <param name="texture">The texture to place on the vertex group; <see langword="null"/> for no texture.</param>
         /// <returns>The vertex group that was created.</returns>
-        public static VertexGroup Quad(Engine engine, float size, ITextureProvider texture = null)
+        public static VertexGroup Quad(float size, ITextureProvider texture = null)
         {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            #endregion
-
             var normalVector = new Vector3(0, 0, 1);
             var vertexes = new[]
             {
@@ -239,7 +206,7 @@ namespace OmegaEngine.Graphics.Renderables
                 new PositionNormalTextured(new Vector3(size * 0.5f, size * -0.5f, 0), normalVector, 1, 1)
             };
 
-            return new VertexGroup(PrimitiveType.TriangleStrip, vertexes, null, new XMaterial(texture)) {Engine = engine};
+            return new VertexGroup(PrimitiveType.TriangleStrip, vertexes, null, new XMaterial(texture));
         }
         #endregion
 

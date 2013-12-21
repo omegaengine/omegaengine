@@ -24,6 +24,8 @@ using System;
 using System.Collections.Generic;
 using Common.Collections;
 using Common.Utils;
+using OmegaEngine;
+using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 using TemplateWorld.Positionables;
@@ -89,7 +91,7 @@ namespace TerrainSample.Presentation
                 (Circle circle) =>
                 {
                     // Create a circle around the entity based on the radius
-                    var hightlight = Model.FromAsset(Engine, "Engine/Circle.x");
+                    var hightlight = new Model(XMesh.Get(Engine, "Engine/Circle.x"));
                     float scale = circle.Radius / 20 + 1;
                     hightlight.PreTransform = Matrix.Scaling(scale, 1, scale);
                     return hightlight;
@@ -97,7 +99,7 @@ namespace TerrainSample.Presentation
                 (Box box) =>
                 {
                     // Create a rectangle around the entity based on the box corners
-                    var highlight = Model.FromAsset(Engine, "Engine/Rectangle.x");
+                    var highlight = new Model(XMesh.Get(Engine, "Engine/Rectangle.x"));
 
                     // Determine the component-wise minimums and maxmimums and the absolute difference
                     var min = new Vector2(Math.Min(box.Minimum.X, box.Maximum.X), Math.Min(box.Minimum.Y, box.Maximum.Y));

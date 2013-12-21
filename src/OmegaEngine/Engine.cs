@@ -8,8 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -40,7 +38,7 @@ namespace OmegaEngine
     /// <summary>
     /// Provides central control for 3D rendering, sound management, asset caching, etc.
     /// </summary>
-    public sealed partial class Engine : IDisposable
+    public sealed partial class Engine : EngineElement
     {
         #region Variables
         private readonly Direct3D _direct3D;
@@ -119,12 +117,6 @@ namespace OmegaEngine
         /// The central cache used for all graphics and sound assets.
         /// </summary>
         public CacheManager Cache { get { return _cache; } }
-
-        /// <summary>
-        /// Has the engine been shut down?
-        /// </summary>
-        [Browsable(false)]
-        public bool Disposed { get; private set; }
         #endregion
 
         #region Constructor
@@ -144,6 +136,9 @@ namespace OmegaEngine
             if (target == null) throw new ArgumentNullException("target");
             #endregion
 
+            Engine = this;
+            RegisterChild(_views);
+
             _direct3D = new Direct3D();
             Target = target;
             Config = config;
@@ -159,7 +154,8 @@ namespace OmegaEngine
                 SetupTextureFiltering();
                 Performance = new EnginePerformance(Device, RenderPure);
 
-                if (GeneralShader.MinShaderModel <= Capabilities.MaxShaderModel) DefaultShader = new GeneralShader(this);
+                if (GeneralShader.MinShaderModel <= Capabilities.MaxShaderModel)
+                    RegisterChild(DefaultShader = new GeneralShader(this));
 
                 // Create simple default meshes ready
                 SimpleSphere = Mesh.CreateSphere(Device, 1, 12, 12);
@@ -228,81 +224,42 @@ namespace OmegaEngine
         //--------------------//
 
         #region Dispose
-        /// <summary>
-        /// Disposes all <see cref="View"/>s, <see cref="Asset"/>s, etc. and removes event hooks.
-        /// </summary>
-        public void Dispose()
+        protected override void OnDispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+            Log.Info("Disposing engine\nLast framerate: " + Performance.Fps);
 
-        /// <inheritdoc/>
-        ~Engine()
-        {
-            Dispose(false);
-        }
+            // Dispose scenes and views
+            ExtraRender = null;
+            foreach (var view in Views) view.Scene.Dispose();
+            base.OnDispose();
 
-        private void Dispose(bool disposing)
-        {
-            if (Disposed) return; // Don't try to dispose more than once
+            // ReSharper disable CoVariantArrayConversion
+            DisposeShaders(_terrainShadersLighting);
+            DisposeShaders(_terrainShadersNoLighting);
+            // ReSharper restore CoVariantArrayConversion
 
-            // Unlock the mouse cursor
-            Cursor.Clip = new Rectangle();
+            // Shutdown music
+            Music.Dispose();
 
-            if (disposing)
-            { // This block will only be executed on manual disposal, not by Garbage Collection
-                Log.Info("Disposing engine\nLast framerate: " + Performance.Fps);
+            // Dispose cached assets
+            _cache.Dispose();
 
-                // Dispose scenes and views
-                ExtraRender = null;
-                _views.Apply(view =>
-                {
-                    view.Scene.Dispose();
-                    view.Dispose();
-                });
-                _views.Dispose();
+            // Dispose default meshes
+            if (SimpleSphere != null) SimpleSphere.Dispose();
+            if (SimpleBox != null) SimpleBox.Dispose();
 
-                // Dispose shaders
-                if (DefaultShader != null) DefaultShader.Dispose();
-                if (SimpleWaterShader != null) SimpleWaterShader.Dispose();
-                // ReSharper disable CoVariantArrayConversion
-                DisposeShaders(_terrainShadersLighting);
-                DisposeShaders(_terrainShadersNoLighting);
-                // ReSharper restore CoVariantArrayConversion
+            // Dispose Direct3D device
+            if (BackBuffer != null) BackBuffer.Dispose();
+            if (Device != null) Device.Dispose();
 
-                // Shutdown music
-                Music.Dispose();
+            // Dispose DirectSound objects
+            //if (_listener != null) _listener.Dispose();
+            if (AudioDevice != null) AudioDevice.Dispose();
 
-                // Dispose cached assets
-                _cache.Dispose();
+            if (_direct3D != null) _direct3D.Dispose();
 
-                // Dispose default meshes
-                if (SimpleSphere != null) SimpleSphere.Dispose();
-                if (SimpleBox != null) SimpleBox.Dispose();
-
-                // Dispose Direct3D device
-                if (BackBuffer != null) BackBuffer.Dispose();
-                if (Device != null) Device.Dispose();
-
-                // Dispose DirectSound objects
-                //if (_listener != null) _listener.Dispose();
-                if (AudioDevice != null) AudioDevice.Dispose();
-
-                if (_direct3D != null) _direct3D.Dispose();
-
-                // Dispose debug window
-                if (_debugForm != null) _debugForm.Dispose();
-            }
-            else
-            { // This block will only be executed on Garbage Collection, not by manual disposal
-                Log.Error("Forgot to call Dispose on " + this);
-#if DEBUG
-                throw new InvalidOperationException("Forgot to call Dispose on " + this);
-#endif
-            }
-
-            Disposed = true;
+            // Dispose debug window
+            if (_debugForm != null) _debugForm.Dispose();
         }
 
         /// <summary>

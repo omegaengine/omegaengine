@@ -168,7 +168,6 @@ namespace OmegaEngine.Graphics.Renderables
                 BuildMaterial(engine, textures),
                 lighting)
             {
-                Engine = engine,
                 // Set properties here to keep contructor nice and simple
                 Size = size, StretchH = stretchH, StretchV = stretchV,
                 _blockSize = blockSize,

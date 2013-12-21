@@ -19,7 +19,7 @@ namespace OmegaEngine.Graphics
     /// </summary>
     /// <remarks>These <see cref="View"/>s usually provide helper data (shadows, reflections) for the main <see cref="View"/>s.
     /// They are then referenced in <see cref="View.ChildViews"/>.</remarks>
-    public class TextureView : View
+    public abstract class TextureView : View
     {
         #region Properties
         /// <summary>

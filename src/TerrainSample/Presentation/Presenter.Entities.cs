@@ -332,8 +332,8 @@ namespace TerrainSample.Presentation
                 (StaticMesh meshRender) =>
                 {
                     // Load the model based on the entity name
-                    var model = Model.FromAsset(Engine, meshRender.Filename);
-                    model.Name = entity.Name;
+                    string id = meshRender.Filename;
+                    var model = new Model(XMesh.Get(Engine, id)) {Name = entity.Name};
                     ConfigureModel(model, meshRender);
 
                     // Add objects to lists
@@ -344,8 +344,7 @@ namespace TerrainSample.Presentation
                 (AnimatedMesh meshRender) =>
                 {
                     // Load the model based on the entity name
-                    var model = AnimatedModel.FromAsset(Engine, meshRender.Filename);
-                    model.Name = entity.Name;
+                    var model = new AnimatedModel(XAnimatedMesh.Get(Engine, meshRender.Filename)) {Name = entity.Name};
                     ConfigureModel(model, meshRender);
 
                     // Add objects to lists
@@ -376,7 +375,8 @@ namespace TerrainSample.Presentation
                 // ----- Don't apply RenderControl.Shift yet ----- //
                 (CpuParticleSystem particleRender) =>
                 {
-                    var particleSystem = OmegaEngine.Graphics.Renderables.CpuParticleSystem.FromPreset(Engine, particleRender.Filename);
+                    var particleSystem = new OmegaEngine.Graphics.Renderables.CpuParticleSystem(
+                        CpuParticlePreset.FromContent(particleRender.Filename));
                     ConfigureParticleSystem(entity, particleSystem, particleRender);
 
                     // Add objects to lists
@@ -386,7 +386,8 @@ namespace TerrainSample.Presentation
                 },
                 (GpuParticleSystem particleRender) =>
                 {
-                    var particleSystem = OmegaEngine.Graphics.Renderables.GpuParticleSystem.FromPreset(Engine, particleRender.Filename);
+                    var particleSystem = new OmegaEngine.Graphics.Renderables.GpuParticleSystem(
+                        GpuParticlePreset.FromContent(particleRender.Filename));
                     ConfigureParticleSystem(entity, particleSystem, particleRender);
 
                     // Add objects to lists

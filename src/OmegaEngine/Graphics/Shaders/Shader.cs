@@ -592,7 +592,7 @@ namespace OmegaEngine.Graphics.Shaders
                                     // Create new RenderTargets if necessary
                                     if (_activeRenderTarget == null)
                                     {
-                                        _activeRenderTarget = new RenderTarget(sceneSize) {Engine = Engine};
+                                        _activeRenderTarget = new RenderTarget(Engine, sceneSize);
                                         _usedRenderTargets.Add(_activeRenderTarget);
                                     }
                                     Effect.SetTexture(renderColorTarget.TextureHandle, _activeRenderTarget);
@@ -692,17 +692,24 @@ namespace OmegaEngine.Graphics.Shaders
         /// <inheritdoc/>
         protected override void OnDispose()
         {
-            // Unhook device events
-            Engine.DeviceLost -= OnLostDevice;
-            Engine.DeviceReset -= OnResetDevice;
-
-            if (!Engine.Disposed)
+            try
             {
-                if (_activeRenderTarget != null) _activeRenderTarget.Dispose();
-                _availableRenderTargets.ForEach(target => target.Dispose());
-                _usedRenderTargets.ForEach(target => target.Dispose());
+                // Unhook device events
+                Engine.DeviceLost -= OnLostDevice;
+                Engine.DeviceReset -= OnResetDevice;
 
-                Effect.Dispose();
+                if (!Engine.Disposed)
+                {
+                    if (_activeRenderTarget != null) _activeRenderTarget.Dispose();
+                    _availableRenderTargets.ForEach(target => target.Dispose());
+                    _usedRenderTargets.ForEach(target => target.Dispose());
+
+                    Effect.Dispose();
+                }
+            }
+            finally
+            {
+                base.OnDispose();
             }
         }
         #endregion

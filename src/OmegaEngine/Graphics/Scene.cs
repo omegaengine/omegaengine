@@ -75,8 +75,7 @@ namespace OmegaEngine.Graphics
         #endregion
 
         #region Properties
-        // Order is not important, duplicate entries are not allowed
-        private readonly C5.ICollection<PositionableRenderable> _positionables = new C5.HashSet<PositionableRenderable>();
+        private readonly EngineElementCollection<PositionableRenderable> _positionables = new EngineElementCollection<PositionableRenderable>();
 
         /// <summary>
         /// All <see cref="PositionableRenderable"/>s contained within this scene.
@@ -86,15 +85,31 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// The current <see cref="Skybox"/> for this scene
         /// </summary>
-        public Skybox Skybox { get; set; }
+        public Skybox Skybox
+        {
+            get { return _skybox; }
+            set
+            {
+                UnregisterChild(_skybox);
+                RegisterChild(_skybox = value);
+            }
+        }
 
         // Order is not important, duplicate entries are not allowed
         private readonly C5.ICollection<LightSource> _lights = new C5.HashSet<LightSource>();
+        private Skybox _skybox;
 
         /// <summary>
         /// All light sources affecting the entities in this scene
         /// </summary>
         public ICollection<LightSource> Lights { get { return _lights; } }
+        #endregion
+
+        #region Constructor
+        public Scene()
+        {
+            RegisterChild(_positionables);
+        }
         #endregion
 
         //--------------------//
@@ -204,17 +219,6 @@ namespace OmegaEngine.Graphics
             });
 
             return effectiveLights.ToArray();
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Dispose
-        /// <inheritdoc/>
-        protected override void OnDispose()
-        {
-            _positionables.Apply(body => body.Dispose());
-            if (Skybox != null) Skybox.Dispose();
         }
         #endregion
     }

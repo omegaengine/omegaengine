@@ -7,8 +7,10 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Common;
+using OmegaEngine.Properties;
 
 namespace OmegaEngine
 {
@@ -17,6 +19,33 @@ namespace OmegaEngine
     /// </summary>
     public abstract class EngineElement : IDisposable
     {
+        #region Children
+        private readonly List<EngineElement> _children = new List<EngineElement>();
+
+        /// <summary>
+        /// Registers a child <see cref="EngineElement"/> for automatic <see cref="Engine"/> setting and <see cref="Dispose"/> calling.
+        /// </summary>
+        /// <param name="element">The <see cref="EngineElement"/> to register. Silently ignores <see langword="null"/>.</param>
+        protected void RegisterChild(EngineElement element)
+        {
+            if (element == null) return;
+
+            if (Engine != null) element.Engine = Engine;
+            _children.Add(element);
+        }
+
+        /// <summary>
+        /// Unregisters a child <see cref="EngineElement"/> (opposite of <see cref="RegisterChild"/>).
+        /// </summary>
+        /// <param name="element">The <see cref="EngineElement"/> to unregister. Silently ignores <see langword="null"/>.</param>
+        protected void UnregisterChild(EngineElement element)
+        {
+            if (element == null) return;
+
+            _children.Remove(element);
+        }
+        #endregion
+
         #region Engine
         private Engine _engine;
 
@@ -25,7 +54,11 @@ namespace OmegaEngine
         /// </summary>
         public Engine Engine
         {
-            get { return _engine; }
+            get
+            {
+                if (_engine == null) throw new InvalidOperationException(Resources.EngineNotSetYet);
+                return _engine;
+            }
             set
             {
                 if (value == null) throw new ArgumentNullException("value");
@@ -34,7 +67,7 @@ namespace OmegaEngine
                 if (_engine != null)
                 {
                     if (value == _engine) return;
-                    else throw new InvalidOperationException("Engine can not be changed again once it has been set!");
+                    else throw new InvalidOperationException(Resources.EngineCannotChange);
                 }
 
                 _engine = value;
@@ -46,7 +79,10 @@ namespace OmegaEngine
         /// Hook that is calld when <see cref="Engine"/> is set for the first time.
         /// </summary>
         protected virtual void OnEngineSet()
-        {}
+        {
+            foreach (var element in _children)
+                element.Engine = Engine;
+        }
         #endregion
 
         #region Dispose
@@ -61,10 +97,7 @@ namespace OmegaEngine
             if (Disposed) return;
 
             if (_engine != null && !_engine.Disposed)
-            {
-                Log.Info("Disposing " + this);
                 OnDispose();
-            }
 
             Disposed = true;
             GC.SuppressFinalize(this);
@@ -74,7 +107,10 @@ namespace OmegaEngine
         /// Hook that is called when the object needs to dispose its internal resources.
         /// </summary>
         protected virtual void OnDispose()
-        {}
+        {
+            foreach (var element in _children)
+                element.Dispose();
+        }
 
         [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         ~EngineElement()

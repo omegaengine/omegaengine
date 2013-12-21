@@ -63,7 +63,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <exception cref="IOException">Thrown if there was an error reading one of the texture files.</exception>
         /// <exception cref="UnauthorizedAccessException">Thrown if read access to one of the texture files is not permitted.</exception>
         /// <exception cref="InvalidDataException">Thrown if one of the texture files does not contain a valid texture.</exception>
-        public static AdvancedSkybox FromAsset(Engine engine, string rt, string lf, string up, string dn, string ft, string bk)
+        public static AdvancedSkybox FromAssets(Engine engine, string rt, string lf, string up, string dn, string ft, string bk)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
@@ -74,7 +74,7 @@ namespace OmegaEngine.Graphics.Renderables
                 XTexture.Get(engine, rt), XTexture.Get(engine, lf), XTexture.Get(engine, up),
                 XTexture.Get(engine, dn), XTexture.Get(engine, ft), XTexture.Get(engine, bk)
             };
-            return new AdvancedSkybox(textures) {Engine = engine};
+            return new AdvancedSkybox(textures);
         }
         #endregion
 

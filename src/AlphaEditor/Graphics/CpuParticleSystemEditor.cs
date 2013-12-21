@@ -79,11 +79,9 @@ namespace AlphaEditor.Graphics
             renderPanel.Setup();
 
             // Setup scene
-            _scene = new Scene();
-            _particleSystem = new CpuParticleSystem(_preset) {Engine = renderPanel.Engine};
-            _scene.Positionables.Add(_particleSystem);
-            var view = new View(_scene, Camera) {Engine = renderPanel.Engine, BackgroundColor = Color.Black};
-            renderPanel.Engine.Views.Add(view);
+            _particleSystem = new CpuParticleSystem(_preset);
+            _scene = new Scene {Positionables = {_particleSystem}};
+            renderPanel.Engine.Views.Add(new View(_scene, Camera) {BackgroundColor = Color.Black});
 
             base.OnInitialize();
         }
@@ -134,7 +132,7 @@ namespace AlphaEditor.Graphics
             _particleSystem.Dispose();
 
             // ... and replace it with a new one using the same _preset
-            _particleSystem = new CpuParticleSystem(_preset) {Engine = renderPanel.Engine};
+            _particleSystem = new CpuParticleSystem(_preset);
             _scene.Positionables.Add(_particleSystem);
         }
         #endregion

@@ -130,16 +130,22 @@
     <value>Die benötigte Version von DirectX ist auf Ihrem Computer nicht installiert.</value>
   </data>
   <data name="DumpFail" xml:space="preserve">
-    <value>Speichern der View Daten in eine Datei fehlgeschlagen!.</value>
+    <value>Speichern der View Daten in eine Datei fehlgeschlagen.</value>
   </data>
   <data name="DynamicShaderCompileFail" xml:space="preserve">
     <value>Der dynamische Shader konnte nicht kompiliert werden.</value>
   </data>
+  <data name="EngineCannotChange" xml:space="preserve">
+    <value>Engine kann nicht wieder geändert werden, nachdem Sie gesetzt wurde.</value>
+  </data>
+  <data name="EngineNotSetYet" xml:space="preserve">
+    <value>Engine wurde noch nicht gesetzt.</value>
+  </data>
   <data name="InvalidScreenshotSize" xml:space="preserve">
-    <value>Die Screenshot-Auflösung darf die aktuelle Render-Auflösung nicht überschreiten!</value>
+    <value>Die Screenshot-Auflösung darf die aktuelle Render-Auflösung nicht überschreiten.</value>
   </data>
   <data name="LightsNotDeactivated" xml:space="preserve">
-    <value>DeactivateLights wurde nach dem letzten Renderdurchlauf nicht aufgerufen!</value>
+    <value>DeactivateLights wurde nach dem letzten Renderdurchlauf nicht aufgerufen.</value>
   </data>
   <data name="LoadingMusic" xml:space="preserve">
     <value>Lade Musik...</value>

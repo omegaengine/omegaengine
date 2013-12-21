@@ -63,12 +63,6 @@ namespace OmegaEngine.Graphics.Renderables
         #endregion
 
         #region Flags
-        /// <summary>
-        /// Was this entity already disposed?
-        /// </summary>
-        [Browsable(false)]
-        public bool Disposed { get; private set; }
-
         private bool _visible = true;
         /// <summary>
         /// Shall the entity be rendered?

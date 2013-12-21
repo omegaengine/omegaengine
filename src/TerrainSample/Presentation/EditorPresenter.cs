@@ -31,6 +31,7 @@ using Common.Utils;
 using Common.Values;
 using OmegaEngine;
 using OmegaEngine.Assets;
+using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 using TemplateWorld.Positionables;
 using TemplateWorld.Terrains;
@@ -127,11 +128,11 @@ namespace TerrainSample.Presentation
             // Restore previous camera position (or default to center of terrain)
             var mainCamera = CreateCamera(universe.Camera);
 
-            View = new View(Scene, mainCamera) {Engine = engine, Name = "Editor", BackgroundColor = universe.FogColor};
+            View = new View(Scene, mainCamera) {Name = "Editor", BackgroundColor = universe.FogColor};
 
             // Floating axis-arrows for easier orientation
             var axisArrows = new OmegaEngine.Graphics.Renderables.FloatingModel(XMesh.Get(engine, "Engine/AxisArrows.x"))
-            {Engine = engine, Name = "AxisArrows", Alpha = 160, Position = new DoubleVector3(-16, -12, 40), Rotation = Quaternion.RotationYawPitchRoll(0, 0, 0)};
+            {Name = "AxisArrows", Alpha = 160, Position = new DoubleVector3(-16, -12, 40), Rotation = Quaternion.RotationYawPitchRoll(0, 0, 0)};
             axisArrows.SetScale(0.03f);
             View.FloatingModels.Add(axisArrows);
         }
@@ -146,8 +147,8 @@ namespace TerrainSample.Presentation
             base.Initialize();
 
             // Prepare painting brush meshes
-            Scene.Positionables.Add(_terrainPaintingBrushCircle = OmegaEngine.Graphics.Renderables.Model.FromAsset(Engine, "Engine/Circle.x"));
-            Scene.Positionables.Add(_terrainPaintingBrushSquare = OmegaEngine.Graphics.Renderables.Model.FromAsset(Engine, "Engine/Rectangle.x"));
+            Scene.Positionables.Add(_terrainPaintingBrushCircle = new Model(XMesh.Get(Engine, "Engine/Circle.x")));
+            Scene.Positionables.Add(_terrainPaintingBrushSquare = new Model(XMesh.Get(Engine, "Engine/Rectangle.x")));
             _terrainPaintingBrushCircle.Visible = _terrainPaintingBrushSquare.Visible = false;
         }
         #endregion

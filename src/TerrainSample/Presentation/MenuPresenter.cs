@@ -57,7 +57,7 @@ namespace TerrainSample.Presentation
                 Universe.Terrain.Center.X, rotationHeight, -Universe.Terrain.Center.Y);
             var mainCamera = new TrackCamera(rotationRadius, rotationRadius) {Target = cameraTarget, HorizontalRotation = 0, VerticalRotation = 15, Name = "Menu"};
 
-            View = new View(Scene, mainCamera) {Engine = engine, Name = "Menu", BackgroundColor = universe.FogColor};
+            View = new View(Scene, mainCamera) {Name = "Menu", BackgroundColor = universe.FogColor};
             View.PreRender += RotateCamera;
         }
         #endregion

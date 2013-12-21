@@ -115,7 +115,25 @@ namespace OmegaEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The screenshot resolution must not exceed the current render resolution!.
+        ///   Looks up a localized string similar to Engine can not be changed again once it has been set..
+        /// </summary>
+        internal static string EngineCannotChange {
+            get {
+                return ResourceManager.GetString("EngineCannotChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Engine has not been set yet..
+        /// </summary>
+        internal static string EngineNotSetYet {
+            get {
+                return ResourceManager.GetString("EngineNotSetYet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The screenshot resolution must not exceed the current render resolution..
         /// </summary>
         internal static string InvalidScreenshotSize {
             get {
@@ -124,7 +142,7 @@ namespace OmegaEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DeactivateLights was not called after the last render pass!.
+        ///   Looks up a localized string similar to DeactivateLights was not called after the last render pass..
         /// </summary>
         internal static string LightsNotDeactivated {
             get {
