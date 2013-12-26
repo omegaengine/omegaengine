@@ -106,6 +106,10 @@ namespace TerrainSample.World.Positionables
         /// <inheritdoc/>
         protected override void UpdatePath(PathLeader<Vector2> leader, double elapsedTime)
         {
+            #region Sanity checks
+            if (leader == null) throw new ArgumentNullException("leader");
+            #endregion
+
             bool loop;
             Vector2 posDifference;
             do

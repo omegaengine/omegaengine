@@ -88,13 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Global.cs" />
-    <Compile Include="State\BenchmarkState.cs" />
-    <Compile Include="State\GameState.cs" />
-    <Compile Include="State\InGameState.cs" />
-    <Compile Include="State\MenuState.cs" />
-    <Compile Include="State\ModifyState.cs" />
-    <Compile Include="State\PauseState.cs" />
-    <Compile Include="State\StartupState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Game.Loading.cs">
@@ -116,7 +109,7 @@
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
     <Content Include="Logo.ico" />
-    <Content Include="State\StateDiagram.png" />
+    <Content Include="StateDiagram.png" />
     <None Include="_portable">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -126,8 +119,7 @@
     </None>
     <None Include="Resources\Loading.png" />
     <None Include="ClassDiagram.cd" />
-    <None Include="State\ClassDiagram.cd" />
-    <None Include="State\StateDiagram.vsd" />
+    <None Include="StateDiagram.vsd" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

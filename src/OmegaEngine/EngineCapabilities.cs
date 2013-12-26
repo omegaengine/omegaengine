@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Management;
@@ -60,7 +61,7 @@ namespace OmegaEngine
             try
             {
                 var mos = new ManagementObjectSearcher("SELECT Manufacturer, Name, MaxClockSpeed, NumberOfCores, NumberOfLogicalProcessors FROM Win32_Processor");
-                foreach (ManagementObject mob in mos.Get())
+                foreach (ManagementBaseObject mob in mos.Get())
                 {
                     _hardware.Cpu.Manufacturer = (string)mob.Properties["Manufacturer"].Value;
                     _hardware.Cpu.Name = (string)mob.Properties["Name"].Value;
@@ -85,7 +86,7 @@ namespace OmegaEngine
             try
             {
                 var mos = new ManagementObjectSearcher("SELECT TotalPhysicalMemory FROM Win32_ComputerSystem");
-                foreach (ManagementObject mob in mos.Get())
+                foreach (ManagementBaseObject mob in mos.Get())
                 {
                     unchecked
                     {
@@ -112,7 +113,7 @@ namespace OmegaEngine
             try
             {
                 var mos = new ManagementObjectSearcher("SELECT AdapterRAM FROM Win32_VideoController");
-                foreach (ManagementObject mob in mos.Get())
+                foreach (ManagementBaseObject mob in mos.Get())
                 {
                     _hardware.Gpu.Ram = (int)(Convert.ToInt64(mob.Properties["AdapterRAM"].Value, CultureInfo.InvariantCulture) / 1024 / 1024);
 
@@ -133,6 +134,7 @@ namespace OmegaEngine
         /// <summary>
         /// Helper method for the constructor that fills <see cref="_capabilities"/> and <see cref="MaxShaderModel"/> with information and checks certain conditions are met.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PixelShaderVersion"), SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "SupportedAA"), SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "VertexShaderVersion"), SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PureDevice"), SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "HWTransformAndLight")]
         private void DetermineDeviceCapabilities()
         {
             #region Pixel shader

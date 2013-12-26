@@ -215,7 +215,7 @@ namespace OmegaEngine.Graphics.Shaders
         #region Parameters
         private void LoadParameters()
         {
-            var parameterInfos = new C5.LinkedList<ParameterInfo>();
+            var parameterInfos = new List<ParameterInfo>();
             for (int i = 0; i < Effect.Description.Parameters; i++)
             {
                 EffectHandle handleParam = Effect.GetParameter(null, i);
@@ -225,15 +225,14 @@ namespace OmegaEngine.Graphics.Shaders
                 {
                     try
                     {
-                        info.SemanticID = ((SemanticID)Enum.Parse(typeof(SemanticID), desc.Semantic, true));
+                        info.SemanticID = ((SemanticID)Enum.Parse(typeof(SemanticID), desc.Semantic, ignoreCase: true));
                     }
                     catch (ArgumentException)
                     {
                         info.SemanticID = SemanticID.Unknown;
                     }
                 }
-                else
-                    info.SemanticID = SemanticID.Unknown;
+                else info.SemanticID = SemanticID.Unknown;
                 info.Handle = handleParam;
                 info.Type = desc.Type;
                 parameterInfos.Add(info);

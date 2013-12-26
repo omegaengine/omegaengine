@@ -22,6 +22,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -133,6 +134,7 @@ namespace TerrainSample.World
         }
 
         /// <inheritdoc/>
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
         public void MoveEntity(Entity entity, Vector2 target)
         {
             #region Sanity checks

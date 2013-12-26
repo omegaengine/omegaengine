@@ -74,11 +74,9 @@ namespace AlphaEditor.World.Commands
         }
 
         /// <summary>
-        /// 
+        /// Transfers any non-serialized data from <paramref name="oldUniverse"/> to <paramref name="newUniverse"/>.
         /// </summary>
-        /// <param name="oldOUniverse"></param>
-        /// <param name="newUniverse"></param>
-        protected abstract void TransferNonXmlData(TUniverse oldOUniverse, TUniverse newUniverse);
+        protected abstract void TransferNonXmlData(TUniverse oldUniverse, TUniverse newUniverse);
         #endregion
 
         #region Redo

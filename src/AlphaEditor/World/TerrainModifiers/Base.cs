@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Common.Undo;
 using Common.Values;
 using SlimDX;
@@ -51,6 +52,7 @@ namespace AlphaEditor.World.TerrainModifiers
         /// <summary>
         /// Creates a pre-executed undo command representing the accumulated <see cref="Apply"/> calls to this instance.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public abstract IUndoCommand GetCommand();
     }
 }

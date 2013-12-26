@@ -37,6 +37,11 @@ namespace AlphaEditor.World.TerrainModifiers
         /// <inheritdoc/>
         protected override void ModifyTerrain(Point offset, TerrainBrush brush, byte[,] oldData, byte[,] newData)
         {
+            #region Sanity checks
+            if (oldData == null) throw new ArgumentNullException("oldData");
+            if (newData == null) throw new ArgumentNullException("newData");
+            #endregion
+
             var heightMap = Terrain.HeightMap;
 
             // Iterate through intersection of [0,area.Size) and [-offset,heightMap-offset

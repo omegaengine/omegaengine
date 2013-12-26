@@ -153,7 +153,6 @@ namespace Common.Storage
             {
                 zipFile.Close();
             }
-                // ReSharper disable once EmptyGeneralCatchClause
             catch
             {}
         }

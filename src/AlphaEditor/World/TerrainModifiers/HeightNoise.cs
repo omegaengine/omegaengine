@@ -43,6 +43,11 @@ namespace AlphaEditor.World.TerrainModifiers
         /// <inheritdoc/>
         protected override void ModifyTerrain(Point offset, TerrainBrush brush, byte[,] oldData, byte[,] newData)
         {
+            #region Sanity checks
+            if (oldData == null) throw new ArgumentNullException("oldData");
+            if (newData == null) throw new ArgumentNullException("newData");
+            #endregion
+
             var noise = new PerlinNoise {InitAmplitude = _amplitude, InitFrequency = _frequency};
             var heightMap = Terrain.HeightMap;
 

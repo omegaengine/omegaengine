@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -181,6 +182,7 @@ namespace OmegaEngine
         /// <exception cref="Direct3D9Exception">Thrown if internal errors occurred during creation.</exception>
         /// <exception cref="Direct3D9NotFoundException">Throw if required DirectX version is missing.</exception>
         /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "SoftwareVertexProcessing"), SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "HardwareVertexProcessing"), SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PureDevice")]
         private void CreateDevice()
         {
             // Try to create the DirectX device (fall back step-by-step if there's trouble)

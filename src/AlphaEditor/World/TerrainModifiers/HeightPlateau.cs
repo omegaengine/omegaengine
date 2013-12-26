@@ -30,6 +30,11 @@ namespace AlphaEditor.World.TerrainModifiers
         /// <inheritdoc/>
         protected override void ModifyTerrain(Point offset, TerrainBrush brush, byte[,] oldData, byte[,] newData)
         {
+            #region Sanity checks
+            if (oldData == null) throw new ArgumentNullException("oldData");
+            if (newData == null) throw new ArgumentNullException("newData");
+            #endregion
+
             var heightMap = Terrain.HeightMap;
             byte centerHeight = heightMap[offset.X + brush.Size / 2, offset.Y + brush.Size / 2];
 

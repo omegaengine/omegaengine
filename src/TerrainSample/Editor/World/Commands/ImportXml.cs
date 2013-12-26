@@ -44,6 +44,11 @@ namespace TerrainSample.Editor.World.Commands
         /// <inheritdoc/>
         protected override void TransferNonXmlData(Universe oldUniverse, Universe newUniverse)
         {
+            #region Sanity checks
+            if (oldUniverse == null) throw new ArgumentNullException("oldUniverse");
+            if (newUniverse == null) throw new ArgumentNullException("newUniverse");
+            #endregion
+
             newUniverse.Terrain.LightAngleMapsOutdated = oldUniverse.Terrain.LightAngleMapsOutdated = true;
             newUniverse.Terrain.HeightMap = oldUniverse.Terrain.HeightMap;
             newUniverse.Terrain.TextureMap = oldUniverse.Terrain.TextureMap;

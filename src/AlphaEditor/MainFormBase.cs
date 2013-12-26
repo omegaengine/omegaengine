@@ -424,6 +424,12 @@ namespace AlphaEditor
         /// <param name="getInstance">A callback for creating an instance of the tab.</param>
         protected void OpenFileTab<T>(string type, string extension, Func<string, bool, T> getInstance) where T : Tab
         {
+            #region Sanity checks
+            if (string.IsNullOrEmpty(type)) throw new ArgumentNullException("type");
+            if (string.IsNullOrEmpty(extension)) throw new ArgumentNullException("extension");
+            if (getInstance == null) throw new ArgumentNullException("getInstance");
+            #endregion
+
             // Get the file path
             string path;
             bool overwrite;

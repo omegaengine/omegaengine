@@ -92,6 +92,7 @@ namespace OmegaEngine
         public bool Disposed { get; private set; }
 
         /// <inheritdoc/>
+        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Using an alternative OnDispose() pattern")]
         public void Dispose()
         {
             if (Disposed) return;
@@ -112,6 +113,7 @@ namespace OmegaEngine
                 element.Dispose();
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Using an alternative OnDispose() pattern")]
         [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         ~EngineElement()
         {
