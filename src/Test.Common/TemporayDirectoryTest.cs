@@ -20,39 +20,31 @@
  * THE SOFTWARE.
  */
 
-using System;
-using System.Security.Permissions;
-using Common.Controls;
+using System.IO;
+using Common.Storage;
+using NUnit.Framework;
 
-namespace Common.Tasks
+namespace Common
 {
     /// <summary>
-    /// Uses <see cref="TrackingDialog"/> to inform the user about the progress of tasks.
+    /// Base class for test fixtures that need a temporary base directory.
     /// </summary>
-    public class GuiTaskHandler : MarshalByRefObject, ITaskHandler
+    public class TemporayDirectoryTest
     {
-        private readonly CancellationToken _cancellationToken = new CancellationToken();
+        private TemporaryDirectory _temporaryDirectory;
+        protected DirectoryInfo Directory;
 
-        /// <inheritdoc/>
-        public CancellationToken CancellationToken { get { return _cancellationToken; } }
-
-        /// <inheritdoc />
-        public void RunTask(ITask task, object tag = null)
+        [SetUp]
+        public void SetUp()
         {
-            #region Sanity checks
-            if (task == null) throw new ArgumentNullException("task");
-            #endregion
-
-            TrackingDialog.Run(null, task);
+            _temporaryDirectory = new TemporaryDirectory("unit-tests");
+            Directory = new DirectoryInfo(_temporaryDirectory);
         }
 
-        #region IPC timeout
-        /// <inheritdoc/>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
-        public override object InitializeLifetimeService()
+        [TearDown]
+        public void TearDown()
         {
-            return null; // Do not timeout progress reporting callbacks
+            _temporaryDirectory.Dispose();
         }
-        #endregion
     }
 }

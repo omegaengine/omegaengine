@@ -147,17 +147,26 @@
   <data name="DestinationDirExist" xml:space="preserve">
     <value>The destination directory already exists.</value>
   </data>
+  <data name="Downloading" xml:space="preserve">
+    <value>Downloading {0}</value>
+  </data>
   <data name="ErrorReportSent" xml:space="preserve">
     <value>The error report was sent successfully.</value>
   </data>
   <data name="FailedToRollback" xml:space="preserve">
     <value>Failed to rollback '{0}'.</value>
   </data>
+  <data name="FileNotExpectedSize" xml:space="preserve">
+    <value>The file that was supposed to be downloaded from {0} doesn't have the expected size. Was supposed to be {1} bytes but was actually {2} bytes.</value>
+  </data>
   <data name="FileNotFound" xml:space="preserve">
     <value>The file "{0}" could not be found.</value>
   </data>
   <data name="HideDetails" xml:space="preserve">
     <value>Hide details</value>
+  </data>
+  <data name="HttpAndFtpOnly" xml:space="preserve">
+    <value>Only HTTP and FTP are supported download protocols.</value>
   </data>
   <data name="InvalidConfigDir" xml:space="preserve">
     <value>The configuration directory '{0}' is probably invalid.</value>

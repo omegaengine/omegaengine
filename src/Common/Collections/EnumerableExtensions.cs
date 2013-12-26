@@ -31,7 +31,7 @@ namespace Common.Collections
     /// <summary>
     /// Provides helper methods for enumerable collections.
     /// </summary>
-    public static class EnumerableUtils
+    public static class EnumerableExtensions
     {
         #region LINQ
         /// <summary>
@@ -84,6 +84,127 @@ namespace Common.Collections
             var result = source.FirstOrDefault(predicate);
             if (result == null) throw noneException();
             return result;
+        }
+
+        /// <summary>
+        /// Filters a sequence of elements to remove any <see langword="null"/> values.
+        /// </summary>
+        public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T> collection)
+        {
+            // ReSharper disable once CompareNonConstrainedGenericWithNull
+            return collection.Where(element => element != null);
+        }
+        #endregion
+
+        #region Equality
+        /// <summary>
+        /// Determines whether two collections contain the same elements in the same order.
+        /// </summary>
+        /// <param name="first">The first of the two collections to compare.</param>
+        /// <param name="second">The first of the two collections to compare.</param>
+        /// <param name="comparer">Controls how to compare elements; leave <see langword="null"/> for default comparer.</param>
+        public static bool SequencedEquals<T>(this ICollection<T> first, ICollection<T> second, IEqualityComparer<T> comparer = null)
+        {
+            #region Sanity checks
+            if (first == null) throw new ArgumentNullException("first");
+            if (second == null) throw new ArgumentNullException("second");
+            #endregion
+
+            if (first.Count != second.Count) return false;
+            if (comparer == null) comparer = EqualityComparer<T>.Default;
+
+            return first.SequenceEqual(second, comparer);
+        }
+
+        /// <summary>
+        /// Determines whether two arrays contain the same elements in the same order.
+        /// </summary>
+        /// <param name="first">The first of the two collections to compare.</param>
+        /// <param name="second">The first of the two collections to compare.</param>
+        /// <param name="comparer">Controls how to compare elements; leave <see langword="null"/> for default comparer.</param>
+        public static bool SequencedEquals<T>(this T[] first, T[] second, IEqualityComparer<T> comparer = null)
+        {
+            #region Sanity checks
+            if (first == null) throw new ArgumentNullException("first");
+            if (second == null) throw new ArgumentNullException("second");
+            #endregion
+
+            if (first.Length != second.Length) return false;
+            if (comparer == null) comparer = EqualityComparer<T>.Default;
+
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            for (int i = 0; i < first.Length; i++)
+                if (!comparer.Equals(first[i], second[i])) return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Determines whether two collections contain the same elements disregarding the order they are in.
+        /// </summary>
+        /// <param name="first">The first of the two collections to compare.</param>
+        /// <param name="second">The first of the two collections to compare.</param>
+        /// <param name="comparer">Controls how to compare elements; leave <see langword="null"/> for default comparer.</param>
+        public static bool UnsequencedEquals<T>(this ICollection<T> first, ICollection<T> second, IEqualityComparer<T> comparer = null)
+        {
+            #region Sanity checks
+            if (first == null) throw new ArgumentNullException("first");
+            if (second == null) throw new ArgumentNullException("second");
+            #endregion
+
+            if (first.Count != second.Count) return false;
+            if (comparer == null) comparer = EqualityComparer<T>.Default;
+
+            if (first.GetUnsequencedHashCode(comparer) != second.GetUnsequencedHashCode(comparer)) return false;
+            return first.All(x => second.Contains(x, comparer));
+        }
+
+        /// <summary>
+        /// Generates a hash code for the contents of a collection. Changing the elements' order will change the hash.
+        /// </summary>
+        /// <param name="collection">The collection to generate the hash for.</param>
+        /// <param name="comparer">Controls how to compare elements; leave <see langword="null"/> for default comparer.</param>
+        /// <seealso cref="SequencedEquals{T}(System.Collections.Generic.ICollection{T},System.Collections.Generic.ICollection{T},System.Collections.Generic.IEqualityComparer{T})"/>
+        /// <seealso cref="SequencedEquals{T}(T[],T[],System.Collections.Generic.IEqualityComparer{T})"/>
+        public static int GetSequencedHashCode<T>(this IEnumerable<T> collection, IEqualityComparer<T> comparer = null)
+        {
+            #region Sanity checks
+            if (collection == null) throw new ArgumentNullException("collection");
+            #endregion
+
+            if (comparer == null) comparer = EqualityComparer<T>.Default;
+
+            unchecked
+            {
+                int result = 397;
+                // ReSharper disable once LoopCanBeConvertedToQuery
+                foreach (T unknown in collection.WhereNotNull())
+                    result = (result * 397) ^ comparer.GetHashCode(unknown);
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Generates a hash code for the contents of a collection. Changing the elements' order will not change the hash.
+        /// </summary>
+        /// <param name="collection">The collection to generate the hash for.</param>
+        /// <param name="comparer">Controls how to compare elements; leave <see langword="null"/> for default comparer.</param>
+        /// <seealso cref="UnsequencedEquals{T}"/>
+        public static int GetUnsequencedHashCode<T>(this IEnumerable<T> collection, IEqualityComparer<T> comparer = null)
+        {
+            #region Sanity checks
+            if (collection == null) throw new ArgumentNullException("collection");
+            #endregion
+
+            if (comparer == null) comparer = EqualityComparer<T>.Default;
+
+            unchecked
+            {
+                int result = 397;
+                // ReSharper disable once LoopCanBeConvertedToQuery
+                foreach (T unknown in collection.WhereNotNull())
+                    result = result ^ comparer.GetHashCode(unknown);
+                return result;
+            }
         }
         #endregion
 
@@ -258,102 +379,35 @@ namespace Common.Collections
         }
         #endregion
 
-        #region Merge
-        /// <summary>
-        /// Performs a 2-way merge on two collections. <paramref name="theirsList"/> is updated to reflect <paramref name="mineList"/> using callback delegates.
-        /// </summary>
-        /// <param name="theirsList">The foreign list with changes that shell be merged in.</param>
-        /// <param name="mineList">The local list that shall be updated with foreign changes.</param>
-        /// <param name="added">Called for every element that should be added to <paramref name="mineList"/>.</param>
-        /// <param name="removed">Called for every element that should be removed from <paramref name="mineList"/>.</param>
-        /// <remarks>
-        /// <paramref name="theirsList"/> and <paramref name="mineList"/> should use an internal hashmap for <see cref="ICollection{T}.Contains"/> for better performance.
-        /// <see langword="null"/> elements are completely ignored.
-        /// </remarks>
-        public static void Merge<T>(ICollection<T> theirsList, ICollection<T> mineList, Action<T> added, Action<T> removed)
-        {
-            #region Sanity checks
-            if (theirsList == null) throw new ArgumentNullException("theirsList");
-            if (mineList == null) throw new ArgumentNullException("mineList");
-            if (added == null) throw new ArgumentNullException("added");
-            if (removed == null) throw new ArgumentNullException("removed");
-            #endregion
-
-            // ReSharper disable CompareNonConstrainedGenericWithNull
-            foreach (var mine in mineList.Where(mine => mine != null)
-                // Entry in mineList, but not in theirsList
-                .Where(mine => !theirsList.Contains(mine)))
-                removed(mine);
-
-            foreach (var theirs in theirsList.Where(theirs => theirs != null).
-                // Entry in theirsList, but not in mineList
-                Where(theirs => !mineList.Contains(theirs)))
-                added(theirs);
-            // ReSharper restore CompareNonConstrainedGenericWithNull
-        }
-
-        /// <summary>
-        /// Performs a 3-way merge on a set of collections. Changes between <paramref name="baseList"/> and <paramref name="theirsList"/> are applied to <paramref name="mineList"/> using callback delegates.
-        /// </summary>
-        /// <param name="baseList">A common baseline from which both <paramref name="theirsList"/> and <paramref name="mineList"/> were modified.</param>
-        /// <param name="theirsList">The foreign list with changes that shell be merged in.</param>
-        /// <param name="mineList">The local list that shall be updated with foreign changes.</param>
-        /// <param name="added">Called for every element that should be added to <paramref name="mineList"/>.</param>
-        /// <param name="removed">Called for every element that should be removed from <paramref name="mineList"/>.</param>
-        /// <remarks>
-        /// Modified elements are handled by calling <paramref name="removed"/> for the old state and <paramref name="added"/> for the new state.
-        /// <see langword="null"/> elements are completely ignored.
-        /// </remarks>
-        public static void Merge<T>(IEnumerable<T> baseList, IEnumerable<T> theirsList, IEnumerable<T> mineList, Action<T> added, Action<T> removed)
-            where T : class, IMergeable<T>
-        {
-            #region Sanity checks
-            if (baseList == null) throw new ArgumentNullException("baseList");
-            if (theirsList == null) throw new ArgumentNullException("theirsList");
-            if (mineList == null) throw new ArgumentNullException("mineList");
-            if (added == null) throw new ArgumentNullException("added");
-            if (removed == null) throw new ArgumentNullException("removed");
-            #endregion
-
-            foreach (var theirs in (
-                from theirs in theirsList.Where(theirs => theirs != null)
-                // Entry in theirsList, but not in mineList
-                where FindMergeID(mineList, theirs.MergeID) == null
-                select theirs).Where(theirs => !baseList.Contains(theirs)))
-                added(theirs); // Added in theirsList
-
-            foreach (var mine in mineList)
-            {
-                if (mine == null) continue;
-
-                var matchingTheirs = FindMergeID(theirsList, mine.MergeID);
-                if (matchingTheirs == null)
-                { // Entry in mineList, but not in theirsList
-                    if (baseList.Contains(mine))
-                        removed(mine); // Removed from theirsList
-                }
-                else
-                { // Entry both in mineList and in theirsList
-                    if (!mine.Equals(matchingTheirs) && matchingTheirs.Timestamp > mine.Timestamp)
-                    { // Theirs newer than mine
-                        removed(mine);
-                        added(matchingTheirs);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Finds the first element in a list matching the specified <see cref="IMergeable{T}.MergeID"/>.
-        /// </summary>
-        private static T FindMergeID<T>(IEnumerable<T> elements, string id)
-            where T : class, IMergeable<T>
-        {
-            return elements.FirstOrDefault(element => element != null && element.MergeID == id);
-        }
-        #endregion
-
         #region List
+        /// <summary>
+        /// Adds multiple elements to the list.
+        /// </summary>
+        /// <remarks>This is a covariant wrapper for <see cref="List{T}.AddRange"/>.</remarks>
+        public static void AddRange<TList, TElements>(this List<TList> list, IEnumerable<TElements> elements)
+            where TElements : TList
+        {
+            #region Sanity checks
+            if (list == null) throw new ArgumentNullException("list");
+            #endregion
+
+            list.AddRange(elements.Cast<TList>());
+        }
+
+        /// <summary>
+        /// Removes multiple elements from the list.
+        /// </summary>
+        public static void RemoveRange<TList, TElements>(this List<TList> list, IEnumerable<TElements> elements)
+            where TElements : TList
+        {
+            #region Sanity checks
+            if (list == null) throw new ArgumentNullException("list");
+            if (elements == null) throw new ArgumentNullException("elements");
+            #endregion
+
+            foreach (var element in elements) list.Remove(element);
+        }
+
         /// <summary>
         /// Removes the last n elements from the list.
         /// </summary>
@@ -364,7 +418,7 @@ namespace Common.Collections
         {
             #region Sanity checks
             if (list == null) throw new ArgumentNullException("list");
-            if (number < 0) throw new ArgumentOutOfRangeException("number", "Must not be negative.");
+            if (number < 0) throw new ArgumentOutOfRangeException("number");
             #endregion
 
             list.RemoveRange(list.Count - number, number);

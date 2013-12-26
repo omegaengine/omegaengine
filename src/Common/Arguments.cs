@@ -41,12 +41,13 @@ namespace Common
             return _args;
         }
 
+        private readonly List<string> _files = new List<string>();
         /// <summary>
         /// A list of all file names in the arguments.
         /// </summary>
-        public IList<string> Files { get; private set; }
+        public IEnumerable<string> Files { get { return _files; } }
 
-        private readonly IDictionary<string, string> _commands = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _commands = new Dictionary<string, string>();
 
         /// <summary>
         /// A list of all commands without leading slash or hyphen in the arguments.
@@ -84,7 +85,7 @@ namespace Common
             _args = string.Concat(args);
 
             // Temp collections for building the lists
-            var filesTemp = new C5.ArrayList<string>(args.Length);
+            _files.Clear();
 
             // Separate the arguments element-wise into categories
             for (int i = 0; i < args.Length; i++)
@@ -101,11 +102,8 @@ namespace Common
                         _commands.Add(args[i].Remove(0, 1), null);
                     }
                 }
-                else filesTemp.Add(args[i]);
+                else _files.Add(args[i]);
             }
-
-            // Make the collections immutable
-            Files = new C5.GuardedList<string>(filesTemp);
         }
         #endregion
 

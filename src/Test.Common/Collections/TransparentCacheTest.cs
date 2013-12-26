@@ -20,39 +20,31 @@
  * THE SOFTWARE.
  */
 
-using System;
-using System.Security.Permissions;
-using Common.Controls;
+using NUnit.Framework;
 
-namespace Common.Tasks
+namespace Common.Collections
 {
     /// <summary>
-    /// Uses <see cref="TrackingDialog"/> to inform the user about the progress of tasks.
+    /// Contains test methods for <see cref="TransparentCache{TKey,TValue}"/>.
     /// </summary>
-    public class GuiTaskHandler : MarshalByRefObject, ITaskHandler
+    [TestFixture]
+    public class TransparentCacheTest
     {
-        private readonly CancellationToken _cancellationToken = new CancellationToken();
-
-        /// <inheritdoc/>
-        public CancellationToken CancellationToken { get { return _cancellationToken; } }
-
-        /// <inheritdoc />
-        public void RunTask(ITask task, object tag = null)
+        [Test]
+        public void Test()
         {
-            #region Sanity checks
-            if (task == null) throw new ArgumentNullException("task");
-            #endregion
+            int callCounter = 0;
+            var cache = new TransparentCache<string, string>(input =>
+            {
+                callCounter++;
+                return input + "X";
+            });
 
-            TrackingDialog.Run(null, task);
-        }
+            Assert.AreEqual("inputX", cache["input"]);
+            Assert.AreEqual(1, callCounter, "Should call retriever callback on first request");
 
-        #region IPC timeout
-        /// <inheritdoc/>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
-        public override object InitializeLifetimeService()
-        {
-            return null; // Do not timeout progress reporting callbacks
+            Assert.AreEqual("inputX", cache["input"]);
+            Assert.AreEqual(1, callCounter, "Should not call retriever callback again on subsequent requests");
         }
-        #endregion
     }
 }

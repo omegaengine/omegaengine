@@ -147,17 +147,26 @@
   <data name="DestinationDirExist" xml:space="preserve">
     <value>Das Zielverzeichnis existiert bereits.</value>
   </data>
+  <data name="Downloading" xml:space="preserve">
+    <value>Lade {0} runter</value>
+  </data>
   <data name="ErrorReportSent" xml:space="preserve">
     <value>Der Fehlerbericht wurde erfolgreich versendet.</value>
   </data>
   <data name="FailedToRollback" xml:space="preserve">
     <value>Konnte '{0}' nicht rückgängig machen.</value>
   </data>
+  <data name="FileNotExpectedSize" xml:space="preserve">
+    <value>Die Datei die von {0} runtergeladen werden sollte, hat nicht die erwartete Größe. Sollten {1} Bytes sein, waren aber {2} Bytes.</value>
+  </data>
   <data name="FileNotFound" xml:space="preserve">
     <value>Die Datei "{0}" konnte nicht gefunden werden.</value>
   </data>
   <data name="HideDetails" xml:space="preserve">
     <value>Details verstecken</value>
+  </data>
+  <data name="HttpAndFtpOnly" xml:space="preserve">
+    <value>Nur HTTP und FTP sind unterstützte Download-Protokolle.</value>
   </data>
   <data name="InvalidConfigDir" xml:space="preserve">
     <value>Das Konfigurationsverzeichnis '{0}' ist vermutlich ungültig.</value>

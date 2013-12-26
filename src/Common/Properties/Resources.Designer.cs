@@ -151,6 +151,15 @@ namespace Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downloading {0}.
+        /// </summary>
+        internal static string Downloading {
+            get {
+                return ResourceManager.GetString("Downloading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The error report was sent successfully..
         /// </summary>
         internal static string ErrorReportSent {
@@ -169,6 +178,15 @@ namespace Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file that was supposed to be downloaded from {0} doesn&apos;t have the expected size. Was supposed to be {1} bytes but was actually {2} bytes..
+        /// </summary>
+        internal static string FileNotExpectedSize {
+            get {
+                return ResourceManager.GetString("FileNotExpectedSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The file &quot;{0}&quot; could not be found..
         /// </summary>
         internal static string FileNotFound {
@@ -183,6 +201,15 @@ namespace Common.Properties {
         internal static string HideDetails {
             get {
                 return ResourceManager.GetString("HideDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only HTTP and FTP are supported download protocols..
+        /// </summary>
+        internal static string HttpAndFtpOnly {
+            get {
+                return ResourceManager.GetString("HttpAndFtpOnly", resourceCulture);
             }
         }
         
