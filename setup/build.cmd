@@ -40,6 +40,10 @@ if errorlevel 1 pause
 cd /d "%~dp0..\build"
 zip -q -9 -r "%TargetDir%\omegaengine-templates.vsix" ProjectTemplates
 if errorlevel 1 pause
+
+:: Copy external dependency NuGet packages
+copy "%~dp0..\src\packages\LinqBridge.1.3.0\LinqBridge.1.3.0.nupkg" "Packages\LinqBridge.1.3.0.nupkg" > NUL
+
 zip -q -9 -r "%TargetDir%\omegaengine-templates.vsix" Packages
 if errorlevel 1 pause
 cd /d "%~dp0"

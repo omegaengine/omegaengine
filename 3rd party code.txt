@@ -1,20 +1,37 @@
-NUnit 2.5.10
+NUnit
 http://www.nunit.org/
-Modified zlib license: nunit.license.txt
-Source unmodified
-Pre-compiled managed DLL: nunit.framework.dll
+Modified zlib license
+NuGet package: nunit.framework.dll
 
-Moq 4.0.10827
-http://code.google.com/p/moq/
+Moq
+https://github.com/Moq/moq4
 New BSD license: http://opensource.org/licenses/BSD-3-Clause
-Source unmodified
-Pre-compiled managed DLL: Moq.dll
+NuGet package: Moq.dll
 
-LinqBridge 1.3
+Moq.Contrib
+https://code.google.com/p/moq-contrib/
+New BSD license: http://opensource.org/licenses/BSD-3-Clause
+NuGet package: Moq.Contrib.dll
+
+LinqBridge
 http://code.google.com/p/linqbridge/
-MIT license: ttp://opensource.org//licenses/mit-license
-Source unmodified
-Pre-compiled managed DLL: LinqBridge.dll
+MIT license: http://opensource.org/licenses/mit-license
+NuGet package: LinqBridge.dll
+
+SlimDX runtime January 2012
+http://slimdx.org/
+MIT license: http://opensource.org/licenses/mit-license
+Pre-compiled managed DLL: SlimDX.dll
+
+The C5 Generic Collection Library 1.1.1
+http://www.itu.dk/research/c5/
+MIT-style open license: C5.license.txt
+Pre-compiled managed DLL: C5.dll
+
+TaskDialog
+http://www.codeproject.com/KB/vista/TaskDialogWinForms.aspx
+Public domain
+Self-compiled managed DLL: TaskDialog.dll
 
 ICSharpCode.SharpZipLib 0.86.0
 http://www.icsharpcode.net/OpenSource/SharpZipLib/
@@ -28,46 +45,16 @@ GNU LGPL: http://www.gnu.org/copyleft/lesser.html
 Applied patches: ICSharpCode.TextEditor.*.patch
 Self-compiled managed DLL: ICSharpCode.TextEditor.dll
 
-TaskDialog
-http://www.codeproject.com/KB/vista/TaskDialogWinForms.aspx
-Public domain
-Source unmodified
-Self-compiled managed DLL: TaskDialog.dll
-
-The C5 Generic Collection Library 1.1.1
-http://www.itu.dk/research/c5/
-MIT-style open license: C5.license.txt
-Source unmodified
-Pre-compiled managed DLL: C5.dll
-
-SlimDX runtime January 2012
-http://slimdx.org/
-MIT license: ttp://opensource.org//licenses/mit-license
-Source unmodified
-Pre-compiled managed DLL: SlimDX.dll
-
 LuaInterface 2.0.3
 http://luaforge.net/projects/luainterface/
-MIT license: ttp://opensource.org//licenses/mit-license
+MIT license: http://opensource.org/licenses/mit-license
 Source modified and comitted upstream
 Self-compiled managed DLL: LuaInterface.dll
 
 Lua 5.1
 http://www.lua.org/
-MIT license: ttp://opensource.org//licenses/mit-license
-Source unmodified
+MIT license: http://opensource.org/licenses/mit-license
 Self-compiled hybrid DLL (managed + Visual C++ 2008 runtime): lua51.dll
-
-C# Ogg Vorbis Decoder Wrapper
-http://oggvorbisdecoder.codeplex.com/
-GNU GPL 2 with GNU Classpath exception: OggVorbisDecoder.license.txt
-File references in modified
-Self-compiled managed DLL: OggVorbisDecoder.dll
-
-libogg, libvorbis, vorbisfile
-http://xiph.org/downloads/
-Xiph.Org variant of the BSD license
-Pre-compiled native DLLs: libogg.dll, vorbis.dll, vorbisfile.dll
 
 NVidia Shader Library
 http://developer.download.nvidia.com/shaderlibrary/webpages/shader_library.html

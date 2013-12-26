@@ -18,7 +18,6 @@
   </metadata>
   <files>
     <file src="..\build\ReleaseSDK\de\OmegaEngine.resources.dll" target="lib\net20\de\OmegaEngine.resources.dll" />
-    <file src="..\build\ReleaseSDK\OggVorbisDecoder.dll" target="lib\net20\OggVorbisDecoder.dll" />
     <file src="..\build\ReleaseSDK\OmegaEngine.dll" target="lib\net20\OmegaEngine.dll" />
     <file src="..\build\ReleaseSDK\OmegaEngine.pdb" target="lib\net20\OmegaEngine.pdb" />
     <file src="..\build\ReleaseSDK\OmegaEngine.xml" target="lib\net20\OmegaEngine.xml" />

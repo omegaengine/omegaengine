@@ -40,9 +40,6 @@ The engine is designed to be light-weight, modular and gameplay-agnostic.</descr
     <file src="..\content\Textures\Water\normal.png" target="content\content\Textures\Water\normal.png" />
     <file src="..\content\Textures\Water\surface.png" target="content\content\Textures\Water\surface.png" />
     <file src="..\content\Textures\flag.png" target="content\content\Textures\flag.png" />
-    <file src="..\build\ReleaseSDK\libogg.dll" target="content\libogg.dll" />
-    <file src="..\build\ReleaseSDK\vorbis.dll" target="content\vorbis.dll" />
-    <file src="..\build\ReleaseSDK\vorbisfile.dll" target="content\vorbisfile.dll" />
     <file src="..\build\ReleaseSDK\Shaders\General.fxo" target="content\Shaders\General.fxo" />
     <file src="..\build\ReleaseSDK\Shaders\ParticleSystem.fxo" target="content\Shaders\ParticleSystem.fxo" />
     <file src="..\build\ReleaseSDK\Shaders\Post_Bleach.fxo" target="content\Shaders\Post_Bleach.fxo" />

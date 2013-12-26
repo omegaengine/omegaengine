@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TerrainSample", "TerrainSample", "{4BF4ECB6-3641-4101-A217-DC0ADE512103}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "TerrainSample\Game\Game.csproj", "{9D104552-0123-4EB6-9DEA-845C0B95A4FA}"
