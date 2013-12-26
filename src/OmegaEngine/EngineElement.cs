@@ -30,7 +30,7 @@ namespace OmegaEngine
         {
             if (element == null) return;
 
-            if (Engine != null) element.Engine = Engine;
+            if (IsEngineSet) element.Engine = Engine;
             _children.Add(element);
         }
 
@@ -52,11 +52,12 @@ namespace OmegaEngine
         /// <summary>
         /// The <see cref="Engine"/> instance used by this object. Must be set before using the object. May not be changed once it has been set!
         /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when trying to read the engine before it has been set.</exception>
         public Engine Engine
         {
             get
             {
-                if (_engine == null) throw new InvalidOperationException(Resources.EngineNotSetYet);
+                if (!IsEngineSet) throw new InvalidOperationException(Resources.EngineNotSetYet);
                 return _engine;
             }
             set
@@ -64,7 +65,7 @@ namespace OmegaEngine
                 if (value == null) throw new ArgumentNullException("value");
                 if (Disposed) throw new ObjectDisposedException("EngineElement");
 
-                if (_engine != null)
+                if (IsEngineSet)
                 {
                     if (value == _engine) return;
                     else throw new InvalidOperationException(Resources.EngineCannotChange);
@@ -74,6 +75,11 @@ namespace OmegaEngine
                 OnEngineSet();
             }
         }
+
+        /// <summary>
+        /// <see langword="true"/> if the <see cref="Engine"/> has been set.
+        /// </summary>
+        public bool IsEngineSet { get { return _engine != null; } }
 
         /// <summary>
         /// Hook that is calld when <see cref="Engine"/> is set for the first time.
@@ -97,7 +103,7 @@ namespace OmegaEngine
         {
             if (Disposed) return;
 
-            if (_engine != null && !_engine.Disposed)
+            if (IsEngineSet && !_engine.Disposed)
                 OnDispose();
 
             Disposed = true;

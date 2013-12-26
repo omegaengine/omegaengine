@@ -253,7 +253,7 @@ namespace OmegaEngine.Graphics
             RegisterChild(_floatingModels);
             RegisterChild(_postShaders);
 
-            _scene = scene;
+            RegisterChild(_scene = scene);
             _area = area;
             Camera = camera;
         }

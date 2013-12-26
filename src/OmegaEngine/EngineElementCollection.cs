@@ -45,7 +45,7 @@ namespace OmegaEngine
 
         public void Add(T item)
         {
-            if (Engine != null) item.Engine = Engine;
+            if (IsEngineSet) item.Engine = Engine;
             _innerList.Add(item);
         }
 
