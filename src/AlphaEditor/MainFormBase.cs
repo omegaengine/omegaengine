@@ -436,7 +436,7 @@ namespace AlphaEditor
             if (!FileSelectorDialog.TryGetPath(type, extension, out path, out overwrite)) return;
 
             // ReSharper disable PossibleMultipleEnumeration
-            var previousInstances = Tabs.Keys.OfType<T>();
+            var previousInstances = Tabs.Keys.OfType<T>().Where(x => x.FilePath == path);
             if (previousInstances.Any()) ShowTab(previousInstances.First());
             else AddTab(getInstance(path, overwrite));
             // ReSharper restore PossibleMultipleEnumeration
