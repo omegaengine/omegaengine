@@ -340,6 +340,7 @@
     <Compile Include="Values\ColorCorrection.cs" />
     <Compile Include="Values\Design\AngleEditor.cs" />
     <Compile Include="Values\Design\AttenuationConverter.cs" />
+    <Compile Include="Values\Design\CodeEditor.cs" />
     <Compile Include="Values\Design\ColorCorrectionConverter.cs" />
     <Compile Include="Values\Design\DoublePaneConverter.cs" />
     <Compile Include="Values\Design\DoubleVector3Converter.cs" />
@@ -356,6 +357,7 @@
     <Compile Include="Values\DoublePlane.cs" />
     <Compile Include="Values\DoubleVector3.cs" />
     <Compile Include="Values\ExpandableRectangleArray.cs" />
+    <Compile Include="Values\FileTypeAttribute.cs" />
     <Compile Include="Values\FloatRangeAttribute.cs" />
     <Compile Include="Values\GraphicsEnums.cs" />
     <Compile Include="Values\Quadrangle.cs" />

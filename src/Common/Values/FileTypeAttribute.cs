@@ -20,31 +20,36 @@
  * THE SOFTWARE.
  */
 
-using System.ComponentModel;
-using System.Drawing.Design;
+using System;
 using Common.Values.Design;
 
-namespace TemplateWorld.Positionables
+namespace Common.Values
 {
     /// <summary>
-    /// Stores the position and direction of the camera in the game.
+    /// Stores the file type describing the kind of data a property stores.
+    /// Controls the behaviour of <see cref="CodeEditor"/>.
     /// </summary>
-    /// <seealso cref="UniverseBase{TCoordinates}.Camera"/>
-    /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
-    public class CameraState<TCoordinates> : Positionable<TCoordinates>
-        where TCoordinates : struct
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    public sealed class FileTypeAttribute : Attribute
     {
-        /// <summary>
-        /// The camera's distance from the focused position.
-        /// </summary>
-        [Description("The camera's distance from the focused position.")]
-        public float Radius { get; set; }
+        private readonly string _fileType;
 
         /// <summary>
-        /// The horizontal rotation of the view direction in degrees.
+        /// The name of the file type (e.g. XML, JavaScript, Lua).
         /// </summary>
-        [DefaultValue(0f), Description("The horizontal rotation of the view direction in degrees.")]
-        [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-        public float Rotation { get; set; }
+        public string FileType { get { return _fileType; } }
+
+        /// <summary>
+        /// Creates a new file type attribute.
+        /// </summary>
+        /// <param name="fileType">The name of the file type (e.g. XML, JavaScript, Lua).</param>
+        public FileTypeAttribute(string fileType)
+        {
+            #region Sanity checks
+            if (string.IsNullOrEmpty(fileType)) throw new ArgumentNullException("fileType");
+            #endregion
+
+            _fileType = fileType;
+        }
     }
 }

@@ -21,6 +21,7 @@
  */
 
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Xml.Serialization;
 using Common.Values.Design;
 using TemplateWorld.Templates;
@@ -72,21 +73,21 @@ namespace TemplateWorld.EntityComponents
         /// How the mesh loaded from the file shall be rotated around the X axis (east to west).
         /// </summary>
         [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the X axis (east to west).")]
-        [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
         public float RotationX { get; set; }
 
         /// <summary>
         /// How the mesh loaded from the file shall be rotated around the Y axis (top to bottom).
         /// </summary>
         [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Y axis (top to bottom).")]
-        [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
         public float RotationY { get; set; }
 
         /// <summary>
         /// How the mesh loaded from the file shall be rotated around the Z axis (north to south).
         /// </summary>
         [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Z axis (north to south).")]
-        [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
         public float RotationZ { get; set; }
 
         private float _scale = 1;

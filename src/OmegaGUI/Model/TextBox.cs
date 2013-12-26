@@ -24,6 +24,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Xml.Serialization;
+using Common.Values;
+using Common.Values.Design;
 
 namespace OmegaGUI.Model
 {
@@ -59,13 +61,15 @@ namespace OmegaGUI.Model
         /// <summary>
         /// A script to run when the user presses the ENTER key
         /// </summary>
-        [DefaultValue(""), Description("A script to run when the user presses the ENTER key"), Category("Events"), Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [DefaultValue(""), Description("A script to run when the user presses the ENTER key"), Category("Events"), FileType("Lua")]
+        [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
         public string OnEnter { get; set; }
 
         /// <summary>
         /// A script to run when the control's value has changed
         /// </summary>
-        [DefaultValue(""), Description("A script to run when the control's value has changed"), Category("Events"), Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [DefaultValue(""), Description("A script to run when the control's value has changed"), Category("Events"), FileType("Lua")]
+        [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
         public string OnChanged { get; set; }
         #endregion
 

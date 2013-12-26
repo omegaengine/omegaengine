@@ -34,6 +34,7 @@ using System.Xml.Serialization;
 using Common.Utils;
 using Common.Storage;
 using Common.Values;
+using Common.Values.Design;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaGUI.Render;
@@ -200,15 +201,15 @@ namespace OmegaGUI.Model
         /// <summary>
         /// A script to be run when the dialog is first shown
         /// </summary>
-        [DefaultValue(""), Description("A script to be run when the dialog is first shown"), Category("Events"),
-         Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [DefaultValue(""), Description("A script to be run when the dialog is first shown"), Category("Events"), FileType("Lua")]
+        [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
         public string OnShow { get; set; }
 
         /// <summary>
         /// A script to be run after the dialog was first shown and whenever it needs to update its output
         /// </summary>
-        [DefaultValue(""), Description("A script to be run after the dialog was first shown and whenever it needs to update its output"), Category("Events"),
-         Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [DefaultValue(""), Description("A script to be run after the dialog was first shown and whenever it needs to update its output"), Category("Events"), FileType("Lua")]
+        [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
         public string OnUpdate { get; set; }
         #endregion
 

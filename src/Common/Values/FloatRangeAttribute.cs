@@ -22,12 +22,13 @@
 
 using System;
 using Common.Properties;
+using Common.Values.Design;
 
 namespace Common.Values
 {
     /// <summary>
     /// Stores the mimimum and maximum values allowed for a float field or property.
-    /// Controls the behaviour of <see cref="Common.Controls"/>.
+    /// Controls the behaviour of <see cref="AngleEditor"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public sealed class FloatRangeAttribute : Attribute

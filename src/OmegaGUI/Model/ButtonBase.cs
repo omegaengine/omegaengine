@@ -24,6 +24,8 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using Common.Values;
+using Common.Values.Design;
 
 namespace OmegaGUI.Model
 {
@@ -54,8 +56,8 @@ namespace OmegaGUI.Model
         /// <summary>
         /// A script to run when the control is clicked
         /// </summary>
-        [DefaultValue(""), Description("A script to run when the control is clicked"), Category("Events"),
-         Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [DefaultValue(""), Description("A script to run when the control is clicked"), Category("Events"), FileType("Lua")]
+        [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
         public string OnClick { get; set; }
         #endregion
 

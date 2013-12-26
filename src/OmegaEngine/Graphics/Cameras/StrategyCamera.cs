@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Drawing.Design;
 using Common.Utils;
 using Common.Values;
 using Common.Values.Design;
@@ -59,7 +60,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// </summary>
         /// <remarks>Must be a real number.</remarks>
         [Description("The horizontal rotation in degrees."), Category("Layout")]
-        [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
         public float HorizontalRotation
         {
             get { return _horizontalRotation.RadianToDegree(); }
@@ -122,7 +123,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// </summary>
         /// <remarks>Must be a real number.</remarks>
         [Description("The minimum vertical angle in degrees. Effective when Radius is equal to MinRadius."), Category("Behavior")]
-        [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
         public float MinAngle
         {
             get { return _minAngle.RadianToDegree(); }
@@ -145,7 +146,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// </summary>
         /// <remarks>Must be a real number.</remarks>
         [Description("The maximum vertical angle in degrees. Effective when Radius is equal to MaxRadius."), Category("Behavior")]
-        [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
         public float MaxAngle
         {
             get { return _maxAngle.RadianToDegree(); }
