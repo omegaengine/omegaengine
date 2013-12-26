@@ -5,7 +5,7 @@ The setup is build using Inno Setup 5.4.1 or newer (http://files.jrsoftware.org/
 \build.cmd - A script that automatically compiles the source code and then creates an installer (use the command-line argument "+doc" to compile source code documentation)
 \cleanup.cmd - A cleanup script that removes compiled binaries, deletes temporary "obj" directories, resets Visual Studio settings and so on
 \src\ - The actual source code in a Visual Studio project
-\lib\ - Pre-compiled 3rd party libraries (licensing conditions are detailed in "3rd party code.txt")
+\lib\ - Pre-compiled 3rd party libraries which are not available via NuGet
 \nuget\ - Specification files for building NuGet packages
 \templates\ - Source code for Visual Studio templates
 \setup\ - Files for creating installers
