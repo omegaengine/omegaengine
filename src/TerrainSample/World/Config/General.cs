@@ -78,13 +78,5 @@ namespace TerrainSample.World.Config
         /// </summary>
         [DefaultValue(""), Description("The current game language")]
         public string Language { get { return _language; } set { value.To(ref _language, OnChanged); } }
-
-        private int _universePredictSecs = 5;
-
-        /// <summary>
-        /// How many seconds at a time a universe can be predicted - higher value = better performance, lower value = better accuracy
-        /// </summary>
-        [DefaultValue(5), Description("How many seconds at a time a universe can be predicted - higher value = better performance, lower value = better accuracy")]
-        public int UniversePredictSecs { get { return _universePredictSecs; } set { value.To(ref _universePredictSecs, OnChanged); } }
     }
 }

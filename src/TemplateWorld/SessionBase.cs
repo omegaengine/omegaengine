@@ -97,6 +97,8 @@ namespace TemplateWorld
         {
             RealTime += elapsedRealTime;
             GameTime += elapsedGameTime;
+
+            Universe.Update(elapsedGameTime);
         }
     }
 }

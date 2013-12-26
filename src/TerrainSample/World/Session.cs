@@ -65,26 +65,6 @@ namespace TerrainSample.World
 
         //--------------------//
 
-        /// <inheritdoc/>
-        public override void Update(double elapsedRealTime, double elapsedGameTime)
-        {
-            base.Update(elapsedRealTime, elapsedGameTime);
-            IncrementalUpdate(elapsedGameTime);
-        }
-
-        /// <summary>
-        /// Split <see cref="Universe.Update"/> calls into multiple steps to increase accuracy.
-        /// </summary>
-        private void IncrementalUpdate(double elapsedGameTime)
-        {
-            while (elapsedGameTime > Settings.Current.General.UniversePredictSecs)
-            {
-                Universe.Update(Settings.Current.General.UniversePredictSecs);
-                elapsedGameTime -= Settings.Current.General.UniversePredictSecs;
-            }
-            if (elapsedGameTime > 0) Universe.Update(elapsedGameTime);
-        }
-
         #region Storage
         /// <summary>
         /// Loads a <see cref="Session"/> from a encrypted XML file (savegame).

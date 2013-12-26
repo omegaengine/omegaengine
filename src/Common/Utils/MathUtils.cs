@@ -128,6 +128,38 @@ namespace Common.Utils
         }
         #endregion
 
+        #region Modulo
+        /// <summary>
+        /// Calculates a modulus (always positive).
+        /// </summary>
+        public static double Modulo(this double dividend, double divisor)
+        {
+            double result = dividend % divisor;
+            if (result < 0) result += divisor;
+            return result;
+        }
+
+        /// <summary>
+        /// Calculates a modulus (always positive).
+        /// </summary>
+        public static float Modulo(this float dividend, float divisor)
+        {
+            float result = dividend % divisor;
+            if (result < 0) result += divisor;
+            return result;
+        }
+
+        /// <summary>
+        /// Calculates a modulus (always positive).
+        /// </summary>
+        public static int Modulo(this int dividend, int divisor)
+        {
+            int result = dividend % divisor;
+            if (result < 0) result += divisor;
+            return result;
+        }
+        #endregion
+
         #region Degree-Radian Conversion
         /// <summary>
         /// Converts an angle in degrees to radians

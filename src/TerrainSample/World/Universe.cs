@@ -92,9 +92,7 @@ namespace TerrainSample.World
         /// Base-constructor for XML serialization. Do not call manually!
         /// </summary>
         public Universe()
-        {
-            LightPhaseSpeedFactor = 1;
-        }
+        {}
 
         /// <summary>
         /// Creates a new <see cref="Universe"/> with a terrain.
@@ -112,9 +110,9 @@ namespace TerrainSample.World
         /// <inheritdoc/>
         public override void Update(double elapsedTime)
         {
-            LightPhase += (float)(elapsedTime / 40 * LightPhaseSpeedFactor);
-
             base.Update(elapsedTime);
+
+            LightPhase += (float)(elapsedTime * LightPhaseSpeedFactor);
         }
         #endregion
 

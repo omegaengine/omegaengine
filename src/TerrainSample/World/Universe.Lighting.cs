@@ -144,13 +144,15 @@ namespace TerrainSample.World
         /// </remarks>
         [FloatRange(0f, 4f), DefaultValue(0f), Category("Lighting"), Description("A value between 0 and 4 representing the current sun and moon positions.")]
         [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
-        public float LightPhase { get { return _lightPhase; } set { (value % 4).To(ref _lightPhase, OnLightingChanged); } }
+        public float LightPhase { get { return _lightPhase; } set { (value.Modulo(4)).To(ref _lightPhase, OnLightingChanged); } }
+
+        private float _lightPhaseSpeedFactor = 1/40f;
 
         /// <summary>
         /// The speed with which the <see cref="LightPhase"/> is incremented.
         /// </summary>
-        [DefaultValue(1f), Category("Lighting"), Description("The speed with which the light phase is incremented.")]
-        public float LightPhaseSpeedFactor { get; set; }
+        [DefaultValue(1 / 40f), Category("Lighting"), Description("The speed with which the light phase is incremented.")]
+        public float LightPhaseSpeedFactor { get { return _lightPhaseSpeedFactor; } set { _lightPhaseSpeedFactor = value; } }
         #endregion
 
         #region Color correction
