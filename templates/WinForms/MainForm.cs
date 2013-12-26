@@ -29,12 +29,12 @@ namespace $safeprojectname$
 
         private void InitializeScene(Engine engine)
         {
-            var scene = new Scene(engine)
+            var scene = new Scene
             {
-                Positionables = {Model.Sphere(engine, XTexture.Get(engine, "flag.png"))}
+                Positionables = { Model.Sphere(engine, XTexture.Get(engine, "flag.png")) }
             };
             _camera = new TrackCamera {VerticalRotation = 20};
-            var view = new View(engine, scene, _camera) {BackgroundColor = Color.CornflowerBlue};
+            var view = new View(scene, _camera) {BackgroundColor = Color.CornflowerBlue};
             engine.Views.Add(view);
         }
 

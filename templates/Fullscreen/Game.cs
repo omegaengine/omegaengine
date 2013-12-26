@@ -25,19 +25,19 @@ namespace $safeprojectname$
             if (!base.Initialize()) return false;
             InitializeGui();
             InitializeScene();
-            Engine.EngineConfig = BuildEngineConfig(fullscreen: true); // Real fullscreen
+            Engine.Config = BuildEngineConfig(fullscreen: true); // Real fullscreen
             Engine.FadeIn();
             return true;
         }
         
         private void InitializeScene()
         {
-            var scene = new Scene(Engine)
+            var scene = new Scene
             {
                 Positionables = {Model.Sphere(Engine, XTexture.Get(Engine, "flag.png"), slices: 50, stacks: 50)}
             };
             _camera = new TrackCamera {VerticalRotation = 20};
-            var view = new View(Engine, scene, _camera) {BackgroundColor = Color.CornflowerBlue};
+            var view = new View(scene, _camera) {BackgroundColor = Color.CornflowerBlue};
             Engine.Views.Add(view);
         }
 
