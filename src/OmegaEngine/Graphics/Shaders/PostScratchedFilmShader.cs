@@ -21,10 +21,6 @@ namespace OmegaEngine.Graphics.Shaders
     public class PostScratchedFilmShader : PostShader
     {
         #region Variables
-        private float _speed = 0.03f, _speed2 = 0.02f, _scratchIntensity = 0.65f, _scratchWidth = 0.0075f;
-
-        private readonly EffectHandle _speedHandle, _speed2Handle, _scratchIntensityHandle, _scratchWidthHandle;
-
         private readonly XTexture _noiseTexture;
         #endregion
 
@@ -33,6 +29,9 @@ namespace OmegaEngine.Graphics.Shaders
         /// The minimum shader model version required to use this shader
         /// </summary>
         public static Version MinShaderModel { get { return new Version(2, 0); } }
+
+        private float _speed = 0.03f, _speed2 = 0.02f, _scratchIntensity = 0.65f, _scratchWidth = 0.0075f;
+        private readonly EffectHandle _speedHandle, _speed2Handle, _scratchIntensityHandle, _scratchWidthHandle;
 
         /// <summary>
         /// The horizontal speed of the scratches

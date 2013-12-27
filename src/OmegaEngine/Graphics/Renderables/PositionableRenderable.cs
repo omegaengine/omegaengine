@@ -33,7 +33,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>Render only in <see cref="SupportView"/>s</summary>
         SupportOnly,
 
-        /// <summary>Render only in <see cref="SupportView"/>s for glow maps</summary>
+        /// <summary>Render only in <see cref="GlowView"/>s</summary>
         GlowOnly
     };
 

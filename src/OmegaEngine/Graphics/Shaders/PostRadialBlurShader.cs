@@ -20,18 +20,14 @@ namespace OmegaEngine.Graphics.Shaders
     /// </summary>
     public class PostRadialBlurShader : PostShader
     {
-        #region Variables
-        private float _blurStart = 5.0f, _blurWidth = -0.05f;
-        private Vector2 _blurCenter = new Vector2(0.5f, 0.5f);
-
-        private readonly EffectHandle _blurStartHandle, _blurWidthHandle, _blurCenterHandle;
-        #endregion
-
         #region Properties
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
         public static Version MinShaderModel { get { return new Version(2, 0); } }
+
+        private float _blurStart = 5.0f, _blurWidth = -0.05f;
+        private readonly EffectHandle _blurStartHandle, _blurWidthHandle;
 
         /// <summary>
         /// The minimum range at which to start blur sampling - values between 0 and 10
@@ -62,6 +58,9 @@ namespace OmegaEngine.Graphics.Shaders
                 value.To(ref _blurWidth, () => Effect.SetValue(_blurWidthHandle, value));
             }
         }
+
+        private Vector2 _blurCenter = new Vector2(0.5f, 0.5f);
+        private readonly EffectHandle _blurCenterHandle;
 
         /// <summary>
         /// The center/origin of the radial blur effect

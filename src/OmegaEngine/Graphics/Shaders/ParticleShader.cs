@@ -23,12 +23,7 @@ namespace OmegaEngine.Graphics.Shaders
     public class ParticleShader : SurfaceShader
     {
         #region Variables
-        private float _spawnRadius, _systemHeight;
-        private float _particleSpeed, _particleSpread, _particleSize, _particleShape;
-
         private readonly EffectHandle _particleTextureHandle;
-        private readonly EffectHandle _spawnRadiusHandle, _systemHeightHandle;
-        private readonly EffectHandle _particleSpeedHandle, _particleSpreadHandle, _particleSizeHandle, _particleShapeHandle;
 
         /// <summary>
         /// A 1D-texture containing the particle color spectrum
@@ -41,6 +36,9 @@ namespace OmegaEngine.Graphics.Shaders
         /// The minimum shader model version required to use this shader
         /// </summary>
         public static Version MinShaderModel { get { return new Version(2, 0); } }
+
+        private float _spawnRadius, _systemHeight;
+        private readonly EffectHandle _spawnRadiusHandle, _systemHeightHandle;
 
         /// <summary>
         /// The largest distance from the emitter at which particle shall be spawned
@@ -69,6 +67,9 @@ namespace OmegaEngine.Graphics.Shaders
                 value.To(ref _systemHeight, () => Effect.SetValue(_systemHeightHandle, value));
             }
         }
+
+        private float _particleSpeed, _particleSpread, _particleSize, _particleShape;
+        private readonly EffectHandle _particleSpeedHandle, _particleSpreadHandle, _particleSizeHandle, _particleShapeHandle;
 
         /// <summary>
         /// The speed with which the particles move

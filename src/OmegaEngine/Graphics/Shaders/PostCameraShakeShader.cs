@@ -24,18 +24,14 @@ namespace OmegaEngine.Graphics.Shaders
     /// </remarks>
     public class PostCameraShakeShader : PostShader
     {
-        #region Variables
-        private float _speed = 20.0f, _shakiness = 0.25f, _sharpness = 2.2f;
-        private Vector2 _timeDelta = new Vector2(1, 0.2f);
-
-        private readonly EffectHandle _speedHandle, _shakinessHandle, _sharpnessHandle, _timeDeltaHandle;
-        #endregion
-
         #region Properties
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
         public static Version MinShaderModel { get { return new Version(2, 0); } }
+
+        private float _speed = 20.0f, _shakiness = 0.25f, _sharpness = 2.2f;
+        private readonly EffectHandle _speedHandle, _shakinessHandle, _sharpnessHandle;
 
         /// <summary>
         /// How fast to shake the camera - values between -1 and 100
@@ -81,6 +77,9 @@ namespace OmegaEngine.Graphics.Shaders
                 value.To(ref _sharpness, () => Effect.SetValue(_sharpnessHandle, value));
             }
         }
+
+        private Vector2 _timeDelta = new Vector2(1, 0.2f);
+        private readonly EffectHandle _timeDeltaHandle;
 
         public Vector2 TimeDelta
         {

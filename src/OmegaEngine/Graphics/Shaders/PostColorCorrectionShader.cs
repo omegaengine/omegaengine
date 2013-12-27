@@ -19,18 +19,15 @@ namespace OmegaEngine.Graphics.Shaders
     /// </summary>
     public class PostColorCorrectionShader : PostShader
     {
-        #region Variables
-        private float _brightness = 1, _contrast = 1, _saturation = 1, _hue;
-
-        private readonly EffectHandle _brightnessHandle, _contrastHandle, _saturationHandle, _hueHandle;
-        #endregion
-
         #region Properties
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
         public static Version MinShaderModel { get { return new Version(2, 0); } }
 
+        private float _brightness = 1, _contrast = 1, _saturation = 1, _hue;
+        private readonly EffectHandle _brightnessHandle, _contrastHandle, _saturationHandle, _hueHandle;
+        
         /// <summary>
         /// How bright the picture should be - values between 0 (black) and 5 (5x normal)
         /// </summary>

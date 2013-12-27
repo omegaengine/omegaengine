@@ -25,12 +25,10 @@ namespace OmegaEngine.Graphics.Shaders
     {
         #region Variables
         private readonly bool _lighting;
-        private float _blendDistance = 400, _blendWidth = 700;
 
         private readonly EffectHandle _simple14, _simple20;
         private readonly EffectHandle _light14, _light20, _light2A, _light2B;
         private readonly EffectHandle _simpleBlack, _lightBlack;
-        private readonly EffectHandle _blendDistanceHandle, _blendWidthHandle;
         #endregion
 
         #region Properties
@@ -38,6 +36,9 @@ namespace OmegaEngine.Graphics.Shaders
         /// The minimum shader model version required to use this shader
         /// </summary>
         public static Version MinShaderModel { get { return new Version(1, 4); } }
+
+        private float _blendDistance = 400, _blendWidth = 700;
+        private readonly EffectHandle _blendDistanceHandle, _blendWidthHandle;
 
         /// <summary>
         /// The distance at which to show the pure near texture

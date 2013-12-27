@@ -10,8 +10,8 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using Common.Utils;
+using OmegaEngine.Properties;
 using SlimDX.Direct3D9;
-using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders
 {
@@ -21,10 +21,6 @@ namespace OmegaEngine.Graphics.Shaders
     public class PostGlowShader : PostBlurShader
     {
         #region Variables
-        private float _glowStrength = 1;
-
-        private readonly EffectHandle _glowStrengthHandle;
-
         private readonly TextureView _glowView;
         #endregion
 
@@ -39,6 +35,9 @@ namespace OmegaEngine.Graphics.Shaders
         /// </summary>
         [Description("Does this post-screen shader use overlay rendering instead of a scene map?")]
         public override sealed bool OverlayRendering { get { return true; } }
+
+        private float _glowStrength = 1;
+        private readonly EffectHandle _glowStrengthHandle;
 
         /// <summary>
         /// A factor by which the blurred glow color is multiplied - values between 0 and 100

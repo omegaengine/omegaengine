@@ -138,7 +138,6 @@ namespace OmegaEngine.Graphics.Shaders
 
         private RenderTarget _activeRenderTarget;
 
-        // Note: Using LinkedLists here, because we need quick removes
         private readonly Pool<RenderTarget>
             _availableRenderTargets = new Pool<RenderTarget>(),
             _usedRenderTargets = new Pool<RenderTarget>();

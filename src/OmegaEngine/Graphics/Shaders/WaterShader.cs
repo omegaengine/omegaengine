@@ -26,17 +26,7 @@ namespace OmegaEngine.Graphics.Shaders
     public class WaterShader : SurfaceShader
     {
         #region Variables
-        private Color _dullColor = Color.FromArgb(77, 77, 128);
-        private float _dullBlendFactor = 0.15f;
-        private float _waveLength = 0.1f, _waveHeight = 0.01f, _windForce = 0.2f;
-        private Matrix _windDirection;
-        private Matrix _reflectionViewProjection;
-
         private EffectHandle _reflectionMapHandle, _refractionMapHandle, _normalTextureHandle;
-        private EffectHandle _dullColorHandle, _dullBlendFactorHandle;
-        private EffectHandle _waveLengthHandle, _waveHeightHandle, _windForceHandle, _windDirectionHandle;
-        private EffectHandle _reflectionViewProjectionHandle;
-
         private readonly XTexture _waterTexture, _normalTexture;
         private readonly TextureView _reflectionView, _refractionView;
         #endregion
@@ -46,6 +36,9 @@ namespace OmegaEngine.Graphics.Shaders
         /// The minimum shader model version required to use this shader
         /// </summary>
         public static Version MinShaderModel { get { return new Version(1, 1); } }
+
+        private Color _dullColor = Color.FromArgb(77, 77, 128);
+        private EffectHandle _dullColorHandle;
 
         /// <summary>
         /// The basic color of the water (usually blueish)
@@ -61,6 +54,9 @@ namespace OmegaEngine.Graphics.Shaders
             }
         }
 
+        private float _dullBlendFactor = 0.15f;
+        private EffectHandle _dullBlendFactorHandle;
+
         /// <summary>
         /// How strongly to factor in <see cref="DullColor"/> - values between 0 and 1
         /// </summary>
@@ -75,6 +71,9 @@ namespace OmegaEngine.Graphics.Shaders
                 value.To(ref _dullBlendFactor, () => Effect.SetValue(_dullBlendFactorHandle, value));
             }
         }
+
+        private float _waveLength = 0.1f, _waveHeight = 0.01f, _windForce = 0.2f;
+        private EffectHandle _waveLengthHandle, _waveHeightHandle, _windForceHandle;
 
         /// <summary>
         /// The length of waves on the water surface - values between 0 and 1
@@ -121,6 +120,9 @@ namespace OmegaEngine.Graphics.Shaders
             }
         }
 
+        private Matrix _windDirection;
+        private EffectHandle _windDirectionHandle;
+
         /// <summary>
         /// The direction of the wind moving the waves
         /// </summary>
@@ -134,6 +136,9 @@ namespace OmegaEngine.Graphics.Shaders
                 value.To(ref _windDirection, () => Effect.SetValue(_windDirectionHandle, value));
             }
         }
+
+        private Matrix _reflectionViewProjection;
+        private EffectHandle _reflectionViewProjectionHandle;
 
         /// <summary>
         /// The reflected view-projection from the <see cref="Camera"/>

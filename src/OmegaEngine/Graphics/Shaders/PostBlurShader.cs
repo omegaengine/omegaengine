@@ -9,8 +9,8 @@
 using System;
 using System.ComponentModel;
 using Common.Utils;
+using OmegaEngine.Properties;
 using SlimDX.Direct3D9;
-using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders
 {
@@ -19,17 +19,14 @@ namespace OmegaEngine.Graphics.Shaders
     /// </summary>
     public class PostBlurShader : PostShader
     {
-        #region Variables
-        private float _blurStrength = 1;
-
-        private readonly EffectHandle _blurStrengthHandle;
-        #endregion
-
         #region Properties
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
         public static Version MinShaderModel { get { return new Version(2, 0); } }
+
+        private float _blurStrength = 1;
+        private readonly EffectHandle _blurStrengthHandle;
 
         /// <summary>
         /// How strongly to blur the image - values between 0 and 10

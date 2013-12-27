@@ -10,8 +10,8 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using Common.Utils;
+using OmegaEngine.Properties;
 using SlimDX.Direct3D9;
-using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders
 {
@@ -20,18 +20,14 @@ namespace OmegaEngine.Graphics.Shaders
     /// </summary>
     public class PostHaloShader : PostShader
     {
-        #region Variables
-        private Color _glowColor = Color.White;
-        private float _glowness = 1.6f;
-
-        private readonly EffectHandle _glowColorHandle, _glownessHandle;
-        #endregion
-
         #region Properties
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
         public static Version MinShaderModel { get { return new Version(2, 0); } }
+
+        private Color _glowColor = Color.White;
+        private readonly EffectHandle _glowColorHandle;
 
         /// <summary>
         /// The color of the halo
@@ -46,6 +42,9 @@ namespace OmegaEngine.Graphics.Shaders
                 value.To(ref _glowColor, () => Effect.SetValue(_glowColorHandle, value.ToVector4()));
             }
         }
+
+        private float _glowness = 1.6f;
+        private readonly EffectHandle _glownessHandle;
 
         /// <summary>
         /// How strong the halo shall glow - values between 0 and 3

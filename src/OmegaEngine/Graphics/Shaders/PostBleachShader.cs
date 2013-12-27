@@ -19,17 +19,14 @@ namespace OmegaEngine.Graphics.Shaders
     /// </summary>
     public class PostBleachShader : PostShader
     {
-        #region Variables
-        private float _opacity = 1.0f;
-
-        private readonly EffectHandle _opacityHandle;
-        #endregion
-
         #region Properties
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
         public static Version MinShaderModel { get { return new Version(2, 0); } }
+
+        private float _opacity = 1.0f;
+        private readonly EffectHandle _opacityHandle;
 
         /// <summary>
         /// How strong the bleaching effect should be - values between 0 and 1

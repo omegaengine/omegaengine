@@ -436,22 +436,22 @@ namespace OmegaEngine.Graphics
         #endregion
 
         #region Shadow
-        ///// <summary>
-        ///// Creates a shadow-map for a <see cref="LightSource"/> in the <see cref="Scene"/>
-        ///// </summary>
-        ///// <param name="light">The <see cref="LightSource"/> to create the shadow-map for</param>
-        //public void SetupShadow(LightSource light)
-        //{
-        //    // ToDo: Finish implementation
+        /// <summary>
+        /// Creates a shadow-map for a <see cref="LightSource"/> in the <see cref="Scene"/>
+        /// </summary>
+        /// <param name="light">The <see cref="LightSource"/> to create the shadow-map for</param>
+        public void SetupShadow(LightSource light)
+        {
+            // ToDo: Finish implementation
 
-        //    // Create the new view, make sure the camera stays in sync, copy default properties
-        //    var newView = new ShadowView(this)
-        //    {
-        //        Name = Name + " Shadow"
-        //    };
+            // Create the new view, make sure the camera stays in sync, copy default properties
+            var newView = new ShadowView(this)
+            {
+                Name = Name + " Shadow"
+            };
 
-        //    _childViews.Add(newView);
-        //}
+            _childViews.Add(newView);
+        }
         #endregion
 
         #endregion

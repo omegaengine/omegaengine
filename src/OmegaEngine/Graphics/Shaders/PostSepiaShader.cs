@@ -10,8 +10,8 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using Common.Utils;
+using OmegaEngine.Properties;
 using SlimDX.Direct3D9;
-using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders
 {
@@ -20,18 +20,14 @@ namespace OmegaEngine.Graphics.Shaders
     /// </summary>
     public class PostSepiaShader : PostShader
     {
-        #region Variables
-        private Color _paperTone = Color.FromArgb(255, 229, 127), _stainTone = Color.FromArgb(51, 12, 0);
-        private float _desaturation = 0.5f, _toning = 1.0f;
-
-        private readonly EffectHandle _paperToneHandle, _stainToneHandle, _desatHandle, _tonedHandle;
-        #endregion
-
         #region Properties
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
         public static Version MinShaderModel { get { return new Version(2, 0); } }
+
+        private Color _paperTone = Color.FromArgb(255, 229, 127), _stainTone = Color.FromArgb(51, 12, 0);
+        private readonly EffectHandle _paperToneHandle, _stainToneHandle;
 
         /// <summary>
         /// The color to give the image after turning it into grayscale
@@ -60,6 +56,9 @@ namespace OmegaEngine.Graphics.Shaders
                 value.To(ref _stainTone, () => Effect.SetValue(_stainToneHandle, value.ToVector4()));
             }
         }
+
+        private float _desaturation = 0.5f, _toning = 1.0f;
+        private readonly EffectHandle _desatHandle, _tonedHandle;
 
         /// <summary>
         /// How strongly to turn the image it into grayscale - values between 0 and 1
