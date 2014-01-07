@@ -111,8 +111,17 @@ namespace OmegaEngine.Graphics.Renderables
         /// The <see cref="SurfaceShader"/> to apply to the surface of this <see cref="PositionableRenderable"/>
         /// </summary>
         /// <seealso cref="SurfaceEffect"/>
+        /// <remarks>Will NOT be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
         [Description("The shader to apply to the surface of this body"), Category("Appearance")]
-        public SurfaceShader SurfaceShader { get; set; }
+        public SurfaceShader SurfaceShader
+        {
+            get { return _surfaceShader; }
+            set
+            {
+                _surfaceShader = value;
+                RegisterChild(_surfaceShader, autoDispose: false);
+            }
+        }
 
         /// <summary>
         /// How this <see cref="PositionableRenderable"/> shall be rotated towards the camera
@@ -308,7 +317,8 @@ namespace OmegaEngine.Graphics.Renderables
 
         // Order is not important, duplicate entries are not allowed
         private readonly C5.ICollection<View> _requiredViews = new C5.HashSet<View>();
-        
+        private SurfaceShader _surfaceShader;
+
         /// <summary>
         /// A list of <see cref="View"/>s that must be rendered before this <see cref="PositionableRenderable"/> can be rendered
         /// </summary>
@@ -323,7 +333,7 @@ namespace OmegaEngine.Graphics.Renderables
         internal override void Render(Camera camera, GetLights lights)
         {
             #region Sanity checks
-            if (Disposed) throw new ObjectDisposedException(ToString());
+            if (IsDisposed) throw new ObjectDisposedException(ToString());
             if (camera == null) throw new ArgumentNullException("camera");
             #endregion
 

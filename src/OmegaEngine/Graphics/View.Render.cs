@@ -230,7 +230,7 @@ namespace OmegaEngine.Graphics
         internal virtual void Render()
         {
             #region Sanity checks
-            if (Disposed) throw new ObjectDisposedException(ToString());
+            if (IsDisposed) throw new ObjectDisposedException(ToString());
             #endregion
 
             // Culling-debug information

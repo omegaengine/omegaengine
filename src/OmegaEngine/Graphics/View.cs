@@ -185,9 +185,10 @@ namespace OmegaEngine.Graphics
         private readonly EngineElementCollection<TextureView> _childViews = new EngineElementCollection<TextureView>();
 
         /// <summary>
-        /// A list of <see cref="TextureView"/>s that are to be <see cref="Render"/>ed before this <see cref="View"/>
+        /// A list of <see cref="TextureView"/>s that are to be <see cref="Render"/>ed before this <see cref="View"/>.
+        /// Usually only <see cref="Render"/>ed if a <see cref="PositionableRenderable"/> in <see cref="OmegaEngine.Graphics.Scene.Positionables"/> has it listed in <see cref="PositionableRenderable.RequiredViews"/>.
         /// </summary>
-        /// <remarks>Usually only <see cref="Render"/>ed if a <see cref="PositionableRenderable"/> in <see cref="OmegaEngine.Graphics.Scene.Positionables"/> has it listed in <see cref="PositionableRenderable.RequiredViews"/></remarks>
+        /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
         [Browsable(false)]
         public ICollection<TextureView> ChildViews { get { return _childViews; } }
 
@@ -204,15 +205,16 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// The scene containing the <see cref="PositionableRenderable"/>s to be rendered
         /// </summary>
+        /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
         [Browsable(false)]
         public Scene Scene { get { return _scene; } }
 
         private readonly EngineElementCollection<FloatingModel> _floatingModels = new EngineElementCollection<FloatingModel>();
 
         /// <summary>
-        /// A list of <see cref="FloatingModel"/>s to be overlayed on top of the <see cref="Scene"/>
+        /// A list of <see cref="FloatingModel"/>s to be overlayed on top of the <see cref="Scene"/>. Use this for UI-like elements, e.g. axis-arrows.
         /// </summary>
-        /// <remarks>Use this for UI-like elements, e.g. axis-arrows</remarks>
+        /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
         [Browsable(false)]
         public ICollection<FloatingModel> FloatingModels { get { return _floatingModels; } }
 
@@ -221,6 +223,7 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// A list of post-processing shaders to be applied after rendering the scene
         /// </summary>
+        /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
         [Browsable(false)]
         public ICollection<PostShader> PostShaders { get { return _postShaders; } }
 
@@ -298,7 +301,7 @@ namespace OmegaEngine.Graphics
                         _sortedTransparentBodies.Exists(body => body.RequiredViews.Contains(lazyView)))
                         lazyView.Render();
                 }
-            }.Dispatch(_childViews.Where(childView => childView.Visible && !childView.Disposed));
+            }.Dispatch(_childViews.Where(childView => childView.Visible && !childView.IsDisposed));
         }
         #endregion
 
@@ -463,8 +466,6 @@ namespace OmegaEngine.Graphics
         protected override void OnEngineSet()
         {
             base.OnEngineSet();
-
-            Scene.Engine = Engine;
 
             // Calculate the effective viewport and continuously update it, if it is fullscreen
             UpdateViewport();

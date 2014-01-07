@@ -173,23 +173,23 @@ namespace OmegaEngine.Graphics.Renderables
         {
             try
             {
-                    if (_waterTexture != null) _waterTexture.ReleaseReference();
+                if (_waterTexture != null) _waterTexture.ReleaseReference();
 
-                    foreach (XMaterial material in Materials)
-                        material.ReleaseReference();
+                foreach (XMaterial material in Materials)
+                    material.ReleaseReference();
 
-                    if (_viewSource != null)
+                if (_viewSource != null)
+                {
+                    // Remove this water plane from the view source dependency list
+                    _viewSource.ReleaseReference();
+
+                    // Remove the view source, if it is no longer required
+                    if (_viewSource.ReferenceCount == 0)
                     {
-                        // Remove this water plane from the view source dependency list
-                        _viewSource.ReleaseReference();
-
-                        // Remove the view source, if it is no longer required
-                        if (_viewSource.ReferenceCount == 0)
-                        {
-                            _viewSource.Dispose();
-                            Engine.WaterViewSources.Remove(_viewSource);
-                        }
+                        _viewSource.Dispose();
+                        Engine.WaterViewSources.Remove(_viewSource);
                     }
+                }
             }
             finally
             {

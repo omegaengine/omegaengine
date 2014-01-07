@@ -61,7 +61,7 @@ namespace OmegaEngine.Audio
         public virtual void StartPlayback(bool looping)
         {
             #region Sanity checks
-            if (Disposed) throw new ObjectDisposedException(ToString());
+            if (IsDisposed) throw new ObjectDisposedException(ToString());
             #endregion
 
             SoundBuffer.Play(0, looping ? PlayFlags.Looping : PlayFlags.None);

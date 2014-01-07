@@ -20,18 +20,18 @@ namespace OmegaEngine
     public abstract class EngineElement : IDisposable
     {
         #region Children
-        private readonly List<EngineElement> _children = new List<EngineElement>();
-
         /// <summary>
         /// Registers a child <see cref="EngineElement"/> for automatic <see cref="Engine"/> setting and <see cref="Dispose"/> calling.
         /// </summary>
         /// <param name="element">The <see cref="EngineElement"/> to register. Silently ignores <see langword="null"/>.</param>
-        protected void RegisterChild(EngineElement element)
+        /// <param name="autoDispose">Controls whether the <paramref name="element"/> is automatically disposed when <see cref="Dispose"/> is called.</param>
+        protected void RegisterChild(EngineElement element, bool autoDispose = true)
         {
             if (element == null) return;
 
             if (IsEngineSet) element.Engine = Engine;
-            _children.Add(element);
+            _toSetEngine.Add(element);
+            if (autoDispose) _toDispose.Add(element);
         }
 
         /// <summary>
@@ -42,12 +42,14 @@ namespace OmegaEngine
         {
             if (element == null) return;
 
-            _children.Remove(element);
+            _toSetEngine.Remove(element);
+            _toDispose.Remove(element);
         }
         #endregion
 
         #region Engine
         private Engine _engine;
+        private readonly List<EngineElement> _toSetEngine = new List<EngineElement>();
 
         /// <summary>
         /// The <see cref="Engine"/> instance used by this object. Must be set before using the object. May not be changed once it has been set!
@@ -58,12 +60,13 @@ namespace OmegaEngine
             get
             {
                 if (!IsEngineSet) throw new InvalidOperationException(Resources.EngineNotSetYet);
+                if (IsDisposed) throw new ObjectDisposedException(ToString());
                 return _engine;
             }
             set
             {
                 if (value == null) throw new ArgumentNullException("value");
-                if (Disposed) throw new ObjectDisposedException("EngineElement");
+                if (IsDisposed) throw new ObjectDisposedException(ToString());
 
                 if (IsEngineSet)
                 {
@@ -86,27 +89,29 @@ namespace OmegaEngine
         /// </summary>
         protected virtual void OnEngineSet()
         {
-            foreach (var element in _children)
+            foreach (var element in _toSetEngine)
                 element.Engine = Engine;
         }
         #endregion
 
         #region Dispose
+        private readonly List<EngineElement> _toDispose = new List<EngineElement>();
+
         /// <summary>
         /// Indicates whether this object has been disposed and can therefore no longer be used.
         /// </summary>
-        public bool Disposed { get; private set; }
+        public bool IsDisposed { get; private set; }
 
         /// <inheritdoc/>
         [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Using an alternative OnDispose() pattern")]
         public void Dispose()
         {
-            if (Disposed) return;
+            if (IsDisposed) return;
 
-            if (IsEngineSet && !_engine.Disposed)
+            if (IsEngineSet && !_engine.IsDisposed)
                 OnDispose();
 
-            Disposed = true;
+            IsDisposed = true;
             GC.SuppressFinalize(this);
         }
 
@@ -115,7 +120,7 @@ namespace OmegaEngine
         /// </summary>
         protected virtual void OnDispose()
         {
-            foreach (var element in _children)
+            foreach (var element in _toDispose)
                 element.Dispose();
         }
 

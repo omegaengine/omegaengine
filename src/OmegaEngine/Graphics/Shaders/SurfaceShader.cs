@@ -142,7 +142,7 @@ namespace OmegaEngine.Graphics.Shaders
         public virtual void Apply(Action render, XMaterial material, Camera camera, params LightSource[] lights)
         {
             #region Sanity checks
-            if (Disposed) throw new ObjectDisposedException(ToString());
+            if (IsDisposed) throw new ObjectDisposedException(ToString());
             if (render == null) throw new ArgumentNullException("render");
             if (camera == null) throw new ArgumentNullException("camera");
             if (lights == null) throw new ArgumentNullException("lights");

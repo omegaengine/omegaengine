@@ -50,7 +50,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="mesh">The mesh use for rendering</param>
         /// <param name="materials">The materials to use for rendering the mesh</param>
         public FloatingModel(Mesh mesh, params XMaterial[] materials)
-            : base( mesh, materials)
+            : base(mesh, materials)
         {}
         #endregion
 

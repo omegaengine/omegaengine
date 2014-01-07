@@ -648,7 +648,7 @@ namespace OmegaEngine.Graphics.Shaders
         protected void SetShaderParameter<T>(string name, T value)
             where T : struct
         {
-            if (Disposed) return;
+            if (IsDisposed) return;
 
             if (Effect == null) _defferedActions.Enqueue(() => Effect.SetValue(_effectHandles[name], value));
             else Effect.SetValue(_effectHandles[name], value);
@@ -718,7 +718,7 @@ namespace OmegaEngine.Graphics.Shaders
                 Engine.DeviceLost -= OnLostDevice;
                 Engine.DeviceReset -= OnResetDevice;
 
-                if (!Engine.Disposed)
+                if (!Engine.IsDisposed)
                 {
                     if (_activeRenderTarget != null) _activeRenderTarget.Dispose();
                     _availableRenderTargets.ForEach(target => target.Dispose());

@@ -47,9 +47,6 @@ namespace TerrainSample.Presentation
             if (Initialized) return;
             #endregion
 
-            // NOTE: May be able to remove this after some Engine refactoring
-            View.Engine = Engine;
-
             // Handle fog and keep updated
             Universe.FogChanged += UpdateFog;
             UpdateFog();

@@ -70,7 +70,7 @@ namespace OmegaEngine.Audio
         public override void StartPlayback(bool looping)
         {
             #region Sanity checks
-            if (Disposed) throw new ObjectDisposedException(ToString());
+            if (IsDisposed) throw new ObjectDisposedException(ToString());
             #endregion
 
             // ToDo: Implement

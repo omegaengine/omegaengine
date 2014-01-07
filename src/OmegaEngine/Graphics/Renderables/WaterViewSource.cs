@@ -66,11 +66,10 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Creates a new <see cref="WaterViewSource"/>
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to create the views in</param>
         /// <param name="height">The height of the <see cref="Water"/> planes (Y axis)</param>
         /// <param name="baseView">The <see cref="View"/> the <see cref="Water"/> planes are shown in</param>
         /// <param name="clipTolerance">How far to shift the clip plane along its normal vector to reduce graphical glitches at corners</param>
-        private WaterViewSource(Engine engine, double height, View baseView, float clipTolerance)
+        private WaterViewSource(double height, View baseView, float clipTolerance)
         {
             Height = height;
             BaseView = baseView;
@@ -83,8 +82,8 @@ namespace OmegaEngine.Graphics.Renderables
             ReflectedView = WaterView.CreateReflection(baseView, new DoublePlane(position, UpVector), clipTolerance);
 
             // Load shaders
-            RefractionOnlyShader = new WaterShader(RefractedView) {Engine = engine};
-            RefractionReflectionShader = new WaterShader(RefractedView, ReflectedView) { Engine = engine };
+            RefractionOnlyShader = new WaterShader(RefractedView);
+            RefractionReflectionShader = new WaterShader(RefractedView, ReflectedView);
         }
         #endregion
 
@@ -112,7 +111,7 @@ namespace OmegaEngine.Graphics.Renderables
                              candidate.ClipTolerance == clipTolerance);
             // ReSharper restore CompareOfFloatsByEqualityOperator
 
-            if (view == null) engine.WaterViewSources.Add(view = new WaterViewSource(engine, height, baseView, clipTolerance));
+            if (view == null) engine.WaterViewSources.Add(view = new WaterViewSource(height, baseView, clipTolerance));
 
             view.ReferenceCount++;
             return view;

@@ -70,7 +70,8 @@ namespace OmegaEngine
         /// <summary>
         /// A list of all views to be rendered by the engine
         /// </summary>
-        public ICollection<View> Views { get { return _views;  } }
+        /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
+        public ICollection<View> Views { get { return _views; } }
 
         #region Time
         /// <summary>
@@ -206,7 +207,7 @@ namespace OmegaEngine
         {
             get
             {
-                if (_simpleWaterShader == null) RegisterChild(_simpleWaterShader = new WaterShader{Engine = this});
+                if (_simpleWaterShader == null) RegisterChild(_simpleWaterShader = new WaterShader());
                 return _simpleWaterShader;
             }
         }
@@ -249,7 +250,7 @@ namespace OmegaEngine
 
             #region Status checks
             // Unlock the mouse and skip rendering if the target is invisible or the device disposed
-            if (!Target.Visible || _isResetting || Disposed)
+            if (!Target.Visible || _isResetting || IsDisposed)
             {
                 WinForms.Cursor.Clip = new Rectangle();
                 return;
@@ -275,7 +276,7 @@ namespace OmegaEngine
 
             Performance.OnNewFrame();
 
-            if (!Disposed)
+            if (!IsDisposed)
             {
                 if (!_firstFrameDone)
                 {

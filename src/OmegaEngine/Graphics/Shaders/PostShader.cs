@@ -82,7 +82,7 @@ namespace OmegaEngine.Graphics.Shaders
         public virtual void Apply(Action render, Size sceneSize, RenderTarget sceneMap)
         {
             #region Sanity checks
-            if (Disposed) throw new ObjectDisposedException(ToString());
+            if (IsDisposed) throw new ObjectDisposedException(ToString());
             if (render == null) throw new ArgumentNullException("render");
             #endregion
 

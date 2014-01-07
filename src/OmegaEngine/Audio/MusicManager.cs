@@ -262,7 +262,7 @@ namespace OmegaEngine.Audio
         /// </summary>
         public void Dispose()
         {
-            if (_engine != null && !_engine.Disposed)
+            if (_engine != null && !_engine.IsDisposed)
             {
                 foreach (Song song in _themes.Values)
                     song.Dispose();

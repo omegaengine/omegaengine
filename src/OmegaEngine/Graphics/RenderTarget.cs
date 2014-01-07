@@ -97,7 +97,7 @@ namespace OmegaEngine.Graphics
         #region Device Lost
         private void OnLostDevice()
         {
-            if (!_engine.Disposed)
+            if (!_engine.IsDisposed)
             {
                 Texture.Dispose();
                 Surface.Dispose();
@@ -109,7 +109,7 @@ namespace OmegaEngine.Graphics
         #region Initialize
         private void Initialize()
         {
-            if (!_engine.Disposed)
+            if (!_engine.IsDisposed)
             {
                 // Use the engine's default viewport if selected
                 Viewport = (Size == Size.Empty) ? _engine.RenderViewport : new Viewport {Width = Size.Width, Height = Size.Height, MaxZ = 1};
@@ -207,7 +207,7 @@ namespace OmegaEngine.Graphics
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_rtsHelper", Justification = "_rtsHelper is queued for disposal at the end of the frame")]
         private void Dispose(bool disposing)
         {
-            if (Disposed || Texture == null || _engine == null || _engine.Disposed) return; // Don't try to dispose more than once
+            if (Disposed || Texture == null || _engine == null || _engine.IsDisposed) return; // Don't try to dispose more than once
 
             // Unhook device events
             _engine.DeviceLost -= OnLostDevice;

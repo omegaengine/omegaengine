@@ -154,7 +154,7 @@ namespace OmegaGUI
         private void LayoutHelper()
         {
             Engine engine = DialogRender.DialogManager.Engine;
-            if (engine == null || engine.Disposed) return;
+            if (engine == null || engine.IsDisposed) return;
             Size renderSize = engine.RenderSize;
 
             if (DialogModel.Fullscreen && DialogModel.Size != Size.Empty)

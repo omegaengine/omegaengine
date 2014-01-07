@@ -235,9 +235,6 @@ namespace OmegaEngine
             foreach (var view in Views) view.Scene.Dispose();
             base.OnDispose();
 
-            DisposeShaders(_terrainShadersLighting);
-            DisposeShaders(_terrainShadersNoLighting);
-
             // Shutdown music
             Music.Dispose();
 
@@ -260,20 +257,6 @@ namespace OmegaEngine
 
             // Dispose debug window
             if (_debugForm != null) _debugForm.Dispose();
-        }
-
-        /// <summary>
-        /// Disposes all shaders in an array (skipping <see langword="null"/> entries).
-        /// </summary>
-        private static void DisposeShaders<T>(T[] shaders)
-            where T : Shader
-        {
-            for (int i = 0; i < shaders.Length; i++)
-            {
-                if (shaders[i] == null) continue;
-                shaders[i].Dispose();
-                shaders[i] = null;
-            }
         }
         #endregion
     }

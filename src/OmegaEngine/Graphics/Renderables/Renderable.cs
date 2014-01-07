@@ -20,7 +20,7 @@ namespace OmegaEngine.Graphics.Renderables
     {
         #region Variables
         private bool _preRenderDone;
-        
+
         /// <summary>
         /// Occurs once per frame before rendering the entity.
         /// Will not be executed if the entity is excluded by a culling test.
@@ -64,6 +64,7 @@ namespace OmegaEngine.Graphics.Renderables
 
         #region Flags
         private bool _visible = true;
+
         /// <summary>
         /// Shall the entity be rendered?
         /// </summary>
@@ -112,7 +113,7 @@ namespace OmegaEngine.Graphics.Renderables
         protected void PrepareRender()
         {
             #region Sanity checks
-            if (Disposed) throw new ObjectDisposedException(ToString());
+            if (IsDisposed) throw new ObjectDisposedException(ToString());
             #endregion
 
             OnPreRender();

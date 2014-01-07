@@ -361,7 +361,7 @@ namespace TerrainSample.Presentation
                     {}
                 }
 
-                #region Sanity checks
+                #region Assertions
                 if (_worldToEngine.Count != 0)
                     throw new InvalidOperationException("Render associations left over after hook out");
                 if (_worldToEngineWater.Count != 0)
@@ -370,14 +370,7 @@ namespace TerrainSample.Presentation
                     throw new InvalidOperationException("Entity associations left over after hook out");
                 #endregion
 
-                if (Terrain != null) Terrain.Dispose();
-
-                // Dispose Engine-related data structures
-                if (_colorCorrectionShader != null) _colorCorrectionShader.Dispose();
-                if (_bleachShader != null) _bleachShader.Dispose();
-                if (_sepiaShader != null) _sepiaShader.Dispose();
                 if (View != null) View.Dispose();
-                if (Scene != null) Scene.Dispose();
             }
             else
             { // This block will only be executed on Garbage Collection, not by manual disposal

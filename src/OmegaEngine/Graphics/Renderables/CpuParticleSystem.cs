@@ -87,7 +87,7 @@ namespace OmegaEngine.Graphics.Renderables
 
                 BoundingSphere = new BoundingSphere(new Vector3(), maxDistance / 2);
             }
-            // ReSharper restore CompareOfFloatsByEqualityOperator
+                // ReSharper restore CompareOfFloatsByEqualityOperator
 
             else
             { // ... otherwise sum up the maximums

@@ -80,11 +80,13 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// All <see cref="PositionableRenderable"/>s contained within this scene.
         /// </summary>
+        /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
         public ICollection<PositionableRenderable> Positionables { get { return _positionables; } }
 
         /// <summary>
         /// The current <see cref="Skybox"/> for this scene
         /// </summary>
+        /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
         public Skybox Skybox
         {
             get { return _skybox; }
