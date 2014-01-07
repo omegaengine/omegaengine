@@ -8,7 +8,6 @@
 
 using System;
 using System.Drawing;
-using SlimDX;
 using Resources = OmegaGUI.Properties.Resources;
 
 namespace OmegaGUI.Render
@@ -66,7 +65,7 @@ namespace OmegaGUI.Render
         public void Reset()
         {
             RemoveAllControls();
-            SetBackgroundColors(new Color4(Color.FromArgb(196, 64, 64, 64)));
+            SetBackgroundColors(Color.FromArgb(196, 64, 64, 64));
 
             AddStatic(0, _text, 5, 5, Width - 10, Height - 60).TextAlign = TextAlign.Center;
 

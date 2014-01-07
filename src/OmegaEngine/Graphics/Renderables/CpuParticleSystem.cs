@@ -215,8 +215,7 @@ namespace OmegaEngine.Graphics.Renderables
                 // Identify particles that have begun their second life
                 if (particle.SecondLife)
                 {
-                    particle.Color = new Color4(
-                        RandomUtils.GetRandomColor(_preset.LowerParameters2.Color, _preset.UpperParameters2.Color));
+                    particle.Color = RandomUtils.GetRandomColor(_preset.LowerParameters2.Color, _preset.UpperParameters2.Color);
                     _secondLifeParticles.Add(particle);
                     return true; // Remove from the pool
                 }
@@ -374,7 +373,7 @@ namespace OmegaEngine.Graphics.Renderables
                 particle.Velocity = default(Vector3);
                 particle.Parameters1 = parameters1;
                 particle.Parameters2 = parameters2;
-                particle.Color = new Color4(parameters1.Color);
+                particle.Color = parameters1.Color;
                 particle.SecondLife = false;
                 _firstLifeParticles.Add(particle);
             }

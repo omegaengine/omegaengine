@@ -209,7 +209,7 @@ namespace OmegaEngine.Graphics.Renderables
 
                 // Check if vertex is within the target area
                 if (modifyArea.Contains(index))
-                    verts[i].Color = partialColorMap[index.X - start.X, index.Y - start.Y].ToVector4();
+                    verts[i].Color = partialColorMap[index.X - start.X, index.Y - start.Y];
             }
 
             BufferHelper.WriteVertexBuffer(Mesh, verts);

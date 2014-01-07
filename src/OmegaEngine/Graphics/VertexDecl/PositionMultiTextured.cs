@@ -7,9 +7,7 @@
  */
 
 using System;
-using System.Drawing;
 using System.Runtime.InteropServices;
-using Common.Utils;
 using SlimDX;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
@@ -52,7 +50,7 @@ namespace OmegaEngine.Graphics.VertexDecl
         public Vector4 TexWeights1, TexWeights2, TexWeights3, TexWeights4;
 
         /// <summary>A color by which the texture will be multiplied</summary>
-        public Vector4 Color;
+        public Color4 Color;
 
         // ReSharper restore FieldCanBeMadeReadOnly.Global
         // ReSharper restore MemberCanBePrivate.Global
@@ -80,7 +78,7 @@ namespace OmegaEngine.Graphics.VertexDecl
         /// <param name="lightSetAngle">The maximum vertical angle in radians which a directional light must not exceed to be not occluded</param>
         /// <param name="texWeights">A 16-element array of texture blending weight</param>
         /// <param name="color">A color by which the texture will be multiplied</param>
-        public PositionMultiTextured(Vector3 position, float tu, float tv, float lightRiseAngle, float lightSetAngle, float[] texWeights, Color color)
+        public PositionMultiTextured(Vector3 position, float tu, float tv, float lightRiseAngle, float lightSetAngle, float[] texWeights, Color4 color)
         {
             #region Sanity checks
             if (texWeights == null) throw new ArgumentNullException("texWeights");
@@ -97,7 +95,7 @@ namespace OmegaEngine.Graphics.VertexDecl
             TexWeights2 = new Vector4(texWeights[4], texWeights[5], texWeights[6], texWeights[7]);
             TexWeights3 = new Vector4(texWeights[8], texWeights[9], texWeights[10], texWeights[11]);
             TexWeights4 = new Vector4(texWeights[12], texWeights[13], texWeights[14], texWeights[15]);
-            Color = color.ToVector4();
+            Color = color;
         }
         #endregion
 

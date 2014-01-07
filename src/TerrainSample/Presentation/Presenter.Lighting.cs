@@ -102,7 +102,7 @@ namespace TerrainSample.Presentation
             }
             else throw new InvalidOperationException("Invalid sun phase!");
 
-            _light1.Specular = ColorUtils.Multiply(_light1.Diffuse, DiffuseToSpecularRatio);
+            _light1.Specular = Color4.Scale(_light1.Diffuse, DiffuseToSpecularRatio).ToColor();
             _light1.Ambient = Universe.AmbientColor;
         }
 
@@ -132,7 +132,7 @@ namespace TerrainSample.Presentation
             }
             else throw new InvalidOperationException("Invalid moon phase!");
 
-            _light2.Specular = ColorUtils.Multiply(_light2.Diffuse, DiffuseToSpecularRatio);
+            _light2.Specular = Color4.Scale(_light2.Diffuse, DiffuseToSpecularRatio).ToColor();
             _light2.Ambient = Color.Black;
         }
 

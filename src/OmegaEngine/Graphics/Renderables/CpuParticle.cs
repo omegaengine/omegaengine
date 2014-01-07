@@ -142,7 +142,7 @@ namespace OmegaEngine.Graphics.Renderables
             // Update position
             Position += Velocity * elapsedTime;
 
-            #region Update size
+            // Update size
             if (SecondLife)
             {
                 Parameters2.Size += Parameters2.DeltaSize * elapsedTime;
@@ -154,16 +154,13 @@ namespace OmegaEngine.Graphics.Renderables
                 if (Parameters1.Size < 0) Parameters1.Size = 0;
             }
             Size = SecondLife ? Parameters2.Size : Parameters1.Size;
-            #endregion
 
-            #region Update color
-            float currentDeltaColor = SecondLife ? Parameters2.DeltaColor : Parameters1.DeltaColor;
-
-            Color = ColorUtils.Add(Color, new Color4(
-                -currentDeltaColor * elapsedTime,
-                -currentDeltaColor * elapsedTime,
-                -currentDeltaColor * elapsedTime));
-            #endregion
+            // Update color
+            float currentDeltaColor = (SecondLife ? Parameters2.DeltaColor : Parameters1.DeltaColor) * elapsedTime;
+            Color = new Color4(
+                (Color.Red - currentDeltaColor).Clamp(),
+                (Color.Green - currentDeltaColor).Clamp(),
+                (Color.Blue - currentDeltaColor).Clamp());
         }
         #endregion
 

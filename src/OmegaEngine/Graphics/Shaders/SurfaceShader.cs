@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Common.Utils;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
@@ -68,11 +67,11 @@ namespace OmegaEngine.Graphics.Shaders
         private void SetupLightHelper(LightSource light, int index, XMaterial material)
         {
             if (index < _lightDiffuseHandles.Count)
-                Effect.SetValue(_lightDiffuseHandles[index], ColorUtils.Multiply(light.Diffuse, material.Diffuse));
+                Effect.SetValue(_lightDiffuseHandles[index], Color4.Modulate(light.Diffuse, material.Diffuse));
             if (index < _lightAmbientHandles.Count)
-                Effect.SetValue(_lightAmbientHandles[index], ColorUtils.Multiply(light.Ambient, material.Ambient));
+                Effect.SetValue(_lightAmbientHandles[index], Color4.Modulate(light.Ambient, material.Ambient));
             if (index < _lightSpecularHandles.Count)
-                Effect.SetValue(_lightSpecularHandles[index], ColorUtils.Multiply(light.Specular, material.Specular));
+                Effect.SetValue(_lightSpecularHandles[index], Color4.Modulate(light.Specular, material.Specular));
             if (index < _lightSpecularPowerHandles.Count)
                 Effect.SetValue(_lightSpecularPowerHandles[index], material.SpecularPower);
         }
@@ -280,7 +279,7 @@ namespace OmegaEngine.Graphics.Shaders
 
                                     #region Lighting
                                 case SemanticID.Emissive:
-                                    Effect.SetValue(info.Handle, material.Emissive.ToVector4());
+                                    Effect.SetValue(info.Handle, new Color4(material.Emissive));
                                     break;
 
                                 case SemanticID.Position:
