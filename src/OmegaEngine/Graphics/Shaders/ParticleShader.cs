@@ -23,7 +23,7 @@ namespace OmegaEngine.Graphics.Shaders
     public class ParticleShader : SurfaceShader
     {
         #region Variables
-        private readonly EffectHandle _particleTextureHandle;
+        private EffectHandle _particleTextureHandle;
 
         /// <summary>
         /// A 1D-texture containing the particle color spectrum
@@ -38,122 +38,59 @@ namespace OmegaEngine.Graphics.Shaders
         public static Version MinShaderModel { get { return new Version(2, 0); } }
 
         private float _spawnRadius, _systemHeight;
-        private readonly EffectHandle _spawnRadiusHandle, _systemHeightHandle;
 
         /// <summary>
         /// The largest distance from the emitter at which particle shall be spawned
         /// </summary>
         [DefaultValue(0f), Description("The largest distance from the emitter at which particle shall be spawned")]
-        public float SpawnRadius
-        {
-            get { return _spawnRadius; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _spawnRadius, () => Effect.SetValue(_spawnRadiusHandle, value));
-            }
-        }
+        public float SpawnRadius { get { return _spawnRadius; } set { value.To(ref _spawnRadius, () => SetShaderParameter("SpawnRadius", value)); } }
 
         /// <summary>
         /// The largest distance from the emitter particles can travel before dying
         /// </summary>
         [DefaultValue(0f), Description("The largest distance from the emitter particles can travel before dying")]
-        public float SystemHeight
-        {
-            get { return _systemHeight; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _systemHeight, () => Effect.SetValue(_systemHeightHandle, value));
-            }
-        }
+        public float SystemHeight { get { return _systemHeight; } set { value.To(ref _systemHeight, () => SetShaderParameter("SystemHeight", value)); } }
 
         private float _particleSpeed, _particleSpread, _particleSize, _particleShape;
-        private readonly EffectHandle _particleSpeedHandle, _particleSpreadHandle, _particleSizeHandle, _particleShapeHandle;
 
         /// <summary>
         /// The speed with which the particles move
         /// </summary>
         [DefaultValue(0f), Description("The speed with which the particles move")]
-        public float ParticleSpeed
-        {
-            get { return _particleSpeed; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _particleSpeed, () => Effect.SetValue(_particleSpeedHandle, value));
-            }
-        }
+        public float ParticleSpeed { get { return _particleSpeed; } set { value.To(ref _particleSpeed, () => SetShaderParameter("ParticleSpeed", value)); } }
 
         /// <summary>
         /// How to spread the particles
         /// </summary>
         [DefaultValue(0f), Description("How to spread the particles")]
-        public float ParticleSpread
-        {
-            get { return _particleSpread; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _particleSpread, () => Effect.SetValue(_particleSpreadHandle, value));
-            }
-        }
+        public float ParticleSpread { get { return _particleSpread; } set { value.To(ref _particleSpread, () => SetShaderParameter("ParticleSpread", value)); } }
 
         /// <summary>
         /// The size of the particles
         /// </summary>
         [DefaultValue(0f), Description("The size of the particles")]
-        public float ParticleSize
-        {
-            get { return _particleSize; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _particleSize, () => Effect.SetValue(_particleSizeHandle, value));
-            }
-        }
+        public float ParticleSize { get { return _particleSize; } set { value.To(ref _particleSize, () => SetShaderParameter("ParticleSize", value)); } }
 
         /// <summary>
         /// The shape of the particles
         /// </summary>
         [DefaultValue(0f), Description("The shape of the particles")]
-        public float ParticleShape
-        {
-            get { return _particleShape; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _particleShape, () => Effect.SetValue(_particleShapeHandle, value));
-            }
-        }
+        public float ParticleShape { get { return _particleShape; } set { value.To(ref _particleShape, () => SetShaderParameter("ParticleShape", value)); } }
         #endregion
 
         #region Constructor
         /// <summary>
         /// Creates a new instance of the water shader with refraction and reflection
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the shader into</param>
         /// <param name="particleTexture">The normal texture to apply to the water surface for ripples</param>
-        public ParticleShader(Engine engine, ITextureProvider particleTexture) : base(engine, "ParticleSystem.fxo")
+        public ParticleShader(ITextureProvider particleTexture)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (particleTexture == null) throw new ArgumentNullException("particleTexture");
-            if (MinShaderModel > engine.Capabilities.MaxShaderModel)
-                throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 
             ParticleTexture = particleTexture;
             ParticleTexture.HoldReference();
-
-            // Get handles to shader parameters for quick access
-            _particleTextureHandle = Effect.GetParameter(null, "ParticleTexture");
-            _spawnRadiusHandle = Effect.GetParameter(null, "SpawnRadius");
-            _systemHeightHandle = Effect.GetParameter(null, "SystemHeight");
-            _particleSpeedHandle = Effect.GetParameter(null, "ParticleSpeed");
-            _particleSpreadHandle = Effect.GetParameter(null, "ParticleSpread");
-            _particleSizeHandle = Effect.GetParameter(null, "ParticleSize");
-            _particleShapeHandle = Effect.GetParameter(null, "ParticleShape");
         }
         #endregion
 
@@ -183,6 +120,20 @@ namespace OmegaEngine.Graphics.Shaders
         #endregion
 
         //--------------------//
+
+        #region Engine
+        /// <inheritdoc/>
+        protected override void OnEngineSet()
+        {
+            if (MinShaderModel > Engine.Capabilities.MaxShaderModel)
+                throw new NotSupportedException(Resources.NotSupportedShader);
+
+            LoadShaderFile("ParticleSystem.fxo");
+
+            _particleTextureHandle = Effect.GetParameter(null, "ParticleTexture");
+            base.OnEngineSet();
+        }
+        #endregion
 
         #region Dispose
         /// <inheritdoc/>

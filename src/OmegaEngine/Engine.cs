@@ -156,7 +156,7 @@ namespace OmegaEngine
                 Performance = new EnginePerformance(Device, RenderPure);
 
                 if (GeneralShader.MinShaderModel <= Capabilities.MaxShaderModel)
-                    RegisterChild(DefaultShader = new GeneralShader(this));
+                    RegisterChild(DefaultShader = new GeneralShader());
 
                 // Create simple default meshes ready
                 SimpleSphere = Mesh.CreateSphere(Device, 1, 12, 12);
@@ -235,10 +235,8 @@ namespace OmegaEngine
             foreach (var view in Views) view.Scene.Dispose();
             base.OnDispose();
 
-            // ReSharper disable CoVariantArrayConversion
             DisposeShaders(_terrainShadersLighting);
             DisposeShaders(_terrainShadersNoLighting);
-            // ReSharper restore CoVariantArrayConversion
 
             // Shutdown music
             Music.Dispose();
@@ -267,7 +265,8 @@ namespace OmegaEngine
         /// <summary>
         /// Disposes all shaders in an array (skipping <see langword="null"/> entries).
         /// </summary>
-        private static void DisposeShaders(Shader[] shaders)
+        private static void DisposeShaders<T>(T[] shaders)
+            where T : Shader
         {
             for (int i = 0; i < shaders.Length; i++)
             {

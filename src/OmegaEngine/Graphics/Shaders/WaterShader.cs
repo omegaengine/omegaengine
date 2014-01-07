@@ -27,7 +27,8 @@ namespace OmegaEngine.Graphics.Shaders
     {
         #region Variables
         private EffectHandle _reflectionMapHandle, _refractionMapHandle, _normalTextureHandle;
-        private readonly XTexture _waterTexture, _normalTexture;
+        private XTexture _waterTexture;
+        private XTexture _normalTexture;
         private readonly TextureView _reflectionView, _refractionView;
         #endregion
 
@@ -38,24 +39,14 @@ namespace OmegaEngine.Graphics.Shaders
         public static Version MinShaderModel { get { return new Version(1, 1); } }
 
         private Color _dullColor = Color.FromArgb(77, 77, 128);
-        private EffectHandle _dullColorHandle;
 
         /// <summary>
         /// The basic color of the water (usually blueish)
         /// </summary>
         [Description("The basic color of the water (usually blueish)")]
-        public Color DullColor
-        {
-            get { return _dullColor; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _dullColor, () => Effect.SetValue(_dullColorHandle, new Color4(value)));
-            }
-        }
+        public Color DullColor { get { return _dullColor; } set { value.To(ref _dullColor, () => SetShaderParameter("DullColor", value)); } }
 
         private float _dullBlendFactor = 0.15f;
-        private EffectHandle _dullBlendFactorHandle;
 
         /// <summary>
         /// How strongly to factor in <see cref="DullColor"/> - values between 0 and 1
@@ -66,14 +57,12 @@ namespace OmegaEngine.Graphics.Shaders
             get { return _dullBlendFactor; }
             set
             {
-                if (Disposed) return;
-                if (value < 0 || value > 1) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _dullBlendFactor, () => Effect.SetValue(_dullBlendFactorHandle, value));
+                value = value.Clamp();
+                value.To(ref _dullBlendFactor, () => SetShaderParameter("DullBlendFactor", value));
             }
         }
 
         private float _waveLength = 0.1f, _waveHeight = 0.01f, _windForce = 0.2f;
-        private EffectHandle _waveLengthHandle, _waveHeightHandle, _windForceHandle;
 
         /// <summary>
         /// The length of waves on the water surface - values between 0 and 1
@@ -84,9 +73,8 @@ namespace OmegaEngine.Graphics.Shaders
             get { return _waveLength; }
             set
             {
-                if (Disposed) return;
-                if (value < 0 || value > 1) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _waveLength, () => Effect.SetValue(_waveLengthHandle, value));
+                value = value.Clamp();
+                value.To(ref _waveLength, () => SetShaderParameter("WaveLength", value));
             }
         }
 
@@ -99,9 +87,8 @@ namespace OmegaEngine.Graphics.Shaders
             get { return _waveHeight; }
             set
             {
-                if (Disposed) return;
-                if (value < 0 || value > 0.2) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _waveHeight, () => Effect.SetValue(_waveHeightHandle, value));
+                value = value.Clamp(0, 0.2f);
+                value.To(ref _waveHeight, () => SetShaderParameter("WaveHeight", value));
             }
         }
 
@@ -114,146 +101,44 @@ namespace OmegaEngine.Graphics.Shaders
             get { return _windForce; }
             set
             {
-                if (Disposed) return;
-                if (value < 0 || value > 1) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _windForce, () => Effect.SetValue(_windForceHandle, value));
+                value = value.Clamp();
+                value.To(ref _windForce, () => SetShaderParameter("WindForce", value));
             }
         }
 
         private Matrix _windDirection;
-        private EffectHandle _windDirectionHandle;
 
         /// <summary>
         /// The direction of the wind moving the waves
         /// </summary>
         [Description("The direction of the wind moving the waves")]
-        public Matrix WindDirection
-        {
-            get { return _windDirection; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _windDirection, () => Effect.SetValue(_windDirectionHandle, value));
-            }
-        }
+        public Matrix WindDirection { get { return _windDirection; } set { value.To(ref _windDirection, () => SetShaderParameter("WindDirection", value)); } }
 
         private Matrix _reflectionViewProjection;
-        private EffectHandle _reflectionViewProjectionHandle;
 
         /// <summary>
         /// The reflected view-projection from the <see cref="Camera"/>
         /// </summary>
         [Browsable(false)]
-        public Matrix ReflectionViewProjection
-        {
-            get { return _reflectionViewProjection; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _reflectionViewProjection, () => Effect.SetValue(_reflectionViewProjectionHandle, value));
-            }
-        }
+        public Matrix ReflectionViewProjection { get { return _reflectionViewProjection; } set { value.To(ref _reflectionViewProjection, () => SetShaderParameter("ReflectionViewProjection", value)); } }
         #endregion
 
         #region Constructor
         /// <summary>
-        /// Creates a new instance of the water shader with refraction and reflection
+        /// Creates a new instance of the water shader
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the shader into</param>
-        /// <param name="refractionView">A render target storing the refraction of the current view</param>
-        /// <param name="reflectionView">A render target storing the reflection of the current view</param>
-        public WaterShader(Engine engine, TextureView refractionView, TextureView reflectionView) : base(engine, "Water.fxo")
+        /// <param name="refractionView">A render target storing the refraction of the current view; <see langword="null"/> for no refraction or reflection</param>
+        /// <param name="reflectionView">A render target storing the reflection of the current view; <see langword="null"/> for no reflection</param>
+        public WaterShader(TextureView refractionView = null, TextureView reflectionView = null)
         {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-            #endregion
-
-            _normalTexture = XTexture.Get(engine, @"Water\normal.png");
-            _normalTexture.HoldReference();
             _refractionView = refractionView;
             _reflectionView = reflectionView;
 
-            Effect.Technique = "RefractionReflection";
-
-            // Get handles to shader parameters for quick access
-            SetHandles();
-
-            // Set default values
-            WindDirection = Matrix.RotationZ(2.0f);
-        }
-
-        /// <summary>
-        /// Creates a new instance of the water shader with refraction but without reflection
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the shader into</param>
-        /// <param name="refractionView">A render target storing the refraction of the current view</param>
-        public WaterShader(Engine engine, TextureView refractionView) : base(engine, "Water.fxo")
-        {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-            #endregion
-
-            _waterTexture = XTexture.Get(engine, @"Water\surface.png");
-            _waterTexture.HoldReference();
-            _normalTexture = XTexture.Get(engine, @"Water\normal.png");
-            _normalTexture.HoldReference();
-            _refractionView = refractionView;
-
-            Effect.Technique = "Refraction";
-
-            // Get handles to shader parameters for quick access
-            SetHandles();
-
-            // Set default values
-            WindDirection = Matrix.RotationZ(2.0f);
-        }
-
-        /// <summary>
-        /// Creates a new instance of the water shader with no refraction or reflection
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the shader into</param>
-        /// <exception cref="NotSupportedException">Thrown if the graphics card does not support this shader</exception>
-        public WaterShader(Engine engine) : base(engine, "Water.fxo")
-        {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-            #endregion
-
-            _waterTexture = XTexture.Get(engine, @"Water\surface.png");
-            _waterTexture.HoldReference();
-
-            Effect.Technique = "Simple";
-
-            // Get handles to shader parameters for quick access
-            SetHandles();
-
-            // Set default values
             WindDirection = Matrix.RotationZ(2.0f);
         }
         #endregion
 
         //--------------------//
-
-        #region Handles
-        private void SetHandles()
-        {
-            _reflectionMapHandle = Effect.GetParameter(null, "ReflectionMap");
-            _refractionMapHandle = Effect.GetParameter(null, "RefractionMap");
-            _normalTextureHandle = Effect.GetParameter(null, "NormalTexture");
-
-            _dullColorHandle = Effect.GetParameter(null, "DullColor");
-            _dullBlendFactorHandle = Effect.GetParameter(null, "DullBlendFactor");
-
-            _waveLengthHandle = Effect.GetParameter(null, "WaveLength");
-            _waveHeightHandle = Effect.GetParameter(null, "WaveHeight");
-            _windForceHandle = Effect.GetParameter(null, "WindForce");
-            _windDirectionHandle = Effect.GetParameter(null, "WindDirection");
-            _reflectionViewProjectionHandle = Effect.GetParameter(null, "ReflectionViewProjection");
-        }
-        #endregion
 
         #region Apply
         /// <summary>
@@ -282,6 +167,42 @@ namespace OmegaEngine.Graphics.Shaders
         #endregion
 
         //--------------------//
+
+        #region Engine
+        /// <inheritdoc/>
+        protected override void OnEngineSet()
+        {
+            if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+
+            LoadShaderFile("Water.fxo");
+
+            _reflectionMapHandle = Effect.GetParameter(null, "ReflectionMap");
+            _refractionMapHandle = Effect.GetParameter(null, "RefractionMap");
+            _normalTextureHandle = Effect.GetParameter(null, "NormalTexture");
+
+            if (_refractionView == null)
+            {
+                _waterTexture = XTexture.Get(Engine, @"Water\surface.png");
+                _waterTexture.HoldReference();
+                Effect.Technique = "Simple";
+            }
+            else
+            {
+                _normalTexture = XTexture.Get(Engine, @"Water\normal.png");
+                _normalTexture.HoldReference();
+
+                if (_reflectionView == null)
+                {
+                    _waterTexture = XTexture.Get(Engine, @"Water\surface.png");
+                    _waterTexture.HoldReference();
+                    Effect.Technique = "Refraction";
+                }
+                else Effect.Technique = "RefractionReflection";
+            }
+
+            base.OnEngineSet();
+        }
+        #endregion
 
         #region Dispose
         /// <inheritdoc/>

@@ -11,7 +11,6 @@ using System.ComponentModel;
 using Common.Utils;
 using OmegaEngine.Assets;
 using OmegaEngine.Properties;
-using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Shaders
 {
@@ -21,7 +20,7 @@ namespace OmegaEngine.Graphics.Shaders
     public class PostScratchedFilmShader : PostShader
     {
         #region Variables
-        private readonly XTexture _noiseTexture;
+        private XTexture _noiseTexture;
         #endregion
 
         #region Properties
@@ -31,92 +30,47 @@ namespace OmegaEngine.Graphics.Shaders
         public static Version MinShaderModel { get { return new Version(2, 0); } }
 
         private float _speed = 0.03f, _speed2 = 0.02f, _scratchIntensity = 0.65f, _scratchWidth = 0.0075f;
-        private readonly EffectHandle _speedHandle, _speed2Handle, _scratchIntensityHandle, _scratchWidthHandle;
 
         /// <summary>
         /// The horizontal speed of the scratches
         /// </summary>
         [DefaultValue(0.03f), Description("The horizontal speed of the scratches")]
-        public float Speed
-        {
-            get { return _speed; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _speed, () => Effect.SetValue(_speedHandle, value));
-            }
-        }
+        public float Speed { get { return _speed; } set { value.To(ref _speed, () => SetShaderParameter("Speed", value)); } }
 
         /// <summary>
         /// The vertical speed of the scratches
         /// </summary>
         [DefaultValue(0.02f), Description("The vertical speed of the scratches")]
-        public float Speed2
-        {
-            get { return _speed2; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _speed2, () => Effect.SetValue(_speed2Handle, value));
-            }
-        }
+        public float Speed2 { get { return _speed2; } set { value.To(ref _speed2, () => SetShaderParameter("Speed2", value)); } }
 
         /// <summary>
         /// The number of scratches
         /// </summary>
         [DefaultValue(0.65f), Description("The number of scratches")]
-        public float ScratchIntensity
-        {
-            get { return _scratchIntensity; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _scratchIntensity, () => Effect.SetValue(_scratchIntensityHandle, value));
-            }
-        }
+        public float ScratchIntensity { get { return _scratchIntensity; } set { value.To(ref _scratchIntensity, () => SetShaderParameter("ScratchIntensity", value)); } }
 
         /// <summary>
         /// The size of the scratches
         /// </summary>
         [DefaultValue(0.0075f), Description("The size of the scratches")]
-        public float ScratchWidth
-        {
-            get { return _scratchWidth; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _scratchWidth, () => Effect.SetValue(_scratchWidthHandle, value));
-            }
-        }
+        public float ScratchWidth { get { return _scratchWidth; } set { value.To(ref _scratchWidth, () => SetShaderParameter("IS", value)); } }
         #endregion
 
-        #region Constructor
-        /// <summary>
-        /// Creates a new instance of the shader
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the shader into</param>
-        /// <exception cref="NotSupportedException">Thrown if the graphics card does not support this shader</exception>
-        public PostScratchedFilmShader(Engine engine) : base(engine, "Post_ScratchedFilm.fxo")
+        #region Engine
+        /// <inheritdoc/>
+        protected override void OnEngineSet()
         {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-            #endregion
-
-            // Get handles to shader parameters for quick access
-            _speedHandle = Effect.GetParameter(null, "Speed");
-            _speed2Handle = Effect.GetParameter(null, "Speed2");
-            _scratchIntensityHandle = Effect.GetParameter(null, "ScratchIntensity");
-            _scratchWidthHandle = Effect.GetParameter(null, "IS");
+            if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+            LoadShaderFile("Post_ScratchedFilm.fxo");
 
             // Load noise texture
-            _noiseTexture = XTexture.Get(engine, "Shaders/Noise128.dds");
+            _noiseTexture = XTexture.Get(Engine, "Shaders/Noise128.dds");
             _noiseTexture.HoldReference();
             Effect.SetTexture("Noise2DTex", _noiseTexture);
+
+            base.OnEngineSet();
         }
         #endregion
-
-        //--------------------//
 
         #region Dispose
         /// <inheritdoc/>

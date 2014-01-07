@@ -429,7 +429,7 @@ namespace OmegaEngine.Graphics
             var newView = new GlowView(this) {Name = Name + " Glow"};
 
             // Apply PostScreen shader to current scene (hooked with output from new scene)
-            PostShaders.Add(new PostGlowShader(Engine, newView, blurStrength, glowStrength));
+            PostShaders.Add(new PostGlowShader(newView) {BlurStrength = blurStrength, GlowStrength = glowStrength});
 
             _childViews.Add(newView);
         }

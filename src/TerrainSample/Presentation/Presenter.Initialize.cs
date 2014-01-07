@@ -75,17 +75,10 @@ namespace TerrainSample.Presentation
                 // Auto-setup glow shader
                 View.SetupGlow();
 
-                // Load color bleaching shader
-                _bleachShader = new PostBleachShader(Engine) {Enabled = false};
-                View.PostShaders.Add(_bleachShader);
-
-                // Load color correction shader
-                _colorCorrectionShader = new PostColorCorrectionShader(Engine) {Enabled = false};
-                View.PostShaders.Add(_colorCorrectionShader);
-
-                // Load sepia-effect shader
-                _sepiaShader = new PostSepiaShader(Engine) {Enabled = false, Desaturation = 0, Toning = 0};
-                View.PostShaders.Add(_sepiaShader);
+                // Pre-load deactivated effects for later use
+                View.PostShaders.Add(_bleachShader = new PostBleachShader {Enabled = false});
+                View.PostShaders.Add(_colorCorrectionShader = new PostColorCorrectionShader {Enabled = false});
+                View.PostShaders.Add(_sepiaShader = new PostSepiaShader {Enabled = false, Desaturation = 0, Toning = 0});
 
                 // Update when map settings change
                 Universe.BleachChanged += UpdateBleach;

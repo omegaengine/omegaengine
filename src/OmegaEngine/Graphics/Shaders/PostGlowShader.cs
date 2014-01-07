@@ -10,8 +10,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using Common.Utils;
-using OmegaEngine.Properties;
-using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Shaders
 {
@@ -37,7 +35,6 @@ namespace OmegaEngine.Graphics.Shaders
         public override sealed bool OverlayRendering { get { return true; } }
 
         private float _glowStrength = 1;
-        private readonly EffectHandle _glowStrengthHandle;
 
         /// <summary>
         /// A factor by which the blurred glow color is multiplied - values between 0 and 100
@@ -48,9 +45,8 @@ namespace OmegaEngine.Graphics.Shaders
             get { return _glowStrength; }
             set
             {
-                if (Disposed) return;
-                if (value < 0 || value > 100) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _glowStrength, () => Effect.SetValue(_glowStrengthHandle, value));
+                value = value.Clamp(0, 100);
+                value.To(ref _glowStrength, () => SetShaderParameter("GlowStrength", value));
             }
         }
         #endregion
@@ -59,33 +55,17 @@ namespace OmegaEngine.Graphics.Shaders
         /// <summary>
         /// Creates a new instance of the shader
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the shader into</param>
         /// <param name="glowView">A render target storing the glow map of the current view</param>
-        /// <param name="blurStrength">How strongly to blur the glow map - values between 0 and 10</param>
-        /// <param name="glowStrength">A factor by which the blurred glow color is multiplied - values between 0 and 100</param>
         /// <exception cref="NotSupportedException">Thrown if the graphics card does not support this shader</exception>
-        public PostGlowShader(Engine engine, TextureView glowView, float blurStrength, float glowStrength) : base(engine)
+        public PostGlowShader(TextureView glowView)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (glowView == null) throw new ArgumentNullException("glowView");
-            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
             #endregion
 
             _glowView = glowView;
-
-            // Output is layered on top of existing scene via additive alpha-blending
-            Effect.Technique = "Glow";
-
-            // Get handles to shader parameters for quick access
-            _glowStrengthHandle = Effect.GetParameter(null, "GlowStrength");
-
-            BlurStrength = blurStrength;
-            GlowStrength = glowStrength;
         }
         #endregion
-
-        //--------------------//
 
         #region Passes
         /// <summary>
@@ -98,6 +78,19 @@ namespace OmegaEngine.Graphics.Shaders
         {
             // Pass the glow map instead of the scene map to the blurring filter
             base.RunPasses(render, sceneSize, _glowView.GetRenderTarget());
+        }
+        #endregion
+
+        //--------------------//
+
+        #region Engine
+        /// <inheritdoc/>
+        protected override void OnEngineSet()
+        {
+            base.OnEngineSet();
+
+            // Output is layered on top of existing scene via additive alpha-blending
+            Effect.Technique = "Glow";
         }
         #endregion
     }

@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using Common.Utils;
 using SlimDX;
-using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders
@@ -31,7 +30,6 @@ namespace OmegaEngine.Graphics.Shaders
         public static Version MinShaderModel { get { return new Version(2, 0); } }
 
         private float _speed = 20.0f, _shakiness = 0.25f, _sharpness = 2.2f;
-        private readonly EffectHandle _speedHandle, _shakinessHandle, _sharpnessHandle;
 
         /// <summary>
         /// How fast to shake the camera - values between -1 and 100
@@ -42,9 +40,8 @@ namespace OmegaEngine.Graphics.Shaders
             get { return _speed; }
             set
             {
-                if (Disposed) return;
-                if (value < -1 || value > 100) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _speed, () => Effect.SetValue(_speedHandle, value));
+                value = value.Clamp(-1, 100);
+                value.To(ref _speed, () => SetShaderParameter("Speed", value));
             }
         }
 
@@ -57,9 +54,8 @@ namespace OmegaEngine.Graphics.Shaders
             get { return _shakiness; }
             set
             {
-                if (Disposed) return;
-                if (value < 0 || value > 1) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _shakiness, () => Effect.SetValue(_shakinessHandle, value));
+                value = value.Clamp();
+                value.To(ref _shakiness, () => SetShaderParameter("Shakiness", value));
             }
         }
 
@@ -72,44 +68,24 @@ namespace OmegaEngine.Graphics.Shaders
             get { return _sharpness; }
             set
             {
-                if (Disposed) return;
-                if (value < 0 || value > 10) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _sharpness, () => Effect.SetValue(_sharpnessHandle, value));
+                value = value.Clamp(0, 10);
+                value.To(ref _sharpness, () => SetShaderParameter("Sharpness", value));
             }
         }
 
         private Vector2 _timeDelta = new Vector2(1, 0.2f);
-        private readonly EffectHandle _timeDeltaHandle;
 
-        public Vector2 TimeDelta
-        {
-            get { return _timeDelta; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _timeDelta, () => Effect.SetValue(_timeDeltaHandle, new[] {value.X, value.Y}));
-            }
-        }
+        public Vector2 TimeDelta { get { return _timeDelta; } set { value.To(ref _timeDelta, () => SetShaderParameter("TimeDelta", value)); } }
         #endregion
 
-        #region Constructor
-        /// <summary>
-        /// Creates a new instance of the shader
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the shader into</param>
-        /// <exception cref="NotSupportedException">Thrown if the graphics card does not support this shader</exception>
-        public PostCameraShakeShader(Engine engine) : base(engine, "Post_CameraShake.fxo")
+        #region Engine
+        /// <inheritdoc/>
+        protected override void OnEngineSet()
         {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-            #endregion
+            if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+            LoadShaderFile("Post_CameraShake.fxo");
 
-            // Get handles to shader parameters for quick access
-            _speedHandle = Effect.GetParameter(null, "Speed");
-            _shakinessHandle = Effect.GetParameter(null, "Shake");
-            _sharpnessHandle = Effect.GetParameter(null, "Sharpness");
-            _timeDeltaHandle = Effect.GetParameter(null, "TimeDelta");
+            base.OnEngineSet();
         }
         #endregion
     }

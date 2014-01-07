@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using Common.Utils;
 using OmegaEngine.Properties;
-using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Shaders
 {
@@ -26,7 +25,6 @@ namespace OmegaEngine.Graphics.Shaders
         public static Version MinShaderModel { get { return new Version(2, 0); } }
 
         private float _blurStrength = 1;
-        private readonly EffectHandle _blurStrengthHandle;
 
         /// <summary>
         /// How strongly to blur the image - values between 0 and 10
@@ -37,28 +35,20 @@ namespace OmegaEngine.Graphics.Shaders
             get { return _blurStrength; }
             set
             {
-                if (Disposed) return;
-                if (value < 0 || value > 10) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _blurStrength, () => Effect.SetValue(_blurStrengthHandle, value));
+                value = value.Clamp(0, 10);
+                value.To(ref _blurStrength, () => SetShaderParameter("BlurStrength", value));
             }
         }
         #endregion
 
-        #region Constructor
-        /// <summary>
-        /// Creates a new instance of the shader
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the shader into</param>
-        /// <exception cref="NotSupportedException">Thrown if the graphics card does not support this shader</exception>
-        public PostBlurShader(Engine engine) : base(engine, "Post_Blur.fxo")
+        #region Engine
+        /// <inheritdoc/>
+        protected override void OnEngineSet()
         {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-            #endregion
+            if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+            LoadShaderFile("Post_Blur.fxo");
 
-            // Get handles to shader parameters for quick access
-            _blurStrengthHandle = Effect.GetParameter(null, "BlurStrength");
+            base.OnEngineSet();
         }
         #endregion
     }

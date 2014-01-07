@@ -83,8 +83,8 @@ namespace OmegaEngine.Graphics.Renderables
             ReflectedView = WaterView.CreateReflection(baseView, new DoublePlane(position, UpVector), clipTolerance);
 
             // Load shaders
-            RefractionOnlyShader = new WaterShader(engine, RefractedView);
-            RefractionReflectionShader = new WaterShader(engine, RefractedView, ReflectedView);
+            RefractionOnlyShader = new WaterShader(RefractedView) {Engine = engine};
+            RefractionReflectionShader = new WaterShader(RefractedView, ReflectedView) { Engine = engine };
         }
         #endregion
 
@@ -105,10 +105,13 @@ namespace OmegaEngine.Graphics.Renderables
             if (baseView == null) throw new ArgumentNullException("baseView");
             #endregion
 
+            // ReSharper disable CompareOfFloatsByEqualityOperator
             var view = engine.WaterViewSources.FirstOrDefault(
                 candidate => candidate.Height == height &&
                              candidate.BaseView == baseView &&
                              candidate.ClipTolerance == clipTolerance);
+            // ReSharper restore CompareOfFloatsByEqualityOperator
+
             if (view == null) engine.WaterViewSources.Add(view = new WaterViewSource(engine, height, baseView, clipTolerance));
 
             view.ReferenceCount++;

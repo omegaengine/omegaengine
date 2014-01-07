@@ -39,7 +39,7 @@ namespace OmegaEngine
                 for (int i = 0; i < 16; i++)
                     if (MathUtils.CheckFlag(textureMask, 1 << i)) texturesList.AddLast(i + 1);
                 var controllers = new Dictionary<string, IEnumerable<int>>(1) {{"textures", texturesList}};
-                terrainShaders[textureMask] = new TerrainShader(this, lighting, controllers);
+                terrainShaders[textureMask] = new TerrainShader(lighting, controllers) {Engine = this};
             }
             return terrainShaders[textureMask];
         }

@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Common.Utils;
-using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
-using Resources = OmegaEngine.Properties.Resources;
+using OmegaEngine.Properties;
+using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Shaders
 {
@@ -24,11 +24,13 @@ namespace OmegaEngine.Graphics.Shaders
     public class TerrainShader : LightingShader
     {
         #region Variables
-        private readonly bool _lighting;
+        private readonly EffectHandle
+            _simple14 = "Simple14", _simple20 = "Simple20",
+            _light14 = "Light14", _light20 = "Light20", _light2A = "Light2a", _light2B = "Light2b",
+            _simpleBlack = "SimpleBlack", _lightBlack = "LightBlack";
 
-        private readonly EffectHandle _simple14, _simple20;
-        private readonly EffectHandle _light14, _light20, _light2A, _light2B;
-        private readonly EffectHandle _simpleBlack, _lightBlack;
+        private readonly bool _lighting;
+        private readonly IDictionary<string, IEnumerable<int>> _controllers;
         #endregion
 
         #region Properties
@@ -38,71 +40,35 @@ namespace OmegaEngine.Graphics.Shaders
         public static Version MinShaderModel { get { return new Version(1, 4); } }
 
         private float _blendDistance = 400, _blendWidth = 700;
-        private readonly EffectHandle _blendDistanceHandle, _blendWidthHandle;
 
         /// <summary>
         /// The distance at which to show the pure near texture
         /// </summary>
         [DefaultValue(400f), Description("The distance at which to show the pure near texture")]
-        public float BlendDistance
-        {
-            get { return _blendDistance; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _blendDistance, () => Effect.SetValue(_blendDistanceHandle, value));
-            }
-        }
+        public float BlendDistance { get { return _blendDistance; } set { value.To(ref _blendDistance, () => SetShaderParameter("BlendDistance", value)); } }
 
         /// <summary>
         /// The distance from <see cref="BlendDistance"/> where to show the pure far texture
         /// </summary>
         [DefaultValue(700f), Description("The distance from BlendDistance where to show the pure far texture")]
-        public float BlendWidth
-        {
-            get { return _blendWidth; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _blendWidth, () => Effect.SetValue(_blendWidthHandle, value));
-            }
-        }
+        public float BlendWidth { get { return _blendWidth; } set { value.To(ref _blendWidth, () => SetShaderParameter("BlendWidth", value)); } }
         #endregion
 
         #region Constructor
         /// <summary>
         /// Creates a specialized instance of the shader
         /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the shader into</param>
         /// <param name="lighting">Shall this shader apply lighting to the terrain?</param>
         /// <param name="controllers">A set of int arrays that control the counters</param>
         /// <exception cref="NotSupportedException">Thrown if the graphics card does not support this shader</exception>
-        public TerrainShader(Engine engine, bool lighting, IDictionary<string, IEnumerable<int>> controllers)
-            : base(engine, DynamicShader.FromContent(engine, "Terrain.fxd", lighting, controllers))
+        public TerrainShader(bool lighting, IDictionary<string, IEnumerable<int>> controllers)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
             if (controllers == null) throw new ArgumentNullException("controllers");
-            if (MinShaderModel > engine.Capabilities.MaxShaderModel)
-                throw new NotSupportedException(Resources.NotSupportedShader);
-            #endregion
-
-            #region Technique handles
-            _simple14 = "Simple14";
-            _simple20 = "Simple20";
-            _light14 = "Light14";
-            _light20 = "Light20";
-            _light2A = "Light2a";
-            _light2B = "Light2b";
-            _simpleBlack = "SimpleBlack";
-            _lightBlack = "LightBlack";
             #endregion
 
             _lighting = lighting;
-
-            // Get handles to shader parameters for quick access
-            _blendDistanceHandle = Effect.GetParameter(null, "BlendDistance");
-            _blendWidthHandle = Effect.GetParameter(null, "BlendWidth");
+            _controllers = controllers;
         }
         #endregion
 
@@ -145,6 +111,17 @@ namespace OmegaEngine.Graphics.Shaders
 
             if (_lighting) base.Apply(render, material, camera, lights);
             else base.Apply(render, material, camera);
+        }
+        #endregion
+
+        #region Engine
+        /// <inheritdoc/>
+        protected override void OnEngineSet()
+        {
+            if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+            Effect = DynamicShader.FromContent(Engine, "Terrain.fxd", _lighting, _controllers);
+
+            base.OnEngineSet();
         }
         #endregion
     }

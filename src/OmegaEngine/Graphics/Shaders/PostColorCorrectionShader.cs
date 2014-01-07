@@ -9,7 +9,6 @@
 using System;
 using System.ComponentModel;
 using Common.Utils;
-using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders
@@ -26,8 +25,7 @@ namespace OmegaEngine.Graphics.Shaders
         public static Version MinShaderModel { get { return new Version(2, 0); } }
 
         private float _brightness = 1, _contrast = 1, _saturation = 1, _hue;
-        private readonly EffectHandle _brightnessHandle, _contrastHandle, _saturationHandle, _hueHandle;
-        
+
         /// <summary>
         /// How bright the picture should be - values between 0 (black) and 5 (5x normal)
         /// </summary>
@@ -37,9 +35,8 @@ namespace OmegaEngine.Graphics.Shaders
             get { return _brightness; }
             set
             {
-                if (Disposed) return;
-                if (value < 0 || value > 5) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _brightness, () => Effect.SetValue(_brightnessHandle, value));
+                value = value.Clamp(0, 5);
+                value.To(ref _brightness, () => SetShaderParameter("Brightness", value));
             }
         }
 
@@ -52,9 +49,8 @@ namespace OmegaEngine.Graphics.Shaders
             get { return _contrast; }
             set
             {
-                if (Disposed) return;
-                if (value < -5 || value > 5) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _contrast, () => Effect.SetValue(_contrastHandle, value));
+                value = value.Clamp(-5, 5);
+                value.To(ref _contrast, () => SetShaderParameter("Contrast", value));
             }
         }
 
@@ -67,9 +63,8 @@ namespace OmegaEngine.Graphics.Shaders
             get { return _saturation; }
             set
             {
-                if (Disposed) return;
-                if (value < -5 || value > 5) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _saturation, () => Effect.SetValue(_saturationHandle, value));
+                value = value.Clamp(-5, 5);
+                value.To(ref _saturation, () => SetShaderParameter("Saturation", value));
             }
         }
 
@@ -82,31 +77,19 @@ namespace OmegaEngine.Graphics.Shaders
             get { return _hue; }
             set
             {
-                if (Disposed) return;
-                if (value < 0 || value > 360) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _hue, () => Effect.SetValue(_hueHandle, value));
+                value = value.Clamp(0, 360);
+                value.To(ref _hue, () => SetShaderParameter("Hue", value));
             }
         }
         #endregion
 
-        #region Constructor
-        /// <summary>
-        /// Creates a new instance of the shader
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the shader into</param>
-        /// <exception cref="NotSupportedException">Thrown if the graphics card does not support this shader</exception>
-        public PostColorCorrectionShader(Engine engine) : base(engine, "Post_ColorCorrection.fxo")
+        #region Engine
+        protected override void OnEngineSet()
         {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-            #endregion
+            if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+            LoadShaderFile("Post_ColorCorrection.fxo");
 
-            // Get handles to shader parameters for quick access
-            _brightnessHandle = Effect.GetParameter(null, "Brightness");
-            _contrastHandle = Effect.GetParameter(null, "Contrast");
-            _saturationHandle = Effect.GetParameter(null, "Saturation");
-            _hueHandle = Effect.GetParameter(null, "Hue");
+            base.OnEngineSet();
         }
         #endregion
     }

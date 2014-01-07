@@ -21,11 +21,11 @@ namespace OmegaEngine.Graphics.Shaders
     {
         #region Variables
         private readonly EffectHandle
-            _coloredPerVertex, _coloredPerPixel, _coloredEmissiveOnly,
-            _texturedPerVertex, _texturedPerPixel, _texturedPerPixelNormalMap,
-            _texturedPerPixelSpecularMap, _texturedPerPixelNormalSpecularMap,
-            _texturedPerPixelEmissiveMap, _texturedPerPixelNormalEmissiveMap,
-            _texturedPerPixelNormalSpecularEmissiveMap, _texturedEmissiveOnly, _texturedEmissiveMapOnly;
+            _coloredPerVertex = "ColoredPerVertex", _coloredPerPixel = "ColoredPerPixel", _coloredEmissiveOnly = "ColoredEmissiveOnly",
+            _texturedPerVertex = "TexturedPerVertex", _texturedPerPixel = "TexturedPerPixel", _texturedPerPixelNormalMap = "TexturedPerPixelNormalMap",
+            _texturedPerPixelSpecularMap = "TexturedPerPixelSpecularMap", _texturedPerPixelNormalSpecularMap = "TexturedPerPixelNormalSpecularMap",
+            _texturedPerPixelEmissiveMap = "TexturedPerPixelEmissiveMap", _texturedPerPixelNormalEmissiveMap = "TexturedPerPixelNormalEmissiveMap",
+            _texturedPerPixelNormalSpecularEmissiveMap = "TexturedPerPixelNormalSpecularEmissiveMap", _texturedEmissiveOnly = "TexturedEmissiveOnly", _texturedEmissiveMapOnly = "TexturedEmissiveMapOnly";
         #endregion
 
         #region Properties
@@ -33,38 +33,6 @@ namespace OmegaEngine.Graphics.Shaders
         /// The minimum shader model version required to use this shader
         /// </summary>
         public static Version MinShaderModel { get { return new Version(1, 1); } }
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Creates a new instance of the shader
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the shader into</param>
-        /// <exception cref="NotSupportedException">Thrown if the graphics card does not support this shader</exception>
-        public GeneralShader(Engine engine) : base(engine, "General.fxo")
-        {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.Capabilities.MaxShaderModel)
-                throw new NotSupportedException(Resources.NotSupportedShader);
-            #endregion
-
-            #region Technique handles
-            _coloredPerVertex = "ColoredPerVertex";
-            _coloredPerPixel = "ColoredPerPixel";
-            _coloredEmissiveOnly = "ColoredEmissiveOnly";
-            _texturedPerVertex = "TexturedPerVertex";
-            _texturedPerPixel = "TexturedPerPixel";
-            _texturedPerPixelNormalMap = "TexturedPerPixelNormalMap";
-            _texturedPerPixelSpecularMap = "TexturedPerPixelSpecularMap";
-            _texturedPerPixelNormalSpecularMap = "TexturedPerPixelNormalSpecularMap";
-            _texturedPerPixelEmissiveMap = "TexturedPerPixelEmissiveMap";
-            _texturedPerPixelNormalEmissiveMap = "TexturedPerPixelNormalEmissiveMap";
-            _texturedPerPixelNormalSpecularEmissiveMap = "TexturedPerPixelNormalSpecularEmissiveMap";
-            _texturedEmissiveOnly = "TexturedEmissiveOnly";
-            _texturedEmissiveMapOnly = "TexturedEmissiveMapOnly";
-            #endregion
-        }
         #endregion
 
         //--------------------//
@@ -118,6 +86,17 @@ namespace OmegaEngine.Graphics.Shaders
             #endregion
 
             base.Apply(render, material, camera, lights);
+        }
+        #endregion
+
+        #region Engine
+        protected override void OnEngineSet()
+        {
+            if (MinShaderModel > Engine.Capabilities.MaxShaderModel)
+                throw new NotSupportedException(Resources.NotSupportedShader);
+            LoadShaderFile("General.fxo");
+
+            base.OnEngineSet();
         }
         #endregion
     }

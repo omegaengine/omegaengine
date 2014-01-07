@@ -31,8 +31,9 @@ using System.Text.RegularExpressions;
 using Common;
 using Common.Collections;
 using Common.Utils;
-using OmegaEngine.Properties;
+using SlimDX;
 using SlimDX.Direct3D9;
+using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders
 {
@@ -143,53 +144,6 @@ namespace OmegaEngine.Graphics.Shaders
             _usedRenderTargets = new Pool<RenderTarget>();
         #endregion
 
-        #region Properties
-        /// <summary>
-        /// The Direct3D effect for this shader
-        /// </summary>
-        [Browsable(false)]
-        public Effect Effect { get; private set; }
-
-        public override string ToString()
-        {
-            return GetType().Name;
-        }
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Loads a shader from a file
-        /// </summary>
-        /// <param name="engine">The <see cref="OmegaEngine.Engine"/> reference to use for rendering operations</param>
-        /// <param name="path">The shader file path relative to the shader directory or as an absolute path</param>
-        protected Shader(Engine engine, string path) : this(engine, LoadShaderFile(engine, path))
-        {}
-
-        /// <summary>
-        /// Wraps a DirectX <see cref="Effect"/> in a shader
-        /// </summary>
-        /// <param name="engine">The <see cref="OmegaEngine.Engine"/> reference to use for rendering operations</param>
-        /// <param name="effect">The <see cref="Effect"/> to wrap</param>
-        protected Shader(Engine engine, Effect effect)
-        {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (effect == null) throw new ArgumentNullException("effect");
-            #endregion
-
-            Engine = engine;
-            Effect = effect;
-
-            LoadParameters();
-            LoadScript();
-            if (GlobalScript != null) ExecuteScript(GlobalScript);
-
-            // Hook device events
-            engine.DeviceLost += OnLostDevice;
-            engine.DeviceReset += OnResetDevice;
-        }
-        #endregion
-
         //--------------------//
 
         #region Loading
@@ -198,15 +152,14 @@ namespace OmegaEngine.Graphics.Shaders
         /// <summary>
         /// Loads an <see cref="Effect"/> from an <code>.fx</code> or <code>.fxo</code> file.
         /// </summary>
-        /// <param name="engine">The <see cref="OmegaEngine.Engine"/> reference to use for rendering operations</param>
         /// <param name="path">The shader file path relative to the shader directory or as an absolute path</param>
-        private static Effect LoadShaderFile(Engine engine, string path)
+        public void LoadShaderFile(string path)
         {
-            path = Path.Combine(engine.ShaderDir, path);
+            path = Path.Combine(Engine.ShaderDir, path);
             using (new TimedLogEvent("Loading shader file: " + path))
             {
                 if (!File.Exists(path)) throw new FileNotFoundException(Resources.NotFoundShaderFile + "\n" + path, path);
-                return Effect.FromFile(engine.Device, path, null, null, null, ShaderFlags.None);
+                Effect = Effect.FromFile(Engine.Device, path, null, null, null, ShaderFlags.None);
             }
         }
         #endregion
@@ -481,7 +434,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <remarks>This should only be used for debugging!</remarks>
         public void Inject(string path)
         {
-            Effect = LoadShaderFile(Engine, path);
+            LoadShaderFile(path);
 
             LoadParameters();
 
@@ -666,6 +619,61 @@ namespace OmegaEngine.Graphics.Shaders
 
         #endregion
 
+        #region Shader parameters
+        private Effect _effect;
+        private readonly Queue<Action> _defferedActions = new Queue<Action>();
+
+        /// <summary>
+        /// The Direct3D effect for this shader
+        /// </summary>
+        [Browsable(false)]
+        public Effect Effect
+        {
+            get { return _effect; }
+            protected set
+            {
+                _effect = value;
+                _effectHandles = new TransparentCache<string, EffectHandle>(name => value.GetParameter(null, name));
+                while (_defferedActions.Count != 0) _defferedActions.Dequeue()();
+            }
+        }
+
+        private TransparentCache<string, EffectHandle> _effectHandles;
+
+        /// <summary>
+        /// Sets a specific shader parameter. Automatically defers the action if <see cref="Effect"/> has not been set yet.
+        /// </summary>
+        /// <param name="name">The name of the shader parameter to set.</param>
+        /// <param name="value">The value to set.</param>
+        protected void SetShaderParameter<T>(string name, T value)
+            where T : struct
+        {
+            if (Disposed) return;
+
+            if (Effect == null) _defferedActions.Enqueue(() => Effect.SetValue(_effectHandles[name], value));
+            else Effect.SetValue(_effectHandles[name], value);
+        }
+
+        /// <summary>
+        /// Sets a specific shader parameter. Automatically defers the action if <see cref="Effect"/> has not been set yet.
+        /// </summary>
+        /// <param name="name">The name of the shader parameter to set.</param>
+        /// <param name="value">The value to set.</param>
+        protected void SetShaderParameter(string name, Color value)
+        {
+            SetShaderParameter(name, new Color4(value));
+        }
+        #endregion
+
+        //--------------------//
+
+        #region Conversion
+        public override string ToString()
+        {
+            return GetType().Name;
+        }
+        #endregion
+
         #region Device event callbacks
         /// <summary>
         /// Called when the device has been lost.
@@ -684,7 +692,21 @@ namespace OmegaEngine.Graphics.Shaders
         }
         #endregion
 
-        //--------------------//
+        #region Engine
+        /// <inheritdoc/>
+        protected override void OnEngineSet()
+        {
+            base.OnEngineSet();
+
+            LoadParameters();
+            LoadScript();
+            if (GlobalScript != null) ExecuteScript(GlobalScript);
+
+            // Hook device events
+            Engine.DeviceLost += OnLostDevice;
+            Engine.DeviceReset += OnResetDevice;
+        }
+        #endregion
 
         #region Dispose
         /// <inheritdoc/>

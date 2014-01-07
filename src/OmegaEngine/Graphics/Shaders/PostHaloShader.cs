@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Drawing;
 using Common.Utils;
 using OmegaEngine.Properties;
-using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Shaders
 {
@@ -27,57 +26,30 @@ namespace OmegaEngine.Graphics.Shaders
         public static Version MinShaderModel { get { return new Version(2, 0); } }
 
         private Color _glowColor = Color.White;
-        private readonly EffectHandle _glowColorHandle;
 
         /// <summary>
         /// The color of the halo
         /// </summary>
         [Description("The color of the halo")]
-        public Color GlowColor
-        {
-            get { return _glowColor; }
-            set
-            {
-                if (Disposed) return;
-                value.To(ref _glowColor, () => Effect.SetValue(_glowColorHandle, value.ToVector4()));
-            }
-        }
+        public Color GlowColor { get { return _glowColor; } set { value.To(ref _glowColor, () => SetShaderParameter("GlowCol", value)); } }
 
         private float _glowness = 1.6f;
-        private readonly EffectHandle _glownessHandle;
 
         /// <summary>
         /// How strong the halo shall glow - values between 0 and 3
         /// </summary>
         [DefaultValue(1.6f), Description("How strong the halo shall glow - values between 0 and 3")]
-        public float Glowness
-        {
-            get { return _glowness; }
-            set
-            {
-                if (Disposed) return;
-                if (value < 0 || value > 3) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _glowness, () => Effect.SetValue(_glownessHandle, value));
-            }
-        }
+        public float Glowness { get { return _glowness; } set { value.To(ref _glowness, () => SetShaderParameter("Glowness", value)); } }
         #endregion
 
-        #region Constructor
-        /// <summary>
-        /// Creates a new instance of the shader
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the shader into</param>
-        /// <exception cref="NotSupportedException">Thrown if the graphics card does not support this shader</exception>
-        public PostHaloShader(Engine engine) : base(engine, "Post_Halo.fxo")
+        #region Engine
+        /// <inheritdoc/>
+        protected override void OnEngineSet()
         {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-            #endregion
+            if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+            LoadShaderFile("Post_Halo.fxo");
 
-            // Get handles to shader parameters for quick access
-            _glowColorHandle = Effect.GetParameter(null, "GlowCol");
-            _glownessHandle = Effect.GetParameter(null, "Glowness");
+            base.OnEngineSet();
         }
         #endregion
     }

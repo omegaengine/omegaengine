@@ -206,7 +206,7 @@ namespace OmegaEngine
         {
             get
             {
-                if (_simpleWaterShader == null) RegisterChild(_simpleWaterShader = new WaterShader(this));
+                if (_simpleWaterShader == null) RegisterChild(_simpleWaterShader = new WaterShader{Engine = this});
                 return _simpleWaterShader;
             }
         }

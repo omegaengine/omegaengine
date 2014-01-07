@@ -9,8 +9,7 @@
 using System;
 using System.ComponentModel;
 using Common.Utils;
-using SlimDX.Direct3D9;
-using Resources = OmegaEngine.Properties.Resources;
+using OmegaEngine.Properties;
 
 namespace OmegaEngine.Graphics.Shaders
 {
@@ -26,7 +25,6 @@ namespace OmegaEngine.Graphics.Shaders
         public static Version MinShaderModel { get { return new Version(2, 0); } }
 
         private float _opacity = 1.0f;
-        private readonly EffectHandle _opacityHandle;
 
         /// <summary>
         /// How strong the bleaching effect should be - values between 0 and 1
@@ -37,28 +35,20 @@ namespace OmegaEngine.Graphics.Shaders
             get { return _opacity; }
             set
             {
-                if (Disposed) return;
-                if (value < 0 || value > 1) throw new ArgumentOutOfRangeException("value");
-                value.To(ref _opacity, () => Effect.SetValue(_opacityHandle, value));
+                value = value.Clamp();
+                value.To(ref _opacity, () => SetShaderParameter("Opacity", value));
             }
         }
         #endregion
 
-        #region Constructor
-        /// <summary>
-        /// Creates a new instance of the shader
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> to load the shader into</param>
-        /// <exception cref="NotSupportedException">Thrown if the graphics card does not support this shader</exception>
-        public PostBleachShader(Engine engine) : base(engine, "Post_Bleach.fxo")
+        #region Engine
+        /// <inheritdoc/>
+        protected override void OnEngineSet()
         {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (MinShaderModel > engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-            #endregion
+            if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+            LoadShaderFile("Post_Bleach.fxo");
 
-            // Get handles to shader parameters for quick access
-            _opacityHandle = Effect.GetParameter(null, "Opacity");
+            base.OnEngineSet();
         }
         #endregion
     }

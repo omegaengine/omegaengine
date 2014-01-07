@@ -31,24 +31,6 @@ namespace OmegaEngine.Graphics.Shaders
         };
         #endregion
 
-        #region Constructor
-        /// <summary>
-        /// Loads a surface shader from a file
-        /// </summary>
-        /// <param name="engine">The <see cref="OmegaEngine.Engine"/> reference to use for rendering operations</param>
-        /// <param name="path">The shader file path relative to the shader directory or as an absolute path</param>
-        protected LightingShader(Engine engine, string path) : base(engine, path)
-        {}
-
-        /// <summary>
-        /// Wraps a DirectX <see cref="Effect"/> in a surface shader
-        /// </summary>
-        /// <param name="engine">The <see cref="OmegaEngine.Engine"/> reference to use for rendering operations</param>
-        /// <param name="effect">The <see cref="Effect"/> to wrap</param>
-        protected LightingShader(Engine engine, Effect effect) : base(engine, effect)
-        {}
-        #endregion
-
         //--------------------//
 
         #region Passes
