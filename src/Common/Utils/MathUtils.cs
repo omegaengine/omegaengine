@@ -52,7 +52,7 @@ namespace Common.Utils
         /// <param name="max">The maximum number to return</param>
         /// <returns>The <paramref name="value"/> if it was in range, otherwise <paramref name="min"/> or <paramref name="max"/>.</returns>
         [LuaGlobal(Description = "Makes a value stay within a certain range")]
-        public static decimal Clamp(this decimal value, decimal min, decimal max)
+        public static decimal Clamp(this decimal value, decimal min = 0, decimal max = 1)
         {
             #region Sanity checks
             if (value < min) return min;
@@ -73,7 +73,7 @@ namespace Common.Utils
         /// <param name="max">The maximum number to return</param>
         /// <returns>The <paramref name="value"/> if it was in range, otherwise <paramref name="min"/> or <paramref name="max"/>.</returns>
         [LuaGlobal(Description = "Makes a value stay within a certain range")]
-        public static double Clamp(this double value, double min, double max)
+        public static double Clamp(this double value, double min = 0, double max = 1)
         {
             #region Sanity checks
             if (value < min) return min;
@@ -94,7 +94,7 @@ namespace Common.Utils
         /// <param name="max">The maximum number to return</param>
         /// <returns>The <paramref name="value"/> if it was in range, otherwise <paramref name="min"/> or <paramref name="max"/>.</returns>
         [LuaGlobal(Description = "Makes a value stay within a certain range")]
-        public static float Clamp(this float value, float min, float max)
+        public static float Clamp(this float value, float min = 0, float max = 1)
         {
             #region Sanity checks
             if (value < min) return min;
@@ -114,7 +114,7 @@ namespace Common.Utils
         /// <param name="min">The minimum number to return</param>
         /// <param name="max">The maximum number to return</param>
         /// <returns>The <paramref name="value"/> if it was in range, otherwise <paramref name="min"/> or <paramref name="max"/>.</returns>
-        public static int Clamp(this int value, int min, int max)
+        public static int Clamp(this int value, int min = 0, int max = 1)
         {
             #region Sanity checks
             if (value < min) return min;
