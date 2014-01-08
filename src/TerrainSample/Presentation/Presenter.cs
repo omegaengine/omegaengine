@@ -370,6 +370,7 @@ namespace TerrainSample.Presentation
                     throw new InvalidOperationException("Entity associations left over after hook out");
                 #endregion
 
+                if (Scene != null) Scene.Dispose();
                 if (View != null) View.Dispose();
             }
             else

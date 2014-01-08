@@ -203,9 +203,9 @@ namespace OmegaEngine.Graphics
         private readonly Scene _scene;
 
         /// <summary>
-        /// The scene containing the <see cref="PositionableRenderable"/>s to be rendered
+        /// The scene containing the <see cref="PositionableRenderable"/>s to be rendered.
         /// </summary>
-        /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
+        /// <remarks>Will NOT be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
         [Browsable(false)]
         public Scene Scene { get { return _scene; } }
 
@@ -240,7 +240,7 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// Creates a new view for rendering
         /// </summary>
-        /// <param name="scene">The <see cref="Scene"/> to render</param>
+        /// <param name="scene">The scene containing the <see cref="PositionableRenderable"/>s to be rendered. Will NOT be disposed when <see cref="EngineElement.Dispose"/> is called.</param>
         /// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
         /// <param name="area">The screen area this view should fill (leave empty for fullscreen)</param>
         public View(Scene scene, Camera camera, Rectangle area = new Rectangle())
@@ -256,7 +256,7 @@ namespace OmegaEngine.Graphics
             RegisterChild(_floatingModels);
             RegisterChild(_postShaders);
 
-            RegisterChild(_scene = scene);
+            RegisterChild(_scene = scene, autoDispose: false);
             _area = area;
             Camera = camera;
         }

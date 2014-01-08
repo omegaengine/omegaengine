@@ -36,6 +36,7 @@ namespace TemplateWorld.Positionables
     /// <typeparam name="TSelf">The type of the class itself.</typeparam>
     /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
     /// <typeparam name="TTemplate">The specific type of <see cref="EntityTemplateBase{TSelf}"/> to use as a component container.</typeparam>
+    [SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "The first type parameter is a type self-reference and is always fixated by derived classes")]
     public abstract class EntityBase<TSelf, TCoordinates, TTemplate> : Positionable<TCoordinates>, ITemplateName, IUpdateable
         where TSelf : EntityBase<TSelf, TCoordinates, TTemplate>
         where TCoordinates : struct
