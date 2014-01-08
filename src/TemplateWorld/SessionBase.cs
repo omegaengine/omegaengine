@@ -28,9 +28,9 @@ using TemplateWorld.Positionables;
 namespace TemplateWorld
 {
     /// <summary>
-    /// 
+    /// A common base for game sessions (i.e. a game actually being played).
     /// </summary>
-    /// <typeparam name="TUniverse"></typeparam>
+    /// <typeparam name="TUniverse">The specific type of <see cref="IUniverse"/> stored in the session.</typeparam>
     public abstract class SessionBase<TUniverse>
         where TUniverse : class, IUniverse
     {

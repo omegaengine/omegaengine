@@ -234,7 +234,7 @@ namespace TerrainSample.World
         {
             using (Entity.MaskTemplateData())
             {
-                if (_terrain.LightAngleMapsSet)
+                if (Terrain.LightAngleMapsSet)
                 {
                     this.SaveXmlZip(path, additionalFiles: new[]
                     {

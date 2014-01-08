@@ -115,7 +115,7 @@ namespace AlphaEditor.Graphics
         private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             // Add undo-entry for changed property
-            ExecuteCommand(new PropertyChangedCommand(((PropertyGrid)s).SelectedObject, e));
+            ExecuteCommandSafe(new PropertyChangedCommand(((PropertyGrid)s).SelectedObject, e));
         }
         #endregion
     }

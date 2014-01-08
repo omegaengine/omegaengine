@@ -31,47 +31,51 @@ namespace AlphaEditor
         //--------------------//
 
         #region Command
-        /// <inheritdoc/>
+        /// <summary>
+        /// Executes a <see cref="IUndoCommand"/> using this tab's undo stack.
+        /// </summary>
         protected void ExecuteCommand(IUndoCommand command)
         {
             #region Sanity checks
             if (command == null) throw new ArgumentNullException("command");
             #endregion
 
-            // Execute the command and store it for later undo
-            try
-            {
-                command.Execute();
-            }
-                #region Error handling
-            catch (FileNotFoundException ex)
-            {
-                Msg.Inform(this, Resources.FileNotFound + "\n" + ex.FileName, MsgSeverity.Warn);
-                return;
-            }
-            catch (IOException ex)
-            {
-                Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Warn);
-                return;
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Warn);
-                return;
-            }
-            catch (InvalidDataException ex)
-            {
-                Msg.Inform(this, Resources.FileDamaged + "\n" + ex.Message + (ex.InnerException == null ? "" : "\n" + ex.InnerException.Message), MsgSeverity.Error);
-                return;
-            }
-            #endregion
-
+            command.Execute();
             UndoBackups.Push(command);
 
             buttonUndo.Enabled = true;
 
             OnUpdate();
             OnChange();
+        }
+        
+        /// <summary>
+        /// Executes a <see cref="IUndoCommand"/> and automatically displays message boxes for common exception types.
+        /// </summary>
+        protected void ExecuteCommandSafe(IUndoCommand command)
+        {
+            try
+            {
+                ExecuteCommand(command);
+            }
+                #region Error handling
+            catch (FileNotFoundException ex)
+            {
+                Msg.Inform(this, Resources.FileNotFound + "\n" + ex.FileName, MsgSeverity.Warn);
+            }
+            catch (IOException ex)
+            {
+                Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Warn);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Warn);
+            }
+            catch (InvalidDataException ex)
+            {
+                Msg.Inform(this, Resources.FileDamaged + "\n" + ex.Message + (ex.InnerException == null ? "" : "\n" + ex.InnerException.Message), MsgSeverity.Error);
+            }
+                #endregion
         }
         #endregion
 
