@@ -120,7 +120,7 @@ namespace TerrainSample.Editor.World
             TabClosed += delegate { if (_mapPropertiesTool != null) _mapPropertiesTool.Close(); };
 
             // Ugly hack to make mouse wheel work
-            splitRender.Panel2.MouseMove += delegate { splitRender.Panel2.Focus(); };
+            splitVertical.Panel2.MouseMove += delegate { splitVertical.Panel2.Focus(); };
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace TerrainSample.Editor.World
                 {
                     var dialog = new SelectTemplateDialog<TerrainTemplate>(Template<TerrainTemplate>.All);
                     if (dialog.ShowDialog() == DialogResult.OK)
-                        ExecuteCommand(new ChangeTerrainTemplate<TerrainTemplate>(_universe.Terrain, templateIndex, dialog.SelectedTemplate, _presenter.RebuildTerrain));
+                        ExecuteCommandSafe(new ChangeTerrainTemplate<TerrainTemplate>(_universe.Terrain, templateIndex, dialog.SelectedTemplate, _presenter.RebuildTerrain));
                 };
                 tabPageTexture.Controls.Add(_textureButtons[i]);
             }
@@ -267,6 +267,8 @@ namespace TerrainSample.Editor.World
             UpdateTextureControls();
             if (_mapPropertiesTool != null) _mapPropertiesTool.UpdateUniverse(_universe);
 
+            UpdateXml();
+
             base.OnUpdate();
         }
         #endregion
@@ -308,7 +310,7 @@ namespace TerrainSample.Editor.World
             if (_mapPropertiesTool != null) return;
 
             _mapPropertiesTool = new MapPropertiesTool(_universe);
-            _mapPropertiesTool.ExecuteCommand += ExecuteCommand;
+            _mapPropertiesTool.ExecuteCommand += ExecuteCommandSafe;
 
             // Clear the reference when the dialog is disposed
             _mapPropertiesTool.Disposed += delegate { _mapPropertiesTool = null; };
@@ -393,26 +395,6 @@ namespace TerrainSample.Editor.World
         #endregion
 
         #region Import/Export
-        private void buttonImportXml_Click(object sender, EventArgs e)
-        {
-            renderPanel.Engine.DebugClose(); // Always-on-top window might mess with common dialog
-
-            // Use the filter stored in the tag as an identifier
-            dialogImportXml.FileName = "";
-            dialogImportXml.InitialDirectory = ContentManager.CreateDirPath("World/Maps");
-            dialogImportXml.ShowDialog(this);
-        }
-
-        private void buttonExportXml_Click(object sender, EventArgs e)
-        {
-            renderPanel.Engine.DebugClose(); // Always-on-top window might mess with common dialog
-
-            // Use the filter stored in the tag as an identifier
-            dialogExportXml.FileName = "";
-            dialogExportXml.InitialDirectory = ContentManager.CreateDirPath("World/Maps");
-            dialogExportXml.ShowDialog(this);
-        }
-
         private void buttonImportHeightMap_Click(object sender, EventArgs e)
         {
             renderPanel.Engine.DebugClose(); // Always-on-top window might mess with common dialog
@@ -465,7 +447,7 @@ namespace TerrainSample.Editor.World
             var newEntity = new Entity {TemplateName = selectTemplate.SelectedTemplate, Position = GetScreenTerrainCenter()};
 
             // Add the new Entity to the Universe
-            ExecuteCommand(new AddPositionables<Vector2>(_universe, new[] {newEntity}));
+            ExecuteCommandSafe(new AddPositionables<Vector2>(_universe, new[] { newEntity }));
 
             // Select the newly added entity
             _presenter.SelectedPositionables.Clear();
@@ -481,7 +463,7 @@ namespace TerrainSample.Editor.World
             var newEntity = new BenchmarkPoint<Vector2> {Position = cameraState.Position, Rotation = cameraState.Rotation, Radius = cameraState.Radius};
 
             // Add the new entity to the Universe
-            ExecuteCommand(new AddPositionables<Vector2>(_universe, new[] {newEntity}));
+            ExecuteCommandSafe(new AddPositionables<Vector2>(_universe, new[] { newEntity }));
 
             // Select the newly added entity
             _presenter.SelectedPositionables.Clear();
@@ -507,7 +489,7 @@ namespace TerrainSample.Editor.World
             }
 
             // Add the new entities to the Universe
-            ExecuteCommand(new AddPositionables<Vector2>(_universe, clonedEntities));
+            ExecuteCommandSafe(new AddPositionables<Vector2>(_universe, clonedEntities));
 
             // Select the newly added entities
             _presenter.SelectedPositionables.Clear();
@@ -549,56 +531,13 @@ namespace TerrainSample.Editor.World
 
         #region Import/Export
 
-        #region XML
-        private void dialogImportXml_FileOk(object sender, CancelEventArgs e)
-        {
-            int undoCount = UndoBackups.Count;
-
-            // Load the universe from the XML file but keep the old terrain data
-            ExecuteCommand(new Commands.ImportXml(
-                () => _universe, value =>
-                {
-                    _universe = value;
-                    if (_mapPropertiesTool != null) _mapPropertiesTool.UpdateUniverse(_universe);
-                }, // Universe access delegates
-                dialogImportXml.FileName, ResetPresenter));
-
-            if (UndoBackups.Count > undoCount)
-                ToastProvider.ShowToast(Resources.DataImported);
-        }
-
-        private void dialogExportXml_FileOk(object sender, CancelEventArgs e)
-        {
-            try
-            {
-                // Save the map stats, entities, etc. to an XML file
-                using (Entity.MaskTemplateData())
-                    _universe.SaveXml(dialogExportXml.FileName);
-            }
-                #region Error handling
-            catch (IOException ex)
-            {
-                Msg.Inform(this, Resources.FileNotSavable + "\n" + ex.Message, MsgSeverity.Warn);
-                return;
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                Msg.Inform(this, Resources.FileNotSavable + "\n" + ex.Message, MsgSeverity.Warn);
-                return;
-            }
-            #endregion
-
-            ToastProvider.ShowToast(Resources.SavedFile);
-        }
-        #endregion
-
         #region Height-map
         private void dialogImportHeightMap_FileOk(object sender, CancelEventArgs e)
         {
             int undoCount = UndoBackups.Count;
 
             // Load the height-map from the PNG file but keep everything else
-            ExecuteCommand(new ImportHeightMap(
+            ExecuteCommandSafe(new ImportHeightMap(
                 _universe.Terrain, dialogImportHeightMap.FileName, _presenter.RebuildTerrain));
 
             if (UndoBackups.Count > undoCount)
@@ -635,7 +574,7 @@ namespace TerrainSample.Editor.World
             int undoCount = UndoBackups.Count;
 
             // Load the texture-map from the PNG file but keep everything else
-            ExecuteCommand(new ImportTextureMap(
+            ExecuteCommandSafe(new ImportTextureMap(
                 _universe.Terrain, dialogImportTextureMap.FileName, _presenter.RebuildTerrain));
 
             if (UndoBackups.Count > undoCount)
@@ -815,7 +754,7 @@ namespace TerrainSample.Editor.World
             if (_dontSetEntityTemplate || _entityTemplateList.SelectedEntry == null) return;
 
             // Set the new entity template for all currently selected bodies
-            ExecuteCommand(new ChangeEntityTemplates(
+            ExecuteCommandSafe(new ChangeEntityTemplates(
                 _presenter.SelectedPositionables.OfType<ITemplateName>(), _entityTemplateList.SelectedEntry.Name));
         }
         #endregion
@@ -888,6 +827,54 @@ namespace TerrainSample.Editor.World
                 ExecuteCommand(_mapModifier.GetCommand());
                 _mapModifier = null;
             }
+        }
+        #endregion
+
+        #region XML Editor
+        private bool _suppressXmlUpdate;
+
+        private void UpdateXml()
+        {
+            if (_suppressXmlUpdate) return;
+
+            using (Entity.MaskTemplateData())
+                xmlEditor.SetContent(_universe.ToXmlString(), "XML");
+        }
+
+        private void xmlEditor_ContentChanged(string text)
+        {
+            _suppressXmlUpdate = true;
+            try
+            {
+                ExecuteCommand(new Commands.ImportXml(
+                    getUniverse: () => _universe,
+                    setUniverse: value =>
+                    {
+                        _universe = value;
+                        if (_mapPropertiesTool != null) _mapPropertiesTool.UpdateUniverse(_universe);
+                    },
+                    xmlData: text,
+                    refreshHandler: ResetPresenter));
+                xmlEditor.TextEditor.Document.UndoStack.ClearAll();
+            }
+            finally
+            {
+                _suppressXmlUpdate = false;
+            }
+        }
+
+        /// <inheritdoc />
+        public override void Undo()
+        {
+            if (xmlEditor.TextEditor.EnableUndo) xmlEditor.TextEditor.Undo();
+            else base.Undo();
+        }
+
+        /// <inheritdoc />
+        public override void Redo()
+        {
+            if (xmlEditor.TextEditor.EnableRedo) xmlEditor.TextEditor.Redo();
+            else base.Redo();
         }
         #endregion
 

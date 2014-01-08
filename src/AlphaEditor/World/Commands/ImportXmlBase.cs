@@ -23,7 +23,7 @@ namespace AlphaEditor.World.Commands
         #region Variables
         private readonly Func<TUniverse> _getUniverse;
         private readonly Action<TUniverse> _setUniverse;
-        private readonly string _fileName;
+        private readonly string _xmlData;
         private readonly Action _refreshHandler;
         private TUniverse _undoUniverse, _redoUniverse;
         #endregion
@@ -34,20 +34,20 @@ namespace AlphaEditor.World.Commands
         /// </summary>
         /// <param name="getUniverse">Called to get the current <typeparamref name="TUniverse"/> in the editor.</param>
         /// <param name="setUniverse">Called to change the current <typeparamref name="TUniverse"/> in the editor.</param>
-        /// <param name="fileName">The file to load the XML data from.</param>
+        /// <param name="xmlData">The XML string to parse.</param>
         /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
-        protected ImportXmlBase(Func<TUniverse> getUniverse, Action<TUniverse> setUniverse, string fileName, Action refreshHandler)
+        protected ImportXmlBase(Func<TUniverse> getUniverse, Action<TUniverse> setUniverse, string xmlData, Action refreshHandler)
         {
             #region Sanity checks
             if (getUniverse == null) throw new ArgumentNullException("getUniverse");
             if (setUniverse == null) throw new ArgumentNullException("setUniverse");
-            if (string.IsNullOrEmpty(fileName)) throw new ArgumentNullException("fileName");
+            if (xmlData == null) throw new ArgumentNullException("xmlData");
             if (refreshHandler == null) throw new ArgumentNullException("refreshHandler");
             #endregion
 
             _getUniverse = getUniverse;
             _setUniverse = setUniverse;
-            _fileName = fileName;
+            _xmlData = xmlData;
             _refreshHandler = refreshHandler;
         }
         #endregion
@@ -62,7 +62,7 @@ namespace AlphaEditor.World.Commands
             _undoUniverse = _getUniverse();
 
             // Create new universe from XML and partially restore old data
-            var newUniverse = XmlStorage.LoadXml<TUniverse>(_fileName);
+            var newUniverse = XmlStorage.FromXmlString<TUniverse>(_xmlData);
             newUniverse.SourceFile = _undoUniverse.SourceFile;
             TransferNonXmlData(_undoUniverse, newUniverse);
 

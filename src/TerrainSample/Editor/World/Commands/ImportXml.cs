@@ -36,9 +36,10 @@ namespace TerrainSample.Editor.World.Commands
         /// </summary>
         /// <param name="getUniverse">Called to get the current <see cref="Universe"/> in the editor.</param>
         /// <param name="setUniverse">Called to change the current <see cref="Universe"/> in the editor.</param>
-        /// <param name="fileName">The file to load the XML data from.</param>
+        /// <param name="xmlData">The XML string to parse.</param>
         /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
-        public ImportXml(Func<Universe> getUniverse, Action<Universe> setUniverse, string fileName, Action refreshHandler) : base(getUniverse, setUniverse, fileName, refreshHandler)
+        public ImportXml(Func<Universe> getUniverse, Action<Universe> setUniverse, string xmlData, Action refreshHandler)
+            : base(getUniverse, setUniverse, xmlData, refreshHandler)
         {}
 
         /// <inheritdoc/>

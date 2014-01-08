@@ -30,17 +30,12 @@ namespace TerrainSample.Editor.World
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MapEditor));
-            this.dialogExportXml = new System.Windows.Forms.SaveFileDialog();
-            this.dialogImportXml = new System.Windows.Forms.OpenFileDialog();
             this.buttonDebug = new System.Windows.Forms.Button();
             this.checkWireframe = new System.Windows.Forms.CheckBox();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.buttonTestInGame = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripImportExport = new System.Windows.Forms.ToolStripDropDownButton();
-            this.buttonImportXML = new System.Windows.Forms.ToolStripMenuItem();
-            this.buttonExportXml = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripImportExportSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonImportHeightMap = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonExportHeightMap = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripImportExportSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -59,7 +54,7 @@ namespace TerrainSample.Editor.World
             this.dialogImportHeightMap = new System.Windows.Forms.OpenFileDialog();
             this.dialogExportTextureMap = new System.Windows.Forms.SaveFileDialog();
             this.dialogImportTextureMap = new System.Windows.Forms.OpenFileDialog();
-            this.splitRender = new System.Windows.Forms.SplitContainer();
+            this.splitVertical = new System.Windows.Forms.SplitContainer();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPagePositionables = new System.Windows.Forms.TabPage();
             this.positionablesTab = new System.Windows.Forms.SplitContainer();
@@ -94,11 +89,13 @@ namespace TerrainSample.Editor.World
             this.radioTextureShapeCircle = new System.Windows.Forms.RadioButton();
             this.upDownTextureSize = new System.Windows.Forms.NumericUpDown();
             this.labelTerrainSize = new System.Windows.Forms.Label();
+            this.splitHorizontal = new System.Windows.Forms.SplitContainer();
             this.renderPanel = new OmegaEngine.RenderPanel();
+            this.xmlEditor = new Common.Controls.LiveEditor();
             this.toolStrip.SuspendLayout();
-            this.splitRender.Panel1.SuspendLayout();
-            this.splitRender.Panel2.SuspendLayout();
-            this.splitRender.SuspendLayout();
+            this.splitVertical.Panel1.SuspendLayout();
+            this.splitVertical.Panel2.SuspendLayout();
+            this.splitVertical.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPagePositionables.SuspendLayout();
             this.positionablesTab.Panel1.SuspendLayout();
@@ -114,6 +111,9 @@ namespace TerrainSample.Editor.World
             this.tabPageTexture.SuspendLayout();
             this.groupTextureShape.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.upDownTextureSize)).BeginInit();
+            this.splitHorizontal.Panel1.SuspendLayout();
+            this.splitHorizontal.Panel2.SuspendLayout();
+            this.splitHorizontal.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonUndo
@@ -123,18 +123,6 @@ namespace TerrainSample.Editor.World
             // buttonRedo
             // 
             this.buttonRedo.Location = new System.Drawing.Point(697, 496);
-            // 
-            // dialogExportXml
-            // 
-            this.dialogExportXml.Filter = "XML file (*.xml)|*.xml|All files (*.*)|*.*";
-            this.dialogExportXml.RestoreDirectory = true;
-            this.dialogExportXml.FileOk += new System.ComponentModel.CancelEventHandler(this.dialogExportXml_FileOk);
-            // 
-            // dialogImportXml
-            // 
-            this.dialogImportXml.Filter = "XML file (*.xml)|*.xml|All files (*.*)|*.*";
-            this.dialogImportXml.RestoreDirectory = true;
-            this.dialogImportXml.FileOk += new System.ComponentModel.CancelEventHandler(this.dialogImportXml_FileOk);
             // 
             // buttonDebug
             // 
@@ -195,9 +183,6 @@ namespace TerrainSample.Editor.World
             // toolStripImportExport
             // 
             this.toolStripImportExport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.buttonImportXML,
-            this.buttonExportXml,
-            this.toolStripImportExportSeparator1,
             this.buttonImportHeightMap,
             this.buttonExportHeightMap,
             this.toolStripImportExportSeparator2,
@@ -208,27 +193,6 @@ namespace TerrainSample.Editor.World
             this.toolStripImportExport.Name = "toolStripImportExport";
             this.toolStripImportExport.Size = new System.Drawing.Size(116, 22);
             this.toolStripImportExport.Text = "&Import / Export";
-            // 
-            // buttonImportXML
-            // 
-            this.buttonImportXML.Image = ((System.Drawing.Image)(resources.GetObject("buttonImportXML.Image")));
-            this.buttonImportXML.Name = "buttonImportXML";
-            this.buttonImportXML.Size = new System.Drawing.Size(178, 22);
-            this.buttonImportXML.Text = "Import from &XML";
-            this.buttonImportXML.Click += new System.EventHandler(this.buttonImportXml_Click);
-            // 
-            // buttonExportXml
-            // 
-            this.buttonExportXml.Image = ((System.Drawing.Image)(resources.GetObject("buttonExportXml.Image")));
-            this.buttonExportXml.Name = "buttonExportXml";
-            this.buttonExportXml.Size = new System.Drawing.Size(178, 22);
-            this.buttonExportXml.Text = "Export to X&ML";
-            this.buttonExportXml.Click += new System.EventHandler(this.buttonExportXml_Click);
-            // 
-            // toolStripImportExportSeparator1
-            // 
-            this.toolStripImportExportSeparator1.Name = "toolStripImportExportSeparator1";
-            this.toolStripImportExportSeparator1.Size = new System.Drawing.Size(175, 6);
             // 
             // buttonImportHeightMap
             // 
@@ -366,25 +330,25 @@ namespace TerrainSample.Editor.World
             this.dialogImportTextureMap.RestoreDirectory = true;
             this.dialogImportTextureMap.FileOk += new System.ComponentModel.CancelEventHandler(this.dialogImportTextureMap_FileOk);
             // 
-            // splitRender
+            // splitVertical
             // 
-            this.splitRender.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.splitVertical.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitRender.Location = new System.Drawing.Point(6, 28);
-            this.splitRender.Name = "splitRender";
+            this.splitVertical.Location = new System.Drawing.Point(6, 28);
+            this.splitVertical.Name = "splitVertical";
             // 
-            // splitRender.Panel1
+            // splitVertical.Panel1
             // 
-            this.splitRender.Panel1.Controls.Add(this.tabControl);
-            this.splitRender.Panel1MinSize = 140;
+            this.splitVertical.Panel1.Controls.Add(this.tabControl);
+            this.splitVertical.Panel1MinSize = 140;
             // 
-            // splitRender.Panel2
+            // splitVertical.Panel2
             // 
-            this.splitRender.Panel2.Controls.Add(this.renderPanel);
-            this.splitRender.Size = new System.Drawing.Size(685, 504);
-            this.splitRender.SplitterDistance = 173;
-            this.splitRender.TabIndex = 0;
+            this.splitVertical.Panel2.Controls.Add(this.splitHorizontal);
+            this.splitVertical.Size = new System.Drawing.Size(685, 504);
+            this.splitVertical.SplitterDistance = 173;
+            this.splitVertical.TabIndex = 0;
             // 
             // tabControl
             // 
@@ -860,19 +824,46 @@ namespace TerrainSample.Editor.World
             this.labelTerrainSize.TabIndex = 0;
             this.labelTerrainSize.Text = "Size:";
             // 
+            // splitHorizontal
+            // 
+            this.splitHorizontal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitHorizontal.Location = new System.Drawing.Point(0, 0);
+            this.splitHorizontal.Name = "splitHorizontal";
+            this.splitHorizontal.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitHorizontal.Panel1
+            // 
+            this.splitHorizontal.Panel1.Controls.Add(this.renderPanel);
+            // 
+            // splitHorizontal.Panel2
+            // 
+            this.splitHorizontal.Panel2.Controls.Add(this.xmlEditor);
+            this.splitHorizontal.Size = new System.Drawing.Size(508, 504);
+            this.splitHorizontal.SplitterDistance = 345;
+            this.splitHorizontal.TabIndex = 0;
+            // 
             // renderPanel
             // 
             this.renderPanel.AutoRender = true;
             this.renderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.renderPanel.Location = new System.Drawing.Point(0, 0);
             this.renderPanel.Name = "renderPanel";
-            this.renderPanel.Size = new System.Drawing.Size(508, 504);
-            this.renderPanel.TabIndex = 0;
+            this.renderPanel.Size = new System.Drawing.Size(508, 345);
+            this.renderPanel.TabIndex = 1;
+            // 
+            // xmlEditor
+            // 
+            this.xmlEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.xmlEditor.Location = new System.Drawing.Point(0, 0);
+            this.xmlEditor.Name = "xmlEditor";
+            this.xmlEditor.Size = new System.Drawing.Size(508, 155);
+            this.xmlEditor.TabIndex = 0;
+            this.xmlEditor.ContentChanged += new System.Action<string>(this.xmlEditor_ContentChanged);
             // 
             // MapEditor
             // 
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Controls.Add(this.splitRender);
+            this.Controls.Add(this.splitVertical);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.checkWireframe);
             this.Controls.Add(this.buttonDebug);
@@ -882,14 +873,14 @@ namespace TerrainSample.Editor.World
             this.Controls.SetChildIndex(this.buttonDebug, 0);
             this.Controls.SetChildIndex(this.checkWireframe, 0);
             this.Controls.SetChildIndex(this.toolStrip, 0);
-            this.Controls.SetChildIndex(this.splitRender, 0);
+            this.Controls.SetChildIndex(this.splitVertical, 0);
             this.Controls.SetChildIndex(this.buttonRedo, 0);
             this.Controls.SetChildIndex(this.buttonUndo, 0);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
-            this.splitRender.Panel1.ResumeLayout(false);
-            this.splitRender.Panel2.ResumeLayout(false);
-            this.splitRender.ResumeLayout(false);
+            this.splitVertical.Panel1.ResumeLayout(false);
+            this.splitVertical.Panel2.ResumeLayout(false);
+            this.splitVertical.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);
             this.tabPagePositionables.ResumeLayout(false);
             this.positionablesTab.Panel1.ResumeLayout(false);
@@ -909,6 +900,9 @@ namespace TerrainSample.Editor.World
             this.groupTextureShape.ResumeLayout(false);
             this.groupTextureShape.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.upDownTextureSize)).EndInit();
+            this.splitHorizontal.Panel1.ResumeLayout(false);
+            this.splitHorizontal.Panel2.ResumeLayout(false);
+            this.splitHorizontal.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -920,9 +914,6 @@ namespace TerrainSample.Editor.World
         private System.Windows.Forms.CheckBox checkWireframe;
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ToolStripDropDownButton toolStripImportExport;
-        private System.Windows.Forms.ToolStripMenuItem buttonExportXml;
-        private System.Windows.Forms.ToolStripMenuItem buttonImportXML;
-        private System.Windows.Forms.ToolStripSeparator toolStripImportExportSeparator1;
         private System.Windows.Forms.ToolStripMenuItem buttonExportHeightMap;
         private System.Windows.Forms.ToolStripMenuItem buttonImportHeightMap;
         private System.Windows.Forms.ToolStripSeparator toolStripImportExportSeparator2;
@@ -933,13 +924,11 @@ namespace TerrainSample.Editor.World
         private System.Windows.Forms.ToolStripMenuItem buttonNewBenchmarkPoint;
         private System.Windows.Forms.ToolStripButton buttonRemove;
         private System.Windows.Forms.ToolStripButton buttonCopy;
-        private System.Windows.Forms.OpenFileDialog dialogImportXml;
-        private System.Windows.Forms.SaveFileDialog dialogExportXml;
         private System.Windows.Forms.OpenFileDialog dialogImportHeightMap;
         private System.Windows.Forms.SaveFileDialog dialogExportHeightMap;
         private System.Windows.Forms.OpenFileDialog dialogImportTextureMap;
         private System.Windows.Forms.SaveFileDialog dialogExportTextureMap;
-        private System.Windows.Forms.SplitContainer splitRender;
+        private System.Windows.Forms.SplitContainer splitVertical;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPagePositionables;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -960,7 +949,6 @@ namespace TerrainSample.Editor.World
         private System.Windows.Forms.CheckBox checkWater;
         private System.Windows.Forms.TabPage tabPageHeight;
         private System.Windows.Forms.ToolStripSplitButton buttonMapProperties;
-        private OmegaEngine.RenderPanel renderPanel;
         private System.Windows.Forms.ToolStripMenuItem buttonCameraStatupPerspective;
         private System.Windows.Forms.GroupBox groupHeightShape;
         private System.Windows.Forms.RadioButton radioHeightSmooth;
@@ -981,5 +969,8 @@ namespace TerrainSample.Editor.World
         private System.Windows.Forms.RadioButton radioTextureShapeCircle;
         private System.Windows.Forms.NumericUpDown upDownTextureSize;
         private System.Windows.Forms.Label labelTerrainSize;
+        private System.Windows.Forms.SplitContainer splitHorizontal;
+        private OmegaEngine.RenderPanel renderPanel;
+        private Common.Controls.LiveEditor xmlEditor;
     }
 }
