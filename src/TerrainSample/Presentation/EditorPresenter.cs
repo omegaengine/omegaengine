@@ -251,19 +251,22 @@ namespace TerrainSample.Presentation
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Performs a calculation based on the currently set of visible bodies")]
         public Box GetCollisionBox()
         {
-            float xMin = 0, yMin = 0, xMax = 0, yMax = 0;
-            foreach (var positionable in PositionableRenderables)
+            var boundingBoxes =
+                (from positionable in PositionableRenderables
+                where positionable.Pickable && positionable.BoundingBox.HasValue
+                // ReSharper disable once PossibleInvalidOperationException
+                select positionable.BoundingBox.Value.Transform(positionable.PreTransform))
+                .ToList();
+            
+            return new Box
             {
-                if (!positionable.Pickable || !positionable.BoundingBox.HasValue) continue;
-
-                var boundingBox = positionable.BoundingBox.Value.Transform(positionable.PreTransform);
-                xMin = Math.Min(xMin, boundingBox.Minimum.X);
-                yMin = Math.Min(yMin, -boundingBox.Maximum.Z);
-                xMax = Math.Max(xMax, boundingBox.Maximum.X);
-                yMax = Math.Max(yMax, -boundingBox.Minimum.Z);
-            }
-
-            return new Box {Minimum = new Vector2(xMin, yMin), Maximum = new Vector2(xMax, yMax)};
+                Minimum = new Vector2(
+                    boundingBoxes.Min(box => box.Minimum.X),
+                    boundingBoxes.Min(box => -box.Maximum.Z)),
+                Maximum = new Vector2(
+                    boundingBoxes.Max(box => box.Maximum.X),
+                    boundingBoxes.Max(box => -box.Minimum.Z))
+            };
         }
         #endregion
     }

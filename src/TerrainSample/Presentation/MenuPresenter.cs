@@ -70,7 +70,7 @@ namespace TerrainSample.Presentation
         {
             base.HookIn();
 
-            SwitchMusicTheme("Menu", false);
+            SwitchMusicTheme("Menu");
         }
         #endregion
 

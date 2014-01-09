@@ -60,7 +60,7 @@ namespace TerrainSample.Presentation
         {
             base.HookIn();
 
-            SwitchMusicTheme("Game", true);
+            SwitchMusicTheme("Game", immediate: true);
         }
 
         /// <inheritdoc />

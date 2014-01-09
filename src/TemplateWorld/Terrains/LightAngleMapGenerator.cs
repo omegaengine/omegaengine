@@ -139,22 +139,18 @@ namespace TemplateWorld.Terrains
         /// <inheritdoc />
         protected override void RunTask()
         {
-            // Create new angle-map arrays
             _lightRiseAngleMap = new byte[_size.X, _size.Y];
             _lightSetAngleMap = new byte[_size.X, _size.Y];
 
             lock (StateLock) State = TaskState.Data;
 
-            // Iterate through each degree of longitude (lines from east-to-west)
+            // Iterate through each degree of longitude (lines from west to east)
 #if NETFX4
             Parallel.For(0, _size.Y, y =>
 #else
             for (int y = 0; y < _size.Y; y++)
 #endif
             {
-                // The west-most stays lit until the light-source fully sets (nothing west of it to throw a shadow)
-                _lightSetAngleMap[0, y] = 255;
-
                 // Iterate through all points along the line from west to east
                 for (int x1 = 0; x1 < _size.X; x1++)
                 {

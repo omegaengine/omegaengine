@@ -102,8 +102,12 @@ namespace TerrainSample.Presentation
                     var highlight = new Model(XMesh.Get(Engine, "Engine/Rectangle.x"));
 
                     // Determine the component-wise minimums and maxmimums and the absolute difference
-                    var min = new Vector2(Math.Min(box.Minimum.X, box.Maximum.X), Math.Min(box.Minimum.Y, box.Maximum.Y));
-                    var max = new Vector2(Math.Max(box.Minimum.X, box.Maximum.X), Math.Max(box.Minimum.Y, box.Maximum.Y));
+                    var min = new Vector2(
+                        Math.Min(box.Minimum.X, box.Maximum.X),
+                        Math.Min(box.Minimum.Y, box.Maximum.Y));
+                    var max = new Vector2(
+                        Math.Max(box.Minimum.X, box.Maximum.X),
+                        Math.Max(box.Minimum.Y, box.Maximum.Y));
                     var diff = max - min;
 
                     highlight.PreTransform = Matrix.Scaling(diff.X, 1, diff.Y) * Matrix.Translation(min.X, 0, -min.Y);

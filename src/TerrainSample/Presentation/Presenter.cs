@@ -185,10 +185,8 @@ namespace TerrainSample.Presentation
         /// <remarks>Will internally call <see cref="Initialize"/> first, if you didn't</remarks>
         public virtual void HookIn()
         {
-            #region Sanity checks
             if (Disposed) throw new ObjectDisposedException(ToString());
             if (!Initialized) Initialize();
-            #endregion
 
             // Hook into engine
             Engine.Views.Add(View);
@@ -298,7 +296,7 @@ namespace TerrainSample.Presentation
         /// </summary>
         /// <param name="theme">The new music theme</param>
         /// <param name="immediate">Shall the current song be stopped and the new theme activated immediately?</param>
-        protected void SwitchMusicTheme(string theme, bool immediate)
+        protected void SwitchMusicTheme(string theme, bool immediate = false)
         {
             if (Settings.Current.Sound.PlayMusic && immediate)
             { // Change the music-playback bow
