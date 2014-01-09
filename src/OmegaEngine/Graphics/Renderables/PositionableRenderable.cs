@@ -316,7 +316,7 @@ namespace OmegaEngine.Graphics.Renderables
         #endregion
 
         // Order is not important, duplicate entries are not allowed
-        private readonly C5.ICollection<View> _requiredViews = new C5.HashSet<View>();
+        private readonly C5.HashSet<View> _requiredViews = new C5.HashSet<View>();
         private SurfaceShader _surfaceShader;
 
         /// <summary>

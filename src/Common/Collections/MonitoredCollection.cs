@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Common.Properties;
 
 namespace Common.Collections
@@ -191,13 +192,10 @@ namespace Common.Collections
 
             // Add all items without raising the events yet
             _dontRaiseEvents = true;
-            foreach (var item in collection)
+            foreach (var item in collection.Where(item => !Contains(item)))
             {
-                if (!Contains(item))
-                {
-                    Add(item);
-                    added.AddLast(item);
-                }
+                Add(item);
+                added.AddLast(item);
             }
             _dontRaiseEvents = false;
 
@@ -230,14 +228,10 @@ namespace Common.Collections
 
             // Remove superflous items without raising the events yet
             _dontRaiseEvents = true;
-            foreach (var item in copy)
+            foreach (var item in copy.Where(item => !collection.Contains(item)))
             {
-                // Check if an item in the old collection is not in the new collection
-                if (!collection.Contains(item))
-                {
-                    Remove(item);
-                    removed.AddLast(item);
-                }
+                Remove(item);
+                removed.AddLast(item);
             }
             _dontRaiseEvents = false;
 
@@ -249,22 +243,5 @@ namespace Common.Collections
             AddMany(collection);
         }
         #endregion
-    }
-
-    /// <summary>
-    /// An event regarding an element of a monitored collection.
-    /// </summary>
-    /// <typeparam name="T">The type of elements in the monitored collection.</typeparam>
-    public class MonitoringEventArgs<T> : EventArgs
-    {
-        /// <summary>
-        /// The element from the monitored collection.
-        /// </summary>
-        public T Item { get; private set; }
-
-        internal MonitoringEventArgs(T item)
-        {
-            Item = item;
-        }
     }
 }

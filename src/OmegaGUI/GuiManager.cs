@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Windows.Forms;
 using Common;
 using Common.Utils;
@@ -165,30 +166,20 @@ namespace OmegaGUI
 
             using (new ProfilerEvent("Render GUI"))
             {
-                foreach (var dialog in _normalDialogs)
-                {
-                    if (dialog.DialogModel.Visible)
-                        dialog.DialogRender.OnRender(dialog.DialogModel.Animate ? elapsedTime : 1);
-                }
-                foreach (var dialog in _modalDialogs)
-                {
-                    if (dialog.DialogModel.Visible)
-                        dialog.DialogRender.OnRender(dialog.DialogModel.Animate ? elapsedTime : 1);
-                }
+                foreach (var dialog in _normalDialogs.Where(dialog => dialog.DialogModel.Visible))
+                    dialog.DialogRender.OnRender(dialog.DialogModel.Animate ? elapsedTime : 1);
+                foreach (var dialog in _modalDialogs.Where(dialog => dialog.DialogModel.Visible))
+                    dialog.DialogRender.OnRender(dialog.DialogModel.Animate ? elapsedTime : 1);
                 if (DialogManager.MessageBox.Visible)
                     DialogManager.MessageBox.OnRender(elapsedTime);
             }
 
-            #region Process pending queues
-            // Create list of all Lua VMs that aren't executing anything at the moment
-            List<Lua> readyToRemove = _pendingLuaDisposes.FindAll(lua => !lua.IsExecuting);
-
-            foreach (Lua lua in readyToRemove)
+            var readyToRemove = _pendingLuaDisposes.FindAll(lua => !lua.IsExecuting);
+            foreach (var lua in readyToRemove)
             {
                 lua.Dispose();
                 _pendingLuaDisposes.Remove(lua);
             }
-            #endregion
         }
         #endregion
 
