@@ -21,7 +21,7 @@
  */
 
 using System;
-using AlphaEditor.World.Commands;
+using AlphaFramework.Editor.World.Commands;
 using TerrainSample.World;
 
 namespace TerrainSample.Editor.World.Commands

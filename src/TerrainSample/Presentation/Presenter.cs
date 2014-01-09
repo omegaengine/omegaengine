@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using AlphaFramework.World.Positionables;
 using Common;
 using Common.Collections;
 using LuaInterface;
@@ -33,7 +34,6 @@ using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;
-using TemplateWorld.Positionables;
 using TerrainSample.World;
 using TerrainSample.World.Config;
 

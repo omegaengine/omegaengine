@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-using AlphaEditor.World;
+using AlphaFramework.Editor.World;
 using TerrainSample.World.Templates;
 
 namespace TerrainSample.Editor.World

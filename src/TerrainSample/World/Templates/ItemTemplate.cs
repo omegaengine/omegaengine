@@ -21,7 +21,7 @@
  */
 
 using System.ComponentModel;
-using TemplateWorld.Templates;
+using AlphaFramework.World.Templates;
 
 namespace TerrainSample.World.Templates
 {

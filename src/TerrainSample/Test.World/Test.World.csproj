@@ -27,16 +27,6 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\..\NoAnalysis.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\..\build\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DebugSymbols>false</DebugSymbols>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="LinqBridge">
       <HintPath>..\..\packages\LinqBridge.1.3.0\lib\net20\LinqBridge.dll</HintPath>
@@ -62,17 +52,13 @@
       <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\TemplateWorld\TemplateWorld.csproj">
+    <ProjectReference Include="..\..\AlphaFramework\World\World.csproj">
       <Project>{c9062be0-1762-4907-ba23-9d60af183993}</Project>
-      <Name>TemplateWorld</Name>
+      <Name>World %28AlphaFramework\World%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\World\World.csproj">
       <Project>{3EA8E61B-A309-4862-B4B1-7C67537C52A6}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\World\World.csproj">
-      <Project>{3EA8E61B-A309-4862-B4B1-7C67537C52A6}</Project>
-      <Name>World</Name>
+      <Name>World %28TerrainSample\World%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -22,9 +22,9 @@
 
 using System;
 using System.IO;
+using AlphaFramework.World;
 using Common.Storage;
 using ICSharpCode.SharpZipLib.Zip;
-using TemplateWorld;
 using TerrainSample.World.Config;
 
 namespace TerrainSample.World

@@ -20,14 +20,21 @@ rd /s /q "%~dp0src\Common\obj" > NUL 2>&1
 rd /s /q "%~dp0src\Test.Common\obj" > NUL 2>&1
 rd /s /q "%~dp0src\OmegaEngine\obj" > NUL 2>&1
 rd /s /q "%~dp0src\OmegaGUI\obj" > NUL 2>&1
-rd /s /q "%~dp0src\TemplateWorld\obj" > NUL 2>&1
-rd /s /q "%~dp0src\Test.TemplateWorld\obj" > NUL 2>&1
-rd /s /q "%~dp0src\AlphaEditor\obj" > NUL 2>&1
+rd /s /q "%~dp0src\AlphaFramework\Presentation\obj" > NUL 2>&1
+rd /s /q "%~dp0src\AlphaFramework\World\obj" > NUL 2>&1
+rd /s /q "%~dp0src\AlphaFramework\Test.World\obj" > NUL 2>&1
+rd /s /q "%~dp0src\AlphaFramework\Editor\obj" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\Game\obj" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\Editor\obj" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\World\obj" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\Test.World\obj" > NUL 2>&1
 rd /s /q "%~dp0src\TerrainSample\Presentation\obj" > NUL 2>&1
+rd /s /q "%~dp0templates\WinForms\obj" > NUL 2>&1
+rd /s /q "%~dp0templates\WinForms\bin" > NUL 2>&1
+rd /s /q "%~dp0templates\Fullscreen\obj" > NUL 2>&1
+rd /s /q "%~dp0templates\Fullscreen\bin" > NUL 2>&1
+rd /s /q "%~dp0templates\Editor\obj" > NUL 2>&1
+rd /s /q "%~dp0templates\Editor\bin" > NUL 2>&1
 
 rem Remove NUnit logs
 del "%~dp0*.VisualState.xml" > NUL 2>&1

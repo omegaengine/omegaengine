@@ -26,19 +26,19 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using AlphaFramework.World;
+using AlphaFramework.World.Paths;
+using AlphaFramework.World.Positionables;
+using AlphaFramework.World.Terrains;
 using Common;
 using Common.Collections;
 using Common.Storage;
 using LuaInterface;
 using SlimDX;
-using TemplateWorld;
-using TemplateWorld.Paths;
-using TemplateWorld.Positionables;
-using TemplateWorld.Terrains;
 using TerrainSample.World.Config;
 using TerrainSample.World.Positionables;
 using TerrainSample.World.Templates;
-using Resources = TemplateWorld.Properties.Resources;
+using Resources = AlphaFramework.World.Properties.Resources;
 
 namespace TerrainSample.World
 {

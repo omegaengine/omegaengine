@@ -15,7 +15,6 @@
       <reference file="LuaInterface.dll" />
       <reference file="SlimDX.dll" />
       <reference file="Common.dll" />
-      <reference file="TemplateWorld.dll" />
     </references>
     <id>OmegaEngine.Helpers</id>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -40,8 +39,5 @@
     <file src="..\build\ReleaseSDK\SlimDX.xml" target="lib\net20\SlimDX.xml" />
     <file src="..\build\ReleaseSDK\TaskDialog.dll" target="lib\net20\TaskDialog.dll" />
     <file src="..\build\ReleaseSDK\TaskDialog.xml" target="lib\net20\TaskDialog.xml" />
-    <file src="..\build\ReleaseSDK\TemplateWorld.dll" target="lib\net20\TemplateWorld.dll" />
-    <file src="..\build\ReleaseSDK\TemplateWorld.pdb" target="lib\net20\TemplateWorld.pdb" />
-    <file src="..\build\ReleaseSDK\TemplateWorld.xml" target="lib\net20\TemplateWorld.xml" />
   </files>
 </package>

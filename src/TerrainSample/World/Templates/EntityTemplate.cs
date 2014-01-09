@@ -22,9 +22,9 @@
 
 using System.ComponentModel;
 using System.Xml.Serialization;
+using AlphaFramework.World.Positionables;
+using AlphaFramework.World.Templates;
 using SlimDX;
-using TemplateWorld.Positionables;
-using TemplateWorld.Templates;
 using TerrainSample.World.EntityComponents;
 using TerrainSample.World.Positionables;
 

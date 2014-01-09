@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <version>0.8.4</version>
+    <authors>Bastian Eicher</authors>
+    <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
+    <projectUrl>http://code.google.com/p/omegaengine/</projectUrl>
+    <iconUrl>http://omega.nanobyte.de/images/icon_omega.png</iconUrl>
+    <dependencies>
+      <dependency id="OmegaEngine.Helpers" version="0.8.4" />
+    </dependencies>
+    <references>
+      <reference file="AlphaFramework.Presentation.dll" />
+    </references>
+    <id>AlphaFramework.Presentation</id>
+    <description>This package provides a framework for rendering AlphaFramework.World-based models with the OmegaEngine.</description>
+    <summary>Provides a framework for rendering game worlds</summary>
+  </metadata>
+  <files>
+    <file src="..\build\ReleaseSDK\AlphaFramework.Presentation.dll" target="lib\net20\AlphaFramework.Presentation.dll" />
+    <file src="..\build\ReleaseSDK\AlphaFramework.Presentation.pdb" target="lib\net20\AlphaFramework.Presentation.pdb" />
+    <file src="..\build\ReleaseSDK\AlphaFramework.Presentation.xml" target="lib\net20\AlphaFramework.Presentation.xml" />
+  </files>
+</package>

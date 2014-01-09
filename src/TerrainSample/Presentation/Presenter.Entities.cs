@@ -25,6 +25,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using AlphaFramework.World.EntityComponents;
+using AlphaFramework.World.Positionables;
 using Common.Collections;
 using Common.Utils;
 using Common.Values;
@@ -33,12 +35,10 @@ using OmegaEngine.Assets;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
-using TemplateWorld.EntityComponents;
-using TemplateWorld.Positionables;
 using TerrainSample.World.Positionables;
-using CpuParticleSystem = TemplateWorld.EntityComponents.CpuParticleSystem;
-using GpuParticleSystem = TemplateWorld.EntityComponents.GpuParticleSystem;
-using LightSource = TemplateWorld.EntityComponents.LightSource;
+using CpuParticleSystem = AlphaFramework.World.EntityComponents.CpuParticleSystem;
+using GpuParticleSystem = AlphaFramework.World.EntityComponents.GpuParticleSystem;
+using LightSource = AlphaFramework.World.EntityComponents.LightSource;
 using Terrain = OmegaEngine.Graphics.Renderables.Terrain;
 using ViewType = OmegaEngine.Graphics.Renderables.ViewType;
 using Water = OmegaEngine.Graphics.Renderables.Water;
@@ -73,8 +73,8 @@ namespace TerrainSample.Presentation
         /// <summary>1:1 association of <see cref="RenderControl"/> to <see cref="IPositionableOffset"/> (usually <see cref="PositionableRenderable"/>.</summary>
         private readonly Dictionary<RenderControl, IPositionable> _worldToEngine = new Dictionary<RenderControl, IPositionable>();
 
-        /// <summary>1:1 association of <see cref="TemplateWorld.Positionables.Water"/> to <see cref="OmegaEngine.Graphics.Renderables.Water"/>.</summary>
-        private readonly Dictionary<TemplateWorld.Positionables.Water, Water> _worldToEngineWater = new Dictionary<TemplateWorld.Positionables.Water, Water>();
+        /// <summary>1:1 association of <see cref="AlphaFramework.World.Positionables.Water"/> to <see cref="OmegaEngine.Graphics.Renderables.Water"/>.</summary>
+        private readonly Dictionary<AlphaFramework.World.Positionables.Water, Water> _worldToEngineWater = new Dictionary<AlphaFramework.World.Positionables.Water, Water>();
 
         /// <summary>n:1 association of <see cref="PositionableRenderable"/> to <see cref="Positionable{TCoordinates}"/>.</summary>
         private readonly Dictionary<PositionableRenderable, Positionable<Vector2>> _engineToWorld = new Dictionary<PositionableRenderable, Positionable<Vector2>>();
@@ -145,7 +145,7 @@ namespace TerrainSample.Presentation
                     entity.TemplateChanging += RemoveEntity;
                     entity.TemplateChanged += AddEntity;
                 },
-                (TemplateWorld.Positionables.Water water) =>
+                (AlphaFramework.World.Positionables.Water water) =>
                 {
                     AddWater(water);
 
@@ -188,10 +188,10 @@ namespace TerrainSample.Presentation
         }
 
         /// <summary>
-        /// Sets up a <see cref="TemplateWorld.Positionables.Water"/> for rendering via a <see cref="Water"/>
+        /// Sets up a <see cref="AlphaFramework.World.Positionables.Water"/> for rendering via a <see cref="Water"/>
         /// </summary>
-        /// <param name="water">The <see cref="TemplateWorld.Positionables.Water"/> to be displayed</param>
-        private void AddWater(TemplateWorld.Positionables.Water water)
+        /// <param name="water">The <see cref="AlphaFramework.World.Positionables.Water"/> to be displayed</param>
+        private void AddWater(AlphaFramework.World.Positionables.Water water)
         {
             // Create an engine representation of the water plane
             var engineWater = new Water(Engine, new SizeF(water.Size.X, water.Size.Y))
@@ -234,7 +234,7 @@ namespace TerrainSample.Presentation
                     entity.TemplateChanging -= RemoveEntity;
                     entity.TemplateChanged -= AddEntity;
                 },
-                (TemplateWorld.Positionables.Water water) =>
+                (AlphaFramework.World.Positionables.Water water) =>
                 {
                     RemoveWater(water);
 
@@ -260,10 +260,10 @@ namespace TerrainSample.Presentation
         }
 
         /// <summary>
-        /// Removes a <see cref="OmegaEngine.Graphics.Renderables.Water"/> used to render a <see cref="TemplateWorld.Positionables.Water"/>
+        /// Removes a <see cref="OmegaEngine.Graphics.Renderables.Water"/> used to render a <see cref="AlphaFramework.World.Positionables.Water"/>
         /// </summary>
-        /// <param name="water">The <see cref="TemplateWorld.Positionables.Water"/> to be removed</param>
-        private void RemoveWater(TemplateWorld.Positionables.Water water)
+        /// <param name="water">The <see cref="AlphaFramework.World.Positionables.Water"/> to be removed</param>
+        private void RemoveWater(AlphaFramework.World.Positionables.Water water)
         {
             Water engineWater = _worldToEngineWater[water];
             Scene.Positionables.Remove(engineWater);
@@ -307,7 +307,7 @@ namespace TerrainSample.Presentation
                     foreach (var renderControl in entity.TemplateData.RenderControls)
                         UpdateEntityHelper(renderControl, terrainPoint, entity.Rotation);
                 },
-                (TemplateWorld.Positionables.Water water) =>
+                (AlphaFramework.World.Positionables.Water water) =>
                     _worldToEngineWater[water].Position = Terrain.Position + water.EnginePosition
             }.Dispatch(positionable);
         }

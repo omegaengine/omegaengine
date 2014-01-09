@@ -18,13 +18,13 @@
 using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
+using AlphaFramework.World.Paths;
+using AlphaFramework.World.Positionables;
+using AlphaFramework.World.Terrains;
 using Common.Utils;
 using Common.Values;
 using Common.Values.Design;
 using SlimDX;
-using TemplateWorld.Paths;
-using TemplateWorld.Positionables;
-using TemplateWorld.Terrains;
 using TerrainSample.World.EntityComponents;
 using TerrainSample.World.Templates;
 

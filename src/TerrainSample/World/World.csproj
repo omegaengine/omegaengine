@@ -32,13 +32,13 @@
     <CodeAnalysisRuleSet>..\..\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\build\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
@@ -98,9 +98,9 @@
       <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\TemplateWorld\TemplateWorld.csproj">
+    <ProjectReference Include="..\..\AlphaFramework\World\World.csproj">
       <Project>{C9062BE0-1762-4907-BA23-9D60AF183993}</Project>
-      <Name>TemplateWorld</Name>
+      <Name>World %28AlphaFramework\World%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -58,7 +58,7 @@
             // pictureLogo
             // 
             resources.ApplyResources(this.pictureLogo, "pictureLogo");
-            this.pictureLogo.Image = global::AlphaEditor.Properties.Resources.Editor;
+            this.pictureLogo.Image = global::AlphaFramework.Editor.Properties.Resources.Editor;
             this.pictureLogo.Name = "pictureLogo";
             this.pictureLogo.TabStop = false;
             // 

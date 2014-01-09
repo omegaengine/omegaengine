@@ -1,6 +1,6 @@
-﻿using AlphaEditor;
+﻿using AlphaFramework.Editor;
 using Common;
-using Resources = AlphaEditor.Properties.Resources;
+using Resources = AlphaFramework.Editor.Properties.Resources;
 
 namespace $safeprojectname$
 {

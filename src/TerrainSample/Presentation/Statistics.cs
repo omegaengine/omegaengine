@@ -24,9 +24,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using AlphaFramework.World.Positionables;
 using Common.Values;
 using SlimDX;
-using TemplateWorld.Positionables;
 using TerrainSample.World;
 
 namespace TerrainSample.Presentation

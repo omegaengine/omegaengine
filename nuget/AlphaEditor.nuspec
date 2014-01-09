@@ -9,19 +9,21 @@
     <dependencies>
       <dependency id="OmegaEngine.Backend" version="0.8.4" />
       <dependency id="OmegaGUI" version="0.8.4" />
+      <dependency id="AlphaFramework.World" version="0.8.4" />
+      <dependency id="AlphaFramework.Presentation" version="0.8.4" />
     </dependencies>
     <references>
-      <reference file="AlphaEditor.dll" />
+      <reference file="AlphaFramework.Editor.dll" />
     </references>
     <id>AlphaEditor</id>
-    <description>The AlphaEditor is an extendable framework allowing you to create IDE-like editors for games based on the OmegaEngine.
+    <description>The AlphaEditor is an extensible framework allowing you to create IDE-like editors for games based on the OmegaEngine and AlphaFramework.
 You can use it to create GUI dialogs, maps, particle systems, etc. for your game.</description>
     <summary>IDE-like editor for OmegaEngine games (GUI, maps, particle systems, etc.)</summary>
   </metadata>
   <files>
-    <file src="..\build\ReleaseSDK\de\AlphaEditor.resources.dll" target="lib\net20\de\AlphaEditor.resources.dll" />
-    <file src="..\build\ReleaseSDK\AlphaEditor.dll" target="lib\net20\AlphaEditor.dll" />
-    <file src="..\build\ReleaseSDK\AlphaEditor.pdb" target="lib\net20\AlphaEditor.pdb" />
-    <file src="..\build\ReleaseSDK\AlphaEditor.xml" target="lib\net20\AlphaEditor.xml" />
+    <file src="..\build\ReleaseSDK\de\AlphaFramework.Editor.resources.dll" target="lib\net20\de\AlphaFramework.Editor.resources.dll" />
+    <file src="..\build\ReleaseSDK\AlphaFramework.Editor.dll" target="lib\net20\AlphaFramework.Editor.dll" />
+    <file src="..\build\ReleaseSDK\AlphaFramework.Editor.pdb" target="lib\net20\AlphaFramework.Editor.pdb" />
+    <file src="..\build\ReleaseSDK\AlphaFramework.Editor.xml" target="lib\net20\AlphaFramework.Editor.xml" />
   </files>
 </package>

@@ -21,7 +21,7 @@
  */
 
 using System.Windows.Forms;
-using AlphaEditor;
+using AlphaFramework.Editor;
 using TerrainSample.World.Config;
 
 namespace TerrainSample.Editor

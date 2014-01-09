@@ -23,10 +23,10 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
+using AlphaFramework.World.Templates;
 using Common.Utils;
 using Common.Values;
 using LuaInterface;
-using TemplateWorld.Templates;
 
 namespace TerrainSample.World.Templates
 {

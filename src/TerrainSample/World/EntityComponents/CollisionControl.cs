@@ -21,8 +21,8 @@
  */
 
 using System;
+using AlphaFramework.World.Positionables;
 using Common.Values;
-using TemplateWorld.Positionables;
 
 namespace TerrainSample.World.EntityComponents
 {

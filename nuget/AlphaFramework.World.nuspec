@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <version>0.8.4</version>
+    <authors>Bastian Eicher</authors>
+    <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
+    <projectUrl>http://code.google.com/p/omegaengine/</projectUrl>
+    <iconUrl>http://omega.nanobyte.de/images/icon_omega.png</iconUrl>
+    <dependencies>
+      <dependency id="OmegaEngine.Helpers" version="0.8.4" />
+    </dependencies>
+    <references>
+      <reference file="AlphaFramework.World.dll" />
+    </references>
+    <id>AlphaFramework.World</id>
+    <description>The AlphaFramework provides a generics- and template-based framework for storing game worlds. It is designed for use with the OmegaEngine.</description>
+    <summary>Provides a generics- and template-based framework for storing game worlds</summary>
+  </metadata>
+  <files>
+    <file src="..\build\ReleaseSDK\de\AlphaFramework.World.resources.dll" target="lib\net20\de\AlphaFramework.World.resources.dll" />
+    <file src="..\build\ReleaseSDK\AlphaFramework.World.dll" target="lib\net20\AlphaFramework.World.dll" />
+    <file src="..\build\ReleaseSDK\AlphaFramework.World.pdb" target="lib\net20\AlphaFramework.World.pdb" />
+    <file src="..\build\ReleaseSDK\AlphaFramework.World.xml" target="lib\net20\AlphaFramework.World.xml" />
+  </files>
+</package>

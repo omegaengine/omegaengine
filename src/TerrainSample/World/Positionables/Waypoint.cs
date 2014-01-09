@@ -20,8 +20,8 @@
  * THE SOFTWARE.
  */
 
+using AlphaFramework.World.Positionables;
 using SlimDX;
-using TemplateWorld.Positionables;
 
 namespace TerrainSample.World.Positionables
 {

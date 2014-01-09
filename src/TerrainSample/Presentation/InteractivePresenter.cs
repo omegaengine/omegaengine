@@ -26,6 +26,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using AlphaFramework.World.Positionables;
 using Common;
 using Common.Collections;
 using Common.Values;
@@ -34,7 +35,6 @@ using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;
 using SlimDX;
-using TemplateWorld.Positionables;
 using TerrainSample.World;
 using TerrainSample.World.Positionables;
 

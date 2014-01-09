@@ -27,10 +27,13 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using AlphaEditor;
-using AlphaEditor.World.Commands;
-using AlphaEditor.World.Dialogs;
-using AlphaEditor.World.TerrainModifiers;
+using AlphaFramework.Editor;
+using AlphaFramework.Editor.World.Commands;
+using AlphaFramework.Editor.World.Dialogs;
+using AlphaFramework.Editor.World.TerrainModifiers;
+using AlphaFramework.World.Positionables;
+using AlphaFramework.World.Templates;
+using AlphaFramework.World.Terrains;
 using Common;
 using Common.Controls;
 using Common.Storage;
@@ -39,14 +42,11 @@ using Common.Utils;
 using ICSharpCode.SharpZipLib.Zip;
 using OmegaEngine.Input;
 using SlimDX;
-using TemplateWorld.Positionables;
-using TemplateWorld.Templates;
-using TemplateWorld.Terrains;
 using TerrainSample.Presentation;
 using TerrainSample.World;
 using TerrainSample.World.Positionables;
 using TerrainSample.World.Templates;
-using Resources = AlphaEditor.Properties.Resources;
+using Resources = AlphaFramework.Editor.Properties.Resources;
 
 namespace TerrainSample.Editor.World
 {

@@ -22,7 +22,7 @@
 
 using System;
 using System.ComponentModel;
-using TemplateWorld.Positionables;
+using AlphaFramework.World.Positionables;
 
 namespace TerrainSample.World.EntityComponents
 {

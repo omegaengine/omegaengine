@@ -25,12 +25,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using AlphaEditor;
-using AlphaEditor.Properties;
+using AlphaFramework.Editor;
+using AlphaFramework.Editor.Properties;
+using AlphaFramework.World.Templates;
 using Common;
 using Common.Controls;
 using Common.Storage;
-using TemplateWorld.Templates;
 using TerrainSample.World.Templates;
 
 namespace TerrainSample.Editor.World

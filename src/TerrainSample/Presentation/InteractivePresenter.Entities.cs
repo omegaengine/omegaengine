@@ -22,13 +22,13 @@
 
 using System;
 using System.Collections.Generic;
+using AlphaFramework.World.Positionables;
 using Common.Collections;
 using Common.Utils;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
-using TemplateWorld.Positionables;
 using TerrainSample.World.EntityComponents;
 using TerrainSample.World.Positionables;
 

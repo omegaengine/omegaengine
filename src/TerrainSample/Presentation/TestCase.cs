@@ -22,9 +22,9 @@
 
 using System;
 using System.Xml.Serialization;
+using AlphaFramework.World.Positionables;
 using Common.Values;
 using SlimDX;
-using TemplateWorld.Positionables;
 using TerrainSample.World.Config;
 
 namespace TerrainSample.Presentation
