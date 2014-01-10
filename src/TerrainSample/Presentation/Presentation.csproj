@@ -86,6 +86,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AlphaFramework\Presentation\Presentation.csproj">
+      <Project>{63f97b11-3b08-45c3-86f9-1f99129a3b3d}</Project>
+      <Name>Presentation %28AlphaFramework\Presentation%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Common.csproj">
       <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
       <Name>Common</Name>

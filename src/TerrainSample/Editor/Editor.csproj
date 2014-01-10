@@ -112,6 +112,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AlphaFramework\Presentation\Presentation.csproj">
+      <Project>{63f97b11-3b08-45c3-86f9-1f99129a3b3d}</Project>
+      <Name>Presentation %28AlphaFramework\Presentation%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\OmegaEngine\OmegaEngine.csproj">
       <Project>{14E9FED0-4989-482D-85DE-448161A6855E}</Project>
       <Name>OmegaEngine</Name>

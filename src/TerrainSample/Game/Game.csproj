@@ -63,6 +63,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AlphaFramework\Presentation\Presentation.csproj">
+      <Project>{63f97b11-3b08-45c3-86f9-1f99129a3b3d}</Project>
+      <Name>Presentation %28AlphaFramework\Presentation%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\OmegaGUI\OmegaGUI.csproj">
       <Project>{0B5E032B-E8DE-41EB-B66D-6DFD25F9F6E9}</Project>
       <Name>OmegaGUI</Name>
