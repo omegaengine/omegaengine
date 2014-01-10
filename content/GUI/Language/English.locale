@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <locale>
-	<entry key="AdditionalOptions">Additional options</entry>
 	<entry key="Anisotropic">Anisotropic texture filtering</entry>
 	<entry key="Cancel">Cancel</entry>
+	<entry key="ColorCorrection">Color correction</entry>
 	<entry key="CutScenes">Cut scenes</entry>
 	<entry key="Display">Display</entry>
 	<entry key="Effects">Effects</entry>
@@ -19,7 +19,6 @@
 	<entry key="High">High</entry>
 	<entry key="InvertMouse">Invert mouse control</entry>
 	<entry key="Language">Language</entry>
-	<entry key="LightControl">Light control</entry>
 	<entry key="LightPhase">Light phase:</entry>
 	<entry key="Load">Load</entry>
 	<entry key="LoadGame">Load game</entry>
@@ -52,5 +51,6 @@
 	<entry key="ShowShadows">Show shadows</entry>
 	<entry key="ShowUnitShadows">Show unit shadows</entry>
 	<entry key="TerrainDoubleSampling">Terrain texture improvement</entry>
+	<entry key="TimeWarpFactor">Time warp factor:</entry>
 	<entry key="WaterEffects">Water effects</entry>
 </locale>

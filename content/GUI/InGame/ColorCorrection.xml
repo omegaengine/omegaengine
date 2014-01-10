@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Dialog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ColorBackground A="196" R="0" G="0" B="0" />
+	<ColorCaption A="128" R="96" G="128" B="255" />
+	<ColorText A="255" R="255" G="255" B="255" />
+	<CaptionText>[ColorCorrection]</CaptionText>
+	<CaptionHeight>25</CaptionHeight>
+	<OnShow>Me:ImportLua("InGame/ColorCorrection.lua")</OnShow>
+	<OnUpdate>refresh_color_correction_phase0()
+refresh_color_correction_phase1()
+refresh_color_correction_phase2()
+refresh_color_correction_phase3()
+
+refresh_ambient_color()
+refresh_sun()
+refresh_moon()
+
+Fog.Checked = Universe.Fog</OnUpdate>
+	<Size Width="510" Height="540" />
+	<Shift X="0" Y="0" />
+	<GroupBox Name="ColorCorrectionPhase0Box">
+		<Location X="10" Y="35" />
+		<Size Width="240" Height="100" />
+		<ColorBorder A="255" R="0" G="0" B="0" />
+		<ColorFill A="128" R="128" G="128" B="128" />
+	</GroupBox>
+	<Label Text="Brightness">
+		<Location X="20" Y="40" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Brightness0">
+		<Location X="100" Y="40" />
+		<Size Width="110" Height="20" />
+		<Max>50</Max>
+		<Value>10</Value>
+		<OnChanged>set_color_correction_phase0(); refresh_color_correction_phase0()</OnChanged>
+	</Slider>
+	<Label Name="Brightness0Label" Text="-">
+		<Location X="221" Y="40" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Text="Contrast">
+		<Location X="20" Y="62" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Contrast0">
+		<Location X="100" Y="62" />
+		<Size Width="110" Height="20" />
+		<Max>100</Max>
+		<Value>60</Value>
+		<OnChanged>set_color_correction_phase0(); refresh_color_correction_phase0()</OnChanged>
+	</Slider>
+	<Label Name="Contrast0Label" Text="-">
+		<Location X="221" Y="62" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Text="Saturation">
+		<Location X="20" Y="84" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Saturation0">
+		<Location X="100" Y="84" />
+		<Size Width="110" Height="20" />
+		<Max>100</Max>
+		<Value>60</Value>
+		<OnChanged>set_color_correction_phase0(); refresh_color_correction_phase0()</OnChanged>
+	</Slider>
+	<Label Name="Saturation0Label" Text="-">
+		<Location X="221" Y="84" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Text="Hue">
+		<Location X="20" Y="106" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Hue0">
+		<Location X="100" Y="106" />
+		<Size Width="110" Height="20" />
+		<Max>360</Max>
+		<OnChanged>set_color_correction_phase0(); refresh_color_correction_phase0()</OnChanged>
+	</Slider>
+	<Label Name="Hue0Label" Text="-">
+		<Location X="221" Y="106" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Button Name="Reset0" Text="[Reset]">
+		<Location X="80" Y="126" />
+		<Size Width="100" Height="20" />
+		<OnClick>Universe.ColorCorrectionPhase0 = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase0()</OnClick>
+	</Button>
+	<GroupBox Name="ColorCorrectionPhase1Box">
+		<Location X="10" Y="150" />
+		<Size Width="240" Height="100" />
+		<ColorBorder A="255" R="0" G="0" B="0" />
+		<ColorFill A="128" R="128" G="128" B="128" />
+	</GroupBox>
+	<Label Text="Brightness">
+		<Location X="20" Y="155" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Brightness1">
+		<Location X="100" Y="155" />
+		<Size Width="110" Height="20" />
+		<Max>50</Max>
+		<Value>10</Value>
+		<OnChanged>set_color_correction_phase1(); refresh_color_correction_phase1()</OnChanged>
+	</Slider>
+	<Label Name="Brightness1Label" Text="-">
+		<Location X="221" Y="155" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Text="Contrast">
+		<Location X="20" Y="177" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Contrast1">
+		<Location X="100" Y="177" />
+		<Size Width="110" Height="20" />
+		<Max>100</Max>
+		<Value>60</Value>
+		<OnChanged>set_color_correction_phase1(); refresh_color_correction_phase1()</OnChanged>
+	</Slider>
+	<Label Name="Contrast1Label" Text="-">
+		<Location X="221" Y="177" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Text="Saturation">
+		<Location X="20" Y="199" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Saturation1">
+		<Location X="100" Y="199" />
+		<Size Width="110" Height="20" />
+		<Max>100</Max>
+		<Value>60</Value>
+		<OnChanged>set_color_correction_phase1(); refresh_color_correction_phase1()</OnChanged>
+	</Slider>
+	<Label Name="Saturation1Label" Text="-">
+		<Location X="221" Y="199" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Text="Hue">
+		<Location X="20" Y="221" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Hue1">
+		<Location X="100" Y="221" />
+		<Size Width="110" Height="20" />
+		<Max>360</Max>
+		<OnChanged>set_color_correction_phase1(); refresh_color_correction_phase1()</OnChanged>
+	</Slider>
+	<Label Name="Hue1Label" Text="-">
+		<Location X="221" Y="221" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Button Name="Reset1" Text="[Reset]">
+		<Location X="80" Y="241" />
+		<Size Width="100" Height="20" />
+		<OnClick>Universe.ColorCorrectionPhase1 = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase1()</OnClick>
+	</Button>
+	<GroupBox Name="ColorCorrectionPhase2Box">
+		<Location X="10" Y="265" />
+		<Size Width="240" Height="100" />
+		<ColorBorder A="255" R="0" G="0" B="0" />
+		<ColorFill A="128" R="128" G="128" B="128" />
+	</GroupBox>
+	<Label Text="Brightness">
+		<Location X="20" Y="270" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Brightness2">
+		<Location X="100" Y="270" />
+		<Size Width="110" Height="20" />
+		<Max>50</Max>
+		<Value>10</Value>
+		<OnChanged>set_color_correction_phase2(); refresh_color_correction_phase2()</OnChanged>
+	</Slider>
+	<Label Name="Brightness2Label" Text="-">
+		<Location X="221" Y="270" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Text="Contrast">
+		<Location X="20" Y="292" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Contrast2">
+		<Location X="100" Y="292" />
+		<Size Width="110" Height="20" />
+		<Max>100</Max>
+		<Value>60</Value>
+		<OnChanged>set_color_correction_phase2(); refresh_color_correction_phase2()</OnChanged>
+	</Slider>
+	<Label Name="Contrast2Label" Text="-">
+		<Location X="221" Y="292" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Text="Saturation">
+		<Location X="20" Y="314" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Saturation2">
+		<Location X="100" Y="314" />
+		<Size Width="110" Height="20" />
+		<Max>100</Max>
+		<Value>60</Value>
+		<OnChanged>set_color_correction_phase2(); refresh_color_correction_phase2()</OnChanged>
+	</Slider>
+	<Label Name="Saturation2Label" Text="-">
+		<Location X="221" Y="314" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Text="Hue">
+		<Location X="20" Y="336" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Hue2">
+		<Location X="100" Y="336" />
+		<Size Width="110" Height="20" />
+		<Max>360</Max>
+		<OnChanged>set_color_correction_phase2(); refresh_color_correction_phase2()</OnChanged>
+	</Slider>
+	<Label Name="Hue2Label" Text="-">
+		<Location X="221" Y="336" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Button Name="Reset2" Text="[Reset]">
+		<Location X="80" Y="356" />
+		<Size Width="100" Height="20" />
+		<OnClick>Universe.ColorCorrectionPhase2 = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase2()</OnClick>
+	</Button>
+	<GroupBox Name="ColorCorrectionPhase3Box">
+		<Location X="10" Y="380" />
+		<Size Width="240" Height="100" />
+		<ColorBorder A="255" R="0" G="0" B="0" />
+		<ColorFill A="128" R="128" G="128" B="128" />
+	</GroupBox>
+	<Label Text="Brightness">
+		<Location X="20" Y="385" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Brightness3">
+		<Location X="100" Y="385" />
+		<Size Width="110" Height="20" />
+		<Max>50</Max>
+		<Value>10</Value>
+		<OnChanged>set_color_correction_phase3(); refresh_color_correction_phase3()</OnChanged>
+	</Slider>
+	<Label Name="Brightness3Label" Text="-">
+		<Location X="221" Y="385" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Text="Contrast">
+		<Location X="20" Y="407" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Contrast3">
+		<Location X="100" Y="407" />
+		<Size Width="110" Height="20" />
+		<Max>100</Max>
+		<Value>60</Value>
+		<OnChanged>set_color_correction_phase3(); refresh_color_correction_phase3()</OnChanged>
+	</Slider>
+	<Label Name="Contrast3Label" Text="-">
+		<Location X="221" Y="407" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Text="Saturation">
+		<Location X="20" Y="429" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Saturation3">
+		<Location X="100" Y="429" />
+		<Size Width="110" Height="20" />
+		<Max>100</Max>
+		<Value>60</Value>
+		<OnChanged>set_color_correction_phase3(); refresh_color_correction_phase3()</OnChanged>
+	</Slider>
+	<Label Name="Saturation3Label" Text="-">
+		<Location X="221" Y="429" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Text="Hue">
+		<Location X="20" Y="451" />
+		<Size Width="70" Height="20" />
+	</Label>
+	<Slider Name="Hue3">
+		<Location X="100" Y="451" />
+		<Size Width="110" Height="20" />
+		<Max>360</Max>
+		<OnChanged>set_color_correction_phase3(); refresh_color_correction_phase3()</OnChanged>
+	</Slider>
+	<Label Name="Hue3Label" Text="-">
+		<Location X="221" Y="451" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Button Name="Reset3" Text="[Reset]">
+		<Location X="80" Y="471" />
+		<Size Width="100" Height="20" />
+		<OnClick>Universe.ColorCorrectionPhase3 = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase3()</OnClick>
+	</Button>
+	<GroupBox Name="AmbientColorBox">
+		<Location X="260" Y="35" />
+		<Size Width="240" Height="100" />
+		<ColorBorder A="255" R="0" G="0" B="0" />
+		<ColorFill A="128" R="128" G="128" B="128" />
+	</GroupBox>
+	<Label Name="AmbientColorLabel" Text="Ambient Color:">
+		<Location X="265" Y="40" />
+		<Size Width="100" Height="20" />
+	</Label>
+	<Label Name="" Text="Red">
+		<Location X="275" Y="62" />
+		<Size Width="40" Height="20" />
+	</Label>
+	<Slider Name="AmbientColorRed">
+		<Location X="330" Y="62" />
+		<Size Width="130" Height="20" />
+		<Max>255</Max>
+		<Value>128</Value>
+		<OnChanged>set_ambient_color(); refresh_ambient_color()</OnChanged>
+	</Slider>
+	<Label Name="AmbientColorRedLabel" Text="-">
+		<Location X="470" Y="62" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Name="" Text="Green">
+		<Location X="275" Y="84" />
+		<Size Width="40" Height="20" />
+	</Label>
+	<Slider Name="AmbientColorGreen">
+		<Location X="330" Y="84" />
+		<Size Width="130" Height="20" />
+		<Max>255</Max>
+		<Value>128</Value>
+		<OnChanged>set_ambient_color(); refresh_ambient_color()</OnChanged>
+	</Slider>
+	<Label Name="AmbientColorGreenLabel" Text="-">
+		<Location X="470" Y="84" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Name="" Text="Blue">
+		<Location X="275" Y="106" />
+		<Size Width="40" Height="20" />
+	</Label>
+	<Slider Name="AmbientColorBlue">
+		<Location X="330" Y="106" />
+		<Size Width="130" Height="20" />
+		<Max>255</Max>
+		<Value>128</Value>
+		<OnChanged>set_ambient_color(); refresh_ambient_color()</OnChanged>
+	</Slider>
+	<Label Name="AmbientColorBlueLabel" Text="-">
+		<Location X="470" Y="106" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<GroupBox Name="SunColorBox">
+		<Location X="260" Y="150" />
+		<Size Width="240" Height="100" />
+		<ColorBorder A="255" R="0" G="0" B="0" />
+		<ColorFill A="128" R="128" G="128" B="128" />
+	</GroupBox>
+	<Label Name="SunColorLabel" Text="Sun Color:">
+		<Location X="265" Y="155" />
+		<Size Width="100" Height="20" />
+	</Label>
+	<Label Name="" Text="Red">
+		<Location X="275" Y="177" />
+		<Size Width="40" Height="20" />
+	</Label>
+	<Slider Name="SunColorRed">
+		<Location X="330" Y="177" />
+		<Size Width="130" Height="20" />
+		<Max>255</Max>
+		<Value>128</Value>
+		<OnChanged>set_sun(); refresh_sun()</OnChanged>
+	</Slider>
+	<Label Name="SunColorRedLabel" Text="-">
+		<Location X="470" Y="177" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Name="" Text="Green">
+		<Location X="275" Y="199" />
+		<Size Width="40" Height="20" />
+	</Label>
+	<Slider Name="SunColorGreen">
+		<Location X="330" Y="199" />
+		<Size Width="130" Height="20" />
+		<Max>255</Max>
+		<Value>128</Value>
+		<OnChanged>set_sun(); refresh_sun()</OnChanged>
+	</Slider>
+	<Label Name="SunColorGreenLabel" Text="-">
+		<Location X="470" Y="199" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Name="" Text="Blue">
+		<Location X="275" Y="221" />
+		<Size Width="40" Height="20" />
+	</Label>
+	<Slider Name="SunColorBlue">
+		<Location X="330" Y="221" />
+		<Size Width="130" Height="20" />
+		<Max>255</Max>
+		<Value>128</Value>
+		<OnChanged>set_sun(); refresh_sun()</OnChanged>
+	</Slider>
+	<Label Name="SunColorBlueLabel" Text="-">
+		<Location X="470" Y="221" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<GroupBox Name="MoonColorBox">
+		<Location X="260" Y="265" />
+		<Size Width="240" Height="100" />
+		<ColorBorder A="255" R="0" G="0" B="0" />
+		<ColorFill A="128" R="128" G="128" B="128" />
+	</GroupBox>
+	<Label Name="MoonColorLabel" Text="Moon Color:">
+		<Location X="265" Y="270" />
+		<Size Width="100" Height="20" />
+	</Label>
+	<Label Name="" Text="Red">
+		<Location X="275" Y="292" />
+		<Size Width="40" Height="20" />
+	</Label>
+	<Slider Name="MoonColorRed">
+		<Location X="330" Y="292" />
+		<Size Width="130" Height="20" />
+		<Max>255</Max>
+		<Value>128</Value>
+		<OnChanged>set_moon(); refresh_moon()</OnChanged>
+	</Slider>
+	<Label Name="MoonColorRedLabel" Text="-">
+		<Location X="470" Y="292" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Name="" Text="Green">
+		<Location X="275" Y="314" />
+		<Size Width="40" Height="20" />
+	</Label>
+	<Slider Name="MoonColorGreen">
+		<Location X="330" Y="314" />
+		<Size Width="130" Height="20" />
+		<Max>255</Max>
+		<Value>128</Value>
+		<OnChanged>set_moon(); refresh_moon()</OnChanged>
+	</Slider>
+	<Label Name="MoonColorGreenLabel" Text="-">
+		<Location X="470" Y="314" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<Label Name="" Text="Blue">
+		<Location X="275" Y="336" />
+		<Size Width="40" Height="20" />
+	</Label>
+	<Slider Name="MoonColorBlue">
+		<Location X="330" Y="336" />
+		<Size Width="130" Height="20" />
+		<Max>255</Max>
+		<Value>128</Value>
+		<OnChanged>set_moon(); refresh_moon()</OnChanged>
+	</Slider>
+	<Label Name="MoonColorBlueLabel" Text="-">
+		<Location X="470" Y="336" />
+		<Size Width="25" Height="20" />
+	</Label>
+	<GroupBox Name="InclinationBox">
+		<Location X="261" Y="380" />
+		<Size Width="240" Height="100" />
+		<ColorBorder A="255" R="0" G="0" B="0" />
+		<ColorFill A="128" R="128" G="128" B="128" />
+	</GroupBox>
+	<Label Name="InclinationLabel" Text="Inclination:">
+		<Location X="265" Y="388" />
+		<Size Width="100" Height="20" />
+	</Label>
+	<Label Text="Sun">
+		<Location X="275" Y="410" />
+		<Size Width="50" Height="20" />
+	</Label>
+	<Slider Name="SunInclination">
+		<Location X="340" Y="411" />
+		<Size Width="150" Height="20" />
+		<Max>359</Max>
+		<OnChanged>set_sun(); refresh_sun()</OnChanged>
+	</Slider>
+	<Label Text="Moon">
+		<Location X="275" Y="435" />
+		<Size Width="50" Height="20" />
+	</Label>
+	<Slider Name="MoonInclination">
+		<Location X="340" Y="437" />
+		<Size Width="150" Height="20" />
+		<Max>359</Max>
+		<OnChanged>set_moon(); refresh_moon()</OnChanged>
+	</Slider>
+	<CheckBox Name="Fog" Text="[Fog]">
+		<Location X="10" Y="11" />
+		<Size Width="100" Height="20" />
+		<AlignVertical>FromBottom</AlignVertical>
+		<OnChanged>Universe.Fog = Fog.Checked</OnChanged>
+	</CheckBox>
+	<Button Name="Save" Text="[Save]">
+		<Location X="119" Y="11" />
+		<Size Width="100" Height="25" />
+		<AlignHorizontal>FromRight</AlignHorizontal>
+		<AlignVertical>FromBottom</AlignVertical>
+		<OnClick>function CallbackSave(result)
+  if result == MsgBoxResult.Yes then
+    Presenter:PrepareSave();
+    Universe:Save();
+  end;
+end;
+Me:MsgBox('[SaveMapSure]', MsgBoxType.YesNo, CallbackSave)</OnClick>
+	</Button>
+	<Button Name="Exit" Text="[Exit]">
+		<Location X="12" Y="11" />
+		<Size Width="100" Height="25" />
+		<AlignHorizontal>FromRight</AlignHorizontal>
+		<AlignVertical>FromBottom</AlignVertical>
+		<OnClick>Me:Close()</OnClick>
+	</Button>
+</Dialog>

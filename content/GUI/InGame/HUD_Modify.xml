@@ -3,8 +3,8 @@
 	<ColorBackground A="0" R="0" G="0" B="0" />
 	<ColorCaption A="128" R="96" G="128" B="255" />
 	<ColorText A="255" R="255" G="255" B="255" />
-	<OnShow>FreezeTime.Checked = (Session.TimeWarpFactor==0)</OnShow>
 	<OnUpdate>LightPhase.Value = Universe.LightPhase * 25
+TimeWarpFactor.Value = Session.TimeWarpFactor * 10
 FPS.Text = Engine.Performance.FpsText</OnUpdate>
 	<Size Width="800" Height="600" />
 	<Shift X="0" Y="0" />
@@ -13,26 +13,62 @@ FPS.Text = Engine.Performance.FpsText</OnUpdate>
 		<Size Width="130" Height="40" />
 		<OnClick>Game:TogglePause()</OnClick>
 	</Button>
-	<CheckBox Name="FreezeTime" Text="[FreezeTime]" Hotkey="T">
-		<Location X="172" Y="28" />
-		<Size Width="130" Height="20" />
-		<OnChanged>if FreezeTime.Checked then
-  Session.TimeWarpFactor = 0
-else
-  Session.TimeWarpFactor = 1
-end</OnChanged>
-	</CheckBox>
+	<Label Name="TimeWarpFactorLabel" Text="[TimeWarpFactor]">
+		<Location X="170" Y="10" />
+		<Size Width="200" Height="20" />
+		<TextAlign>Center</TextAlign>
+	</Label>
+	<Slider Name="TimeWarpFactor">
+		<Location X="170" Y="40" />
+		<Size Width="200" Height="32" />
+		<Min>-100</Min>
+		<Max>100</Max>
+		<Value>10</Value>
+		<OnChanged>Session.TimeWarpFactor = TimeWarpFactor.Value / 10</OnChanged>
+	</Slider>
 	<Label Name="LightPhaseLabel" Text="[LightPhase]">
-		<Location X="275" Y="10" />
-		<Size Width="125" Height="20" />
+		<Location X="-20" Y="10" />
+		<Size Width="100" Height="20" />
+		<AlignHorizontal>Center</AlignHorizontal>
 		<TextAlign>Right</TextAlign>
 	</Label>
 	<Slider Name="LightPhase">
-		<Location X="420" Y="6" />
+		<Location X="150" Y="6" />
 		<Size Width="200" Height="32" />
+		<AlignHorizontal>Center</AlignHorizontal>
 		<Max>100</Max>
 		<OnChanged>Universe.LightPhase = LightPhase.Value / 25</OnChanged>
 	</Slider>
+	<Button Name="LightPhase0" Text="0">
+		<Location X="50" Y="45" />
+		<Size Width="30" Height="30" />
+		<AlignHorizontal>Center</AlignHorizontal>
+		<OnClick>Universe.LightPhase = 0; Me:Update()</OnClick>
+	</Button>
+	<Button Name="LightPhase1" Text="1">
+		<Location X="90" Y="45" />
+		<Size Width="30" Height="30" />
+		<AlignHorizontal>Center</AlignHorizontal>
+		<OnClick>Universe.LightPhase = 1; Me:Update()</OnClick>
+	</Button>
+	<Button Name="LightPhase2" Text="2">
+		<Location X="130" Y="45" />
+		<Size Width="30" Height="30" />
+		<AlignHorizontal>Center</AlignHorizontal>
+		<OnClick>Universe.LightPhase = 2; Me:Update()</OnClick>
+	</Button>
+	<Button Name="LightPhase3" Text="3">
+		<Location X="170" Y="45" />
+		<Size Width="30" Height="30" />
+		<AlignHorizontal>Center</AlignHorizontal>
+		<OnClick>Universe.LightPhase = 3; Me:Update()</OnClick>
+	</Button>
+	<Button Name="ColorCorrection" Text="[ColorCorrection]">
+		<Location X="114" Y="80" />
+		<Size Width="170" Height="30" />
+		<AlignHorizontal>Center</AlignHorizontal>
+		<OnClick>LoadDialog("InGame/ColorCorrection")</OnClick>
+	</Button>
 	<Button Name="Debug" Text="Debug">
 		<Location X="20" Y="20" />
 		<Size Width="130" Height="40" />
@@ -47,24 +83,4 @@ Engine:Debug()</OnClick>
 		<AlignVertical>FromBottom</AlignVertical>
 		<TextAlign>Right</TextAlign>
 	</Label>
-	<Button Name="LightPhase0" Text="0">
-		<Location X="410" Y="45" />
-		<Size Width="30" Height="30" />
-		<OnClick>Universe.LightPhase = 0; Me:Update()</OnClick>
-	</Button>
-	<Button Name="LightPhase1" Text="1">
-		<Location X="450" Y="45" />
-		<Size Width="30" Height="30" />
-		<OnClick>Universe.LightPhase = 1; Me:Update()</OnClick>
-	</Button>
-	<Button Name="LightPhase2" Text="2">
-		<Location X="490" Y="45" />
-		<Size Width="30" Height="30" />
-		<OnClick>Universe.LightPhase = 2; Me:Update()</OnClick>
-	</Button>
-	<Button Name="LightPhase3" Text="3">
-		<Location X="530" Y="45" />
-		<Size Width="30" Height="30" />
-		<OnClick>Universe.LightPhase = 3; Me:Update()</OnClick>
-	</Button>
 </Dialog>
