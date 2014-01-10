@@ -66,7 +66,11 @@ namespace Common.Values.Design
             if (culture == null) throw new ArgumentNullException("culture");
             #endregion
 
-            return new ColorCorrection(Convert.ToSingle(values[0], culture), Convert.ToSingle(values[1], culture), Convert.ToSingle(values[2], culture), Convert.ToSingle(values[2], culture));
+            return new ColorCorrection(
+                brightness: Convert.ToSingle(values[0], culture),
+                contrast: Convert.ToSingle(values[1], culture),
+                saturation: Convert.ToSingle(values[2], culture),
+                hue: Convert.ToSingle(values[2], culture));
         }
 
         /// <inheritdoc/>
@@ -76,7 +80,11 @@ namespace Common.Values.Design
             if (propertyValues == null) throw new ArgumentNullException("propertyValues");
             #endregion
 
-            return new ColorCorrection((float)propertyValues["Brightness"], (float)propertyValues["Contrast"], (float)propertyValues["Saturation"], (float)propertyValues["Hue"]);
+            return new ColorCorrection(
+                brightness: (float)propertyValues["Brightness"],
+                contrast: (float)propertyValues["Contrast"],
+                saturation: (float)propertyValues["Saturation"],
+                hue: (float)propertyValues["Hue"]);
         }
     }
 }

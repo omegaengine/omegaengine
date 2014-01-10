@@ -18,7 +18,7 @@ refresh_moon()
 Fog.Checked = Universe.Fog</OnUpdate>
 	<Size Width="510" Height="540" />
 	<Shift X="0" Y="0" />
-	<GroupBox Name="ColorCorrectionPhase0Box">
+	<GroupBox Name="ColorCorrectionMidnightBox">
 		<Location X="10" Y="35" />
 		<Size Width="240" Height="100" />
 		<ColorBorder A="255" R="0" G="0" B="0" />
@@ -86,9 +86,9 @@ Fog.Checked = Universe.Fog</OnUpdate>
 	<Button Name="Reset0" Text="[Reset]">
 		<Location X="80" Y="126" />
 		<Size Width="100" Height="20" />
-		<OnClick>Universe.ColorCorrectionPhase0 = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase0()</OnClick>
+		<OnClick>Universe.ColorCorrectionMidnight = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase0()</OnClick>
 	</Button>
-	<GroupBox Name="ColorCorrectionPhase1Box">
+	<GroupBox Name="ColorCorrectionDawnBox">
 		<Location X="10" Y="150" />
 		<Size Width="240" Height="100" />
 		<ColorBorder A="255" R="0" G="0" B="0" />
@@ -156,9 +156,9 @@ Fog.Checked = Universe.Fog</OnUpdate>
 	<Button Name="Reset1" Text="[Reset]">
 		<Location X="80" Y="241" />
 		<Size Width="100" Height="20" />
-		<OnClick>Universe.ColorCorrectionPhase1 = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase1()</OnClick>
+		<OnClick>Universe.ColorCorrectionDawn = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase1()</OnClick>
 	</Button>
-	<GroupBox Name="ColorCorrectionPhase2Box">
+	<GroupBox Name="ColorCorrectionNoonBox">
 		<Location X="10" Y="265" />
 		<Size Width="240" Height="100" />
 		<ColorBorder A="255" R="0" G="0" B="0" />
@@ -226,9 +226,9 @@ Fog.Checked = Universe.Fog</OnUpdate>
 	<Button Name="Reset2" Text="[Reset]">
 		<Location X="80" Y="356" />
 		<Size Width="100" Height="20" />
-		<OnClick>Universe.ColorCorrectionPhase2 = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase2()</OnClick>
+		<OnClick>Universe.ColorCorrectionNoon = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase2()</OnClick>
 	</Button>
-	<GroupBox Name="ColorCorrectionPhase3Box">
+	<GroupBox Name="ColorCorrectionDuskBox">
 		<Location X="10" Y="380" />
 		<Size Width="240" Height="100" />
 		<ColorBorder A="255" R="0" G="0" B="0" />
@@ -296,7 +296,7 @@ Fog.Checked = Universe.Fog</OnUpdate>
 	<Button Name="Reset3" Text="[Reset]">
 		<Location X="80" Y="471" />
 		<Size Width="100" Height="20" />
-		<OnClick>Universe.ColorCorrectionPhase3 = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase3()</OnClick>
+		<OnClick>Universe.ColorCorrectionDusk = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase3()</OnClick>
 	</Button>
 	<GroupBox Name="AmbientColorBox">
 		<Location X="260" Y="35" />

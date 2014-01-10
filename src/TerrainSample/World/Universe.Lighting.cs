@@ -37,7 +37,7 @@ namespace TerrainSample.World
         #region Events
         /// <summary>
         /// Occurs when <see cref="LightPhase"/>, <see cref="AmbientColor"/>, <see cref="SunColor"/>,
-        /// <see cref="ColorCorrectionPhase0"/>, <see cref="ColorCorrectionPhase1"/>, <see cref="ColorCorrectionPhase2"/> or <see cref="ColorCorrectionPhase3"/> was changed.
+        /// <see cref="ColorCorrectionMidnight"/>, <see cref="ColorCorrectionDawn"/>, <see cref="ColorCorrectionNoon"/> or <see cref="ColorCorrectionDusk"/> was changed.
         /// </summary>
         [Description("Occurs when LightPhase, AmbientColor, SunColor, ColorCorrectionPhase0, ColorCorrectionPhase1, ColorCorrectionPhase2 or ColorCorrectionPhase3 was changed.")]
         public event Action LightingChanged;
@@ -70,8 +70,33 @@ namespace TerrainSample.World
         }
         #endregion
 
-        #region Lighting
-        private Color _ambientColor = Color.FromArgb(60, 60, 60);
+        #region Light phase
+        private float _lightPhase = 2;
+
+        /// <summary>
+        /// A value between 0 and 4 representing the current sun and moon positions.
+        /// </summary>
+        /// <remarks>
+        /// 0 = night<br/>
+        /// 1 = dawn<br/>
+        /// 2 = noon<br/>
+        /// 3 = dusk<br/>
+        /// </remarks>
+        [FloatRange(0f, 4f), Category("Lighting"), Description("A value between 0 and 4 representing the current sun and moon positions.")]
+        [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
+        public float LightPhase { get { return _lightPhase; } set { (value.Modulo(4)).To(ref _lightPhase, OnLightingChanged); } }
+
+        private float _lightPhaseSpeedFactor = 1 / 40f;
+
+        /// <summary>
+        /// The speed with which the <see cref="LightPhase"/> is incremented.
+        /// </summary>
+        [DefaultValue(1 / 40f), Category("Lighting"), Description("The speed with which the light phase is incremented.")]
+        public float LightPhaseSpeedFactor { get { return _lightPhaseSpeedFactor; } set { _lightPhaseSpeedFactor = value; } }
+        #endregion
+
+        #region Light sources
+        private Color _ambientColor = Color.FromArgb(40, 40, 40);
 
         /// <summary>
         /// The color of the ambient light (background light that is always visible and has no direction).
@@ -85,7 +110,7 @@ namespace TerrainSample.World
         [XmlElement("AmbientColor"), LuaHide, Browsable(false)]
         public XColor AmbientColorValue { get { return AmbientColor; } set { AmbientColor = Color.FromArgb(value.R, value.G, value.B); } }
 
-        private Color _sunColor = Color.FromArgb(250, 250, 200);
+        private Color _sunColor = Color.FromArgb(180, 180, 180);
 
         /// <summary>
         /// The color of the diffuse light (normal directional light) of the sun.
@@ -94,21 +119,21 @@ namespace TerrainSample.World
         [XmlIgnore, Category("Lighting"), Description("The color of the diffuse light (normal directional light) of the sun.")]
         public Color SunColor { get { return _sunColor; } set { Color.FromArgb(255, value).To(ref _sunColor, OnLightingChanged); /* Drop alpha-channel */ } }
 
-        private float _sunInclination = 20;
-
-        /// <summary>
-        /// The angle of inclination of the sun's path away from the zenith in degrees.
-        /// </summary>
-        [DefaultValue(20f), Category("Lighting"), Description("The angle of inclination of the sun's path away from the zenith towards south in degrees.")]
-        [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-        public float SunInclination { get { return _sunInclination; } set { value.To(ref _sunInclination, OnLightingChanged); } }
-
         /// <summary>Used for XML serialization.</summary>
         /// <seealso cref="SunColor"/>
         [XmlElement("SunColor"), LuaHide, Browsable(false)]
         public XColor SunColorValue { get { return SunColor; } set { SunColor = Color.FromArgb(value.R, value.G, value.B); /* Drop alpha-channel */ } }
 
-        private Color _moonColor = Color.FromArgb(140, 140, 190);
+        private float _sunInclination = 20;
+
+        /// <summary>
+        /// The angle of inclination of the sun's path away from the zenith in degrees.
+        /// </summary>
+        [Category("Lighting"), Description("The angle of inclination of the sun's path away from the zenith towards south in degrees.")]
+        [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
+        public float SunInclination { get { return _sunInclination; } set { value.To(ref _sunInclination, OnLightingChanged); } }
+
+        private Color _moonColor = Color.FromArgb(110, 110, 160);
 
         /// <summary>
         /// The color of the diffuse light (normal directional light) of the second moon.
@@ -122,71 +147,48 @@ namespace TerrainSample.World
         [XmlElement("MoonColor"), LuaHide, Browsable(false)]
         public XColor MoonColorValue { get { return MoonColor; } set { MoonColor = Color.FromArgb(value.R, value.G, value.B); } }
 
-        private float _moonInclination = 340;
+        private float _moonInclination = 320;
 
         /// <summary>
         /// The angle of inclination of the second moon's path away from the zenith in degrees.
         /// </summary>
-        [DefaultValue(340f), Category("Lighting"), Description("The angle of inclination of the second moon's path away from the zenith towards south in degrees.")]
+        [Category("Lighting"), Description("The angle of inclination of the second moon's path away from the zenith towards south in degrees.")]
         [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
         public float MoonInclination { get { return _moonInclination; } set { value.To(ref _moonInclination, OnLightingChanged); } }
-
-        private float _lightPhase;
-
-        /// <summary>
-        /// A value between 0 and 4 representing the current sun and moon positions.
-        /// </summary>
-        /// <remarks>
-        /// 0 = night<br/>
-        /// 1 = dawn<br/>
-        /// 2 = noon<br/>
-        /// 3 = twilight<br/>
-        /// </remarks>
-        [FloatRange(0f, 4f), DefaultValue(0f), Category("Lighting"), Description("A value between 0 and 4 representing the current sun and moon positions.")]
-        [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
-        public float LightPhase { get { return _lightPhase; } set { (value.Modulo(4)).To(ref _lightPhase, OnLightingChanged); } }
-
-        private float _lightPhaseSpeedFactor = 1/40f;
-
-        /// <summary>
-        /// The speed with which the <see cref="LightPhase"/> is incremented.
-        /// </summary>
-        [DefaultValue(1 / 40f), Category("Lighting"), Description("The speed with which the light phase is incremented.")]
-        public float LightPhaseSpeedFactor { get { return _lightPhaseSpeedFactor; } set { _lightPhaseSpeedFactor = value; } }
         #endregion
 
         #region Color correction
-        private ColorCorrection _colorCorrectionPhase0 = ColorCorrection.Default;
+        private ColorCorrection _colorCorrectionMidnight = new ColorCorrection(brightness: 2, saturation: 0.5f);
 
         /// <summary>
-        /// Color correction values to apply in light phase 0 or 4 (night).
+        /// Color correction values to apply at midnight.
         /// </summary>
         [Category("Color correction"), Description("Color correction values to apply in light phase 0 or 4 (night).")]
-        public ColorCorrection ColorCorrectionPhase0 { get { return _colorCorrectionPhase0; } set { value.To(ref _colorCorrectionPhase0, OnLightingChanged); } }
+        public ColorCorrection ColorCorrectionMidnight { get { return _colorCorrectionMidnight; } set { value.To(ref _colorCorrectionMidnight, OnLightingChanged); } }
 
-        private ColorCorrection _colorCorrectionPhase1 = ColorCorrection.Default;
+        private ColorCorrection _colorCorrectionDawn = new ColorCorrection(brightness: 1.4f, saturation: 0.7f);
 
         /// <summary>
-        /// Color correction values to apply in light phase 1 or 5 (dawn).
+        /// Color correction values to apply at dawn.
         /// </summary>
         [Category("Color correction"), Description("Color correction values to apply in light phase 1 or 5 (dawn).")]
-        public ColorCorrection ColorCorrectionPhase1 { get { return _colorCorrectionPhase1; } set { value.To(ref _colorCorrectionPhase1, OnLightingChanged); } }
+        public ColorCorrection ColorCorrectionDawn { get { return _colorCorrectionDawn; } set { value.To(ref _colorCorrectionDawn, OnLightingChanged); } }
 
-        private ColorCorrection _colorCorrectionPhase2 = ColorCorrection.Default;
+        private ColorCorrection _colorCorrectionNoon = ColorCorrection.Default;
 
         /// <summary>
-        /// Color correction values to apply in light phase 2 or 6 (noon).
+        /// Color correction values to apply at noon.
         /// </summary>
         [Category("Color correction"), Description("Color correction values to apply in light phase 2 or 6 (noon).")]
-        public ColorCorrection ColorCorrectionPhase2 { get { return _colorCorrectionPhase2; } set { value.To(ref _colorCorrectionPhase2, OnLightingChanged); } }
+        public ColorCorrection ColorCorrectionNoon { get { return _colorCorrectionNoon; } set { value.To(ref _colorCorrectionNoon, OnLightingChanged); } }
 
-        private ColorCorrection _colorCorrectionPhase3 = ColorCorrection.Default;
+        private ColorCorrection _colorCorrectionDusk = new ColorCorrection(brightness: 1.4f, contrast:1.4f, saturation: 0.7f);
 
         /// <summary>
-        /// Color correction values to apply in light phase 3 or 7 (twilight).
+        /// Color correction values to apply at dusk.
         /// </summary>
         [Category("Color correction"), Description("Color correction values to apply in light phase  3 or 7 (twilight).")]
-        public ColorCorrection ColorCorrectionPhase3 { get { return _colorCorrectionPhase3; } set { value.To(ref _colorCorrectionPhase3, OnLightingChanged); } }
+        public ColorCorrection ColorCorrectionDusk { get { return _colorCorrectionDusk; } set { value.To(ref _colorCorrectionDusk, OnLightingChanged); } }
         #endregion
 
         #region Effects

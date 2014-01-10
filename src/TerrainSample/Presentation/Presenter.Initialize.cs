@@ -83,8 +83,8 @@ namespace TerrainSample.Presentation
             }
 
             // Add the lights to the scene
-            Scene.Lights.Add(_light1);
-            Scene.Lights.Add(_light2);
+            Scene.Lights.Add(_lightSun);
+            Scene.Lights.Add(_lightMoon);
 
             // Update when the lighting changes
             Universe.LightingChanged += UpdateLighting;

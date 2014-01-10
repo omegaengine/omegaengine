@@ -33,8 +33,8 @@ namespace TerrainSample.Presentation
     {
         #region Lighting
         private readonly DirectionalLight
-            _light1 = new DirectionalLight {Name = "Sun", Enabled = false},
-            _light2 = new DirectionalLight {Name = "Moon", Enabled = false};
+            _lightSun = new DirectionalLight {Name = "Sun", Enabled = false},
+            _lightMoon = new DirectionalLight {Name = "Moon", Enabled = false};
 
         /// <summary>
         /// The ratio between the strength of diffuse and specular lighting
@@ -42,7 +42,7 @@ namespace TerrainSample.Presentation
         private const float DiffuseToSpecularRatio = 0.5f;
 
         /// <summary>
-        /// Updates <see cref="_light1"/> and <see cref="_light2"/> based on the light phase in <see cref="Universe"/>.
+        /// Updates <see cref="_lightSun"/> and <see cref="_lightMoon"/> based on the light phase in <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.
         /// </summary>
         protected void UpdateLighting()
         {
@@ -51,14 +51,14 @@ namespace TerrainSample.Presentation
             #endregion
 
             float sunPhase = Universe.LightPhase;
-            float moonPhase = ((Universe.LightPhase + 2.25f) % 4);
+            float moonPhase = ((Universe.LightPhase + 3) % 4);
 
             // Calculate lighting directions
-            _light1.Direction = GetDirection(0.5f * Math.PI * (1 - sunPhase), Universe.SunInclination.DegreeToRadian());
-            _light2.Direction = GetDirection(0.5f * Math.PI * (1 - moonPhase), Universe.MoonInclination.DegreeToRadian());
+            _lightSun.Direction = GetDirection(0.5f * Math.PI * (1 - sunPhase), Universe.SunInclination.DegreeToRadian());
+            _lightMoon.Direction = GetDirection(0.5f * Math.PI * (1 - moonPhase), Universe.MoonInclination.DegreeToRadian());
 
-            UpdateLightingColorSun(sunPhase);
-            UpdateLightingColorMoon(moonPhase);
+            UpdateLightingColorSun();
+            UpdateLightingColorMoon();
 
             if (_colorCorrectionShader != null) UpdateColorCorrection();
         }
@@ -78,62 +78,29 @@ namespace TerrainSample.Presentation
         }
 
         /// <summary>
-        /// Updates the color of <see cref="_light1"/>.
+        /// Updates the color of <see cref="_lightSun"/>.
         /// </summary>
-        private void UpdateLightingColorSun(float sunPhase)
+        private void UpdateLightingColorSun()
         {
-            _light1.Enabled = true; // Always on for ambient light
+            float elevationFactor = (-_lightSun.Direction.Y * 2).Clamp();
 
-            if (sunPhase < 0.9 || sunPhase >= 3.1)
-            { // Night
-                _light1.Diffuse = Color.Black;
-            }
-            else if (sunPhase >= 0.9 && sunPhase < 1.4) // Start fading in just before the horizon
-            { // Dawn
-                _light1.Diffuse = ColorUtils.Interpolate((sunPhase - 0.9f) * 2, Color.Black, Universe.SunColor);
-            }
-            else if (sunPhase >= 1.4 && sunPhase < 2.6)
-            { // Noon
-                _light1.Diffuse = Universe.SunColor;
-            }
-            else if (sunPhase >= 2.6 && sunPhase < 3.1) // Fade out until just after the horizon
-            { // Twilight
-                _light1.Diffuse = ColorUtils.Interpolate((sunPhase - 2.6f) * 2, Universe.SunColor, Color.Black);
-            }
-            else throw new InvalidOperationException("Invalid sun phase!");
-
-            _light1.Specular = Color4.Scale(_light1.Diffuse, DiffuseToSpecularRatio).ToColor();
-            _light1.Ambient = Universe.AmbientColor;
+            _lightSun.Diffuse = ColorUtils.Interpolate(elevationFactor, Color.Black, Universe.SunColor);
+            _lightSun.Specular = Color4.Scale(_lightSun.Diffuse, DiffuseToSpecularRatio).ToColor();
+            _lightSun.Ambient = Universe.AmbientColor;
+            _lightSun.Enabled = true; // Always on (for ambient light)
         }
 
         /// <summary>
-        /// Updates the color of <see cref="_light2"/>.
+        /// Updates the color of <see cref="_lightMoon"/>.
         /// </summary>
-        private void UpdateLightingColorMoon(float moonPhase)
+        private void UpdateLightingColorMoon()
         {
-            if (moonPhase < 0.9 || moonPhase >= 3.1)
-            { // No moon
-                _light2.Enabled = false;
-            }
-            else if (moonPhase >= 0.9 && moonPhase < 1.4) // Start fading in just before the horizon
-            { // Rising moon
-                _light2.Enabled = true;
-                _light2.Diffuse = ColorUtils.Interpolate((moonPhase - 0.9f) * 2, Color.Black, Universe.MoonColor);
-            }
-            else if (moonPhase >= 1.4 && moonPhase < 2.6)
-            { // Full moon
-                _light2.Enabled = true;
-                _light2.Diffuse = Universe.MoonColor;
-            }
-            else if (moonPhase >= 2.6 && moonPhase < 3.1) // Fade out until just after the horizon
-            { // Setting moon
-                _light2.Enabled = true;
-                _light2.Diffuse = ColorUtils.Interpolate((moonPhase - 2.6f) * 2, Universe.MoonColor, Color.Black);
-            }
-            else throw new InvalidOperationException("Invalid moon phase!");
+            float elevationFactor = (-_lightMoon.Direction.Y * 2).Clamp();
 
-            _light2.Specular = Color4.Scale(_light2.Diffuse, DiffuseToSpecularRatio).ToColor();
-            _light2.Ambient = Color.Black;
+            _lightMoon.Diffuse = ColorUtils.Interpolate(elevationFactor, Color.Black, Universe.MoonColor);
+            _lightMoon.Specular = Color4.Scale(_lightMoon.Diffuse, DiffuseToSpecularRatio).ToColor();
+            _lightMoon.Ambient = Color.Black;
+            _lightMoon.Enabled = (elevationFactor > 0); // Only on when above horizon
         }
 
         /// <summary>
@@ -143,7 +110,7 @@ namespace TerrainSample.Presentation
         {
             // Interpolate between the color correction settings for the different sun phases
             var correction = ColorCorrection.SinusInterpolate(Universe.LightPhase,
-                Universe.ColorCorrectionPhase0, Universe.ColorCorrectionPhase1, Universe.ColorCorrectionPhase2, Universe.ColorCorrectionPhase3, Universe.ColorCorrectionPhase0);
+                Universe.ColorCorrectionMidnight, Universe.ColorCorrectionDawn, Universe.ColorCorrectionNoon, Universe.ColorCorrectionDusk, Universe.ColorCorrectionMidnight);
 
             // If the color correction values aren't all at default, activate the shader and transfer the values
             _colorCorrectionShader.Enabled = (correction != ColorCorrection.Default);

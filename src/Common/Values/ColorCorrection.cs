@@ -40,7 +40,7 @@ namespace Common.Values
         /// <summary>
         /// No color change.
         /// </summary>
-        public static readonly ColorCorrection Default = new ColorCorrection(1, 1, 1, 0);
+        public static readonly ColorCorrection Default = new ColorCorrection(brightness: 1);
         #endregion
 
         #region Properties
@@ -50,15 +50,7 @@ namespace Common.Values
         /// How bright the picture should be - values between 0 (black) and 5 (5x normal).
         /// </summary>
         [XmlAttribute, Description("How bright the picture should be - values between 0 (black) and 5 (5x normal).")]
-        public float Brightness
-        {
-            get { return _brightness; }
-            set
-            {
-                if (value < 0 || value > 5) throw new ArgumentOutOfRangeException("value");
-                _brightness = value;
-            }
-        }
+        public float Brightness { get { return _brightness; } set { _brightness = value.Clamp(0, 5); } }
 
         private float _contrast;
 
@@ -66,15 +58,7 @@ namespace Common.Values
         /// The contrast level of the picture - values between -5 and 5.
         /// </summary>
         [XmlAttribute, Description("The contrast level of the picture - values between -5 and 5.")]
-        public float Contrast
-        {
-            get { return _contrast; }
-            set
-            {
-                if (value < -5 || value > 5) throw new ArgumentOutOfRangeException("value");
-                _contrast = value;
-            }
-        }
+        public float Contrast { get { return _contrast; } set { _contrast = value.Clamp(-5, 5); } }
 
         private float _saturation;
 
@@ -82,15 +66,7 @@ namespace Common.Values
         /// The color saturation level of the picture - values between -5 and 5.
         /// </summary>
         [XmlAttribute, Description("The color saturation level of the picture - values between -5 and 5.")]
-        public float Saturation
-        {
-            get { return _saturation; }
-            set
-            {
-                if (value < -5 || value > 5) throw new ArgumentOutOfRangeException("value");
-                _saturation = value;
-            }
-        }
+        public float Saturation { get { return _saturation; } set { _saturation = value.Clamp(-5, 5); } }
 
         private float _hue;
 
@@ -98,15 +74,7 @@ namespace Common.Values
         /// The color hue rotation of the picture - values between 0 and 360.
         /// </summary>
         [XmlAttribute, DefaultValue(0f), Description("The color hue rotation of the picture - values between 0 and 360.")]
-        public float Hue
-        {
-            get { return _hue; }
-            set
-            {
-                if (value < 0 || value > 360) throw new ArgumentOutOfRangeException("value");
-                _hue = value;
-            }
-        }
+        public float Hue { get { return _hue; } set { _hue = value.Clamp(0, 360); } }
         #endregion
 
         #region Constructor
@@ -117,7 +85,7 @@ namespace Common.Values
         /// <param name="contrast">The contrast level of the picture - values between -5 and 5.</param>
         /// <param name="saturation">The color saturation level of the picture - values between -5 and 5.</param>
         /// <param name="hue">The color hue rotation of the picture - values between 0 and 360.</param>
-        public ColorCorrection(float brightness, float contrast, float saturation, float hue) : this()
+        public ColorCorrection(float brightness = 1, float contrast = 1, float saturation = 1, float hue = 0) : this()
         {
             Brightness = brightness;
             Contrast = contrast;
