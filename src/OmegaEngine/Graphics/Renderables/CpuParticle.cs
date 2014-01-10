@@ -102,7 +102,6 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="elapsedTime">The number of seconds elapsed</param>
         internal void Update(float elapsedTime)
         {
-            #region Managed LifeTime
             if (SecondLife)
             {
                 Parameters2.LifeTime -= elapsedTime;
@@ -112,29 +111,24 @@ namespace OmegaEngine.Graphics.Renderables
                     Alive = false;
                 }
             }
-            else
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
+            else if (Parameters1.LifeTime != -32768)
             {
-                // ReSharper disable CompareOfFloatsByEqualityOperator
-                if (Parameters1.LifeTime != -32768) // Handle particles with infinite lifetime
-                    // ReSharper restore CompareOfFloatsByEqualityOperator
-                {
-                    Parameters1.LifeTime -= elapsedTime;
+                Parameters1.LifeTime -= elapsedTime;
 
-                    if (Parameters1.LifeTime <= 0)
-                    {
-                        if (Parameters2.LifeTime > 0)
-                        { // Handle second-life particles
-                            SecondLife = true;
-                        }
-                        else
-                        { // Handle dead particles
-                            Alive = false;
-                            return;
-                        }
+                if (Parameters1.LifeTime <= 0)
+                {
+                    if (Parameters2.LifeTime > 0)
+                    { // Handle second-life particles
+                        SecondLife = true;
+                    }
+                    else
+                    { // Handle dead particles
+                        Alive = false;
+                        return;
                     }
                 }
             }
-            #endregion
 
             // Apply friction
             Velocity -= Velocity * (SecondLife ? Parameters2.Friction : Parameters1.Friction) * elapsedTime;

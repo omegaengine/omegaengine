@@ -134,23 +134,14 @@ namespace OmegaEngine.Graphics.Renderables
 
         private double GetElapsedTime()
         {
-            double elapsedTime;
             if (_firstUpdate)
-            {
-                // Fast forward the elapsed time for the first render
-                elapsedTime = _preset.WarmupTime;
+            { // Fast forward the elapsed time for the first render
                 _firstUpdate = false;
+                return _preset.WarmupTime;
             }
-            else
-            {
-                elapsedTime = Engine.LastFrameGameTime * _preset.Speed;
 
-                // Prevent extremly large updates
-                float maxUpdate = _preset.WarmupTime;
-                if (maxUpdate < 0.2f) maxUpdate = 0.2f;
-                if (elapsedTime > maxUpdate) elapsedTime = maxUpdate;
-            }
-            return elapsedTime;
+            float maxStep = _preset.WarmupTime.Clamp(0, 0.2f);
+            return (Math.Abs(Engine.LastFrameGameTime) * _preset.Speed).Clamp(0, maxStep);
         }
 
         private float GetLodFactor()
@@ -262,10 +253,15 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="elapsedTime">How many seconds have passed since the update of this particle</param>
         private void UpdateParticle(CpuParticle particle, float elapsedTime)
         {
-            // Apply gravity and base velocity
+            ApplyGlobalForces(particle, elapsedTime);
+            ApplyEmitterForces(particle, elapsedTime);
+            particle.Update(elapsedTime);
+        }
+
+        private void ApplyGlobalForces(CpuParticle particle, float elapsedTime)
+        {
             particle.Velocity += (_preset.Gravity + _velocity) * elapsedTime;
 
-            // Apply random acceleration
             if (_preset.RandomAcceleration > 0)
             {
                 float randomFactor = _preset.RandomAcceleration / 1.732f /* approx. sqrt(3) */;
@@ -273,26 +269,25 @@ namespace OmegaEngine.Graphics.Renderables
                     new Vector3(-randomFactor, -randomFactor, -randomFactor),
                     new Vector3(randomFactor, randomFactor, randomFactor));
             }
+        }
 
-            Vector3 particlePosition = particle.Position.ApplyOffset(Position); // Subtract particle system position
+        private void ApplyEmitterForces(CpuParticle particle, float elapsedTime)
+        {
+            Vector3 particlePosition = particle.Position.ApplyOffset(Position);
             float particleDistance = particlePosition.Length();
             Vector3 particleDirection = Vector3.Normalize(particlePosition);
 
-            // Apply emitter repelling force
             if (particleDistance < _preset.EmitterRepelRange)
             {
                 float repelFactor = 1 - (particleDistance / _preset.EmitterRepelRange);
                 particle.Velocity += particleDirection * repelFactor * _preset.EmitterRepelSpeed * elapsedTime;
             }
 
-            // Apply emitter suction force
             if (particleDistance > _preset.EmitterSuctionRange)
             {
                 float suctionFactor = (particleDistance / _preset.EmitterSuctionRange) - 1;
                 particle.Velocity -= particleDirection * suctionFactor * _preset.EmitterSuctionSpeed * elapsedTime;
             }
-
-            particle.Update(elapsedTime);
         }
         #endregion
 
@@ -321,34 +316,28 @@ namespace OmegaEngine.Graphics.Renderables
 
         private CpuParticleParametersStruct GetFirstLifeParameters(float lodFactor)
         {
+            // ReSharper disable CompareOfFloatsByEqualityOperator
             return new CpuParticleParametersStruct
             {
-                LifeTime =
-                    // If any of the two values is set to infinite...
-                    (_preset.LowerParameters1.LifeTime == CpuParticleParameters.InfiniteFlag || _preset.UpperParameters1.LifeTime == CpuParticleParameters.InfiniteFlag)
-                        // ... use no limit, ...    
-                        ? CpuParticleParameters.InfiniteFlag
-                        // ... otherwise select a random intermediate value
-                        : RandomUtils.GetRandomFloat(_preset.LowerParameters1.LifeTime, _preset.UpperParameters1.LifeTime),
+                LifeTime = _preset.InfiniteLifetime1
+                    ? CpuParticleParameters.InfiniteFlag
+                    : RandomUtils.GetRandomFloat(_preset.LowerParameters1.LifeTime, _preset.UpperParameters1.LifeTime),
                 Size = (RandomUtils.GetRandomFloat(_preset.LowerParameters1.Size, _preset.UpperParameters1.Size) * lodFactor),
                 DeltaSize = RandomUtils.GetRandomFloat(_preset.LowerParameters1.DeltaSize, _preset.UpperParameters1.DeltaSize),
                 Friction = RandomUtils.GetRandomFloat(_preset.LowerParameters1.Friction, _preset.UpperParameters1.Friction),
                 Color = RandomUtils.GetRandomColor(_preset.LowerParameters1.Color, _preset.UpperParameters1.Color),
                 DeltaColor = RandomUtils.GetRandomFloat(_preset.LowerParameters1.DeltaColor, _preset.UpperParameters1.DeltaColor)
             };
+            // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
         private CpuParticleParametersStruct GetSecondLifeParameters(float lodFactor)
         {
             return new CpuParticleParametersStruct
             {
-                LifeTime =
-                    // If any of the two values is set to infinite...
-                    (_preset.LowerParameters2.LifeTime == CpuParticleParameters.InfiniteFlag || _preset.UpperParameters2.LifeTime == CpuParticleParameters.InfiniteFlag)
-                        // ... use no limit, ...
-                        ? CpuParticleParameters.InfiniteFlag
-                        // ... otherwise select a random intermediate value
-                        : RandomUtils.GetRandomFloat(_preset.LowerParameters2.LifeTime, _preset.UpperParameters2.LifeTime),
+                LifeTime = _preset.InfiniteLifetime2
+                    ? CpuParticleParameters.InfiniteFlag
+                    : RandomUtils.GetRandomFloat(_preset.LowerParameters2.LifeTime, _preset.UpperParameters2.LifeTime),
                 Size = (RandomUtils.GetRandomFloat(_preset.LowerParameters2.Size, _preset.UpperParameters2.Size) * lodFactor),
                 DeltaSize = RandomUtils.GetRandomFloat(_preset.LowerParameters2.DeltaSize, _preset.UpperParameters2.DeltaSize),
                 Friction = RandomUtils.GetRandomFloat(_preset.LowerParameters2.Friction, _preset.UpperParameters2.Friction),
