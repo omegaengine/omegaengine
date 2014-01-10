@@ -59,16 +59,16 @@ namespace OmegaGUI.Model
 
         #region Events
         /// <summary>
-        /// A script to run when the user presses the ENTER key
+        /// A Lua script to execute when the user presses the ENTER key
         /// </summary>
-        [DefaultValue(""), Description("A script to run when the user presses the ENTER key"), Category("Events"), FileType("Lua")]
+        [DefaultValue(""), Description("A Lua script to execute when the user presses the ENTER key"), Category("Events"), FileType("Lua")]
         [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
         public string OnEnter { get; set; }
 
         /// <summary>
-        /// A script to run when the control's value has changed
+        /// A Lua script to execute when the control's value has changed
         /// </summary>
-        [DefaultValue(""), Description("A script to run when the control's value has changed"), Category("Events"), FileType("Lua")]
+        [DefaultValue(""), Description("A Lua script to execute when the control's value has changed"), Category("Events"), FileType("Lua")]
         [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
         public string OnChanged { get; set; }
         #endregion

@@ -30,16 +30,20 @@ namespace AlphaFramework.World.Paths
             new Vector2(1, -1), new Vector2(1, 1), new Vector2(-1, 1), new Vector2(-1, -1)
         };
 
-        private readonly bool[,] _blockMap;
+        private readonly bool[,] _blocedkMap;
         private readonly List<Node> _openList = new List<Node>(), _closeList = new List<Node>();
 
         /// <summary>
         /// Initializes a new pathfinder.
         /// </summary>
-        /// <param name="blockMap">A 2D map of blocked fields.</param>
-        public SimplePathfinder(bool[,] blockMap)
+        /// <param name="blockedMap">A 2D map of blocked fields.</param>
+        public SimplePathfinder(bool[,] blockedMap)
         {
-            _blockMap = blockMap;
+            #region Sanity checks
+            if (blockedMap == null) throw new ArgumentNullException("blockedMap");
+            #endregion
+
+            _blocedkMap = blockedMap;
         }
 
         /// <inheritdoc/>
@@ -49,7 +53,7 @@ namespace AlphaFramework.World.Paths
             start.Y = (int)start.Y;
             target.X = (int)target.X;
             target.Y = (int)target.Y;
-            var goneLockup = new int[_blockMap.GetLength(0), _blockMap.GetLength(1)];
+            var goneLockup = new int[_blocedkMap.GetLength(0), _blocedkMap.GetLength(1)];
 
             using (new TimedLogEvent("Calculating path"))
             {
@@ -77,9 +81,9 @@ namespace AlphaFramework.World.Paths
                     {
                         nextNode = new Node {Position = parentNode.Position + _direction[i]};
                         if ((nextNode.Position.X < 0) || (nextNode.Position.Y < 0)
-                            || (nextNode.Position.X >= _blockMap.GetLength(0)) || (nextNode.Position.Y >= _blockMap.GetLength(1)))
+                            || (nextNode.Position.X >= _blocedkMap.GetLength(0)) || (nextNode.Position.Y >= _blocedkMap.GetLength(1)))
                             continue;
-                        if (_blockMap[(int)nextNode.Position.X, (int)nextNode.Position.Y])
+                        if (_blocedkMap[(int)nextNode.Position.X, (int)nextNode.Position.Y])
                             continue;
 
                         nextNode.G = parentNode.G + (i > 3 ? 14 : 10);

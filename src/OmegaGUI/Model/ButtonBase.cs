@@ -54,9 +54,9 @@ namespace OmegaGUI.Model
 
         #region Events
         /// <summary>
-        /// A script to run when the control is clicked
+        /// A Lua script to execute when the control is clicked
         /// </summary>
-        [DefaultValue(""), Description("A script to run when the control is clicked"), Category("Events"), FileType("Lua")]
+        [DefaultValue(""), Description("A Lua script to execute when the control is clicked"), Category("Events"), FileType("Lua")]
         [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
         public string OnClick { get; set; }
         #endregion

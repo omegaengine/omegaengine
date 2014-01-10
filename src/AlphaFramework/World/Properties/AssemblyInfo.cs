@@ -6,7 +6,7 @@ using System.Security.Permissions;
 
 // Assembly info
 [assembly: AssemblyTitle("AlphaFramework Game World")]
-[assembly: AssemblyDescription("Provides a generics- and template-based framework for storing game worlds.")]
+[assembly: AssemblyDescription("Provides a flexible basis for building rendering-agnostic game world representations. Designed for AlphaFramework.Presentation.<")]
 [assembly: AssemblyConfiguration("")]
 [assembly: NeutralResourcesLanguage("en")]
 

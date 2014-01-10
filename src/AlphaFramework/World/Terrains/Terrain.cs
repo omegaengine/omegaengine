@@ -307,7 +307,8 @@ namespace AlphaFramework.World.Terrains
             if (entities == null) throw new ArgumentNullException("entities");
             #endregion
 
-            var initMap = new bool[_size.X, _size.Y];
+            var blockedMap = new bool[_size.X, _size.Y];
+
             foreach (var water in entities.OfType<Water>())
             {
                 var xStart = (int)Math.Floor(water.Position.X / _size.StretchH);
@@ -321,11 +322,13 @@ namespace AlphaFramework.World.Terrains
                 for (int x = xStart; x <= xEnd; x++)
                 {
                     for (int y = yStart; y <= yEnd; y++)
-                        initMap[x, y] = (HeightMap[x, y] * Size.StretchV) < water.Height - water.TraversableDepth;
+                        blockedMap[x, y] = (HeightMap[x, y] * Size.StretchV) < water.Height - water.TraversableDepth;
                 }
             }
 
-            Pathfinder = new SimplePathfinder(initMap);
+            // TODO: Block on too steep terrain
+
+            Pathfinder = new SimplePathfinder(blockedMap);
         }
         #endregion
 

@@ -102,16 +102,16 @@ namespace OmegaGUI.Model
 
         #region Events
         /// <summary>
-        /// A script to run when the user selects an entry
+        /// A Lua script to execute when the user selects an entry
         /// </summary>
-        [DefaultValue(""), Description("A script to run when the user selects an entry"), Category("Events"), FileType("Lua")]
+        [DefaultValue(""), Description("A Lua script to execute when the user selects an entry"), Category("Events"), FileType("Lua")]
         [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
         public string OnSelection { get; set; }
 
         /// <summary>
-        /// A script to run when the user double-clicks onto an entry
+        /// A Lua script to execute when the user double-clicks onto an entry
         /// </summary>
-        [DefaultValue(""), Description("A script to run when the user double-clicks onto an entry"), Category("Events"), FileType("Lua")]
+        [DefaultValue(""), Description("A Lua script to execute when the user double-clicks onto an entry"), Category("Events"), FileType("Lua")]
         [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
         public string OnDoubleClick { get; set; }
         #endregion

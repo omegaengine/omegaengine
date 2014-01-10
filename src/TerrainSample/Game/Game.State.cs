@@ -306,7 +306,7 @@ namespace TerrainSample
                 CurrentState = GameState.InGame;
 
                 // Clean previous presenter
-                //CleanupPresenter();
+                CleanupPresenter();
 
                 // Load game scene
                 CurrentPresenter = new InGamePresenter(Engine, CurrentSession.Universe);
@@ -348,7 +348,7 @@ namespace TerrainSample
                 CurrentState = GameState.Modify;
 
                 // Clean previous presenter
-                //CleanupPresenter();
+                CleanupPresenter();
 
                 // Load game scene
                 CurrentPresenter = new InGamePresenter(Engine, CurrentSession.Universe);

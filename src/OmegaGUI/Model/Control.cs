@@ -233,16 +233,16 @@ namespace OmegaGUI.Model
 
         #region Events
         /// <summary>
-        /// A script to run when the mouse enters the area of the control
+        /// A Lua script to execute when the mouse enters the area of the control
         /// </summary>
-        [DefaultValue(""), Description("A script to run when the mouse enters the area of the control"), Category("Events"), FileType("Lua")]
+        [DefaultValue(""), Description("A Lua script to execute when the mouse enters the area of the control"), Category("Events"), FileType("Lua")]
         [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
         public string OnMouseEnter { get; set; }
 
         /// <summary>
-        /// A script to run when the mouse leaves the area of the control
+        /// A Lua script to execute when the mouse leaves the area of the control
         /// </summary>
-        [DefaultValue(""), Description("A script to run when the mouse leaves the area of the control"), Category("Events"), FileType("Lua")]
+        [DefaultValue(""), Description("A Lua script to execute when the mouse leaves the area of the control"), Category("Events"), FileType("Lua")]
         [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
         public string OnMouseExit { get; set; }
         #endregion

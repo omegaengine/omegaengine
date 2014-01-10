@@ -6,7 +6,7 @@ using System.Security.Permissions;
 
 // Assembly info
 [assembly: AssemblyTitle("AlphaFramework Game World Presentation")]
-[assembly: AssemblyDescription("Provides a framework for rendering game worlds.")]
+[assembly: AssemblyDescription("Renders AlphaFramework.World-based models using the OmegaEngine.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: NeutralResourcesLanguage("en")]
 
