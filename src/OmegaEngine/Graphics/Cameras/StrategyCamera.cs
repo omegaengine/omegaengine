@@ -27,7 +27,21 @@ namespace OmegaEngine.Graphics.Cameras
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when the coordinates lie outside the range of the height-controlling terrain.</exception>
         [Description("The position the camera is looking at."), Category("Layout")]
-        public override DoubleVector3 Target { get { return base.Target; } set { base.Target = (_heightController == null) ? value : new DoubleVector3(value.X, _heightController(value), value.Z); } }
+        public override DoubleVector3 Target
+        {
+            get { return base.Target; }
+            set
+            {
+                if (_heightController == null) base.Target = value;
+                else
+                {
+                    base.Target = new DoubleVector3(
+                        value.X,
+                        _heightController(value), // Target object on the terrain's surface
+                        value.Z);
+                }
+            }
+        }
 
         private double _radius;
 
@@ -162,27 +176,7 @@ namespace OmegaEngine.Graphics.Cameras
             }
         }
 
-        private Func<DoubleVector3, double> _heightController;
-
-        /// <summary>
-        /// This delegate is called to control the minimum height of the strategy camera based on its 2D coordinates
-        /// </summary>
-        [Browsable(false)]
-        public Func<DoubleVector3, double> HeightController
-        {
-            get { return _heightController; }
-            set
-            {
-                // Exit if this height-contnoller was already set anyway
-                if (_heightController == value) return;
-
-                // Update the delegate
-                _heightController = value;
-
-                // Force an automatic target recalculation based on the new height controller
-                Target = Target;
-            }
-        }
+        private readonly Func<DoubleVector3, double> _heightController;
         #endregion
 
         #region Constructor
@@ -216,10 +210,10 @@ namespace OmegaEngine.Graphics.Cameras
             double y = panY * Radius;
             try
             {
-                Target = new DoubleVector3(
-                    Target.X + (Math.Sin(_horizontalRotation) * y - Math.Cos(_horizontalRotation) * x),
-                    Target.Y, // This value will be replaced by the _heightController delegate
-                    Target.Z + (Math.Sin(_horizontalRotation) * x + Math.Cos(_horizontalRotation) * y));
+                Target += new DoubleVector3(
+                    Math.Sin(_horizontalRotation) * y - Math.Cos(_horizontalRotation) * x,
+                    0,
+                    Math.Sin(_horizontalRotation) * x + Math.Cos(_horizontalRotation) * y);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -258,6 +252,14 @@ namespace OmegaEngine.Graphics.Cameras
 
             // Translate these coordinates by the target object's spacial location
             PositionCached = newPosition + Target;
+
+            try
+            {
+                // Prevent camera from going under terrain
+                PositionCached.Y = Math.Max(PositionCached.Y, _heightController(PositionCached));
+            }
+            catch (ArgumentOutOfRangeException)
+            {}
 
             base.UpdateView();
 
