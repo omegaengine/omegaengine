@@ -76,8 +76,6 @@
     <Compile Include="Config\Sound.cs" />
     <Compile Include="EntityComponents\Box.cs" />
     <Compile Include="EntityComponents\Circle.cs" />
-    <Compile Include="EntityComponents\CollisionControl.cs" />
-    <Compile Include="EntityComponents\MovementControl.cs" />
     <Compile Include="Positionables\Entity.cs" />
     <Compile Include="Positionables\Waypoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

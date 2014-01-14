@@ -23,6 +23,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
+using AlphaFramework.World.EntityComponents;
 using Common.Values;
 using SlimDX;
 

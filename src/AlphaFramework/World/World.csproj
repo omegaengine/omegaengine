@@ -68,11 +68,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\AssemblyInfo.Global.cs" />
+    <Compile Include="EntityComponents\CollisionControl.cs" />
     <Compile Include="EntityComponents\AnimatedMesh.cs" />
     <Compile Include="EntityComponents\CpuParticleSystem.cs" />
     <Compile Include="EntityComponents\GpuParticleSystem.cs" />
     <Compile Include="EntityComponents\LightSource.cs" />
     <Compile Include="EntityComponents\Mesh.cs" />
+    <Compile Include="EntityComponents\MovementControl.cs" />
     <Compile Include="EntityComponents\ParticleSystem.cs" />
     <Compile Include="EntityComponents\RenderControl.cs" />
     <Compile Include="EntityComponents\StaticMesh.cs" />

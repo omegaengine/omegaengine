@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using AlphaFramework.World.EntityComponents;
 using AlphaFramework.World.Positionables;
 using Common.Collections;
 using Common.Utils;

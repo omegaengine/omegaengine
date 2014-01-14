@@ -22,6 +22,7 @@
 
 using System.ComponentModel;
 using System.Xml.Serialization;
+using AlphaFramework.World.EntityComponents;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Templates;
 using SlimDX;
@@ -41,12 +42,6 @@ namespace TerrainSample.World.Templates
         [Browsable(false)]
         [XmlElement(typeof(Circle)), XmlElement(typeof(Box))]
         public CollisionControl<Vector2> CollisionControl { get; set; }
-
-        /// <summary>
-        /// Controls the basic movement parameters.
-        /// </summary>
-        [Browsable(false)]
-        public MovementControl MovementControl { get; set; }
 
         //--------------------//
 

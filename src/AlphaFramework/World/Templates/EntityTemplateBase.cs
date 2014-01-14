@@ -29,6 +29,12 @@ namespace AlphaFramework.World.Templates
         [XmlElement(typeof(TestSphere)), XmlElement(typeof(StaticMesh)), XmlElement(typeof(AnimatedMesh)), XmlElement(typeof(CpuParticleSystem)), XmlElement(typeof(GpuParticleSystem)), XmlElement(typeof(LightSource))]
         public Collection<RenderControl> RenderControls { get { return _renderControls; } }
 
+        /// <summary>
+        /// Controls the basic movement parameters.
+        /// </summary>
+        [Browsable(false)]
+        public MovementControl MovementControl { get; set; }
+
         //--------------------//
 
         #region Clone

@@ -24,7 +24,7 @@ using System;
 using System.ComponentModel;
 using AlphaFramework.World.Positionables;
 
-namespace TerrainSample.World.EntityComponents
+namespace AlphaFramework.World.EntityComponents
 {
     /// <summary>
     /// Controls the basic movement parameters.

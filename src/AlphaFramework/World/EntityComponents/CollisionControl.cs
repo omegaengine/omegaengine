@@ -24,7 +24,7 @@ using System;
 using AlphaFramework.World.Positionables;
 using Common.Values;
 
-namespace TerrainSample.World.EntityComponents
+namespace AlphaFramework.World.EntityComponents
 {
     /// <summary>
     /// Controls how <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>s occupy space around them.
