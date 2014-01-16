@@ -15,23 +15,23 @@ using Common.Undo;
 namespace AlphaFramework.Editor.World.Commands
 {
     /// <summary>
-    /// Changes the <see cref="ITemplateName.TemplateName"/> property of one or more <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>s.
+    /// Changes the <see cref="ITemplated.TemplateName"/> property of one or more <see cref="EntityBase{TCoordinates,TTemplate}"/>s.
     /// </summary>
     public class ChangeEntityTemplates : SimpleCommand
     {
         #region Variables
-        private readonly List<ITemplateName> _entities;
+        private readonly List<ITemplated> _entities;
         private readonly string[] _oldTemplates;
         private readonly string _newTemplates;
         #endregion
 
         #region Constructor
         /// <summary>
-        /// Creates a new command for changing the <see cref="EntityTemplateBase{TSelf}"/> of one or more <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>s.
+        /// Creates a new command for changing the <see cref="EntityTemplateBase{TSelf}"/> of one or more <see cref="EntityBase{TCoordinates,TTemplate}"/>s.
         /// </summary>
-        /// <param name="entities">The <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>s to modify.</param>
+        /// <param name="entities">The <see cref="EntityBase{TCoordinates,TTemplate}"/>s to modify.</param>
         /// <param name="template">The name of the new <see cref="EntityTemplateBase{TSelf}"/> to set.</param>
-        public ChangeEntityTemplates(IEnumerable<ITemplateName> entities, string template)
+        public ChangeEntityTemplates(IEnumerable<ITemplated> entities, string template)
         {
             #region Sanity checks
             if (entities == null) throw new ArgumentNullException("entities");
@@ -39,7 +39,7 @@ namespace AlphaFramework.Editor.World.Commands
             #endregion
 
             // Create local defensive copy of entities
-            _entities = new List<ITemplateName>(entities);
+            _entities = new List<ITemplated>(entities);
 
             // Backup the old class names
             _oldTemplates = new string[_entities.Count];

@@ -37,7 +37,7 @@ namespace TerrainSample.World.Templates
     public class EntityTemplate : EntityTemplateBase<EntityTemplate>
     {
         /// <summary>
-        /// Controls how <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>s occupy space around them.
+        /// Controls how <see cref="EntityBase{TCoordinates,TTemplate}"/>s occupy space around them.
         /// </summary>
         [Browsable(false)]
         [XmlElement(typeof(Circle)), XmlElement(typeof(Box))]

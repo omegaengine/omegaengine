@@ -27,7 +27,7 @@ using Common.Values;
 namespace AlphaFramework.World.EntityComponents
 {
     /// <summary>
-    /// Controls how <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>s occupy space around them.
+    /// Controls how <see cref="EntityBase{TCoordinates,TTemplate}"/>s occupy space around them.
     /// </summary>
     public abstract class CollisionControl<TCoordinates> : ICloneable
         where TCoordinates : struct

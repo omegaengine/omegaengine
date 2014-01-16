@@ -89,7 +89,7 @@
     <Compile Include="Positionables\BenchmarkPoint.cs" />
     <Compile Include="Positionables\CameraState.cs" />
     <Compile Include="Positionables\EntityBase.cs" />
-    <Compile Include="Positionables\ITemplateName.cs" />
+    <Compile Include="Positionables\ITemplated.cs" />
     <Compile Include="Positionables\IUpdateable.cs" />
     <Compile Include="Positionables\Memo.cs" />
     <Compile Include="Positionables\Positionable.cs" />

@@ -68,7 +68,7 @@ namespace AlphaFramework.World.Positionables
         public float Height { get { return _height; } set { value.To(ref _height, OnRenderPropertyChanged); } }
 
         /// <summary>
-        /// The maximum depth an <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/> can walk into this water.
+        /// The maximum depth an <see cref="EntityBase{TCoordinates,TTemplate}"/> can walk into this water.
         /// </summary>
         [XmlAttribute, DefaultValue(0f), Description("The maximum depth a entity can walk into this water")]
         public float TraversableDepth { get; set; }

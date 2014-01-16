@@ -319,9 +319,9 @@ namespace TerrainSample.Editor.World
 
         #region Helpers
         /// <summary>
-        /// Determines the <see cref="EntityTemplate"/> of the currently selected <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>s
+        /// Determines the <see cref="EntityTemplate"/> of the currently selected <see cref="EntityBase{TCoordinates,TTemplate}"/>s
         /// </summary>
-        /// <returns>The <see cref="EntityTemplate"/> if all currently selected <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>s have the same; <see langword="null"/> otherwise.</returns>
+        /// <returns>The <see cref="EntityTemplate"/> if all currently selected <see cref="EntityBase{TCoordinates,TTemplate}"/>s have the same; <see langword="null"/> otherwise.</returns>
         private EntityTemplate GetCurrentEntityTemplate()
         {
             EntityTemplate currentTemplate = null;
@@ -755,7 +755,7 @@ namespace TerrainSample.Editor.World
 
             // Set the new entity template for all currently selected bodies
             ExecuteCommandSafe(new ChangeEntityTemplates(
-                _presenter.SelectedPositionables.OfType<ITemplateName>(), _entityTemplateList.SelectedEntry.Name));
+                _presenter.SelectedPositionables.OfType<ITemplated>(), _entityTemplateList.SelectedEntry.Name));
         }
         #endregion
 

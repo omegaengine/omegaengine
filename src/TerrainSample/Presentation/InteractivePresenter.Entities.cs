@@ -26,7 +26,6 @@ using AlphaFramework.World.EntityComponents;
 using AlphaFramework.World.Positionables;
 using Common.Collections;
 using Common.Utils;
-using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
@@ -54,7 +53,7 @@ namespace TerrainSample.Presentation
     partial class InteractivePresenter
     {
         #region Variables
-        /// <summary>1:1 association of <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/> to selection highlighting <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>.</summary>
+        /// <summary>1:1 association of <see cref="EntityBase{TCoordinates,TTemplate}"/> to selection highlighting <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>.</summary>
         private readonly Dictionary<Entity, PositionableRenderable> _worldToEngine = new Dictionary<Entity, PositionableRenderable>();
         #endregion
 
@@ -81,12 +80,14 @@ namespace TerrainSample.Presentation
         }
 
         /// <summary>
-        /// Adds the selection highlighting for a <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>
+        /// Adds the selection highlighting for a <see cref="EntityBase{TCoordinates,TTemplate}"/>
         /// </summary>
-        /// <param name="entity">The <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/> to add the selection highlighting for</param>
+        /// <param name="templated">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to add the selection highlighting for</param>
         /// <remarks>This is a helper method for <see cref="AddSelectedPositionable"/>.</remarks>
-        private void AddSelectedEntity(Entity entity)
+        private void AddSelectedEntity(ITemplated templated)
         {
+            var entity = (Entity)templated;
+
             var selectionHighlight = new PerTypeDispatcher<CollisionControl<Vector2>, Model>(ignoreMissing: true)
             {
                 (Circle circle) =>
@@ -149,12 +150,14 @@ namespace TerrainSample.Presentation
         }
 
         /// <summary>
-        /// Removes the selection highlighting for an <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>
+        /// Removes the selection highlighting for an <see cref="EntityBase{TCoordinates,TTemplate}"/>
         /// </summary>
-        /// <param name="entity">The <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/> to remove the selection highlighting for</param>
+        /// <param name="templated">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to remove the selection highlighting for</param>
         /// <remarks>This is a helper method for <see cref="RemoveSelectedPositionable"/>.</remarks>
-        private void RemoveSelectedEntity(Entity entity)
+        private void RemoveSelectedEntity(ITemplated templated)
         {
+            var entity = (Entity)templated;
+
             PositionableRenderable selection;
             if (!_worldToEngine.TryGetValue(entity, out selection)) return;
 

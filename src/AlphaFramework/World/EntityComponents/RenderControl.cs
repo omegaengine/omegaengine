@@ -15,7 +15,7 @@ using SlimDX;
 namespace AlphaFramework.World.EntityComponents
 {
     /// <summary>
-    /// Controls how an <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/> shall be rendered.
+    /// Controls how an <see cref="EntityBase{TCoordinates,TTemplate}"/> shall be rendered.
     /// </summary>
     /// <seealso cref="EntityTemplateBase{TSelf}.RenderControls"/>
     public abstract class RenderControl : ICloneable

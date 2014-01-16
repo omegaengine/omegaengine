@@ -14,7 +14,7 @@ namespace AlphaFramework.World.Paths
     /// A following member in a pathfinding group (follows <see cref="PathLeader{TCoordinates}"/>).
     /// </summary>
     /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
-    /// <seealso cref="EntityBase{TSelf,TCoordinates,TTemplate}.PathControl"/>
+    /// <seealso cref="EntityBase{TCoordinates,TTemplate}.PathControl"/>
     public class PathFollower<TCoordinates> : PathControl<TCoordinates>
         where TCoordinates : struct
     {

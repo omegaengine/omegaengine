@@ -6,16 +6,31 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+using System.ComponentModel;
+
 namespace AlphaFramework.World.Positionables
 {
     /// <summary>
     /// An interface to elements that are based on a named template.
     /// </summary>
-    public interface ITemplateName
+    public interface ITemplated
     {
         /// <summary>
         /// The name of the template.
         /// </summary>
         string TemplateName { get; set; }
+
+        /// <summary>
+        /// Occurs when the template data is about to change.
+        /// </summary>
+        [Description("Occurs when the template data is about to change.")]
+        event Action<ITemplated> TemplateChanging;
+
+        /// <summary>
+        /// Occurs when the template data has changed.
+        /// </summary>
+        [Description("Occurs when the template data has changed.")]
+        event Action<ITemplated> TemplateChanged;
     }
 }

@@ -33,7 +33,7 @@ namespace TerrainSample.World.Positionables
     /// <summary>
     /// An entity that can be placed on a <see cref="Terrain{TTemplate}"/>.
     /// </summary>
-    public sealed class Entity : EntityBase<Entity, Vector2, EntityTemplate>
+    public sealed class Entity : EntityBase<Vector2, EntityTemplate>
     {
         /// <inheritdoc/>
         [Browsable(false)]
@@ -85,7 +85,7 @@ namespace TerrainSample.World.Positionables
 
         #region Path finding
         /// <summary>
-        /// Returns a list of positions that outline this <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>s <see cref="CollisionControl{TCoordinates}"/>.
+        /// Returns a list of positions that outline this <see cref="EntityBase{TCoordinates,TTemplate}"/>s <see cref="CollisionControl{TCoordinates}"/>.
         /// </summary>
         /// <returns>Positions in world space for use by the pathfinding system.</returns>
         public Vector2[] GetPathFindingOutline()

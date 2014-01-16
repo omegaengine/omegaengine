@@ -15,7 +15,7 @@ using AlphaFramework.World.Positionables;
 namespace AlphaFramework.World.Templates
 {
     /// <summary>
-    /// A common base for entity templates (collection of components used as a prototype for constructing new entities). Defines the behavior and look for a certain class of <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/>.
+    /// A common base for entity templates (collection of components used as a prototype for constructing new entities). Defines the behavior and look for a certain class of <see cref="EntityBase{TCoordinates,TTemplate}"/>.
     /// </summary>
     public abstract class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : EntityTemplateBase<TSelf>
     {

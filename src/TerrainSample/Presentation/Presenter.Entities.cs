@@ -160,12 +160,14 @@ namespace TerrainSample.Presentation
         }
 
         /// <summary>
-        /// Sets up a <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/> for rendering via a <see cref="PositionableRenderable"/>
+        /// Sets up a <see cref="EntityBase{TCoordinates,TTemplate}"/> for rendering via a <see cref="PositionableRenderable"/>
         /// </summary>
-        /// <param name="entity">The <see cref="EntityBase{TSelf,TCoordinates,TTemplate}"/> to be displayed</param>
+        /// <param name="templated">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to be displayed</param>
         /// <remarks>This is a helper method for <see cref="AddPositionable"/>.</remarks>
-        private void AddEntity(Entity entity)
+        private void AddEntity(ITemplated templated)
         {
+            var entity = (Entity)templated;
+
             try
             {
                 foreach (var renderControl in entity.TemplateData.RenderControls)
@@ -251,10 +253,12 @@ namespace TerrainSample.Presentation
         /// <summary>
         /// Removes a <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/> used to render a <see cref="Positionable{TCoordinates}"/>
         /// </summary>
-        /// <param name="entity">The <see cref="Positionable{TCoordinates}"/> to be removed</param>
+        /// <param name="templated">The <see cref="Positionable{TCoordinates}"/> to be removed</param>
         /// <remarks>This is a helper method for <see cref="RemovePositionable"/>.</remarks>
-        private void RemoveEntity(Entity entity)
+        private void RemoveEntity(ITemplated templated)
         {
+            var entity = (Entity)templated;
+
             foreach (var renderControl in entity.TemplateData.RenderControls)
                 RemoveEntityHelper(renderControl);
         }
