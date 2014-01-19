@@ -16,8 +16,8 @@
       <reference file="AlphaFramework.Editor.dll" />
     </references>
     <id>AlphaEditor</id>
-    <description>The AlphaEditor is an extensible framework allowing you to create IDE-like editors for games based on the OmegaEngine and AlphaFramework.
-You can use it to create GUI dialogs, maps, particle systems, etc. for your game.</description>
+    <description>The AlphaEditor is an IDE-like editor for games based on the AlphaFramework. You can use it to create GUI screens, maps, particle systems, etc..
+The "OmegaEngine Templates" Visual Studio extension can help you set up a suitable project structure.</description>
     <summary>IDE-like editor for OmegaEngine games (GUI, maps, particle systems, etc.)</summary>
   </metadata>
   <files>

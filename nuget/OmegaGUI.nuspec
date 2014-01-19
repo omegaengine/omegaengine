@@ -14,7 +14,8 @@
     </references>
     <id>OmegaGUI</id>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>The OmegaGUI provides a skinable GUI toolkit for the OmegaEngine with an XML file format und Lua scripting.</description>
+    <description>OmegaGUI is a skinable GUI toolkit for the OmegaEngine with an XML file format und Lua scripting.
+The AlphaEditor contains a WYSIWYG editor for the toolkit.</description>
     <summary>Skinable GUI toolkit for the OmegaEngine</summary>
   </metadata>
   <files>

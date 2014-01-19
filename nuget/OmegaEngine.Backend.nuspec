@@ -13,7 +13,8 @@
       <reference file="OmegaEngine.dll" />
     </references>
     <id>OmegaEngine.Backend</id>
-    <description>This package contains the actual library binaries for the OmegaEngine without external resources. It is automatically included by the main package. You can reference this directly if another project in your solution with the same build output directory already references the main package.</description>
+    <description>This package contains the actual library binaries for the OmegaEngine without the default assets (content and shader files). It is automatically included by the main package.
+Use this package directly if another project in your solution with the same build output directory already references the main package to avoid duplicating the assets.</description>
     <summary>Library binaries for the OmegaEngine without external resources, automatically included by the main package</summary>
   </metadata>
   <files>
