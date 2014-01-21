@@ -32,7 +32,6 @@ namespace TerrainSample.Presentation
     /// </summary>
     public sealed class InGamePresenter : InteractivePresenter
     {
-        #region Constructor
         /// <summary>
         /// Creates a new presenter for the actual running game
         /// </summary>
@@ -50,11 +49,7 @@ namespace TerrainSample.Presentation
 
             View = new View(Scene, mainCamera) {Name = "InGame", BackgroundColor = universe.FogColor};
         }
-        #endregion
-
-        //--------------------//
-
-        #region Engine Hook-in
+        
         /// <inheritdoc />
         public override void HookIn()
         {
@@ -70,9 +65,7 @@ namespace TerrainSample.Presentation
 
             base.HookOut();
         }
-        #endregion
 
-        #region Save
         /// <summary>
         /// Writes back data to <see cref="Universe"/> so that state gets stored in savegames.
         /// </summary>
@@ -80,6 +73,5 @@ namespace TerrainSample.Presentation
         {
             Universe.Camera = CameraState;
         }
-        #endregion
     }
 }

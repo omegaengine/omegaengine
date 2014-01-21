@@ -41,27 +41,11 @@ namespace TerrainSample.Presentation
     /// </summary>
     public sealed class BenchmarkPresenter : Presenter
     {
-        #region Constants
         /// <summary>
         /// How long a single test-case should be rendered in seconds
         /// </summary>
         private const int TestCaseTime = 5;
-        #endregion
 
-        #region Variables
-        private readonly string
-            _resultDir = Locations.GetSaveDataPath(GeneralSettings.AppName, false, "Benchmark"),
-            _resultFile = Locations.GetSaveDataPath(GeneralSettings.AppName, true, GeneralSettings.AppName + " Benchmark.zip");
-
-        private readonly Action<string> _callback;
-
-        private readonly Statistics _statistics;
-        private int _testCaseCounter;
-        private Stopwatch _testCaseTimer;
-        private long _lastTotalFrames;
-        #endregion
-
-        #region Constructor
         /// <summary>
         /// Creates a new benchmark presenter
         /// </summary>
@@ -89,11 +73,21 @@ namespace TerrainSample.Presentation
 
             View = new View(Scene, mainCamera) {Name = "Benchmark", BackgroundColor = universe.FogColor};
         }
+
+        #region Variables
+        private readonly string
+            _resultDir = Locations.GetSaveDataPath(GeneralSettings.AppName, false, "Benchmark"),
+            _resultFile = Locations.GetSaveDataPath(GeneralSettings.AppName, true, GeneralSettings.AppName + " Benchmark.zip");
+
+        private readonly Action<string> _callback;
+
+        private readonly Statistics _statistics;
+        private int _testCaseCounter;
+        private Stopwatch _testCaseTimer;
+        private long _lastTotalFrames;
         #endregion
 
-        //--------------------//
-
-        #region Engine Hook-in
+        #region PostRender hook
         /// <inheritdoc />
         public override void HookIn()
         {
@@ -111,11 +105,7 @@ namespace TerrainSample.Presentation
 
             base.HookOut();
         }
-        #endregion
 
-        //--------------------//
-
-        #region PostRender hook
         /// <summary>
         /// Is called after each frame has finished rendering
         /// </summary>

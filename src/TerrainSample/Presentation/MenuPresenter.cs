@@ -35,7 +35,6 @@ namespace TerrainSample.Presentation
     /// </summary>
     public sealed class MenuPresenter : Presenter
     {
-        #region Constructor
         /// <summary>
         /// Creates a new background presenter for the main menu
         /// </summary>
@@ -60,11 +59,7 @@ namespace TerrainSample.Presentation
             View = new View(Scene, mainCamera) {Name = "Menu", BackgroundColor = universe.FogColor};
             View.PreRender += RotateCamera;
         }
-        #endregion
 
-        //--------------------//
-
-        #region Engine hook-in
         /// <inheritdoc />
         public override void HookIn()
         {
@@ -72,9 +67,6 @@ namespace TerrainSample.Presentation
 
             SwitchMusicTheme("Menu");
         }
-        #endregion
-
-        //--------------------//
 
         #region Rotate camera
         private readonly Stopwatch _cameraTimer = Stopwatch.StartNew();
@@ -85,11 +77,7 @@ namespace TerrainSample.Presentation
             _cameraTimer.Reset();
             _cameraTimer.Start();
         }
-        #endregion
 
-        //--------------------//
-
-        #region Dispose
         /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {

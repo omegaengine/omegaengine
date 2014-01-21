@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using Common;
 using OmegaEngine.Properties;
@@ -55,6 +56,7 @@ namespace OmegaEngine
         /// The <see cref="Engine"/> instance used by this object. Must be set before using the object. May not be changed once it has been set!
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown when trying to read the engine before it has been set.</exception>
+        [Browsable(false)]
         public Engine Engine
         {
             get
@@ -82,6 +84,7 @@ namespace OmegaEngine
         /// <summary>
         /// <see langword="true"/> if the <see cref="Engine"/> has been set.
         /// </summary>
+        [Browsable(false)]
         public bool IsEngineSet { get { return _engine != null; } }
 
         /// <summary>
@@ -100,6 +103,7 @@ namespace OmegaEngine
         /// <summary>
         /// Indicates whether this object has been disposed and can therefore no longer be used.
         /// </summary>
+        [Browsable(false)]
         public bool IsDisposed { get; private set; }
 
         /// <inheritdoc/>

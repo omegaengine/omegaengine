@@ -627,10 +627,10 @@ namespace OmegaEngine.Graphics.Shaders
         /// The Direct3D effect for this shader
         /// </summary>
         [Browsable(false)]
-        public Effect Effect
+        protected Effect Effect
         {
             get { return _effect; }
-            protected set
+            set
             {
                 _effect = value;
                 _effectHandles = new TransparentCache<string, EffectHandle>(name => value.GetParameter(null, name));

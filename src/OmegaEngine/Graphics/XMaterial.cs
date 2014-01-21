@@ -9,6 +9,8 @@
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Linq;
+using Common.Collections;
 using OmegaEngine.Assets;
 using SlimDX.Direct3D9;
 
@@ -134,10 +136,7 @@ namespace OmegaEngine.Graphics
         public void HoldReference()
         {
             if (DiffuseMaps != null)
-            {
-                foreach (var texture in DiffuseMaps)
-                    if (texture != null) texture.HoldReference();
-            }
+                foreach (var texture in DiffuseMaps.WhereNotNull()) texture.HoldReference();
             if (NormalMap != null) NormalMap.HoldReference();
             if (HeightMap != null) HeightMap.HoldReference();
             if (SpecularMap != null) SpecularMap.HoldReference();
@@ -150,10 +149,7 @@ namespace OmegaEngine.Graphics
         public void ReleaseReference()
         {
             if (DiffuseMaps != null)
-            {
-                foreach (var texture in DiffuseMaps)
-                    if (texture != null) texture.ReleaseReference();
-            }
+                foreach (var texture in DiffuseMaps.WhereNotNull()) texture.ReleaseReference();
             if (NormalMap != null) NormalMap.ReleaseReference();
             if (HeightMap != null) HeightMap.ReleaseReference();
             if (SpecularMap != null) SpecularMap.ReleaseReference();

@@ -59,7 +59,34 @@ namespace TerrainSample.Presentation
     /// </summary>
     public sealed class EditorPresenter : InteractivePresenter
     {
-        #region Events
+        /// <summary>
+        /// Creates a new editor presenter
+        /// </summary>
+        /// <param name="engine">The engine to use for rendering</param>
+        /// <param name="universe">The universe to display</param>
+        /// <param name="lighting">Shall lighting be used for rendering?</param>
+        public EditorPresenter(Engine engine, Universe universe, bool lighting) : base(engine, universe)
+        {
+            #region Sanity checks
+            if (engine == null) throw new ArgumentNullException("engine");
+            if (universe == null) throw new ArgumentNullException("universe");
+            #endregion
+
+            Lighting = lighting;
+
+            // Restore previous camera position (or default to center of terrain)
+            var mainCamera = CreateCamera(universe.Camera);
+
+            View = new View(Scene, mainCamera) {Name = "Editor", BackgroundColor = universe.FogColor};
+
+            // Floating axis-arrows for easier orientation
+            var axisArrows = new FloatingModel(XMesh.Get(engine, "Engine/AxisArrows.x"))
+            {Name = "AxisArrows", Alpha = 160, Position = new DoubleVector3(-16, -12, 40), Rotation = Quaternion.RotationYawPitchRoll(0, 0, 0)};
+            axisArrows.SetScale(0.03f);
+            View.FloatingModels.Add(axisArrows);
+        }
+        
+        #region Movement
         /// <summary>
         /// Occurs when an <see cref="Positionable{TCoordinates}"/> is to be moved.
         /// </summary>
@@ -68,18 +95,20 @@ namespace TerrainSample.Presentation
         public event PostionableMoveHandler PostionableMove;
 
         /// <summary>
-        /// Occurs when the user selects an area while <see cref="TerrainBrush"/> is set to a value other than <see langword="null"/>. Passes the coordinates in world space.
+        /// Informs observers that one or more <see cref="Positionable{TCoordinates}"/>s are to be moved to a new position.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
-        [Description("Occurs when the user selects an area while PaintingMode is set to true.")]
-        public event TerrainPaint TerrainPaint;
+        /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to be moved.</param>
+        /// <param name="target">The terrain position to move the <paramref name="positionables"/> to.</param>
+        /// <remarks>This replaces <see cref="InteractivePresenter"/>s pathfinding based movement with a callback event.</remarks>
+        protected override void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
+        {
+            if (PostionableMove != null) PostionableMove(positionables, target);
+        }
         #endregion
 
-        #region Variables
-        private OmegaEngine.Graphics.Renderables.Model _terrainPaintingBrushCircle, _terrainPaintingBrushSquare;
-        #endregion
+        #region Terrain painting
+        private Model _terrainPaintingBrushCircle, _terrainPaintingBrushSquare;
 
-        #region Properties
         private TerrainBrush? _terrainBrush;
 
         /// <summary>
@@ -107,68 +136,17 @@ namespace TerrainSample.Presentation
                 else _terrainPaintingBrushCircle.Visible = _terrainPaintingBrushSquare.Visible = false;
             }
         }
-        #endregion
 
-        #region Constructor
-        /// <summary>
-        /// Creates a new editor presenter
-        /// </summary>
-        /// <param name="engine">The engine to use for rendering</param>
-        /// <param name="universe">The universe to display</param>
-        /// <param name="lighting">Shall lighting be used for rendering?</param>
-        public EditorPresenter(Engine engine, Universe universe, bool lighting) : base(engine, universe)
-        {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (universe == null) throw new ArgumentNullException("universe");
-            #endregion
-
-            Lighting = lighting;
-
-            // Restore previous camera position (or default to center of terrain)
-            var mainCamera = CreateCamera(universe.Camera);
-
-            View = new View(Scene, mainCamera) {Name = "Editor", BackgroundColor = universe.FogColor};
-
-            // Floating axis-arrows for easier orientation
-            var axisArrows = new OmegaEngine.Graphics.Renderables.FloatingModel(XMesh.Get(engine, "Engine/AxisArrows.x"))
-            {Name = "AxisArrows", Alpha = 160, Position = new DoubleVector3(-16, -12, 40), Rotation = Quaternion.RotationYawPitchRoll(0, 0, 0)};
-            axisArrows.SetScale(0.03f);
-            View.FloatingModels.Add(axisArrows);
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Initialize
         /// <inheritdoc />
         public override void Initialize()
         {
             base.Initialize();
 
             // Prepare painting brush meshes
-            Scene.Positionables.Add(_terrainPaintingBrushCircle = new Model(XMesh.Get(Engine, "Engine/Circle.x")));
-            Scene.Positionables.Add(_terrainPaintingBrushSquare = new Model(XMesh.Get(Engine, "Engine/Rectangle.x")));
-            _terrainPaintingBrushCircle.Visible = _terrainPaintingBrushSquare.Visible = false;
+            Scene.Positionables.Add(_terrainPaintingBrushCircle = new Model(XMesh.Get(Engine, "Engine/Circle.x")) { Visible = false });
+            Scene.Positionables.Add(_terrainPaintingBrushSquare = new Model(XMesh.Get(Engine, "Engine/Rectangle.x")) { Visible = false });
         }
-        #endregion
 
-        //--------------------//
-
-        #region Movement
-        /// <summary>
-        /// Informs observers that one or more <see cref="Positionable{TCoordinates}"/>s are to be moved to a new position.
-        /// </summary>
-        /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to be moved.</param>
-        /// <param name="target">The terrain position to move the <paramref name="positionables"/> to.</param>
-        /// <remarks>This replaces <see cref="InteractivePresenter"/>s pathfinding based movement with a callback event.</remarks>
-        protected override void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
-        {
-            if (PostionableMove != null) PostionableMove(positionables, target);
-        }
-        #endregion
-
-        #region Terrain paint
         /// <inheritdoc/>
         public override void Hover(Point target)
         {
@@ -186,6 +164,13 @@ namespace TerrainSample.Presentation
             else
                 _terrainPaintingBrushCircle.Visible = _terrainPaintingBrushSquare.Visible = false;
         }
+
+        /// <summary>
+        /// Occurs when the user selects an area while <see cref="TerrainBrush"/> is set to a value other than <see langword="null"/>. Passes the coordinates in world space.
+        /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
+        [Description("Occurs when the user selects an area while PaintingMode is set to true.")]
+        public event TerrainPaint TerrainPaint;
 
         /// <inheritdoc/>
         public override void AreaSelection(Rectangle area, bool accumulate, bool done)
