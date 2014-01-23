@@ -117,7 +117,7 @@ namespace OmegaEngine
             }
 
             // Only load music subsystem if there is a library
-            if (ContentManager.FileExists("Music", "list.txt", true))
+            if (ContentManager.FileExists("Music", "list.txt"))
             {
                 using (new TimedLogEvent("Load music"))
                 {

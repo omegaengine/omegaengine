@@ -181,7 +181,7 @@ namespace TerrainSample.Presentation
             string ft = "Skybox/" + Universe.Skybox + "/ft.jpg";
             string bk = "Skybox/" + Universe.Skybox + "/bk.jpg";
 
-            if (ContentManager.FileExists("Textures", up, true) && ContentManager.FileExists("Textures", dn, true))
+            if (ContentManager.FileExists("Textures", up) && ContentManager.FileExists("Textures", dn))
             { // Full skybox
                 Scene.Skybox = SimpleSkybox.FromAssets(Engine, rt, lf, up, dn, ft, bk);
             }

@@ -391,7 +391,7 @@ namespace OmegaEngine.Graphics.Renderables
                 string texture = Path.Combine("Particles", _preset.Particle1Texture);
 
                 // Check if texture path is valid
-                if (ContentManager.FileExists("Textures", texture, true))
+                if (ContentManager.FileExists("Textures", texture))
                 {
                     _material1 = new XMaterial(XTexture.Get(Engine, texture));
                     _material1.HoldReference();
@@ -407,7 +407,7 @@ namespace OmegaEngine.Graphics.Renderables
                 string texture = Path.Combine("Particles", _preset.Particle2Texture);
 
                 // Check if texture path is valid
-                if (ContentManager.FileExists("Textures", texture, true))
+                if (ContentManager.FileExists("Textures", texture))
                 {
                     _material2 = new XMaterial(XTexture.Get(Engine, texture));
                     _material2.HoldReference();

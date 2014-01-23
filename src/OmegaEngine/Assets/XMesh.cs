@@ -122,7 +122,7 @@ namespace OmegaEngine.Assets
 
                             // Normal map
                             string normalFilename = baseFilename + "_normal" + fileExt;
-                            if (ContentManager.FileExists("Meshes", normalFilename, true))
+                            if (ContentManager.FileExists("Meshes", normalFilename))
                             {
                                 Materials[i].NormalMap = XTexture.Get(engine, normalFilename, meshTexture: true);
                                 needsTangents = true;
@@ -130,7 +130,7 @@ namespace OmegaEngine.Assets
 
                             // Height map
                             string heightFilename = baseFilename + "_height" + fileExt;
-                            if (ContentManager.FileExists("Meshes", heightFilename, true))
+                            if (ContentManager.FileExists("Meshes", heightFilename))
                             {
                                 Materials[i].HeightMap = XTexture.Get(engine, heightFilename, meshTexture: true);
                                 needsTangents = true;
@@ -138,12 +138,12 @@ namespace OmegaEngine.Assets
 
                             // Specular map
                             string specularFilename = baseFilename + "_specular" + fileExt;
-                            if (ContentManager.FileExists("Meshes", specularFilename, true))
+                            if (ContentManager.FileExists("Meshes", specularFilename))
                                 Materials[i].SpecularMap = XTexture.Get(engine, specularFilename, meshTexture: true);
 
                             // Glow map (internally represented as emissive map)
                             string glowFilename = baseFilename + "_glow" + fileExt;
-                            if (ContentManager.FileExists("Meshes", glowFilename, true))
+                            if (ContentManager.FileExists("Meshes", glowFilename))
                             {
                                 Materials[i].EmissiveMap = XTexture.Get(engine, glowFilename, meshTexture: true);
 
@@ -259,7 +259,7 @@ namespace OmegaEngine.Assets
 
             // Try to find the texture in the directory of its mesh first, then look in the generic mesh textures directory
             string id = Path.Combine("Meshes", textureID);
-            return ContentManager.FileExists("Meshes", meshPath + textureID, true)
+            return ContentManager.FileExists("Meshes", meshPath + textureID)
                 ? XTexture.Get(engine, meshPath + textureID, meshTexture: true)
                 : XTexture.Get(engine, id);
         }

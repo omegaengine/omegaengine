@@ -86,7 +86,7 @@ namespace AlphaFramework.Editor.World
             { // File name only? Might not save to same dir loaded from!
                 Log.Info("Load file: " + FilePath);
                 _fullPath = ContentManager.CreateFilePath("World", FilePath);
-                if (ContentManager.FileExists("World", FilePath, true))
+                if (ContentManager.FileExists("World", FilePath))
                 { // Load existing file, might be from an Archive and not fullPath
                     string id = FilePath;
                     using (var stream = ContentManager.GetFileStream("World", id))

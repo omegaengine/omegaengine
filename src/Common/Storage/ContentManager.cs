@@ -44,7 +44,8 @@ namespace Common.Storage
         #endregion
 
         #region Variables
-        private static DirectoryInfo _baseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, "content")), _modDir;
+        private static DirectoryInfo _baseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, "content"));
+        private static DirectoryInfo _modDir;
         private static List<ZipFile> _baseArchives, _modArchives;
 
         private static readonly Dictionary<string, ContentArchiveEntry>
@@ -153,6 +154,7 @@ namespace Common.Storage
             {
                 zipFile.Close();
             }
+                // ReSharper disable once EmptyGeneralCatchClause
             catch
             {}
         }
@@ -216,7 +218,7 @@ namespace Common.Storage
         /// <param name="id">The file name of the content.</param>
         /// <param name="searchArchives">Whether to search for the file in archives as well.</param>
         /// <returns><see langword="true"/> if the requested content file exists.</returns>
-        public static bool FileExists(string type, string id, bool searchArchives)
+        public static bool FileExists(string type, string id, bool searchArchives = true)
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(type)) throw new ArgumentNullException("type");
@@ -422,7 +424,7 @@ namespace Common.Storage
             id = FileUtils.UnifySlashes(id);
 
             // First try to load a real file
-            if (FileExists(type, id, false))
+            if (FileExists(type, id, searchArchives: false))
                 return File.OpenRead(GetFilePath(type, id));
 
             // Then look in the archives

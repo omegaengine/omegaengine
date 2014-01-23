@@ -231,7 +231,7 @@ namespace OmegaGUI.Model
         }
 
         [Description("Is the specified texture file name valid?"), Category("Appearance")]
-        public bool TextureFileValid { get { return !string.IsNullOrEmpty(_textureFile) && ContentManager.FileExists("GUI/Textures", _textureFile, true); } }
+        public bool TextureFileValid { get { return !string.IsNullOrEmpty(_textureFile) && ContentManager.FileExists("GUI/Textures", _textureFile); } }
         #endregion
 
         #region Font

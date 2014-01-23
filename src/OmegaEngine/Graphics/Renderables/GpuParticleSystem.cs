@@ -102,7 +102,7 @@ namespace OmegaEngine.Graphics.Renderables
                 string id = Path.Combine("Shaders", Preset.ParticleTexture);
                 _particleShader.ParticleTexture =
                     // Check the new texture is available/exists
-                    (!string.IsNullOrEmpty(Preset.ParticleTexture) && ContentManager.FileExists("Textures", Path.Combine("Shaders", Preset.ParticleTexture), true))
+                    (!string.IsNullOrEmpty(Preset.ParticleTexture) && ContentManager.FileExists("Textures", Path.Combine("Shaders", Preset.ParticleTexture)))
                         ? XTexture.Get(Engine, id)
                         : null;
 

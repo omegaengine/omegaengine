@@ -101,11 +101,11 @@ namespace OmegaGUI.Model
         /// <returns>The loaded table or an empty table if not found.</returns>
         public static XmlDictionary LoadLang(string language)
         {
-            if (ContentManager.FileExists("GUI/Language", language + FileExt, true))
+            if (ContentManager.FileExists("GUI/Language", language + FileExt))
                 return FromContent(language + FileExt);
-            if (ContentManager.FileExists("GUI/Language", "English" + FileExt, true))
+            if (ContentManager.FileExists("GUI/Language", "English" + FileExt))
                 return FromContent("English" + FileExt);
-            if (ContentManager.FileExists("GUI/Language", "German" + FileExt, true))
+            if (ContentManager.FileExists("GUI/Language", "German" + FileExt))
                 return FromContent("German" + FileExt);
             return new XmlDictionary();
         }
