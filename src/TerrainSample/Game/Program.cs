@@ -148,13 +148,21 @@ namespace TerrainSample
                 // Base
                 if (!string.IsNullOrEmpty(Settings.Current.General.ContentDir))
                     ContentManager.BaseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, Settings.Current.General.ContentDir));
+                else
+                {
+                    string baseDirPath = Environment.GetEnvironmentVariable("OMEGAENGINE_BASE_DIR");
+                    if (!string.IsNullOrEmpty(baseDirPath)) ContentManager.BaseDir = new DirectoryInfo(baseDirPath);
+                }
 
                 // Mod
                 if (Args.Contains("mod"))
-                {
                     ContentManager.ModDir = new DirectoryInfo(Path.Combine(Path.Combine(Locations.InstallBase, "Mods"), Args["mod"]));
-                    Log.Info("Load mod from: " + ContentManager.ModDir);
+                else
+                {
+                    string modDirPath = Environment.GetEnvironmentVariable("OMEGAENGINE_MOD_DIR");
+                    if (!string.IsNullOrEmpty(modDirPath)) ContentManager.ModDir = new DirectoryInfo(modDirPath);
                 }
+                if (ContentManager.ModDir != null) Log.Info("Load mod from: " + ContentManager.ModDir);
             }
                 #region Error handling
             catch (ArgumentException ex)

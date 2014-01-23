@@ -175,6 +175,11 @@ namespace TerrainSample.Editor
             {
                 if (!string.IsNullOrEmpty(Settings.Current.General.ContentDir))
                     ContentManager.BaseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, Settings.Current.General.ContentDir));
+                else
+                {
+                    string baseDirPath = Environment.GetEnvironmentVariable("OMEGAENGINE_BASE_DIR");
+                    if (!string.IsNullOrEmpty(baseDirPath)) ContentManager.BaseDir = new DirectoryInfo(baseDirPath);
+                }
             }
                 #region Error handling
             catch (ArgumentException ex)
