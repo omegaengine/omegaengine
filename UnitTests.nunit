@@ -1,7 +1,8 @@
 ﻿<NUnitProject>
   <Settings activeconfig="Debug" />
   <Config name="Debug" buildpathtype="Auto">
-    <assembly path="build\Debug\Test.Common.dll" />
-    <assembly path="build\Debug\Test.TerrainSample.World.dll" />
+    <assembly path="build\Debug\Common.UnitTests.dll" />
+    <assembly path="build\Debug\AlphaFramework.UnitTests.dll" />
+    <assembly path="build\Debug\TerrainSample.UnitTests.dll" />
   </Config>
 </NUnitProject>
