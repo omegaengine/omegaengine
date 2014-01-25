@@ -48,17 +48,49 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AlphaFramework\UnitTests\UnitTests.csproj">
+      <Project>{bd0e2ea9-4aad-4a1a-b748-2737fd1999d6}</Project>
+      <Name>UnitTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common.UnitTests\Common.UnitTests.csproj">
+      <Project>{ca9d6092-4365-4385-9700-9570a98ef09d}</Project>
+      <Name>Common.UnitTests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Common.csproj">
       <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\OmegaEngine\OmegaEngine.csproj">
+      <Project>{14E9FED0-4989-482D-85DE-448161A6855E}</Project>
+      <Name>OmegaEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AlphaFramework\Editor\Editor.csproj">
+      <Project>{5920CFE3-10CE-4C49-90A6-CE59A8A62EEE}</Project>
+      <Name>Editor (AlphaFramework\Editor)</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AlphaFramework\Presentation\Presentation.csproj">
+      <Project>{63F97B11-3B08-45C3-86F9-1F99129A3B3D}</Project>
+      <Name>Presentation (AlphaFramework\Presentation)</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AlphaFramework\World\World.csproj">
-      <Project>{c9062be0-1762-4907-ba23-9d60af183993}</Project>
-      <Name>World</Name>
+      <Project>{C9062BE0-1762-4907-BA23-9D60AF183993}</Project>
+      <Name>World (AlphaFramework\World)</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Editor\Editor.csproj">
+      <Project>{ADBA7A08-3121-4F27-8893-6CD7093743B2}</Project>
+      <Name>Editor (TerrainSample\Editor)</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Game\Game.csproj">
+      <Project>{9d104552-0123-4eb6-9dea-845c0b95a4fa}</Project>
+      <Name>Game</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation\Presentation.csproj">
+      <Project>{CC40CE7F-892A-42F8-B289-52ACF2C73865}</Project>
+      <Name>Presentation (TerrainSample\Presentation)</Name>
     </ProjectReference>
     <ProjectReference Include="..\World\World.csproj">
       <Project>{3EA8E61B-A309-4862-B4B1-7C67537C52A6}</Project>
-      <Name>World</Name>
+      <Name>World (TerrainSample\World)</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

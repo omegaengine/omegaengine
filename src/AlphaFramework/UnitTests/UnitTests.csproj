@@ -45,6 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common.UnitTests\Common.UnitTests.csproj">
+      <Project>{ca9d6092-4365-4385-9700-9570a98ef09d}</Project>
+      <Name>Common.UnitTests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Common.csproj">
       <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
       <Name>Common</Name>
@@ -53,13 +57,17 @@
       <Project>{14E9FED0-4989-482D-85DE-448161A6855E}</Project>
       <Name>OmegaEngine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Editor\Editor.csproj">
+      <Project>{5920CFE3-10CE-4C49-90A6-CE59A8A62EEE}</Project>
+      <Name>Editor (AlphaFramework\Editor)</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Presentation\Presentation.csproj">
-      <Project>{63f97b11-3b08-45c3-86f9-1f99129a3b3d}</Project>
-      <Name>Presentation</Name>
+      <Project>{63F97B11-3B08-45C3-86F9-1F99129A3B3D}</Project>
+      <Name>Presentation (AlphaFramework\Presentation)</Name>
     </ProjectReference>
     <ProjectReference Include="..\World\World.csproj">
-      <Project>{c9062be0-1762-4907-ba23-9d60af183993}</Project>
-      <Name>World</Name>
+      <Project>{C9062BE0-1762-4907-BA23-9D60AF183993}</Project>
+      <Name>World (AlphaFramework\World)</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
