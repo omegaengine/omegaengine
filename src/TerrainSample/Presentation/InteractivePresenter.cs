@@ -22,20 +22,21 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
+using AlphaFramework.World.EntityComponents;
 using AlphaFramework.World.Positionables;
 using Common;
 using Common.Collections;
-using Common.Values;
+using Common.Dispatch;
+using Common.Utils;
 using OmegaEngine;
 using OmegaEngine.Assets;
-using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Input;
 using SlimDX;
 using TerrainSample.World;
+using TerrainSample.World.EntityComponents;
 using TerrainSample.World.Positionables;
 
 namespace TerrainSample.Presentation
@@ -45,24 +46,6 @@ namespace TerrainSample.Presentation
     /// </summary>
     public abstract partial class InteractivePresenter : Presenter, IInputReceiver
     {
-        #region Variables
-        // Note: Using custom collection-class to allow external update-notification
-        private readonly MonitoredCollection<Positionable<Vector2>> _selectedPositionables = new MonitoredCollection<Positionable<Vector2>>();
-
-        /// <summary>An outline to show on the screen</summary>
-        private Rectangle? _selectionRectangle;
-
-        private Asset[] _preCachedAssets;
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// The <see cref="Positionable{TCoordinates}"/>s the user has selected with the mouse
-        /// </summary>
-        public MonitoredCollection<Positionable<Vector2>> SelectedPositionables { get { return _selectedPositionables; } }
-        #endregion
-
-        #region Constructor
         /// <summary>
         /// Creates a new interactive presenter
         /// </summary>
@@ -78,14 +61,14 @@ namespace TerrainSample.Presentation
             // Add selection highlighting hooks
             engine.ExtraRender += DrawSelectionOutline;
 
-            _selectedPositionables.Added += AddSelectedPositionable;
-            _selectedPositionables.Removing += RemoveSelectedPositionable;
-        }
-        #endregion
+            _selectionsSync = new ModelViewSync<Positionable<Vector2>, PositionableRenderable>(_selectedPositionables, Scene.Positionables);
 
-        //--------------------//
+            Universe.Positionables.Removed += OnPositionableRemoved;
+        }
 
         #region Initialize
+        private Asset[] _preCachedAssets;
+
         /// <inheritdoc />
         public override void Initialize()
         {
@@ -97,187 +80,101 @@ namespace TerrainSample.Presentation
                 _preCachedAssets = new Asset[] {XMesh.Get(Engine, "Engine/Circle.x"), XMesh.Get(Engine, "Engine/Rectangle.x")};
                 foreach (var asset in _preCachedAssets) asset.HoldReference();
             }
+
+            _selectionsSync.Register<Entity, PositionableRenderable>(GetSelectionHighlighting, UpdateSelectionHighlighting);
+            _selectionsSync.Initialize();
+        }
+
+        /// <inheritdoc/>
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                Engine.ExtraRender -= DrawSelectionOutline;
+                Universe.Positionables.Removed -= OnPositionableRemoved;
+
+                _selectionsSync.Dispose();
+
+                // Allow the cache management system to clean thes up later
+                if (_preCachedAssets != null)
+                {
+                    foreach (var asset in _preCachedAssets)
+                        asset.ReleaseReference();
+                    _preCachedAssets = null;
+                }
+            }
+            finally
+            {
+                base.Dispose(disposing);
+            }
         }
         #endregion
 
         //--------------------//
 
-        #region Perspective change
-        /// <inheritdoc/>
-        public void PerspectiveChange(Point pan, int rotation, int zoom)
-        {
-            // Adapt panning speed based on view frustum size
-            float panFactor = 1.0f / Math.Max(Engine.RenderSize.Width, Engine.RenderSize.Height);
-
-            View.Camera.PerspectiveChange(
-                panX: pan.X * panFactor,
-                panY: pan.Y * panFactor,
-                rotation: rotation / 2.0f,
-                zoom: (float)Math.Pow(1.1, zoom / 15.0));
-        }
-        #endregion
-
-        #region Hover
-        /// <inheritdoc/>
-        public virtual void Hover(Point target)
-        {}
-        #endregion
-
-        #region Area selection
-        /// <inheritdoc/>
-        public virtual void AreaSelection(Rectangle area, bool accumulate, bool done)
-        {
-            if (done)
-            {
-                // Handle inverted rectangles and project to terrain
-                var terrainArea = GetTerrainArea(Rectangle.FromLTRB(
-                    (area.Left < area.Right) ? area.Left : area.Right,
-                    (area.Top < area.Bottom) ? area.Top : area.Bottom,
-                    (area.Left < area.Right) ? area.Right : area.Left,
-                    (area.Top < area.Bottom) ? area.Bottom : area.Top));
-
-                // ToDo: Optimize performance by using .SetMany()
-
-                // Remove all previous selections unless the user wants to accumulate selections
-                if (!accumulate) _selectedPositionables.Clear();
-
-                // Check each entity in World if it is positioned on top of the selection area
-                foreach (var entity in Universe.Positionables.OfType<Entity>()
-                    .Where(entity => entity.CollisionTest(terrainArea)))
-                {
-                    // Toggle entries when accumulating
-                    if (accumulate && _selectedPositionables.Contains(entity)) _selectedPositionables.Remove(entity);
-                    else _selectedPositionables.Add(entity);
-                }
-
-                // Remove the outline from the screen
-                _selectionRectangle = null;
-            }
-            else
-            { // Add a selection outline to the screen
-                _selectionRectangle = area;
-            }
-        }
+        #region Selection highlighting
+        private readonly MonitoredCollection<Positionable<Vector2>> _selectedPositionables = new MonitoredCollection<Positionable<Vector2>>();
 
         /// <summary>
-        /// Projects a 2D screen rectangle on to the <see cref="Presenter.Terrain"/>, forming a convex quadrangle.
+        /// The <see cref="Positionable{TCoordinates}"/>s the user has selected with the mouse
         /// </summary>
-        private Quadrangle GetTerrainArea(Rectangle area)
+        public MonitoredCollection<Positionable<Vector2>> SelectedPositionables { get { return _selectedPositionables; } }
+
+        /// <summary>
+        /// Maps between <see cref="SelectedPositionables"/> and selection highlighting.
+        /// </summary>
+        private readonly ModelViewSync<Positionable<Vector2>, PositionableRenderable> _selectionsSync;
+
+        /// <summary>
+        /// Adds the selection highlighting for a <see cref="EntityBase{TCoordinates,TTemplate}"/>
+        /// </summary>
+        /// <param name="entity">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to add the selection highlighting for</param>
+        private Model GetSelectionHighlighting(Entity entity)
         {
-            Vector2 topLeftCoord, bottomLeftCoord, bottomRightCoord, topRightCoord;
-            using (new TimedLogEvent("Calculating terrain coordinates for picking"))
+            var selectionHighlight = new PerTypeDispatcher<CollisionControl<Vector2>, Model>(ignoreMissing: true)
             {
-                DoubleVector3 topLeftPoint;
-                if (!Terrain.Intersects(View.PickingRay(new Point(area.Left, area.Top)), out topLeftPoint)) return new Quadrangle();
-                topLeftCoord = topLeftPoint.Flatten();
-
-                DoubleVector3 bottomLeftPoint;
-                if (!Terrain.Intersects(View.PickingRay(new Point(area.Left, area.Bottom)), out bottomLeftPoint)) return new Quadrangle();
-                bottomLeftCoord = bottomLeftPoint.Flatten();
-
-                DoubleVector3 bottomRightPoint;
-                if (!Terrain.Intersects(View.PickingRay(new Point(area.Right, area.Bottom)), out bottomRightPoint)) return new Quadrangle();
-                bottomRightCoord = bottomRightPoint.Flatten();
-
-                DoubleVector3 topRightPoint;
-                if (!Terrain.Intersects(View.PickingRay(new Point(area.Right, area.Top)), out topRightPoint)) return new Quadrangle();
-                topRightCoord = topRightPoint.Flatten();
-            }
-
-            var terrainArea = new Quadrangle(topLeftCoord, bottomLeftCoord, bottomRightCoord, topRightCoord);
-            return terrainArea;
-        }
-        #endregion
-
-        #region Click
-        /// <inheritdoc/>
-        [SuppressMessage("Microsoft.Security", "CA2109:ReviewVisibleEventHandlers", Justification = "There are no dangerous operations in this event handler")]
-        public virtual void Click(MouseEventArgs e, bool accumulate)
-        {
-            #region Sanity checks
-            if (e == null) throw new ArgumentNullException("e");
-            #endregion
-
-            // Determine the Engine object the user clicked on
-            DoubleVector3 intersectPosition;
-            var pickedObject = View.Pick(e.Location, out intersectPosition);
-            if (pickedObject == null) return;
-            bool pickedTerrain = pickedObject is OmegaEngine.Graphics.Renderables.Terrain;
-
-            // ToDo: Optimize performance by using .SetMany()
-
-            switch (e.Button)
-            {
-                case MouseButtons.Left:
-                    // Remove all previous selections unless the user wants to accumulate selections
-                    if (!accumulate) _selectedPositionables.Clear();
-
-                    if (pickedTerrain)
-                    { // Action: Left-click on terrain to select one nearby entity
-                        foreach (var entity in Universe.Positionables.OfType<Entity>()
-                            .Where(entity => entity.CollisionTest(intersectPosition.Flatten())))
-                        {
-                            // Toggle entries when accumulating
-                            if (accumulate && _selectedPositionables.Contains(entity)) _selectedPositionables.Remove(entity);
-                            else _selectedPositionables.Add(entity);
-
-                            // Stop after first hit (multi-selection only when dragging mouse)
-                            break;
-                        }
-                    }
-                    else
-                    { // Action: Left-click on entity to select it
-                        Positionable<Vector2> pickedEntity = GetWorld(pickedObject);
-                        if (pickedEntity != null)
-                        {
-                            // Toggle entries when accumulating
-                            if (accumulate && _selectedPositionables.Contains(pickedEntity)) _selectedPositionables.Remove(pickedEntity);
-                            else _selectedPositionables.Add(pickedEntity);
-                        }
-                    }
-                    break;
-
-                case MouseButtons.Right:
-                    if (_selectedPositionables.Count != 0 && pickedTerrain)
-                    { // Action: Right-click on terrain to move
-                        // Depending on the actual presenter type this may invoke pathfinding or teleportation
-                        MovePositionables(_selectedPositionables, intersectPosition.Flatten());
-                    }
-                    break;
-            }
-        }
-        #endregion
-
-        #region Double click
-        /// <inheritdoc/>
-        [SuppressMessage("Microsoft.Security", "CA2109:ReviewVisibleEventHandlers", Justification = "There are no dangerous operations in this event handler")]
-        public virtual void DoubleClick(MouseEventArgs e)
-        {
-            #region Sanity checks
-            if (e == null) throw new ArgumentNullException("e");
-            #endregion
-
-            // Determine the Engine object the user double-clicked on
-            DoubleVector3 intersectPosition;
-            var pickedObject = View.Pick(e.Location, out intersectPosition);
-
-            // Action: Double-click on entity to select and focus camera
-            if (pickedObject != null && !(pickedObject is OmegaEngine.Graphics.Renderables.Terrain) && !(View.Camera is CinematicCamera)) /* Each swing must complete before the next one can start */
-            {
-                var newState = new CameraState<Vector2>
+                (Circle circle) =>
                 {
-                    Name = View.Camera.Name,
-                    Position = pickedObject.Position.Flatten(),
-                    Radius = pickedObject.WorldBoundingSphere.HasValue ? pickedObject.WorldBoundingSphere.Value.Radius * 2.5f : 50,
-                };
+                    // Create a circle around the entity based on the radius
+                    var hightlight = new Model(XMesh.Get(Engine, "Engine/Circle.x"));
+                    float scale = circle.Radius / 20 + 1;
+                    hightlight.PreTransform = Matrix.Scaling(scale, 1, scale);
+                    return hightlight;
+                },
+                (Box box) =>
+                {
+                    // Create a rectangle around the entity based on the box corners
+                    var highlight = new Model(XMesh.Get(Engine, "Engine/Rectangle.x"));
 
-                // Perform the animation
-                View.SwingCameraTo(CreateCamera(newState), 1);
-            }
+                    // Determine the component-wise minimums and maxmimums and the absolute difference
+                    var min = new Vector2(
+                        Math.Min(box.Minimum.X, box.Maximum.X),
+                        Math.Min(box.Minimum.Y, box.Maximum.Y));
+                    var max = new Vector2(
+                        Math.Max(box.Minimum.X, box.Maximum.X),
+                        Math.Max(box.Minimum.Y, box.Maximum.Y));
+                    var diff = max - min;
+
+                    highlight.PreTransform = Matrix.Scaling(diff.X, 1, diff.Y) * Matrix.Translation(min.X, 0, -min.Y);
+                    return highlight;
+                }
+            }.Dispatch(entity.TemplateData.CollisionControl);
+            if (selectionHighlight != null) selectionHighlight.Name = entity.Name + " Selection";
+            return selectionHighlight;
+        }
+
+        private void UpdateSelectionHighlighting(Entity entity, PositionableRenderable representation)
+        {
+            // Update the position and rotation of the selection highlighting
+            representation.Position = GetTerrainPosition(entity);
+            representation.Rotation = Quaternion.RotationYawPitchRoll(entity.Rotation.DegreeToRadian(), 0, 0);
+        }
+
+        private void OnPositionableRemoved(Positionable<Vector2> positionable)
+        {
+            SelectedPositionables.Remove(positionable);
         }
         #endregion
-
-        //--------------------//
 
         #region Draw selection outline
         /// <summary>
@@ -309,35 +206,6 @@ namespace TerrainSample.Presentation
                     Universe.MoveEntity(entity, target);
                 else
                     Log.Warn(entity + " is unable to move");
-            }
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Dispose
-        /// <inheritdoc/>
-        protected override void Dispose(bool disposing)
-        {
-            try
-            {
-                // Remove selection highlighting hooks
-                Engine.ExtraRender -= DrawSelectionOutline;
-                _selectedPositionables.Clear(); // Trigger any remaining "Removing" hooks
-                _selectedPositionables.Added -= AddSelectedPositionable;
-                _selectedPositionables.Removing -= RemoveSelectedPositionable;
-
-                // Allow the cache management system to clean thes up later
-                if (_preCachedAssets != null)
-                {
-                    foreach (var asset in _preCachedAssets)
-                        asset.ReleaseReference();
-                    _preCachedAssets = null;
-                }
-            }
-            finally
-            {
-                base.Dispose(disposing);
             }
         }
         #endregion

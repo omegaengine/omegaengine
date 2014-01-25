@@ -22,15 +22,22 @@
 
 using System;
 using System.Drawing;
+using AlphaFramework.Presentation;
 using Common.Utils;
 using Common.Values;
 using OmegaEngine.Graphics;
+using OmegaEngine.Graphics.Shaders;
 using SlimDX;
 
 namespace TerrainSample.Presentation
 {
     partial class Presenter
     {
+        /// <summary>
+        /// Use lighting in this presentation?
+        /// </summary>
+        protected bool Lighting = true;
+
         private readonly DirectionalLight
             _lightSun = new DirectionalLight {Name = "Sun", Enabled = false},
             _lightMoon = new DirectionalLight {Name = "Moon", Enabled = false};
@@ -40,8 +47,34 @@ namespace TerrainSample.Presentation
         /// </summary>
         private const float DiffuseToSpecularRatio = 0.5f;
 
+        private PostSepiaShader _sepiaShader;
+        private PostColorCorrectionShader _colorCorrectionShader;
+        private PostBleachShader _bleachShader;
+
         /// <summary>
-        /// Updates <see cref="_lightSun"/> and <see cref="_lightMoon"/> based on the light phase in <see cref="Universe"/>.
+        /// Helper method for setting up the lighting and post-screen effects
+        /// </summary>
+        private void SetupLighting()
+        {
+            // Prepare post-screen shaders if the hardware supports them
+            if (Engine.Capabilities.MaxShaderModel >= PostBleachShader.MinShaderModel)
+            {
+                // Auto-setup glow shader
+                View.SetupGlow();
+
+                // Pre-load deactivated effects for later use
+                View.PostShaders.Add(_bleachShader = new PostBleachShader {Enabled = false});
+                View.PostShaders.Add(_colorCorrectionShader = new PostColorCorrectionShader {Enabled = false});
+                View.PostShaders.Add(_sepiaShader = new PostSepiaShader {Enabled = false, Desaturation = 0, Toning = 0});
+            }
+
+            // Add the lights to the scene
+            Scene.Lights.Add(_lightSun);
+            Scene.Lights.Add(_lightMoon);
+        }
+
+        /// <summary>
+        /// Updates <see cref="_lightSun"/> and <see cref="_lightMoon"/> based on the light phase in <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.
         /// </summary>
         protected void UpdateLighting()
         {
@@ -56,7 +89,7 @@ namespace TerrainSample.Presentation
             UpdateLightingColorMoon();
 
             if (_colorCorrectionShader != null) UpdateColorCorrection();
-            
+
             View.Fog = Universe.Fog;
             View.BackgroundColor = Universe.FogColor;
             View.Camera.FarClip = Universe.Fog ? Universe.FogDistance : 1e+6f;

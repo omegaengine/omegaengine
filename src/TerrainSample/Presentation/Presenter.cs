@@ -21,62 +21,28 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using AlphaFramework.Presentation;
 using AlphaFramework.World.Positionables;
-using Common;
-using Common.Collections;
 using Common.Dispatch;
-using LuaInterface;
+using Common.Storage;
+using Common.Values;
 using OmegaEngine;
-using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
-using OmegaEngine.Graphics.Shaders;
 using SlimDX;
 using TerrainSample.World;
 using TerrainSample.World.Config;
+using TerrainSample.World.Positionables;
 
 namespace TerrainSample.Presentation
 {
     /// <summary>
     /// Handles the visual representation of <see cref="World"/> content in the <see cref="OmegaEngine"/>
     /// </summary>
-    public abstract partial class Presenter : IDisposable
+    public abstract partial class Presenter : PresenterBase<Universe, Vector2>
     {
-        #region Variables
-        /// <summary>
-        /// The <see cref="Engine"/> reference to use for rendering operations
-        /// </summary>
-        protected readonly Engine Engine;
-
-        /// <summary>
-        /// Use lighting in this presentation?
-        /// </summary>
-        protected bool Lighting = true;
-
-        private PostColorCorrectionShader _colorCorrectionShader;
-        private PostBleachShader _bleachShader;
-        private PostSepiaShader _sepiaShader;
-
-        /// <summary>
-        /// The engine scene containing the graphical representations of <see cref="Positionable{TCoordinates}"/>s
-        /// </summary>
-        protected readonly Scene Scene;
-        #endregion
-
         #region Properties
-        /// <summary>
-        /// Was <see cref="Initialize"/> already called?
-        /// </summary>
-        public bool Initialized { get; protected set; }
-
-        /// <summary> 
-        /// The <see cref="OmegaEngine"/> representation of <see cref="World.Universe.Terrain"/>
-        /// </summary>
-        public Terrain Terrain { get; private set; }
-
         private bool _wireframeTerrain;
 
         /// <summary>
@@ -103,7 +69,7 @@ namespace TerrainSample.Presentation
             set
             {
                 _wireframeEntities = value;
-                foreach (var positionable in PositionableRenderables)
+                foreach (var positionable in RenderablesSync.Representations)
                     positionable.Wireframe = value;
             }
         }
@@ -119,7 +85,7 @@ namespace TerrainSample.Presentation
             set
             {
                 _boundingSpheresEntities = value;
-                foreach (var positionable in PositionableRenderables)
+                foreach (var positionable in RenderablesSync.Representations)
                     positionable.DrawBoundingSphere = value;
             }
         }
@@ -135,73 +101,164 @@ namespace TerrainSample.Presentation
             set
             {
                 _boundingBoxEntities = value;
-                foreach (var positionable in PositionableRenderables)
+                foreach (var positionable in RenderablesSync.Representations)
                     positionable.DrawBoundingBox = value;
             }
         }
-
-        /// <summary>
-        /// The universe data for this scene
-        /// </summary>
-        [LuaHide]
-        public Universe Universe { get; protected set; }
-
-        /// <summary>
-        /// The engine view used to display the <see cref="Scene"/>
-        /// </summary>
-        public View View { get; protected set; }
-
-        /// <summary>
-        /// Was this presenter already disposed?
-        /// </summary>
-        [Browsable(false)]
-        public bool Disposed { get; private set; }
         #endregion
 
-        #region Constructor
         /// <summary>
-        /// Creates a new presenter
+        /// Creates a new presenter.
         /// </summary>
-        /// <param name="engine">The engine to use for rendering</param>
-        /// <param name="universe">The universe to display</param>
-        protected Presenter(Engine engine, Universe universe)
+        /// <param name="engine">The engine to use for rendering.</param>
+        /// <param name="universe">The game world to present.</param>
+        protected Presenter(Engine engine, Universe universe) : base(engine, universe)
+        {}
+
+        //--------------------//
+
+        #region Initialize
+        /// <inheritdoc/>
+        public override void Initialize()
         {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (universe == null) throw new ArgumentNullException("universe");
+            if (Initialized) return;
+
+            if (Lighting)
+            {
+                SetupLighting();
+                UpdateLighting();
+                Universe.LightingChanged += UpdateLighting;
+            }
+
+            UpdateSykbox();
+            Universe.SkyboxChanged += UpdateSykbox;
+
+            SetupTerrain();
+
+            base.Initialize();
+        }
+
+        /// <summary>
+        /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
+        /// </summary>
+        /// <param name="disposing"><see langword="true"/> if called manually and not by the garbage collector.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (Disposed) return; // Don't try to dispose more than once
+
+            // Remove event handlers watching the universe
+            Universe.LightingChanged -= UpdateLighting;
+            Universe.SkyboxChanged -= UpdateSykbox;
+
+            base.Dispose(disposing);
+        }
+        #endregion
+
+        #region Terrain
+        /// <summary>
+        /// The <see cref="OmegaEngine"/> representation of <see cref="World.Universe.Terrain"/>
+        /// </summary>
+        public Terrain Terrain { get; private set; }
+
+        /// <summary>
+        /// Helper method for setting up the <see cref="OmegaEngine.Graphics.Renderables.Terrain"/>.
+        /// </summary>
+        private void SetupTerrain()
+        {
+            if (Universe.Terrain == null) return;
+
+            // Build texture array
+            var textures = new string[Universe.Terrain.Templates.Length];
+            for (int i = 0; i < textures.Length; i++)
+            {
+                if (Universe.Terrain.Templates[i] != null && !string.IsNullOrEmpty(Universe.Terrain.Templates[i].Texture))
+                {
+                    // Prefix directory name
+                    textures[i] = Path.Combine("Terrain", Universe.Terrain.Templates[i].Texture);
+                }
+            }
+
+            // Create Engine Terrain and add to the Scene
+            Terrain = Terrain.Create(
+                Engine, Universe.Terrain.Size,
+                Universe.Terrain.Size.StretchH, Universe.Terrain.Size.StretchV,
+                Universe.Terrain.HeightMap, Universe.Terrain.LightRiseAngleMap, Universe.Terrain.LightSetAngleMap,
+                Universe.Terrain.TextureMap, textures,
+                Lighting,
+                Settings.Current.Graphics.TerrainBlockSize);
+            Terrain.Wireframe = WireframeTerrain;
+            Scene.Positionables.Add(Terrain);
+        }
+
+        /// <summary>
+        /// Rebuilds the terrain from <see cref="World.Universe.Terrain"/> to reflect any modifications performed.
+        /// </summary>
+        public void RebuildTerrain()
+        {
+            if (Terrain != null)
+            {
+                View.Scene.Positionables.Remove(Terrain);
+                Terrain.Dispose();
+                Terrain = null;
+            }
+            SetupTerrain();
+        }
+
+        /// <summary>
+        /// Determines the effective position of an <see cref="Entity"/> standing on the <see cref="Terrain"/>.
+        /// </summary>
+        protected DoubleVector3 GetTerrainPosition(Entity entity)
+        {
+            DoubleVector3 terrainPoint;
+            try
+            {
+                terrainPoint = Terrain.Position + Universe.Terrain.ToEngineCoords(entity.Position);
+            }
+            #region Error handling
+            catch (ArgumentOutOfRangeException ex)
+            {
+                // Wrap exception since only data exceptions are handled by the ditor
+                throw new InvalidDataException(ex.Message, ex);
+            }
             #endregion
 
-            Engine = engine;
-            Universe = universe;
-            Scene = new Scene();
+            return terrainPoint;
+        }
+        #endregion
+
+        #region Skybox
+        private void UpdateSykbox()
+        {
+            // Clean up the old skybox if any
+            if (Scene.Skybox != null)
+            {
+                Scene.Skybox.Dispose();
+                Scene.Skybox = null;
+            }
+
+            // Allow for no skybox at all
+            if (string.IsNullOrEmpty(Universe.Skybox)) return;
+
+            // Right, Left, Up, Down, Front, Back texture filenames
+            string rt = "Skybox/" + Universe.Skybox + "/rt.jpg";
+            string lf = "Skybox/" + Universe.Skybox + "/lf.jpg";
+            string up = "Skybox/" + Universe.Skybox + "/up.jpg";
+            string dn = "Skybox/" + Universe.Skybox + "/dn.jpg";
+            string ft = "Skybox/" + Universe.Skybox + "/ft.jpg";
+            string bk = "Skybox/" + Universe.Skybox + "/bk.jpg";
+
+            if (ContentManager.FileExists("Textures", up) && ContentManager.FileExists("Textures", dn))
+            { // Full skybox
+                Scene.Skybox = SimpleSkybox.FromAssets(Engine, rt, lf, up, dn, ft, bk);
+            }
+            else
+            { // Cardboard-style skybox (missing top and bottom)
+                Scene.Skybox = SimpleSkybox.FromAssets(Engine, rt, lf, null, null, ft, bk);
+            }
         }
         #endregion
 
         //--------------------//
-
-        #region Engine Hook-in
-        /// <summary>
-        /// Hooks the <see cref="View"/>s into <see cref="OmegaEngine.Engine.Views"/>
-        /// </summary>
-        /// <remarks>Will internally call <see cref="Initialize"/> first, if you didn't</remarks>
-        public virtual void HookIn()
-        {
-            if (Disposed) throw new ObjectDisposedException(ToString());
-            if (!Initialized) Initialize();
-
-            // Hook into engine
-            Engine.Views.Add(View);
-        }
-
-        /// <summary>
-        /// Hooks the <see cref="View"/>s out of <see cref="OmegaEngine.Engine.Views"/>
-        /// </summary>
-        public virtual void HookOut()
-        {
-            // Hook out of engine
-            Engine.Views.Remove(View);
-        }
-        #endregion
 
         #region Camera
         /// <summary>
@@ -251,15 +308,9 @@ namespace TerrainSample.Presentation
         #endregion
 
         #region Dimming
-        /// <summary>
-        /// Dims in the screen down (and applies a <see cref="PostSepiaShader"/> effect if possible)
-        /// </summary>
-        public void DimDown()
+        /// <inheritdoc/>
+        public override void DimDown()
         {
-            #region Sanity checks
-            if (Disposed) throw new ObjectDisposedException(ToString());
-            #endregion
-
             // Make sure the sepia effect is available and not already active
             if (_sepiaShader != null)
             {
@@ -271,23 +322,15 @@ namespace TerrainSample.Presentation
                     duration: 4);
             }
 
-            // Dim down screen
-            Engine.DimDown();
+            base.DimDown();
         }
 
-        /// <summary>
-        /// Dims in the screen back up (and removes the <see cref="PostSepiaShader"/> effect)
-        /// </summary>
-        public void DimUp()
+        /// <inheritdoc/>
+        public override void DimUp()
         {
-            #region Sanity checks
-            if (Disposed) throw new ObjectDisposedException(ToString());
-            #endregion
-
             _sepiaShader.Enabled = false;
 
-            // Dim screen back up
-            Engine.DimUp();
+            base.DimUp();
         }
         #endregion
 
@@ -307,78 +350,6 @@ namespace TerrainSample.Presentation
             { // Change the next kind of music to be started by Game.Render() calling Engine.Music.Update()
                 Engine.Music.SwitchTheme(theme);
             }
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Dispose
-        /// <summary>
-        /// Removes the <see cref="Universe"/> hooks setup by <see cref="Initialize"/> and disposes all created <see cref="View"/>s, <see cref="Scene"/>s, <see cref="PositionableRenderable"/>s, etc.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <inheritdoc/>
-        ~Presenter()
-        {
-            Dispose(false);
-        }
-
-        /// <summary>
-        /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
-        /// </summary>
-        /// <param name="disposing"><see langword="true"/> if called manually and not by the garbage collector.</param>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
-        protected virtual void Dispose(bool disposing)
-        {
-            if (Disposed) return; // Don't try to dispose more than once
-
-            // Remove event handlers watching the universe
-            Universe.LightingChanged -= UpdateLighting;
-            Universe.SkyboxChanged -= UpdateSykbox;
-            Universe.Positionables.Added -= AddPositionable;
-            Universe.Positionables.Removing -= RemovePositionable;
-
-            if (disposing)
-            { // This block will only be executed on manual disposal, not by Garbage Collection
-                Log.Info("Disposing presenter");
-
-                // Clean up assocs
-                foreach (var entity in Universe.Positionables)
-                {
-                    try
-                    {
-                        RemovePositionable(entity);
-                    }
-                    catch (KeyNotFoundException)
-                    {}
-                }
-
-                #region Assertions
-                if (_worldToEngine.Count != 0)
-                    throw new InvalidOperationException("Render associations left over after hook out");
-                if (_worldToEngineWater.Count != 0)
-                    throw new InvalidOperationException("Water Render associations left over after hook out");
-                if (_engineToWorld.Count != 0)
-                    throw new InvalidOperationException("Entity associations left over after hook out");
-                #endregion
-
-                if (Scene != null) Scene.Dispose();
-                if (View != null) View.Dispose();
-            }
-            else
-            { // This block will only be executed on Garbage Collection, not by manual disposal
-                Log.Error("Forgot to call Dispose on " + this);
-#if DEBUG
-                throw new InvalidOperationException("Forgot to call Dispose on " + this);
-#endif
-            }
-
-            Disposed = true;
         }
         #endregion
     }

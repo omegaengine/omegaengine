@@ -63,6 +63,12 @@ namespace OmegaEngine.Graphics
         }
 
         /// <summary>
+        /// Stores an offset used by game logic positioning code. Ignore by the engine itself!
+        /// </summary>
+        [Description("Stores an offset used by game logic positioning code. Ignore by the engine itself!"), Category("Layout")]
+        public Vector3 Shift { get; set; }
+
+        /// <summary>
         /// The maximum distance at which the light source has an effect.
         /// </summary>
         [Description("The maximum distance at which the light source has an effect."), Category("Behavior")]

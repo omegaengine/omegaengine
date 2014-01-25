@@ -222,7 +222,7 @@ namespace TerrainSample.Presentation
         public Circle GetCollisionCircle()
         {
             float radius =
-                (from positionable in PositionableRenderables
+                (from positionable in RenderablesSync.Representations
                     where positionable.Pickable && positionable.BoundingSphere.HasValue
                     // ReSharper disable once PossibleInvalidOperationException
                     select positionable.BoundingSphere.Value.Transform(positionable.PreTransform)).
@@ -237,7 +237,7 @@ namespace TerrainSample.Presentation
         public Box GetCollisionBox()
         {
             var boundingBoxes =
-                (from positionable in PositionableRenderables
+                (from positionable in RenderablesSync.Representations
                 where positionable.Pickable && positionable.BoundingBox.HasValue
                 // ReSharper disable once PossibleInvalidOperationException
                 select positionable.BoundingBox.Value.Transform(positionable.PreTransform))

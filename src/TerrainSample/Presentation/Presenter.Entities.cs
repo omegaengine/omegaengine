@@ -20,14 +20,9 @@
  * THE SOFTWARE.
  */
 
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using AlphaFramework.World.EntityComponents;
-using AlphaFramework.World.Positionables;
-using Common.Dispatch;
 using Common.Utils;
 using Common.Values;
 using OmegaEngine;
@@ -39,495 +34,160 @@ using TerrainSample.World.Positionables;
 using CpuParticleSystem = AlphaFramework.World.EntityComponents.CpuParticleSystem;
 using GpuParticleSystem = AlphaFramework.World.EntityComponents.GpuParticleSystem;
 using LightSource = AlphaFramework.World.EntityComponents.LightSource;
-using Terrain = OmegaEngine.Graphics.Renderables.Terrain;
 using ViewType = OmegaEngine.Graphics.Renderables.ViewType;
-using Water = OmegaEngine.Graphics.Renderables.Water;
+using WorldWater = AlphaFramework.World.Positionables.Water;
 
 namespace TerrainSample.Presentation
 {
-    /*
-     * This file provides helper methods for visualizing World.Positionables.
-     * 
-     * The method AddPositionable() is to be called once for every new World.Positionable<Vector2> in the Universe.
-     * It internally uses either AddEntity() or AddWater() to create the actual visual representations in OmegaEngine.
-     * 
-     * AddEntity() creates one or multiple Engine.PositionableRenderables for a single World.Entity, based on the RenderControls the Entity lists.
-     * _worldToEngine is maintained to allow forward lookups, which are needed for updating and removing.
-     * 
-     * AddWater() creates exactly one Engine.Water for a World.Water.
-     * _worldToEngineWater is maintained to allow forward lookups, which are needed for updating and removing.
-     * 
-     * _engineToWorld is maintained to allow reverse lookups, which are needed for mouse picking.
-     * 
-     * The method RemovePositionable() is to be called once for every World.Positionable<Vector2> removed from the Universe.
-     * It internally uses RemoveEntity() or RemoveWater() to remove the visual representations from OmegaEngine.
-     * 
-     * The method UpdatePositionable() is automatically called every time a World.Positionable's position or other rendering-relevant property has changed.
-     * The corresponding hook is set up by AddPositionable().
-     * Additional hooks are also set up that call RemoveEntity()/RemoveWater() and AddEntity()/AddWater() when changes are made that require an entirely new rendering object (new entity template or different plane size).
-     */
-
     partial class Presenter
     {
-        #region Variables
-        /// <summary>1:1 association of <see cref="RenderControl"/> to <see cref="IPositionableOffset"/> (usually <see cref="PositionableRenderable"/>.</summary>
-        private readonly Dictionary<RenderControl, IPositionable> _worldToEngine = new Dictionary<RenderControl, IPositionable>();
-
-        /// <summary>1:1 association of <see cref="AlphaFramework.World.Positionables.Water"/> to <see cref="OmegaEngine.Graphics.Renderables.Water"/>.</summary>
-        private readonly Dictionary<AlphaFramework.World.Positionables.Water, Water> _worldToEngineWater = new Dictionary<AlphaFramework.World.Positionables.Water, Water>();
-
-        /// <summary>n:1 association of <see cref="PositionableRenderable"/> to <see cref="Positionable{TCoordinates}"/>.</summary>
-        private readonly Dictionary<PositionableRenderable, Positionable<Vector2>> _engineToWorld = new Dictionary<PositionableRenderable, Positionable<Vector2>>();
-        #endregion
-
-        #region Properties
+        #region Register helpers
         /// <summary>
-        /// Returns a list of all <see cref="PositionableRenderable"/>s associated with elements in <see cref="Universe"/>.
+        /// Registers a callback for converting a <see cref="WorldWater"/>s to <see cref="Water"/> representations.
         /// </summary>
-        protected IEnumerable<PositionableRenderable> PositionableRenderables { get { return _worldToEngine.Values.Where(positionable => !(positionable is Terrain)).OfType<PositionableRenderable>().ToList(); } }
-        #endregion
-
-        //--------------------//
-
-        #region Dictionary access
-        /// <summary>
-        /// Returns the <see cref="IPositionable"/> that was created for a <see cref="RenderControl"/>.
-        /// </summary>
-        protected IPositionable GetEngine(RenderControl renderControl)
+        private void RegisterWater()
         {
-            #region Sanity checks
-            if (Disposed) throw new ObjectDisposedException(ToString());
-            #endregion
-
-            IPositionable value;
-            return _worldToEngine.TryGetValue(renderControl, out value) ? value : null;
-        }
-
-        /// <summary>
-        /// Returns the <see cref="Positionable{TCoordinates}"/> a <see cref="PositionableRenderable"/> was created from or <see langword="null"/>.
-        /// </summary>
-        protected Positionable<Vector2> GetWorld(PositionableRenderable engineEntity)
-        {
-            #region Sanity checks
-            if (Disposed) throw new ObjectDisposedException(ToString());
-            #endregion
-
-            Positionable<Vector2> value;
-            return _engineToWorld.TryGetValue(engineEntity, out value) ? value : null;
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Add positionables
-        /// <summary>
-        /// Sets up a <see cref="Positionable{TCoordinates}"/> for rendering via a <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>.
-        /// </summary>
-        /// <param name="positionable">The <see cref="Positionable{TCoordinates}"/> to be displayed.</param>
-        /// <exception cref="FileNotFoundException">Thrown if a required <see cref="Asset"/> file could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading an <see cref="Asset"/> file.</exception>
-        /// <exception cref="InvalidDataException">Thrown if an <see cref="Asset"/> file contains invalid data.</exception>
-        /// <remarks>Calls <see cref="AddEntity"/>.</remarks>
-        protected virtual void AddPositionable(Positionable<Vector2> positionable)
-        {
-            #region Sanity checks
-            if (positionable == null) throw new ArgumentNullException("positionable");
-            if (Disposed) throw new ObjectDisposedException(ToString());
-            #endregion
-
-            new PerTypeDispatcher<Positionable<Vector2>>(ignoreMissing: true)
-            {
-                (Entity entity) =>
+            RenderablesSync.Register<WorldWater, Water>(
+                element =>
                 {
-                    AddEntity(entity);
-
-                    // Remove and then re-add entity to apply the new entity template
-                    entity.ChangedRebuild += RemoveEntity;
-                    entity.ChangedRebuild += AddEntity;
+                    var representation = new Water(Engine, new SizeF(element.Size.X, element.Size.Y))
+                    {
+                        Name = element.Name,
+                        // NOTE: Height must be set before child views are initialized
+                        Position = Terrain.Position + new DoubleVector3(0, element.Height, 0)
+                    };
+                    representation.SetupChildViews(View);
+                    return representation;
                 },
-                (AlphaFramework.World.Positionables.Water water) =>
-                {
-                    AddWater(water);
-
-                    // Remove and then re-add water to apply size changes
-                    water.ChangedRebuild += RemoveWater;
-                    water.ChangedRebuild += AddWater;
-                }
-            }.Dispatch(positionable);
-
-            // Keep entity and model in sync via events
-            positionable.Changed += UpdatePositionable;
+                (element, representation) => representation.Position = Terrain.Position + element.EnginePosition);
         }
 
         /// <summary>
-        /// Sets up a <see cref="EntityBase{TCoordinates,TTemplate}"/> for rendering via a <see cref="PositionableRenderable"/>
+        /// A callback for mapping a <see cref="RenderControl"/> to an <see cref="Engine"/> representation.
         /// </summary>
-        /// <param name="positionable">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to be displayed</param>
-        /// <remarks>This is a helper method for <see cref="AddPositionable"/>.</remarks>
-        private void AddEntity(Positionable<Vector2> positionable)
+        /// <typeparam name="TRenderComponent">The specific type of <see cref="RenderControl"/> to handle.</typeparam>
+        /// <param name="entity">The entity containing the <see cref="RenderControl"/>.</param>
+        /// <param name="renderComponent">The <see cref="RenderControl"/> to visualize using the <see cref="Engine"/>.</param>
+        /// <returns>The generated <see cref="Engine"/> representation.</returns>
+        protected delegate PositionableRenderable RenderCompononentToEngine<TRenderComponent>(Entity entity, TRenderComponent renderComponent)
+            where TRenderComponent : RenderControl;
+
+        /// <summary>
+        /// Registers a callback for converting a <see cref="RenderControl"/> to an <see cref="Engine"/> representation.
+        /// </summary>
+        /// <typeparam name="TRenderComponent">The specific type of <see cref="RenderControl"/> to handle.</typeparam>
+        /// <param name="create">The callback for mapping a <see cref="RenderControl"/> to an <see cref="Engine"/> representation.</param>
+        protected void RegisterRenderComponent<TRenderComponent>(RenderCompononentToEngine<TRenderComponent> create)
+            where TRenderComponent : RenderControl
         {
-            var entity = (Entity)positionable;
-
-            try
-            {
-                foreach (var renderControl in entity.TemplateData.RenderControls)
-                    AddEntityHelper(entity, renderControl);
-            }
-                #region Error handling
-            catch (Exception)
-            {
-                // Clean up any already created controls
-                foreach (var renderControl in entity.TemplateData.RenderControls)
-                    RemoveEntityHelper(renderControl);
-
-                // Pass all other exceptions along
-                throw;
-            }
-            #endregion
-
-            // Set up initial position and rotation
-            UpdatePositionable(entity);
+            RenderablesSync.RegisterMultiple<Entity, PositionableRenderable>(
+                element => element.TemplateData.RenderControls.OfType<TRenderComponent>()
+                    .Select(renderControl => create(element, renderControl)),
+                (entity, representation) =>
+                {
+                    representation.Position = GetTerrainPosition(entity);
+                    representation.Rotation = Quaternion.RotationYawPitchRoll(entity.Rotation.DegreeToRadian(), 0, 0);
+                });
         }
 
         /// <summary>
-        /// Sets up a <see cref="AlphaFramework.World.Positionables.Water"/> for rendering via a <see cref="Water"/>
+        /// Registers a callback for converting a <see cref="LightSource"/>s to <see cref="PointLight"/> representations.
         /// </summary>
-        /// <param name="positionable">The <see cref="AlphaFramework.World.Positionables.Water"/> to be displayed</param>
-        private void AddWater(Positionable<Vector2> positionable)
+        private void RegisterRenderComponentLight()
         {
-            var water = (AlphaFramework.World.Positionables.Water)positionable;
-
-            // Create an engine representation of the water plane
-            var engineWater = new Water(Engine, new SizeF(water.Size.X, water.Size.Y))
-            {
-                Name = water.Name,
-                Position = water.EnginePosition
-            };
-
-            Scene.Positionables.Add(engineWater);
-            _engineToWorld.Add(engineWater, water);
-            _worldToEngineWater.Add(water, engineWater);
-
-            // Set up initial position and rotation
-            UpdatePositionable(water);
-
-            // Insert reflection and refraction views into render queue before main view
-            engineWater.SetupChildViews(View);
-        }
-        #endregion
-
-        #region Remove positionables
-        /// <summary>
-        /// Removes a <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/> used to render a <see cref="Positionable{TCoordinates}"/>
-        /// </summary>
-        /// <param name="positionable">The <see cref="Positionable{TCoordinates}"/> to be removed</param>
-        protected virtual void RemovePositionable(Positionable<Vector2> positionable)
-        {
-            #region Sanity checks
-            if (positionable == null) throw new ArgumentNullException("positionable");
-            if (Disposed) throw new ObjectDisposedException(ToString());
-            #endregion
-
-            new PerTypeDispatcher<Positionable<Vector2>>(ignoreMissing: true)
-            {
-                (Entity entity) =>
-                {
-                    RemoveEntity(entity);
-
-                    // Unhook class update event
-                    entity.ChangedRebuild -= RemoveEntity;
-                    entity.ChangedRebuild -= AddEntity;
-                },
-                (AlphaFramework.World.Positionables.Water water) =>
-                {
-                    RemoveWater(water);
-
-                    // Unhook size update event
-                    water.ChangedRebuild -= RemoveWater;
-                    water.ChangedRebuild -= AddWater;
-                }
-            }.Dispatch(positionable);
-
-            // Unhook sync event
-            positionable.Changed -= UpdatePositionable;
-        }
-
-        /// <summary>
-        /// Removes a <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/> used to render a <see cref="Positionable{TCoordinates}"/>
-        /// </summary>
-        /// <param name="positionable">The <see cref="Positionable{TCoordinates}"/> to be removed</param>
-        /// <remarks>This is a helper method for <see cref="RemovePositionable"/>.</remarks>
-        private void RemoveEntity(Positionable<Vector2> positionable)
-        {
-            var entity = (Entity)positionable;
-
-            foreach (var renderControl in entity.TemplateData.RenderControls)
-                RemoveEntityHelper(renderControl);
-        }
-
-        /// <summary>
-        /// Removes a <see cref="OmegaEngine.Graphics.Renderables.Water"/> used to render a <see cref="AlphaFramework.World.Positionables.Water"/>
-        /// </summary>
-        /// <param name="positionable">The <see cref="AlphaFramework.World.Positionables.Water"/> to be removed</param>
-        private void RemoveWater(Positionable<Vector2> positionable)
-        {
-            var water = (AlphaFramework.World.Positionables.Water)positionable;
-
-            Water engineWater = _worldToEngineWater[water];
-            Scene.Positionables.Remove(engineWater);
-            engineWater.Dispose();
-            _engineToWorld.Remove(engineWater);
-            _worldToEngineWater.Remove(water);
-        }
-        #endregion
-
-        #region Update positionables
-        /// <summary>
-        /// Updates the position and other properties of one or more <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>s based on data from a <see cref="Positionable{TCoordinates}"/>.
-        /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when the entity's coordinates lie outside the range of the terrain and this application does not have "Editor" in its name.</exception>
-        /// <param name="positionable">The <see cref="Positionable{TCoordinates}"/> to update.</param>
-        protected virtual void UpdatePositionable(Positionable<Vector2> positionable)
-        {
-            #region Sanity checks
-            if (positionable == null) throw new ArgumentNullException("positionable");
-            if (Disposed) throw new ObjectDisposedException(ToString());
-            #endregion
-
-            // Determine the entity's position on the terrain
-            DoubleVector3 terrainPoint;
-            try
-            {
-                terrainPoint = Universe.Terrain.ToEngineCoords(positionable.Position);
-            }
-                #region Error handling
-            catch (ArgumentOutOfRangeException ex)
-            {
-                // Wrap exception since only data exceptions are handled by the ditor
-                throw new InvalidDataException(ex.Message, ex);
-            }
-            #endregion
-
-            new PerTypeDispatcher<Positionable<Vector2>>(ignoreMissing: true)
-            {
-                (Entity entity) =>
-                {
-                    foreach (var renderControl in entity.TemplateData.RenderControls)
-                        UpdateEntityHelper(renderControl, terrainPoint, entity.Rotation);
-                },
-                (AlphaFramework.World.Positionables.Water water) =>
-                    _worldToEngineWater[water].Position = Terrain.Position + water.EnginePosition
-            }.Dispatch(positionable);
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Add entity helper
-        /// <summary>
-        /// Adds a graphical representation to the engine, <see cref="_worldToEngine"/> and <see cref="_engineToWorld"/>.
-        /// </summary>
-        /// <param name="entity">The <see cref="Positionable{TCoordinates}"/> <paramref name="renderControl"/> is associated with.</param>
-        /// <param name="renderControl">The <see cref="RenderControl"/> to be displayed.</param>
-        /// <exception cref="FileNotFoundException">Thrown if a required <see cref="Asset"/> file could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading an <see cref="Asset"/> file.</exception>
-        /// <exception cref="InvalidDataException">Thrown if an <see cref="Asset"/> file contains invalid data.</exception>
-        private void AddEntityHelper(Entity entity, RenderControl renderControl)
-        {
-            new AggregateDispatcher<RenderControl>
-            {
-                // ----- Apply RenderControl.Shift directly with PreTransform ----- //
-                (StaticMesh meshRender) =>
-                {
-                    // Load the model based on the entity name
-                    string id = meshRender.Filename;
-                    var model = new Model(XMesh.Get(Engine, id)) {Name = entity.Name};
-                    ConfigureModel(model, meshRender);
-
-                    // Add objects to lists
-                    Scene.Positionables.Add(model);
-                    _engineToWorld.Add(model, entity);
-                    _worldToEngine.Add(renderControl, model);
-                },
-                (AnimatedMesh meshRender) =>
-                {
-                    // Load the model based on the entity name
-                    var model = new AnimatedModel(XAnimatedMesh.Get(Engine, meshRender.Filename)) {Name = entity.Name};
-                    ConfigureModel(model, meshRender);
-
-                    // Add objects to lists
-                    Scene.Positionables.Add(model);
-                    _engineToWorld.Add(model, entity);
-                    _worldToEngine.Add(renderControl, model);
-                },
-                (TestSphere sphereRender) =>
-                {
-                    // Load the model based on the entity name
-                    var model = Model.Sphere(Engine, XTexture.Get(Engine, sphereRender.Texture), sphereRender.Radius, sphereRender.Slices, sphereRender.Stacks);
-                    model.Name = entity.Name;
-
-                    // Set model properties
-                    model.PreTransform = Matrix.Translation(sphereRender.Shift);
-                    model.Alpha = sphereRender.Alpha;
-                    if (Lighting) model.SurfaceEffect = SurfaceEffect.Shader;
-                    model.Wireframe = WireframeEntities;
-                    model.DrawBoundingSphere = BoundingSphereEntities;
-                    model.DrawBoundingBox = BoundingBoxEntities;
-
-                    // Add objects to lists
-                    Scene.Positionables.Add(model);
-                    _engineToWorld.Add(model, entity);
-                    _worldToEngine.Add(renderControl, model);
-                },
-                (CpuParticleSystem particleRender) =>
-                {
-                    var particleSystem = new OmegaEngine.Graphics.Renderables.CpuParticleSystem(
-                        CpuParticlePreset.FromContent(particleRender.Filename));
-                    ConfigureParticleSystem(entity, particleSystem, particleRender);
-                    particleSystem.PreTransform = Matrix.Translation(particleRender.Shift);
-
-                    // Add objects to lists
-                    Scene.Positionables.Add(particleSystem);
-                    _engineToWorld.Add(particleSystem, entity);
-                    _worldToEngine.Add(renderControl, particleSystem);
-                },
-                (GpuParticleSystem particleRender) =>
-                {
-                    var particleSystem = new OmegaEngine.Graphics.Renderables.GpuParticleSystem(
-                        GpuParticlePreset.FromContent(particleRender.Filename));
-                    ConfigureParticleSystem(entity, particleSystem, particleRender);
-                    particleSystem.PreTransform = Matrix.Translation(particleRender.Shift);
-
-                    // Add objects to lists
-                    Scene.Positionables.Add(particleSystem);
-                    _engineToWorld.Add(particleSystem, entity);
-                    _worldToEngine.Add(renderControl, particleSystem);
-                },
-
-                // ----- Don't apply RenderControl.Shift yet ----- //
-                (LightSource lightInfo) =>
-                {
-                    if (!Lighting) return;
-
-                    var light = new PointLight
+            LightsSync.RegisterMultiple<Entity, PointLight>(
+                entity => entity.TemplateData.RenderControls.OfType<LightSource>()
+                    .Select(renderControl => new PointLight
                     {
                         Name = entity.Name,
-                        Range = lightInfo.Range,
-                        Attenuation = lightInfo.Attenuation,
-                        Diffuse = lightInfo.Color
-                    };
+                        Range = renderControl.Range,
+                        Attenuation = renderControl.Attenuation,
+                        Diffuse = renderControl.Color,
+                        Shift = renderControl.Shift
+                    }),
+                (entity, light) =>
+                {
+                    var rotatedShift = Vector3.TransformCoordinate(light.Shift, Matrix.RotationY(entity.Rotation.DegreeToRadian()));
+                    light.Position = GetTerrainPosition(entity) + rotatedShift;
+                });
+        }
+        #endregion
 
-                    // Add objects to lists
-                    Scene.Lights.Add(light);
-                    _worldToEngine.Add(lightInfo, light);
-                }
-            }.Dispatch(renderControl);
+        /// <inheritdoc/>
+        protected override void RegisterRenderablesSync()
+        {
+            RegisterWater();
+
+            RegisterRenderComponentLight();
+
+            RegisterRenderComponent<StaticMesh>((entity, renderControl) =>
+            {
+                var model = new Model(XMesh.Get(Engine, renderControl.Filename)) {Name = entity.Name};
+                ConfigureModel(model, renderControl);
+                return model;
+            });
+            RegisterRenderComponent<AnimatedMesh>((entity, renderControl) =>
+            {
+                var model = new AnimatedModel(XAnimatedMesh.Get(Engine, renderControl.Filename)) {Name = entity.Name};
+                ConfigureModel(model, renderControl);
+                return model;
+            });
+            RegisterRenderComponent<TestSphere>((entity, renderControl) =>
+            {
+                var model = Model.Sphere(Engine, XTexture.Get(Engine, renderControl.Texture), renderControl.Radius, renderControl.Slices, renderControl.Stacks);
+                model.Name = entity.Name;
+                ConfigureModel(model, renderControl);
+                return model;
+            });
+            RegisterRenderComponent<CpuParticleSystem>((entity, renderControl) =>
+            {
+                var particleSystem = new OmegaEngine.Graphics.Renderables.CpuParticleSystem(CpuParticlePreset.FromContent(renderControl.Filename));
+                ConfigureParticleSystem(entity, particleSystem, renderControl);
+                return particleSystem;
+            });
+            RegisterRenderComponent<GpuParticleSystem>((entity, renderControl) =>
+            {
+                var particleSystem = new OmegaEngine.Graphics.Renderables.GpuParticleSystem(GpuParticlePreset.FromContent(renderControl.Filename));
+                ConfigureParticleSystem(entity, particleSystem, renderControl);
+                return particleSystem;
+            });
         }
 
-        private void ConfigureParticleSystem(Entity entity, PositionableRenderable particleSystem, ParticleSystem particleRender)
+        private void ConfigureModel(PositionableRenderable model, Mesh meshRenderControl)
         {
-            particleSystem.Name = entity.Name;
-            particleSystem.VisibilityDistance = particleRender.VisibilityDistance;
-            particleSystem.Wireframe = WireframeEntities;
-            particleSystem.DrawBoundingSphere = BoundingSphereEntities;
-            particleSystem.DrawBoundingBox = BoundingBoxEntities;
-        }
-
-        private void ConfigureModel(PositionableRenderable model, Mesh meshRender)
-        {
-            model.PreTransform = Matrix.Scaling(meshRender.Scale, meshRender.Scale, meshRender.Scale) *
+            model.PreTransform = Matrix.Scaling(meshRenderControl.Scale, meshRenderControl.Scale, meshRenderControl.Scale) *
                                  Matrix.RotationYawPitchRoll(
-                                     meshRender.RotationY.DegreeToRadian(),
-                                     meshRender.RotationX.DegreeToRadian(),
-                                     meshRender.RotationZ.DegreeToRadian()) *
-                                 Matrix.Translation(meshRender.Shift);
-            model.Alpha = meshRender.Alpha;
-            model.Pickable = meshRender.Pickable;
-            model.RenderIn = (ViewType)meshRender.RenderIn;
+                                     meshRenderControl.RotationY.DegreeToRadian(),
+                                     meshRenderControl.RotationX.DegreeToRadian(),
+                                     meshRenderControl.RotationZ.DegreeToRadian()) *
+                                 Matrix.Translation(meshRenderControl.Shift);
+            model.Alpha = meshRenderControl.Alpha;
+            model.Pickable = meshRenderControl.Pickable;
+            model.RenderIn = (ViewType)meshRenderControl.RenderIn;
             if (Lighting) model.SurfaceEffect = SurfaceEffect.Shader;
             model.Wireframe = WireframeEntities;
             model.DrawBoundingSphere = BoundingSphereEntities;
             model.DrawBoundingBox = BoundingBoxEntities;
         }
-        #endregion
 
-        #region Update entity helper
-        /// <summary>
-        /// Updates a specific <see cref="RenderControl"/> representation in the engine
-        /// </summary>
-        /// <param name="renderControl">The <see cref="RenderControl"/> to be updated</param>
-        /// <param name="terrainPoint">The location of the associated <see cref="Positionable{TCoordinates}"/> on the terrain</param>
-        /// <param name="dirRotation">The rotation of the associated <see cref="Positionable{TCoordinates}"/> on the terrain</param>
-        private void UpdateEntityHelper(RenderControl renderControl, DoubleVector3 terrainPoint, float dirRotation)
+        private void ConfigureModel(Model model, TestSphere renderControl)
         {
-            var render = GetEngine(renderControl);
-            if (render == null) return;
-
-            var rotation = Quaternion.RotationYawPitchRoll(dirRotation.DegreeToRadian(), 0, 0);
-
-            new AggregateDispatcher<RenderControl>
-            {
-                // ----- RenderControl.Shift already applied ----- //
-                (Mesh meshRender) =>
-                {
-                    if (!string.IsNullOrEmpty(meshRender.Filename))
-                    {
-                        // Cast to entity to be able to access Rotation in addition to Position
-                        var renderable = (PositionableRenderable)render;
-                        renderable.Position = Terrain.Position + terrainPoint;
-                        renderable.Rotation = rotation;
-                    }
-                },
-                (TestSphere meshRender) =>
-                {
-                    // Cast to entity to be able to access Rotation in addition to Position
-                    var renderable = (PositionableRenderable)render;
-                    renderable.Position = Terrain.Position + terrainPoint;
-                    renderable.Rotation = rotation;
-                },
-                (ParticleSystem particleSystem) =>
-                {
-                    var renderable = (PositionableRenderable)render;
-                    renderable.Position = Terrain.Position + terrainPoint;
-                    renderable.Rotation = rotation;
-                },
-
-                // ----- Apply RenderControl.Shift directly to position ----- //
-                (LightSource lightSource) =>
-                {
-                    // Calculate the rotated position shift
-                    var rotatedShift = Vector3.TransformCoordinate(
-                        lightSource.Shift, Matrix.RotationQuaternion(rotation));
-                    render.Position = Terrain.Position + terrainPoint + rotatedShift;
-                }
-            }.Dispatch(renderControl);
+            model.PreTransform = Matrix.Translation(renderControl.Shift);
+            model.Alpha = renderControl.Alpha;
+            if (Lighting) model.SurfaceEffect = SurfaceEffect.Shader;
+            model.Wireframe = WireframeEntities;
+            model.DrawBoundingSphere = BoundingSphereEntities;
+            model.DrawBoundingBox = BoundingBoxEntities;
         }
-        #endregion
 
-        #region Remove entity helper
-        /// <summary>
-        /// Removes a graphical representation from the engine, <see cref="_worldToEngine"/> and <see cref="_engineToWorld"/>
-        /// </summary>
-        /// <param name="renderControl">The <see cref="RenderControl"/> to be </param>
-        private void RemoveEntityHelper(RenderControl renderControl)
+        private void ConfigureParticleSystem(Entity entity, PositionableRenderable particleSystem, ParticleSystem particleRenderControl)
         {
-            var positionable = GetEngine(renderControl);
-            if (positionable == null) return;
-
-            new AggregateDispatcher<IPositionable>
-            {
-                (PositionableRenderable renderable) =>
-                {
-                    Scene.Positionables.Remove(renderable);
-                    _engineToWorld.Remove(renderable);
-                    renderable.Dispose();
-                },
-                (PointLight light) =>
-                    Scene.Lights.Remove(light)
-            }.Dispatch(positionable);
-
-            _worldToEngine.Remove(renderControl);
+            particleSystem.Name = entity.Name;
+            particleSystem.PreTransform = Matrix.Translation(particleRenderControl.Shift);
+            particleSystem.VisibilityDistance = particleRenderControl.VisibilityDistance;
+            particleSystem.Wireframe = WireframeEntities;
+            particleSystem.DrawBoundingSphere = BoundingSphereEntities;
+            particleSystem.DrawBoundingBox = BoundingBoxEntities;
         }
-        #endregion
     }
 }

@@ -62,9 +62,6 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Global.cs" />
     <Compile Include="Presenter.cs" />
-    <Compile Include="Presenter.Initialize.cs">
-      <DependentUpon>Presenter.cs</DependentUpon>
-    </Compile>
     <Compile Include="Presenter.Lighting.cs">
       <DependentUpon>Presenter.cs</DependentUpon>
     </Compile>
@@ -78,7 +75,7 @@
     </Compile>
     <Compile Include="MenuPresenter.cs" />
     <Compile Include="InteractivePresenter.cs" />
-    <Compile Include="InteractivePresenter.Entities.cs">
+    <Compile Include="InteractivePresenter.InputerReceiver.cs">
       <DependentUpon>InteractivePresenter.cs</DependentUpon>
     </Compile>
     <Compile Include="InGamePresenter.cs" />
