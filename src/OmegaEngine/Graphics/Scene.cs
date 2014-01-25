@@ -98,7 +98,7 @@ namespace OmegaEngine.Graphics
         }
 
         // Order is not important, duplicate entries are not allowed
-        private readonly C5.HashSet<LightSource> _lights = new C5.HashSet<LightSource>();
+        private readonly HashSet<LightSource> _lights = new HashSet<LightSource>();
         private Skybox _skybox;
 
         /// <summary>

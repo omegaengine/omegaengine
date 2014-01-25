@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace Common.Collections
 {
@@ -37,22 +38,22 @@ namespace Common.Collections
     {
         #region Variables
         /// <summary>A list of all values in the dictionary.</summary>
-        private readonly C5.HashSet<TValue> _values = new C5.HashSet<TValue>();
+        private HashSet<TValue> _values = new HashSet<TValue>();
 
         /// <summary>The internal dictionary data-structure used for hash-based storage.</summary>
-        private readonly C5.HashDictionary<TKey, C5.HashSet<TValue>> _dictionary = new C5.HashDictionary<TKey, C5.HashSet<TValue>>();
+        private readonly Dictionary<TKey, HashSet<TValue>> _dictionary = new Dictionary<TKey, HashSet<TValue>>();
         #endregion
 
         #region Properties
         /// <summary>
         /// Gets a collection containing the keys of the dictionary.
         /// </summary>
-        public C5.ICollectionValue<TKey> Keys { get { return _dictionary.Keys; } }
+        public IEnumerable<TKey> Keys { get { return _dictionary.Keys; } }
 
         /// <summary>
         /// Gets a collection containing the values in the dictionary.
         /// </summary>
-        public ICollection<TValue> Values { get { return new C5.GuardedCollection<TValue>(_values); } }
+        public IEnumerable<TValue> Values { get { return _values; } }
         #endregion
 
         //--------------------//
@@ -77,7 +78,7 @@ namespace Common.Collections
             _values.Add(value);
 
             // Create value set for the key if none exists yet in the internal dictionary data-structure
-            if (!_dictionary.Contains(key)) _dictionary.Add(key, new C5.HashSet<TValue>());
+            if (!_dictionary.ContainsKey(key)) _dictionary.Add(key, new HashSet<TValue>());
 
             // Add the value to the set for its key
             _dictionary[key].Add(value);
@@ -105,8 +106,7 @@ namespace Common.Collections
             bool result = _dictionary.Remove(key);
 
             // Rebuild the values list
-            _values.Clear();
-            foreach (var set in _dictionary.Values) _values.AddAll(set);
+            _values = new HashSet<TValue>(_dictionary.Values.SelectMany(set => set));
 
             return result;
         }
@@ -153,7 +153,7 @@ namespace Common.Collections
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
         public bool ContainsKey(TKey key)
         {
-            return _dictionary.Contains(key);
+            return _dictionary.ContainsKey(key);
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Common.Collections
         /// <param name="key">The key of the element to get.</param>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
         /// <exception cref="KeyNotFoundException"><paramref name="key"/> was not found.</exception>
-        public ICollection<TValue> this[TKey key] { get { return new C5.GuardedCollection<TValue>(_dictionary[key]); } }
+        public ICollection<TValue> this[TKey key] { get { return _dictionary[key].ToList(); } }
         #endregion
     }
 }

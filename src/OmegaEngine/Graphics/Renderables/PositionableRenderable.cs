@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using Common.Collections;
 using Common.Utils;
 using Common.Values;
 using OmegaEngine.Graphics.Cameras;
@@ -316,7 +317,7 @@ namespace OmegaEngine.Graphics.Renderables
         #endregion
 
         // Order is not important, duplicate entries are not allowed
-        private readonly C5.HashSet<View> _requiredViews = new C5.HashSet<View>();
+        private readonly HashSet<View> _requiredViews = new HashSet<View>();
         private SurfaceShader _surfaceShader;
 
         /// <summary>

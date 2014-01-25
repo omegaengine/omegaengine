@@ -14,6 +14,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using Common;
+using Common.Collections;
 using Common.Storage;
 using Common.Utils;
 using LuaInterface;
@@ -48,7 +49,7 @@ namespace OmegaEngine
         /// A list of possible <see cref="View"/>s usable for rendering <see cref="Water"/>
         /// </summary>
         /// <seealso cref="WaterViewSource.FromEngine"/>
-        internal readonly C5.HashSet<WaterViewSource> WaterViewSources = new C5.HashSet<WaterViewSource>();
+        internal readonly HashSet<WaterViewSource> WaterViewSources = new HashSet<WaterViewSource>();
         #endregion
 
         #region Properties

@@ -23,11 +23,6 @@ http://slimdx.org/
 MIT license: http://opensource.org/licenses/mit-license
 Pre-compiled managed DLL: SlimDX.dll
 
-The C5 Generic Collection Library 1.1.1
-http://www.itu.dk/research/c5/
-MIT-style open license: C5.license.txt
-Pre-compiled managed DLL: C5.dll
-
 TaskDialog
 http://www.codeproject.com/KB/vista/TaskDialogWinForms.aspx
 Public domain

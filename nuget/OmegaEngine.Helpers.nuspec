@@ -10,7 +10,6 @@
       <dependency id="LinqBridge" version="1.3.0" />
     </dependencies>
     <references>
-      <reference file="C5.dll" />
       <reference file="ICSharpCode.SharpZipLib.dll" />
       <reference file="LuaInterface.dll" />
       <reference file="SlimDX.dll" />
@@ -23,8 +22,6 @@
   </metadata>
   <files>
     <file src="..\build\ReleaseSDK\de\Common.resources.dll" target="lib\net20\de\Common.resources.dll" />
-    <file src="..\build\ReleaseSDK\C5.dll" target="lib\net20\C5.dll" />
-    <file src="..\build\ReleaseSDK\C5.xml" target="lib\net20\C5.xml" />
     <file src="..\build\ReleaseSDK\Common.dll" target="lib\net20\Common.dll" />
     <file src="..\build\ReleaseSDK\Common.pdb" target="lib\net20\Common.pdb" />
     <file src="..\build\ReleaseSDK\Common.xml" target="lib\net20\Common.xml" />

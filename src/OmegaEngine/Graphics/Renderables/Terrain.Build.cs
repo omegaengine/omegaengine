@@ -240,7 +240,7 @@ namespace OmegaEngine.Graphics.Renderables
             {
 #if NETFX4
     // Remove any duplicates and then generate all required shaders in parallel
-                var textureMaskSet = new C5.HashSet<ushort>();
+                var textureMaskSet = new HashSet<ushort>();
                 textureMaskSet.AddAll(textureMasks);
                 Parallel.ForEach(textureMaskSet, textureMask => engine.GetTerrainShader(lighting, textureMask));
 #endif

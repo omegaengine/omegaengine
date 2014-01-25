@@ -66,9 +66,6 @@
     <Reference Include="SlimDX">
       <HintPath>..\..\lib\SlimDX.dll</HintPath>
     </Reference>
-    <Reference Include="C5">
-      <HintPath>..\..\lib\C5.dll</HintPath>
-    </Reference>
     <Reference Include="LuaInterface">
       <HintPath>..\..\lib\LuaInterface.dll</HintPath>
     </Reference>

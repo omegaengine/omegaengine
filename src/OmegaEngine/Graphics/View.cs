@@ -488,11 +488,15 @@ namespace OmegaEngine.Graphics
                 if (_secondaryRenderTarget != null) _secondaryRenderTarget.Dispose();
 
                 // Dispose and remove all water view sources associated to this view
-                var toRemove = Engine.WaterViewSources
-                    .Where(viewSource => viewSource.RefractedView == this || viewSource.RefractedView == this)
-                    .ToList();
-                foreach (var viewSource in toRemove) viewSource.Dispose();
-                Engine.WaterViewSources.RemoveAll(toRemove);
+                Engine.WaterViewSources.RemoveWhere(viewSource =>
+                {
+                    if (viewSource.RefractedView == this || viewSource.RefractedView == this)
+                    {
+                        viewSource.Dispose();
+                        return true;
+                    }
+                    return false;
+                });
             }
             finally
             {
