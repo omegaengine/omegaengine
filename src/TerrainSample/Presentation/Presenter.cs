@@ -338,8 +338,6 @@ namespace TerrainSample.Presentation
 
             // Remove event handlers watching the universe
             Universe.LightingChanged -= UpdateLighting;
-            Universe.FogChanged -= UpdateFog;
-            Universe.BleachChanged -= UpdateBleach;
             Universe.SkyboxChanged -= UpdateSykbox;
             Universe.Positionables.Added -= AddPositionable;
             Universe.Positionables.Removing -= RemovePositionable;

@@ -31,7 +31,6 @@ namespace TerrainSample.Presentation
 {
     partial class Presenter
     {
-        #region Lighting
         private readonly DirectionalLight
             _lightSun = new DirectionalLight {Name = "Sun", Enabled = false},
             _lightMoon = new DirectionalLight {Name = "Moon", Enabled = false};
@@ -42,16 +41,12 @@ namespace TerrainSample.Presentation
         private const float DiffuseToSpecularRatio = 0.5f;
 
         /// <summary>
-        /// Updates <see cref="_lightSun"/> and <see cref="_lightMoon"/> based on the light phase in <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.
+        /// Updates <see cref="_lightSun"/> and <see cref="_lightMoon"/> based on the light phase in <see cref="Universe"/>.
         /// </summary>
         protected void UpdateLighting()
         {
-            #region Sanity checks
-            if (Disposed) throw new ObjectDisposedException(ToString());
-            #endregion
-
             float sunPhase = Universe.LightPhase;
-            float moonPhase = ((Universe.LightPhase + 3) % 4);
+            float moonPhase = (Universe.LightPhase + 3) % 4;
 
             // Calculate lighting directions
             _lightSun.Direction = GetDirection(0.5f * Math.PI * (1 - sunPhase), Universe.SunInclination.DegreeToRadian());
@@ -61,6 +56,12 @@ namespace TerrainSample.Presentation
             UpdateLightingColorMoon();
 
             if (_colorCorrectionShader != null) UpdateColorCorrection();
+            
+            View.Fog = Universe.Fog;
+            View.BackgroundColor = Universe.FogColor;
+            View.Camera.FarClip = Universe.Fog ? Universe.FogDistance : 1e+6f;
+
+            if (_bleachShader != null) _bleachShader.Enabled = Universe.Bleach;
         }
 
         /// <summary>
@@ -119,30 +120,5 @@ namespace TerrainSample.Presentation
             _colorCorrectionShader.Saturation = correction.Saturation;
             _colorCorrectionShader.Hue = correction.Hue;
         }
-        #endregion
-
-        #region Fog
-        /// <summary>
-        /// Updates fog based on the values in <see cref="Universe"/>
-        /// </summary>
-        private void UpdateFog()
-        {
-            View.Fog = Universe.Fog;
-            View.BackgroundColor = Universe.FogColor;
-            View.Camera.FarClip = Universe.Fog ? Universe.FogDistance : 1e+6f;
-        }
-        #endregion
-
-        #region Bleach
-        /// <summary>
-        /// Updates <see cref="_bleachShader"/> based on the values in <see cref="Universe"/>
-        /// </summary>
-        private void UpdateBleach()
-        {
-            if (_bleachShader == null) return;
-
-            _bleachShader.Enabled = Universe.Bleach;
-        }
-        #endregion
     }
 }

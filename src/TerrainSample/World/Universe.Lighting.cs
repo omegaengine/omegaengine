@@ -46,28 +46,6 @@ namespace TerrainSample.World
         {
             if (LightingChanged != null) LightingChanged();
         }
-
-        /// <summary>
-        /// Occurs when <see cref="Fog"/>, <see cref="FogDistance"/> or <see cref="FogColor"/> was changed.
-        /// </summary>
-        [Description("Occurs when Fog was changed.")]
-        public event Action FogChanged;
-
-        private void OnFogChanged()
-        {
-            if (FogChanged != null) FogChanged();
-        }
-
-        /// <summary>
-        /// Occurs when <see cref="Bleach"/> was changed.
-        /// </summary>
-        [Description("Occurs when Bleach was changed.")]
-        public event Action BleachChanged;
-
-        private void OnBleachChanged()
-        {
-            if (BleachChanged != null) BleachChanged();
-        }
         #endregion
 
         #region Light phase
@@ -198,7 +176,7 @@ namespace TerrainSample.World
         /// Is the fog active?
         /// </summary>
         [DefaultValue(false), Category("Effects"), Description("Is the fog active?")]
-        public bool Fog { get { return _fog; } set { value.To(ref _fog, OnFogChanged); } }
+        public bool Fog { get { return _fog; } set { value.To(ref _fog, OnLightingChanged); } }
 
         private float _fogDistance = 5000;
 
@@ -206,7 +184,7 @@ namespace TerrainSample.World
         /// The maximum distance one can look through the fog.
         /// </summary>
         [DefaultValue(5000f), Category("Effects"), Description("The maximum distance one can look through the fog.")]
-        public float FogDistance { get { return _fogDistance; } set { value.To(ref _fogDistance, OnFogChanged); } }
+        public float FogDistance { get { return _fogDistance; } set { value.To(ref _fogDistance, OnLightingChanged); } }
 
         private Color _fogColor = Color.Gray;
 
@@ -215,7 +193,7 @@ namespace TerrainSample.World
         /// </summary>
         /// <remarks>Is not serialized/stored, <see cref="FogColorValue"/> is used for that.</remarks>
         [XmlIgnore, DefaultValue(typeof(Color), "Gray"), Category("Effects"), Description("The color of the fog.")]
-        public Color FogColor { get { return _fogColor; } set { value.To(ref _fogColor, FogChanged); } }
+        public Color FogColor { get { return _fogColor; } set { value.To(ref _fogColor, OnLightingChanged); } }
 
         /// <summary>Used for XML serialization.</summary>
         /// <seealso cref="FogColor"/>
@@ -228,7 +206,7 @@ namespace TerrainSample.World
         /// Is the fog active?
         /// </summary>
         [DefaultValue(false), Category("Effects"), Description("Is the bleach effect active?")]
-        public bool Bleach { get { return _bleach; } set { value.To(ref _bleach, OnBleachChanged); } }
+        public bool Bleach { get { return _bleach; } set { value.To(ref _bleach, OnLightingChanged); } }
         #endregion
     }
 }

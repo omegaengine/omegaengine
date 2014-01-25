@@ -20,10 +20,8 @@
  * THE SOFTWARE.
  */
 
-using System;
 using System.IO;
 using Common.Storage;
-using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
 using TerrainSample.World.Config;
@@ -33,23 +31,10 @@ namespace TerrainSample.Presentation
     partial class Presenter
     {
         #region Initialize
-        /// <summary>
-        /// Generate <see cref="Terrain"/> and <see cref="Renderable"/>s from <see cref="World.Universe.Positionables"/> and keeps everything in sync using events
-        /// </summary>
-        /// <exception cref="FileNotFoundException">Thrown if a required <see cref="Asset"/> file could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading an <see cref="Asset"/> file.</exception>
-        /// <exception cref="InvalidDataException">Thrown if an <see cref="Asset"/> file contains invalid data.</exception>
-        /// <remarks>Should be called before <see cref="HookIn"/> is used</remarks>
+        /// <inheritdoc/>
         public virtual void Initialize()
         {
-            #region Sanity checks
-            if (Disposed) throw new ObjectDisposedException(ToString());
             if (Initialized) return;
-            #endregion
-
-            // Handle fog and keep updated
-            Universe.FogChanged += UpdateFog;
-            UpdateFog();
 
             if (Lighting) SetupLighting();
             SetupTerrain();
@@ -76,10 +61,6 @@ namespace TerrainSample.Presentation
                 View.PostShaders.Add(_bleachShader = new PostBleachShader {Enabled = false});
                 View.PostShaders.Add(_colorCorrectionShader = new PostColorCorrectionShader {Enabled = false});
                 View.PostShaders.Add(_sepiaShader = new PostSepiaShader {Enabled = false, Desaturation = 0, Toning = 0});
-
-                // Update when map settings change
-                Universe.BleachChanged += UpdateBleach;
-                UpdateBleach();
             }
 
             // Add the lights to the scene
