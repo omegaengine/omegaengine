@@ -27,6 +27,7 @@ using System.Diagnostics.CodeAnalysis;
 using AlphaFramework.World.Positionables;
 using Common;
 using Common.Collections;
+using Common.Dispatch;
 using LuaInterface;
 using OmegaEngine;
 using OmegaEngine.Graphics;

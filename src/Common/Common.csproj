@@ -82,8 +82,6 @@
     <Compile Include="..\AssemblyInfo.Global.cs" />
     <Compile Include="AppMutex.cs" />
     <Compile Include="Arguments.cs" />
-    <Compile Include="Collections\AggregateDispatcher.Action.cs" />
-    <Compile Include="Collections\AggregateDispatcher.Func.cs" />
     <Compile Include="Collections\Bucketizer.cs" />
     <Compile Include="Collections\BucketRule.cs" />
     <Compile Include="Collections\ComparableTuple.cs" />
@@ -99,8 +97,6 @@
     <Compile Include="Collections\MonitoredCollection.cs" />
     <Compile Include="Collections\MultiDictionary.cs" />
     <Compile Include="Collections\NamedCollection.cs" />
-    <Compile Include="Collections\PerTypeDispatcher.Action.cs" />
-    <Compile Include="Collections\PerTypeDispatcher.Func.cs" />
     <Compile Include="Collections\Pool.cs" />
     <Compile Include="Collections\RBTree.cs" />
     <Compile Include="Collections\SortedSet.cs" />
@@ -246,6 +242,10 @@
     <Compile Include="Controls\Wizard.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Dispatch\AggregateDispatcher.Action.cs" />
+    <Compile Include="Dispatch\AggregateDispatcher.Func.cs" />
+    <Compile Include="Dispatch\PerTypeDispatcher.Action.cs" />
+    <Compile Include="Dispatch\PerTypeDispatcher.Func.cs" />
     <Compile Include="Future.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="INamed.cs" />
@@ -297,7 +297,6 @@
     <Compile Include="Tasks\ThreadTask.cs" />
     <Compile Include="Tasks\WaitTask.cs" />
     <Compile Include="TimedLogEvent.cs" />
-    <Compile Include="ToStringWrapper.cs" />
     <Compile Include="Undo\AddToCollection.cs" />
     <Compile Include="Undo\CollectionCommand.cs" />
     <Compile Include="Undo\CommandCollector.cs" />
