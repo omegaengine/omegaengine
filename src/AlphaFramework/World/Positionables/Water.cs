@@ -65,7 +65,7 @@ namespace AlphaFramework.World.Positionables
         /// The height of the water above reference zero.
         /// </summary>
         [XmlAttribute, DefaultValue(0f), Description("The height of the water above reference zero.")]
-        public float Height { get { return _height; } set { value.To(ref _height, OnRenderPropertyChanged); } }
+        public float Height { get { return _height; } set { value.To(ref _height, OnChanged); } }
 
         /// <summary>
         /// The maximum depth an <see cref="EntityBase{TCoordinates,TTemplate}"/> can walk into this water.

@@ -248,6 +248,7 @@
     <Compile Include="Dispatch\PerTypeDispatcher.Func.cs" />
     <Compile Include="Future.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IChangeNotify.cs" />
     <Compile Include="INamed.cs" />
     <Compile Include="Info\AppInfo.cs" />
     <Compile Include="Info\ExceptionInfo.cs" />

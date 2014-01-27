@@ -8,8 +8,8 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
+using Common;
 using Common.Utils;
 
 namespace AlphaFramework.World.Positionables
@@ -18,23 +18,22 @@ namespace AlphaFramework.World.Positionables
     /// An object that can be positioned in the game world.
     /// </summary>
     /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
-    public abstract class Positionable<TCoordinates> : ICloneable
+    public abstract class Positionable<TCoordinates> : ICloneable, IChangeNotify<Positionable<TCoordinates>>
         where TCoordinates : struct
     {
         #region Events
         /// <summary>
         /// Occurs when a property relevant for rendering has changed.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
         [Description("Occurs when a property relevant for rendering has changed.")]
-        public event Action<Positionable<TCoordinates>> RenderPropertyChanged;
+        public event Action<Positionable<TCoordinates>> Changed;
 
         /// <summary>
         /// To be called when a property relevant for rendering has changed.
         /// </summary>
-        protected void OnRenderPropertyChanged()
+        protected void OnChanged()
         {
-            if (RenderPropertyChanged != null) RenderPropertyChanged(this);
+            if (Changed != null) Changed(this);
         }
         #endregion
 
@@ -60,7 +59,7 @@ namespace AlphaFramework.World.Positionables
         /// The <see cref="Positionable{TCoordinates}"/>'s position.
         /// </summary>
         [Description("The entity's position on the terrain.")]
-        public TCoordinates Position { get { return _position; } set { value.To(ref _position, OnRenderPropertyChanged); } }
+        public TCoordinates Position { get { return _position; } set { value.To(ref _position, OnChanged); } }
         #endregion
 
         //--------------------//
@@ -75,7 +74,7 @@ namespace AlphaFramework.World.Positionables
             var clonedPositionable = (Positionable<TCoordinates>)MemberwiseClone();
 
             // Don't clone event handlers
-            clonedPositionable.RenderPropertyChanged = null;
+            clonedPositionable.Changed = null;
 
             return clonedPositionable;
         }

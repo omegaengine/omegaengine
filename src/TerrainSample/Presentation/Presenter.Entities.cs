@@ -157,7 +157,7 @@ namespace TerrainSample.Presentation
             }.Dispatch(positionable);
 
             // Keep entity and model in sync via events
-            positionable.RenderPropertyChanged += UpdatePositionable;
+            positionable.Changed += UpdatePositionable;
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace TerrainSample.Presentation
             }.Dispatch(positionable);
 
             // Unhook sync event
-            positionable.RenderPropertyChanged -= UpdatePositionable;
+            positionable.Changed -= UpdatePositionable;
         }
 
         /// <summary>

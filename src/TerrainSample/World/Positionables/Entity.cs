@@ -47,7 +47,7 @@ namespace TerrainSample.World.Positionables
         /// </summary>
         [DefaultValue(0f), Description("The horizontal rotation of the view direction in degrees.")]
         [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
-        public float Rotation { get { return _rotation; } set { value.To(ref _rotation, OnRenderPropertyChanged); } }
+        public float Rotation { get { return _rotation; } set { value.To(ref _rotation, OnChanged); } }
 
         //--------------------//
 
