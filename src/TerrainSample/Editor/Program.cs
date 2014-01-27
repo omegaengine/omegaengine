@@ -63,8 +63,10 @@ namespace TerrainSample.Editor
         [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.GC.Collect", Justification = "GC.Collect is only called after the main form closes, when a lot of long-lived objects have turned into garbage")]
         private static void Main(string[] args)
         {
-            Application.EnableVisualStyles();
             WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameGrid + ".AlphaEditor");
+
+            Application.EnableVisualStyles();
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
             ErrorReportForm.SetupMonitoring(new Uri("http://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameGrid));
             ModInfo.FileExt = "." + GeneralSettings.AppNameShort + "Mod";
 

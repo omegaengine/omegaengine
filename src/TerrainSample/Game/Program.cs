@@ -56,12 +56,14 @@ namespace TerrainSample
         [STAThread]
         private static void Main(string[] args)
         {
-            Application.EnableVisualStyles();
             WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameGrid);
+
+            Application.EnableVisualStyles();
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
             ErrorReportForm.SetupMonitoring(new Uri("http://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameGrid));
 
 #if !DEBUG
-    // Prevent multiple instances from running simultaneously
+            // Prevent multiple instances from running simultaneously
             if (AppMutex.Create(GeneralSettings.AppName))
             {
                 Msg.Inform(null, Resources.AlreadyRunning, MsgSeverity.Warn);
