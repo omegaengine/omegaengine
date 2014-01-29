@@ -33,7 +33,7 @@ namespace Common.Collections
     /// <typeparam name="TKey">The type to use as a key to identify entries in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type to use as elements to store in the dictionary.</typeparam>
     /// <remarks>This structure internally uses hash maps, so most operations run in O(1).</remarks>
-    [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix", Justification = "This class behaves mostly like a normal dictionary but can not implement the usual interfaces since they are incompatible with the \"multiple values per key\" paradigm")]
+    [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix", Justification = "This class behaves mostly like a normal dictionary but cannot implement the usual interfaces since they are incompatible with the \"multiple values per key\" paradigm")]
     public class MultiDictionary<TKey, TValue>
     {
         #region Variables
@@ -172,11 +172,17 @@ namespace Common.Collections
         /// <summary>
         /// Gets a collection containing the values with the specified key.
         /// </summary>
-        /// <returns>A list of elements with the specified key.</returns>
         /// <param name="key">The key of the element to get.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
-        /// <exception cref="KeyNotFoundException"><paramref name="key"/> was not found.</exception>
-        public ICollection<TValue> this[TKey key] { get { return _dictionary[key].ToList(); } }
+        /// <returns>A list of elements with the specified key. Empty list if the key was not found.</returns>
+        public ICollection<TValue> this[TKey key]
+        {
+            get
+            {
+                HashSet<TValue> result;
+                if (_dictionary.TryGetValue(key, out result)) return result.ToList(); // defensive copy
+                else return new TValue[0];
+            }
+        }
         #endregion
     }
 }

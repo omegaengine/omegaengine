@@ -244,6 +244,7 @@
     </Compile>
     <Compile Include="Dispatch\AggregateDispatcher.Action.cs" />
     <Compile Include="Dispatch\AggregateDispatcher.Func.cs" />
+    <Compile Include="Dispatch\ModelViewSync.cs" />
     <Compile Include="Dispatch\PerTypeDispatcher.Action.cs" />
     <Compile Include="Dispatch\PerTypeDispatcher.Func.cs" />
     <Compile Include="Future.cs" />
