@@ -57,6 +57,11 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         [Description("The base velocity of all particles spawned by this particle system"), Category("Behavior")]
         public Vector3 Velocity { get { return _velocity; } set { _velocity = value; } }
+
+        /// <summary>
+        /// The position with the <see cref="PositionableRenderable.PreTransform"/> applied
+        /// </summary>
+        private DoubleVector3 PreTransformedPosition { get { return Position + Vector3.TransformCoordinate(new Vector3(), PreTransform * Matrix.RotationQuaternion(Rotation)); } }
         #endregion
 
         #region Constructor
@@ -149,7 +154,7 @@ namespace OmegaEngine.Graphics.Renderables
             float lodFactor;
             if (VisibilityDistance > 0 && _lastCamera != null)
             {
-                float distanceToFade = VisibilityDistance - (float)(Position - _lastCamera.Position).Length();
+                float distanceToFade = VisibilityDistance - (float)(PreTransformedPosition - _lastCamera.Position).Length();
                 lodFactor = (distanceToFade * distanceToFade) / (VisibilityDistance * VisibilityDistance);
             }
             else lodFactor = 1;
@@ -273,7 +278,7 @@ namespace OmegaEngine.Graphics.Renderables
 
         private void ApplyEmitterForces(CpuParticle particle, float elapsedTime)
         {
-            Vector3 particlePosition = particle.Position.ApplyOffset(Position);
+            Vector3 particlePosition = particle.Position.ApplyOffset(PreTransformedPosition);
             float particleDistance = particlePosition.Length();
             Vector3 particleDirection = Vector3.Normalize(particlePosition);
 
@@ -299,7 +304,7 @@ namespace OmegaEngine.Graphics.Renderables
         private void AddParticle(float lodFactor)
         {
             AddParticle(
-                Position + GetSpawnPosition(),
+                PreTransformedPosition + GetSpawnPosition(),
                 GetFirstLifeParameters(lodFactor),
                 GetSecondLifeParameters(lodFactor));
         }

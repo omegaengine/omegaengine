@@ -379,13 +379,12 @@ namespace TerrainSample.Presentation
                     _engineToWorld.Add(model, entity);
                     _worldToEngine.Add(renderControl, model);
                 },
-
-                // ----- Don't apply RenderControl.Shift yet ----- //
                 (CpuParticleSystem particleRender) =>
                 {
                     var particleSystem = new OmegaEngine.Graphics.Renderables.CpuParticleSystem(
                         CpuParticlePreset.FromContent(particleRender.Filename));
                     ConfigureParticleSystem(entity, particleSystem, particleRender);
+                    particleSystem.PreTransform = Matrix.Translation(particleRender.Shift);
 
                     // Add objects to lists
                     Scene.Positionables.Add(particleSystem);
@@ -397,12 +396,15 @@ namespace TerrainSample.Presentation
                     var particleSystem = new OmegaEngine.Graphics.Renderables.GpuParticleSystem(
                         GpuParticlePreset.FromContent(particleRender.Filename));
                     ConfigureParticleSystem(entity, particleSystem, particleRender);
+                    particleSystem.PreTransform = Matrix.Translation(particleRender.Shift);
 
                     // Add objects to lists
                     Scene.Positionables.Add(particleSystem);
                     _engineToWorld.Add(particleSystem, entity);
                     _worldToEngine.Add(renderControl, particleSystem);
                 },
+
+                // ----- Don't apply RenderControl.Shift yet ----- //
                 (LightSource lightInfo) =>
                 {
                     if (!Lighting) return;
@@ -483,16 +485,14 @@ namespace TerrainSample.Presentation
                     renderable.Position = Terrain.Position + terrainPoint;
                     renderable.Rotation = rotation;
                 },
-
-                // ----- Apply RenderControl.Shift directly to position ----- //
                 (ParticleSystem particleSystem) =>
                 {
-                    // Calculate the rotated position shift
-                    var rotatedShift = Vector3.TransformCoordinate(
-                        particleSystem.Shift, Matrix.RotationQuaternion(rotation));
-
-                    render.Position = Terrain.Position + terrainPoint + rotatedShift;
+                    var renderable = (PositionableRenderable)render;
+                    renderable.Position = Terrain.Position + terrainPoint;
+                    renderable.Rotation = rotation;
                 },
+
+                // ----- Apply RenderControl.Shift directly to position ----- //
                 (LightSource lightSource) =>
                 {
                     // Calculate the rotated position shift
