@@ -35,6 +35,20 @@ namespace AlphaFramework.World.Positionables
         {
             if (Changed != null) Changed(this);
         }
+
+        /// <summary>
+        /// Occurs when a property has changed that requires visual representations to rebuilt from scratch (usually a template).
+        /// </summary>
+        [Description("Occurs when a property changed that requires visual representations to rebuilt from scratch (usually a template).")]
+        public event Action<Positionable<TCoordinates>> ChangedRebuild;
+
+        /// <summary>
+        /// To be called when a property has changed that requires visual representations to rebuilt from scratch (usually a template).
+        /// </summary>
+        protected void OnChangedRebuild()
+        {
+            if (ChangedRebuild != null) ChangedRebuild(this);
+        }
         #endregion
 
         #region Properties
@@ -75,6 +89,7 @@ namespace AlphaFramework.World.Positionables
 
             // Don't clone event handlers
             clonedPositionable.Changed = null;
+            clonedPositionable.ChangedRebuild = null;
 
             return clonedPositionable;
         }

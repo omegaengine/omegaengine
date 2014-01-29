@@ -6,9 +6,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using System.ComponentModel;
-
 namespace AlphaFramework.World.Positionables
 {
     /// <summary>
@@ -20,17 +17,5 @@ namespace AlphaFramework.World.Positionables
         /// The name of the template.
         /// </summary>
         string TemplateName { get; set; }
-
-        /// <summary>
-        /// Occurs when the template data is about to change.
-        /// </summary>
-        [Description("Occurs when the template data is about to change.")]
-        event Action<ITemplated> TemplateChanging;
-
-        /// <summary>
-        /// Occurs when the template data has changed.
-        /// </summary>
-        [Description("Occurs when the template data has changed.")]
-        event Action<ITemplated> TemplateChanged;
     }
 }

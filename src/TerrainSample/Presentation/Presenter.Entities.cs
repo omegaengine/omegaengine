@@ -27,7 +27,6 @@ using System.IO;
 using System.Linq;
 using AlphaFramework.World.EntityComponents;
 using AlphaFramework.World.Positionables;
-using Common.Collections;
 using Common.Dispatch;
 using Common.Utils;
 using Common.Values;
@@ -143,16 +142,16 @@ namespace TerrainSample.Presentation
                     AddEntity(entity);
 
                     // Remove and then re-add entity to apply the new entity template
-                    entity.TemplateChanging += RemoveEntity;
-                    entity.TemplateChanged += AddEntity;
+                    entity.ChangedRebuild += RemoveEntity;
+                    entity.ChangedRebuild += AddEntity;
                 },
                 (AlphaFramework.World.Positionables.Water water) =>
                 {
                     AddWater(water);
 
                     // Remove and then re-add water to apply size changes
-                    water.SizeChanged += RemoveWater;
-                    water.SizeChanged += AddWater;
+                    water.ChangedRebuild += RemoveWater;
+                    water.ChangedRebuild += AddWater;
                 }
             }.Dispatch(positionable);
 
@@ -163,11 +162,11 @@ namespace TerrainSample.Presentation
         /// <summary>
         /// Sets up a <see cref="EntityBase{TCoordinates,TTemplate}"/> for rendering via a <see cref="PositionableRenderable"/>
         /// </summary>
-        /// <param name="templated">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to be displayed</param>
+        /// <param name="positionable">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to be displayed</param>
         /// <remarks>This is a helper method for <see cref="AddPositionable"/>.</remarks>
-        private void AddEntity(ITemplated templated)
+        private void AddEntity(Positionable<Vector2> positionable)
         {
-            var entity = (Entity)templated;
+            var entity = (Entity)positionable;
 
             try
             {
@@ -193,9 +192,11 @@ namespace TerrainSample.Presentation
         /// <summary>
         /// Sets up a <see cref="AlphaFramework.World.Positionables.Water"/> for rendering via a <see cref="Water"/>
         /// </summary>
-        /// <param name="water">The <see cref="AlphaFramework.World.Positionables.Water"/> to be displayed</param>
-        private void AddWater(AlphaFramework.World.Positionables.Water water)
+        /// <param name="positionable">The <see cref="AlphaFramework.World.Positionables.Water"/> to be displayed</param>
+        private void AddWater(Positionable<Vector2> positionable)
         {
+            var water = (AlphaFramework.World.Positionables.Water)positionable;
+
             // Create an engine representation of the water plane
             var engineWater = new Water(Engine, new SizeF(water.Size.X, water.Size.Y))
             {
@@ -234,16 +235,16 @@ namespace TerrainSample.Presentation
                     RemoveEntity(entity);
 
                     // Unhook class update event
-                    entity.TemplateChanging -= RemoveEntity;
-                    entity.TemplateChanged -= AddEntity;
+                    entity.ChangedRebuild -= RemoveEntity;
+                    entity.ChangedRebuild -= AddEntity;
                 },
                 (AlphaFramework.World.Positionables.Water water) =>
                 {
                     RemoveWater(water);
 
                     // Unhook size update event
-                    water.SizeChanged -= RemoveWater;
-                    water.SizeChanged -= AddWater;
+                    water.ChangedRebuild -= RemoveWater;
+                    water.ChangedRebuild -= AddWater;
                 }
             }.Dispatch(positionable);
 
@@ -254,11 +255,11 @@ namespace TerrainSample.Presentation
         /// <summary>
         /// Removes a <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/> used to render a <see cref="Positionable{TCoordinates}"/>
         /// </summary>
-        /// <param name="templated">The <see cref="Positionable{TCoordinates}"/> to be removed</param>
+        /// <param name="positionable">The <see cref="Positionable{TCoordinates}"/> to be removed</param>
         /// <remarks>This is a helper method for <see cref="RemovePositionable"/>.</remarks>
-        private void RemoveEntity(ITemplated templated)
+        private void RemoveEntity(Positionable<Vector2> positionable)
         {
-            var entity = (Entity)templated;
+            var entity = (Entity)positionable;
 
             foreach (var renderControl in entity.TemplateData.RenderControls)
                 RemoveEntityHelper(renderControl);
@@ -267,9 +268,11 @@ namespace TerrainSample.Presentation
         /// <summary>
         /// Removes a <see cref="OmegaEngine.Graphics.Renderables.Water"/> used to render a <see cref="AlphaFramework.World.Positionables.Water"/>
         /// </summary>
-        /// <param name="water">The <see cref="AlphaFramework.World.Positionables.Water"/> to be removed</param>
-        private void RemoveWater(AlphaFramework.World.Positionables.Water water)
+        /// <param name="positionable">The <see cref="AlphaFramework.World.Positionables.Water"/> to be removed</param>
+        private void RemoveWater(Positionable<Vector2> positionable)
         {
+            var water = (AlphaFramework.World.Positionables.Water)positionable;
+
             Water engineWater = _worldToEngineWater[water];
             Scene.Positionables.Remove(engineWater);
             engineWater.Dispose();

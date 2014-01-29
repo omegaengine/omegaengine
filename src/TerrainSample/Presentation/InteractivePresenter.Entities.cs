@@ -74,8 +74,8 @@ namespace TerrainSample.Presentation
                     AddSelectedEntity(entity);
 
                     // Remove and then re-add an entity to apply the new entity template
-                    entity.TemplateChanging += RemoveSelectedEntity;
-                    entity.TemplateChanged += AddSelectedEntity;
+                    entity.ChangedRebuild += RemoveSelectedEntity;
+                    entity.ChangedRebuild += AddSelectedEntity;
                 }
             }.Dispatch(positionable);
         }
@@ -83,11 +83,11 @@ namespace TerrainSample.Presentation
         /// <summary>
         /// Adds the selection highlighting for a <see cref="EntityBase{TCoordinates,TTemplate}"/>
         /// </summary>
-        /// <param name="templated">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to add the selection highlighting for</param>
+        /// <param name="positionable">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to add the selection highlighting for</param>
         /// <remarks>This is a helper method for <see cref="AddSelectedPositionable"/>.</remarks>
-        private void AddSelectedEntity(ITemplated templated)
+        private void AddSelectedEntity(Positionable<Vector2> positionable)
         {
-            var entity = (Entity)templated;
+            var entity = (Entity)positionable;
 
             var selectionHighlight = new PerTypeDispatcher<CollisionControl<Vector2>, Model>(ignoreMissing: true)
             {
@@ -144,8 +144,8 @@ namespace TerrainSample.Presentation
                     RemoveSelectedEntity(entity);
 
                     // Unhook class update event
-                    entity.TemplateChanging -= RemoveSelectedEntity;
-                    entity.TemplateChanged -= AddSelectedEntity;
+                    entity.ChangedRebuild -= RemoveSelectedEntity;
+                    entity.ChangedRebuild -= AddSelectedEntity;
                 }
             }.Dispatch(positionable);
         }
@@ -153,11 +153,11 @@ namespace TerrainSample.Presentation
         /// <summary>
         /// Removes the selection highlighting for an <see cref="EntityBase{TCoordinates,TTemplate}"/>
         /// </summary>
-        /// <param name="templated">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to remove the selection highlighting for</param>
+        /// <param name="positionable">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to remove the selection highlighting for</param>
         /// <remarks>This is a helper method for <see cref="RemoveSelectedPositionable"/>.</remarks>
-        private void RemoveSelectedEntity(ITemplated templated)
+        private void RemoveSelectedEntity(Positionable<Vector2> positionable)
         {
-            var entity = (Entity)templated;
+            var entity = (Entity)positionable;
 
             PositionableRenderable selection;
             if (!_worldToEngine.TryGetValue(entity, out selection)) return;

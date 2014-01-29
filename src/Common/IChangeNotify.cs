@@ -34,5 +34,10 @@ namespace Common
         /// Occurs when a property of interest has changed.
         /// </summary>
         event Action<TSender> Changed;
+
+        /// <summary>
+        /// Occurs when a property changed that requires visual representations to rebuilt from scratch.
+        /// </summary>
+        event Action<TSender> ChangedRebuild;
     }
 }

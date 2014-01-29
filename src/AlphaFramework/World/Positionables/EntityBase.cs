@@ -65,54 +65,24 @@ namespace AlphaFramework.World.Positionables
             get { return _templateDataMasked ? null : _template; }
             set
             {
-                OnTemplateChanging();
-
                 // Backup the original value (might be needed for restore on exception) and then set the new value
                 var oldValue = _template;
                 _template = value;
 
                 try
                 {
-                    OnTemplateChanged();
+                    OnChangedRebuild();
                 }
                     #region Error handling
                 catch (Exception)
                 {
                     // Restore the original value, trigger a render update for that and then pass on the exception for handling
                     _template = oldValue;
-                    OnTemplateChanged();
+                    OnChangedRebuild();
                     throw;
                 }
                 #endregion
             }
-        }
-
-        /// <summary>
-        /// Occurs when <see cref="TemplateData"/> is about to change.
-        /// </summary>
-        [Description("Occurs when TemplateData is about to change.")]
-        public event Action<ITemplated> TemplateChanging;
-
-        /// <summary>
-        /// To be called when <see cref="TemplateData"/> is about to change.
-        /// </summary>
-        protected void OnTemplateChanging()
-        {
-            if (TemplateChanging != null) TemplateChanging(this);
-        }
-
-        /// <summary>
-        /// Occurs when <see cref="TemplateData"/> has changed.
-        /// </summary>
-        [Description("Occurs when TemplateData has changed.")]
-        public event Action<ITemplated> TemplateChanged;
-
-        /// <summary>
-        /// To be called when <see cref="TemplateData"/> has changed.
-        /// </summary>
-        protected void OnTemplateChanged()
-        {
-            if (TemplateChanged != null) TemplateChanged(this);
         }
 
         // ReSharper disable once StaticFieldInGenericType
@@ -190,10 +160,6 @@ namespace AlphaFramework.World.Positionables
         public override Positionable<TCoordinates> Clone()
         {
             var clonedEntity = (EntityBase<TCoordinates, TTemplate>)base.Clone();
-
-            // Don't clone event handlers
-            clonedEntity.TemplateChanged = null;
-            clonedEntity.TemplateChanging = null;
 
             clonedEntity._template = _template.Clone();
 

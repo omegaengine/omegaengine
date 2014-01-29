@@ -6,9 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using AlphaFramework.World.Terrains;
 using Common.Utils;
@@ -22,24 +20,6 @@ namespace AlphaFramework.World.Positionables
     /// </summary>
     public class Water : Positionable<Vector2>
     {
-        #region Events
-        /// <summary>
-        /// Occurs when <see cref="Size"/> has changed.
-        /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
-        [Description("Occurs when the Size property has changed.")]
-        public event Action<Water> SizeChanged;
-
-        /// <summary>
-        /// To be called when <see cref="Size"/> has changed.
-        /// </summary>
-        protected void OnSizeChanged()
-        {
-            if (SizeChanged != null) SizeChanged(this);
-        }
-        #endregion
-
-        #region Properties
         /// <summary>
         /// The position of origin for this water in the engine coordinate system.
         /// </summary>
@@ -57,7 +37,7 @@ namespace AlphaFramework.World.Positionables
         /// The size of the area of the <see cref="ITerrain"/> this water plane spans.
         /// </summary>
         [Description("The size of the area of the terrain this water plane spans.")]
-        public Vector2 Size { get { return _size; } set { value.To(ref _size, OnSizeChanged); } }
+        public Vector2 Size { get { return _size; } set { value.To(ref _size, OnChangedRebuild); } }
 
         private float _height;
 
@@ -65,13 +45,12 @@ namespace AlphaFramework.World.Positionables
         /// The height of the water above reference zero.
         /// </summary>
         [XmlAttribute, DefaultValue(0f), Description("The height of the water above reference zero.")]
-        public float Height { get { return _height; } set { value.To(ref _height, OnChanged); } }
+        public float Height { get { return _height; } set { value.To(ref _height, OnChangedRebuild); } }
 
         /// <summary>
         /// The maximum depth an <see cref="EntityBase{TCoordinates,TTemplate}"/> can walk into this water.
         /// </summary>
         [XmlAttribute, DefaultValue(0f), Description("The maximum depth a entity can walk into this water")]
         public float TraversableDepth { get; set; }
-        #endregion
     }
 }
