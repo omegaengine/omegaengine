@@ -154,7 +154,7 @@ namespace Common.Storage
             {
                 zipFile.Close();
             }
-                // ReSharper disable once EmptyGeneralCatchClause
+                // TODO: Catch only specifc exception types
             catch
             {}
         }

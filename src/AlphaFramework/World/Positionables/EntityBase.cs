@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using AlphaFramework.World.Paths;
 using AlphaFramework.World.Templates;
-using Common.Collections;
 using Common.Dispatch;
 
 namespace AlphaFramework.World.Positionables
