@@ -127,6 +127,6 @@
     <value>&amp;Schließen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Render Steuerelemente</value>
+    <value>Render Komponente</value>
   </data>
 </root>

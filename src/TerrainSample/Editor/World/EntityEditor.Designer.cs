@@ -29,6 +29,7 @@ namespace TerrainSample.Editor.World
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityEditor));
             this.groupBoxTest = new System.Windows.Forms.GroupBox();
             this.buttonDebug = new System.Windows.Forms.Button();
             this.checkBoundingSphere = new System.Windows.Forms.CheckBox();
@@ -36,7 +37,7 @@ namespace TerrainSample.Editor.World
             this.checkBoundingBox = new System.Windows.Forms.CheckBox();
             this.checkWireframe = new System.Windows.Forms.CheckBox();
             this.propertyGridUniverse = new System.Windows.Forms.PropertyGrid();
-            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabComponents = new System.Windows.Forms.TabControl();
             this.tabPageRender = new System.Windows.Forms.TabPage();
             this.toolStripRender = new System.Windows.Forms.ToolStrip();
             this.buttonBrowseRender = new System.Windows.Forms.ToolStripButton();
@@ -65,7 +66,7 @@ namespace TerrainSample.Editor.World
             this.splitVertical.Panel2.SuspendLayout();
             this.splitVertical.SuspendLayout();
             this.groupBoxTest.SuspendLayout();
-            this.tabControl.SuspendLayout();
+            this.tabComponents.SuspendLayout();
             this.tabPageRender.SuspendLayout();
             this.toolStripRender.SuspendLayout();
             this.tabPageCollision.SuspendLayout();
@@ -97,9 +98,9 @@ namespace TerrainSample.Editor.World
             // 
             // groupBoxTest
             // 
-            this.groupBoxTest.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxTest.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxTest.Controls.Add(this.buttonDebug);
             this.groupBoxTest.Controls.Add(this.checkBoundingSphere);
             this.groupBoxTest.Controls.Add(this.checkNormalMapping);
@@ -176,28 +177,28 @@ namespace TerrainSample.Editor.World
             // 
             // propertyGridUniverse
             // 
-            this.propertyGridUniverse.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.propertyGridUniverse.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.propertyGridUniverse.Location = new System.Drawing.Point(6, 19);
             this.propertyGridUniverse.Name = "propertyGridUniverse";
             this.propertyGridUniverse.Size = new System.Drawing.Size(214, 128);
             this.propertyGridUniverse.TabIndex = 0;
             this.propertyGridUniverse.ToolbarVisible = false;
             // 
-            // tabControl
+            // tabComponents
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl.Controls.Add(this.tabPageRender);
-            this.tabControl.Controls.Add(this.tabPageCollision);
-            this.tabControl.Controls.Add(this.tabPageMovement);
-            this.tabControl.Location = new System.Drawing.Point(3, 3);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(294, 194);
-            this.tabControl.TabIndex = 1;
+            this.tabComponents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabComponents.Controls.Add(this.tabPageRender);
+            this.tabComponents.Controls.Add(this.tabPageCollision);
+            this.tabComponents.Controls.Add(this.tabPageMovement);
+            this.tabComponents.Location = new System.Drawing.Point(3, 3);
+            this.tabComponents.Name = "tabComponents";
+            this.tabComponents.SelectedIndex = 0;
+            this.tabComponents.Size = new System.Drawing.Size(294, 194);
+            this.tabComponents.TabIndex = 1;
             // 
             // tabPageRender
             // 
@@ -209,7 +210,7 @@ namespace TerrainSample.Editor.World
             this.tabPageRender.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageRender.Size = new System.Drawing.Size(286, 168);
             this.tabPageRender.TabIndex = 0;
-            this.tabPageRender.Text = "Render Control";
+            this.tabPageRender.Text = "Render";
             this.tabPageRender.UseVisualStyleBackColor = true;
             // 
             // toolStripRender
@@ -231,7 +232,7 @@ namespace TerrainSample.Editor.World
             // 
             this.buttonBrowseRender.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.buttonBrowseRender.Enabled = false;
-            this.buttonBrowseRender.Image = global::AlphaFramework.Editor.Properties.Resources.SearchButton;
+            this.buttonBrowseRender.Image = ((System.Drawing.Image)(resources.GetObject("buttonBrowseRender.Image")));
             this.buttonBrowseRender.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonBrowseRender.Name = "buttonBrowseRender";
             this.buttonBrowseRender.Size = new System.Drawing.Size(23, 22);
@@ -247,28 +248,28 @@ namespace TerrainSample.Editor.World
             // 
             this.buttonAddRender.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.buttonAddRender.Enabled = false;
-            this.buttonAddRender.Image = global::AlphaFramework.Editor.Properties.Resources.CreateButton;
+            this.buttonAddRender.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddRender.Image")));
             this.buttonAddRender.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonAddRender.Name = "buttonAddRender";
             this.buttonAddRender.Size = new System.Drawing.Size(23, 22);
-            this.buttonAddRender.Text = "Add new render control...";
+            this.buttonAddRender.Text = "Add new render component...";
             this.buttonAddRender.Click += new System.EventHandler(this.buttonAddRender_Click);
             // 
             // buttonRemoveRender
             // 
             this.buttonRemoveRender.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.buttonRemoveRender.Enabled = false;
-            this.buttonRemoveRender.Image = global::AlphaFramework.Editor.Properties.Resources.DeleteButton;
+            this.buttonRemoveRender.Image = ((System.Drawing.Image)(resources.GetObject("buttonRemoveRender.Image")));
             this.buttonRemoveRender.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonRemoveRender.Name = "buttonRemoveRender";
             this.buttonRemoveRender.Size = new System.Drawing.Size(23, 22);
-            this.buttonRemoveRender.Text = "Remove render control";
+            this.buttonRemoveRender.Text = "Remove render component";
             this.buttonRemoveRender.Click += new System.EventHandler(this.buttonRemoveRender_Click);
             // 
             // comboRender
             // 
-            this.comboRender.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboRender.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.comboRender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboRender.FormattingEnabled = true;
             this.comboRender.Location = new System.Drawing.Point(0, 0);
@@ -279,9 +280,9 @@ namespace TerrainSample.Editor.World
             // 
             // propertyGridRender
             // 
-            this.propertyGridRender.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.propertyGridRender.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.propertyGridRender.Location = new System.Drawing.Point(0, 22);
             this.propertyGridRender.Name = "propertyGridRender";
             this.propertyGridRender.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
@@ -298,9 +299,9 @@ namespace TerrainSample.Editor.World
             this.tabPageCollision.Location = new System.Drawing.Point(4, 22);
             this.tabPageCollision.Name = "tabPageCollision";
             this.tabPageCollision.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCollision.Size = new System.Drawing.Size(310, 168);
+            this.tabPageCollision.Size = new System.Drawing.Size(286, 168);
             this.tabPageCollision.TabIndex = 2;
-            this.tabPageCollision.Text = "Collision Control";
+            this.tabPageCollision.Text = "Collision";
             this.tabPageCollision.UseVisualStyleBackColor = true;
             // 
             // labelCollision
@@ -318,7 +319,7 @@ namespace TerrainSample.Editor.World
             this.toolStripCollision.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buttonAddCollision,
             this.buttonRemoveCollision});
-            this.toolStripCollision.Location = new System.Drawing.Point(252, 0);
+            this.toolStripCollision.Location = new System.Drawing.Point(228, 0);
             this.toolStripCollision.Name = "toolStripCollision";
             this.toolStripCollision.Size = new System.Drawing.Size(58, 25);
             this.toolStripCollision.TabIndex = 1;
@@ -328,33 +329,33 @@ namespace TerrainSample.Editor.World
             // 
             this.buttonAddCollision.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.buttonAddCollision.Enabled = false;
-            this.buttonAddCollision.Image = global::AlphaFramework.Editor.Properties.Resources.CreateButton;
+            this.buttonAddCollision.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddCollision.Image")));
             this.buttonAddCollision.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonAddCollision.Name = "buttonAddCollision";
             this.buttonAddCollision.Size = new System.Drawing.Size(23, 22);
-            this.buttonAddCollision.Text = "Add new collision control...";
+            this.buttonAddCollision.Text = "Add new collision component...";
             this.buttonAddCollision.Click += new System.EventHandler(this.buttonAddCollision_Click);
             // 
             // buttonRemoveCollision
             // 
             this.buttonRemoveCollision.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.buttonRemoveCollision.Enabled = false;
-            this.buttonRemoveCollision.Image = global::AlphaFramework.Editor.Properties.Resources.DeleteButton;
+            this.buttonRemoveCollision.Image = ((System.Drawing.Image)(resources.GetObject("buttonRemoveCollision.Image")));
             this.buttonRemoveCollision.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonRemoveCollision.Name = "buttonRemoveCollision";
             this.buttonRemoveCollision.Size = new System.Drawing.Size(23, 22);
-            this.buttonRemoveCollision.Text = "Remove collision control";
+            this.buttonRemoveCollision.Text = "Remove collision component";
             this.buttonRemoveCollision.Click += new System.EventHandler(this.buttonRemoveCollision_Click);
             // 
             // propertyGridCollision
             // 
-            this.propertyGridCollision.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.propertyGridCollision.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.propertyGridCollision.Location = new System.Drawing.Point(0, 22);
             this.propertyGridCollision.Name = "propertyGridCollision";
             this.propertyGridCollision.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
-            this.propertyGridCollision.Size = new System.Drawing.Size(310, 116);
+            this.propertyGridCollision.Size = new System.Drawing.Size(286, 116);
             this.propertyGridCollision.TabIndex = 2;
             this.propertyGridCollision.ToolbarVisible = false;
             this.propertyGridCollision.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridCollision_PropertyValueChanged);
@@ -367,9 +368,9 @@ namespace TerrainSample.Editor.World
             this.tabPageMovement.Location = new System.Drawing.Point(4, 22);
             this.tabPageMovement.Name = "tabPageMovement";
             this.tabPageMovement.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMovement.Size = new System.Drawing.Size(310, 168);
+            this.tabPageMovement.Size = new System.Drawing.Size(286, 168);
             this.tabPageMovement.TabIndex = 1;
-            this.tabPageMovement.Text = "Movement Control";
+            this.tabPageMovement.Text = "Movement";
             this.tabPageMovement.UseVisualStyleBackColor = true;
             // 
             // labelMovement
@@ -387,7 +388,7 @@ namespace TerrainSample.Editor.World
             this.toolStripMovement.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buttonAddMovement,
             this.buttonRemoveMovement});
-            this.toolStripMovement.Location = new System.Drawing.Point(252, 0);
+            this.toolStripMovement.Location = new System.Drawing.Point(228, 0);
             this.toolStripMovement.Name = "toolStripMovement";
             this.toolStripMovement.Size = new System.Drawing.Size(58, 25);
             this.toolStripMovement.TabIndex = 1;
@@ -397,33 +398,33 @@ namespace TerrainSample.Editor.World
             // 
             this.buttonAddMovement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.buttonAddMovement.Enabled = false;
-            this.buttonAddMovement.Image = global::AlphaFramework.Editor.Properties.Resources.CreateButton;
+            this.buttonAddMovement.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddMovement.Image")));
             this.buttonAddMovement.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonAddMovement.Name = "buttonAddMovement";
             this.buttonAddMovement.Size = new System.Drawing.Size(23, 22);
-            this.buttonAddMovement.Text = "Add new movement control...";
+            this.buttonAddMovement.Text = "Add new movement component...";
             this.buttonAddMovement.Click += new System.EventHandler(this.buttonAddMovement_Click);
             // 
             // buttonRemoveMovement
             // 
             this.buttonRemoveMovement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.buttonRemoveMovement.Enabled = false;
-            this.buttonRemoveMovement.Image = global::AlphaFramework.Editor.Properties.Resources.DeleteButton;
+            this.buttonRemoveMovement.Image = ((System.Drawing.Image)(resources.GetObject("buttonRemoveMovement.Image")));
             this.buttonRemoveMovement.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonRemoveMovement.Name = "buttonRemoveMovement";
             this.buttonRemoveMovement.Size = new System.Drawing.Size(23, 22);
-            this.buttonRemoveMovement.Text = "Remove movement control";
+            this.buttonRemoveMovement.Text = "Remove movement comoponent";
             this.buttonRemoveMovement.Click += new System.EventHandler(this.buttonRemoveMovement_Click);
             // 
             // propertyGridMovement
             // 
-            this.propertyGridMovement.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.propertyGridMovement.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.propertyGridMovement.Location = new System.Drawing.Point(0, 22);
             this.propertyGridMovement.Name = "propertyGridMovement";
             this.propertyGridMovement.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
-            this.propertyGridMovement.Size = new System.Drawing.Size(310, 116);
+            this.propertyGridMovement.Size = new System.Drawing.Size(286, 116);
             this.propertyGridMovement.TabIndex = 2;
             this.propertyGridMovement.ToolbarVisible = false;
             this.propertyGridMovement.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridMovement_PropertyValueChanged);
@@ -436,7 +437,7 @@ namespace TerrainSample.Editor.World
             // 
             // splitSettings.Panel1
             // 
-            this.splitSettings.Panel1.Controls.Add(this.tabControl);
+            this.splitSettings.Panel1.Controls.Add(this.tabComponents);
             // 
             // splitSettings.Panel2
             // 
@@ -501,11 +502,16 @@ namespace TerrainSample.Editor.World
             this.Name = "EntityEditor";
             this.NameUI = "Entity Editor";
             this.Size = new System.Drawing.Size(718, 538);
+            this.Controls.SetChildIndex(this.buttonOrthographicView, 0);
+            this.Controls.SetChildIndex(this.buttonNormalView, 0);
+            this.Controls.SetChildIndex(this.buttonRedo, 0);
+            this.Controls.SetChildIndex(this.buttonUndo, 0);
+            this.Controls.SetChildIndex(this.splitVertical, 0);
             this.splitVertical.Panel2.ResumeLayout(false);
             this.splitVertical.ResumeLayout(false);
             this.groupBoxTest.ResumeLayout(false);
             this.groupBoxTest.PerformLayout();
-            this.tabControl.ResumeLayout(false);
+            this.tabComponents.ResumeLayout(false);
             this.tabPageRender.ResumeLayout(false);
             this.tabPageRender.PerformLayout();
             this.toolStripRender.ResumeLayout(false);
@@ -531,7 +537,7 @@ namespace TerrainSample.Editor.World
         #endregion
 
         private System.Windows.Forms.GroupBox groupBoxTest;
-        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabControl tabComponents;
         private System.Windows.Forms.TabPage tabPageRender;
         private System.Windows.Forms.ToolStrip toolStripRender;
         private System.Windows.Forms.ToolStripButton buttonBrowseRender;

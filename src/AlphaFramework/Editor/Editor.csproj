@@ -182,11 +182,11 @@
     <Compile Include="World\Commands\ModifyTextureMap.cs" />
     <Compile Include="World\Commands\MovePositionables.cs" />
     <Compile Include="World\Commands\RemovePositionables.cs" />
-    <Compile Include="World\Dialogs\AddRenderControlTool.cs">
+    <Compile Include="World\Dialogs\AddRenderComponentTool.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="World\Dialogs\AddRenderControlTool.Designer.cs">
-      <DependentUpon>AddRenderControlTool.cs</DependentUpon>
+    <Compile Include="World\Dialogs\AddRenderComponentTool.Designer.cs">
+      <DependentUpon>AddRenderComponentTool.cs</DependentUpon>
     </Compile>
     <Compile Include="World\Dialogs\MapPropertiesTool.cs">
       <SubType>Form</SubType>
@@ -301,12 +301,12 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="World\Dialogs\AddRenderControlTool.de.resx">
-      <DependentUpon>AddRenderControlTool.cs</DependentUpon>
+    <EmbeddedResource Include="World\Dialogs\AddRenderComponentTool.de.resx">
+      <DependentUpon>AddRenderComponentTool.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="World\Dialogs\AddRenderControlTool.resx">
-      <DependentUpon>AddRenderControlTool.cs</DependentUpon>
+    <EmbeddedResource Include="World\Dialogs\AddRenderComponentTool.resx">
+      <DependentUpon>AddRenderComponentTool.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="World\Dialogs\MapPropertiesTool.resx">

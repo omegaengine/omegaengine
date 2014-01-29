@@ -509,7 +509,7 @@ namespace TerrainSample.Editor.World
         #region Map
         private void buttonMapProperties_ButtonClick(object sender, EventArgs e)
         {
-            // Setup a dialog for selecting the type of render control to add
+            // Setup a dialog for selecting the type of render component to add
             SetupMapPropertiesTool();
 
             // Display non-modal dialog (set this tab as owner on first show)

@@ -52,7 +52,7 @@ namespace TerrainSample.Editor.World
         private EditorPresenter _presenter;
         private Universe _universe;
 
-        private AddRenderControlTool _addRenderControlTool;
+        private AddRenderComponentTool _addRenderComponentTool;
         #endregion
 
         #region Constructor
@@ -70,7 +70,7 @@ namespace TerrainSample.Editor.World
             splitRender.Panel2.MouseMove += delegate { splitRender.Panel2.Focus(); };
 
             // Close dialogs when the owning tab closes
-            TabClosed += delegate { if (_addRenderControlTool != null) _addRenderControlTool.Close(); };
+            TabClosed += delegate { if (_addRenderComponentTool != null) _addRenderComponentTool.Close(); };
         }
         #endregion
 
@@ -125,19 +125,19 @@ namespace TerrainSample.Editor.World
             if (selectedClass == null)
             { // No class selected
 
-                #region Render Control
+                #region Render component
                 comboRender.Items.Clear();
                 buttonAddRender.Enabled = buttonRemoveRender.Enabled = buttonBrowseRender.Enabled = false;
                 propertyGridRender.SelectedObject = null;
                 #endregion
 
-                #region Collision Control
+                #region Collision component
                 buttonAddCollision.Enabled = buttonRemoveCollision.Enabled = false;
                 propertyGridCollision.SelectedObject = null;
                 labelCollision.Text = "";
                 #endregion
 
-                #region Movement Control
+                #region Movement compnent
                 buttonAddMovement.Enabled = buttonRemoveMovement.Enabled = false;
                 propertyGridMovement.SelectedObject = null;
                 labelMovement.Text = "";
@@ -146,26 +146,26 @@ namespace TerrainSample.Editor.World
             else
             { // Class is selected
 
-                #region Render Control
+                #region Render component
                 buttonAddRender.Enabled = true;
 
-                // Backup currently selected render controller before clearing list
+                // Backup currently selected component controller before clearing list
                 var prevRender = comboRender.SelectedItem;
                 comboRender.Items.Clear();
 
-                // List render controllers in drop-down combo-box
+                // List render components in drop-down combo-box
                 foreach (var renderControl in selectedClass.RenderControls)
                     comboRender.Items.Add(renderControl);
 
                 if (comboRender.Items.Count > 0)
                 {
-                    // Select previous render controller or first one in list
+                    // Select previous render component or first one in list
                     comboRender.SelectedItem = (prevRender != null && comboRender.Items.Contains(prevRender)) ?
                         prevRender : comboRender.Items[0];
                     buttonRemoveRender.Enabled = buttonBrowseRender.Enabled = true;
                 }
                 else
-                { // No render controllers in the list
+                { // No render components in the list
                     propertyGridRender.SelectedObject = null;
                     buttonRemoveRender.Enabled = buttonBrowseRender.Enabled = false;
                 }
@@ -262,32 +262,32 @@ namespace TerrainSample.Editor.World
 
         #region Dialogs
         /// <summary>
-        /// Helper function for configuring the <see cref="AddRenderControlTool"/> form with event hooks.
+        /// Helper function for configuring the <see cref="AddRenderComponentTool"/> form with event hooks.
         /// </summary>
-        private void SetupAddRenderControlTool()
+        private void SetupAddRenderComponentTool()
         {
             // Keep existing dialog instance
-            if (_addRenderControlTool != null) return;
+            if (_addRenderComponentTool != null) return;
 
-            _addRenderControlTool = new AddRenderControlTool();
-            _addRenderControlTool.NewRenderControl += delegate(RenderControl renderControl)
+            _addRenderComponentTool = new AddRenderComponentTool();
+            _addRenderComponentTool.NewRenderComponent += delegate(RenderControl renderControl)
             { // Callback when the "Add" button is clicked
                 TemplateList.SelectedEntry.RenderControls.Add(renderControl);
                 OnChange();
 
-                // Select the newly added render control
+                // Select the newly added render component
                 OnUpdate();
                 comboRender.SelectedItem = renderControl;
             };
 
             // Clear the reference when the dialog is disposed
-            _addRenderControlTool.Disposed += delegate { _addRenderControlTool = null; };
+            _addRenderComponentTool.Disposed += delegate { _addRenderComponentTool = null; };
         }
         #endregion
 
         #region Class components
 
-        #region Render Control
+        #region Render component
         private void buttonBrowseRender_Click(object sender, EventArgs e)
         {
             #region Test sphere
@@ -339,12 +339,12 @@ namespace TerrainSample.Editor.World
 
         private void buttonAddRender_Click(object sender, EventArgs e)
         {
-            // Setup a dialog for selecting the type of render control to add
-            SetupAddRenderControlTool();
+            // Setup a dialog for selecting the type of render component to add
+            SetupAddRenderComponentTool();
 
             // Display non-modal dialog (set this tab as owner on first show)
-            if (_addRenderControlTool.Visible) _addRenderControlTool.Show();
-            else _addRenderControlTool.Show(this);
+            if (_addRenderComponentTool.Visible) _addRenderComponentTool.Show();
+            else _addRenderComponentTool.Show(this);
         }
 
         private void buttonRemoveRender_Click(object sender, EventArgs e)

@@ -1,6 +1,6 @@
 namespace AlphaFramework.Editor.World.Dialogs
 {
-    partial class AddRenderControlTool
+    partial class AddRenderComponentTool
     {
         /// <summary>
         /// Required designer variable.
@@ -28,23 +28,23 @@ namespace AlphaFramework.Editor.World.Dialogs
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddRenderControlTool));
-            this.typeBox = new System.Windows.Forms.ComboBox();
-            this.label = new System.Windows.Forms.Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddRenderComponentTool));
+            this.typeBoxType = new System.Windows.Forms.ComboBox();
+            this.labelType = new System.Windows.Forms.Label();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // typeBox
+            // typeBoxType
             // 
-            resources.ApplyResources(this.typeBox, "typeBox");
-            this.typeBox.FormattingEnabled = true;
-            this.typeBox.Name = "typeBox";
+            resources.ApplyResources(this.typeBoxType, "typeBoxType");
+            this.typeBoxType.FormattingEnabled = true;
+            this.typeBoxType.Name = "typeBoxType";
             // 
-            // label
+            // labelType
             // 
-            resources.ApplyResources(this.label, "label");
-            this.label.Name = "label";
+            resources.ApplyResources(this.labelType, "labelType");
+            this.labelType.Name = "labelType";
             // 
             // buttonAdd
             // 
@@ -61,7 +61,7 @@ namespace AlphaFramework.Editor.World.Dialogs
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
-            // AddRenderControlTool
+            // AddRenderComponentTool
             // 
             this.AcceptButton = this.buttonAdd;
             resources.ApplyResources(this, "$this");
@@ -69,10 +69,10 @@ namespace AlphaFramework.Editor.World.Dialogs
             this.CancelButton = this.buttonClose;
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonAdd);
-            this.Controls.Add(this.label);
-            this.Controls.Add(this.typeBox);
+            this.Controls.Add(this.labelType);
+            this.Controls.Add(this.typeBoxType);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "AddRenderControlTool";
+            this.Name = "AddRenderComponentTool";
             this.ShowInTaskbar = false;
             this.ResumeLayout(false);
 
@@ -80,8 +80,8 @@ namespace AlphaFramework.Editor.World.Dialogs
 
         #endregion
 
-        private System.Windows.Forms.ComboBox typeBox;
-        private System.Windows.Forms.Label label;
+        private System.Windows.Forms.ComboBox typeBoxType;
+        private System.Windows.Forms.Label labelType;
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonClose;
     }

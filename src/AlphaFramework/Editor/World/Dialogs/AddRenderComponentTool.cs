@@ -17,30 +17,30 @@ namespace AlphaFramework.Editor.World.Dialogs
     /// <summary>
     /// Allows the user to add a new <see cref="RenderControl"/> to an <see cref="EntityTemplateBase{TSelf}"/>.
     /// </summary>
-    /// <remarks>This is a non-modal floating toolbox window. Communication is handled via events (<see cref="NewRenderControl"/>).</remarks>
-    public sealed partial class AddRenderControlTool : System.Windows.Forms.Form
+    /// <remarks>This is a non-modal floating toolbox window. Communication is handled via events (<see cref="NewRenderComponent"/>).</remarks>
+    public sealed partial class AddRenderComponentTool : System.Windows.Forms.Form
     {
         #region Events
         /// <summary>
-        /// Occurs when a new render control is to be added
+        /// Occurs when a new render component is to be added
         /// </summary>
         [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
-        [Description("Occurs when a new render control is to be added")]
-        public event Action<RenderControl> NewRenderControl;
+        [Description("Occurs when a new render component is to be added")]
+        public event Action<RenderControl> NewRenderComponent;
 
-        private void OnNewRenderControl(RenderControl control)
+        private void OnNewRenderComponent(RenderControl component)
         {
-            if (NewRenderControl != null) NewRenderControl(control);
+            if (NewRenderComponent != null) NewRenderComponent(component);
         }
         #endregion
 
         #region Constructor
         /// <inheritdoc/>
-        public AddRenderControlTool()
+        public AddRenderComponentTool()
         {
             InitializeComponent();
 
-            typeBox.Items.AddRange(new object[]
+            typeBoxType.Items.AddRange(new object[]
             {
                 "TestSphere", "StaticMesh", "AnimatedMesh", "CpuParticleSystem", "GpuParticleSystem", "LightSource"
             });
@@ -52,25 +52,25 @@ namespace AlphaFramework.Editor.World.Dialogs
         #region Buttons
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            switch (typeBox.Text)
+            switch (typeBoxType.Text)
             {
                 case "TestSphere":
-                    OnNewRenderControl(new TestSphere());
+                    OnNewRenderComponent(new TestSphere());
                     break;
                 case "StaticMesh":
-                    OnNewRenderControl(new StaticMesh());
+                    OnNewRenderComponent(new StaticMesh());
                     break;
                 case "AnimatedMesh":
-                    OnNewRenderControl(new AnimatedMesh());
+                    OnNewRenderComponent(new AnimatedMesh());
                     break;
                 case "CpuParticleSystem":
-                    OnNewRenderControl(new CpuParticleSystem());
+                    OnNewRenderComponent(new CpuParticleSystem());
                     break;
                 case "GpuParticleSystem":
-                    OnNewRenderControl(new GpuParticleSystem());
+                    OnNewRenderComponent(new GpuParticleSystem());
                     break;
                 case "LightSource":
-                    OnNewRenderControl(new LightSource());
+                    OnNewRenderComponent(new LightSource());
                     break;
             }
 

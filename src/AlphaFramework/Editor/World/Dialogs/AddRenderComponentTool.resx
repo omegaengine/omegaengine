@@ -118,60 +118,60 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="typeBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="typeBoxType.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="typeBox.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="typeBoxType.Location" type="System.Drawing.Point, System.Drawing">
     <value>84, 12</value>
   </data>
-  <data name="typeBox.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="typeBoxType.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 21</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="typeBox.TabIndex" type="System.Int32, mscorlib">
+  <data name="typeBoxType.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;typeBox.Name" xml:space="preserve">
-    <value>typeBox</value>
+  <data name="&gt;&gt;typeBoxType.Name" xml:space="preserve">
+    <value>typeBoxType</value>
   </data>
-  <data name="&gt;&gt;typeBox.Type" xml:space="preserve">
+  <data name="&gt;&gt;typeBoxType.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;typeBox.Parent" xml:space="preserve">
+  <data name="&gt;&gt;typeBoxType.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;typeBox.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;typeBoxType.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="label.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="labelType.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top</value>
   </data>
-  <data name="label.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="labelType.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 15</value>
   </data>
-  <data name="label.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="labelType.Size" type="System.Drawing.Size, System.Drawing">
     <value>66, 13</value>
   </data>
-  <data name="label.TabIndex" type="System.Int32, mscorlib">
+  <data name="labelType.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="label.Text" xml:space="preserve">
-    <value>Control &amp;type:</value>
+  <data name="labelType.Text" xml:space="preserve">
+    <value>&amp;Type:</value>
   </data>
-  <data name="label.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="labelType.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>TopRight</value>
   </data>
-  <data name="&gt;&gt;label.Name" xml:space="preserve">
-    <value>label</value>
+  <data name="&gt;&gt;labelType.Name" xml:space="preserve">
+    <value>labelType</value>
   </data>
-  <data name="&gt;&gt;label.Type" xml:space="preserve">
+  <data name="&gt;&gt;labelType.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label.Parent" xml:space="preserve">
+  <data name="&gt;&gt;labelType.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;labelType.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="buttonAdd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -228,9 +228,9 @@
   <data name="&gt;&gt;buttonClose.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
@@ -241,10 +241,10 @@
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Render Controls</value>
+    <value>Render component</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>AddRenderControlTool</value>
+    <value>AddRenderComponentTool</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
