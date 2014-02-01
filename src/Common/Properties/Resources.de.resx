@@ -141,6 +141,9 @@
   <data name="ContentArchivesAlreadyLoaded" xml:space="preserve">
     <value>Die Content Archive wurden bereits geladen.</value>
   </data>
+  <data name="CopyFiles" xml:space="preserve">
+    <value>Kopiere Dateien</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Löschen</value>
   </data>

@@ -124,6 +124,15 @@ namespace Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copying files.
+        /// </summary>
+        internal static string CopyFiles {
+            get {
+                return ResourceManager.GetString("CopyFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The content archives were already loaded.
         /// </summary>
         internal static string ContentArchivesAlreadyLoaded {

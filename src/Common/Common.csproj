@@ -258,6 +258,7 @@
     <Compile Include="MsgSeverity.cs" />
     <Compile Include="MutexLock.cs" />
     <Compile Include="NamedComparer.cs" />
+    <Compile Include="NotAdminException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\ImageResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -287,6 +288,7 @@
     <Compile Include="Streams\DisposeWrapperStream.cs" />
     <Compile Include="Streams\OffsetStream.cs" />
     <Compile Include="Tasks\CancellationToken.cs" />
+    <Compile Include="Tasks\CopyDirectory.cs" />
     <Compile Include="Tasks\DownloadFile.cs" />
     <Compile Include="Tasks\ForEachTask.cs" />
     <Compile Include="Tasks\GuiTaskHandler.cs" />
