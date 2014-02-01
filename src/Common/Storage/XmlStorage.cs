@@ -22,17 +22,20 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using Common.Collections;
-using Common.Utils;
 using Common.Properties;
+using Common.Utils;
 using ICSharpCode.SharpZipLib.Zip;
+
+#if SLIMDX
+using System.Drawing;
+using Common.Collections;
+#endif
 
 namespace Common.Storage
 {
@@ -50,6 +53,7 @@ namespace Common.Storage
         #endregion
 
         #region Serializer generation
+#if SLIMDX
         /// <summary>An internal cache of XML serializers identified by the target type and ignored sub-types.</summary>
         private static readonly TransparentCache<Type, XmlSerializer> _serializers = new TransparentCache<Type, XmlSerializer>(CreateSerializer);
 
@@ -106,6 +110,7 @@ namespace Common.Storage
             foreach (string memeber in members)
                 overrides.Add(type, memeber, _asAttribute);
         }
+#endif
         #endregion
 
         //--------------------//
@@ -128,7 +133,11 @@ namespace Common.Storage
             if (stream.CanSeek) stream.Position = 0;
             try
             {
+#if SLIMDX
                 return (T)_serializers[typeof(T)].Deserialize(stream);
+#else
+                return (T)new XmlSerializer(typeof(T)).Deserialize(stream);
+#endif
             }
                 #region Error handling
             catch (InvalidOperationException ex)
@@ -203,7 +212,11 @@ namespace Common.Storage
             #endregion
 
             var xmlWriter = XmlWriter.Create(stream, new XmlWriterSettings {Encoding = new UTF8Encoding(false), Indent = true, IndentChars = "\t", NewLineChars = "\n"});
+#if SLIMDX
             var serializer = _serializers[typeof(T)];
+#else
+            var serializer = new XmlSerializer(typeof(T));
+#endif
 
             // Detect and handle namespace attributes
             var rootAttribute = AttributeUtils.GetAttributes<XmlRootAttribute, T>().FirstOrDefault();

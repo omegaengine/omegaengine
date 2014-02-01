@@ -553,10 +553,10 @@ namespace Common.Storage
         }
 
 #if FS_SECURITY
-    /// <summary>
-    /// Applies ACLs to an existing directory that block write-access for regular users. Does nothing if the directory does not exist.
-    /// </summary>
-    /// <exception cref="NotAdminException">Thrown if a directory exists and the user is not an administrator.</exception>
+        /// <summary>
+        /// Applies ACLs to an existing directory that block write-access for regular users. Does nothing if the directory does not exist.
+        /// </summary>
+        /// <exception cref="NotAdminException">Thrown if a directory exists and the user is not an administrator.</exception>
         public static void SecureExistingMachineWideDir(string path)
         {
             if (!Directory.Exists(path)) return;

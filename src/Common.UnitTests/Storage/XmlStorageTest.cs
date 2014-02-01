@@ -80,7 +80,7 @@ namespace Common.Storage
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,System.IO.Stream,string,Common.Storage.EmbeddedFile[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(System.IO.Stream,string,Common.Storage.EmbeddedFile[])"/> work correctly with no password.
+        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,string,string,EmbeddedFile[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(string,string,EmbeddedFile[])"/> work correctly with no password.
         /// </summary>
         [Test]
         public void TestZipNoPassword()
@@ -97,7 +97,7 @@ namespace Common.Storage
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,System.IO.Stream,string,Common.Storage.EmbeddedFile[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(System.IO.Stream,string,Common.Storage.EmbeddedFile[])"/> work correctly with a password.
+        /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,string,string,EmbeddedFile[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(string,string,EmbeddedFile[])"/> work correctly with a password.
         /// </summary>
         [Test]
         public void TestZipPassword()
@@ -114,7 +114,7 @@ namespace Common.Storage
         }
 
         /// <summary>
-        /// Ensures <see cref="XmlStorage.LoadXmlZip{T}(System.IO.Stream,string,Common.Storage.EmbeddedFile[])"/> correctly detects incorrect passwords.
+        /// Ensures <see cref="XmlStorage.LoadXmlZip{T}(string,string,EmbeddedFile[])"/> correctly detects incorrect passwords.
         /// </summary>
         [Test]
         public void TestIncorrectPassword()
