@@ -77,7 +77,7 @@
 			<Shift X="0" Y="70" Z="30" />
 		</CpuParticleSystem>
 		<Circle Radius="40" />
-		<MovementControl />
+		<Movement />
 	</EntityTemplate>
 	<EntityTemplate Name="Test.Sphere.Plain.Opaque.20480">
 		<TestSphere Radius="100" Slices="142" Stacks="142">

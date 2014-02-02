@@ -22,16 +22,16 @@
 
 using System.ComponentModel;
 using System.Xml.Serialization;
-using AlphaFramework.World.EntityComponents;
+using AlphaFramework.World.Components;
 using Common.Values;
 using SlimDX;
 
-namespace TerrainSample.World.EntityComponents
+namespace TerrainSample.World.Components
 {
     /// <summary>
     /// Collision-detection using a simple uniform circle.
     /// </summary>
-    public class Circle : CollisionControl<Vector2>
+    public class Circle : Collision<Vector2>
     {
         /// <summary>
         /// The radius of the circle.

@@ -10,13 +10,13 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 
-namespace AlphaFramework.World.EntityComponents
+namespace AlphaFramework.World.Components
 {
     /// <summary>
     /// Represents a particle system (e.g. fire or steam) controlled by an XML preset.
     /// </summary>
-    /// <seealso cref="EntityTemplateBase{TSelf}.RenderControls"/>
-    public abstract class ParticleSystem : RenderControl
+    /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
+    public abstract class ParticleSystem : Render
     {
         /// <summary>
         /// The filename of the XML particle system preset containing detailed settings.

@@ -24,12 +24,12 @@ using System;
 using AlphaFramework.World.Positionables;
 using Common.Values;
 
-namespace AlphaFramework.World.EntityComponents
+namespace AlphaFramework.World.Components
 {
     /// <summary>
     /// Controls how <see cref="EntityBase{TCoordinates,TTemplate}"/>s occupy space around them.
     /// </summary>
-    public abstract class CollisionControl<TCoordinates> : ICloneable
+    public abstract class Collision<TCoordinates> : ICloneable
         where TCoordinates : struct
     {
         /// <inheritdoc/>
@@ -69,13 +69,13 @@ namespace AlphaFramework.World.EntityComponents
 
         #region Clone
         /// <summary>
-        /// Creates a copy of this <see cref="CollisionControl{TCoordinates}"/>.
+        /// Creates a copy of this <see cref="Collision{TCoordinates}"/>.
         /// </summary>
-        /// <returns>The cloned <see cref="CollisionControl{TCoordinates}"/>.</returns>
-        public CollisionControl<TCoordinates> Clone()
+        /// <returns>The cloned <see cref="Collision{TCoordinates}"/>.</returns>
+        public Collision<TCoordinates> Clone()
         {
             // Perform initial shallow copy
-            return (CollisionControl<TCoordinates>)MemberwiseClone();
+            return (Collision<TCoordinates>)MemberwiseClone();
         }
 
         object ICloneable.Clone()

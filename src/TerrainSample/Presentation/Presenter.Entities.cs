@@ -22,7 +22,7 @@
 
 using System.Drawing;
 using System.Linq;
-using AlphaFramework.World.EntityComponents;
+using AlphaFramework.World.Components;
 using Common.Utils;
 using Common.Values;
 using OmegaEngine;
@@ -31,9 +31,9 @@ using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 using TerrainSample.World.Positionables;
-using CpuParticleSystem = AlphaFramework.World.EntityComponents.CpuParticleSystem;
-using GpuParticleSystem = AlphaFramework.World.EntityComponents.GpuParticleSystem;
-using LightSource = AlphaFramework.World.EntityComponents.LightSource;
+using CpuParticleSystem = AlphaFramework.World.Components.CpuParticleSystem;
+using GpuParticleSystem = AlphaFramework.World.Components.GpuParticleSystem;
+using LightSource = AlphaFramework.World.Components.LightSource;
 using ViewType = OmegaEngine.Graphics.Renderables.ViewType;
 using WorldWater = AlphaFramework.World.Positionables.Water;
 
@@ -63,26 +63,25 @@ namespace TerrainSample.Presentation
         }
 
         /// <summary>
-        /// A callback for mapping a <see cref="RenderControl"/> to an <see cref="Engine"/> representation.
+        /// A callback for mapping a <see cref="Render"/> component to an <see cref="Engine"/> representation.
         /// </summary>
-        /// <typeparam name="TRenderComponent">The specific type of <see cref="RenderControl"/> to handle.</typeparam>
-        /// <param name="entity">The entity containing the <see cref="RenderControl"/>.</param>
-        /// <param name="renderComponent">The <see cref="RenderControl"/> to visualize using the <see cref="Engine"/>.</param>
+        /// <typeparam name="TComponent">The specific type of <see cref="Render"/> component to handle.</typeparam>
+        /// <param name="entity">The entity containing the <see cref="Render"/> component.</param>
+        /// <param name="component">The <see cref="Render"/> component to visualize using the <see cref="Engine"/>.</param>
         /// <returns>The generated <see cref="Engine"/> representation.</returns>
-        protected delegate PositionableRenderable RenderCompononentToEngine<TRenderComponent>(Entity entity, TRenderComponent renderComponent)
-            where TRenderComponent : RenderControl;
+        protected delegate PositionableRenderable RenderCompononentToEngine<TComponent>(Entity entity, TComponent component)
+            where TComponent : Render;
 
         /// <summary>
-        /// Registers a callback for converting a <see cref="RenderControl"/> to an <see cref="Engine"/> representation.
+        /// Registers a callback for converting a <see cref="Render"/> component to an <see cref="Engine"/> representation.
         /// </summary>
-        /// <typeparam name="TRenderComponent">The specific type of <see cref="RenderControl"/> to handle.</typeparam>
-        /// <param name="create">The callback for mapping a <see cref="RenderControl"/> to an <see cref="Engine"/> representation.</param>
-        protected void RegisterRenderComponent<TRenderComponent>(RenderCompononentToEngine<TRenderComponent> create)
-            where TRenderComponent : RenderControl
+        /// <typeparam name="TComponent">The specific type of <see cref="Render"/> component to handle.</typeparam>
+        /// <param name="create">The callback for mapping a <see cref="Render"/> component to an <see cref="Engine"/> representation.</param>
+        protected void RegisterRenderComponent<TComponent>(RenderCompononentToEngine<TComponent> create)
+            where TComponent : Render
         {
             RenderablesSync.RegisterMultiple<Entity, PositionableRenderable>(
-                element => element.TemplateData.RenderControls.OfType<TRenderComponent>()
-                    .Select(renderControl => create(element, renderControl)),
+                element => element.TemplateData.Render.OfType<TComponent>().Select(component => create(element, component)),
                 (entity, representation) =>
                 {
                     representation.Position = GetTerrainPosition(entity);
@@ -96,15 +95,14 @@ namespace TerrainSample.Presentation
         private void RegisterRenderComponentLight()
         {
             LightsSync.RegisterMultiple<Entity, PointLight>(
-                entity => entity.TemplateData.RenderControls.OfType<LightSource>()
-                    .Select(renderControl => new PointLight
-                    {
-                        Name = entity.Name,
-                        Range = renderControl.Range,
-                        Attenuation = renderControl.Attenuation,
-                        Diffuse = renderControl.Color,
-                        Shift = renderControl.Shift
-                    }),
+                entity => entity.TemplateData.Render.OfType<LightSource>().Select(component => new PointLight
+                {
+                    Name = entity.Name,
+                    Range = component.Range,
+                    Attenuation = component.Attenuation,
+                    Diffuse = component.Color,
+                    Shift = component.Shift
+                }),
                 (entity, light) =>
                 {
                     var rotatedShift = Vector3.TransformCoordinate(light.Shift, Matrix.RotationY(entity.Rotation.DegreeToRadian()));
@@ -120,71 +118,71 @@ namespace TerrainSample.Presentation
 
             RegisterRenderComponentLight();
 
-            RegisterRenderComponent<StaticMesh>((entity, renderControl) =>
+            RegisterRenderComponent<StaticMesh>((entity, component) =>
             {
-                var model = new Model(XMesh.Get(Engine, renderControl.Filename)) {Name = entity.Name};
-                ConfigureModel(model, renderControl);
+                var model = new Model(XMesh.Get(Engine, component.Filename)) {Name = entity.Name};
+                ConfigureModel(model, component);
                 return model;
             });
-            RegisterRenderComponent<AnimatedMesh>((entity, renderControl) =>
+            RegisterRenderComponent<AnimatedMesh>((entity, component) =>
             {
-                var model = new AnimatedModel(XAnimatedMesh.Get(Engine, renderControl.Filename)) {Name = entity.Name};
-                ConfigureModel(model, renderControl);
+                var model = new AnimatedModel(XAnimatedMesh.Get(Engine, component.Filename)) {Name = entity.Name};
+                ConfigureModel(model, component);
                 return model;
             });
-            RegisterRenderComponent<TestSphere>((entity, renderControl) =>
+            RegisterRenderComponent<TestSphere>((entity, componpent) =>
             {
-                var model = Model.Sphere(Engine, XTexture.Get(Engine, renderControl.Texture), renderControl.Radius, renderControl.Slices, renderControl.Stacks);
+                var model = Model.Sphere(Engine, XTexture.Get(Engine, componpent.Texture), componpent.Radius, componpent.Slices, componpent.Stacks);
                 model.Name = entity.Name;
-                ConfigureModel(model, renderControl);
+                ConfigureModel(model, componpent);
                 return model;
             });
-            RegisterRenderComponent<CpuParticleSystem>((entity, renderControl) =>
+            RegisterRenderComponent<CpuParticleSystem>((entity, componpent) =>
             {
-                var particleSystem = new OmegaEngine.Graphics.Renderables.CpuParticleSystem(CpuParticlePreset.FromContent(renderControl.Filename));
-                ConfigureParticleSystem(entity, particleSystem, renderControl);
+                var particleSystem = new OmegaEngine.Graphics.Renderables.CpuParticleSystem(CpuParticlePreset.FromContent(componpent.Filename));
+                ConfigureParticleSystem(entity, particleSystem, componpent);
                 return particleSystem;
             });
-            RegisterRenderComponent<GpuParticleSystem>((entity, renderControl) =>
+            RegisterRenderComponent<GpuParticleSystem>((entity, componpent) =>
             {
-                var particleSystem = new OmegaEngine.Graphics.Renderables.GpuParticleSystem(GpuParticlePreset.FromContent(renderControl.Filename));
-                ConfigureParticleSystem(entity, particleSystem, renderControl);
+                var particleSystem = new OmegaEngine.Graphics.Renderables.GpuParticleSystem(GpuParticlePreset.FromContent(componpent.Filename));
+                ConfigureParticleSystem(entity, particleSystem, componpent);
                 return particleSystem;
             });
         }
 
-        private void ConfigureModel(PositionableRenderable model, Mesh meshRenderControl)
+        private void ConfigureModel(PositionableRenderable model, Mesh meshcomponpent)
         {
-            model.PreTransform = Matrix.Scaling(meshRenderControl.Scale, meshRenderControl.Scale, meshRenderControl.Scale) *
+            model.PreTransform = Matrix.Scaling(meshcomponpent.Scale, meshcomponpent.Scale, meshcomponpent.Scale) *
                                  Matrix.RotationYawPitchRoll(
-                                     meshRenderControl.RotationY.DegreeToRadian(),
-                                     meshRenderControl.RotationX.DegreeToRadian(),
-                                     meshRenderControl.RotationZ.DegreeToRadian()) *
-                                 Matrix.Translation(meshRenderControl.Shift);
-            model.Alpha = meshRenderControl.Alpha;
-            model.Pickable = meshRenderControl.Pickable;
-            model.RenderIn = (ViewType)meshRenderControl.RenderIn;
+                                     meshcomponpent.RotationY.DegreeToRadian(),
+                                     meshcomponpent.RotationX.DegreeToRadian(),
+                                     meshcomponpent.RotationZ.DegreeToRadian()) *
+                                 Matrix.Translation(meshcomponpent.Shift);
+            model.Alpha = meshcomponpent.Alpha;
+            model.Pickable = meshcomponpent.Pickable;
+            model.RenderIn = (ViewType)meshcomponpent.RenderIn;
             if (Lighting) model.SurfaceEffect = SurfaceEffect.Shader;
             model.Wireframe = WireframeEntities;
             model.DrawBoundingSphere = BoundingSphereEntities;
             model.DrawBoundingBox = BoundingBoxEntities;
         }
 
-        private void ConfigureModel(Model model, TestSphere renderControl)
+        private void ConfigureModel(Model model, TestSphere componpent)
         {
-            model.PreTransform = Matrix.Translation(renderControl.Shift);
-            model.Alpha = renderControl.Alpha;
+            model.PreTransform = Matrix.Translation(componpent.Shift);
+            model.Alpha = componpent.Alpha;
             if (Lighting) model.SurfaceEffect = SurfaceEffect.Shader;
             model.Wireframe = WireframeEntities;
             model.DrawBoundingSphere = BoundingSphereEntities;
             model.DrawBoundingBox = BoundingBoxEntities;
         }
 
-        private void ConfigureParticleSystem(Entity entity, PositionableRenderable particleSystem, ParticleSystem particleRenderControl)
+        private void ConfigureParticleSystem(Entity entity, PositionableRenderable particleSystem, ParticleSystem particlecomponpent)
         {
             particleSystem.Name = entity.Name;
-            particleSystem.PreTransform = Matrix.Translation(particleRenderControl.Shift);
-            particleSystem.VisibilityDistance = particleRenderControl.VisibilityDistance;
+            particleSystem.PreTransform = Matrix.Translation(particlecomponpent.Shift);
+            particleSystem.VisibilityDistance = particlecomponpent.VisibilityDistance;
             particleSystem.Wireframe = WireframeEntities;
             particleSystem.DrawBoundingSphere = BoundingSphereEntities;
             particleSystem.DrawBoundingBox = BoundingBoxEntities;

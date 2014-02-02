@@ -24,7 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using AlphaFramework.World.EntityComponents;
+using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 using Common;
 using Common.Collections;
@@ -36,7 +36,7 @@ using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Input;
 using SlimDX;
 using TerrainSample.World;
-using TerrainSample.World.EntityComponents;
+using TerrainSample.World.Components;
 using TerrainSample.World.Positionables;
 
 namespace TerrainSample.Presentation
@@ -131,7 +131,7 @@ namespace TerrainSample.Presentation
         /// <param name="entity">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to add the selection highlighting for</param>
         private Model GetSelectionHighlighting(Entity entity)
         {
-            var selectionHighlight = new PerTypeDispatcher<CollisionControl<Vector2>, Model>(ignoreMissing: true)
+            var selectionHighlight = new PerTypeDispatcher<Collision<Vector2>, Model>(ignoreMissing: true)
             {
                 (Circle circle) =>
                 {
@@ -158,7 +158,7 @@ namespace TerrainSample.Presentation
                     highlight.PreTransform = Matrix.Scaling(diff.X, 1, diff.Y) * Matrix.Translation(min.X, 0, -min.Y);
                     return highlight;
                 }
-            }.Dispatch(entity.TemplateData.CollisionControl);
+            }.Dispatch(entity.TemplateData.Collision);
             if (selectionHighlight != null) selectionHighlight.Name = entity.Name + " Selection";
             return selectionHighlight;
         }
@@ -202,7 +202,7 @@ namespace TerrainSample.Presentation
             foreach (var entity in positionables.OfType<Entity>())
             {
                 // Start pathfinding if this entity can move
-                if (entity.TemplateData.MovementControl != null)
+                if (entity.TemplateData.Movement != null)
                     Universe.MoveEntity(entity, target);
                 else
                     Log.Warn(entity + " is unable to move");

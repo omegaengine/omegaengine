@@ -18,7 +18,7 @@
 using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
-using AlphaFramework.World.EntityComponents;
+using AlphaFramework.World.Components;
 using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
@@ -53,48 +53,48 @@ namespace TerrainSample.World.Positionables
 
         #region Collision
         /// <summary>
-        /// Determines whether a certain point collides with this entity (based on its <see cref="CollisionControl{TCoordinates}"/> component).
+        /// Determines whether a certain point collides with this entity (based on its <see cref="Collision{TCoordinates}"/> component).
         /// </summary>
         /// <param name="point">The point to check for collision in world space.</param>
         /// <returns><see langword="true"/> if the <paramref name="point"/> does collide with this entity, <see langword="false"/> otherwise.</returns>
         public bool CollisionTest(Vector2 point)
         {
             // With no valid collision control all collision checks always fail
-            if (TemplateData.CollisionControl == null) return false;
+            if (TemplateData.Collision == null) return false;
 
             // Convert position from world space to entity space and transmit rotation
             var shiftedPoint = point - Position;
-            return TemplateData.CollisionControl.CollisionTest(shiftedPoint, Rotation);
+            return TemplateData.Collision.CollisionTest(shiftedPoint, Rotation);
         }
 
         /// <summary>
-        /// Determines whether a certain area collides with this entity (based on its <see cref="CollisionControl{TCoordinates}"/> component).
+        /// Determines whether a certain area collides with this entity (based on its <see cref="Collision{TCoordinates}"/> component).
         /// </summary>
         /// <param name="area">The area to check for collision in world space.</param>
         /// <returns><see langword="true"/> if the <paramref name="area"/> does collide with this entity, <see langword="false"/> otherwise.</returns>
         public bool CollisionTest(Quadrangle area)
         {
             // With no valid collision control all collision checks always fail
-            if (TemplateData.CollisionControl == null) return false;
+            if (TemplateData.Collision == null) return false;
 
             // Convert position from world space to entity space and transmit rotation
             var shiftedArea = area.Offset(-Position);
-            return TemplateData.CollisionControl.CollisionTest(shiftedArea, Rotation);
+            return TemplateData.Collision.CollisionTest(shiftedArea, Rotation);
         }
         #endregion
 
         #region Path finding
         /// <summary>
-        /// Returns a list of positions that outline this <see cref="EntityBase{TCoordinates,TTemplate}"/>s <see cref="CollisionControl{TCoordinates}"/>.
+        /// Returns a list of positions that outline this <see cref="EntityBase{TCoordinates,TTemplate}"/>s <see cref="Collision{TCoordinates}"/>.
         /// </summary>
         /// <returns>Positions in world space for use by the pathfinding system.</returns>
         public Vector2[] GetPathFindingOutline()
         {
             // With no valid collision control the outline is empty
-            if (TemplateData.CollisionControl == null) return new Vector2[0];
+            if (TemplateData.Collision == null) return new Vector2[0];
 
             // Transmit rotation
-            Vector2[] outline = TemplateData.CollisionControl.GetPathFindingOutline(Rotation);
+            Vector2[] outline = TemplateData.Collision.GetPathFindingOutline(Rotation);
 
             // Convert positions from entity space to world space
             for (int i = 0; i < outline.Length; i++)
@@ -122,7 +122,7 @@ namespace TerrainSample.World.Positionables
                 float differenceLength = posDifference.Length();
 
                 // Calculate how much of the distance should be walked in this interval
-                var movementFactor = (float)(elapsedTime * TemplateData.MovementControl.Speed / differenceLength);
+                var movementFactor = (float)(elapsedTime * TemplateData.Movement.Speed / differenceLength);
 
                 if (movementFactor >= 1)
                 { // This move will skip past the current node
@@ -130,7 +130,7 @@ namespace TerrainSample.World.Positionables
                     leader.PathNodes.Pop();
 
                     // Subtract the amount of time the rest of the distance to the node would have taken
-                    elapsedTime -= differenceLength / TemplateData.MovementControl.Speed;
+                    elapsedTime -= differenceLength / TemplateData.Movement.Speed;
 
                     if (leader.PathNodes.Count == 0)
                     { // No further nodes, go to final target

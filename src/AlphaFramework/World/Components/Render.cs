@@ -12,13 +12,13 @@ using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Templates;
 using SlimDX;
 
-namespace AlphaFramework.World.EntityComponents
+namespace AlphaFramework.World.Components
 {
     /// <summary>
     /// Controls how an <see cref="EntityBase{TCoordinates,TTemplate}"/> shall be rendered.
     /// </summary>
-    /// <seealso cref="EntityTemplateBase{TSelf}.RenderControls"/>
-    public abstract class RenderControl : ICloneable
+    /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
+    public abstract class Render : ICloneable
     {
         /// <inheritdoc/>
         public override string ToString()
@@ -36,13 +36,13 @@ namespace AlphaFramework.World.EntityComponents
 
         #region Clone
         /// <summary>
-        /// Creates a shallow copy of this <see cref="RenderControl"/>
+        /// Creates a shallow copy of this <see cref="Render"/>
         /// </summary>
-        /// <returns>The cloned <see cref="RenderControl"/>.</returns>
-        public RenderControl Clone()
+        /// <returns>The cloned <see cref="Render"/>.</returns>
+        public Render Clone()
         {
             // Perform initial shallow copy
-            return (RenderControl)MemberwiseClone();
+            return (Render)MemberwiseClone();
         }
 
         object ICloneable.Clone()

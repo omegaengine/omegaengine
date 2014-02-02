@@ -68,17 +68,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\AssemblyInfo.Global.cs" />
-    <Compile Include="EntityComponents\CollisionControl.cs" />
-    <Compile Include="EntityComponents\AnimatedMesh.cs" />
-    <Compile Include="EntityComponents\CpuParticleSystem.cs" />
-    <Compile Include="EntityComponents\GpuParticleSystem.cs" />
-    <Compile Include="EntityComponents\LightSource.cs" />
-    <Compile Include="EntityComponents\Mesh.cs" />
-    <Compile Include="EntityComponents\MovementControl.cs" />
-    <Compile Include="EntityComponents\ParticleSystem.cs" />
-    <Compile Include="EntityComponents\RenderControl.cs" />
-    <Compile Include="EntityComponents\StaticMesh.cs" />
-    <Compile Include="EntityComponents\TestSphere.cs" />
+    <Compile Include="Components\Collision.cs" />
+    <Compile Include="Components\AnimatedMesh.cs" />
+    <Compile Include="Components\CpuParticleSystem.cs" />
+    <Compile Include="Components\GpuParticleSystem.cs" />
+    <Compile Include="Components\LightSource.cs" />
+    <Compile Include="Components\Mesh.cs" />
+    <Compile Include="Components\Movement.cs" />
+    <Compile Include="Components\ParticleSystem.cs" />
+    <Compile Include="Components\Render.cs" />
+    <Compile Include="Components\StaticMesh.cs" />
+    <Compile Include="Components\TestSphere.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IUniverse.cs" />
     <Compile Include="Paths\IPathfinder.cs" />

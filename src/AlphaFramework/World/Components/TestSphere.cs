@@ -10,13 +10,13 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 
-namespace AlphaFramework.World.EntityComponents
+namespace AlphaFramework.World.Components
 {
     /// <summary>
     /// Renders a simple (optionally textured) sphere for benchmarks, etc.
     /// </summary>
-    /// <seealso cref="EntityTemplateBase{TSelf}.RenderControls"/>
-    public class TestSphere : RenderControl
+    /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
+    public class TestSphere : Render
     {
         /// <summary>
         /// The filename of the texture to place on the sphere.

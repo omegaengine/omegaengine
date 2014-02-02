@@ -24,12 +24,12 @@ using System;
 using System.ComponentModel;
 using AlphaFramework.World.Positionables;
 
-namespace AlphaFramework.World.EntityComponents
+namespace AlphaFramework.World.Components
 {
     /// <summary>
     /// Controls the basic movement parameters.
     /// </summary>
-    public class MovementControl : ICloneable
+    public class Movement : ICloneable
     {
         /// <inheritdoc/>
         public override string ToString()
@@ -57,13 +57,13 @@ namespace AlphaFramework.World.EntityComponents
 
         #region Clone
         /// <summary>
-        /// Creates a shallow copy of this <see cref="MovementControl"/>
+        /// Creates a shallow copy of this <see cref="Movement"/>
         /// </summary>
-        /// <returns>The cloned <see cref="MovementControl"/>.</returns>
-        public MovementControl Clone()
+        /// <returns>The cloned <see cref="Movement"/>.</returns>
+        public Movement Clone()
         {
             // Perform initial shallow copy
-            return (MovementControl)MemberwiseClone();
+            return (Movement)MemberwiseClone();
         }
 
         object ICloneable.Clone()

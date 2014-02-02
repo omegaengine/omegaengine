@@ -14,13 +14,13 @@ using Common.Values;
 using LuaInterface;
 using SlimDX;
 
-namespace AlphaFramework.World.EntityComponents
+namespace AlphaFramework.World.Components
 {
     /// <summary>
     /// Represents a point light source.
     /// </summary>
-    /// <seealso cref="EntityTemplateBase{TSelf}.RenderControls"/>
-    public class LightSource : RenderControl
+    /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
+    public class LightSource : Render
     {
         private Color _color = Color.White;
 

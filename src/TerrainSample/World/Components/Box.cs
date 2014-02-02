@@ -23,16 +23,16 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
-using AlphaFramework.World.EntityComponents;
+using AlphaFramework.World.Components;
 using Common.Values;
 using SlimDX;
 
-namespace TerrainSample.World.EntityComponents
+namespace TerrainSample.World.Components
 {
     /// <summary>
     /// Collision-detection using an axis-aligned box.
     /// </summary>
-    public class Box : CollisionControl<Vector2>
+    public class Box : Collision<Vector2>
     {
         /// <summary>
         /// The lower left corner of the box (originating from the body's position).

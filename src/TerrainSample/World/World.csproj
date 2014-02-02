@@ -67,6 +67,8 @@
     <Compile Include="Config\ConfigForm.Designer.cs">
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Components\Box.cs" />
+    <Compile Include="Components\Circle.cs" />
     <Compile Include="Config\Controls.cs" />
     <Compile Include="Config\Display.cs" />
     <Compile Include="Config\Editor.cs" />
@@ -74,8 +76,6 @@
     <Compile Include="Config\Graphics.cs" />
     <Compile Include="Config\Settings.cs" />
     <Compile Include="Config\Sound.cs" />
-    <Compile Include="EntityComponents\Box.cs" />
-    <Compile Include="EntityComponents\Circle.cs" />
     <Compile Include="Positionables\Entity.cs" />
     <Compile Include="Positionables\Waypoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

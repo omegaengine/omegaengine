@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 using Common.Values.Design;
 
-namespace AlphaFramework.World.EntityComponents
+namespace AlphaFramework.World.Components
 {
 
     #region Enumerations
@@ -36,8 +36,8 @@ namespace AlphaFramework.World.EntityComponents
     /// <summary>
     /// Represents a mesh loaded from a file.
     /// </summary>
-    /// <seealso cref="EntityTemplateBase{TSelf}.RenderControls"/>
-    public abstract class Mesh : RenderControl
+    /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
+    public abstract class Mesh : Render
     {
         /// <summary>
         /// The filename of the mesh-file to use for rendering.

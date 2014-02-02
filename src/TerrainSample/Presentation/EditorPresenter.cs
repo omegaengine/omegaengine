@@ -36,7 +36,7 @@ using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 using TerrainSample.World;
-using TerrainSample.World.EntityComponents;
+using TerrainSample.World.Components;
 using View = OmegaEngine.Graphics.View;
 
 namespace TerrainSample.Presentation

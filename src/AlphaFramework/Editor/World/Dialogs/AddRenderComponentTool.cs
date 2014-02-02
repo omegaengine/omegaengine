@@ -9,13 +9,13 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using AlphaFramework.World.EntityComponents;
+using AlphaFramework.World.Components;
 using AlphaFramework.World.Templates;
 
 namespace AlphaFramework.Editor.World.Dialogs
 {
     /// <summary>
-    /// Allows the user to add a new <see cref="RenderControl"/> to an <see cref="EntityTemplateBase{TSelf}"/>.
+    /// Allows the user to add a new <see cref="Render"/> component to an <see cref="EntityTemplateBase{TSelf}"/>.
     /// </summary>
     /// <remarks>This is a non-modal floating toolbox window. Communication is handled via events (<see cref="NewRenderComponent"/>).</remarks>
     public sealed partial class AddRenderComponentTool : System.Windows.Forms.Form
@@ -26,9 +26,9 @@ namespace AlphaFramework.Editor.World.Dialogs
         /// </summary>
         [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
         [Description("Occurs when a new render component is to be added")]
-        public event Action<RenderControl> NewRenderComponent;
+        public event Action<Render> NewRenderComponent;
 
-        private void OnNewRenderComponent(RenderControl component)
+        private void OnNewRenderComponent(Render component)
         {
             if (NewRenderComponent != null) NewRenderComponent(component);
         }

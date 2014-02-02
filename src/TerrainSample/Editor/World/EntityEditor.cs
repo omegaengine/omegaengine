@@ -27,7 +27,7 @@ using System.Windows.Forms;
 using AlphaFramework.Editor;
 using AlphaFramework.Editor.Properties;
 using AlphaFramework.Editor.World.Dialogs;
-using AlphaFramework.World.EntityComponents;
+using AlphaFramework.World.Components;
 using AlphaFramework.World.Templates;
 using AlphaFramework.World.Terrains;
 using Common;
@@ -154,8 +154,8 @@ namespace TerrainSample.Editor.World
                 comboRender.Items.Clear();
 
                 // List render components in drop-down combo-box
-                foreach (var renderControl in selectedClass.RenderControls)
-                    comboRender.Items.Add(renderControl);
+                foreach (var render in selectedClass.Render)
+                    comboRender.Items.Add(render);
 
                 if (comboRender.Items.Count > 0)
                 {
@@ -172,18 +172,18 @@ namespace TerrainSample.Editor.World
                 #endregion
 
                 #region Collision Control
-                buttonAddCollision.Enabled = (selectedClass.CollisionControl == null);
+                buttonAddCollision.Enabled = (selectedClass.Collision == null);
                 buttonRemoveCollision.Enabled = !buttonAddCollision.Enabled;
-                propertyGridCollision.SelectedObject = selectedClass.CollisionControl;
-                labelCollision.Text = (selectedClass.CollisionControl == null) ? "None" : selectedClass.CollisionControl.ToString();
+                propertyGridCollision.SelectedObject = selectedClass.Collision;
+                labelCollision.Text = (selectedClass.Collision == null) ? "None" : selectedClass.Collision.ToString();
                 #endregion
 
                 #region Movement Control
-                buttonAddMovement.Enabled = (selectedClass.MovementControl == null);
+                buttonAddMovement.Enabled = (selectedClass.Movement == null);
                 buttonRemoveMovement.Enabled = !buttonAddMovement.Enabled;
-                propertyGridMovement.SelectedObject = selectedClass.MovementControl;
-                labelMovement.Text = (selectedClass.MovementControl == null) ? "None" :
-                    selectedClass.MovementControl.ToString();
+                propertyGridMovement.SelectedObject = selectedClass.Movement;
+                labelMovement.Text = (selectedClass.Movement == null) ? "None" :
+                    selectedClass.Movement.ToString();
                 #endregion
 
                 #region Setup sample rendering
@@ -270,14 +270,14 @@ namespace TerrainSample.Editor.World
             if (_addRenderComponentTool != null) return;
 
             _addRenderComponentTool = new AddRenderComponentTool();
-            _addRenderComponentTool.NewRenderComponent += delegate(RenderControl renderControl)
+            _addRenderComponentTool.NewRenderComponent += delegate(Render render)
             { // Callback when the "Add" button is clicked
-                TemplateList.SelectedEntry.RenderControls.Add(renderControl);
+                TemplateList.SelectedEntry.Render.Add(render);
                 OnChange();
 
                 // Select the newly added render component
                 OnUpdate();
-                comboRender.SelectedItem = renderControl;
+                comboRender.SelectedItem = render;
             };
 
             // Clear the reference when the dialog is disposed
@@ -349,10 +349,10 @@ namespace TerrainSample.Editor.World
 
         private void buttonRemoveRender_Click(object sender, EventArgs e)
         {
-            var renderControl = comboRender.SelectedItem as RenderControl;
-            if (renderControl == null) return;
+            var render = comboRender.SelectedItem as Render;
+            if (render == null) return;
 
-            TemplateList.SelectedEntry.RenderControls.Remove(renderControl);
+            TemplateList.SelectedEntry.Render.Remove(render);
             OnChange();
 
             OnUpdate();
@@ -380,10 +380,10 @@ namespace TerrainSample.Editor.World
                 "Box\nCreate a new box collision body"))
             {
                 case DialogResult.Yes:
-                    TemplateList.SelectedEntry.CollisionControl = _presenter.GetCollisionCircle();
+                    TemplateList.SelectedEntry.Collision = _presenter.GetCollisionCircle();
                     break;
                 case DialogResult.No:
-                    TemplateList.SelectedEntry.CollisionControl = _presenter.GetCollisionBox();
+                    TemplateList.SelectedEntry.Collision = _presenter.GetCollisionBox();
                     break;
                 case DialogResult.Cancel:
                     return;
@@ -395,7 +395,7 @@ namespace TerrainSample.Editor.World
 
         private void buttonRemoveCollision_Click(object sender, EventArgs e)
         {
-            TemplateList.SelectedEntry.CollisionControl = null;
+            TemplateList.SelectedEntry.Collision = null;
             OnChange();
 
             OnUpdate();
@@ -413,7 +413,7 @@ namespace TerrainSample.Editor.World
         #region Movement Control
         private void buttonAddMovement_Click(object sender, EventArgs e)
         {
-            TemplateList.SelectedEntry.MovementControl = new MovementControl();
+            TemplateList.SelectedEntry.Movement = new Movement();
             OnChange();
 
             OnUpdate();
@@ -421,7 +421,7 @@ namespace TerrainSample.Editor.World
 
         private void buttonRemoveMovement_Click(object sender, EventArgs e)
         {
-            TemplateList.SelectedEntry.MovementControl = null;
+            TemplateList.SelectedEntry.Movement = null;
             OnChange();
 
             OnUpdate();

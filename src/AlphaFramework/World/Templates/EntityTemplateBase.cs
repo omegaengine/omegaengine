@@ -9,7 +9,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Xml.Serialization;
-using AlphaFramework.World.EntityComponents;
+using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 
 namespace AlphaFramework.World.Templates
@@ -19,7 +19,7 @@ namespace AlphaFramework.World.Templates
     /// </summary>
     public abstract class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : EntityTemplateBase<TSelf>
     {
-        private Collection<RenderControl> _renderControls = new Collection<RenderControl>();
+        private Collection<Render> _render = new Collection<Render>();
 
         /// <summary>
         /// Controls how this class of entities shall be rendered.
@@ -27,13 +27,13 @@ namespace AlphaFramework.World.Templates
         [Browsable(false)]
         // Note: Can not use ICollection<T> interface with XML Serialization
         [XmlElement(typeof(TestSphere)), XmlElement(typeof(StaticMesh)), XmlElement(typeof(AnimatedMesh)), XmlElement(typeof(CpuParticleSystem)), XmlElement(typeof(GpuParticleSystem)), XmlElement(typeof(LightSource))]
-        public Collection<RenderControl> RenderControls { get { return _renderControls; } }
+        public Collection<Render> Render { get { return _render; } }
 
         /// <summary>
         /// Controls the basic movement parameters.
         /// </summary>
         [Browsable(false)]
-        public MovementControl MovementControl { get; set; }
+        public Movement Movement { get; set; }
 
         //--------------------//
 
@@ -48,9 +48,9 @@ namespace AlphaFramework.World.Templates
             var newClass = base.Clone();
 
             // Replace contained lists with deep copies
-            newClass._renderControls = new Collection<RenderControl>();
-            foreach (RenderControl renderControl in RenderControls)
-                newClass.RenderControls.Add(renderControl.Clone());
+            newClass._render = new Collection<Render>();
+            foreach (var render in Render)
+                newClass.Render.Add(render.Clone());
 
             return newClass;
         }

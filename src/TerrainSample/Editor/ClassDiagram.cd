@@ -69,11 +69,11 @@
     <Position X="1" Y="2.75" Width="2" />
     <TypeIdentifier />
   </Class>
-  <Class Name="AlphaEditor.World.Dialogs.AddRenderControlTool" Collapsed="true">
+  <Class Name="AlphaEditor.World.Dialogs.AddRenderComponentTool" Collapsed="true">
     <Position X="3.75" Y="6.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAACAAABAAAACAAgACAAAAgABIAACAAAABAAA=</HashCode>
-      <FileName>World\Dialogs\AddRenderControlTool.cs</FileName>
+      <FileName>World\Dialogs\AddRenderComponentTool.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AlphaEditor.World.Dialogs.TerrainSizeDialog" Collapsed="true">
@@ -139,7 +139,7 @@
       <FileName>World\EntityEditor.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="_addRenderControlTool" />
+      <Field Name="_addRenderComponentTool" />
     </ShowAsAssociation>
   </Class>
   <Class Name="AlphaEditor.World.ItemEditor" Collapsed="true">

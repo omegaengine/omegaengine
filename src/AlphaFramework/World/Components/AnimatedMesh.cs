@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2006-2014 Bastian Eicher
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -8,12 +8,14 @@
 
 using AlphaFramework.World.Templates;
 
-namespace AlphaFramework.World.EntityComponents
+namespace AlphaFramework.World.Components
 {
     /// <summary>
-    /// Represents a particle system whose particles are tracked by the CPU.
+    /// Represents an animated mesh loaded from a file.
     /// </summary>
-    /// <seealso cref="EntityTemplateBase{TSelf}.RenderControls"/>
-    public class CpuParticleSystem : ParticleSystem
-    {}
+    /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
+    public class AnimatedMesh : Mesh
+    {
+        // ToDo: Implement
+    }
 }

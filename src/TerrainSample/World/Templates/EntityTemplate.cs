@@ -22,11 +22,11 @@
 
 using System.ComponentModel;
 using System.Xml.Serialization;
-using AlphaFramework.World.EntityComponents;
+using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Templates;
 using SlimDX;
-using TerrainSample.World.EntityComponents;
+using TerrainSample.World.Components;
 using TerrainSample.World.Positionables;
 
 namespace TerrainSample.World.Templates
@@ -41,7 +41,7 @@ namespace TerrainSample.World.Templates
         /// </summary>
         [Browsable(false)]
         [XmlElement(typeof(Circle)), XmlElement(typeof(Box))]
-        public CollisionControl<Vector2> CollisionControl { get; set; }
+        public Collision<Vector2> Collision { get; set; }
 
         //--------------------//
 
@@ -56,8 +56,8 @@ namespace TerrainSample.World.Templates
             var newClass = base.Clone();
 
             // Replace contained lists with deep copies
-            if (CollisionControl != null) newClass.CollisionControl = CollisionControl.Clone();
-            if (MovementControl != null) newClass.MovementControl = MovementControl.Clone();
+            if (Collision != null) newClass.Collision = Collision.Clone();
+            if (Movement != null) newClass.Movement = Movement.Clone();
 
             return newClass;
         }
