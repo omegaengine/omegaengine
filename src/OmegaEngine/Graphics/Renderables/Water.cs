@@ -92,7 +92,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="view">The original view to reflect</param>
         /// <param name="clipTolerance">How far to shift the clip plane along its normal vector to reduce graphical glitches at corners</param>
         /// <remarks>This method may be called only once on an instance</remarks>
-        public void SetupChildViews(View view, float clipTolerance)
+        public void SetupChildViews(View view, float clipTolerance = 2)
         {
             #region Sanity checks
             if (view == null) throw new ArgumentNullException("view");
@@ -103,15 +103,6 @@ namespace OmegaEngine.Graphics.Renderables
             _viewSource = WaterViewSource.FromEngine(Engine, Position.Y, view, clipTolerance);
             RequiredViews.Add(_viewSource.RefractedView);
             RequiredViews.Add(_viewSource.ReflectedView);
-        }
-
-        /// <summary>
-        /// Creates views as reflection and refraction sources - Call after setting position!
-        /// </summary>
-        /// <param name="view">The original view to reflect</param>
-        public void SetupChildViews(View view)
-        {
-            SetupChildViews(view, 2);
         }
         #endregion
 
