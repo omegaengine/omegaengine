@@ -55,7 +55,6 @@ namespace TerrainSample.Presentation
         [XmlElement("test-case")]
         public TestCase[] TestCases;
 
-        #region Constructor
         /// <summary>
         /// Base-constructor for XML serialization. Do not call manually!
         /// </summary>
@@ -174,6 +173,5 @@ namespace TerrainSample.Presentation
             }
             #endregion
         }
-        #endregion
     }
 }

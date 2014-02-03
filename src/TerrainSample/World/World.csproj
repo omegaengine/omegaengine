@@ -90,6 +90,8 @@
     <Compile Include="Templates\TerrainTemplate.cs" />
     <Compile Include="Universe.cs" />
     <Compile Include="Universe.Lighting.cs" />
+    <Compile Include="Universe.Pathfinding.cs" />
+    <Compile Include="Universe.Storage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common.csproj">

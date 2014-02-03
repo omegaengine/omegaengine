@@ -10,14 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Xml.Serialization;
-using AlphaFramework.World.Paths;
-using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Templates;
 using Common.Utils;
 using Common.Values;
-using LuaInterface;
 using SlimDX;
 using Resources = AlphaFramework.World.Properties.Resources;
 
@@ -68,38 +64,6 @@ namespace AlphaFramework.World.Terrains
         /// <inheritdoc/>
         [Browsable(false)]
         public Vector2 Center { get { return new Vector2(_size.X * _size.StretchH / 2f, _size.Y * _size.StretchH / 2f); } }
-        #endregion
-
-        #region Terrain templates
-        /// <summary>
-        /// The <typeparamref name="TTemplate"/>s available for usage in this <see cref="ITerrain"/>.
-        /// </summary>
-        [XmlIgnore]
-        public readonly TTemplate[] Templates = new TTemplate[16];
-
-        /// <summary>Used for XML serialization.</summary>
-        /// <seealso cref="Templates"/>
-        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Used for XML serialization")]
-        [XmlElement("Template"), Browsable(false)]
-        public string[] TemplateNames
-        {
-            get
-            {
-                var templateNames = new string[Templates.Length];
-                for (int i = 0; i < Templates.Length; i++)
-                    templateNames[i] = (Templates[i] == null) ? "" : Templates[i].Name;
-                return templateNames;
-            }
-            set
-            {
-                for (int i = 0; i < Templates.Length; i++)
-                {
-                    Templates[i] = (value != null && i < value.Length && !string.IsNullOrEmpty(value[i]))
-                        ? Template<TTemplate>.All[value[i]]
-                        : null;
-                }
-            }
-        }
         #endregion
 
         #region Height-map
@@ -181,6 +145,12 @@ namespace AlphaFramework.World.Terrains
         #endregion
 
         #region Texture-map
+        /// <summary>
+        /// The <typeparamref name="TTemplate"/>s available for usage in this <see cref="ITerrain"/>.
+        /// </summary>
+        [XmlIgnore]
+        public readonly TTemplate[] Templates = new TTemplate[16];
+
         private byte[,] _textureMap;
 
         /// <inheritdoc/>
@@ -210,12 +180,6 @@ namespace AlphaFramework.World.Terrains
         #endregion
 
         #region Constructor
-        /// <summary>
-        /// Base-constructor for XML serialization. Do not call manually!
-        /// </summary>
-        public Terrain()
-        {}
-
         /// <summary>
         /// Creates a new terrain. It is completely flat and has only one texture initially.
         /// </summary>
@@ -284,51 +248,6 @@ namespace AlphaFramework.World.Terrains
                 coordinates.X, // World X = Engine +X
                 height * _size.StretchV, // World height = Engine +Y
                 -coordinates.Y); // World Y = Engine -Z
-        }
-        #endregion
-
-        #region Pathfinding
-        /// <summary>
-        /// The pathfinding engine used on this terrain.
-        /// Is <see langword="null"/> until <see cref="SetupPathfinding"/> has been called.
-        /// </summary>
-        [XmlIgnore]
-        public IPathfinder<Vector2> Pathfinder { get; private set; }
-
-        /// <summary>
-        /// Initializes the pathfinding engine.
-        /// </summary>
-        /// <param name="entities">The <see cref="Positionable{TCoordinates}"/>s to consider for obstacles.</param>
-        /// <remarks>Is automatically called on first access to the terrain.</remarks>
-        [LuaHide]
-        public void SetupPathfinding(IEnumerable<Positionable<Vector2>> entities)
-        {
-            #region Sanity checks
-            if (entities == null) throw new ArgumentNullException("entities");
-            #endregion
-
-            var blockedMap = new bool[_size.X, _size.Y];
-
-            foreach (var water in entities.OfType<Water>())
-            {
-                var xStart = (int)Math.Floor(water.Position.X / _size.StretchH);
-                var xEnd = (int)Math.Ceiling((water.Position.X + water.Size.X) / _size.StretchH);
-                var yStart = (int)Math.Floor(water.Position.Y / _size.StretchH);
-                var yEnd = (int)Math.Ceiling((water.Position.Y + water.Size.Y) / _size.StretchH);
-
-                if (xEnd > Size.X - 1) xEnd = Size.X - 1;
-                if (yEnd > Size.Y - 1) yEnd = Size.Y - 1;
-
-                for (int x = xStart; x <= xEnd; x++)
-                {
-                    for (int y = yStart; y <= yEnd; y++)
-                        blockedMap[x, y] = (HeightMap[x, y] * Size.StretchV) < water.Height - water.TraversableDepth;
-                }
-            }
-
-            // TODO: Block on too steep terrain
-
-            Pathfinder = new SimplePathfinder(blockedMap);
         }
         #endregion
 

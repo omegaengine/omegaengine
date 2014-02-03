@@ -35,7 +35,6 @@ namespace TerrainSample.World
     /// </summary>
     public sealed class Session : SessionBase<Universe>
     {
-        #region Constants
         /// <summary>
         /// The file extensions when this class is stored as a file.
         /// </summary>
@@ -46,9 +45,7 @@ namespace TerrainSample.World
         /// </summary>
         /// <remarks>This provides only very basic protection against savegame tampering.</remarks>
         private const string EncryptionKey = "Session";
-        #endregion
 
-        #region Constructor
         /// <summary>
         /// Base-constructor for XML serialization. Do not call manually!
         /// </summary>
@@ -61,11 +58,9 @@ namespace TerrainSample.World
         /// <param name="baseUniverse">The universe to base the new game session on.</param>
         public Session(Universe baseUniverse) : base(baseUniverse)
         {}
-        #endregion
 
         //--------------------//
 
-        #region Storage
         /// <summary>
         /// Loads a <see cref="Session"/> from a encrypted XML file (savegame).
         /// </summary>
@@ -105,6 +100,5 @@ namespace TerrainSample.World
         {
             this.SaveXmlZip(path, EncryptionKey);
         }
-        #endregion
     }
 }

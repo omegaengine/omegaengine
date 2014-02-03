@@ -25,15 +25,6 @@ namespace AlphaFramework.World
     public abstract class UniverseBase<TCoordinates> : IUniverse
         where TCoordinates : struct
     {
-        #region Events
-        /// <summary>
-        /// Occurs when <see cref="Skybox"/> was changed.
-        /// </summary>
-        [Description("Occurs when Skybox was changed")]
-        public event Action SkyboxChanged;
-        #endregion
-
-        #region Properties
         /// <summary>
         /// A collection of all <see cref="Positionable{TCoordinates}"/>s in this <see cref="UniverseBase{TCoordinates}"/>.
         /// </summary>
@@ -51,6 +42,12 @@ namespace AlphaFramework.World
         public string Skybox { get { return _skybox; } set { value.To(ref _skybox, SkyboxChanged); } }
 
         /// <summary>
+        /// Occurs when <see cref="Skybox"/> was changed.
+        /// </summary>
+        [Description("Occurs when Skybox was changed")]
+        public event Action SkyboxChanged;
+
+        /// <summary>
         /// The position and direction of the camera in the game.
         /// </summary>
         /// <remarks>This is updated only when leaving the game, not continuously.</remarks>
@@ -60,22 +57,14 @@ namespace AlphaFramework.World
         /// <inheritdoc/>
         [XmlIgnore, Browsable(false)]
         public string SourceFile { get; set; }
-        #endregion
 
-        //--------------------//
-
-        #region Update
         /// <inheritdoc/>
         public virtual void Update(double elapsedTime)
         {
             foreach (var entity in Positionables.OfType<IUpdateable>())
                 entity.Update(elapsedTime);
         }
-        #endregion
 
-        //--------------------//
-
-        #region Storage
         /// <inheritdoc/>
         public abstract void Save(string path);
 
@@ -85,6 +74,5 @@ namespace AlphaFramework.World
             // Determine the original filename to overweite
             Save(Path.IsPathRooted(SourceFile) ? SourceFile : ContentManager.CreateFilePath("World/Maps", SourceFile));
         }
-        #endregion
     }
 }

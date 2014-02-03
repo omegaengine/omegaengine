@@ -7,11 +7,14 @@
  */
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
+using AlphaFramework.World.Templates;
 using Common;
 using Common.Utils;
 using LuaInterface;
@@ -20,6 +23,40 @@ namespace AlphaFramework.World.Terrains
 {
     partial class Terrain<TTemplate>
     {
+        #region XML serialization
+        /// <summary>Used for XML serialization.</summary>
+        /// <seealso cref="Templates"/>
+        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Used for XML serialization")]
+        [XmlElement("Template"), Browsable(false)]
+        public string[] TemplateNames
+        {
+            get
+            {
+                var templateNames = new string[Templates.Length];
+                for (int i = 0; i < Templates.Length; i++)
+                    templateNames[i] = (Templates[i] == null) ? "" : Templates[i].Name;
+                return templateNames;
+            }
+            set
+            {
+                for (int i = 0; i < Templates.Length; i++)
+                {
+                    Templates[i] = (value != null && i < value.Length && !string.IsNullOrEmpty(value[i]))
+                        ? Template<TTemplate>.All[value[i]]
+                        : null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Base-constructor for XML serialization. Do not call manually!
+        /// </summary>
+        public Terrain()
+        {}
+        #endregion
+
+        //--------------------//
+
         #region Load bitmap helper
         /// <summary>
         /// Parses the content of a <see cref="Stream"/> as a <see cref="Bitmap"/> an writes it into a 2D-array.

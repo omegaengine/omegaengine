@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
@@ -61,6 +62,6 @@ namespace TerrainSample.World.Templates
         /// How good can units walk on this ground? 0=not at all; 1=with full speed
         /// </summary>
         [DefaultValue(1f), Description("How good can units walk on this ground? 0=not at all; 1=with full speed")]
-        public float MovementAbility { get { return _movementAbility; } set { _movementAbility = value.Clamp(); } }
+        public float MovementAbility { get { return _movementAbility; } set { _movementAbility = Math.Max(0, value); } }
     }
 }

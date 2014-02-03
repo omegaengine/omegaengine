@@ -62,22 +62,14 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Global.cs" />
     <Compile Include="Presenter.cs" />
-    <Compile Include="Presenter.Lighting.cs">
-      <DependentUpon>Presenter.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Presenter.Entities.cs">
-      <DependentUpon>Presenter.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Presenter.Lighting.cs" />
+    <Compile Include="Presenter.Entities.cs" />
     <Compile Include="BenchmarkPresenter.cs" />
     <Compile Include="Statistics.cs" />
-    <Compile Include="TestCase.cs">
-      <DependentUpon>Statistics.cs</DependentUpon>
-    </Compile>
+    <Compile Include="TestCase.cs" />
     <Compile Include="MenuPresenter.cs" />
     <Compile Include="InteractivePresenter.cs" />
-    <Compile Include="InteractivePresenter.InputerReceiver.cs">
-      <DependentUpon>InteractivePresenter.cs</DependentUpon>
-    </Compile>
+    <Compile Include="InteractivePresenter.InputerReceiver.cs" />
     <Compile Include="InGamePresenter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

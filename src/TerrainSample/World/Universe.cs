@@ -22,23 +22,14 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
 using System.Xml.Serialization;
 using AlphaFramework.World;
-using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
-using Common;
 using Common.Collections;
-using Common.Storage;
-using LuaInterface;
 using SlimDX;
-using TerrainSample.World.Config;
 using TerrainSample.World.Positionables;
 using TerrainSample.World.Templates;
-using Resources = AlphaFramework.World.Properties.Resources;
 
 namespace TerrainSample.World
 {
@@ -47,14 +38,6 @@ namespace TerrainSample.World
     /// </summary>
     public sealed partial class Universe : UniverseBase<Vector2>
     {
-        #region Constants
-        /// <summary>
-        /// The file extensions when this class is stored as a file.
-        /// </summary>
-        public const string FileExt = "." + GeneralSettings.AppNameShort + "Map";
-        #endregion
-
-        #region Properties
         private readonly MonitoredCollection<Positionable<Vector2>> _positionables = new MonitoredCollection<Positionable<Vector2>>();
 
         /// <inheritoc/>
@@ -82,18 +65,6 @@ namespace TerrainSample.World
             }
         }
 
-        /// <summary>Used for XML serialization.</summary>
-        [XmlElement("Terrain"), LuaHide, Browsable(false)]
-        public Terrain<TerrainTemplate> TerrainSerialize { get { return _terrain; } set { _terrain = value; } }
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Base-constructor for XML serialization. Do not call manually!
-        /// </summary>
-        public Universe()
-        {}
-
         /// <summary>
         /// Creates a new <see cref="Universe"/> with a terrain.
         /// </summary>
@@ -102,11 +73,7 @@ namespace TerrainSample.World
         {
             _terrain = terrain;
         }
-        #endregion
 
-        //--------------------//
-
-        #region Update
         /// <inheritdoc/>
         public override void Update(double elapsedTime)
         {
@@ -114,148 +81,5 @@ namespace TerrainSample.World
 
             LightPhase += (float)(elapsedTime * LightPhaseSpeedFactor);
         }
-        #endregion
-
-        #region Path finding
-        /// <summary>
-        /// Recalculates all cached pathfinding results.
-        /// </summary>
-        /// <remarks>This needs to be called when new obstacles have appeared or when a savegame was loaded (which does not store paths).</remarks>
-        public void RecalcPaths()
-        {
-            foreach (var entity in Positionables.OfType<Entity>())
-            {
-                var pathLeader = entity.PathControl as PathLeader<Vector2>;
-                if (pathLeader != null)
-                    MoveEntity(entity, pathLeader.Target);
-            }
-        }
-
-        /// <inheritdoc/>
-        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-        public void MoveEntity(Entity entity, Vector2 target)
-        {
-            #region Sanity checks
-            if (entity == null) throw new ArgumentNullException("entity");
-            #endregion
-
-            // Get path and cancel if none was found
-            var pathNodes = Terrain.Pathfinder.FindPathPlayer(GetScaledPosition(entity.Position), GetScaledPosition(target));
-            if (pathNodes == null)
-            {
-                entity.PathControl = null;
-                return;
-            }
-
-            // Store path data in entity
-            var pathLeader = new PathLeader<Vector2> {ID = 0, Target = target};
-            foreach (var node in pathNodes)
-                pathLeader.PathNodes.Push(node * Terrain.Size.StretchH);
-            entity.PathControl = pathLeader;
-        }
-
-        /// <summary>
-        /// Applies <see cref="TerrainSize"/> scaling to a position.
-        /// </summary>
-        private Vector2 GetScaledPosition(Vector2 position)
-        {
-            return position * (1.0f / Terrain.Size.StretchH);
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Storage
-        /// <summary>
-        /// Loads a <see cref="Universe"/> from a compressed XML file (map file).
-        /// </summary>
-        /// <param name="path">The file to load from.</param>
-        /// <returns>The loaded <see cref="Universe"/>.</returns>
-        /// <exception cref="IOException">Thrown if a problem occurred while reading the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to the file is not permitted.</exception>
-        /// <exception cref="InvalidOperationException">Thrown if a problem occurred while deserializing the XML data.</exception>
-        public static Universe Load(string path)
-        {
-            // Load the core data but without terrain data yet (that is delay-loaded)
-            var universe = XmlStorage.LoadXmlZip<Universe>(path);
-            universe.SourceFile = path;
-            return universe;
-        }
-
-        /// <summary>
-        /// Loads a <see cref="Universe"/> from the game content source via the <see cref="ContentManager"/>.
-        /// </summary>
-        /// <param name="id">The ID of the <see cref="Universe"/> to load.</param>
-        /// <returns>The loaded <see cref="Universe"/>.</returns>
-        public static Universe FromContent(string id)
-        {
-            Log.Info("Loading map: " + id);
-
-            using (var stream = ContentManager.GetFileStream("World/Maps", id))
-            {
-                var universe = XmlStorage.LoadXmlZip<Universe>(stream);
-                universe.SourceFile = id;
-                return universe;
-            }
-        }
-
-        /// <summary>
-        /// Performs the deferred loading of <see cref="Terrain"/> data.
-        /// </summary>
-        private void LoadTerrainData()
-        {
-            // Load the data
-            using (var stream = ContentManager.GetFileStream("World/Maps", SourceFile))
-            {
-                XmlStorage.LoadXmlZip<Universe>(stream, additionalFiles: new[]
-                {
-                    // Callbacks for loading terrain data
-                    new EmbeddedFile("height.png", _terrain.LoadHeightMap),
-                    new EmbeddedFile("texture.png", _terrain.LoadTextureMap),
-                    new EmbeddedFile("lightRiseAngle.png", _terrain.LoadLightRiseAngleMap),
-                    new EmbeddedFile("lightSetAngle.png", _terrain.LoadLightSetAngleMap)
-                });
-            }
-
-            if (!_terrain.DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
-
-            using (new TimedLogEvent("Setup pathfinding"))
-            {
-                _terrain.SetupPathfinding(Positionables);
-
-                // Perform updates to regenerate data lost in the savegame
-                RecalcPaths();
-                Update(0);
-            }
-        }
-
-        /// <inheritdoc/>
-        public override void Save(string path)
-        {
-            using (Entity.MaskTemplateData())
-            {
-                if (Terrain.LightAngleMapsSet)
-                {
-                    this.SaveXmlZip(path, additionalFiles: new[]
-                    {
-                        new EmbeddedFile("height.png", 0, Terrain.GetSaveHeightMapDelegate()),
-                        new EmbeddedFile("texture.png", 0, Terrain.GetSaveTextureMapDelegate()),
-                        new EmbeddedFile("lightRiseAngle.png", 0, Terrain.GetSaveLightRiseAngleMapDelegate()),
-                        new EmbeddedFile("lightSetAngle.png", 0, Terrain.GetSaveLightSetAngleMapDelegate())
-                    });
-                }
-                else
-                {
-                    this.SaveXmlZip(path, additionalFiles: new[]
-                    {
-                        new EmbeddedFile("height.png", 0, Terrain.GetSaveHeightMapDelegate()),
-                        new EmbeddedFile("texture.png", 0, Terrain.GetSaveTextureMapDelegate())
-                    });
-                }
-            }
-
-            SourceFile = path;
-        }
-        #endregion
     }
 }

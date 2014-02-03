@@ -106,6 +106,7 @@
     <Compile Include="Terrains\ITerrain.cs" />
     <Compile Include="Terrains\LightAngleMapGenerator.cs" />
     <Compile Include="Terrains\Terrain.cs" />
+    <Compile Include="Terrains\Terrain.Pathfinding.cs" />
     <Compile Include="Terrains\Terrain.Storage.cs" />
     <Compile Include="Terrains\TerrainBrush.cs" />
     <Compile Include="Terrains\TerrainSize.cs" />
