@@ -29,7 +29,6 @@ using AlphaFramework.World.Positionables;
 using Common;
 using Common.Collections;
 using Common.Dispatch;
-using Common.Utils;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;
@@ -81,7 +80,7 @@ namespace TerrainSample.Presentation
                 foreach (var asset in _preCachedAssets) asset.HoldReference();
             }
 
-            _selectionsSync.Register<Entity, PositionableRenderable>(GetSelectionHighlighting, UpdateSelectionHighlighting);
+            _selectionsSync.Register<Entity, PositionableRenderable>(GetSelectionHighlighting, UpdateRepresentation);
             _selectionsSync.Initialize();
         }
 
@@ -161,13 +160,6 @@ namespace TerrainSample.Presentation
             }.Dispatch(entity.TemplateData.Collision);
             if (selectionHighlight != null) selectionHighlight.Name = entity.Name + " Selection";
             return selectionHighlight;
-        }
-
-        private void UpdateSelectionHighlighting(Entity entity, PositionableRenderable representation)
-        {
-            // Update the position and rotation of the selection highlighting
-            representation.Position = GetTerrainPosition(entity);
-            representation.Rotation = Quaternion.RotationYawPitchRoll(entity.Rotation.DegreeToRadian(), 0, 0);
         }
 
         private void OnPositionableRemoved(Positionable<Vector2> positionable)

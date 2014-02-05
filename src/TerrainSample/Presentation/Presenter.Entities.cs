@@ -23,6 +23,7 @@
 using System.Drawing;
 using System.Linq;
 using AlphaFramework.World.Components;
+using AlphaFramework.World.Positionables;
 using Common.Utils;
 using Common.Values;
 using OmegaEngine;
@@ -35,6 +36,7 @@ using CpuParticleSystem = AlphaFramework.World.Components.CpuParticleSystem;
 using GpuParticleSystem = AlphaFramework.World.Components.GpuParticleSystem;
 using LightSource = AlphaFramework.World.Components.LightSource;
 using ViewType = OmegaEngine.Graphics.Renderables.ViewType;
+using Water = OmegaEngine.Graphics.Renderables.Water;
 using WorldWater = AlphaFramework.World.Positionables.Water;
 
 namespace TerrainSample.Presentation
@@ -43,7 +45,7 @@ namespace TerrainSample.Presentation
     {
         #region Register helpers
         /// <summary>
-        /// Registers a callback for converting a <see cref="WorldWater"/>s to <see cref="Water"/> representations.
+        /// Registers a callback for converting a <see cref="WorldWater"/>s to <see cref="OmegaEngine.Graphics.Renderables.Water"/> representations.
         /// </summary>
         private void RegisterWater()
         {
@@ -82,11 +84,7 @@ namespace TerrainSample.Presentation
         {
             RenderablesSync.RegisterMultiple<Entity, PositionableRenderable>(
                 element => element.TemplateData.Render.OfType<TComponent>().Select(component => create(element, component)),
-                (entity, representation) =>
-                {
-                    representation.Position = GetTerrainPosition(entity);
-                    representation.Rotation = Quaternion.RotationYawPitchRoll(entity.Rotation.DegreeToRadian(), 0, 0);
-                });
+                UpdateRepresentation);
         }
 
         /// <summary>
@@ -103,11 +101,35 @@ namespace TerrainSample.Presentation
                     Diffuse = component.Color,
                     Shift = component.Shift
                 }),
-                (entity, light) =>
-                {
-                    var rotatedShift = Vector3.TransformCoordinate(light.Shift, Matrix.RotationY(entity.Rotation.DegreeToRadian()));
-                    light.Position = GetTerrainPosition(entity) + rotatedShift;
-                });
+                UpdateRepresentation);
+        }
+        #endregion
+
+        #region Update helpers
+        /// <summary>
+        /// Applies the position of a Model element to a View representation.
+        /// </summary>
+        protected void UpdateRepresentation(Positionable<Vector2> element, IPositionable representation)
+        {
+            representation.Position = GetTerrainPosition(element);
+        }
+
+        /// <summary>
+        /// Applies the position and rotation of a Model element to a View representation.
+        /// </summary>
+        protected void UpdateRepresentation(Entity element, PositionableRenderable representation)
+        {
+            representation.Position = GetTerrainPosition(element);
+            representation.Rotation = Quaternion.RotationYawPitchRoll(element.Rotation.DegreeToRadian(), 0, 0);
+        }
+
+        /// <summary>
+        /// Applies the position and rotation of a Model element to a View representation.
+        /// </summary>
+        protected void UpdateRepresentation(Entity element, PointLight representation)
+        {
+            representation.Position = GetTerrainPosition(element) +
+                Vector3.TransformCoordinate(representation.Shift, Matrix.RotationY(element.Rotation.DegreeToRadian()));
         }
         #endregion
 

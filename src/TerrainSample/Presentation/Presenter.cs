@@ -33,7 +33,6 @@ using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 using TerrainSample.World;
 using TerrainSample.World.Config;
-using TerrainSample.World.Positionables;
 
 namespace TerrainSample.Presentation
 {
@@ -205,24 +204,21 @@ namespace TerrainSample.Presentation
         }
 
         /// <summary>
-        /// Determines the effective position of an <see cref="Entity"/> standing on the <see cref="Terrain"/>.
+        /// Determines the effective position of a <see cref="Positionable{TCoordinates}"/> standing on the <see cref="Terrain"/>.
         /// </summary>
-        protected DoubleVector3 GetTerrainPosition(Entity entity)
+        protected DoubleVector3 GetTerrainPosition(Positionable<Vector2> positionable)
         {
-            DoubleVector3 terrainPoint;
             try
             {
-                terrainPoint = Terrain.Position + Universe.Terrain.ToEngineCoords(entity.Position);
+                return Universe.Terrain.ToEngineCoords(positionable.Position);
             }
-            #region Error handling
+                #region Error handling
             catch (ArgumentOutOfRangeException ex)
             {
                 // Wrap exception since only data exceptions are handled by the ditor
                 throw new InvalidDataException(ex.Message, ex);
             }
             #endregion
-
-            return terrainPoint;
         }
         #endregion
 
@@ -270,14 +266,14 @@ namespace TerrainSample.Presentation
         {
             if (state == null)
                 state = new CameraState<Vector2> {Name = "Main", Position = Universe.Terrain.Center, Radius = 1500};
-            
+
             return new StrategyCamera(
                 minRadius: 150, maxRadius: 10000,
                 minAngle: 35, maxAngle: 55,
                 heightController: CameraController)
             {
                 Name = state.Name,
-                Target = Universe.Terrain.ToEngineCoords(state.Position),
+                Target = GetTerrainPosition(state),
                 Radius = state.Radius,
                 HorizontalRotation = state.Rotation,
                 FarClip = Universe.Fog ? Universe.FogDistance : 1e+6f
