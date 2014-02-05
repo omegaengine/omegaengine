@@ -44,6 +44,8 @@ namespace TerrainSample.Editor.World
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonNew = new System.Windows.Forms.ToolStripDropDownButton();
             this.buttonNewEntity = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonNewWaypoint = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonNewWater = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonNewBenchmarkPoint = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonCopy = new System.Windows.Forms.ToolStripButton();
             this.buttonRemove = new System.Windows.Forms.ToolStripButton();
@@ -162,7 +164,7 @@ namespace TerrainSample.Editor.World
             this.buttonMapProperties});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(469, 25);
+            this.toolStrip.Size = new System.Drawing.Size(500, 25);
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -240,6 +242,8 @@ namespace TerrainSample.Editor.World
             // 
             this.buttonNew.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buttonNewEntity,
+            this.buttonNewWaypoint,
+            this.buttonNewWater,
             this.buttonNewBenchmarkPoint});
             this.buttonNew.Image = ((System.Drawing.Image)(resources.GetObject("buttonNew.Image")));
             this.buttonNew.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -253,6 +257,20 @@ namespace TerrainSample.Editor.World
             this.buttonNewEntity.Size = new System.Drawing.Size(165, 22);
             this.buttonNewEntity.Text = "&Entity";
             this.buttonNewEntity.Click += new System.EventHandler(this.buttonNewEntity_Click);
+            // 
+            // buttonNewWaypoint
+            // 
+            this.buttonNewWaypoint.Name = "buttonNewWaypoint";
+            this.buttonNewWaypoint.Size = new System.Drawing.Size(165, 22);
+            this.buttonNewWaypoint.Text = "&Waypoint";
+            this.buttonNewWaypoint.Click += new System.EventHandler(this.buttonNewWaypoint_Click);
+            // 
+            // buttonNewWater
+            // 
+            this.buttonNewWater.Name = "buttonNewWater";
+            this.buttonNewWater.Size = new System.Drawing.Size(165, 22);
+            this.buttonNewWater.Text = "&Water";
+            this.buttonNewWater.Click += new System.EventHandler(this.buttonNewWater_Click);
             // 
             // buttonNewBenchmarkPoint
             // 
@@ -972,5 +990,7 @@ namespace TerrainSample.Editor.World
         private System.Windows.Forms.SplitContainer splitHorizontal;
         private OmegaEngine.RenderPanel renderPanel;
         private Common.Controls.LiveEditor xmlEditor;
+        private System.Windows.Forms.ToolStripMenuItem buttonNewWaypoint;
+        private System.Windows.Forms.ToolStripMenuItem buttonNewWater;
     }
 }

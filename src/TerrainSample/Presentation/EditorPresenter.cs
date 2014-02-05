@@ -37,6 +37,7 @@ using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 using TerrainSample.World;
 using TerrainSample.World.Components;
+using TerrainSample.World.Positionables;
 using View = OmegaEngine.Graphics.View;
 
 namespace TerrainSample.Presentation
@@ -85,7 +86,17 @@ namespace TerrainSample.Presentation
             axisArrows.SetScale(0.03f);
             View.FloatingModels.Add(axisArrows);
         }
-        
+
+        /// <inheritdoc/>
+        protected override void RegisterRenderablesSync()
+        {
+            base.RegisterRenderablesSync();
+
+            RenderablesSync.Register(
+                (Waypoint waypoint) => Model.Sphere(Engine, XTexture.Get(Engine, "flag.png"), radius: 50),
+                UpdateRepresentation);
+        }
+
         #region Movement
         /// <summary>
         /// Occurs when an <see cref="Positionable{TCoordinates}"/> is to be moved.

@@ -439,37 +439,39 @@ namespace TerrainSample.Editor.World
         #region New
         private void buttonNewEntity_Click(object sender, EventArgs e)
         {
-            // Ask the user which entity template to use as a basis for the new entity
             var selectTemplate = new SelectTemplateDialog<EntityTemplate>(Template<EntityTemplate>.All);
             if (selectTemplate.ShowDialog(this) != DialogResult.OK) return;
 
-            // Create a new entity from the selected template
-            var newEntity = new Entity {TemplateName = selectTemplate.SelectedTemplate, Position = GetScreenTerrainCenter()};
+            var entity = new Entity {TemplateName = selectTemplate.SelectedTemplate, Position = GetScreenTerrainCenter()};
+            AddNewPositionable(entity);
+        }
 
-            // Add the new Entity to the Universe
-            ExecuteCommandSafe(new AddPositionables<Vector2>(_universe, new[] { newEntity }));
+        private void buttonNewWaypoint_Click(object sender, EventArgs e)
+        {
+            AddNewPositionable(new Waypoint {Position = GetScreenTerrainCenter()});
+        }
 
-            // Select the newly added entity
-            _presenter.SelectedPositionables.Clear();
-            _presenter.SelectedPositionables.Add(newEntity);
-            tabControl.SelectedTab = tabPagePositionables;
+        private void buttonNewWater_Click(object sender, EventArgs e)
+        {
+            AddNewPositionable(new Water {Position = GetScreenTerrainCenter()});
         }
 
         private void buttonNewBenchmarkPoint_Click(object sender, EventArgs e)
         {
-            // Create a benchmark point based on the current camera settings
             var cameraState = _presenter.CameraState;
             if (cameraState == null) return;
-            var newEntity = new BenchmarkPoint<Vector2> {Position = cameraState.Position, Rotation = cameraState.Rotation, Radius = cameraState.Radius};
 
-            // Add the new entity to the Universe
-            ExecuteCommandSafe(new AddPositionables<Vector2>(_universe, new[] { newEntity }));
+            var benchmarkPoint = new BenchmarkPoint<Vector2> {Position = cameraState.Position, Rotation = cameraState.Rotation, Radius = cameraState.Radius};
+            AddNewPositionable(benchmarkPoint);
+        }
 
-            // Select the newly added entity
+        private void AddNewPositionable(Positionable<Vector2> positionable)
+        {
+            ExecuteCommandSafe(new AddPositionables<Vector2>(_universe, new[] {positionable}));
+
             _presenter.SelectedPositionables.Clear();
-            _presenter.SelectedPositionables.Add(newEntity);
+            _presenter.SelectedPositionables.Add(positionable);
 
-            // Switch to the Entity Properties tab, to allow the user to customize the entity
             tabControl.SelectedTab = tabPagePositionables;
             tabControlEntities.SelectedTab = tabPageProperties;
         }
