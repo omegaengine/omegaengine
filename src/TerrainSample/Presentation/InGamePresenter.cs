@@ -21,9 +21,15 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using AlphaFramework.World.Positionables;
+using Common;
 using OmegaEngine;
 using OmegaEngine.Graphics;
+using SlimDX;
 using TerrainSample.World;
+using TerrainSample.World.Positionables;
 
 namespace TerrainSample.Presentation
 {
@@ -72,6 +78,17 @@ namespace TerrainSample.Presentation
         public void PrepareSave()
         {
             Universe.Camera = CameraState;
+        }
+
+        /// <inheritdoc/>
+        protected override void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
+        {
+            #region Sanity checks
+            if (positionables == null) throw new ArgumentNullException("positionables");
+            #endregion
+
+            if (positionables.OfType<Entity>().Contains(Universe.PlayerEntity))
+                Universe.PathfindEntity(Universe.PlayerEntity, target);
         }
     }
 }

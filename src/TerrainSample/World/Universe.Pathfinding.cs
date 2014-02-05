@@ -42,13 +42,15 @@ namespace TerrainSample.World
             {
                 var pathLeader = entity.PathControl as PathLeader<Vector2>;
                 if (pathLeader != null)
-                    MoveEntity(entity, pathLeader.Target);
+                    PathfindEntity(entity, pathLeader.Target);
             }
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Makes an <see cref="Entity"/> move towards a <paramref name="target"/> using pathfinding.
+        /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-        public void MoveEntity(Entity entity, Vector2 target)
+        public void PathfindEntity(Entity entity, Vector2 target)
         {
             #region Sanity checks
             if (entity == null) throw new ArgumentNullException("entity");

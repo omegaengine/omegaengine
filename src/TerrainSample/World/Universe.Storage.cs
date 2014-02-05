@@ -37,18 +37,6 @@ namespace TerrainSample.World
 {
     partial class Universe
     {
-        #region XML serialization
-        /// <summary>Used for XML serialization.</summary>e
-        [XmlElement("Terrain"), LuaHide, Browsable(false)]
-        public Terrain<TerrainTemplate> TerrainSerialize { get { return _terrain; } set { _terrain = value; } }
-
-        /// <summary>
-        /// Base-constructor for XML serialization. Do not call manually!
-        /// </summary>
-        public Universe()
-        {}
-        #endregion
-
         /// <summary>
         /// The file extensions when this class is stored as a file.
         /// </summary>
@@ -86,6 +74,10 @@ namespace TerrainSample.World
                 return universe;
             }
         }
+
+        /// <summary>Used for XML serialization.</summary>
+        [XmlElement("Terrain"), LuaHide, Browsable(false)]
+        public Terrain<TerrainTemplate> TerrainSerialize { get { return _terrain; } set { _terrain = value; } }
 
         /// <summary>
         /// Performs the deferred loading of <see cref="Terrain"/> data.

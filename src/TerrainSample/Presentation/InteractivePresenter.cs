@@ -23,10 +23,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
-using Common;
 using Common.Collections;
 using Common.Dispatch;
 using OmegaEngine;
@@ -179,27 +177,11 @@ namespace TerrainSample.Presentation
         }
         #endregion
 
-        #region User movement
         /// <summary>
         /// Moves one or more <see cref="Positionable{TCoordinates}"/>s to a new position.
         /// </summary>
         /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to be moved.</param>
         /// <param name="target">The terrain position to move the <paramref name="positionables"/> to.</param>
-        protected virtual void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
-        {
-            #region Sanity checks
-            if (positionables == null) throw new ArgumentNullException("positionables");
-            #endregion
-
-            foreach (var entity in positionables.OfType<Entity>())
-            {
-                // Start pathfinding if this entity can move
-                if (entity.TemplateData.Movement != null)
-                    Universe.MoveEntity(entity, target);
-                else
-                    Log.Warn(entity + " is unable to move");
-            }
-        }
-        #endregion
+        protected abstract void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target);
     }
 }
