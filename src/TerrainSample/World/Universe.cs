@@ -96,11 +96,11 @@ namespace TerrainSample.World
         }
 
         /// <inheritdoc/>
-        public override void Update(double elapsedTime)
+        public override void Update(double elapsedGameTime)
         {
-            base.Update(elapsedTime);
+            base.Update(elapsedGameTime);
 
-            LightPhase += (float)(elapsedTime * LightPhaseSpeedFactor);
+            LightPhase += (float)(elapsedGameTime * LightPhaseSpeedFactor);
         }
     }
 }

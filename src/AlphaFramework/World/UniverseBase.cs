@@ -26,6 +26,19 @@ namespace AlphaFramework.World
         where TCoordinates : struct
     {
         /// <summary>
+        /// Total elapsed game time in seconds.
+        /// </summary>
+        public double GameTime { get; set; }
+
+        private float _timeWarpFactor = 1;
+        /// <summary>
+        /// The factor by which <see cref="GameTime"/> progression should be multiplied in relation to real time.
+        /// </summary>
+        /// <remarks>This multiplication is not done by <see cref="Update"/>!</remarks>
+        [DefaultValue(1f)]
+        public float TimeWarpFactor { get { return _timeWarpFactor; } set { _timeWarpFactor = value; } }
+
+        /// <summary>
         /// A collection of all <see cref="Positionable{TCoordinates}"/>s in this <see cref="UniverseBase{TCoordinates}"/>.
         /// </summary>
         // Note: Can not use ICollection<T> interface with XML Serialization
@@ -59,10 +72,12 @@ namespace AlphaFramework.World
         public string SourceFile { get; set; }
 
         /// <inheritdoc/>
-        public virtual void Update(double elapsedTime)
+        public virtual void Update(double elapsedGameTime)
         {
+            GameTime += elapsedGameTime;
+
             foreach (var entity in Positionables.OfType<IUpdateable>())
-                entity.Update(elapsedTime);
+                entity.Update(elapsedGameTime);
         }
 
         /// <inheritdoc/>

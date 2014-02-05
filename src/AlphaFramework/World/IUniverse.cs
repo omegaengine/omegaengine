@@ -29,8 +29,8 @@ namespace AlphaFramework.World
         /// <summary>
         /// Updates the <see cref="UniverseBase{TCoordinates}"/> and all <see cref="Positionable{TCoordinates}"/>s in it.
         /// </summary>
-        /// <param name="elapsedTime">How much game time in seconds has elapsed since this method was last called.</param>
-        void Update(double elapsedTime);
+        /// <param name="elapsedGameTime">How much game time in seconds has elapsed since this method was last called.</param>
+        void Update(double elapsedGameTime);
 
         /// <summary>
         /// Saves this <see cref="UniverseBase{TCoordinates}"/> in a compressed XML file (map file).
