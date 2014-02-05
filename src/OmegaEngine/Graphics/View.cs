@@ -389,7 +389,7 @@ namespace OmegaEngine.Graphics
         /// </summary>
         /// <param name="target">The new camera</param>
         /// <param name="duration">The complete transition time in seconds</param>
-        public void SwingCameraTo(Camera target, float duration)
+        public void SwingCameraTo(Camera target, float duration = 1)
         {
             #region Sanity checks
             if (target == null) throw new ArgumentNullException("target");

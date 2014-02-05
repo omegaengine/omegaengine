@@ -204,7 +204,7 @@ namespace TerrainSample.Presentation
                 };
 
                 // Perform the animation
-                View.SwingCameraTo(CreateCamera(newState), 1);
+                View.SwingCameraTo(CreateCamera(newState));
             }
         }
     }

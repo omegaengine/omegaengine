@@ -266,16 +266,15 @@ namespace TerrainSample.Presentation
         /// </summary>
         /// <param name="state">The state to place the new camera in; may be <see langword="null"/> in which case it will default to looking at the center of the terrain.</param>
         /// <returns>The newly created <see cref="Camera"/>.</returns>
-        public Camera CreateCamera(CameraState<Vector2> state)
+        public Camera CreateCamera(CameraState<Vector2> state = null)
         {
             if (state == null)
                 state = new CameraState<Vector2> {Name = "Main", Position = Universe.Terrain.Center, Radius = 1500};
-
-            const float floatAboveGround = 100;
+            
             return new StrategyCamera(
                 minRadius: 150, maxRadius: 10000,
                 minAngle: 35, maxAngle: 55,
-                heightController: coordinates => Universe.Terrain.ToEngineCoords(coordinates.Flatten()).Y + floatAboveGround)
+                heightController: CameraController)
             {
                 Name = state.Name,
                 Target = Universe.Terrain.ToEngineCoords(state.Position),
@@ -283,6 +282,17 @@ namespace TerrainSample.Presentation
                 HorizontalRotation = state.Rotation,
                 FarClip = Universe.Fog ? Universe.FogDistance : 1e+6f
             };
+        }
+
+        /// <summary>
+        /// Ensures the camera does not go under or outside the <see cref="Terrain"/>.
+        /// </summary>
+        /// <returns>The minimum height the camera must have.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the coordinates lie outside the range of the <see cref="Terrain"/>.</exception>
+        protected virtual double CameraController(DoubleVector3 coordinates)
+        {
+            const float floatAboveGround = 100;
+            return Universe.Terrain.ToEngineCoords(coordinates.Flatten()).Y + floatAboveGround;
         }
 
         /// <summary>

@@ -465,7 +465,7 @@ namespace TerrainSample.Editor.World
         #region Camera mode
         private void buttonNormalView_Click(object sender, EventArgs e)
         {
-            _presenter.View.SwingCameraTo(_presenter.CreateCamera(null), 1);
+            _presenter.View.SwingCameraTo(_presenter.CreateCamera());
         }
 
         private void buttonOrthographicView_Click(object sender, EventArgs e)
@@ -475,7 +475,7 @@ namespace TerrainSample.Editor.World
                 Name = "Orthographic",
                 Target = _universe.Terrain.ToEngineCoords(_universe.Terrain.Center) + new DoubleVector3(0, 100, 0),
                 Radius = 500
-            }, 1);
+            });
         }
         #endregion
     }
