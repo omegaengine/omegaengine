@@ -8,6 +8,7 @@
 
 using AlphaFramework.World.Terrains;
 using Common.Tasks;
+using Common.Values;
 using NUnit.Framework;
 
 namespace AlphaFramework.World
@@ -22,15 +23,15 @@ namespace AlphaFramework.World
         /// <summary>
         /// Creates a height-map for testing purposes.
         /// </summary>
-        public static byte[,] CreateTestHeightMap()
+        private static ByteGrid CreateTestHeightMap()
         {
-            return new byte[,]
+            return new ByteGrid(new byte[,]
             {
                 {0, 0, 0, 0},
                 {0, 1, 1, 0},
                 {0, 0, 0, 0},
                 {0, 0, 0, 0}
-            };
+            });
         }
         #endregion
 

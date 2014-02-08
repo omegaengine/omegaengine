@@ -75,9 +75,9 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
             var textureMap = Terrain.TextureMap;
 
             // Iterate through intersection of [0,area.Size) and [-offset,textureMap-offset)
-            for (int x = Math.Max(0, -offset.X); x < Math.Min(brush.Size, textureMap.GetLength(0) - offset.X); x++)
+            for (int x = Math.Max(0, -offset.X); x < Math.Min(brush.Size, textureMap.Width - offset.X); x++)
             {
-                for (int y = Math.Max(0, -offset.Y); y < Math.Min(brush.Size, textureMap.GetLength(1) - offset.Y); y++)
+                for (int y = Math.Max(0, -offset.Y); y < Math.Min(brush.Size, textureMap.Height - offset.Y); y++)
                 {
                     oldData[x, y] = textureMap[offset.X + x, offset.Y + y];
 

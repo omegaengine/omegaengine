@@ -31,6 +31,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugSymbols>false</DebugSymbols>
@@ -41,6 +42,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseSDK|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -53,6 +55,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591</NoWarn>
     <PlatformTarget>x86</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LinqBridge">
@@ -324,7 +327,6 @@
     <Compile Include="Undo\SetValueCommand.cs" />
     <Compile Include="Undo\SimpleCommand.cs" />
     <Compile Include="Utils\AttributeUtils.cs" />
-    <Compile Include="Utils\BitmapUtils.cs" />
     <Compile Include="Utils\ColorUtils.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\LuaBuilder.cs" />
@@ -342,7 +344,9 @@
     <Compile Include="Utils\WindowsUtils.Touch.cs" />
     <Compile Include="Utils\WindowsUtils.WindowMessages.cs" />
     <Compile Include="Values\Attenuation.cs" />
+    <Compile Include="Values\ByteGrid.cs" />
     <Compile Include="Values\ByteVector4.cs" />
+    <Compile Include="Values\ByteVector4Grid.cs" />
     <Compile Include="Values\ColorCorrection.cs" />
     <Compile Include="Values\Design\AngleEditor.cs" />
     <Compile Include="Values\Design\AttenuationConverter.cs" />
@@ -366,6 +370,8 @@
     <Compile Include="Values\FileTypeAttribute.cs" />
     <Compile Include="Values\FloatRangeAttribute.cs" />
     <Compile Include="Values\GraphicsEnums.cs" />
+    <Compile Include="Values\Grid.cs" />
+    <Compile Include="Values\NibbleGrid.cs" />
     <Compile Include="Values\Quadrangle.cs" />
     <Compile Include="Values\Vector2Ray.cs" />
     <Compile Include="Values\XColor.cs" />

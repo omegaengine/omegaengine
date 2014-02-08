@@ -31,6 +31,7 @@ namespace Common.Values
     /// </summary>
     /// <typeparam name="T">The type of elements to store in the array.</typeparam>
     public class ExpandableRectangleArray<T>
+        where T : struct
     {
         #region Structures
         private struct Subset
@@ -144,13 +145,21 @@ namespace Common.Values
             int height = Math.Min(TotalArea.Height, baseValues.GetLength(1) - TotalArea.Y);
             var result = new T[width, height];
             for (int x = 0; x < width; x++)
-            {
                 for (int y = 0; y < height; y++)
                     result[x, y] = baseValues[x + TotalArea.X, y + TotalArea.Y];
-            }
 
             CopySubsetsToArray(result);
             return result;
+        }
+
+        /// <summary>
+        /// Returns the smallest possible array that encompasses all inserted subsets and can be backed by a base array.
+        /// </summary>
+        /// <param name="baseValues">An array to query for values to fill the blanks left between subsets.</param>
+        /// <returns>An array containing the copyed data. Size will be trimmed if <paramref name="baseValues"/> is too small.</returns>
+        public T[,] GetArray(Grid<T> baseValues)
+        {
+            return GetArray(baseValues.Data);
         }
 
         /// <summary>

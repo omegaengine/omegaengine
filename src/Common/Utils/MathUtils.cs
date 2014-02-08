@@ -495,6 +495,11 @@ namespace Common.Utils
                 return b & 15;
             }
         }
+
+        public static byte CombineHiLoByte(int high, int low)
+        {
+            return (byte)((high << 4) + low);
+        }
         #endregion
 
         #region Flags

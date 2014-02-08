@@ -132,9 +132,6 @@
   <data name="InvalidMapSize" xml:space="preserve">
     <value>Die Größe dieser Textur-Map ist inkorrekt.</value>
   </data>
-  <data name="NotAnImage" xml:space="preserve">
-    <value>Die Datei ist kein gültiges Bild.</value>
-  </data>
   <data name="NotLoaded" xml:space="preserve">
     <value>'{0}' wurde noch nicht geladen.</value>
   </data>

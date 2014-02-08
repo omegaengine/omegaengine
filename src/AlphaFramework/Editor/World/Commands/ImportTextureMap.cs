@@ -9,13 +9,14 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using AlphaFramework.World.Terrains;
+using Common.Values;
 
 namespace AlphaFramework.Editor.World.Commands
 {
     /// <summary>
     /// Loads new texture-map data into a <see cref="ITerrain"/>.
     /// </summary>
-    public class ImportTextureMap : ImportMap
+    public class ImportTextureMap : ImportMap<NibbleGrid>
     {
         #region Constructor
         /// <summary>
@@ -36,14 +37,14 @@ namespace AlphaFramework.Editor.World.Commands
         /// Points to <see cref="ITerrain.TextureMap"/>
         /// </summary>
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "This property provides direct access to the underlying array without any cloning involved")]
-        protected override byte[,] MapData { get { return _terrain.TextureMap; } set { _terrain.TextureMap = value; } }
+        protected override NibbleGrid MapData { get { return Terrain.TextureMap; } set { Terrain.TextureMap = value; } }
 
         /// <summary>
         /// Loads the texture-map data from a file into the <see cref="ITerrain"/>
         /// </summary>
         protected override void LoadMap()
         {
-            _terrain.LoadTextureMap(_fileName);
+            Terrain.LoadTextureMap(FileName);
         }
         #endregion
     }

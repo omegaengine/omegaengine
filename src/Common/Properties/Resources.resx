@@ -291,4 +291,7 @@
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="NotAnImage" xml:space="preserve">
+    <value>The file is not a valid image.</value>
+  </data>
 </root>

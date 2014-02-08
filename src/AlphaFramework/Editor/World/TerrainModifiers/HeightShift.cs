@@ -45,9 +45,9 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
             var heightMap = Terrain.HeightMap;
 
             // Iterate through intersection of [0,area.Size) and [-offset,heightMap-offset)
-            for (int x = Math.Max(0, -offset.X); x < Math.Min(brush.Size, heightMap.GetLength(0) - offset.X); x++)
+            for (int x = Math.Max(0, -offset.X); x < Math.Min(brush.Size, heightMap.Width - offset.X); x++)
             {
-                for (int y = Math.Max(0, -offset.Y); y < Math.Min(brush.Size, heightMap.GetLength(1) - offset.Y); y++)
+                for (int y = Math.Max(0, -offset.Y); y < Math.Min(brush.Size, heightMap.Height - offset.Y); y++)
                 {
                     oldData[x, y] = heightMap[offset.X + x, offset.Y + y];
 

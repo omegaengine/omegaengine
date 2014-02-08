@@ -16,16 +16,16 @@ namespace AlphaFramework.Editor.World.Commands
     /// <summary>
     /// Abstract base class for commands that load new map data into a <see cref="ITerrain"/>.
     /// </summary>
-    public abstract class ImportMap : FirstExecuteCommand
+    /// <typeparam name="T">The type of the map data to be imported.</typeparam>
+    public abstract class ImportMap<T> : FirstExecuteCommand
+        where T : class
     {
         #region Variables
-        // ReSharper disable InconsistentNaming
-        protected readonly ITerrain _terrain;
-        protected readonly string _fileName;
-        // ReSharper restore InconsistentNaming
+        protected readonly ITerrain Terrain;
+        protected readonly string FileName;
 
         private readonly Action _refreshHandler;
-        private byte[,] _undoMapData, _redoMapData;
+        private T _undoMapData, _redoMapData;
         #endregion
 
         #region Constructor
@@ -43,8 +43,8 @@ namespace AlphaFramework.Editor.World.Commands
             if (refreshHandler == null) throw new ArgumentNullException("refreshHandler");
             #endregion
 
-            _terrain = terrain;
-            _fileName = fileName;
+            Terrain = terrain;
+            FileName = fileName;
             _refreshHandler = refreshHandler;
         }
         #endregion
@@ -110,7 +110,7 @@ namespace AlphaFramework.Editor.World.Commands
         /// Override to point to the appropriate <see cref="ITerrain"/> array map
         /// </summary>
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "This property provides direct access to the underlying array without any cloning involved")]
-        protected abstract byte[,] MapData { get; set; }
+        protected abstract T MapData { get; set; }
 
         /// <summary>
         /// Override to load the map data from a file into the <see cref="ITerrain"/>

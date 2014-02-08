@@ -9,13 +9,14 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using AlphaFramework.World.Terrains;
+using Common.Values;
 
 namespace AlphaFramework.Editor.World.Commands
 {
     /// <summary>
     /// Loads new height-map data into a <see cref="Terrain{TTemplate}"/>.
     /// </summary>
-    public class ImportHeightMap : ImportMap
+    public class ImportHeightMap : ImportMap<ByteGrid>
     {
         #region Constructor
         /// <summary>
@@ -36,14 +37,14 @@ namespace AlphaFramework.Editor.World.Commands
         /// Points to <see cref="ITerrain.HeightMap"/>
         /// </summary>
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "This property provides direct access to the underlying array without any cloning involved")]
-        protected override byte[,] MapData { get { return _terrain.HeightMap; } set { _terrain.HeightMap = value; } }
+        protected override ByteGrid MapData { get { return Terrain.HeightMap; } set { Terrain.HeightMap = value; } }
 
         /// <summary>
         /// Loads the height-map data from a file into the <see cref="ITerrain"/>
         /// </summary>
         protected override void LoadMap()
         {
-            _terrain.LoadHeightMap(_fileName);
+            Terrain.LoadHeightMap(FileName);
         }
         #endregion
     }

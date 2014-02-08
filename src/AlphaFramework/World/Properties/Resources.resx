@@ -132,9 +132,6 @@
   <data name="InvalidMapSize" xml:space="preserve">
     <value>The size of this texture map is incorrect.</value>
   </data>
-  <data name="NotAnImage" xml:space="preserve">
-    <value>The file is not a valid image.</value>
-  </data>
   <data name="NotLoaded" xml:space="preserve">
     <value>'{0}' has not been loaded yet.</value>
   </data>

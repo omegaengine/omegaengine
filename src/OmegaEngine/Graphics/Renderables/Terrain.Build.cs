@@ -10,6 +10,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using Common;
+using Common.Values;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Assets;
@@ -34,32 +35,32 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="size">The size of the terrain</param>
         /// <param name="stretchH">A factor by which all horizontal distances are multiplied</param>
         /// <param name="stretchV">A factor by which all vertical distances are multiplied</param>
-        /// <param name="heightMap">The height values of the terrain in a 2D array.
-        ///   Array size = Terrain size</param>
-        /// <param name="occlusionEndMap">The minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded in a 2D array.
-        ///   Array size = Terrain size; may be <see langword="null"/> for no shadowing</param>
-        /// <param name="occlusionBeginMap">The maximum vertical angle (0 = 90°, 255 = 180°) which a directional light must not exceed to be not occluded in a 2D array.
-        ///   Array size = Terrain size; may be <see langword="null"/> for no shadowing</param>
-        /// <param name="textureMap">The texture values of the terrain in a 2D array.
-        ///   Array size = Terrain size / 3</param>
+        /// <param name="heightMap">The height values of the terrain in a 2D grid.
+        ///   Grid size = Terrain size</param>
+        /// <param name="occlusionEndMap">The minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded in a 2D grid.
+        ///   Grid size = Terrain size; may be <see langword="null"/> for no shadowing</param>
+        /// <param name="occlusionBeginMap">The maximum vertical angle (0 = 90°, 255 = 180°) which a directional light must not exceed to be not occluded in a 2D grid.
+        ///   Grid size = Terrain size; may be <see langword="null"/> for no shadowing</param>
+        /// <param name="textureMap">The texture values of the terrain in a 2D grid.
+        ///   Grid size = Terrain size / 3</param>
         /// <param name="lighting">Shall this mesh be prepared for lighting? (calculate normal vectors, make shaders support lighting, ...)</param>
         /// <param name="blockSize">How many points in X and Y direction shall one block for culling be?</param>
         /// <param name="subsetShaders">Shaders for all subsets the mesh was split into</param>
         /// <param name="subsetBoundingBoxes">Bounding boxes for all subsets the mesh was split into</param>
         /// <returns>The model that was created</returns>
-        private static Mesh BuildMesh(Engine engine, Size size, float stretchH, float stretchV, byte[,] heightMap, byte[,] occlusionEndMap, byte[,] occlusionBeginMap, byte[,] textureMap, bool lighting, int blockSize, out SurfaceShader[] subsetShaders, out BoundingBox[] subsetBoundingBoxes)
+        private static Mesh BuildMesh(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, ByteGrid occlusionEndMap, ByteGrid occlusionBeginMap, NibbleGrid textureMap, bool lighting, int blockSize, out SurfaceShader[] subsetShaders, out BoundingBox[] subsetBoundingBoxes)
         {
             #region Sanity checks
-            if (heightMap.GetLength(0) != size.Width || heightMap.GetLength(1) != size.Height)
+            if (heightMap.Width != size.Width || heightMap.Height != size.Height)
                 throw new ArgumentException(Resources.WrongHeightMapSize, "heightMap");
 
-            if (occlusionEndMap != null && (occlusionEndMap.GetLength(0) != size.Width || occlusionEndMap.GetLength(1) != size.Height))
+            if (occlusionEndMap != null && (occlusionEndMap.Width != size.Width || occlusionEndMap.Height != size.Height))
                 throw new ArgumentException(Resources.WrongOcclusionIntervalMapSize, "occlusionEndMap");
 
-            if (occlusionBeginMap != null && (occlusionBeginMap.GetLength(0) != size.Width || occlusionBeginMap.GetLength(1) != size.Height))
+            if (occlusionBeginMap != null && (occlusionBeginMap.Width != size.Width || occlusionBeginMap.Height != size.Height))
                 throw new ArgumentException(Resources.WrongOcclusionIntervalMapSize, "occlusionBeginMap");
 
-            if ((textureMap.GetLength(0)) * 3 != size.Width || (textureMap.GetLength(1)) * 3 != size.Height)
+            if ((textureMap.Width) * 3 != size.Width || (textureMap.Height) * 3 != size.Height)
                 throw new ArgumentException(Resources.WrongTextureMapSize, "textureMap");
             #endregion
 
@@ -76,7 +77,7 @@ namespace OmegaEngine.Graphics.Renderables
             }
         }
 
-        private static PositionMultiTextured[] GenerateVertexes(Size size, float stretchH, float stretchV, byte[,] heightMap, byte[,] occlusionEndMap, byte[,] occlusionBeginMap, byte[,] textureMap)
+        private static PositionMultiTextured[] GenerateVertexes(Size size, float stretchH, float stretchV, ByteGrid heightMap, ByteGrid occlusionEndMap, ByteGrid occlusionBeginMap, NibbleGrid textureMap)
         {
             var vertexes = new PositionMultiTextured[size.Width * size.Height];
 
@@ -270,18 +271,20 @@ namespace OmegaEngine.Graphics.Renderables
 
         #region Helpers
         /// <summary>
-        /// Takes a value from a 2D byte array and uses it as an index for a float array. Then adds a numeric value to the float array.
+        /// Takes a value from a 2D byte grid and uses it as an index for a float array. Then adds a numeric value to the float array.
         /// Does nothing if the index is out of bounds.
         /// </summary>
-        /// <param name="sourceArray">The byte array to take the index from</param>
+        /// <param name="sourceGrid">The byte grid to take the index from</param>
         /// <param name="x">The 1st index for the 2D byte array</param>
         /// <param name="y">The 2nd index for the 2D byte array</param>
         /// <param name="targetArray">The float array to add the value to</param>
         /// <param name="addValue">The value to add</param>
-        private static void TextureBlendHelper(byte[,] sourceArray, int x, int y, float[] targetArray, float addValue)
+        private static void TextureBlendHelper(NibbleGrid sourceGrid, int x, int y, float[] targetArray, float addValue)
         {
-            if (x < sourceArray.GetLength(0) && x >= 0 && y < sourceArray.GetLength(1) && y >= 0) // Prevent index overflows
-                targetArray[sourceArray[x, y]] += addValue;
+            // Prevent index overflows
+            if (x >= sourceGrid.Width || x < 0 || y >= sourceGrid.Height || y < 0) return;
+
+            targetArray[sourceGrid[x, y]] += addValue;
         }
 
         /// <summary>

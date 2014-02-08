@@ -46,9 +46,9 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
 
             // Iterate through intersection of [0,area.Size) and [-offset,heightMap-offset
             int xMin = Math.Max(0, -offset.X);
-            int xMax = Math.Min(brush.Size, heightMap.GetLength(0) - offset.X);
+            int xMax = Math.Min(brush.Size, heightMap.Width - offset.X);
             int yMin = Math.Max(0, -offset.Y);
-            int yMax = Math.Min(brush.Size, heightMap.GetLength(1) - offset.Y);
+            int yMax = Math.Min(brush.Size, heightMap.Height - offset.Y);
 
             // Use separated Gaussian filter with additional write-back between steps
             // Additional write-back is required because data points outside of the modified area may be queried
@@ -60,7 +60,7 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
                 {
                     // Filter horizontal
                     double factor = brush.Factor(x, y);
-                    double filteredValue = GetFiltered(i => ClampedRead(heightMap, offset.X + x + i, offset.Y + y));
+                    double filteredValue = GetFiltered(i => heightMap.ClampedRead(offset.X + x + i, offset.Y + y));
                     byte previousValue = heightMap[offset.X + x, offset.Y + y];
                     newData[x, y] = (byte)(factor * filteredValue + (1 - factor) * previousValue);
                 }
@@ -83,7 +83,7 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
                 {
                     // Filter vertical
                     double factor = brush.Factor(x, y);
-                    double filteredValue = GetFiltered(i => ClampedRead(heightMap, offset.X + x, offset.Y + y + i));
+                    double filteredValue = GetFiltered(i => heightMap.ClampedRead(offset.X + x, offset.Y + y + i));
                     byte previousValue = heightMap[offset.X + x, offset.Y + y];
                     newData[x, y] = (byte)(factor * filteredValue + (1 - factor) * previousValue);
                 }
@@ -101,14 +101,6 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
         }
 
         #region Helpers
-        /// <summary>
-        /// Reads a value from a 2D array and clamps to the nearest border if the index is out of bounds.
-        /// </summary>
-        private static T ClampedRead<T>(T[,] array, int x, int y)
-        {
-            return array[x.Clamp(0, array.GetLength(0) - 1), y.Clamp(0, array.GetLength(1) - 1)];
-        }
-
         /// <summary>
         /// Retreives a single filtered value.
         /// </summary>

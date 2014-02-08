@@ -106,15 +106,6 @@ namespace AlphaFramework.World.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The file is not a valid image..
-        /// </summary>
-        public static string NotAnImage {
-            get {
-                return ResourceManager.GetString("NotAnImage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; has not been loaded yet..
         /// </summary>
         public static string NotLoaded {

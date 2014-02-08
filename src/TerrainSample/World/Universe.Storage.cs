@@ -118,18 +118,18 @@ namespace TerrainSample.World
                 {
                     this.SaveXmlZip(path, additionalFiles: new[]
                     {
-                        new EmbeddedFile("height.png", 0, Terrain.GetSaveHeightMapDelegate()),
-                        new EmbeddedFile("texture.png", 0, Terrain.GetSaveTextureMapDelegate()),
-                        new EmbeddedFile("lightRiseAngle.png", 0, Terrain.GetSaveOcclusionEndMapDelegate()),
-                        new EmbeddedFile("lightSetAngle.png", 0, Terrain.GetSaveOcclusionBeginMapDelegate())
+                        new EmbeddedFile("height.png", 0, Terrain.HeightMap.Save),
+                        new EmbeddedFile("texture.png", 0, Terrain.TextureMap.Save),
+                        new EmbeddedFile("lightRiseAngle.png", 0, Terrain.OcclusionEndMap.Save),
+                        new EmbeddedFile("lightSetAngle.png", 0, Terrain.OcclusionBeginMap.Save)
                     });
                 }
                 else
                 {
                     this.SaveXmlZip(path, additionalFiles: new[]
                     {
-                        new EmbeddedFile("height.png", 0, Terrain.GetSaveHeightMapDelegate()),
-                        new EmbeddedFile("texture.png", 0, Terrain.GetSaveTextureMapDelegate())
+                        new EmbeddedFile("height.png", 0, Terrain.HeightMap.Save),
+                        new EmbeddedFile("texture.png", 0, Terrain.TextureMap.Save)
                     });
                 }
             }

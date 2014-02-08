@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using AlphaFramework.World.Properties;
 using Common.Tasks;
 using Common.Utils;
+using Common.Values;
 
 #if NETFX4
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace AlphaFramework.World.Terrains
     {
         #region Variables
         private readonly TerrainSize _size;
-        private readonly byte[,] _heightMap;
+        private readonly ByteGrid _heightMap;
         private readonly float _sunInclination;
         #endregion
 
@@ -38,7 +39,7 @@ namespace AlphaFramework.World.Terrains
         /// <inheritdoc />
         public override bool UnitsByte { get { return false; } }
 
-        private byte[,] _occlusionEndMap;
+        private ByteGrid _occlusionEndMap;
 
         /// <summary>
         /// Returns the calculated occlusion end map array once <see cref="ITask.State"/> has reached <see cref="TaskState.Complete"/>.
@@ -46,7 +47,7 @@ namespace AlphaFramework.World.Terrains
         /// <remarks>A light rise angles is the minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded.</remarks>
         /// <exception cref="InvalidOperationException">Thrown if <see cref="ITask.State"/> is not <see cref="TaskState.Complete"/>.</exception>
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        public byte[,] OcclusionEndMap
+        public ByteGrid OcclusionEndMap
         {
             get
             {
@@ -59,7 +60,7 @@ namespace AlphaFramework.World.Terrains
             }
         }
 
-        private byte[,] _occlusionBeginMap;
+        private ByteGrid _occlusionBeginMap;
 
         /// <summary>
         /// Returns the calculated occlusion begin map array once <see cref="ITask.State"/> has reached <see cref="TaskState.Complete"/>.
@@ -67,7 +68,7 @@ namespace AlphaFramework.World.Terrains
         /// <remarks>A light rise set is the maximum vertical angle (0 = 90°, 255 = 180°) which a directional light must not exceed to be not occluded.</remarks>
         /// <exception cref="InvalidOperationException">Thrown if <see cref="ITask.State"/> is not <see cref="TaskState.Complete"/>.</exception>
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        public byte[,] OcclusionBeginMap
+        public ByteGrid OcclusionBeginMap
         {
             get
             {
@@ -88,11 +89,11 @@ namespace AlphaFramework.World.Terrains
         /// <param name="size">The size of the terrain represented by the height-map.</param>
         /// <param name="heightMap">The height-map data. This is not cloned and must not be modified during calculation!</param>
         /// <param name="sunInclination">The angle of inclination of the sun's path away from the zenith in degrees.</param>
-        public OcclusionIntervalMapGenerator(TerrainSize size, byte[,] heightMap, float sunInclination)
+        public OcclusionIntervalMapGenerator(TerrainSize size, ByteGrid heightMap, float sunInclination)
         {
             #region Sanity chekcs
             if (heightMap == null) throw new ArgumentNullException("heightMap");
-            if (heightMap.GetUpperBound(0) + 1 != size.X || heightMap.GetUpperBound(1) + 1 != size.Y)
+            if (heightMap.Width != size.X || heightMap.Height != size.Y)
                 throw new ArgumentException(Resources.HeightMapSizeEqualTerrain, "heightMap");
             #endregion
 
@@ -130,8 +131,8 @@ namespace AlphaFramework.World.Terrains
         /// <inheritdoc />
         protected override void RunTask()
         {
-            _occlusionEndMap = new byte[_size.X, _size.Y];
-            _occlusionBeginMap = new byte[_size.X, _size.Y];
+            _occlusionEndMap = new ByteGrid(_size.X, _size.Y);
+            _occlusionBeginMap = new ByteGrid(_size.X, _size.Y);
 
             lock (StateLock) State = TaskState.Data;
 

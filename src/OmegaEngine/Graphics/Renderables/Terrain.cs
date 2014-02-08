@@ -12,6 +12,7 @@ using System.Drawing;
 using System.IO;
 using Common;
 using Common.Utils;
+using Common.Values;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
@@ -148,7 +149,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <exception cref="IOException">Thrown if there was an error reading one of the texture files.</exception>
         /// <exception cref="UnauthorizedAccessException">Thrown if read access to one of the texture files is not permitted.</exception>
         /// <exception cref="InvalidDataException">Thrown if one of the texture files does not contain a valid texture.</exception>
-        public static Terrain Create(Engine engine, Size size, float stretchH, float stretchV, byte[,] heightMap, byte[,] lightRiseAngleMap, byte[,] lightSetAngleMap, byte[,] textureMap, string[] textures, bool lighting, int blockSize)
+        public static Terrain Create(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, ByteGrid lightRiseAngleMap, ByteGrid lightSetAngleMap, NibbleGrid textureMap, string[] textures, bool lighting, int blockSize)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");

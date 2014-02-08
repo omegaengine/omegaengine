@@ -551,7 +551,7 @@ namespace TerrainSample.Editor.World
             try
             {
                 // Save the height-map to a PNG file
-                _universe.Terrain.SaveHeightMap(dialogExportHeightMap.FileName);
+                _universe.Terrain.HeightMap.Save(dialogExportHeightMap.FileName);
             }
                 #region Error handling
             catch (IOException ex)
@@ -588,7 +588,7 @@ namespace TerrainSample.Editor.World
             try
             {
                 // Save the texture-map to a PNG file
-                _universe.Terrain.SaveTextureMap(dialogExportTextureMap.FileName);
+                _universe.Terrain.TextureMap.Save(dialogExportTextureMap.FileName);
             }
                 #region Error handling
             catch (IOException ex)

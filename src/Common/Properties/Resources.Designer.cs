@@ -124,20 +124,20 @@ namespace Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copying files.
-        /// </summary>
-        internal static string CopyFiles {
-            get {
-                return ResourceManager.GetString("CopyFiles", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The content archives were already loaded.
         /// </summary>
         internal static string ContentArchivesAlreadyLoaded {
             get {
                 return ResourceManager.GetString("ContentArchivesAlreadyLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copying files.
+        /// </summary>
+        internal static string CopyFiles {
+            get {
+                return ResourceManager.GetString("CopyFiles", resourceCulture);
             }
         }
         
@@ -327,6 +327,15 @@ namespace Common.Properties {
         internal static string NoModActive {
             get {
                 return ResourceManager.GetString("NoModActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file is not a valid image..
+        /// </summary>
+        internal static string NotAnImage {
+            get {
+                return ResourceManager.GetString("NotAnImage", resourceCulture);
             }
         }
         

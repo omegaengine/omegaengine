@@ -99,8 +99,11 @@
     <Compile Include="Utils\MathUtilsTest.cs" />
     <Compile Include="Utils\StreamUtilsTest.cs" />
     <Compile Include="Utils\StringUtilsTest.cs" />
+    <Compile Include="Values\ByteGridTest.cs" />
+    <Compile Include="Values\ByteVector4GridTest.cs" />
     <Compile Include="Values\DoubleVector3Test.cs" />
     <Compile Include="Values\ExpandableRectangleArrayTest.cs" />
+    <Compile Include="Values\NibbleGridTest.cs" />
     <Compile Include="Values\QuadrangleTest.cs" />
   </ItemGroup>
   <ItemGroup>

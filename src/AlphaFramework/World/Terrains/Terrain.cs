@@ -67,23 +67,21 @@ namespace AlphaFramework.World.Terrains
         #endregion
 
         #region Height-map
-        private byte[,] _heightMap;
+        private ByteGrid _heightMap;
 
         /// <inheritdoc/>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        public byte[,] HeightMap
+        public ByteGrid HeightMap
         {
             get { return _heightMap; }
             set
             {
-                #region Sanity checks
                 if (value != null)
                 {
-                    if (value.GetUpperBound(0) + 1 != _size.X || value.GetUpperBound(1) + 1 != _size.Y)
+                    if (value.Width != _size.X || value.Height != _size.Y)
                         throw new InvalidOperationException(Resources.HeightMapSizeEqualTerrain);
                 }
-                #endregion
 
                 _heightMap = value;
             }
@@ -91,45 +89,41 @@ namespace AlphaFramework.World.Terrains
         #endregion
 
         #region Occlusion interval map
-        private byte[,] _occlusionEndMap;
+        private ByteGrid _occlusionEndMap;
 
         /// <inheritdoc/>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        public byte[,] OcclusionEndMap
+        public ByteGrid OcclusionEndMap
         {
             get { return _occlusionEndMap; }
             set
             {
-                #region Sanity checks
                 if (value != null)
                 {
-                    if (value.GetUpperBound(0) + 1 != _size.X || value.GetUpperBound(1) + 1 != _size.Y)
+                    if (value.Width != _size.X || value.Height != _size.Y)
                         throw new InvalidOperationException(Resources.HeightMapSizeEqualTerrain);
                 }
-                #endregion
 
                 _occlusionEndMap = value;
             }
         }
 
-        private byte[,] _occlusionBeginMap;
+        private ByteGrid _occlusionBeginMap;
 
         /// <inheritdoc/>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        public byte[,] OcclusionBeginMap
+        public ByteGrid OcclusionBeginMap
         {
             get { return _occlusionBeginMap; }
             set
             {
-                #region Sanity checks
                 if (value != null)
                 {
-                    if (value.GetUpperBound(0) + 1 != _size.X || value.GetUpperBound(1) + 1 != _size.Y)
+                    if (value.Width != _size.X || value.Height != _size.Y)
                         throw new InvalidOperationException(Resources.HeightMapSizeEqualTerrain);
                 }
-                #endregion
 
                 _occlusionBeginMap = value;
             }
@@ -151,23 +145,21 @@ namespace AlphaFramework.World.Terrains
         [XmlIgnore]
         public readonly TTemplate[] Templates = new TTemplate[16];
 
-        private byte[,] _textureMap;
+        private NibbleGrid _textureMap;
 
         /// <inheritdoc/>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        public byte[,] TextureMap
+        public NibbleGrid TextureMap
         {
             get { return _textureMap; }
             set
             {
-                #region Sanity checks
                 if (value != null)
                 {
-                    if (value.GetUpperBound(0) + 1 != _size.X / 3 || value.GetUpperBound(1) + 1 != _size.Y / 3)
+                    if (value.Width != _size.X / 3 || value.Height != _size.Y / 3)
                         throw new InvalidOperationException(Resources.TextureMapSizeThirdOfTerrain);
                 }
-                #endregion
 
                 _textureMap = value;
             }
@@ -187,8 +179,8 @@ namespace AlphaFramework.World.Terrains
         public Terrain(TerrainSize size)
         {
             Size = size;
-            _heightMap = new byte[size.X, size.Y];
-            _textureMap = new byte[size.X / 3, size.Y / 3];
+            _heightMap = new ByteGrid(size.X, size.Y);
+            _textureMap = new NibbleGrid(size.X / 3, size.Y / 3);
 
             // Try to use "Grass" as the default Terrain type
             try
@@ -213,36 +205,11 @@ namespace AlphaFramework.World.Terrains
             // Note: This is only required for lookups in the height-map, not for actually unstretching the coordinates to be returned
             Vector2 unstrechedCoords = coordinates * (1 / _size.StretchH);
 
-            if (unstrechedCoords.X > HeightMap.GetLength(0) - 1 || unstrechedCoords.Y > HeightMap.GetLength(1) - 1 ||
+            if (unstrechedCoords.X > HeightMap.Width || unstrechedCoords.Y > HeightMap.Height ||
                 unstrechedCoords.X < 0 || unstrechedCoords.Y < 0)
                 throw new ArgumentOutOfRangeException("coordinates", Resources.CoordinatesNotInRange);
 
-            // Snap X values to bounding whole values
-            var xPos0 = (int)Math.Floor(unstrechedCoords.X);
-            var xPos1 = (int)Math.Ceiling(unstrechedCoords.X);
-            float xPosDiff = unstrechedCoords.X - xPos0;
-
-            // Snap Y values to bounding whole values
-            var yPos0 = (int)Math.Floor(unstrechedCoords.Y);
-            var yPos1 = (int)Math.Ceiling(unstrechedCoords.Y);
-            float yPosDiff = unstrechedCoords.Y - yPos0;
-
-            float height, xHeightDiff, yHeightDiff;
-            // Determine one which of the two possible triangles of the map square the point is located
-            if (xPosDiff + yPosDiff < 1)
-            { // Top left triangle
-                xHeightDiff = HeightMap[xPos1, yPos0] - HeightMap[xPos0, yPos0];
-                yHeightDiff = HeightMap[xPos0, yPos1] - HeightMap[xPos0, yPos0];
-                height = HeightMap[xPos0, yPos0] +
-                         ((xHeightDiff * xPosDiff) + (yHeightDiff * yPosDiff));
-            }
-            else
-            { // Bottom right triangle
-                xHeightDiff = HeightMap[xPos1, yPos1] - HeightMap[xPos0, yPos1];
-                yHeightDiff = HeightMap[xPos1, yPos1] - HeightMap[xPos1, yPos0];
-                height = HeightMap[xPos1, yPos1] -
-                         ((xHeightDiff * (1 - xPosDiff)) + (yHeightDiff * (1 - yPosDiff)));
-            }
+            var height = HeightMap.InterpolatedRead(unstrechedCoords.X, unstrechedCoords.Y);
 
             return new DoubleVector3(
                 coordinates.X, // World X = Engine +X

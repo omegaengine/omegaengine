@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
+using Common.Values;
 using LuaInterface;
 using SlimDX;
 
@@ -40,7 +41,7 @@ namespace AlphaFramework.World.Terrains
         /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadHeightMap(Stream)"/>.</remarks>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        byte[,] HeightMap { get; set; }
+        ByteGrid HeightMap { get; set; }
 
         /// <summary>
         /// Direct access to the internal occlusion end map array. Handle with care; clone when necessary!
@@ -50,7 +51,7 @@ namespace AlphaFramework.World.Terrains
         /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadOcclusionEndMap(System.IO.Stream)"/>.</remarks>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        byte[,] OcclusionEndMap { get; set; }
+        ByteGrid OcclusionEndMap { get; set; }
 
         /// <summary>
         /// Direct access to the internal occlusion begin map array. Handle with care; clone when necessary!
@@ -60,7 +61,7 @@ namespace AlphaFramework.World.Terrains
         /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadOcclusionBeginMap(System.IO.Stream)"/>.</remarks>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        byte[,] OcclusionBeginMap { get; set; }
+        ByteGrid OcclusionBeginMap { get; set; }
 
         /// <summary>
         /// Indicates whether <see cref="OcclusionEndMap"/> and <see cref="OcclusionBeginMap"/> have been calculated yet.
@@ -81,7 +82,7 @@ namespace AlphaFramework.World.Terrains
         /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadTextureMap(string)"/>.</remarks>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        byte[,] TextureMap { get; set; }
+        NibbleGrid TextureMap { get; set; }
 
         /// <summary>
         /// Was the minimum necessary data for the terrain  (<see cref="HeightMap"/> and <see cref="TextureMap"/>) loaded already?
@@ -148,61 +149,5 @@ namespace AlphaFramework.World.Terrains
         /// <param name="path">The path of the PNG file to load the texture-map from.</param>
         /// <exception cref="IOException">Thrown if the texture-map size is incorrect.</exception>
         void LoadTextureMap(string path);
-
-        /// <summary>
-        /// Prepares <see cref="ITerrain.HeightMap"/> so that it can be stored in a <see cref="Stream"/> later on.
-        /// </summary>
-        /// <returns>A delegate to be called when the <see cref="Stream"/> for writing the height-map is ready.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Creates a new delegate on each call")]
-        [LuaHide]
-        Action<Stream> GetSaveHeightMapDelegate();
-
-        /// <summary>
-        /// Saves data from <see cref="ITerrain.HeightMap"/> in a file.
-        /// </summary>
-        /// <param name="path">The path of the PNG file to store the height-map in.</param>
-        void SaveHeightMap(string path);
-
-        /// <summary>
-        /// Prepares <see cref="ITerrain.OcclusionEndMap"/> so that it can be stored in a <see cref="Stream"/> later on.
-        /// </summary>
-        /// <returns>A delegate to be called when the <see cref="Stream"/> for writing the occlusion end map is ready.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Creates a new delegate on each call")]
-        [LuaHide]
-        Action<Stream> GetSaveOcclusionEndMapDelegate();
-
-        /// <summary>
-        /// Saves data from <see cref="ITerrain.OcclusionEndMap"/> in a file.
-        /// </summary>
-        /// <param name="path">The path of the PNG file to store the angle-map in.</param>
-        void SaveOcclusionEndMap(string path);
-
-        /// <summary>
-        /// Prepares <see cref="ITerrain.OcclusionBeginMap"/> so that it can be stored in a <see cref="Stream"/> later on.
-        /// </summary>
-        /// <returns>A delegate to be called when the <see cref="Stream"/> for writing the occlusion begin map is ready.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Creates a new delegate on each call")]
-        [LuaHide]
-        Action<Stream> GetSaveOcclusionBeginMapDelegate();
-
-        /// <summary>
-        /// Saves data from <see cref="ITerrain.OcclusionBeginMap"/> in a file.
-        /// </summary>
-        /// <param name="path">The path of the PNG file to store the angle-map in.</param>
-        void SaveOcclusionBeginMap(string path);
-
-        /// <summary>
-        /// Prepares <see cref="ITerrain.TextureMap"/> so that it can be stored in a <see cref="Stream"/> later on.
-        /// </summary>
-        /// <returns>A delegate to be called when the <see cref="Stream"/> for writing the texture-map is ready.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Creates a new delegate on each call")]
-        [LuaHide]
-        Action<Stream> GetSaveTextureMapDelegate();
-
-        /// <summary>
-        /// Saves data from <see cref="ITerrain.TextureMap"/> in a file.
-        /// </summary>
-        /// <param name="path">The path of the PNG file to store the texture-map in.</param>
-        void SaveTextureMap(string path);
     }
 }
