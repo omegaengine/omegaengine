@@ -67,7 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\AssemblyInfo.Global.cs" />
+    <Compile Include="..\AssemblyInfo.Global.cs" />
     <Compile Include="Components\Collision.cs" />
     <Compile Include="Components\AnimatedMesh.cs" />
     <Compile Include="Components\CpuParticleSystem.cs" />
