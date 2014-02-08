@@ -331,15 +331,6 @@ namespace OmegaEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Angle-map size must equal terrain size..
-        /// </summary>
-        internal static string WrongAngleMapSize {
-            get {
-                return ResourceManager.GetString("WrongAngleMapSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The following file was previously loaded as a different asset type: .
         /// </summary>
         internal static string WrongAssetType {
@@ -354,6 +345,15 @@ namespace OmegaEngine.Properties {
         internal static string WrongHeightMapSize {
             get {
                 return ResourceManager.GetString("WrongHeightMapSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Occlusion interval map size must equal terrain size..
+        /// </summary>
+        internal static string WrongOcclusionIntervalMapSize {
+            get {
+                return ResourceManager.GetString("WrongOcclusionIntervalMapSize", resourceCulture);
             }
         }
         

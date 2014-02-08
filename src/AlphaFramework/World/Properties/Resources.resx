@@ -117,17 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AngleMapSizeEqualTerrain" xml:space="preserve">
-    <value>The angle-maps size must be equal to the terrain size.</value>
-  </data>
   <data name="CalculationNotComplete" xml:space="preserve">
     <value>The calculation has not been completed yet.</value>
   </data>
   <data name="CoordinatesNotInRange" xml:space="preserve">
     <value>The coordinates are not within terrain range.</value>
   </data>
-  <data name="GeneratingLingleAngleMaps" xml:space="preserve">
-    <value>Generating light angle maps (for shadows)</value>
+  <data name="GeneratingOcclusionIntervalMaps" xml:space="preserve">
+    <value>Generating occlusion interval maps (for shadows)</value>
   </data>
   <data name="HeightMapSizeEqualTerrain" xml:space="preserve">
     <value>The height-map size must be equal to the terrain size.</value>
@@ -140,6 +137,9 @@
   </data>
   <data name="NotLoaded" xml:space="preserve">
     <value>'{0}' has not been loaded yet.</value>
+  </data>
+  <data name="OcclusionIntervalMapSizeEqualTerrain" xml:space="preserve">
+    <value>The occlusion interval map size must be equal to the terrain size.</value>
   </data>
   <data name="TerrainDataNotLoaded" xml:space="preserve">
     <value>The terrain data was not loaded correctly.

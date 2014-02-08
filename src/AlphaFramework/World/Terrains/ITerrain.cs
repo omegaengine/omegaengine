@@ -17,7 +17,7 @@ using SlimDX;
 namespace AlphaFramework.World.Terrains
 {
     /// <summary>
-    /// A common base for all <see cref="Terrain{TTemplate}"/> types.
+    /// A common base for all <see cref="ITerrain"/> types.
     /// </summary>
     public interface ITerrain
     {
@@ -43,39 +43,39 @@ namespace AlphaFramework.World.Terrains
         byte[,] HeightMap { get; set; }
 
         /// <summary>
-        /// Direct access to the internal light rise angle-map array. Handle with care; clone when necessary!
+        /// Direct access to the internal occlusion end map array. Handle with care; clone when necessary!
         /// </summary>
         /// <remarks>A light rise angles is the minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded.</remarks>
-        /// <exception cref="InvalidOperationException">Thrown if the angle-map size is incorrect.</exception>
-        /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadLightRiseAngleMap(Stream)"/>.</remarks>
+        /// <exception cref="InvalidOperationException">Thrown if the size is incorrect.</exception>
+        /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadOcclusionEndMap(System.IO.Stream)"/>.</remarks>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        byte[,] LightRiseAngleMap { get; set; }
+        byte[,] OcclusionEndMap { get; set; }
 
         /// <summary>
-        /// Direct access to the internal light set angle-map array. Handle with care; clone when necessary!
+        /// Direct access to the internal occlusion begin map array. Handle with care; clone when necessary!
         /// </summary>
         /// <remarks>A light rise set is the maximum vertical angle (0 = 90°, 255 = 180°) which a directional light must not exceed to be not occluded.</remarks>
-        /// <exception cref="InvalidOperationException">Thrown if the angle-map size is incorrect.</exception>
-        /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadLightSetAngleMap(Stream)"/>.</remarks>
+        /// <exception cref="InvalidOperationException">Thrown if the size is incorrect.</exception>
+        /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadOcclusionBeginMap(System.IO.Stream)"/>.</remarks>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        byte[,] LightSetAngleMap { get; set; }
+        byte[,] OcclusionBeginMap { get; set; }
 
         /// <summary>
-        /// Indicates whether <see cref="LightRiseAngleMap"/> and <see cref="LightSetAngleMap"/> have been calculated yet.
+        /// Indicates whether <see cref="OcclusionEndMap"/> and <see cref="OcclusionBeginMap"/> have been calculated yet.
         /// </summary>
         [XmlIgnore]
-        bool LightAngleMapsSet { get; }
+        bool OcclusionIntervalMapSet { get; }
 
         /// <summary>
-        /// Indicates that the data stored in <see cref="LightRiseAngleMap"/> and <see cref="LightSetAngleMap"/> is outdated and should be recalculated using <see cref="LightAngleMapGenerator"/>.
+        /// Indicates that the data stored in <see cref="OcclusionEndMap"/> and <see cref="OcclusionBeginMap"/> is outdated and should be recalculated using <see cref="OcclusionIntervalMapGenerator"/>.
         /// </summary>
         [XmlAttribute, DefaultValue(false)]
-        bool LightAngleMapsOutdated { get; set; }
+        bool OcclusionIntervalMapOutdated { get; set; }
 
         /// <summary>
-        /// Direct access to the internal texture-map arrayDirect access to the internal height-map array. Handle with care; clone when necessary!
+        /// Direct access to the internal height-map array. Handle with care; clone when necessary!
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown if the height-map size is incorrect.</exception>
         /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadTextureMap(string)"/>.</remarks>
@@ -90,13 +90,7 @@ namespace AlphaFramework.World.Terrains
         bool DataLoaded { get; }
 
         /// <summary>
-        /// Automatically generate <see cref="Terrain{TTemplate}.LightRiseAngleMap"/> and <see cref="Terrain{TTemplate}.LightSetAngleMap"/> based on <see cref="Terrain{TTemplate}.HeightMap"/>.
-        /// </summary>
-        /// <remarks>This method interally uses a <see cref="LightAngleMapGenerator"/> instance.</remarks>
-        void GenerateLightAngleMaps();
-
-        /// <summary>
-        /// Loads data for <see cref="Terrain{TTemplate}.HeightMap"/> from a stream.
+        /// Loads data for <see cref="ITerrain.HeightMap"/> from a stream.
         /// </summary>
         /// <param name="stream">The stream to read the height-map from.</param>
         /// <exception cref="IOException">Thrown if the height-map size is incorrect.</exception>
@@ -104,44 +98,44 @@ namespace AlphaFramework.World.Terrains
         void LoadHeightMap(Stream stream);
 
         /// <summary>
-        /// Loads data for <see cref="Terrain{TTemplate}.HeightMap"/> from a file.
+        /// Loads data for <see cref="ITerrain.HeightMap"/> from a file.
         /// </summary>
         /// <param name="path">The path of the PNG file to load the height-map from.</param>
         /// <exception cref="IOException">Thrown if the texture-map size is incorrect.</exception>
         void LoadHeightMap(string path);
 
         /// <summary>
-        /// Loads data for <see cref="Terrain{TTemplate}.LightRiseAngleMap"/> from a stream.
+        /// Loads data for <see cref="ITerrain.OcclusionEndMap"/> from a stream.
         /// </summary>
-        /// <param name="stream">The stream to read the light rise angle-map from.</param>
-        /// <exception cref="IOException">Thrown if the light rise angle-map size is incorrect.</exception>
+        /// <param name="stream">The stream to read the occlusion end map from.</param>
+        /// <exception cref="IOException">Thrown if the occlusion end map size is incorrect.</exception>
         [LuaHide]
-        void LoadLightRiseAngleMap(Stream stream);
+        void LoadOcclusionEndMap(Stream stream);
 
         /// <summary>
-        /// Loads data for <see cref="Terrain{TTemplate}.LightRiseAngleMap"/> from a file.
+        /// Loads data for <see cref="ITerrain.OcclusionEndMap"/> from a file.
         /// </summary>
-        /// <param name="path">The path of the PNG file to load the light rise angle-map from.</param>
+        /// <param name="path">The path of the PNG file to load the occlusion end map from.</param>
         /// <exception cref="IOException">Thrown if the texture-map size is incorrect.</exception>
-        void LoadLightRiseAngleMap(string path);
+        void LoadOcclusionEndMap(string path);
 
         /// <summary>
-        /// Loads data for <see cref="Terrain{TTemplate}.LightSetAngleMap"/> from a stream.
+        /// Loads data for <see cref="ITerrain.OcclusionBeginMap"/> from a stream.
         /// </summary>
-        /// <param name="stream">The stream to read the light set angle-map from.</param>
-        /// <exception cref="IOException">Thrown if the light set angle-map size is incorrect.</exception>
+        /// <param name="stream">The stream to read the occlusion begin map from.</param>
+        /// <exception cref="IOException">Thrown if the occlusion begin map size is incorrect.</exception>
         [LuaHide]
-        void LoadLightSetAngleMap(Stream stream);
+        void LoadOcclusionBeginMap(Stream stream);
 
         /// <summary>
-        /// Loads data for <see cref="Terrain{TTemplate}.LightSetAngleMap"/> from a file.
+        /// Loads data for <see cref="ITerrain.OcclusionBeginMap"/> from a file.
         /// </summary>
-        /// <param name="path">The path of the PNG file to load the light set angle-map from.</param>
+        /// <param name="path">The path of the PNG file to load the occlusion begin map from.</param>
         /// <exception cref="IOException">Thrown if the texture-map size is incorrect.</exception>
-        void LoadLightSetAngleMap(string path);
+        void LoadOcclusionBeginMap(string path);
 
         /// <summary>
-        /// Loads data for <see cref="Terrain{TTemplate}.TextureMap"/> from a stream.
+        /// Loads data for <see cref="ITerrain.TextureMap"/> from a stream.
         /// </summary>
         /// <param name="stream">The stream to read the texture-map from.</param>
         /// <exception cref="IOException">Thrown if the texture-map size is incorrect.</exception>
@@ -149,14 +143,14 @@ namespace AlphaFramework.World.Terrains
         void LoadTextureMap(Stream stream);
 
         /// <summary>
-        /// Loads data for <see cref="Terrain{TTemplate}.TextureMap"/> from a file.
+        /// Loads data for <see cref="ITerrain.TextureMap"/> from a file.
         /// </summary>
         /// <param name="path">The path of the PNG file to load the texture-map from.</param>
         /// <exception cref="IOException">Thrown if the texture-map size is incorrect.</exception>
         void LoadTextureMap(string path);
 
         /// <summary>
-        /// Prepares <see cref="Terrain{TTemplate}.HeightMap"/> so that it can be stored in a <see cref="Stream"/> later on.
+        /// Prepares <see cref="ITerrain.HeightMap"/> so that it can be stored in a <see cref="Stream"/> later on.
         /// </summary>
         /// <returns>A delegate to be called when the <see cref="Stream"/> for writing the height-map is ready.</returns>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Creates a new delegate on each call")]
@@ -164,41 +158,41 @@ namespace AlphaFramework.World.Terrains
         Action<Stream> GetSaveHeightMapDelegate();
 
         /// <summary>
-        /// Saves data from <see cref="Terrain{TTemplate}.HeightMap"/> in a file.
+        /// Saves data from <see cref="ITerrain.HeightMap"/> in a file.
         /// </summary>
         /// <param name="path">The path of the PNG file to store the height-map in.</param>
         void SaveHeightMap(string path);
 
         /// <summary>
-        /// Prepares <see cref="Terrain{TTemplate}.LightRiseAngleMap"/> so that it can be stored in a <see cref="Stream"/> later on.
+        /// Prepares <see cref="ITerrain.OcclusionEndMap"/> so that it can be stored in a <see cref="Stream"/> later on.
         /// </summary>
-        /// <returns>A delegate to be called when the <see cref="Stream"/> for writing the angle-map is ready.</returns>
+        /// <returns>A delegate to be called when the <see cref="Stream"/> for writing the occlusion end map is ready.</returns>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Creates a new delegate on each call")]
         [LuaHide]
-        Action<Stream> GetSaveLightRiseAngleMapDelegate();
+        Action<Stream> GetSaveOcclusionEndMapDelegate();
 
         /// <summary>
-        /// Saves data from <see cref="Terrain{TTemplate}.LightRiseAngleMap"/> in a file.
+        /// Saves data from <see cref="ITerrain.OcclusionEndMap"/> in a file.
         /// </summary>
         /// <param name="path">The path of the PNG file to store the angle-map in.</param>
-        void SaveLightRiseAngleMap(string path);
+        void SaveOcclusionEndMap(string path);
 
         /// <summary>
-        /// Prepares <see cref="Terrain{TTemplate}.LightSetAngleMap"/> so that it can be stored in a <see cref="Stream"/> later on.
+        /// Prepares <see cref="ITerrain.OcclusionBeginMap"/> so that it can be stored in a <see cref="Stream"/> later on.
         /// </summary>
-        /// <returns>A delegate to be called when the <see cref="Stream"/> for writing the angle-map is ready.</returns>
+        /// <returns>A delegate to be called when the <see cref="Stream"/> for writing the occlusion begin map is ready.</returns>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Creates a new delegate on each call")]
         [LuaHide]
-        Action<Stream> GetSaveLightSetAngleMapDelegate();
+        Action<Stream> GetSaveOcclusionBeginMapDelegate();
 
         /// <summary>
-        /// Saves data from <see cref="Terrain{TTemplate}.LightSetAngleMap"/> in a file.
+        /// Saves data from <see cref="ITerrain.OcclusionBeginMap"/> in a file.
         /// </summary>
         /// <param name="path">The path of the PNG file to store the angle-map in.</param>
-        void SaveLightSetAngleMap(string path);
+        void SaveOcclusionBeginMap(string path);
 
         /// <summary>
-        /// Prepares <see cref="Terrain{TTemplate}.TextureMap"/> so that it can be stored in a <see cref="Stream"/> later on.
+        /// Prepares <see cref="ITerrain.TextureMap"/> so that it can be stored in a <see cref="Stream"/> later on.
         /// </summary>
         /// <returns>A delegate to be called when the <see cref="Stream"/> for writing the texture-map is ready.</returns>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Creates a new delegate on each call")]
@@ -206,7 +200,7 @@ namespace AlphaFramework.World.Terrains
         Action<Stream> GetSaveTextureMapDelegate();
 
         /// <summary>
-        /// Saves data from <see cref="Terrain{TTemplate}.TextureMap"/> in a file.
+        /// Saves data from <see cref="ITerrain.TextureMap"/> in a file.
         /// </summary>
         /// <param name="path">The path of the PNG file to store the texture-map in.</param>
         void SaveTextureMap(string path);

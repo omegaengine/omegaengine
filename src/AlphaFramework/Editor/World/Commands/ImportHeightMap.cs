@@ -25,7 +25,7 @@ namespace AlphaFramework.Editor.World.Commands
         /// <param name="fileName">The file to load the height-map data from.</param>
         /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
         public ImportHeightMap(ITerrain terrain, string fileName, Action refreshHandler)
-            : base(terrain, fileName, refreshHandler + (() => terrain.LightAngleMapsOutdated = true)) // Mark the shadow maps for update
+            : base(terrain, fileName, refreshHandler + (() => terrain.OcclusionIntervalMapOutdated = true)) // Mark the shadow maps for update
         {}
         #endregion
 

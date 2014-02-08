@@ -90,15 +90,15 @@ namespace AlphaFramework.World.Terrains
         }
         #endregion
 
-        #region Light angle-map
-        private byte[,] _lightRiseAngleMap;
+        #region Occlusion interval map
+        private byte[,] _occlusionEndMap;
 
         /// <inheritdoc/>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        public byte[,] LightRiseAngleMap
+        public byte[,] OcclusionEndMap
         {
-            get { return _lightRiseAngleMap; }
+            get { return _occlusionEndMap; }
             set
             {
                 #region Sanity checks
@@ -109,18 +109,18 @@ namespace AlphaFramework.World.Terrains
                 }
                 #endregion
 
-                _lightRiseAngleMap = value;
+                _occlusionEndMap = value;
             }
         }
 
-        private byte[,] _lightSetAngleMap;
+        private byte[,] _occlusionBeginMap;
 
         /// <inheritdoc/>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        public byte[,] LightSetAngleMap
+        public byte[,] OcclusionBeginMap
         {
-            get { return _lightSetAngleMap; }
+            get { return _occlusionBeginMap; }
             set
             {
                 #region Sanity checks
@@ -131,17 +131,17 @@ namespace AlphaFramework.World.Terrains
                 }
                 #endregion
 
-                _lightSetAngleMap = value;
+                _occlusionBeginMap = value;
             }
         }
 
         /// <inheritdoc/>
         [XmlIgnore]
-        public bool LightAngleMapsSet { get { return LightRiseAngleMap != null && LightSetAngleMap != null; } }
+        public bool OcclusionIntervalMapSet { get { return OcclusionEndMap != null && OcclusionBeginMap != null; } }
 
         /// <inheritdoc/>
         [XmlAttribute, DefaultValue(false)]
-        public bool LightAngleMapsOutdated { get; set; }
+        public bool OcclusionIntervalMapOutdated { get; set; }
         #endregion
 
         #region Texture-map
@@ -261,23 +261,6 @@ namespace AlphaFramework.World.Terrains
             return _textureMap[
                 (int)(coordinates.X / _size.StretchV),
                 (int)(coordinates.Y / _size.StretchV)];
-        }
-        #endregion
-
-        #region Light angle maps
-        /// <inheritdoc/>
-        public void GenerateLightAngleMaps()
-        {
-            #region Sanity checks
-            if (!DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
-            #endregion
-
-            var generator = new LightAngleMapGenerator(Size, HeightMap);
-            generator.RunSync();
-
-            // Replace the old angle-maps
-            _lightRiseAngleMap = generator.LightRiseAngleMap;
-            _lightSetAngleMap = generator.LightSetAngleMap;
         }
         #endregion
     }

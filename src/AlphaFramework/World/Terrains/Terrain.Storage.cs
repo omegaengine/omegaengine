@@ -147,62 +147,62 @@ namespace AlphaFramework.World.Terrains
 
         /// <inheritdoc/>
         [LuaHide]
-        public void LoadLightRiseAngleMap(Stream stream)
+        public void LoadOcclusionEndMap(Stream stream)
         {
             #region Sanity checks
             if (stream == null) throw new ArgumentNullException("stream");
             #endregion
 
-            Log.Info("Loading terrain light rise angle-map");
+            Log.Info("Loading occlusion end map");
             try
             {
-                LoadBitmap(stream, _size, ref _lightRiseAngleMap, false);
+                LoadBitmap(stream, _size, ref _occlusionEndMap, false);
             }
             catch (IOException ex)
             {
-                throw new IOException(Resources.AngleMapSizeEqualTerrain, ex);
+                throw new IOException(Resources.OcclusionIntervalMapSizeEqualTerrain, ex);
             }
         }
 
         /// <inheritdoc/>
-        public void LoadLightRiseAngleMap(string path)
+        public void LoadOcclusionEndMap(string path)
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
             #endregion
 
             using (var stream = File.Open(path, FileMode.Open))
-                LoadLightRiseAngleMap(stream);
+                LoadOcclusionEndMap(stream);
         }
 
         /// <inheritdoc/>
         [LuaHide]
-        public void LoadLightSetAngleMap(Stream stream)
+        public void LoadOcclusionBeginMap(Stream stream)
         {
             #region Sanity checks
             if (stream == null) throw new ArgumentNullException("stream");
             #endregion
 
-            Log.Info("Loading terrain light set angle-map");
+            Log.Info("Loading occlusion begin map");
             try
             {
-                LoadBitmap(stream, _size, ref _lightSetAngleMap, false);
+                LoadBitmap(stream, _size, ref _occlusionBeginMap, false);
             }
             catch (IOException ex)
             {
-                throw new IOException(Resources.AngleMapSizeEqualTerrain, ex);
+                throw new IOException(Resources.OcclusionIntervalMapSizeEqualTerrain, ex);
             }
         }
 
         /// <inheritdoc/>
-        public void LoadLightSetAngleMap(string path)
+        public void LoadOcclusionBeginMap(string path)
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
             #endregion
 
             using (var stream = File.Open(path, FileMode.Open))
-                LoadLightSetAngleMap(stream);
+                LoadOcclusionBeginMap(stream);
         }
 
         /// <inheritdoc/>
@@ -309,20 +309,20 @@ namespace AlphaFramework.World.Terrains
         /// <inheritdoc/>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Creates a new delegate on each call")]
         [LuaHide]
-        public Action<Stream> GetSaveLightRiseAngleMapDelegate()
+        public Action<Stream> GetSaveOcclusionEndMapDelegate()
         {
-            return GetSaveBitmapDelegate(_lightRiseAngleMap);
+            return GetSaveBitmapDelegate(_occlusionEndMap);
         }
 
         /// <inheritdoc/>
-        public void SaveLightRiseAngleMap(string path)
+        public void SaveOcclusionEndMap(string path)
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
             #endregion
 
             // Generate the bitmap and get a write delegate
-            Action<Stream> writeAngleMap = GetSaveLightRiseAngleMapDelegate();
+            Action<Stream> writeAngleMap = GetSaveOcclusionEndMapDelegate();
 
             // Open a stream and use the write delegate to fill it
             using (var stream = File.Create(path))
@@ -332,20 +332,20 @@ namespace AlphaFramework.World.Terrains
         /// <inheritdoc/>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Creates a new delegate on each call")]
         [LuaHide]
-        public Action<Stream> GetSaveLightSetAngleMapDelegate()
+        public Action<Stream> GetSaveOcclusionBeginMapDelegate()
         {
-            return GetSaveBitmapDelegate(_lightSetAngleMap);
+            return GetSaveBitmapDelegate(_occlusionBeginMap);
         }
 
         /// <inheritdoc/>
-        public void SaveLightSetAngleMap(string path)
+        public void SaveOcclusionBeginMap(string path)
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
             #endregion
 
             // Generate the bitmap and get a write delegate
-            Action<Stream> writeAngleMap = GetSaveLightSetAngleMapDelegate();
+            Action<Stream> writeAngleMap = GetSaveOcclusionBeginMapDelegate();
 
             // Open a stream and use the write delegate to fill it
             using (var stream = File.Create(path))

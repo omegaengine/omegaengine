@@ -36,9 +36,9 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="stretchV">A factor by which all vertical distances are multiplied</param>
         /// <param name="heightMap">The height values of the terrain in a 2D array.
         ///   Array size = Terrain size</param>
-        /// <param name="lightRiseAngleMap">The minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded in a 2D array.
+        /// <param name="occlusionEndMap">The minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded in a 2D array.
         ///   Array size = Terrain size; may be <see langword="null"/> for no shadowing</param>
-        /// <param name="lightSetAngleMap">The maximum vertical angle (0 = 90°, 255 = 180°) which a directional light must not exceed to be not occluded in a 2D array.
+        /// <param name="occlusionBeginMap">The maximum vertical angle (0 = 90°, 255 = 180°) which a directional light must not exceed to be not occluded in a 2D array.
         ///   Array size = Terrain size; may be <see langword="null"/> for no shadowing</param>
         /// <param name="textureMap">The texture values of the terrain in a 2D array.
         ///   Array size = Terrain size / 3</param>
@@ -47,17 +47,17 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="subsetShaders">Shaders for all subsets the mesh was split into</param>
         /// <param name="subsetBoundingBoxes">Bounding boxes for all subsets the mesh was split into</param>
         /// <returns>The model that was created</returns>
-        private static Mesh BuildMesh(Engine engine, Size size, float stretchH, float stretchV, byte[,] heightMap, byte[,] lightRiseAngleMap, byte[,] lightSetAngleMap, byte[,] textureMap, bool lighting, int blockSize, out SurfaceShader[] subsetShaders, out BoundingBox[] subsetBoundingBoxes)
+        private static Mesh BuildMesh(Engine engine, Size size, float stretchH, float stretchV, byte[,] heightMap, byte[,] occlusionEndMap, byte[,] occlusionBeginMap, byte[,] textureMap, bool lighting, int blockSize, out SurfaceShader[] subsetShaders, out BoundingBox[] subsetBoundingBoxes)
         {
             #region Sanity checks
             if (heightMap.GetLength(0) != size.Width || heightMap.GetLength(1) != size.Height)
                 throw new ArgumentException(Resources.WrongHeightMapSize, "heightMap");
 
-            if (lightRiseAngleMap != null && (lightRiseAngleMap.GetLength(0) != size.Width || lightRiseAngleMap.GetLength(1) != size.Height))
-                throw new ArgumentException(Resources.WrongAngleMapSize, "lightRiseAngleMap");
+            if (occlusionEndMap != null && (occlusionEndMap.GetLength(0) != size.Width || occlusionEndMap.GetLength(1) != size.Height))
+                throw new ArgumentException(Resources.WrongOcclusionIntervalMapSize, "occlusionEndMap");
 
-            if (lightSetAngleMap != null && (lightSetAngleMap.GetLength(0) != size.Width || lightSetAngleMap.GetLength(1) != size.Height))
-                throw new ArgumentException(Resources.WrongAngleMapSize, "lightSetAngleMap");
+            if (occlusionBeginMap != null && (occlusionBeginMap.GetLength(0) != size.Width || occlusionBeginMap.GetLength(1) != size.Height))
+                throw new ArgumentException(Resources.WrongOcclusionIntervalMapSize, "occlusionBeginMap");
 
             if ((textureMap.GetLength(0)) * 3 != size.Width || (textureMap.GetLength(1)) * 3 != size.Height)
                 throw new ArgumentException(Resources.WrongTextureMapSize, "textureMap");
@@ -65,7 +65,7 @@ namespace OmegaEngine.Graphics.Renderables
 
             using (new TimedLogEvent("Building terrain mesh"))
             {
-                var vertexes = GenerateVertexes(size, stretchH, stretchV, heightMap, lightRiseAngleMap, lightSetAngleMap, textureMap);
+                var vertexes = GenerateVertexes(size, stretchH, stretchV, heightMap, occlusionEndMap, occlusionBeginMap, textureMap);
 
                 int[] attributes;
                 ushort[] subsetTextureMasks;
@@ -76,12 +76,11 @@ namespace OmegaEngine.Graphics.Renderables
             }
         }
 
-        private static PositionMultiTextured[] GenerateVertexes(Size size, float stretchH, float stretchV, byte[,] heightMap, byte[,] lightRiseAngleMap, byte[,] lightSetAngleMap, byte[,] textureMap)
+        private static PositionMultiTextured[] GenerateVertexes(Size size, float stretchH, float stretchV, byte[,] heightMap, byte[,] occlusionEndMap, byte[,] occlusionBeginMap, byte[,] textureMap)
         {
             var vertexes = new PositionMultiTextured[size.Width * size.Height];
 
-            // Only use light angle-maps if both are available
-            bool useAngleMaps = (lightRiseAngleMap != null && lightSetAngleMap != null);
+            bool useOcclusionIntervalMap = (occlusionEndMap != null && occlusionBeginMap != null);
 
 #if NETFX4
             Parallel.For(0, size.Width, x =>
@@ -131,11 +130,11 @@ namespace OmegaEngine.Graphics.Renderables
                     }
                     #endregion
 
-                    // Light rise angles: 0 = 0°, 255 = 90°, default = 0°
-                    float lightRiseAngle = useAngleMaps ? (float)(lightRiseAngleMap[x, y] / 255.0 * Math.PI / 2) : 0;
+                    // Occlusion end angles: 0 = 0°, 255 = 90°, default = 0°
+                    float occlusionEndAngle = useOcclusionIntervalMap ? (float)(occlusionEndMap[x, y] / 255.0 * Math.PI / 2) : 0;
 
-                    // Light set angles: 0 = 90°, 255 = 180°, default = 180°
-                    float lightSetAngle = useAngleMaps ? (float)((lightSetAngleMap[x, y] / 255.0 + 1) * Math.PI / 2) : (float)Math.PI;
+                    // Occlusion begin angles: 0 = 90°, 255 = 180°, default = 180°
+                    float occlusionBeginAngle = useOcclusionIntervalMap ? (float)((occlusionBeginMap[x, y] / 255.0 + 1) * Math.PI / 2) : (float)Math.PI;
 
                     // Generate vertex using 2D coords, stretch factors (and tex-coords based on them)
                     // Map X = Engine +X
@@ -144,7 +143,7 @@ namespace OmegaEngine.Graphics.Renderables
                     vertexes[x + size.Width * y] = new PositionMultiTextured(
                         new Vector3(x * stretchH, heightMap[x, y] * stretchV, -y * stretchH),
                         x * stretchH / 500f, y * stretchH / 500f,
-                        lightRiseAngle, lightSetAngle,
+                        occlusionEndAngle, occlusionBeginAngle,
                         texWeights, Color.White);
                 }
             }

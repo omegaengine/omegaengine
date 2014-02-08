@@ -24,7 +24,7 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
         /// <param name="engineTerrain">The <see cref="OmegaEngine.Graphics.Renderables.Terrain"/> to live-update while modifying.</param>
         /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
         public HeightPlateau(ITerrain terrain, OmegaEngine.Graphics.Renderables.Terrain engineTerrain, Action refreshHandler)
-            : base(terrain, engineTerrain, refreshHandler + (() => terrain.LightAngleMapsOutdated = true)) // Mark the shadow maps for update
+            : base(terrain, engineTerrain, refreshHandler + (() => terrain.OcclusionIntervalMapOutdated = true)) // Mark the shadow maps for update
         {}
 
         /// <inheritdoc/>

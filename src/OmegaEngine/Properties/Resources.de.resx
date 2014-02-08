@@ -201,17 +201,20 @@
   <data name="UnknownVertexFormat" xml:space="preserve">
     <value>Das angegebene Vertexformat ist unbekannt.</value>
   </data>
+  <data name="ValueNotPositive" xml:space="preserve">
+    <value>Der Wert muss größer als 0 sein.</value>
+  </data>
   <data name="VBMustBeFVF" xml:space="preserve">
     <value>Der Vertex-Puffer muss ein fixed-function Vertex-Format verwenden.</value>
-  </data>
-  <data name="WrongAngleMapSize" xml:space="preserve">
-    <value>"Angle-Map" muss gleiche Größe wie Terrain haben.</value>
   </data>
   <data name="WrongAssetType" xml:space="preserve">
     <value>Die folgende Datei wurde bereits als ein anderer Asset-Typ geladen: </value>
   </data>
   <data name="WrongHeightMapSize" xml:space="preserve">
     <value>"Height-Map" muss gleiche Größe wie Terrain haben.</value>
+  </data>
+  <data name="WrongOcclusionIntervalMapSize" xml:space="preserve">
+    <value>Occlusion Interval Map muss gleiche Größe wie Terrain haben.</value>
   </data>
   <data name="WrongTexArrayLength" xml:space="preserve">
     <value>Das Array muss eine Länge von {0} haben.</value>

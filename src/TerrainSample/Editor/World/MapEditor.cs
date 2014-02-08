@@ -203,16 +203,16 @@ namespace TerrainSample.Editor.World
         protected override void OnSaveFile()
         {
             // Automatically update outdated shadow maps
-            if (_universe.Terrain.LightAngleMapsOutdated || _universe.Terrain.LightRiseAngleMap == null || _universe.Terrain.LightSetAngleMap == null)
+            if (_universe.Terrain.OcclusionIntervalMapOutdated || _universe.Terrain.OcclusionEndMap == null || _universe.Terrain.OcclusionBeginMap == null)
             {
                 try
                 {
-                    var generator = LightAngleMapGenerator.FromTerrain(_universe.Terrain);
+                    var generator = OcclusionIntervalMapGenerator.FromTerrain(_universe.Terrain, _universe.SunInclination);
                     TrackingDialog.Run(this, generator);
 
-                    _universe.Terrain.LightRiseAngleMap = generator.LightRiseAngleMap;
-                    _universe.Terrain.LightSetAngleMap = generator.LightSetAngleMap;
-                    _universe.Terrain.LightAngleMapsOutdated = false;
+                    _universe.Terrain.OcclusionEndMap = generator.OcclusionEndMap;
+                    _universe.Terrain.OcclusionBeginMap = generator.OcclusionBeginMap;
+                    _universe.Terrain.OcclusionIntervalMapOutdated = false;
                 }
                 catch (OperationCanceledException)
                 {}

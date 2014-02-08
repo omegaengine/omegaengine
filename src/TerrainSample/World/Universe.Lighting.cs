@@ -109,7 +109,18 @@ namespace TerrainSample.World
         /// </summary>
         [Category("Lighting"), Description("The angle of inclination of the sun's path away from the zenith towards south in degrees.")]
         [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-        public float SunInclination { get { return _sunInclination; } set { value.To(ref _sunInclination, OnLightingChanged); } }
+        public float SunInclination
+        {
+            get { return _sunInclination; }
+            set
+            {
+                value.To(ref _sunInclination, () =>
+                {
+                    OnLightingChanged();
+                    Terrain.OcclusionIntervalMapOutdated = true;
+                });
+            }
+        }
 
         private Color _moonColor = Color.FromArgb(110, 110, 160);
 
@@ -160,7 +171,7 @@ namespace TerrainSample.World
         [Category("Color correction"), Description("Color correction values to apply in light phase 2 or 6 (noon).")]
         public ColorCorrection ColorCorrectionNoon { get { return _colorCorrectionNoon; } set { value.To(ref _colorCorrectionNoon, OnLightingChanged); } }
 
-        private ColorCorrection _colorCorrectionDusk = new ColorCorrection(brightness: 1.4f, contrast:1.4f, saturation: 0.7f);
+        private ColorCorrection _colorCorrectionDusk = new ColorCorrection(brightness: 1.4f, contrast: 1.4f, saturation: 0.7f);
 
         /// <summary>
         /// Color correction values to apply at dusk.

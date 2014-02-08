@@ -61,15 +61,6 @@ namespace AlphaFramework.World.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The angle-maps size must be equal to the terrain size..
-        /// </summary>
-        public static string AngleMapSizeEqualTerrain {
-            get {
-                return ResourceManager.GetString("AngleMapSizeEqualTerrain", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The calculation has not been completed yet..
         /// </summary>
         public static string CalculationNotComplete {
@@ -88,11 +79,11 @@ namespace AlphaFramework.World.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Generating light angle maps (for shadows).
+        ///   Looks up a localized string similar to Generating occlusion interval maps (for shadows).
         /// </summary>
-        public static string GeneratingLingleAngleMaps {
+        public static string GeneratingOcclusionIntervalMaps {
             get {
-                return ResourceManager.GetString("GeneratingLingleAngleMaps", resourceCulture);
+                return ResourceManager.GetString("GeneratingOcclusionIntervalMaps", resourceCulture);
             }
         }
         
@@ -129,6 +120,15 @@ namespace AlphaFramework.World.Properties {
         public static string NotLoaded {
             get {
                 return ResourceManager.GetString("NotLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The occlusion interval map size must be equal to the terrain size..
+        /// </summary>
+        public static string OcclusionIntervalMapSizeEqualTerrain {
+            get {
+                return ResourceManager.GetString("OcclusionIntervalMapSizeEqualTerrain", resourceCulture);
             }
         }
         

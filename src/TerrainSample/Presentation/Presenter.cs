@@ -181,7 +181,7 @@ namespace TerrainSample.Presentation
             Terrain = Terrain.Create(
                 Engine, Universe.Terrain.Size,
                 Universe.Terrain.Size.StretchH, Universe.Terrain.Size.StretchV,
-                Universe.Terrain.HeightMap, Universe.Terrain.LightRiseAngleMap, Universe.Terrain.LightSetAngleMap,
+                Universe.Terrain.HeightMap, Universe.Terrain.OcclusionEndMap, Universe.Terrain.OcclusionBeginMap,
                 Universe.Terrain.TextureMap, textures,
                 Lighting,
                 Settings.Current.Graphics.TerrainBlockSize);

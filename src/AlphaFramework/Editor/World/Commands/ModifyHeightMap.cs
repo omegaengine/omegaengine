@@ -62,7 +62,7 @@ namespace AlphaFramework.Editor.World.Commands
             _refreshHandler();
 
             // Mark the shadow maps for update
-            _terrain.LightAngleMapsOutdated = true;
+            _terrain.OcclusionIntervalMapOutdated = true;
         }
 
         /// <summary>

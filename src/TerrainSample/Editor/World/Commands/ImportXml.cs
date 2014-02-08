@@ -50,7 +50,7 @@ namespace TerrainSample.Editor.World.Commands
             if (newUniverse == null) throw new ArgumentNullException("newUniverse");
             #endregion
 
-            newUniverse.Terrain.LightAngleMapsOutdated = oldUniverse.Terrain.LightAngleMapsOutdated = true;
+            newUniverse.Terrain.OcclusionIntervalMapOutdated = oldUniverse.Terrain.OcclusionIntervalMapOutdated = true;
             newUniverse.Terrain.HeightMap = oldUniverse.Terrain.HeightMap;
             newUniverse.Terrain.TextureMap = oldUniverse.Terrain.TextureMap;
         }

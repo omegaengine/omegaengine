@@ -104,7 +104,7 @@
     <Compile Include="Templates\EntityTemplateBase.cs" />
     <Compile Include="Templates\Template.cs" />
     <Compile Include="Terrains\ITerrain.cs" />
-    <Compile Include="Terrains\LightAngleMapGenerator.cs" />
+    <Compile Include="Terrains\OcclusionIntervalMapGenerator.cs" />
     <Compile Include="Terrains\Terrain.cs" />
     <Compile Include="Terrains\Terrain.Pathfinding.cs" />
     <Compile Include="Terrains\Terrain.Storage.cs" />
@@ -124,7 +124,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

@@ -207,14 +207,14 @@
   <data name="VBMustBeFVF" xml:space="preserve">
     <value>The vertex buffer must use a fixed-function vertex format.</value>
   </data>
-  <data name="WrongAngleMapSize" xml:space="preserve">
-    <value>Angle-map size must equal terrain size.</value>
-  </data>
   <data name="WrongAssetType" xml:space="preserve">
     <value>The following file was previously loaded as a different asset type: </value>
   </data>
   <data name="WrongHeightMapSize" xml:space="preserve">
     <value>Height-map size must equal terrain size.</value>
+  </data>
+  <data name="WrongOcclusionIntervalMapSize" xml:space="preserve">
+    <value>Occlusion interval map size must equal terrain size.</value>
   </data>
   <data name="WrongTexArrayLength" xml:space="preserve">
     <value>The array must have a length of {0}.</value>

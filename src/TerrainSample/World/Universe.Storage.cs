@@ -92,8 +92,8 @@ namespace TerrainSample.World
                     // Callbacks for loading terrain data
                     new EmbeddedFile("height.png", _terrain.LoadHeightMap),
                     new EmbeddedFile("texture.png", _terrain.LoadTextureMap),
-                    new EmbeddedFile("lightRiseAngle.png", _terrain.LoadLightRiseAngleMap),
-                    new EmbeddedFile("lightSetAngle.png", _terrain.LoadLightSetAngleMap)
+                    new EmbeddedFile("lightRiseAngle.png", _terrain.LoadOcclusionEndMap),
+                    new EmbeddedFile("lightSetAngle.png", _terrain.LoadOcclusionBeginMap)
                 });
             }
 
@@ -114,14 +114,14 @@ namespace TerrainSample.World
         {
             using (Entity.MaskTemplateData())
             {
-                if (Terrain.LightAngleMapsSet)
+                if (Terrain.OcclusionIntervalMapSet)
                 {
                     this.SaveXmlZip(path, additionalFiles: new[]
                     {
                         new EmbeddedFile("height.png", 0, Terrain.GetSaveHeightMapDelegate()),
                         new EmbeddedFile("texture.png", 0, Terrain.GetSaveTextureMapDelegate()),
-                        new EmbeddedFile("lightRiseAngle.png", 0, Terrain.GetSaveLightRiseAngleMapDelegate()),
-                        new EmbeddedFile("lightSetAngle.png", 0, Terrain.GetSaveLightSetAngleMapDelegate())
+                        new EmbeddedFile("lightRiseAngle.png", 0, Terrain.GetSaveOcclusionEndMapDelegate()),
+                        new EmbeddedFile("lightSetAngle.png", 0, Terrain.GetSaveOcclusionBeginMapDelegate())
                     });
                 }
                 else
