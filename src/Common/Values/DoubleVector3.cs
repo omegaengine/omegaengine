@@ -23,6 +23,7 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Xml.Serialization;
 using Common.Values.Design;
 using SlimDX;
@@ -33,13 +34,12 @@ namespace Common.Values
     /// Defines a three component vector with <see cref="double"/> accuracy.
     /// </summary>
     [TypeConverter(typeof(DoubleVector3Converter))]
+    [StructLayout(LayoutKind.Sequential)]
     public struct DoubleVector3 : IEquatable<DoubleVector3>
     {
-        #region Variables
-        private double _x, _y, _z;
-        #endregion
-
         #region Properties
+        private double _x, _y, _z;
+
         /// <summary>
         /// Gets or sets the X component of the vector.
         /// </summary>
@@ -207,7 +207,7 @@ namespace Common.Values
         /// <inheritdoc/>
         public override string ToString()
         {
-            return string.Format(CultureInfo.InvariantCulture, "({0}, {1}, {2})", _x, _y, _z);
+            return string.Format(CultureInfo.InvariantCulture, "({0}, {1}, {2})", X, Y, Z);
         }
 
         /// <summary>Convert <see cref="Vector3"/> into <see cref="DoubleVector3"/></summary>
@@ -257,9 +257,9 @@ namespace Common.Values
             unchecked
             {
                 int hash = 7;
-                hash = 97 * hash + ((int)_x ^ ((int)_x >> 32));
-                hash = 97 * hash + ((int)_y ^ ((int)_y >> 32));
-                hash = 97 * hash + ((int)_z ^ ((int)_z >> 32));
+                hash = 97 * hash + ((int)X ^ ((int)X >> 32));
+                hash = 97 * hash + ((int)Y ^ ((int)Y >> 32));
+                hash = 97 * hash + ((int)Z ^ ((int)Z >> 32));
                 return hash;
             }
         }

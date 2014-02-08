@@ -15,7 +15,7 @@ namespace OmegaEngine.Graphics.VertexDecl
     /// <summary>
     /// A fixed-function vertex format that stores a transformed position and texture coordinates.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)] // Preserve member order for DirectX
+    [StructLayout(LayoutKind.Sequential)]
     public struct TransformedTextured
     {
         #region Constants

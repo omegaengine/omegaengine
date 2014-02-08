@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2006-2014 Bastian Eicher
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,57 +24,58 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using Common.Values.Design;
-using SlimDX;
+using System.Xml.Serialization;
 
 namespace Common.Values
 {
     /// <summary>
-    /// Defines a plane in three dimensions with <see cref="double"/> distance accuracy.
+    /// Defines a four component vector with <see cref="byte"/> accuracy.
     /// </summary>
-    [TypeConverter(typeof(DoublePlaneConverter))]
-    public struct DoublePlane : IEquatable<DoublePlane>
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ByteVector4 : IEquatable<ByteVector4>
     {
         #region Properties
-        /// <summary>
-        /// A point that lies along the plane.
-        /// </summary>
-        [Description("A point that lies along the plane.")]
-        public DoubleVector3 Point { get; set; }
-
-        private Vector3 _normal;
+        private byte _x, _y, _z, _w;
 
         /// <summary>
-        /// The normal vector of the plane.
+        /// Gets or sets the X component of the vector.
         /// </summary>
-        [Description("The normal vector of the plane.")]
-        public Vector3 Normal { get { return _normal; } set { _normal = Vector3.Normalize(value); } }
+        [XmlAttribute, Description("Gets or sets the X component of the vector.")]
+        public byte X { get { return _x; } set { _x = value; } }
+
+        /// <summary>
+        /// Gets or sets the Y component of the vector. 
+        /// </summary>
+        [XmlAttribute, Description("Gets or sets the Y component of the vector.")]
+        public byte Y { get { return _y; } set { _y = value; } }
+
+        /// <summary>
+        /// Gets or sets the Z component of the vector.
+        /// </summary>
+        [XmlAttribute, Description("Gets or sets the Z component of the vector.")]
+        public byte Z { get { return _z; } set { _z = value; } }
+
+        /// <summary>
+        /// Gets or sets the W component of the vector.
+        /// </summary>
+        [XmlAttribute, Description("Gets or sets the W component of the vector.")]
+        public byte W { get { return _w; } set { _w = value; } }
         #endregion
 
         #region Constructor
         /// <summary>
-        /// Creates a new plane.
+        /// Creates a new vector.
         /// </summary>
-        /// <param name="point">A point that lies along the plane.</param>
-        /// <param name="normal">The normal vector of the plane.</param>
-        public DoublePlane(DoubleVector3 point, Vector3 normal) : this()
+        /// <param name="x">The X component.</param>
+        /// <param name="y">The Y component.</param>
+        /// <param name="z">The Z component.</param>
+        /// <param name="w">The W component.</param>
+        public ByteVector4(byte x, byte y, byte z, byte w)
         {
-            Point = point;
-            Normal = normal;
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Offset
-        /// <summary>
-        /// Returns a single-precision standard <see cref="Plane"/> after subtracting an offset value.
-        /// </summary>
-        /// <param name="offset">This value is subtracted from the double-precision data before it is casted to single-precision.</param>
-        /// <returns>The newly positioned <see cref="Plane"/>.</returns>
-        public Plane ApplyOffset(DoubleVector3 offset)
-        {
-            return new Plane(Point.ApplyOffset(offset), _normal);
+            _x = x;
+            _y = y;
+            _z = z;
+            _w = w;
         }
         #endregion
 
@@ -84,25 +85,25 @@ namespace Common.Values
         /// <inheritdoc/>
         public override string ToString()
         {
-            return string.Format(CultureInfo.InvariantCulture, "({0} => {1})", Point, Normal);
+            return string.Format(CultureInfo.InvariantCulture, "({0}, {1}, {2})", X, Y, Z);
         }
         #endregion
 
         #region Equality
         /// <inheritdoc/>
-        public bool Equals(DoublePlane other)
+        public bool Equals(ByteVector4 other)
         {
-            return other.Point == Point && other.Normal == Normal;
+            return other.X == X && other.Y == Y && other.Z == Z && other.W == W;
         }
 
         /// <inheritdoc/>
-        public static bool operator ==(DoublePlane left, DoublePlane right)
+        public static bool operator ==(ByteVector4 left, ByteVector4 right)
         {
             return left.Equals(right);
         }
 
         /// <inheritdoc/>
-        public static bool operator !=(DoublePlane left, DoublePlane right)
+        public static bool operator !=(ByteVector4 left, ByteVector4 right)
         {
             return !left.Equals(right);
         }
@@ -111,16 +112,13 @@ namespace Common.Values
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj is DoublePlane && Equals((DoublePlane)obj);
+            return obj is ByteVector4 && Equals((ByteVector4)obj);
         }
 
         /// <inheritdoc/>
         public override int GetHashCode()
         {
-            unchecked
-            {
-                return (Point.GetHashCode() * 397) ^ Normal.GetHashCode();
-            }
+            return X | (Y << 8) | (Z << 16) | (W << 24);
         }
         #endregion
     }

@@ -15,7 +15,7 @@ namespace OmegaEngine.Graphics.VertexDecl
     /// <summary>
     /// Not supported!
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)] // Preserve member order for DirectX
+    [StructLayout(LayoutKind.Sequential)]
     public struct PositionColoredTextured
     {
         #region Constants

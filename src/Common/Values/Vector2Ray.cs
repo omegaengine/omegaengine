@@ -23,6 +23,7 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using Common.Values.Design;
 using SlimDX;
 

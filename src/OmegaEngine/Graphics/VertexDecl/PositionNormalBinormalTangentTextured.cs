@@ -16,7 +16,7 @@ namespace OmegaEngine.Graphics.VertexDecl
     /// A fixed-function vertex format that stores position, normals, binormals, tangents and texture coordinates.
     /// Using this format hints the engine that all necessary data is already present.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)] // Preserve member order for DirectX
+    [StructLayout(LayoutKind.Sequential)]
     public struct PositionNormalBinormalTangentTextured
     {
         #region Constants

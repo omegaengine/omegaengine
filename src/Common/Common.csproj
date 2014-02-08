@@ -342,6 +342,7 @@
     <Compile Include="Utils\WindowsUtils.Touch.cs" />
     <Compile Include="Utils\WindowsUtils.WindowMessages.cs" />
     <Compile Include="Values\Attenuation.cs" />
+    <Compile Include="Values\ByteVector4.cs" />
     <Compile Include="Values\ColorCorrection.cs" />
     <Compile Include="Values\Design\AngleEditor.cs" />
     <Compile Include="Values\Design\AttenuationConverter.cs" />

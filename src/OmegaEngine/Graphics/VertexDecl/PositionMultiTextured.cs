@@ -18,7 +18,7 @@ namespace OmegaEngine.Graphics.VertexDecl
     /// A fixed-function vertex format that stores position, shadow information, texture blending weights and texture coordinates.
     /// Using this format hints the engine that normals and tangents still need to be calculated.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)] // Preserve member order for DirectX
+    [StructLayout(LayoutKind.Sequential)]
     public struct PositionMultiTextured
     {
         #region Constants

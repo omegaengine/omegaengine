@@ -18,7 +18,7 @@ namespace OmegaEngine.Graphics.VertexDecl
     /// A custom vertex format that stores position, normals, shadow information, texture blending weights and texture coordinates.
     /// Using this format hints the engine that tangents (and maybe normals) still need to be calculated.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)] // Preserve member order for DirectX
+    [StructLayout(LayoutKind.Sequential)]
     public struct PositionNormalMultiTextured
     {
         #region Constants

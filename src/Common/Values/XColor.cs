@@ -21,6 +21,7 @@
  */
 
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SlimDX;
@@ -36,6 +37,7 @@ namespace Common.Values
     /// It also provides easy methods for casting to and from <see cref="Color4"/> (useful for rendering with <see cref="SlimDX"/>).
     /// </remarks>
     [XmlInclude(typeof(Color))]
+    [StructLayout(LayoutKind.Sequential)]
     public struct XColor
     {
         #region Properties
