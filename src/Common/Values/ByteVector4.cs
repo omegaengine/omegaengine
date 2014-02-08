@@ -85,7 +85,7 @@ namespace Common.Values
         /// <inheritdoc/>
         public override string ToString()
         {
-            return string.Format(CultureInfo.InvariantCulture, "({0}, {1}, {2})", X, Y, Z);
+            return string.Format(CultureInfo.InvariantCulture, "({0}, {1}, {2}, {3})", X, Y, Z, W);
         }
         #endregion
 
