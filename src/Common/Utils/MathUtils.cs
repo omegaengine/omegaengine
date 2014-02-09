@@ -204,6 +204,21 @@ namespace Common.Utils
         }
         #endregion
 
+        #region Sphere coordinates
+        /// <summary>
+        /// Calculates a unit vector using spherical coordinates.
+        /// </summary>
+        /// <param name="inclination">Angle away from positive Z axis in radians. Values from 0 to Pi.</param>
+        /// <param name="azimuth">Angle away from from positive X axis in radians. Values from 0 to 2*Pi.</param>
+        public static Vector3 UnitVector(double inclination, double azimuth)
+        {
+            return new Vector3(
+                (float)(Math.Sin(inclination) * Math.Cos(azimuth)),
+                (float)(Math.Sin(inclination) * Math.Sin(azimuth)),
+                (float)Math.Cos(inclination));
+        }
+        #endregion
+
         #region Byte angles
         /// <summary>
         /// Maps a 0°-180° angle in radians to a 0-255 byte value.

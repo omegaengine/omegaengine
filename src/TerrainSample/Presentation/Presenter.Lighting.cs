@@ -78,12 +78,9 @@ namespace TerrainSample.Presentation
         /// </summary>
         protected void UpdateLighting()
         {
-            float sunPhase = Universe.LightPhase;
-            float moonPhase = (Universe.LightPhase + 3) % 4;
-
             // Calculate lighting directions
-            _lightSun.Direction = GetDirection(0.5f * Math.PI * (1 - sunPhase), Universe.SunInclination.DegreeToRadian());
-            _lightMoon.Direction = GetDirection(0.5f * Math.PI * (1 - moonPhase), Universe.MoonInclination.DegreeToRadian());
+            _lightSun.Direction = GetLightDirection(Universe.SunInclination, Universe.LightPhase);
+            _lightMoon.Direction = GetLightDirection(Universe.MoonInclination, (Universe.LightPhase + 3) % 4);
 
             UpdateLightingColorSun();
             UpdateLightingColorMoon();
@@ -97,18 +94,9 @@ namespace TerrainSample.Presentation
             if (_bleachShader != null) _bleachShader.Enabled = Universe.Bleach;
         }
 
-        /// <summary>
-        /// Creates a <see cref="Vector3"/> with a <see cref="Vector3.Length"/> of 1 pointing in a specific direction.
-        /// </summary>
-        /// <param name="vertAngle">The vertical angle in radians.</param>
-        /// <param name="inclination">The inclination angle in radians.</param>
-        /// <returns>The newly created <see cref="Vector3"/>.</returns>
-        private static Vector3 GetDirection(double vertAngle, double inclination)
+        private static Vector3 GetLightDirection(float inclination, float phase)
         {
-            return new Vector3(
-                (float)(Math.Cos(vertAngle) * Math.Cos(inclination)),
-                (float)(Math.Sin(vertAngle) * Math.Cos(inclination)),
-                (float)Math.Sin(inclination));
+            return MathUtils.UnitVector(inclination.DegreeToRadian(), phase * -Math.PI / 2);
         }
 
         /// <summary>
@@ -116,7 +104,8 @@ namespace TerrainSample.Presentation
         /// </summary>
         private void UpdateLightingColorSun()
         {
-            float elevationFactor = (-_lightSun.Direction.Y * 2).Clamp();
+            // Fast intensity fall-off near the horizon
+            float elevationFactor = (-_lightSun.Direction.Y * 4).Clamp();
 
             _lightSun.Diffuse = ColorUtils.Interpolate(elevationFactor, Color.Black, Universe.SunColor);
             _lightSun.Specular = Color4.Scale(_lightSun.Diffuse, DiffuseToSpecularRatio).ToColor();
@@ -129,7 +118,8 @@ namespace TerrainSample.Presentation
         /// </summary>
         private void UpdateLightingColorMoon()
         {
-            float elevationFactor = (-_lightMoon.Direction.Y * 2).Clamp();
+            // Fast intensity fall-off near the horizon
+            float elevationFactor = (-_lightMoon.Direction.Y * 4).Clamp();
 
             _lightMoon.Diffuse = ColorUtils.Interpolate(elevationFactor, Color.Black, Universe.MoonColor);
             _lightMoon.Specular = Color4.Scale(_lightMoon.Diffuse, DiffuseToSpecularRatio).ToColor();
@@ -144,7 +134,7 @@ namespace TerrainSample.Presentation
         {
             // Interpolate between the color correction settings for the different sun phases
             var correction = ColorCorrection.SinusInterpolate(Universe.LightPhase,
-                Universe.ColorCorrectionMidnight, Universe.ColorCorrectionDawn, Universe.ColorCorrectionNoon, Universe.ColorCorrectionDusk, Universe.ColorCorrectionMidnight);
+                Universe.ColorCorrectionDawn, Universe.ColorCorrectionNoon, Universe.ColorCorrectionDusk, Universe.ColorCorrectionMidnight, Universe.ColorCorrectionDawn);
 
             // If the color correction values aren't all at default, activate the shader and transfer the values
             _colorCorrectionShader.Enabled = (correction != ColorCorrection.Default);

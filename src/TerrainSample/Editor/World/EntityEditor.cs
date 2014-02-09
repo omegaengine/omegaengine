@@ -85,7 +85,7 @@ namespace TerrainSample.Editor.World
             TerrainTemplate.LoadAll();
 
             // Create an empty testing universe with a plain terrain
-            _universe = new Universe(new Terrain<TerrainTemplate>(new TerrainSize(27, 27, 30, 30))) {LightPhase = 2};
+            _universe = new Universe(new Terrain<TerrainTemplate>(new TerrainSize(27, 27, 30, 30))) {LightPhase = 1};
 
             base.OnInitialize();
 
