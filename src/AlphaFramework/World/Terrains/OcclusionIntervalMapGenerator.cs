@@ -8,14 +8,11 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Common;
 using Common.Tasks;
 using Common.Utils;
 using Common.Values;
 using Resources = AlphaFramework.World.Properties.Resources;
-
-#if NETFX4
-using System.Threading.Tasks;
-#endif
 
 namespace AlphaFramework.World.Terrains
 {
@@ -38,6 +35,9 @@ namespace AlphaFramework.World.Terrains
 
         /// <inheritdoc />
         public override bool UnitsByte { get { return false; } }
+
+        /// <inheritdoc />
+        public override bool CanCancel { get { return Parallel.ThreadsCount == 1; } }
 
         private ByteVector4Grid _result;
 
@@ -80,9 +80,7 @@ namespace AlphaFramework.World.Terrains
             _stretchH = stretchH;
             _stretchV = stretchV;
 
-#if !NETFX4
             UnitsTotal = heightMap.Width * heightMap.Height;
-#endif
         }
 
         /// <summary>
@@ -113,24 +111,15 @@ namespace AlphaFramework.World.Terrains
             lock (StateLock) State = TaskState.Data;
 
             // Iterate through each degree of longitude (lines from west to east)
-#if NETFX4
             Parallel.For(0, _heightMap.Height, y =>
-#else
-            for (int y = 0; y < _heightMap.Height; y++)
-#endif
             {
                 // Iterate through all points along the line from west to east
                 for (int x = 0; x < _heightMap.Width; x++)
                     _result[x, y] = GetOcclusionAngles(x, y);
 
-#if !NETFX4
-                UnitsProcessed += _heightMap.Width;
-#endif
-                if (CancelRequest.WaitOne(0)) throw new OperationCanceledException();
-            }
-#if NETFX4
-            );
-#endif
+                lock (StateLock) UnitsProcessed += _heightMap.Width;
+                if (Parallel.ThreadsCount == 1 && CancelRequest.WaitOne(0)) throw new OperationCanceledException();
+            });
 
             lock (StateLock) State = TaskState.Complete;
         }

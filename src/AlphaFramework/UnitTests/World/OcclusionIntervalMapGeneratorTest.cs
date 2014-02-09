@@ -7,6 +7,7 @@
  */
 
 using AlphaFramework.World.Terrains;
+using Common;
 using Common.Tasks;
 using Common.Values;
 using NUnit.Framework;
@@ -19,6 +20,20 @@ namespace AlphaFramework.World
     [TestFixture]
     public class OcclusionIntervalMapGeneratorTest
     {
+        #region Suppress parallelization
+        [SetUp]
+        public void SetUp()
+        {
+            Parallel.ThreadsCount = 1;
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Parallel.ThreadsCount = 0;
+        }
+        #endregion
+
         #region Helpers
         /// <summary>
         /// Creates a height-map for testing purposes.
