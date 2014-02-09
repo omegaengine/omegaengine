@@ -203,15 +203,14 @@ namespace TerrainSample.Editor.World
         protected override void OnSaveFile()
         {
             // Automatically update outdated shadow maps
-            if (_universe.Terrain.OcclusionIntervalMapOutdated || _universe.Terrain.OcclusionEndMap == null || _universe.Terrain.OcclusionBeginMap == null)
+            if (_universe.Terrain.OcclusionIntervalMapOutdated || _universe.Terrain.OcclusionIntervalMap == null)
             {
                 try
                 {
                     var generator = OcclusionIntervalMapGenerator.FromTerrain(_universe.Terrain, _universe.SunInclination);
                     TrackingDialog.Run(this, generator);
 
-                    _universe.Terrain.OcclusionEndMap = generator.OcclusionEndMap;
-                    _universe.Terrain.OcclusionBeginMap = generator.OcclusionBeginMap;
+                    _universe.Terrain.OcclusionIntervalMap = generator.Result;
                     _universe.Terrain.OcclusionIntervalMapOutdated = false;
                 }
                 catch (OperationCanceledException)

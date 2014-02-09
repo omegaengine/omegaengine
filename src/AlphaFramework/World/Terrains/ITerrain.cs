@@ -44,33 +44,16 @@ namespace AlphaFramework.World.Terrains
         ByteGrid HeightMap { get; set; }
 
         /// <summary>
-        /// Direct access to the internal occlusion end map array. Handle with care; clone when necessary!
+        /// Direct access to the internal occlusion interval map array. Handle with care; clone when necessary!
         /// </summary>
-        /// <remarks>A light rise angles is the minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded.</remarks>
         /// <exception cref="InvalidOperationException">Thrown if the size is incorrect.</exception>
-        /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadOcclusionEndMap(System.IO.Stream)"/>.</remarks>
+        /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadOcclusionIntervalMap(System.IO.Stream)"/>.</remarks>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        ByteGrid OcclusionEndMap { get; set; }
+        ByteVector4Grid OcclusionIntervalMap { get; set; }
 
         /// <summary>
-        /// Direct access to the internal occlusion begin map array. Handle with care; clone when necessary!
-        /// </summary>
-        /// <remarks>A light rise set is the maximum vertical angle (0 = 90°, 255 = 180°) which a directional light must not exceed to be not occluded.</remarks>
-        /// <exception cref="InvalidOperationException">Thrown if the size is incorrect.</exception>
-        /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadOcclusionBeginMap(System.IO.Stream)"/>.</remarks>
-        [XmlIgnore, Browsable(false)]
-        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        ByteGrid OcclusionBeginMap { get; set; }
-
-        /// <summary>
-        /// Indicates whether <see cref="OcclusionEndMap"/> and <see cref="OcclusionBeginMap"/> have been calculated yet.
-        /// </summary>
-        [XmlIgnore]
-        bool OcclusionIntervalMapSet { get; }
-
-        /// <summary>
-        /// Indicates that the data stored in <see cref="OcclusionEndMap"/> and <see cref="OcclusionBeginMap"/> is outdated and should be recalculated using <see cref="OcclusionIntervalMapGenerator"/>.
+        /// Indicates that the data stored in <see cref="OcclusionIntervalMap"/> is outdated and should be recalculated using <see cref="OcclusionIntervalMapGenerator"/>.
         /// </summary>
         [XmlAttribute, DefaultValue(false)]
         bool OcclusionIntervalMapOutdated { get; set; }
@@ -106,34 +89,19 @@ namespace AlphaFramework.World.Terrains
         void LoadHeightMap(string path);
 
         /// <summary>
-        /// Loads data for <see cref="ITerrain.OcclusionEndMap"/> from a stream.
+        /// Loads data for <see cref="ITerrain.OcclusionIntervalMap"/> from a stream.
         /// </summary>
-        /// <param name="stream">The stream to read the occlusion end map from.</param>
-        /// <exception cref="IOException">Thrown if the occlusion end map size is incorrect.</exception>
+        /// <param name="stream">The stream to read the occlusion interval map from.</param>
+        /// <exception cref="IOException">Thrown if the occlusion interval map size is incorrect.</exception>
         [LuaHide]
-        void LoadOcclusionEndMap(Stream stream);
+        void LoadOcclusionIntervalMap(Stream stream);
 
         /// <summary>
-        /// Loads data for <see cref="ITerrain.OcclusionEndMap"/> from a file.
+        /// Loads data for <see cref="ITerrain.OcclusionIntervalMap"/> from a file.
         /// </summary>
-        /// <param name="path">The path of the PNG file to load the occlusion end map from.</param>
+        /// <param name="path">The path of the PNG file to load the occlusion interval map from.</param>
         /// <exception cref="IOException">Thrown if the texture-map size is incorrect.</exception>
-        void LoadOcclusionEndMap(string path);
-
-        /// <summary>
-        /// Loads data for <see cref="ITerrain.OcclusionBeginMap"/> from a stream.
-        /// </summary>
-        /// <param name="stream">The stream to read the occlusion begin map from.</param>
-        /// <exception cref="IOException">Thrown if the occlusion begin map size is incorrect.</exception>
-        [LuaHide]
-        void LoadOcclusionBeginMap(Stream stream);
-
-        /// <summary>
-        /// Loads data for <see cref="ITerrain.OcclusionBeginMap"/> from a file.
-        /// </summary>
-        /// <param name="path">The path of the PNG file to load the occlusion begin map from.</param>
-        /// <exception cref="IOException">Thrown if the texture-map size is incorrect.</exception>
-        void LoadOcclusionBeginMap(string path);
+        void LoadOcclusionIntervalMap(string path);
 
         /// <summary>
         /// Loads data for <see cref="ITerrain.TextureMap"/> from a stream.

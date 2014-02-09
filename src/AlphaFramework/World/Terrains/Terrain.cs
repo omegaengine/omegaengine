@@ -89,14 +89,14 @@ namespace AlphaFramework.World.Terrains
         #endregion
 
         #region Occlusion interval map
-        private ByteGrid _occlusionEndMap;
+        private ByteVector4Grid _occlusionIntervalMap;
 
         /// <inheritdoc/>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        public ByteGrid OcclusionEndMap
+        public ByteVector4Grid OcclusionIntervalMap
         {
-            get { return _occlusionEndMap; }
+            get { return _occlusionIntervalMap; }
             set
             {
                 if (value != null)
@@ -105,33 +105,9 @@ namespace AlphaFramework.World.Terrains
                         throw new InvalidOperationException(Resources.HeightMapSizeEqualTerrain);
                 }
 
-                _occlusionEndMap = value;
+                _occlusionIntervalMap = value;
             }
         }
-
-        private ByteGrid _occlusionBeginMap;
-
-        /// <inheritdoc/>
-        [XmlIgnore, Browsable(false)]
-        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        public ByteGrid OcclusionBeginMap
-        {
-            get { return _occlusionBeginMap; }
-            set
-            {
-                if (value != null)
-                {
-                    if (value.Width != _size.X || value.Height != _size.Y)
-                        throw new InvalidOperationException(Resources.HeightMapSizeEqualTerrain);
-                }
-
-                _occlusionBeginMap = value;
-            }
-        }
-
-        /// <inheritdoc/>
-        [XmlIgnore]
-        public bool OcclusionIntervalMapSet { get { return OcclusionEndMap != null && OcclusionBeginMap != null; } }
 
         /// <inheritdoc/>
         [XmlAttribute, DefaultValue(false)]

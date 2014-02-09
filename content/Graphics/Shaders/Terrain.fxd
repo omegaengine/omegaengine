@@ -1,4 +1,7 @@
-// Description: A shader that blends multiple textures together with optional normal map; no specular lighting
+// Description: A shader that blends multiple textures together
+// no specular lighting
+// optional normal map
+// optional occlusion interval map for shadows
 //
 // Techniques:
 // - Simple14 (ps_1_4, 4 textures, no lighting)
@@ -70,42 +73,42 @@ int FilterMode : FILTERMODE = 2; // 2 = Linear, 3 = Anisotropic
 
 struct inLight
 {
-    float3 entityPos   : POSITION;
-    float3 normal      : NORMAL;
-    float2 texCoord    : TEXCOORD0;
-    float2 lightAngles : TEXCOORD1;
-    float4 texWeights1 : TEXCOORD2;
-    float4 texWeights2 : TEXCOORD3;
-    float4 texWeights3 : TEXCOORD4;
-    float4 texWeights4 : TEXCOORD5;
-    float4 color       : COLOR0;
+    float3 entityPos          : POSITION;
+    float3 normal             : NORMAL;
+    float2 texCoord           : TEXCOORD0;
+    float4 occlusionIntervals : TEXCOORD1;
+    float4 texWeights1        : TEXCOORD2;
+    float4 texWeights2        : TEXCOORD3;
+    float4 texWeights3        : TEXCOORD4;
+    float4 texWeights4        : TEXCOORD5;
+    float4 color              : COLOR0;
 };
 
 struct inSimple
 {
-    float3 entityPos   : POSITION;
-    float2 texCoord    : TEXCOORD0;
-    float2 lightAngles : TEXCOORD1;
-    float4 texWeights1 : TEXCOORD2;
-    float4 texWeights2 : TEXCOORD3;
-    float4 texWeights3 : TEXCOORD4;
-    float4 texWeights4 : TEXCOORD5;
-    float4 color       : COLOR0;
+    float3 entityPos          : POSITION;
+    float2 texCoord           : TEXCOORD0;
+    float2 occlusionIntervals : TEXCOORD1;
+    float4 texWeights1        : TEXCOORD2;
+    float4 texWeights2        : TEXCOORD3;
+    float4 texWeights3        : TEXCOORD4;
+    float4 texWeights4        : TEXCOORD5;
+    float4 color              : COLOR0;
 };
 
 /// <BeginnFilter Target="PS2x" Lighting="true" />
 struct outLight2x
 {
-    float4 pos          : POSITION;
-    float3 position     : TEXCOORD1;
-    float3 worldPos     : TEXCOORD2;
-    float3 normal       : TEXCOORD3;
-    float2 texCoord     : TEXCOORD0;
-    float2 lightAngles  : TEXCOORD4;
-    float4 texWeights1  : TEXCOORD5;
-    float4 texWeights2  : TEXCOORD6;
-    float4 texWeights3  : TEXCOORD7;
-    float4 color        : COLOR0;
+    float4 pos                : POSITION;
+    float3 position           : TEXCOORD1;
+    float3 worldPos           : TEXCOORD2;
+    float3 normal             : TEXCOORD3;
+    float2 texCoord           : TEXCOORD0;
+    float4 occlusionIntervals : TEXCOORD4;
+    float4 texWeights1        : TEXCOORD5;
+    float4 texWeights2        : TEXCOORD6;
+    float4 texWeights3        : TEXCOORD7;
+    float4 color              : COLOR0;
 };
 /// <EndFilter />
 
@@ -172,23 +175,27 @@ float4 calcDirLight(float3 transPos, float3 normal, float3 lightDir,
     float3 halfAngle = normalize(eye + lightDir);
 
     // Calculate the diffuse contribution
-	// ToDo: Try to make clamp() unnecessary
+    // ToDo: Try to make clamp() unnecessary
     float diffuseFactor = clamp(dot(normal, lightDir), 0, 1);
 
     // Calculate the final colors
     return diffuseColor * diffuseFactor + ambientColor;
 }
 
+float shadowSmoothstep(float focus, float angle)
+{
+    return smoothstep(focus, focus + shadowTwilightSize, angle);
+}
+
 float4 calcDirLight(float3 transPos, float3 normal, float3 lightDir,
-  float4 diffuseColor, float4 ambientColor, float2 lightAngles) // Overload with shadows (light angles)
+  float4 diffuseColor, float4 ambientColor, float4 occlusionIntervals) // Overload with shadows (light angles)
 {
     // Calculate the angle between the light direction and an arrow pointing straight to the right
     float angle = acos(dot(float3(1, 0, 0), lightDir));
 
-    // Calculate smooth shadow fringes
-    float riseFactor = (angle - lightAngles.x) / shadowTwilightSize + 0.5;
-    float setFactor = (lightAngles.y - angle) / shadowTwilightSize + 0.5;
-    float shadowFactor = clamp(min(riseFactor, setFactor), 0, 1);
+    float shadowFactor = clamp(
+        min(shadowSmoothstep(occlusionIntervals.x, angle), 1 - shadowSmoothstep(occlusionIntervals.y, angle)) +
+        min(shadowSmoothstep(occlusionIntervals.z, angle), 1 - shadowSmoothstep(occlusionIntervals.w, angle)), 0, 1);
 
     return calcDirLight(transPos, normal, lightDir, diffuseColor * shadowFactor, ambientColor);
 }
@@ -196,11 +203,12 @@ float4 calcDirLight(float3 transPos, float3 normal, float3 lightDir,
 float4 CalcTwoDirLights(float3 transPos, float3 normal,
   float3 lightDir1, float3 lightDir2,
   float4 diffCol1, float4 diffCol2,
-  float4 ambCol1, float4 ambCol2, float2 lightAngles)
+  float4 ambCol1, float4 ambCol2,
+  float4 occlusionIntervals1, float4 occlusionIntervals2)
 {
     // Calculate seperate light values
-    float4 light1 = calcDirLight(transPos, normal, lightDir1, diffCol1, ambCol1, lightAngles);
-    float4 light2 = calcDirLight(transPos, normal, lightDir2, diffCol2, ambCol2, lightAngles);
+    float4 light1 = calcDirLight(transPos, normal, lightDir1, diffCol1, ambCol1, occlusionIntervals1);
+    float4 light2 = calcDirLight(transPos, normal, lightDir2, diffCol2, ambCol2, occlusionIntervals2);
 
     // Add lights together
     return light1 + light2;
@@ -238,7 +246,7 @@ outLight2x VS_Light2x(inLight IN)
 
     OUT.texCoord = IN.texCoord;
     OUT.color = IN.color;
-    OUT.lightAngles = IN.lightAngles;
+    OUT.occlusionIntervals = IN.occlusionIntervals;
     return OUT;    
 }
 /// <EndFilter />
@@ -294,7 +302,7 @@ outLight14 VS_Light14(inLight IN,  // Overload for two directional lights
 
     OUT.texCoord = IN.texCoord;
     OUT.diffAmbColor = CalcTwoDirLights(OUT.pos, transNorm(IN.normal),
-      lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.lightAngles);
+      lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.occlusionIntervals, IN.occlusionIntervals);
     OUT.color = IN.color;
     return OUT;    
 }
@@ -419,14 +427,14 @@ float4 PS_Light2ab(outLight2x IN,  // Overload for two directional lights
   uniform float4 ambCol1, uniform float4 ambCol2) : COLOR
 {
     float4 diffAmbColor = CalcTwoDirLights(IN.worldPos, IN.normal,
-      lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.lightAngles);
+      lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.occlusionIntervals, IN.occlusionIntervals);
     return PS_Helper2ab(IN.position, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
 }
 
 float4 PS_Light2ab(outLight2x IN,  // Overload for one directional light
   uniform float3 lightDir, uniform float4 diffCol, uniform float4 ambCol) : COLOR
 {
-    float4 diffAmbColor = calcDirLight(IN.position, IN.normal, lightDir, diffCol, ambCol, IN.lightAngles);
+    float4 diffAmbColor = calcDirLight(IN.position, IN.normal, lightDir, diffCol, ambCol, IN.occlusionIntervals);
     return PS_Helper2ab(IN.position, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
 }
 
@@ -470,14 +478,14 @@ float4 PS_Light20(outLight2x IN,  // Overload for two directional lights
   uniform float4 ambCol1, uniform float4 ambCol2) : COLOR
 {
     float4 diffAmbColor = CalcTwoDirLights(IN.worldPos, IN.normal,
-      lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.lightAngles);
+      lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.occlusionIntervals, IN.occlusionIntervals);
     return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
 }
 
 float4 PS_Light20(outLight2x IN,  // Overload for one directional light
   uniform float3 lightDir, uniform float4 diffCol, uniform float4 ambCol) : COLOR
 {
-    float4 diffAmbColor = calcDirLight(IN.position, IN.normal, lightDir, diffCol, ambCol, IN.lightAngles);
+    float4 diffAmbColor = calcDirLight(IN.position, IN.normal, lightDir, diffCol, ambCol, IN.occlusionIntervals);
     return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
 }
 

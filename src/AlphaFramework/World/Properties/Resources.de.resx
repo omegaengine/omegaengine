@@ -117,14 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CalculatingShadows" xml:space="preserve">
+    <value>Berechne Schaten</value>
+  </data>
   <data name="CalculationNotComplete" xml:space="preserve">
     <value>Die Berechnung wurde noch nicht abgeschlossen.</value>
   </data>
   <data name="CoordinatesNotInRange" xml:space="preserve">
     <value>Die Koordinaten liegen nicht innerhalb der Reichweite des Terrains.</value>
-  </data>
-  <data name="GeneratingOcclusionIntervalMaps" xml:space="preserve">
-    <value>Generiere Occlusion Interval Maps (für Schatten)</value>
   </data>
   <data name="HeightMapSizeEqualTerrain" xml:space="preserve">
     <value>Die "Height-Map" Größe muss gleich der Terraingröße sein.</value>

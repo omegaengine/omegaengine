@@ -134,13 +134,11 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="stretchH">A factor by which all horizontal distances are multiplied</param>
         /// <param name="stretchV">A factor by which all vertical distances are multiplied</param>
         /// <param name="heightMap">The height values of the terrain in a 2D array.
-        ///   Array size = Terrain size</param>
-        /// <param name="lightRiseAngleMap">The minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded in a 2D array.
-        ///   Array size = Terrain size; may be <see langword="null"/> for no shadowing</param>
-        /// <param name="lightSetAngleMap">The maximum vertical angle (0 = 90°, 255 = 180°) which a directional light must not exceed to be not occluded in a 2D array.
-        ///   Array size = Terrain size; may be <see langword="null"/> for no shadowing</param>
+        ///   Grid size = Terrain size</param>
+        /// <param name="occlusionIntervalMap">The angles at which the global light source occlusion begins and ends.
+        ///   Grid size = Terrain size; may be <see langword="null"/> for no shadowing</param>
         /// <param name="textureMap">The texture values of the terrain in a 2D array.
-        ///   Array size = Terrain size / 3</param>
+        ///   Grid size = Terrain size / 3</param>
         /// <param name="textures">An array with a maximum of 16 texture names associated to <paramref name="textureMap"/></param>
         /// <param name="lighting">Shall this mesh be prepared for lighting? (calculate normal vectors, make shaders support lighting, ...)</param>
         /// <param name="blockSize">How many points in X and Y direction shall one block for culling be?</param>
@@ -149,7 +147,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <exception cref="IOException">Thrown if there was an error reading one of the texture files.</exception>
         /// <exception cref="UnauthorizedAccessException">Thrown if read access to one of the texture files is not permitted.</exception>
         /// <exception cref="InvalidDataException">Thrown if one of the texture files does not contain a valid texture.</exception>
-        public static Terrain Create(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, ByteGrid lightRiseAngleMap, ByteGrid lightSetAngleMap, NibbleGrid textureMap, string[] textures, bool lighting, int blockSize)
+        public static Terrain Create(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, string[] textures, ByteVector4Grid occlusionIntervalMap, bool lighting, int blockSize)
         {
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException("engine");
@@ -165,7 +163,7 @@ namespace OmegaEngine.Graphics.Renderables
             BoundingBox[] subsetBoundingBoxes;
             SurfaceShader[] subsetShaders;
             var terrain = new Terrain(
-                BuildMesh(engine, size, stretchH, stretchV, heightMap, lightRiseAngleMap, lightSetAngleMap, textureMap, lighting, blockSize, out subsetShaders, out subsetBoundingBoxes),
+                BuildMesh(engine, size, stretchH, stretchV, heightMap, textureMap, occlusionIntervalMap, lighting, blockSize, out subsetShaders, out subsetBoundingBoxes),
                 BuildMaterial(engine, textures),
                 lighting)
             {

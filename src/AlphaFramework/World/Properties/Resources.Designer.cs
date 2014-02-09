@@ -61,6 +61,15 @@ namespace AlphaFramework.World.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Calculating shadows.
+        /// </summary>
+        public static string CalculatingShadows {
+            get {
+                return ResourceManager.GetString("CalculatingShadows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The calculation has not been completed yet..
         /// </summary>
         public static string CalculationNotComplete {
@@ -75,15 +84,6 @@ namespace AlphaFramework.World.Properties {
         public static string CoordinatesNotInRange {
             get {
                 return ResourceManager.GetString("CoordinatesNotInRange", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Generating occlusion interval maps (for shadows).
-        /// </summary>
-        public static string GeneratingOcclusionIntervalMaps {
-            get {
-                return ResourceManager.GetString("GeneratingOcclusionIntervalMaps", resourceCulture);
             }
         }
         

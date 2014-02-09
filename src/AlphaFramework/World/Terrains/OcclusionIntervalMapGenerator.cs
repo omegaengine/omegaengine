@@ -22,24 +22,23 @@ namespace AlphaFramework.World.Terrains
     /// <summary>
     /// Generates an occlusion interval map from a height map for a <see cref="ITerrain"/> as a background task.
     /// </summary>
-    /// <seealso cref="ITerrain.OcclusionEndMap"/>
-    /// <seealso cref="ITerrain.OcclusionBeginMap"/>
+    /// <seealso cref="ITerrain.OcclusionIntervalMap"/>
     public class OcclusionIntervalMapGenerator : ThreadTask
     {
         #region Variables
         private readonly TerrainSize _size;
         private readonly ByteGrid _heightMap;
-        private readonly float _sunInclination;
+        private readonly float _lightSourceInclination;
         #endregion
 
         #region Properties
         /// <inheritdoc />
-        public override string Name { get { return Resources.GeneratingOcclusionIntervalMaps ; } }
+        public override string Name { get { return Resources.CalculatingShadows; } }
 
         /// <inheritdoc />
         public override bool UnitsByte { get { return false; } }
 
-        private ByteGrid _occlusionEndMap;
+        private ByteVector4Grid _result;
 
         /// <summary>
         /// Returns the calculated occlusion end map array once <see cref="ITask.State"/> has reached <see cref="TaskState.Complete"/>.
@@ -47,7 +46,7 @@ namespace AlphaFramework.World.Terrains
         /// <remarks>A light rise angles is the minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded.</remarks>
         /// <exception cref="InvalidOperationException">Thrown if <see cref="ITask.State"/> is not <see cref="TaskState.Complete"/>.</exception>
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        public ByteGrid OcclusionEndMap
+        public ByteVector4Grid Result
         {
             get
             {
@@ -56,28 +55,7 @@ namespace AlphaFramework.World.Terrains
                     if (State != TaskState.Complete) throw new InvalidOperationException(Resources.CalculationNotComplete);
                 }
 
-                return _occlusionEndMap;
-            }
-        }
-
-        private ByteGrid _occlusionBeginMap;
-
-        /// <summary>
-        /// Returns the calculated occlusion begin map array once <see cref="ITask.State"/> has reached <see cref="TaskState.Complete"/>.
-        /// </summary>
-        /// <remarks>A light rise set is the maximum vertical angle (0 = 90°, 255 = 180°) which a directional light must not exceed to be not occluded.</remarks>
-        /// <exception cref="InvalidOperationException">Thrown if <see cref="ITask.State"/> is not <see cref="TaskState.Complete"/>.</exception>
-        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
-        public ByteGrid OcclusionBeginMap
-        {
-            get
-            {
-                lock (StateLock)
-                {
-                    if (State != TaskState.Complete) throw new InvalidOperationException(Resources.CalculationNotComplete);
-                }
-
-                return _occlusionBeginMap;
+                return _result;
             }
         }
         #endregion
@@ -88,8 +66,8 @@ namespace AlphaFramework.World.Terrains
         /// </summary>
         /// <param name="size">The size of the terrain represented by the height-map.</param>
         /// <param name="heightMap">The height-map data. This is not cloned and must not be modified during calculation!</param>
-        /// <param name="sunInclination">The angle of inclination of the sun's path away from the zenith in degrees.</param>
-        public OcclusionIntervalMapGenerator(TerrainSize size, ByteGrid heightMap, float sunInclination)
+        /// <param name="lightSourceInclination">The angle of inclination of the sun's path away from the zenith in degrees.</param>
+        public OcclusionIntervalMapGenerator(TerrainSize size, ByteGrid heightMap, float lightSourceInclination)
         {
             #region Sanity chekcs
             if (heightMap == null) throw new ArgumentNullException("heightMap");
@@ -99,7 +77,7 @@ namespace AlphaFramework.World.Terrains
 
             _size = size;
             _heightMap = heightMap;
-            _sunInclination = sunInclination;
+            _lightSourceInclination = lightSourceInclination;
 
 #if !NETFX4
             UnitsTotal = size.X * size.Y;
@@ -131,8 +109,7 @@ namespace AlphaFramework.World.Terrains
         /// <inheritdoc />
         protected override void RunTask()
         {
-            _occlusionEndMap = new ByteGrid(_size.X, _size.Y);
-            _occlusionBeginMap = new ByteGrid(_size.X, _size.Y);
+            _result = new ByteVector4Grid(_size.X, _size.Y);
 
             lock (StateLock) State = TaskState.Data;
 
@@ -145,29 +122,7 @@ namespace AlphaFramework.World.Terrains
             {
                 // Iterate through all points along the line from west to east
                 for (int x1 = 0; x1 < _size.X; x1++)
-                {
-                    // Start off assuming there is nothing casting a shadow
-                    byte value = 255;
-
-                    // Iterate through all points west of the current one
-                    for (int x2 = 0; x2 < x1; x2++)
-                    {
-                        // Draw a line between the two points to determine the angle above which a shadow is cast for setting light sources
-                        byte newValue = SetAngleToByte(GetLightAngle(x1, x2, y));
-                        value = Math.Min(value, newValue);
-                    }
-                    _occlusionBeginMap[x1, y] = value;
-
-                    // Iterate through all points east of the current one
-                    value = 0;
-                    for (int x2 = x1; x2 < _size.X; x2++)
-                    {
-                        // Draw a line between the two points to determine the angle below which a shadow is cast for rising light sources
-                        byte newValue = RiseAngleToByte(GetLightAngle(x1, x2, y));
-                        value = Math.Max(value, newValue);
-                    }
-                    _occlusionEndMap[x1, y] = value;
-                }
+                    _result[x1, y] = new ByteVector4(GetRiseAngleByte(x1, y), GetSetAngleByte(x1, y), 255, 255);
 
 #if !NETFX4
                 UnitsProcessed += _size.Y;
@@ -180,9 +135,33 @@ namespace AlphaFramework.World.Terrains
 
             lock (StateLock) State = TaskState.Complete;
         }
-        #endregion
 
-        #region Calculation helpers
+        private byte GetRiseAngleByte(int x1, int y)
+        {
+            // Iterate through all points east of the current one
+            byte value2 = 0;
+            for (int x2 = x1; x2 < _size.X; x2++)
+            {
+                // Draw a line between the two points to determine the angle below which a shadow is cast for rising light sources
+                byte newValue = GetAngle(x1, x2, y).AngleToByte();
+                value2 = Math.Max(value2, newValue);
+            }
+            return value2;
+        }
+
+        private byte GetSetAngleByte(int x1, int y)
+        {
+            // Iterate through all points west of the current one
+            byte value1 = 255;
+            for (int x2 = 0; x2 < x1; x2++)
+            {
+                // Draw a line between the two points to determine the angle above which a shadow is cast for setting light sources
+                byte newValue = GetAngle(x1, x2, y).AngleToByte();
+                value1 = Math.Min(value1, newValue);
+            }
+            return value1;
+        }
+
         /// <summary>
         /// Calculates the angle between to points along the same Y-axis (degree of longitude) on the height-map.
         /// </summary>
@@ -190,29 +169,11 @@ namespace AlphaFramework.World.Terrains
         /// <param name="x2">The X-coordinate of the second point.</param>
         /// <param name="y">The shared Y-coordinate.</param>
         /// <returns>An angle in radians moving counter-clockwise assuming <paramref name="x2"/> is larger than <paramref name="x1"/>.</returns>
-        private double GetLightAngle(int x1, int x2, int y)
+        private double GetAngle(int x1, int x2, int y)
         {
             int xDist = x2 - x1;
             int heightDist = (_heightMap[x2, y] - _heightMap[x1, y]).Clamp(0, 255);
             return Math.Atan2(heightDist * _size.StretchV, xDist * _size.StretchH);
-        }
-
-        /// <summary>
-        /// Converts the <paramref name="angle"/> to a byte value as follows: 0° = 0, 90° = 255
-        /// </summary>
-        private static byte RiseAngleToByte(double angle)
-        {
-            angle = angle.Clamp(0, Math.PI / 2);
-            return (byte)(angle / (Math.PI / 2) * 255);
-        }
-
-        /// <summary>
-        /// Converts the <paramref name="angle"/> to a byte value as follows: 90° = 0, 180° = 255
-        /// </summary>
-        private static byte SetAngleToByte(double angle)
-        {
-            angle = angle.Clamp(Math.PI / 2, Math.PI);
-            return (byte)((angle / (Math.PI / 2) - 1) * 255);
         }
         #endregion
     }

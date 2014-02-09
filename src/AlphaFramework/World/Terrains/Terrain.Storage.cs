@@ -81,48 +81,25 @@ namespace AlphaFramework.World.Terrains
 
         /// <inheritdoc/>
         [LuaHide]
-        public void LoadOcclusionEndMap(Stream stream)
+        public void LoadOcclusionIntervalMap(Stream stream)
         {
-            Log.Info("Loading occlusion end map");
+            Log.Info("Loading occlusion interval map");
 
-            var occlusionEndMap = ByteGrid.Load(stream);
-            if (occlusionEndMap.Width != _size.X || occlusionEndMap.Height != _size.Y)
+            var occlusionIntervalMap = ByteVector4Grid.Load(stream);
+            if (occlusionIntervalMap.Width != _size.X || occlusionIntervalMap.Height != _size.Y)
                 throw new IOException(Resources.OcclusionIntervalMapSizeEqualTerrain);
-            _occlusionEndMap = occlusionEndMap;
+            _occlusionIntervalMap = occlusionIntervalMap;
         }
 
         /// <inheritdoc/>
-        public void LoadOcclusionEndMap(string path)
+        public void LoadOcclusionIntervalMap(string path)
         {
             #region Sanity checks
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
             #endregion
 
             using (var stream = File.Open(path, FileMode.Open))
-                LoadOcclusionEndMap(stream);
-        }
-
-        /// <inheritdoc/>
-        [LuaHide]
-        public void LoadOcclusionBeginMap(Stream stream)
-        {
-            Log.Info("Loading occlusion begin map");
-
-            var occlusionBeginMap = ByteGrid.Load(stream);
-            if (occlusionBeginMap.Width != _size.X || occlusionBeginMap.Height != _size.Y)
-                throw new IOException(Resources.OcclusionIntervalMapSizeEqualTerrain);
-            _occlusionBeginMap = occlusionBeginMap;
-        }
-
-        /// <inheritdoc/>
-        public void LoadOcclusionBeginMap(string path)
-        {
-            #region Sanity checks
-            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
-            #endregion
-
-            using (var stream = File.Open(path, FileMode.Open))
-                LoadOcclusionBeginMap(stream);
+                LoadOcclusionIntervalMap(stream);
         }
 
         /// <inheritdoc/>

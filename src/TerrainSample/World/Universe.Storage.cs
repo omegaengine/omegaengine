@@ -92,8 +92,7 @@ namespace TerrainSample.World
                     // Callbacks for loading terrain data
                     new EmbeddedFile("height.png", _terrain.LoadHeightMap),
                     new EmbeddedFile("texture.png", _terrain.LoadTextureMap),
-                    new EmbeddedFile("lightRiseAngle.png", _terrain.LoadOcclusionEndMap),
-                    new EmbeddedFile("lightSetAngle.png", _terrain.LoadOcclusionBeginMap)
+                    new EmbeddedFile("occlusion.png", _terrain.LoadOcclusionIntervalMap)
                 });
             }
 
@@ -114,14 +113,12 @@ namespace TerrainSample.World
         {
             using (Entity.MaskTemplateData())
             {
-                if (Terrain.OcclusionIntervalMapSet)
+                if (Terrain.OcclusionIntervalMap == null)
                 {
                     this.SaveXmlZip(path, additionalFiles: new[]
                     {
                         new EmbeddedFile("height.png", 0, Terrain.HeightMap.Save),
-                        new EmbeddedFile("texture.png", 0, Terrain.TextureMap.Save),
-                        new EmbeddedFile("lightRiseAngle.png", 0, Terrain.OcclusionEndMap.Save),
-                        new EmbeddedFile("lightSetAngle.png", 0, Terrain.OcclusionBeginMap.Save)
+                        new EmbeddedFile("texture.png", 0, Terrain.TextureMap.Save)
                     });
                 }
                 else
@@ -129,7 +126,8 @@ namespace TerrainSample.World
                     this.SaveXmlZip(path, additionalFiles: new[]
                     {
                         new EmbeddedFile("height.png", 0, Terrain.HeightMap.Save),
-                        new EmbeddedFile("texture.png", 0, Terrain.TextureMap.Save)
+                        new EmbeddedFile("texture.png", 0, Terrain.TextureMap.Save),
+                        new EmbeddedFile("occlusion.png", 0, Terrain.OcclusionIntervalMap.Save)
                     });
                 }
             }

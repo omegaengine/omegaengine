@@ -181,8 +181,9 @@ namespace TerrainSample.Presentation
             Terrain = Terrain.Create(
                 Engine, Universe.Terrain.Size,
                 Universe.Terrain.Size.StretchH, Universe.Terrain.Size.StretchV,
-                Universe.Terrain.HeightMap, Universe.Terrain.OcclusionEndMap, Universe.Terrain.OcclusionBeginMap,
+                Universe.Terrain.HeightMap,
                 Universe.Terrain.TextureMap, textures,
+                Universe.Terrain.OcclusionIntervalMap,
                 Lighting,
                 Settings.Current.Graphics.TerrainBlockSize);
             Terrain.Wireframe = WireframeTerrain;

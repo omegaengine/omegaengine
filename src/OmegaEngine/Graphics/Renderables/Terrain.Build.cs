@@ -10,6 +10,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using Common;
+using Common.Utils;
 using Common.Values;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -37,28 +38,23 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="stretchV">A factor by which all vertical distances are multiplied</param>
         /// <param name="heightMap">The height values of the terrain in a 2D grid.
         ///   Grid size = Terrain size</param>
-        /// <param name="occlusionEndMap">The minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded in a 2D grid.
-        ///   Grid size = Terrain size; may be <see langword="null"/> for no shadowing</param>
-        /// <param name="occlusionBeginMap">The maximum vertical angle (0 = 90°, 255 = 180°) which a directional light must not exceed to be not occluded in a 2D grid.
-        ///   Grid size = Terrain size; may be <see langword="null"/> for no shadowing</param>
         /// <param name="textureMap">The texture values of the terrain in a 2D grid.
         ///   Grid size = Terrain size / 3</param>
+        /// <param name="occlusionIntervalMap">The angles at which the global light source occlusion begins and ends.
+        ///   Grid size = Terrain size; may be <see langword="null"/> for no shadowing</param>
         /// <param name="lighting">Shall this mesh be prepared for lighting? (calculate normal vectors, make shaders support lighting, ...)</param>
         /// <param name="blockSize">How many points in X and Y direction shall one block for culling be?</param>
         /// <param name="subsetShaders">Shaders for all subsets the mesh was split into</param>
         /// <param name="subsetBoundingBoxes">Bounding boxes for all subsets the mesh was split into</param>
         /// <returns>The model that was created</returns>
-        private static Mesh BuildMesh(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, ByteGrid occlusionEndMap, ByteGrid occlusionBeginMap, NibbleGrid textureMap, bool lighting, int blockSize, out SurfaceShader[] subsetShaders, out BoundingBox[] subsetBoundingBoxes)
+        private static Mesh BuildMesh(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, ByteVector4Grid occlusionIntervalMap, bool lighting, int blockSize, out SurfaceShader[] subsetShaders, out BoundingBox[] subsetBoundingBoxes)
         {
             #region Sanity checks
             if (heightMap.Width != size.Width || heightMap.Height != size.Height)
                 throw new ArgumentException(Resources.WrongHeightMapSize, "heightMap");
 
-            if (occlusionEndMap != null && (occlusionEndMap.Width != size.Width || occlusionEndMap.Height != size.Height))
-                throw new ArgumentException(Resources.WrongOcclusionIntervalMapSize, "occlusionEndMap");
-
-            if (occlusionBeginMap != null && (occlusionBeginMap.Width != size.Width || occlusionBeginMap.Height != size.Height))
-                throw new ArgumentException(Resources.WrongOcclusionIntervalMapSize, "occlusionBeginMap");
+            if (occlusionIntervalMap != null && (occlusionIntervalMap.Width != size.Width || occlusionIntervalMap.Height != size.Height))
+                throw new ArgumentException(Resources.WrongOcclusionIntervalMapSize, "occlusionIntervalMap");
 
             if ((textureMap.Width) * 3 != size.Width || (textureMap.Height) * 3 != size.Height)
                 throw new ArgumentException(Resources.WrongTextureMapSize, "textureMap");
@@ -66,7 +62,7 @@ namespace OmegaEngine.Graphics.Renderables
 
             using (new TimedLogEvent("Building terrain mesh"))
             {
-                var vertexes = GenerateVertexes(size, stretchH, stretchV, heightMap, occlusionEndMap, occlusionBeginMap, textureMap);
+                var vertexes = GenerateVertexes(size, stretchH, stretchV, heightMap, textureMap, occlusionIntervalMap);
 
                 int[] attributes;
                 ushort[] subsetTextureMasks;
@@ -77,11 +73,9 @@ namespace OmegaEngine.Graphics.Renderables
             }
         }
 
-        private static PositionMultiTextured[] GenerateVertexes(Size size, float stretchH, float stretchV, ByteGrid heightMap, ByteGrid occlusionEndMap, ByteGrid occlusionBeginMap, NibbleGrid textureMap)
+        private static PositionMultiTextured[] GenerateVertexes(Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, ByteVector4Grid occlusionIntervalMap)
         {
             var vertexes = new PositionMultiTextured[size.Width * size.Height];
-
-            bool useOcclusionIntervalMap = (occlusionEndMap != null && occlusionBeginMap != null);
 
 #if NETFX4
             Parallel.For(0, size.Width, x =>
@@ -131,12 +125,10 @@ namespace OmegaEngine.Graphics.Renderables
                     }
                     #endregion
 
-                    // Occlusion end angles: 0 = 0°, 255 = 90°, default = 0°
-                    float occlusionEndAngle = useOcclusionIntervalMap ? (float)(occlusionEndMap[x, y] / 255.0 * Math.PI / 2) : 0;
-
-                    // Occlusion begin angles: 0 = 90°, 255 = 180°, default = 180°
-                    float occlusionBeginAngle = useOcclusionIntervalMap ? (float)((occlusionBeginMap[x, y] / 255.0 + 1) * Math.PI / 2) : (float)Math.PI;
-
+                    var occlusionIntervals = occlusionIntervalMap == null
+                        ? new ByteVector4(0, 255, 255, 255)
+                        : occlusionIntervalMap[x, y];
+                    
                     // Generate vertex using 2D coords, stretch factors (and tex-coords based on them)
                     // Map X = Engine +X
                     // Map Y = Engine -Z
@@ -144,7 +136,7 @@ namespace OmegaEngine.Graphics.Renderables
                     vertexes[x + size.Width * y] = new PositionMultiTextured(
                         new Vector3(x * stretchH, heightMap[x, y] * stretchV, -y * stretchH),
                         x * stretchH / 500f, y * stretchH / 500f,
-                        occlusionEndAngle, occlusionBeginAngle,
+                        occlusionIntervals.ByteToAngle(),
                         texWeights, Color.White);
                 }
             }

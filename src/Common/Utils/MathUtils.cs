@@ -204,6 +204,32 @@ namespace Common.Utils
         }
         #endregion
 
+        #region Byte angles
+        /// <summary>
+        /// Maps a 0°-180° angle in radians to a 0-255 byte value.
+        /// </summary>
+        public static byte AngleToByte(this double angle)
+        {
+            return (byte)(angle.Clamp(0, Math.PI) / Math.PI * 255);
+        }
+
+        /// <summary>
+        /// Maps a 0-255 byte value to a 0°-180° angle in radians.
+        /// </summary>
+        public static double ByteToAngle(this byte b)
+        {
+            return b / 255.0 * Math.PI;
+        }
+
+        /// <summary>
+        /// Maps a vector of 0-255 byte values to a vector of 0°-180° angles in radians.
+        /// </summary>
+        public static Vector4 ByteToAngle(this ByteVector4 vector)
+        {
+            return new Vector4((float)vector.X.ByteToAngle(), (float)vector.Y.ByteToAngle(), (float)vector.Z.ByteToAngle(), (float)vector.W.ByteToAngle());
+        }
+        #endregion
+
         //--------------------//
 
         #region Interpolate
