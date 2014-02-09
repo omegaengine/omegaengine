@@ -41,7 +41,7 @@ namespace AlphaFramework.World
         [Test]
         public void TestRunSync()
         {
-            var generator = new OcclusionIntervalMapGenerator(new TerrainSize(4, 4), CreateTestHeightMap(), lightSourceInclination: 0);
+            var generator = new OcclusionIntervalMapGenerator(CreateTestHeightMap());
 
             generator.RunSync();
 

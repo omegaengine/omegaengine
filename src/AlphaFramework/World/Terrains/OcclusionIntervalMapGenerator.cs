@@ -8,10 +8,10 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using AlphaFramework.World.Properties;
 using Common.Tasks;
 using Common.Utils;
 using Common.Values;
+using Resources = AlphaFramework.World.Properties.Resources;
 
 #if NETFX4
 using System.Threading.Tasks;
@@ -26,9 +26,10 @@ namespace AlphaFramework.World.Terrains
     public class OcclusionIntervalMapGenerator : ThreadTask
     {
         #region Variables
-        private readonly TerrainSize _size;
         private readonly ByteGrid _heightMap;
         private readonly float _lightSourceInclination;
+        private readonly float _stretchH;
+        private readonly float _stretchV;
         #endregion
 
         #region Properties
@@ -64,42 +65,40 @@ namespace AlphaFramework.World.Terrains
         /// <summary>
         /// Prepares to calculate an occlusion interval map for a height-map.
         /// </summary>
-        /// <param name="size">The size of the terrain represented by the height-map.</param>
         /// <param name="heightMap">The height-map data. This is not cloned and must not be modified during calculation!</param>
-        /// <param name="lightSourceInclination">The angle of inclination of the sun's path away from the zenith in degrees.</param>
-        public OcclusionIntervalMapGenerator(TerrainSize size, ByteGrid heightMap, float lightSourceInclination)
+        /// <param name="stretchH">A factor by which the terrain is horizontally stretched.</param>
+        /// <param name="stretchV">A factor by which the terrain is vertically stretched.</param>
+        /// <param name="lightSourceInclination">The angle of inclination of the sun's path away from the horizon in degrees.</param>
+        public OcclusionIntervalMapGenerator(ByteGrid heightMap, float stretchH = 1, float stretchV = 1, float lightSourceInclination = 90)
         {
             #region Sanity chekcs
             if (heightMap == null) throw new ArgumentNullException("heightMap");
-            if (heightMap.Width != size.X || heightMap.Height != size.Y)
-                throw new ArgumentException(Resources.HeightMapSizeEqualTerrain, "heightMap");
             #endregion
 
-            _size = size;
             _heightMap = heightMap;
-            _lightSourceInclination = lightSourceInclination;
+            _lightSourceInclination = lightSourceInclination.DegreeToRadian();
+            _stretchH = stretchH;
+            _stretchV = stretchV;
 
 #if !NETFX4
-            UnitsTotal = size.X * size.Y;
+            UnitsTotal = heightMap.Width * heightMap.Height;
 #endif
         }
-        #endregion
 
-        #region Factory methods
         /// <summary>
         /// Prepares to calculate an occlusion interval map for the height-map of a <see cref="ITerrain"/>.
         /// </summary>
         /// <param name="terrain">The <see cref="ITerrain"/> providing the height-map. The height-map is not cloned and must not be modified during calculation!</param>
-        /// <param name="sunInclination">The angle of inclination of the sun's path away from the zenith in degrees.</param>
+        /// <param name="lightSourceInclination">The angle of inclination of the sun's path away from the zenith in degrees.</param>
         /// <returns>The newly crated occlusion interval map generator.</returns>
         /// <remarks>The results are not automatically written back to <paramref name="terrain"/>.</remarks>
-        public static OcclusionIntervalMapGenerator FromTerrain(ITerrain terrain, float sunInclination)
+        public static OcclusionIntervalMapGenerator FromTerrain(ITerrain terrain, float lightSourceInclination)
         {
             #region Sanity checks
             if (terrain == null) throw new ArgumentNullException("terrain");
             #endregion
 
-            return new OcclusionIntervalMapGenerator(terrain.Size, terrain.HeightMap, sunInclination);
+            return new OcclusionIntervalMapGenerator(terrain.HeightMap, terrain.Size.StretchH, terrain.Size.StretchV, lightSourceInclination);
         }
         #endregion
 
@@ -109,23 +108,23 @@ namespace AlphaFramework.World.Terrains
         /// <inheritdoc />
         protected override void RunTask()
         {
-            _result = new ByteVector4Grid(_size.X, _size.Y);
+            _result = new ByteVector4Grid(_heightMap.Width, _heightMap.Height);
 
             lock (StateLock) State = TaskState.Data;
 
             // Iterate through each degree of longitude (lines from west to east)
 #if NETFX4
-            Parallel.For(0, _size.Y, y =>
+            Parallel.For(0, _heightMap.Height, y =>
 #else
-            for (int y = 0; y < _size.Y; y++)
+            for (int y = 0; y < _heightMap.Height; y++)
 #endif
             {
                 // Iterate through all points along the line from west to east
-                for (int x1 = 0; x1 < _size.X; x1++)
-                    _result[x1, y] = new ByteVector4(GetRiseAngleByte(x1, y), GetSetAngleByte(x1, y), 255, 255);
+                for (int x = 0; x < _heightMap.Width; x++)
+                    _result[x, y] = GetOcclusionAngles(x, y);
 
 #if !NETFX4
-                UnitsProcessed += _size.Y;
+                UnitsProcessed += _heightMap.Width;
 #endif
                 if (CancelRequest.WaitOne(0)) throw new OperationCanceledException();
             }
@@ -135,15 +134,22 @@ namespace AlphaFramework.World.Terrains
 
             lock (StateLock) State = TaskState.Complete;
         }
+        #endregion
+
+        #region Calculation
+        private ByteVector4 GetOcclusionAngles(int x, int y)
+        {
+            return new ByteVector4(GetRiseAngleByte(x, y), GetSetAngleByte(x, y), 255, 255);
+        }
 
         private byte GetRiseAngleByte(int x1, int y)
         {
             // Iterate through all points east of the current one
             byte value2 = 0;
-            for (int x2 = x1; x2 < _size.X; x2++)
+            for (int x = x1; x < _heightMap.Width; x++)
             {
                 // Draw a line between the two points to determine the angle below which a shadow is cast for rising light sources
-                byte newValue = GetAngle(x1, x2, y).AngleToByte();
+                byte newValue = GetAngle(x1, x, y).AngleToByte();
                 value2 = Math.Max(value2, newValue);
             }
             return value2;
@@ -153,17 +159,17 @@ namespace AlphaFramework.World.Terrains
         {
             // Iterate through all points west of the current one
             byte value1 = 255;
-            for (int x2 = 0; x2 < x1; x2++)
+            for (int x = 0; x < x1; x++)
             {
                 // Draw a line between the two points to determine the angle above which a shadow is cast for setting light sources
-                byte newValue = GetAngle(x1, x2, y).AngleToByte();
+                byte newValue = GetAngle(x1, x, y).AngleToByte();
                 value1 = Math.Min(value1, newValue);
             }
             return value1;
         }
 
         /// <summary>
-        /// Calculates the angle between to points along the same Y-axis (degree of longitude) on the height-map.
+        /// Calculates the angle between two points along the same Y-axis (degree of longitude) on the height-map.
         /// </summary>
         /// <param name="x1">The X-coordinate of the first point.</param>
         /// <param name="x2">The X-coordinate of the second point.</param>
@@ -172,8 +178,8 @@ namespace AlphaFramework.World.Terrains
         private double GetAngle(int x1, int x2, int y)
         {
             int xDist = x2 - x1;
-            int heightDist = (_heightMap[x2, y] - _heightMap[x1, y]).Clamp(0, 255);
-            return Math.Atan2(heightDist * _size.StretchV, xDist * _size.StretchH);
+            float heightDist = (_heightMap.InterpolatedRead(x2, y) - _heightMap.InterpolatedRead(x1, y)).Clamp(0, 255);
+            return Math.Atan2(heightDist * _stretchV, xDist * _stretchH);
         }
         #endregion
     }

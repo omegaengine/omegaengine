@@ -68,6 +68,14 @@ namespace Common.Values
         }
 
         /// <summary>
+        /// Returns <see langword="true"/> if the specified coordinates are within the bounds of the grid.
+        /// </summary>
+        public bool IsInRange(float x, float y)
+        {
+            return x >= 0 && x < Width && y >= 0 && y < Height;
+        }
+
+        /// <summary>
         /// Loads a grid from a PNG stream.
         /// </summary>
         public static ByteGrid Load(Stream stream)
