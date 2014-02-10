@@ -94,9 +94,14 @@ namespace TerrainSample.Presentation
             if (_bleachShader != null) _bleachShader.Enabled = Universe.Bleach;
         }
 
-        private static Vector3 GetLightDirection(float inclination, float phase)
+        /// <summary>
+        /// Calculates the direction a light source points towards.
+        /// </summary>
+        /// <param name="inclination">The angle of inclination of the light source's path away from the horizon in degrees.</param>
+        /// <param name="lightPhase">A value between 0 and 4 representing the current light source position. (0 = rising, 1 = zenith, 2 = setting, 3 = nadir)</param>
+        private static Vector3 GetLightDirection(float inclination, float lightPhase)
         {
-            return MathUtils.UnitVector(inclination.DegreeToRadian(), phase * -Math.PI / 2);
+            return MathUtils.UnitVector(inclination.DegreeToRadian(), (lightPhase + 2) * Math.PI / 2);
         }
 
         /// <summary>
