@@ -231,9 +231,9 @@ namespace Common.Utils
         /// <summary>
         /// Maps a 0-255 byte value to a 0°-180° angle in radians.
         /// </summary>
-        public static float ByteToAngle(this byte b)
+        public static double ByteToAngle(this byte b)
         {
-            return (float)(b / 255.0 * Math.PI);
+            return b / 255.0 * Math.PI;
         }
 
         /// <summary>
@@ -241,7 +241,11 @@ namespace Common.Utils
         /// </summary>
         public static Vector4 ByteToAngle(this ByteVector4 vector)
         {
-            return new Vector4(vector.X.ByteToAngle(), vector.Y.ByteToAngle(), vector.Z.ByteToAngle(), vector.W.ByteToAngle());
+            return new Vector4(
+                (float)vector.X.ByteToAngle(),
+                (float)vector.Y.ByteToAngle(),
+                (float)vector.Z.ByteToAngle(),
+                (float)vector.W.ByteToAngle());
         }
         #endregion
 

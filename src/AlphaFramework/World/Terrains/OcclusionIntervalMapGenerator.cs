@@ -167,7 +167,7 @@ namespace AlphaFramework.World.Terrains
         private double GetAngle(int x1, int x2, int y)
         {
             int xDist = x2 - x1;
-            float heightDist = (_heightMap.InterpolatedRead(x2, y) - _heightMap.InterpolatedRead(x1, y)).Clamp(0, 255);
+            float heightDist = (_heightMap[x2, y] - _heightMap[x1, y]).Clamp(0, 255);
             return Math.Atan2(heightDist * _stretchV, xDist * _stretchH);
         }
         #endregion

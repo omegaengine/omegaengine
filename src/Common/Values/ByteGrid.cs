@@ -44,7 +44,7 @@ namespace Common.Values
         /// <summary>
         /// Performs vertex-like interpolation to get values lying between discrete grid points.
         /// </summary>
-        public float InterpolatedRead(float x, float y)
+        public float SampledRead(float x, float y)
         {
             var xFloor = (int)Math.Floor(x);
             float xFactor = x - xFloor;

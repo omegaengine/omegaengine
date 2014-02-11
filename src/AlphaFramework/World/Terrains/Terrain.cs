@@ -185,7 +185,7 @@ namespace AlphaFramework.World.Terrains
                 unstrechedCoords.X < 0 || unstrechedCoords.Y < 0)
                 throw new ArgumentOutOfRangeException("coordinates", Resources.CoordinatesNotInRange);
 
-            var height = HeightMap.InterpolatedRead(unstrechedCoords.X, unstrechedCoords.Y);
+            var height = HeightMap.SampledRead(unstrechedCoords.X, unstrechedCoords.Y);
 
             return new DoubleVector3(
                 coordinates.X, // World X = Engine +X
