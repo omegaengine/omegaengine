@@ -49,5 +49,13 @@ namespace Common.Values
                 Assert.AreEqual(200, grid[1, 1]);
             }
         }
+
+        [Test]
+        public void TestSampledRead()
+        {
+            Assert.AreEqual(5, new ByteGrid(new byte[,] {{10}, {0}}).SampledRead(0.5f, 0));
+            Assert.AreEqual(5, new ByteGrid(new byte[,] {{10, 0}}).SampledRead(0.5f, 0.5f));
+            Assert.AreEqual(3.75f, new ByteGrid(new byte[,] {{10, 5}, {0, 0}}).SampledRead(0.5f, 0.5f));
+        }
     }
 }

@@ -42,7 +42,7 @@ namespace Common.Values
         {}
 
         /// <summary>
-        /// Performs vertex-like interpolation to get values lying between discrete grid points.
+        /// Performs bilinear interpolation to get values lying between discrete grid points.
         /// </summary>
         public float SampledRead(float x, float y)
         {
@@ -52,19 +52,12 @@ namespace Common.Values
             var yFloor = (int)Math.Floor(y);
             float yFactor = y - yFloor;
 
-            // Determine one which of the two possible triangles of the map square the point is located
-            if (xFactor + yFactor < 1)
-            { // Top left triangle
-                float xHeightDiff = ClampedRead(xFloor + 1, yFloor) - ClampedRead(xFloor, yFloor);
-                float yHeightDiff = ClampedRead(xFloor, yFloor + 1) - ClampedRead(xFloor, yFloor);
-                return ClampedRead(xFloor, yFloor) + ((xHeightDiff * xFactor) + (yHeightDiff * yFactor));
-            }
-            else
-            { // Bottom right triangle
-                float xHeightDiff = ClampedRead(xFloor + 1, yFloor + 1) - ClampedRead(xFloor, yFloor + 1);
-                float yHeightDiff = ClampedRead(xFloor + 1, yFloor + 1) - ClampedRead(xFloor + 1, yFloor);
-                return ClampedRead(xFloor + 1, yFloor + 1) - (xHeightDiff * (1 - xFactor) + (yHeightDiff * 1 - yFactor));
-            }
+            float x1 = ClampedRead(xFloor, yFloor);
+            float x2 = ClampedRead(xFloor + 1, yFloor);
+            float xLinear1 = (1 - xFactor) * x1 + xFactor * x2;
+            float xLinear2 = (1 - xFactor) * ClampedRead(xFloor, yFloor + 1) + xFactor * ClampedRead(xFloor + 1, yFloor + 1);
+
+            return (1 - yFactor) * xLinear1 + yFactor * xLinear2;
         }
 
         /// <summary>
