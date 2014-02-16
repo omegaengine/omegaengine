@@ -7,11 +7,13 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Common;
 using Common.Tasks;
 using Common.Utils;
 using Common.Values;
+using SlimDX;
 using Resources = AlphaFramework.World.Properties.Resources;
 
 namespace AlphaFramework.World.Terrains
@@ -24,20 +26,7 @@ namespace AlphaFramework.World.Terrains
     {
         #region Variables
         private readonly ByteGrid _heightMap;
-        private readonly float _lightSourceInclination;
-        private readonly float _stretchH;
-        private readonly float _stretchV;
-        #endregion
-
-        #region Properties
-        /// <inheritdoc />
-        public override string Name { get { return Resources.CalculatingShadows; } }
-
-        /// <inheritdoc />
-        public override bool UnitsByte { get { return false; } }
-
-        /// <inheritdoc />
-        public override bool CanCancel { get { return Parallel.ThreadsCount == 1; } }
+        private readonly Vector3[] _rayDirections = new Vector3[256];
 
         private ByteVector4Grid _result;
 
@@ -69,28 +58,43 @@ namespace AlphaFramework.World.Terrains
         /// <param name="stretchH">A factor by which the terrain is horizontally stretched.</param>
         /// <param name="stretchV">A factor by which the terrain is vertically stretched.</param>
         /// <param name="lightSourceInclination">The angle of inclination of the sun's path away from the horizon in degrees.</param>
-        public OcclusionIntervalMapGenerator(ByteGrid heightMap, float stretchH = 1, float stretchV = 1, float lightSourceInclination = 90)
+        public OcclusionIntervalMapGenerator(ByteGrid heightMap, float stretchH = 1, float stretchV = 1, double lightSourceInclination = 90)
         {
             #region Sanity chekcs
             if (heightMap == null) throw new ArgumentNullException("heightMap");
             #endregion
 
             _heightMap = heightMap;
-            _lightSourceInclination = lightSourceInclination.DegreeToRadian();
-            _stretchH = stretchH;
-            _stretchV = stretchV;
+
+            // Pre-calculate all ray directions
+            lightSourceInclination = lightSourceInclination.DegreeToRadian();
+            for (int i = 0; i < _rayDirections.Length; i++)
+                _rayDirections[i] = GetRayDirection(lightSourceInclination, (byte)i, stretchH, stretchV);
 
             UnitsTotal = heightMap.Width * heightMap.Height;
+        }
+
+        private static Vector3 GetRayDirection(double inclination, byte angle, float stretchH, float stretchV)
+        {
+            var direction = MathUtils.UnitVector(inclination, angle.ByteToAngle());
+            direction.X /= stretchH;
+            direction.Z /= stretchH;
+            direction.Y /= stretchV;
+
+            // Normalize on the XZ plane
+            direction /= (float)Math.Sqrt(direction.X * direction.X + direction.Z * direction.Z);
+
+            return direction;
         }
 
         /// <summary>
         /// Prepares to calculate an occlusion interval map for the height-map of a <see cref="ITerrain"/>.
         /// </summary>
         /// <param name="terrain">The <see cref="ITerrain"/> providing the height-map. The height-map is not cloned and must not be modified during calculation!</param>
-        /// <param name="lightSourceInclination">The angle of inclination of the sun's path away from the zenith in degrees.</param>
+        /// <param name="lightSourceInclination">The angle of inclination of the sun's path away from the horizon in degrees.</param>
         /// <returns>The newly crated occlusion interval map generator.</returns>
         /// <remarks>The results are not automatically written back to <paramref name="terrain"/>.</remarks>
-        public static OcclusionIntervalMapGenerator FromTerrain(ITerrain terrain, float lightSourceInclination)
+        public static OcclusionIntervalMapGenerator FromTerrain(ITerrain terrain, double lightSourceInclination)
         {
             #region Sanity checks
             if (terrain == null) throw new ArgumentNullException("terrain");
@@ -104,20 +108,27 @@ namespace AlphaFramework.World.Terrains
 
         #region Thread code
         /// <inheritdoc />
+        public override string Name { get { return Resources.CalculatingShadows; } }
+
+        /// <inheritdoc />
+        public override bool UnitsByte { get { return false; } }
+
+        /// <inheritdoc />
+        public override bool CanCancel { get { return Parallel.ThreadsCount == 1; } }
+
+        /// <inheritdoc />
         protected override void RunTask()
         {
             _result = new ByteVector4Grid(_heightMap.Width, _heightMap.Height);
 
             lock (StateLock) State = TaskState.Data;
 
-            // Iterate through each degree of longitude (lines from west to east)
-            Parallel.For(0, _heightMap.Height, y =>
+            Parallel.For(0, _heightMap.Width, x =>
             {
-                // Iterate through all points along the line from west to east
-                for (int x = 0; x < _heightMap.Width; x++)
-                    _result[x, y] = GetOcclusionAngles(x, y);
+                for (int y = 0; y < _heightMap.Height; y++)
+                    _result[x, y] = GetOcclusionVector(x, y);
 
-                lock (StateLock) UnitsProcessed += _heightMap.Width;
+                lock (StateLock) UnitsProcessed += _heightMap.Height;
                 if (Parallel.ThreadsCount == 1 && CancelRequest.WaitOne(0)) throw new OperationCanceledException();
             });
 
@@ -126,49 +137,81 @@ namespace AlphaFramework.World.Terrains
         #endregion
 
         #region Calculation
-        private ByteVector4 GetOcclusionAngles(int x, int y)
+        private ByteVector4 GetOcclusionVector(int x, int y)
         {
-            return new ByteVector4(GetRiseAngleByte(x, y), GetSetAngleByte(x, y), 255, 255);
+            var boundaries = GetBoundaries(x, y);
+            while (boundaries.Count < 4) boundaries.Add(255);
+            if (boundaries.Count % 2 == 1) boundaries.Add(255);
+            while (boundaries.Count > 4) RemoveShortestInterval(boundaries);
+
+            return new ByteVector4(boundaries[0], boundaries[1], boundaries[2], boundaries[3]);
         }
 
-        private byte GetRiseAngleByte(int x1, int y)
+        private List<byte> GetBoundaries(int x, int y)
         {
-            // Iterate through all points east of the current one
-            byte value2 = 0;
-            for (int x = x1; x < _heightMap.Width; x++)
+            bool occluded = true;
+            byte angle = 0;
+            var boundaries = new List<byte>();
+            while (true)
             {
-                // Draw a line between the two points to determine the angle below which a shadow is cast for rising light sources
-                byte newValue = GetAngle(x1, x, y).AngleToByte();
-                value2 = Math.Max(value2, newValue);
+                angle = occluded ? FindNextUnoccluded(x, y, angle) : FindNextOccluded(x, y, angle);
+                boundaries.Add(angle);
+                if (angle >= 255) break;
+
+                angle++;
+                occluded = !occluded;
             }
-            return value2;
+            return boundaries;
         }
 
-        private byte GetSetAngleByte(int x1, int y)
+        private static void RemoveShortestInterval(List<byte> boundaries)
         {
-            // Iterate through all points west of the current one
-            byte value1 = 255;
-            for (int x = 0; x < x1; x++)
+            int shortestIndex = 0;
+            int shortestDistance = boundaries[1] - boundaries[0];
+            for (int i = 1; i < boundaries.Count - 1; i++)
             {
-                // Draw a line between the two points to determine the angle above which a shadow is cast for setting light sources
-                byte newValue = GetAngle(x1, x, y).AngleToByte();
-                value1 = Math.Min(value1, newValue);
+                int distance = boundaries[i + 1] - boundaries[i];
+                if (distance < shortestDistance)
+                {
+                    shortestIndex = i;
+                    shortestDistance = distance;
+                }
             }
-            return value1;
+
+            boundaries.RemoveAt(shortestIndex + 1);
+            boundaries.RemoveAt(shortestIndex);
         }
 
-        /// <summary>
-        /// Calculates the angle between two points along the same Y-axis (degree of longitude) on the height-map.
-        /// </summary>
-        /// <param name="x1">The X-coordinate of the first point.</param>
-        /// <param name="x2">The X-coordinate of the second point.</param>
-        /// <param name="y">The shared Y-coordinate.</param>
-        /// <returns>An angle in radians moving counter-clockwise assuming <paramref name="x2"/> is larger than <paramref name="x1"/>.</returns>
-        private double GetAngle(int x1, int x2, int y)
+        private byte FindNextOccluded(int x, int y, byte startAngle)
         {
-            int xDist = x2 - x1;
-            float heightDist = (_heightMap[x2, y] - _heightMap[x1, y]).Clamp(0, 255);
-            return Math.Atan2(heightDist * _stretchV, xDist * _stretchH);
+            for (byte angle = startAngle; angle < 255; angle++)
+                if (IsOccluded(x, y, angle)) return angle;
+            return 255;
+        }
+
+        private byte FindNextUnoccluded(int x, int y, byte startAngle)
+        {
+            for (byte angle = startAngle; angle < 255; angle++)
+                if (!IsOccluded(x, y, angle)) return angle;
+            return 255;
+        }
+
+        private bool IsOccluded(int startX, int startY, byte angle)
+        {
+            var rayStep = _rayDirections[angle];
+            var startPoint = new Vector3(startX, SampleHeightMap(startX, startY), startY) + rayStep;
+
+            for (Vector3 rayPoint = startPoint; _heightMap.IsInRange(rayPoint.X, rayPoint.Z); rayPoint += rayStep)
+            {
+                float height = SampleHeightMap(rayPoint.X, rayPoint.Z);
+                if (height > rayPoint.Y) return true;
+            }
+            return false;
+        }
+
+        private float SampleHeightMap(float x, float y)
+        {
+            return _heightMap.SampledRead(x, y);
         }
         #endregion
     }

@@ -49,7 +49,7 @@ namespace TerrainSample.World
         #endregion
 
         #region Light phase
-        private float _lightPhase = 2;
+        private float _lightPhase;
 
         /// <summary>
         /// A value between 0 and 4 representing the current sun and moon positions. (0 = dawn, 1 = noon, 2 = dusk, 3 = midnight)
@@ -130,13 +130,13 @@ namespace TerrainSample.World
         [XmlElement("MoonColor"), LuaHide, Browsable(false)]
         public XColor MoonColorValue { get { return MoonColor; } set { MoonColor = Color.FromArgb(value.R, value.G, value.B); } }
 
-        private float _moonInclination = 110;
+        private float _moonInclination = 70;
 
         /// <summary>
         /// The angle of inclination of the second moon's path away from the horizon towards south in degrees.
         /// </summary>
         [Category("Lighting"), Description("The angle of inclination of the second moon's path away from the horizon towards south in degrees.")]
-        [DefaultValue(110f), Editor(typeof(AngleEditor), typeof(UITypeEditor))]
+        [DefaultValue(70f), Editor(typeof(AngleEditor), typeof(UITypeEditor))]
         public float MoonInclination
         {
             get { return _moonInclination; }
