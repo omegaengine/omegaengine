@@ -29,13 +29,13 @@ namespace OmegaEngine.Audio
         public string ID { get; private set; }
 
         /// <inheritdoc/>
-        public bool Playing { get { return false; /*return !_soundBuffer.Disposed && _soundBuffer.Status == BufferStatus.Playing;*/ } }
+        public bool Playing { get { return !_soundBuffer.Disposed && _soundBuffer.Status == BufferStatus.Playing; } }
 
         /// <inheritdoc/>
-        public bool Looping { get { return false; /*return !_soundBuffer.Disposed && _soundBuffer.Status == BufferStatus.Looping;*/ } }
+        public bool Looping { get { return !_soundBuffer.Disposed && _soundBuffer.Status == BufferStatus.Looping; } }
 
         /// <inheritdoc/>>
-        public int Volume { get { return 0; /*return _soundBuffer.Volume*/ } set { ; /*_soundBuffer.Volume = value;*/ } }
+        public int Volume { get { return _soundBuffer.Volume; } set { _soundBuffer.Volume = value; } }
         #endregion
 
         #region Constructor
@@ -87,14 +87,12 @@ namespace OmegaEngine.Audio
         {
             base.OnEngineSet();
 
-            //var description = new SoundBufferDescription
-            //{
-            //    //Format = sound.SoundFormat,
-            //    //SizeInBytes = (int)sound.SoundData.Length,
-            //    Flags = BufferFlags.ControlVolume
-            //};
-            //
-            //SoundBuffer = new SecondarySoundBuffer(engine.SoundDevice, description);
+            var description = new SoundBufferDescription
+            {
+                Flags = BufferFlags.ControlVolume
+            };
+
+            _soundBuffer = new SecondarySoundBuffer(Engine.AudioDevice, description);
         }
         #endregion
 

@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -67,24 +66,20 @@ namespace OmegaEngine.Audio
         /// <param name="id">The ID of the library file to load</param>
         public void LoadLibrary(string id)
         {
-            var lines = new StringCollection();
-
-            // Read all lines from the file
             using (var stream = ContentManager.GetFileStream("Music", id))
             {
                 var streamReader = new StreamReader(stream);
-                do lines.Add(streamReader.ReadLine()); while (!streamReader.EndOfStream);
-            }
+                while (!streamReader.EndOfStream)
+                {
+                    string line = streamReader.ReadLine();
+                    if (line == null) break;
+                    if (line.StartsWith("#")) continue;
 
-            // Parse all lines...
-            foreach (string line in lines)
-            {
-                if (line == null) break;
-
-                // ... formatted as Song|Theme1,Theme2,Theme3,...
-                string[] values = line.Split('|');
-                string[] songThemes = values[1].Split(',');
-                AddSong(values[0], songThemes);
+                    // Lines formatted as Song|Theme1,Theme2,Theme3,...
+                    string[] values = line.Split('|');
+                    string[] songThemes = values[1].Split(',');
+                    AddSong(values[0], songThemes);
+                }
             }
         }
         #endregion
