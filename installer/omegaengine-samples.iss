@@ -25,8 +25,8 @@ winxpsp2_title=Windows XP Service Pack 2
 appname={#AppName}
 
 [Setup]
-OutputDir=..\build\Setup
-OutputBaseFilename=omegaengine-samples-{#Version}
+OutputDir=..\build\Installer
+OutputBaseFilename=omegaengine-samples
 
 ;General settings
 ShowLanguageDialog=auto

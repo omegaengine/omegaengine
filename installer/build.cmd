@@ -20,9 +20,9 @@ cd /d "%~dp0"
 if errorlevel 1 pause
 
 
-if "%1"=="+run" "%~dp0..\build\Installer\omegaengine-samples-%version%.iss" /silent
-if "%2"=="+run" "%~dp0..\build\Installer\omegaengine-samples-%version%.iss" /silent
-if "%3"=="+run" "%~dp0..\build\Installer\omegaengine-samples-%version%.iss" /silent
-if "%4"=="+run" "%~dp0..\build\Installer\omegaengine-samples-%version%.iss" /silent
+if "%1"=="+run" "%~dp0..\build\Installer\omegaengine-samples.iss" /silent
+if "%2"=="+run" "%~dp0..\build\Installer\omegaengine-samples.iss" /silent
+if "%3"=="+run" "%~dp0..\build\Installer\omegaengine-samples.iss" /silent
+if "%4"=="+run" "%~dp0..\build\Installer\omegaengine-samples.iss" /silent
 
 :end

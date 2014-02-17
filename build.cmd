@@ -6,7 +6,6 @@ if "%2"=="+doc" set BUILD_DOC=TRUE
 if "%3"=="+doc" set BUILD_DOC=TRUE
 if "%4"=="+doc" set BUILD_DOC=TRUE
 
-::Always create release build and setup
 echo.
 call "%~dp0src\build.cmd" Release
 echo.
@@ -24,4 +23,4 @@ if "%BUILD_DOC%"=="TRUE" (
   call "%~dp0src\build.cmd" Debug
   echo.
   call "%~dp0doc\build.cmd"
-)setup
+)
