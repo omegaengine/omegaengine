@@ -16,7 +16,7 @@ call "%~dp0nuget\build.cmd" %*
 echo.
 call "%~dp0templates\build.cmd" %*
 echo.
-call "%~dp0setup\build.cmd" %*
+call "%~dp0installer\build.cmd" %*
 
 ::Optionally create debug build and documentation
 if "%BUILD_DOC%"=="TRUE" (
@@ -24,4 +24,4 @@ if "%BUILD_DOC%"=="TRUE" (
   call "%~dp0src\build.cmd" Debug
   echo.
   call "%~dp0doc\build.cmd"
-)
+)setup
