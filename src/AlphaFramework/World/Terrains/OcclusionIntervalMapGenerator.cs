@@ -137,40 +137,45 @@ namespace AlphaFramework.World.Terrains
         #endregion
 
         #region Calculation
+        // NOTE: Recycles List<> to reduce pressue on garbage collector
+        [ThreadStatic]
+        private static List<byte> _boundaries;
+
         private ByteVector4 GetOcclusionVector(int x, int y)
         {
-            var boundaries = GetBoundaries(x, y);
-            while (boundaries.Count < 4) boundaries.Add(255);
-            if (boundaries.Count % 2 == 1) boundaries.Add(255);
-            while (boundaries.Count > 4) RemoveShortestInterval(boundaries);
+            if (_boundaries == null) _boundaries = new List<byte>();
+            else _boundaries.Clear();
 
-            return new ByteVector4(boundaries[0], boundaries[1], boundaries[2], boundaries[3]);
+            CalculateBoundaries(x, y);
+            while (_boundaries.Count < 4) _boundaries.Add(255);
+            if (_boundaries.Count % 2 == 1) _boundaries.Add(255);
+            while (_boundaries.Count > 4) RemoveShortestInterval();
+
+            return new ByteVector4(_boundaries[0], _boundaries[1], _boundaries[2], _boundaries[3]);
         }
 
-        private List<byte> GetBoundaries(int x, int y)
+        private void CalculateBoundaries(int x, int y)
         {
             bool occluded = true;
             byte angle = 0;
-            var boundaries = new List<byte>();
             while (true)
             {
                 angle = occluded ? FindNextUnoccluded(x, y, angle) : FindNextOccluded(x, y, angle);
-                boundaries.Add(angle);
+                _boundaries.Add(angle);
                 if (angle >= 255) break;
 
                 angle++;
                 occluded = !occluded;
             }
-            return boundaries;
         }
 
-        private static void RemoveShortestInterval(List<byte> boundaries)
+        private static void RemoveShortestInterval()
         {
             int shortestIndex = 0;
-            int shortestDistance = boundaries[1] - boundaries[0];
-            for (int i = 1; i < boundaries.Count - 1; i++)
+            int shortestDistance = _boundaries[1] - _boundaries[0];
+            for (int i = 1; i < _boundaries.Count - 1; i++)
             {
-                int distance = boundaries[i + 1] - boundaries[i];
+                int distance = _boundaries[i + 1] - _boundaries[i];
                 if (distance < shortestDistance)
                 {
                     shortestIndex = i;
@@ -178,8 +183,8 @@ namespace AlphaFramework.World.Terrains
                 }
             }
 
-            boundaries.RemoveAt(shortestIndex + 1);
-            boundaries.RemoveAt(shortestIndex);
+            _boundaries.RemoveAt(shortestIndex + 1);
+            _boundaries.RemoveAt(shortestIndex);
         }
 
         private byte FindNextOccluded(int x, int y, byte startAngle)
