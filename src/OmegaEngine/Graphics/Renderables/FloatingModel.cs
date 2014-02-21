@@ -60,7 +60,7 @@ namespace OmegaEngine.Graphics.Renderables
 
         #region Render
         /// <inheritdoc />
-        internal override void Render(Camera camera, GetLights lights)
+        internal override void Render(Camera camera, GetLights getLights = null)
         {
             // Note: Doesn't call base methods
             PrepareRender();
@@ -83,9 +83,9 @@ namespace OmegaEngine.Graphics.Renderables
             // Never light a floating model
             SurfaceEffect = SurfaceEffect.Plain;
 
-            var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain)
+            var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getLights == null)
                 ? new LightSource[0]
-                : lights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
+                : getLights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
             for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, effectiveLights);
         }
         #endregion

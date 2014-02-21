@@ -331,7 +331,7 @@ namespace OmegaEngine.Graphics.Renderables
 
         #region Render
         /// <inheritdoc />
-        internal override void Render(Camera camera, GetLights lights)
+        internal override void Render(Camera camera, GetLights getLights = null)
         {
             #region Sanity checks
             if (IsDisposed) throw new ObjectDisposedException(ToString());
@@ -361,7 +361,7 @@ namespace OmegaEngine.Graphics.Renderables
                 if (DrawBoundingBox && WorldBoundingBox.HasValue) Engine.DrawBoundingBox(WorldBoundingBox.Value);
             }
 
-            base.Render(camera, lights);
+            base.Render(camera, getLights);
         }
         #endregion
 

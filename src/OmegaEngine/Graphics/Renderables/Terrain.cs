@@ -259,10 +259,10 @@ namespace OmegaEngine.Graphics.Renderables
 
         #region Render
         /// <inheritdoc />
-        internal override void Render(Camera camera, GetLights lights)
+        internal override void Render(Camera camera, GetLights getLights = null)
         {
             #region Sanity checks
-            if (lights == null) throw new ArgumentNullException("lights");
+            if (getLights == null) throw new ArgumentNullException("getLights");
             #endregion
 
             // Rendering this without a shader isn't possible (non-standard FVF)
@@ -275,7 +275,7 @@ namespace OmegaEngine.Graphics.Renderables
             // Update bounding bodies
             if (WorldTransformDirty) RecalcWorldTransform();
 
-            for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, lights);
+            for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, getLights);
         }
 
         private void RenderSubset(int i, Camera camera, GetLights lights)

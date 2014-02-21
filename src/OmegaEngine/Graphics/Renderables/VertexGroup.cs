@@ -214,9 +214,9 @@ namespace OmegaEngine.Graphics.Renderables
 
         #region Render
         /// <inheritdoc />
-        internal override void Render(Camera camera, GetLights lights)
+        internal override void Render(Camera camera, GetLights getLights = null)
         {
-            base.Render(camera, lights);
+            base.Render(camera, getLights);
             Engine.State.WorldTransform = WorldTransform;
 
             #region Draw
@@ -238,9 +238,9 @@ namespace OmegaEngine.Graphics.Renderables
             }
 
             // Handle lights for fixed-function or shader rendering
-            var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain)
+            var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getLights == null)
                 ? new LightSource[0]
-                : lights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
+                : getLights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
             RenderHelper(render, _material, camera, effectiveLights);
             #endregion
         }

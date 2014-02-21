@@ -143,7 +143,7 @@ namespace OmegaEngine.Graphics
                     {
                         // ReSharper disable once AccessToForEachVariableInClosure
                         using (new ProfilerEvent(() => "Render " + model))
-                            model.Render(Camera, null);
+                            model.Render(Camera);
                     }
                 }
             }
@@ -195,7 +195,7 @@ namespace OmegaEngine.Graphics
                     Engine.State.ZBufferMode = ZBufferMode.Off;
                     Engine.State.ViewTransform = Camera.SimpleView;
                     Engine.State.ProjectionTransform = Camera.SimpleProjection;
-                    _scene.Skybox.Render(Camera, null);
+                    _scene.Skybox.Render(Camera);
                     Engine.State.ZBufferMode = ZBufferMode.Normal;
                 }
             }

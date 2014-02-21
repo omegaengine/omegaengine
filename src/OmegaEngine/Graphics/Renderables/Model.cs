@@ -9,7 +9,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
@@ -160,14 +159,14 @@ namespace OmegaEngine.Graphics.Renderables
 
         #region Render
         /// <inheritdoc />
-        internal override void Render(Camera camera, GetLights lights)
+        internal override void Render(Camera camera, GetLights getLights = null)
         {
-            base.Render(camera, lights);
+            base.Render(camera, getLights);
             Engine.State.WorldTransform = WorldTransform;
 
-            var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain)
+            var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getLights == null)
                 ? new LightSource[0]
-                : lights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
+                : getLights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
             for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, effectiveLights);
         }
 

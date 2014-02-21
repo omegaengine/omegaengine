@@ -129,8 +129,8 @@ namespace OmegaEngine.Graphics.Renderables
         /// To be called when this object ist to be rendered.
         /// </summary>
         /// <param name="camera">Supplies information for the view transformation.</param>
-        /// <param name="lights">A delegate that will be called to get lighting information.</param>
-        internal virtual void Render(Camera camera, GetLights lights)
+        /// <param name="getLights">A delegate that will be called to get lighting information.</param>
+        internal virtual void Render(Camera camera, GetLights getLights = null)
         {
             PrepareRender();
         }

@@ -9,7 +9,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Assets;
 
@@ -71,9 +70,9 @@ namespace OmegaEngine.Graphics.Renderables
 
         #region Render
         /// <inheritdoc />
-        internal override void Render(Camera camera, GetLights lights)
+        internal override void Render(Camera camera, GetLights getLights = null)
         {
-            base.Render(camera, lights);
+            base.Render(camera, getLights);
             Engine.State.WorldTransform = WorldTransform;
 
             // ToDo: Implement rendering

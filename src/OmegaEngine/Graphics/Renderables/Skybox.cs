@@ -49,9 +49,9 @@ namespace OmegaEngine.Graphics.Renderables
         }
 
         /// <inheritdoc />
-        internal override void Render(Camera camera, GetLights lights)
+        internal override void Render(Camera camera, GetLights getLights = null)
         {
-            base.Render(camera, lights);
+            base.Render(camera, getLights);
 
             // Scale by factor 3, which should be safe within a simple projection matrix (near=1 and far=10)
             Engine.State.WorldTransform = Matrix.Scaling(3, 3, 3);
