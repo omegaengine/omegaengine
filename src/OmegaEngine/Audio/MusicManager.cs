@@ -166,14 +166,12 @@ namespace OmegaEngine.Audio
                 if (_themes[theme].Contains(_currentSong)) return;
 
             // Find all songs that match the new theme
-            var possibleSongs = _themes[_currentTheme];
-            var possibleSongsArray = new Song[possibleSongs.Count];
-            possibleSongs.CopyTo(possibleSongsArray, 0);
+            var possibleSongs = _themes[_currentTheme].ToArray();
 
-            if (possibleSongs.Count > 0)
+            if (possibleSongs.Length > 0)
             {
                 // Plays a randomly selected song from the theme
-                PlaySong(possibleSongsArray[RandomUtils.GetRandomInt(0, possibleSongsArray.Length - 1)]);
+                PlaySong(possibleSongs[RandomUtils.GetRandomInt(0, possibleSongs.Length - 1)]);
             }
         }
 

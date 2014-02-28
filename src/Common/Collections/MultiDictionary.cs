@@ -174,13 +174,12 @@ namespace Common.Collections
         /// </summary>
         /// <param name="key">The key of the element to get.</param>
         /// <returns>A list of elements with the specified key. Empty list if the key was not found.</returns>
-        public ICollection<TValue> this[TKey key]
+        public IEnumerable<TValue> this[TKey key]
         {
             get
             {
                 HashSet<TValue> result;
-                if (_dictionary.TryGetValue(key, out result)) return result.ToList(); // defensive copy
-                else return new TValue[0];
+                return _dictionary.TryGetValue(key, out result) ? result : Enumerable.Empty<TValue>();
             }
         }
         #endregion
