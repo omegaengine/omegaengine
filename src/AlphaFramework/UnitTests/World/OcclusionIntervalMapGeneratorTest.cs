@@ -37,7 +37,7 @@ namespace AlphaFramework.World
         public void TestMinimal1()
         {
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}));
-            generator.RunSync();
+            generator.Run();
 
             Assert.AreEqual(new ByteVector4(38, 255, 255, 255), generator.Result[0, 0]);
             Assert.AreEqual(new ByteVector4(64, 255, 255, 255), generator.Result[1, 0]);
@@ -48,7 +48,7 @@ namespace AlphaFramework.World
         public void TestMinimal2()
         {
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{1, 0}, {1, 0}, {2, 1}}));
-            generator.RunSync();
+            generator.Run();
 
             Assert.AreEqual(new ByteVector4(38, 255, 255, 255), generator.Result[0, 0]);
             Assert.AreEqual(new ByteVector4(38, 255, 255, 255), generator.Result[0, 1]);
@@ -62,7 +62,7 @@ namespace AlphaFramework.World
         public void TestMinimal3()
         {
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0, 0}, {0, 0}, {1, 225}}));
-            generator.RunSync();
+            generator.Run();
 
             Assert.AreEqual(new ByteVector4(38, 255, 255, 255), generator.Result[0, 0]);
             Assert.AreEqual(new ByteVector4(127, 255, 255, 255), generator.Result[0, 1]);
@@ -76,7 +76,7 @@ namespace AlphaFramework.World
         public void TestStretchV()
         {
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchV: 2);
-            generator.RunSync();
+            generator.Run();
 
             Assert.AreEqual(new ByteVector4(64, 255, 255, 255), generator.Result[0, 0]);
             Assert.AreEqual(new ByteVector4(90, 255, 255, 255), generator.Result[1, 0]);
@@ -87,7 +87,7 @@ namespace AlphaFramework.World
         public void TestStretchH()
         {
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchH: 2);
-            generator.RunSync();
+            generator.Run();
 
             Assert.AreEqual(new ByteVector4(20, 255, 255, 255), generator.Result[0, 0]);
             Assert.AreEqual(new ByteVector4(38, 255, 255, 255), generator.Result[1, 0]);

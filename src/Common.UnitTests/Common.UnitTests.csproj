@@ -69,8 +69,6 @@
     <Compile Include="Collections\MergeTest.cs" />
     <Compile Include="Collections\TransparentCacheTest.cs" />
     <Compile Include="Collections\XmlDictionaryTest.cs" />
-    <Compile Include="Controls\TrackingLabelTest.cs" />
-    <Compile Include="Controls\TrackingProgressBarTest.cs" />
     <Compile Include="Dispatch\AggregateDispatcherTest.cs" />
     <Compile Include="Dispatch\ModelViewSyncTest.cs" />
     <Compile Include="Dispatch\PerTypeDispatcherTest.cs" />
@@ -80,11 +78,9 @@
     <Compile Include="Storage\LocationsRedirect.cs" />
     <Compile Include="Storage\XmlStorageTest.cs" />
     <Compile Include="Streams\CircularBufferStreamTest.cs" />
-    <Compile Include="Streams\OffsetStreamTest.cs" />
     <Compile Include="Tasks\CopyDirectoryTest.cs" />
     <Compile Include="Tasks\DownloadFileTest.cs" />
     <Compile Include="Tasks\ForEachTaskTest.cs" />
-    <Compile Include="Tasks\MockTask.cs" />
     <Compile Include="Tasks\SimpleTaskTest.cs" />
     <Compile Include="Tasks\WaitTaskTest.cs" />
     <Compile Include="TemporayDirectoryTest.cs" />

@@ -34,26 +34,13 @@ namespace Common.Tasks
     public class ForEachTaskTest
     {
         [Test(Description = "Ensures the work delegate gets called synchronously.")]
-        public void TestCallbackSync()
+        public void TestCallback()
         {
             var target = new[] {"element1", "element2", "element2"};
             var calledFor = new List<string>();
 
             var task = new ForEachTask<string>("Test task", target, calledFor.Add);
-            task.RunSync();
-
-            CollectionAssert.AreEqual(target, calledFor);
-        }
-
-        [Test(Description = "Ensures the work delegate gets called asynchronously.")]
-        public void TestCallbackAsync()
-        {
-            var target = new[] {"element1", "element2", "element2"};
-            var calledFor = new List<string>();
-
-            var task = new ForEachTask<string>("Test task", target, calledFor.Add);
-            task.Start();
-            task.Join();
+            task.Run();
 
             CollectionAssert.AreEqual(target, calledFor);
         }
@@ -61,8 +48,8 @@ namespace Common.Tasks
         [Test(Description = "Ensures exceptions from the work delegate get correctly passed through.")]
         public void TestExceptionPassing()
         {
-            Assert.Throws<IOException>(() => new ForEachTask<string>("Test task", new[] {""}, delegate { throw new IOException("Test exception"); }).RunSync());
-            Assert.Throws<WebException>(() => new ForEachTask<string>("Test task", new[] {""}, delegate { throw new WebException("Test exception"); }).RunSync());
+            Assert.Throws<IOException>(() => new ForEachTask<string>("Test task", new[] {""}, delegate { throw new IOException("Test exception"); }).Run());
+            Assert.Throws<WebException>(() => new ForEachTask<string>("Test task", new[] {""}, delegate { throw new WebException("Test exception"); }).Run());
         }
     }
 }

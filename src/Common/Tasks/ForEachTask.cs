@@ -30,7 +30,7 @@ namespace Common.Tasks
     /// <summary>
     /// A task that performs an operation once for each element of a collection.
     /// </summary>
-    public sealed class ForEachTask<T> : ThreadTask
+    public sealed class ForEachTask<T> : TaskBase
     {
         #region Variables
         /// <summary>A list of objects to execute work for. Cancellation is possible between two elements.</summary>
@@ -79,13 +79,13 @@ namespace Common.Tasks
 
         #region Thread code
         /// <inheritdoc/>
-        protected override void RunTask()
+        protected override void Execute()
         {
             lock (StateLock) State = TaskState.Data;
 
             foreach (var element in _target)
             {
-                ThrowIfCancellationRequested();
+                CancellationToken.ThrowIfCancellationRequested();
                 _work(element);
                 lock (StateLock) UnitsProcessed++;
             }

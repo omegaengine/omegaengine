@@ -22,7 +22,7 @@ namespace AlphaFramework.World.Terrains
     /// Generates an occlusion interval map from a height map for a <see cref="ITerrain"/> as a background task.
     /// </summary>
     /// <seealso cref="ITerrain.OcclusionIntervalMap"/>
-    public class OcclusionIntervalMapGenerator : ThreadTask
+    public class OcclusionIntervalMapGenerator : TaskBase
     {
         #region Variables
         private readonly ByteGrid _heightMap;
@@ -117,7 +117,7 @@ namespace AlphaFramework.World.Terrains
         public override bool CanCancel { get { return Parallel.ThreadsCount == 1; } }
 
         /// <inheritdoc />
-        protected override void RunTask()
+        protected override void Execute()
         {
             _result = new ByteVector4Grid(_heightMap.Width, _heightMap.Height);
 
@@ -129,7 +129,7 @@ namespace AlphaFramework.World.Terrains
                     _result[x, y] = GetOcclusionVector(x, y);
 
                 lock (StateLock) UnitsProcessed += _heightMap.Height;
-                if (Parallel.ThreadsCount == 1 && CancelRequest.WaitOne(0)) throw new OperationCanceledException();
+                if (Parallel.ThreadsCount == 1) CancellationToken.ThrowIfCancellationRequested();
             });
 
             lock (StateLock) State = TaskState.Complete;

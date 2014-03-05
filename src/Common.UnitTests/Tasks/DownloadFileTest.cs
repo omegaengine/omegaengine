@@ -56,61 +56,34 @@ namespace Common.Tasks
             _tempFile.Dispose();
         }
 
-        [Test(Description = "Downloads a small file using RunSync().")]
+        [Test(Description = "Downloads a small file using Run().")]
         public void TestRunSync()
         {
             // Download the file
             var download = new DownloadFile(_server.FileUri, _tempFile);
-            download.RunSync();
+            download.Run();
 
             // Read the file
             string fileContent = File.ReadAllText(_tempFile);
 
             // Ensure the download was successful and the file is identical
-            Assert.AreEqual(TaskState.Complete, download.State, download.ErrorMessage);
+            Assert.AreEqual(TaskState.Complete, download.State);
             Assert.AreEqual(TestFileContent, fileContent, "Downloaded file doesn't match original");
         }
 
-        [Test(Description = "Downloads a small file using Start() and Join().")]
-        public void TestThread()
-        {
-            // Start a background download of the file and then wait
-            var download = new DownloadFile(_server.FileUri, _tempFile);
-            download.Start();
-            download.Join();
-
-            // Read the file
-            string fileContent = File.ReadAllText(_tempFile);
-
-            // Ensure the download was successful and the file is identical
-            Assert.AreEqual(TaskState.Complete, download.State, download.ErrorMessage);
-            Assert.AreEqual(TestFileContent, fileContent, "Downloaded file doesn't match original");
-        }
-
-        [Test(Description = "Starts downloading a small file using Start() and stops again right away using Cancel().")]
-        public void TestCancelAsync()
-        {
-            // Start a very slow download of the file and then cancel it right away again
-            _server.Slow = true;
-            var download = new DownloadFile(_server.FileUri, _tempFile);
-            download.Start();
-            download.Cancel();
-
-            Assert.AreEqual(TaskState.Ready, download.State);
-        }
-
-        [Test(Description = "Starts downloading a small file using RunSync() and stops again right away using Cancel().")]
+        [Test(Description = "Starts downloading a small file using Run() and stops again right away using Cancel().")]
         public void TestCancelSync()
         {
             // Prepare a very slow download of the file and monitor for a cancellation exception
             _server.Slow = true;
             var download = new DownloadFile(_server.FileUri, _tempFile);
             bool exceptionThrown = false;
+            var cancellationTokenSource = new CancellationTokenSource();
             var downloadThread = new Thread(() =>
             {
                 try
                 {
-                    download.RunSync();
+                    download.Run(cancellationTokenSource.Token);
                 }
                 catch (OperationCanceledException)
                 {
@@ -121,7 +94,7 @@ namespace Common.Tasks
             // Start and then cancel the download
             downloadThread.Start();
             Thread.Sleep(100);
-            download.Cancel();
+            cancellationTokenSource.Cancel();
             downloadThread.Join();
 
             Assert.IsTrue(exceptionThrown, download.State.ToString());
@@ -131,7 +104,7 @@ namespace Common.Tasks
         public void TestIncorrectSize()
         {
             var download = new DownloadFile(_server.FileUri, _tempFile, 1024);
-            Assert.Throws<WebException>(() => download.RunSync());
+            Assert.Throws<WebException>(() => download.Run());
         }
     }
 }

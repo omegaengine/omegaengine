@@ -37,6 +37,7 @@ using AlphaFramework.World.Terrains;
 using Common;
 using Common.Controls;
 using Common.Storage;
+using Common.Tasks;
 using Common.Undo;
 using Common.Utils;
 using ICSharpCode.SharpZipLib.Zip;
@@ -208,7 +209,7 @@ namespace TerrainSample.Editor.World
                 try
                 {
                     var generator = OcclusionIntervalMapGenerator.FromTerrain(_universe.Terrain, _universe.SunInclination);
-                    TrackingDialog.Run(this, generator);
+                    using (var handler = new GuiTaskHandler(this)) handler.RunTask(generator);
 
                     _universe.Terrain.OcclusionIntervalMap = generator.Result;
                     _universe.Terrain.OcclusionIntervalMapOutdated = false;

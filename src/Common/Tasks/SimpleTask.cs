@@ -29,7 +29,7 @@ namespace Common.Tasks
     /// <summary>
     /// A delegate-driven task that cannot be canceled. Only completion is reported, no intermediate progress.
     /// </summary>
-    public sealed class SimpleTask : ThreadTask
+    public sealed class SimpleTask : TaskBase
     {
         #region Variables
         /// <summary>The code to be executed by the task. May throw <see cref="WebException"/>, <see cref="IOException"/> or <see cref="OperationCanceledException"/>.</summary>
@@ -71,7 +71,7 @@ namespace Common.Tasks
 
         #region Thread code
         /// <inheritdoc/>
-        protected override void RunTask()
+        protected override void Execute()
         {
             _work();
 

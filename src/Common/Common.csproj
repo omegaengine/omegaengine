@@ -10,10 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Common</RootNamespace>
     <AssemblyName>Common</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>..\sgKey.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -224,12 +224,6 @@
     <Compile Include="Controls\TrackingControl.Designer.cs">
       <DependentUpon>TrackingControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TrackingDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\TrackingDialog.Designer.cs">
-      <DependentUpon>TrackingDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\TrackingLabel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -291,7 +285,6 @@
     <Compile Include="Storage\XmlStorage.cs" />
     <Compile Include="Streams\CircularBufferStream.cs" />
     <Compile Include="Streams\DisposeWrapperStream.cs" />
-    <Compile Include="Streams\OffsetStream.cs" />
     <Compile Include="Tasks\CancellationToken.cs" />
     <Compile Include="Tasks\CancellationTokenRegistration.cs" />
     <Compile Include="Tasks\CancellationTokenSource.cs" />
@@ -303,8 +296,14 @@
     <Compile Include="Tasks\ITaskHandler.cs" />
     <Compile Include="Tasks\SilentTaskHandler.cs" />
     <Compile Include="Tasks\SimpleTask.cs" />
+    <Compile Include="Tasks\TaskBase.cs" />
     <Compile Include="Tasks\TaskState.cs" />
-    <Compile Include="Tasks\ThreadTask.cs" />
+    <Compile Include="Tasks\TrackingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tasks\TrackingDialog.Designer.cs">
+      <DependentUpon>TrackingDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tasks\WaitTask.cs" />
     <Compile Include="TimedLogEvent.cs" />
     <Compile Include="Undo\AddToCollection.cs" />

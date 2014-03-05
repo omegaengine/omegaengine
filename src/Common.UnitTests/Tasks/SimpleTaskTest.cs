@@ -33,24 +33,12 @@ namespace Common.Tasks
     public class SimpleTaskTest
     {
         [Test(Description = "Ensures the work delegate gets called synchronously.")]
-        public void TestCallbackSync()
+        public void TestCallback()
         {
             bool called = false;
 
             var task = new SimpleTask("Test task", () => called = true);
-            task.RunSync();
-
-            Assert.IsTrue(called);
-        }
-
-        [Test(Description = "Ensures the work delegate gets called asynchronously.")]
-        public void TestCallbackAsync()
-        {
-            bool called = false;
-
-            var task = new SimpleTask("Test task", () => called = true);
-            task.Start();
-            task.Join();
+            task.Run();
 
             Assert.IsTrue(called);
         }
@@ -58,8 +46,8 @@ namespace Common.Tasks
         [Test(Description = "Ensures exceptions from the work delegate get correctly passed through.")]
         public void TestExceptionPassing()
         {
-            Assert.Throws<IOException>(() => new SimpleTask("Test task", delegate { throw new IOException("Test exception"); }).RunSync());
-            Assert.Throws<WebException>(() => new SimpleTask("Test task", delegate { throw new WebException("Test exception"); }).RunSync());
+            Assert.Throws<IOException>(() => new SimpleTask("Test task", delegate { throw new IOException("Test exception"); }).Run());
+            Assert.Throws<WebException>(() => new SimpleTask("Test task", delegate { throw new WebException("Test exception"); }).Run());
         }
     }
 }
