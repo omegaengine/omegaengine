@@ -285,6 +285,7 @@
     <Compile Include="Storage\XmlStorage.cs" />
     <Compile Include="Streams\CircularBufferStream.cs" />
     <Compile Include="Streams\DisposeWrapperStream.cs" />
+    <Compile Include="Streams\StreamExtensions.cs" />
     <Compile Include="Tasks\CancellationToken.cs" />
     <Compile Include="Tasks\CancellationTokenRegistration.cs" />
     <Compile Include="Tasks\CancellationTokenSource.cs" />
@@ -333,7 +334,6 @@
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\ProcessUtils.cs" />
     <Compile Include="Utils\RandomUtils.cs" />
-    <Compile Include="Utils\StreamUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\UpdateUtils.cs" />
     <Compile Include="Utils\WindowsUtils.cs" />

@@ -9,6 +9,7 @@
 using System;
 using System.IO;
 using Common;
+using Common.Streams;
 using Common.Utils;
 using Common.Storage;
 using SlimDX.Multimedia;

@@ -24,6 +24,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using Common.Streams;
 using Common.Utils;
 
 namespace Common.Values

@@ -26,6 +26,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Common.Collections;
 using Common.Properties;
+using Common.Streams;
 using Common.Utils;
 using ICSharpCode.SharpZipLib.Zip;
 

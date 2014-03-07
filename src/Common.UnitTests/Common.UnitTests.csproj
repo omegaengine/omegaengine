@@ -78,6 +78,7 @@
     <Compile Include="Storage\LocationsRedirect.cs" />
     <Compile Include="Storage\XmlStorageTest.cs" />
     <Compile Include="Streams\CircularBufferStreamTest.cs" />
+    <Compile Include="Streams\StreamExtensionsTest.cs" />
     <Compile Include="Tasks\CopyDirectoryTest.cs" />
     <Compile Include="Tasks\DownloadFileTest.cs" />
     <Compile Include="Tasks\ForEachTaskTest.cs" />
@@ -93,7 +94,6 @@
     <Compile Include="Undo\SetLocalizableStringTest.cs" />
     <Compile Include="Utils\FileUtilsTest.cs" />
     <Compile Include="Utils\MathUtilsTest.cs" />
-    <Compile Include="Utils\StreamUtilsTest.cs" />
     <Compile Include="Utils\StringUtilsTest.cs" />
     <Compile Include="Values\ByteGridTest.cs" />
     <Compile Include="Values\ByteVector4GridTest.cs" />

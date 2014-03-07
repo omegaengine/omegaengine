@@ -32,6 +32,7 @@ using Common.Properties;
 using System.ComponentModel;
 using System.Security.AccessControl;
 using System.Security.Principal;
+
 #endif
 
 namespace Common.Utils
@@ -175,13 +176,13 @@ namespace Common.Utils
             return tempDir;
         }
         #endregion
-        
+
         #region Replace
         /// <summary>
         /// Replaces one file with another. Rolls back in case of problems.
         /// </summary>
-        /// <param name="sourcePath">The path of source directory. Must exist!</param>
-        /// <param name="destinationPath">The path of the target directory. Must not exist!</param>
+        /// <param name="sourcePath">The path of source directory.</param>
+        /// <param name="destinationPath">The path of the target directory. Must reside on the same file system as <paramref name="sourcePath"/>.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="sourcePath"/> and <paramref name="destinationPath"/> are equal.</exception>
         /// <exception cref="IOException">Thrown if the file could not be replaced.</exception>
         /// <exception cref="UnauthorizedAccessException">Thrown if the read or write access to the files was denied.</exception>
@@ -193,44 +194,35 @@ namespace Common.Utils
             if (sourcePath == destinationPath) throw new ArgumentException(Resources.SourceDestinationEqual);
             #endregion
 
-            // Simply move if the destination does not exist
-            if (!File.Exists(destinationPath))
-            {
-                File.Move(sourcePath, destinationPath);
-                return;
-            }
-
             // Prepend random string for temp file name
             string directory = Path.GetDirectoryName(Path.GetFullPath(destinationPath));
             string backupPath = directory + Path.DirectorySeparatorChar + "backup." + Path.GetRandomFileName() + "." + Path.GetFileName(destinationPath);
 
-            switch (Environment.OSVersion.Platform)
+            if (WindowsUtils.IsWindowsNT)
             {
-                case PlatformID.Win32NT:
-                    // Use native replace method with temporary backup file for rollback
+                if (File.Exists(destinationPath))
+                {
                     File.Replace(sourcePath, destinationPath, backupPath, ignoreMetadataErrors: true);
                     File.Delete(backupPath);
-                    break;
-
-                case PlatformID.MacOSX:
-                case PlatformID.Unix:
-                    // TODO: Use POSIX move command
-
-                default:
-                    // Emulate replace method
-                    File.Move(destinationPath, backupPath);
-                    try
-                    {
-                        File.Move(sourcePath, destinationPath);
-                        File.Delete(backupPath);
-                    }
-                    catch
-                    {
-                        // Rollback
-                        File.Move(backupPath, destinationPath);
-                        throw;
-                    }
-                    break;
+                }
+                else File.Move(sourcePath, destinationPath);
+            }
+#if FS_SECURITY
+            else if (UnixUtils.IsUnix) UnixUtils.Rename(sourcePath, destinationPath);
+#endif
+            else
+            {
+                if (File.Exists(destinationPath)) File.Move(destinationPath, backupPath);
+                try
+                {
+                    File.Move(sourcePath, destinationPath);
+                    if (File.Exists(backupPath)) File.Delete(backupPath);
+                }
+                catch
+                { // Rollback
+                    if (File.Exists(backupPath)) File.Move(backupPath, destinationPath);
+                    throw;
+                }
             }
         }
         #endregion
@@ -348,7 +340,7 @@ namespace Common.Utils
             var allowed = new List<CommonAce>();
             var allowedObject = new List<CommonAce>();
             var inherited = new List<CommonAce>();
-            foreach (CommonAce ace in securityDescriptor.DiscretionaryAcl)
+            foreach (var ace in securityDescriptor.DiscretionaryAcl.Cast<CommonAce>())
             {
                 if ((ace.AceFlags & AceFlags.Inherited) == AceFlags.Inherited) inherited.Add(ace);
                 else
@@ -402,18 +394,8 @@ namespace Common.Utils
 
             var directory = new DirectoryInfo(path);
 
-            // Use only best method for platform
-            switch (Environment.OSVersion.Platform)
-            {
-                case PlatformID.Unix:
-                case PlatformID.MacOSX:
-                    directory.ToggleWriteProtectionUnix(true);
-                    break;
-
-                case PlatformID.Win32NT:
-                    directory.ToggleWriteProtectionWinNT(true);
-                    break;
-            }
+            if (UnixUtils.IsUnix) directory.ToggleWriteProtectionUnix(true);
+            else if (WindowsUtils.IsWindowsNT) directory.ToggleWriteProtectionWinNT(true);
         }
 
         /// <summary>
@@ -432,28 +414,20 @@ namespace Common.Utils
 
             var directory = new DirectoryInfo(path);
 
-            // Disable all applicable methods
-            switch (Environment.OSVersion.Platform)
+            if (UnixUtils.IsUnix) directory.ToggleWriteProtectionUnix(false);
+            else if (WindowsUtils.IsWindows)
             {
-                case PlatformID.Unix:
-                case PlatformID.MacOSX:
-                    ToggleWriteProtectionUnix(directory, false);
-                    break;
+                if (WindowsUtils.IsWindowsNT) directory.ToggleWriteProtectionWinNT(false);
 
-                case PlatformID.Win32NT:
-                    // Find NTFS ACL inheritance starting at any level
-                    Walk(directory, dir => dir.ToggleWriteProtectionWinNT(false));
-
-                    // Remove any classic read-only attributes
-                    try
-                    {
-                        Walk(directory,
-                            dir => dir.Attributes = FileAttributes.Normal,
-                            file => file.IsReadOnly = false);
-                    }
-                    catch (ArgumentException)
-                    {}
-                    break;
+                // Remove classic read-only attributes
+                try
+                {
+                    Walk(directory,
+                        dir => dir.Attributes = FileAttributes.Normal,
+                        file => file.IsReadOnly = false);
+                }
+                catch (ArgumentException)
+                {}
             }
         }
 
@@ -462,8 +436,8 @@ namespace Common.Utils
         {
             try
             {
-                if (enable) Walk(directory, dir => MonoUtils.MakeReadOnly(dir.FullName), file => MonoUtils.MakeReadOnly(file.FullName));
-                else Walk(directory, dir => MonoUtils.MakeWritable(dir.FullName), file => MonoUtils.MakeWritable(file.FullName));
+                if (enable) Walk(directory, dir => UnixUtils.MakeReadOnly(dir.FullName), file => UnixUtils.MakeReadOnly(file.FullName));
+                else Walk(directory, dir => UnixUtils.MakeWritable(dir.FullName), file => UnixUtils.MakeWritable(file.FullName));
             }
                 #region Error handling
             catch (InvalidOperationException ex)
@@ -513,11 +487,11 @@ namespace Common.Utils
             if (string.IsNullOrEmpty(target)) throw new ArgumentNullException("target");
             #endregion
 
-            if (MonoUtils.IsUnix)
+            if (UnixUtils.IsUnix)
             {
                 try
                 {
-                    MonoUtils.CreateSymlink(source, target);
+                    UnixUtils.CreateSymlink(source, target);
                 }
                     #region Error handling
                 catch (InvalidOperationException ex)
@@ -560,11 +534,11 @@ namespace Common.Utils
             if (string.IsNullOrEmpty(target)) throw new ArgumentNullException("target");
             #endregion
 
-            if (MonoUtils.IsUnix)
+            if (UnixUtils.IsUnix)
             {
                 try
                 {
-                    MonoUtils.CreateHardlink(source, target);
+                    UnixUtils.CreateHardlink(source, target);
                 }
                     #region Error handling
                 catch (InvalidOperationException ex)
@@ -592,6 +566,51 @@ namespace Common.Utils
             }
             else throw new PlatformNotSupportedException();
         }
+
+        /// <summary>
+        /// Determines whether to files are hardlinked.
+        /// </summary>
+        /// <param name="path1">The path of the first file.</param>
+        /// <param name="path2">The path of the second file.</param>
+        public static bool AreHardlinked(string path1, string path2)
+        {
+            #region Sanity checks
+            if (string.IsNullOrEmpty(path1)) throw new ArgumentNullException("path1");
+            if (string.IsNullOrEmpty(path2)) throw new ArgumentNullException("path2");
+            #endregion
+
+            if (UnixUtils.IsUnix)
+            {
+                try
+                {
+                    return UnixUtils.AreHardlinked(path1, path2);
+                }
+                    #region Error handling
+                catch (InvalidOperationException ex)
+                {
+                    throw new IOException(Resources.UnixSubsystemFail, ex);
+                }
+                catch (IOException ex)
+                {
+                    throw new IOException(Resources.UnixSubsystemFail, ex);
+                }
+                #endregion
+            }
+            else if (WindowsUtils.IsWindowsNT)
+            {
+                try
+                {
+                    return WindowsUtils.AreHardlinked(path1, path2);
+                }
+                    #region Error handling
+                catch (Win32Exception ex)
+                {
+                    throw new IOException(ex.Message, ex);
+                }
+                #endregion
+            }
+            else return false;
+        }
         #endregion
 
         #region Unix
@@ -606,11 +625,11 @@ namespace Common.Utils
             if (!File.Exists(path)) return false;
 
             // TODO: Detect special files on Windows
-            if (!MonoUtils.IsUnix) return true;
+            if (!UnixUtils.IsUnix) return true;
 
             try
             {
-                return MonoUtils.IsRegularFile(path);
+                return UnixUtils.IsRegularFile(path);
             }
                 #region Error handling
             catch (InvalidOperationException ex)
@@ -633,11 +652,11 @@ namespace Common.Utils
         /// <exception cref="UnauthorizedAccessException">Thrown if you have insufficient rights to query the file's properties.</exception>
         public static bool IsSymlink(string path)
         {
-            if ((!File.Exists(path) && !Directory.Exists(path)) || !MonoUtils.IsUnix) return false;
+            if ((!File.Exists(path) && !Directory.Exists(path)) || !UnixUtils.IsUnix) return false;
 
             try
             {
-                return MonoUtils.IsSymlink(path);
+                return UnixUtils.IsSymlink(path);
             }
                 #region Error handling
             catch (InvalidOperationException ex)
@@ -661,7 +680,7 @@ namespace Common.Utils
         /// <exception cref="UnauthorizedAccessException">Thrown if you have insufficient rights to query the file's properties.</exception>
         public static bool IsSymlink(string path, out string target)
         {
-            if ((!File.Exists(path) && !Directory.Exists(path)) || !MonoUtils.IsUnix)
+            if ((!File.Exists(path) && !Directory.Exists(path)) || !UnixUtils.IsUnix)
             {
                 target = null;
                 return false;
@@ -669,7 +688,7 @@ namespace Common.Utils
 
             try
             {
-                return MonoUtils.IsSymlink(path, out target);
+                return UnixUtils.IsSymlink(path, out target);
             }
                 #region Error handling
             catch (InvalidOperationException ex)
@@ -691,11 +710,11 @@ namespace Common.Utils
         /// <exception cref="UnauthorizedAccessException">Thrown if you have insufficient rights to query the file's properties.</exception>
         public static bool IsExecutable(string path)
         {
-            if (!File.Exists(path) || !MonoUtils.IsUnix) return false;
+            if (!File.Exists(path) || !UnixUtils.IsUnix) return false;
 
             try
             {
-                return MonoUtils.IsExecutable(path);
+                return UnixUtils.IsExecutable(path);
             }
                 #region Error handling
             catch (InvalidOperationException ex)
@@ -721,12 +740,12 @@ namespace Common.Utils
         {
             #region Sanity checks
             if (!File.Exists(path)) throw new FileNotFoundException("", path);
-            if (!MonoUtils.IsUnix) throw new PlatformNotSupportedException();
+            if (!UnixUtils.IsUnix) throw new PlatformNotSupportedException();
             #endregion
 
             try
             {
-                MonoUtils.SetExecutable(path, executable);
+                UnixUtils.SetExecutable(path, executable);
             }
                 #region Error handling
             catch (InvalidOperationException ex)

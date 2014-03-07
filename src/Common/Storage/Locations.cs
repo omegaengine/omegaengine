@@ -49,6 +49,7 @@ namespace Common.Storage
         /// <summary>
         /// The name of the flag file whose existence determines whether <see cref="IsPortable"/> is set to <see langword="true"/>.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Flag")]
         public const string PortableFlagName = "_portable";
 
         private static bool _isPortable = File.Exists(Path.Combine(InstallBase, PortableFlagName));
@@ -83,21 +84,9 @@ namespace Common.Storage
         {
             get
             {
-                switch (Environment.OSVersion.Platform)
-                {
-                    case PlatformID.MacOSX:
-                        // TODO: Use MacOS X-specific locations instead of POSIX subsytem
-
-                    case PlatformID.Unix:
-                        // Use XDG specification
-                        return GetEnvironmentVariable("XDG_CONFIG_HOME", Path.Combine(HomeDir, ".config"));
-
-                    default:
-                    case PlatformID.Win32Windows:
-                    case PlatformID.Win32NT:
-                        // Use XDG specification or Win32 API
-                        return GetEnvironmentVariable("XDG_CONFIG_HOME", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
-                }
+                return GetEnvironmentVariable("XDG_CONFIG_HOME", WindowsUtils.IsWindows
+                    ? Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+                    : Path.Combine(HomeDir, ".config"));
             }
         }
 
@@ -109,21 +98,9 @@ namespace Common.Storage
         {
             get
             {
-                switch (Environment.OSVersion.Platform)
-                {
-                    case PlatformID.MacOSX:
-                        // TODO: Use MacOS X-specific locations instead of POSIX subsytem
-
-                    case PlatformID.Unix:
-                        // Use XDG specification
-                        return GetEnvironmentVariable("XDG_DATA_HOME", Path.Combine(HomeDir, ".local/share"));
-
-                    default:
-                    case PlatformID.Win32Windows:
-                    case PlatformID.Win32NT:
-                        // Use XDG specification or Win32 API
-                        return GetEnvironmentVariable("XDG_DATA_HOME", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
-                }
+                return GetEnvironmentVariable("XDG_DATA_HOME", WindowsUtils.IsWindows
+                    ? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+                    : Path.Combine(HomeDir, ".local/share"));
             }
         }
 
@@ -135,21 +112,9 @@ namespace Common.Storage
         {
             get
             {
-                switch (Environment.OSVersion.Platform)
-                {
-                    case PlatformID.MacOSX:
-                        // TODO: Use MacOS X-specific locations instead of POSIX subsytem
-
-                    case PlatformID.Unix:
-                        // Use XDG specification
-                        return GetEnvironmentVariable("XDG_CACHE_HOME", Path.Combine(HomeDir, ".cache"));
-
-                    default:
-                    case PlatformID.Win32Windows:
-                    case PlatformID.Win32NT:
-                        // Use XDG specification or Win32 API
-                        return GetEnvironmentVariable("XDG_CACHE_HOME", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
-                }
+                return GetEnvironmentVariable("XDG_CACHE_HOME", WindowsUtils.IsWindows
+                    ? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+                    : Path.Combine(HomeDir, ".cache"));
             }
         }
         #endregion
@@ -164,21 +129,9 @@ namespace Common.Storage
         {
             get
             {
-                switch (Environment.OSVersion.Platform)
-                {
-                    case PlatformID.MacOSX:
-                        // TODO: Use MacOS X-specific locations instead of POSIX subsytem
-
-                    case PlatformID.Unix:
-                        // Use XDG specification
-                        return GetEnvironmentVariable("XDG_CONFIG_DIRS", "/etc/xdg");
-
-                    default:
-                    case PlatformID.Win32Windows:
-                    case PlatformID.Win32NT:
-                        // Use XDG specification or Win32 API
-                        return GetEnvironmentVariable("XDG_CONFIG_DIRS", Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData));
-                }
+                return GetEnvironmentVariable("XDG_CONFIG_DIRS", WindowsUtils.IsWindows
+                    ? Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
+                    : "/etc/xdg");
             }
         }
 
@@ -191,21 +144,9 @@ namespace Common.Storage
         {
             get
             {
-                switch (Environment.OSVersion.Platform)
-                {
-                    case PlatformID.MacOSX:
-                        // TODO: Use MacOS X-specific locations instead of POSIX subsytem
-
-                    case PlatformID.Unix:
-                        // Use XDG specification
-                        return GetEnvironmentVariable("XDG_DATA_DIRS", "/usr/local/share:/usr/share");
-
-                    default:
-                    case PlatformID.Win32Windows:
-                    case PlatformID.Win32NT:
-                        // Use XDG specification or Win32 API
-                        return GetEnvironmentVariable("XDG_DATA_DIRS", Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData));
-                }
+                return GetEnvironmentVariable("XDG_DATA_DIRS", WindowsUtils.IsWindows
+                    ? Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
+                    : "/usr/local/share" + Path.PathSeparator + "/usr/share");
             }
         }
 
@@ -217,19 +158,9 @@ namespace Common.Storage
         {
             get
             {
-                switch (Environment.OSVersion.Platform)
-                {
-                    case PlatformID.MacOSX:
-                        // TODO: Use MacOS X-specific locations instead of POSIX subsytem
-
-                    case PlatformID.Unix:
-                        return "/var/cache";
-
-                    default:
-                    case PlatformID.Win32Windows:
-                    case PlatformID.Win32NT:
-                        return Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                }
+                return WindowsUtils.IsWindows
+                    ? Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
+                    : "/var/cache";
             }
         }
         #endregion
@@ -512,6 +443,7 @@ namespace Common.Storage
         /// <summary>
         /// The name of the flag file whose existence indicates that a directory has been secured with ACLs to prevent non-admins from writing there.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Flag")]
         public const string SecuredFlagName = "_secured";
 
         /// <summary>
