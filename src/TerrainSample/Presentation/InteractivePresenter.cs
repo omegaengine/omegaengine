@@ -66,7 +66,7 @@ namespace TerrainSample.Presentation
         #region Initialize
         private Asset[] _preCachedAssets;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Initialize()
         {
             base.Initialize();

@@ -60,7 +60,7 @@ namespace TerrainSample.Presentation
             View.PreRender += RotateCamera;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void HookIn()
         {
             base.HookIn();

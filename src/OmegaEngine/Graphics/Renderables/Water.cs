@@ -107,7 +107,7 @@ namespace OmegaEngine.Graphics.Renderables
         #endregion
 
         #region Render
-        /// <inheritdoc />
+        /// <inheritdoc/>
         internal override void Render(Camera camera, GetLights getLights = null)
         {
             // Rendering this without a shader isn't possible (non-standard FVF)

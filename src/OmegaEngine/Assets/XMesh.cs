@@ -288,7 +288,7 @@ namespace OmegaEngine.Assets
         #endregion
 
         #region Reference control
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void HoldReference()
         {
             base.HoldReference();
@@ -297,7 +297,7 @@ namespace OmegaEngine.Assets
                 material.HoldReference();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void ReleaseReference()
         {
             base.ReleaseReference();

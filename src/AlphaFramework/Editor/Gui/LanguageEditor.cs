@@ -50,7 +50,7 @@ namespace AlphaFramework.Editor.Gui
         //--------------------//
 
         #region Handlers
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnInitialize()
         {
             #region File handling
@@ -80,7 +80,7 @@ namespace AlphaFramework.Editor.Gui
             base.OnInitialize();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnSaveFile()
         {
             // Sort alphabetically before saving
@@ -95,7 +95,7 @@ namespace AlphaFramework.Editor.Gui
             base.OnSaveFile();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnDelete()
         {
             if (dataGrid.SelectedRows.Count > 0)
@@ -106,7 +106,7 @@ namespace AlphaFramework.Editor.Gui
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnUpdate()
         {
             #region Set up DataGrid

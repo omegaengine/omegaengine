@@ -55,7 +55,7 @@ namespace OmegaEngine.Graphics
         #endregion
 
         #region Visibility check
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override bool IsToRender(PositionableRenderable body)
         {
             #region Sanity checks
@@ -80,7 +80,7 @@ namespace OmegaEngine.Graphics
         //--------------------//
 
         #region Render
-        /// <inheritdoc />
+        /// <inheritdoc/>
         internal override void Render()
         {
             // Keep the size in sync with the base view

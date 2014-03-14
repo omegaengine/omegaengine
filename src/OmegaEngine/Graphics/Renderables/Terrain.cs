@@ -258,7 +258,7 @@ namespace OmegaEngine.Graphics.Renderables
         #endregion
 
         #region Render
-        /// <inheritdoc />
+        /// <inheritdoc/>
         internal override void Render(Camera camera, GetLights getLights = null)
         {
             #region Sanity checks
@@ -316,14 +316,14 @@ namespace OmegaEngine.Graphics.Renderables
         #endregion
 
         #region Picking
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override bool IntersectsBounding(Ray ray)
         {
             // Since the terrain is usually very big, assume its bounding body is everywhere
             return true;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected virtual Vector3 GetFacePosition(int faceIndex, float u, float v)
         {
             #region Sanity checks

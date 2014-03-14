@@ -175,7 +175,7 @@ namespace AlphaFramework.Editor.World
         protected virtual void OnNewTemplate()
         {}
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Undo()
         {
             base.Undo();
@@ -188,7 +188,7 @@ namespace AlphaFramework.Editor.World
             TemplateList.SelectedEntry = Templates.Contains(className) ? Templates[className] : null;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Redo()
         {
             base.Redo();

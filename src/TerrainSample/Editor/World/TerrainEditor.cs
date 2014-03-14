@@ -57,7 +57,7 @@ namespace TerrainSample.Editor.World
         //--------------------//
 
         #region Handlers
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnUpdate()
         {
             // Enable button only when a class is selected

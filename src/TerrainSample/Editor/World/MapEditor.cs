@@ -151,7 +151,7 @@ namespace TerrainSample.Editor.World
         //--------------------//
 
         #region Handlers
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnInitialize()
         {
             // Load template lists before touching any map files
@@ -200,7 +200,7 @@ namespace TerrainSample.Editor.World
             base.OnInitialize();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnSaveFile()
         {
             // Automatically update outdated shadow maps
@@ -226,7 +226,7 @@ namespace TerrainSample.Editor.World
             base.OnSaveFile();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnDelete()
         {
             // Since this might be triggered by a hotkey instead of the actual button, we must check
@@ -235,7 +235,7 @@ namespace TerrainSample.Editor.World
             ExecuteCommand(new RemovePositionables<Vector2>(_universe, _presenter.SelectedPositionables));
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnUpdate()
         {
             // Setup the presentator on startup or when it was lost/reset
@@ -865,14 +865,14 @@ namespace TerrainSample.Editor.World
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Undo()
         {
             if (xmlEditor.TextEditor.EnableUndo) xmlEditor.TextEditor.Undo();
             else base.Undo();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Redo()
         {
             if (xmlEditor.TextEditor.EnableRedo) xmlEditor.TextEditor.Redo();

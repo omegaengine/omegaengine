@@ -48,7 +48,7 @@ namespace OmegaEngine.Graphics.Renderables
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         internal override void Render(Camera camera, GetLights getLights = null)
         {
             base.Render(camera, getLights);

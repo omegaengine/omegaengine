@@ -107,16 +107,16 @@ namespace AlphaFramework.World.Terrains
         //--------------------//
 
         #region Thread code
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string Name { get { return Resources.CalculatingShadows; } }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override bool UnitsByte { get { return false; } }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override bool CanCancel { get { return Parallel.ThreadsCount == 1; } }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void Execute()
         {
             _result = new ByteVector4Grid(_heightMap.Width, _heightMap.Height);

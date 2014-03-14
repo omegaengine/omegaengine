@@ -53,14 +53,14 @@ namespace AlphaFramework.Editor.World.Commands
         //--------------------//
 
         #region Undo / Redo
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnExecute()
         {
             foreach (var entity in _entities)
                 entity.TemplateName = _newTemplates;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnUndo()
         {
             for (int i = 0; i < _entities.Count; i++)

@@ -69,7 +69,7 @@ namespace AlphaFramework.Editor.Gui
         //--------------------//
 
         #region Handlers
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnInitialize()
         {
             #region File handling
@@ -109,7 +109,7 @@ namespace AlphaFramework.Editor.Gui
             base.OnInitialize();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnSaveFile()
         {
             Log.Info("Save file: " + _fullPath);
@@ -120,7 +120,7 @@ namespace AlphaFramework.Editor.Gui
             base.OnSaveFile();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnDelete()
         {
             // Since this might be triggered by a hotkey instead of the actual button, we must check
@@ -135,7 +135,7 @@ namespace AlphaFramework.Editor.Gui
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnUpdate()
         {
             // After an update nothing is selected, so disable all buttons
@@ -180,7 +180,7 @@ namespace AlphaFramework.Editor.Gui
             base.OnUpdate();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnClose()
         {
             // Shutdown GUI system

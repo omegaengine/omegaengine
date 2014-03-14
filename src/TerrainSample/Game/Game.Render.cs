@@ -34,7 +34,7 @@ namespace TerrainSample
     partial class Game
     {
         #region Reset engine
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void ResetEngine()
         {
             if (Settings.Current.Display.Fullscreen)
@@ -58,7 +58,7 @@ namespace TerrainSample
         #endregion
 
         #region Engine configuration
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override EngineConfig BuildEngineConfig(bool fullscreen)
         {
             // Note: Doesn't call base methods
@@ -85,7 +85,7 @@ namespace TerrainSample
         #endregion
 
         #region Apply graphics settings
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void ApplyGraphicsSettings()
         {
             #region Apply settings
@@ -112,7 +112,7 @@ namespace TerrainSample
         //--------------------//
 
         #region Initialize
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override bool Initialize()
         {
             // Run the predefined init-steps first
@@ -170,7 +170,7 @@ namespace TerrainSample
         #endregion
 
         #region Render
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void Render(double elapsedTime)
         {
             // Note: Doesn't call base methods

@@ -46,7 +46,7 @@ namespace OmegaEngine.Graphics
         //--------------------//
 
         #region Render background
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void RenderBackground()
         {
             // Views such as glow and shadow maps have a strict black background requirement
@@ -58,7 +58,7 @@ namespace OmegaEngine.Graphics
         //--------------------//
 
         #region Render
-        /// <inheritdoc />
+        /// <inheritdoc/>
         internal override void Render()
         {
             // Keep the camera in sync with the base view

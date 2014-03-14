@@ -34,7 +34,7 @@ namespace OmegaEngine.Graphics.Shaders
         //--------------------//
 
         #region Passes
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void RunPasses(Action render, XMaterial material, params LightSource[] lights)
         {
             #region Sanity checks

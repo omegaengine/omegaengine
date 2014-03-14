@@ -63,7 +63,7 @@ namespace TerrainSample
         //--------------------//
 
         #region Start
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [LuaHide]
         public override void Run()
         {
@@ -129,7 +129,7 @@ namespace TerrainSample
         //--------------------//
 
         #region Debug
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [LuaHide]
         public override void Debug()
         {
@@ -141,7 +141,7 @@ namespace TerrainSample
         #endregion
 
         #region Lua references
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [LuaHide]
         public override void SetupLua(Lua lua)
         {

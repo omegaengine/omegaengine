@@ -56,7 +56,7 @@ namespace TerrainSample.Presentation
             View = new View(Scene, mainCamera) {Name = "InGame", BackgroundColor = universe.FogColor};
         }
         
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void HookIn()
         {
             base.HookIn();
@@ -64,7 +64,7 @@ namespace TerrainSample.Presentation
             SwitchMusicTheme("Game", immediate: true);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void HookOut()
         {
             PrepareSave();

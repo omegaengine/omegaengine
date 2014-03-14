@@ -38,7 +38,7 @@ namespace OmegaEngine.Graphics.Shaders
         //--------------------//
 
         #region Apply
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Apply(Action render, XMaterial material, Camera camera, params LightSource[] lights)
         {
             #region Sanity checks

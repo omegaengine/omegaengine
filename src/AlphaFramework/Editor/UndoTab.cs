@@ -97,7 +97,7 @@ namespace AlphaFramework.Editor
         //--------------------//
 
         #region Handlers
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.GC.Collect", Justification = "GC.Collect is only called after undo-information is purged, when a lot of long-lived objects have turned into garbage")]
         protected override void OnSaveFile()
         {
@@ -113,7 +113,7 @@ namespace AlphaFramework.Editor
             base.OnSaveFile();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnChange()
         {
             // Prevent redos if the user changed something
@@ -127,7 +127,7 @@ namespace AlphaFramework.Editor
         //--------------------//
 
         #region Undo
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Undo()
         {
             // Since this might be triggered by a hotkey instead of the actual button, we must check
@@ -153,7 +153,7 @@ namespace AlphaFramework.Editor
         #endregion
 
         #region Redo
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Redo()
         {
             // Since this might be triggered by a hotkey instead of the actual button, we must check

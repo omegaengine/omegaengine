@@ -148,7 +148,7 @@ namespace TerrainSample.Presentation
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Initialize()
         {
             base.Initialize();

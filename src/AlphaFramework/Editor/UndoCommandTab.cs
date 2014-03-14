@@ -82,7 +82,7 @@ namespace AlphaFramework.Editor
         //--------------------//
 
         #region Undo
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnUndo()
         {
             // Remove last command from the undo list, execute it and add it to the redo list
@@ -93,7 +93,7 @@ namespace AlphaFramework.Editor
         #endregion
 
         #region Redo
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnRedo()
         {
             // Remove last command from the redo list, execute it and add it to the undo list

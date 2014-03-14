@@ -48,7 +48,7 @@ namespace AlphaFramework.Editor.Graphics
         //--------------------//
 
         #region Handlers
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnInitialize()
         {
             #region File handling
@@ -86,7 +86,7 @@ namespace AlphaFramework.Editor.Graphics
             base.OnInitialize();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnSaveFile()
         {
             Log.Info("Save file: " + _fullPath);
@@ -97,7 +97,7 @@ namespace AlphaFramework.Editor.Graphics
             base.OnSaveFile();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnUpdate()
         {
             // Set up PropertyGrids

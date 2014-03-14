@@ -158,7 +158,7 @@ namespace OmegaEngine.Graphics.Renderables
         //--------------------//
 
         #region Render
-        /// <inheritdoc />
+        /// <inheritdoc/>
         internal override void Render(Camera camera, GetLights getLights = null)
         {
             base.Render(camera, getLights);
@@ -183,7 +183,7 @@ namespace OmegaEngine.Graphics.Renderables
         #endregion
 
         #region Intersect
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override bool Intersects(Ray ray, out float distance)
         {
             // Perform pre-checks with bounding bodies to filter out broad misses

@@ -77,7 +77,7 @@ namespace TerrainSample.Editor.World
         //--------------------//
 
         #region Handlers
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnInitialize()
         {
             EntityTemplate.LoadAll();
@@ -102,7 +102,7 @@ namespace TerrainSample.Editor.World
             propertyGridUniverse.SelectedObject = _universe;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnUpdate()
         {
             // Backup the previously selected class

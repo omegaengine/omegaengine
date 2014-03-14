@@ -46,7 +46,7 @@ namespace AlphaFramework.Editor.World.Commands
         //--------------------//
 
         #region Undo / Redo
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnExecute()
         {
             _oldTemplateName = (_terrain.Templates[_templateIndex] == null) ? null : _terrain.Templates[_templateIndex].Name;
@@ -54,7 +54,7 @@ namespace AlphaFramework.Editor.World.Commands
             _refreshHandler();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnUndo()
         {
             _terrain.Templates[_templateIndex] = string.IsNullOrEmpty(_oldTemplateName) ? null : Template<TTemplate>.All[_oldTemplateName];

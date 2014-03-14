@@ -31,7 +31,7 @@ namespace OmegaEngine.Graphics
         //--------------------//
 
         #region Render body
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void RenderBody(PositionableRenderable body)
         {
             #region Sanity checks

@@ -39,7 +39,7 @@ namespace AlphaFramework.Editor.Gui
         //--------------------//
 
         #region Handlers
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnInitialize()
         {
             #region File handling
@@ -69,7 +69,7 @@ namespace AlphaFramework.Editor.Gui
             base.OnInitialize();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OnSaveFile()
         {
             Log.Info("Save file: " + _fullPath);

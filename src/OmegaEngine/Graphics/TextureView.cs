@@ -61,7 +61,7 @@ namespace OmegaEngine.Graphics
         #endregion
 
         #region Apply post-screen shaders
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void ApplyPostShaders(bool sceneOnBackBuffer)
         {
             // Note: Doesn't call base methods

@@ -81,7 +81,7 @@ namespace OmegaEngine.Graphics.Renderables
         //--------------------//
 
         #region Render
-        /// <inheritdoc />
+        /// <inheritdoc/>
         internal override void Render(Camera camera, GetLights getLights = null)
         {
             base.Render(camera, getLights);

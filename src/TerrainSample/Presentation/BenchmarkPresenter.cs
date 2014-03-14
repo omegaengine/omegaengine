@@ -88,7 +88,7 @@ namespace TerrainSample.Presentation
         #endregion
 
         #region PostRender hook
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void HookIn()
         {
             base.HookIn();
@@ -97,7 +97,7 @@ namespace TerrainSample.Presentation
             Engine.PostRender += PostRender;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void HookOut()
         {
             // Stop additional actions after each frame
