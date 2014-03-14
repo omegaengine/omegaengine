@@ -230,7 +230,7 @@ namespace Common.Utils
         [Test]
         public void TestCreateSymlinkPosixFile()
         {
-            if (!MonoUtils.IsUnix) Assert.Ignore("Can only test POSIX symlinks on Unixoid system");
+            if (!UnixUtils.IsUnix) Assert.Ignore("Can only test POSIX symlinks on Unixoid system");
 
             using (var tempDir = new TemporaryDirectory("unit-tests"))
             {
@@ -251,7 +251,7 @@ namespace Common.Utils
         [Test]
         public void TestCreateSymlinkPosixDirectory()
         {
-            if (!MonoUtils.IsUnix) Assert.Ignore("Can only test POSIX symlinks on Unixoid system");
+            if (!UnixUtils.IsUnix) Assert.Ignore("Can only test POSIX symlinks on Unixoid system");
 
             using (var tempDir = new TemporaryDirectory("unit-tests"))
             {
@@ -306,13 +306,17 @@ namespace Common.Utils
             using (var tempDir = new TemporaryDirectory("unit-tests"))
             {
                 string sourcePath = Path.Combine(tempDir, "hardlink");
+                string destinationPath = Path.Combine(tempDir, "target");
+                string copyPath = Path.Combine(tempDir, "copy");
 
-                // Create a file and hardlink to it using an absolute path
-                File.WriteAllText(Path.Combine(tempDir, "target"), @"data");
-                FileUtils.CreateHardlink(sourcePath, Path.Combine(tempDir, "target"));
-
+                File.WriteAllText(destinationPath, @"data");
+                FileUtils.CreateHardlink(sourcePath, destinationPath);
                 Assert.IsTrue(File.Exists(sourcePath), "Hardlink should look like regular file");
                 Assert.AreEqual("data", File.ReadAllText(sourcePath), "Hardlinked file contents should be equal");
+                Assert.IsTrue(FileUtils.AreHardlinked(sourcePath, destinationPath));
+
+                File.Copy(sourcePath, copyPath);
+                Assert.IsFalse(FileUtils.AreHardlinked(sourcePath, copyPath));
             }
         }
         #endregion
@@ -346,7 +350,7 @@ namespace Common.Utils
         [Test]
         public void TestSetExecutable()
         {
-            if (!MonoUtils.IsUnix) Assert.Ignore("Can only test executable bits on Unixoid system");
+            if (!UnixUtils.IsUnix) Assert.Ignore("Can only test executable bits on Unixoid system");
 
             using (var tempFile = new TemporaryFile("unit-tests"))
             {

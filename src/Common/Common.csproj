@@ -205,6 +205,18 @@
     <Compile Include="Controls\SplitButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\TaskControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TaskControl.Designer.cs">
+      <DependentUpon>TaskControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TaskLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TaskProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\TimeSpanControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -216,18 +228,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Controls\TouchPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\TrackingControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\TrackingControl.Designer.cs">
-      <DependentUpon>TrackingControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\TrackingLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\TrackingProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\UriTextBox.cs">
@@ -252,6 +252,7 @@
     <Compile Include="Info\ExceptionInfo.cs" />
     <Compile Include="Info\OSInfo.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="MarshalNoTimeout.cs" />
     <Compile Include="Msg.cs" />
     <Compile Include="MsgSeverity.cs" />
     <Compile Include="MutexLock.cs" />
@@ -293,18 +294,21 @@
     <Compile Include="Tasks\DownloadFile.cs" />
     <Compile Include="Tasks\ForEachTask.cs" />
     <Compile Include="Tasks\GuiTaskHandler.cs" />
+    <Compile Include="Tasks\IProgress.cs" />
     <Compile Include="Tasks\ITask.cs" />
     <Compile Include="Tasks\ITaskHandler.cs" />
+    <Compile Include="Tasks\Progress.cs" />
     <Compile Include="Tasks\SilentTaskHandler.cs" />
     <Compile Include="Tasks\SimpleTask.cs" />
     <Compile Include="Tasks\TaskBase.cs" />
-    <Compile Include="Tasks\TaskState.cs" />
-    <Compile Include="Tasks\TrackingDialog.cs">
+    <Compile Include="Tasks\TaskSnapshot.cs" />
+    <Compile Include="Tasks\TaskRunDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tasks\TrackingDialog.Designer.cs">
-      <DependentUpon>TrackingDialog.cs</DependentUpon>
+    <Compile Include="Tasks\TaskRunDialog.Designer.cs">
+      <DependentUpon>TaskRunDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tasks\TaskStatus.cs" />
     <Compile Include="Tasks\WaitTask.cs" />
     <Compile Include="TimedLogEvent.cs" />
     <Compile Include="Undo\AddToCollection.cs" />

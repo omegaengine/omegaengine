@@ -31,20 +31,17 @@ namespace AlphaFramework.World.Terrains
         private ByteVector4Grid _result;
 
         /// <summary>
-        /// Returns the calculated occlusion end map array once <see cref="ITask.State"/> has reached <see cref="TaskState.Complete"/>.
+        /// Returns the calculated occlusion end map array once th calculation is complete.
         /// </summary>
         /// <remarks>A light rise angles is the minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded.</remarks>
-        /// <exception cref="InvalidOperationException">Thrown if <see cref="ITask.State"/> is not <see cref="TaskState.Complete"/>.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the calculation is not complete yet.</exception>
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
         public ByteVector4Grid Result
         {
             get
             {
-                lock (StateLock)
-                {
-                    if (State != TaskState.Complete) throw new InvalidOperationException(Resources.CalculationNotComplete);
-                }
-
+                if (Status != TaskStatus.Complete) throw new InvalidOperationException(Resources.CalculationNotComplete);
+                
                 return _result;
             }
         }
@@ -111,28 +108,29 @@ namespace AlphaFramework.World.Terrains
         public override string Name { get { return Resources.CalculatingShadows; } }
 
         /// <inheritdoc/>
-        public override bool UnitsByte { get { return false; } }
+        public override bool CanCancel { get { return Parallel.ThreadsCount == 1; } }
 
         /// <inheritdoc/>
-        public override bool CanCancel { get { return Parallel.ThreadsCount == 1; } }
+        protected override bool UnitsByte { get { return false; } }
 
         /// <inheritdoc/>
         protected override void Execute()
         {
             _result = new ByteVector4Grid(_heightMap.Width, _heightMap.Height);
 
-            lock (StateLock) State = TaskState.Data;
+            Status = TaskStatus.Data;
 
+            var progressLock = new object();
             Parallel.For(0, _heightMap.Width, x =>
             {
                 for (int y = 0; y < _heightMap.Height; y++)
                     _result[x, y] = GetOcclusionVector(x, y);
 
-                lock (StateLock) UnitsProcessed += _heightMap.Height;
+                lock (progressLock) UnitsProcessed += _heightMap.Height;
                 if (Parallel.ThreadsCount == 1) CancellationToken.ThrowIfCancellationRequested();
             });
 
-            lock (StateLock) State = TaskState.Complete;
+            Status = TaskStatus.Complete;
         }
         #endregion
 
