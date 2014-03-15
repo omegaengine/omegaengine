@@ -4,13 +4,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 
 // Assembly info
-
 [assembly: AssemblyCompany("NanoByte")]
 [assembly: AssemblyProduct("Terrain Sample Game")]
-[assembly: AssemblyCopyright("Copyright ???")]
+[assembly: AssemblyCopyright("Copyright 2006-2014 Bastian Eicher")]
 
 // Version information
-
 [assembly: AssemblyVersion("0.8.4")]
 [assembly: AssemblyFileVersion("0.8.4")]
 
