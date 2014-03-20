@@ -55,7 +55,7 @@ namespace TerrainSample.Presentation
 
             View = new View(Scene, mainCamera) {Name = "InGame", BackgroundColor = universe.FogColor};
         }
-        
+
         /// <inheritdoc/>
         public override void HookIn()
         {

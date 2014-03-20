@@ -41,7 +41,7 @@ namespace AlphaFramework.World.Terrains
             get
             {
                 if (Status != TaskStatus.Complete) throw new InvalidOperationException(Resources.CalculationNotComplete);
-                
+
                 return _result;
             }
         }

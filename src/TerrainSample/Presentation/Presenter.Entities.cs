@@ -129,7 +129,7 @@ namespace TerrainSample.Presentation
         protected void UpdateRepresentation(Entity element, PointLight representation)
         {
             representation.Position = GetTerrainPosition(element) +
-                Vector3.TransformCoordinate(representation.Shift, Matrix.RotationY(element.Rotation.DegreeToRadian()));
+                                      Vector3.TransformCoordinate(representation.Shift, Matrix.RotationY(element.Rotation.DegreeToRadian()));
         }
         #endregion
 

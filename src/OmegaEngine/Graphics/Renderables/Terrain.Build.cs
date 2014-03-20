@@ -128,7 +128,7 @@ namespace OmegaEngine.Graphics.Renderables
                     var occlusionIntervals = occlusionIntervalMap == null
                         ? new ByteVector4(0, 255, 255, 255)
                         : occlusionIntervalMap[x, y];
-                    
+
                     // Generate vertex using 2D coords, stretch factors (and tex-coords based on them)
                     // Map X = Engine +X
                     // Map Y = Engine -Z

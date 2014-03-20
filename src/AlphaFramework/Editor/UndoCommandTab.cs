@@ -48,7 +48,7 @@ namespace AlphaFramework.Editor
             OnUpdate();
             OnChange();
         }
-        
+
         /// <summary>
         /// Executes a <see cref="IUndoCommand"/> and automatically displays message boxes for common exception types.
         /// </summary>
@@ -75,7 +75,7 @@ namespace AlphaFramework.Editor
             {
                 Msg.Inform(this, Resources.FileDamaged + "\n" + ex.Message + (ex.InnerException == null ? "" : "\n" + ex.InnerException.Message), MsgSeverity.Error);
             }
-                #endregion
+            #endregion
         }
         #endregion
 

@@ -67,7 +67,7 @@ namespace AlphaFramework.Presentation
         /// The <see cref="Engine"/> reference to use for rendering operations
         /// </summary>
         protected readonly Engine Engine;
-        
+
         /// <summary>
         /// The engine view used to display the <see cref="Scene"/>
         /// </summary>

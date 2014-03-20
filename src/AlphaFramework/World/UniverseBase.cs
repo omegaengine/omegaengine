@@ -31,6 +31,7 @@ namespace AlphaFramework.World
         public double GameTime { get; set; }
 
         private float _timeWarpFactor = 1;
+
         /// <summary>
         /// The factor by which <see cref="GameTime"/> progression should be multiplied in relation to real time.
         /// </summary>

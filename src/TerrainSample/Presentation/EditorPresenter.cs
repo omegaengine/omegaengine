@@ -154,8 +154,8 @@ namespace TerrainSample.Presentation
             base.Initialize();
 
             // Prepare painting brush meshes
-            Scene.Positionables.Add(_terrainPaintingBrushCircle = new Model(XMesh.Get(Engine, "Engine/Circle.x")) { Visible = false });
-            Scene.Positionables.Add(_terrainPaintingBrushSquare = new Model(XMesh.Get(Engine, "Engine/Rectangle.x")) { Visible = false });
+            Scene.Positionables.Add(_terrainPaintingBrushCircle = new Model(XMesh.Get(Engine, "Engine/Circle.x")) {Visible = false});
+            Scene.Positionables.Add(_terrainPaintingBrushSquare = new Model(XMesh.Get(Engine, "Engine/Rectangle.x")) {Visible = false});
         }
 
         /// <inheritdoc/>
@@ -249,11 +249,11 @@ namespace TerrainSample.Presentation
         {
             var boundingBoxes =
                 (from positionable in RenderablesSync.Representations
-                where positionable.Pickable && positionable.BoundingBox.HasValue
-                // ReSharper disable once PossibleInvalidOperationException
-                select positionable.BoundingBox.Value.Transform(positionable.PreTransform))
-                .ToList();
-            
+                    where positionable.Pickable && positionable.BoundingBox.HasValue
+                    // ReSharper disable once PossibleInvalidOperationException
+                    select positionable.BoundingBox.Value.Transform(positionable.PreTransform))
+                    .ToList();
+
             return new Box
             {
                 Minimum = new Vector2(

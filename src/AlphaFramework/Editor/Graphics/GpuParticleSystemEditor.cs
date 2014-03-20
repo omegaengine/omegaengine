@@ -79,7 +79,7 @@ namespace AlphaFramework.Editor.Graphics
 
             // Setup scene
             _particleSystem = new GpuParticleSystem(_preset);
-            _scene = new Scene { Positionables = { _particleSystem } };
+            _scene = new Scene {Positionables = {_particleSystem}};
             renderPanel.Engine.Views.Add(new View(_scene, Camera) {BackgroundColor = Color.Black});
 
             base.OnInitialize();
