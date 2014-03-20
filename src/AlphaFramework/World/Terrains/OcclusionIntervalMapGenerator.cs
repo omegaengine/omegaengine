@@ -108,7 +108,7 @@ namespace AlphaFramework.World.Terrains
         public override string Name { get { return Resources.CalculatingShadows; } }
 
         /// <inheritdoc/>
-        public override bool CanCancel { get { return Parallel.ThreadsCount == 1; } }
+        public override bool CanCancel { get { return true; } }
 
         /// <inheritdoc/>
         protected override bool UnitsByte { get { return false; } }
@@ -127,8 +127,7 @@ namespace AlphaFramework.World.Terrains
                     _result[x, y] = GetOcclusionVector(x, y);
 
                 lock (progressLock) UnitsProcessed += _heightMap.Height;
-                if (Parallel.ThreadsCount == 1) CancellationToken.ThrowIfCancellationRequested();
-            });
+            }, CancellationToken);
 
             Status = TaskStatus.Complete;
         }
