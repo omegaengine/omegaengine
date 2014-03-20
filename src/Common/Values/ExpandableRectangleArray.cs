@@ -145,8 +145,10 @@ namespace Common.Values
             int height = Math.Min(TotalArea.Height, baseValues.GetLength(1) - TotalArea.Y);
             var result = new T[width, height];
             for (int x = 0; x < width; x++)
+            {
                 for (int y = 0; y < height; y++)
                     result[x, y] = baseValues[x + TotalArea.X, y + TotalArea.Y];
+            }
 
             CopySubsetsToArray(result);
             return result;

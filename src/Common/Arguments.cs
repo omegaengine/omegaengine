@@ -42,6 +42,7 @@ namespace Common
         }
 
         private readonly List<string> _files = new List<string>();
+
         /// <summary>
         /// A list of all file names in the arguments.
         /// </summary>

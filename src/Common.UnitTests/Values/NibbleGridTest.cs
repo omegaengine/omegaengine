@@ -37,7 +37,7 @@ namespace Common.Values
         {
             using (var tempFile = new TemporaryFile("unit-tests"))
             {
-                var grid = new NibbleGrid(new byte[,] { { 2, 4 }, { 5, 10 } });
+                var grid = new NibbleGrid(new byte[,] {{2, 4}, {5, 10}});
                 grid.Save(tempFile);
 
                 using (var stream = File.OpenRead(tempFile))

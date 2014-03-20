@@ -85,6 +85,7 @@
     <Compile Include="Tasks\CopyDirectoryTest.cs" />
     <Compile Include="Tasks\DownloadFileTest.cs" />
     <Compile Include="Tasks\ForEachTaskTest.cs" />
+    <Compile Include="Tasks\MoveDirectoryTest.cs" />
     <Compile Include="Tasks\SimpleTaskTest.cs" />
     <Compile Include="Tasks\WaitTaskTest.cs" />
     <Compile Include="TemporayDirectoryTest.cs" />
@@ -106,10 +107,10 @@
     <Compile Include="Values\QuadrangleTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -21,6 +21,7 @@
  */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Windows.Forms;
 using Common.Properties;
@@ -63,11 +64,7 @@ namespace Common.Tasks
         {
             _progress.ProgressChanged += trackingProgressBar.Report;
             _progress.ProgressChanged += labelProgress.Report;
-            _progress.ProgressChanged += progress =>
-            {
-                if (progress.Status >= TaskStatus.Complete)
-                    Close();
-            };
+            _progress.ProgressChanged += progress => { if (progress.Status == TaskStatus.Complete) Close(); };
 
             _taskThread.Start();
         }
@@ -77,6 +74,7 @@ namespace Common.Tasks
         /// </summary>
         public Exception Exception { get; private set; }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exceptions are rethrown on the UI thread.")]
         private void RunTask()
         {
             try
@@ -86,13 +84,14 @@ namespace Common.Tasks
             catch (Exception ex)
             {
                 Exception = ex;
+                Invoke(new Action(Close));
             }
         }
 
         private void TrackingDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Only close the window if the task is no longer running
-            if (!_taskThread.IsAlive) return;
+            if (!_taskThread.IsAlive || Exception != null) return;
 
             if (_task.CanCancel)
             {
