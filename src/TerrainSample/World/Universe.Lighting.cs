@@ -157,7 +157,7 @@ namespace TerrainSample.World
         /// <summary>
         /// Color correction values to apply at dawn.
         /// </summary>
-        [Category("Color correction"), Description("Color correction values to apply in light phase 1 or 5 (dawn).")]
+        [Category("Lighting"), Description("Color correction values to apply in light phase 1 or 5 (dawn).")]
         public ColorCorrection ColorCorrectionDawn { get { return _colorCorrectionDawn; } set { value.To(ref _colorCorrectionDawn, OnLightingChanged); } }
 
         private ColorCorrection _colorCorrectionNoon = ColorCorrection.Default;
@@ -165,7 +165,7 @@ namespace TerrainSample.World
         /// <summary>
         /// Color correction values to apply at noon.
         /// </summary>
-        [Category("Color correction"), Description("Color correction values to apply in light phase 2 or 6 (noon).")]
+        [Category("Lighting"), Description("Color correction values to apply in light phase 2 or 6 (noon).")]
         public ColorCorrection ColorCorrectionNoon { get { return _colorCorrectionNoon; } set { value.To(ref _colorCorrectionNoon, OnLightingChanged); } }
 
         private ColorCorrection _colorCorrectionDusk = new ColorCorrection(brightness: 1.4f, contrast: 1.4f, saturation: 0.7f);
@@ -173,7 +173,7 @@ namespace TerrainSample.World
         /// <summary>
         /// Color correction values to apply at dusk.
         /// </summary>
-        [Category("Color correction"), Description("Color correction values to apply in light phase  3 or 7 (twilight).")]
+        [Category("Lighting"), Description("Color correction values to apply in light phase  3 or 7 (twilight).")]
         public ColorCorrection ColorCorrectionDusk { get { return _colorCorrectionDusk; } set { value.To(ref _colorCorrectionDusk, OnLightingChanged); } }
 
         private ColorCorrection _colorCorrectionMidnight = new ColorCorrection(brightness: 2, saturation: 0.5f);
@@ -181,7 +181,7 @@ namespace TerrainSample.World
         /// <summary>
         /// Color correction values to apply at midnight.
         /// </summary>
-        [Category("Color correction"), Description("Color correction values to apply in light phase 0 or 4 (night).")]
+        [Category("Lighting"), Description("Color correction values to apply in light phase 0 or 4 (night).")]
         public ColorCorrection ColorCorrectionMidnight { get { return _colorCorrectionMidnight; } set { value.To(ref _colorCorrectionMidnight, OnLightingChanged); } }
         #endregion
 

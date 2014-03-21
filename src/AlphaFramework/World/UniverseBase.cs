@@ -28,6 +28,7 @@ namespace AlphaFramework.World
         /// <summary>
         /// Total elapsed game time in seconds.
         /// </summary>
+        [DefaultValue(0.0), Category("Gameplay"), Description("Total elapsed game time in seconds.")]
         public double GameTime { get; set; }
 
         private float _timeWarpFactor = 1;
@@ -36,7 +37,7 @@ namespace AlphaFramework.World
         /// The factor by which <see cref="GameTime"/> progression should be multiplied in relation to real time.
         /// </summary>
         /// <remarks>This multiplication is not done by <see cref="Update"/>!</remarks>
-        [DefaultValue(1f)]
+        [DefaultValue(1f), Category("Gameplay"), Description("The factor by which GameTime progression should be multiplied in relation to real time.")]
         public float TimeWarpFactor { get { return _timeWarpFactor; } set { _timeWarpFactor = value; } }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace AlphaFramework.World
         /// <summary>
         /// The name of the skybox to use for this map; may be <see langword="null"/> or empty.
         /// </summary>
-        [DefaultValue(""), Category("Background"), Description("The name of the skybox to use for this map; may be null or empty.")]
+        [DefaultValue(""), Category("Effects"), Description("The name of the skybox to use for this map; may be null or empty.")]
         public string Skybox { get { return _skybox; } set { value.To(ref _skybox, SkyboxChanged); } }
 
         /// <summary>
