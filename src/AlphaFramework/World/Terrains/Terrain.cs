@@ -12,8 +12,10 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
+using Common;
 using Common.Utils;
 using Common.Values;
+using LuaInterface;
 using SlimDX;
 using Resources = AlphaFramework.World.Properties.Resources;
 
@@ -143,7 +145,7 @@ namespace AlphaFramework.World.Terrains
         #endregion
 
         /// <inheritdoc/>
-        [Browsable(false)]
+        [Browsable(false), XmlIgnore]
         public bool DataLoaded { get { return _heightMap != null && _textureMap != null; } }
         #endregion
 
@@ -163,8 +165,14 @@ namespace AlphaFramework.World.Terrains
             {
                 Templates[0] = Template<TTemplate>.All["Grass"];
             }
-            catch (KeyNotFoundException)
-            {}
+            catch (KeyNotFoundException ex)
+            {
+                Log.Warn(ex);
+            }
+            catch (InvalidOperationException ex)
+            {
+                Log.Warn(ex);
+            }
         }
         #endregion
 
@@ -191,6 +199,39 @@ namespace AlphaFramework.World.Terrains
                 coordinates.X, // World X = Engine +X
                 height * _size.StretchV, // World height = Engine +Y
                 -coordinates.Y); // World Y = Engine -Z
+        }
+        #endregion
+
+        #region Slope
+        /// <inheritdoc/>
+        [LuaHide]
+        public void MarkUntraversableSlopes(bool[,] obstructionMap, int maxTraversableSlope)
+        {
+            #region Sanity checks
+            if (obstructionMap == null) throw new ArgumentNullException("obstructionMap");
+            if (obstructionMap.GetLength(0) != Size.X || obstructionMap.GetLength(1) != Size.Y) throw new ArgumentException("Obstruction map size does not match terrain size.", "obstructionMap");
+            #endregion
+
+            for (int x = 0; x < obstructionMap.GetLength(0); x++)
+            {
+                for (int y = 0; y < obstructionMap.GetLength(1); y++)
+                {
+                    obstructionMap[x, y] |=
+                        (GetSlope(x, y, 0, 1) > maxTraversableSlope) ||
+                        (GetSlope(x, y, 1, 0) > maxTraversableSlope) ||
+                        (GetSlope(x, y, 1, 1) > maxTraversableSlope) ||
+                        (GetSlope(x, y, 0, -1) > maxTraversableSlope) ||
+                        (GetSlope(x, y, -1, 0) > maxTraversableSlope) ||
+                        (GetSlope(x, y, -1, -1) > maxTraversableSlope);
+                }
+            }
+        }
+
+        private int GetSlope(int x, int y, int xDiff, int yDiff)
+        {
+            return Math.Abs(
+                HeightMap.ClampedRead(x + xDiff, y + yDiff) -
+                HeightMap.ClampedRead(x, y));
         }
         #endregion
 

@@ -30,14 +30,13 @@ namespace AlphaFramework.World.Paths
         /// </summary>
         public TCoordinates Target { get; set; }
 
-        // ToDo: Replace Stack with Queue, by turning PathFinder output around
-        private readonly Stack<TCoordinates> _pathNodes = new Stack<TCoordinates>();
+        private readonly Queue<TCoordinates> _pathNodes = new Queue<TCoordinates>();
 
         /// <summary>
         /// The path to walk.
         /// </summary>
         /// <remarks>Is not serialized/stored, will be recalculated.</remarks>
         [XmlIgnore]
-        public Stack<TCoordinates> PathNodes { get { return _pathNodes; } }
+        public Queue<TCoordinates> PathNodes { get { return _pathNodes; } }
     }
 }

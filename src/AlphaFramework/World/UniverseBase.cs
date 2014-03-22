@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using Common.Collections;
 using Common.Storage;
@@ -47,6 +48,12 @@ namespace AlphaFramework.World
         [Browsable(false)]
         [XmlIgnore] // XML serialization configuration is configured in sub-type
         public abstract MonitoredCollection<Positionable<TCoordinates>> Positionables { get; }
+
+        /// <summary>
+        /// The pathfinding engine used to navigate <see cref="Positionables"/>.
+        /// </summary>
+        [Browsable(false), XmlIgnore]
+        public IPathfinder<TCoordinates> Pathfinder { get; set; }
 
         private string _skybox;
 

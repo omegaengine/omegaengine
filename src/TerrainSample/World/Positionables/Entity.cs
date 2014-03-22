@@ -127,7 +127,7 @@ namespace TerrainSample.World.Positionables
                 if (movementFactor >= 1)
                 { // This move will skip past the current node
                     // Remove the node from the list
-                    leader.PathNodes.Pop();
+                    leader.PathNodes.Dequeue();
 
                     // Subtract the amount of time the rest of the distance to the node would have taken
                     elapsedTime -= differenceLength / TemplateData.Movement.Speed;

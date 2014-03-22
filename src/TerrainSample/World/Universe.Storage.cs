@@ -99,13 +99,7 @@ namespace TerrainSample.World
             if (!_terrain.DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
 
             using (new TimedLogEvent("Setup pathfinding"))
-            {
-                _terrain.SetupPathfinding(Positionables);
-
-                // Perform updates to regenerate data lost in the savegame
-                RecalcPaths();
-                Update(0);
-            }
+                SetupPathfinding();
         }
 
         /// <inheritdoc/>

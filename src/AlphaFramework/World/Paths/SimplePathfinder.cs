@@ -30,35 +30,35 @@ namespace AlphaFramework.World.Paths
             new Vector2(1, -1), new Vector2(1, 1), new Vector2(-1, 1), new Vector2(-1, -1)
         };
 
-        private readonly bool[,] _blocedkMap;
+        private readonly bool[,] _obstructionMap;
         private readonly List<Node> _openList = new List<Node>(), _closeList = new List<Node>();
 
         /// <summary>
         /// Initializes a new pathfinder.
         /// </summary>
-        /// <param name="blockedMap">A 2D map of blocked fields.</param>
-        public SimplePathfinder(bool[,] blockedMap)
+        /// <param name="obstructionMap">A 2D map of obstructed (untraversable) fields.</param>
+        public SimplePathfinder(bool[,] obstructionMap)
         {
             #region Sanity checks
-            if (blockedMap == null) throw new ArgumentNullException("blockedMap");
+            if (obstructionMap == null) throw new ArgumentNullException("obstructionMap");
             #endregion
 
-            _blocedkMap = blockedMap;
+            _obstructionMap = obstructionMap;
         }
 
         /// <inheritdoc/>
-        public IEnumerable<Vector2> FindPathPlayer(Vector2 start, Vector2 target)
+        public IEnumerable<Vector2> FindPath(Vector2 start, Vector2 target)
         {
             start.X = (int)start.X;
             start.Y = (int)start.Y;
             target.X = (int)target.X;
             target.Y = (int)target.Y;
-            var goneLockup = new int[_blocedkMap.GetLength(0), _blocedkMap.GetLength(1)];
+            var goneLockup = new int[_obstructionMap.GetLength(0), _obstructionMap.GetLength(1)];
 
             using (new TimedLogEvent("Calculating path"))
             {
                 bool pathFound = false;
-                var path = new List<Vector2>();
+                var path = new Stack<Vector2>();
 
                 _openList.Clear();
                 _closeList.Clear();
@@ -81,9 +81,9 @@ namespace AlphaFramework.World.Paths
                     {
                         nextNode = new Node {Position = parentNode.Position + _direction[i]};
                         if ((nextNode.Position.X < 0) || (nextNode.Position.Y < 0)
-                            || (nextNode.Position.X >= _blocedkMap.GetLength(0)) || (nextNode.Position.Y >= _blocedkMap.GetLength(1)))
+                            || (nextNode.Position.X >= _obstructionMap.GetLength(0)) || (nextNode.Position.Y >= _obstructionMap.GetLength(1)))
                             continue;
-                        if (_blocedkMap[(int)nextNode.Position.X, (int)nextNode.Position.Y])
+                        if (_obstructionMap[(int)nextNode.Position.X, (int)nextNode.Position.Y])
                             continue;
 
                         nextNode.G = parentNode.G + (i > 3 ? 14 : 10);
@@ -127,7 +127,7 @@ namespace AlphaFramework.World.Paths
                     nextNode = _closeList[_closeList.Count - 1];
                     while (!(nextNode.Parent.Equals(nextNode.Position)))
                     {
-                        path.Add(nextNode.Position);
+                        path.Push(nextNode.Position);
                         foreach (var node in _closeList)
                         {
                             if (node.Position.Equals(nextNode.Parent))

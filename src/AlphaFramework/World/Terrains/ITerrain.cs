@@ -70,8 +70,16 @@ namespace AlphaFramework.World.Terrains
         /// <summary>
         /// Was the minimum necessary data for the terrain  (<see cref="HeightMap"/> and <see cref="TextureMap"/>) loaded already?
         /// </summary>
-        [Browsable(false)]
+        [Browsable(false), XmlIgnore]
         bool DataLoaded { get; }
+
+        /// <summary>
+        /// Marks untraversable slopes in a pathfinding "obstruction map".
+        /// </summary>
+        /// <param name="obstructionMap">The existing pathfinding "obstruction map" to mark the untraversable slopes in.</param>
+        /// <param name="maxTraversableSlope">The maximum slope to considers traversable.</param>
+        [LuaHide]
+        void MarkUntraversableSlopes(bool[,] obstructionMap, int maxTraversableSlope);
 
         /// <summary>
         /// Loads data for <see cref="ITerrain.HeightMap"/> from a stream.

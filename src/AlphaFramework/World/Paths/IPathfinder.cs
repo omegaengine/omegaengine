@@ -18,11 +18,11 @@ namespace AlphaFramework.World.Paths
         where TCoordinates : struct
     {
         /// <summary>
-        /// Requests a path for a player character.
+        /// Calculates a path from source to target coordinates.
         /// </summary>
         /// <param name="start">The starting coordinates.</param>
         /// <param name="target">The end coordinates.</param>
-        /// <returns>A list of points forming a path; <see langword="null"/> if no path was found.</returns>
-        IEnumerable<TCoordinates> FindPathPlayer(TCoordinates start, TCoordinates target);
+        /// <returns>A list of coordinates forming a path; <see langword="null"/> if no path was found.</returns>
+        IEnumerable<TCoordinates> FindPath(TCoordinates start, TCoordinates target);
     }
 }
