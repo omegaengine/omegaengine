@@ -103,7 +103,7 @@ namespace TerrainSample.World
         /// <summary>
         /// Fixed step size for updates in seconds. Makes updates deterministic.
         /// </summary>
-        private const float UpdateStepSize = 0.15f;
+        private const float UpdateStepSize = 0.015f;
 
         /// <inheritdoc/>
         public override void Update(double elapsedGameTime)
