@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{39540BF8-E6E3-4197-A129-2C849C40121A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FrameOfReference</RootNamespace>
+    <AssemblyName>FrameOfReference.UnitTests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\sgKey.snk</AssemblyOriginatorKeyFile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\build\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <PlatformTarget>x86</PlatformTarget>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\..\NoAnalysis.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LinqBridge">
+      <HintPath>..\..\packages\LinqBridge.1.3.0\lib\net20\LinqBridge.dll</HintPath>
+      <Aliases>LinqBridge</Aliases>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\..\packages\Moq.Contrib.0.3\lib\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq.Contrib">
+      <HintPath>..\..\packages\Moq.Contrib.0.3\lib\Moq.Contrib.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="SlimDX">
+      <HintPath>..\..\..\lib\SlimDX.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AlphaFramework\UnitTests\UnitTests.csproj">
+      <Project>{bd0e2ea9-4aad-4a1a-b748-2737fd1999d6}</Project>
+      <Name>UnitTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common.UnitTests\Common.UnitTests.csproj">
+      <Project>{ca9d6092-4365-4385-9700-9570a98ef09d}</Project>
+      <Name>Common.UnitTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Common.csproj">
+      <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OmegaEngine\OmegaEngine.csproj">
+      <Project>{14E9FED0-4989-482D-85DE-448161A6855E}</Project>
+      <Name>OmegaEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AlphaFramework\Editor\Editor.csproj">
+      <Project>{5920CFE3-10CE-4C49-90A6-CE59A8A62EEE}</Project>
+      <Name>Editor (AlphaFramework\Editor)</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AlphaFramework\Presentation\Presentation.csproj">
+      <Project>{63F97B11-3B08-45C3-86F9-1F99129A3B3D}</Project>
+      <Name>Presentation (AlphaFramework\Presentation)</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AlphaFramework\World\World.csproj">
+      <Project>{C9062BE0-1762-4907-BA23-9D60AF183993}</Project>
+      <Name>World (AlphaFramework\World)</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Editor\Editor.csproj">
+      <Project>{ADBA7A08-3121-4F27-8893-6CD7093743B2}</Project>
+      <Name>Editor (FrameOfReference\Editor)</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Game\Game.csproj">
+      <Project>{9d104552-0123-4eb6-9dea-845c0b95a4fa}</Project>
+      <Name>Game</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presentation\Presentation.csproj">
+      <Project>{CC40CE7F-892A-42F8-B289-52ACF2C73865}</Project>
+      <Name>Presentation (FrameOfReference\Presentation)</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\World\World.csproj">
+      <Project>{3EA8E61B-A309-4862-B4B1-7C67537C52A6}</Project>
+      <Name>World (FrameOfReference\World)</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="World\Positionables\EntityTest.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

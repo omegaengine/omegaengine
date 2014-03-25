@@ -3,6 +3,6 @@
   <Config name="Debug" buildpathtype="Auto">
     <assembly path="build\Debug\Common.UnitTests.dll" />
     <assembly path="build\Debug\AlphaFramework.UnitTests.dll" />
-    <assembly path="build\Debug\TerrainSample.UnitTests.dll" />
+    <assembly path="build\Debug\FrameOfReference.UnitTests.dll" />
   </Config>
 </NUnitProject>

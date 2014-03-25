@@ -22,7 +22,7 @@ FOR /d %%D IN ("%~dp0src\AlphaFramework\*") DO (
   del "%%D\*.pidb" > NUL 2>&1
   del "%%D\*.csproj.user" > NUL 2>&1
 )
-FOR /d %%D IN ("%~dp0src\TerrainSample\*") DO (
+FOR /d %%D IN ("%~dp0src\FrameOfReference\*") DO (
   rd /s /q "%%D\obj" > NUL 2>&1
   del "%%D\*.pidb" > NUL 2>&1
   del "%%D\*.csproj.user" > NUL 2>&1

@@ -26,7 +26,8 @@ The "build.cmd" script assumes that Visual Studio 2010/2012/2013 is installed an
 
 The engine requires shader files to be located in a subdirectory of the installation path named "Shaders".
 
-The TerrainSample project places "_portable" and "*.Settings.xml" files in the build directories which cause the game content files to be loaded from \content\.
+"Frame of Reference" is the offical sample game for the OmegaEngine. It is included in the OmegaEngine source code but is not a part of the released library binaries.
+The FrameOfReference\Game project places the files "_portable" and "config\Settings.xml" in the build directories which together cause the game content files to be loaded from \content\.
 When releasing the binaries as standalone applications these files are not present and game content files are instead expected be located in a subdirectory of the installation path named "content".
 
 To open the Debug Console when running one of the sample projects press Ctrl + Alt + Shift + D.

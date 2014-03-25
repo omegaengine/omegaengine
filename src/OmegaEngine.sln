@@ -3,20 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TerrainSample", "TerrainSample", "{4BF4ECB6-3641-4101-A217-DC0ADE512103}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrameOfReference", "FrameOfReference", "{4BF4ECB6-3641-4101-A217-DC0ADE512103}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "TerrainSample\Game\Game.csproj", "{9D104552-0123-4EB6-9DEA-845C0B95A4FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "FrameOfReference\Game\Game.csproj", "{9D104552-0123-4EB6-9DEA-845C0B95A4FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "TerrainSample\Editor\Editor.csproj", "{ADBA7A08-3121-4F27-8893-6CD7093743B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "FrameOfReference\Editor\Editor.csproj", "{ADBA7A08-3121-4F27-8893-6CD7093743B2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9D104552-0123-4EB6-9DEA-845C0B95A4FA} = {9D104552-0123-4EB6-9DEA-845C0B95A4FA}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "World", "TerrainSample\World\World.csproj", "{3EA8E61B-A309-4862-B4B1-7C67537C52A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "World", "FrameOfReference\World\World.csproj", "{3EA8E61B-A309-4862-B4B1-7C67537C52A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "TerrainSample\UnitTests\UnitTests.csproj", "{39540BF8-E6E3-4197-A129-2C849C40121A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "FrameOfReference\UnitTests\UnitTests.csproj", "{39540BF8-E6E3-4197-A129-2C849C40121A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "TerrainSample\Presentation\Presentation.csproj", "{CC40CE7F-892A-42F8-B289-52ACF2C73865}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "FrameOfReference\Presentation\Presentation.csproj", "{CC40CE7F-892A-42F8-B289-52ACF2C73865}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{81AF4FA5-44F7-4010-8769-B85B8B542FA2}"
 EndProject

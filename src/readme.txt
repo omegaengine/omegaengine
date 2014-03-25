@@ -2,6 +2,4 @@ This directory and its subdirectoires contain the source code for the OmegaEngin
 
 The "build.cmd" script will compile the code using the Visual Studio 2010/2012 build environment.
 Use "OmegaEngine.sln" to open the solution in Visual Studio 2010/2012.
-Use TerrainSample\Game or TerrainSample\Editor as the startup project.
-
-Do not use "TerrainSample\TerrainSample.sln". This is used to build Visual Studio templates.
+Use FrameOfReference\Game or FrameOfReference\Editor as the startup project.

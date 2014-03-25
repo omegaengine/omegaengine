@@ -16,13 +16,13 @@ if not exist "%ProgramFiles_temp%\Inno Setup 5" (
 
 echo Building Samples installer...
 cd /d "%~dp0"
-"%ProgramFiles_temp%\Inno Setup 5\iscc.exe" /q "/dVersion=%version%" omegaengine-samples.iss
+"%ProgramFiles_temp%\Inno Setup 5\iscc.exe" /q "/dVersion=%version%" frame-of-reference.iss
 if errorlevel 1 pause
 
 
-if "%1"=="+run" "%~dp0..\build\Installer\omegaengine-samples.iss" /silent
-if "%2"=="+run" "%~dp0..\build\Installer\omegaengine-samples.iss" /silent
-if "%3"=="+run" "%~dp0..\build\Installer\omegaengine-samples.iss" /silent
-if "%4"=="+run" "%~dp0..\build\Installer\omegaengine-samples.iss" /silent
+if "%1"=="+run" "%~dp0..\build\Installer\frame-of-reference.exe" /silent
+if "%2"=="+run" "%~dp0..\build\Installer\frame-of-reference.exe" /silent
+if "%3"=="+run" "%~dp0..\build\Installer\frame-of-reference.exe" /silent
+if "%4"=="+run" "%~dp0..\build\Installer\frame-of-reference.exe" /silent
 
 :end
