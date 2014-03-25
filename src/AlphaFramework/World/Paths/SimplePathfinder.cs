@@ -49,10 +49,8 @@ namespace AlphaFramework.World.Paths
         /// <inheritdoc/>
         public IEnumerable<Vector2> FindPath(Vector2 start, Vector2 target)
         {
-            start.X = (int)start.X;
-            start.Y = (int)start.Y;
-            target.X = (int)target.X;
-            target.Y = (int)target.Y;
+            var roundedStart = new Vector2((int)start.X, (int)start.Y);
+            var roundedTarget = new Vector2((int)target.X, (int)target.Y);
             var goneLockup = new int[_obstructionMap.GetLength(0), _obstructionMap.GetLength(1)];
 
             using (new TimedLogEvent("Calculating path"))
@@ -62,7 +60,7 @@ namespace AlphaFramework.World.Paths
 
                 _openList.Clear();
                 _closeList.Clear();
-                var parentNode = GetParentNode(start, target);
+                var parentNode = GetParentNode(roundedStart, roundedTarget);
                 _openList.Add(parentNode);
 
                 Node nextNode;
@@ -71,7 +69,7 @@ namespace AlphaFramework.World.Paths
                     _openList.Remove(parentNode);
                     _closeList.Add(parentNode);
 
-                    if (parentNode.Position == target)
+                    if (parentNode.Position == roundedTarget)
                     {
                         pathFound = true;
                         break;
@@ -87,7 +85,7 @@ namespace AlphaFramework.World.Paths
                             continue;
 
                         nextNode.G = parentNode.G + (i > 3 ? 14 : 10);
-                        nextNode.H = 10 * (int)(nextNode.Position - target).Length();
+                        nextNode.H = 10 * (int)(nextNode.Position - roundedTarget).Length();
                         nextNode.F = nextNode.G + nextNode.H;
                         nextNode.Parent = parentNode.Position;
 
@@ -124,6 +122,8 @@ namespace AlphaFramework.World.Paths
 
                 if (pathFound)
                 {
+                    path.Push(target);
+
                     nextNode = _closeList[_closeList.Count - 1];
                     while (!(nextNode.Parent.Equals(nextNode.Position)))
                     {
