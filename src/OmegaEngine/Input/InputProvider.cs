@@ -78,7 +78,7 @@ namespace OmegaEngine.Input
         /// <param name="area">The selected area in pixels.</param>
         /// <param name="accumulate"><see langword="true"/> when the user wants the new selection to be added to the old one.</param>
         /// <param name="done">True when the user has finished his selection (e.g. released the mouse).</param>
-        protected virtual void OnAreaSelection(Rectangle area, bool accumulate, bool done)
+        protected virtual void OnAreaSelection(Rectangle area, bool accumulate, bool done = false)
         {
             foreach (var receiver in _receivers)
                 receiver.AreaSelection(area, accumulate, done);

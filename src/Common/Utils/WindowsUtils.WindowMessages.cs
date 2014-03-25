@@ -80,7 +80,7 @@ namespace Common.Utils
         ExitSizeMove = 0x0232,
         Size = 0x0005,
     }
-	#endregion
+    #endregion
 
     /// <summary>
     /// Provides helper methods and API calls specific to the Windows platform.

@@ -127,9 +127,9 @@ namespace Common.Utils
 
                 // Assign a handler to this message.
                 EventHandler<TouchEventArgs> handler = null;     // Touch event handler
-                if ((ti.dwFlags & TouchEvents.Down) != 0) handler = onTouchDown;
-                else if ((ti.dwFlags & TouchEvents.Up) != 0) handler = onTouchUp;
-                else if ((ti.dwFlags & TouchEvents.Move) != 0) handler = onTouchMove;
+                if (ti.dwFlags.HasFlag(TouchEvents.Down)) handler = onTouchDown;
+                else if (ti.dwFlags.HasFlag(TouchEvents.Up)) handler = onTouchUp;
+                else if (ti.dwFlags.HasFlag(TouchEvents.Move)) handler = onTouchMove;
 
                 // Convert message parameters into touch event arguments and handle the event.
                 if (handler != null)

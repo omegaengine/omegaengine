@@ -8,6 +8,7 @@
 
 using System;
 using Common;
+using Common.Values;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.VertexDecl;
@@ -25,7 +26,7 @@ namespace OmegaEngine.Graphics
         /// </summary>
         private static void CloneAddTexture(ref Mesh mesh)
         {
-            if ((mesh.VertexFormat & VertexFormat.Texture1) != 0)
+            if (mesh.VertexFormat.HasFlag(VertexFormat.Texture1))
                 throw new ArgumentException("The mesh already contains texture coordinates.", "mesh");
 
             // Clones the mesh, disposes the old one and then swaps them

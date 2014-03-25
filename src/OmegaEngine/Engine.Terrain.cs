@@ -7,6 +7,7 @@
  */
 
 using System.Collections.Generic;
+using Common.Values;
 using OmegaEngine.Graphics.Shaders;
 
 namespace OmegaEngine
@@ -29,7 +30,7 @@ namespace OmegaEngine
         /// </summary>
         /// <param name="lighting">Get a shader with lighting enabled?</param>
         /// <param name="textureMask">A bitmask that indicates which textures are enabled.</param>
-        internal TerrainShader GetTerrainShader(bool lighting, ushort textureMask)
+        internal TerrainShader GetTerrainShader(bool lighting, int textureMask)
         {
             var terrainShaders = lighting ? _terrainShadersLighting : _terrainShadersNoLighting;
             if (terrainShaders[textureMask] == null)
@@ -37,7 +38,7 @@ namespace OmegaEngine
                 var texturesList = new LinkedList<int>();
                 for (int i = 0; i < 16; i++)
                 {
-                    if ((textureMask & 1 << i) == 1 << i)
+                    if (textureMask.HasFlag(1 << i))
                         texturesList.AddLast(i + 1);
                 }
                 var controllers = new Dictionary<string, IEnumerable<int>>(1) {{"textures", texturesList}};

@@ -38,5 +38,21 @@ namespace Common.Values
             long flagVal = Convert.ToInt64(flag);
             return (enumValue & flagVal) == flagVal;
         }
+
+        /// <summary>
+        /// Checks whether a flag is set.
+        /// </summary>
+        public static bool HasFlag(this ushort enumRef, ushort flag)
+        {
+            return (enumRef & flag) == flag;
+        }
+
+        /// <summary>
+        /// Checks whether a flag is set.
+        /// </summary>
+        public static bool HasFlag(this int enumRef, int flag)
+        {
+            return (enumRef & flag) == flag;
+        }
     }
 }

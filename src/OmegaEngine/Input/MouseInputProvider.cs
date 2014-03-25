@@ -9,6 +9,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Common.Values;
 
 namespace OmegaEngine.Input
 {
@@ -99,10 +100,8 @@ namespace OmegaEngine.Input
             // Cancle active selections when additional become pressed
             if (_moving)
             {
-                // Check if the Ctrl key was pressed for accumulation
-                bool accumulate = (Control.ModifierKeys & Keys.Control) != 0;
-
-                OnAreaSelection(new Rectangle(_origMouseLoc, _totalMouseDelta), accumulate, true);
+                bool accumulate = Control.ModifierKeys.HasFlag(Keys.Control);
+                OnAreaSelection(new Rectangle(_origMouseLoc, _totalMouseDelta), accumulate, done: true);
                 _moving = false;
             }
 
@@ -138,8 +137,7 @@ namespace OmegaEngine.Input
             }
             #endregion
 
-            // Check if the Ctrl key was pressed for accumulation
-            bool accumulate = (Control.ModifierKeys & Keys.Control) != 0;
+            bool accumulate = Control.ModifierKeys.HasFlag(Keys.Control);
 
             #region Events
             switch (Control.MouseButtons)
@@ -147,7 +145,7 @@ namespace OmegaEngine.Input
                 case MouseButtons.Left:
                     if (_moving)
                     { // The mouse moved more than a click, so this is an active selection
-                        OnAreaSelection(new Rectangle(_origMouseLoc, _totalMouseDelta), accumulate, false);
+                        OnAreaSelection(new Rectangle(_origMouseLoc, _totalMouseDelta), accumulate);
                     }
                     break;
 
@@ -190,15 +188,14 @@ namespace OmegaEngine.Input
             if (!_pressed || !HasReceivers) return;
             _pressed = false;
 
-            // Check if the Ctrl key was pressed for accumulation
-            bool accumulate = (Control.ModifierKeys & Keys.Control) != 0;
+            bool accumulate = Control.ModifierKeys.HasFlag(Keys.Control);
 
             // Check if only the left mouse-button was pressed and now released
             if (e.Button == MouseButtons.Left && Control.MouseButtons == MouseButtons.None)
             {
                 if (_moving)
                 { // The mouse moved more than a click, so this is a completed selection
-                    OnAreaSelection(new Rectangle(_origMouseLoc, _totalMouseDelta), accumulate, true);
+                    OnAreaSelection(new Rectangle(_origMouseLoc, _totalMouseDelta), accumulate, done: true);
                 }
                 else
                 { // The mouse didn't move more than a click, so this is a click

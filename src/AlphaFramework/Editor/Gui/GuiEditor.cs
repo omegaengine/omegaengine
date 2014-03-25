@@ -12,6 +12,7 @@ using System.IO;
 using System.Windows.Forms;
 using Common;
 using Common.Storage;
+using Common.Values;
 using OmegaEngine;
 using OmegaGUI;
 using OmegaGUI.Model;
@@ -328,8 +329,7 @@ namespace AlphaFramework.Editor.Gui
         {
             _pickStart = _lastLocation = e.Location;
 
-            // Check if the Ctrl key was pressed for accumulation
-            bool accumulate = (ModifierKeys & Keys.Control) != 0;
+            bool accumulate = ModifierKeys.HasFlag(Keys.Control);
 
             // Switch to control dragging instead of selection if the mouse is pressed while above a control
             if (DialogModel != null && DialogModel.EffectiveScale == 1)
@@ -412,8 +412,7 @@ namespace AlphaFramework.Editor.Gui
                     _pickStart.X > e.X ? _pickStart.X : e.X,
                     _pickStart.Y > e.Y ? _pickStart.Y : e.Y));
 
-                // Check if the Ctrl key was pressed for accumulation
-                bool accumulate = (ModifierKeys & Keys.Control) != 0;
+                bool accumulate = ModifierKeys.HasFlag(Keys.Control);
 
                 // Remove all previous selections unless the user wants to accumulate selections
                 if (!accumulate) listBox.ClearSelected();

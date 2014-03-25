@@ -137,18 +137,20 @@ namespace TerrainSample.Presentation
         /// </summary>
         private void NextTestCase()
         {
+            var testCase = _statistics.TestCases[_testCaseCounter];
+
             // Apply settings
             Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize =
-                _statistics.TestCases[_testCaseCounter].HighRes ? new Size(1024, 768) : new Size(800, 600);
-            Settings.Current.Display.AntiAliasing = _statistics.TestCases[_testCaseCounter].AntiAliasing ? 2 : 0;
-            Settings.Current.Graphics.Anisotropic = (_statistics.TestCases[_testCaseCounter].GraphicsSettings).HasFlag(TestGraphicsSettings.Anisotropic);
-            Settings.Current.Graphics.DoubleSampling = (_statistics.TestCases[_testCaseCounter].GraphicsSettings).HasFlag(TestGraphicsSettings.DoubleSampling);
-            Settings.Current.Graphics.PostScreenEffects = (_statistics.TestCases[_testCaseCounter].GraphicsSettings).HasFlag(TestGraphicsSettings.PostScreenEffects);
-            Settings.Current.Graphics.WaterEffects = _statistics.TestCases[_testCaseCounter].WaterEffects;
-            Settings.Current.Graphics.ParticleSystemQuality = _statistics.TestCases[_testCaseCounter].ParticleSystemQuality;
+                testCase.HighRes ? new Size(1024, 768) : new Size(800, 600);
+            Settings.Current.Display.AntiAliasing = testCase.AntiAliasing ? 2 : 0;
+            Settings.Current.Graphics.Anisotropic = testCase.GraphicsSettings.HasFlag(TestGraphicsSettings.Anisotropic);
+            Settings.Current.Graphics.DoubleSampling = testCase.GraphicsSettings.HasFlag(TestGraphicsSettings.DoubleSampling);
+            Settings.Current.Graphics.PostScreenEffects = testCase.GraphicsSettings.HasFlag(TestGraphicsSettings.PostScreenEffects);
+            Settings.Current.Graphics.WaterEffects = testCase.WaterEffects;
+            Settings.Current.Graphics.ParticleSystemQuality = testCase.ParticleSystemQuality;
 
             // Set camera to new test-case target
-            View.Camera = CreateCamera(_statistics.TestCases[_testCaseCounter].Target);
+            View.Camera = CreateCamera(testCase.Target);
 
             Log.Info("Start test-case #" + _testCaseCounter);
 
