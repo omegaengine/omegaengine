@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading;
 using Common;
 using Common.Utils;
+using Common.Values;
 using LuaInterface;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;
@@ -375,11 +376,11 @@ namespace OmegaEngine
         /// </summary>
         internal void SetupTextureFiltering()
         {
-            var filter = (int)Device.Capabilities.TextureFilterCaps;
+            var filter = Device.Capabilities.TextureFilterCaps;
             Device.SetSamplerState(0, SamplerState.MaxAnisotropy, Device.Capabilities.MaxAnisotropy);
 
             // Always use linear filtering for mip-maps if possible
-            if (filter.CheckFlag((int)FilterCaps.MipLinear))
+            if (filter.HasFlag(FilterCaps.MipLinear))
                 Device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.Linear);
 
             if (Anisotropic)
@@ -387,7 +388,7 @@ namespace OmegaEngine
                 Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Anisotropic);
                 Device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Anisotropic);
             }
-            else if (filter.CheckFlag((int)(FilterCaps.MinLinear | FilterCaps.MagLinear)))
+            else if (filter.HasFlag(FilterCaps.MinLinear | FilterCaps.MagLinear))
             { // Otherwise use linear filtering if possible
                 Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
                 Device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);

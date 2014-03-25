@@ -20,48 +20,23 @@
  * THE SOFTWARE.
  */
 
-using System.ComponentModel;
-using System.Windows.Forms;
-using Common.Tasks;
+using System;
 
-namespace Common.Controls
+namespace Common.Values
 {
     /// <summary>
-    /// Combines a <see cref="TaskProgressBar"/> and a <see cref="TaskLabel"/>.
+    /// Contains extension methods for <see cref="Enum"/>s.
     /// </summary>
-    public sealed partial class TaskControl : UserControl
+    public static class EnumExtensions
     {
         /// <summary>
-        /// The name of the task being tracked.
+        /// Checks whether a flag is set.
         /// </summary>
-        [Description("The name of the task being tracked.")]
-        [DefaultValue("")]
-        public string TaskName
+        public static bool HasFlag(this Enum enumRef, Enum flag)
         {
-            get { return labelOperation.Text; }
-            set
-            {
-                labelOperation.Text = (value ?? "");
-                toolTip.SetToolTip(labelOperation, labelOperation.Text); // Show as tooltip in case text is cut off
-            }
-        }
-
-        /// <summary>
-        /// Creates a new tracking control.
-        /// </summary>
-        public TaskControl()
-        {
-            InitializeComponent();
-            CreateHandle();
-        }
-
-        /// <summary>
-        /// Sets the current progress to be displayed.
-        /// </summary>
-        public void Report(TaskSnapshot snapshot)
-        {
-            progressBar.Report(snapshot);
-            progressLabel.Report(snapshot);
+            long enumValue = Convert.ToInt64(enumRef);
+            long flagVal = Convert.ToInt64(flag);
+            return (enumValue & flagVal) == flagVal;
         }
     }
 }

@@ -8,7 +8,8 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Common.Utils;
+using Common;
+using Common.Values;
 using SlimDX;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
@@ -225,7 +226,7 @@ namespace OmegaEngine.Graphics
             int[] ret;
             using (DataStream indexStream = mesh.LockIndexBuffer(LockFlags.ReadOnly))
             {
-                if (((int)mesh.CreationOptions).CheckFlag((int)MeshFlags.Use32Bit))
+                if ((mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit))
                 { // 32-bit values
                     ret = indexStream.ReadRange<int>(indexCount);
                 }
@@ -294,7 +295,7 @@ namespace OmegaEngine.Graphics
             #region Sanity checks
             if (mesh == null) throw new ArgumentNullException("mesh");
             if (data == null) throw new ArgumentNullException("data");
-            if (((int)mesh.CreationOptions).CheckFlag((int)MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot16bit, "mesh");
+            if ((mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot16bit, "mesh");
             #endregion
 
             using (DataStream indexStream = mesh.LockIndexBuffer(LockFlags.None))
@@ -314,7 +315,7 @@ namespace OmegaEngine.Graphics
             #region Sanity checks
             if (mesh == null) throw new ArgumentNullException("mesh");
             if (data == null) throw new ArgumentNullException("data");
-            if (!((int)mesh.CreationOptions).CheckFlag((int)MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot32bit, "mesh");
+            if (!(mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot32bit, "mesh");
             #endregion
 
             using (DataStream indexStream = mesh.LockIndexBuffer(LockFlags.None))

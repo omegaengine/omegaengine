@@ -24,6 +24,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Common.Controls;
+using Common.Values;
 
 namespace Common.Utils
 {
@@ -144,10 +145,10 @@ namespace Common.Utils
                         LocationY = ti.y / 100,
                         Time = ti.dwTime,
                         Mask = ti.dwMask,
-                        InRange = MathUtils.CheckFlag((int)ti.dwFlags, (int)TouchEvents.InRange),
-                        Primary = MathUtils.CheckFlag((int)ti.dwFlags, (int)TouchEvents.Primary),
-                        NoCoalesce = MathUtils.CheckFlag((int)ti.dwFlags, (int)TouchEvents.NoCoalesce),
-                        Palm = MathUtils.CheckFlag((int)ti.dwFlags, (int)TouchEvents.Palm)
+                        InRange = ti.dwFlags.HasFlag(TouchEvents.InRange),
+                        Primary = ti.dwFlags.HasFlag(TouchEvents.Primary),
+                        NoCoalesce = ti.dwFlags.HasFlag(TouchEvents.NoCoalesce),
+                        Palm = ti.dwFlags.HasFlag(TouchEvents.Palm)
                     };
 
                     handler(sender, te);

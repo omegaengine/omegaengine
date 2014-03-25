@@ -20,48 +20,26 @@
  * THE SOFTWARE.
  */
 
-using System.ComponentModel;
-using System.Windows.Forms;
-using Common.Tasks;
+using System;
 
-namespace Common.Controls
+namespace Common.Undo
 {
     /// <summary>
-    /// Combines a <see cref="TaskProgressBar"/> and a <see cref="TaskLabel"/>.
+    /// Executes <see cref="IUndoCommand"/>s without any additional handling.
     /// </summary>
-    public sealed partial class TaskControl : UserControl
+    public class SimpleCommandExecutor : ICommandExecutor
     {
-        /// <summary>
-        /// The name of the task being tracked.
-        /// </summary>
-        [Description("The name of the task being tracked.")]
-        [DefaultValue("")]
-        public string TaskName
-        {
-            get { return labelOperation.Text; }
-            set
-            {
-                labelOperation.Text = (value ?? "");
-                toolTip.SetToolTip(labelOperation, labelOperation.Text); // Show as tooltip in case text is cut off
-            }
-        }
+        /// <inheritdoc/>
+        public string Path { get; set; }
 
-        /// <summary>
-        /// Creates a new tracking control.
-        /// </summary>
-        public TaskControl()
+        /// <intheritdoc/>
+        public void Execute(IUndoCommand command)
         {
-            InitializeComponent();
-            CreateHandle();
-        }
+            #region Sanity checks
+            if (command == null) throw new ArgumentNullException("command");
+            #endregion
 
-        /// <summary>
-        /// Sets the current progress to be displayed.
-        /// </summary>
-        public void Report(TaskSnapshot snapshot)
-        {
-            progressBar.Report(snapshot);
-            progressLabel.Report(snapshot);
+            command.Execute();
         }
     }
 }

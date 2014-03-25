@@ -14,7 +14,7 @@ using System.Management;
 using System.Text;
 using Common;
 using Common.Info;
-using Common.Utils;
+using Common.Values;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine
@@ -145,12 +145,12 @@ namespace OmegaEngine
                 if (MaxShaderModel == new Version(2, 0) && _capabilities.MaxPixelShader30InstructionSlots >= 96)
                 {
                     if (_capabilities.PS20Caps.TempCount >= 22 &&
-                        ((int)_capabilities.PS20Caps.Caps).CheckFlag((int)(PixelShaderCaps.ArbitrarySwizzle | PixelShaderCaps.GradientInstructions | PixelShaderCaps.Predication | PixelShaderCaps.NoDependentReadLimit | PixelShaderCaps.NoTextureInstructionLimit)))
+                        _capabilities.PS20Caps.Caps.HasFlag(PixelShaderCaps.ArbitrarySwizzle | PixelShaderCaps.GradientInstructions | PixelShaderCaps.Predication | PixelShaderCaps.NoDependentReadLimit | PixelShaderCaps.NoTextureInstructionLimit))
                     { // Pixel shader 2.0a
                         MaxShaderModel = new Version(2, 0, 1);
                     }
                     else if (_capabilities.PS20Caps.TempCount >= 32 &&
-                             ((int)_capabilities.PS20Caps.Caps).CheckFlag((int)PixelShaderCaps.NoTextureInstructionLimit))
+                             _capabilities.PS20Caps.Caps.HasFlag(PixelShaderCaps.NoTextureInstructionLimit))
                     { // Pixel shader 2.0b
                         MaxShaderModel = new Version(2, 0, 2);
                     }
@@ -161,15 +161,15 @@ namespace OmegaEngine
 
             // Log GPU capabilities
             Log.Info("GPU capabilities:\n" +
-                     "HWTransformAndLight: " + ((int)_capabilities.DeviceCaps).CheckFlag((int)DeviceCaps.HWTransformAndLight) + "\n" +
-                     "PureDevice: " + ((int)_capabilities.DeviceCaps).CheckFlag((int)DeviceCaps.PureDevice) + "\n" +
+                     "HWTransformAndLight: " + _capabilities.DeviceCaps.HasFlag(DeviceCaps.HWTransformAndLight) + "\n" +
+                     "PureDevice: " + _capabilities.DeviceCaps.HasFlag(DeviceCaps.PureDevice) + "\n" +
                      "Anisotropic: " + Anisotropic + "\n" +
                      "VertexShaderVersion: " + _capabilities.VertexShaderVersion + "\n" +
                      "PixelShaderVersion: " + MaxShaderModel + "\n" +
                      "SupportedAA: " + SupportedAA + "\n");
 
             // Ensure support for linear texture filtering
-            if (!((int)_capabilities.TextureFilterCaps).CheckFlag((int)(FilterCaps.MinLinear | FilterCaps.MagLinear | FilterCaps.MipLinear)))
+            if (!(_capabilities.TextureFilterCaps).HasFlag(FilterCaps.MinLinear | FilterCaps.MagLinear | FilterCaps.MipLinear))
             {
                 //throw new NotAvailableException(Properties.Resources.NoLinearTextureFiltering);
                 Log.Warn("Missing support for linear texture filtering");
@@ -195,18 +195,18 @@ namespace OmegaEngine
         /// <summary>
         /// Does the graphics support rasterization, transform, lighting, and shading in hardware?
         /// </summary>
-        public bool PureDevice { get { return ((int)_capabilities.DeviceCaps).CheckFlag((int)(DeviceCaps.PureDevice)); } }
+        public bool PureDevice { get { return (_capabilities.DeviceCaps).HasFlag(DeviceCaps.PureDevice); } }
 
         /// <summary>
         /// Does the graphics support hardware transformation and lighting?
         /// </summary>
-        public bool HardwareVertexProcessing { get { return ((int)_capabilities.DeviceCaps).CheckFlag((int)DeviceCaps.HWTransformAndLight); } }
+        public bool HardwareVertexProcessing { get { return (_capabilities.DeviceCaps).HasFlag(DeviceCaps.HWTransformAndLight); } }
 
         /// <summary>
         /// Does the hardware the engine is running on support anisotropic texture filtering?
         /// </summary>
         /// <seealso cref="Engine.Anisotropic"/>
-        public bool Anisotropic { get { return ((int)_direct3D.GetDeviceCaps(0, DeviceType.Hardware).TextureFilterCaps).CheckFlag((int)(FilterCaps.MinAnisotropic | FilterCaps.MagAnisotropic)); } }
+        public bool Anisotropic { get { return (_direct3D.GetDeviceCaps(0, DeviceType.Hardware).TextureFilterCaps).HasFlag(FilterCaps.MinAnisotropic | FilterCaps.MagAnisotropic); } }
 
         /// <summary>
         /// The maximum shader model version to be used (2.a is replaced by 2.0.1, 2.b is replaced by 2.0.2)

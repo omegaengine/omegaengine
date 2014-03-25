@@ -27,7 +27,7 @@ using System.IO;
 using Common;
 using Common.Info;
 using Common.Storage;
-using Common.Utils;
+using Common.Values;
 using ICSharpCode.SharpZipLib.Zip;
 using OmegaEngine;
 using OmegaEngine.Graphics;
@@ -141,9 +141,9 @@ namespace TerrainSample.Presentation
             Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize =
                 _statistics.TestCases[_testCaseCounter].HighRes ? new Size(1024, 768) : new Size(800, 600);
             Settings.Current.Display.AntiAliasing = _statistics.TestCases[_testCaseCounter].AntiAliasing ? 2 : 0;
-            Settings.Current.Graphics.Anisotropic = ((byte)_statistics.TestCases[_testCaseCounter].GraphicsSettings).CheckFlag((byte)TestGraphicsSettings.Anisotropic);
-            Settings.Current.Graphics.DoubleSampling = ((byte)_statistics.TestCases[_testCaseCounter].GraphicsSettings).CheckFlag((byte)TestGraphicsSettings.DoubleSampling);
-            Settings.Current.Graphics.PostScreenEffects = ((byte)_statistics.TestCases[_testCaseCounter].GraphicsSettings).CheckFlag((byte)TestGraphicsSettings.PostScreenEffects);
+            Settings.Current.Graphics.Anisotropic = (_statistics.TestCases[_testCaseCounter].GraphicsSettings).HasFlag(TestGraphicsSettings.Anisotropic);
+            Settings.Current.Graphics.DoubleSampling = (_statistics.TestCases[_testCaseCounter].GraphicsSettings).HasFlag(TestGraphicsSettings.DoubleSampling);
+            Settings.Current.Graphics.PostScreenEffects = (_statistics.TestCases[_testCaseCounter].GraphicsSettings).HasFlag(TestGraphicsSettings.PostScreenEffects);
             Settings.Current.Graphics.WaterEffects = _statistics.TestCases[_testCaseCounter].WaterEffects;
             Settings.Current.Graphics.ParticleSystemQuality = _statistics.TestCases[_testCaseCounter].ParticleSystemQuality;
 

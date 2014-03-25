@@ -547,32 +547,6 @@ namespace Common.Utils
         }
         #endregion
 
-        #region Flags
-        /// <summary>
-        /// Checks whether a certain flag is set in a flags value
-        /// </summary>
-        /// <param name="value">The value to check for a certain flag</param>
-        /// <param name="flag">The flag to look for</param>
-        /// <returns><see langword="true"/> if the <paramref name="flag"/> was set in <paramref name="value"/>.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", Justification = "The Term 'flag' is still in general use")]
-        public static bool CheckFlag(this byte value, byte flag)
-        {
-            return (value & flag) == flag;
-        }
-
-        /// <summary>
-        /// Checks whether a certain flag is set in a flags value
-        /// </summary>
-        /// <param name="value">The value to check for a certain flag</param>
-        /// <param name="flag">The flag to look for</param>
-        /// <returns><see langword="true"/> if the <paramref name="flag"/> was set in <paramref name="value"/>.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", Justification = "The Term 'flag' is still in general use")]
-        public static bool CheckFlag(this int value, int flag)
-        {
-            return (value & flag) == flag;
-        }
-        #endregion
-
         //--------------------//
 
         #region Quaternions

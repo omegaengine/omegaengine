@@ -332,6 +332,7 @@
     <Compile Include="Undo\SetLocalizableString.cs" />
     <Compile Include="Undo\SetValueCommand.cs" />
     <Compile Include="Undo\SimpleCommand.cs" />
+    <Compile Include="Undo\SimpleCommandExecutor.cs" />
     <Compile Include="Utils\AttributeUtils.cs" />
     <Compile Include="Utils\ColorUtils.cs" />
     <Compile Include="Utils\FileUtils.cs" />
@@ -372,6 +373,7 @@
     <Compile Include="Values\DoublePlane.cs" />
     <Compile Include="Values\DoubleVector3.cs" />
     <Compile Include="Values\ExpandableRectangleArray.cs" />
+    <Compile Include="Values\EnumExtensions.cs" />
     <Compile Include="Values\FileTypeAttribute.cs" />
     <Compile Include="Values\FloatRangeAttribute.cs" />
     <Compile Include="Values\GraphicsEnums.cs" />

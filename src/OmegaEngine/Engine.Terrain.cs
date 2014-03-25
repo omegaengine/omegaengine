@@ -7,7 +7,6 @@
  */
 
 using System.Collections.Generic;
-using Common.Utils;
 using OmegaEngine.Graphics.Shaders;
 
 namespace OmegaEngine
@@ -37,7 +36,10 @@ namespace OmegaEngine
             {
                 var texturesList = new LinkedList<int>();
                 for (int i = 0; i < 16; i++)
-                    if (MathUtils.CheckFlag(textureMask, 1 << i)) texturesList.AddLast(i + 1);
+                {
+                    if ((textureMask & 1 << i) == 1 << i)
+                        texturesList.AddLast(i + 1);
+                }
                 var controllers = new Dictionary<string, IEnumerable<int>>(1) {{"textures", texturesList}};
                 RegisterChild(terrainShaders[textureMask] = new TerrainShader(lighting, controllers));
             }
