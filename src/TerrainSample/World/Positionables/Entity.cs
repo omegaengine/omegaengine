@@ -51,19 +51,6 @@ namespace TerrainSample.World.Positionables
 
         //--------------------//
 
-        /// <inheritdoc/>
-        public override void Update(double elapsedTime)
-        {
-            if (_recordedWaypoints.Count == 0)
-            { }
-            else
-            {
-                
-            }
-
-            base.Update(elapsedTime);
-        }
-
         #region Collision
         /// <summary>
         /// Determines whether a certain point collides with this entity (based on its <see cref="Collision{TCoordinates}"/> component).
