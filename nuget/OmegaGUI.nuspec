@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>0.8.4</version>
+    <version>0.9.0</version>
     <authors>Bastian Eicher</authors>
     <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
     <projectUrl>http://code.google.com/p/omegaengine/wiki/OmegaGUI</projectUrl>
     <iconUrl>http://omega.nanobyte.de/images/icon_omega.png</iconUrl>
     <dependencies>
-      <dependency id="OmegaEngine.Backend" version="0.8.4" />
+      <dependency id="OmegaEngine.Backend" version="0.9.0" />
     </dependencies>
     <references>
       <reference file="OmegaGUI.dll" />

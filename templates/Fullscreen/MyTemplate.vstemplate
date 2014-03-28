@@ -32,10 +32,10 @@
   <WizardData>
     <packages repository="extension" repositoryId="OmegaEngine_Templates">
       <package id="LinqBridge" version="1.3.0" />
-      <package id="OmegaEngine.Helpers" version="0.8.4" />
-      <package id="OmegaEngine.Backend" version="0.8.4" />
-      <package id="OmegaEngine" version="0.8.4" />
-      <package id="OmegaGUI" version="0.8.4" />
+      <package id="OmegaEngine.Helpers" version="0.9.0" />
+      <package id="OmegaEngine.Backend" version="0.9.0" />
+      <package id="OmegaEngine" version="0.9.0" />
+      <package id="OmegaGUI" version="0.9.0" />
     </packages>
   </WizardData>
 </VSTemplate>
