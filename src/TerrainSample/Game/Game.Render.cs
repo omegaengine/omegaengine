@@ -190,7 +190,7 @@ namespace TerrainSample
                 {
                     // Time passes as defined by the session
                     double elapsedGameTime = elapsedTime * CurrentSession.Universe.TimeWarpFactor;
-                    CurrentSession.Universe.Update(elapsedGameTime);
+                    CurrentSession.Update(elapsedGameTime);
                     Engine.Render(elapsedGameTime);
                     break;
                 }

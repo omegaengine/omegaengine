@@ -22,7 +22,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Xml.Serialization;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
@@ -81,27 +80,11 @@ namespace TerrainSample.World
             _terrain = terrain;
         }
 
-        /// <summary>
-        /// Update time left over from the last <see cref="Update"/> call due to the fixed update step size.
-        /// </summary>
-        private double _leftoverGameTime;
-
-        /// <summary>
-        /// Fixed step size for updates in seconds. Makes updates deterministic.
-        /// </summary>
-        private const float UpdateStepSize = 0.015f;
-
         /// <inheritdoc/>
         public override void Update(double elapsedGameTime)
         {
-            _leftoverGameTime += elapsedGameTime;
-
-            while (_leftoverGameTime >= UpdateStepSize)
-            {
-                base.Update(UpdateStepSize);
-                LightPhase += UpdateStepSize * LightPhaseSpeedFactor;
-                _leftoverGameTime -= UpdateStepSize;
-            }
+            base.Update(elapsedGameTime);
+            LightPhase += (float)(elapsedGameTime * LightPhaseSpeedFactor);
         }
     }
 }

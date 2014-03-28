@@ -21,9 +21,11 @@
  */
 
 using System;
+using System.ComponentModel;
 using System.IO;
 using AlphaFramework.World;
 using Common.Storage;
+using Common.Utils;
 using ICSharpCode.SharpZipLib.Zip;
 using TerrainSample.World.Config;
 
@@ -58,6 +60,42 @@ namespace TerrainSample.World
         /// <param name="baseUniverse">The universe to base the new game session on.</param>
         public Session(Universe baseUniverse) : base(baseUniverse)
         {}
+
+        //--------------------//
+
+        /// <summary>
+        /// Fixed step size for updates in seconds. Makes updates deterministic.
+        /// </summary>
+        private const double UpdateStepSize = 0.015;
+
+        /// <summary>
+        /// The maximum number of seconds to handle in one call to <see cref="Update"/>. Additional time is simply dropped.
+        /// </summary>
+        private const double MaximumUpdate = 0.75;
+
+        /// <summary>
+        /// <see cref="UniverseBase{T}.GameTime"/> time left over from the last <see cref="Update"/> call due to the fixed update step size.
+        /// </summary>
+        [DefaultValue(0.0)]
+        public double LeftoverGameTime { get; set; }
+
+        /// <summary>
+        /// Updates the underlying <see cref="Universe"/>.
+        /// </summary>
+        /// <param name="elapsedGameTime">How much game time in seconds has elapsed since this method was last called.</param>
+        public void Update(double elapsedGameTime)
+        {
+            LeftoverGameTime += elapsedGameTime.Clamp(-MaximumUpdate, MaximumUpdate);
+
+            while (Math.Abs(LeftoverGameTime) >= UpdateStepSize)
+            {
+                // Handle negative time
+                double effectiveStep = Math.Sign(LeftoverGameTime) * UpdateStepSize;
+
+                Universe.Update(effectiveStep);
+                LeftoverGameTime -= effectiveStep;
+            }
+        }
 
         //--------------------//
 
