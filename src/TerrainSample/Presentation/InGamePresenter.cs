@@ -24,7 +24,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AlphaFramework.World.Positionables;
-using Common;
 using OmegaEngine;
 using OmegaEngine.Graphics;
 using SlimDX;
@@ -87,8 +86,10 @@ namespace TerrainSample.Presentation
             if (positionables == null) throw new ArgumentNullException("positionables");
             #endregion
 
-            if (positionables.OfType<Entity>().Contains(Universe.PlayerEntity))
-                Universe.PathfindEntity(Universe.PlayerEntity, target);
+            if (Universe.TimeWarpFactor <= 0) return;
+
+            foreach (var entity in positionables.OfType<Entity>().Where(entity => !entity.IsNpc))
+                Universe.PathfindEntity(entity, target);
         }
     }
 }

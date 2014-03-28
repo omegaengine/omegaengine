@@ -49,6 +49,12 @@ namespace TerrainSample.World.Positionables
         [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public float Rotation { get { return _rotation; } set { value.To(ref _rotation, OnChanged); } }
 
+        /// <summary>
+        /// <see langword="true"/> if this entity is controlled by the computer, <see langword="false"/> if it is controlled by a human player.
+        /// </summary>
+        [XmlAttribute, DefaultValue(false), Description("true if this entity is controlled by the computer, false if it is controlled by a human player.")]
+        public bool IsNpc { get; set; }
+
         //--------------------//
 
         #region Collision

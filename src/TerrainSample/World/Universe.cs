@@ -49,18 +49,6 @@ namespace TerrainSample.World
          XmlElement(typeof(Memo<Vector2>), ElementName = "Memo")]
         public override MonitoredCollection<Positionable<Vector2>> Positionables { get { return _positionables; } }
 
-        /// <summary>
-        /// The entity the player is currently in control of.
-        /// </summary>
-        [XmlIgnore, Browsable(false)]
-        public Entity PlayerEntity { get; set; }
-
-        /// <summary>
-        /// The name of entity the player is currently in control of.
-        /// </summary>
-        [DefaultValue(""), Category("Gameplay"), Description("The name of entity the player is currently in control of.")]
-        public string PlayerEntityName { get { return (PlayerEntity == null) ? null : PlayerEntity.Name; } set { PlayerEntity = string.IsNullOrEmpty(value) ? null : Positionables.OfType<Entity>().First(x => x.Name == value); } }
-
         private Terrain<TerrainTemplate> _terrain;
 
         /// <summary>
@@ -82,15 +70,13 @@ namespace TerrainSample.World
         /// Base-constructor for XML serialization. Do not call manually!
         /// </summary>
         public Universe()
-        {
-            Positionables.Removed += x => { if (PlayerEntity == x) PlayerEntity = null; };
-        }
+        {}
 
         /// <summary>
         /// Creates a new <see cref="Universe"/> with a terrain.
         /// </summary>
         /// <param name="terrain">The terrain for the new <see cref="Universe"/>.</param>
-        public Universe(Terrain<TerrainTemplate> terrain) : this()
+        public Universe(Terrain<TerrainTemplate> terrain)
         {
             _terrain = terrain;
         }
