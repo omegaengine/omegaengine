@@ -93,6 +93,8 @@ namespace TerrainSample.World
         /// <inheritdoc/>
         public override void Update(double elapsedGameTime)
         {
+            foreach (var entity in Positionables.OfType<Entity>())
+                RecalcPath(entity);
             base.Update(elapsedGameTime);
             LightPhase += (float)(elapsedGameTime * LightPhaseSpeedFactor);
         }

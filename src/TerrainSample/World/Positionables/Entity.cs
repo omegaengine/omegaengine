@@ -19,7 +19,6 @@ using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World.Components;
-using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
 using Common.Utils;
@@ -35,10 +34,6 @@ namespace TerrainSample.World.Positionables
     /// </summary>
     public sealed class Entity : EntityBase<Vector2, EntityTemplate>
     {
-        /// <inheritdoc/>
-        [Browsable(false)]
-        public override PathControl<Vector2> PathControl { get; set; }
-
         private float _rotation;
 
         /// <summary>

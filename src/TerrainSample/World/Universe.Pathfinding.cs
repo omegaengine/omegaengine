@@ -57,8 +57,6 @@ namespace TerrainSample.World
             MarkUntraversableWaters(obstructionMap);
             Terrain.MarkUntraversableSlopes(obstructionMap, _maxTraversableSlope);
             Pathfinder = new SimplePathfinder(obstructionMap);
-
-            RecalcPaths();
         }
 
         /// <summary>
@@ -85,13 +83,12 @@ namespace TerrainSample.World
         }
 
         /// <summary>
-        /// Recalculates all cached pathfinding results.
+        /// Recalculates the path of an entity if it was lost due to XML serialization.
         /// </summary>
-        private void RecalcPaths()
+        private void RecalcPath(Entity entity)
         {
-            foreach (var entity in Positionables.OfType<Entity>().Where(x => x.PathControl != null))
+            if (entity.PathControl != null && entity.PathControl.PathNodes.Count == 0)
                 StartMoving(entity, entity.PathControl.Target);
-            Update(0);
         }
         #endregion
 
