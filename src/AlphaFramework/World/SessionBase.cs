@@ -7,6 +7,8 @@
  */
 
 using System;
+using System.ComponentModel;
+using Common.Utils;
 using LuaInterface;
 
 namespace AlphaFramework.World
@@ -23,6 +25,14 @@ namespace AlphaFramework.World
         /// </summary>
         [LuaHide]
         public TUniverse Universe { get; set; }
+
+        private double _timeWarpFactor = 1;
+
+        /// <summary>
+        /// The factor by which <see cref="UniverseBase{TCoordinates}.GameTime"/> progression should be multiplied in relation to real time.
+        /// </summary>
+        [DefaultValue(1.0)]
+        public double TimeWarpFactor { get { return _timeWarpFactor; } set { _timeWarpFactor = value; } }
 
         /// <summary>
         /// The filename of the map file the <see cref="Universe"/> was loaded from.
@@ -49,6 +59,21 @@ namespace AlphaFramework.World
 
             // Transfer map name from universe to session, because it will persist there
             MapSourceFile = baseUniverse.SourceFile;
+        }
+
+        /// <summary>
+        /// Updates the underlying <see cref="Universe"/>.
+        /// </summary>
+        /// <param name="elapsedRealTime">How much real time in seconds has elapsed since this method was last called.</param>
+        /// <returns>The elapsed game time (real time multiplied by <see cref="TimeWarpFactor"/>)</returns>
+        public virtual double Update(double elapsedRealTime)
+        {
+            double elapsedGameTime = (elapsedRealTime * TimeWarpFactor);
+
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            if (elapsedGameTime != 0) Universe.Update(elapsedGameTime);
+
+            return elapsedGameTime;
         }
     }
 }

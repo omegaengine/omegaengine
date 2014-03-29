@@ -189,9 +189,7 @@ namespace TerrainSample
                 case GameState.Modify:
                 {
                     // Time passes as defined by the session
-                    double elapsedGameTime = elapsedTime * CurrentSession.Universe.TimeWarpFactor;
-                    CurrentSession.Update(elapsedGameTime);
-                    Engine.Render(elapsedGameTime);
+                    Engine.Render(CurrentSession.Update(elapsedTime));
                     break;
                 }
 

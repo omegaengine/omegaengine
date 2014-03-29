@@ -32,15 +32,6 @@ namespace AlphaFramework.World
         [DefaultValue(0.0), Category("Gameplay"), Description("Total elapsed game time in seconds.")]
         public double GameTime { get; set; }
 
-        private float _timeWarpFactor = 1;
-
-        /// <summary>
-        /// The factor by which <see cref="GameTime"/> progression should be multiplied in relation to real time.
-        /// </summary>
-        /// <remarks>This multiplication is not done by <see cref="Update"/>!</remarks>
-        [DefaultValue(1f), Category("Gameplay"), Description("The factor by which GameTime progression should be multiplied in relation to real time.")]
-        public float TimeWarpFactor { get { return _timeWarpFactor; } set { _timeWarpFactor = value; } }
-
         /// <summary>
         /// A collection of all <see cref="Positionable{TCoordinates}"/>s in this <see cref="UniverseBase{TCoordinates}"/>.
         /// </summary>

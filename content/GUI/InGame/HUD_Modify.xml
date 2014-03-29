@@ -4,7 +4,7 @@
 	<ColorCaption A="128" R="96" G="128" B="255" />
 	<ColorText A="255" R="255" G="255" B="255" />
 	<OnUpdate>LightPhase.Value = Universe.LightPhase * 25
-TimeWarpFactor.Value = Universe.TimeWarpFactor * 10
+TimeWarpFactor.Value = Session.TimeWarpFactor * 10
 FPS.Text = Engine.Performance.FpsText</OnUpdate>
 	<Size Width="800" Height="600" />
 	<Shift X="0" Y="0" />
@@ -24,7 +24,7 @@ FPS.Text = Engine.Performance.FpsText</OnUpdate>
 		<Min>-100</Min>
 		<Max>100</Max>
 		<Value>10</Value>
-		<OnChanged>Universe.TimeWarpFactor = TimeWarpFactor.Value / 10</OnChanged>
+		<OnChanged>Session.TimeWarpFactor = TimeWarpFactor.Value / 10</OnChanged>
 	</Slider>
 	<Label Name="LightPhaseLabel" Text="[LightPhase]">
 		<Location X="-20" Y="10" />

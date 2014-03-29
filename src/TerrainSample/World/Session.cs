@@ -79,14 +79,12 @@ namespace TerrainSample.World
         [DefaultValue(0.0)]
         public double LeftoverGameTime { get; set; }
 
-        /// <summary>
-        /// Updates the underlying <see cref="Universe"/>.
-        /// </summary>
-        /// <param name="elapsedGameTime">How much game time in seconds has elapsed since this method was last called.</param>
-        public void Update(double elapsedGameTime)
+        /// <inheritdoc/>
+        public override double Update(double elapsedRealTime)
         {
-            LeftoverGameTime += elapsedGameTime.Clamp(-MaximumUpdate, MaximumUpdate);
+            double elapsedGameTime = (elapsedRealTime * TimeWarpFactor);
 
+            LeftoverGameTime += elapsedGameTime.Clamp(-MaximumUpdate, MaximumUpdate);
             while (Math.Abs(LeftoverGameTime) >= UpdateStepSize)
             {
                 // Handle negative time
@@ -95,6 +93,8 @@ namespace TerrainSample.World
                 Universe.Update(effectiveStep);
                 LeftoverGameTime -= effectiveStep;
             }
+
+            return elapsedGameTime;
         }
 
         //--------------------//

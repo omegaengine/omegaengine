@@ -86,8 +86,6 @@ namespace TerrainSample.Presentation
             if (positionables == null) throw new ArgumentNullException("positionables");
             #endregion
 
-            if (Universe.TimeWarpFactor <= 0) return;
-
             foreach (var entity in positionables.OfType<Entity>().Where(entity => !entity.IsNpc))
                 Universe.StartMoving(entity, target);
         }

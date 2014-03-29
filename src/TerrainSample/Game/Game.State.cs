@@ -314,7 +314,6 @@ namespace TerrainSample
                 CurrentPresenter.Initialize();
 
                 // Activate new view
-                CurrentSession.Update(0);
                 AddInputReceiver((InteractivePresenter)CurrentPresenter);
                 CurrentPresenter.HookIn();
                 if (Settings.Current.Graphics.Fading) Engine.FadeIn();
@@ -356,7 +355,6 @@ namespace TerrainSample
                 CurrentPresenter.Initialize();
 
                 // Activate new view
-                CurrentSession.Update(0);
                 AddInputReceiver((InteractivePresenter)CurrentPresenter);
                 CurrentPresenter.HookIn();
                 if (Settings.Current.Graphics.Fading) Engine.FadeIn();
