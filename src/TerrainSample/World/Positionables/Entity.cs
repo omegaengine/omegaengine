@@ -54,7 +54,15 @@ namespace TerrainSample.World.Positionables
         /// <inheritdoc/>
         public override void Update(double elapsedTime)
         {
-            if (PathControl != null) UpdatePathfinding(Math.Abs(elapsedTime));
+            if (PathControl != null)
+            {
+                if (elapsedTime < 0)
+                {
+                    UpdatePathfinding(-elapsedTime);
+                    Rotation += 180;
+                }
+                else UpdatePathfinding(elapsedTime);
+            }
         }
 
         #region Collision
