@@ -22,6 +22,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Xml.Serialization;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
@@ -47,6 +48,15 @@ namespace TerrainSample.World
          XmlElement(typeof(BenchmarkPoint<Vector2>), ElementName = "BenchmarkPoint"),
          XmlElement(typeof(Memo<Vector2>), ElementName = "Memo")]
         public override MonitoredCollection<Positionable<Vector2>> Positionables { get { return _positionables; } }
+
+        /// <summary>
+        /// Retrieves an <see cref="Entity"/> from <see cref="Positionables"/> by its name.
+        /// </summary>
+        /// <returns>The first matching <see cref="Entity"/>; <see langword="null"/> if there is no match.</returns>
+        public Entity GetEntity(string name)
+        {
+            return _positionables.OfType<Entity>().FirstOrDefault(x => x.Name == name);
+        }
 
         private Terrain<TerrainTemplate> _terrain;
 

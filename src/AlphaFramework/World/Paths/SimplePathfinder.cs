@@ -53,7 +53,7 @@ namespace AlphaFramework.World.Paths
             var roundedTarget = new Vector2((int)target.X, (int)target.Y);
             var goneLockup = new int[_obstructionMap.GetLength(0), _obstructionMap.GetLength(1)];
 
-            using (new TimedLogEvent("Calculating path"))
+            using (new TimedLogEvent("Calculating path from " + start + " to " + target))
             {
                 bool pathFound = false;
                 var path = new Stack<Vector2>();
