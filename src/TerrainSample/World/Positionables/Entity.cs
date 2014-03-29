@@ -37,7 +37,6 @@ namespace TerrainSample.World.Positionables
     {
         /// <inheritdoc/>
         [Browsable(false)]
-        [XmlElement(typeof(PathLeader<Vector2>)), XmlElement(typeof(PathFollower<Vector2>))]
         public override PathControl<Vector2> PathControl { get; set; }
 
         private float _rotation;
@@ -56,6 +55,12 @@ namespace TerrainSample.World.Positionables
         public bool IsNpc { get; set; }
 
         //--------------------//
+
+        /// <inheritdoc/>
+        public override void Update(double elapsedTime)
+        {
+            if (PathControl != null) UpdatePathfinding(Math.Abs(elapsedTime));
+        }
 
         #region Collision
         /// <summary>
@@ -109,19 +114,18 @@ namespace TerrainSample.World.Positionables
             return outline;
         }
 
-        /// <inheritdoc/>
-        protected override void UpdatePath(PathLeader<Vector2> leader, double elapsedTime)
+        /// <summary>
+        /// Perform movements queued up in pathfinding.
+        /// </summary>
+        /// <param name="elapsedTime">How much game time in seconds has elapsed since this method was last called. Must be positive!</param>
+        private void UpdatePathfinding(double elapsedTime)
         {
-            #region Sanity checks
-            if (leader == null) throw new ArgumentNullException("leader");
-            #endregion
-
             bool loop;
             Vector2 posDifference;
             do
             {
                 // Get the position of the next target node
-                Vector2 nextNodePos = leader.PathNodes.Peek();
+                Vector2 nextNodePos = PathControl.PathNodes.Peek();
 
                 // Calculate the difference between the current position and the target
                 posDifference = nextNodePos - Position;
@@ -133,18 +137,18 @@ namespace TerrainSample.World.Positionables
                 if (movementFactor >= 1)
                 { // This move will skip past the current node
                     // Remove the node from the list
-                    leader.PathNodes.Dequeue();
+                    PathControl.PathNodes.Dequeue();
 
                     // Subtract the amount of time the rest of the distance to the node would have taken
                     elapsedTime -= differenceLength / TemplateData.Movement.Speed;
 
-                    if (leader.PathNodes.Count == 0)
+                    if (PathControl.PathNodes.Count == 0)
                     { // No further nodes, go to final target
                         // Calculate the difference for the rotation calculation below
-                        posDifference = leader.Target - Position;
+                        posDifference = PathControl.Target - Position;
 
                         // Move the entity
-                        Position = leader.Target;
+                        Position = PathControl.Target;
 
                         // Prevent further calls of this method
                         PathControl = null;
@@ -167,12 +171,6 @@ namespace TerrainSample.World.Positionables
 
             // Make the entity face the direction it is walking in
             Rotation = ((float)Math.Atan2(posDifference.Y, posDifference.X)).RadianToDegree() - 90;
-        }
-
-        /// <inheritdoc/>
-        protected override void UpdatePath(PathFollower<Vector2> follower, double elapsedTime)
-        {
-            throw new NotImplementedException();
         }
         #endregion
     }

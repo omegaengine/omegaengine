@@ -89,7 +89,7 @@ namespace TerrainSample.Presentation
             if (Universe.TimeWarpFactor <= 0) return;
 
             foreach (var entity in positionables.OfType<Entity>().Where(entity => !entity.IsNpc))
-                Universe.PathfindEntity(entity, target);
+                Universe.StartMoving(entity, target);
         }
     }
 }

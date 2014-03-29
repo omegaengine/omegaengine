@@ -22,7 +22,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using AlphaFramework.World;
 using AlphaFramework.World.Paths;
@@ -90,13 +89,8 @@ namespace TerrainSample.World
         /// </summary>
         private void RecalcPaths()
         {
-            foreach (var entity in Positionables.OfType<Entity>())
-            {
-                var pathLeader = entity.PathControl as PathLeader<Vector2>;
-                if (pathLeader != null)
-                    PathfindEntity(entity, pathLeader.Target);
-            }
-
+            foreach (var entity in Positionables.OfType<Entity>().Where(x => x.PathControl != null))
+                StartMoving(entity, entity.PathControl.Target);
             Update(0);
         }
         #endregion
@@ -104,8 +98,7 @@ namespace TerrainSample.World
         /// <summary>
         /// Makes an <see cref="Entity"/> move towards a <paramref name="target"/> using pathfinding.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-        public void PathfindEntity(Entity entity, Vector2 target)
+        public void StartMoving(Entity entity, Vector2 target)
         {
             #region Sanity checks
             if (entity == null) throw new ArgumentNullException("entity");
@@ -126,10 +119,19 @@ namespace TerrainSample.World
             }
 
             // Store path data in entity
-            var pathLeader = new PathLeader<Vector2> {ID = 0, Target = target};
+            var pathLeader = new PathControl<Vector2> {Target = target};
             foreach (var node in pathNodes)
                 pathLeader.PathNodes.Enqueue(node * Terrain.Size.StretchH);
             entity.PathControl = pathLeader;
+        }
+
+        /// <summary>
+        /// Moves an <see cref="Entity"/> to <paramref name="target"/> immediatley and cancels any active pathfinding.
+        /// </summary>
+        public void SnapTo(Entity entity, Vector2 target)
+        {
+            entity.Position = target;
+            entity.PathControl = null;
         }
 
         /// <summary>

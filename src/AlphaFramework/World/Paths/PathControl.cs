@@ -7,6 +7,8 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 using AlphaFramework.World.Positionables;
 
 namespace AlphaFramework.World.Paths
@@ -16,9 +18,23 @@ namespace AlphaFramework.World.Paths
     /// </summary>
     /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
     /// <seealso cref="EntityBase{TCoordinates,TTemplate}.PathControl"/>
-    public abstract class PathControl<TCoordinates> : ICloneable
+    public class PathControl<TCoordinates> : ICloneable
         where TCoordinates : struct
     {
+        /// <summary>
+        /// The final target of the pathfinding.
+        /// </summary>
+        public TCoordinates Target { get; set; }
+
+        private readonly Queue<TCoordinates> _pathNodes = new Queue<TCoordinates>();
+
+        /// <summary>
+        /// The path to walk.
+        /// </summary>
+        /// <remarks>Is not serialized/stored, will be recalculated.</remarks>
+        [XmlIgnore]
+        public Queue<TCoordinates> PathNodes { get { return _pathNodes; } }
+
         /// <inheritdoc/>
         public override string ToString()
         {
