@@ -31,7 +31,7 @@ namespace AlphaFramework.World.Positionables
         /// <summary>
         /// To be called when a property relevant for rendering has changed.
         /// </summary>
-        protected void OnChanged()
+        protected virtual void OnChanged()
         {
             if (Changed != null) Changed(this);
         }

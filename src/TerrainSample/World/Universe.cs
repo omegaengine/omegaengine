@@ -25,9 +25,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
 using AlphaFramework.World;
+using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
 using Common.Collections;
+using Common.Utils;
 using SlimDX;
 using TerrainSample.World.Positionables;
 using TerrainSample.World.Templates;
@@ -75,6 +77,14 @@ namespace TerrainSample.World
             }
         }
 
+        private int _maxTraversableSlope = 10;
+
+        /// <summary>
+        /// The maximum slope the <see cref="IPathfinder{TCoordinates}"/> considers traversable.
+        /// </summary>
+        [DefaultValue(10), Category("Gameplay"), Description("The maximum slope the Pathfinder considers traversable.")]
+        public int MaxTraversableSlope { get { return _maxTraversableSlope; } set { Math.Abs(value).To(ref _maxTraversableSlope, SetupPathfinding); } }
+
         /// <summary>
         /// Base-constructor for XML serialization. Do not call manually!
         /// </summary>
@@ -93,10 +103,29 @@ namespace TerrainSample.World
         /// <inheritdoc/>
         public override void Update(double elapsedGameTime)
         {
-            foreach (var entity in Positionables.OfType<Entity>())
-                RecalcPath(entity);
             base.Update(elapsedGameTime);
             LightPhase += (float)(elapsedGameTime * LightPhaseSpeedFactor);
+        }
+
+        /// <inheritdoc/>
+        protected override void Update(IUpdateable updateable, double elapsedGameTime)
+        {
+            var entity = updateable as Entity;
+
+            // Recalculate paths lost due to XML serialization
+            if (entity != null && entity.PathControl != null) StartMoving(entity, entity.PathControl.Target);
+
+            base.Update(updateable, elapsedGameTime);
+        }
+
+        /// <summary>
+        /// Makes a player-controlled <see cref="Entity"/> move towards a <paramref name="target"/>.
+        /// </summary>
+        public void PlayerMove(Entity entity, Vector2 target)
+        {
+            if (entity.IsNpc) return;
+
+            StartMoving(entity, target);
         }
     }
 }

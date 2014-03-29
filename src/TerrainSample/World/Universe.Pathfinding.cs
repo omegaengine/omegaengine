@@ -21,14 +21,12 @@
  */
 
 using System;
-using System.ComponentModel;
 using System.Linq;
 using AlphaFramework.World;
 using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
 using Common;
-using Common.Utils;
 using SlimDX;
 using TerrainSample.World.Positionables;
 
@@ -36,20 +34,12 @@ namespace TerrainSample.World
 {
     partial class Universe
     {
-        private int _maxTraversableSlope = 10;
-
-        /// <summary>
-        /// The maximum slope the <see cref="IPathfinder{TCoordinates}"/> considers traversable.
-        /// </summary>
-        [DefaultValue(10), Category("Gameplay"), Description("The maximum slope the Pathfinder considers traversable.")]
-        public int MaxTraversableSlope { get { return _maxTraversableSlope; } set { Math.Abs(value).To(ref _maxTraversableSlope, SetupPathfinding); } }
-
         #region Setup
         /// <summary>
         /// Initializes the <see cref="UniverseBase{TCoordinates}.Pathfinder"/> engine.
         /// </summary>
         /// <remarks>Is usually called automatically when needed.</remarks>
-        public void SetupPathfinding()
+        private void SetupPathfinding()
         {
             if (Terrain == null) return;
 
@@ -81,21 +71,13 @@ namespace TerrainSample.World
                 }
             }
         }
-
-        /// <summary>
-        /// Recalculates the path of an entity if it was lost due to XML serialization.
-        /// </summary>
-        private void RecalcPath(Entity entity)
-        {
-            if (entity.PathControl != null && entity.PathControl.PathNodes.Count == 0)
-                StartMoving(entity, entity.PathControl.Target);
-        }
         #endregion
 
+        #region Movement
         /// <summary>
         /// Makes an <see cref="Entity"/> move towards a <paramref name="target"/> using pathfinding.
         /// </summary>
-        public void StartMoving(Entity entity, Vector2 target)
+        private void StartMoving(Entity entity, Vector2 target)
         {
             #region Sanity checks
             if (entity == null) throw new ArgumentNullException("entity");
@@ -129,20 +111,12 @@ namespace TerrainSample.World
         }
 
         /// <summary>
-        /// Moves an <see cref="Entity"/> to <paramref name="target"/> immediatley and cancels any active pathfinding.
-        /// </summary>
-        public void SnapTo(Entity entity, Vector2 target)
-        {
-            entity.Position = target;
-            entity.PathControl = null;
-        }
-
-        /// <summary>
         /// Applies <see cref="TerrainSize"/> scaling to a position.
         /// </summary>
         private Vector2 GetScaledPosition(Vector2 position)
         {
             return position * (1.0f / Terrain.Size.StretchH);
         }
+        #endregion
     }
 }

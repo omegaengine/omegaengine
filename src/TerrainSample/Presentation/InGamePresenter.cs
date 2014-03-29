@@ -86,8 +86,8 @@ namespace TerrainSample.Presentation
             if (positionables == null) throw new ArgumentNullException("positionables");
             #endregion
 
-            foreach (var entity in positionables.OfType<Entity>().Where(entity => !entity.IsNpc))
-                Universe.StartMoving(entity, target);
+            foreach (var entity in positionables.OfType<Entity>())
+                Universe.PlayerMove(entity, target);
         }
     }
 }

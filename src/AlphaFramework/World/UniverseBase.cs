@@ -76,8 +76,16 @@ namespace AlphaFramework.World
         {
             GameTime += elapsedGameTime;
 
-            foreach (var entity in Positionables.OfType<IUpdateable>())
-                entity.Update(elapsedGameTime);
+            foreach (var updateable in Positionables.OfType<IUpdateable>())
+                Update(updateable, elapsedGameTime);
+        }
+
+        /// <summary>
+        /// Updates a single <see cref="IUpdateable"/>.
+        /// </summary>
+        protected virtual void Update(IUpdateable updateable, double elapsedGameTime)
+        {
+            updateable.Update(elapsedGameTime);
         }
 
         /// <inheritdoc/>
