@@ -105,6 +105,7 @@ namespace TerrainSample.World
         /// <inheritdoc/>
         public override void Save(string path)
         {
+            UnwrapWaypoints();
             using (Entity.MaskTemplateData())
             {
                 if (Terrain.OcclusionIntervalMap == null)

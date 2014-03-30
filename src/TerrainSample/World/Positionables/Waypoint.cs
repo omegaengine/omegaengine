@@ -20,14 +20,86 @@
  * THE SOFTWARE.
  */
 
+using System.ComponentModel;
+using System.Xml.Serialization;
 using AlphaFramework.World.Positionables;
+using Common.Utils;
 using SlimDX;
 
 namespace TerrainSample.World.Positionables
 {
     /// <summary>
-    /// A marker used as a hint for pathfinding.
-    /// </summary>>
+    /// A marker used to control automated <see cref="Entity"/> movement.
+    /// </summary>
     public class Waypoint : Positionable<Vector2>
-    {}
+    {
+        /// <summary>
+        /// The name of the <see cref="Entity"/> this waypoint is for.
+        /// </summary>
+        [XmlAttribute, Description("The name of the Entity this waypoint is for.")]
+        public string EntityName { get; set; }
+
+        private double _activationTime;
+
+        /// <summary>
+        /// The <see cref="AlphaFramework.World.UniverseBase{T}.GameTime"/> when <see cref="Entity"/>s start walking towards this waypoint.
+        /// </summary>
+        [DefaultValue(0.0), Description("The GameTime when Entities start walking towards this waypoint.")]
+        public double ActivationTime { get { return _activationTime; } set { value.To(ref _activationTime, OnChanged); } }
+
+        #region Auto-set
+        /// <inheritdoc/>
+        protected override void OnChanged()
+        {
+            base.OnChanged();
+            ArrivalTimeSpecified = OriginPositionSpecified = false;
+        }
+
+        private double _arrivalTime;
+
+        /// <summary>
+        /// The <see cref="AlphaFramework.World.UniverseBase{T}.GameTime"/> when <see cref="Entity"/>s reach this waypoint.
+        /// Set automatically by <see cref="Universe.HandleWaypoints"/>.
+        /// </summary>
+        [Browsable(false)]
+        public double ArrivalTime
+        {
+            get { return _arrivalTime; }
+            set
+            {
+                _arrivalTime = value;
+                ArrivalTimeSpecified = true;
+            }
+        }
+
+        /// <summary>
+        /// Indicates whether <see cref="ArrivalTime"/> has been set.
+        /// </summary>
+        [Browsable(false), XmlIgnore]
+        public bool ArrivalTimeSpecified { get; set; }
+
+        private Vector2 _originPosition;
+
+        /// <summary>
+        /// The position where an <see cref="Entity"/> walking towards this waypoint started off.
+        /// Set automatically by <see cref="Universe.HandleWaypoints"/>.
+        /// </summary>
+        [Browsable(false)]
+        public Vector2 OriginPosition
+        {
+            get { return _originPosition; }
+            set
+            {
+                _originPosition = value;
+                OriginPositionSpecified = true;
+            }
+        }
+
+        /// <summary>
+        /// Indicates whether <see cref="OriginPosition"/> has been set.
+        /// </summary>
+        [Browsable(false), XmlIgnore]
+        public bool OriginPositionSpecified { get; set; }
+        #endregion
+    }
 }

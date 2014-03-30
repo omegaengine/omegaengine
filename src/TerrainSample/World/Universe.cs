@@ -103,6 +103,7 @@ namespace TerrainSample.World
         /// <inheritdoc/>
         public override void Update(double elapsedGameTime)
         {
+            WrapWaypoints();
             base.Update(elapsedGameTime);
             LightPhase += (float)(elapsedGameTime * LightPhaseSpeedFactor);
         }
@@ -116,6 +117,8 @@ namespace TerrainSample.World
             if (entity != null && entity.PathControl != null) StartMoving(entity, entity.PathControl.Target);
 
             base.Update(updateable, elapsedGameTime);
+
+            if (entity != null) HandleWaypoints(entity, elapsedGameTime);
         }
 
         /// <summary>
@@ -124,6 +127,9 @@ namespace TerrainSample.World
         public void PlayerMove(Entity entity, Vector2 target)
         {
             if (entity.IsNpc) return;
+
+            entity.Waypoints.Add(new Waypoint {ActivationTime = GameTime, OriginPosition = entity.Position, Position = target});
+            entity.ActiveWaypointIndex = entity.Waypoints.Count - 1;
 
             StartMoving(entity, target);
         }

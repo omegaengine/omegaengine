@@ -21,6 +21,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using AlphaFramework.World;
 using AlphaFramework.World.Paths;
@@ -116,6 +117,94 @@ namespace TerrainSample.World
         private Vector2 GetScaledPosition(Vector2 position)
         {
             return position * (1.0f / Terrain.Size.StretchH);
+        }
+        #endregion
+
+        #region Waypoints
+        /// <summary>
+        /// Moves <see cref="Waypoint"/> from <see cref="UniverseBase{TCoordinates}.Positionables"/> to <see cref="Entity.Waypoints"/>.
+        /// Call to prepare for gameplay.
+        /// </summary>
+        private void WrapWaypoints()
+        {
+            var toRemove = new List<Waypoint>();
+            foreach (var waypoint in Positionables.OfType<Waypoint>().OrderBy(x => x.ActivationTime))
+            {
+                var entity = GetEntity(waypoint.EntityName);
+                if (entity != null)
+                {
+                    entity.Waypoints.Add(waypoint);
+                    toRemove.Add(waypoint);
+                }
+            }
+            foreach (var waypoint in toRemove) Positionables.Remove(waypoint);
+        }
+
+        /// <summary>
+        /// Moves <see cref="Waypoint"/> from <see cref="Entity.Waypoints"/> to <see cref="UniverseBase{TCoordinates}.Positionables"/>.
+        /// Call to prepare for editing.
+        /// </summary>
+        private void UnwrapWaypoints()
+        {
+            foreach (var entity in Positionables.OfType<Entity>())
+            {
+                foreach (var waypoint in entity.Waypoints)
+                {
+                    waypoint.EntityName = entity.Name;
+                    Positionables.Add(waypoint);
+                }
+                entity.Waypoints.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Handles <see cref="Entity.Waypoints"/>.
+        /// </summary>
+        private void HandleWaypoints(Entity entity, double elapsedGameTime)
+        {
+            int index = entity.GetCurrentWaypointIndex(GameTime);
+
+            if (index != - 1)
+            {
+                var waypoint = entity.Waypoints[index];
+
+                if (elapsedGameTime > 0)
+                {
+                    if (index == entity.ActiveWaypointIndex)
+                    {
+                        if (entity.PathControl == null)
+                        {
+                            RecordArrivalTime(entity, waypoint);
+                            entity.ActiveWaypointIndex = -1;
+                        }
+                    }
+                    else RecordOriginPosition(entity, waypoint);
+                }
+
+                if (entity.IsNpc)
+                {
+                    StartMoving(entity,
+                        target: (elapsedGameTime >= 0) ? waypoint.Position : waypoint.OriginPosition);
+                }
+            }
+
+            entity.ActiveWaypointIndex = index;
+        }
+
+        private void RecordArrivalTime(Entity entity, Waypoint waypoint)
+        {
+            if (waypoint.ArrivalTimeSpecified) return;
+
+            waypoint.ArrivalTime = GameTime;
+            Log.Info("Recorded arrival time for " + entity.Name + " at " + waypoint.Name + ": " + GameTime);
+        }
+
+        private static void RecordOriginPosition(Entity entity, Waypoint waypoint)
+        {
+            if (waypoint.OriginPositionSpecified) return;
+
+            waypoint.OriginPosition = entity.Position;
+            Log.Info("Recorded origin position for " + entity.Name + " twoards " + waypoint.Name + ": " + entity.Position);
         }
         #endregion
     }

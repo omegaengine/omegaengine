@@ -16,8 +16,10 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml.Serialization;
+using AlphaFramework.World;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
@@ -49,6 +51,22 @@ namespace TerrainSample.World.Positionables
         [XmlAttribute, DefaultValue(false), Description("true if this entity is controlled by the computer, false if it is controlled by a human player.")]
         public bool IsNpc { get; set; }
 
+        private int _activeWaypointIndex = -1;
+
+        /// <summary>
+        /// The <see cref="Waypoints"/> index of the <see cref="Waypoint"/> this entity is currently moving towards; -1 for no <see cref="Waypoint"/>.
+        /// </summary>
+        [XmlAttribute, DefaultValue(-1), Browsable(false)]
+        public int ActiveWaypointIndex { get { return _activeWaypointIndex; } set { _activeWaypointIndex = value; } }
+
+        private readonly List<Waypoint> _waypoints = new List<Waypoint>();
+
+        /// <summary>
+        /// The <see cref="Waypoint"/>s associated with this entity ordered by <see cref="Waypoint.ActivationTime"/>.
+        /// </summary>
+        [XmlElement, Browsable(false)]
+        public List<Waypoint> Waypoints { get { return _waypoints; } }
+
         //--------------------//
 
         /// <inheritdoc/>
@@ -63,6 +81,18 @@ namespace TerrainSample.World.Positionables
                 }
                 else UpdatePathfinding(elapsedTime);
             }
+        }
+
+        /// <summary>
+        /// Determines the currently active <see cref="Waypoints"/> entry.
+        /// </summary>
+        /// <param name="gameTime">The current <see cref="UniverseBase{TCoordinates}.GameTime"/> value.</param>
+        /// <returns>The currently active <see cref="Waypoint"/>; <see langword="null"/> if none is active.</returns>
+        public int GetCurrentWaypointIndex(double gameTime)
+        {
+            int index = _waypoints.FindLastIndex(x => x.ActivationTime <= gameTime);
+            if (index == -1 || (Waypoints[index].ArrivalTimeSpecified && Waypoints[index].ArrivalTime <= gameTime)) return -1;
+            return index;
         }
 
         #region Collision
