@@ -53,95 +53,92 @@ namespace AlphaFramework.World.Paths
             var roundedTarget = new Vector2((int)target.X, (int)target.Y);
             var goneLockup = new int[_obstructionMap.GetLength(0), _obstructionMap.GetLength(1)];
 
-            using (new TimedLogEvent("Calculating path from " + start + " to " + target))
+            bool pathFound = false;
+            var path = new Stack<Vector2>();
+
+            _openList.Clear();
+            _closeList.Clear();
+            var parentNode = GetParentNode(roundedStart, roundedTarget);
+            _openList.Add(parentNode);
+
+            Node nextNode;
+            while (_openList.Count != 0)
             {
-                bool pathFound = false;
-                var path = new Stack<Vector2>();
+                _openList.Remove(parentNode);
+                _closeList.Add(parentNode);
 
-                _openList.Clear();
-                _closeList.Clear();
-                var parentNode = GetParentNode(roundedStart, roundedTarget);
-                _openList.Add(parentNode);
-
-                Node nextNode;
-                while (_openList.Count != 0)
+                if (parentNode.Position == roundedTarget)
                 {
-                    _openList.Remove(parentNode);
-                    _closeList.Add(parentNode);
+                    pathFound = true;
+                    break;
+                }
 
-                    if (parentNode.Position == roundedTarget)
+                for (int i = 0; i < 8; i++)
+                {
+                    nextNode = new Node {Position = parentNode.Position + _direction[i]};
+                    if ((nextNode.Position.X < 0) || (nextNode.Position.Y < 0)
+                        || (nextNode.Position.X >= _obstructionMap.GetLength(0)) || (nextNode.Position.Y >= _obstructionMap.GetLength(1)))
+                        continue;
+                    if (_obstructionMap[(int)nextNode.Position.X, (int)nextNode.Position.Y])
+                        continue;
+
+                    nextNode.G = parentNode.G + (i > 3 ? 14 : 10);
+                    nextNode.H = 10 * (int)(nextNode.Position - roundedTarget).Length();
+                    nextNode.F = nextNode.G + nextNode.H;
+                    nextNode.Parent = parentNode.Position;
+
+                    if (goneLockup[(int)nextNode.Position.X, (int)nextNode.Position.Y] != 0)
                     {
-                        pathFound = true;
-                        break;
-                    }
-
-                    for (int i = 0; i < 8; i++)
-                    {
-                        nextNode = new Node {Position = parentNode.Position + _direction[i]};
-                        if ((nextNode.Position.X < 0) || (nextNode.Position.Y < 0)
-                            || (nextNode.Position.X >= _obstructionMap.GetLength(0)) || (nextNode.Position.Y >= _obstructionMap.GetLength(1)))
-                            continue;
-                        if (_obstructionMap[(int)nextNode.Position.X, (int)nextNode.Position.Y])
-                            continue;
-
-                        nextNode.G = parentNode.G + (i > 3 ? 14 : 10);
-                        nextNode.H = 10 * (int)(nextNode.Position - roundedTarget).Length();
-                        nextNode.F = nextNode.G + nextNode.H;
-                        nextNode.Parent = parentNode.Position;
-
-                        if (goneLockup[(int)nextNode.Position.X, (int)nextNode.Position.Y] != 0)
+                        if (goneLockup[(int)nextNode.Position.X, (int)nextNode.Position.Y] > nextNode.G)
                         {
-                            if (goneLockup[(int)nextNode.Position.X, (int)nextNode.Position.Y] > nextNode.G)
+                            for (int x = 0; x < _openList.Count; x++)
                             {
-                                for (int x = 0; x < _openList.Count; x++)
+                                if (_openList[x].Position.Equals(nextNode.Position))
                                 {
-                                    if (_openList[x].Position.Equals(nextNode.Position))
-                                    {
-                                        _openList[x] = nextNode;
-                                        goneLockup[(int)nextNode.Position.X, (int)nextNode.Position.Y] = nextNode.G;
-                                    }
+                                    _openList[x] = nextNode;
+                                    goneLockup[(int)nextNode.Position.X, (int)nextNode.Position.Y] = nextNode.G;
                                 }
                             }
                         }
-                        else
-                        {
-                            _openList.Add(nextNode);
-                            goneLockup[(int)nextNode.Position.X, (int)nextNode.Position.Y] = nextNode.G;
-                        }
                     }
-
-                    if (_openList.Count == 0) continue;
-
-                    parentNode = _openList[0];
-                    for (int i = 1; i < _openList.Count; i++)
+                    else
                     {
-                        if (parentNode.F > _openList[i].F)
-                            parentNode = _openList[i];
+                        _openList.Add(nextNode);
+                        goneLockup[(int)nextNode.Position.X, (int)nextNode.Position.Y] = nextNode.G;
                     }
                 }
 
-                if (pathFound)
+                if (_openList.Count == 0) continue;
+
+                parentNode = _openList[0];
+                for (int i = 1; i < _openList.Count; i++)
                 {
-                    path.Push(target);
+                    if (parentNode.F > _openList[i].F)
+                        parentNode = _openList[i];
+                }
+            }
 
-                    nextNode = _closeList[_closeList.Count - 1];
-                    while (!(nextNode.Parent.Equals(nextNode.Position)))
+            if (pathFound)
+            {
+                path.Push(target);
+
+                nextNode = _closeList[_closeList.Count - 1];
+                while (!(nextNode.Parent.Equals(nextNode.Position)))
+                {
+                    path.Push(nextNode.Position);
+                    foreach (var node in _closeList)
                     {
-                        path.Push(nextNode.Position);
-                        foreach (var node in _closeList)
+                        if (node.Position.Equals(nextNode.Parent))
                         {
-                            if (node.Position.Equals(nextNode.Parent))
-                            {
-                                nextNode = node;
-                                _closeList.Remove(nextNode);
-                                break;
-                            }
+                            nextNode = node;
+                            _closeList.Remove(nextNode);
+                            break;
                         }
                     }
-                    return path;
                 }
-                else return null;
+                return path;
             }
+            else return null;
         }
 
         private static Node GetParentNode(Vector2 start, Vector2 end)

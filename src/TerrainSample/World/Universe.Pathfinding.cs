@@ -107,19 +107,25 @@ namespace TerrainSample.World
                 return;
             }
 
-            // Get path and cancel if none was found
-            var pathNodes = Pathfinder.FindPath(GetScaledPosition(entity.Position), GetScaledPosition(target));
-            if (pathNodes == null)
-            {
-                entity.PathControl = null;
-                return;
-            }
+            if (entity.Position == target) return;
+            if (entity.PathControl != null && entity.PathControl.Target == target && entity.PathControl.PathNodes.Count != 0) return;
 
-            // Store path data in entity
-            var pathLeader = new PathControl<Vector2> {Target = target};
-            foreach (var node in pathNodes)
-                pathLeader.PathNodes.Enqueue(node * Terrain.Size.StretchH);
-            entity.PathControl = pathLeader;
+            using (new TimedLogEvent("Calculating path from " + entity.Position + " to " + target))
+            {
+                // Get path and cancel if none was found
+                var pathNodes = Pathfinder.FindPath(GetScaledPosition(entity.Position), GetScaledPosition(target));
+                if (pathNodes == null)
+                {
+                    entity.PathControl = null;
+                    return;
+                }
+
+                // Store path data in entity
+                var pathLeader = new PathControl<Vector2> {Target = target};
+                foreach (var node in pathNodes)
+                    pathLeader.PathNodes.Enqueue(node * Terrain.Size.StretchH);
+                entity.PathControl = pathLeader;
+            }
         }
 
         /// <summary>
