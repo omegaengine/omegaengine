@@ -21,9 +21,9 @@ cd /d "%~dp0Fullscreen"
 zip -q -9 -r "%TargetDir%\ProjectTemplates\Fullscreen.zip" . --exclude obj bin *.suo
 if errorlevel 1 pause
 
-echo Packaging Editor template...
-cd /d "%~dp0Editor"
-zip -q -9 -r "%TargetDir%\ProjectTemplates\Editor.zip" . --exclude obj bin *.suo
+echo Packaging AlphaFramework template...
+cd /d "%~dp0AlphaFramework"
+zip -q -9 -r "%TargetDir%\ProjectTemplates\AlphaFramework.zip" . --exclude obj bin *.suo
 if errorlevel 1 pause
 
 

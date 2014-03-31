@@ -27,6 +27,17 @@ FOR /d %%D IN ("%~dp0src\FrameOfReference\*") DO (
   del "%%D\*.pidb" > NUL 2>&1
   del "%%D\*.csproj.user" > NUL 2>&1
 )
+FOR /d %%D IN ("%~dp0templates\*") DO (
+  rd /s /q "%%D\obj" > NUL 2>&1
+  rd /s /q "%%D\bin" > NUL 2>&1
+  del "%%D\*.pidb" > NUL 2>&1
+  del "%%D\*.csproj.user" > NUL 2>&1
+)
+FOR /d %%D IN ("%~dp0templates\AlphaFramework\*") DO (
+  rd /s /q "%%D\obj" > NUL 2>&1
+  del "%%D\*.pidb" > NUL 2>&1
+  del "%%D\*.csproj.user" > NUL 2>&1
+)
 
 rem NUnit logs
 del "%~dp0*.VisualState.xml" > NUL 2>&1

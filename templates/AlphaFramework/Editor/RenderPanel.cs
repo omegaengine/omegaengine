@@ -1,4 +1,4 @@
-﻿namespace $safeprojectname$
+﻿namespace Editor
 {
     /// <summary>
     /// Shim to make <see cref="OmegaEngine.RenderPanel"/> accessible via the Visual Studio toolbox.

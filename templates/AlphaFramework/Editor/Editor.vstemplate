@@ -1,29 +1,29 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>OmegaEngine Windows Forms Application</Name>
-    <Description>A Windows Forms application that embeds a surface with 3D rendering via the OmegaEngine.</Description>
+    <Name>AlphaEditor</Name>
+    <Description>An IDE-like Editor for your game based on the OmegaEngine and AlphaFramework.
+You can use it to create GUI dialogs, maps, particle systems, etc..</Description>
     <ProjectType>CSharp</ProjectType>
-    <SortOrder>1000</SortOrder>
+	<ProjectSubType>OmegaEngine</ProjectSubType>
+    <SortOrder>1001</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
-    <DefaultName>OmegaEngineApplication</DefaultName>
+    <DefaultName>Editor</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
     <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
-    <Icon>__TemplateIcon.ico</Icon>
+    <Icon>..\AlphaFramework.ico</Icon>
   </TemplateData>
   <TemplateContent>
-    <Project TargetFileName="$safeprojectname$.csproj" File="WinForms.csproj" ReplaceParameters="true">
-      <ProjectItem ReplaceParameters="true" TargetFileName="MainForm.cs">MainForm.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="MainForm.Designer.cs">MainForm.Designer.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="RenderPanel.cs">RenderPanel.cs</ProjectItem>
+    <Project TargetFileName="Editor.csproj" File="Editor.csproj" ReplaceParameters="false">
+      <ProjectItem ReplaceParameters="false" TargetFileName="MainForm.cs">MainForm.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="MainForm.Designer.cs">MainForm.Designer.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Program.cs">Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="RenderPanel.cs">RenderPanel.cs</ProjectItem>
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="Resources.resx">Resources.resx</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Resources.Designer.cs">Resources.Designer.cs</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="Settings.settings">Settings.settings</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Settings.Designer.cs">Settings.Designer.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Settings.Designer.cs">Settings.Designer.cs</ProjectItem>
       </Folder>
     </Project>
   </TemplateContent>
@@ -36,7 +36,10 @@
       <package id="LinqBridge" version="1.3.0" />
       <package id="OmegaEngine.Helpers" version="0.9.0" />
       <package id="OmegaEngine.Backend" version="0.9.0" />
-      <package id="OmegaEngine" version="0.9.0" />
+      <package id="OmegaGUI" version="0.9.0" />
+      <package id="AlphaFramework.World" version="0.9.0" />
+      <package id="AlphaFramework.Presentation" version="0.9.0" />
+      <package id="AlphaEditor" version="0.9.0" />
     </packages>
   </WizardData>
 </VSTemplate>

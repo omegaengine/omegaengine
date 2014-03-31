@@ -1,4 +1,4 @@
-﻿namespace $safeprojectname$
+﻿namespace Editor
 {
     partial class MainForm
     {
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "$projectname$";
+            this.Text = "Editor";
         }
 
         #endregion

@@ -15,4 +15,5 @@ src/_ReSharper.*/
 src/_TeamCity.*/
 src/_dotTrace.*/
 src/packages/*/
+templates/packages/*/
 templates/**/bin/

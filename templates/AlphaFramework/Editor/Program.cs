@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
@@ -9,13 +10,18 @@ using AlphaFramework.Editor;
 using AlphaFramework.Editor.Properties;
 using Common;
 using Common.Storage;
+using Common.Utils;
 using OmegaEngine;
-using OmegaGUI.Model;
 
-namespace $safeprojectname$
+namespace Editor
 {
     internal static class Program
     {
+        /// <summary>
+        /// The arguments this application was launched with.
+        /// </summary>
+        public static Arguments Args { get; private set; }
+
         /// <summary>
         /// Shall the application start from the beginning again?
         /// </summary>
@@ -26,9 +32,12 @@ namespace $safeprojectname$
         /// </summary>
         [STAThread]
         [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.GC.Collect", Justification = "GC.Collect is only called after the main form closes, when a lot of long-lived objects have turned into garbage")]
-        private static void Main()
+        private static void Main(string[] args)
         {
             Application.EnableVisualStyles();
+
+            Args = new Arguments(args);
+
             UpdateLocale();
 
             // The user might want to come back here multiple times, in order to switch the mod
@@ -37,7 +46,7 @@ namespace $safeprojectname$
                 Restart = false;
 
                 // Ask user to select mod, cancel if an exception occurred
-                Application.Run(new ModSelectorForm(true, new List<string>()));
+                Application.Run(new ModSelectorForm(allowEditMain: true));
 
                 // Exit if the user didn't select anything
                 if (ContentManager.ModDir == null && !ModInfo.MainGame) break;
@@ -74,7 +83,7 @@ namespace $safeprojectname$
         public static void UpdateLocale()
         {
             // Propagate selected language to other assemblies
-            Resources.Culture = Engine.ResourceCulture = Dialog.ResourceCulture = new CultureInfo(Language);
+            Resources.Culture = Engine.ResourceCulture = OmegaGUI.Model.Dialog.ResourceCulture = new CultureInfo(Language);
 
             // Create specific culture for thread
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(Resources.Culture.Name);
@@ -90,7 +99,7 @@ namespace $safeprojectname$
             {
                 ContentManager.LoadArchives();
             }
-            #region Error handling
+                #region Error handling
             catch (IOException)
             {
                 ContentManager.CloseArchives();
@@ -106,6 +115,26 @@ namespace $safeprojectname$
             #endregion
 
             return true;
+        }
+
+        /// <summary>
+        /// Launches the main game with the currently active mod (arguments automatically set).
+        /// </summary>
+        /// <param name="arguments">Additional arguments to be passed; may be <see langword="null"/>.</param>
+        /// <exception cref="Win32Exception">Thrown if the game executable could not be launched.</exception>
+        /// <exception cref="BadImageFormatException">Thrown if the game executable is damaged.</exception>
+        internal static void LaunchGame(string arguments)
+        {
+            string param = "";
+
+            // Make sure the current mod is loaded
+            if (ContentManager.ModDir != null) param += " /mod " + "\"" + ContentManager.ModDir.FullName.TrimEnd(Path.DirectorySeparatorChar) + "\"";
+
+            // Add additional arguments
+            if (!string.IsNullOrEmpty(arguments)) param += " " + arguments;
+
+            // Launch the game
+            Process.Start(new ProcessStartInfo(Path.Combine(Locations.InstallBase, "Game.exe"), param));
         }
     }
 }

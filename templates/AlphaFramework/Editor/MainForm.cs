@@ -2,9 +2,12 @@
 using Common;
 using Resources = AlphaFramework.Editor.Properties.Resources;
 
-namespace $safeprojectname$
+namespace Editor
 {
-    partial class MainForm : MainFormBase
+    /// <summary>
+    /// The main window of the editor, container for the editor tabs.
+    /// </summary>
+    public sealed partial class MainForm : MainFormBase
     {
         public MainForm()
         {
@@ -27,12 +30,9 @@ namespace $safeprojectname$
             Close();
         }
 
-        /// <summary>
-        /// Launches the main game with the currently active mod (arguments automatically set).
-        /// </summary>
         protected override void LaunchGame(string arguments)
         {
-            // TODO: Implement
+            Program.LaunchGame(arguments);
         }
 
         protected override void ChangeLanguage(string language)

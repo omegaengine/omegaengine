@@ -1,27 +1,22 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>OmegaEngine Fullscreen Application</Name>
-    <Description>A fullscreen application with 3D rendering via the OmegaEngine.</Description>
+    <Name>AlphaFramework Presentation</Name>
+    <Description>The world presentation/rendering logic.</Description>
     <ProjectType>CSharp</ProjectType>
-    <SortOrder>1001</SortOrder>
+	<ProjectSubType>OmegaEngine</ProjectSubType>
+    <SortOrder>1002</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
-    <DefaultName>OmegaEngineApplication</DefaultName>
+    <DefaultName>Presentation</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
     <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
-    <Icon>__TemplateIcon.ico</Icon>
+    <Icon>..\AlphaFramework.ico</Icon>
   </TemplateData>
   <TemplateContent>
-    <Project TargetFileName="$safeprojectname$.csproj" File="Fullscreen.csproj" ReplaceParameters="true">
-      <ProjectItem ReplaceParameters="true" TargetFileName="Game.cs">Game.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
+    <Project TargetFileName="Presentation.csproj" File="Presentation.csproj" ReplaceParameters="false">
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="Resources.resx">Resources.resx</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Resources.Designer.cs">Resources.Designer.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="Settings.settings">Settings.settings</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Settings.Designer.cs">Settings.Designer.cs</ProjectItem>
       </Folder>
     </Project>
   </TemplateContent>
@@ -34,8 +29,8 @@
       <package id="LinqBridge" version="1.3.0" />
       <package id="OmegaEngine.Helpers" version="0.9.0" />
       <package id="OmegaEngine.Backend" version="0.9.0" />
-      <package id="OmegaEngine" version="0.9.0" />
-      <package id="OmegaGUI" version="0.9.0" />
+      <package id="AlphaFramework.World" version="0.9.0" />
+      <package id="AlphaFramework.Presentation" version="0.9.0" />
     </packages>
   </WizardData>
 </VSTemplate>
