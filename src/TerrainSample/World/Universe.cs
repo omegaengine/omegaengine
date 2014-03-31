@@ -25,11 +25,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
 using AlphaFramework.World;
-using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
 using Common.Collections;
-using Common.Utils;
 using SlimDX;
 using TerrainSample.World.Positionables;
 using TerrainSample.World.Templates;
@@ -51,15 +49,6 @@ namespace TerrainSample.World
          XmlElement(typeof(Memo<Vector2>), ElementName = "Memo")]
         public override MonitoredCollection<Positionable<Vector2>> Positionables { get { return _positionables; } }
 
-        /// <summary>
-        /// Retrieves an <see cref="Entity"/> from <see cref="Positionables"/> by its name.
-        /// </summary>
-        /// <returns>The first matching <see cref="Entity"/>; <see langword="null"/> if there is no match.</returns>
-        public Entity GetEntity(string name)
-        {
-            return _positionables.OfType<Entity>().FirstOrDefault(x => x.Name == name);
-        }
-
         private Terrain<TerrainTemplate> _terrain;
 
         /// <summary>
@@ -77,20 +66,6 @@ namespace TerrainSample.World
             }
         }
 
-        private int _maxTraversableSlope = 10;
-
-        /// <summary>
-        /// The maximum slope the <see cref="IPathfinder{TCoordinates}"/> considers traversable.
-        /// </summary>
-        [DefaultValue(10), Category("Gameplay"), Description("The maximum slope the Pathfinder considers traversable.")]
-        public int MaxTraversableSlope { get { return _maxTraversableSlope; } set { Math.Abs(value).To(ref _maxTraversableSlope, InitializePathfinding); } }
-
-        /// <summary>
-        /// Base-constructor for XML serialization. Do not call manually!
-        /// </summary>
-        public Universe()
-        {}
-
         /// <summary>
         /// Creates a new <see cref="Universe"/> with a terrain.
         /// </summary>
@@ -100,6 +75,7 @@ namespace TerrainSample.World
             _terrain = terrain;
         }
 
+        #region Update
         /// <inheritdoc/>
         public override void Update(double elapsedGameTime)
         {
@@ -120,6 +96,17 @@ namespace TerrainSample.World
 
             if (entity != null) HandleWaypoints(entity, elapsedGameTime);
         }
+        #endregion
+
+        #region Entities
+        /// <summary>
+        /// Retrieves an <see cref="Entity"/> from <see cref="Positionables"/> by its name.
+        /// </summary>
+        /// <returns>The first matching <see cref="Entity"/>; <see langword="null"/> if there is no match.</returns>
+        public Entity GetEntity(string name)
+        {
+            return _positionables.OfType<Entity>().FirstOrDefault(x => x.Name == name);
+        }
 
         /// <summary>
         /// Makes a player-controlled <see cref="Entity"/> move towards a <paramref name="target"/>.
@@ -133,5 +120,6 @@ namespace TerrainSample.World
 
             StartMoving(entity, target);
         }
+        #endregion
     }
 }

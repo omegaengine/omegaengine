@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using Common.Utils;
 using LuaInterface;
 
 namespace AlphaFramework.World
@@ -25,14 +24,6 @@ namespace AlphaFramework.World
         /// </summary>
         [LuaHide]
         public TUniverse Universe { get; set; }
-
-        private double _timeWarpFactor = 1;
-
-        /// <summary>
-        /// The factor by which <see cref="UniverseBase{TCoordinates}.GameTime"/> progression should be multiplied in relation to real time.
-        /// </summary>
-        [DefaultValue(1.0)]
-        public double TimeWarpFactor { get { return _timeWarpFactor; } set { _timeWarpFactor = value; } }
 
         /// <summary>
         /// The filename of the map file the <see cref="Universe"/> was loaded from.
@@ -61,6 +52,15 @@ namespace AlphaFramework.World
             MapSourceFile = baseUniverse.SourceFile;
         }
 
+        #region Update
+        private double _timeWarpFactor = 1;
+
+        /// <summary>
+        /// The factor by which <see cref="UniverseBase{TCoordinates}.GameTime"/> progression should be multiplied in relation to real time.
+        /// </summary>
+        [DefaultValue(1.0)]
+        public double TimeWarpFactor { get { return _timeWarpFactor; } set { _timeWarpFactor = value; } }
+
         /// <summary>
         /// Updates the underlying <see cref="Universe"/>.
         /// </summary>
@@ -75,5 +75,6 @@ namespace AlphaFramework.World
 
             return elapsedGameTime;
         }
+        #endregion
     }
 }

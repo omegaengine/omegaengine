@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using AlphaFramework.World;
 using AlphaFramework.World.Components;
@@ -29,6 +30,7 @@ using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
 using Common;
+using Common.Utils;
 using SlimDX;
 using TerrainSample.World.Positionables;
 
@@ -36,6 +38,14 @@ namespace TerrainSample.World
 {
     partial class Universe
     {
+        private int _maxTraversableSlope = 10;
+
+        /// <summary>
+        /// The maximum slope the <see cref="IPathfinder{TCoordinates}"/> considers traversable.
+        /// </summary>
+        [DefaultValue(10), Category("Gameplay"), Description("The maximum slope the Pathfinder considers traversable.")]
+        public int MaxTraversableSlope { get { return _maxTraversableSlope; } set { Math.Abs(value).To(ref _maxTraversableSlope, InitializePathfinding); } }
+
         #region Initialize
         /// <summary>
         /// Initializes the <see cref="UniverseBase{TCoordinates}.Pathfinder"/> engine.

@@ -43,6 +43,12 @@ namespace TerrainSample.World
         public const string FileExt = "." + GeneralSettings.AppNameShort + "Map";
 
         /// <summary>
+        /// Base-constructor for XML serialization. Do not call manually!
+        /// </summary>
+        public Universe()
+        {}
+
+        /// <summary>
         /// Loads a <see cref="Universe"/> from a compressed XML file (map file).
         /// </summary>
         /// <param name="path">The file to load from.</param>
