@@ -232,7 +232,7 @@ namespace TerrainSample.Editor.World
             // 
             this.buttonBrowseRender.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.buttonBrowseRender.Enabled = false;
-            this.buttonBrowseRender.Image = ((System.Drawing.Image)(resources.GetObject("buttonBrowseRender.Image")));
+            this.buttonBrowseRender.Image = global::AlphaFramework.Editor.Properties.Resources.SearchButton;
             this.buttonBrowseRender.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonBrowseRender.Name = "buttonBrowseRender";
             this.buttonBrowseRender.Size = new System.Drawing.Size(23, 22);
@@ -248,7 +248,7 @@ namespace TerrainSample.Editor.World
             // 
             this.buttonAddRender.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.buttonAddRender.Enabled = false;
-            this.buttonAddRender.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddRender.Image")));
+            this.buttonAddRender.Image = global::AlphaFramework.Editor.Properties.Resources.CreateButton;
             this.buttonAddRender.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonAddRender.Name = "buttonAddRender";
             this.buttonAddRender.Size = new System.Drawing.Size(23, 22);
@@ -259,7 +259,7 @@ namespace TerrainSample.Editor.World
             // 
             this.buttonRemoveRender.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.buttonRemoveRender.Enabled = false;
-            this.buttonRemoveRender.Image = ((System.Drawing.Image)(resources.GetObject("buttonRemoveRender.Image")));
+            this.buttonRemoveRender.Image = global::AlphaFramework.Editor.Properties.Resources.DeleteButton;
             this.buttonRemoveRender.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonRemoveRender.Name = "buttonRemoveRender";
             this.buttonRemoveRender.Size = new System.Drawing.Size(23, 22);
@@ -329,7 +329,7 @@ namespace TerrainSample.Editor.World
             // 
             this.buttonAddCollision.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.buttonAddCollision.Enabled = false;
-            this.buttonAddCollision.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddCollision.Image")));
+            this.buttonAddCollision.Image = global::AlphaFramework.Editor.Properties.Resources.CreateButton;
             this.buttonAddCollision.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonAddCollision.Name = "buttonAddCollision";
             this.buttonAddCollision.Size = new System.Drawing.Size(23, 22);
@@ -340,7 +340,7 @@ namespace TerrainSample.Editor.World
             // 
             this.buttonRemoveCollision.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.buttonRemoveCollision.Enabled = false;
-            this.buttonRemoveCollision.Image = ((System.Drawing.Image)(resources.GetObject("buttonRemoveCollision.Image")));
+            this.buttonRemoveCollision.Image = global::AlphaFramework.Editor.Properties.Resources.DeleteButton;
             this.buttonRemoveCollision.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonRemoveCollision.Name = "buttonRemoveCollision";
             this.buttonRemoveCollision.Size = new System.Drawing.Size(23, 22);
@@ -398,7 +398,7 @@ namespace TerrainSample.Editor.World
             // 
             this.buttonAddMovement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.buttonAddMovement.Enabled = false;
-            this.buttonAddMovement.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddMovement.Image")));
+            this.buttonAddMovement.Image = global::AlphaFramework.Editor.Properties.Resources.CreateButton;
             this.buttonAddMovement.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonAddMovement.Name = "buttonAddMovement";
             this.buttonAddMovement.Size = new System.Drawing.Size(23, 22);
@@ -409,7 +409,7 @@ namespace TerrainSample.Editor.World
             // 
             this.buttonRemoveMovement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.buttonRemoveMovement.Enabled = false;
-            this.buttonRemoveMovement.Image = ((System.Drawing.Image)(resources.GetObject("buttonRemoveMovement.Image")));
+            this.buttonRemoveMovement.Image = global::AlphaFramework.Editor.Properties.Resources.DeleteButton;
             this.buttonRemoveMovement.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonRemoveMovement.Name = "buttonRemoveMovement";
             this.buttonRemoveMovement.Size = new System.Drawing.Size(23, 22);
