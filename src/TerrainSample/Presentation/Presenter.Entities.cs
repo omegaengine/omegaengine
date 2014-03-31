@@ -142,69 +142,79 @@ namespace TerrainSample.Presentation
 
             RegisterRenderComponent<StaticMesh>((entity, component) =>
             {
+                if (string.IsNullOrEmpty(component.Filename)) return null;
+
                 var model = new Model(XMesh.Get(Engine, component.Filename)) {Name = entity.Name};
                 ConfigureModel(model, component);
                 return model;
             });
             RegisterRenderComponent<AnimatedMesh>((entity, component) =>
             {
+                if (string.IsNullOrEmpty(component.Filename)) return null;
+
                 var model = new AnimatedModel(XAnimatedMesh.Get(Engine, component.Filename)) {Name = entity.Name};
                 ConfigureModel(model, component);
                 return model;
             });
-            RegisterRenderComponent<TestSphere>((entity, componpent) =>
+            RegisterRenderComponent<TestSphere>((entity, component) =>
             {
-                var model = Model.Sphere(Engine, XTexture.Get(Engine, componpent.Texture), componpent.Radius, componpent.Slices, componpent.Stacks);
+                if (string.IsNullOrEmpty(component.Texture)) return null;
+
+                var model = Model.Sphere(Engine, XTexture.Get(Engine, component.Texture), component.Radius, component.Slices, component.Stacks);
                 model.Name = entity.Name;
-                ConfigureModel(model, componpent);
+                ConfigureModel(model, component);
                 return model;
             });
-            RegisterRenderComponent<CpuParticleSystem>((entity, componpent) =>
+            RegisterRenderComponent<CpuParticleSystem>((entity, component) =>
             {
-                var particleSystem = new OmegaEngine.Graphics.Renderables.CpuParticleSystem(CpuParticlePreset.FromContent(componpent.Filename));
-                ConfigureParticleSystem(entity, particleSystem, componpent);
+                if (string.IsNullOrEmpty(component.Filename)) return null;
+
+                var particleSystem = new OmegaEngine.Graphics.Renderables.CpuParticleSystem(CpuParticlePreset.FromContent(component.Filename));
+                ConfigureParticleSystem(entity, particleSystem, component);
                 return particleSystem;
             });
-            RegisterRenderComponent<GpuParticleSystem>((entity, componpent) =>
+            RegisterRenderComponent<GpuParticleSystem>((entity, component) =>
             {
-                var particleSystem = new OmegaEngine.Graphics.Renderables.GpuParticleSystem(GpuParticlePreset.FromContent(componpent.Filename));
-                ConfigureParticleSystem(entity, particleSystem, componpent);
+                if (string.IsNullOrEmpty(component.Filename)) return null;
+
+                var particleSystem = new OmegaEngine.Graphics.Renderables.GpuParticleSystem(GpuParticlePreset.FromContent(component.Filename));
+                ConfigureParticleSystem(entity, particleSystem, component);
                 return particleSystem;
             });
         }
 
-        private void ConfigureModel(PositionableRenderable model, Mesh meshcomponpent)
+        private void ConfigureModel(PositionableRenderable model, Mesh component)
         {
-            model.PreTransform = Matrix.Scaling(meshcomponpent.Scale, meshcomponpent.Scale, meshcomponpent.Scale) *
+            model.PreTransform = Matrix.Scaling(component.Scale, component.Scale, component.Scale) *
                                  Matrix.RotationYawPitchRoll(
-                                     meshcomponpent.RotationY.DegreeToRadian(),
-                                     meshcomponpent.RotationX.DegreeToRadian(),
-                                     meshcomponpent.RotationZ.DegreeToRadian()) *
-                                 Matrix.Translation(meshcomponpent.Shift);
-            model.Alpha = meshcomponpent.Alpha;
-            model.Pickable = meshcomponpent.Pickable;
-            model.RenderIn = (ViewType)meshcomponpent.RenderIn;
+                                     component.RotationY.DegreeToRadian(),
+                                     component.RotationX.DegreeToRadian(),
+                                     component.RotationZ.DegreeToRadian()) *
+                                 Matrix.Translation(component.Shift);
+            model.Alpha = component.Alpha;
+            model.Pickable = component.Pickable;
+            model.RenderIn = (ViewType)component.RenderIn;
             if (Lighting) model.SurfaceEffect = SurfaceEffect.Shader;
             model.Wireframe = WireframeEntities;
             model.DrawBoundingSphere = BoundingSphereEntities;
             model.DrawBoundingBox = BoundingBoxEntities;
         }
 
-        private void ConfigureModel(Model model, TestSphere componpent)
+        private void ConfigureModel(Model model, TestSphere component)
         {
-            model.PreTransform = Matrix.Translation(componpent.Shift);
-            model.Alpha = componpent.Alpha;
+            model.PreTransform = Matrix.Translation(component.Shift);
+            model.Alpha = component.Alpha;
             if (Lighting) model.SurfaceEffect = SurfaceEffect.Shader;
             model.Wireframe = WireframeEntities;
             model.DrawBoundingSphere = BoundingSphereEntities;
             model.DrawBoundingBox = BoundingBoxEntities;
         }
 
-        private void ConfigureParticleSystem(Entity entity, PositionableRenderable particleSystem, ParticleSystem particlecomponpent)
+        private void ConfigureParticleSystem(Entity entity, PositionableRenderable particleSystem, ParticleSystem component)
         {
             particleSystem.Name = entity.Name;
-            particleSystem.PreTransform = Matrix.Translation(particlecomponpent.Shift);
-            particleSystem.VisibilityDistance = particlecomponpent.VisibilityDistance;
+            particleSystem.PreTransform = Matrix.Translation(component.Shift);
+            particleSystem.VisibilityDistance = component.VisibilityDistance;
             particleSystem.Wireframe = WireframeEntities;
             particleSystem.DrawBoundingSphere = BoundingSphereEntities;
             particleSystem.DrawBoundingBox = BoundingBoxEntities;

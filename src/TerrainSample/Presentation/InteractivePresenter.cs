@@ -128,6 +128,8 @@ namespace TerrainSample.Presentation
         /// <param name="entity">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to add the selection highlighting for</param>
         private Model GetSelectionHighlighting(Entity entity)
         {
+            if (entity.TemplateData.Collision == null) return null;
+            
             var selectionHighlight = new PerTypeDispatcher<Collision<Vector2>, Model>(ignoreMissing: true)
             {
                 (Circle circle) =>
