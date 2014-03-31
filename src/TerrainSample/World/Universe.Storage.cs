@@ -98,8 +98,8 @@ namespace TerrainSample.World
 
             if (!_terrain.DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
 
-            using (new TimedLogEvent("Setup pathfinding"))
-                SetupPathfinding();
+            using (new TimedLogEvent("Initialize pathfinding"))
+                InitializePathfinding();
         }
 
         /// <inheritdoc/>

@@ -38,9 +38,6 @@ namespace AlphaFramework.World.Components
             return GetType().Name;
         }
 
-        //--------------------//
-
-        #region Collision test
         /// <summary>
         /// Determines whether a a certain point lies within the collision body.
         /// </summary>
@@ -56,16 +53,6 @@ namespace AlphaFramework.World.Components
         /// <param name="rotation">How the collision body shall be rotated before performing the collision test.</param>
         /// <returns><see langword="true"/> if <paramref name="area"/> does collide with the body, <see langword="false"/> otherwise.</returns>
         public abstract bool CollisionTest(Quadrangle area, float rotation);
-        #endregion
-
-        #region Path finding
-        /// <summary>
-        /// Returns a list of positions that outline this collision body.
-        /// </summary>
-        /// <param name="rotation">How the collision body shall be rotated before performing the outline calculation.</param>
-        /// <returns>Positions in entity space for use by the pathfinding system.</returns>
-        public abstract TCoordinates[] GetPathFindingOutline(float rotation);
-        #endregion
 
         #region Clone
         /// <summary>

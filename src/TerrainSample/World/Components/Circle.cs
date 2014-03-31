@@ -40,9 +40,6 @@ namespace TerrainSample.World.Components
         [XmlAttribute]
         public float Radius { get; set; }
 
-        //--------------------//
-
-        #region Collision test
         /// <summary>
         /// Determines whether a certain point lies within a circle.
         /// </summary>
@@ -71,19 +68,5 @@ namespace TerrainSample.World.Components
             // Shift area to the circle center as the origin
             return area.IntersectCircle(Radius);
         }
-        #endregion
-
-        #region Path finding
-        /// <summary>
-        /// Returns a list of positions that outline this circle.
-        /// </summary>
-        /// <param name="rotation">How the collision body shall be rotated before performing the outline calculation.</param>
-        /// <returns>Positions in entity space for use by the pathfinding system.</returns>
-        public override Vector2[] GetPathFindingOutline(float rotation)
-        {
-            // ToDo: Implement
-            return new Vector2[0];
-        }
-        #endregion
     }
 }

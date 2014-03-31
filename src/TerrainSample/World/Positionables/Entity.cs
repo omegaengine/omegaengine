@@ -129,25 +129,6 @@ namespace TerrainSample.World.Positionables
 
         #region Path finding
         /// <summary>
-        /// Returns a list of positions that outline this <see cref="EntityBase{TCoordinates,TTemplate}"/>s <see cref="Collision{TCoordinates}"/>.
-        /// </summary>
-        /// <returns>Positions in world space for use by the pathfinding system.</returns>
-        public Vector2[] GetPathFindingOutline()
-        {
-            // With no valid collision control the outline is empty
-            if (TemplateData.Collision == null) return new Vector2[0];
-
-            // Transmit rotation
-            Vector2[] outline = TemplateData.Collision.GetPathFindingOutline(Rotation);
-
-            // Convert positions from entity space to world space
-            for (int i = 0; i < outline.Length; i++)
-                outline[i] += Position;
-
-            return outline;
-        }
-
-        /// <summary>
         /// Perform movements queued up in pathfinding.
         /// </summary>
         /// <param name="elapsedTime">How much game time in seconds has elapsed since this method was last called. Must be positive!</param>

@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AlphaFramework.World;
+using AlphaFramework.World.Components;
 using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
@@ -35,19 +36,35 @@ namespace TerrainSample.World
 {
     partial class Universe
     {
-        #region Setup
+        #region Initialize
         /// <summary>
         /// Initializes the <see cref="UniverseBase{TCoordinates}.Pathfinder"/> engine.
         /// </summary>
         /// <remarks>Is usually called automatically when needed.</remarks>
-        private void SetupPathfinding()
+        private void InitializePathfinding()
         {
             if (Terrain == null) return;
 
             var obstructionMap = new bool[Terrain.Size.X, Terrain.Size.Y];
             MarkUntraversableWaters(obstructionMap);
             Terrain.MarkUntraversableSlopes(obstructionMap, _maxTraversableSlope);
+            MarkUnmoveableEntities(obstructionMap);
             Pathfinder = new SimplePathfinder(obstructionMap);
+        }
+
+        /// <summary>
+        /// Marks all nodes blocked by <see cref="Entity"/>s with no <see cref="Movement"/>.
+        /// </summary>
+        private void MarkUnmoveableEntities(bool[,] obstructionMap)
+        {
+            foreach (var entity in Positionables.OfType<Entity>().Where(x => x.TemplateData.Movement == null && x.TemplateData.Collision != null))
+            {
+                for (int x = 0; x < obstructionMap.GetLength(0); x++)
+                {
+                    for (int y = 0; y < obstructionMap.GetLength(1); y++)
+                        obstructionMap[x, y] |= entity.CollisionTest(new Vector2(x, y) * Terrain.Size.StretchH);
+                }
+            }
         }
 
         /// <summary>

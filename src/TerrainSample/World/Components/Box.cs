@@ -52,9 +52,6 @@ namespace TerrainSample.World.Components
         [Browsable(false), XmlIgnore]
         public RectangleF Area { get { return RectangleF.FromLTRB(Minimum.X, Minimum.Y, Maximum.X, Maximum.Y); } }
 
-        //--------------------//
-
-        #region Collision test
         /// <summary>
         /// Determines whether a certain point lies within the box.
         /// </summary>
@@ -97,19 +94,5 @@ namespace TerrainSample.World.Components
             var rotatedBox = new Quadrangle(Area).Rotate(rotation);
             return rotatedBox.IntersectWith(area);
         }
-        #endregion
-
-        #region Path finding
-        /// <summary>
-        /// Returns a list of positions that outline this circle.
-        /// </summary>
-        /// <param name="rotation">How the collision body shall be rotated before performing the outline calculation.</param>
-        /// <returns>Positions in entity space for use by the pathfinding system.</returns>
-        public override Vector2[] GetPathFindingOutline(float rotation)
-        {
-            // ToDo: Implement
-            return new Vector2[0];
-        }
-        #endregion
     }
 }

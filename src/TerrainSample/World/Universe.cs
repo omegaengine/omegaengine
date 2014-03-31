@@ -83,7 +83,7 @@ namespace TerrainSample.World
         /// The maximum slope the <see cref="IPathfinder{TCoordinates}"/> considers traversable.
         /// </summary>
         [DefaultValue(10), Category("Gameplay"), Description("The maximum slope the Pathfinder considers traversable.")]
-        public int MaxTraversableSlope { get { return _maxTraversableSlope; } set { Math.Abs(value).To(ref _maxTraversableSlope, SetupPathfinding); } }
+        public int MaxTraversableSlope { get { return _maxTraversableSlope; } set { Math.Abs(value).To(ref _maxTraversableSlope, InitializePathfinding); } }
 
         /// <summary>
         /// Base-constructor for XML serialization. Do not call manually!
