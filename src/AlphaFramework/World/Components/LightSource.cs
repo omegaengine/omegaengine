@@ -50,7 +50,7 @@ namespace AlphaFramework.World.Components
         /// <summary>
         /// Factors describing the attenuation of light intensity over distance.
         /// </summary>
-        [DefaultValue(typeof(Vector3), "1; 0; 0"), Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation.")]
+        [Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation.")]
         public Attenuation Attenuation { get { return _attenuation; } set { _attenuation = value; } }
     }
 }

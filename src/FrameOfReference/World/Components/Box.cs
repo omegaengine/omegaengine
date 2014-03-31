@@ -37,13 +37,13 @@ namespace FrameOfReference.World.Components
         /// <summary>
         /// The lower left corner of the box (originating from the body's position).
         /// </summary>
-        [DefaultValue(typeof(Vector2), "0; 0"), Description("The lower left corner of the box (originating from the body's position).")]
+        [Description("The lower left corner of the box (originating from the body's position).")]
         public Vector2 Minimum { get; set; }
 
         /// <summary>
         /// The upper right corner of the box (originating from the body's position).
         /// </summary>
-        [DefaultValue(typeof(Vector2), "0; 0"), Description("The upper right corner of the box (originating from the body's position).")]
+        [Description("The upper right corner of the box (originating from the body's position).")]
         public Vector2 Maximum { get; set; }
 
         /// <summary>

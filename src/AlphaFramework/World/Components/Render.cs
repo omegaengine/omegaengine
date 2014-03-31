@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Xml.Serialization;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Templates;
 using SlimDX;
@@ -31,6 +32,12 @@ namespace AlphaFramework.World.Components
         /// </summary>
         [Description("How this component is to be shifted before rendering.")]
         public Vector3 Shift { get; set; }
+
+        /// <summary>
+        /// Indicates whether <see cref="Shift"/> has been set to a non-default value.
+        /// </summary>
+        [Browsable(false), XmlIgnore]
+        public bool ShiftSpecified { get { return Shift != default(Vector3); } set { if (!value) Shift = default(Vector3); } }
 
         //--------------------//
 

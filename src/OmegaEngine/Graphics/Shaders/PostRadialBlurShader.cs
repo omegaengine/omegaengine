@@ -60,7 +60,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <summary>
         /// The center/origin of the radial blur effect
         /// </summary>
-        [DefaultValue(typeof(Vector2), "0; 0"), Description("The center/origin of the radial blur effect")]
+        [Description("The center/origin of the radial blur effect")]
         public Vector2 BlurCenter { get { return _blurCenter; } set { value.To(ref _blurCenter, () => SetShaderParameter("BlurCenter", value)); } }
         #endregion
 

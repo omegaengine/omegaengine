@@ -30,7 +30,6 @@
 	</EntityTemplate>
 	<EntityTemplate Name="Test.Box.BlockRainbow">
 		<StaticMesh Filename="Test\Box\BlockRainbow\BlockRainbow.x">
-			<Shift X="0" Y="0" Z="0" />
 			<Scale>20</Scale>
 		</StaticMesh>
 		<Box>
@@ -40,7 +39,6 @@
 	</EntityTemplate>
 	<EntityTemplate Name="Test.Box.CircularRainbow">
 		<StaticMesh Filename="Test\Box\CircularRainbow\CircularRainbow.x">
-			<Shift X="0" Y="0" Z="0" />
 			<Scale>20</Scale>
 		</StaticMesh>
 		<Box>
@@ -60,7 +58,6 @@
 	</EntityTemplate>
 	<EntityTemplate Name="Test.Box.Screen">
 		<StaticMesh Filename="Test\Box\Screen\Screen.x">
-			<Shift X="0" Y="0" Z="0" />
 			<Scale>10</Scale>
 		</StaticMesh>
 		<Box>
@@ -70,7 +67,6 @@
 	</EntityTemplate>
 	<EntityTemplate Name="Test.Dwarf">
 		<StaticMesh Filename="Test\Dwarf\Dwarf.x">
-			<Shift X="0" Y="0" Z="0" />
 			<Scale>70</Scale>
 		</StaticMesh>
 		<CpuParticleSystem Filename="CleanFire.xml" VisibilityDistance="40000">

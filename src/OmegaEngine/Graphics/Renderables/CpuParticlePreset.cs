@@ -140,7 +140,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// A permanent acceleration force applied to all particles
         /// </summary>
-        [DefaultValue(typeof(Vector3), "0; 0; 0"), Category("Acceleration"), Description("A permanent acceleration force applied to all particles")]
+        [Category("Acceleration"), Description("A permanent acceleration force applied to all particles")]
         public Vector3 Gravity { get; set; }
 
         /// <summary>

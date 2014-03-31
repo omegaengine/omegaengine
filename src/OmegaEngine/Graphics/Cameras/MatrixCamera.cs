@@ -32,7 +32,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// <summary>
         /// A vector indicating the up-direction
         /// </summary>
-        [DefaultValue(typeof(Vector3), "0; 1; 0"), Description("A vector indicating the up-direction"), Category("Layout")]
+        [Description("A vector indicating the up-direction"), Category("Layout")]
         public Vector3 UpVector { get { return _upVector; } protected set { value.To(ref _upVector, ref ViewDirty, ref ViewFrustumDirty); } }
         #endregion
 

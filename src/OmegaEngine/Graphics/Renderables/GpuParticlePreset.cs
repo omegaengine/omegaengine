@@ -52,7 +52,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// The direction and speed with which the particles move
         /// </summary>
-        [DefaultValue(typeof(Vector3), "0; 0.48; 0"), Description("The direction and speed with which the particles move")]
+        [Description("The direction and speed with which the particles move")]
         public Vector3 Movement { get { return _movement; } set { _movement = value; } }
 
         /// <summary>
