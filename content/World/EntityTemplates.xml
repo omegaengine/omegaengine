@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfEntityTemplate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<EntityTemplate Name="Effects.ColdFire">
+	<EntityTemplate Name="Environment.ColdFire">
 		<CpuParticleSystem Filename="ColdFire.xml" VisibilityDistance="40000">
 			<Shift X="0" Y="30" Z="0" />
 		</CpuParticleSystem>
@@ -11,7 +11,7 @@
 		</LightSource>
 		<Circle Radius="40" />
 	</EntityTemplate>
-	<EntityTemplate Name="Effects.Fire">
+	<EntityTemplate Name="Environment.Fire">
 		<CpuParticleSystem Filename="Fire.xml" VisibilityDistance="40000">
 			<Shift X="0" Y="30" Z="0" />
 		</CpuParticleSystem>
@@ -22,7 +22,7 @@
 		</LightSource>
 		<Circle Radius="40" />
 	</EntityTemplate>
-	<EntityTemplate Name="Effects.Swarm">
+	<EntityTemplate Name="Environment.Swarm">
 		<CpuParticleSystem Filename="Swarm.xml" VisibilityDistance="40000">
 			<Shift X="0" Y="100" Z="0" />
 		</CpuParticleSystem>
@@ -76,8 +76,8 @@
 		<CpuParticleSystem Filename="CleanFire.xml" VisibilityDistance="40000">
 			<Shift X="0" Y="70" Z="30" />
 		</CpuParticleSystem>
-		<Circle Radius="40" />
 		<Movement />
+		<Circle Radius="40" />
 	</EntityTemplate>
 	<EntityTemplate Name="Test.Sphere.Plain.Opaque.20480">
 		<TestSphere Radius="100" Slices="142" Stacks="142">
