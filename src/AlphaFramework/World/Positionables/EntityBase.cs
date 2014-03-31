@@ -41,6 +41,10 @@ namespace AlphaFramework.World.Positionables
             get { return _templateName; }
             set
             {
+                #region Sanity check
+                if (string.IsNullOrEmpty(value)) throw new ArgumentNullException("value");
+                #endregion
+
                 // Create copy of the class so run-time modifications for individual entities are possible
                 TemplateData = Template<TTemplate>.All[value].Clone();
 

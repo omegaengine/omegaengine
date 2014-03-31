@@ -47,12 +47,15 @@ namespace AlphaFramework.Editor.World.Dialogs
         public SelectTemplateDialog(NamedCollection<T> templates)
         {
             Text = Resources.TemplateSelection;
+
+            buttonOK.Enabled = false;
             _templateList.SelectionConfirmed += delegate
             {
                 DialogResult = DialogResult.OK;
                 OnOKClicked();
                 Close();
             };
+            _templateList.SelectedEntryChanged += delegate { buttonOK.Enabled = (_templateList.SelectedEntry != null); };
             Controls.Add(_templateList);
 
             _templateList.Nodes = templates;
