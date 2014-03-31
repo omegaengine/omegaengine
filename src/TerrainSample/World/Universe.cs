@@ -116,6 +116,25 @@ namespace TerrainSample.World
 
             StartMoving(entity, target);
         }
+
+        /// <summary>
+        /// Turns all <see cref="Entity"/>s into NPCs.
+        /// </summary>
+        public void TurnPlayerIntoNpc()
+        {
+            foreach (var entity in Positionables.OfType<Entity>())
+                entity.IsNpc = true;
+        }
+
+        /// <summary>
+        /// Turns a specific <see cref="Entity"/> into a player-controlled character.
+        /// </summary>
+        public void TurnNpcIntoPlayer(string name)
+        {
+            var entity = GetEntity(name);
+            entity.Waypoints.RemoveAll(x => x.ActivationTime >= GameTime);
+            entity.IsNpc = false;
+        }
         #endregion
     }
 }
