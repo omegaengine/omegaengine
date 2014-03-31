@@ -116,7 +116,11 @@ namespace FrameOfReference.World
                 Log.Warn("Pathfinder not initialized");
                 return;
             }
-
+            if (entity.TemplateData.Movement == null)
+            {
+                Log.Warn(entity + " has no Movement component");
+                return;
+            }
             if (entity.Position == target) return;
             if (entity.CurrentPath != null && entity.CurrentPath.Target == target && entity.CurrentPath.PathNodes.Count != 0) return;
 
@@ -175,11 +179,7 @@ namespace FrameOfReference.World
         {
             foreach (var entity in Positionables.OfType<Entity>())
             {
-                foreach (var waypoint in entity.Waypoints)
-                {
-                    waypoint.EntityName = entity.Name;
-                    Positionables.Add(waypoint);
-                }
+                Positionables.AddMany(entity.Waypoints.Cast<Positionable<Vector2>>());
                 entity.Waypoints.Clear();
             }
         }

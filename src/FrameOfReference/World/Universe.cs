@@ -109,9 +109,9 @@ namespace FrameOfReference.World
         /// </summary>
         public void PlayerMove(Entity entity, Vector2 target)
         {
-            if (entity.IsNpc) return;
+            if (entity.IsNpc || entity.TemplateData.Movement == null) return;
 
-            entity.Waypoints.Add(new Waypoint {ActivationTime = GameTime, OriginPosition = entity.Position, Position = target});
+            entity.Waypoints.Add(new Waypoint {EntityName = entity.Name, ActivationTime = GameTime, Position = target, OriginPosition = entity.Position});
             entity.ActiveWaypointIndex = entity.Waypoints.Count - 1;
 
             StartMoving(entity, target);
