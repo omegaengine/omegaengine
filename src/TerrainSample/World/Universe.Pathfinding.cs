@@ -118,7 +118,7 @@ namespace TerrainSample.World
             }
 
             if (entity.Position == target) return;
-            if (entity.PathControl != null && entity.PathControl.Target == target && entity.PathControl.PathNodes.Count != 0) return;
+            if (entity.CurrentPath != null && entity.CurrentPath.Target == target && entity.CurrentPath.PathNodes.Count != 0) return;
 
             using (new TimedLogEvent("Calculating path from " + entity.Position + " to " + target))
             {
@@ -126,15 +126,15 @@ namespace TerrainSample.World
                 var pathNodes = Pathfinder.FindPath(GetScaledPosition(entity.Position), GetScaledPosition(target));
                 if (pathNodes == null)
                 {
-                    entity.PathControl = null;
+                    entity.CurrentPath = null;
                     return;
                 }
 
                 // Store path data in entity
-                var pathLeader = new PathControl<Vector2> {Target = target};
+                var pathLeader = new StoredPath<Vector2> {Target = target};
                 foreach (var node in pathNodes)
                     pathLeader.PathNodes.Enqueue(node * Terrain.Size.StretchH);
-                entity.PathControl = pathLeader;
+                entity.CurrentPath = pathLeader;
             }
         }
 
@@ -199,7 +199,7 @@ namespace TerrainSample.World
                 {
                     if (index == entity.ActiveWaypointIndex)
                     {
-                        if (entity.PathControl == null)
+                        if (entity.CurrentPath == null)
                         {
                             RecordArrivalTime(entity, waypoint);
                             entity.ActiveWaypointIndex = -1;
@@ -208,11 +208,8 @@ namespace TerrainSample.World
                     else RecordOriginPosition(entity, waypoint);
                 }
 
-                if (entity.IsNpc)
-                {
-                    StartMoving(entity,
-                        target: (elapsedGameTime >= 0) ? waypoint.Position : waypoint.OriginPosition);
-                }
+                StartMoving(entity,
+                    target: (elapsedGameTime >= 0) ? waypoint.Position : waypoint.OriginPosition);
             }
 
             entity.ActiveWaypointIndex = index;

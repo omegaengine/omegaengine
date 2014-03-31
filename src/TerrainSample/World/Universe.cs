@@ -88,13 +88,9 @@ namespace TerrainSample.World
         protected override void Update(IUpdateable updateable, double elapsedGameTime)
         {
             var entity = updateable as Entity;
-
-            // Recalculate paths lost due to XML serialization
-            if (entity != null && entity.PathControl != null) StartMoving(entity, entity.PathControl.Target);
+            if (entity != null) HandleWaypoints(entity, elapsedGameTime);
 
             base.Update(updateable, elapsedGameTime);
-
-            if (entity != null) HandleWaypoints(entity, elapsedGameTime);
         }
         #endregion
 

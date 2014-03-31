@@ -72,7 +72,7 @@ namespace TerrainSample.World.Positionables
         /// <inheritdoc/>
         public override void Update(double elapsedTime)
         {
-            if (PathControl != null)
+            if (CurrentPath != null)
             {
                 if (elapsedTime < 0)
                 {
@@ -139,7 +139,7 @@ namespace TerrainSample.World.Positionables
             do
             {
                 // Get the position of the next target node
-                Vector2 nextNodePos = PathControl.PathNodes.Peek();
+                Vector2 nextNodePos = CurrentPath.PathNodes.Peek();
 
                 // Calculate the difference between the current position and the target
                 posDifference = nextNodePos - Position;
@@ -151,21 +151,21 @@ namespace TerrainSample.World.Positionables
                 if (movementFactor >= 1)
                 { // This move will skip past the current node
                     // Remove the node from the list
-                    PathControl.PathNodes.Dequeue();
+                    CurrentPath.PathNodes.Dequeue();
 
                     // Subtract the amount of time the rest of the distance to the node would have taken
                     elapsedTime -= differenceLength / TemplateData.Movement.Speed;
 
-                    if (PathControl.PathNodes.Count == 0)
+                    if (CurrentPath.PathNodes.Count == 0)
                     { // No further nodes, go to final target
                         // Calculate the difference for the rotation calculation below
-                        posDifference = PathControl.Target - Position;
+                        posDifference = CurrentPath.Target - Position;
 
                         // Move the entity
-                        Position = PathControl.Target;
+                        Position = CurrentPath.Target;
 
                         // Prevent further calls of this method
-                        PathControl = null;
+                        CurrentPath = null;
 
                         loop = false;
                     }

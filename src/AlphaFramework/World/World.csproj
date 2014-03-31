@@ -82,7 +82,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IUniverse.cs" />
     <Compile Include="Paths\IPathfinder.cs" />
-    <Compile Include="Paths\PathControl.cs" />
+    <Compile Include="Paths\StoredPath.cs" />
     <Compile Include="Paths\SimplePathfinder.cs" />
     <Compile Include="Positionables\BenchmarkPoint.cs" />
     <Compile Include="Positionables\CameraState.cs" />
