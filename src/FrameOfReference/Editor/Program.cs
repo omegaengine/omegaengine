@@ -41,7 +41,6 @@ namespace FrameOfReference.Editor
 {
     internal static class Program
     {
-        #region Properties
         /// <summary>
         /// The arguments this application was launched with.
         /// </summary>
@@ -51,11 +50,7 @@ namespace FrameOfReference.Editor
         /// Shall the application start from the beginning again?
         /// </summary>
         public static bool Restart = true;
-        #endregion
 
-        //--------------------//
-
-        #region Startup
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -64,26 +59,24 @@ namespace FrameOfReference.Editor
         private static void Main(string[] args)
         {
             WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameShort + ".AlphaEditor");
+            ModInfo.FileExt = "." + GeneralSettings.AppNameShort + "Mod";
 
             Application.EnableVisualStyles();
+
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
             ErrorReportForm.SetupMonitoring(new Uri("http://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameShort));
-            ModInfo.FileExt = "." + GeneralSettings.AppNameShort + "Mod";
 
             // Allow setup to detect running instances
             AppMutex.Create(GeneralSettings.AppName + " Editor");
 
-            // Command-line arguments
             Args = new Arguments(args);
 
-            // Load and validate settings
             Settings.LoadCurrent();
             UpdateLocale();
             Settings.SaveCurrent();
 
             if (!DetermineContentDirs()) return;
 
-            // Show the welcome message if it hasn't been turned off
             if (Settings.Current.Editor.ShowWelcomeMessage)
             {
                 Restart = false; // Will be set to true again, if the user clicks "Continue"
@@ -121,33 +114,7 @@ namespace FrameOfReference.Editor
                 GC.Collect();
             }
         }
-        #endregion
 
-        //--------------------//
-
-        #region Game
-        /// <summary>
-        /// Launches the main game with the currently active mod (arguments automatically set).
-        /// </summary>
-        /// <param name="arguments">Additional arguments to be passed; may be <see langword="null"/>.</param>
-        /// <exception cref="Win32Exception">Thrown if the game executable could not be launched.</exception>
-        /// <exception cref="BadImageFormatException">Thrown if the game executable is damaged.</exception>
-        internal static void LaunchGame(string arguments)
-        {
-            string param = "";
-
-            // Make sure the current mod is loaded
-            if (ContentManager.ModDir != null) param += " /mod " + "\"" + ContentManager.ModDir.FullName.TrimEnd(Path.DirectorySeparatorChar) + "\"";
-
-            // Add additional arguments
-            if (!string.IsNullOrEmpty(arguments)) param += " " + arguments;
-
-            // Launch the game
-            Process.Start(new ProcessStartInfo(Path.Combine(Locations.InstallBase, GeneralSettings.AppNameShort + ".exe"), param));
-        }
-        #endregion
-
-        #region Locale
         /// <summary>
         /// Updates the localization used by the application
         /// </summary>
@@ -163,9 +130,7 @@ namespace FrameOfReference.Editor
             // Create specific culture for thread
             Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(Resources.Culture.Name);
         }
-        #endregion
 
-        #region Data
         /// <summary>
         /// Determines the data directories used by <see cref="ContentManager"/> and displays error messages if a directory could not be found.
         /// </summary>
@@ -226,6 +191,25 @@ namespace FrameOfReference.Editor
 
             return true;
         }
-        #endregion
+
+        /// <summary>
+        /// Launches the main game with the currently active mod (arguments automatically set).
+        /// </summary>
+        /// <param name="arguments">Additional arguments to be passed; may be <see langword="null"/>.</param>
+        /// <exception cref="Win32Exception">Thrown if the game executable could not be launched.</exception>
+        /// <exception cref="BadImageFormatException">Thrown if the game executable is damaged.</exception>
+        internal static void LaunchGame(string arguments)
+        {
+            string param = "";
+
+            // Make sure the current mod is loaded
+            if (ContentManager.ModDir != null) param += " /mod " + "\"" + ContentManager.ModDir.FullName.TrimEnd(Path.DirectorySeparatorChar) + "\"";
+
+            // Add additional arguments
+            if (!string.IsNullOrEmpty(arguments)) param += " " + arguments;
+
+            // Launch the game
+            Process.Start(new ProcessStartInfo(Path.Combine(Locations.InstallBase, GeneralSettings.AppNameShort + ".exe"), param));
+        }
     }
 }

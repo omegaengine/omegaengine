@@ -255,7 +255,7 @@ namespace AlphaFramework.Editor
 
         #region Game
         /// <summary>
-        /// Launches the main game with the currently active mod (arguments automatically set).
+        /// Launches the main game with the currently active mod.
         /// </summary>
         /// <param name="arguments">Additional arguments to be passed; may be <see langword="null"/>.</param>
         /// <exception cref="Win32Exception">Thrown if the game executable could not be launched.</exception>

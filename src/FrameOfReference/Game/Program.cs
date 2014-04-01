@@ -34,22 +34,16 @@ using Common.Values;
 using FrameOfReference.Properties;
 using FrameOfReference.World.Config;
 using OmegaEngine;
-using OmegaGUI.Model;
 
 namespace FrameOfReference
 {
     internal static class Program
     {
-        #region Properties
         /// <summary>
         /// The arguments this application was launched with.
         /// </summary>
         public static Arguments Args { get; private set; }
-        #endregion
 
-        //--------------------//
-
-        #region Startup
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -59,6 +53,7 @@ namespace FrameOfReference
             WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameShort);
 
             Application.EnableVisualStyles();
+
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
             ErrorReportForm.SetupMonitoring(new Uri("http://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameShort));
 
@@ -71,10 +66,8 @@ namespace FrameOfReference
             }
 #endif
 
-            // Command-line arguments
             Args = new Arguments(args);
 
-            // Load and validate settings
             Settings.LoadCurrent();
             UpdateLocale();
             Settings.SaveCurrent();
@@ -96,11 +89,7 @@ namespace FrameOfReference
                 game.Run();
             ContentManager.CloseArchives();
         }
-        #endregion
 
-        //--------------------//
-
-        #region Locale
         /// <summary>
         /// Updates the localization used by the application
         /// </summary>
@@ -111,14 +100,12 @@ namespace FrameOfReference
                 Settings.Current.General.Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
             // Propagate selected language to other assemblies
-            Resources.Culture = Engine.ResourceCulture = Dialog.ResourceCulture = new CultureInfo(Settings.Current.General.Language);
+            Resources.Culture = Engine.ResourceCulture = OmegaGUI.Model.Dialog.ResourceCulture = new CultureInfo(Settings.Current.General.Language);
 
             // Create specific culture for thread
             Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(Resources.Culture.Name);
         }
-        #endregion
 
-        #region Bechmark
         /// <summary>
         /// Normalizes <see cref="Settings"/> for comparable benchmark results. Original settings are preserved on-disk.
         /// </summary>
@@ -135,9 +122,7 @@ namespace FrameOfReference
             Settings.Current.Display.Fullscreen = true;
 #endif
         }
-        #endregion
 
-        #region Data
         /// <summary>
         /// Determines the data directories used by <see cref="ContentManager"/> and displays error messages if a directory could not be found.
         /// </summary>
@@ -209,6 +194,5 @@ namespace FrameOfReference
 
             return true;
         }
-        #endregion
     }
 }

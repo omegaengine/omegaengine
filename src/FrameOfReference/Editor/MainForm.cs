@@ -39,7 +39,6 @@ namespace FrameOfReference.Editor
     /// </summary>
     public sealed partial class MainForm : MainFormBase
     {
-        #region Startup
         /// <inheritdoc/>
         public MainForm()
         {
@@ -71,9 +70,7 @@ namespace FrameOfReference.Editor
             foreach (string file in Program.Args.Files.Where(file => file.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase)))
                 AddTab(new MapEditor(file, false));
         }
-        #endregion
 
-        #region Exit
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Store window layout
@@ -87,24 +84,13 @@ namespace FrameOfReference.Editor
             Program.Restart = true;
             Close();
         }
-        #endregion
 
-        #region Game
-        /// <summary>
-        /// Launches the main game with the currently active mod (arguments automatically set).
-        /// </summary>
-        /// <param name="arguments">Additional arguments to be passed; may be <see langword="null"/>.</param>
-        /// <exception cref="Win32Exception">Thrown if the game executable could not be launched.</exception>
-        /// <exception cref="BadImageFormatException">Thrown if the game executable is damaged.</exception>
+        /// <inheritdoc/>
         protected override void LaunchGame(string arguments)
         {
             Program.LaunchGame(arguments);
         }
-        #endregion
 
-        //--------------------//
-
-        #region Language
         /// <inheritdoc/>
         protected override void ChangeLanguage(string language)
         {
@@ -119,9 +105,7 @@ namespace FrameOfReference.Editor
             if (Msg.YesNo(this, Resources.CloseModForLangChange, MsgSeverity.Info, Resources.CloseModForLangChangeYes, Resources.CloseModForLangChangeNo))
                 Restart();
         }
-        #endregion
 
-        #region Toolbar
         private void toolUniverseEditor_Click(object sender, EventArgs e)
         {
             OpenFileTab("World/Maps", Universe.FileExt, (path, overwrite) => new MapEditor(path, overwrite));
@@ -141,6 +125,5 @@ namespace FrameOfReference.Editor
         {
             ShowSingleInstanceTab<TerrainEditor>();
         }
-        #endregion
     }
 }
