@@ -33,8 +33,8 @@
 			<Scale>20</Scale>
 		</StaticMesh>
 		<Box>
-			<Minimum X="-100" Y="-65" />
-			<Maximum X="100" Y="65" />
+			<Minimum X="-62.4995956" Y="-99.99359" />
+			<Maximum X="62.4995956" Y="99.99359" />
 		</Box>
 	</EntityTemplate>
 	<EntityTemplate Name="Test.Box.CircularRainbow">
@@ -42,8 +42,8 @@
 			<Scale>20</Scale>
 		</StaticMesh>
 		<Box>
-			<Minimum X="-80" Y="-65" />
-			<Maximum X="80" Y="65" />
+			<Minimum X="-57.5963936" Y="-72" />
+			<Maximum X="57.5963936" Y="72" />
 		</Box>
 	</EntityTemplate>
 	<EntityTemplate Name="Test.Box.Normal">
@@ -61,8 +61,8 @@
 			<Scale>10</Scale>
 		</StaticMesh>
 		<Box>
-			<Minimum X="-100" Y="-55" />
-			<Maximum X="100" Y="55" />
+			<Minimum X="-53.9999962" Y="-95.99999" />
+			<Maximum X="53.9999962" Y="95.99999" />
 		</Box>
 	</EntityTemplate>
 	<EntityTemplate Name="Test.Dwarf">
