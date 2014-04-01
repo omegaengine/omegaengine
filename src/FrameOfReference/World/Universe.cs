@@ -109,7 +109,7 @@ namespace FrameOfReference.World
         /// </summary>
         public void PlayerMove(Entity entity, Vector2 target)
         {
-            if (entity.IsNpc || entity.TemplateData.Movement == null) return;
+            if (!entity.IsPlayerControlled || entity.TemplateData.Movement == null) return;
 
             entity.Waypoints.Add(new Waypoint {EntityName = entity.Name, ActivationTime = GameTime, Position = target, OriginPosition = entity.Position});
             entity.ActiveWaypointIndex = entity.Waypoints.Count - 1;
@@ -118,22 +118,22 @@ namespace FrameOfReference.World
         }
 
         /// <summary>
-        /// Turns all <see cref="Entity"/>s into NPCs.
-        /// </summary>
-        public void TurnPlayerIntoNpc()
-        {
-            foreach (var entity in Positionables.OfType<Entity>())
-                entity.IsNpc = true;
-        }
-
-        /// <summary>
         /// Turns a specific <see cref="Entity"/> into a player-controlled character.
         /// </summary>
-        public void TurnNpcIntoPlayer(string name)
+        public void MakePlayerControlled(string name)
         {
             var entity = GetEntity(name);
             entity.Waypoints.RemoveAll(x => x.ActivationTime >= GameTime);
-            entity.IsNpc = false;
+            entity.IsPlayerControlled = true;
+        }
+
+        /// <summary>
+        /// Turns all <see cref="Entity"/>s into NPCs.
+        /// </summary>
+        public void MakeAllNpc()
+        {
+            foreach (var entity in Positionables.OfType<Entity>())
+                entity.IsPlayerControlled = false;
         }
         #endregion
     }

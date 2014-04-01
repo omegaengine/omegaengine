@@ -46,10 +46,10 @@ namespace FrameOfReference.World.Positionables
         public float Rotation { get { return _rotation; } set { value.To(ref _rotation, OnChanged); } }
 
         /// <summary>
-        /// <see langword="true"/> if this entity is controlled by the computer, <see langword="false"/> if it is controlled by a human player.
+        /// <see langword="true"/> if this entity is controlled by a human player, <see langword="false"/> if it is controlled by the computer.
         /// </summary>
-        [XmlAttribute, DefaultValue(false), Description("true if this entity is controlled by the computer, false if it is controlled by a human player.")]
-        public bool IsNpc { get; set; }
+        [XmlAttribute, DefaultValue(false), Description("true if this entity is controlled by a human player, false if it is controlled by the computer.")]
+        public bool IsPlayerControlled { get; set; }
 
         private int _activeWaypointIndex = -1;
 
