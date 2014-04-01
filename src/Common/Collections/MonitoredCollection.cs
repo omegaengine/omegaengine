@@ -200,8 +200,8 @@ namespace Common.Collections
             _dontRaiseEvents = false;
 
             // Raise the events afterwards en bloc
-            if (Added != null)
-                foreach (var item in added) Added(item);
+            foreach (var item in added) OnAdded(item);
+            OnChanged();
         }
 
         /// <summary>
