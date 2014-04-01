@@ -157,8 +157,6 @@ namespace FrameOfReference.Presentation
             });
             RegisterRenderComponent<TestSphere>((entity, component) =>
             {
-                if (string.IsNullOrEmpty(component.Texture)) return null;
-
                 var model = Model.Sphere(Engine, XTexture.Get(Engine, component.Texture), component.Radius, component.Slices, component.Stacks);
                 model.Name = entity.Name;
                 ConfigureModel(model, component);
