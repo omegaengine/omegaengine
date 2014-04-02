@@ -87,12 +87,12 @@ namespace FrameOfReference.World.Config
         [DefaultValue(true), Description("Cast shadows")]
         public bool Shadows { get { return _shadows; } set { value.To(ref _shadows, OnChanged); } }
 
-        private bool _doubleSampling;
+        private bool _doubleSampling = true;
 
         /// <summary>
         /// Sample textures twice with different texture coordinates for better image quality
         /// </summary>
-        [DefaultValue(false), Description("Sample textures twice with different texture coordinates for better image quality")]
+        [DefaultValue(true), Description("Sample textures twice with different texture coordinates for better image quality")]
         public bool DoubleSampling { get { return _doubleSampling; } set { value.To(ref _doubleSampling, OnChanged); } }
 
         private int _terrainBlockSize = 32;
