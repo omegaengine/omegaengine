@@ -44,6 +44,7 @@
 	<entry key="Resume">Resume</entry>
 	<entry key="Return">Return</entry>
 	<entry key="Save">Save</entry>
+	<entry key="SavegameSaved" />
 	<entry key="SaveMapSure">Do you really want to save the map?</entry>
 	<entry key="Sepia">Sepia effect</entry>
 	<entry key="Settings">Settings</entry>

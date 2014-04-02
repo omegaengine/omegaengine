@@ -5,22 +5,22 @@
 	<ColorText A="255" R="255" G="255" B="255" />
 	<CaptionText>[Settings]</CaptionText>
 	<CaptionHeight>30</CaptionHeight>
-	<OnShow>-- Import .NET enumerations
+	<OnShow>Me:ImportLua("Utils.lua")
+
+-- Import .NET enumerations
 luanet.load_assembly("Common")
 Quality = luanet.import_type("Common.Values.Quality")
 WaterEffectsType = luanet.import_type("Common.Values.WaterEffectsType")
 
 -- Default to English language, provide German as an option
-if Settings.General.Language == "de" then
-  Language.SelectedItem = "Deutsch"
-end
+if Settings.General.Language == "de" then Language.SelectedItem = "Deutsch"; end;
 
 PlayMusic.Checked = Settings.Sound.PlayMusic
 InvertMouse.Checked = Settings.Controls.InvertMouse
 
 -- Check for each supported resolution if the graphics card can handle it and if so add it to the list
 function resolution_helper(width, height)
-  if Engine.Capabilities:CheckResolution(width, height) then Resolution.Items:Add(width.."x"..height); end
+	if Engine.Capabilities:CheckResolution(width, height) then Resolution.Items:Add(width.."x"..height); end
 end
 resolution_helper(800, 600); resolution_helper(1024, 600); resolution_helper(1024, 768); resolution_helper(1152, 864);
 resolution_helper(1280, 720); resolution_helper(1280, 768); resolution_helper(1280, 800); resolution_helper(1280, 960); resolution_helper(1280, 1024);
@@ -32,18 +32,16 @@ resolution_helper(1900, 1200); resolution_helper(1920, 1080); resolution_helper(
 resolution_helper(2048, 1152); resolution_helper(2048, 1536);
 
 -- Reselect the previously chosen resolution
-if Resolution.Items:Contains(Settings.Display.ResolutionText) then
-  Resolution.SelectedItem = Settings.Display.ResolutionText
-end
+if Resolution.Items:Contains(Settings.Display.ResolutionText) then Resolution.SelectedItem = Settings.Display.ResolutionText; end;
 
 -- Check for each supported AA level if the graphics card can handle it and if so add it to the list
 for level=2,16,2 do
-  if Engine.Capabilities:CheckAA(level) then AntiAliasing.Items:Add(level.."x"); end
+	if Engine.Capabilities:CheckAA(level) then AntiAliasing.Items:Add(level.."x"); end
 end
 
 -- Reselect the previously chosen AA level
 if Settings.Display.AntiAliasing ~= 0 and AntiAliasing.Items:Contains(Settings.Display.AntiAliasingText) then
-  AntiAliasing.SelectedItem = Settings.Display.AntiAliasingText
+	AntiAliasing.SelectedItem = Settings.Display.AntiAliasingText
 end
 
 Anisotropic.Enabled = Engine.Capabilities.Anisotropic
@@ -65,8 +63,8 @@ ParticleSystemQuality.SelectedItem = "["..Settings.Graphics.ParticleSystemQualit
 
 -- Only allow the user to change the language in the main menu
 if State ~= GameState.Menu then
-  LanguageLabel.Enabled = false
-  Language.Enabled = false
+	LanguageLabel.Enabled = false
+	Language.Enabled = false
 end
 </OnShow>
 	<FontSize>15</FontSize>
@@ -94,9 +92,9 @@ end
 		<SelectedItem>English</SelectedItem>
 		<OnChanged>-- Default to English language, provide German as an option
 if Language.SelectedItem=="Deutsch" then
-  Settings.General.Language = "de"
+	Settings.General.Language = "de"
 else
-  Settings.General.Language = "en"
+	Settings.General.Language = "en"
 end
 
 -- Reload the Settings dialog to apply the language switch
@@ -226,17 +224,10 @@ elseif ParticleSystemQuality.SelectedItem == "[High]" then Settings.Graphics.Par
 end</OnChanged>
 	</DropdownList>
 	<Button Name="Exit" Text="OK">
-		<Location X="0" Y="460" />
+		<Location X="0" Y="20" />
 		<Size Width="160" Height="40" />
 		<AlignHorizontal>Center</AlignHorizontal>
-		<OnClick>Me:Close()
-
--- Restore the previous dialog
-if State == GameState.Menu then
-  LoadDialog("MainMenu")
-end
-if State == GameState.Pause then
-  LoadDialog("PauseMenu")
-end</OnClick>
+		<AlignVertical>FromBottom</AlignVertical>
+		<OnClick>return_to_menu()</OnClick>
 	</Button>
 </Dialog>

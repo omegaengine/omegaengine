@@ -44,6 +44,7 @@
 	<entry key="Resume">Fortsetzen</entry>
 	<entry key="Return">Zurück</entry>
 	<entry key="Save">Speichern</entry>
+	<entry key="SavegameSaved">Der aktuelle Spielstand wurde gespeichert.</entry>
 	<entry key="SaveMapSure">Möchten Sie wirklich die Map speichern?</entry>
 	<entry key="Sepia">Sepia Effekt</entry>
 	<entry key="Settings">Optionen</entry>

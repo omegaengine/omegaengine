@@ -162,7 +162,7 @@ namespace FrameOfReference
 
                     // Show pause menu
                     GuiManager.Reset();
-                    LoadDialog("PauseMenu");
+                    LoadDialog("Menu/Pause");
                     break;
 
                 case GameState.Pause:
@@ -285,7 +285,7 @@ namespace FrameOfReference
 
                 // Show game GUI
                 GuiManager.CloseAll();
-                LoadDialog("MainMenu");
+                LoadDialog("Menu/Main");
             }
 
             Loading = false;

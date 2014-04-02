@@ -97,7 +97,7 @@ namespace FrameOfReference
             {
                 try
                 {
-                    SaveCurrentSession("Resume");
+                    SaveSavegame("Resume");
                 }
                 catch (IOException ex)
                 {

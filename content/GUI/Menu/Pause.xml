@@ -28,15 +28,19 @@
 		<AlignHorizontal>Center</AlignHorizontal>
 		<OnClick>Game:TogglePause()</OnClick>
 	</Button>
-	<Button Name="NewGame" Enabled="false" Text="[Save]">
+	<Button Name="NewGame" Text="[Save]">
 		<Location X="0" Y="130" />
 		<Size Width="180" Height="48" />
 		<AlignHorizontal>Center</AlignHorizontal>
+		<OnClick>Me:Close()
+LoadModalDialog("Savegame/Save")</OnClick>
 	</Button>
-	<Button Name="LoadGame" Enabled="false" Text="[Load]">
+	<Button Name="LoadGame" Text="[Load]">
 		<Location X="0" Y="188" />
 		<Size Width="180" Height="48" />
 		<AlignHorizontal>Center</AlignHorizontal>
+		<OnClick>Me:Close()
+LoadModalDialog("Savegame/Load")</OnClick>
 	</Button>
 	<Button Name="Settings" Text="[Settings]">
 		<Location X="0" Y="276" />
@@ -50,10 +54,10 @@ LoadModalDialog("Settings")</OnClick>
 		<Size Width="180" Height="48" />
 		<AlignHorizontal>Center</AlignHorizontal>
 		<OnClick>function callback_exit(result)
-  if result == MsgBoxResult.Yes then
-    LoadSplashDialog("Loading")
-    Game:SwitchToMenu()
-  end
+	if result == MsgBoxResult.Yes then
+		LoadSplashDialog("Loading")
+		Game:SwitchToMenu()
+	end
 end
 Me:MsgBox('[EndGameSure]', MsgBoxType.YesNo, callback_exit)</OnClick>
 	</Button>
@@ -62,7 +66,7 @@ Me:MsgBox('[EndGameSure]', MsgBoxType.YesNo, callback_exit)</OnClick>
 		<Size Width="180" Height="48" />
 		<AlignHorizontal>Center</AlignHorizontal>
 		<OnClick>function callback_exit(result)
-  if result == MsgBoxResult.Yes then Game:Exit(); end;
+	if result == MsgBoxResult.Yes then Game:Exit(); end;
 end
 Me:MsgBox('[EndGameSure]', MsgBoxType.YesNo, callback_exit)</OnClick>
 	</Button>

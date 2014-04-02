@@ -21,9 +21,12 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using Common;
+using Common.Collections;
 using Common.Storage;
 using FrameOfReference.Presentation;
 using FrameOfReference.World;
@@ -68,7 +71,7 @@ namespace FrameOfReference
         {
             try
             {
-                LoadSession("Resume");
+                LoadSavegame("Resume");
             }
             catch (FileNotFoundException)
             {
@@ -167,8 +170,10 @@ namespace FrameOfReference
         /// Saves the <see cref="CurrentSession"/> as a savegame stored in the user's profile.
         /// </summary>
         /// <param name="name">The name of the savegame to write.</param>
-        private void SaveCurrentSession(string name)
+        public void SaveSavegame(string name)
         {
+            if (string.IsNullOrEmpty(name)) return;
+
             // If we are currently in-game, then the camera position must be explicitly stored/updated
             if (CurrentState == GameState.InGame || CurrentState == GameState.Pause)
                 ((InGamePresenter)CurrentPresenter).PrepareSave();
@@ -182,11 +187,24 @@ namespace FrameOfReference
         /// Loads a savegame from user's profile to replace the <see cref="CurrentSession"/>.
         /// </summary>
         /// <param name="name">The name of the savegame to load.</param>
-        private void LoadSession(string name)
+        public void LoadSavegame(string name)
         {
+            if (string.IsNullOrEmpty(name)) return;
+
             // Read from disk
             string path = Locations.GetSaveDataPath(GeneralSettings.AppName, true, name + Session.FileExt);
             CurrentSession = Session.Load(path);
+        }
+
+        /// <summary>
+        /// Lists the names of all stored <see cref="Session"/>s.
+        /// </summary>
+        public IEnumerable<string> GetSavegameNames()
+        {
+            var savegameDir = new DirectoryInfo(Locations.GetSaveDataPath(GeneralSettings.AppName, isFile: false));
+            return savegameDir.GetFiles("*" + Session.FileExt)
+                .Select(x => x.Name.Substring(0, x.Name.Length - Session.FileExt.Length))
+                .Except("Resume");
         }
         #endregion
     }
