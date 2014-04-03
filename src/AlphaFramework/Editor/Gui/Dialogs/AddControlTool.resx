@@ -156,10 +156,10 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="typeBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>84, 12</value>
+    <value>92, 12</value>
   </data>
   <data name="typeBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 21</value>
+    <value>134, 21</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="typeBox.TabIndex" type="System.Int32, mscorlib">
@@ -180,11 +180,14 @@
   <data name="label.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top</value>
   </data>
+  <data name="label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="label.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 15</value>
   </data>
   <data name="label.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 18</value>
+    <value>74, 18</value>
   </data>
   <data name="label.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -211,7 +214,7 @@
     <value>Bottom</value>
   </data>
   <data name="buttonAdd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>28, 48</value>
+    <value>36, 48</value>
   </data>
   <data name="buttonAdd.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 23</value>
@@ -238,7 +241,7 @@
     <value>Bottom</value>
   </data>
   <data name="buttonClose.Location" type="System.Drawing.Point, System.Drawing">
-    <value>114, 48</value>
+    <value>122, 48</value>
   </data>
   <data name="buttonClose.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 23</value>
@@ -268,7 +271,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>222, 91</value>
+    <value>238, 91</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>
