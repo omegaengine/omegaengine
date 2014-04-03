@@ -141,19 +141,19 @@ namespace OmegaEngine.Graphics.VertexDecl
                 new VertexElement(0, sizeof(float) * 10, DeclarationType.Float4, DeclarationMethod.Default,
                     DeclarationUsage.TextureCoordinate, 1),
                 // TexWeights1
-                new VertexElement(0, sizeof(float) * 12, DeclarationType.Float4, DeclarationMethod.Default,
+                new VertexElement(0, sizeof(float) * 14, DeclarationType.Float4, DeclarationMethod.Default,
                     DeclarationUsage.TextureCoordinate, 2),
                 // TexWeights2
-                new VertexElement(0, sizeof(float) * 16, DeclarationType.Float4, DeclarationMethod.Default,
+                new VertexElement(0, sizeof(float) * 18, DeclarationType.Float4, DeclarationMethod.Default,
                     DeclarationUsage.TextureCoordinate, 3),
                 // TexWeights3
-                new VertexElement(0, sizeof(float) * 20, DeclarationType.Float4, DeclarationMethod.Default,
+                new VertexElement(0, sizeof(float) * 22, DeclarationType.Float4, DeclarationMethod.Default,
                     DeclarationUsage.TextureCoordinate, 4),
                 // TexWeights4
-                new VertexElement(0, sizeof(float) * 24, DeclarationType.Float4, DeclarationMethod.Default,
+                new VertexElement(0, sizeof(float) * 26, DeclarationType.Float4, DeclarationMethod.Default,
                     DeclarationUsage.TextureCoordinate, 5),
                 // Color
-                new VertexElement(0, sizeof(float) * 28, DeclarationType.Float4, DeclarationMethod.Default,
+                new VertexElement(0, sizeof(float) * 30, DeclarationType.Float4, DeclarationMethod.Default,
                     DeclarationUsage.Color, 0),
                 // End
                 VertexElement.VertexDeclarationEnd

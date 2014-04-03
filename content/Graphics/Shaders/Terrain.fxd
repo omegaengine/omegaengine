@@ -88,7 +88,7 @@ struct inSimple
 {
     float3 entityPos          : POSITION;
     float2 texCoord           : TEXCOORD0;
-    float2 occlusionIntervals : TEXCOORD1;
+    float4 occlusionIntervals : TEXCOORD1;
     float4 texWeights1        : TEXCOORD2;
     float4 texWeights2        : TEXCOORD3;
     float4 texWeights3        : TEXCOORD4;
