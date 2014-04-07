@@ -97,6 +97,9 @@ namespace FrameOfReference.Presentation
                 UpdateRepresentation);
         }
 
+        /// <inheritdoc/>
+        protected override double MaxCameraRadius { get { return 10000; } }
+
         #region Movement
         /// <summary>
         /// Occurs when an <see cref="Positionable{TCoordinates}"/> is to be moved.

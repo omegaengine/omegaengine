@@ -245,13 +245,13 @@ namespace FrameOfReference.Presentation
         /// </summary>
         /// <param name="state">The state to place the new camera in; may be <see langword="null"/> in which case it will default to looking at the center of the terrain.</param>
         /// <returns>The newly created <see cref="Camera"/>.</returns>
-        public Camera CreateCamera(CameraState<Vector2> state = null)
+        public virtual Camera CreateCamera(CameraState<Vector2> state = null)
         {
             if (state == null)
                 state = new CameraState<Vector2> {Name = "Main", Position = Universe.Terrain.Center, Radius = 1500};
 
             return new StrategyCamera(
-                minRadius: 150, maxRadius: 100000,
+                minRadius: 150, maxRadius: MaxCameraRadius,
                 minAngle: 35, maxAngle: 55,
                 heightController: CameraController)
             {
@@ -262,6 +262,11 @@ namespace FrameOfReference.Presentation
                 FarClip = Universe.Fog ? Universe.FogDistance : 1e+6f
             };
         }
+
+        /// <summary>
+        /// The value for <see cref="StrategyCamera.MaxRadius"/>.
+        /// </summary>
+        protected virtual double MaxCameraRadius { get { return 3000; } }
 
         /// <summary>
         /// Ensures the camera does not go under or outside the <see cref="Terrain"/>.
