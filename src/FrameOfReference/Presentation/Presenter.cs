@@ -203,24 +203,6 @@ namespace FrameOfReference.Presentation
             }
             SetupTerrain();
         }
-
-        /// <summary>
-        /// Determines the effective position of a <see cref="Positionable{TCoordinates}"/> standing on the <see cref="Terrain"/>.
-        /// </summary>
-        protected DoubleVector3 GetTerrainPosition(Positionable<Vector2> positionable)
-        {
-            try
-            {
-                return Universe.Terrain.ToEngineCoords(positionable.Position);
-            }
-                #region Error handling
-            catch (ArgumentOutOfRangeException ex)
-            {
-                // Wrap exception since only data exceptions are handled by the ditor
-                throw new InvalidDataException(ex.Message, ex);
-            }
-            #endregion
-        }
         #endregion
 
         #region Skybox
@@ -269,12 +251,12 @@ namespace FrameOfReference.Presentation
                 state = new CameraState<Vector2> {Name = "Main", Position = Universe.Terrain.Center, Radius = 1500};
 
             return new StrategyCamera(
-                minRadius: 150, maxRadius: 10000,
+                minRadius: 150, maxRadius: 100000,
                 minAngle: 35, maxAngle: 55,
                 heightController: CameraController)
             {
                 Name = state.Name,
-                Target = GetTerrainPosition(state),
+                Target = Universe.Terrain.ToEngineCoords(state.Position),
                 Radius = state.Radius,
                 HorizontalRotation = state.Rotation,
                 FarClip = Universe.Fog ? Universe.FogDistance : 1e+6f
@@ -285,7 +267,6 @@ namespace FrameOfReference.Presentation
         /// Ensures the camera does not go under or outside the <see cref="Terrain"/>.
         /// </summary>
         /// <returns>The minimum height the camera must have.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when the coordinates lie outside the range of the <see cref="Terrain"/>.</exception>
         protected virtual double CameraController(DoubleVector3 coordinates)
         {
             const float floatAboveGround = 100;

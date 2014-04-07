@@ -183,15 +183,10 @@ namespace AlphaFramework.World.Terrains
         /// Converts a position in world coordinates to the engine entity space coordinate system.
         /// </summary>
         /// <param name="coordinates">The coordinates of the point in engine world space to get information for.</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when the coordinates lie outside the range of the <see cref="Terrain{TTemplate}"/>.</exception>
         public DoubleVector3 ToEngineCoords(Vector2 coordinates)
         {
             // Note: This is only required for lookups in the height-map, not for actually unstretching the coordinates to be returned
             Vector2 unstrechedCoords = coordinates * (1 / _size.StretchH);
-
-            if (unstrechedCoords.X > HeightMap.Width || unstrechedCoords.Y > HeightMap.Height ||
-                unstrechedCoords.X < 0 || unstrechedCoords.Y < 0)
-                throw new ArgumentOutOfRangeException("coordinates", Resources.CoordinatesNotInRange);
 
             var height = HeightMap.SampledRead(unstrechedCoords.X, unstrechedCoords.Y);
 

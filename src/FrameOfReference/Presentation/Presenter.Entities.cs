@@ -110,7 +110,7 @@ namespace FrameOfReference.Presentation
         /// </summary>
         protected void UpdateRepresentation(Positionable<Vector2> element, IPositionable representation)
         {
-            representation.Position = GetTerrainPosition(element);
+            representation.Position = Universe.Terrain.ToEngineCoords(element.Position);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace FrameOfReference.Presentation
         /// </summary>
         protected void UpdateRepresentation(Entity element, PositionableRenderable representation)
         {
-            representation.Position = GetTerrainPosition(element);
+            representation.Position = Universe.Terrain.ToEngineCoords(element.Position);
             representation.Rotation = Quaternion.RotationYawPitchRoll(element.Rotation.DegreeToRadian(), 0, 0);
         }
 
@@ -127,7 +127,7 @@ namespace FrameOfReference.Presentation
         /// </summary>
         protected void UpdateRepresentation(Entity element, PointLight representation)
         {
-            representation.Position = GetTerrainPosition(element) +
+            representation.Position = Universe.Terrain.ToEngineCoords(element.Position) +
                                       Vector3.TransformCoordinate(representation.Shift, Matrix.RotationY(element.Rotation.DegreeToRadian()));
         }
         #endregion

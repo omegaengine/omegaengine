@@ -208,17 +208,10 @@ namespace OmegaEngine.Graphics.Cameras
         {
             double x = panX * Radius;
             double y = panY * Radius;
-            try
-            {
-                Target += new DoubleVector3(
-                    Math.Sin(_horizontalRotation) * y - Math.Cos(_horizontalRotation) * x,
-                    0,
-                    Math.Sin(_horizontalRotation) * x + Math.Cos(_horizontalRotation) * y);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                // Prevent panning outside of the terrain
-            }
+            Target += new DoubleVector3(
+                Math.Sin(_horizontalRotation) * y - Math.Cos(_horizontalRotation) * x,
+                0,
+                Math.Sin(_horizontalRotation) * x + Math.Cos(_horizontalRotation) * y);
 
             Radius *= zoom;
             HorizontalRotation += rotation;
@@ -253,13 +246,8 @@ namespace OmegaEngine.Graphics.Cameras
             // Translate these coordinates by the target object's spacial location
             PositionCached = newPosition + Target;
 
-            try
-            {
-                // Prevent camera from going under terrain
-                PositionCached.Y = Math.Max(PositionCached.Y, _heightController(PositionCached));
-            }
-            catch (ArgumentOutOfRangeException)
-            {}
+            // Prevent camera from going under terrain
+            PositionCached.Y = Math.Max(PositionCached.Y, _heightController(PositionCached));
 
             base.UpdateView();
 
