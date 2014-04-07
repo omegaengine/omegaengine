@@ -204,7 +204,7 @@ namespace FrameOfReference.Editor.World
         protected override void OnSaveFile()
         {
             // Automatically update outdated shadow maps
-            if (_universe.Terrain.OcclusionIntervalMapOutdated || _universe.Terrain.OcclusionIntervalMap == null)
+            if ((_universe.Terrain.OcclusionIntervalMapOutdated || _universe.Terrain.OcclusionIntervalMap == null) && Msg.YesNo(this, "Calculate shadows?\nThis may take some time.", MsgSeverity.Info))
             {
                 try
                 {
