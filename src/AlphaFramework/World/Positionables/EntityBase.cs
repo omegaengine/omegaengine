@@ -138,8 +138,8 @@ namespace AlphaFramework.World.Positionables
         public override Positionable<TCoordinates> Clone()
         {
             var clonedEntity = (EntityBase<TCoordinates, TTemplate>)base.Clone();
-            clonedEntity.CurrentPath = CurrentPath.Clone();
-            clonedEntity._template = _template.Clone();
+            if (CurrentPath != null) clonedEntity.CurrentPath = CurrentPath.Clone();
+            if (_template != null) clonedEntity._template = _template.Clone();
             return clonedEntity;
         }
         #endregion
