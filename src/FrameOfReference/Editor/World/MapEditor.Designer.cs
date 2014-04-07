@@ -287,7 +287,7 @@ namespace FrameOfReference.Editor.World
             this.buttonCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonCopy.Name = "buttonCopy";
             this.buttonCopy.Size = new System.Drawing.Size(23, 22);
-            this.buttonCopy.Text = "Copy class...";
+            this.buttonCopy.Text = "Copy";
             this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
             // 
             // buttonRemove
@@ -298,7 +298,7 @@ namespace FrameOfReference.Editor.World
             this.buttonRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(23, 22);
-            this.buttonRemove.Text = "Remove class";
+            this.buttonRemove.Text = "Remove";
             this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
             // 
             // toolStripSeparator3
