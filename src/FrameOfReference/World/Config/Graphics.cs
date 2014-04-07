@@ -103,12 +103,12 @@ namespace FrameOfReference.World.Config
         [DefaultValue(32), Description("The size of a terrain rendering block")]
         public int TerrainBlockSize { get { return _terrainBlockSize; } set { value.To(ref _terrainBlockSize, OnChanged); } }
 
-        private WaterEffectsType _waterEffects = WaterEffectsType.ReflectTerrain;
+        private WaterEffectsType _waterEffects = WaterEffectsType.ReflectAll;
 
         /// <summary>
         /// What kind of effects to display on water (e.g. reflections)
         /// </summary>
-        [DefaultValue(WaterEffectsType.ReflectTerrain), Description("What kind of effects to display on water (e.g. reflections)")]
+        [DefaultValue(WaterEffectsType.ReflectAll), Description("What kind of effects to display on water (e.g. reflections)")]
         public WaterEffectsType WaterEffects { get { return _waterEffects; } set { value.To(ref _waterEffects, OnChanged); } }
 
         private Quality _particleSystemQuality = Quality.Medium;
