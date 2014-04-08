@@ -23,7 +23,7 @@
     <Optimize>false</Optimize>
     <OutputPath>..\..\build\Debug\</OutputPath>
     <DocumentationFile>..\..\build\Debug\Common.xml</DocumentationFile>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;LUA;SLIMDX</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591</NoWarn>
@@ -69,6 +69,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Mono.Posix" Condition=" '$(OS)' != 'Windows_NT' " />
+    <Reference Include="Mono.Posix" Condition=" '$(OS)' == 'Windows_NT' ">
+      <HintPath>..\..\lib\Mono.Posix.dll</HintPath>
+      <CopyToOutputDirectory>false</CopyToOutputDirectory>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -342,6 +347,7 @@
     <Compile Include="Utils\ProcessUtils.cs" />
     <Compile Include="Utils\RandomUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
+    <Compile Include="Utils\UnixUtils.cs" />
     <Compile Include="Utils\UpdateUtils.cs" />
     <Compile Include="Utils\WindowsUtils.cs" />
     <Compile Include="Utils\WindowsUtils.NativeMethods.cs" />

@@ -138,6 +138,9 @@
   <data name="CannotAddCollectionToSelf" xml:space="preserve">
     <value>The collection cannot be added to itself.</value>
   </data>
+  <data name="CannotCanonicalizeDacl" xml:space="preserve">
+    <value>The DACL cannot be canonicalized since it would potentially result in a loss of information.</value>
+  </data>
   <data name="ContentArchivesAlreadyLoaded" xml:space="preserve">
     <value>The content archives were already loaded</value>
   </data>
@@ -284,6 +287,9 @@
   </data>
   <data name="UndoNotAvailable" xml:space="preserve">
     <value>This undo command cannot be performed until the actual command has been performed.</value>
+  </data>
+  <data name="UnixSubsystemFail" xml:space="preserve">
+    <value>The Unix subsystem failed to process the request. You may have insufficient rights.</value>
   </data>
   <data name="UserCancel" xml:space="preserve">
     <value>The user has chosen to cancel the operation.</value>
