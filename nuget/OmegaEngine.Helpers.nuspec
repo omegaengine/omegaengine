@@ -21,10 +21,13 @@
     <summary>Helper libraries for the OmegaEngine, automatically included by the main package</summary>
   </metadata>
   <files>
+    <!-- Common -->
     <file src="..\build\ReleaseSDK\de\Common.resources.dll" target="lib\net20\de\Common.resources.dll" />
     <file src="..\build\ReleaseSDK\Common.dll" target="lib\net20\Common.dll" />
     <file src="..\build\ReleaseSDK\Common.pdb" target="lib\net20\Common.pdb" />
     <file src="..\build\ReleaseSDK\Common.xml" target="lib\net20\Common.xml" />
+
+    <!-- Common dependencies -->
     <file src="..\build\ReleaseSDK\ICSharpCode.SharpZipLib.dll" target="lib\net20\ICSharpCode.SharpZipLib.dll" />
     <file src="..\build\ReleaseSDK\ICSharpCode.SharpZipLib.xml" target="lib\net20\ICSharpCode.SharpZipLib.xml" />
     <file src="..\build\ReleaseSDK\ICSharpCode.TextEditor.dll" target="lib\net20\ICSharpCode.TextEditor.dll" />

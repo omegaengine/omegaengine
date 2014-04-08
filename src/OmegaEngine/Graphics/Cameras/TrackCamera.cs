@@ -151,7 +151,10 @@ namespace OmegaEngine.Graphics.Cameras
         /// <inheritdoc/>
         public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)
         {
-            Target += new DoubleVector3(panX * -Math.Cos(_horizontalRotation), panY, panX * Math.Sin(_horizontalRotation)) * Radius;
+            Target += new DoubleVector3(
+                panX * -Math.Cos(_horizontalRotation),
+                panY,
+                panX * Math.Sin(_horizontalRotation)) * Radius;
 
             Radius *= zoom;
             HorizontalRotation += rotation;
