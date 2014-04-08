@@ -1,27 +1,27 @@
 NUnit
 http://www.nunit.org/
 Modified zlib license
-NuGet package: nunit.framework.dll
+NuGet package: NUnit
 
 Moq
 https://github.com/Moq/moq4
 New BSD license: http://opensource.org/licenses/BSD-3-Clause
-NuGet package: Moq.dll
+NuGet package: Moq
 
 Moq.Contrib
 https://code.google.com/p/moq-contrib/
 New BSD license: http://opensource.org/licenses/BSD-3-Clause
-NuGet package: Moq.Contrib.dll
+NuGet package: Moq.Contrib
 
 LinqBridge
 http://code.google.com/p/linqbridge/
 MIT license: http://opensource.org/licenses/mit-license
-NuGet package: LinqBridge.dll
+NuGet package: LinqBridge
 
 SlimDX runtime January 2012
 http://slimdx.org/
 MIT license: http://opensource.org/licenses/mit-license
-Pre-compiled managed DLL: SlimDX.dll
+NuGet package: SlimDX
 
 TaskDialog
 http://www.codeproject.com/KB/vista/TaskDialogWinForms.aspx

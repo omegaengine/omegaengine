@@ -40,8 +40,9 @@ cd /d "%TargetDir%"
 zip -q -9 -r "%TargetDir%\omegaengine-templates.vsix" ProjectTemplates
 if errorlevel 1 pause
 
-echo Copying LinqBridge NuGet package...
+echo Copying external NuGet packages...
 copy "%~dp0..\src\packages\LinqBridge.1.3.0\LinqBridge.1.3.0.nupkg" "%~dp0..\build\Packages\LinqBridge.1.3.0.nupkg" > NUL
+copy "%~dp0..\src\packages\SlimDX.4.0.13.44\SlimDX.4.0.13.44.nupkg" "%~dp0..\build\Packages\SlimDX.4.0.13.44.nupkg" > NUL
 
 echo Adding NuGet packages to extension...
 cd /d "%~dp0..\build"
