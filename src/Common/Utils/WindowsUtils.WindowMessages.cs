@@ -85,7 +85,7 @@ namespace Common.Utils
     /// <summary>
     /// Provides helper methods and API calls specific to the Windows platform.
     /// </summary>
-    public static partial class WindowsUtils
+    static partial class WindowsUtils
     {
         #region Structures
         [StructLayout(LayoutKind.Sequential)]

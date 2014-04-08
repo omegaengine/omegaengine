@@ -31,7 +31,7 @@ namespace Common.Utils
     /// <summary>
     /// Provides helper methods and API calls specific to the Windows platform.
     /// </summary>
-    public static partial class WindowsUtils
+    static partial class WindowsUtils
     {
         // Note: The following code is based on Windows API Code Pack for Microsoft .NET Framework 1.0.1
 
@@ -104,7 +104,7 @@ namespace Common.Utils
 
             // More than one touchinput may be associated with a touch message,
             // so an array is needed to get all event information.
-            short inputCount = MathUtils.LoWord(m.WParam.ToInt32()); // Number of touch inputs, actual per-contact messages
+            short inputCount = (short)(m.WParam.ToInt32() & 0xffff); // Number of touch inputs, actual per-contact messages
 
             if (inputCount < 0) return;
             var inputs = new TouchInput[inputCount];
