@@ -44,9 +44,6 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="SlimDX">
-      <HintPath>..\packages\SlimDX.4.0.13.44\lib\NET40\SlimDX.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -101,15 +98,14 @@
     <Compile Include="Utils\StringUtilsTest.cs" />
     <Compile Include="Values\ByteGridTest.cs" />
     <Compile Include="Values\ByteVector4GridTest.cs" />
-    <Compile Include="Values\DoubleVector3Test.cs" />
     <Compile Include="Values\ExpandableRectangleArrayTest.cs" />
     <Compile Include="Values\NibbleGridTest.cs" />
-    <Compile Include="Values\QuadrangleTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
