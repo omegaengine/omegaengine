@@ -30,7 +30,7 @@ using Common.Streams;
 using Common.Utils;
 using ICSharpCode.SharpZipLib.Zip;
 
-namespace Common.Storage
+namespace Common.Storage.SlimDX
 {
     /// <summary>
     /// Provides a virtual file system for combining data from multiple directories and archives (useful for modding).

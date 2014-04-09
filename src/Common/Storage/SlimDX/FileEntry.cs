@@ -26,10 +26,10 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Common.Controls;
-using Common.Utils;
 using Common.Properties;
+using Common.Utils;
 
-namespace Common.Storage
+namespace Common.Storage.SlimDX
 {
 
     #region Enumerations
@@ -79,9 +79,9 @@ namespace Common.Storage
 
         /// <summary>
         /// The color to highlight this file entry with in list representations.
-        /// <see cref="Color.Empty"/> for <see cref="Storage.FileEntryType.Normal"/> (no highlighting).
-        /// <see cref="Color.Blue"/> for <see cref="Storage.FileEntryType.Modified"/>.
-        /// <see cref="Color.Green"/> for <see cref="Storage.FileEntryType.Added"/>.
+        /// <see cref="Color.Empty"/> for <see cref="FileEntryType.Normal"/> (no highlighting).
+        /// <see cref="Color.Blue"/> for <see cref="FileEntryType.Modified"/>.
+        /// <see cref="Color.Green"/> for <see cref="FileEntryType.Added"/>.
         /// <see cref="Color.Red"/> for <see cref="FileEntryType.Deleted"/>.
         /// </summary>
         public Color HighlightColor

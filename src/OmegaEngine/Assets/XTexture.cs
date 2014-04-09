@@ -9,6 +9,7 @@
 using System;
 using System.IO;
 using Common;
+using Common.Storage.SlimDX;
 using Common.Utils;
 using Common.Storage;
 using SlimDX.Direct3D9;

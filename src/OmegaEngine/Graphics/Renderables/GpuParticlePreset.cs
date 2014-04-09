@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using Common.Utils;
 using SlimDX;
 using OmegaEngine.Graphics.Shaders;

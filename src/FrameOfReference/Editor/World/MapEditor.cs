@@ -37,6 +37,7 @@ using AlphaFramework.World.Terrains;
 using Common;
 using Common.Controls;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using Common.Tasks;
 using Common.Undo;
 using Common.Utils;

@@ -31,6 +31,7 @@ using AlphaFramework.World.Templates;
 using Common;
 using Common.Controls;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using FrameOfReference.World.Templates;
 
 namespace FrameOfReference.Editor.World

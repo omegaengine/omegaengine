@@ -12,6 +12,7 @@ using System.IO;
 using System.Windows.Forms;
 using Common;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using Common.Values;
 using OmegaEngine;
 using OmegaGUI;

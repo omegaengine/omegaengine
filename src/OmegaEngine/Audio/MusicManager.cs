@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading;
 using Common;
 using Common.Collections;
+using Common.Storage.SlimDX;
 using Common.Utils;
 using Common.Storage;
 using Resources = OmegaEngine.Properties.Resources;

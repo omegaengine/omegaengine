@@ -15,6 +15,7 @@ using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using Common.Collections;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using Common.Utils;
 
 namespace AlphaFramework.World

@@ -14,6 +14,7 @@ using AlphaFramework.Editor.Properties;
 using Common;
 using Common.Controls;
 using Common.Storage;
+using Common.Storage.SlimDX;
 
 namespace AlphaFramework.Editor
 {

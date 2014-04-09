@@ -271,11 +271,11 @@
     <Compile Include="PropertyPointer.cs" />
     <Compile Include="Storage\AtomicWrite.cs" />
     <Compile Include="Storage\BinaryStorage.cs" />
-    <Compile Include="Storage\ContentArchiveEntry.cs" />
-    <Compile Include="Storage\ContentManager.cs" />
     <Compile Include="Storage\EmbeddedFile.cs" />
-    <Compile Include="Storage\FileEntry.cs" />
     <Compile Include="Storage\Locations.cs" />
+    <Compile Include="Storage\SlimDX\ContentArchiveEntry.cs" />
+    <Compile Include="Storage\SlimDX\ContentManager.cs" />
+    <Compile Include="Storage\SlimDX\FileEntry.cs" />
     <Compile Include="Storage\TemporaryDirectory.cs" />
     <Compile Include="Storage\TemporaryFile.cs" />
     <Compile Include="Storage\TemporaryFlagFile.cs" />

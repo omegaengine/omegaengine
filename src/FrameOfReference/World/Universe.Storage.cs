@@ -28,6 +28,7 @@ using AlphaFramework.World.Properties;
 using AlphaFramework.World.Terrains;
 using Common;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using FrameOfReference.World.Config;
 using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;

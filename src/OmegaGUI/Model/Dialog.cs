@@ -31,6 +31,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
+using Common.Storage.SlimDX;
 using Common.Utils;
 using Common.Storage;
 using Common.Values;

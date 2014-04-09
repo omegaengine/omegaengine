@@ -25,6 +25,7 @@ using System.Drawing;
 using System.IO;
 using Common;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using FrameOfReference.Presentation;
 using FrameOfReference.Properties;
 using FrameOfReference.World;

@@ -11,6 +11,7 @@ using System.IO;
 using System.Windows.Forms;
 using Common;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using Common.Undo;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;

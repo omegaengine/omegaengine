@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.IO;
 using Common.Collections;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using Common.Utils;
 using Common.Values;
 using OmegaEngine.Assets;

@@ -29,6 +29,7 @@ using System.Windows.Forms;
 using Common;
 using Common.Controls;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using Common.Utils;
 using Common.Values;
 using FrameOfReference.Properties;

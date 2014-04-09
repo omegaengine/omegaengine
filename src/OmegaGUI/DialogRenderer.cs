@@ -28,6 +28,7 @@ using System.Drawing;
 using System.IO;
 using Common;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using Common.Utils;
 using LuaInterface;
 using OmegaEngine;

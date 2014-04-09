@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using Common;
 using Common.Collections;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using OmegaGUI.Model;
 
 namespace AlphaFramework.Editor.Gui

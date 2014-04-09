@@ -16,6 +16,7 @@ using Common;
 using Common.Collections;
 using Common.Controls;
 using Common.Storage;
+using Common.Storage.SlimDX;
 
 namespace AlphaFramework.World.Templates
 {

@@ -9,6 +9,7 @@
 using System.IO;
 using Common;
 using Common.Storage;
+using Common.Storage.SlimDX;
 
 namespace AlphaFramework.Editor.Gui
 {

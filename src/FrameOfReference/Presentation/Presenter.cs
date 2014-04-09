@@ -26,6 +26,7 @@ using AlphaFramework.Presentation;
 using AlphaFramework.World.Positionables;
 using Common.Dispatch;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using Common.Values;
 using FrameOfReference.World;
 using FrameOfReference.World.Config;

@@ -33,6 +33,7 @@ using AlphaFramework.Editor.Properties;
 using Common;
 using Common.Controls;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using Common.Utils;
 using FrameOfReference.World.Config;
 using OmegaEngine;

@@ -12,6 +12,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using Common;
+using Common.Storage.SlimDX;
 using Common.Utils;
 using Common.Storage;
 using OmegaEngine.Graphics;

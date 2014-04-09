@@ -25,6 +25,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
 using Common.Storage;
+using Common.Storage.SlimDX;
 using Common.Values;
 using SlimDX.Direct3D9;
 using OmegaGUI.Render;
