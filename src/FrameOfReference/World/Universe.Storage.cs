@@ -26,13 +26,13 @@ using System.IO;
 using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
 using AlphaFramework.World.Terrains;
-using Common;
-using Common.Storage;
-using Common.Storage.SlimDX;
 using FrameOfReference.World.Config;
 using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
 using LuaInterface;
+using NanoByte.Common;
+using NanoByte.Common.Storage.SlimDX;
+using EmbeddedFile = NanoByte.Common.Storage.EmbeddedFile;
 
 namespace FrameOfReference.World
 {

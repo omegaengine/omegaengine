@@ -10,7 +10,7 @@ using System;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using Common.Utils;
+using NanoByte.Common.Utils;
 using SlimDX;
 using SlimDX.Direct3D9;
 using WinFont = System.Drawing.Font;

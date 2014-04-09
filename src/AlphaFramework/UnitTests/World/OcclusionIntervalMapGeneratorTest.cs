@@ -7,8 +7,8 @@
  */
 
 using AlphaFramework.World.Terrains;
-using Common;
-using Common.Values;
+using NanoByte.Common;
+using NanoByte.Common.Values;
 using NUnit.Framework;
 
 namespace AlphaFramework.World

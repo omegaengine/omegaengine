@@ -24,10 +24,10 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using Common.Streams;
-using Common.Utils;
+using NanoByte.Common.Streams;
+using NanoByte.Common.Utils;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// A 2D grid of values that can be stored in PNG files.

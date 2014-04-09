@@ -26,11 +26,10 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
-using Common;
-using Common.Storage;
-using Common.Storage.SlimDX;
-using Common.Utils;
 using LuaInterface;
+using NanoByte.Common;
+using NanoByte.Common.Storage.SlimDX;
+using NanoByte.Common.Utils;
 using OmegaEngine;
 using OmegaGUI.Model;
 

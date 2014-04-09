@@ -24,10 +24,10 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using Common.Properties;
-using Common.Utils;
+using NanoByte.Common.Properties;
+using NanoByte.Common.Utils;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// A 2D grid of nibble (half a <see cref="byte"/> / 4 bits) values that can be stored in 16 colors PNG files.

@@ -26,7 +26,7 @@ using System.Drawing;
 using LuaInterface;
 using SlimDX;
 
-namespace Common.Utils
+namespace NanoByte.Common.Utils
 {
     /// <summary>
     /// Provides helper methods for creating different types of variables with random content.

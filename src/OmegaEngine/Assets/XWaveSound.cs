@@ -8,11 +8,10 @@
 
 using System;
 using System.IO;
-using Common;
-using Common.Storage.SlimDX;
-using Common.Streams;
-using Common.Utils;
-using Common.Storage;
+using NanoByte.Common;
+using NanoByte.Common.Storage.SlimDX;
+using NanoByte.Common.Streams;
+using NanoByte.Common.Utils;
 using SlimDX.Multimedia;
 
 namespace OmegaEngine.Assets

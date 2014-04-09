@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Templates;
-using Common.Undo;
+using NanoByte.Common.Undo;
 
 namespace AlphaFramework.Editor.World.Commands
 {

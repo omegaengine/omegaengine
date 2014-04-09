@@ -25,9 +25,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Common.Properties;
+using NanoByte.Common.Properties;
 
-namespace Common.Collections
+namespace NanoByte.Common.Collections
 {
     /// <summary>
     /// A string dictionary that supports data-binding and can be XML serialized.

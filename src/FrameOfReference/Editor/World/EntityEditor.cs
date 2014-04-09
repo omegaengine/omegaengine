@@ -30,13 +30,13 @@ using AlphaFramework.Editor.World.Dialogs;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Templates;
 using AlphaFramework.World.Terrains;
-using Common;
-using Common.Controls;
-using Common.Values;
 using FrameOfReference.Presentation;
 using FrameOfReference.World;
 using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
+using NanoByte.Common;
+using NanoByte.Common.Controls;
+using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;
 

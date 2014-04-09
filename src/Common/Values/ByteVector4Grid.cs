@@ -24,9 +24,9 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using Common.Properties;
+using NanoByte.Common.Properties;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// A 2D grid of <see cref="ByteVector4"/> values that can be stored in ARGB PNG files.

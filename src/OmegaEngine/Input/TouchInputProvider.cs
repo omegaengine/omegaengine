@@ -7,7 +7,7 @@
  */
 
 using System;
-using Common.Controls;
+using NanoByte.Common.Controls;
 
 namespace OmegaEngine.Input
 {

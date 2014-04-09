@@ -1,3 +1,4 @@
+#define SLIMDX
 /*
  * Copyright 2006-2014 Bastian Eicher
  *

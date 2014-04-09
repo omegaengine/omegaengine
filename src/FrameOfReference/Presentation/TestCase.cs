@@ -23,8 +23,8 @@
 using System;
 using System.Xml.Serialization;
 using AlphaFramework.World.Positionables;
-using Common.Values;
 using FrameOfReference.World.Config;
+using NanoByte.Common.Values;
 using SlimDX;
 
 namespace FrameOfReference.Presentation

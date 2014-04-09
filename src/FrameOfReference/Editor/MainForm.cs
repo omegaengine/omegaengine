@@ -27,10 +27,10 @@ using System.Linq;
 using System.Windows.Forms;
 using AlphaFramework.Editor;
 using AlphaFramework.Editor.Properties;
-using Common;
 using FrameOfReference.Editor.World;
 using FrameOfReference.World;
 using FrameOfReference.World.Config;
+using NanoByte.Common;
 
 namespace FrameOfReference.Editor
 {

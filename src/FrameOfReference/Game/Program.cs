@@ -26,14 +26,14 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using Common;
-using Common.Controls;
-using Common.Storage;
-using Common.Storage.SlimDX;
-using Common.Utils;
-using Common.Values;
 using FrameOfReference.Properties;
 using FrameOfReference.World.Config;
+using NanoByte.Common;
+using NanoByte.Common.Controls;
+using NanoByte.Common.Storage;
+using NanoByte.Common.Storage.SlimDX;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values;
 using OmegaEngine;
 
 namespace FrameOfReference

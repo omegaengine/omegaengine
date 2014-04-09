@@ -9,8 +9,8 @@
 using System;
 using System.IO;
 using AlphaFramework.Editor.Properties;
-using Common;
-using Common.Undo;
+using NanoByte.Common;
+using NanoByte.Common.Undo;
 
 namespace AlphaFramework.Editor
 {

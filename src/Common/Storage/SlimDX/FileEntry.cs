@@ -25,11 +25,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using Common.Controls;
-using Common.Properties;
-using Common.Utils;
+using NanoByte.Common.Controls;
+using NanoByte.Common.Properties;
+using NanoByte.Common.Utils;
 
-namespace Common.Storage.SlimDX
+namespace NanoByte.Common.Storage.SlimDX
 {
 
     #region Enumerations

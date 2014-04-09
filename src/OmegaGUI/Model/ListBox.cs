@@ -25,9 +25,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Xml.Serialization;
-using Common.Collections;
-using Common.Values;
-using Common.Values.Design;
+using NanoByte.Common.Collections;
+using NanoByte.Common.Values;
+using NanoByte.Common.Values.Design;
 using OmegaGUI.Render;
 
 namespace OmegaGUI.Model

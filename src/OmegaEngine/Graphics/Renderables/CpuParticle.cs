@@ -7,9 +7,9 @@
  */
 
 using System;
-using Common.Collections;
-using Common.Utils;
-using Common.Values;
+using NanoByte.Common.Collections;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;

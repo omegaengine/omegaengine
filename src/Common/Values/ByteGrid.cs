@@ -24,9 +24,9 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using Common.Properties;
+using NanoByte.Common.Properties;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// A 2D grid of <see cref="byte"/> values that can be stored in grayscale PNG files.

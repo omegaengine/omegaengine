@@ -24,7 +24,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
 using AlphaFramework.World.Components;
-using Common.Values;
+using NanoByte.Common.Values;
 using SlimDX;
 
 namespace FrameOfReference.World.Components

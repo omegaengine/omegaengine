@@ -9,7 +9,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using AlphaFramework.World.Terrains;
-using Common.Values;
+using NanoByte.Common.Values;
 
 namespace AlphaFramework.Editor.World.Commands
 {

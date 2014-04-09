@@ -21,9 +21,9 @@
  */
 
 using System;
-using Common.Values.Design;
+using NanoByte.Common.Values.Design;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// Stores the file type describing the kind of data a property stores.

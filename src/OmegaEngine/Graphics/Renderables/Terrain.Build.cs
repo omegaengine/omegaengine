@@ -9,9 +9,9 @@
 using System;
 using System.Drawing;
 using System.IO;
-using Common;
-using Common.Utils;
-using Common.Values;
+using NanoByte.Common;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Assets;

@@ -28,11 +28,10 @@ using System.Windows.Forms;
 using AlphaFramework.Editor;
 using AlphaFramework.Editor.Properties;
 using AlphaFramework.World.Templates;
-using Common;
-using Common.Controls;
-using Common.Storage;
-using Common.Storage.SlimDX;
 using FrameOfReference.World.Templates;
+using NanoByte.Common;
+using NanoByte.Common.Controls;
+using NanoByte.Common.Storage.SlimDX;
 
 namespace FrameOfReference.Editor.World
 {

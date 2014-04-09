@@ -8,7 +8,7 @@
 
 using System;
 using System.ComponentModel;
-using Common.Utils;
+using NanoByte.Common.Utils;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders

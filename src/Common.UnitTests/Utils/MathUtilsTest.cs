@@ -22,7 +22,7 @@
 
 using NUnit.Framework;
 
-namespace Common.Utils
+namespace NanoByte.Common.Utils
 {
     /// <summary>
     /// Contains test methods for <see cref="MathUtils"/>.

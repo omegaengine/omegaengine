@@ -23,10 +23,10 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Common.Utils;
-using Common.Values;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values;
 
-namespace Common.Controls
+namespace NanoByte.Common.Controls
 {
     /// <summary>
     /// Allows the input of angles between 0 and 360 degrees by clicking in a circle.

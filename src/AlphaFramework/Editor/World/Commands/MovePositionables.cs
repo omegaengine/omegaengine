@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using AlphaFramework.World.Positionables;
-using Common.Undo;
+using NanoByte.Common.Undo;
 using SlimDX;
 
 namespace AlphaFramework.Editor.World.Commands

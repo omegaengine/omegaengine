@@ -11,7 +11,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Security.Permissions;
 using System.Windows.Forms;
-using Common.Controls;
+using NanoByte.Common.Controls;
 
 namespace OmegaEngine
 {

@@ -24,9 +24,10 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
-using Common;
-using Common.Storage;
 using LuaInterface;
+using NanoByte.Common;
+using NanoByte.Common.Storage.SlimDX;
+using Locations = NanoByte.Common.Storage.Locations;
 
 namespace FrameOfReference.World.Config
 {

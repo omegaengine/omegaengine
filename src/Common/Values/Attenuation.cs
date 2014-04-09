@@ -24,10 +24,10 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Xml.Serialization;
-using Common.Values.Design;
+using NanoByte.Common.Values.Design;
 using SlimDX;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// Factors describing the attenuation of light intensity over distance.

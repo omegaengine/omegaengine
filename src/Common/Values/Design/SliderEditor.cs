@@ -24,9 +24,9 @@ using System;
 using System.Security.Permissions;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
-using Common.Utils;
+using NanoByte.Common.Utils;
 
-namespace Common.Values.Design
+namespace NanoByte.Common.Values.Design
 {
     /// <summary>
     /// An editor that can be associated with <see langword="float"/> properties with values between 0 and 3 to provide a <see cref="TrackBar"/> interface.

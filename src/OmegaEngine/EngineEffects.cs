@@ -7,7 +7,7 @@
  */
 
 using System;
-using Common.Values;
+using NanoByte.Common.Values;
 
 namespace OmegaEngine
 {

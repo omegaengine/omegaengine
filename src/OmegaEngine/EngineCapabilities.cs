@@ -12,9 +12,9 @@ using System.Globalization;
 using System.Linq;
 using System.Management;
 using System.Text;
-using Common;
-using Common.Info;
-using Common.Values;
+using NanoByte.Common;
+using NanoByte.Common.Info;
+using NanoByte.Common.Values;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine

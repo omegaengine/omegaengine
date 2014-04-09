@@ -27,9 +27,9 @@ using System.Xml.Serialization;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
-using Common.Collections;
 using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
+using NanoByte.Common.Collections;
 using SlimDX;
 
 namespace FrameOfReference.World

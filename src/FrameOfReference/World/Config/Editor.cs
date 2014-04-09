@@ -24,8 +24,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
-using Common.Collections;
-using Common.Utils;
+using NanoByte.Common.Collections;
+using NanoByte.Common.Utils;
 
 namespace FrameOfReference.World.Config
 {

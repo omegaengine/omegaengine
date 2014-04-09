@@ -29,9 +29,9 @@ using AlphaFramework.World.Components;
 using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
-using Common;
-using Common.Utils;
 using FrameOfReference.World.Positionables;
+using NanoByte.Common;
+using NanoByte.Common.Utils;
 using SlimDX;
 
 namespace FrameOfReference.World

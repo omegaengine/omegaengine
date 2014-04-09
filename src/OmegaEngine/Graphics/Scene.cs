@@ -9,9 +9,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.Collections;
-using Common.Dispatch;
-using Common.Values;
+using NanoByte.Common.Collections;
+using NanoByte.Common.Dispatch;
+using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;

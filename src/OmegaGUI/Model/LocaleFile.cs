@@ -22,9 +22,8 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
-using Common.Collections;
-using Common.Storage;
-using Common.Storage.SlimDX;
+using NanoByte.Common.Collections;
+using NanoByte.Common.Storage.SlimDX;
 
 namespace OmegaGUI.Model
 {

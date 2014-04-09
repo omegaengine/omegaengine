@@ -11,8 +11,8 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
-using Common.Values;
 using LuaInterface;
+using NanoByte.Common.Values;
 using SlimDX;
 
 namespace AlphaFramework.World.Terrains

@@ -25,8 +25,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 using AlphaFramework.World.Positionables;
-using Common.Values;
 using FrameOfReference.World;
+using NanoByte.Common.Values;
 using SlimDX;
 
 namespace FrameOfReference.Presentation

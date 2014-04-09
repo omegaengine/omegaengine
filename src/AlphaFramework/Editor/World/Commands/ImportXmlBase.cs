@@ -8,8 +8,8 @@
 
 using System;
 using AlphaFramework.World;
-using Common.Storage;
-using Common.Undo;
+using NanoByte.Common.Storage.SlimDX;
+using NanoByte.Common.Undo;
 
 namespace AlphaFramework.Editor.World.Commands
 {

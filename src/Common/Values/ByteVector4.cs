@@ -26,7 +26,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Xml.Serialization;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// Defines a four component vector with <see cref="byte"/> accuracy.

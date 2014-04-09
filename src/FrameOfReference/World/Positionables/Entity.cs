@@ -23,10 +23,10 @@ using AlphaFramework.World;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
-using Common.Utils;
-using Common.Values;
-using Common.Values.Design;
 using FrameOfReference.World.Templates;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values;
+using NanoByte.Common.Values.Design;
 using SlimDX;
 
 namespace FrameOfReference.World.Positionables

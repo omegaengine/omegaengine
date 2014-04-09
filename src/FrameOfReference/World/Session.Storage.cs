@@ -22,9 +22,9 @@
 
 using System;
 using System.IO;
-using Common.Storage;
 using FrameOfReference.World.Config;
 using ICSharpCode.SharpZipLib.Zip;
+using NanoByte.Common.Storage.SlimDX;
 
 namespace FrameOfReference.World
 {

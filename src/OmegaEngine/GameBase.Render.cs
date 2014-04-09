@@ -8,10 +8,9 @@
 
 using System;
 using System.Windows.Forms;
-using Common;
-using Common.Storage;
-using Common.Storage.SlimDX;
 using LuaInterface;
+using NanoByte.Common;
+using NanoByte.Common.Storage.SlimDX;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;

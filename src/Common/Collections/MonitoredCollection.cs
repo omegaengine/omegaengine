@@ -26,9 +26,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Common.Properties;
+using NanoByte.Common.Properties;
 
-namespace Common.Collections
+namespace NanoByte.Common.Collections
 {
     /// <summary>
     /// A collection that can easily be monitored for changes via events.

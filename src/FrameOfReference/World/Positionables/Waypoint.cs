@@ -23,7 +23,7 @@
 using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World.Positionables;
-using Common.Utils;
+using NanoByte.Common.Utils;
 using SlimDX;
 
 namespace FrameOfReference.World.Positionables

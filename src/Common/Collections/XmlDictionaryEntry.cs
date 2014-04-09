@@ -22,9 +22,9 @@
 
 using System;
 using System.Xml.Serialization;
-using Common.Properties;
+using NanoByte.Common.Properties;
 
-namespace Common.Collections
+namespace NanoByte.Common.Collections
 {
     /// <summary>
     /// A key-value string pair for <see ref="XmlCollection" />.

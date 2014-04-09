@@ -23,14 +23,13 @@
 using System;
 using System.Drawing;
 using System.IO;
-using Common;
-using Common.Storage;
-using Common.Storage.SlimDX;
 using FrameOfReference.Presentation;
 using FrameOfReference.Properties;
 using FrameOfReference.World;
 using FrameOfReference.World.Config;
 using LuaInterface;
+using NanoByte.Common;
+using NanoByte.Common.Storage.SlimDX;
 using OmegaEngine;
 using OmegaGUI;
 

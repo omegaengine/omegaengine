@@ -26,7 +26,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using Common.Utils;
+using NanoByte.Common.Utils;
 
 namespace FrameOfReference.World.Config
 {

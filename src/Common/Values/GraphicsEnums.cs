@@ -22,7 +22,7 @@
 
 using LuaInterface;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// A generic enumeration for a three-level quality setting.

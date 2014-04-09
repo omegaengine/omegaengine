@@ -14,11 +14,10 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using Common;
-using Common.Controls;
-using Common.Utils;
-using Common.Values;
 using LuaInterface;
+using NanoByte.Common;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values;
 using OmegaEngine.Input;
 using SlimDX;
 

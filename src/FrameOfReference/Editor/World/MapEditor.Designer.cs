@@ -1,3 +1,5 @@
+using NanoByte.Common.Controls;
+
 namespace FrameOfReference.Editor.World
 {
     partial class MapEditor
@@ -60,7 +62,7 @@ namespace FrameOfReference.Editor.World
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPagePositionables = new System.Windows.Forms.TabPage();
             this.positionablesTab = new System.Windows.Forms.SplitContainer();
-            this.textSearch = new Common.Controls.HintTextBox();
+            this.textSearch = new HintTextBox();
             this.checkMemo = new System.Windows.Forms.CheckBox();
             this.checkBenchmarkPoint = new System.Windows.Forms.CheckBox();
             this.checkWater = new System.Windows.Forms.CheckBox();
@@ -93,7 +95,7 @@ namespace FrameOfReference.Editor.World
             this.labelTerrainSize = new System.Windows.Forms.Label();
             this.splitHorizontal = new System.Windows.Forms.SplitContainer();
             this.renderPanel = new OmegaEngine.RenderPanel();
-            this.xmlEditor = new Common.Controls.LiveEditor();
+            this.xmlEditor = new LiveEditor();
             this.toolStrip.SuspendLayout();
             this.splitVertical.Panel1.SuspendLayout();
             this.splitVertical.Panel2.SuspendLayout();
@@ -963,7 +965,7 @@ namespace FrameOfReference.Editor.World
         private System.Windows.Forms.CheckBox checkBenchmarkPoint;
         private System.Windows.Forms.CheckBox checkWaypoint;
         private System.Windows.Forms.CheckBox checkEntity;
-        private Common.Controls.HintTextBox textSearch;
+        private HintTextBox textSearch;
         private System.Windows.Forms.CheckBox checkWater;
         private System.Windows.Forms.TabPage tabPageHeight;
         private System.Windows.Forms.ToolStripSplitButton buttonMapProperties;
@@ -989,7 +991,7 @@ namespace FrameOfReference.Editor.World
         private System.Windows.Forms.Label labelTerrainSize;
         private System.Windows.Forms.SplitContainer splitHorizontal;
         private OmegaEngine.RenderPanel renderPanel;
-        private Common.Controls.LiveEditor xmlEditor;
+        private LiveEditor xmlEditor;
         private System.Windows.Forms.ToolStripMenuItem buttonNewWaypoint;
         private System.Windows.Forms.ToolStripMenuItem buttonNewWater;
     }

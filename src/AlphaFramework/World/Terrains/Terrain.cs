@@ -12,10 +12,10 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
-using Common;
-using Common.Utils;
-using Common.Values;
 using LuaInterface;
+using NanoByte.Common;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values;
 using SlimDX;
 using Resources = AlphaFramework.World.Properties.Resources;
 

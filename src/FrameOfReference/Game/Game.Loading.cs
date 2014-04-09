@@ -25,13 +25,13 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using Common;
-using Common.Collections;
-using Common.Storage;
 using FrameOfReference.Presentation;
 using FrameOfReference.World;
 using FrameOfReference.World.Config;
 using LuaInterface;
+using NanoByte.Common;
+using NanoByte.Common.Collections;
+using NanoByte.Common.Storage;
 
 namespace FrameOfReference
 {

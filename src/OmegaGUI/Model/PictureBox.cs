@@ -22,8 +22,7 @@
 
 using System.ComponentModel;
 using System.Drawing;
-using Common.Storage;
-using Common.Storage.SlimDX;
+using NanoByte.Common.Storage.SlimDX;
 using OmegaGUI.Render;
 
 namespace OmegaGUI.Model

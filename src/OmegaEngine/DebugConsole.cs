@@ -22,10 +22,10 @@
 
 using System;
 using System.Windows.Forms;
-using Common;
-using Common.Controls;
-using Common.Utils;
 using LuaInterface;
+using NanoByte.Common;
+using NanoByte.Common.Controls;
+using NanoByte.Common.Utils;
 
 namespace OmegaEngine
 {

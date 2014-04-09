@@ -11,8 +11,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
-using Common;
 using ICSharpCode.SharpZipLib.Zip;
+using NanoByte.Common;
 
 namespace AlphaFramework.Editor
 {

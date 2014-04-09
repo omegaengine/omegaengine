@@ -26,7 +26,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 
-namespace Common.Values.Design
+namespace NanoByte.Common.Values.Design
 {
     internal class DoubleVector3Converter : ValueTypeConverter<DoubleVector3>
     {

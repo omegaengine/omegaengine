@@ -12,11 +12,10 @@ using System.Linq;
 using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
 using AlphaFramework.World.Templates;
-using Common;
-using Common.Collections;
-using Common.Controls;
-using Common.Storage;
-using Common.Storage.SlimDX;
+using NanoByte.Common;
+using NanoByte.Common.Collections;
+using NanoByte.Common.Controls;
+using NanoByte.Common.Storage.SlimDX;
 
 namespace AlphaFramework.Editor.World
 {

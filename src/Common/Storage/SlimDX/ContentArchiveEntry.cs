@@ -22,7 +22,7 @@
 
 using ICSharpCode.SharpZipLib.Zip;
 
-namespace Common.Storage.SlimDX
+namespace NanoByte.Common.Storage.SlimDX
 {
     /// <summary>
     /// Represents a file in a content archive.

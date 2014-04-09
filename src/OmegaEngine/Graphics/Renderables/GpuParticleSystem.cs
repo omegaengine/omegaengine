@@ -9,8 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.IO;
-using Common.Storage;
-using Common.Storage.SlimDX;
+using NanoByte.Common.Storage.SlimDX;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Assets;

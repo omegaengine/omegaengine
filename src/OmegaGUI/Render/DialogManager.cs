@@ -9,9 +9,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Common;
-using Common.Storage;
-using Common.Storage.SlimDX;
+using NanoByte.Common;
+using NanoByte.Common.Storage.SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine;
 using Font = SlimDX.Direct3D9.Font;

@@ -26,10 +26,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
-using Common;
-using Common.Storage;
-using Common.Storage.SlimDX;
-using Common.Utils;
+using NanoByte.Common;
+using NanoByte.Common.Storage.SlimDX;
+using NanoByte.Common.Utils;
 
 namespace AlphaFramework.Editor
 {

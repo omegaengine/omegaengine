@@ -22,7 +22,7 @@
 
 using System;
 using AlphaFramework.World.Positionables;
-using Common.Values;
+using NanoByte.Common.Values;
 
 namespace AlphaFramework.World.Components
 {

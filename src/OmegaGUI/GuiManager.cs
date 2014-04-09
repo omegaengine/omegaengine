@@ -26,9 +26,9 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Windows.Forms;
-using Common;
-using Common.Utils;
 using LuaInterface;
+using NanoByte.Common;
+using NanoByte.Common.Utils;
 using OmegaEngine;
 
 namespace OmegaGUI

@@ -21,10 +21,10 @@
  */
 
 using System.IO;
-using Common.Storage;
+using NanoByte.Common.Storage;
 using NUnit.Framework;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// Contains test methods for <see cref="ByteVector4Grid"/>.

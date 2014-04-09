@@ -28,7 +28,7 @@ using System.Security.Permissions;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
-namespace Common.Values.Design
+namespace NanoByte.Common.Values.Design
 {
     /// <summary>
     /// Abstract base class for drop-down <see cref="PropertyGrid"/> editors that can be associated with <see langword="float"/> properties.

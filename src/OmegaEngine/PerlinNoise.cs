@@ -12,7 +12,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using Common.Utils;
+using NanoByte.Common.Utils;
 
 namespace OmegaEngine
 {

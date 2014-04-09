@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 using System.Xml;
-using Common;
+using NanoByte.Common;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine

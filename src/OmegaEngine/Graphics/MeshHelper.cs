@@ -8,7 +8,7 @@
 
 using System;
 using System.Linq;
-using Common;
+using NanoByte.Common;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.VertexDecl;

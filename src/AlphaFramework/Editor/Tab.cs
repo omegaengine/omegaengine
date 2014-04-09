@@ -12,7 +12,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
-using Common;
+using NanoByte.Common;
 using SlimDX.Direct3D9;
 using Font = System.Drawing.Font;
 

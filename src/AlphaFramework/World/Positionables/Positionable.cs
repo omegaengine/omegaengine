@@ -9,8 +9,8 @@
 using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
-using Common;
-using Common.Utils;
+using NanoByte.Common;
+using NanoByte.Common.Utils;
 
 namespace AlphaFramework.World.Positionables
 {

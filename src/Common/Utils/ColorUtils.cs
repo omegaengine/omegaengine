@@ -23,7 +23,7 @@
 using System.Drawing;
 using LuaInterface;
 
-namespace Common.Utils
+namespace NanoByte.Common.Utils
 {
     /// <summary>
     /// Convert colors to different formats, interpolate, invert, ...

@@ -7,9 +7,8 @@
  */
 
 using System.IO;
-using Common;
-using Common.Storage;
-using Common.Storage.SlimDX;
+using NanoByte.Common;
+using NanoByte.Common.Storage.SlimDX;
 
 namespace AlphaFramework.Editor.Gui
 {

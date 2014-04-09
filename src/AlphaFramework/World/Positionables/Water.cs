@@ -9,8 +9,8 @@
 using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World.Terrains;
-using Common.Utils;
-using Common.Values;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values;
 using SlimDX;
 
 namespace AlphaFramework.World.Positionables

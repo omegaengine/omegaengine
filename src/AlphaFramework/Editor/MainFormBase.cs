@@ -30,11 +30,10 @@ using System.Windows.Forms;
 using AlphaFramework.Editor.Graphics;
 using AlphaFramework.Editor.Gui;
 using AlphaFramework.Editor.Properties;
-using Common;
-using Common.Controls;
-using Common.Storage;
-using Common.Storage.SlimDX;
-using Common.Utils;
+using NanoByte.Common;
+using NanoByte.Common.Controls;
+using NanoByte.Common.Storage.SlimDX;
+using NanoByte.Common.Utils;
 
 namespace AlphaFramework.Editor
 {

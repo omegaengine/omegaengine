@@ -8,8 +8,8 @@
     <ProjectGuid>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Common</RootNamespace>
-    <AssemblyName>Common</AssemblyName>
+    <RootNamespace>NanoByte.Common</RootNamespace>
+    <AssemblyName>NanoByte.Common</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\build\Debug\</OutputPath>
-    <DocumentationFile>..\..\build\Debug\Common.xml</DocumentationFile>
+    <DocumentationFile>..\..\build\Debug\NanoByte.Common.xml</DocumentationFile>
     <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -42,18 +42,22 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>
+    </DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseSDK|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\build\ReleaseSDK\</OutputPath>
-    <DocumentationFile>..\..\build\ReleaseSDK\Common.xml</DocumentationFile>
+    <DocumentationFile>..\..\build\ReleaseSDK\NanoByte.Common.xml</DocumentationFile>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591</NoWarn>
     <PlatformTarget>x86</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>
+    </DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LinqBridge">
@@ -276,6 +280,7 @@
     <Compile Include="Storage\SlimDX\ContentArchiveEntry.cs" />
     <Compile Include="Storage\SlimDX\ContentManager.cs" />
     <Compile Include="Storage\SlimDX\FileEntry.cs" />
+    <Compile Include="Storage\SlimDX\XmlStorage.cs" />
     <Compile Include="Storage\TemporaryDirectory.cs" />
     <Compile Include="Storage\TemporaryFile.cs" />
     <Compile Include="Storage\TemporaryFlagFile.cs" />

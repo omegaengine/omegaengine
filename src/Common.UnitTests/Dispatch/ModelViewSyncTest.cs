@@ -23,10 +23,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.Collections;
+using NanoByte.Common.Collections;
 using NUnit.Framework;
 
-namespace Common.Dispatch
+namespace NanoByte.Common.Dispatch
 {
     /// <summary>
     /// Contains test methods for <see cref="ModelViewSync{TModel,TView}"/>.

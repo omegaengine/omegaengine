@@ -25,10 +25,10 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Xml.Serialization;
-using Common.Values.Design;
+using NanoByte.Common.Values.Design;
 using SlimDX;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// Defines a three component vector with <see cref="double"/> accuracy.

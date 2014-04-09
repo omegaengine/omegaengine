@@ -9,8 +9,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
-using Common.Values;
 using LuaInterface;
+using NanoByte.Common.Values;
 using SlimDX;
 
 namespace OmegaEngine.Graphics.Renderables

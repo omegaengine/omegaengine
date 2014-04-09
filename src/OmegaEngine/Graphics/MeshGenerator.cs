@@ -7,8 +7,8 @@
  */
 
 using System;
-using Common;
-using Common.Values;
+using NanoByte.Common;
+using NanoByte.Common.Values;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.VertexDecl;

@@ -27,8 +27,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using Common;
-using Common.Utils;
+using NanoByte.Common;
+using NanoByte.Common.Utils;
 using SlimDX;
 using SlimDX.Direct3D9;
 

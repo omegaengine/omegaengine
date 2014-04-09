@@ -21,10 +21,10 @@
  */
 
 using System;
-using Common.Properties;
-using Common.Values.Design;
+using NanoByte.Common.Properties;
+using NanoByte.Common.Values.Design;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// Stores the mimimum and maximum values allowed for a float field or property.

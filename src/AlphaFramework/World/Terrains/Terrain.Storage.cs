@@ -13,9 +13,9 @@ using System.IO;
 using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
 using AlphaFramework.World.Templates;
-using Common;
-using Common.Values;
 using LuaInterface;
+using NanoByte.Common;
+using NanoByte.Common.Values;
 
 namespace AlphaFramework.World.Terrains
 {

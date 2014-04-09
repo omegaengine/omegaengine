@@ -26,10 +26,10 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.Security.Permissions;
 using System.Windows.Forms.Design;
-using Common.Controls;
-using Common.Utils;
+using NanoByte.Common.Controls;
+using NanoByte.Common.Utils;
 
-namespace Common.Values.Design
+namespace NanoByte.Common.Values.Design
 {
     /// <summary>
     /// An editor that can be associated with <see langword="float"/> properties representing angles between 0 and 360 degrees. Uses <see cref="AngleControl"/>.

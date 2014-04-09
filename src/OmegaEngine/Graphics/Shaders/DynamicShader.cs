@@ -13,9 +13,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using Common.Storage.SlimDX;
-using Common.Utils;
-using Common.Storage;
+using NanoByte.Common.Storage.SlimDX;
+using NanoByte.Common.Utils;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Common.Utils;
+using NanoByte.Common.Utils;
 using OmegaEngine;
 using SlimDX;
 using SlimDX.Direct3D9;

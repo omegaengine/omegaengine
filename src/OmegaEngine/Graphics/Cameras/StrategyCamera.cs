@@ -9,9 +9,9 @@
 using System;
 using System.ComponentModel;
 using System.Drawing.Design;
-using Common.Utils;
-using Common.Values;
-using Common.Values.Design;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values;
+using NanoByte.Common.Values.Design;
 using OmegaEngine.Properties;
 
 namespace OmegaEngine.Graphics.Cameras

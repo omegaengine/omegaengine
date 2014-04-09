@@ -23,9 +23,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.Collections;
+using NanoByte.Common.Collections;
 
-namespace Common.Dispatch
+namespace NanoByte.Common.Dispatch
 {
     /// <summary>
     /// Keeps two collections of different types in sync based on mapping rules.

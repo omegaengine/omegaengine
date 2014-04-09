@@ -27,7 +27,7 @@ using System.Globalization;
 using System.Reflection;
 using SlimDX;
 
-namespace Common.Values.Design
+namespace NanoByte.Common.Values.Design
 {
     internal class QuadrangleConverter : ValueTypeConverter<Quadrangle>
     {

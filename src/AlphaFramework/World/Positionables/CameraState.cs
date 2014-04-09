@@ -8,7 +8,7 @@
 
 using System.ComponentModel;
 using System.Drawing.Design;
-using Common.Values.Design;
+using NanoByte.Common.Values.Design;
 
 namespace AlphaFramework.World.Positionables
 {

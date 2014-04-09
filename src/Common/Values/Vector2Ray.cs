@@ -23,11 +23,10 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
-using System.Runtime.InteropServices;
-using Common.Values.Design;
+using NanoByte.Common.Values.Design;
 using SlimDX;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// Defines a ray in two dimensions, specified by a starting position and a direction.

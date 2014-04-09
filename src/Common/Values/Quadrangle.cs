@@ -25,11 +25,11 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Globalization;
-using Common.Utils;
-using Common.Values.Design;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values.Design;
 using SlimDX;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// A 2D polygon consisting of four points.

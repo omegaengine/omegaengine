@@ -1,3 +1,5 @@
+using NanoByte.Common.Controls;
+
 namespace OmegaEngine
 {
     partial class DebugForm
@@ -33,25 +35,25 @@ namespace OmegaEngine
             this.logFrameButton = new System.Windows.Forms.Button();
             this.dumpViewButton = new System.Windows.Forms.Button();
             this.cameraLabel = new System.Windows.Forms.Label();
-            this.cameraPropertyGrid = new Common.Controls.ResettablePropertyGrid();
+            this.cameraPropertyGrid = new ResettablePropertyGrid();
             this.viewLabel = new System.Windows.Forms.Label();
             this.viewListBox = new System.Windows.Forms.ListBox();
             this.viewSubContainer = new System.Windows.Forms.SplitContainer();
-            this.viewPropertyGrid = new Common.Controls.ResettablePropertyGrid();
-            this.shaderPropertyGrid = new Common.Controls.ResettablePropertyGrid();
+            this.viewPropertyGrid = new ResettablePropertyGrid();
+            this.shaderPropertyGrid = new ResettablePropertyGrid();
             this.shaderLabel = new System.Windows.Forms.Label();
             this.shaderListBox = new System.Windows.Forms.ListBox();
             this.sceneContainer = new System.Windows.Forms.SplitContainer();
             this.entityContainer = new System.Windows.Forms.SplitContainer();
             this.renderableLabel = new System.Windows.Forms.Label();
             this.renderableListBox = new System.Windows.Forms.ListBox();
-            this.renderablePropertyGrid = new Common.Controls.ResettablePropertyGrid();
+            this.renderablePropertyGrid = new ResettablePropertyGrid();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.removeButton = new System.Windows.Forms.Button();
             this.addButton = new System.Windows.Forms.Button();
             this.lightLabel = new System.Windows.Forms.Label();
             this.lightListBox = new System.Windows.Forms.ListBox();
-            this.lightPropertyGrid = new Common.Controls.ResettablePropertyGrid();
+            this.lightPropertyGrid = new ResettablePropertyGrid();
             this.updateTimer = new System.Windows.Forms.Timer(this.components);
             this.dumpViewSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.logFrameSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -458,20 +460,20 @@ namespace OmegaEngine
         private System.Windows.Forms.SplitContainer entityContainer;
         private System.Windows.Forms.Label renderableLabel;
         private System.Windows.Forms.ListBox renderableListBox;
-        private Common.Controls.ResettablePropertyGrid renderablePropertyGrid;
+        private ResettablePropertyGrid renderablePropertyGrid;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label lightLabel;
         private System.Windows.Forms.ListBox lightListBox;
-        private Common.Controls.ResettablePropertyGrid lightPropertyGrid;
+        private ResettablePropertyGrid lightPropertyGrid;
         private System.Windows.Forms.Timer updateTimer;
         private System.Windows.Forms.Button removeButton;
         private System.Windows.Forms.Button addButton;
-        private Common.Controls.ResettablePropertyGrid viewPropertyGrid;
-        private Common.Controls.ResettablePropertyGrid shaderPropertyGrid;
+        private ResettablePropertyGrid viewPropertyGrid;
+        private ResettablePropertyGrid shaderPropertyGrid;
         private System.Windows.Forms.Label shaderLabel;
         private System.Windows.Forms.ListBox shaderListBox;
         private System.Windows.Forms.Label cameraLabel;
-        private Common.Controls.ResettablePropertyGrid cameraPropertyGrid;
+        private ResettablePropertyGrid cameraPropertyGrid;
         private System.Windows.Forms.Button dumpViewButton;
         private System.Windows.Forms.SaveFileDialog dumpViewSaveFileDialog;
         private System.Windows.Forms.Button logFrameButton;

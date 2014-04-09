@@ -8,7 +8,7 @@
 
 using System;
 using System.IO;
-using Common;
+using NanoByte.Common;
 using SlimDX.Multimedia;
 
 namespace OmegaEngine.Assets

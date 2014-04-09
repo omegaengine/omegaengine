@@ -9,7 +9,7 @@
 using System;
 using System.Drawing;
 using AlphaFramework.World.Terrains;
-using Common.Utils;
+using NanoByte.Common.Utils;
 
 namespace AlphaFramework.Editor.World.TerrainModifiers
 {

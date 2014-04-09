@@ -1,4 +1,6 @@
-﻿namespace FrameOfReference.Editor.World
+﻿using NanoByte.Common.Controls;
+
+namespace FrameOfReference.Editor.World
 {
     partial class TerrainEditor
     {
@@ -30,7 +32,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupTexture = new System.Windows.Forms.GroupBox();
-            this.textPath = new Common.Controls.HintTextBox();
+            this.textPath = new HintTextBox();
             this.pictureTexture = new System.Windows.Forms.PictureBox();
             this.buttonBrowse = new System.Windows.Forms.Button();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
@@ -122,7 +124,7 @@
         private System.Windows.Forms.GroupBox groupTexture;
         private System.Windows.Forms.Button buttonBrowse;
         private System.Windows.Forms.PictureBox pictureTexture;
-        private Common.Controls.HintTextBox textPath;
+        private HintTextBox textPath;
         private System.Windows.Forms.ErrorProvider errorProvider;
 
     }

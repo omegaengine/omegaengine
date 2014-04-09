@@ -8,7 +8,7 @@
 
 using System;
 using System.Drawing;
-using Common;
+using NanoByte.Common;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Renderables;
 using Resources = OmegaEngine.Properties.Resources;

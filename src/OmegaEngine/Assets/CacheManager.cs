@@ -9,8 +9,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Common;
-using Common.Collections;
+using NanoByte.Common;
+using NanoByte.Common.Collections;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Assets

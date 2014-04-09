@@ -7,7 +7,7 @@
  */
 
 using System.ComponentModel;
-using Common.Utils;
+using NanoByte.Common.Utils;
 using SlimDX;
 
 namespace OmegaEngine.Graphics.Cameras

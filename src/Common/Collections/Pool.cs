@@ -22,9 +22,9 @@
 
 using System;
 using System.Collections.Generic;
-using Common.Properties;
+using NanoByte.Common.Properties;
 
-namespace Common.Collections
+namespace NanoByte.Common.Collections
 {
 
     #region Helper interface

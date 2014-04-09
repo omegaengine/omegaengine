@@ -23,7 +23,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
-using Common.Values;
+using NanoByte.Common.Values;
 
 namespace OmegaGUI.Model
 {

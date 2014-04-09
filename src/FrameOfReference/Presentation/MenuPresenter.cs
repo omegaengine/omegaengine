@@ -22,8 +22,8 @@
 
 using System;
 using System.Diagnostics;
-using Common.Values;
 using FrameOfReference.World;
+using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Cameras;

@@ -12,11 +12,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
-using Common;
-using Common.Collections;
-using Common.Controls;
-using Common.Storage;
-using Common.Storage.SlimDX;
+using NanoByte.Common;
+using NanoByte.Common.Collections;
+using NanoByte.Common.Controls;
+using NanoByte.Common.Storage.SlimDX;
 
 namespace AlphaFramework.World.Templates
 {

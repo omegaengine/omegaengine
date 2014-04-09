@@ -27,9 +27,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using AlphaFramework.World.Positionables;
-using Common;
-using Common.Values;
 using FrameOfReference.World.Positionables;
+using NanoByte.Common;
+using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Cameras;
 using SlimDX;
 

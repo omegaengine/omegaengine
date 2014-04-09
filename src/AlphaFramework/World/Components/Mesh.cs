@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
-using Common.Values.Design;
+using NanoByte.Common.Values.Design;
 
 namespace AlphaFramework.World.Components
 {

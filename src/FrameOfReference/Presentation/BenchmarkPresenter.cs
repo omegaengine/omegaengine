@@ -24,15 +24,16 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using Common;
-using Common.Info;
-using Common.Storage;
-using Common.Values;
 using FrameOfReference.World;
 using FrameOfReference.World.Config;
 using ICSharpCode.SharpZipLib.Zip;
+using NanoByte.Common;
+using NanoByte.Common.Info;
+using NanoByte.Common.Storage.SlimDX;
+using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Graphics;
+using Locations = NanoByte.Common.Storage.Locations;
 
 namespace FrameOfReference.Presentation
 {

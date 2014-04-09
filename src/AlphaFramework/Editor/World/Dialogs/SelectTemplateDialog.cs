@@ -9,8 +9,8 @@
 using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
 using AlphaFramework.World.Templates;
-using Common.Collections;
-using Common.Controls;
+using NanoByte.Common.Collections;
+using NanoByte.Common.Controls;
 
 namespace AlphaFramework.Editor.World.Dialogs
 {

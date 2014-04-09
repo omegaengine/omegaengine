@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using Common;
 using SlimDX;
 
 namespace AlphaFramework.World.Paths

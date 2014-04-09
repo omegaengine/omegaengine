@@ -9,7 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-using Common.Controls;
+using NanoByte.Common.Controls;
 using OmegaEngine.Input;
 using SlimDX.Direct3D9;
 

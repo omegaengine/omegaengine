@@ -24,13 +24,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using Common.Collections;
-using Common.Properties;
-using Common.Streams;
-using Common.Utils;
 using ICSharpCode.SharpZipLib.Zip;
+using NanoByte.Common.Collections;
+using NanoByte.Common.Properties;
+using NanoByte.Common.Streams;
+using NanoByte.Common.Utils;
 
-namespace Common.Storage.SlimDX
+namespace NanoByte.Common.Storage.SlimDX
 {
     /// <summary>
     /// Provides a virtual file system for combining data from multiple directories and archives (useful for modding).

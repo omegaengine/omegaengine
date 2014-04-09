@@ -24,8 +24,8 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
-using Common.Values;
-using Common.Values.Design;
+using NanoByte.Common.Values;
+using NanoByte.Common.Values.Design;
 using Resources = OmegaGUI.Properties.Resources;
 
 namespace OmegaGUI.Model

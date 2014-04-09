@@ -11,11 +11,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Common;
-using Common.Collections;
-using Common.Storage.SlimDX;
-using Common.Utils;
-using Common.Storage;
+using NanoByte.Common;
+using NanoByte.Common.Collections;
+using NanoByte.Common.Storage.SlimDX;
+using NanoByte.Common.Utils;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Audio

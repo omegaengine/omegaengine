@@ -10,9 +10,9 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using Common;
-using Common.Collections;
-using Common.Utils;
+using NanoByte.Common;
+using NanoByte.Common.Collections;
+using NanoByte.Common.Utils;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics

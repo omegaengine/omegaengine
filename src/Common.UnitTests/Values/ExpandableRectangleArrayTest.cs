@@ -23,7 +23,7 @@
 using System.Drawing;
 using NUnit.Framework;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// Contains test methods for <see cref="ExpandableRectangleArray{T}"/>.

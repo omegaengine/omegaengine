@@ -30,7 +30,7 @@ using System.Windows.Forms.Design;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 
-namespace Common.Values.Design
+namespace NanoByte.Common.Values.Design
 {
     /// <summary>
     /// An editor that can be associated with <see langword="string"/> properties. Uses <see cref="TextEditorControl"/>.

@@ -23,8 +23,8 @@
 using System;
 using System.Drawing;
 using AlphaFramework.Presentation;
-using Common.Utils;
-using Common.Values;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;

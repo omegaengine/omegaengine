@@ -21,13 +21,12 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using Common.Values;
 using LuaInterface;
+using NanoByte.Common.Values;
 using SlimDX;
-using Resources = Common.Properties.Resources;
+using Resources = NanoByte.Common.Properties.Resources;
 
-namespace Common.Utils
+namespace NanoByte.Common.Utils
 {
     /// <summary>
     /// Designed to keep other code clean of messy spaghetti code required for some math operations.

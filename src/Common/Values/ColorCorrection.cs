@@ -24,11 +24,11 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Xml.Serialization;
-using Common.Utils;
-using Common.Values.Design;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values.Design;
 using SlimDX;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// Color correction values for use in post-processing.

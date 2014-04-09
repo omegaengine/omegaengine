@@ -22,8 +22,8 @@
 
 using System;
 using System.ComponentModel;
-using Common.Utils;
-using Common.Values;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values;
 
 namespace FrameOfReference.World.Config
 {

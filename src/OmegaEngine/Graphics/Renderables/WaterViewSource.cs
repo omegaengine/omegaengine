@@ -9,8 +9,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Common;
-using Common.Values;
+using NanoByte.Common;
+using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;
 

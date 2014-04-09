@@ -26,7 +26,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using SlimDX;
 
-namespace Common.Values
+namespace NanoByte.Common.Values
 {
     /// <summary>
     /// Stores ARGB-colors as byte values but also surfaces them as float values.

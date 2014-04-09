@@ -9,10 +9,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Common;
-using Common.Tasks;
-using Common.Utils;
-using Common.Values;
+using NanoByte.Common;
+using NanoByte.Common.Tasks;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values;
 using SlimDX;
 using Resources = AlphaFramework.World.Properties.Resources;
 

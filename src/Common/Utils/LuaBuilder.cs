@@ -1,6 +1,6 @@
 ﻿using LuaInterface;
 
-namespace Common.Utils
+namespace NanoByte.Common.Utils
 {
     /// <summary>
     /// Creates and configures Lua instances.

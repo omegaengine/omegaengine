@@ -23,7 +23,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Common
+namespace NanoByte.Common
 {
     /// <summary>
     /// An immutable class representing command-line arguments passed to an application.

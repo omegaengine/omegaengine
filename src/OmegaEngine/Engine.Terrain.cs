@@ -7,7 +7,7 @@
  */
 
 using System.Collections.Generic;
-using Common.Values;
+using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Shaders;
 
 namespace OmegaEngine
