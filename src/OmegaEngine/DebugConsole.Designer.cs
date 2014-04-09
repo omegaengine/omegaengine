@@ -1,4 +1,4 @@
-namespace Common.Controls
+namespace OmegaEngine
 {
     partial class DebugConsole
     {

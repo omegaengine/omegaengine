@@ -85,6 +85,12 @@
     <Compile Include="Audio\Song.cs" />
     <Compile Include="Audio\Sound.cs" />
     <Compile Include="Audio\Sound3D.cs" />
+    <Compile Include="DebugConsole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DebugConsole.Designer.cs">
+      <DependentUpon>DebugConsole.cs</DependentUpon>
+    </Compile>
     <Compile Include="DebugForm.cs">
       <SubType>Form</SubType>
     </Compile>

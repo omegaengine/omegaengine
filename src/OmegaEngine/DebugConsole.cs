@@ -22,10 +22,12 @@
 
 using System;
 using System.Windows.Forms;
+using Common;
+using Common.Controls;
 using Common.Utils;
 using LuaInterface;
 
-namespace Common.Controls
+namespace OmegaEngine
 {
     /// <summary>
     /// Provides a generic debug console powered by the <see cref="Log"/> system and Lua scripting.

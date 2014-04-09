@@ -119,12 +119,6 @@
     <Compile Include="Controls\AsyncWaitDialog.Designer.cs">
       <DependentUpon>AsyncWaitDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DebugConsole.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\DebugConsole.Designer.cs">
-      <DependentUpon>DebugConsole.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\EditorControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
