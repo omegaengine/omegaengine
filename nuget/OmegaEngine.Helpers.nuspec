@@ -13,7 +13,7 @@
     <references>
       <reference file="ICSharpCode.SharpZipLib.dll" />
       <reference file="LuaInterface.dll" />
-      <reference file="Common.dll" />
+      <reference file="NanoByte.Common.dll" />
     </references>
     <id>OmegaEngine.Helpers</id>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
