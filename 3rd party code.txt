@@ -4,12 +4,12 @@ Modified zlib license
 NuGet package: NUnit
 
 Moq
-https://github.com/Moq/moq4
+http://github.com/Moq/moq4
 New BSD license: http://opensource.org/licenses/BSD-3-Clause
 NuGet package: Moq
 
 Moq.Contrib
-https://code.google.com/p/moq-contrib/
+http://code.google.com/p/moq-contrib/
 New BSD license: http://opensource.org/licenses/BSD-3-Clause
 NuGet package: Moq.Contrib
 
@@ -18,25 +18,25 @@ http://code.google.com/p/linqbridge/
 MIT license: http://opensource.org/licenses/mit-license
 NuGet package: LinqBridge
 
-SlimDX runtime January 2012
-http://slimdx.org/
-MIT license: http://opensource.org/licenses/mit-license
-NuGet package: SlimDX
-
 TaskDialog
 http://www.codeproject.com/KB/vista/TaskDialogWinForms.aspx
 Public domain
-Self-compiled managed DLL: TaskDialog.dll
+NuGet package: NanoByte.Common
 
-ICSharpCode.SharpZipLib 0.86.0
+ICSharpCode.SharpZipLib post-0.86.0-GIT-checkout
 http://www.icsharpcode.net/OpenSource/SharpZipLib/
 GNU GPL with GNU Classpath exception: ICSharpCode.SharpZipLib.license.txt
-Self-compiled managed DLL: ICSharpCode.SharpZipLib.dll
+NuGet package: NanoByte.Common
 
 ICSharpCode.TextEditor
 http://www.icsharpcode.net/OpenSource/SD/
 GNU LGPL: http://www.gnu.org/copyleft/lesser.html
-Self-compiled managed DLL: ICSharpCode.TextEditor.dll
+NuGet package: NanoByte.Common
+
+SlimDX runtime January 2012
+http://slimdx.org/
+MIT license: http://opensource.org/licenses/mit-license
+NuGet package: SlimDX
 
 LuaInterface 2.0.3
 http://luaforge.net/projects/luainterface/
