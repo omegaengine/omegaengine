@@ -58,6 +58,17 @@
     <Reference Include="LinqBridge">
       <HintPath>..\..\packages\LinqBridge.1.3.0\lib\net20\LinqBridge.dll</HintPath>
     </Reference>
+    <Reference Include="NanoByte.Common">
+      <HintPath>..\..\packages\NanoByte.Common.1.0.0\lib\net20\NanoByte.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NanoByte.Common.SlimDX">
+      <HintPath>..\..\packages\NanoByte.Common.SlimDX.1.0.0\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NanoByte.Common.WinForms">
+      <HintPath>..\..\packages\NanoByte.Common.WinForms.1.0.0\lib\net20\NanoByte.Common.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="SlimDX">
       <HintPath>..\..\packages\SlimDX.4.0.13.44\lib\NET20\SlimDX.dll</HintPath>
     </Reference>
@@ -225,10 +236,6 @@
     <ProjectReference Include="..\..\OmegaGUI\OmegaGUI.csproj">
       <Project>{0B5E032B-E8DE-41EB-B66D-6DFD25F9F6E9}</Project>
       <Name>OmegaGUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\Common.csproj">
-      <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
-      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\World\World.csproj">
       <Project>{C9062BE0-1762-4907-BA23-9D60AF183993}</Project>

@@ -41,24 +41,26 @@
     <Reference Include="Moq.Contrib">
       <HintPath>..\..\packages\Moq.Contrib.0.3\lib\Moq.Contrib.dll</HintPath>
     </Reference>
+    <Reference Include="NanoByte.Common">
+      <HintPath>..\..\packages\NanoByte.Common.1.0.0\lib\net20\NanoByte.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="NanoByte.Common.SlimDX">
+      <HintPath>..\..\packages\NanoByte.Common.SlimDX.1.0.0\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
+    </Reference>
+    <Reference Include="NanoByte.Common.WinForms">
+      <HintPath>..\..\packages\NanoByte.Common.WinForms.1.0.0\lib\net20\NanoByte.Common.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="SlimDX">
-      <HintPath>..\..\packages\SlimDX.4.0.13.44\lib\NET20\SlimDX.dll</HintPath>
+      <HintPath>..\..\packages\SlimDX.4.0.13.44\lib\NET40\SlimDX.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common.UnitTests\Common.UnitTests.csproj">
-      <Project>{ca9d6092-4365-4385-9700-9570a98ef09d}</Project>
-      <Name>Common.UnitTests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\Common.csproj">
-      <Project>{81AF4FA5-44F7-4010-8769-B85B8B542FA2}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\OmegaEngine\OmegaEngine.csproj">
       <Project>{14E9FED0-4989-482D-85DE-448161A6855E}</Project>
       <Name>OmegaEngine</Name>

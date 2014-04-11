@@ -7,10 +7,11 @@
     <projectUrl>http://code.google.com/p/omegaengine/</projectUrl>
     <iconUrl>http://omega.nanobyte.de/images/icon_omega.png</iconUrl>
     <dependencies>
-      <dependency id="OmegaEngine.Helpers" version="0.9.0" />
+      <dependency id="NanoByte.Common.SlimDX" version="1.0.0" />
     </dependencies>
     <references>
       <reference file="OmegaEngine.dll" />
+      <reference file="LuaInterface.dll" />
     </references>
     <id>OmegaEngine.Backend</id>
     <description>This package contains the actual library binaries for the OmegaEngine without the default assets (content and shader files). It is automatically included by the main package.
@@ -22,5 +23,10 @@ Use this package directly if another project in your solution with the same buil
     <file src="..\build\ReleaseSDK\OmegaEngine.dll" target="lib\net20\OmegaEngine.dll" />
     <file src="..\build\ReleaseSDK\OmegaEngine.pdb" target="lib\net20\OmegaEngine.pdb" />
     <file src="..\build\ReleaseSDK\OmegaEngine.xml" target="lib\net20\OmegaEngine.xml" />
+
+    <!-- Bundled dependencies -->
+    <file src="..\build\ReleaseSDK\lua51.dll" target="lib\net20\lua51.dll" />
+    <file src="..\build\ReleaseSDK\LuaInterface.dll" target="lib\net20\LuaInterface.dll" />
+    <file src="..\build\ReleaseSDK\LuaInterface.xml" target="lib\net20\LuaInterface.xml" />
   </files>
 </package>
