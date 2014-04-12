@@ -48,6 +48,9 @@
     <Reference Include="NanoByte.Common">
       <HintPath>..\..\packages\NanoByte.Common.1.0.0\lib\net20\NanoByte.Common.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\packages\NanoByte.Common.1.0.0\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="NanoByte.Common.SlimDX">
       <HintPath>..\..\packages\NanoByte.Common.SlimDX.1.0.0\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
     </Reference>
@@ -56,15 +59,11 @@
     </Reference>
     <Reference Include="SlimDX">
       <HintPath>..\..\packages\SlimDX.4.0.13.44\lib\NET20\SlimDX.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="LuaInterface">
       <HintPath>..\..\..\lib\LuaInterface.dll</HintPath>
     </Reference>

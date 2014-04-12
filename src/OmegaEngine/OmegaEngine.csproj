@@ -60,7 +60,6 @@
     </Reference>
     <Reference Include="NanoByte.Common">
       <HintPath>..\packages\NanoByte.Common.1.0.0\lib\net20\NanoByte.Common.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="NanoByte.Common.SlimDX">
       <HintPath>..\packages\NanoByte.Common.SlimDX.1.0.0\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
