@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Xml.Serialization;
 using AlphaFramework.World.Positionables;
 
 namespace AlphaFramework.World.Components
@@ -28,16 +29,8 @@ namespace AlphaFramework.World.Components
         /// <summary>
         /// How many units the <see cref="EntityBase{TCoordinates,TTemplate}"/> can walk per second.
         /// </summary>
-        [DefaultValue(200f), Description("How many units the entity can walk per second.")]
+        [XmlAttribute, DefaultValue(200f), Description("How many units the entity can walk per second.")]
         public float Speed { get { return _speed; } set { _speed = value; } }
-
-        private float _curveRadius = 1;
-
-        /// <summary>
-        /// The length of the curve radius.
-        /// </summary>
-        [DefaultValue(1f), Description("The length of the curve radius.")]
-        public float CurveRadius { get { return _curveRadius; } set { _curveRadius = value; } }
 
         //--------------------//
 
