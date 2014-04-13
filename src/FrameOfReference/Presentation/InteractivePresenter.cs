@@ -30,6 +30,8 @@ using FrameOfReference.World.Components;
 using FrameOfReference.World.Positionables;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Dispatch;
+using NanoByte.Common.Utils;
+using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;
@@ -78,8 +80,22 @@ namespace FrameOfReference.Presentation
                 foreach (var asset in _preCachedAssets) asset.HoldReference();
             }
 
-            _selectionsSync.Register<Entity, PositionableRenderable>(GetSelectionHighlighting, UpdateRepresentation);
+            _selectionsSync.Register<Entity, PositionableRenderable>(GetSelectionHighlighting, UpdateRepresentationShifted);
             _selectionsSync.Initialize();
+        }
+
+        /// <summary>
+        /// Applies the position and rotation of a Model element to a View representation.
+        /// </summary>
+        private void UpdateRepresentationShifted(Entity element, PositionableRenderable representation)
+        {
+            #region Sanity checks
+            if (element == null) throw new ArgumentNullException("element");
+            if (representation == null) throw new ArgumentNullException("representation");
+            #endregion
+
+            representation.Position = Universe.Terrain.ToEngineCoords(element.Position) + new DoubleVector3(0, 20, 0);
+            representation.Rotation = Quaternion.RotationYawPitchRoll(element.Rotation.DegreeToRadian(), 0, 0);
         }
 
         /// <inheritdoc/>

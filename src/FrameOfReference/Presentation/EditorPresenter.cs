@@ -140,7 +140,7 @@ namespace FrameOfReference.Presentation
                     // Update painting brush mesh sizes
                     float scaleHorizontal = value.Value.Size * Universe.Terrain.Size.StretchH;
                     _terrainPaintingBrushCircle.PreTransform = Matrix.Scaling(scaleHorizontal / 30, 1, scaleHorizontal / 30);
-                    _terrainPaintingBrushSquare.PreTransform = Matrix.Translation(-0.5f, 0, 0.5f) * Matrix.Scaling(scaleHorizontal, 1, scaleHorizontal);
+                    _terrainPaintingBrushSquare.PreTransform = Matrix.Translation(-0.5f, 0, 0.5f) * Matrix.Scaling(scaleHorizontal, 1, scaleHorizontal) * Matrix.Translation(0, 20, 0);
 
                     // Update painting brush mesh visibility
                     _terrainPaintingBrushCircle.Visible = value.Value.Circle;
