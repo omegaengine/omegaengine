@@ -177,7 +177,7 @@ namespace FrameOfReference.World
         /// </summary>
         private void UnwrapWaypoints()
         {
-            foreach (var entity in Positionables.OfType<Entity>())
+            foreach (var entity in Positionables.OfType<Entity>().ToList())
             {
                 Positionables.AddMany(entity.Waypoints.Cast<Positionable<Vector2>>());
                 entity.Waypoints.Clear();
