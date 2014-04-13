@@ -32,7 +32,6 @@ using FrameOfReference.World.Templates;
 using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Storage.SlimDX;
-using EmbeddedFile = NanoByte.Common.Storage.EmbeddedFile;
 
 namespace FrameOfReference.World
 {
