@@ -109,6 +109,10 @@ namespace FrameOfReference.World
         /// </summary>
         public void PlayerMove(Entity entity, Vector2 target)
         {
+            #region Sanity checks
+            if (entity == null) throw new ArgumentNullException("entity");
+            #endregion
+
             if (!entity.IsPlayerControlled || entity.TemplateData.Movement == null) return;
 
             entity.Waypoints.Add(new Waypoint {EntityName = entity.Name, ActivationTime = GameTime, Position = target, OriginPosition = entity.Position});

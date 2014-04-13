@@ -104,7 +104,6 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// Occurs when an <see cref="Positionable{TCoordinates}"/> is to be moved.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
         [Description("Occurs when an entity is to be moved")]
         public event PostionableMoveHandler PostionableMove;
 
@@ -182,7 +181,6 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// Occurs when the user selects an area while <see cref="TerrainBrush"/> is set to a value other than <see langword="null"/>. Passes the coordinates in world space.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
         [Description("Occurs when the user selects an area while PaintingMode is set to true.")]
         public event TerrainPaint TerrainPaint;
 

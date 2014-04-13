@@ -25,7 +25,6 @@ namespace AlphaFramework.Editor.World.Dialogs
         /// <summary>
         /// Occurs when a command is to be executed by the owning tab.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
         [Description("Occurs when a command is to be executed by the owning tab.")]
         public event Action<IUndoCommand> ExecuteCommand;
 

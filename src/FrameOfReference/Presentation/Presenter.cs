@@ -143,13 +143,18 @@ namespace FrameOfReference.Presentation
         /// <param name="disposing"><see langword="true"/> if called manually and not by the garbage collector.</param>
         protected override void Dispose(bool disposing)
         {
-            if (Disposed) return; // Don't try to dispose more than once
+            try
+            {
+                if (Disposed) return; // Don't try to dispose more than once
 
-            // Remove event handlers watching the universe
-            Universe.LightingChanged -= UpdateLighting;
-            Universe.SkyboxChanged -= UpdateSykbox;
-
-            base.Dispose(disposing);
+                // Remove event handlers watching the universe
+                Universe.LightingChanged -= UpdateLighting;
+                Universe.SkyboxChanged -= UpdateSykbox;
+            }
+            finally
+            {
+                base.Dispose(disposing);
+            }
         }
         #endregion
 

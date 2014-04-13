@@ -29,7 +29,6 @@ namespace FrameOfReference.Editor.World
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityEditor));
             this.groupBoxTest = new System.Windows.Forms.GroupBox();
             this.buttonDebug = new System.Windows.Forms.Button();
             this.checkBoundingSphere = new System.Windows.Forms.CheckBox();
@@ -413,7 +412,7 @@ namespace FrameOfReference.Editor.World
             this.buttonRemoveMovement.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonRemoveMovement.Name = "buttonRemoveMovement";
             this.buttonRemoveMovement.Size = new System.Drawing.Size(23, 22);
-            this.buttonRemoveMovement.Text = "Remove movement comoponent";
+            this.buttonRemoveMovement.Text = "Remove movement component";
             this.buttonRemoveMovement.Click += new System.EventHandler(this.buttonRemoveMovement_Click);
             // 
             // propertyGridMovement

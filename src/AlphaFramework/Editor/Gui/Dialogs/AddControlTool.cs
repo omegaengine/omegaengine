@@ -23,7 +23,6 @@ namespace AlphaFramework.Editor.Gui.Dialogs
         /// <summary>
         /// Occurs when a new control is to be added.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
         [Description("Occurs when a new control is to be added.")]
         public event Action<Control> NewControl;
 

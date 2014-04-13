@@ -64,7 +64,6 @@ namespace OmegaGUI.Model
         /// <summary>
         /// Occurs whenever one of the controls fires a script
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
         public event ScriptExecution ScriptFired;
         #endregion
 

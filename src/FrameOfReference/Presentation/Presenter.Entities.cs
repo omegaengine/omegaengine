@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Drawing;
 using System.Linq;
 using AlphaFramework.World.Components;
@@ -110,6 +111,11 @@ namespace FrameOfReference.Presentation
         /// </summary>
         protected void UpdateRepresentation(Positionable<Vector2> element, IPositionable representation)
         {
+            #region Sanity checks
+            if (element == null) throw new ArgumentNullException("element");
+            if (representation == null) throw new ArgumentNullException("representation");
+            #endregion
+
             representation.Position = Universe.Terrain.ToEngineCoords(element.Position);
         }
 
@@ -118,6 +124,11 @@ namespace FrameOfReference.Presentation
         /// </summary>
         protected void UpdateRepresentation(Entity element, PositionableRenderable representation)
         {
+            #region Sanity checks
+            if (element == null) throw new ArgumentNullException("element");
+            if (representation == null) throw new ArgumentNullException("representation");
+            #endregion
+
             representation.Position = Universe.Terrain.ToEngineCoords(element.Position);
             representation.Rotation = Quaternion.RotationYawPitchRoll(element.Rotation.DegreeToRadian(), 0, 0);
         }
@@ -127,6 +138,11 @@ namespace FrameOfReference.Presentation
         /// </summary>
         protected void UpdateRepresentation(Entity element, PointLight representation)
         {
+            #region Sanity checks
+            if (element == null) throw new ArgumentNullException("element");
+            if (representation == null) throw new ArgumentNullException("representation");
+            #endregion
+
             representation.Position = Universe.Terrain.ToEngineCoords(element.Position) +
                                       Vector3.TransformCoordinate(representation.Shift, Matrix.RotationY(element.Rotation.DegreeToRadian()));
         }

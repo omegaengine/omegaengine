@@ -312,10 +312,10 @@ namespace OmegaEngine.Assets
         #region Dispose
         protected override void Dispose(bool disposing)
         {
-            if (Disposed || _mesh == null) return; // Don't try to dispose more than once
-
             try
             {
+                if (Disposed || _mesh == null) return; // Don't try to dispose more than once
+
                 if (disposing)
                 { // This block will only be executed on manual disposal, not by Garbage Collection
                     Log.Info("Disposing " + this);

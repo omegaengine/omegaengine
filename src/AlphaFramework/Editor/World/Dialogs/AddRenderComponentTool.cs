@@ -24,7 +24,6 @@ namespace AlphaFramework.Editor.World.Dialogs
         /// <summary>
         /// Occurs when a new render component is to be added
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
         [Description("Occurs when a new render component is to be added")]
         public event Action<Render> NewRenderComponent;
 

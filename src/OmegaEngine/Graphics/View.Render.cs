@@ -26,7 +26,6 @@ namespace OmegaEngine.Graphics
         /// Occurs immediately before the <see cref="Scene"/> begins rendering.
         /// <see cref="ChildViews"/> will have been rendered already.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
         [Description("Occurs immediately before the Scene begins rendering. Child views will have been rendered already.")]
         public event Action<Camera> PreRender;
         #endregion

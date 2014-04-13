@@ -228,7 +228,7 @@ namespace FrameOfReference.World
             if (waypoint.OriginPositionSpecified) return;
 
             waypoint.OriginPosition = entity.Position;
-            Log.Info("Recorded origin position for " + entity.Name + " twoards " + waypoint.Name + ": " + entity.Position);
+            Log.Info("Recorded origin position for " + entity.Name + " towards " + waypoint.Name + ": " + entity.Position);
         }
         #endregion
     }
