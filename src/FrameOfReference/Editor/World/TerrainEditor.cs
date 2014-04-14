@@ -73,7 +73,7 @@ namespace FrameOfReference.Editor.World
         /// </summary>
         protected override void OnNewTemplate()
         {
-            string newName = InputBox.Show(this, "Terrain Class Name", Resources.EnterTemplateName);
+            string newName = InputBox.Show(this, "Terrain Template Name", Resources.EnterTemplateName);
 
             #region Error handling
             if (string.IsNullOrEmpty(newName)) return;

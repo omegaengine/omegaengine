@@ -41,7 +41,7 @@ namespace AlphaFramework.Editor.World.Commands
             // Create local defensive copy of entities
             _entities = new List<ITemplated>(entities);
 
-            // Backup the old class names
+            // Backup the old template names
             _oldTemplates = new string[_entities.Count];
             for (int i = 0; i < _entities.Count; i++)
                 _oldTemplates[i] = _entities[i].TemplateName;

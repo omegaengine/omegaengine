@@ -523,7 +523,6 @@ namespace FrameOfReference.Editor.World
         {
             if (!Msg.OkCancel(this, Resources.StoreCameraPerspective, MsgSeverity.Info, Resources.StoreCameraPerspectiveOK, Resources.StoreCameraPerspectiveCancel)) return;
 
-            // ToDo: Simplify with static reflection in .NET 4.0
             var cameraStatePointer = new PropertyPointer<CameraState<Vector2>>(() => _universe.Camera, camera => _universe.Camera = camera);
             ExecuteCommand(new SetValueCommand<CameraState<Vector2>>(cameraStatePointer, _presenter.CameraState));
         }

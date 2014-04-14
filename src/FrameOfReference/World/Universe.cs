@@ -52,7 +52,7 @@ namespace FrameOfReference.World
         private Terrain<TerrainTemplate> _terrain;
 
         /// <summary>
-        /// The <see cref="Terrain"/> on which <see cref="EntityBase{TCoordinates,TTemplate}"/>s are placed.
+        /// The <see cref="Terrain"/> on which <see cref="Entity"/>s are placed.
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown if the <see cref="Terrain"/> could not be properly loaded from the file.</exception>
         /// <remarks>Is not serialized/stored, <see cref="TerrainSerialize"/> is used for that.</remarks>

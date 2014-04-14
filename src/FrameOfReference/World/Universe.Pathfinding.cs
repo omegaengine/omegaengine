@@ -57,7 +57,7 @@ namespace FrameOfReference.World
 
             var obstructionMap = new bool[Terrain.Size.X, Terrain.Size.Y];
             MarkUntraversableWaters(obstructionMap);
-            Terrain.MarkUntraversableSlopes(obstructionMap, _maxTraversableSlope);
+            Terrain.MarkUntraversableSlopes(obstructionMap, MaxTraversableSlope);
             MarkUnmoveableEntities(obstructionMap);
             Pathfinder = new SimplePathfinder(obstructionMap);
         }
