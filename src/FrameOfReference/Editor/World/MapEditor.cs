@@ -456,13 +456,20 @@ namespace FrameOfReference.Editor.World
             AddNewPositionable(new Water {Position = GetScreenTerrainCenter()});
         }
 
+        private void buttonNewCameraState_Click(object sender, EventArgs e)
+        {
+            var cameraState = _presenter.CameraState;
+            if (cameraState == null) return;
+
+            AddNewPositionable(new CameraState<Vector2> {Position = cameraState.Position, Rotation = cameraState.Rotation, Radius = cameraState.Radius});
+        }
+
         private void buttonNewBenchmarkPoint_Click(object sender, EventArgs e)
         {
             var cameraState = _presenter.CameraState;
             if (cameraState == null) return;
 
-            var benchmarkPoint = new BenchmarkPoint<Vector2> {Position = cameraState.Position, Rotation = cameraState.Rotation, Radius = cameraState.Radius};
-            AddNewPositionable(benchmarkPoint);
+            AddNewPositionable(new BenchmarkPoint<Vector2> {Position = cameraState.Position, Rotation = cameraState.Rotation, Radius = cameraState.Radius});
         }
 
         private void AddNewPositionable(Positionable<Vector2> positionable)
@@ -627,12 +634,8 @@ namespace FrameOfReference.Editor.World
 
             // Update list entries
             listBoxPositionables.Items.Clear();
-            foreach (var positionable in _universe.Positionables)
-            {
-                // Show an item in the ListBox if it is either already selected or passes the filter checks
-                if (_presenter.SelectedPositionables.Contains(positionable) || IsPositionableListed(positionable))
-                    listBoxPositionables.Items.Add(positionable);
-            }
+            foreach (var positionable in _universe.Positionables.Where(ShowInList))
+                listBoxPositionables.Items.Add(positionable);
 
             // Update selection
             listBoxPositionables.ClearSelected();
@@ -647,13 +650,16 @@ namespace FrameOfReference.Editor.World
         /// <summary>
         /// Determines whether a <see cref="Positionable{TCoordinates}"/> is to be displayed in the <see cref="listBoxPositionables"/> based on the current filter criteria.
         /// </summary>
-        private bool IsPositionableListed(Positionable<Vector2> positionable)
+        private bool ShowInList(Positionable<Vector2> positionable)
         {
+            if (_presenter.SelectedPositionables.Contains(positionable)) return true;
+
             if (!(positionable.Name ?? "").ContainsIgnoreCase(textSearch.Text)) return false;
 
             return (checkEntity.Checked && positionable is Entity) ||
                    (checkWater.Checked && positionable is Water) ||
                    (checkWaypoint.Checked && positionable is Waypoint) ||
+                   (checkCameraState.Checked && positionable.GetType() == typeof(CameraState<Vector2>)) ||
                    (checkBenchmarkPoint.Checked && positionable is BenchmarkPoint<Vector2>) ||
                    (checkMemo.Checked && positionable is Memo<Vector2>);
         }

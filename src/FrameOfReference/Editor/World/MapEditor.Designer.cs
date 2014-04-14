@@ -48,6 +48,7 @@ namespace FrameOfReference.Editor.World
             this.buttonNewEntity = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonNewWaypoint = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonNewWater = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonNewCameraState = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonNewBenchmarkPoint = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonCopy = new System.Windows.Forms.ToolStripButton();
             this.buttonRemove = new System.Windows.Forms.ToolStripButton();
@@ -62,7 +63,8 @@ namespace FrameOfReference.Editor.World
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPagePositionables = new System.Windows.Forms.TabPage();
             this.positionablesTab = new System.Windows.Forms.SplitContainer();
-            this.textSearch = new HintTextBox();
+            this.checkCameraState = new System.Windows.Forms.CheckBox();
+            this.textSearch = new NanoByte.Common.Controls.HintTextBox();
             this.checkMemo = new System.Windows.Forms.CheckBox();
             this.checkBenchmarkPoint = new System.Windows.Forms.CheckBox();
             this.checkWater = new System.Windows.Forms.CheckBox();
@@ -95,7 +97,7 @@ namespace FrameOfReference.Editor.World
             this.labelTerrainSize = new System.Windows.Forms.Label();
             this.splitHorizontal = new System.Windows.Forms.SplitContainer();
             this.renderPanel = new OmegaEngine.RenderPanel();
-            this.xmlEditor = new LiveEditor();
+            this.xmlEditor = new NanoByte.Common.Controls.LiveEditor();
             this.toolStrip.SuspendLayout();
             this.splitVertical.Panel1.SuspendLayout();
             this.splitVertical.Panel2.SuspendLayout();
@@ -166,7 +168,7 @@ namespace FrameOfReference.Editor.World
             this.buttonMapProperties});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(500, 25);
+            this.toolStrip.Size = new System.Drawing.Size(469, 25);
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -246,6 +248,7 @@ namespace FrameOfReference.Editor.World
             this.buttonNewEntity,
             this.buttonNewWaypoint,
             this.buttonNewWater,
+            this.buttonNewCameraState,
             this.buttonNewBenchmarkPoint});
             this.buttonNew.Image = ((System.Drawing.Image)(resources.GetObject("buttonNew.Image")));
             this.buttonNew.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -273,6 +276,13 @@ namespace FrameOfReference.Editor.World
             this.buttonNewWater.Size = new System.Drawing.Size(165, 22);
             this.buttonNewWater.Text = "&Water";
             this.buttonNewWater.Click += new System.EventHandler(this.buttonNewWater_Click);
+            // 
+            // buttonNewCameraState
+            // 
+            this.buttonNewCameraState.Name = "buttonNewCameraState";
+            this.buttonNewCameraState.Size = new System.Drawing.Size(165, 22);
+            this.buttonNewCameraState.Text = "&Camera state";
+            this.buttonNewCameraState.Click += new System.EventHandler(this.buttonNewCameraState_Click);
             // 
             // buttonNewBenchmarkPoint
             // 
@@ -403,6 +413,7 @@ namespace FrameOfReference.Editor.World
             // 
             // positionablesTab.Panel1
             // 
+            this.positionablesTab.Panel1.Controls.Add(this.checkCameraState);
             this.positionablesTab.Panel1.Controls.Add(this.textSearch);
             this.positionablesTab.Panel1.Controls.Add(this.checkMemo);
             this.positionablesTab.Panel1.Controls.Add(this.checkBenchmarkPoint);
@@ -419,6 +430,19 @@ namespace FrameOfReference.Editor.World
             this.positionablesTab.Size = new System.Drawing.Size(159, 472);
             this.positionablesTab.SplitterDistance = 240;
             this.positionablesTab.TabIndex = 0;
+            // 
+            // checkCameraState
+            // 
+            this.checkCameraState.AutoSize = true;
+            this.checkCameraState.Checked = true;
+            this.checkCameraState.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkCameraState.Location = new System.Drawing.Point(0, 58);
+            this.checkCameraState.Name = "checkCameraState";
+            this.checkCameraState.Size = new System.Drawing.Size(62, 17);
+            this.checkCameraState.TabIndex = 4;
+            this.checkCameraState.Text = "Camera";
+            this.checkCameraState.UseVisualStyleBackColor = true;
+            this.checkCameraState.CheckedChanged += new System.EventHandler(this.PositionablesFilterEvent);
             // 
             // textSearch
             // 
@@ -437,10 +461,10 @@ namespace FrameOfReference.Editor.World
             this.checkMemo.AutoSize = true;
             this.checkMemo.Checked = true;
             this.checkMemo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkMemo.Location = new System.Drawing.Point(75, 58);
+            this.checkMemo.Location = new System.Drawing.Point(75, 40);
             this.checkMemo.Name = "checkMemo";
             this.checkMemo.Size = new System.Drawing.Size(55, 17);
-            this.checkMemo.TabIndex = 4;
+            this.checkMemo.TabIndex = 3;
             this.checkMemo.Text = "Memo";
             this.checkMemo.UseVisualStyleBackColor = true;
             this.checkMemo.CheckedChanged += new System.EventHandler(this.PositionablesFilterEvent);
@@ -450,10 +474,10 @@ namespace FrameOfReference.Editor.World
             this.checkBenchmarkPoint.AutoSize = true;
             this.checkBenchmarkPoint.Checked = true;
             this.checkBenchmarkPoint.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBenchmarkPoint.Location = new System.Drawing.Point(75, 40);
+            this.checkBenchmarkPoint.Location = new System.Drawing.Point(75, 58);
             this.checkBenchmarkPoint.Name = "checkBenchmarkPoint";
             this.checkBenchmarkPoint.Size = new System.Drawing.Size(80, 17);
-            this.checkBenchmarkPoint.TabIndex = 3;
+            this.checkBenchmarkPoint.TabIndex = 5;
             this.checkBenchmarkPoint.Text = "Benchmark";
             this.checkBenchmarkPoint.UseVisualStyleBackColor = true;
             this.checkBenchmarkPoint.CheckedChanged += new System.EventHandler(this.PositionablesFilterEvent);
@@ -463,7 +487,7 @@ namespace FrameOfReference.Editor.World
             this.checkWater.AutoSize = true;
             this.checkWater.Checked = true;
             this.checkWater.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkWater.Location = new System.Drawing.Point(0, 40);
+            this.checkWater.Location = new System.Drawing.Point(75, 22);
             this.checkWater.Name = "checkWater";
             this.checkWater.Size = new System.Drawing.Size(55, 17);
             this.checkWater.TabIndex = 1;
@@ -476,7 +500,7 @@ namespace FrameOfReference.Editor.World
             this.checkWaypoint.AutoSize = true;
             this.checkWaypoint.Checked = true;
             this.checkWaypoint.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkWaypoint.Location = new System.Drawing.Point(75, 22);
+            this.checkWaypoint.Location = new System.Drawing.Point(0, 40);
             this.checkWaypoint.Name = "checkWaypoint";
             this.checkWaypoint.Size = new System.Drawing.Size(71, 17);
             this.checkWaypoint.TabIndex = 2;
@@ -508,7 +532,7 @@ namespace FrameOfReference.Editor.World
             this.listBoxPositionables.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBoxPositionables.Size = new System.Drawing.Size(159, 160);
             this.listBoxPositionables.Sorted = true;
-            this.listBoxPositionables.TabIndex = 5;
+            this.listBoxPositionables.TabIndex = 6;
             this.listBoxPositionables.SelectedIndexChanged += new System.EventHandler(this.listBoxPositionables_SelectedIndexChanged);
             // 
             // tabControlEntities
@@ -994,5 +1018,7 @@ namespace FrameOfReference.Editor.World
         private LiveEditor xmlEditor;
         private System.Windows.Forms.ToolStripMenuItem buttonNewWaypoint;
         private System.Windows.Forms.ToolStripMenuItem buttonNewWater;
+        private System.Windows.Forms.ToolStripMenuItem buttonNewCameraState;
+        private System.Windows.Forms.CheckBox checkCameraState;
     }
 }

@@ -45,6 +45,7 @@ namespace FrameOfReference.World
         [Browsable(false)]
         // Note: Can not use ICollection<T> interface with XML Serialization
         [XmlElement(typeof(Entity)), XmlElement(typeof(Water)), XmlElement(typeof(Waypoint)),
+         XmlElement(typeof(CameraState<Vector2>), ElementName = "CameraState"),
          XmlElement(typeof(BenchmarkPoint<Vector2>), ElementName = "BenchmarkPoint"),
          XmlElement(typeof(Memo<Vector2>), ElementName = "Memo")]
         public override MonitoredCollection<Positionable<Vector2>> Positionables { get { return _positionables; } }
