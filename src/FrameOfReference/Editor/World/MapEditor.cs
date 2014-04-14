@@ -857,7 +857,7 @@ namespace FrameOfReference.Editor.World
                     },
                     xmlData: text,
                     refreshHandler: ResetPresenter));
-                xmlEditor.TextEditor.Document.UndoStack.ClearAll();
+                xmlEditor.ClearUndoStack();
             }
             finally
             {
@@ -868,14 +868,14 @@ namespace FrameOfReference.Editor.World
         /// <inheritdoc/>
         public override void Undo()
         {
-            if (xmlEditor.TextEditor.EnableUndo) xmlEditor.TextEditor.Undo();
+            if (xmlEditor.EnableUndo) xmlEditor.Undo();
             else base.Undo();
         }
 
         /// <inheritdoc/>
         public override void Redo()
         {
-            if (xmlEditor.TextEditor.EnableRedo) xmlEditor.TextEditor.Redo();
+            if (xmlEditor.EnableRedo) xmlEditor.Redo();
             else base.Redo();
         }
         #endregion
