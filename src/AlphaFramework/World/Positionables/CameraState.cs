@@ -15,7 +15,7 @@ namespace AlphaFramework.World.Positionables
     /// <summary>
     /// Stores the position and direction of the camera in the game.
     /// </summary>
-    /// <seealso cref="UniverseBase{TCoordinates}.Camera"/>
+    /// <seealso cref="UniverseBase{TCoordinates}.CurrentCamera"/>
     /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
     public class CameraState<TCoordinates> : Positionable<TCoordinates>
         where TCoordinates : struct

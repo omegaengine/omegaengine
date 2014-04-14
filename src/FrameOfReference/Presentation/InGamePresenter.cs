@@ -50,7 +50,7 @@ namespace FrameOfReference.Presentation
             #endregion
 
             // Restore previous camera position (or default to center of terrain)
-            var mainCamera = CreateCamera(universe.Camera);
+            var mainCamera = CreateCamera(universe.CurrentCamera);
 
             View = new View(Scene, mainCamera) {Name = "InGame", BackgroundColor = universe.FogColor};
         }
@@ -76,7 +76,7 @@ namespace FrameOfReference.Presentation
         /// </summary>
         public void PrepareSave()
         {
-            Universe.Camera = CameraState;
+            Universe.CurrentCamera = CameraState;
         }
 
         /// <inheritdoc/>

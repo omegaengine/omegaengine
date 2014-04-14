@@ -76,7 +76,7 @@ namespace FrameOfReference.Presentation
             Lighting = lighting;
 
             // Restore previous camera position (or default to center of terrain)
-            var mainCamera = CreateCamera(universe.Camera);
+            var mainCamera = CreateCamera(universe.CurrentCamera);
 
             View = new View(Scene, mainCamera) {Name = "Editor", BackgroundColor = universe.FogColor};
 

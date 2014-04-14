@@ -61,11 +61,11 @@ namespace AlphaFramework.World
         public event Action SkyboxChanged;
 
         /// <summary>
-        /// The position and direction of the camera in the game.
+        /// The current position and direction of the camera in the game.
         /// </summary>
         /// <remarks>This is updated only when leaving the game, not continuously.</remarks>
         [Browsable(false)]
-        public CameraState<TCoordinates> Camera { get; set; }
+        public CameraState<TCoordinates> CurrentCamera { get; set; }
 
         /// <inheritdoc/>
         [XmlIgnore, Browsable(false)]
