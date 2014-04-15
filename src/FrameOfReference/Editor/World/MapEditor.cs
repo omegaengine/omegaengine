@@ -454,7 +454,33 @@ namespace FrameOfReference.Editor.World
 
         private void buttonNewWater_Click(object sender, EventArgs e)
         {
-            AddNewPositionable(new Water { Position = GetScreenTerrainCenter() });
+            AddNewPositionable(new Water {Position = GetScreenTerrainCenter()});
+        }
+
+        private void buttonNewTrigger_Click(object sender, EventArgs e)
+        {
+            var newTrigger = new Trigger
+            {
+                Position = GetScreenTerrainCenter(),
+                DueTime = Math.Round(_universe.GameTime)
+            };
+            new PerTypeDispatcher<Positionable<Vector2>>(ignoreMissing: true)
+            {
+                (Entity entity) =>
+                {
+                    newTrigger.TargetEntity = entity.Name;
+                    newTrigger.Name = entity.Name + "_";
+                },
+                (Waypoint waypoint) =>
+                {
+                    newTrigger.Position = waypoint.Position;
+                    newTrigger.DueTime = Math.Round(waypoint.ArrivalTimeSpecified ? waypoint.ArrivalTime : _universe.GameTime);
+                    newTrigger.TargetEntity = waypoint.TargetEntity;
+                    newTrigger.Name = waypoint.Name;
+                }
+            }.Dispatch(_presenter.SelectedPositionables);
+
+            AddNewPositionable(newTrigger);
         }
 
         private void buttonNewWaypoint_Click(object sender, EventArgs e)
@@ -696,7 +722,7 @@ namespace FrameOfReference.Editor.World
                    (checkWaypoint.Checked && positionable is Waypoint) ||
                    (checkCameraState.Checked && positionable.GetType() == typeof(CameraState<Vector2>)) ||
                    (checkBenchmarkPoint.Checked && positionable is BenchmarkPoint<Vector2>) ||
-                   (checkMemo.Checked && positionable is Memo<Vector2>);
+                   (checkTrigger.Checked && positionable is Trigger);
         }
 
         private void listBoxPositionables_DoubleClick(object sender, EventArgs e)

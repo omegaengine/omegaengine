@@ -82,7 +82,12 @@ namespace FrameOfReference.Presentation
 
             // Floating axis-arrows for easier orientation
             var axisArrows = new FloatingModel(XMesh.Get(engine, "Engine/AxisArrows.x"))
-            {Name = "AxisArrows", Alpha = 160, Position = new DoubleVector3(-16, -12, 40), Rotation = Quaternion.RotationYawPitchRoll(0, 0, 0)};
+            {
+                Name = "AxisArrows",
+                Alpha = 160,
+                Position = new DoubleVector3(-16, -12, 40),
+                Rotation = Quaternion.RotationYawPitchRoll(0, 0, 0)
+            };
             axisArrows.SetScale(0.03f);
             View.FloatingModels.Add(axisArrows);
         }
@@ -93,7 +98,16 @@ namespace FrameOfReference.Presentation
             base.RegisterRenderablesSync();
 
             RenderablesSync.Register(
-                (Waypoint waypoint) => Model.Sphere(Engine, XTexture.Get(Engine, "flag.png"), radius: 50),
+                (Waypoint waypoint) => new Model(XMesh.Get(Engine, "Engine/Waypoint.x")) {Scale = new Vector3(100)},
+                UpdateRepresentation);
+            RenderablesSync.Register(
+                (Trigger trigger) =>
+                {
+                    var area = Model.Cylinder(Engine, XTexture.Get(Engine, "flag.png"), radiusBottom: trigger.Range, radiusTop: trigger.Range, length: 150);
+                    area.Rotation = Quaternion.RotationYawPitchRoll(0, (float)Math.PI / 2, 0);
+                    area.Alpha = 160;
+                    return area;
+                },
                 UpdateRepresentation);
         }
 

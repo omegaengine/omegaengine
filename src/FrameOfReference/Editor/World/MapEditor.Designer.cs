@@ -48,6 +48,7 @@ namespace FrameOfReference.Editor.World
             this.buttonNewEntity = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonNewWaypoint = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonNewWater = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonNewTrigger = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonNewCameraState = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonNewBenchmarkPoint = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonCopy = new System.Windows.Forms.ToolStripButton();
@@ -65,7 +66,7 @@ namespace FrameOfReference.Editor.World
             this.positionablesTab = new System.Windows.Forms.SplitContainer();
             this.checkCameraState = new System.Windows.Forms.CheckBox();
             this.textSearch = new NanoByte.Common.Controls.HintTextBox();
-            this.checkMemo = new System.Windows.Forms.CheckBox();
+            this.checkTrigger = new System.Windows.Forms.CheckBox();
             this.checkBenchmarkPoint = new System.Windows.Forms.CheckBox();
             this.checkWater = new System.Windows.Forms.CheckBox();
             this.checkWaypoint = new System.Windows.Forms.CheckBox();
@@ -171,7 +172,7 @@ namespace FrameOfReference.Editor.World
             this.buttonMapProperties});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(469, 25);
+            this.toolStrip.Size = new System.Drawing.Size(500, 25);
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -251,6 +252,7 @@ namespace FrameOfReference.Editor.World
             this.buttonNewEntity,
             this.buttonNewWater,
             this.buttonNewWaypoint,
+            this.buttonNewTrigger,
             this.buttonNewCameraState,
             this.buttonNewBenchmarkPoint});
             this.buttonNew.Image = ((System.Drawing.Image)(resources.GetObject("buttonNew.Image")));
@@ -266,19 +268,26 @@ namespace FrameOfReference.Editor.World
             this.buttonNewEntity.Text = "&Entity";
             this.buttonNewEntity.Click += new System.EventHandler(this.buttonNewEntity_Click);
             // 
-            // buttonNewWaypoint
-            // 
-            this.buttonNewWaypoint.Name = "buttonNewWaypoint";
-            this.buttonNewWaypoint.Size = new System.Drawing.Size(165, 22);
-            this.buttonNewWaypoint.Text = "&Waypoint";
-            this.buttonNewWaypoint.Click += new System.EventHandler(this.buttonNewWaypoint_Click);
-            // 
             // buttonNewWater
             // 
             this.buttonNewWater.Name = "buttonNewWater";
             this.buttonNewWater.Size = new System.Drawing.Size(165, 22);
             this.buttonNewWater.Text = "&Water";
             this.buttonNewWater.Click += new System.EventHandler(this.buttonNewWater_Click);
+            // 
+            // buttonNewWaypoint
+            // 
+            this.buttonNewWaypoint.Name = "buttonNewWaypoint";
+            this.buttonNewWaypoint.Size = new System.Drawing.Size(165, 22);
+            this.buttonNewWaypoint.Text = "Wa&ypoint";
+            this.buttonNewWaypoint.Click += new System.EventHandler(this.buttonNewWaypoint_Click);
+            // 
+            // buttonNewTrigger
+            // 
+            this.buttonNewTrigger.Name = "buttonNewTrigger";
+            this.buttonNewTrigger.Size = new System.Drawing.Size(165, 22);
+            this.buttonNewTrigger.Text = "&Trigger";
+            this.buttonNewTrigger.Click += new System.EventHandler(this.buttonNewTrigger_Click);
             // 
             // buttonNewCameraState
             // 
@@ -418,7 +427,7 @@ namespace FrameOfReference.Editor.World
             // 
             this.positionablesTab.Panel1.Controls.Add(this.checkCameraState);
             this.positionablesTab.Panel1.Controls.Add(this.textSearch);
-            this.positionablesTab.Panel1.Controls.Add(this.checkMemo);
+            this.positionablesTab.Panel1.Controls.Add(this.checkTrigger);
             this.positionablesTab.Panel1.Controls.Add(this.checkBenchmarkPoint);
             this.positionablesTab.Panel1.Controls.Add(this.checkWater);
             this.positionablesTab.Panel1.Controls.Add(this.checkWaypoint);
@@ -459,18 +468,18 @@ namespace FrameOfReference.Editor.World
             this.textSearch.TabIndex = 0;
             this.textSearch.TextChanged += new System.EventHandler(this.PositionablesFilterEvent);
             // 
-            // checkMemo
+            // checkTrigger
             // 
-            this.checkMemo.AutoSize = true;
-            this.checkMemo.Checked = true;
-            this.checkMemo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkMemo.Location = new System.Drawing.Point(75, 40);
-            this.checkMemo.Name = "checkMemo";
-            this.checkMemo.Size = new System.Drawing.Size(55, 17);
-            this.checkMemo.TabIndex = 3;
-            this.checkMemo.Text = "Memo";
-            this.checkMemo.UseVisualStyleBackColor = true;
-            this.checkMemo.CheckedChanged += new System.EventHandler(this.PositionablesFilterEvent);
+            this.checkTrigger.AutoSize = true;
+            this.checkTrigger.Checked = true;
+            this.checkTrigger.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkTrigger.Location = new System.Drawing.Point(75, 40);
+            this.checkTrigger.Name = "checkTrigger";
+            this.checkTrigger.Size = new System.Drawing.Size(59, 17);
+            this.checkTrigger.TabIndex = 3;
+            this.checkTrigger.Text = "Trigger";
+            this.checkTrigger.UseVisualStyleBackColor = true;
+            this.checkTrigger.CheckedChanged += new System.EventHandler(this.PositionablesFilterEvent);
             // 
             // checkBenchmarkPoint
             // 
@@ -1015,7 +1024,7 @@ namespace FrameOfReference.Editor.World
         private System.Windows.Forms.TabPage tabPageTemplate;
         private System.Windows.Forms.PropertyGrid propertyGridPositionable;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.CheckBox checkMemo;
+        private System.Windows.Forms.CheckBox checkTrigger;
         private System.Windows.Forms.CheckBox checkBenchmarkPoint;
         private System.Windows.Forms.CheckBox checkWaypoint;
         private System.Windows.Forms.CheckBox checkEntity;
@@ -1050,6 +1059,7 @@ namespace FrameOfReference.Editor.World
         private System.Windows.Forms.ToolStripMenuItem buttonNewWater;
         private System.Windows.Forms.ToolStripMenuItem buttonNewCameraState;
         private System.Windows.Forms.CheckBox checkCameraState;
+        private System.Windows.Forms.ToolStripMenuItem buttonNewTrigger;
         private System.Windows.Forms.TrackBar sliderGameTime;
         private System.Windows.Forms.Label labelGameTime;
     }

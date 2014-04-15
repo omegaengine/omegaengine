@@ -44,10 +44,9 @@ namespace FrameOfReference.World
         /// <inheritoc/>
         [Browsable(false)]
         // Note: Can not use ICollection<T> interface with XML Serialization
-        [XmlElement(typeof(Entity)), XmlElement(typeof(Water)), XmlElement(typeof(Waypoint)),
-         XmlElement(typeof(CameraState<Vector2>), ElementName = "CameraState"),
-         XmlElement(typeof(BenchmarkPoint<Vector2>), ElementName = "BenchmarkPoint"),
-         XmlElement(typeof(Memo<Vector2>), ElementName = "Memo")]
+        [XmlElement(typeof(Entity)), XmlElement(typeof(Water)),
+         XmlElement(typeof(Waypoint)), XmlElement(typeof(Trigger)),
+         XmlElement(typeof(CameraState<Vector2>), ElementName = "CameraState"), XmlElement(typeof(BenchmarkPoint<Vector2>), ElementName = "BenchmarkPoint")]
         public override MonitoredCollection<Positionable<Vector2>> Positionables { get { return _positionables; } }
 
         private Terrain<TerrainTemplate> _terrain;

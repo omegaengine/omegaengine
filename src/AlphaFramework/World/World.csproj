@@ -87,7 +87,6 @@
     <Compile Include="Positionables\EntityBase.cs" />
     <Compile Include="Positionables\ITemplated.cs" />
     <Compile Include="Positionables\IUpdateable.cs" />
-    <Compile Include="Positionables\Memo.cs" />
     <Compile Include="Positionables\Positionable.cs" />
     <Compile Include="Positionables\Water.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
