@@ -116,7 +116,7 @@ namespace FrameOfReference.World
 
             if (!entity.IsPlayerControlled || entity.TemplateData.Movement == null) return;
 
-            entity.Waypoints.Add(new Waypoint {EntityName = entity.Name, ActivationTime = GameTime, Position = target, OriginPosition = entity.Position});
+            entity.Waypoints.Add(new Waypoint {TargetEntity = entity.Name, ActivationTime = GameTime, Position = target, OriginPosition = entity.Position});
             entity.ActiveWaypointIndex = entity.Waypoints.Count - 1;
 
             StartMoving(entity, target);

@@ -29,22 +29,22 @@ using SlimDX;
 namespace FrameOfReference.World.Positionables
 {
     /// <summary>
-    /// A marker used to control automated <see cref="Entity"/> movement.
+    /// A marker used to control automated <see cref="Positionables.Entity"/> movement.
     /// </summary>
     public class Waypoint : Positionable<Vector2>
     {
-        private string _entityName;
+        private string _targetEntity;
 
         /// <summary>
-        /// The name of the <see cref="Entity"/> this waypoint is for.
+        /// The name of the <see cref="Positionables.Entity"/> this waypoint is for.
         /// </summary>
         [XmlAttribute, Description("The name of the Entity this waypoint is for.")]
-        public string EntityName { get { return _entityName; } set { value.To(ref _entityName, OnChanged); } }
+        public string TargetEntity { get { return _targetEntity; } set { value.To(ref _targetEntity, OnChanged); } }
 
         private double _activationTime;
 
         /// <summary>
-        /// The <see cref="AlphaFramework.World.UniverseBase{T}.GameTime"/> when <see cref="Entity"/>s start walking towards this waypoint.
+        /// The <see cref="AlphaFramework.World.UniverseBase{T}.GameTime"/> when <see cref="Positionables.Entity"/>s start walking towards this waypoint.
         /// </summary>
         [DefaultValue(0.0), Description("The GameTime when Entities start walking towards this waypoint.")]
         public double ActivationTime { get { return _activationTime; } set { value.To(ref _activationTime, OnChanged); } }
@@ -60,7 +60,7 @@ namespace FrameOfReference.World.Positionables
         private double _arrivalTime;
 
         /// <summary>
-        /// The <see cref="AlphaFramework.World.UniverseBase{T}.GameTime"/> when <see cref="Entity"/>s reach this waypoint.
+        /// The <see cref="AlphaFramework.World.UniverseBase{T}.GameTime"/> when <see cref="Positionables.Entity"/>s reach this waypoint.
         /// Set automatically by <see cref="Universe.HandleWaypoints"/>.
         /// </summary>
         [Browsable(false)]
@@ -83,7 +83,7 @@ namespace FrameOfReference.World.Positionables
         private Vector2 _originPosition;
 
         /// <summary>
-        /// The position where an <see cref="Entity"/> walking towards this waypoint started off.
+        /// The position where an <see cref="Positionables.Entity"/> walking towards this waypoint started off.
         /// Set automatically by <see cref="Universe.HandleWaypoints"/>.
         /// </summary>
         [Browsable(false)]

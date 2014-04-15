@@ -161,7 +161,7 @@ namespace FrameOfReference.World
             var toRemove = new List<Waypoint>();
             foreach (var waypoint in Positionables.OfType<Waypoint>().OrderBy(x => x.ActivationTime))
             {
-                var entity = GetEntity(waypoint.EntityName);
+                var entity = GetEntity(waypoint.TargetEntity);
                 if (entity != null)
                 {
                     entity.Waypoints.Add(waypoint);
