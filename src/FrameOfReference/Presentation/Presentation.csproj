@@ -70,18 +70,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Global.cs" />
+    <Compile Include="BenchmarkPresenter.cs" />
+    <Compile Include="EditorPresenter.cs" />
+    <Compile Include="InGamePresenter.cs" />
+    <Compile Include="InteractivePresenter.cs" />
+    <Compile Include="InteractivePresenter.InputerReceiver.cs" />
+    <Compile Include="MenuPresenter.cs" />
     <Compile Include="Presenter.cs" />
     <Compile Include="Presenter.Lighting.cs" />
     <Compile Include="Presenter.Entities.cs" />
-    <Compile Include="BenchmarkPresenter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Statistics.cs" />
     <Compile Include="TestCase.cs" />
-    <Compile Include="MenuPresenter.cs" />
-    <Compile Include="InteractivePresenter.cs" />
-    <Compile Include="InteractivePresenter.InputerReceiver.cs" />
-    <Compile Include="InGamePresenter.cs" />
-    <Compile Include="EditorPresenter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\..\CodeAnalysisDictionary.xml" />

@@ -29,7 +29,6 @@ using System.IO;
 using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Storage.SlimDX;
-using NanoByte.Common.Utils;
 using OmegaEngine;
 using OmegaGUI.Model;
 
