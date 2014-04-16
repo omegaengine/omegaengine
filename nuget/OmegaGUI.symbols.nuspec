@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OmegaGUI</id>
-        <version>0.9.0</version>
+        <version>$version$</version>
         <authors>Bastian Eicher</authors>
         <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
         <projectUrl>http://code.google.com/p/omegaengine/wiki/OmegaGUI</projectUrl>
@@ -11,7 +11,7 @@
 The AlphaEditor contains a WYSIWYG editor for the toolkit.</description>
         <summary>Skinable GUI toolkit for the OmegaEngine</summary>
         <dependencies>
-            <dependency id="OmegaEngine.Backend" version="0.9.0" />
+            <dependency id="OmegaEngine.Backend" version="$version$" />
         </dependencies>
         <references>
             <reference file="OmegaGUI.dll" />
