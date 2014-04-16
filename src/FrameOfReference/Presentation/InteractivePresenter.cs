@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World;
@@ -145,7 +146,7 @@ namespace FrameOfReference.Presentation
         private Model GetSelectionHighlighting(Entity entity)
         {
             if (entity.TemplateData.Collision == null) return null;
-            
+
             var selectionHighlight = new PerTypeDispatcher<Collision<Vector2>, Model>(ignoreMissing: true)
             {
                 (Circle circle) =>
@@ -201,5 +202,17 @@ namespace FrameOfReference.Presentation
         /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to be moved.</param>
         /// <param name="target">The terrain position to move the <paramref name="positionables"/> to.</param>
         protected abstract void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target);
+
+        /// <summary>
+        /// Turns all currently selected <see cref="Entity"/>s into player-controlled characters.
+        /// </summary>
+        public void TakeOverSelection()
+        {
+            foreach (var entity in SelectedPositionables.OfType<Entity>())
+            {
+                entity.Waypoints.RemoveAll(x => x.ActivationTime >= Universe.GameTime);
+                entity.IsPlayerControlled = true;
+            }
+        }
     }
 }

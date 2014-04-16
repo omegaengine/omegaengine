@@ -41,9 +41,6 @@ namespace FrameOfReference.World
         {}
 
         #region Update
-        /// <summary>Fixed step size for updates in seconds. Makes updates deterministic.</summary>
-        private const double UpdateStepSize = 0.015;
-
         /// <summary>The maximum number of seconds to handle in one call to <see cref="Update"/>. Additional time is simply dropped.</summary>
         private const double MaximumUpdate = 0.75;
 
@@ -57,18 +54,35 @@ namespace FrameOfReference.World
         public override double Update(double elapsedRealTime)
         {
             double elapsedGameTime = (elapsedRealTime * TimeWarpFactor);
+            double gameTimeDelta = LeftoverGameTime + elapsedGameTime.Clamp(-MaximumUpdate, MaximumUpdate);
+            LeftoverGameTime = UpdateDeterministic(gameTimeDelta);
+            return elapsedGameTime;
+        }
 
-            LeftoverGameTime += elapsedGameTime.Clamp(-MaximumUpdate, MaximumUpdate);
-            while (Math.Abs(LeftoverGameTime) >= UpdateStepSize)
+        /// <summary>
+        /// Updates the world to a specific point in game time.
+        /// </summary>
+        /// <param name="gameTime">The target value for <see cref="UniverseBase{TCoordinates}.GameTime"/>.</param>
+        public void UpdateTo(double gameTime)
+        {
+            UpdateDeterministic(gameTime - Universe.GameTime);
+        }
+
+        /// <summary>Fixed step size for updates in seconds. Makes updates deterministic.</summary>
+        private const double UpdateStepSize = 0.015;
+
+        private double UpdateDeterministic(double gameTimeDelta)
+        {
+            while (Math.Abs(gameTimeDelta) >= UpdateStepSize)
             {
                 // Handle negative time
-                double effectiveStep = Math.Sign(LeftoverGameTime) * UpdateStepSize;
+                double effectiveStep = Math.Sign(gameTimeDelta) * UpdateStepSize;
 
                 Universe.Update(effectiveStep);
-                LeftoverGameTime -= effectiveStep;
+                gameTimeDelta -= effectiveStep;
             }
 
-            return elapsedGameTime;
+            return gameTimeDelta;
         }
         #endregion
     }
