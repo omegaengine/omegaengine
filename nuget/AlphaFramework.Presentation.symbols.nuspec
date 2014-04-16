@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
-        <id>AlphaFramework.Presentation</id>
+        <id>AlphaFramework.Presentation.symbols</id>
         <version>0.9.0</version>
         <authors>Bastian Eicher</authors>
         <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
@@ -21,5 +21,9 @@ The "OmegaEngine Templates" Visual Studio extension can help you set up a suitab
     <files>
         <file src="..\build\Release\AlphaFramework.Presentation.dll" target="lib\net20\AlphaFramework.Presentation.dll" />
         <file src="..\build\Release\AlphaFramework.Presentation.xml" target="lib\net20\AlphaFramework.Presentation.xml" />
+
+        <!-- Symbols and source code -->
+        <file src="..\build\Release\AlphaFramework.Presentation.pdb" target="lib\net20\AlphaFramework.Presentation.pdb" />
+        <file src="..\src\AlphaFramework\Presentation\**\*.cs" target="src" />
     </files>
 </package>

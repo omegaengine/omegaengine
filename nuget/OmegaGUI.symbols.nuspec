@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
-        <id>OmegaGUI</id>
+        <id>OmegaGUI.symbols</id>
         <version>0.9.0</version>
         <authors>Bastian Eicher</authors>
         <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
@@ -22,7 +22,8 @@ The AlphaEditor contains a WYSIWYG editor for the toolkit.</description>
         <file src="..\build\Release\OmegaGUI.dll" target="lib\net20\OmegaGUI.dll" />
         <file src="..\build\Release\OmegaGUI.xml" target="lib\net20\OmegaGUI.xml" />
 
-        <!-- Satellite assemblies (translations) -->
-        <file src="..\build\Release\de\OmegaGUI.resources.dll" target="lib\net20\de\OmegaGUI.resources.dll" />
+        <!-- Symbols and source code -->
+        <file src="..\build\Release\OmegaGUI.pdb" target="lib\net20\OmegaGUI.pdb" />
+        <file src="..\src\OmegaGUI\**\*.cs" target="src" />
     </files>
 </package>
