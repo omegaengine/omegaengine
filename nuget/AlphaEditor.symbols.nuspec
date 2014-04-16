@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>AlphaEditor.symbols</id>
+        <id>AlphaEditor</id>
         <version>0.9.0</version>
         <authors>Bastian Eicher</authors>
         <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
@@ -23,6 +23,9 @@ The "OmegaEngine Templates" Visual Studio extension can help you set up a suitab
     <files>
         <file src="..\build\Release\AlphaFramework.Editor.dll" target="lib\net20\AlphaFramework.Editor.dll" />
         <file src="..\build\Release\AlphaFramework.Editor.xml" target="lib\net20\AlphaFramework.Editor.xml" />
+
+        <!-- Satellite assemblies (translations) -->
+        <file src="..\build\Release\de\AlphaFramework.Editor.resources.dll" target="lib\net20\de\AlphaFramework.Editor.resources.dll" />
 
         <!-- Symbols and source code -->
         <file src="..\build\Release\AlphaFramework.Editor.pdb" target="lib\net20\AlphaFramework.Editor.pdb" />

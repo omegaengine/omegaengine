@@ -11,7 +11,11 @@ del /q "%TargetDir%\*"
 
 
 echo Building NuGet packages...
-FOR %%A IN ("%~dp0*.nuspec") DO (
-  nuget pack "%%A" -NoPackageAnalysis -Version "%version%" -OutputDirectory "%TargetDir%"
+FOR %%A IN ("%~dp0*.symbols.nuspec") DO (
+  nuget pack "%%A" -Symbols -Version "%version%" -OutputDirectory "%TargetDir%"
+  if errorlevel 1 pause
+)
+FOR %%A IN ("%~dp0*.nosymbols.nuspec") DO (
+  nuget pack "%%A" -Version "%version%" -OutputDirectory "%TargetDir%"
   if errorlevel 1 pause
 )
