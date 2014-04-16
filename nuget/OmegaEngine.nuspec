@@ -1,62 +1,62 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
-  <metadata>
-    <version>0.9.0</version>
-    <authors>Bastian Eicher</authors>
-    <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
-    <projectUrl>http://code.google.com/p/omegaengine/</projectUrl>
-    <iconUrl>http://omega.nanobyte.de/images/icon_omega.png</iconUrl>
-    <dependencies>
-      <dependency id="OmegaEngine.Backend" version="0.9.0" />
-    </dependencies>
-    <id>OmegaEngine</id>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>The OmegaEngine is a general-purpose 3D graphics engine written in C# using the .NET Framework 2.0 and DirectX 9 via SlimDX. The engine is designed to be light-weight, modular and gameplay-agnostic.
+    <metadata>
+        <id>OmegaEngine</id>
+        <version>0.9.0</version>
+        <authors>Bastian Eicher</authors>
+        <licenseUrl>http://code.google.com/p/omegaengine/wiki/License</licenseUrl>
+        <projectUrl>http://code.google.com/p/omegaengine/</projectUrl>
+        <iconUrl>http://omega.nanobyte.de/images/icon_omega.png</iconUrl>
+        <description>The OmegaEngine is a general-purpose 3D graphics engine written in C# using the .NET Framework 2.0 and DirectX 9 via SlimDX. The engine is designed to be light-weight, modular and gameplay-agnostic.
 The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games using the OmegaEngine.</description>
-    <summary>DirectX 9-based general-purpose 3D graphics engine</summary>
-  </metadata>
-  <files>
-    <!-- Content -->
-    <file src="..\content\Graphics\CpuParticleSystem\CleanFire.xml" target="content\content\Graphics\CpuParticleSystem\CleanFire.xml" />
-    <file src="..\content\Graphics\CpuParticleSystem\ColdFire.xml" target="content\content\Graphics\CpuParticleSystem\ColdFire.xml" />
-    <file src="..\content\Graphics\CpuParticleSystem\Fire.xml" target="content\content\Graphics\CpuParticleSystem\Fire.xml" />
-    <file src="..\content\Graphics\CpuParticleSystem\Swarm.xml" target="content\content\Graphics\CpuParticleSystem\Swarm.xml" />
-    <file src="..\content\Graphics\GpuParticleSystem\Fire.xml" target="content\content\Graphics\GpuParticleSystem\Fire.xml" />
-    <file src="..\content\Graphics\Shaders\Terrain.fxd" target="content\content\Graphics\Shaders\Terrain.fxd" />
-    <file src="..\content\GUI\Textures\base.png" target="content\content\GUI\Textures\base.png" />
-    <file src="..\content\GUI\Textures\logo.png" target="content\content\GUI\Textures\logo.png" />
-    <file src="..\content\GUI\Textures\Texture file layout.txt" target="content\content\GUI\Textures\Texture file layout.txt" />
-    <file src="..\content\Meshes\Engine\AxisArrows.x" target="content\content\Meshes\Engine\AxisArrows.x" />
-    <file src="..\content\Meshes\Engine\Circle.x" target="content\content\Meshes\Engine\Circle.x" />
-    <file src="..\content\Meshes\Engine\Particles.x" target="content\content\Meshes\Engine\Particles.x" />
-    <file src="..\content\Meshes\Engine\Rectangle.x" target="content\content\Meshes\Engine\Rectangle.x" />
-    <file src="..\content\Textures\Particles\explosion_large.png" target="content\content\Textures\Particles\explosion_large.png" />
-    <file src="..\content\Textures\Particles\explosion_small.png" target="content\content\Textures\Particles\explosion_small.png" />
-    <file src="..\content\Textures\Particles\fire.png" target="content\content\Textures\Particles\fire.png" />
-    <file src="..\content\Textures\Particles\point.png" target="content\content\Textures\Particles\point.png" />
-    <file src="..\content\Textures\Particles\smoke.png" target="content\content\Textures\Particles\smoke.png" />
-    <file src="..\content\Textures\Shaders\Flame.tga" target="content\content\Textures\Shaders\Flame.tga" />
-    <file src="..\content\Textures\Shaders\Noise128.dds" target="content\content\Textures\Shaders\Noise128.dds" />
-    <file src="..\content\Textures\Shaders\point.png" target="content\content\Textures\Shaders\point.png" />
-    <file src="..\content\Textures\Water\normal.png" target="content\content\Textures\Water\normal.png" />
-    <file src="..\content\Textures\Water\surface.png" target="content\content\Textures\Water\surface.png" />
-    <file src="..\content\Textures\flag.png" target="content\content\Textures\flag.png" />
+        <summary>DirectX 9-based general-purpose 3D graphics engine</summary>
+        <dependencies>
+            <dependency id="OmegaEngine.Backend" version="0.9.0" />
+        </dependencies>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    </metadata>
+    <files>
+        <!-- Content -->
+        <file src="..\content\Graphics\CpuParticleSystem\CleanFire.xml" target="content\content\Graphics\CpuParticleSystem\CleanFire.xml" />
+        <file src="..\content\Graphics\CpuParticleSystem\ColdFire.xml" target="content\content\Graphics\CpuParticleSystem\ColdFire.xml" />
+        <file src="..\content\Graphics\CpuParticleSystem\Fire.xml" target="content\content\Graphics\CpuParticleSystem\Fire.xml" />
+        <file src="..\content\Graphics\CpuParticleSystem\Swarm.xml" target="content\content\Graphics\CpuParticleSystem\Swarm.xml" />
+        <file src="..\content\Graphics\GpuParticleSystem\Fire.xml" target="content\content\Graphics\GpuParticleSystem\Fire.xml" />
+        <file src="..\content\Graphics\Shaders\Terrain.fxd" target="content\content\Graphics\Shaders\Terrain.fxd" />
+        <file src="..\content\GUI\Textures\base.png" target="content\content\GUI\Textures\base.png" />
+        <file src="..\content\GUI\Textures\logo.png" target="content\content\GUI\Textures\logo.png" />
+        <file src="..\content\GUI\Textures\Texture file layout.txt" target="content\content\GUI\Textures\Texture file layout.txt" />
+        <file src="..\content\Meshes\Engine\AxisArrows.x" target="content\content\Meshes\Engine\AxisArrows.x" />
+        <file src="..\content\Meshes\Engine\Circle.x" target="content\content\Meshes\Engine\Circle.x" />
+        <file src="..\content\Meshes\Engine\Particles.x" target="content\content\Meshes\Engine\Particles.x" />
+        <file src="..\content\Meshes\Engine\Rectangle.x" target="content\content\Meshes\Engine\Rectangle.x" />
+        <file src="..\content\Textures\Particles\explosion_large.png" target="content\content\Textures\Particles\explosion_large.png" />
+        <file src="..\content\Textures\Particles\explosion_small.png" target="content\content\Textures\Particles\explosion_small.png" />
+        <file src="..\content\Textures\Particles\fire.png" target="content\content\Textures\Particles\fire.png" />
+        <file src="..\content\Textures\Particles\point.png" target="content\content\Textures\Particles\point.png" />
+        <file src="..\content\Textures\Particles\smoke.png" target="content\content\Textures\Particles\smoke.png" />
+        <file src="..\content\Textures\Shaders\Flame.tga" target="content\content\Textures\Shaders\Flame.tga" />
+        <file src="..\content\Textures\Shaders\Noise128.dds" target="content\content\Textures\Shaders\Noise128.dds" />
+        <file src="..\content\Textures\Shaders\point.png" target="content\content\Textures\Shaders\point.png" />
+        <file src="..\content\Textures\Water\normal.png" target="content\content\Textures\Water\normal.png" />
+        <file src="..\content\Textures\Water\surface.png" target="content\content\Textures\Water\surface.png" />
+        <file src="..\content\Textures\flag.png" target="content\content\Textures\flag.png" />
 
-    <!-- Compiled shaders -->
-    <file src="..\build\Release\Shaders\General.fxo" target="content\Shaders\General.fxo" />
-    <file src="..\build\Release\Shaders\ParticleSystem.fxo" target="content\Shaders\ParticleSystem.fxo" />
-    <file src="..\build\Release\Shaders\Post_Bleach.fxo" target="content\Shaders\Post_Bleach.fxo" />
-    <file src="..\build\Release\Shaders\Post_Blur.fxo" target="content\Shaders\Post_Blur.fxo" />
-    <file src="..\build\Release\Shaders\Post_CameraShake.fxo" target="content\Shaders\Post_CameraShake.fxo" />
-    <file src="..\build\Release\Shaders\Post_ColorCorrection.fxo" target="content\Shaders\Post_ColorCorrection.fxo" />
-    <file src="..\build\Release\Shaders\Post_Halo.fxo" target="content\Shaders\Post_Halo.fxo" />
-    <file src="..\build\Release\Shaders\Post_RadialBlur.fxo" target="content\Shaders\Post_RadialBlur.fxo" />
-    <file src="..\build\Release\Shaders\Post_ScratchedFilm.fxo" target="content\Shaders\Post_ScratchedFilm.fxo" />
-    <file src="..\build\Release\Shaders\Post_Sepia.fxo" target="content\Shaders\Post_Sepia.fxo" />
-    <file src="..\build\Release\Shaders\readme.txt" target="content\Shaders\readme.txt" />
-    <file src="..\build\Release\Shaders\Water.fxo" target="content\Shaders\Water.fxo" />
+        <!-- Compiled shaders -->
+        <file src="..\build\Release\Shaders\General.fxo" target="content\Shaders\General.fxo" />
+        <file src="..\build\Release\Shaders\ParticleSystem.fxo" target="content\Shaders\ParticleSystem.fxo" />
+        <file src="..\build\Release\Shaders\Post_Bleach.fxo" target="content\Shaders\Post_Bleach.fxo" />
+        <file src="..\build\Release\Shaders\Post_Blur.fxo" target="content\Shaders\Post_Blur.fxo" />
+        <file src="..\build\Release\Shaders\Post_CameraShake.fxo" target="content\Shaders\Post_CameraShake.fxo" />
+        <file src="..\build\Release\Shaders\Post_ColorCorrection.fxo" target="content\Shaders\Post_ColorCorrection.fxo" />
+        <file src="..\build\Release\Shaders\Post_Halo.fxo" target="content\Shaders\Post_Halo.fxo" />
+        <file src="..\build\Release\Shaders\Post_RadialBlur.fxo" target="content\Shaders\Post_RadialBlur.fxo" />
+        <file src="..\build\Release\Shaders\Post_ScratchedFilm.fxo" target="content\Shaders\Post_ScratchedFilm.fxo" />
+        <file src="..\build\Release\Shaders\Post_Sepia.fxo" target="content\Shaders\Post_Sepia.fxo" />
+        <file src="..\build\Release\Shaders\readme.txt" target="content\Shaders\readme.txt" />
+        <file src="..\build\Release\Shaders\Water.fxo" target="content\Shaders\Water.fxo" />
 
-    <!-- CopyToOutputDirectory -->
-    <file src="install.ps1" target="tools\install.ps1" />
-  </files>
+        <!-- CopyToOutputDirectory -->
+        <file src="install.ps1" target="tools\install.ps1" />
+    </files>
 </package>
