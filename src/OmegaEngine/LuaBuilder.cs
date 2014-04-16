@@ -1,6 +1,8 @@
 ﻿using LuaInterface;
+using NanoByte.Common;
+using NanoByte.Common.Utils;
 
-namespace NanoByte.Common.Utils
+namespace OmegaEngine
 {
     /// <summary>
     /// Creates and configures Lua instances.
