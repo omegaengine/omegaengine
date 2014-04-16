@@ -51,11 +51,6 @@ namespace OmegaEngine
         public float Fps { get; private set; }
 
         /// <summary>
-        /// A string representing the current framerate in this format: "FPS: 12.34" (two decimals).
-        /// </summary>
-        public string FpsText { get { return string.Format("FPS {0:0.00}", Fps); } }
-
-        /// <summary>
         /// Average milliseconds per frame - auto-calculated by the engine.
         /// </summary>
         public float FrameMs { get; private set; }
