@@ -13,7 +13,6 @@ The installer is built using Inno Setup 5.4.1 or newer (http://files.jrsoftware.
 \content\ - Game content files (.X files, PNGs, ...) 
 \build\Debug\ - The compiled debug binaries (created by \src\build.cmd Debug)
 \build\Release\ - The compiled release binaries (created by \src\build.cmd Release)
-\build\ReleaseSDK\ - The compiled SDK release binaries with debug symbols and API XML documentation (created by \src\build.cmd ReleaseSDK)
 \build\Installer\ - The compiled installers (created by \installer\build.cmd)
 \build\Packages\ - The compiled NuGet packages (created by \nuget\build.cmd)
 \build\Templates\ - The packaged Visual Studio templates (created by \templates\build.cmd)

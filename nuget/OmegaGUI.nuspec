@@ -19,9 +19,9 @@ The AlphaEditor contains a WYSIWYG editor for the toolkit.</description>
     <summary>Skinable GUI toolkit for the OmegaEngine</summary>
   </metadata>
   <files>
-    <file src="..\build\ReleaseSDK\de\OmegaGUI.resources.dll" target="lib\net20\de\OmegaGUI.resources.dll" />
-    <file src="..\build\ReleaseSDK\OmegaGUI.dll" target="lib\net20\OmegaGUI.dll" />
-    <file src="..\build\ReleaseSDK\OmegaGUI.pdb" target="lib\net20\OmegaGUI.pdb" />
-    <file src="..\build\ReleaseSDK\OmegaGUI.xml" target="lib\net20\OmegaGUI.xml" />
+    <file src="..\build\Release\de\OmegaGUI.resources.dll" target="lib\net20\de\OmegaGUI.resources.dll" />
+    <file src="..\build\Release\OmegaGUI.dll" target="lib\net20\OmegaGUI.dll" />
+    <file src="..\build\Release\OmegaGUI.pdb" target="lib\net20\OmegaGUI.pdb" />
+    <file src="..\build\Release\OmegaGUI.xml" target="lib\net20\OmegaGUI.xml" />
   </files>
 </package>

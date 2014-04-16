@@ -43,18 +43,18 @@ The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games 
     <file src="..\content\Textures\flag.png" target="content\content\Textures\flag.png" />
 
     <!-- Compiled shaders -->
-    <file src="..\build\ReleaseSDK\Shaders\General.fxo" target="content\Shaders\General.fxo" />
-    <file src="..\build\ReleaseSDK\Shaders\ParticleSystem.fxo" target="content\Shaders\ParticleSystem.fxo" />
-    <file src="..\build\ReleaseSDK\Shaders\Post_Bleach.fxo" target="content\Shaders\Post_Bleach.fxo" />
-    <file src="..\build\ReleaseSDK\Shaders\Post_Blur.fxo" target="content\Shaders\Post_Blur.fxo" />
-    <file src="..\build\ReleaseSDK\Shaders\Post_CameraShake.fxo" target="content\Shaders\Post_CameraShake.fxo" />
-    <file src="..\build\ReleaseSDK\Shaders\Post_ColorCorrection.fxo" target="content\Shaders\Post_ColorCorrection.fxo" />
-    <file src="..\build\ReleaseSDK\Shaders\Post_Halo.fxo" target="content\Shaders\Post_Halo.fxo" />
-    <file src="..\build\ReleaseSDK\Shaders\Post_RadialBlur.fxo" target="content\Shaders\Post_RadialBlur.fxo" />
-    <file src="..\build\ReleaseSDK\Shaders\Post_ScratchedFilm.fxo" target="content\Shaders\Post_ScratchedFilm.fxo" />
-    <file src="..\build\ReleaseSDK\Shaders\Post_Sepia.fxo" target="content\Shaders\Post_Sepia.fxo" />
-    <file src="..\build\ReleaseSDK\Shaders\readme.txt" target="content\Shaders\readme.txt" />
-    <file src="..\build\ReleaseSDK\Shaders\Water.fxo" target="content\Shaders\Water.fxo" />
+    <file src="..\build\Release\Shaders\General.fxo" target="content\Shaders\General.fxo" />
+    <file src="..\build\Release\Shaders\ParticleSystem.fxo" target="content\Shaders\ParticleSystem.fxo" />
+    <file src="..\build\Release\Shaders\Post_Bleach.fxo" target="content\Shaders\Post_Bleach.fxo" />
+    <file src="..\build\Release\Shaders\Post_Blur.fxo" target="content\Shaders\Post_Blur.fxo" />
+    <file src="..\build\Release\Shaders\Post_CameraShake.fxo" target="content\Shaders\Post_CameraShake.fxo" />
+    <file src="..\build\Release\Shaders\Post_ColorCorrection.fxo" target="content\Shaders\Post_ColorCorrection.fxo" />
+    <file src="..\build\Release\Shaders\Post_Halo.fxo" target="content\Shaders\Post_Halo.fxo" />
+    <file src="..\build\Release\Shaders\Post_RadialBlur.fxo" target="content\Shaders\Post_RadialBlur.fxo" />
+    <file src="..\build\Release\Shaders\Post_ScratchedFilm.fxo" target="content\Shaders\Post_ScratchedFilm.fxo" />
+    <file src="..\build\Release\Shaders\Post_Sepia.fxo" target="content\Shaders\Post_Sepia.fxo" />
+    <file src="..\build\Release\Shaders\readme.txt" target="content\Shaders\readme.txt" />
+    <file src="..\build\Release\Shaders\Water.fxo" target="content\Shaders\Water.fxo" />
 
     <!-- CopyToOutputDirectory -->
     <file src="install.ps1" target="tools\install.ps1" />

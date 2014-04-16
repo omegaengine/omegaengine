@@ -9,8 +9,6 @@ if "%4"=="+doc" set BUILD_DOC=TRUE
 echo.
 call "%~dp0src\build.cmd" Release
 echo.
-call "%~dp0src\build.cmd" ReleaseSDK
-echo.
 call "%~dp0nuget\build.cmd" %*
 echo.
 call "%~dp0templates\build.cmd" %*

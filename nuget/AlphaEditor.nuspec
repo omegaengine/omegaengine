@@ -21,9 +21,9 @@ The "OmegaEngine Templates" Visual Studio extension can help you set up a suitab
     <summary>IDE-like editor for OmegaEngine games (GUI, maps, particle systems, etc.)</summary>
   </metadata>
   <files>
-    <file src="..\build\ReleaseSDK\de\AlphaFramework.Editor.resources.dll" target="lib\net20\de\AlphaFramework.Editor.resources.dll" />
-    <file src="..\build\ReleaseSDK\AlphaFramework.Editor.dll" target="lib\net20\AlphaFramework.Editor.dll" />
-    <file src="..\build\ReleaseSDK\AlphaFramework.Editor.pdb" target="lib\net20\AlphaFramework.Editor.pdb" />
-    <file src="..\build\ReleaseSDK\AlphaFramework.Editor.xml" target="lib\net20\AlphaFramework.Editor.xml" />
+    <file src="..\build\Release\de\AlphaFramework.Editor.resources.dll" target="lib\net20\de\AlphaFramework.Editor.resources.dll" />
+    <file src="..\build\Release\AlphaFramework.Editor.dll" target="lib\net20\AlphaFramework.Editor.dll" />
+    <file src="..\build\Release\AlphaFramework.Editor.pdb" target="lib\net20\AlphaFramework.Editor.pdb" />
+    <file src="..\build\Release\AlphaFramework.Editor.xml" target="lib\net20\AlphaFramework.Editor.xml" />
   </files>
 </package>

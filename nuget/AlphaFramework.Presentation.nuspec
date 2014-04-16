@@ -19,8 +19,8 @@ The "OmegaEngine Templates" Visual Studio extension can help you set up a suitab
     <summary>render AlphaFramework.World-based models using the OmegaEngine</summary>
   </metadata>
   <files>
-    <file src="..\build\ReleaseSDK\AlphaFramework.Presentation.dll" target="lib\net20\AlphaFramework.Presentation.dll" />
-    <file src="..\build\ReleaseSDK\AlphaFramework.Presentation.pdb" target="lib\net20\AlphaFramework.Presentation.pdb" />
-    <file src="..\build\ReleaseSDK\AlphaFramework.Presentation.xml" target="lib\net20\AlphaFramework.Presentation.xml" />
+    <file src="..\build\Release\AlphaFramework.Presentation.dll" target="lib\net20\AlphaFramework.Presentation.dll" />
+    <file src="..\build\Release\AlphaFramework.Presentation.pdb" target="lib\net20\AlphaFramework.Presentation.pdb" />
+    <file src="..\build\Release\AlphaFramework.Presentation.xml" target="lib\net20\AlphaFramework.Presentation.xml" />
   </files>
 </package>
