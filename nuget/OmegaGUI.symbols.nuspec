@@ -19,14 +19,14 @@ The AlphaEditor contains a WYSIWYG editor for the toolkit.</description>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
     </metadata>
     <files>
-        <file src="..\build\Release\OmegaGUI.dll" target="lib\net20\OmegaGUI.dll" />
-        <file src="..\build\Release\OmegaGUI.xml" target="lib\net20\OmegaGUI.xml" />
+        <file src="..\build\Release\OmegaGUI.dll" target="lib\net20" />
+        <file src="..\build\Release\OmegaGUI.xml" target="lib\net20" />
 
         <!-- Satellite assemblies (translations) -->
-        <file src="..\build\Release\de\OmegaGUI.resources.dll" target="lib\net20\de\OmegaGUI.resources.dll" />
+        <file src="..\build\Release\de\OmegaGUI.resources.dll" target="lib\net20\de" />
 
         <!-- Symbols and source code -->
-        <file src="..\build\Release\OmegaGUI.pdb" target="lib\net20\OmegaGUI.pdb" />
-        <file src="..\src\OmegaGUI\**\*.cs" target="src" />
+        <file src="..\build\Release\OmegaGUI.pdb" target="lib\net20" />
+        <file src="..\src\OmegaGUI\**\*.cs" target="src\OmegaGUI" />
     </files>
 </package>

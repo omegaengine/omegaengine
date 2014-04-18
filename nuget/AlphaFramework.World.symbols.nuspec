@@ -19,14 +19,14 @@ The "OmegaEngine Templates" Visual Studio extension can help you set up a suitab
         </references>
     </metadata>
     <files>
-        <file src="..\build\Release\AlphaFramework.World.dll" target="lib\net20\AlphaFramework.World.dll" />
-        <file src="..\build\Release\AlphaFramework.World.xml" target="lib\net20\AlphaFramework.World.xml" />
+        <file src="..\build\Release\AlphaFramework.World.dll" target="lib\net20" />
+        <file src="..\build\Release\AlphaFramework.World.xml" target="lib\net20" />
 
         <!-- Satellite assemblies (translations) -->
-        <file src="..\build\Release\de\AlphaFramework.World.resources.dll" target="lib\net20\de\AlphaFramework.World.resources.dll" />
+        <file src="..\build\Release\de\AlphaFramework.World.resources.dll" target="lib\net20\de" />
 
         <!-- Symbols and source code -->
-        <file src="..\build\Release\AlphaFramework.World.pdb" target="lib\net20\AlphaFramework.World.pdb" />
-        <file src="..\src\AlphaFramework\World\**\*.cs" target="src" />
+        <file src="..\build\Release\AlphaFramework.World.pdb" target="lib\net20" />
+        <file src="..\src\AlphaFramework\World\**\*.cs" target="src\AlphaFramework\World" />
     </files>
 </package>
