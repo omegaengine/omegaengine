@@ -38,7 +38,7 @@
     <NamespaceSummaries>
 	  <NamespaceSummaryItem name="FrameOfReference.Editor" isDocumented="True" xmlns="">...</NamespaceSummaryItem>
 	  <NamespaceSummaryItem name="FrameOfReference.Editor.World" isDocumented="True" xmlns="">...</NamespaceSummaryItem>
-	  <NamespaceSummaryItem name="FrameOfReference.Game isDocumented="True" xmlns="">...</NamespaceSummaryItem>
+	  <NamespaceSummaryItem name="FrameOfReference.Game" isDocumented="True" xmlns="">...</NamespaceSummaryItem>
 	  <NamespaceSummaryItem name="FrameOfReference.Presentation" isDocumented="True" xmlns="">...</NamespaceSummaryItem>
 	  <NamespaceSummaryItem name="FrameOfReference.World" isDocumented="True" xmlns="">...</NamespaceSummaryItem>
 	  <NamespaceSummaryItem name="FrameOfReference.World.Components" isDocumented="True" xmlns="">...</NamespaceSummaryItem>
