@@ -36,7 +36,7 @@
       <Aliases>LinqBridge</Aliases>
     </Reference>
     <Reference Include="Moq">
-      <HintPath>..\..\packages\Moq.Contrib.0.3\lib\Moq.dll</HintPath>
+      <HintPath>..\..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="Moq.Contrib">
       <HintPath>..\..\packages\Moq.Contrib.0.3\lib\Moq.Contrib.dll</HintPath>
