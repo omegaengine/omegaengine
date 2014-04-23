@@ -15,7 +15,7 @@ NuGet package: Moq.Contrib
 
 LinqBridge
 http://code.google.com/p/linqbridge/
-MIT license: http://opensource.org/licenses/mit-license
+MIT license: http://opensource.org/licenses/MIT
 NuGet package: LinqBridge
 
 ICSharpCode.SharpZipLib 0.86-patched
@@ -25,7 +25,7 @@ NuGet package: ICSharpCode.SharpZipLib.Patched
 
 ICSharpCode.TextEditor
 http://www.icsharpcode.net/OpenSource/SD/
-GNU LGPL: http://www.gnu.org/copyleft/lesser.html
+GNU LGPL 2.1: http://opensource.org/licenses/LGPL-2.1
 NuGet package: NanoByte.Common.WinForms
 
 TaskDialog
@@ -35,21 +35,21 @@ NuGet package: NanoByte.Common.WinForms
 
 SlimDX runtime January 2012
 http://slimdx.org/
-MIT license: http://opensource.org/licenses/mit-license
+MIT license: http://opensource.org/licenses/MIT
 NuGet package: SlimDX
 
 LuaInterface 2.0.3
 http://luaforge.net/projects/luainterface/
-MIT license: http://opensource.org/licenses/mit-license
+MIT license: http://opensource.org/licenses/MIT
 Source modified and comitted upstream
 Self-compiled managed DLL: LuaInterface.dll
 
 Lua 5.1
 http://www.lua.org/
-MIT license: http://opensource.org/licenses/mit-license
+MIT license: http://opensource.org/licenses/MIT
 Self-compiled hybrid DLL (managed + Visual C++ 2008 runtime): lua51.dll
 
 NVidia Shader Library
 http://developer.download.nvidia.com/shaderlibrary/webpages/shader_library.html
-Custom license: src/Omega/Engine/Shaders/nvidia_license.txt
+NVidia general developer license: http://developer.download.nvidia.com/licenses/general_license.txt
 Extracted parts of source, modified
