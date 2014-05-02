@@ -11,6 +11,7 @@
 The "OmegaEngine Templates" Visual Studio extension can help you set up a suitable project structure.</description>
         <summary>IDE-like editor for OmegaEngine games (GUI, maps, particle systems, etc.)</summary>
         <dependencies>
+            <dependency id="ICSharpCode.SharpZipLib.Patched" version="0.86.1" />
             <dependency id="OmegaEngine.Backend" version="$version$" />
             <dependency id="OmegaGUI" version="$version$" />
             <dependency id="AlphaFramework.World" version="$version$" />

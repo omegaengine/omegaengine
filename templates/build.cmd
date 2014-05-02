@@ -41,8 +41,12 @@ zip -q -9 -r "%TargetDir%\omegaengine-templates.vsix" ProjectTemplates
 if errorlevel 1 pause
 
 echo Copying external NuGet packages...
-copy "%~dp0..\src\packages\LinqBridge.1.3.0\LinqBridge.1.3.0.nupkg" "%~dp0..\build\Packages\LinqBridge.1.3.0.nupkg" > NUL
-copy "%~dp0..\src\packages\SlimDX.4.0.13.44\SlimDX.4.0.13.44.nupkg" "%~dp0..\build\Packages\SlimDX.4.0.13.44.nupkg" > NUL
+FOR /d %%A in ("%~dp0..\src\packages\ICSharpCode.SharpZipLib.Patched.*") DO xcopy /y "%%A\*.nupkg" "%~dp0..\build\Packages\*" > NUL
+FOR /d %%A in ("%~dp0..\src\packages\LinqBridge.*") DO xcopy /y "%%A\*.nupkg" "%~dp0..\build\Packages\*" > NUL
+FOR /d %%A in ("%~dp0..\src\packages\NanoByte.Common.*") DO xcopy /y "%%A\*.nupkg" "%~dp0..\build\Packages\*" > NUL
+FOR /d %%A in ("%~dp0..\src\packages\NanoByte.Common.WinForms.*") DO xcopy /y "%%A\*.nupkg" "%~dp0..\build\Packages\*" > NUL
+FOR /d %%A in ("%~dp0..\src\packages\NanoByte.Common.SlimDX.*") DO xcopy /y "%%A\*.nupkg" "%~dp0..\build\Packages\*" > NUL
+FOR /d %%A in ("%~dp0..\src\packages\SlimDX.*") DO xcopy /y "%%A\*.nupkg" "%~dp0..\build\Packages\*" > NUL
 
 echo Adding NuGet packages to extension...
 cd /d "%~dp0..\build"
