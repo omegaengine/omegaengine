@@ -78,7 +78,6 @@
     <Compile Include="Components\Render.cs" />
     <Compile Include="Components\StaticMesh.cs" />
     <Compile Include="Components\TestSphere.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IUniverse.cs" />
     <Compile Include="Paths\IPathfinder.cs" />
     <Compile Include="Paths\StoredPath.cs" />

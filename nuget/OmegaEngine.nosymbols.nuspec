@@ -28,7 +28,7 @@ The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games 
         <!-- Compiled shaders -->
         <file src="..\build\Release\Shaders\**" target="content\Shaders" />
 
-        <!-- CopyToOutputDirectory -->
+        <!-- Install script -->
         <file src="install.ps1" target="tools" />
     </files>
 </package>

@@ -35,13 +35,17 @@
     </DocumentationSources>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="OmegaEngine" isDocumented="True">...</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="OmegaEngine.Assets" isDocumented="True">...</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="OmegaEngine.Audio" isDocumented="True">...</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="OmegaEngine.Assets" isDocumented="True">Loading and caching file-based assets (textures, models, etc.).</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="OmegaEngine.Audio" isDocumented="True">3D sound and music playback.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="OmegaEngine.Graphics" isDocumented="True">...</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="OmegaEngine.Input" isDocumented="True">...</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="OmegaEngine.Graphics.Cameras" isDocumented="True">...</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="OmegaEngine.Graphics.Renderables" isDocumented="True">Renderable objects.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="OmegaEngine.Graphics.Shaders" isDocumented="True">Surface and post-screen shader effects.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="OmegaEngine.Graphics.VertexDecl" isDocumented="True">Structs mapped to DirectX custom vertex formats (for storing additional information per vertex).</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="OmegaEngine.Input" isDocumented="True">Handlers for mouse, keyboard and touch input.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="OmegaGUI" isDocumented="True">GUI toolkit for the OmegaEngine.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="OmegaGUI.Model" isDocumented="True">Editor-friendly, XML-serializable data model of the GUI. No render code.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="OmegaGUI.Render" isDocumented="True">...</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="OmegaGUI.Render" isDocumented="True">Actual rendering widgets with DirectX resources.</NamespaceSummaryItem>
     </NamespaceSummaries>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
