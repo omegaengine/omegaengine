@@ -19,11 +19,9 @@ The "OmegaEngine Templates" Visual Studio extension can help you set up a suitab
         </references>
     </metadata>
     <files>
-        <file src="..\build\Release\AlphaFramework.Presentation.dll" target="lib\net20" />
-        <file src="..\build\Release\AlphaFramework.Presentation.xml" target="lib\net20" />
+        <file src="..\build\Release\AlphaFramework.Presentation.*" target="lib\net20" />
 
         <!-- Symbols and source code -->
-        <file src="..\build\Release\AlphaFramework.Presentation.pdb" target="lib\net20" />
-        <file src="..\src\AlphaFramework\Presentation\**\*.cs" target="src\AlphaFramework\Presentation" />
+        <file src="..\src\AlphaFramework\Presentation\**\*.cs" target="src" />
     </files>
 </package>

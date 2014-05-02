@@ -19,19 +19,16 @@ Use this package directly if another project in your solution with the same buil
         </references>
     </metadata>
     <files>
-        <file src="..\build\Release\OmegaEngine.dll" target="lib\net20" />
-        <file src="..\build\Release\OmegaEngine.xml" target="lib\net20" />
+        <file src="..\build\Release\OmegaEngine.*" target="lib\net20" />
 
         <!-- Satellite assemblies (translations) -->
         <file src="..\build\Release\de\OmegaEngine.resources.dll" target="lib\net20\de" />
 
         <!-- Bundled dependencies -->
-        <file src="..\build\Release\lua51.dll" target="lib\net20" />
-        <file src="..\build\Release\LuaInterface.dll" target="lib\net20" />
-        <file src="..\build\Release\LuaInterface.xml" target="lib\net20" />
+        <file src="..\lib\lua51.*" target="lib\net20" />
+        <file src="..\lib\LuaInterface.*" target="lib\net20" />
 
-        <!-- Symbols and source code -->
-        <file src="..\build\Release\OmegaEngine.pdb" target="lib\net20" />
-        <file src="..\src\OmegaEngine\**\*.cs" target="src\OmegaEngine" />
+        <!-- Source code -->
+        <file src="..\src\OmegaEngine\**\*.cs" target="src" />
     </files>
 </package>
