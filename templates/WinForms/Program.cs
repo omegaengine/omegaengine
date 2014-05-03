@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using Common.Storage;
+using NanoByte.Common.Storage.SlimDX;
 
 namespace $safeprojectname$
 {

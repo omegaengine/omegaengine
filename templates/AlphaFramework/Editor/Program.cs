@@ -8,9 +8,9 @@ using System.Threading;
 using System.Windows.Forms;
 using AlphaFramework.Editor;
 using AlphaFramework.Editor.Properties;
-using Common;
-using Common.Storage;
-using Common.Utils;
+using NanoByte.Common;
+using NanoByte.Common.Storage;
+using NanoByte.Common.Storage.SlimDX;
 using OmegaEngine;
 
 namespace Editor

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using Common;
-using Common.Storage;
+using NanoByte.Common;
+using NanoByte.Common.Storage;
+using NanoByte.Common.Storage.SlimDX;
 
 namespace Game
 {

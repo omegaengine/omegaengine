@@ -1,5 +1,5 @@
 ﻿using AlphaFramework.Editor;
-using Common;
+using NanoByte.Common;
 using Resources = AlphaFramework.Editor.Properties.Resources;
 
 namespace Editor
