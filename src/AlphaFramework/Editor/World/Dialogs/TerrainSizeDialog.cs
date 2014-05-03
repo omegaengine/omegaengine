@@ -25,7 +25,7 @@ namespace AlphaFramework.Editor.World.Dialogs
         private TerrainSizeDialog()
         {
             InitializeComponent();
-            Shown += delegate { WindowsUtils.SetForegroundWindow(this); };
+            Shown += delegate { this.SetForegroundWindow(); };
         }
         #endregion
 

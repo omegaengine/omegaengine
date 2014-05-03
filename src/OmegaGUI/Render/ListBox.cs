@@ -208,7 +208,7 @@ namespace OmegaGUI.Render
                                     }
 
                                     // Is shift being held down?
-                                    bool shiftDown = WindowsUtils.IsKeyDown(Keys.ShiftKey);
+                                    bool shiftDown = WinFormsUtils.IsKeyDown(Keys.ShiftKey);
 
                                     if (shiftDown)
                                     {

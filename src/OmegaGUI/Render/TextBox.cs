@@ -316,7 +316,7 @@ namespace OmegaGUI.Render
                     case Keys.Home:
                         // Move the caret
                         PlaceCaret(wParam.ToInt32() == (int)Keys.End ? textData.Text.Length : 0);
-                        if (!WindowsUtils.IsKeyDown(Keys.ShiftKey))
+                        if (!WinFormsUtils.IsKeyDown(Keys.ShiftKey))
                         {
                             // Shift is not down. Update selection start along with caret
                             textData.SelectionStart = caretPosition;
@@ -326,12 +326,12 @@ namespace OmegaGUI.Render
                         isHandled = true;
                         break;
                     case Keys.Insert:
-                        if (WindowsUtils.IsKeyDown(Keys.ControlKey))
+                        if (WinFormsUtils.IsKeyDown(Keys.ControlKey))
                         {
                             // Control insert -> Copy to clipboard
                             CopyToClipboard();
                         }
-                        else if (WindowsUtils.IsKeyDown(Keys.ShiftKey))
+                        else if (WinFormsUtils.IsKeyDown(Keys.ShiftKey))
                         {
                             // Shift insert -> Paste from clipboard
                             PasteFromClipboard();
@@ -363,7 +363,7 @@ namespace OmegaGUI.Render
                         break;
 
                     case Keys.Left:
-                        if (WindowsUtils.IsKeyDown(Keys.ControlKey))
+                        if (WinFormsUtils.IsKeyDown(Keys.ControlKey))
                         {
                             // Control is down. Move the caret to a new item
                             // instead of a character.
@@ -371,7 +371,7 @@ namespace OmegaGUI.Render
                         else if (caretPosition > 0)
                             PlaceCaret(caretPosition - 1); // Move one to the left
 
-                        if (!WindowsUtils.IsKeyDown(Keys.ShiftKey))
+                        if (!WinFormsUtils.IsKeyDown(Keys.ShiftKey))
                         {
                             // Shift is not down. Update selection
                             // start along with the caret.
@@ -382,14 +382,14 @@ namespace OmegaGUI.Render
                         break;
 
                     case Keys.Right:
-                        if (WindowsUtils.IsKeyDown(Keys.ControlKey))
+                        if (WinFormsUtils.IsKeyDown(Keys.ControlKey))
                         {
                             // Control is down. Move the caret to a new item
                             // instead of a character.
                         }
                         else if (caretPosition < textData.Text.Length)
                             PlaceCaret(caretPosition + 1); // Move one to the left
-                        if (!WindowsUtils.IsKeyDown(Keys.ShiftKey))
+                        if (!WinFormsUtils.IsKeyDown(Keys.ShiftKey))
                         {
                             // Shift is not down. Update selection
                             // start along with the caret.

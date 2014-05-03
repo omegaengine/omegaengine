@@ -651,7 +651,7 @@ namespace OmegaGUI.Render
                                     FocusDefaultControl();
                                 else
                                 {
-                                    bool shiftDown = WindowsUtils.IsKeyDown(Keys.ShiftKey);
+                                    bool shiftDown = WinFormsUtils.IsKeyDown(Keys.ShiftKey);
 
                                     OnCycleFocus(!shiftDown);
                                 }

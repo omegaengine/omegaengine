@@ -52,14 +52,14 @@
       <HintPath>..\..\packages\LinqBridge.1.3.0\lib\net20\LinqBridge.dll</HintPath>
     </Reference>
     <Reference Include="NanoByte.Common">
-      <HintPath>..\..\packages\NanoByte.Common.1.0.2\lib\net20\NanoByte.Common.dll</HintPath>
+      <HintPath>..\..\packages\NanoByte.Common.1.0.3\lib\net20\NanoByte.Common.dll</HintPath>
     </Reference>
     <Reference Include="NanoByte.Common.SlimDX">
-      <HintPath>..\..\packages\NanoByte.Common.SlimDX.1.0.2\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
+      <HintPath>..\..\packages\NanoByte.Common.SlimDX.1.0.3\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NanoByte.Common.WinForms">
-      <HintPath>..\..\packages\NanoByte.Common.WinForms.1.0.2\lib\net20\NanoByte.Common.WinForms.dll</HintPath>
+      <HintPath>..\..\packages\NanoByte.Common.WinForms.1.0.3\lib\net20\NanoByte.Common.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="SlimDX">
       <HintPath>..\..\packages\SlimDX.4.0.13.44\lib\NET20\SlimDX.dll</HintPath>
