@@ -46,11 +46,7 @@ namespace Game
             _guiManager = new GuiManager(Engine);
             Form.WindowMessage += _guiManager.OnMsgProc;
             
-            var dialog = new Dialog
-            {
-                Controls = {new Button {Text = "Exit", Location = new Point(10, 10), OnClick = "Game:Exit()"}}
-            };
-
+            var dialog = Dialog.FromContent("MainMenu.xml");
             var dialogRenderer = new DialogRenderer(_guiManager, dialog);
             SetupLua(dialogRenderer.Lua);
             dialogRenderer.Show();

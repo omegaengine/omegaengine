@@ -17,6 +17,11 @@
     <Project TargetFileName="Game.csproj" File="Game.csproj" ReplaceParameters="false">
       <ProjectItem ReplaceParameters="true" TargetFileName="Game.cs">Game.cs</ProjectItem>
       <ProjectItem ReplaceParameters="false" TargetFileName="Program.cs">Program.cs</ProjectItem>
+      <Folder Name="content" TargetFolderName="content">
+        <Folder Name="GUI" TargetFolderName="GUI">
+          <ProjectItem ReplaceParameters="false" TargetFileName="MainMenu.xml">MainMenu.xml</ProjectItem>
+        </Folder>
+      </Folder>
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="Resources.resx">Resources.resx</ProjectItem>

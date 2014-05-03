@@ -64,6 +64,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="content\GUI\MainMenu.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Presentation\Presentation.csproj">
       <Project>{64713110-a1b7-4b42-8d97-1d78382867de}</Project>
       <Name>Presentation</Name>
