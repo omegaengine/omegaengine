@@ -8,7 +8,6 @@
 The OmegaEngine uses the NuGet Package Manager (included in Visual Studio 2012 and 2013).</Description>
     <Locale>1033</Locale>
     <MoreInfoUrl>http://code.google.com/p/omegaengine/</MoreInfoUrl>
-    <License>license.txt</License>
     <GettingStartedGuide>http://code.google.com/p/omegaengine/wiki/GettingStarted</GettingStartedGuide>
     <Icon>OmegaEngine.ico</Icon>
     <SupportedProducts>
