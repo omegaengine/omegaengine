@@ -11,7 +11,7 @@
 The AlphaEditor contains a WYSIWYG editor for the toolkit.</description>
         <summary>Skinable GUI toolkit for the OmegaEngine</summary>
         <dependencies>
-            <dependency id="OmegaEngine.Backend" version="$version$" />
+            <dependency id="OmegaEngine.Backend" version="[$version$]" />
         </dependencies>
         <references>
             <reference file="OmegaGUI.dll" />
