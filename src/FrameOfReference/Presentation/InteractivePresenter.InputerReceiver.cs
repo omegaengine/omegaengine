@@ -196,15 +196,7 @@ namespace FrameOfReference.Presentation
             // Action: Double-click on entity to select and focus camera
             if (pickedObject != null && !(pickedObject is OmegaEngine.Graphics.Renderables.Terrain) && !(View.Camera is CinematicCamera)) /* Each swing must complete before the next one can start */
             {
-                var newState = new CameraState<Vector2>
-                {
-                    Name = View.Camera.Name,
-                    Position = pickedObject.Position.Flatten(),
-                    Radius = pickedObject.WorldBoundingSphere.HasValue ? pickedObject.WorldBoundingSphere.Value.Radius * 2.5f : 50,
-                };
-
-                // Perform the animation
-                View.SwingCameraTo(CreateCamera(newState));
+                SwingCameraTo(pickedObject);
             }
         }
     }

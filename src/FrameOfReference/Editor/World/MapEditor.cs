@@ -663,6 +663,12 @@ namespace FrameOfReference.Editor.World
                    (checkBenchmarkPoint.Checked && positionable is BenchmarkPoint<Vector2>) ||
                    (checkMemo.Checked && positionable is Memo<Vector2>);
         }
+
+        private void listBoxPositionables_DoubleClick(object sender, EventArgs e)
+        {
+            var target = _presenter.SelectedPositionables.FirstOrDefault();
+            if (target != null) _presenter.SwingCameraTo(target.Position);
+        }
         #endregion
 
         #region Positionable selection

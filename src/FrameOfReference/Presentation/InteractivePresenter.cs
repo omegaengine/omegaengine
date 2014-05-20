@@ -204,6 +204,42 @@ namespace FrameOfReference.Presentation
         protected abstract void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target);
 
         /// <summary>
+        /// Swings the camera to look at a specifc set of 2D coordinates.
+        /// </summary>
+        public void SwingCameraTo(Vector2 target)
+        {
+            var newState = new CameraState<Vector2>
+            {
+                Name = View.Camera.Name,
+                Position = target,
+                Radius = 300
+            };
+
+            // Perform the animation
+            View.SwingCameraTo(CreateCamera(newState));
+        }
+
+        /// <summary>
+        /// Swings the camera to look at a specifc <see cref="PositionableRenderable"/>.
+        /// </summary>
+        public void SwingCameraTo(PositionableRenderable target)
+        {
+            #region Sanity checks
+            if (target == null) throw new ArgumentNullException("target");
+            #endregion
+
+            var newState = new CameraState<Vector2>
+            {
+                Name = View.Camera.Name,
+                Position = target.Position.Flatten(),
+                Radius = target.WorldBoundingSphere.HasValue ? target.WorldBoundingSphere.Value.Radius * 2.5f : 50,
+            };
+
+            // Perform the animation
+            View.SwingCameraTo(CreateCamera(newState));
+        }
+
+        /// <summary>
         /// Turns all currently selected <see cref="Entity"/>s into player-controlled characters.
         /// </summary>
         public void TakeOverSelection()

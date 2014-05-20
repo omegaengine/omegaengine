@@ -534,6 +534,7 @@ namespace FrameOfReference.Editor.World
             this.listBoxPositionables.Sorted = true;
             this.listBoxPositionables.TabIndex = 6;
             this.listBoxPositionables.SelectedIndexChanged += new System.EventHandler(this.listBoxPositionables_SelectedIndexChanged);
+            this.listBoxPositionables.DoubleClick += new System.EventHandler(this.listBoxPositionables_DoubleClick);
             // 
             // tabControlEntities
             // 
