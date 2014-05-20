@@ -63,7 +63,7 @@ namespace FrameOfReference.World.Positionables
         /// The <see cref="AlphaFramework.World.UniverseBase{T}.GameTime"/> when <see cref="Positionables.Entity"/>s reach this waypoint.
         /// Set automatically by <see cref="Universe.HandleWaypoints"/>.
         /// </summary>
-        [Browsable(false)]
+        [ReadOnly(true)]
         public double ArrivalTime
         {
             get { return _arrivalTime; }
@@ -86,7 +86,7 @@ namespace FrameOfReference.World.Positionables
         /// The position where an <see cref="Positionables.Entity"/> walking towards this waypoint started off.
         /// Set automatically by <see cref="Universe.HandleWaypoints"/>.
         /// </summary>
-        [Browsable(false)]
+        [ReadOnly(true)]
         public Vector2 OriginPosition
         {
             get { return _originPosition; }
