@@ -8,5 +8,3 @@
 // "In Project Suppression File".
 // You do not need to add suppressions to this file manually.
 
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "Renderables", Scope = "member", Target = "OmegaEngine.DebugForm.#InitializeComponent()")]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "OmegaEngine", Scope = "member", Target = "OmegaEngine.DebugForm.#InitializeComponent()")]

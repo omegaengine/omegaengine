@@ -10,4 +10,3 @@
 
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "Dropdown", Scope = "resource", Target = "AlphaEditor.GUI.Dialogs.AddControlTool.resources")]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AlphaEditor", Scope = "member", Target = "AlphaEditor.AboutBox.#InitializeComponent()")]

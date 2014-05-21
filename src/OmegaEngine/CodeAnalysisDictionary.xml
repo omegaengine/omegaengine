@@ -7,11 +7,19 @@
       <Word>shader</Word>
       <Word>shaders</Word>
       <Word>png</Word>
+      <Word>Renderables</Word>
+      <Word>OmegaEngine</Word>
+      <Word>PureDevice</Word>
+      <Word>HardwareVertexProcessing</Word>
+      <Word>SoftwareVertexProcessing</Word>
     </Recognized>
   </Words>
   <Acronyms>
     <CasingExceptions>
       <Acronym>OmegaEngine</Acronym>
+      <Acronym>PureDevice</Acronym>
+      <Acronym>HardwareVertexProcessing</Acronym>
+      <Acronym>SoftwareVertexProcessing</Acronym>
     </CasingExceptions>
   </Acronyms>
 </Dictionary>
