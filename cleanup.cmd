@@ -46,5 +46,6 @@ del "%~dp0TestResult.xml" > NUL 2>&1
 
 rem JetBrains caches
 rd /s /q "%~dp0src\_ReSharper.OmegaEngine" > NUL 2>&1
-rd /s /q "%~dp0src\_dotTrace.OmegaEngine" > NUL 2>&1
 rd /s /q "%~dp0src\_TeamCity.OmegaEngine" > NUL 2>&1
+rd /s /q "%~dp0src\_dotTrace.OmegaEngine" > NUL 2>&1
+rd /s /q "%~dp0src\_dotMemory.OmegaEngine" > NUL 2>&1
