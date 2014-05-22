@@ -207,7 +207,6 @@ namespace OmegaEngine.Graphics.Shaders
         {}
 
         #region Update
-        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "loopbycount")]
         public override bool Update()
         {
             if (IsDirty)
@@ -242,7 +241,6 @@ namespace OmegaEngine.Graphics.Shaders
         {}
 
         #region Update
-        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "loopgetcount")]
         public override bool Update()
         {
             if (IsDirty)
@@ -273,7 +271,6 @@ namespace OmegaEngine.Graphics.Shaders
         {}
 
         #region Update
-        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "loopgetindex")]
         public override bool Update()
         {
             if (IsDirty)

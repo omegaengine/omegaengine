@@ -187,17 +187,17 @@ namespace OmegaEngine
             // Try to create the DirectX device (fall back step-by-step if there's trouble)
             if (Capabilities.PureDevice)
             {
-                Log.Info("Creating Direct3D device with HardwareVertexProcessing & PureDevice");
+                Log.Info("Creating Direct3D device with Hardware Vertex Processing & Pure Device");
                 Device = new Device(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing | CreateFlags.PureDevice, PresentParams);
             }
             else if (Capabilities.HardwareVertexProcessing)
             {
-                Log.Info("Creating Direct3D device with HardwareVertexProcessing");
+                Log.Info("Creating Direct3D device with Hardware Vertex Processing");
                 Device = new Device(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing, PresentParams);
             }
             else
             {
-                Log.Info("Creating Direct3D device with SoftwareVertexProcessing");
+                Log.Info("Creating Direct3D device with Software Vertex Processing");
                 Device = new Device(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.SoftwareVertexProcessing, PresentParams);
             }
 

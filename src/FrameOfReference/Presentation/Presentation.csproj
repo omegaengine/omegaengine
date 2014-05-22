@@ -84,6 +84,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <CodeAnalysisDictionary Include="..\..\CodeAnalysisDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\AlphaFramework\Presentation\Presentation.csproj">
       <Project>{63f97b11-3b08-45c3-86f9-1f99129a3b3d}</Project>
       <Name>Presentation %28AlphaFramework\Presentation%29</Name>

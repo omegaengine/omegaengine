@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Management;
@@ -134,7 +133,6 @@ namespace OmegaEngine
         /// <summary>
         /// Helper method for the constructor that fills <see cref="_capabilities"/> and <see cref="MaxShaderModel"/> with information and checks certain conditions are met.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PixelShaderVersion"), SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "SupportedAA"), SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "VertexShaderVersion"), SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PureDevice"), SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "HWTransformAndLight")]
         private void DetermineDeviceCapabilities()
         {
             #region Pixel shader
@@ -161,12 +159,12 @@ namespace OmegaEngine
 
             // Log GPU capabilities
             Log.Info("GPU capabilities:\n" +
-                     "HWTransformAndLight: " + _capabilities.DeviceCaps.HasFlag(DeviceCaps.HWTransformAndLight) + "\n" +
-                     "PureDevice: " + _capabilities.DeviceCaps.HasFlag(DeviceCaps.PureDevice) + "\n" +
+                     "HW Transform And Light: " + _capabilities.DeviceCaps.HasFlag(DeviceCaps.HWTransformAndLight) + "\n" +
+                     "Pure Device: " + _capabilities.DeviceCaps.HasFlag(DeviceCaps.PureDevice) + "\n" +
                      "Anisotropic: " + Anisotropic + "\n" +
-                     "VertexShaderVersion: " + _capabilities.VertexShaderVersion + "\n" +
-                     "PixelShaderVersion: " + MaxShaderModel + "\n" +
-                     "SupportedAA: " + SupportedAA + "\n");
+                     "Vertex Shader Version: " + _capabilities.VertexShaderVersion + "\n" +
+                     "Pixel Shader Version: " + MaxShaderModel + "\n" +
+                     "Supported AA: " + SupportedAA + "\n");
 
             // Ensure support for linear texture filtering
             if (!(_capabilities.TextureFilterCaps).HasFlag(FilterCaps.MinLinear | FilterCaps.MagLinear | FilterCaps.MipLinear))

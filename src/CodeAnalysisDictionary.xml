@@ -2,24 +2,26 @@
 <Dictionary>
   <Words>
     <Recognized>
+      <Word>OmegaEngine</Word>
+      <Word>AlphaEditor</Word>
+      <Word>Positionables</Word>
+      <Word>Renderables</Word>
       <Word>fullscreen</Word>
       <Word>framerate</Word>
       <Word>shader</Word>
       <Word>shaders</Word>
       <Word>png</Word>
-      <Word>Renderables</Word>
-      <Word>OmegaEngine</Word>
-      <Word>PureDevice</Word>
-      <Word>HardwareVertexProcessing</Word>
-      <Word>SoftwareVertexProcessing</Word>
+      <Word>cutscene</Word>
+      <Word>png</Word>
+      <Word>loopbycount</Word>
+      <Word>loopgetcount</Word>
+      <Word>loopgetindex</Word>
     </Recognized>
   </Words>
   <Acronyms>
     <CasingExceptions>
       <Acronym>OmegaEngine</Acronym>
-      <Acronym>PureDevice</Acronym>
-      <Acronym>HardwareVertexProcessing</Acronym>
-      <Acronym>SoftwareVertexProcessing</Acronym>
+      <Acronym>AlphaEditor</Acronym>
     </CasingExceptions>
   </Acronyms>
 </Dictionary>

@@ -105,6 +105,9 @@
     <Compile Include="Universe.Storage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <CodeAnalysisDictionary Include="..\..\CodeAnalysisDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\AlphaFramework\World\World.csproj">
       <Project>{C9062BE0-1762-4907-BA23-9D60AF183993}</Project>
       <Name>World %28AlphaFramework\World%29</Name>

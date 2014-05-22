@@ -71,6 +71,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <CodeAnalysisDictionary Include="..\..\CodeAnalysisDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\OmegaEngine\OmegaEngine.csproj">
       <Project>{14E9FED0-4989-482D-85DE-448161A6855E}</Project>
       <Name>OmegaEngine</Name>
@@ -79,9 +85,6 @@
       <Project>{C9062BE0-1762-4907-BA23-9D60AF183993}</Project>
       <Name>World %28AlphaFramework\World%29</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
