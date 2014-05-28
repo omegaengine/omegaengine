@@ -246,8 +246,8 @@ namespace FrameOfReference.Editor.World
             // 
             this.buttonNew.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buttonNewEntity,
-            this.buttonNewWaypoint,
             this.buttonNewWater,
+            this.buttonNewWaypoint,
             this.buttonNewCameraState,
             this.buttonNewBenchmarkPoint});
             this.buttonNew.Image = ((System.Drawing.Image)(resources.GetObject("buttonNew.Image")));

@@ -41,6 +41,7 @@ using FrameOfReference.World.Templates;
 using ICSharpCode.SharpZipLib.Zip;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
+using NanoByte.Common.Dispatch;
 using NanoByte.Common.Storage.SlimDX;
 using NanoByte.Common.Tasks;
 using NanoByte.Common.Undo;
@@ -442,18 +443,40 @@ namespace FrameOfReference.Editor.World
             var selectTemplate = new SelectTemplateDialog<EntityTemplate>(Template<EntityTemplate>.All);
             if (selectTemplate.ShowDialog(this) != DialogResult.OK) return;
 
-            var entity = new Entity {TemplateName = selectTemplate.SelectedTemplate, Position = GetScreenTerrainCenter()};
-            AddNewPositionable(entity);
-        }
-
-        private void buttonNewWaypoint_Click(object sender, EventArgs e)
-        {
-            AddNewPositionable(new Waypoint {Position = GetScreenTerrainCenter()});
+            AddNewPositionable(new Entity
+            {
+                Position = GetScreenTerrainCenter(),
+                TemplateName = selectTemplate.SelectedTemplate
+            });
         }
 
         private void buttonNewWater_Click(object sender, EventArgs e)
         {
-            AddNewPositionable(new Water {Position = GetScreenTerrainCenter()});
+            AddNewPositionable(new Water { Position = GetScreenTerrainCenter() });
+        }
+
+        private void buttonNewWaypoint_Click(object sender, EventArgs e)
+        {
+            var newWaypoint = new Waypoint
+            {
+                Position = GetScreenTerrainCenter(),
+                ActivationTime = Math.Round(_universe.GameTime)
+            };
+            new PerTypeDispatcher<Positionable<Vector2>>(ignoreMissing: true)
+            {
+                (Entity entity) =>
+                {
+                    newWaypoint.TargetEntity = entity.Name;
+                    newWaypoint.Name = entity.Name + "_";
+                },
+                (Waypoint waypoint) =>
+                {
+                    newWaypoint.TargetEntity = waypoint.TargetEntity;
+                    newWaypoint.Name = waypoint.Name;
+                }
+            }.Dispatch(_presenter.SelectedPositionables);
+
+            AddNewPositionable(newWaypoint);
         }
 
         private void buttonNewCameraState_Click(object sender, EventArgs e)
@@ -461,7 +484,12 @@ namespace FrameOfReference.Editor.World
             var cameraState = _presenter.CameraState;
             if (cameraState == null) return;
 
-            AddNewPositionable(new CameraState<Vector2> {Position = cameraState.Position, Rotation = cameraState.Rotation, Radius = cameraState.Radius});
+            AddNewPositionable(new CameraState<Vector2>
+            {
+                Position = cameraState.Position,
+                Rotation = cameraState.Rotation,
+                Radius = cameraState.Radius
+            });
         }
 
         private void buttonNewBenchmarkPoint_Click(object sender, EventArgs e)
@@ -469,7 +497,12 @@ namespace FrameOfReference.Editor.World
             var cameraState = _presenter.CameraState;
             if (cameraState == null) return;
 
-            AddNewPositionable(new BenchmarkPoint<Vector2> {Position = cameraState.Position, Rotation = cameraState.Rotation, Radius = cameraState.Radius});
+            AddNewPositionable(new BenchmarkPoint<Vector2>
+            {
+                Position = cameraState.Position,
+                Rotation = cameraState.Rotation,
+                Radius = cameraState.Radius
+            });
         }
 
         private void AddNewPositionable(Positionable<Vector2> positionable)
