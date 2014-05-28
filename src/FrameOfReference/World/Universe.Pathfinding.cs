@@ -175,7 +175,7 @@ namespace FrameOfReference.World
         /// Moves <see cref="Waypoint"/> from <see cref="Entity.Waypoints"/> to <see cref="UniverseBase{TCoordinates}.Positionables"/>.
         /// Call to prepare for editing.
         /// </summary>
-        private void UnwrapWaypoints()
+        public void UnwrapWaypoints()
         {
             foreach (var entity in Positionables.OfType<Entity>().ToList())
             {

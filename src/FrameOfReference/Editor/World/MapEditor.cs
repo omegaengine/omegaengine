@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -269,6 +270,7 @@ namespace FrameOfReference.Editor.World
             if (_mapPropertiesTool != null) _mapPropertiesTool.UpdateUniverse(_universe);
 
             UpdateXml();
+            UpdateGameTimeSlider();
 
             base.OnUpdate();
         }
@@ -921,6 +923,23 @@ namespace FrameOfReference.Editor.World
         {
             if (xmlEditor.EnableRedo) xmlEditor.Redo();
             else base.Redo();
+        }
+        #endregion
+
+        #region Time slider
+        private void sliderGameTime_Scroll(object sender, EventArgs e)
+        {
+            new Session(_universe).UpdateTo(sliderGameTime.Value);
+            _universe.UnwrapWaypoints();
+
+            UpdatePositionablesListBox();
+            labelGameTime.Text = _universe.GameTime.ToString(CultureInfo.CurrentUICulture);
+        }
+
+        private void UpdateGameTimeSlider()
+        {
+            sliderGameTime.Value = (int)_universe.GameTime.Clamp(sliderGameTime.Minimum, sliderGameTime.Maximum);
+            labelGameTime.Text = _universe.GameTime.ToString(CultureInfo.CurrentUICulture);
         }
         #endregion
 

@@ -97,7 +97,9 @@ namespace FrameOfReference.Editor.World
             this.labelTerrainSize = new System.Windows.Forms.Label();
             this.splitHorizontal = new System.Windows.Forms.SplitContainer();
             this.renderPanel = new OmegaEngine.RenderPanel();
+            this.sliderGameTime = new System.Windows.Forms.TrackBar();
             this.xmlEditor = new NanoByte.Common.Controls.LiveEditor();
+            this.labelGameTime = new System.Windows.Forms.Label();
             this.toolStrip.SuspendLayout();
             this.splitVertical.Panel1.SuspendLayout();
             this.splitVertical.Panel2.SuspendLayout();
@@ -120,6 +122,7 @@ namespace FrameOfReference.Editor.World
             this.splitHorizontal.Panel1.SuspendLayout();
             this.splitHorizontal.Panel2.SuspendLayout();
             this.splitHorizontal.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sliderGameTime)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonUndo
@@ -882,6 +885,8 @@ namespace FrameOfReference.Editor.World
             // 
             // splitHorizontal.Panel2
             // 
+            this.splitHorizontal.Panel2.Controls.Add(this.labelGameTime);
+            this.splitHorizontal.Panel2.Controls.Add(this.sliderGameTime);
             this.splitHorizontal.Panel2.Controls.Add(this.xmlEditor);
             this.splitHorizontal.Size = new System.Drawing.Size(508, 504);
             this.splitHorizontal.SplitterDistance = 345;
@@ -896,6 +901,18 @@ namespace FrameOfReference.Editor.World
             this.renderPanel.Size = new System.Drawing.Size(508, 345);
             this.renderPanel.TabIndex = 1;
             // 
+            // sliderGameTime
+            // 
+            this.sliderGameTime.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.sliderGameTime.Location = new System.Drawing.Point(0, 110);
+            this.sliderGameTime.Maximum = 600;
+            this.sliderGameTime.Name = "sliderGameTime";
+            this.sliderGameTime.Size = new System.Drawing.Size(508, 45);
+            this.sliderGameTime.TabIndex = 0;
+            this.sliderGameTime.TickFrequency = 60;
+            this.sliderGameTime.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.sliderGameTime.Scroll += new System.EventHandler(this.sliderGameTime_Scroll);
+            // 
             // xmlEditor
             // 
             this.xmlEditor.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -904,6 +921,16 @@ namespace FrameOfReference.Editor.World
             this.xmlEditor.Size = new System.Drawing.Size(508, 155);
             this.xmlEditor.TabIndex = 0;
             this.xmlEditor.ContentChanged += new System.Action<string>(this.xmlEditor_ContentChanged);
+            // 
+            // labelGameTime
+            // 
+            this.labelGameTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelGameTime.Location = new System.Drawing.Point(451, 140);
+            this.labelGameTime.Name = "labelGameTime";
+            this.labelGameTime.Size = new System.Drawing.Size(57, 15);
+            this.labelGameTime.TabIndex = 1;
+            this.labelGameTime.Text = "0";
+            this.labelGameTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // MapEditor
             // 
@@ -947,7 +974,9 @@ namespace FrameOfReference.Editor.World
             ((System.ComponentModel.ISupportInitialize)(this.upDownTextureSize)).EndInit();
             this.splitHorizontal.Panel1.ResumeLayout(false);
             this.splitHorizontal.Panel2.ResumeLayout(false);
+            this.splitHorizontal.Panel2.PerformLayout();
             this.splitHorizontal.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.sliderGameTime)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1021,5 +1050,7 @@ namespace FrameOfReference.Editor.World
         private System.Windows.Forms.ToolStripMenuItem buttonNewWater;
         private System.Windows.Forms.ToolStripMenuItem buttonNewCameraState;
         private System.Windows.Forms.CheckBox checkCameraState;
+        private System.Windows.Forms.TrackBar sliderGameTime;
+        private System.Windows.Forms.Label labelGameTime;
     }
 }
