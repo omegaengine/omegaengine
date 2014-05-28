@@ -128,35 +128,28 @@ namespace OmegaEngine.Graphics
         {
             BoundingSphere boundingSphere = BufferHelper.ComputeBoundingSphere(mesh);
 
-            // Copy the vertex buffer content to an array
             var vertexes = BufferHelper.ReadVertexBuffer<PositionNormalTextured>(mesh);
-
-            #region Set texture coordinates
             for (int i = 0; i < vertexes.Length; i++)
             {
-                // For each vertex take a ray from the centre of the mesh to the vertex 
-                // and normalize so the dot products work
                 Vector3 vertexRay = Vector3.Normalize(vertexes[i].Position - boundingSphere.Center);
-
-                // If north and vertex ray are coincident then we can pick an arbitray u since its the entire top/bottom line of the texture
                 double phi = Math.Acos(vertexRay.Z);
+
+                vertexes[i].Tu = CalculateTu(vertexRay, phi);
                 vertexes[i].Tv = (float)(phi / Math.PI);
-
-                if (vertexRay.Z == 1.0f || vertexRay.Z == -1.0f)
-                    vertexes[i].Tu = 0.5f;
-                else
-                {
-                    var u = (float)
-                        (Math.Acos(Math.Max(Math.Min(vertexRay.Y / Math.Sin(phi), 1.0), -1.0)) / (2.0 * Math.PI));
-                    // Since the cross product is just giving us (1;0;0) i.e. the x-axis 
-                    // and the dot product was giving us a +ve or -ve angle, we can just compare the x value with 0
-                    vertexes[i].Tu = (vertexRay.X > 0f) ? u : 1 - u;
-                }
             }
-            #endregion
-
-            // Copy the array back into the vertex buffer
             BufferHelper.WriteVertexBuffer(mesh, vertexes);
+        }
+
+        private static float CalculateTu(Vector3 vertexRay, double phi)
+        {
+            // ReSharper disable CompareOfFloatsByEqualityOperator
+            if (vertexRay.Z == 1.0f || vertexRay.Z == -1.0f) return 0.5f;
+                // ReSharper restore CompareOfFloatsByEqualityOperator
+            else
+            {
+                var u = (float)(Math.Acos(Math.Max(Math.Min(vertexRay.Y / Math.Sin(phi), 1.0), -1.0)) / (2.0 * Math.PI));
+                return (vertexRay.X > 0f) ? u : 1 - u;
+            }
         }
         #endregion
 
