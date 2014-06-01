@@ -188,8 +188,9 @@ namespace FrameOfReference.World.Positionables
                 }
             } while (loop);
 
-            // Make the entity face the direction it is walking in
-            Rotation = ((float)Math.Atan2(posDifference.Y, posDifference.X)).RadianToDegree() - 90;
+            // Make the entity face the direction it is walking in (unless its the last step)
+            if (CurrentPath != null)
+                Rotation = ((float)Math.Atan2(posDifference.Y, posDifference.X)).RadianToDegree() - 90;
         }
         #endregion
     }
