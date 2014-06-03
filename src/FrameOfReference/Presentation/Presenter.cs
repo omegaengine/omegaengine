@@ -248,9 +248,9 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// Creates a new camera based on a state usually loaded from the <see cref="Universe"/>.
         /// </summary>
-        /// <param name="state">The state to place the new camera in; may be <see langword="null"/> in which case it will default to looking at the center of the terrain.</param>
+        /// <param name="state">The state to place the new camera in; <see langword="null"/> for default (looking at the center of the terrain).</param>
         /// <returns>The newly created <see cref="Camera"/>.</returns>
-        public virtual Camera CreateCamera(CameraState<Vector2> state = null)
+        protected Camera CreateCamera(CameraState<Vector2> state = null)
         {
             if (state == null)
                 state = new CameraState<Vector2> {Name = "Main", Position = Universe.Terrain.Center, Radius = 1500};

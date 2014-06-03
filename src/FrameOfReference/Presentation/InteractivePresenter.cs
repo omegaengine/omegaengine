@@ -208,15 +208,12 @@ namespace FrameOfReference.Presentation
         /// </summary>
         public void SwingCameraTo(Vector2 target)
         {
-            var newState = new CameraState<Vector2>
+            SwingCameraTo(new CameraState<Vector2>
             {
                 Name = View.Camera.Name,
                 Position = target,
                 Radius = 300
-            };
-
-            // Perform the animation
-            View.SwingCameraTo(CreateCamera(newState));
+            });
         }
 
         /// <summary>
@@ -228,15 +225,21 @@ namespace FrameOfReference.Presentation
             if (target == null) throw new ArgumentNullException("target");
             #endregion
 
-            var newState = new CameraState<Vector2>
+            SwingCameraTo(new CameraState<Vector2>
             {
                 Name = View.Camera.Name,
                 Position = target.Position.Flatten(),
                 Radius = target.WorldBoundingSphere.HasValue ? target.WorldBoundingSphere.Value.Radius * 2.5f : 50,
-            };
+            });
+        }
 
-            // Perform the animation
-            View.SwingCameraTo(CreateCamera(newState));
+        /// <summary>
+        /// Switches from the current camera view to a new view using a cinematic effect.
+        /// </summary>
+        /// <param name="cameraState">The destination state of the camera; <see langword="null"/> for default (looking at the center of the terrain).</param>
+        public void SwingCameraTo(CameraState<Vector2> cameraState = null)
+        {
+            View.SwingCameraTo(CreateCamera(cameraState));
         }
 
         /// <summary>

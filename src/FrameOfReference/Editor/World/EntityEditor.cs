@@ -465,7 +465,7 @@ namespace FrameOfReference.Editor.World
         #region Camera mode
         private void buttonNormalView_Click(object sender, EventArgs e)
         {
-            _presenter.View.SwingCameraTo(_presenter.CreateCamera());
+            _presenter.SwingCameraTo();
         }
 
         private void buttonOrthographicView_Click(object sender, EventArgs e)
