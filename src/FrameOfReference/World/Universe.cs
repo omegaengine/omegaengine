@@ -57,7 +57,7 @@ namespace FrameOfReference.World
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown if the <see cref="Terrain"/> could not be properly loaded from the file.</exception>
         /// <remarks>Is not serialized/stored, <see cref="TerrainSerialize"/> is used for that.</remarks>
-        [Browsable(false)]
+        [XmlIgnore, Browsable(false)]
         public Terrain<TerrainTemplate> Terrain
         {
             get
@@ -65,6 +65,7 @@ namespace FrameOfReference.World
                 if (_terrain != null && SourceFile != null && !_terrain.DataLoaded) LoadTerrainData();
                 return _terrain;
             }
+            set { _terrain = value; }
         }
 
         /// <summary>

@@ -50,9 +50,7 @@ namespace FrameOfReference.Editor.World.Commands
             if (newUniverse == null) throw new ArgumentNullException("newUniverse");
             #endregion
 
-            newUniverse.Terrain.OcclusionIntervalMapOutdated = oldUniverse.Terrain.OcclusionIntervalMapOutdated = true;
-            newUniverse.Terrain.HeightMap = oldUniverse.Terrain.HeightMap;
-            newUniverse.Terrain.TextureMap = oldUniverse.Terrain.TextureMap;
+            newUniverse.Terrain = oldUniverse.Terrain;
         }
     }
 }
