@@ -25,7 +25,6 @@ using System.Windows.Forms;
 using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
-using NanoByte.Common.Utils;
 
 namespace OmegaEngine
 {
@@ -36,24 +35,17 @@ namespace OmegaEngine
     {
         #region Variables
         private string _lastCommand;
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// The Lua instance used to parse the commands entered in the console.
-        /// </summary>
-        [CLSCompliant(false)]
-        public Lua Lua { get; private set; }
+        private readonly Lua _lua;
         #endregion
 
         #region Constructor
-        public DebugConsole()
+        public DebugConsole(Lua lua)
         {
             InitializeComponent();
 
             // Prepare Lua interpreter
-            Lua = LuaBuilder.Default();
-            LuaRegistrationHelper.TaggedStaticMethods(Lua, typeof(InspectionForm));
+            _lua = lua;
+            LuaRegistrationHelper.TaggedStaticMethods(_lua, typeof(InspectionForm));
 
             // Keep the text-box in sync with the Log while the window is open
             HandleCreated += delegate { Log.NewEntry += Log_NewEntry; };
@@ -66,7 +58,7 @@ namespace OmegaEngine
         {
             // Copy Lua globals list to auto-complete collection
             var autoComplete = new AutoCompleteStringCollection();
-            foreach (string global in Lua.Globals)
+            foreach (string global in _lua.Globals)
                 autoComplete.Add(global);
 
             // Set text-box to use auto-complete collection
@@ -117,15 +109,15 @@ namespace OmegaEngine
             try
             {
                 // Execute the command and capture its result
-                if (command.Contains("=")) Lua.DoString(command);
-                else Lua.DoString("DebugResult = " + command);
-                if (Lua["DebugResult"] != null)
+                if (command.Contains("=")) _lua.DoString(command);
+                else _lua.DoString("DebugResult = " + command);
+                if (_lua["DebugResult"] != null)
                 {
                     // Output the result as a string if possible
-                    string result = Lua["DebugResult"].ToString();
+                    string result = _lua["DebugResult"].ToString();
                     if (!string.IsNullOrEmpty(result))
                         Log.Echo("==> " + result);
-                    Lua["DebugResult"] = null;
+                    _lua["DebugResult"] = null;
                 }
             }
             catch (LuaScriptException ex)

@@ -143,13 +143,9 @@ namespace FrameOfReference
         #region Lua references
         /// <inheritdoc/>
         [LuaHide]
-        public override void SetupLua(Lua lua)
+        public override Lua NewLua()
         {
-            #region Sanity checks
-            if (lua == null) throw new ArgumentNullException("lua");
-            #endregion
-
-            base.SetupLua(lua);
+            var lua = base.NewLua();
 
             LuaRegistrationHelper.Enumeration<GameState>(lua);
 
@@ -166,6 +162,8 @@ namespace FrameOfReference
 
             // Boolean flag to indicate if the game is running a mod
             lua["IsMod"] = (ContentManager.ModDir != null);
+
+            return lua;
         }
         #endregion
 
@@ -178,8 +176,7 @@ namespace FrameOfReference
         [LuaGlobal(Description = "Loads and displays a new dialog.")]
         public DialogRenderer LoadDialog(string name)
         {
-            var dialogRenderer = new DialogRenderer(GuiManager, name + ".xml", new Point(25, 25));
-            SetupLua(dialogRenderer.Lua);
+            var dialogRenderer = new DialogRenderer(GuiManager, name + ".xml", location: new Point(25, 25), lua: NewLua());
             dialogRenderer.Show();
             Engine.Render(0);
             return dialogRenderer;
@@ -193,8 +190,7 @@ namespace FrameOfReference
         [LuaGlobal(Description = "Loads and displays a new modal (exclusivly focused) dialog.")]
         public DialogRenderer LoadModalDialog(string name)
         {
-            var dialogRenderer = new DialogRenderer(GuiManager, name + ".xml", new Point(25, 25));
-            SetupLua(dialogRenderer.Lua);
+            var dialogRenderer = new DialogRenderer(GuiManager, name + ".xml", location: new Point(25, 25), lua: NewLua());
             dialogRenderer.ShowModal();
             Engine.Render(0);
             return dialogRenderer;

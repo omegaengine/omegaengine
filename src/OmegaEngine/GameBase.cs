@@ -303,9 +303,8 @@ namespace OmegaEngine
             // Only create a new form if there isn't already one open
             if (_debugConsole == null)
             {
-                _debugConsole = new DebugConsole();
+                _debugConsole = new DebugConsole(NewLua());
                 _debugConsole.Text = Application.ProductName + " " + _debugConsole.Text;
-                SetupLua(_debugConsole.Lua);
 
                 // Remove the reference as soon the form is closed
                 _debugConsole.FormClosed += delegate
@@ -321,15 +320,17 @@ namespace OmegaEngine
 
         #region Lua references
         /// <summary>
-        /// Set the default object references and types for a <see cref="Lua"/> instance
+        /// Creates a new <see cref="Lua"/> instance with commonly used objects preloaded.
         /// </summary>
-        /// <param name="lua">The <see cref="Lua"/> instance to setup</param>
         [LuaHide]
-        public virtual void SetupLua(Lua lua)
+        public virtual Lua NewLua()
         {
-            #region Sanity checks
-            if (lua == null) throw new ArgumentNullException("lua");
-            #endregion
+            var lua = new Lua();
+            LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Log));
+            LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(StringUtils));
+            LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(MathUtils));
+            LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(RandomUtils));
+            LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(ColorUtils));
 
             lua["temp"] = Path.GetTempPath() + Path.DirectorySeparatorChar;
             lua["Pi"] = Math.PI;
@@ -357,6 +358,8 @@ namespace OmegaEngine
 
             LuaRegistrationHelper.TaggedInstanceMethods(lua, this);
             LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(GameBase));
+
+            return lua;
         }
 
         private static void ImportConstructor(Lua lua, Type type)

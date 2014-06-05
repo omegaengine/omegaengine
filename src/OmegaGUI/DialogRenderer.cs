@@ -41,8 +41,8 @@ namespace OmegaGUI
     {
         #region Variables
         private readonly GuiManager _manager;
-
         private Point _location;
+        private readonly Lua _lua;
         #endregion
 
         #region Properties
@@ -76,12 +76,6 @@ namespace OmegaGUI
         /// </summary>
         [CLSCompliant(false)]
         public Render.Dialog DialogRender { get; private set; }
-
-        /// <summary>
-        /// The <see cref="LuaInterface.Lua"/> interpreter used to execute event scripts
-        /// </summary>
-        [CLSCompliant(false)]
-        public Lua Lua { get; private set; }
         #endregion
 
         #region Constructor
@@ -91,9 +85,9 @@ namespace OmegaGUI
         /// <param name="manager">The <see cref="GuiManager"/> used to interface with the <see cref="Engine"/></param>
         /// <param name="filename">The filename of the XML file to load</param>
         /// <param name="location">The location of the dialog on the screen</param>
-        /// <param name="enableLua">Enable Lua scripting support for this dialog?</param>
-        public DialogRenderer(GuiManager manager, string filename, Point location = new Point(), bool enableLua = true)
-            : this(manager, Dialog.FromContent(filename), location, enableLua)
+        /// <param name="lua">The scripting engine to execute event handlers.</param>
+        public DialogRenderer(GuiManager manager, string filename, Point location = new Point(), Lua lua = null)
+            : this(manager, Dialog.FromContent(filename), location: location, lua: lua)
         {
             Log.Info("Loading GUI dialog: " + filename);
             Name = filename;
@@ -105,22 +99,21 @@ namespace OmegaGUI
         /// <param name="manager">The <see cref="GuiManager"/> used to interface with the <see cref="Engine"/></param>
         /// <param name="dialog">The dialog to be displayed</param>
         /// <param name="location">The location of the dialog on the screen</param>
-        /// <param name="enableLua">Enable Lua scripting support for this dialog?</param>
+        /// <param name="lua">The scripting engine to execute event handlers.</param>
         [CLSCompliant(false)]
-        public DialogRenderer(GuiManager manager, Dialog dialog, Point location = new Point(), bool enableLua = true)
+        public DialogRenderer(GuiManager manager, Dialog dialog, Point location = new Point(), Lua lua = null)
         {
             _manager = manager;
             DialogModel = dialog;
             DialogRender = dialog.GenerateRender(_manager.DialogManager);
             _location = location;
+            _lua = lua;
 
             LayoutHelper();
             _manager.DialogManager.Engine.DeviceReset += LayoutHelper;
 
-            if (enableLua)
+            if (lua != null)
             {
-                Lua = LuaBuilder.Default();
-
                 #region Register Lua variables and functions
                 // Register all controls as direct variables when possible
                 foreach (var control in dialog.Controls)
@@ -129,17 +122,17 @@ namespace OmegaGUI
                     {
                         try
                         {
-                            Lua[control.Name] = control;
+                            _lua[control.Name] = control;
                         }
                         catch (LuaException)
                         {}
                     }
                 }
 
-                Lua["Me"] = this;
+                _lua["Me"] = this;
 
-                LuaRegistrationHelper.Enumeration<Render.MsgBoxType>(Lua);
-                LuaRegistrationHelper.Enumeration<Render.MsgBoxResult>(Lua);
+                LuaRegistrationHelper.Enumeration<Render.MsgBoxType>(_lua);
+                LuaRegistrationHelper.Enumeration<Render.MsgBoxResult>(_lua);
                 #endregion
 
                 dialog.ScriptFired += LuaExecute;
@@ -242,12 +235,12 @@ namespace OmegaGUI
         private void LuaExecute(string script, string source)
         {
             #region Sanity checks
-            if (Lua == null || string.IsNullOrEmpty(script)) return;
+            if (_lua == null || string.IsNullOrEmpty(script)) return;
             #endregion
 
             try
             {
-                Lua.DoString(script);
+                _lua.DoString(script);
             }
             catch (LuaScriptException ex)
             {
@@ -267,7 +260,7 @@ namespace OmegaGUI
         {
             using (var stream = ContentManager.GetFileStream("GUI", filename))
             using (var streamReader = new StreamReader(stream))
-                Lua.DoString(streamReader.ReadToEnd());
+                _lua.DoString(streamReader.ReadToEnd());
         }
         #endregion
 
@@ -346,7 +339,7 @@ namespace OmegaGUI
                 if (DialogRender.DialogManager.Engine != null)
                     DialogRender.DialogManager.Engine.DeviceReset -= LayoutHelper;
             }
-            if (Lua != null) _manager.QueueLuaDispose(Lua);
+            if (_lua != null) _manager.QueueLuaDispose(_lua);
 
             Disposed = true;
         }

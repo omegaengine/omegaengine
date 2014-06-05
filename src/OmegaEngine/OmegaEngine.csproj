@@ -210,7 +210,6 @@
     <Compile Include="Input\UpdateReceiver.cs" />
     <Compile Include="IPositionable.cs" />
     <Compile Include="IPositionableOffset.cs" />
-    <Compile Include="LuaBuilder.cs" />
     <Compile Include="PerlinNoise.cs" />
     <Compile Include="Profiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
