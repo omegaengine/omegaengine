@@ -138,6 +138,9 @@ namespace FrameOfReference
 
             CleanupPresenter();
             InitializeGameMode();
+
+            // Note: Do not call before Presenter has been initialized
+            CurrentSession.Lua = NewLua();
         }
 
         /// <summary>
@@ -160,6 +163,9 @@ namespace FrameOfReference
 
             CleanupPresenter();
             InitializeModifyMode();
+
+            // Note: Do not call before Presenter has been initialized
+            CurrentSession.Lua = NewLua();
         }
         #endregion
 
@@ -194,6 +200,7 @@ namespace FrameOfReference
             // Read from disk
             string path = Locations.GetSaveDataPath(GeneralSettings.AppName, true, name + Session.FileExt);
             CurrentSession = Session.Load(path);
+            CurrentSession.Lua = NewLua();
         }
 
         /// <summary>

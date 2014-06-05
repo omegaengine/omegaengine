@@ -23,6 +23,7 @@
 using System;
 using System.ComponentModel;
 using AlphaFramework.World;
+using LuaInterface;
 using NanoByte.Common.Utils;
 
 namespace FrameOfReference.World
@@ -33,6 +34,11 @@ namespace FrameOfReference.World
     /// </summary>
     public sealed partial class Session : SessionBase<Universe>
     {
+        /// <summary>
+        /// The scripting engine used to execute story scripts.
+        /// </summary>
+        public Lua Lua { get; set; }
+
         /// <summary>
         /// Creates a new game session based upon a given <see cref="Universe"/>.
         /// </summary>

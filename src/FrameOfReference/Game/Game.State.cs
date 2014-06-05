@@ -198,7 +198,7 @@ namespace FrameOfReference
             using (new TimedLogEvent("Start benchmark"))
             {
                 // Load map
-                CurrentSession = new Session(Universe.FromContent("Benchmark" + Universe.FileExt));
+                CurrentSession = new Session(Universe.FromContent("Benchmark" + Universe.FileExt)) {Lua = NewLua()};
 
                 // Switch mode
                 CurrentState = GameState.Benchmark;
