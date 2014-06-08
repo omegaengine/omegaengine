@@ -148,7 +148,7 @@ namespace OmegaGUI.Model
 
             // Load custom texture
             uint textureNumber = Parent.CustomTexture++;
-            Parent.DialogModel.SetTexture(textureNumber, _textureFile);
+            Parent.DialogRender.SetTexture(textureNumber, _textureFile);
 
             ButtonElement = new Element();
             ButtonElement.SetTexture(textureNumber, new Rectangle(_buttonLocation, _buttonSize));

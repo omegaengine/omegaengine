@@ -70,7 +70,7 @@ namespace OmegaGUI.Model
             // Add control to dialog
             UpdateLayout();
             DXControl = _scrollbar =
-                Parent.DialogModel.AddScrollBar(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Min, Max, ControlValue, Default);
+                Parent.DialogRender.AddScrollBar(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Min, Max, ControlValue, Default);
             ControlModel.IsVisible = IsVisible;
             ControlModel.IsEnabled = IsEnabled;
 

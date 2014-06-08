@@ -87,7 +87,7 @@ namespace OmegaGUI.Model
             // Add control to dialog
             UpdateLayout();
             DXControl = _staticText =
-                Parent.DialogModel.AddStatic(0, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Default);
+                Parent.DialogRender.AddStatic(0, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Default);
             ControlModel.IsVisible = IsVisible;
             ControlModel.IsEnabled = IsEnabled;
             _staticText.TextAlign = _textAlign;

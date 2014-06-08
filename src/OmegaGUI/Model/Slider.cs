@@ -121,7 +121,7 @@ namespace OmegaGUI.Model
             // Add control to dialog
             UpdateLayout();
             DXControl = _slider =
-                Parent.DialogModel.AddSlider(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, _min, _max, Value, Default);
+                Parent.DialogRender.AddSlider(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, _min, _max, Value, Default);
             ControlModel.IsVisible = IsVisible;
             ControlModel.IsEnabled = IsEnabled;
 

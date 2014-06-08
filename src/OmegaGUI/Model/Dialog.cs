@@ -71,7 +71,7 @@ namespace OmegaGUI.Model
         /// <summary>
         /// The <see cref="Render.Dialog"/> used for actual rendering
         /// </summary>
-        internal Render.Dialog DialogModel;
+        internal Render.Dialog DialogRender;
 
         /// <summary>
         /// ToDo: Document
@@ -111,7 +111,7 @@ namespace OmegaGUI.Model
             set
             {
                 _captionText = value;
-                if (DialogModel != null) DialogModel.SetCaptionText(GetLocalized(_captionText));
+                if (DialogRender != null) DialogRender.SetCaptionText(GetLocalized(_captionText));
             }
         }
 
@@ -127,7 +127,7 @@ namespace OmegaGUI.Model
             set
             {
                 _captionHeight = value;
-                if (DialogModel != null) DialogModel.CaptionHeight = value;
+                if (DialogRender != null) DialogRender.CaptionHeight = value;
             }
         }
 
@@ -146,10 +146,10 @@ namespace OmegaGUI.Model
 
         private void UpdateColors()
         {
-            if (DialogModel != null)
+            if (DialogRender != null)
             {
-                DialogModel.SetBackgroundColors(ColorBackground.ToColorValue());
-                DialogModel.SetCaptionColor(ColorCaption.ToColorValue());
+                DialogRender.SetBackgroundColors(ColorBackground.ToColorValue());
+                DialogRender.SetCaptionColor(ColorCaption.ToColorValue());
             }
         }
 
@@ -262,7 +262,7 @@ namespace OmegaGUI.Model
             set
             {
                 _fontSize = value;
-                if (DialogModel != null) DialogModel.DefaultFontSize = (uint)(_fontSize * EffectiveScale);
+                if (DialogRender != null) DialogRender.DefaultFontSize = (uint)(_fontSize * EffectiveScale);
             }
         }
         #endregion
@@ -296,7 +296,7 @@ namespace OmegaGUI.Model
             set
             {
                 _shift = value;
-                if (DialogModel != null)
+                if (DialogRender != null)
                 {
                     foreach (Control control in _controls)
                         control.UpdateLayout();
@@ -316,11 +316,11 @@ namespace OmegaGUI.Model
             set
             {
                 _scale = value;
-                if (DialogModel != null)
+                if (DialogRender != null)
                 {
                     foreach (Control control in _controls)
                         control.UpdateLayout();
-                    DialogModel.DefaultFontSize = (uint)(_fontSize * EffectiveScale);
+                    DialogRender.DefaultFontSize = (uint)(_fontSize * EffectiveScale);
                 }
             }
         }
@@ -336,11 +336,11 @@ namespace OmegaGUI.Model
             set
             {
                 _autoScale = value;
-                if (DialogModel != null)
+                if (DialogRender != null)
                 {
                     foreach (Control control in _controls)
                         control.UpdateLayout();
-                    DialogModel.DefaultFontSize = (uint)(_fontSize * EffectiveScale);
+                    DialogRender.DefaultFontSize = (uint)(_fontSize * EffectiveScale);
                 }
             }
         }
@@ -439,13 +439,13 @@ namespace OmegaGUI.Model
             _locale = LocaleFile.LoadLang(langName).ToDictionary();
 
             // Generate dialog model object
-            DialogModel = TextureFileValid
+            DialogRender = TextureFileValid
                 ? new Render.Dialog(manager, ColorText.ToColorValue(), _textureFile, _fontName, (uint)(_fontSize * EffectiveScale))
                 : new Render.Dialog(manager, ColorText.ToColorValue());
 
             // Set dialog properites
-            DialogModel.SetCaptionText(GetLocalized(_captionText));
-            DialogModel.CaptionHeight = _captionHeight;
+            DialogRender.SetCaptionText(GetLocalized(_captionText));
+            DialogRender.CaptionHeight = _captionHeight;
             UpdateColors();
 
             // Load custom button styles
@@ -463,14 +463,14 @@ namespace OmegaGUI.Model
             }
 
             // Update control positions
-            DialogModel.Resize += delegate
+            DialogRender.Resize += delegate
             {
                 foreach (Control control in _controls)
                     control.UpdateLayout();
             };
 
             NeedsUpdate = false;
-            return DialogModel;
+            return DialogRender;
         }
 
         /// <summary>
@@ -535,9 +535,9 @@ namespace OmegaGUI.Model
         #region MsgBoxes
         public void MsgBox(string text, MsgBoxType type, Action<MsgBoxResult> callback)
         {
-            DialogModel.Refresh();
-            DialogModel.DialogManager.MessageBox.SetFont(0, _fontName, _fontSize, FontWeight.Normal);
-            DialogModel.DialogManager.MessageBox.Show(GetLocalized(text), type, callback);
+            DialogRender.Refresh();
+            DialogRender.DialogManager.MessageBox.SetFont(0, _fontName, _fontSize, FontWeight.Normal);
+            DialogRender.DialogManager.MessageBox.Show(GetLocalized(text), type, callback);
         }
         #endregion
 

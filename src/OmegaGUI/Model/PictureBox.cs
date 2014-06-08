@@ -113,7 +113,7 @@ namespace OmegaGUI.Model
 
             // Load custom texture
             uint textureNumber = Parent.CustomTexture++;
-            Parent.DialogModel.SetTexture(textureNumber, _textureFile);
+            Parent.DialogRender.SetTexture(textureNumber, _textureFile);
 
             var fill = new Element();
             fill.SetTexture(textureNumber, new Rectangle(_textureLocation, _textureSize));
@@ -122,7 +122,7 @@ namespace OmegaGUI.Model
 
             // Add control to dialog
             UpdateLayout();
-            DXControl = Parent.DialogModel.AddPictureBox(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, fill);
+            DXControl = Parent.DialogRender.AddPictureBox(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, fill);
             ControlModel.IsVisible = IsVisible;
             ControlModel.IsEnabled = IsEnabled;
 

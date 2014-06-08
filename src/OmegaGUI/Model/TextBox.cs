@@ -88,7 +88,7 @@ namespace OmegaGUI.Model
             // Add control to dialog
             UpdateLayout();
             DXControl = _editBox =
-                Parent.DialogModel.AddTextBox(0, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Default);
+                Parent.DialogRender.AddTextBox(0, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Default);
             ControlModel.IsVisible = IsVisible;
             ControlModel.IsEnabled = IsEnabled;
 

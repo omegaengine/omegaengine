@@ -98,7 +98,7 @@ namespace OmegaGUI.Model
             // Add control to dialog
             UpdateLayout();
             DXControl = _checkbox =
-                Parent.DialogModel.AddCheckBox(0, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Checked, Hotkey, Default);
+                Parent.DialogRender.AddCheckBox(0, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Checked, Hotkey, Default);
             ControlModel.IsVisible = IsVisible;
             ControlModel.IsEnabled = IsEnabled;
 

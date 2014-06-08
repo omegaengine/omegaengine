@@ -98,7 +98,7 @@ namespace OmegaGUI.Model
             // Add control to dialog
             UpdateLayout();
             DXControl = _button =
-                Parent.DialogModel.AddButton(0, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Hotkey, Default);
+                Parent.DialogRender.AddButton(0, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Hotkey, Default);
             DXControl.IsVisible = IsVisible;
             DXControl.IsEnabled = IsEnabled;
             DXControl.IsEnabled = IsEnabled;

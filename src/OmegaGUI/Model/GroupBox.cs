@@ -86,7 +86,7 @@ namespace OmegaGUI.Model
             // Add control to dialog
             UpdateLayout();
             DXControl = _groupBox =
-                Parent.DialogModel.AddGroupBox(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, ColorBorder.ToColorValue(), ColorFill.ToColorValue());
+                Parent.DialogRender.AddGroupBox(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, ColorBorder.ToColorValue(), ColorFill.ToColorValue());
             ControlModel.IsVisible = IsVisible;
             ControlModel.IsEnabled = IsEnabled;
 

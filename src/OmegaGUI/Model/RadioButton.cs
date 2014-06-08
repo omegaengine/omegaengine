@@ -100,7 +100,7 @@ namespace OmegaGUI.Model
             // Add control to dialog
             UpdateLayout();
             DXControl = _radioButton =
-                Parent.DialogModel.AddRadioButton(0, _groupID, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, IsChecked, Hotkey, Default);
+                Parent.DialogRender.AddRadioButton(0, _groupID, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, IsChecked, Hotkey, Default);
             ControlModel.IsVisible = IsVisible;
             ControlModel.IsEnabled = IsEnabled;
 

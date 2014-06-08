@@ -284,7 +284,7 @@ namespace OmegaGUI.Model
 
                 EffectiveLocation = _location;
 
-                if (Parent.DialogModel != null)
+                if (Parent.DialogRender != null)
                 {
                     switch (_alignHorizontal)
                     {
@@ -292,10 +292,10 @@ namespace OmegaGUI.Model
                             EffectiveLocation.X = scaledLocation.X;
                             break;
                         case HorizontalMode.FromRight:
-                            EffectiveLocation.X = Parent.DialogModel.Width - EffectiveSize.Width - scaledLocation.X;
+                            EffectiveLocation.X = Parent.DialogRender.Width - EffectiveSize.Width - scaledLocation.X;
                             break;
                         case HorizontalMode.Center:
-                            EffectiveLocation.X = (Parent.DialogModel.Width - EffectiveSize.Width) / 2 + scaledLocation.X;
+                            EffectiveLocation.X = (Parent.DialogRender.Width - EffectiveSize.Width) / 2 + scaledLocation.X;
                             break;
                     }
 
@@ -305,10 +305,10 @@ namespace OmegaGUI.Model
                             EffectiveLocation.Y = scaledLocation.Y;
                             break;
                         case VerticalMode.FromBottom:
-                            EffectiveLocation.Y = Parent.DialogModel.Height - EffectiveSize.Height - scaledLocation.Y;
+                            EffectiveLocation.Y = Parent.DialogRender.Height - EffectiveSize.Height - scaledLocation.Y;
                             break;
                         case VerticalMode.Center:
-                            EffectiveLocation.Y = (Parent.DialogModel.Height - EffectiveSize.Height) / 2 + scaledLocation.Y;
+                            EffectiveLocation.Y = (Parent.DialogRender.Height - EffectiveSize.Height) / 2 + scaledLocation.Y;
                             break;
                     }
                 }
