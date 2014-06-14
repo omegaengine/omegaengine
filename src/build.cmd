@@ -29,6 +29,10 @@ goto err_no_vs
 set config=%1
 if "%config%"=="" set config=Debug
 
+echo Restoring NuGet packages...
+.nuget\NuGet.exe restore ZeroInstall.sln
+echo.
+
 echo Compiling Visual Studio solution (%config%)...
 if exist ..\build\%config% rd /s /q ..\build\%config%
 msbuild "%ProgSLN%" /nologo /v:q /t:Rebuild /p:Configuration=%config%
