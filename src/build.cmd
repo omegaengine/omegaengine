@@ -30,7 +30,7 @@ set config=%1
 if "%config%"=="" set config=Debug
 
 echo Restoring NuGet packages...
-.nuget\NuGet.exe restore ZeroInstall.sln
+.nuget\NuGet.exe restore "%ProgSLN%"
 echo.
 
 echo Compiling Visual Studio solution (%config%)...
