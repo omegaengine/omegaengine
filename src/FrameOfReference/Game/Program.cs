@@ -54,8 +54,6 @@ namespace FrameOfReference
             WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameShort);
 
             Application.EnableVisualStyles();
-
-            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
             ErrorReportForm.SetupMonitoring(new Uri("http://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameShort));
 
 #if !DEBUG

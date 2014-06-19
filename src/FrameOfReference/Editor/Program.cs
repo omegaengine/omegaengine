@@ -63,8 +63,6 @@ namespace FrameOfReference.Editor
             ModInfo.FileExt = "." + GeneralSettings.AppNameShort + "Mod";
 
             Application.EnableVisualStyles();
-
-            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
             ErrorReportForm.SetupMonitoring(new Uri("http://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameShort));
 
             // Allow setup to detect running instances

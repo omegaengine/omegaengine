@@ -141,5 +141,14 @@ namespace FrameOfReference.World
                 entity.IsPlayerControlled = false;
         }
         #endregion
+
+        /// <summary>
+        /// Retrieves an <see cref="CameraState{TCoordinates}"/> from <see cref="Positionables"/> by its name.
+        /// </summary>
+        /// <returns>The first matching <see cref="CameraState{TCoordinates}"/>; <see langword="null"/> if there is no match.</returns>
+        public CameraState<Vector2> GetCamera(string name)
+        {
+            return _positionables.OfType<CameraState<Vector2>>().FirstOrDefault(x => x.Name == name);
+        }
     }
 }
