@@ -1,4 +1,4 @@
-/version
+/VERSION
 /src/Omega/AssemblyInfo.Global.cs
 /src/AlphaFramework/AssemblyInfo.Global.cs
 /src/FrameOfReference/AssemblyInfo.Global.cs

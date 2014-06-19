@@ -19,7 +19,7 @@ The installer is built using Inno Setup 5.4.1 or newer (http://files.jrsoftware.
 \build\Documentation\ - The compiled source code documentation (created by \doc\build.cmd)
 
 "VERSION" contains the version numbers used by the build scripts.
-Keep in sync with the version numbers in "src\AssemblyInfo.Global.cs", "templates\*\MyTemplate.vstemplate" and "templates\vsix\extension.vsixmanifest"!
+See "version-checklist.txt" for files to keep in sync.
 
 The "build.cmd" script assumes that Visual Studio 2010/2012/2013 is installed and that Inno Setup 5 is installed at its default location.
 
