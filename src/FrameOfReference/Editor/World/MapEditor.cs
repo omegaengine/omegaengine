@@ -511,13 +511,12 @@ namespace FrameOfReference.Editor.World
         {
             var cameraState = _presenter.CameraState;
             if (cameraState == null) return;
+            cameraState = (CameraState<Vector2>)cameraState.Clone();
 
-            AddNewPositionable(new CameraState<Vector2>
-            {
-                Position = cameraState.Position,
-                Rotation = cameraState.Rotation,
-                Radius = cameraState.Radius
-            });
+            var selectedPositionable = _presenter.SelectedPositionables.FirstOrDefault();
+            if (selectedPositionable != null) cameraState.Name = selectedPositionable.Name;
+
+            AddNewPositionable(cameraState);
         }
 
         private void buttonNewBenchmarkPoint_Click(object sender, EventArgs e)
