@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using AlphaFramework.Presentation;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World;
@@ -236,10 +237,29 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// Switches from the current camera view to a new view using a cinematic effect.
         /// </summary>
+        /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="CameraState{TCoordinates}"/> stored in the <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.</param>
+        public void SwingCameraTo(string name)
+        {
+            View.SwingCameraTo(CreateCamera(Universe.GetCamera(name)));
+        }
+
+        /// <summary>
+        /// Switches from the current camera view to a new view using a cinematic effect.
+        /// </summary>
         /// <param name="cameraState">The destination state of the camera; <see langword="null"/> for default (looking at the center of the terrain).</param>
         public void SwingCameraTo(CameraState<Vector2> cameraState = null)
         {
             View.SwingCameraTo(CreateCamera(cameraState));
+        }
+
+        /// <summary>
+        /// Sets <see cref="SelectedPositionables"/> to a single specific <see cref="Entity"/>.
+        /// </summary>
+        /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="Entity"/> stored in the <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.</param>
+        public void SetSelection(string name)
+        {
+            SelectedPositionables.Clear();
+            SelectedPositionables.Add(Universe.GetEntity(name));
         }
 
         /// <summary>
