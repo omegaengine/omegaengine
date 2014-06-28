@@ -46,8 +46,8 @@ namespace FrameOfReference.Editor.World
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonNew = new System.Windows.Forms.ToolStripDropDownButton();
             this.buttonNewEntity = new System.Windows.Forms.ToolStripMenuItem();
-            this.buttonNewWaypoint = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonNewWater = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonNewWaypoint = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonNewTrigger = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonNewCameraState = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonNewBenchmarkPoint = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,9 +98,10 @@ namespace FrameOfReference.Editor.World
             this.labelTerrainSize = new System.Windows.Forms.Label();
             this.splitHorizontal = new System.Windows.Forms.SplitContainer();
             this.renderPanel = new OmegaEngine.RenderPanel();
+            this.labelGameTime = new System.Windows.Forms.Label();
             this.sliderGameTime = new System.Windows.Forms.TrackBar();
             this.xmlEditor = new NanoByte.Common.Controls.LiveEditor();
-            this.labelGameTime = new System.Windows.Forms.Label();
+            this.buttonRandomizeRotations = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip.SuspendLayout();
             this.splitVertical.Panel1.SuspendLayout();
             this.splitVertical.Panel2.SuspendLayout();
@@ -333,7 +334,8 @@ namespace FrameOfReference.Editor.World
             // buttonMapProperties
             // 
             this.buttonMapProperties.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.buttonCameraStatupPerspective});
+            this.buttonCameraStatupPerspective,
+            this.buttonRandomizeRotations});
             this.buttonMapProperties.Image = ((System.Drawing.Image)(resources.GetObject("buttonMapProperties.Image")));
             this.buttonMapProperties.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonMapProperties.Name = "buttonMapProperties";
@@ -910,6 +912,16 @@ namespace FrameOfReference.Editor.World
             this.renderPanel.Size = new System.Drawing.Size(508, 345);
             this.renderPanel.TabIndex = 1;
             // 
+            // labelGameTime
+            // 
+            this.labelGameTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelGameTime.Location = new System.Drawing.Point(451, 140);
+            this.labelGameTime.Name = "labelGameTime";
+            this.labelGameTime.Size = new System.Drawing.Size(57, 15);
+            this.labelGameTime.TabIndex = 1;
+            this.labelGameTime.Text = "0";
+            this.labelGameTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // sliderGameTime
             // 
             this.sliderGameTime.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -931,15 +943,12 @@ namespace FrameOfReference.Editor.World
             this.xmlEditor.TabIndex = 0;
             this.xmlEditor.ContentChanged += new System.Action<string>(this.xmlEditor_ContentChanged);
             // 
-            // labelGameTime
+            // buttonRandomizeRotations
             // 
-            this.labelGameTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelGameTime.Location = new System.Drawing.Point(451, 140);
-            this.labelGameTime.Name = "labelGameTime";
-            this.labelGameTime.Size = new System.Drawing.Size(57, 15);
-            this.labelGameTime.TabIndex = 1;
-            this.labelGameTime.Text = "0";
-            this.labelGameTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.buttonRandomizeRotations.Name = "buttonRandomizeRotations";
+            this.buttonRandomizeRotations.Size = new System.Drawing.Size(235, 22);
+            this.buttonRandomizeRotations.Text = "&Randomize rotations";
+            this.buttonRandomizeRotations.Click += new System.EventHandler(this.buttonRandomizeRotations_Click);
             // 
             // MapEditor
             // 
@@ -1062,5 +1071,6 @@ namespace FrameOfReference.Editor.World
         private System.Windows.Forms.ToolStripMenuItem buttonNewTrigger;
         private System.Windows.Forms.TrackBar sliderGameTime;
         private System.Windows.Forms.Label labelGameTime;
+        private System.Windows.Forms.ToolStripMenuItem buttonRandomizeRotations;
     }
 }

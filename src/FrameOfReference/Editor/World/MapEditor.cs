@@ -593,6 +593,14 @@ namespace FrameOfReference.Editor.World
             var cameraStatePointer = new PropertyPointer<CameraState<Vector2>>(() => _universe.CurrentCamera, camera => _universe.CurrentCamera = camera);
             ExecuteCommand(new SetValueCommand<CameraState<Vector2>>(cameraStatePointer, _presenter.CameraState));
         }
+
+        private void buttonRandomizeRotations_Click(object sender, EventArgs e)
+        {
+            var commands = _presenter.SelectedPositionables.OfType<Entity>().Select(entity => new SetValueCommand<float>(
+                new PropertyPointer<float>(() => entity.Rotation, rotation => entity.Rotation = rotation),
+                RandomUtils.GetRandomInt(0, 360)));
+            ExecuteCommand(new CompositeCommand(commands.Cast<IUndoCommand>().ToList()));
+        }
         #endregion
 
         #endregion
