@@ -1,9 +1,9 @@
 function return_to_menu()
 	Me:Close()
 	if State == GameState.Menu then
-		LoadDialog("Menu/Main")
+		LoadDialog("MainMenu")
 	end
 	if State == GameState.Pause then
-		LoadDialog("Menu/Pause")
+		LoadDialog("PauseMenu")
 	end
 end

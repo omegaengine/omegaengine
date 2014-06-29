@@ -33,14 +33,14 @@
 		<Size Width="180" Height="48" />
 		<AlignHorizontal>Center</AlignHorizontal>
 		<OnClick>Me:Close()
-LoadModalDialog("Savegame/Save")</OnClick>
+LoadModalDialog("SavegameSave")</OnClick>
 	</Button>
 	<Button Name="LoadGame" Text="[Load]">
 		<Location X="0" Y="188" />
 		<Size Width="180" Height="48" />
 		<AlignHorizontal>Center</AlignHorizontal>
 		<OnClick>Me:Close()
-LoadModalDialog("Savegame/Load")</OnClick>
+LoadModalDialog("SavegameLoad")</OnClick>
 	</Button>
 	<Button Name="Settings" Text="[Settings]">
 		<Location X="0" Y="276" />

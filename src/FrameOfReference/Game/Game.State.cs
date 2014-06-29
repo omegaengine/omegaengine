@@ -83,7 +83,7 @@ namespace FrameOfReference
             // Handle cases where the main menu was bypassed on startup
             if (_menuUniverse == null)
             {
-                LoadMenu(GetRandomMenuMap());
+                LoadMenu(GetMenuMap());
                 return;
             }
 
@@ -162,7 +162,7 @@ namespace FrameOfReference
 
                     // Show pause menu
                     GuiManager.Reset();
-                    LoadDialog("Menu/Pause");
+                    LoadDialog("PauseMenu");
                     break;
 
                 case GameState.Pause:
@@ -285,7 +285,7 @@ namespace FrameOfReference
 
                 // Show game GUI
                 GuiManager.CloseAll();
-                LoadDialog("Menu/Main");
+                LoadDialog("MainMenu");
             }
 
             Loading = false;

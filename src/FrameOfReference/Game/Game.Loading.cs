@@ -54,11 +54,10 @@ namespace FrameOfReference
         //--------------------//
 
         #region Random Menu Map
-        /// <returns>The name of a random menu background map</returns>
-        private static string GetRandomMenuMap()
+        /// <returns>The name of the current menu background map</returns>
+        private static string GetMenuMap()
         {
-            // ToDo: Randomly select from a list of menu background maps for the current campaign chapter
-            return "Menu/1";
+            return "Menu";
         }
         #endregion
 

@@ -28,14 +28,14 @@ Game:SwitchToGame()</OnClick>
 		<Size Width="200" Height="50" />
 		<AlignVertical>Center</AlignVertical>
 		<OnClick>LoadSplashDialog("Loading")
-Game:LoadMap("Game/1")</OnClick>
+Game:LoadMap("Tutorial")</OnClick>
 	</Button>
 	<Button Name="LoadGame" Text="[LoadGame]">
 		<Location X="40" Y="0" />
 		<Size Width="200" Height="50" />
 		<AlignVertical>Center</AlignVertical>
 		<OnClick>Me:Close()
-LoadModalDialog("Savegame/Load")</OnClick>
+LoadModalDialog("SavegameLoad")</OnClick>
 	</Button>
 	<Button Name="Settings" Text="[Settings]">
 		<Location X="40" Y="60" />

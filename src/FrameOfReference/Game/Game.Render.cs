@@ -161,7 +161,7 @@ namespace FrameOfReference
                 else
                 { // Load main menu
                     PreloadPreviousSession();
-                    LoadMenu(Program.Args.Contains("menu") ? Program.Args["menu"] : GetRandomMenuMap());
+                    LoadMenu(Program.Args.Contains("menu") ? Program.Args["menu"] : GetMenuMap());
                 }
             }
 
