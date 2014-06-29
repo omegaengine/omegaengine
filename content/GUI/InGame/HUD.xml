@@ -3,34 +3,12 @@
 	<ColorBackground A="0" R="0" G="0" B="0" />
 	<ColorCaption A="128" R="96" G="128" B="255" />
 	<ColorText A="255" R="255" G="255" B="255" />
-	<OnUpdate>FPS.Text = "FPS: " .. string.format("%.2f", Engine.Performance.Fps)
-GameTime.Text = "Game time: " .. string.format("%.1f", Universe.GameTime)</OnUpdate>
 	<Size Width="800" Height="600" />
 	<Shift X="0" Y="0" />
 	<Button Name="ShowMenu" Text="[ShowMenu]" Hotkey="Pause">
 		<Location X="20" Y="20" />
 		<Size Width="130" Height="40" />
+		<AlignHorizontal>FromRight</AlignHorizontal>
 		<OnClick>Game:TogglePause()</OnClick>
 	</Button>
-	<Button Name="Debug" Text="Debug">
-		<Location X="20" Y="20" />
-		<Size Width="130" Height="40" />
-		<AlignHorizontal>FromRight</AlignHorizontal>
-		<OnClick>Settings.Display.Fullscreen = false
-Engine:Debug()</OnClick>
-	</Button>
-	<Label Name="FPS" Text="FPS: 12,3456">
-		<Location X="20" Y="20" />
-		<Size Width="100" Height="15" />
-		<AlignHorizontal>FromRight</AlignHorizontal>
-		<AlignVertical>FromBottom</AlignVertical>
-		<TextAlign>Right</TextAlign>
-	</Label>
-	<Label Name="GameTime" Text="GameTime: 0,0000">
-		<Location X="126" Y="20" />
-		<Size Width="200" Height="15" />
-		<AlignHorizontal>FromRight</AlignHorizontal>
-		<AlignVertical>FromBottom</AlignVertical>
-		<TextAlign>Right</TextAlign>
-	</Label>
 </Dialog>

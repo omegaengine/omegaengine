@@ -9,10 +9,11 @@ FPS.Text = "FPS: " .. string.format("%.2f", Engine.Performance.Fps)
 GameTime.Text = "Game time: " .. string.format("%.1f", Universe.GameTime)</OnUpdate>
 	<Size Width="800" Height="600" />
 	<Shift X="0" Y="0" />
-	<Button Name="ShowMenu" Text="[ShowMenu]" Hotkey="Pause">
+	<Button Name="Debug" Text="Debug">
 		<Location X="20" Y="20" />
 		<Size Width="130" Height="40" />
-		<OnClick>Game:TogglePause()</OnClick>
+		<OnClick>Settings.Display.Fullscreen = false
+Engine:Debug()</OnClick>
 	</Button>
 	<Label Name="TimeWarpFactorLabel" Text="[TimeWarpFactor]">
 		<Location X="170" Y="10" />
@@ -70,12 +71,11 @@ GameTime.Text = "Game time: " .. string.format("%.1f", Universe.GameTime)</OnUpd
 		<AlignHorizontal>Center</AlignHorizontal>
 		<OnClick>LoadDialog("InGame/ColorCorrection")</OnClick>
 	</Button>
-	<Button Name="Debug" Text="Debug">
+	<Button Name="ShowMenu" Text="[ShowMenu]" Hotkey="Pause">
 		<Location X="20" Y="20" />
 		<Size Width="130" Height="40" />
 		<AlignHorizontal>FromRight</AlignHorizontal>
-		<OnClick>Settings.Display.Fullscreen = false
-Engine:Debug()</OnClick>
+		<OnClick>Game:TogglePause()</OnClick>
 	</Button>
 	<Label Name="FPS" Text="FPS: 12,3456">
 		<Location X="20" Y="20" />
