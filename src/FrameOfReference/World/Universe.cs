@@ -21,6 +21,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
@@ -39,6 +40,14 @@ namespace FrameOfReference.World
     /// </summary>
     public sealed partial class Universe : UniverseBase<Vector2>
     {
+        private readonly List<Chapter> _story = new List<Chapter>();
+
+        /// <summary>
+        /// An ordered list of chapters that make up the story.
+        /// </summary>
+        [Browsable(false)]
+        public List<Chapter> Story { get { return _story; } }
+
         private readonly MonitoredCollection<Positionable<Vector2>> _positionables = new MonitoredCollection<Positionable<Vector2>>();
 
         /// <inheritoc/>
@@ -106,6 +115,15 @@ namespace FrameOfReference.World
         }
 
         /// <summary>
+        /// Retrieves an <see cref="Trigger"/> from <see cref="Positionables"/> by its name.
+        /// </summary>
+        /// <returns>The first matching <see cref="Trigger"/>; <see langword="null"/> if there is no match.</returns>
+        public Trigger GetTrigger(string name)
+        {
+            return _positionables.OfType<Trigger>().FirstOrDefault(x => x.Name == name);
+        }
+
+        /// <summary>
         /// Retrieves an <see cref="CameraState{TCoordinates}"/> from <see cref="Positionables"/> by its name.
         /// </summary>
         /// <returns>The first matching <see cref="CameraState{TCoordinates}"/>; <see langword="null"/> if there is no match.</returns>
@@ -137,7 +155,15 @@ namespace FrameOfReference.World
         public void MakePlayerControlled(string name)
         {
             var entity = GetEntity(name);
-            entity.Waypoints.RemoveAll(x => x.ActivationTime >= GameTime);
+
+            // Remove any recorded paths
+            entity.Waypoints.RemoveAll(x => (x.ArrivalTimeSpecified ? x.ArrivalTime : x.ActivationTime) >= GameTime);
+            entity.CurrentPath = null;
+
+            // Reactivates all associated triggers
+            foreach (var trigger in Positionables.OfType<Trigger>().Where(x => x.TargetEntity == name))
+                trigger.WasTriggered = false;
+
             entity.IsPlayerControlled = true;
         }
 

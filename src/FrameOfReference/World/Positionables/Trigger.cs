@@ -75,7 +75,13 @@ namespace FrameOfReference.World.Positionables
         /// Indicates whether this trigger has already been triggered by <see cref="TargetEntity"/> or has timed out.
         /// </summary>
         [XmlAttribute, DefaultValue(false), Description("Indicates whether this trigger has already been triggered by TargetEntity or has timed out.")]
-        public bool IsTriggered { get; set; }
+        public bool WasTriggered { get; set; }
+
+        /// <summary>
+        /// The name of another <see cref="Trigger"/> that has to be triggered before this one can be.
+        /// </summary>
+        [Description("The name of another Trigger that has to be triggered before this one can be.")]
+        public string DependsOn { get; set; }
 
         /// <summary>
         /// Determines whether an <see cref="Entity"/> is within range of this trigger.

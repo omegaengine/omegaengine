@@ -93,7 +93,7 @@ namespace FrameOfReference
             base.Run();
 
             // Auto-save session for later resuming
-            if (CurrentSession != null)
+            if (CurrentSession != null && CurrentSession.TimeWarpFactor != 0)
             {
                 try
                 {

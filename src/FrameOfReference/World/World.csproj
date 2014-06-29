@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Global.cs" />
+    <Compile Include="Chapter.cs" />
     <Compile Include="Config\ConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -22,7 +22,9 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using AlphaFramework.World;
+using FrameOfReference.World.Positionables;
 using LuaInterface;
 using NanoByte.Common.Utils;
 
@@ -46,7 +48,6 @@ namespace FrameOfReference.World
         public Session(Universe baseUniverse) : base(baseUniverse)
         {}
 
-        #region Update
         /// <summary>The maximum number of seconds to handle in one call to <see cref="Update"/>. Additional time is simply dropped.</summary>
         private const double MaximumUpdate = 0.75;
 
@@ -85,11 +86,51 @@ namespace FrameOfReference.World
                 double effectiveStep = Math.Sign(gameTimeDelta) * UpdateStepSize;
 
                 Universe.Update(effectiveStep);
+                if (Lua != null) HandleTriggers();
                 gameTimeDelta -= effectiveStep;
             }
 
             return gameTimeDelta;
         }
-        #endregion
+
+        private void HandleTriggers()
+        {
+            var playerEntities = Universe.Positionables.OfType<Entity>().Where(x => x.IsPlayerControlled).ToList();
+
+            foreach (var trigger in Universe.Positionables.OfType<Trigger>().Where(x => !x.WasTriggered))
+            {
+                // Skip triggers with unmet dependencies
+                if (!string.IsNullOrEmpty(trigger.DependsOn))
+                    if (!Universe.GetTrigger(trigger.DependsOn).WasTriggered) continue;
+
+                var targetEntity = playerEntities.FirstOrDefault(x => x.Name == trigger.TargetEntity);
+                if (targetEntity != null)
+                {
+                    if (trigger.IsInRange(targetEntity))
+                    {
+                        trigger.WasTriggered = true;
+                        if (!string.IsNullOrEmpty(trigger.OnActivation)) Lua.DoString(trigger.OnActivation);
+                    }
+                    else if (Universe.GameTime >= trigger.DueTime)
+                    {
+                        trigger.WasTriggered = true;
+                        if (!string.IsNullOrEmpty(trigger.OnTimeout)) Lua.DoString(trigger.OnTimeout);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Activates a new <see cref="Chapter"/> in the <see cref="Universe.Story"/>.
+        /// </summary>
+        /// <param name="name">The <see cref="Chapter.Name"/> of the chapter to active.</param>
+        public void ActivateChapter(string name)
+        {
+            var chapter = Universe.Story.First(x => x.Name == name);
+
+            Universe.MakeAllNpc();
+            UpdateTo(chapter.StartTime);
+            Universe.MakePlayerControlled(name);
+        }
     }
 }
