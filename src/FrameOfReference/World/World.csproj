@@ -100,6 +100,7 @@
     </Compile>
     <Compile Include="Session.cs" />
     <Compile Include="Session.Storage.cs" />
+    <Compile Include="Session.TimeTravel.cs" />
     <Compile Include="Templates\ItemTemplate.cs" />
     <Compile Include="Templates\EntityTemplate.cs" />
     <Compile Include="Templates\TerrainTemplate.cs" />

@@ -60,7 +60,9 @@ namespace FrameOfReference.World
         /// <inheritdoc/>
         public override double Update(double elapsedRealTime)
         {
-            double elapsedGameTime = (elapsedRealTime * TimeWarpFactor);
+            if (TimeTravelInProgress) return UpdateTimeTravel(elapsedRealTime);
+            
+            double elapsedGameTime = elapsedRealTime * TimeWarpFactor;
             double gameTimeDelta = LeftoverGameTime + elapsedGameTime.Clamp(-MaximumUpdate, MaximumUpdate);
             LeftoverGameTime = UpdateDeterministic(gameTimeDelta);
             return elapsedGameTime;
@@ -86,7 +88,7 @@ namespace FrameOfReference.World
                 double effectiveStep = Math.Sign(gameTimeDelta) * UpdateStepSize;
 
                 Universe.Update(effectiveStep);
-                if (Lua != null) HandleTriggers();
+                if (Lua != null && !TimeTravelInProgress) HandleTriggers();
                 gameTimeDelta -= effectiveStep;
             }
 

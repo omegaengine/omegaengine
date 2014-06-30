@@ -152,7 +152,8 @@ namespace FrameOfReference.World
             entity.CurrentPath = null;
 
             // Reactivates all associated triggers
-            foreach (var trigger in Positionables.OfType<Trigger>().Where(x => x.TargetEntity == name))
+            foreach (var trigger in Positionables.OfType<Trigger>()
+                .Where(x => x.TargetEntity == name && x.DueTime > GameTime))
                 trigger.WasTriggered = false;
 
             entity.IsPlayerControlled = true;
