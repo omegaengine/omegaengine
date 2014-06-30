@@ -23,11 +23,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AlphaFramework.Presentation;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World;
 using FrameOfReference.World.Positionables;
 using OmegaEngine;
 using OmegaEngine.Graphics;
+using OmegaEngine.Graphics.Cameras;
 using SlimDX;
 
 namespace FrameOfReference.Presentation
@@ -59,15 +61,15 @@ namespace FrameOfReference.Presentation
         public override void HookIn()
         {
             base.HookIn();
-
+            Engine.PreRender += HandleLockedOnEntity;
             SwitchMusicTheme("Game", immediate: true);
         }
 
         /// <inheritdoc/>
         public override void HookOut()
         {
+            Engine.PreRender -= HandleLockedOnEntity;
             PrepareSave();
-
             base.HookOut();
         }
 
@@ -79,6 +81,8 @@ namespace FrameOfReference.Presentation
             Universe.CurrentCamera = CameraState;
         }
 
+        //--------------------//
+
         /// <inheritdoc/>
         protected override void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
         {
@@ -88,6 +92,46 @@ namespace FrameOfReference.Presentation
 
             foreach (var entity in positionables.OfType<Entity>())
                 Universe.PlayerMove(entity, target);
+        }
+
+        private Entity _lockedOnEntity;
+
+        /// <summary>
+        /// Sets <see cref="InteractivePresenter.SelectedPositionables"/> to a single specific <see cref="Entity"/> and forces the <see cref="Camera"/> to stay close to it.
+        /// </summary>
+        /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="Entity"/> stored in the <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.</param>
+        public void LockOn(string name)
+        {
+            _lockedOnEntity = Universe.GetEntity(name);
+
+            SelectedPositionables.Clear();
+            SelectedPositionables.Add(_lockedOnEntity);
+        }
+
+        /// <summary>
+        /// Releases a camera lock applied by <see cref="LockOn"/>.
+        /// </summary>
+        public void ReleaseLock()
+        {
+            _lockedOnEntity = null;
+
+            SelectedPositionables.Clear();
+        }
+
+        private void HandleLockedOnEntity()
+        {
+            if (_lockedOnEntity == null) return;
+
+            var camera = View.Camera as StrategyCamera;
+            if (camera != null)
+            {
+                var distanceVector = camera.Target - Universe.Terrain.ToEngineCoords(_lockedOnEntity.Position);
+                double distanceLength = distanceVector.Length();
+                double lockRange = camera.Radius * camera.Radius / 4000;
+
+                if (distanceLength > lockRange)
+                    camera.Target -= distanceVector * (1 - lockRange / distanceLength);
+            }
         }
     }
 }

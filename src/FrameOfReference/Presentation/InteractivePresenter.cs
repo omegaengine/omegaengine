@@ -253,16 +253,6 @@ namespace FrameOfReference.Presentation
         }
 
         /// <summary>
-        /// Sets <see cref="SelectedPositionables"/> to a single specific <see cref="Entity"/>.
-        /// </summary>
-        /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="Entity"/> stored in the <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.</param>
-        public void SetSelection(string name)
-        {
-            SelectedPositionables.Clear();
-            SelectedPositionables.Add(Universe.GetEntity(name));
-        }
-
-        /// <summary>
         /// Turns all currently selected <see cref="Entity"/>s into player-controlled characters.
         /// </summary>
         public void TakeOverSelection()
