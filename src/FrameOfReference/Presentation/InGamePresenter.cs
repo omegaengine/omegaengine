@@ -28,9 +28,9 @@ using AlphaFramework.World.Positionables;
 using FrameOfReference.World;
 using FrameOfReference.World.Positionables;
 using OmegaEngine;
-using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Cameras;
 using SlimDX;
+using View = OmegaEngine.Graphics.View;
 
 namespace FrameOfReference.Presentation
 {
@@ -92,6 +92,15 @@ namespace FrameOfReference.Presentation
 
             foreach (var entity in positionables.OfType<Entity>())
                 Universe.PlayerMove(entity, target);
+        }
+
+        /// <summary>
+        /// Switches from the current camera view to a new view using a cinematic effect.
+        /// </summary>
+        /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="CameraState{TCoordinates}"/> stored in the <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.</param>
+        public void SwingCameraTo(string name)
+        {
+            View.SwingCameraTo(CreateCamera(Universe.GetCamera(name)), duration: 4);
         }
 
         private Entity _lockedOnEntity;

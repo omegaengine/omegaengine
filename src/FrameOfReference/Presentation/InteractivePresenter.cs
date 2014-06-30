@@ -205,6 +205,15 @@ namespace FrameOfReference.Presentation
         protected abstract void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target);
 
         /// <summary>
+        /// Switches from the current camera view to a new view using a cinematic effect.
+        /// </summary>
+        /// <param name="cameraState">The destination state of the camera; <see langword="null"/> for default (looking at the center of the terrain).</param>
+        public void SwingCameraTo(CameraState<Vector2> cameraState = null)
+        {
+            View.SwingCameraTo(CreateCamera(cameraState), duration: 1.5f);
+        }
+
+        /// <summary>
         /// Swings the camera to look at a specifc set of 2D coordinates.
         /// </summary>
         public void SwingCameraTo(Vector2 target)
@@ -232,24 +241,6 @@ namespace FrameOfReference.Presentation
                 Position = target.Position.Flatten(),
                 Radius = target.WorldBoundingSphere.HasValue ? target.WorldBoundingSphere.Value.Radius * 2.5f : 50,
             });
-        }
-
-        /// <summary>
-        /// Switches from the current camera view to a new view using a cinematic effect.
-        /// </summary>
-        /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="CameraState{TCoordinates}"/> stored in the <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.</param>
-        public void SwingCameraTo(string name)
-        {
-            View.SwingCameraTo(CreateCamera(Universe.GetCamera(name)));
-        }
-
-        /// <summary>
-        /// Switches from the current camera view to a new view using a cinematic effect.
-        /// </summary>
-        /// <param name="cameraState">The destination state of the camera; <see langword="null"/> for default (looking at the center of the terrain).</param>
-        public void SwingCameraTo(CameraState<Vector2> cameraState = null)
-        {
-            View.SwingCameraTo(CreateCamera(cameraState));
         }
 
         /// <summary>
