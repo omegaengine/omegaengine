@@ -119,18 +119,5 @@ namespace FrameOfReference.World
                 }
             }
         }
-
-        /// <summary>
-        /// Activates a new <see cref="Chapter"/> in the <see cref="Universe.Story"/>.
-        /// </summary>
-        /// <param name="name">The <see cref="Chapter.Name"/> of the chapter to active.</param>
-        public void ActivateChapter(string name)
-        {
-            var chapter = Universe.Story.First(x => x.Name == name);
-
-            Universe.MakeAllNpc();
-            UpdateTo(chapter.StartTime);
-            Universe.MakePlayerControlled(name);
-        }
     }
 }

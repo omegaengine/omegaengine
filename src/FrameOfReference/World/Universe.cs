@@ -21,7 +21,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
@@ -40,14 +39,6 @@ namespace FrameOfReference.World
     /// </summary>
     public sealed partial class Universe : UniverseBase<Vector2>
     {
-        private readonly List<Chapter> _story = new List<Chapter>();
-
-        /// <summary>
-        /// An ordered list of chapters that make up the story.
-        /// </summary>
-        [Browsable(false)]
-        public List<Chapter> Story { get { return _story; } }
-
         private readonly MonitoredCollection<Positionable<Vector2>> _positionables = new MonitoredCollection<Positionable<Vector2>>();
 
         /// <inheritoc/>
