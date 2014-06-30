@@ -256,8 +256,8 @@ namespace FrameOfReference.Presentation
                 state = new CameraState<Vector2> {Name = "Main", Position = Universe.Terrain.Center, Radius = 1500};
 
             return new StrategyCamera(
-                minRadius: 150, maxRadius: MaxCameraRadius,
-                minAngle: 35, maxAngle: 55,
+                minRadius: 200, maxRadius: MaxCameraRadius,
+                minAngle: 25, maxAngle: 60,
                 heightController: CameraController)
             {
                 Name = state.Name,
@@ -271,7 +271,7 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// The value for <see cref="StrategyCamera.MaxRadius"/>.
         /// </summary>
-        protected virtual double MaxCameraRadius { get { return 3000; } }
+        protected virtual double MaxCameraRadius { get { return 2250; } }
 
         /// <summary>
         /// Ensures the camera does not go under or outside the <see cref="Terrain"/>.

@@ -35,7 +35,7 @@ using SlimDX;
 
 namespace FrameOfReference.Presentation
 {
-    abstract partial class InteractivePresenter
+    partial class InteractivePresenter
     {
         /// <inheritdoc/>
         public void PerspectiveChange(Point pan, int rotation, int zoom)
