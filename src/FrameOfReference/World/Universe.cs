@@ -172,8 +172,17 @@ namespace FrameOfReference.World
         /// </summary>
         public void MakeAllNpc()
         {
-            foreach (var entity in Positionables.OfType<Entity>())
+            foreach (var entity in Positionables.OfType<Entity>().Where(x => x.IsPlayerControlled))
+            {
                 entity.IsPlayerControlled = false;
+
+                // Prevent characters from finishing last pathfinding command after player control was removed
+                foreach (var openWaypoint in entity.Waypoints.Where(x => !x.ArrivalTimeSpecified))
+                {
+                    openWaypoint.ArrivalTime = GameTime;
+                    openWaypoint.Position = entity.Position;
+                }
+            }
         }
         #endregion
     }
