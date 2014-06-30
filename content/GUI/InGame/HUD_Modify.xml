@@ -29,8 +29,8 @@ Engine:Debug()</OnClick>
 		<OnChanged>Session.TimeWarpFactor = TimeWarpFactor.Value / 10</OnChanged>
 	</Slider>
 	<Label Name="LightPhaseLabel" Text="[LightPhase]">
-		<Location X="-20" Y="10" />
-		<Size Width="100" Height="20" />
+		<Location X="-40" Y="10" />
+		<Size Width="140" Height="20" />
 		<AlignHorizontal>Center</AlignHorizontal>
 		<TextAlign>Right</TextAlign>
 	</Label>

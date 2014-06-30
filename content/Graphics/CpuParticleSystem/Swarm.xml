@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <CpuParticlePreset>
 	<LowerParameters1>
 		<LifeTime>-32768</LifeTime>
@@ -18,12 +18,12 @@
 	<UpperParameters2>
 		<Color A="255" R="255" G="255" B="255" />
 	</UpperParameters2>
-	<SpawnRate>20</SpawnRate>
+	<SpawnRate>100</SpawnRate>
 	<SpawnRadius>30</SpawnRadius>
-	<MaxParticles>20</MaxParticles>
-	<EmitterRepelRange>15</EmitterRepelRange>
+	<MaxParticles>100</MaxParticles>
+	<EmitterRepelRange>30</EmitterRepelRange>
 	<EmitterRepelSpeed>10</EmitterRepelSpeed>
-	<EmitterSuctionRange>20</EmitterSuctionRange>
+	<EmitterSuctionRange>35</EmitterSuctionRange>
 	<EmitterSuctionSpeed>10</EmitterSuctionSpeed>
 	<Gravity X="2" Y="0" Z="2" />
 	<RandomAcceleration>3</RandomAcceleration>
