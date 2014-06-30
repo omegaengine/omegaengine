@@ -142,5 +142,12 @@ namespace FrameOfReference.Presentation
                     camera.Target -= distanceVector * (1 - lockRange / distanceLength);
             }
         }
+
+        /// <inheritdoc/>
+        protected override void PickPositionables(IEnumerable<Positionable<Vector2>> positionables, bool accumulate)
+        {
+            if (_lockedOnEntity == null)
+                base.PickPositionables(positionables, accumulate);
+        }
     }
 }

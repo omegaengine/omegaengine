@@ -31,6 +31,7 @@ using FrameOfReference.World.Positionables;
 using NanoByte.Common;
 using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 
 namespace FrameOfReference.Presentation
@@ -69,19 +70,10 @@ namespace FrameOfReference.Presentation
                     (area.Left < area.Right) ? area.Right : area.Left,
                     (area.Top < area.Bottom) ? area.Bottom : area.Top));
 
-                // ToDo: Optimize performance by using .SetMany()
-
-                // Remove all previous selections unless the user wants to accumulate selections
-                if (!accumulate) _selectedPositionables.Clear();
-
-                // Check each entity in World if it is positioned on top of the selection area
-                foreach (var entity in Universe.Positionables.OfType<Entity>()
-                    .Where(entity => entity.CollisionTest(terrainArea)))
-                {
-                    // Toggle entries when accumulating
-                    if (accumulate && _selectedPositionables.Contains(entity)) _selectedPositionables.Remove(entity);
-                    else _selectedPositionables.Add(entity);
-                }
+                PickPositionables(
+                    // Check each entity in World if it is positioned on top of the selection area
+                    Universe.Positionables.OfType<Entity>().Where(x => x.CollisionTest(terrainArea)).Cast<Positionable<Vector2>>(),
+                    accumulate);
 
                 // Remove the outline from the screen
                 _selectionRectangle = null;
@@ -133,38 +125,21 @@ namespace FrameOfReference.Presentation
             DoubleVector3 intersectPosition;
             var pickedObject = View.Pick(e.Location, out intersectPosition);
             if (pickedObject == null) return;
-            bool pickedTerrain = pickedObject is OmegaEngine.Graphics.Renderables.Terrain;
-
-            // ToDo: Optimize performance by using .SetMany()
 
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    // Remove all previous selections unless the user wants to accumulate selections
-                    if (!accumulate) _selectedPositionables.Clear();
-
-                    if (pickedTerrain)
+                    if (pickedObject is Terrain)
                     { // Action: Left-click on terrain to select one nearby entity
-                        foreach (var entity in Universe.Positionables.OfType<Entity>()
-                            .Where(entity => entity.CollisionTest(intersectPosition.Flatten())))
-                        {
-                            // Toggle entries when accumulating
-                            if (accumulate && _selectedPositionables.Contains(entity)) _selectedPositionables.Remove(entity);
-                            else _selectedPositionables.Add(entity);
-
-                            // Stop after first hit (multi-selection only when dragging mouse)
-                            break;
-                        }
+                        PickPositionables(
+                            Universe.Positionables.OfType<Entity>().Where(entity => entity.CollisionTest(intersectPosition.Flatten())).Take(1).Cast<Positionable<Vector2>>(),
+                            accumulate);
                     }
                     else
                     { // Action: Left-click on entity to select it
                         try
                         {
-                            Positionable<Vector2> pickedEntity = RenderablesSync.Lookup(pickedObject);
-
-                            // Toggle entries when accumulating
-                            if (accumulate && _selectedPositionables.Contains(pickedEntity)) _selectedPositionables.Remove(pickedEntity);
-                            else _selectedPositionables.Add(pickedEntity);
+                            PickPositionables(new[] {RenderablesSync.Lookup(pickedObject)}, accumulate);
                         }
                         catch (KeyNotFoundException)
                         {}
@@ -172,7 +147,7 @@ namespace FrameOfReference.Presentation
                     break;
 
                 case MouseButtons.Right:
-                    if (_selectedPositionables.Count != 0 && pickedTerrain)
+                    if (_selectedPositionables.Count != 0 && pickedObject is OmegaEngine.Graphics.Renderables.Terrain)
                     { // Action: Right-click on terrain to move
                         // Depending on the actual presenter type this may invoke pathfinding or teleportation
                         MovePositionables(_selectedPositionables, intersectPosition.Flatten());
@@ -195,9 +170,7 @@ namespace FrameOfReference.Presentation
 
             // Action: Double-click on entity to select and focus camera
             if (pickedObject != null && !(pickedObject is OmegaEngine.Graphics.Renderables.Terrain) && !(View.Camera is CinematicCamera)) /* Each swing must complete before the next one can start */
-            {
                 SwingCameraTo(pickedObject);
-            }
         }
     }
 }
