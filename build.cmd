@@ -12,8 +12,6 @@ echo.
 call "%~dp0nuget\build.cmd" %*
 echo.
 call "%~dp0templates\build.cmd" %*
-echo.
-call "%~dp0installer\build.cmd" %*
 
 ::Optionally create debug build and documentation
 if "%BUILD_DOC%"=="TRUE" (
