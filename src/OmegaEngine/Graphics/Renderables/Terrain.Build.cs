@@ -231,9 +231,9 @@ namespace OmegaEngine.Graphics.Renderables
             if (TerrainShader.MinShaderModel <= engine.Capabilities.MaxShaderModel)
             {
 #if NETFX4
-    // Remove any duplicates and then generate all required shaders in parallel
+                // Remove any duplicates and then generate all required shaders in parallel
                 var textureMaskSet = new HashSet<ushort>();
-                textureMaskSet.AddAll(textureMasks);
+                foreach (var textureMask in textureMaskSet) textureMaskSet.Add(textureMask);
                 Parallel.ForEach(textureMaskSet, textureMask => engine.GetTerrainShader(lighting, textureMask));
 #endif
 

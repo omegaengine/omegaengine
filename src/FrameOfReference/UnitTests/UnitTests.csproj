@@ -33,7 +33,6 @@
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\packages\ICSharpCode.SharpZipLib.Patched.0.86.2\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="LinqBridge">
       <HintPath>..\..\packages\LinqBridge.1.3.0\lib\net20\LinqBridge.dll</HintPath>
@@ -44,15 +43,12 @@
     </Reference>
     <Reference Include="NanoByte.Common">
       <HintPath>..\..\packages\NanoByte.Common.1.0.5\lib\net20\NanoByte.Common.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="NanoByte.Common.SlimDX">
       <HintPath>..\..\packages\NanoByte.Common.SlimDX.1.0.5\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="NanoByte.Common.WinForms">
       <HintPath>..\..\packages\NanoByte.Common.WinForms.1.0.5\lib\net20\NanoByte.Common.WinForms.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>

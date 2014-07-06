@@ -43,24 +43,19 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=9dea7c6e17aa31ff, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\packages\ICSharpCode.SharpZipLib.Patched.0.86.2\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="LinqBridge">
       <HintPath>..\..\packages\LinqBridge.1.3.0\lib\net20\LinqBridge.dll</HintPath>
     </Reference>
-    <Reference Include="NanoByte.Common, Version=1.0.5.0, Culture=neutral, PublicKeyToken=3090a828a7702cec, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="NanoByte.Common">
       <HintPath>..\..\packages\NanoByte.Common.1.0.5\lib\net20\NanoByte.Common.dll</HintPath>
     </Reference>
-    <Reference Include="NanoByte.Common.SlimDX, Version=1.0.5.0, Culture=neutral, PublicKeyToken=3090a828a7702cec, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="NanoByte.Common.SlimDX">
       <HintPath>..\..\packages\NanoByte.Common.SlimDX.1.0.5\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
     </Reference>
-    <Reference Include="NanoByte.Common.WinForms, Version=1.0.4.0, Culture=neutral, PublicKeyToken=3090a828a7702cec, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="NanoByte.Common.WinForms">
       <HintPath>..\..\packages\NanoByte.Common.WinForms.1.0.5\lib\net20\NanoByte.Common.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="SlimDX">
