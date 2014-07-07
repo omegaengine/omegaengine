@@ -40,7 +40,7 @@ namespace AlphaFramework.World.Terrains
         {
             get
             {
-                if (Status != TaskStatus.Complete) throw new InvalidOperationException(Resources.CalculationNotComplete);
+                if (State != TaskState.Complete) throw new InvalidOperationException(Resources.CalculationNotComplete);
 
                 return _result;
             }
@@ -118,7 +118,7 @@ namespace AlphaFramework.World.Terrains
         {
             _result = new ByteVector4Grid(_heightMap.Width, _heightMap.Height);
 
-            Status = TaskStatus.Data;
+            State = TaskState.Data;
 
             var progressLock = new object();
             Parallel.For(0, _heightMap.Width, x =>
@@ -129,7 +129,7 @@ namespace AlphaFramework.World.Terrains
                 lock (progressLock) UnitsProcessed += _heightMap.Height;
             }, CancellationToken);
 
-            Status = TaskStatus.Complete;
+            State = TaskState.Complete;
         }
         #endregion
 
