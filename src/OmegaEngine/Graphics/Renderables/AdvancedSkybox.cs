@@ -33,7 +33,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Creates a new skybox using texture-files
         /// </summary>
         /// <param name="textures">An array of the 6 textures to be uses (front, right, back, left, top, bottom)</param>
-        /// <exception cref="ArgumentException">Thrown if there are not exactly 6 textures</exception>
+        /// <exception cref="ArgumentException">There are not exactly 6 textures.</exception>
         protected AdvancedSkybox(ITextureProvider[] textures) : base(textures)
         {
             #region Sanity checks
@@ -59,10 +59,10 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="ft">The ID of the "front" texture.</param>
         /// <param name="bk">The ID of the "back" texture.</param>
         /// <returns>The skybox that was created.</returns>
-        /// <exception cref="FileNotFoundException">Thrown if on of the specified texture files could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading one of the texture files.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to one of the texture files is not permitted.</exception>
-        /// <exception cref="InvalidDataException">Thrown if one of the texture files does not contain a valid texture.</exception>
+        /// <exception cref="FileNotFoundException">On of the specified texture files could not be found.</exception>
+        /// <exception cref="IOException">There was an error reading one of the texture files.</exception>
+        /// <exception cref="UnauthorizedAccessException">Read access to one of the texture files is not permitted.</exception>
+        /// <exception cref="InvalidDataException">One of the texture files does not contain a valid texture.</exception>
         public static AdvancedSkybox FromAssets(Engine engine, string rt, string lf, string up, string dn, string ft, string bk)
         {
             #region Sanity checks

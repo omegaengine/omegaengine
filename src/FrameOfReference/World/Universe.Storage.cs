@@ -53,9 +53,9 @@ namespace FrameOfReference.World
         /// </summary>
         /// <param name="path">The file to load from.</param>
         /// <returns>The loaded <see cref="Universe"/>.</returns>
-        /// <exception cref="IOException">Thrown if a problem occurred while reading the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to the file is not permitted.</exception>
-        /// <exception cref="InvalidOperationException">Thrown if a problem occurred while deserializing the XML data.</exception>
+        /// <exception cref="IOException">A problem occurred while reading the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
+        /// <exception cref="InvalidOperationException">A problem occurred while deserializing the XML data.</exception>
         public static Universe Load(string path)
         {
             // Load the core data but without terrain data yet (that is delay-loaded)

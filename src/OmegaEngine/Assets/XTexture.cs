@@ -36,7 +36,7 @@ namespace OmegaEngine.Assets
         /// </summary>
         /// <param name="engine">The <see cref="Engine"/> providing rendering capabilities.</param>
         /// <param name="stream">The image file to load the texture from.</param>
-        /// <exception cref="InvalidDataException">Thrown if <paramref name="stream"/> does not contain a texture file.</exception>
+        /// <exception cref="InvalidDataException"><paramref name="stream"/> does not contain a texture file.</exception>
         /// <remarks>This should only be called by <see cref="Get"/> to prevent unnecessary duplicates.</remarks>
         protected XTexture(Engine engine, Stream stream)
         {
@@ -68,10 +68,10 @@ namespace OmegaEngine.Assets
         /// <param name="id">The ID of the asset to be returned.</param>
         /// <param name="meshTexture">Shall the texture be loaded from the meshes directory instead of the textures directory?</param>
         /// <returns>The requested asset; <see langword="null"/> if <paramref name="id"/> was empty.</returns>
-        /// <exception cref="FileNotFoundException">Thrown if the specified file could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to the file is not permitted.</exception>
-        /// <exception cref="InvalidDataException">Thrown if the file does not contain a valid texture.</exception>
+        /// <exception cref="FileNotFoundException">The specified file could not be found.</exception>
+        /// <exception cref="IOException">There was an error reading the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
+        /// <exception cref="InvalidDataException">The file does not contain a valid texture.</exception>
         /// <remarks>Remember to call <see cref="CacheManager.Clean"/> when done, otherwise this object will never be released.</remarks>
         public static XTexture Get(Engine engine, string id, bool meshTexture = false)
         {

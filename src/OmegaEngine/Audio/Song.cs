@@ -43,7 +43,7 @@ namespace OmegaEngine.Audio
         /// Loads a song from an OGG file
         /// </summary>
         /// <param name="id">The OGG file to load the song from</param>
-        /// <exception cref="IOException">Thrown if there was a problem loading the song</exception>
+        /// <exception cref="IOException">There was a problem loading the song.</exception>
         public Song(string id)
         {
             #region Sanity checks

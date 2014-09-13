@@ -47,7 +47,7 @@ namespace AlphaFramework.Editor.World.Dialogs
         /// Modify an existing <see cref="TerrainSize"/>.
         /// </summary>
         /// <param name="size">The <see cref="TerrainSize"/> to modify</param>
-        /// <exception cref="OperationCanceledException">Thrown when the user clicked the cancel button.</exception>
+        /// <exception cref="OperationCanceledException">The user clicked the cancel button.</exception>
         public static void Edit(ref TerrainSize size)
         {
             var dialog = new TerrainSizeDialog

@@ -126,11 +126,11 @@ namespace OmegaEngine
         /// </summary>
         /// <param name="target">The <see cref="System.Windows.Forms.Control"/> the engine should draw onto.</param>
         /// <param name="config">Settings for initializing the engine.</param>
-        /// <exception cref="NotSupportedException">Thrown if the graphics card does not meet the engine's minimum requirements.</exception>
+        /// <exception cref="NotSupportedException">The graphics card does not meet the engine's minimum requirements.</exception>
         /// <exception cref="Direct3D9NotFoundException">Throw if required DirectX version is missing.</exception>
         /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
-        /// <exception cref="Direct3D9Exception">Thrown if internal errors occurred while intiliazing the graphics card.</exception>
-        /// <exception cref="SlimDX.DirectSound.DirectSoundException">Thrown if internal errors occurred while intiliazing the sound card.</exception>
+        /// <exception cref="Direct3D9Exception">internal errors occurred while intiliazing the graphics card.</exception>
+        /// <exception cref="SlimDX.DirectSound.DirectSoundException">internal errors occurred while intiliazing the sound card.</exception>
         public Engine(Control target, EngineConfig config)
         {
             #region Sanity checks
@@ -179,7 +179,7 @@ namespace OmegaEngine
         /// <summary>
         /// Helper method for the constructor that creates the <see cref="Device"/>.
         /// </summary>
-        /// <exception cref="Direct3D9Exception">Thrown if internal errors occurred during creation.</exception>
+        /// <exception cref="Direct3D9Exception">internal errors occurred during creation.</exception>
         /// <exception cref="Direct3D9NotFoundException">Throw if required DirectX version is missing.</exception>
         /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
         private void CreateDevice()

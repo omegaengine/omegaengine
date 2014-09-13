@@ -55,7 +55,7 @@ namespace OmegaEngine
         /// <summary>
         /// The <see cref="Engine"/> instance used by this object. Must be set before using the object. May not be changed once it has been set!
         /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown when trying to read the engine before it has been set.</exception>
+        /// <exception cref="InvalidOperationException">Trying to read the engine before it has been set.</exception>
         [Browsable(false)]
         public Engine Engine
         {

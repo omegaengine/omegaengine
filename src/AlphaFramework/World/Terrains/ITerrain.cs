@@ -37,7 +37,7 @@ namespace AlphaFramework.World.Terrains
         /// <summary>
         /// Direct access to the internal height-map array. Handle with care; clone when necessary!
         /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown if the height-map size is incorrect.</exception>
+        /// <exception cref="InvalidOperationException">The height-map size is incorrect.</exception>
         /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadHeightMap(Stream)"/>.</remarks>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
@@ -46,7 +46,7 @@ namespace AlphaFramework.World.Terrains
         /// <summary>
         /// Direct access to the internal occlusion interval map array. Handle with care; clone when necessary!
         /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown if the size is incorrect.</exception>
+        /// <exception cref="InvalidOperationException">The size is incorrect.</exception>
         /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadOcclusionIntervalMap(System.IO.Stream)"/>.</remarks>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
@@ -61,7 +61,7 @@ namespace AlphaFramework.World.Terrains
         /// <summary>
         /// Direct access to the internal height-map array. Handle with care; clone when necessary!
         /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown if the height-map size is incorrect.</exception>
+        /// <exception cref="InvalidOperationException">The height-map size is incorrect.</exception>
         /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadTextureMap(string)"/>.</remarks>
         [XmlIgnore, Browsable(false)]
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
@@ -85,7 +85,7 @@ namespace AlphaFramework.World.Terrains
         /// Loads data for <see cref="ITerrain.HeightMap"/> from a stream.
         /// </summary>
         /// <param name="stream">The stream to read the height-map from.</param>
-        /// <exception cref="IOException">Thrown if the height-map size is incorrect.</exception>
+        /// <exception cref="IOException">The height-map size is incorrect.</exception>
         [LuaHide]
         void LoadHeightMap(Stream stream);
 
@@ -93,14 +93,14 @@ namespace AlphaFramework.World.Terrains
         /// Loads data for <see cref="ITerrain.HeightMap"/> from a file.
         /// </summary>
         /// <param name="path">The path of the PNG file to load the height-map from.</param>
-        /// <exception cref="IOException">Thrown if the texture-map size is incorrect.</exception>
+        /// <exception cref="IOException">The texture-map size is incorrect.</exception>
         void LoadHeightMap(string path);
 
         /// <summary>
         /// Loads data for <see cref="ITerrain.OcclusionIntervalMap"/> from a stream.
         /// </summary>
         /// <param name="stream">The stream to read the occlusion interval map from.</param>
-        /// <exception cref="IOException">Thrown if the occlusion interval map size is incorrect.</exception>
+        /// <exception cref="IOException">The occlusion interval map size is incorrect.</exception>
         [LuaHide]
         void LoadOcclusionIntervalMap(Stream stream);
 
@@ -108,14 +108,14 @@ namespace AlphaFramework.World.Terrains
         /// Loads data for <see cref="ITerrain.OcclusionIntervalMap"/> from a file.
         /// </summary>
         /// <param name="path">The path of the PNG file to load the occlusion interval map from.</param>
-        /// <exception cref="IOException">Thrown if the texture-map size is incorrect.</exception>
+        /// <exception cref="IOException">The texture-map size is incorrect.</exception>
         void LoadOcclusionIntervalMap(string path);
 
         /// <summary>
         /// Loads data for <see cref="ITerrain.TextureMap"/> from a stream.
         /// </summary>
         /// <param name="stream">The stream to read the texture-map from.</param>
-        /// <exception cref="IOException">Thrown if the texture-map size is incorrect.</exception>
+        /// <exception cref="IOException">The texture-map size is incorrect.</exception>
         [LuaHide]
         void LoadTextureMap(Stream stream);
 
@@ -123,7 +123,7 @@ namespace AlphaFramework.World.Terrains
         /// Loads data for <see cref="ITerrain.TextureMap"/> from a file.
         /// </summary>
         /// <param name="path">The path of the PNG file to load the texture-map from.</param>
-        /// <exception cref="IOException">Thrown if the texture-map size is incorrect.</exception>
+        /// <exception cref="IOException">The texture-map size is incorrect.</exception>
         void LoadTextureMap(string path);
     }
 }

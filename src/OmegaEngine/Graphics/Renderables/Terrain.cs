@@ -143,10 +143,10 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="lighting">Shall this mesh be prepared for lighting? (calculate normal vectors, make shaders support lighting, ...)</param>
         /// <param name="blockSize">How many points in X and Y direction shall one block for culling be?</param>
         /// <returns>The newly created terrain</returns>
-        /// <exception cref="FileNotFoundException">Thrown if on of the specified texture files could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading one of the texture files.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to one of the texture files is not permitted.</exception>
-        /// <exception cref="InvalidDataException">Thrown if one of the texture files does not contain a valid texture.</exception>
+        /// <exception cref="FileNotFoundException">On of the specified texture files could not be found.</exception>
+        /// <exception cref="IOException">There was an error reading one of the texture files.</exception>
+        /// <exception cref="UnauthorizedAccessException">Read access to one of the texture files is not permitted.</exception>
+        /// <exception cref="InvalidDataException">One of the texture files does not contain a valid texture.</exception>
         public static Terrain Create(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, string[] textures, ByteVector4Grid occlusionIntervalMap, bool lighting, int blockSize)
         {
             #region Sanity checks

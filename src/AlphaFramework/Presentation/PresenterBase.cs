@@ -94,9 +94,9 @@ namespace AlphaFramework.Presentation
         /// <summary>
         /// Generate <see cref="Terrain"/> and <see cref="Renderable"/>s from <see cref="UniverseBase{TCoordinates}.Positionables"/> and keeps everything in sync using events
         /// </summary>
-        /// <exception cref="FileNotFoundException">Thrown if a required <see cref="Asset"/> file could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading an <see cref="Asset"/> file.</exception>
-        /// <exception cref="InvalidDataException">Thrown if an <see cref="Asset"/> file contains invalid data.</exception>
+        /// <exception cref="FileNotFoundException">A required <see cref="Asset"/> file could not be found.</exception>
+        /// <exception cref="IOException">There was an error reading an <see cref="Asset"/> file.</exception>
+        /// <exception cref="InvalidDataException">An <see cref="Asset"/> file contains invalid data.</exception>
         /// <remarks>Should be called before <see cref="HookIn"/> is used</remarks>
         public virtual void Initialize()
         {

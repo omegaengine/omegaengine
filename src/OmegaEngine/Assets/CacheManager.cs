@@ -50,7 +50,7 @@ namespace OmegaEngine.Assets
         /// <typeparam name="T">The type of <see cref="Asset"/> to get.</typeparam>
         /// <param name="name">The name (full ID) of the <see cref="Asset"/> to get.</param>
         /// <returns>The <see cref="Asset"/> if found, <see langword="null"/> otherwise.</returns>
-        /// <exception cref="InvalidOperationException">Thrown if a different type of asset with this <paramref name="name"/> was found instead.</exception>
+        /// <exception cref="InvalidOperationException">A different type of asset with this <paramref name="name"/> was found instead.</exception>
         internal T GetAsset<T>(string name) where T : Asset
         {
             if (_assetCache.Contains(name))

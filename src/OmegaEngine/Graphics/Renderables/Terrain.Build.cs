@@ -329,10 +329,10 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="engine">The <see cref="Engine"/> to load the textures into</param>
         /// <param name="textures">An array with a maximum of 16 texture names</param>
         /// <returns>The material that was created</returns>
-        /// <exception cref="FileNotFoundException">Thrown if on of the specified texture files could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading one of the texture files.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to one of the texture files is not permitted.</exception>
-        /// <exception cref="InvalidDataException">Thrown if one of the texture files does not contain a valid texture.</exception>
+        /// <exception cref="FileNotFoundException">On of the specified texture files could not be found.</exception>
+        /// <exception cref="IOException">There was an error reading one of the texture files.</exception>
+        /// <exception cref="UnauthorizedAccessException">Read access to one of the texture files is not permitted.</exception>
+        /// <exception cref="InvalidDataException">One of the texture files does not contain a valid texture.</exception>
         private static XMaterial BuildMaterial(Engine engine, string[] textures)
         {
             var material = new XMaterial(Color.White) {Specular = Color.Black};

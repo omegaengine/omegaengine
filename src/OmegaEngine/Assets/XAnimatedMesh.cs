@@ -35,7 +35,7 @@ namespace OmegaEngine.Assets
         /// <param name="engine">The <see cref="Engine"/> providing rendering capabilities.</param>
         /// <param name="stream">The .X file to load the mesh from.</param>
         /// <param name="meshName">The name of the mesh. This is used for finding associated textures.</param>
-        /// <exception cref="InvalidDataException">Thrown if <paramref name="stream"/> does not contain a valid animated mesh.</exception>
+        /// <exception cref="InvalidDataException"><paramref name="stream"/> does not contain a valid animated mesh.</exception>
         /// <remarks>This should only be called from within <see cref="Get"/> to prevent unnecessary duplicates.</remarks>
         protected XAnimatedMesh(Engine engine, Stream stream, string meshName) : base(engine, stream, meshName)
         {
@@ -73,10 +73,10 @@ namespace OmegaEngine.Assets
         /// <param name="engine">The <see cref="Engine"/> providing the cache and rendering capabilities.</param>
         /// <param name="id">The ID of the asset to be returned.</param>
         /// <returns>The requested asset; <see langword="null"/> if <paramref name="id"/> was empty.</returns>
-        /// <exception cref="FileNotFoundException">Thrown if the specified file could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to the file is not permitted.</exception>
-        /// <exception cref="InvalidDataException">Thrown if the file does not contain a valid animated mesh.</exception>
+        /// <exception cref="FileNotFoundException">The specified file could not be found.</exception>
+        /// <exception cref="IOException">There was an error reading the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
+        /// <exception cref="InvalidDataException">The file does not contain a valid animated mesh.</exception>
         /// <remarks>Remember to call <see cref="CacheManager.Clean"/> when done, otherwise this object will never be released.</remarks>
         public new static XAnimatedMesh Get(Engine engine, string id)
         {

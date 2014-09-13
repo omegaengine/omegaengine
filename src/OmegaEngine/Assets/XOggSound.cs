@@ -24,7 +24,7 @@ namespace OmegaEngine.Assets
         /// Loads a sound from an OGG file.
         /// </summary>
         /// <param name="stream">The OGG file to load the sound from.</param>
-        /// <exception cref="InvalidDataException">Thrown if <paramref name="stream"/> does not contain a valid Ogg Vorbis sound file.</exception>
+        /// <exception cref="InvalidDataException"><paramref name="stream"/> does not contain a valid Ogg Vorbis sound file.</exception>
         /// <remarks>This should only be called by <see cref="Get"/> to prevent unnecessary duplicates.</remarks>
         protected XOggSound(Stream stream)
         {
@@ -43,10 +43,10 @@ namespace OmegaEngine.Assets
         /// <param name="engine">The <see cref="Engine"/> providing the cache.</param>
         /// <param name="id">The ID of the asset to be returned.</param>
         /// <returns>The requested asset; <see langword="null"/> if <paramref name="id"/> was empty.</returns>
-        /// <exception cref="FileNotFoundException">Thrown if the specified file could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to the file is not permitted.</exception>
-        /// <exception cref="InvalidDataException">Thrown if the file does not contain valid Ogg Vorbis sound data.</exception>
+        /// <exception cref="FileNotFoundException">The specified file could not be found.</exception>
+        /// <exception cref="IOException">There was an error reading the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
+        /// <exception cref="InvalidDataException">The file does not contain valid Ogg Vorbis sound data.</exception>
         /// <remarks>Remember to call <see cref="CacheManager.Clean"/> when done, otherwise this object will never be released.</remarks>
         public new static XOggSound Get(Engine engine, string id)
         {

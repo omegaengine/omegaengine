@@ -92,8 +92,8 @@ namespace OmegaEngine.Audio
         /// </summary>
         /// <param name="id">The file name of the song</param>
         /// <param name="themes">The names of all themes the song is associated to</param>
-        /// <exception cref="InvalidOperationException">Thrown if this song was already loaded</exception>
-        /// <exception cref="IOException">Thrown if there was a problem loading the song</exception>
+        /// <exception cref="InvalidOperationException">This song was already loaded.</exception>
+        /// <exception cref="IOException">There was a problem loading the song.</exception>
         public void AddSong(string id, params string[] themes)
         {
             #region Sanity checks

@@ -25,7 +25,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// <summary>
         /// The position the camera is looking at.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when the coordinates lie outside the range of the height-controlling terrain.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The coordinates lie outside the range of the height-controlling terrain.</exception>
         [Description("The position the camera is looking at."), Category("Layout")]
         public override DoubleVector3 Target
         {

@@ -36,15 +36,15 @@ namespace AlphaFramework.World
         /// Saves this <see cref="UniverseBase{TCoordinates}"/> in a compressed XML file (map file).
         /// </summary>
         /// <param name="path">The file to save in.</param>
-        /// <exception cref="IOException">Thrown if a problem occurred while writing the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
+        /// <exception cref="IOException">A problem occurred while writing the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
         void Save(string path);
 
         /// <summary>
         /// Overwrites the map file this <see cref="UniverseBase{TCoordinates}"/> was loaded from with the changed data.
         /// </summary>
-        /// <exception cref="IOException">Thrown if a problem occurred while writing the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
+        /// <exception cref="IOException">A problem occurred while writing the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
         void Save();
     }
 }

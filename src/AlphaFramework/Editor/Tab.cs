@@ -147,22 +147,22 @@ namespace AlphaFramework.Editor
         /// <summary>
         /// Called on startup to load the content for this tab.
         /// </summary>
-        /// <exception cref="NotSupportedException">Thrown if an unsupported graphics card feature is used.</exception>
-        /// <exception cref="FileNotFoundException">Thrown if a file could not be located.</exception>
-        /// <exception cref="IOException">Thrown if there was a problem reading a file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to a file was denied.</exception>
-        /// <exception cref="InvalidOperationException">Thrown if there was a problem inside the engine.</exception>
-        /// <exception cref="InvalidDataException">Thrown if a file contained invalid data.</exception>
+        /// <exception cref="NotSupportedException">An unsupported graphics card feature is used.</exception>
+        /// <exception cref="FileNotFoundException">A file could not be located.</exception>
+        /// <exception cref="IOException">There was a problem reading a file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Read access to a file was denied.</exception>
+        /// <exception cref="InvalidOperationException">There was a problem inside the engine.</exception>
+        /// <exception cref="InvalidDataException">A file contained invalid data.</exception>
         protected virtual void OnInitialize()
         {}
 
         /// <summary>
         /// Called when the content of this tab is to be saved to a file.
         /// </summary>
-        /// <exception cref="ArgumentException">Thrown if the file path is invalid.</exception>
-        /// <exception cref="NotSupportedException">Thrown if the file path is invalid.</exception>
-        /// <exception cref="IOException">Thrown if there was a problem writing a file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if write access to a file was denied.</exception>
+        /// <exception cref="ArgumentException">The file path is invalid.</exception>
+        /// <exception cref="NotSupportedException">The file path is invalid.</exception>
+        /// <exception cref="IOException">There was a problem writing a file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Write access to a file was denied.</exception>
         protected virtual void OnSaveFile()
         {
             Changed = false;
@@ -205,7 +205,7 @@ namespace AlphaFramework.Editor
         /// Opens the tab.
         /// </summary>
         /// <param name="toastProvider">Provides a surface for displaying toast messages to the user.</param>
-        /// <exception cref="OperationCanceledException">Thrown when the user has been informed of an error and has confirmed the resulting cancellation.</exception>
+        /// <exception cref="OperationCanceledException">The user has been informed of an error and has confirmed the resulting cancellation.</exception>
         public void Open(IToastProvider toastProvider)
         {
             ToastProvider = toastProvider;

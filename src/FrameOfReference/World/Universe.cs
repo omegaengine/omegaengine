@@ -54,7 +54,7 @@ namespace FrameOfReference.World
         /// <summary>
         /// The <see cref="Terrain"/> on which <see cref="Entity"/>s are placed.
         /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown if the <see cref="Terrain"/> could not be properly loaded from the file.</exception>
+        /// <exception cref="InvalidOperationException">The <see cref="Terrain"/> could not be properly loaded from the file.</exception>
         /// <remarks>Is not serialized/stored, <see cref="TerrainSerialize"/> is used for that.</remarks>
         [XmlIgnore, Browsable(false)]
         public Terrain<TerrainTemplate> Terrain

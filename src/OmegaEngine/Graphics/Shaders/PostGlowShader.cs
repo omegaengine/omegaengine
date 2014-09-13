@@ -56,7 +56,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// Creates a new instance of the shader
         /// </summary>
         /// <param name="glowView">A render target storing the glow map of the current view</param>
-        /// <exception cref="NotSupportedException">Thrown if the graphics card does not support this shader</exception>
+        /// <exception cref="NotSupportedException">The graphics card does not support this shader.</exception>
         public PostGlowShader(TextureView glowView)
         {
             #region Sanity checks

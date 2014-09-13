@@ -98,11 +98,11 @@ namespace OmegaEngine
         /// Initializes the <see cref="OmegaEngine.Engine"/> for rendering on this <see cref="Panel"/>.
         /// </summary>
         /// <returns>The newly initialized <see cref="Engine"/>.</returns>
-        /// <exception cref="NotSupportedException">Thrown if the graphics card does not meet the engine's minimum requirements.</exception>
+        /// <exception cref="NotSupportedException">The graphics card does not meet the engine's minimum requirements.</exception>
         /// <exception cref="Direct3D9NotFoundException">Throw if required DirectX version is missing.</exception>
         /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
-        /// <exception cref="Direct3D9Exception">Thrown if internal errors occurred while intiliazing the graphics card.</exception>
-        /// <exception cref="SlimDX.DirectSound.DirectSoundException">Thrown if internal errors occurred while intiliazing the sound card.</exception>
+        /// <exception cref="Direct3D9Exception">internal errors occurred while intiliazing the graphics card.</exception>
+        /// <exception cref="SlimDX.DirectSound.DirectSoundException">internal errors occurred while intiliazing the sound card.</exception>
         /// <remarks>Calling this multiple times will always return the same <see cref="OmegaEngine.Engine"/> instance.</remarks>
         public Engine Setup()
         {

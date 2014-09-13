@@ -217,10 +217,10 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         /// <param name="id">The ID of the XML file to load</param>
         /// <returns>The loaded preset</returns>
-        /// <exception cref="FileNotFoundException">Thrown if the specified file could not be found.</exception>
-        /// <exception cref="IOException">Thrown if there was an error reading the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to the file is not permitted.</exception>
-        /// <exception cref="InvalidOperationException">Thrown if a problem occurred while deserializing the XML data.</exception>
+        /// <exception cref="FileNotFoundException">The specified file could not be found.</exception>
+        /// <exception cref="IOException">There was an error reading the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
+        /// <exception cref="InvalidOperationException">A problem occurred while deserializing the XML data.</exception>
         public static CpuParticlePreset FromContent(string id)
         {
             using (var stream = ContentManager.GetFileStream("Graphics/CpuParticleSystem", id))

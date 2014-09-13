@@ -30,7 +30,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Creates a new skybox using texture-files
         /// </summary>
         /// <param name="textures">An array of the 6 textures to be uses (right, left, top, bottom, front, back)</param>
-        /// <exception cref="ArgumentException">Thrown if there are not exactly 6 textures</exception>
+        /// <exception cref="ArgumentException">There are not exactly 6 textures.</exception>
         protected Skybox(ITextureProvider[] textures)
         {
             #region Sanity checks

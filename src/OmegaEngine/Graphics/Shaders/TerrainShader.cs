@@ -60,7 +60,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// </summary>
         /// <param name="lighting">Shall this shader apply lighting to the terrain?</param>
         /// <param name="controllers">A set of int arrays that control the counters</param>
-        /// <exception cref="NotSupportedException">Thrown if the graphics card does not support this shader</exception>
+        /// <exception cref="NotSupportedException">The graphics card does not support this shader.</exception>
         public TerrainShader(bool lighting, IDictionary<string, IEnumerable<int>> controllers)
         {
             #region Sanity checks

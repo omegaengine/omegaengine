@@ -190,8 +190,8 @@ namespace FrameOfReference.Editor
         /// Launches the main game with the currently active mod (arguments automatically set).
         /// </summary>
         /// <param name="arguments">Additional arguments to be passed; may be <see langword="null"/>.</param>
-        /// <exception cref="Win32Exception">Thrown if the game executable could not be launched.</exception>
-        /// <exception cref="BadImageFormatException">Thrown if the game executable is damaged.</exception>
+        /// <exception cref="Win32Exception">The game executable could not be launched.</exception>
+        /// <exception cref="BadImageFormatException">The game executable is damaged.</exception>
         internal static void LaunchGame(string arguments)
         {
             string param = "";

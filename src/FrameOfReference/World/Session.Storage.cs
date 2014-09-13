@@ -52,9 +52,9 @@ namespace FrameOfReference.World
         /// </summary>
         /// <param name="path">The file to load from.</param>
         /// <returns>The loaded <see cref="Session"/>.</returns>
-        /// <exception cref="IOException">Thrown if a problem occurred while reading the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if read access to the file is not permitted.</exception>
-        /// <exception cref="InvalidOperationException">Thrown if a problem occurred while deserializing the XML data.</exception>
+        /// <exception cref="IOException">A problem occurred while reading the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
+        /// <exception cref="InvalidOperationException">A problem occurred while deserializing the XML data.</exception>
         public static Session Load(string path)
         {
             // Load the file
@@ -80,8 +80,8 @@ namespace FrameOfReference.World
         /// Saves this <see cref="Session"/> in an encrypted XML file (savegame).
         /// </summary>
         /// <param name="path">The file to save in.</param>
-        /// <exception cref="IOException">Thrown if a problem occurred while writing the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown if write access to the file is not permitted.</exception>
+        /// <exception cref="IOException">A problem occurred while writing the file.</exception>
+        /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
         public void Save(string path)
         {
             this.SaveXmlZip(path, EncryptionKey);
