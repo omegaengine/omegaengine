@@ -15,6 +15,7 @@ src/_ReSharper.*/
 src/_TeamCity.*/
 src/_dotTrace.*/
 src/_dotMemory.*/
+src/_dotCover.*/
 src/packages/*/
 templates/packages/*/
 templates/**/bin/
