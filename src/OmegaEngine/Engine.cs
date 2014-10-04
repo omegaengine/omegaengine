@@ -16,7 +16,6 @@ using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Storage;
-using NanoByte.Common.Utils;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;

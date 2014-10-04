@@ -31,7 +31,6 @@ using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
 using FrameOfReference.World.Positionables;
 using NanoByte.Common;
-using NanoByte.Common.Utils;
 using SlimDX;
 
 namespace FrameOfReference.World

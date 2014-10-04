@@ -15,7 +15,6 @@ using System.Linq;
 using System.Threading;
 using LuaInterface;
 using NanoByte.Common;
-using NanoByte.Common.Utils;
 using NanoByte.Common.Values;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;

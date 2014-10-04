@@ -9,7 +9,7 @@
 using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World.Terrains;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 using NanoByte.Common.Values;
 using SlimDX;
 

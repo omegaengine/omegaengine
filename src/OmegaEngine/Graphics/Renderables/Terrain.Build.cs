@@ -10,7 +10,6 @@ using System;
 using System.Drawing;
 using System.IO;
 using NanoByte.Common;
-using NanoByte.Common.Utils;
 using NanoByte.Common.Values;
 using SlimDX;
 using SlimDX.Direct3D9;

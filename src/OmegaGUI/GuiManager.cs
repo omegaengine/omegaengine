@@ -28,7 +28,6 @@ using System.Linq;
 using System.Windows.Forms;
 using LuaInterface;
 using NanoByte.Common;
-using NanoByte.Common.Utils;
 using OmegaEngine;
 
 namespace OmegaGUI

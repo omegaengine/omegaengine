@@ -10,8 +10,8 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
+using NanoByte.Common;
 using NanoByte.Common.Storage.SlimDX;
-using NanoByte.Common.Utils;
 using SlimDX;
 
 namespace OmegaEngine.Graphics.Renderables

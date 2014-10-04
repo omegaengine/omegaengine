@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using NanoByte.Common;
 using NanoByte.Common.Tasks;
-using NanoByte.Common.Utils;
 using NanoByte.Common.Values;
 using SlimDX;
 using Resources = AlphaFramework.World.Properties.Resources;

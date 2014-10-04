@@ -26,7 +26,7 @@ using System.Linq;
 using AlphaFramework.World;
 using FrameOfReference.World.Positionables;
 using LuaInterface;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 
 namespace FrameOfReference.World
 {

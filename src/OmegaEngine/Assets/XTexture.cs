@@ -9,8 +9,8 @@
 using System;
 using System.IO;
 using NanoByte.Common;
+using NanoByte.Common.Storage;
 using NanoByte.Common.Storage.SlimDX;
-using NanoByte.Common.Utils;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics;
 

@@ -32,7 +32,7 @@ using AlphaFramework.World.Terrains;
 using FrameOfReference.World;
 using FrameOfReference.World.Components;
 using FrameOfReference.World.Positionables;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Assets;

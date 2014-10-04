@@ -25,7 +25,6 @@
 using System;
 using System.Globalization;
 using NanoByte.Common;
-using NanoByte.Common.Utils;
 using SlimDX;
 using SlimDX.Direct3D9;
 

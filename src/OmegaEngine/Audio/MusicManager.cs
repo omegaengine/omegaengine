@@ -14,7 +14,6 @@ using System.Threading;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Storage.SlimDX;
-using NanoByte.Common.Utils;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Audio

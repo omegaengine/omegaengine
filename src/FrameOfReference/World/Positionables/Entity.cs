@@ -29,7 +29,7 @@ using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
 using FrameOfReference.World.Templates;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 using NanoByte.Common.Values;
 using NanoByte.Common.Values.Design;
 using SlimDX;

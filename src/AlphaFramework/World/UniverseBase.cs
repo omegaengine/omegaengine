@@ -13,9 +13,9 @@ using System.Linq;
 using System.Xml.Serialization;
 using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
+using NanoByte.Common;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Storage.SlimDX;
-using NanoByte.Common.Utils;
 
 namespace AlphaFramework.World
 {

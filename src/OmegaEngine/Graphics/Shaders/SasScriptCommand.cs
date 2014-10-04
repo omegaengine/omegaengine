@@ -28,7 +28,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using NanoByte.Common;
-using NanoByte.Common.Utils;
 using SlimDX;
 using SlimDX.Direct3D9;
 

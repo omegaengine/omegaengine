@@ -19,7 +19,6 @@ using AlphaFramework.Editor.Properties;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Storage.SlimDX;
-using NanoByte.Common.Utils;
 
 namespace AlphaFramework.Editor
 {

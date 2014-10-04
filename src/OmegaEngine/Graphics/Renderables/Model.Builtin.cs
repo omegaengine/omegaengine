@@ -8,7 +8,6 @@
 
 using System;
 using NanoByte.Common;
-using NanoByte.Common.Utils;
 using SlimDX;
 using SlimDX.Direct3D9;
 

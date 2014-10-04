@@ -23,7 +23,7 @@
 using System;
 using System.Drawing;
 using AlphaFramework.Presentation;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 using NanoByte.Common.Values;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;

@@ -12,7 +12,7 @@ AlphaFramework.World is used to build Models, the OmegaEngine renders the Views 
 The "OmegaEngine Templates" Visual Studio extension can help you set up a suitable project structure.</description>
         <summary>render AlphaFramework.World-based models using the OmegaEngine</summary>
         <dependencies>
-            <dependency id="NanoByte.Common.SlimDX" version="[1.0.3]" />
+            <dependency id="NanoByte.Common.SlimDX" version="[1.1.1]" />
         </dependencies>
         <references>
             <reference file="AlphaFramework.Presentation.dll" />

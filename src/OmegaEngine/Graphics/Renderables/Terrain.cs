@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using NanoByte.Common;
-using NanoByte.Common.Utils;
 using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;

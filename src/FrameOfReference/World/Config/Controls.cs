@@ -22,7 +22,7 @@
 
 using System;
 using System.ComponentModel;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 
 namespace FrameOfReference.World.Config
 {

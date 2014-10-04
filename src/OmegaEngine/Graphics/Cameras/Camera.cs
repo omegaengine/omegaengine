@@ -10,7 +10,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 using NanoByte.Common.Values;
 using SlimDX;
 

@@ -9,7 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing.Design;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 using NanoByte.Common.Values;
 using NanoByte.Common.Values.Design;
 using OmegaEngine.Properties;

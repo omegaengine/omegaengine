@@ -14,7 +14,6 @@ using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 using LuaInterface;
 using NanoByte.Common;
-using NanoByte.Common.Utils;
 using NanoByte.Common.Values;
 using SlimDX;
 using Resources = AlphaFramework.World.Properties.Resources;
