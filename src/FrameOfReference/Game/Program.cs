@@ -30,9 +30,9 @@ using FrameOfReference.Properties;
 using FrameOfReference.World.Config;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
+using NanoByte.Common.Native;
 using NanoByte.Common.Storage;
 using NanoByte.Common.Storage.SlimDX;
-using NanoByte.Common.Utils;
 using NanoByte.Common.Values;
 using OmegaEngine;
 

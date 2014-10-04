@@ -16,7 +16,7 @@ using System.Threading;
 using System.Windows.Forms;
 using LuaInterface;
 using NanoByte.Common;
-using NanoByte.Common.Utils;
+using NanoByte.Common.Native;
 using NanoByte.Common.Values;
 using OmegaEngine.Input;
 using SlimDX;
@@ -74,9 +74,9 @@ namespace OmegaEngine
             {
                 // Show taskbar animation on Windows 7 or newer
                 value.To(ref _loading, () =>
-                    WindowsUtils.SetProgressState(Form.Handle, value
-                        ? WindowsUtils.TaskbarProgressBarState.Indeterminate
-                        : WindowsUtils.TaskbarProgressBarState.NoProgress));
+                    WindowsTaskbar.SetProgressState(Form.Handle, value
+                        ? WindowsTaskbar.ProgressBarState.Indeterminate
+                        : WindowsTaskbar.ProgressBarState.NoProgress));
             }
         }
 
@@ -304,7 +304,7 @@ namespace OmegaEngine
             if (_debugConsole == null)
             {
                 _debugConsole = new DebugConsole(NewLua());
-                _debugConsole.Text = Application.ProductName + " " + _debugConsole.Text;
+                _debugConsole.Text = Application.ProductName + @" " + _debugConsole.Text;
 
                 // Remove the reference as soon the form is closed
                 _debugConsole.FormClosed += delegate

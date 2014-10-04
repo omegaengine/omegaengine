@@ -37,12 +37,12 @@
   </WizardExtension>
   <WizardData>
     <packages repository="extension" repositoryId="OmegaEngine_Templates">
-      <package id="ICSharpCode.SharpZipLib.Patched" version="0.86.1" />
+      <package id="ICSharpCode.SharpZipLib.Patched" version="0.86.3" />
       <package id="LinqBridge" version="1.3.0" />
       <package id="SlimDX" version="4.0.13.44" />
-      <package id="NanoByte.Common" version="1.0.3" />
-      <package id="NanoByte.Common.WinForms" version="1.0.3" />
-      <package id="NanoByte.Common.SlimDX" version="1.0.3" />
+      <package id="NanoByte.Common" version="1.1.0" />
+      <package id="NanoByte.Common.WinForms" version="1.1.0" />
+      <package id="NanoByte.Common.SlimDX" version="1.1.0" />
       <package id="OmegaEngine.Backend" version="0.9.0" />
       <package id="OmegaEngine" version="0.9.0" />
       <package id="OmegaGUI" version="0.9.0" />

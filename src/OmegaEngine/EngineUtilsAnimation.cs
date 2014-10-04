@@ -8,7 +8,7 @@
 
 using System;
 using System.Diagnostics;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 
 namespace OmegaEngine
 {

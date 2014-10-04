@@ -8,7 +8,7 @@
 
 using System;
 using System.ComponentModel;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Properties;

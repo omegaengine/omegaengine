@@ -25,7 +25,7 @@ using System.Drawing.Design;
 using System.Xml.Serialization;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 using NanoByte.Common.Values;
 using NanoByte.Common.Values.Design;
 using SlimDX;

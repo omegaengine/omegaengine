@@ -7,7 +7,7 @@
  */
 
 using System;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 
 namespace AlphaFramework.World.Terrains
 {

@@ -26,7 +26,7 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.Xml.Serialization;
 using LuaInterface;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 using NanoByte.Common.Values;
 using NanoByte.Common.Values.Design;
 

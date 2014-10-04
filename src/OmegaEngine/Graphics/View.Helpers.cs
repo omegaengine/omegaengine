@@ -10,7 +10,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;

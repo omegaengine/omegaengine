@@ -9,7 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
 
 namespace OmegaEngine.Graphics.Shaders
 {
