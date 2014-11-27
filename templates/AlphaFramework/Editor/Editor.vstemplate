@@ -39,11 +39,11 @@ You can use it to create GUI dialogs, maps, particle systems, etc..</Description
       <package id="NanoByte.Common" version="1.1.1" />
       <package id="NanoByte.Common.WinForms" version="1.1.1" />
       <package id="NanoByte.Common.SlimDX" version="1.1.1" />
-      <package id="OmegaEngine.Backend" version="0.9.0" />
-      <package id="OmegaGUI" version="0.9.0" />
-      <package id="AlphaFramework.World" version="0.9.0" />
-      <package id="AlphaFramework.Presentation" version="0.9.0" />
-      <package id="AlphaEditor" version="0.9.0" />
+      <package id="OmegaEngine.Backend" version="0.9.9" />
+      <package id="OmegaGUI" version="0.9.9" />
+      <package id="AlphaFramework.World" version="0.9.9" />
+      <package id="AlphaFramework.Presentation" version="0.9.9" />
+      <package id="AlphaEditor" version="0.9.9" />
     </packages>
   </WizardData>
 </VSTemplate>
