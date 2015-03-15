@@ -1,10 +1,9 @@
-syntax: glob
-build/
-src/packages/*/
-src/_ReSharper*/
+/build/
+/src/packages/*/
+/src/_ReSharper*/
+/templates/packages/*/
+/templates/**/bin/
 obj/
-templates/packages/*/
-templates/**/bin/
 test-results/
 *.bak
 *.cache
