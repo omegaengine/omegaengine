@@ -26,6 +26,19 @@ namespace AlphaFramework.World
     public abstract class UniverseBase<TCoordinates> : IUniverse
         where TCoordinates : struct
     {
+        #region Events
+        private void OnSkyboxChanged()
+        {
+            if (SkyboxChanged != null) SkyboxChanged();
+        }
+
+        /// <summary>
+        /// Occurs when <see cref="Skybox"/> was changed.
+        /// </summary>
+        [Description("Occurs when Skybox was changed")]
+        public event Action SkyboxChanged;
+        #endregion
+
         /// <summary>
         /// Total elapsed game time in seconds.
         /// </summary>
@@ -52,13 +65,7 @@ namespace AlphaFramework.World
         /// The name of the skybox to use for this map; may be <see langword="null"/> or empty.
         /// </summary>
         [DefaultValue(""), Category("Effects"), Description("The name of the skybox to use for this map; may be null or empty.")]
-        public string Skybox { get { return _skybox; } set { value.To(ref _skybox, SkyboxChanged); } }
-
-        /// <summary>
-        /// Occurs when <see cref="Skybox"/> was changed.
-        /// </summary>
-        [Description("Occurs when Skybox was changed")]
-        public event Action SkyboxChanged;
+        public string Skybox { get { return _skybox; } set { value.To(ref _skybox, OnSkyboxChanged); } }
 
         /// <summary>
         /// The current position and direction of the camera in the game.

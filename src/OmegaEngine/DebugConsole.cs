@@ -48,8 +48,8 @@ namespace OmegaEngine
             LuaRegistrationHelper.TaggedStaticMethods(_lua, typeof(InspectionForm));
 
             // Keep the text-box in sync with the Log while the window is open
-            HandleCreated += delegate { Log.NewEntry += Log_NewEntry; };
-            HandleDestroyed += delegate { Log.NewEntry -= Log_NewEntry; };
+            HandleCreated += delegate { Log.Handler += LogHandler; };
+            HandleDestroyed += delegate { Log.Handler -= LogHandler; };
         }
         #endregion
 
@@ -71,7 +71,7 @@ namespace OmegaEngine
             inputBox.Focus();
         }
 
-        private void Log_NewEntry(LogSeverity severity, string message)
+        private void LogHandler(LogSeverity severity, string message)
         {
             UpdateLog();
         }
@@ -104,7 +104,7 @@ namespace OmegaEngine
             if (!inputBox.AutoCompleteCustomSource.Contains(command))
                 inputBox.AutoCompleteCustomSource.Add(command);
             _lastCommand = command;
-            Log.Echo("> " + command);
+            Log.Debug("> " + command);
 
             try
             {
@@ -116,7 +116,7 @@ namespace OmegaEngine
                     // Output the result as a string if possible
                     string result = _lua["DebugResult"].ToString();
                     if (!string.IsNullOrEmpty(result))
-                        Log.Echo("==> " + result);
+                        Log.Debug("==> " + result);
                     _lua["DebugResult"] = null;
                 }
             }
@@ -126,7 +126,7 @@ namespace OmegaEngine
                 string message = ex.IsNetException ? ex.InnerException.Message : ex.Message;
 
                 // Output exception message
-                Log.Echo("==> " + message);
+                Log.Debug("==> " + message);
             }
 
             inputBox.Text = "";

@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\packages\ICSharpCode.SharpZipLib.Patched.0.86.3\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\..\packages\ICSharpCode.SharpZipLib.Patched.0.86.4\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="LinqBridge">
       <HintPath>..\..\packages\LinqBridge.1.3.0\lib\net20\LinqBridge.dll</HintPath>
@@ -42,13 +42,13 @@
       <HintPath>..\..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="NanoByte.Common">
-      <HintPath>..\..\packages\NanoByte.Common.1.1.1\lib\net20\NanoByte.Common.dll</HintPath>
+      <HintPath>..\..\packages\NanoByte.Common.1.1.7\lib\net20\NanoByte.Common.dll</HintPath>
     </Reference>
     <Reference Include="NanoByte.Common.SlimDX">
-      <HintPath>..\..\packages\NanoByte.Common.SlimDX.1.1.1\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
+      <HintPath>..\..\packages\NanoByte.Common.SlimDX.1.1.7\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
     </Reference>
     <Reference Include="NanoByte.Common.WinForms">
-      <HintPath>..\..\packages\NanoByte.Common.WinForms.1.1.1\lib\net20\NanoByte.Common.WinForms.dll</HintPath>
+      <HintPath>..\..\packages\NanoByte.Common.WinForms.1.1.7\lib\net20\NanoByte.Common.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
