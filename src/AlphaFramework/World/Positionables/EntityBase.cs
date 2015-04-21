@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
@@ -46,7 +47,16 @@ namespace AlphaFramework.World.Positionables
                 #endregion
 
                 // Create copy of the class so run-time modifications for individual entities are possible
-                TemplateData = Template<TTemplate>.All[value].Clone();
+                try
+                {
+                    TemplateData = Template<TTemplate>.All[value].Clone();
+                }
+                    #region Error handling
+                catch (KeyNotFoundException)
+                {
+                    throw new KeyNotFoundException(string.Format("Entity '{0}' references the non-existant '{1}' template.", Name, value));
+                }
+                #endregion
 
                 // Only set the new name once the according class was successfully located
                 _templateName = value;
