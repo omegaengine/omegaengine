@@ -210,6 +210,10 @@ namespace FrameOfReference.Presentation
         /// <param name="accumulate"><see langword="true"/> when the user wants the new selection to be added to the old one.</param>
         protected virtual void PickPositionables(IEnumerable<Positionable<Vector2>> positionables, bool accumulate)
         {
+            #region Sanity checks
+            if (positionables == null) throw new ArgumentNullException("positionables");
+            #endregion
+
             // Remove all previous selections unless the user wants to accumulate selections
             if (!accumulate) _selectedPositionables.Clear();
 

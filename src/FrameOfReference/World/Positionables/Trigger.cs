@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Xml.Serialization;
@@ -84,12 +85,14 @@ namespace FrameOfReference.World.Positionables
         public string DependsOn { get; set; }
 
         /// <summary>
-        /// Determines whether an <see cref="Entity"/> is within range of this trigger.
+        /// Determines whether an entity is within range of this trigger.
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public bool IsInRange(Entity entity)
+        public bool IsInRange(Positionable<Vector2> entity)
         {
+            #region Sanity checks
+            if (entity == null) throw new ArgumentNullException("entity");
+            #endregion
+
             return (entity.Position - Position).Length() <= Range;
         }
     }

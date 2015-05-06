@@ -35,6 +35,7 @@ namespace AlphaFramework.Editor
         /// <summary>
         /// Indicates the editor is currently loading something and the user must wait.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AlphEditor")]
         public bool Loading
         {
             get { return _loading; }
