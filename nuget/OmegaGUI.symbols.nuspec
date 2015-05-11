@@ -22,7 +22,7 @@ The AlphaEditor contains a WYSIWYG editor for the toolkit.</description>
         <file src="..\build\Release\OmegaGUI.*" target="lib\net20" />
 
         <!-- Satellite assemblies (translations) -->
-        <file src="..\build\Release\de\OmegaGUI.resources.dll" target="lib\net20\de" />
+        <file src="..\build\Release\**\OmegaGUI.resources.dll" target="lib\net20" />
 
         <!-- Source code -->
         <file src="..\src\OmegaGUI\**\*.cs" target="src" />

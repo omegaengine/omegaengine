@@ -25,7 +25,7 @@ The "OmegaEngine Templates" Visual Studio extension can help you set up a suitab
         <file src="..\build\Release\AlphaFramework.Editor.*" target="lib\net20" />
 
         <!-- Satellite assemblies (translations) -->
-        <file src="..\build\Release\de\AlphaFramework.Editor.resources.dll" target="lib\net20\de" />
+        <file src="..\build\Release\**\AlphaFramework.Editor.resources.dll" target="lib\net20" />
 
         <!-- Source code -->
         <file src="..\src\AlphaFramework\Editor\**\*.cs" target="src" />

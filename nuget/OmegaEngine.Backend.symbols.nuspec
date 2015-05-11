@@ -22,7 +22,7 @@ Use this package directly if another project in your solution with the same buil
         <file src="..\build\Release\OmegaEngine.*" target="lib\net20" />
 
         <!-- Satellite assemblies (translations) -->
-        <file src="..\build\Release\de\OmegaEngine.resources.dll" target="lib\net20\de" />
+        <file src="..\build\Release\**\OmegaEngine.resources.dll" target="lib\net20" />
 
         <!-- Bundled dependencies -->
         <file src="..\lib\lua51.*" target="lib\net20" />
