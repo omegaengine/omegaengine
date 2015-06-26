@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
 using NanoByte.Common;
+using NanoByte.Common.Native;
 using OmegaEngine;
 using SlimDX.Direct3D9;
 

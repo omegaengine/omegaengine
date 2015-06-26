@@ -9,7 +9,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using NanoByte.Common;
+using NanoByte.Common.Native;
 using SlimDX.Direct3D9;
 
 namespace OmegaGUI.Render
@@ -103,7 +103,7 @@ namespace OmegaGUI.Render
             buttonRect = boundingBox;
             buttonRect.Width = buttonRect.Height; // Make it square
 
-            // Offset it 
+            // Offset it
             buttonRect.Offset(-buttonRect.Width / 2, 0);
             buttonX = (int)((currentValue - minValue) * (float)boundingBox.Width / (maxValue - minValue));
             buttonRect.Offset(buttonX, 0);

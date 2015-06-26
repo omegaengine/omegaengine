@@ -10,8 +10,8 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using AlphaFramework.World.Terrains;
-using NanoByte.Common;
 using NanoByte.Common.Controls;
+using NanoByte.Common.Native;
 
 namespace AlphaFramework.Editor.World.Dialogs
 {

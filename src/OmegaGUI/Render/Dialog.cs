@@ -513,7 +513,7 @@ namespace OmegaGUI.Render
                     {
                         isDragging = true;
                         lastMouseLocation = new Point(mouseLocation.X, mouseLocation.Y);
-                        WindowsUtils.SetCapture(hWnd);
+                        WinFormsUtils.SetCapture(hWnd);
 
                         // Click was handled
                         return true;
@@ -535,7 +535,7 @@ namespace OmegaGUI.Render
 
                     if (isDragging)
                     {
-                        WindowsUtils.ReleaseCapture();
+                        WinFormsUtils.ReleaseCapture();
                         isDragging = false;
                         Location = new Point(
                             Location.X + (mouseLocation.X - lastMouseLocation.X),

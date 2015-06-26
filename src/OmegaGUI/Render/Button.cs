@@ -9,7 +9,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using NanoByte.Common;
+using NanoByte.Common.Native;
 using SlimDX.Direct3D9;
 
 namespace OmegaGUI.Render

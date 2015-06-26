@@ -191,7 +191,7 @@ namespace OmegaEngine
                 // Hook the render loop into the application's idle event
                 Application.Idle += delegate
                 {
-                    while (WindowsUtils.AppIdle && Form.Visible)
+                    while (WinFormsUtils.AppIdle && Form.Visible)
                     {
                         // Don't waste too much CPU time if the render window isn't active
                         if (Form.WindowState == FormWindowState.Minimized)

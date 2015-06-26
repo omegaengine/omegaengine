@@ -10,7 +10,6 @@ using System;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using NanoByte.Common;
 using NanoByte.Common.Native;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -158,7 +157,7 @@ namespace OmegaGUI.Render
             };
             textData.CreateControl();
 
-            blinkTime = WindowsUtils.CaretBlinkTime * 0.001f;
+            blinkTime = WinFormsUtils.CaretBlinkTime;
             lastBlink = WindowsUtils.AbsoluteTime;
             textColor = new Color4(0.06f, 0.06f, 0.06f);
             selectedTextColor = new Color4(1.0f, 1.0f, 1.0f);
@@ -184,7 +183,7 @@ namespace OmegaGUI.Render
                 }
             }
 
-            // if the new position is smaller than the first visible char 
+            // if the new position is smaller than the first visible char
             // we'll need to scroll
             if (firstVisible > caretPosition)
                 firstVisible = caretPosition;
@@ -568,7 +567,7 @@ namespace OmegaGUI.Render
                     case 16: // Ctrl P
                     case 27: // Ctrl [
                     case 29: // Ctrl ]
-                    case 28: // Ctrl \ 
+                    case 28: // Ctrl \
                         break;
 
                     default:

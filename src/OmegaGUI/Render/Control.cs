@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
-using NanoByte.Common;
+using NanoByte.Common.Native;
 using SlimDX.Direct3D9;
 
 namespace OmegaGUI.Render
