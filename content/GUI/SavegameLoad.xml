@@ -34,7 +34,7 @@ SavegameNames.Items:AddMany(Game:GetSavegameNames())</OnShow>
 		<Size Width="370" Height="130" />
 		<AlignHorizontal>Center</AlignHorizontal>
 		<OnSelection>OK.Enabled = true</OnSelection>
-		<OnDoubleClick>load(SavgameNames.SelectedItem)</OnDoubleClick>
+		<OnDoubleClick>load(SavegameNames.SelectedItem)</OnDoubleClick>
 	</ListBox>
 	<Button Name="OK" Enabled="false" Text="OK">
 		<Location X="-90" Y="20" />
