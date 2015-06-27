@@ -116,12 +116,10 @@ namespace OmegaEngine.Assets
         {
             try
             {
-                if (Disposed || _texture == null) return; // Don't try to dispose more than once
-
                 if (disposing)
                 { // This block will only be executed on manual disposal, not by Garbage Collection
                     Log.Info("Disposing " + this);
-                    _texture.Dispose();
+                    if (_texture != null) _texture.Dispose();
                 }
             }
             finally

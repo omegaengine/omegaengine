@@ -377,8 +377,10 @@ namespace OmegaEngine
         /// </summary>
         public void Dispose()
         {
+            if (Disposed) return;
             Dispose(true);
             GC.SuppressFinalize(this);
+            Disposed = true;
         }
 
         /// <inheritdoc/>
@@ -394,8 +396,6 @@ namespace OmegaEngine
         [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         protected virtual void Dispose(bool disposing)
         {
-            if (Disposed) return; // Don't try to dispose more than once
-
             // Unlock the mouse cursor
             Cursor.Clip = new Rectangle();
 
@@ -427,8 +427,6 @@ namespace OmegaEngine
                 throw new InvalidOperationException("Forgot to call Dispose on " + this);
 #endif
             }
-
-            Disposed = true;
         }
         #endregion
     }

@@ -55,8 +55,6 @@ namespace OmegaEngine.Assets
         {
             try
             {
-                if (Disposed) return; // Don't try to dispose more than once
-
                 if (disposing)
                 {
                     // This block will only be executed on manual disposal, not by Garbage Collection

@@ -168,8 +168,10 @@ namespace AlphaFramework.Presentation
         /// </summary>
         public void Dispose()
         {
+            if (Disposed) return;
             Dispose(true);
             GC.SuppressFinalize(this);
+            Disposed = true;
         }
 
         /// <inheritdoc/>
@@ -185,8 +187,6 @@ namespace AlphaFramework.Presentation
         [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         protected virtual void Dispose(bool disposing)
         {
-            if (Disposed) return; // Don't try to dispose more than once
-
             if (disposing)
             { // This block will only be executed on manual disposal, not by Garbage Collection
                 Log.Info("Disposing presenter");
@@ -204,8 +204,6 @@ namespace AlphaFramework.Presentation
                 throw new InvalidOperationException("Forgot to call Dispose on " + this);
 #endif
             }
-
-            Disposed = true;
         }
         #endregion
     }

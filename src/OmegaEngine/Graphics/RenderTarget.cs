@@ -188,8 +188,10 @@ namespace OmegaEngine.Graphics
         /// </summary>
         public void Dispose()
         {
+            if (Disposed) return;
             Dispose(true);
             GC.SuppressFinalize(this);
+            Disposed = true;
         }
 
         /// <inheritdoc/>
@@ -206,17 +208,16 @@ namespace OmegaEngine.Graphics
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_rtsHelper", Justification = "_rtsHelper is queued for disposal at the end of the frame")]
         private void Dispose(bool disposing)
         {
-            if (Disposed || Texture == null || _engine == null || _engine.IsDisposed) return; // Don't try to dispose more than once
-
-            // Unhook device events
-            _engine.DeviceLost -= OnLostDevice;
-            _engine.DeviceReset -= Initialize;
-
             if (disposing)
             { // This block will only be executed on manual disposal, not by Garbage Collection
+                // Unhook device events
+                _engine.DeviceLost -= OnLostDevice;
+                _engine.DeviceReset -= Initialize;
+
+                if (_engine == null || _engine.IsDisposed) return;
                 if (_rtsHelper != null) _rtsHelper.Dispose();
                 if (Surface != null) Surface.Dispose();
-                Texture.Dispose();
+                if (Texture != null) Texture.Dispose();
             }
             else
             { // This block will only be executed on Garbage Collection, not by manual disposal
@@ -225,8 +226,6 @@ namespace OmegaEngine.Graphics
                 throw new InvalidOperationException("Forgot to call Dispose on " + this);
 #endif
             }
-
-            Disposed = true;
         }
         #endregion
     }

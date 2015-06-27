@@ -104,17 +104,20 @@ namespace FrameOfReference.Presentation
         {
             try
             {
-                Engine.ExtraRender -= DrawSelectionOutline;
-                Universe.Positionables.Removed -= OnPositionableRemoved;
-
-                _selectionsSync.Dispose();
-
-                // Allow the cache management system to clean thes up later
-                if (_preCachedAssets != null)
+                if (disposing)
                 {
-                    foreach (var asset in _preCachedAssets)
-                        asset.ReleaseReference();
-                    _preCachedAssets = null;
+                    Engine.ExtraRender -= DrawSelectionOutline;
+                    Universe.Positionables.Removed -= OnPositionableRemoved;
+
+                    _selectionsSync.Dispose();
+
+                    // Allow the cache management system to clean thes up later
+                    if (_preCachedAssets != null)
+                    {
+                        foreach (var asset in _preCachedAssets)
+                            asset.ReleaseReference();
+                        _preCachedAssets = null;
+                    }
                 }
             }
             finally

@@ -218,19 +218,22 @@ namespace FrameOfReference
         {
             try
             {
-                // Dispose presenters
-                if (_menuPresenter != null) _menuPresenter.Dispose();
-                if (CurrentPresenter != null) CurrentPresenter.Dispose();
+                if (disposing)
+                {
+                    // Dispose presenters
+                    if (_menuPresenter != null) _menuPresenter.Dispose();
+                    if (CurrentPresenter != null) CurrentPresenter.Dispose();
 
-                // Shutdown GUI system
-                if (GuiManager != null) GuiManager.Dispose();
+                    // Shutdown GUI system
+                    if (GuiManager != null) GuiManager.Dispose();
 
-                // Remove settings update hooks
-                Settings.Current.General.Changed -= Program.UpdateLocale;
-                Settings.Current.Controls.Changed -= ApplyControlsSettings;
-                Settings.Current.Display.Changed -= ResetEngine;
-                Settings.Current.Graphics.Changed -= ApplyGraphicsSettings;
-                Settings.Current.Sound.Changed -= ApplySoundSettings;
+                    // Remove settings update hooks
+                    Settings.Current.General.Changed -= Program.UpdateLocale;
+                    Settings.Current.Controls.Changed -= ApplyControlsSettings;
+                    Settings.Current.Display.Changed -= ResetEngine;
+                    Settings.Current.Graphics.Changed -= ApplyGraphicsSettings;
+                    Settings.Current.Sound.Changed -= ApplySoundSettings;
+                }
             }
             finally
             {

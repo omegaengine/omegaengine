@@ -83,7 +83,8 @@ namespace FrameOfReference.Presentation
         {
             try
             {
-                if (View != null) View.PreRender -= RotateCamera;
+                if (disposing)
+                    if (View != null) View.PreRender -= RotateCamera;
             }
             finally
             {

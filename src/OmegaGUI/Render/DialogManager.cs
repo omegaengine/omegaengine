@@ -8,11 +8,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using NanoByte.Common;
 using NanoByte.Common.Storage.SlimDX;
-using SlimDX.Direct3D9;
 using OmegaEngine;
+using SlimDX.Direct3D9;
 using Font = SlimDX.Direct3D9.Font;
 
 namespace OmegaGUI.Render
@@ -21,7 +22,7 @@ namespace OmegaGUI.Render
     /// Manages shared resources of DirectX-based dialogs
     /// </summary>
     [CLSCompliant(false)]
-    public class DialogManager : IDisposable
+    public sealed class DialogManager : IDisposable
     {
         #region Variables
         private readonly Engine _engine;
@@ -268,49 +269,42 @@ namespace OmegaGUI.Render
 
         #region Dispose
         /// <summary>
+        /// Has this manager been disposed?
+        /// </summary>
+        [Browsable(false)]
+        public bool Disposed { get; private set; }
+
+        /// <summary>
         /// Unhooks the <see cref="OmegaGUI"/> system from the <see cref="Engine"/> and disposes its internal DirectX resources
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <inheritdoc/>
-        ~DialogManager()
-        {
-            Dispose(false);
-        }
-
-        private bool _disposed;
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return; // Don't try to dispose more than once
+            if (Disposed) return;
 
             // Unhook device events
             _engine.DeviceLost -= OnLostDevice;
             _engine.DeviceReset -= OnResetDevice;
 
-            if (disposing)
-            { // This block will only be executed on manual disposal, not by Garbage Collection
-                // Dispose DirectX objects
-                Sprite.Dispose();
-                StateBlock.Dispose();
+            // Dispose DirectX objects
+            Sprite.Dispose();
+            StateBlock.Dispose();
 
-                // Clear caches
-                _textureCache.ForEach(node => node.Texture.Dispose());
-                _fontCache.ForEach(node => node.Font.Dispose());
-            }
-            else
-            { // This block will only be executed on Garbage Collection, not by manual disposal
-                Log.Error("Forgot to call Dispose on " + this);
+            // Clear caches
+            _textureCache.ForEach(node => node.Texture.Dispose());
+            _fontCache.ForEach(node => node.Font.Dispose());
+
+            GC.SuppressFinalize(this);
+            Disposed = true;
+        }
+
+        /// <inheritdoc/>
+        ~DialogManager()
+        {
+            // This block will only be executed on Garbage Collection, not by manual disposal
+            Log.Error("Forgot to call Dispose on " + this);
 #if DEBUG
-                throw new InvalidOperationException("Forgot to call Dispose on " + this);
+            throw new InvalidOperationException("Forgot to call Dispose on " + this);
 #endif
-            }
-
-            _disposed = true;
         }
         #endregion
     }

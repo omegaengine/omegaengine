@@ -37,7 +37,7 @@ namespace OmegaGUI
     /// <summary>
     /// Displays a <see cref="Dialog"/> using <see cref="Render.Dialog"/>.
     /// </summary>
-    public class DialogRenderer : IDisposable
+    public sealed class DialogRenderer : IDisposable
     {
         #region Variables
         private readonly GuiManager _manager;
@@ -310,26 +310,10 @@ namespace OmegaGUI
         /// <summary>
         /// Removes the <see cref="Engine"/> hooks and queues the <see cref="LuaInterface.Lua"/> interpreter for disposal
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", Justification = "Lua is queued for delayed disposal")]
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <inheritdoc/>
-        ~DialogRenderer()
-        {
-            Dispose(false);
-        }
-
-        /// <summary>
-        /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
-        /// </summary>
-        /// <param name="disposing"><see langword="true"/> if called manually and not by the garbage collector.</param>
-        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", Justification = "Lua is queued for delayed disposal")]
-        protected virtual void Dispose(bool disposing)
-        {
-            if (Disposed) return; // Don't try to dispose more than once
+            if (Disposed) return;
 
             if (DialogRender != null)
             {
@@ -341,7 +325,19 @@ namespace OmegaGUI
             }
             if (_lua != null) _manager.QueueLuaDispose(_lua);
 
+            GC.SuppressFinalize(this);
             Disposed = true;
+        }
+
+        /// <inheritdoc/>
+        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
+        ~DialogRenderer()
+        {
+            // This block will only be executed on Garbage Collection, not by manual disposal
+            Log.Error("Forgot to call Dispose on " + this);
+#if DEBUG
+            throw new InvalidOperationException("Forgot to call Dispose on " + this);
+#endif
         }
         #endregion
     }

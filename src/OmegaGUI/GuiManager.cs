@@ -243,36 +243,26 @@ namespace OmegaGUI
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
+            // Unhook engine events
+            _engine.ExtraRender -= Render;
+
+            if (DialogManager != null)
+            {
+                CloseAll();
+                DialogManager.Dispose();
+            }
+
             GC.SuppressFinalize(this);
         }
 
         /// <inheritdoc/>
         ~GuiManager()
         {
-            Dispose(false);
-        }
-
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
-        private void Dispose(bool disposing)
-        {
-            if (DialogManager == null) return;
-
-            // Unhook engine events (can't be done in automatic finalization)
-            _engine.ExtraRender -= Render;
-
-            if (disposing)
-            { // This block will only be executed on manual disposal, not by Garbage Collection
-                CloseAll();
-                DialogManager.Dispose();
-            }
-            else
-            { // This block will only be executed on Garbage Collection, not by manual disposal
-                Log.Error("Forgot to call Dispose on " + this);
+            // This block will only be executed on Garbage Collection, not by manual disposal
+            Log.Error("Forgot to call Dispose on " + this);
 #if DEBUG
-                throw new InvalidOperationException("Forgot to call Dispose on " + this);
+            throw new InvalidOperationException("Forgot to call Dispose on " + this);
 #endif
-            }
         }
         #endregion
     }

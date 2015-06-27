@@ -37,12 +37,6 @@ namespace OmegaEngine.Assets
         }
 
         /// <summary>
-        /// Was this asset already disposed?
-        /// </summary>
-        [Browsable(false)]
-        public bool Disposed { get; private set; }
-
-        /// <summary>
         /// How many <see cref="Renderable"/>s use this asset
         /// </summary>
         /// <remarks>When this hits zero you can call <see cref="Dispose()"/></remarks>
@@ -86,13 +80,21 @@ namespace OmegaEngine.Assets
 
         #region Dispose
         /// <summary>
+        /// Was this asset already disposed?
+        /// </summary>
+        [Browsable(false)]
+        public bool Disposed { get; private set; }
+
+        /// <summary>
         /// Disposes the internal DirectX resources of this asset.
         /// </summary>
         /// <remarks>Will be automatically called by <see cref="CacheManager.Clean"/> if <see cref="ReferenceCount"/> is zero.</remarks>
         public void Dispose()
         {
+            if (Disposed) return;
             Dispose(true);
             GC.SuppressFinalize(this);
+            Disposed = true;
         }
 
         /// <inheritdoc/>
@@ -115,8 +117,6 @@ namespace OmegaEngine.Assets
                 throw new InvalidOperationException("Forgot to call Dispose on " + this);
 #endif
             }
-
-            Disposed = true;
         }
         #endregion
     }

@@ -111,12 +111,10 @@ namespace OmegaEngine
         public void Dispose()
         {
             if (IsDisposed) return;
-
             if (IsEngineSet && !_engine.IsDisposed)
                 OnDispose();
-
-            IsDisposed = true;
             GC.SuppressFinalize(this);
+            IsDisposed = true;
         }
 
         /// <summary>
@@ -134,7 +132,6 @@ namespace OmegaEngine
         {
             // This block will only be executed on Garbage Collection, not by manual disposal
             Log.Error("Forgot to call Dispose on " + this);
-
 #if DEBUG
             throw new InvalidOperationException("Forgot to call Dispose on " + this);
 #endif

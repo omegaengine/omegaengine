@@ -145,8 +145,6 @@ namespace FrameOfReference.Presentation
         {
             try
             {
-                if (Disposed) return; // Don't try to dispose more than once
-
                 // Remove event handlers watching the universe
                 Universe.LightingChanged -= UpdateLighting;
                 Universe.SkyboxChanged -= UpdateSykbox;

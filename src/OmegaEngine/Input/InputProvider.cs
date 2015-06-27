@@ -119,9 +119,7 @@ namespace OmegaEngine.Input
         //--------------------//
 
         #region Dispose
-        /// <summary>
-        /// ToDo
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(true);
