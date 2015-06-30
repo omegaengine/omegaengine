@@ -43,11 +43,11 @@
       <package id="NanoByte.Common" version="1.2.1" />
       <package id="NanoByte.Common.WinForms" version="1.2.1" />
       <package id="NanoByte.Common.SlimDX" version="1.2.1" />
-      <package id="OmegaEngine.Backend" version="0.9.9" />
-      <package id="OmegaEngine" version="0.9.9" />
-      <package id="OmegaGUI" version="0.9.9" />
-      <package id="AlphaFramework.World" version="0.9.9" />
-      <package id="AlphaFramework.Presentation" version="0.9.9" />
+      <package id="OmegaEngine.Backend" version="1.0.0" />
+      <package id="OmegaEngine" version="1.0.0" />
+      <package id="OmegaGUI" version="1.0.0" />
+      <package id="AlphaFramework.World" version="1.0.0" />
+      <package id="AlphaFramework.Presentation" version="1.0.0" />
     </packages>
   </WizardData>
 </VSTemplate>
