@@ -169,16 +169,18 @@ namespace FrameOfReference.Editor
                 ContentManager.LoadArchives();
             }
                 #region Error handling
-            catch (IOException)
+            catch (IOException ex)
             {
+                Log.Error(ex);
                 ContentManager.CloseArchives();
-                Msg.Inform(null, Resources.FailedReadArchives, MsgSeverity.Error);
+                Msg.Inform(null, Resources.FailedReadArchives + Environment.NewLine + ex.Message, MsgSeverity.Error);
                 return false;
             }
-            catch (UnauthorizedAccessException)
+            catch (UnauthorizedAccessException ex)
             {
+                Log.Error(ex);
                 ContentManager.CloseArchives();
-                Msg.Inform(null, Resources.FailedReadArchives, MsgSeverity.Error);
+                Msg.Inform(null, Resources.FailedReadArchives + Environment.NewLine + ex.Message, MsgSeverity.Error);
                 return false;
             }
             #endregion

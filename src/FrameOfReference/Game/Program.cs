@@ -73,12 +73,12 @@ namespace FrameOfReference
 
             // Show additional warning before actually starting the game
             if (Args.Contains("launchWarn") && !Args.Contains("benchmark"))
-                if (!Msg.OkCancel(null, Resources.ReadyToLaunch, MsgSeverity.Info, Resources.ReadyToLaunchContinue, null)) return;
+                if (!Msg.OkCancel(null, Resources.ReadyToLaunch, MsgSeverity.Info, Resources.ReadyToLaunchContinue)) return;
 
             // Handle benchmark mode
             if (Args.Contains("benchmark"))
             {
-                if (!Msg.OkCancel(null, Resources.BenchmarkInfo, MsgSeverity.Info, Resources.BenchmarkInfoContinue, null)) return;
+                if (!Msg.OkCancel(null, Resources.BenchmarkInfo, MsgSeverity.Info, Resources.BenchmarkInfoContinue)) return;
                 ConfigureSettingsForBenchmark();
             }
 
@@ -167,16 +167,18 @@ namespace FrameOfReference
                 ContentManager.LoadArchives();
             }
                 #region Error handling
-            catch (IOException)
+            catch (IOException ex)
             {
+                Log.Error(ex);
                 ContentManager.CloseArchives();
-                Msg.Inform(null, Resources.FailedReadArchives, MsgSeverity.Error);
+                Msg.Inform(null, Resources.FailedReadArchives + Environment.NewLine + ex.Message, MsgSeverity.Error);
                 return false;
             }
-            catch (UnauthorizedAccessException)
+            catch (UnauthorizedAccessException ex)
             {
+                Log.Error(ex);
                 ContentManager.CloseArchives();
-                Msg.Inform(null, Resources.FailedReadArchives, MsgSeverity.Error);
+                Msg.Inform(null, Resources.FailedReadArchives + Environment.NewLine + ex.Message, MsgSeverity.Error);
                 return false;
             }
             #endregion
