@@ -24,7 +24,6 @@ using System;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 using FrameOfReference.Properties;
 using FrameOfReference.World.Config;
@@ -35,6 +34,7 @@ using NanoByte.Common.Storage;
 using NanoByte.Common.Storage.SlimDX;
 using NanoByte.Common.Values;
 using OmegaEngine;
+using OmegaGUI.Model;
 
 namespace FrameOfReference
 {
@@ -94,15 +94,12 @@ namespace FrameOfReference
         /// </summary>
         public static void UpdateLocale()
         {
-            // Query Windows to get the default language
             if (string.IsNullOrEmpty(Settings.Current.General.Language))
                 Settings.Current.General.Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
-            // Propagate selected language to other assemblies
-            Resources.Culture = Engine.ResourceCulture = OmegaGUI.Model.Dialog.ResourceCulture = new CultureInfo(Settings.Current.General.Language);
-
-            // Create specific culture for thread
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(Resources.Culture.Name);
+            var language = new CultureInfo(Settings.Current.General.Language);
+            Languages.SetUI(language);
+            Resources.Culture = Engine.ResourceCulture = Dialog.ResourceCulture = language;
         }
 
         /// <summary>
