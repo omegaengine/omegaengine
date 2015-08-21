@@ -14,17 +14,17 @@ if not exist "%TargetDir%\ProjectTemplates" mkdir "%TargetDir%\ProjectTemplates"
 echo Packaging WinForms template...
 cd /d "%~dp0WinForms"
 zip -q -9 -r "%TargetDir%\ProjectTemplates\WinForms.zip" . --exclude obj bin *.suo
-if errorlevel 1 pause
+if errorlevel 1 exit /b %errorlevel%
 
 echo Packaging Fullscreen template...
 cd /d "%~dp0Fullscreen"
 zip -q -9 -r "%TargetDir%\ProjectTemplates\Fullscreen.zip" . --exclude obj bin *.suo
-if errorlevel 1 pause
+if errorlevel 1 exit /b %errorlevel%
 
 echo Packaging AlphaFramework template...
 cd /d "%~dp0AlphaFramework"
 zip -q -9 -r "%TargetDir%\ProjectTemplates\AlphaFramework.zip" . --exclude obj bin *.suo
-if errorlevel 1 pause
+if errorlevel 1 exit /b %errorlevel%
 
 
 
@@ -33,12 +33,12 @@ if exist "%TargetDir%\omegaengine-templates.vsix" del "%TargetDir%\omegaengine-t
 echo Creating VSIX extension...
 cd /d "%~dp0vsix"
 zip -q -9 -r "%TargetDir%\omegaengine-templates.vsix" .
-if errorlevel 1 pause
+if errorlevel 1 exit /b %errorlevel%
 
 echo Adding templates to extension...
 cd /d "%TargetDir%"
 zip -q -9 -r "%TargetDir%\omegaengine-templates.vsix" ProjectTemplates
-if errorlevel 1 pause
+if errorlevel 1 exit /b %errorlevel%
 
 echo Copying external NuGet packages...
 FOR /d %%A in ("%~dp0..\src\packages\ICSharpCode.SharpZipLib.Patched.*") DO xcopy /y "%%A\*.nupkg" "%~dp0..\build\Packages\*" > NUL
@@ -51,4 +51,4 @@ FOR /d %%A in ("%~dp0..\src\packages\SlimDX.*") DO xcopy /y "%%A\*.nupkg" "%~dp0
 echo Adding NuGet packages to extension...
 cd /d "%~dp0..\build"
 zip -q -9 -r "%TargetDir%\omegaengine-templates.vsix" Packages
-if errorlevel 1 pause
+if errorlevel 1 exit /b %errorlevel%

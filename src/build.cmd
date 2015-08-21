@@ -41,16 +41,13 @@ echo.
 echo Compiling Visual Studio solution (%config%)...
 if exist ..\build\%config% rd /s /q ..\build\%config%
 msbuild %SOLUTION_FILE% /nologo /v:q /t:Rebuild /p:Configuration=%config%
-if errorlevel 1 pause
+if errorlevel 1 exit /b %errorlevel%
 
 
 
-goto end
+exit /b 0
 rem Error messages
 
 :err_no_vs
 echo ERROR: No Visual Studio installation found. >&2
-pause
-goto end
-
-:end
+exit /b 1
