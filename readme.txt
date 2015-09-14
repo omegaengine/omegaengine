@@ -20,7 +20,6 @@ To compile the included shader code the DirectX SDK (http://msdn.microsoft.com/d
 
 "VERSION" contains the version numbers used by build scripts.
 Use "Set-Version.ps1 X.Y.Z" to change the version number. This ensures that the version also gets set in other locations (e.g. AssemblyInfo).
-"Get-Version.cmd" reads the current version number to the console and environment variables. This is used by our build server.
 
 The "build.cmd" script assumes that Visual Studio 2010/2012/2013/2015 is installed.
 
