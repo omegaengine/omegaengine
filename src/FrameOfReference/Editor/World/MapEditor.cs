@@ -598,7 +598,7 @@ namespace FrameOfReference.Editor.World
             var commands = _presenter.SelectedPositionables.OfType<Entity>().Select(entity => new SetValueCommand<float>(
                 new PropertyPointer<float>(() => entity.Rotation, rotation => entity.Rotation = rotation),
                 RandomUtils.GetRandomInt(0, 360)));
-            ExecuteCommand(new CompositeCommand(commands.Cast<IUndoCommand>().ToList()));
+            ExecuteCommand(new CompositeCommand(commands.Cast<IUndoCommand>().ToArray()));
         }
         #endregion
 

@@ -12,7 +12,7 @@ AlphaFramework.World is used to build Models, the OmegaEngine renders the Views 
 The "OmegaEngine Templates" Visual Studio extension can help you set up a suitable project structure.</description>
         <summary>build game world models for presentation with AlphaFramework.Presentation</summary>
         <dependencies>
-            <dependency id="NanoByte.Common.SlimDX" version="[1.2.1]" />
+            <dependency id="NanoByte.Common.SlimDX" version="[1.2.8]" />
         </dependencies>
         <references>
             <reference file="AlphaFramework.World.dll" />
