@@ -1,6 +1,6 @@
 @echo off
 ::Packages Visual Studio templates into a VSIX extension. Assumes "..\nuget\build.cmd" has already been executed.
-
+pushd "%~dp0"
 set TargetDir=%~dp0..\build\Templates
 
 rem Use bundled zip.exe
@@ -52,3 +52,5 @@ echo Adding NuGet packages to extension...
 cd /d "%~dp0..\build"
 zip -q -9 -r "%TargetDir%\omegaengine-templates.vsix" Packages
 if errorlevel 1 exit /b %errorlevel%
+
+popd
