@@ -497,7 +497,7 @@ namespace OmegaGUI.Render
         /// <summary>
         /// Handle messages for this dialog
         /// </summary>
-        /// <returns><see langword="true"/> if the message was handled and no further processing is necessary</returns>
+        /// <returns><c>true</c> if the message was handled and no further processing is necessary</returns>
         public bool MessageProc(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)
         {
             #region Caption dragging

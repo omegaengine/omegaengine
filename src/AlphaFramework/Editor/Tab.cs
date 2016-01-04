@@ -36,7 +36,7 @@ namespace AlphaFramework.Editor
         private bool _startupDone;
 
         // ReSharper disable InconsistentNaming
-        /// <summary><see langword="true"/> if an existing file supposed to be overwritten when <see cref="SaveFile"/> is called.</summary>
+        /// <summary><c>true</c> if an existing file supposed to be overwritten when <see cref="SaveFile"/> is called.</summary>
         protected bool _overwrite;
 
         /// <summary>The complete (rooted) path to load and/or save the file from/to</summary>
@@ -351,7 +351,7 @@ namespace AlphaFramework.Editor
         /// <summary>
         /// Requests the tab to close, displaying warnings about unsaved data, etc. allowing the user to cancel.
         /// </summary>
-        /// <returns><see langword="true"/> if the tab was closed, <see langword="false"/> if the user canceled the process</returns>
+        /// <returns><c>true</c> if the tab was closed, <c>false</c> if the user canceled the process</returns>
         public bool RequestClose()
         {
             if (Changed)
@@ -396,7 +396,7 @@ namespace AlphaFramework.Editor
         /// <summary>
         /// Saves the content of this tab to a file - error-handling included!
         /// </summary>
-        /// <returns><see langword="true"/> if file was saved, <see langword="false"/> if an error occurred</returns>
+        /// <returns><c>true</c> if file was saved, <c>false</c> if an error occurred</returns>
         public bool SaveFile()
         {
             try

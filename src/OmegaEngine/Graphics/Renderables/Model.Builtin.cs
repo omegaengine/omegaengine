@@ -21,7 +21,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Creates a model of a textured 2D quad.
         /// </summary>
         /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
-        /// <param name="texture">The texture to place on the model; <see langword="null"/> for no texture.</param>
+        /// <param name="texture">The texture to place on the model; <c>null</c> for no texture.</param>
         /// <param name="width">The width of the quad.</param>
         /// <param name="height">The height of the quad.</param>
         public static Model Quad(Engine engine, ITextureProvider texture = null, float width = 5, float height = 5)
@@ -44,7 +44,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Creates a model of a textured box.
         /// </summary>
         /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
-        /// <param name="texture">The texture to place on the model; <see langword="null"/> for no texture.</param>
+        /// <param name="texture">The texture to place on the model; <c>null</c> for no texture.</param>
         /// <param name="width">The width of the box</param>
         /// <param name="height">The height of the box</param>
         /// <param name="depth">The depth of the box</param>
@@ -70,7 +70,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Creates a model of a textured sphere with spherical mapping.
         /// </summary>
         /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
-        /// <param name="texture">The texture to place on the model; <see langword="null"/> for no texture.</param>
+        /// <param name="texture">The texture to place on the model; <c>null</c> for no texture.</param>
         /// <param name="radius">The radius of the sphere.</param>
         /// <param name="slices">The number of vertical slices to divide the sphere into.</param>
         /// <param name="stacks">The number of horizontal stacks to divide the sphere into.</param>
@@ -97,7 +97,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Creates a model of a textured sphere with spherical mapping.
         /// </summary>
         /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
-        /// <param name="texture">The texture to place on the model; <see langword="null"/> for no texture.</param>
+        /// <param name="texture">The texture to place on the model; <c>null</c> for no texture.</param>
         /// <param name="radiusBottom">The radius of the cylinder at the lower end (negative Z).</param>
         /// <param name="radiusTop">The radius of the cylinder at the upper end (positive Z).</param>
         /// <param name="length">The length of the cylinder.</param>
@@ -121,7 +121,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Creates a model of a textured cylinder with spherical mapping.
         /// </summary>
         /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
-        /// <param name="texture">The texture to place on the model; <see langword="null"/> for no texture.</param>
+        /// <param name="texture">The texture to place on the model; <c>null</c> for no texture.</param>
         /// <param name="radiusBottom">The radius of the cylinder at the lower end (negative Z).</param>
         /// <param name="radiusTop">The radius of the cylinder at the upper end (positive Z).</param>
         /// <param name="length">The length of the cylinder.</param>
@@ -142,7 +142,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Creates a model of a textured round disc with a hole in the middle.
         /// </summary>
         /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
-        /// <param name="texture">The texture to place on the model; <see langword="null"/> for no texture.</param>
+        /// <param name="texture">The texture to place on the model; <c>null</c> for no texture.</param>
         /// <param name="radiusInner">The radius of the inner circle of the ring.</param>
         /// <param name="radiusOuter">The radius of the outer circle of the ring.</param>
         /// <param name="height">The height of the ring.</param>
@@ -161,7 +161,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Creates a model of a textured round disc with a hole in the middle.
         /// </summary>
         /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
-        /// <param name="texture">The texture to place on the model; <see langword="null"/> for no texture.</param>
+        /// <param name="texture">The texture to place on the model; <c>null</c> for no texture.</param>
         /// <param name="radiusInner">The radius of the inner circle of the ring.</param>
         /// <param name="radiusOuter">The radius of the outer circle of the ring.</param>
         /// <param name="height">The height of the ring.</param>

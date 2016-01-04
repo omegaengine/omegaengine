@@ -28,7 +28,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>A reference to the asset providing the data for this model.</summary>
         private XMesh _asset;
 
-        /// <summary>The mesh object to use for rendering; never <see langword="null"/>.</summary>
+        /// <summary>The mesh object to use for rendering; never <c>null</c>.</summary>
         protected readonly Mesh Mesh;
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Sets the first diffuse texture of the first material.
         /// </summary>
-        /// <param name="texture">The texture to set; <see langword="null"/> for no texture.</param>
+        /// <param name="texture">The texture to set; <c>null</c> for no texture.</param>
         public void SetTexture(ITextureProvider texture)
         {
             Materials[0].DiffuseMaps[0] = texture;

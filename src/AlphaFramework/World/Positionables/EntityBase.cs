@@ -110,7 +110,7 @@ namespace AlphaFramework.World.Positionables
         }
 
         /// <summary>
-        /// Makes all <see cref="TemplateData"/> values return <see langword="null"/> until <see cref="IDisposable.Dispose"/> is called on the returned object. This is not thread-safe!
+        /// Makes all <see cref="TemplateData"/> values return <c>null</c> until <see cref="IDisposable.Dispose"/> is called on the returned object. This is not thread-safe!
         /// </summary>
         public static IDisposable MaskTemplateData()
         {

@@ -68,7 +68,7 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
         /// <param name="brush">The shape and size of the area to the lower-right of <paramref name="offset"/> to modify.</param>
         /// <param name="oldData">An array to be filled with data from <see cref="ITerrain.TextureMap"/> before the modification. Both dimensions must be equal to <see cref="TerrainBrush.Size"/>.</param>
         /// <param name="newData">An array to be filled with data from <see cref="ITerrain.TextureMap"/> after the modification. Both dimensions must be equal to <see cref="TerrainBrush.Size"/>.</param>
-        /// <returns><see langword="true"/> if anything was changed; <see langword="false"/> if the <see cref="ITerrain"/> remains unchanged (because no changes were necessary).</returns>
+        /// <returns><c>true</c> if anything was changed; <c>false</c> if the <see cref="ITerrain"/> remains unchanged (because no changes were necessary).</returns>
         private bool ModifyTerrain(Point offset, TerrainBrush brush, byte[,] oldData, byte[,] newData)
         {
             bool changed = false;

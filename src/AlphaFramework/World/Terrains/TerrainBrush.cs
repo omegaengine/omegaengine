@@ -22,7 +22,7 @@ namespace AlphaFramework.World.Terrains
         public readonly int Size;
 
         /// <summary>
-        /// <see langword="true"/> if this is a circle, <see langword="false"/> if this is a sqaure.
+        /// <c>true</c> if this is a circle, <c>false</c> if this is a sqaure.
         /// </summary>
         public readonly bool Circle;
 
@@ -30,7 +30,7 @@ namespace AlphaFramework.World.Terrains
         /// Creates a new modification area.
         /// </summary>
         /// <param name="size">The length of the sqaure or the diameter of the circle.</param>
-        /// <param name="circle"><see langword="true"/> if this is a circle, <see langword="false"/> if this is a sqaure.</param>
+        /// <param name="circle"><c>true</c> if this is a circle, <c>false</c> if this is a sqaure.</param>
         public TerrainBrush(int size, bool circle)
         {
             Size = size;

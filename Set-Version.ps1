@@ -24,3 +24,12 @@ $NewVersion = $args[0]
   -replace '<Version>.*</Version>', "<Version>$NewVersion</Version>" |
   Set-Content "$ScriptDir\templates\vsix\extension.vsixmanifest" -Encoding UTF8
 
+(Get-Content "$ScriptDir\doc\OmegaEngine.Doxyfile" -Encoding UTF8) `
+  -replace 'PROJECT_NUMBER = ".*"', ('PROJECT_NUMBER = "' + $NewVersion + '"') |
+  Set-Content "$ScriptDir\doc\OmegaEngine.Doxyfile" -Encoding UTF8
+(Get-Content "$ScriptDir\doc\AlphaFramework.Doxyfile" -Encoding UTF8) `
+  -replace 'PROJECT_NUMBER = ".*"', ('PROJECT_NUMBER = "' + $NewVersion + '"') |
+  Set-Content "$ScriptDir\doc\AlphaFramework.Doxyfile" -Encoding UTF8
+(Get-Content "$ScriptDir\doc\FrameOfReference.Doxyfile" -Encoding UTF8) `
+  -replace 'PROJECT_NUMBER = ".*"', ('PROJECT_NUMBER = "' + $NewVersion + '"') |
+  Set-Content "$ScriptDir\doc\FrameOfReference.Doxyfile" -Encoding UTF8

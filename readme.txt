@@ -19,7 +19,7 @@ To compile the included shader code the DirectX SDK (http://msdn.microsoft.com/d
 \build\Documentation\ - The compiled source code documentation (created by \doc\build.cmd)
 
 "VERSION" contains the version numbers used by build scripts.
-Use "Set-Version.ps1 X.Y.Z" to change the version number. This ensures that the version also gets set in other locations (e.g. AssemblyInfo).
+Use .\Set-Version.ps1 "X.Y.Z" in PowerShall to change the version number. This ensures that the version also gets set in other locations (e.g. AssemblyInfo).
 
 The "build.cmd" script assumes that Visual Studio 2010/2012/2013/2015 is installed.
 

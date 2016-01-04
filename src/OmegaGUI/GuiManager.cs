@@ -188,7 +188,7 @@ namespace OmegaGUI
         /// Handles Windows Messages for the GUI
         /// </summary>
         /// <param name="m">The message to handle</param>
-        /// <returns><see langword="true"/> if the message was handled and no further processing is necessary</returns>
+        /// <returns><c>true</c> if the message was handled and no further processing is necessary</returns>
         public bool OnMsgProc(Message m)
         {
             // Exclusive input handling for MessageBox

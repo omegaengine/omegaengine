@@ -34,7 +34,7 @@ namespace AlphaFramework.Editor.World.Dialogs
 
         #region Properties
         /// <summary>
-        /// The name of the <see cref="Template{T}"/> the user selected; <see langword="null"/> if none.
+        /// The name of the <see cref="Template{T}"/> the user selected; <c>null</c> if none.
         /// </summary>
         public string SelectedTemplate { get { return (_templateList.SelectedEntry == null ? null : _templateList.SelectedEntry.Name); } }
         #endregion

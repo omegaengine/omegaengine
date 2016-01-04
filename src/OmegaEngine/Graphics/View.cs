@@ -43,13 +43,13 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// A <see cref="CinematicCamera"/> for smooth transitioning to <see cref="_targetCamera"/>
         /// </summary>
-        /// <remarks>Must be <see langword="null"/> or equal to <see cref="Camera"/></remarks>
+        /// <remarks>Must be <c>null</c> or equal to <see cref="Camera"/></remarks>
         private CinematicCamera _cinematicCamera;
 
         /// <summary>
         /// A new <see cref="Camera"/> to use after a transition is done
         /// </summary>
-        /// <remarks>Must be <see langword="null"/> if <see cref="_cinematicCamera"/> is <see langword="null"/>, will replace <see cref="Camera"/></remarks>
+        /// <remarks>Must be <c>null</c> if <see cref="_cinematicCamera"/> is <c>null</c>, will replace <see cref="Camera"/></remarks>
         private Camera _targetCamera;
         #endregion
 
@@ -176,7 +176,7 @@ namespace OmegaEngine.Graphics
         public virtual bool Lighting { get { return _lighting; } set { _lighting = value; } }
 
         /// <summary>
-        /// Does this <see cref="View"/> render to a texture <see cref="RenderTarget"/>? Only <see langword="true"/> for <see cref="TextureView"/>s.
+        /// Does this <see cref="View"/> render to a texture <see cref="RenderTarget"/>? Only <c>true</c> for <see cref="TextureView"/>s.
         /// </summary>
         protected virtual bool TextureRenderTarget { get { return false; } }
         #endregion
@@ -348,7 +348,7 @@ namespace OmegaEngine.Graphics
         /// </summary>
         /// <param name="location">The screen space location to start the ray from (usually mouse coordinates)</param>
         /// <param name="position">Returns the position of the vertex closest to the intersection in entity space</param>
-        /// <returns>The picked <see cref="PositionableRenderable"/> or <see langword="null"/>.</returns>
+        /// <returns>The picked <see cref="PositionableRenderable"/> or <c>null</c>.</returns>
         public PositionableRenderable Pick(Point location, out DoubleVector3 position)
         {
             Ray pickingRay = PickingRay(location);

@@ -45,7 +45,7 @@ namespace FrameOfReference.World.Components
         /// </summary>
         /// <param name="point">The point to check for collision in entity space.</param>
         /// <param name="rotation">This is ignored for circles.</param>
-        /// <returns><see langword="true"/> if the <paramref name="point"/> does collide with the circle, <see langword="false"/>.</returns>
+        /// <returns><c>true</c> if the <paramref name="point"/> does collide with the circle, <c>false</c>.</returns>
         public override bool CollisionTest(Vector2 point, float rotation)
         {
             // Empty or negative circles can never intersect
@@ -59,7 +59,7 @@ namespace FrameOfReference.World.Components
         /// </summary>
         /// <param name="area">The area to check for collision in entity space.</param>
         /// <param name="rotation">This is ignored for circles.</param>
-        /// <returns><see langword="true"/> if <paramref name="area"/> does collide with the circle, <see langword="false"/>.</returns>
+        /// <returns><c>true</c> if <paramref name="area"/> does collide with the circle, <c>false</c>.</returns>
         public override bool CollisionTest(Quadrangle area, float rotation)
         {
             // Empty or negative circles can never intersect

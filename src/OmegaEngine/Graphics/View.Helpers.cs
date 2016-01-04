@@ -25,7 +25,7 @@ namespace OmegaEngine.Graphics
         /// Checks if a <see cref="PositionableRenderable"/> is supposed to be rendered in this type of <see cref="View"/>
         /// </summary>
         /// <param name="body">The <see cref="PositionableRenderable"/> to check</param>
-        /// <returns><see langword="true"/> if the <see cref="PositionableRenderable"/> is supposed to be rendered</returns>
+        /// <returns><c>true</c> if the <see cref="PositionableRenderable"/> is supposed to be rendered</returns>
         protected virtual bool IsToRender(PositionableRenderable body)
         {
             #region Sanity checks
@@ -87,7 +87,7 @@ namespace OmegaEngine.Graphics
         /// </summary>
         /// <param name="sceneOnBackBuffer">
         /// Is the scene currently on the backbuffer?<br/>
-        /// If this is <see langword="false"/>, it is in <see cref="RenderTarget"/>.
+        /// If this is <c>false</c>, it is in <see cref="RenderTarget"/>.
         /// </param>
         protected virtual void ApplyPostShaders(bool sceneOnBackBuffer)
         {
@@ -109,7 +109,7 @@ namespace OmegaEngine.Graphics
         /// <param name="shader">The shader to apply.</param>
         /// <param name="sceneOnBackBuffer">
         /// Is the scene currently on the backbuffer?<br/>
-        /// If this is <see langword="false"/>, it is in <see cref="RenderTarget"/>.
+        /// If this is <c>false</c>, it is in <see cref="RenderTarget"/>.
         /// </param>
         private void ApplyPostShaderIntermediate(PostShader shader, ref bool sceneOnBackBuffer)
         {
@@ -138,7 +138,7 @@ namespace OmegaEngine.Graphics
         /// <param name="shader">The shader to apply.</param>
         /// <param name="sceneOnBackBuffer">
         /// Is the scene currently on the backbuffer?<br/>
-        /// If this is <see langword="false"/>, it is in <see cref="RenderTarget"/>.
+        /// If this is <c>false</c>, it is in <see cref="RenderTarget"/>.
         /// </param>
         private void ApplyPostShaderLast(PostShader shader, ref bool sceneOnBackBuffer)
         {

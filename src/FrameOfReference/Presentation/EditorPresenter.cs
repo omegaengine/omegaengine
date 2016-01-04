@@ -141,7 +141,7 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// Controls the shape and size of the area that is visuallly highlighted for <see cref="TerrainPaint"/>ing.
         /// </summary>
-        /// <remarks>Raise the <see cref="TerrainPaint"/> event instead of selecting <see cref="Positionable{TCoordinates}"/>s when set to a value other than <see langword="null"/>.</remarks>
+        /// <remarks>Raise the <see cref="TerrainPaint"/> event instead of selecting <see cref="Positionable{TCoordinates}"/>s when set to a value other than <c>null</c>.</remarks>
         public TerrainBrush? TerrainBrush
         {
             get { return _terrainBrush; }
@@ -193,7 +193,7 @@ namespace FrameOfReference.Presentation
         }
 
         /// <summary>
-        /// Occurs when the user selects an area while <see cref="TerrainBrush"/> is set to a value other than <see langword="null"/>. Passes the coordinates in world space.
+        /// Occurs when the user selects an area while <see cref="TerrainBrush"/> is set to a value other than <c>null</c>. Passes the coordinates in world space.
         /// </summary>
         [Description("Occurs when the user selects an area while PaintingMode is set to true.")]
         public event TerrainPaint TerrainPaint;

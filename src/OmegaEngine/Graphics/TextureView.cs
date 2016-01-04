@@ -29,7 +29,7 @@ namespace OmegaEngine.Graphics
         public override sealed int FullAlpha { get { return 0; } set { } }
 
         /// <summary>
-        /// Does this <see cref="View"/> render to a texture <see cref="RenderTarget"/>? <see langword="true"/> since this is a <see cref="TextureView"/>.
+        /// Does this <see cref="View"/> render to a texture <see cref="RenderTarget"/>? <c>true</c> since this is a <see cref="TextureView"/>.
         /// </summary>
         protected override bool TextureRenderTarget { get { return true; } }
         #endregion

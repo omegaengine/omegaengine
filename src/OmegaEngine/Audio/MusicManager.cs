@@ -151,7 +151,7 @@ namespace OmegaEngine.Audio
         /// <summary>
         /// Starts playing random songs from a certain theme
         /// </summary>
-        /// <param name="theme">The name of the new theme - must not be <see langword="null"/></param>
+        /// <param name="theme">The name of the new theme - must not be <c>null</c></param>
         public void PlayTheme(string theme)
         {
             #region Sanity checks
@@ -177,7 +177,7 @@ namespace OmegaEngine.Audio
         /// <summary>
         /// Switches to a new theme, but doesn't interrupt the current song
         /// </summary>
-        /// <param name="theme">The name of the new theme; may be <see langword="null"/></param>
+        /// <param name="theme">The name of the new theme; may be <c>null</c></param>
         public void SwitchTheme(string theme)
         {
             _currentTheme = theme;

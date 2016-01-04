@@ -60,7 +60,7 @@ namespace OmegaEngine
         /// <summary>
         /// To be called after the window is ready and the <see cref="Engine"/> needs to be set up
         /// </summary>
-        /// <returns><see langword="true"/> if the initialization worked, <see langword="false"/> if it failed an the app must be closed</returns>
+        /// <returns><c>true</c> if the initialization worked, <c>false</c> if it failed an the app must be closed</returns>
         protected virtual bool Initialize()
         {
             using (new TimedLogEvent("Initialize engine"))

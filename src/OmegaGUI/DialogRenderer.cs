@@ -268,7 +268,7 @@ namespace OmegaGUI
         /// <summary>
         /// Gets the first <see cref="Model.Control"/> in this <see cref="DialogRenderer"/> with the specified <paramref name="name"/>
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
         /// <exception cref="KeyNotFoundException">An element with the specified key does not exist in the dictionary.</exception>
         // Note: Keep this in addition to the DialogRender index accessor for Lua access
         public Control GetControl(string name)

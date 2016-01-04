@@ -57,7 +57,7 @@ namespace FrameOfReference.World.Components
         /// </summary>
         /// <param name="point">The point to check for collision in entity space.</param>
         /// <param name="rotation">How the box shall be rotated before performing the collision test.</param>
-        /// <returns><see langword="true"/> if <paramref name="point"/> does collide with the box, <see langword="false"/> otherwise.</returns>
+        /// <returns><c>true</c> if <paramref name="point"/> does collide with the box, <c>false</c> otherwise.</returns>
         public override bool CollisionTest(Vector2 point, float rotation)
         {
             // ReSharper disable once CompareOfFloatsByEqualityOperator
@@ -80,7 +80,7 @@ namespace FrameOfReference.World.Components
         /// </summary>
         /// <param name="area">The area to check for collision in entity space.</param>
         /// <param name="rotation">How the box shall be rotated before performing the collision test.</param>
-        /// <returns><see langword="true"/> if <paramref name="area"/> does collide with the box, <see langword="false"/>.</returns>
+        /// <returns><c>true</c> if <paramref name="area"/> does collide with the box, <c>false</c>.</returns>
         public override bool CollisionTest(Quadrangle area, float rotation)
         {
             // ReSharper disable once CompareOfFloatsByEqualityOperator

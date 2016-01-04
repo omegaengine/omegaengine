@@ -25,7 +25,7 @@ namespace OmegaEngine.Graphics
 
         #region Properties
         /// <summary>
-        /// True if this is a <see cref="WaterViewSource.ReflectedView"/>, <see langword="false"/> if this is a <see cref="WaterViewSource.RefractedView"/>
+        /// True if this is a <see cref="WaterViewSource.ReflectedView"/>, <c>false</c> if this is a <see cref="WaterViewSource.RefractedView"/>
         /// </summary>
         [Description("True if this is a reflection view, false if it is a refraction view"), Category("Behavior")]
         public bool Reflection { get; private set; }
@@ -37,7 +37,7 @@ namespace OmegaEngine.Graphics
         /// </summary>
         /// <param name="baseView">The <see cref="View"/> to base this support-view on</param>
         /// <param name="camera">The <see cref="CloneCamera"/> to look at the <see cref="Scene"/> with</param>
-        /// <param name="reflection">True if this is a <see cref="WaterViewSource.ReflectedView"/>, <see langword="false"/> if this is a <see cref="WaterViewSource.RefractedView"/></param>
+        /// <param name="reflection">True if this is a <see cref="WaterViewSource.ReflectedView"/>, <c>false</c> if this is a <see cref="WaterViewSource.RefractedView"/></param>
         private WaterView(View baseView, CloneCamera camera, bool reflection) :
             base(baseView, camera)
         {

@@ -26,7 +26,7 @@ namespace OmegaEngine.Graphics
         /// </summary>
         /// <param name="baseDecl">The original declaration to use for a comparison base (must not contain excess data)</param>
         /// <param name="testDecl">The other declaration to test against (may contain excess data)</param>
-        /// <returns><see langword="true"/> if <paramref name="testDecl"/> is equivalent to <paramref name="baseDecl"/>, <see langword="false"/>.</returns>
+        /// <returns><c>true</c> if <paramref name="testDecl"/> is equivalent to <paramref name="baseDecl"/>, <c>false</c>.</returns>
         private static bool CompareDecl(VertexElement[] baseDecl, VertexElement[] testDecl)
         {
             #region Sanity checks
@@ -50,7 +50,7 @@ namespace OmegaEngine.Graphics
         /// <param name="mesh">The mesh to be manipulated</param>
         /// <param name="hadNormals">Did the original declaration already contain normals?</param>
         /// <param name="hadTangents">Did the original declaration already contain tangents?</param>
-        /// <returns><see langword="true"/> if the mesh declaration was expanded, <see langword="false"/> if the declaration didn't need to be changed</returns>
+        /// <returns><c>true</c> if the mesh declaration was expanded, <c>false</c> if the declaration didn't need to be changed</returns>
         private static bool ExpandDeclaration(Device device, ref Mesh mesh, out bool hadNormals, out bool hadTangents)
         {
             #region Sanity checks

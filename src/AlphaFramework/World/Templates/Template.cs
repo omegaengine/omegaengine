@@ -106,7 +106,7 @@ namespace AlphaFramework.World.Templates
         }
 
         /// <summary>
-        /// Loads the list of <see cref="Template{TSelf}"/>s from <seealso cref="FileName"/>.
+        /// Loads the list of <see cref="Template{TSelf}"/>s from <see cref="FileName"/>.
         /// </summary>
         public static void LoadAll()
         {

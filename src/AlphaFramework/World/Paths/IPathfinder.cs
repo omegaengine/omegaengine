@@ -22,7 +22,7 @@ namespace AlphaFramework.World.Paths
         /// </summary>
         /// <param name="start">The starting coordinates.</param>
         /// <param name="target">The end coordinates.</param>
-        /// <returns>A list of coordinates forming a path; <see langword="null"/> if no path was found.</returns>
+        /// <returns>A list of coordinates forming a path; <c>null</c> if no path was found.</returns>
         IEnumerable<TCoordinates> FindPath(TCoordinates start, TCoordinates target);
     }
 }

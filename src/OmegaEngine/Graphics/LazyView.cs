@@ -42,7 +42,7 @@ namespace OmegaEngine.Graphics
 
         #region Control
         /// <summary>
-        /// Sets <see cref="Dirty"/> to <see langword="true"/>
+        /// Sets <see cref="Dirty"/> to <c>true</c>
         /// </summary>
         public void SetDirty()
         {
@@ -52,9 +52,9 @@ namespace OmegaEngine.Graphics
 
         #region Render
         /// <summary>
-        /// Renders the view if <see cref="Dirty"/> is <see langword="true"/>.
+        /// Renders the view if <see cref="Dirty"/> is <c>true</c>.
         /// </summary>
-        /// <remarks>At the end <see cref="Dirty"/> is set back to <see langword="false"/>.</remarks>
+        /// <remarks>At the end <see cref="Dirty"/> is set back to <c>false</c>.</remarks>
         internal override void Render()
         {
             if (!Dirty) return;

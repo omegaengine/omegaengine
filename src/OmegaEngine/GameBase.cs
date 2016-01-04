@@ -104,7 +104,7 @@ namespace OmegaEngine
         /// <param name="name">The name of the application for the title bar</param>
         /// <param name="icon">The icon of the application for the title bar</param>
         /// <param name="background">A background image for the window while loading</param>
-        /// <param name="stretch">Stretch <paramref name="background"/> to fit the screen? (<see langword="false"/> will center it instead)</param>
+        /// <param name="stretch">Stretch <paramref name="background"/> to fit the screen? (<c>false</c> will center it instead)</param>
         protected GameBase(string name, Icon icon = null, Image background = null, bool stretch = false)
         {
             // Setup render-target form
@@ -392,7 +392,7 @@ namespace OmegaEngine
         /// <summary>
         /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
         /// </summary>
-        /// <param name="disposing"><see langword="true"/> if called manually and not by the garbage collector.</param>
+        /// <param name="disposing"><c>true</c> if called manually and not by the garbage collector.</param>
         [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         protected virtual void Dispose(bool disposing)
         {

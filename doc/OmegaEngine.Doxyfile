@@ -1,0 +1,21 @@
+﻿PROJECT_NAME = "OmegaEngine API"
+PROJECT_NUMBER = "1.0.0"
+
+INPUT = ../src/OmegaEngine
+STRIP_FROM_PATH = ../src/OmegaEngine
+RECURSIVE = YES
+EXCLUDE_PATTERNS = */UnitTests/* */Properties/* *.NativeMethods.cs */obj/*
+TAGFILES = ../build/common.tag=http://nano-byte.de/common/api/
+
+OUTPUT_DIRECTORY = ../build/Documentation
+GENERATE_TAGFILE = ../build/Documentation/omegaengine.tag
+HTML_OUTPUT = omegaengine
+
+GENERATE_LATEX = NO
+CASE_SENSE_NAMES = NO
+
+EXTRACT_PACKAGE = YES
+EXTRACT_STATIC = YES
+AUTOLINK_SUPPORT = NO
+WARN_IF_UNDOCUMENTED = NO
+QUIET = YES

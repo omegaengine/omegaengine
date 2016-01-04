@@ -101,7 +101,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="engine">The <see cref="Engine"/> to compile the effect in</param>
         /// <param name="source">The source code to be parsed and compiled</param>
         /// <param name="lighting">Optimize the shader for lighting or no lighting</param>
-        /// <param name="controllers">A set of int arrays that control the counters; <see langword="null"/> if there is no sync-code in the shader</param>
+        /// <param name="controllers">A set of int arrays that control the counters; <c>null</c> if there is no sync-code in the shader</param>
         /// <returns>The compiled effect</returns>
         public static Effect Parse(Engine engine, string source, bool lighting, IDictionary<string, IEnumerable<int>> controllers)
         {
@@ -268,7 +268,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="engine">The <see cref="Engine"/> to compile the effect in</param>
         /// <param name="id">The ID of the shader to be loaded</param>
         /// <param name="lighting">Optimize the shader for lighting or no lighting</param>
-        /// <param name="controllers">A set of int arrays that control the counters; <see langword="null"/> if there is no sync-code in the shader</param>
+        /// <param name="controllers">A set of int arrays that control the counters; <c>null</c> if there is no sync-code in the shader</param>
         /// <returns>The compiled effect</returns>
         public static Effect FromContent(Engine engine, string id, bool lighting, IDictionary<string, IEnumerable<int>> controllers)
         {

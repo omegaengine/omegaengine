@@ -35,7 +35,7 @@ namespace OmegaEngine
         #endregion
 
         #region Properties
-        /// <summary>The currently selected <see cref="View"/>; <see langword="null"/> if none.</summary>
+        /// <summary>The currently selected <see cref="View"/>; <c>null</c> if none.</summary>
         private View CurrentView { get { return viewListBox.SelectedItem as View; } }
         #endregion
 

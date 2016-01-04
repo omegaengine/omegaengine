@@ -122,7 +122,7 @@ namespace FrameOfReference
         /// <summary>
         /// Determines the data directories used by <see cref="ContentManager"/> and displays error messages if a directory could not be found.
         /// </summary>
-        /// <returns><see langword="true"/> if all directories were located successfully; <see langword="false"/> if something went wrong.</returns>
+        /// <returns><c>true</c> if all directories were located successfully; <c>false</c> if something went wrong.</returns>
         /// <remarks>The <see cref="ContentManager.ModDir"/> is also handled based on <see cref="Args"/>.</remarks>
         private static bool DetermineContentDirs()
         {
@@ -156,7 +156,7 @@ namespace FrameOfReference
         /// <summary>
         /// Calls <see cref="ContentManager.LoadArchives"/> and displays error messages if something went wrong.
         /// </summary>
-        /// <returns><see langword="true"/> if all archives were loaded successfully; <see langword="false"/> if something went wrong.</returns>
+        /// <returns><c>true</c> if all archives were loaded successfully; <c>false</c> if something went wrong.</returns>
         private static bool LoadArchives()
         {
             try

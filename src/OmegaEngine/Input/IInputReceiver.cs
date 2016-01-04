@@ -34,7 +34,7 @@ namespace OmegaEngine.Input
         /// Called when the user is selecting an area on the screen.
         /// </summary>
         /// <param name="area">The selected area in pixels. The bottom-right corner is always the last point selected by the user, therefore the box may be inverted.</param>
-        /// <param name="accumulate"><see langword="true"/> when the user wants the new selection to be added to the old one.</param>
+        /// <param name="accumulate"><c>true</c> when the user wants the new selection to be added to the old one.</param>
         /// <param name="done">True when the user has finished his selection (e.g. released the mouse).</param>
         void AreaSelection(Rectangle area, bool accumulate, bool done);
 
@@ -42,7 +42,7 @@ namespace OmegaEngine.Input
         /// Called when the user clicked something (not dragged!).
         /// </summary>
         /// <param name="e">The original event arguments from the click.</param>
-        /// <param name="accumulate"><see langword="true"/> when the user wants the action to have an accumulative effect (usually for selections).</param>
+        /// <param name="accumulate"><c>true</c> when the user wants the action to have an accumulative effect (usually for selections).</param>
         void Click(MouseEventArgs e, bool accumulate);
 
         /// <summary>

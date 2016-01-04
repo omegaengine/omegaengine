@@ -140,7 +140,7 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
         /// </summary>
-        /// <param name="disposing"><see langword="true"/> if called manually and not by the garbage collector.</param>
+        /// <param name="disposing"><c>true</c> if called manually and not by the garbage collector.</param>
         protected override void Dispose(bool disposing)
         {
             try
@@ -246,7 +246,7 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// Creates a new camera based on a state usually loaded from the <see cref="Universe"/>.
         /// </summary>
-        /// <param name="state">The state to place the new camera in; <see langword="null"/> for default (looking at the center of the terrain).</param>
+        /// <param name="state">The state to place the new camera in; <c>null</c> for default (looking at the center of the terrain).</param>
         /// <returns>The newly created <see cref="Camera"/>.</returns>
         protected Camera CreateCamera(CameraState<Vector2> state = null)
         {
@@ -284,7 +284,7 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// Retreives the current state of the <see cref="Camera"/> for storage in the <see cref="Universe"/>.
         /// </summary>
-        /// <returns>The current state of  the <see cref="Camera"/> or <see langword="null"/> if it can not be determined at this time (e.g. cinematic animation in progress).</returns>
+        /// <returns>The current state of  the <see cref="Camera"/> or <c>null</c> if it can not be determined at this time (e.g. cinematic animation in progress).</returns>
         public CameraState<Vector2> CameraState
         {
             get

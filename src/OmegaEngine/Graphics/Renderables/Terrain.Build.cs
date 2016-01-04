@@ -40,7 +40,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="textureMap">The texture values of the terrain in a 2D grid.
         ///   Grid size = Terrain size / 3</param>
         /// <param name="occlusionIntervalMap">The angles at which the global light source occlusion begins and ends.
-        ///   Grid size = Terrain size; may be <see langword="null"/> for no shadowing</param>
+        ///   Grid size = Terrain size; may be <c>null</c> for no shadowing</param>
         /// <param name="lighting">Shall this mesh be prepared for lighting? (calculate normal vectors, make shaders support lighting, ...)</param>
         /// <param name="blockSize">How many points in X and Y direction shall one block for culling be?</param>
         /// <param name="subsetShaders">Shaders for all subsets the mesh was split into</param>

@@ -24,7 +24,7 @@ namespace OmegaEngine
         /// <summary>
         /// Registers a child <see cref="EngineElement"/> for automatic <see cref="Engine"/> setting and <see cref="Dispose"/> calling.
         /// </summary>
-        /// <param name="element">The <see cref="EngineElement"/> to register. Silently ignores <see langword="null"/>.</param>
+        /// <param name="element">The <see cref="EngineElement"/> to register. Silently ignores <c>null</c>.</param>
         /// <param name="autoDispose">Controls whether the <paramref name="element"/> is automatically disposed when <see cref="Dispose"/> is called.</param>
         protected void RegisterChild(EngineElement element, bool autoDispose = true)
         {
@@ -38,7 +38,7 @@ namespace OmegaEngine
         /// <summary>
         /// Unregisters a child <see cref="EngineElement"/> (opposite of <see cref="RegisterChild"/>).
         /// </summary>
-        /// <param name="element">The <see cref="EngineElement"/> to unregister. Silently ignores <see langword="null"/>.</param>
+        /// <param name="element">The <see cref="EngineElement"/> to unregister. Silently ignores <c>null</c>.</param>
         protected void UnregisterChild(EngineElement element)
         {
             if (element == null) return;
@@ -82,7 +82,7 @@ namespace OmegaEngine
         }
 
         /// <summary>
-        /// <see langword="true"/> if the <see cref="Engine"/> has been set.
+        /// <c>true</c> if the <see cref="Engine"/> has been set.
         /// </summary>
         [Browsable(false)]
         public bool IsEngineSet { get { return _engine != null; } }

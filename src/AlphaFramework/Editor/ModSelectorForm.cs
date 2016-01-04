@@ -47,7 +47,7 @@ namespace AlphaFramework.Editor
         /// <summary>
         /// Creates a new mod selection form.
         /// </summary>
-        /// <param name="allowEditMain"><see langword="true"/> to allow the user to edit the main game as well; <see langword="false"/> to allow only mods to be edited.</param>
+        /// <param name="allowEditMain"><c>true</c> to allow the user to edit the main game as well; <c>false</c> to allow only mods to be edited.</param>
         /// <param name="recentMods">An externally stored list of recently opened mods.</param>
         public ModSelectorForm(bool allowEditMain, IList<string> recentMods = null)
         {

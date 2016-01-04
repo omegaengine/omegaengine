@@ -51,7 +51,7 @@ namespace FrameOfReference.World.Positionables
         public float Rotation { get { return _rotation; } set { value.To(ref _rotation, OnChanged); } }
 
         /// <summary>
-        /// <see langword="true"/> if this entity is controlled by a human player, <see langword="false"/> if it is controlled by the computer.
+        /// <c>true</c> if this entity is controlled by a human player, <c>false</c> if it is controlled by the computer.
         /// </summary>
         [XmlAttribute, DefaultValue(false), Description("true if this entity is controlled by a human player, false if it is controlled by the computer.")]
         public bool IsPlayerControlled { get; set; }
@@ -92,7 +92,7 @@ namespace FrameOfReference.World.Positionables
         /// Determines the currently active <see cref="Waypoints"/> entry.
         /// </summary>
         /// <param name="gameTime">The current <see cref="UniverseBase{TCoordinates}.GameTime"/> value.</param>
-        /// <returns>The currently active <see cref="Waypoint"/>; <see langword="null"/> if none is active.</returns>
+        /// <returns>The currently active <see cref="Waypoint"/>; <c>null</c> if none is active.</returns>
         public int GetCurrentWaypointIndex(double gameTime)
         {
             int index = _waypoints.FindLastIndex(x => x.ActivationTime <= gameTime);
@@ -105,7 +105,7 @@ namespace FrameOfReference.World.Positionables
         /// Determines whether a certain point collides with this entity (based on its <see cref="Collision{TCoordinates}"/> component).
         /// </summary>
         /// <param name="point">The point to check for collision in world space.</param>
-        /// <returns><see langword="true"/> if the <paramref name="point"/> does collide with this entity, <see langword="false"/> otherwise.</returns>
+        /// <returns><c>true</c> if the <paramref name="point"/> does collide with this entity, <c>false</c> otherwise.</returns>
         public bool CollisionTest(Vector2 point)
         {
             // With no valid collision control all collision checks always fail
@@ -120,7 +120,7 @@ namespace FrameOfReference.World.Positionables
         /// Determines whether a certain area collides with this entity (based on its <see cref="Collision{TCoordinates}"/> component).
         /// </summary>
         /// <param name="area">The area to check for collision in world space.</param>
-        /// <returns><see langword="true"/> if the <paramref name="area"/> does collide with this entity, <see langword="false"/> otherwise.</returns>
+        /// <returns><c>true</c> if the <paramref name="area"/> does collide with this entity, <c>false</c> otherwise.</returns>
         public bool CollisionTest(Quadrangle area)
         {
             // With no valid collision control all collision checks always fail

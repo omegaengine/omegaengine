@@ -57,7 +57,7 @@ namespace AlphaFramework.Editor
         /// <summary>
         /// Creates a new mod. Information is automatically saved to the XML info file.
         /// </summary>
-        /// <returns>The path of the newly created mod info file, <see langword="null"/> if none was created</returns>
+        /// <returns>The path of the newly created mod info file, <c>null</c> if none was created</returns>
         public static string CreateMod()
         {
             var dialog = new ModPropertyDialog();

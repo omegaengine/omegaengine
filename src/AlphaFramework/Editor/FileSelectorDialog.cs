@@ -59,7 +59,7 @@ namespace AlphaFramework.Editor
         /// <param name="path">The absolute path to the requested content file</param>
         /// <param name="overwrite">Returns whether the user wants an existing file to be overwritten</param>
         /// <param name="allowNew">Allow the user to create a new file instead of opening an existing one?</param>
-        /// <returns><see langword="true"/> if a file was selected, <see langword="false"/> if none was selected</returns>
+        /// <returns><c>true</c> if a file was selected, <c>false</c> if none was selected</returns>
         /// <exception cref="InvalidOperationException">The user didn't select a file.</exception>
         private static bool TryGetPath(string type, string extension, out string path, out bool overwrite, bool allowNew)
         {
@@ -122,7 +122,7 @@ namespace AlphaFramework.Editor
         /// <param name="extension">The file extension of the file type with a dot, but without a asterisk (e.g. .xml, .png, ...)</param>
         /// <param name="path">The absolute path to the requested content file</param>
         /// <param name="overwrite">Returns whether the user wants an existing file to be overwritten</param>
-        /// <returns><see langword="true"/> if a file was selected, <see langword="false"/> if none was selected</returns>
+        /// <returns><c>true</c> if a file was selected, <c>false</c> if none was selected</returns>
         /// <exception cref="InvalidOperationException">The user didn't select a file.</exception>
         public static bool TryGetPath(string type, string extension, out string path, out bool overwrite)
         {
@@ -135,7 +135,7 @@ namespace AlphaFramework.Editor
         /// <param name="type">The type of file you want (e.g. Textures, Sounds, ...)</param>
         /// <param name="extension">The file extension of the file type with a dot, but without a asterisk (e.g. .xml, .png, ...)</param>
         /// <param name="path">The absolute path to the requested content file</param>
-        /// <returns><see langword="true"/> if a file was selected, <see langword="false"/> if none was selected</returns>
+        /// <returns><c>true</c> if a file was selected, <c>false</c> if none was selected</returns>
         /// <exception cref="InvalidOperationException">The user didn't select a file.</exception>
         public static bool TryGetPath(string type, string extension, out string path)
         {

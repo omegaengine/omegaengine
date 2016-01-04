@@ -49,7 +49,7 @@ namespace OmegaEngine.Assets
         /// </summary>
         /// <typeparam name="T">The type of <see cref="Asset"/> to get.</typeparam>
         /// <param name="name">The name (full ID) of the <see cref="Asset"/> to get.</param>
-        /// <returns>The <see cref="Asset"/> if found, <see langword="null"/> otherwise.</returns>
+        /// <returns>The <see cref="Asset"/> if found, <c>null</c> otherwise.</returns>
         /// <exception cref="InvalidOperationException">A different type of asset with this <paramref name="name"/> was found instead.</exception>
         internal T GetAsset<T>(string name) where T : Asset
         {

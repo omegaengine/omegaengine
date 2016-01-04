@@ -51,7 +51,7 @@ namespace OmegaEngine
         public TouchInputProvider TouchInputProvider { get; private set; }
 
         /// <summary>
-        /// When set to <see langword="true"/> <see cref="OmegaEngine.Engine.Render()"/> is automatically called in regular intervals.
+        /// When set to <c>true</c> <see cref="OmegaEngine.Engine.Render()"/> is automatically called in regular intervals.
         /// </summary>
         /// <seealso cref="AutoRenderInterval"/>
         [DefaultValue(false), Category("Behavior"), Description("When set to true Engine.Render() is automatically called in regular intervals.")]

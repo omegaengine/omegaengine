@@ -234,7 +234,7 @@ namespace OmegaEngine
         /// <param name="adapter">The adapter to check</param>
         /// <param name="width">The resolution width</param>
         /// <param name="height">The resolution height</param>
-        /// <returns><see langword="true"/> if the level is supported</returns>
+        /// <returns><c>true</c> if the level is supported</returns>
         public static bool CheckResolution(int adapter, int width, int height)
         {
             using (var manager = new Direct3D())
@@ -246,7 +246,7 @@ namespace OmegaEngine
         /// </summary>
         /// <param name="width">The resolution width</param>
         /// <param name="height">The resolution height</param>
-        /// <returns><see langword="true"/> if the level is supported</returns>
+        /// <returns><c>true</c> if the level is supported</returns>
         public bool CheckResolution(int width, int height)
         {
             return DisplayModes.Any(mode => mode.Width == width && mode.Height == height);
@@ -271,7 +271,7 @@ namespace OmegaEngine
         /// </summary>
         /// <param name="adapter">The adapter to check</param>
         /// <param name="sample">The sample level to check</param>
-        /// <returns><see langword="true"/> if the level is supported</returns>
+        /// <returns><c>true</c> if the level is supported</returns>
         public static bool CheckAA(int adapter, int sample)
         {
             using (var manager = new Direct3D())
@@ -285,7 +285,7 @@ namespace OmegaEngine
         /// Checks whether the graphics card supports a certain level of anti aliasing
         /// </summary>
         /// <param name="sample">The sample level to check</param>
-        /// <returns><see langword="true"/> if the level is supported</returns>
+        /// <returns><c>true</c> if the level is supported</returns>
         public bool CheckAA(int sample)
         {
             return (_direct3D.CheckDeviceMultisampleType(_engineConfig.Adapter, DeviceType.Hardware,

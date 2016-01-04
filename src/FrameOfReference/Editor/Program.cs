@@ -130,7 +130,7 @@ namespace FrameOfReference.Editor
         /// <summary>
         /// Determines the data directories used by <see cref="ContentManager"/> and displays error messages if a directory could not be found.
         /// </summary>
-        /// <returns><see langword="true"/> if all directories were located successfully; <see langword="false"/> if something went wrong.</returns>
+        /// <returns><c>true</c> if all directories were located successfully; <c>false</c> if something went wrong.</returns>
         /// <remarks>The <see cref="ContentManager.ModDir"/> is not handled yet.</remarks>
         private static bool DetermineContentDirs()
         {
@@ -158,7 +158,7 @@ namespace FrameOfReference.Editor
         /// <summary>
         /// Calls <see cref="ContentManager.LoadArchives"/> and displays error messages if something went wrong.
         /// </summary>
-        /// <returns><see langword="true"/> if all archives were loaded successfully; <see langword="false"/> if something went wrong.</returns>
+        /// <returns><c>true</c> if all archives were loaded successfully; <c>false</c> if something went wrong.</returns>
         private static bool LoadArchives()
         {
             try
@@ -188,7 +188,7 @@ namespace FrameOfReference.Editor
         /// <summary>
         /// Launches the main game with the currently active mod (arguments automatically set).
         /// </summary>
-        /// <param name="arguments">Additional arguments to be passed; may be <see langword="null"/>.</param>
+        /// <param name="arguments">Additional arguments to be passed; may be <c>null</c>.</param>
         /// <exception cref="Win32Exception">The game executable could not be launched.</exception>
         /// <exception cref="BadImageFormatException">The game executable is damaged.</exception>
         internal static void LaunchGame(string arguments)

@@ -25,7 +25,7 @@ namespace OmegaEngine
         /// <param name="target">The value to end up at</param>
         /// <param name="callback">The delegate to call for with the updated interpolated value each frame</param>
         /// <param name="duration">The time for complete transition in seconds</param>
-        /// <param name="trigonometric"><see false="true"/> smooth (trigonometric) and <see langword="false"/> for linear interpolation</param>
+        /// <param name="trigonometric"><c>true</c> smooth (trigonometric) and <c>false</c> for linear interpolation</param>
         public static void Interpolate(this Engine engine, double start, double target, Action<double> callback, double duration = 1, bool trigonometric = true)
         {
             #region Sanity checks

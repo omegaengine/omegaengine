@@ -103,8 +103,8 @@ namespace OmegaEngine.Graphics.Shaders
         /// Runs the actual shader passes
         /// </summary>
         /// <param name="render">The render delegate (is called once for every shader pass)</param>
-        /// <param name="material">The material to be used by this shader; <see langword="null"/> for device texture</param>
-        /// <param name="lights">An array of all lights this shader should consider; <see langword="null"/> for no lighting</param>
+        /// <param name="material">The material to be used by this shader; <c>null</c> for device texture</param>
+        /// <param name="lights">An array of all lights this shader should consider; <c>null</c> for no lighting</param>
         protected virtual void RunPasses(Action render, XMaterial material, params LightSource[] lights)
         {
             #region Sanity checks
@@ -135,7 +135,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// Applies the shader to the content in the render delegate
         /// </summary>
         /// <param name="render">The render delegate (is called once for every shader pass)</param>
-        /// <param name="material">The material to be used by this shader; <see langword="null"/> for device texture</param>
+        /// <param name="material">The material to be used by this shader; <c>null</c> for device texture</param>
         /// <param name="camera">The camera for transformation information</param>
         /// <param name="lights">An array of all lights this shader should consider</param>
         [SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode", Justification = "Default parameters are set via a huge set of cascading switch-statements.")]

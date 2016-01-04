@@ -127,8 +127,8 @@ namespace OmegaEngine.Graphics.Shaders
         /// <summary>
         /// Creates a new instance of the water shader
         /// </summary>
-        /// <param name="refractionView">A render target storing the refraction of the current view; <see langword="null"/> for no refraction or reflection</param>
-        /// <param name="reflectionView">A render target storing the reflection of the current view; <see langword="null"/> for no reflection</param>
+        /// <param name="refractionView">A render target storing the refraction of the current view; <c>null</c> for no refraction or reflection</param>
+        /// <param name="reflectionView">A render target storing the reflection of the current view; <c>null</c> for no reflection</param>
         public WaterShader(TextureView refractionView = null, TextureView reflectionView = null)
         {
             _refractionView = refractionView;
@@ -145,9 +145,9 @@ namespace OmegaEngine.Graphics.Shaders
         /// Applies the shader to the content in the render delegate.
         /// </summary>
         /// <param name="render">The render delegate (is called once for every shader pass).</param>
-        /// <param name="material">The material to be used by this shader; <see langword="null"/> for device texture.</param>
+        /// <param name="material">The material to be used by this shader; <c>null</c> for device texture.</param>
         /// <param name="camera">The camera for transformation information.</param>
-        /// <param name="lights">An array of all lights this shader should consider; should be <see langword="null"/>.</param>
+        /// <param name="lights">An array of all lights this shader should consider; should be <c>null</c>.</param>
         public override void Apply(Action render, XMaterial material, Camera camera, params LightSource[] lights)
         {
             #region Sanity checks

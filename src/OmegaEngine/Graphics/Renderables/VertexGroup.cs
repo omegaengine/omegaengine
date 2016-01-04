@@ -39,7 +39,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         /// <param name="primitiveType">The type of primitives to generate from the vertexes</param>
         /// <param name="vertexes">An array for vertexes with position and color information</param>
-        /// <param name="indexes">An array of indexes for the index buffer; <see langword="null"/> for no indexes</param>
+        /// <param name="indexes">An array of indexes for the index buffer; <c>null</c> for no indexes</param>
         public VertexGroup(PrimitiveType primitiveType, PositionColored[] vertexes, short[] indexes = null)
         {
             #region Sanity checks
@@ -60,7 +60,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         /// <param name="primitiveType">The type of primitives to generate from the vertexes</param>
         /// <param name="vertexes">An array for vertexes with position and color information</param>
-        /// <param name="indexes">An array of indexes for the index buffer; <see langword="null"/> for no indexes</param>
+        /// <param name="indexes">An array of indexes for the index buffer; <c>null</c> for no indexes</param>
         public VertexGroup(PrimitiveType primitiveType, PositionNormalColored[] vertexes, short[] indexes = null)
         {
             #region Sanity checks
@@ -81,7 +81,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         /// <param name="primitiveType">The type of primitives to generate from the vertexes</param>
         /// <param name="vertexes">An array for vertexes with position and texture information</param>
-        /// <param name="indexes">An array of indexes for the index buffer; <see langword="null"/> for no indexes</param>
+        /// <param name="indexes">An array of indexes for the index buffer; <c>null</c> for no indexes</param>
         /// <param name="material">The material to use for rendering</param>
         public VertexGroup(PrimitiveType primitiveType, PositionTextured[] vertexes,
             short[] indexes, XMaterial material)
@@ -107,7 +107,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         /// <param name="primitiveType">The type of primitives to generate from the vertexes</param>
         /// <param name="vertexes">An array for vertexes with position and texture information</param>
-        /// <param name="indexes">An array of indexes for the index buffer; <see langword="null"/> for no indexes</param>
+        /// <param name="indexes">An array of indexes for the index buffer; <c>null</c> for no indexes</param>
         /// <param name="material">The material to use for rendering</param>
         public VertexGroup(PrimitiveType primitiveType, PositionNormalTextured[] vertexes,
             short[] indexes, XMaterial material)
@@ -133,7 +133,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// Is internally used by all constructors for initialization
         /// </summary>
-        /// <param name="indexes">An array of indexes for the index buffer; <see langword="null"/> for no indexes</param>
+        /// <param name="indexes">An array of indexes for the index buffer; <c>null</c> for no indexes</param>
         private void Initialize(short[] indexes)
         {
             #region Index Buffer
@@ -193,7 +193,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Creates a new textured quad.
         /// </summary>
         /// <param name="size">The length of a border of the quad.</param>
-        /// <param name="texture">The texture to place on the vertex group; <see langword="null"/> for no texture.</param>
+        /// <param name="texture">The texture to place on the vertex group; <c>null</c> for no texture.</param>
         /// <returns>The vertex group that was created.</returns>
         public static VertexGroup Quad(float size, ITextureProvider texture = null)
         {

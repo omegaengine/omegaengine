@@ -210,7 +210,7 @@ namespace FrameOfReference.Presentation
         /// Adds one or more <see cref="Positionable{TCoordinates}"/>s to <see cref="SelectedPositionables"/>.
         /// </summary>
         /// <param name="positionables">The selected <see cref="Positionable{TCoordinates}"/>s.</param>
-        /// <param name="accumulate"><see langword="true"/> when the user wants the new selection to be added to the old one.</param>
+        /// <param name="accumulate"><c>true</c> when the user wants the new selection to be added to the old one.</param>
         protected virtual void PickPositionables(IEnumerable<Positionable<Vector2>> positionables, bool accumulate)
         {
             #region Sanity checks
@@ -231,7 +231,7 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// Switches from the current camera view to a new view using a cinematic effect.
         /// </summary>
-        /// <param name="cameraState">The destination state of the camera; <see langword="null"/> for default (looking at the center of the terrain).</param>
+        /// <param name="cameraState">The destination state of the camera; <c>null</c> for default (looking at the center of the terrain).</param>
         public void SwingCameraTo(CameraState<Vector2> cameraState = null)
         {
             View.SwingCameraTo(CreateCamera(cameraState), duration: 1.5f);

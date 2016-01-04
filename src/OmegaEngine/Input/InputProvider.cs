@@ -76,7 +76,7 @@ namespace OmegaEngine.Input
         /// Raises all registered <see cref="IInputReceiver.AreaSelection"/>s.
         /// </summary>
         /// <param name="area">The selected area in pixels.</param>
-        /// <param name="accumulate"><see langword="true"/> when the user wants the new selection to be added to the old one.</param>
+        /// <param name="accumulate"><c>true</c> when the user wants the new selection to be added to the old one.</param>
         /// <param name="done">True when the user has finished his selection (e.g. released the mouse).</param>
         protected virtual void OnAreaSelection(Rectangle area, bool accumulate, bool done = false)
         {
@@ -98,7 +98,7 @@ namespace OmegaEngine.Input
         /// Raises all registered <see cref="IInputReceiver.Click"/>s.
         /// </summary>
         /// <param name="e">The original event arguments from the click.</param>
-        /// <param name="accumulate"><see langword="true"/> when the user wants the action to have an accumulative effect (usually for selections).</param>
+        /// <param name="accumulate"><c>true</c> when the user wants the action to have an accumulative effect (usually for selections).</param>
         protected virtual void OnClick(MouseEventArgs e, bool accumulate)
         {
             foreach (var receiver in _receivers)
@@ -135,7 +135,7 @@ namespace OmegaEngine.Input
         /// <summary>
         /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
         /// </summary>
-        /// <param name="disposing"><see langword="true"/> if called manually and not by the garbage collector.</param>
+        /// <param name="disposing"><c>true</c> if called manually and not by the garbage collector.</param>
         protected abstract void Dispose(bool disposing);
         #endregion
     }

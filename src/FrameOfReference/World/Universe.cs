@@ -41,7 +41,7 @@ namespace FrameOfReference.World
     {
         private readonly MonitoredCollection<Positionable<Vector2>> _positionables = new MonitoredCollection<Positionable<Vector2>>();
 
-        /// <inheritoc/>
+        /// <inheritdoc/>
         [Browsable(false)]
         // Note: Can not use ICollection<T> interface with XML Serialization
         [XmlElement(typeof(Entity)), XmlElement(typeof(Water)),
@@ -99,7 +99,7 @@ namespace FrameOfReference.World
         /// <summary>
         /// Retrieves an <see cref="Entity"/> from <see cref="Positionables"/> by its name.
         /// </summary>
-        /// <returns>The first matching <see cref="Entity"/>; <see langword="null"/> if there is no match.</returns>
+        /// <returns>The first matching <see cref="Entity"/>; <c>null</c> if there is no match.</returns>
         public Entity GetEntity(string name)
         {
             return _positionables.OfType<Entity>().FirstOrDefault(x => x.Name == name);
@@ -108,7 +108,7 @@ namespace FrameOfReference.World
         /// <summary>
         /// Retrieves an <see cref="Trigger"/> from <see cref="Positionables"/> by its name.
         /// </summary>
-        /// <returns>The first matching <see cref="Trigger"/>; <see langword="null"/> if there is no match.</returns>
+        /// <returns>The first matching <see cref="Trigger"/>; <c>null</c> if there is no match.</returns>
         public Trigger GetTrigger(string name)
         {
             return _positionables.OfType<Trigger>().FirstOrDefault(x => x.Name == name);
@@ -117,7 +117,7 @@ namespace FrameOfReference.World
         /// <summary>
         /// Retrieves an <see cref="CameraState{TCoordinates}"/> from <see cref="Positionables"/> by its name.
         /// </summary>
-        /// <returns>The first matching <see cref="CameraState{TCoordinates}"/>; <see langword="null"/> if there is no match.</returns>
+        /// <returns>The first matching <see cref="CameraState{TCoordinates}"/>; <c>null</c> if there is no match.</returns>
         public CameraState<Vector2> GetCamera(string name)
         {
             return _positionables.OfType<CameraState<Vector2>>().FirstOrDefault(x => x.Name == name);

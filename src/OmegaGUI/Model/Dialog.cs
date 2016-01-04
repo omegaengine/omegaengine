@@ -489,7 +489,7 @@ namespace OmegaGUI.Model
         /// <summary>
         /// Gets the first <see cref="Control"/> in this <see cref="Dialog"/> with the specified <paramref name="name"/>
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
         /// <exception cref="KeyNotFoundException">An element with the specified key does not exist in the dictionary.</exception>
         public Control this[string name]
         {
@@ -508,7 +508,7 @@ namespace OmegaGUI.Model
         /// <summary>
         /// Gets the <see cref="ButtonStyle"/> with the specified <paramref name="name"/>
         /// </summary>
-        /// <returns>The requested <see cref="ButtonStyle"/> or <see langword="null"/> if it couldn't be found</returns>
+        /// <returns>The requested <see cref="ButtonStyle"/> or <c>null</c> if it couldn't be found</returns>
         internal ButtonStyle GetButtonStyle(string name)
         {
             return _buttonStyles.FirstOrDefault(style => style.Name == name);

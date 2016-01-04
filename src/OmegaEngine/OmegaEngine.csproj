@@ -83,10 +83,12 @@
     <Compile Include="Assets\XSound.cs" />
     <Compile Include="Assets\XTexture.cs" />
     <Compile Include="Assets\XWaveSound.cs" />
+    <Compile Include="Assets\_Namespace.cs" />
     <Compile Include="Audio\MusicManager.cs" />
     <Compile Include="Audio\Song.cs" />
     <Compile Include="Audio\Sound.cs" />
     <Compile Include="Audio\Sound3D.cs" />
+    <Compile Include="Audio\_Namespace.cs" />
     <Compile Include="DebugConsole.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +130,7 @@
     <Compile Include="Graphics\Cameras\SpaceCamera.cs" />
     <Compile Include="Graphics\Cameras\StrategyCamera.cs" />
     <Compile Include="Graphics\Cameras\TrackCamera.cs" />
+    <Compile Include="Graphics\Cameras\_Namespace.cs" />
     <Compile Include="Graphics\DirectionalLight.cs" />
     <Compile Include="Graphics\GlowView.cs" />
     <Compile Include="Graphics\ITextureProvider.cs" />
@@ -157,6 +160,7 @@
     <Compile Include="Graphics\Renderables\VertexGroup.cs" />
     <Compile Include="Graphics\Renderables\Water.cs" />
     <Compile Include="Graphics\Renderables\WaterViewSource.cs" />
+    <Compile Include="Graphics\Renderables\_Namespace.cs" />
     <Compile Include="Graphics\RenderTarget.cs" />
     <Compile Include="Graphics\Scene.cs" />
     <Compile Include="Graphics\Shaders\DynamicShader.cs" />
@@ -181,6 +185,7 @@
     <Compile Include="Graphics\Shaders\SurfaceShader.cs" />
     <Compile Include="Graphics\Shaders\TerrainShader.cs" />
     <Compile Include="Graphics\Shaders\WaterShader.cs" />
+    <Compile Include="Graphics\Shaders\_Namespace.cs" />
     <Compile Include="Graphics\ShadowView.cs" />
     <Compile Include="Graphics\SpecialView.cs" />
     <Compile Include="Graphics\SupportView.cs" />
@@ -196,12 +201,14 @@
     <Compile Include="Graphics\VertexDecl\TransformedColored.cs" />
     <Compile Include="Graphics\VertexDecl\TransformedColoredTextured.cs" />
     <Compile Include="Graphics\VertexDecl\TransformedTextured.cs" />
+    <Compile Include="Graphics\VertexDecl\_Namespace.cs" />
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Graphics\View.Helpers.cs" />
     <Compile Include="Graphics\View.Render.cs" />
     <Compile Include="Graphics\View.Sorting.cs" />
     <Compile Include="Graphics\WaterView.cs" />
     <Compile Include="Graphics\XMaterial.cs" />
+    <Compile Include="Graphics\_Namespace.cs" />
     <Compile Include="Hardware.cs" />
     <Compile Include="IAudio.cs" />
     <Compile Include="Input\IInputReceiver.cs" />
@@ -210,6 +217,7 @@
     <Compile Include="Input\MouseInputProvider.cs" />
     <Compile Include="Input\TouchInputProvider.cs" />
     <Compile Include="Input\UpdateReceiver.cs" />
+    <Compile Include="Input\_Namespace.cs" />
     <Compile Include="IPositionable.cs" />
     <Compile Include="IPositionableOffset.cs" />
     <Compile Include="PerlinNoise.cs" />

@@ -79,9 +79,9 @@ namespace OmegaEngine.Graphics.Shaders
         /// Applies the shader to the content in the render delegate.
         /// </summary>
         /// <param name="render">The render delegate (is called once for every shader pass).</param>
-        /// <param name="material">The material to be used by this shader; <see langword="null"/> for device texture.</param>
+        /// <param name="material">The material to be used by this shader; <c>null</c> for device texture.</param>
         /// <param name="camera">The camera for transformation information.</param>
-        /// <param name="lights">An array of all lights this shader should consider. Mustn't be <see langword="null"/>!</param>
+        /// <param name="lights">An array of all lights this shader should consider. Mustn't be <c>null</c>!</param>
         public override void Apply(Action render, XMaterial material, Camera camera, params LightSource[] lights)
         {
             #region Sanity checks

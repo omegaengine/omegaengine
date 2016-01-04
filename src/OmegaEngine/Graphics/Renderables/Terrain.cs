@@ -135,7 +135,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="heightMap">The height values of the terrain in a 2D array.
         ///   Grid size = Terrain size</param>
         /// <param name="occlusionIntervalMap">The angles at which the global light source occlusion begins and ends.
-        ///   Grid size = Terrain size; may be <see langword="null"/> for no shadowing</param>
+        ///   Grid size = Terrain size; may be <c>null</c> for no shadowing</param>
         /// <param name="textureMap">The texture values of the terrain in a 2D array.
         ///   Grid size = Terrain size / 3</param>
         /// <param name="textures">An array with a maximum of 16 texture names associated to <paramref name="textureMap"/></param>
@@ -186,7 +186,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         /// <param name="start">The top-left index of the area to modify.</param>
         /// <param name="partialColorMap">A 2D array containing the new color values - array size specifies size of the area to modify.</param>
-        /// <remarks>Cannot be called when <see cref="Lighting"/> is <see langword="false"/>, because coloring uses the lighting subsystem.</remarks>
+        /// <remarks>Cannot be called when <see cref="Lighting"/> is <c>false</c>, because coloring uses the lighting subsystem.</remarks>
         public void ModifyColor(Point start, Color[,] partialColorMap)
         {
             #region Sanity checks
@@ -221,7 +221,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="start">The top-left index of the area to modify.</param>
         /// <param name="partialHeightMap">A 2D array containing the new height values; array size specifies size of the area to modify.</param>
         /// <remarks>
-        /// Cannot be called when <see cref="Lighting"/> is <see langword="true"/>, because normals are not updated.
+        /// Cannot be called when <see cref="Lighting"/> is <c>true</c>, because normals are not updated.
         /// Invalidates all internal <see cref="BoundingBox"/>es.
         /// </remarks>
         public void ModifyHeight(Point start, byte[,] partialHeightMap)

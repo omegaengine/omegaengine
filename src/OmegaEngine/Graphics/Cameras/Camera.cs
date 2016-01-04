@@ -467,7 +467,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// Checks whether a <see cref="BoundingSphere"/> is inside the camera's view frustum
         /// </summary>
         /// <param name="boundingSphere">A sphere that completely encompasses the body in world space</param>
-        /// <returns><see langword="true"/> if the sphere is in the frustum</returns> 
+        /// <returns><c>true</c> if the sphere is in the frustum</returns> 
         internal bool InFrustum(BoundingSphere boundingSphere)
         {
             // Pre-checks
@@ -485,7 +485,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// Checks whether a <see cref="BoundingBox"/> is inside the camera's view frustum
         /// </summary>
         /// <param name="boundingBox">An axis-aligned box that completely encompasses the body in world space</param>
-        /// <returns><see langword="true"/> if the box is in the frustum</returns> 
+        /// <returns><c>true</c> if the box is in the frustum</returns> 
         internal bool InFrustum(BoundingBox boundingBox)
         {
             // Pre-checks

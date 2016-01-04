@@ -209,7 +209,7 @@ namespace OmegaEngine.Assets
         /// </summary>
         /// <param name="engine">The <see cref="Engine"/> providing the cache and rendering capabilities.</param>
         /// <param name="id">The ID of the asset to be returned.</param>
-        /// <returns>The requested asset; <see langword="null"/> if <paramref name="id"/> was empty.</returns>
+        /// <returns>The requested asset; <c>null</c> if <paramref name="id"/> was empty.</returns>
         /// <exception cref="FileNotFoundException">The specified file could not be found.</exception>
         /// <exception cref="IOException">There was an error reading the file.</exception>
         /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>

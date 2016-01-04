@@ -62,7 +62,7 @@ namespace AlphaFramework.World
         private string _skybox;
 
         /// <summary>
-        /// The name of the skybox to use for this map; may be <see langword="null"/> or empty.
+        /// The name of the skybox to use for this map; may be <c>null</c> or empty.
         /// </summary>
         [DefaultValue(""), Category("Effects"), Description("The name of the skybox to use for this map; may be null or empty.")]
         public string Skybox { get { return _skybox; } set { value.To(ref _skybox, OnSkyboxChanged); } }

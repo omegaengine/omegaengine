@@ -243,7 +243,7 @@ namespace AlphaFramework.Editor
         /// <summary>
         /// Launches the main game with the currently active mod.
         /// </summary>
-        /// <param name="arguments">Additional arguments to be passed; may be <see langword="null"/>.</param>
+        /// <param name="arguments">Additional arguments to be passed; may be <c>null</c>.</param>
         /// <exception cref="Win32Exception">The game executable could not be launched.</exception>
         /// <exception cref="BadImageFormatException">The game executable is damaged.</exception>
         protected virtual void LaunchGame(string arguments)

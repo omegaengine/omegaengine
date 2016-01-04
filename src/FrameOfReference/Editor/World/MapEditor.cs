@@ -63,10 +63,10 @@ namespace FrameOfReference.Editor.World
         private Universe _universe;
         private MapPropertiesTool _mapPropertiesTool;
 
-        /// <summary>Don't handle <see cref="FilteredTreeView{T}.SelectedEntryChanged"/> event when <see langword="true"/>.</summary>
+        /// <summary>Don't handle <see cref="FilteredTreeView{T}.SelectedEntryChanged"/> event when <c>true</c>.</summary>
         private bool _dontSetEntityTemplate;
 
-        /// <summary>Don't handle <see cref="ListBox.SelectedIndexChanged"/> event when <see langword="true"/>.</summary>
+        /// <summary>Don't handle <see cref="ListBox.SelectedIndexChanged"/> event when <c>true</c>.</summary>
         private bool _dontUpdatePositionableSelection;
 
         /// <summary>Contains backups of <see cref="Positionable{TCoordinates}"/> property values for the undo system.</summary>
@@ -104,7 +104,7 @@ namespace FrameOfReference.Editor.World
         /// Creates a new map editor.
         /// </summary>
         /// <param name="filePath">The path to the file to be edited.</param>
-        /// <param name="overwrite"><see langword="true"/> if an existing file supposed to be overwritten when <see cref="Tab.SaveFile"/> is called.</param>
+        /// <param name="overwrite"><c>true</c> if an existing file supposed to be overwritten when <see cref="Tab.SaveFile"/> is called.</param>
         public MapEditor(string filePath, bool overwrite)
         {
             InitializeComponent();
@@ -323,7 +323,7 @@ namespace FrameOfReference.Editor.World
         /// <summary>
         /// Determines the <see cref="EntityTemplate"/> of the currently selected <see cref="EntityBase{TCoordinates,TTemplate}"/>s
         /// </summary>
-        /// <returns>The <see cref="EntityTemplate"/> if all currently selected <see cref="EntityBase{TCoordinates,TTemplate}"/>s have the same; <see langword="null"/> otherwise.</returns>
+        /// <returns>The <see cref="EntityTemplate"/> if all currently selected <see cref="EntityBase{TCoordinates,TTemplate}"/>s have the same; <c>null</c> otherwise.</returns>
         private EntityTemplate GetCurrentEntityTemplate()
         {
             EntityTemplate currentTemplate = null;

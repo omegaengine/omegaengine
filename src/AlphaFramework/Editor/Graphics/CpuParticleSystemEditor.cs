@@ -35,7 +35,7 @@ namespace AlphaFramework.Editor.Graphics
         /// Creates a new CPU particle system editor.
         /// </summary>
         /// <param name="filePath">The path to the file to be edited.</param>
-        /// <param name="overwrite"><see langword="true"/> if an existing file supposed to be overwritten when <see cref="Tab.SaveFile"/> is called.</param>
+        /// <param name="overwrite"><c>true</c> if an existing file supposed to be overwritten when <see cref="Tab.SaveFile"/> is called.</param>
         public CpuParticleSystemEditor(string filePath, bool overwrite)
         {
             InitializeComponent();

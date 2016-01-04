@@ -44,7 +44,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// </summary>
         /// <param name="render">The render delegate (is called once for every shader pass)</param>
         /// <param name="sceneSize">The size of the scene on the screen - leave empty for fullscreen</param>
-        /// <param name="sceneMap">A texture containing the rendered scene, <see langword="null"/> if the shader doesn't need it</param>
+        /// <param name="sceneMap">A texture containing the rendered scene, <c>null</c> if the shader doesn't need it</param>
         protected virtual void RunPasses(Action render, Size sceneSize, RenderTarget sceneMap)
         {
             if (render == null) throw new ArgumentNullException("render");
@@ -78,7 +78,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// </summary>
         /// <param name="render">The delegate to call back for rendering the output</param>
         /// <param name="sceneSize">The size of the scene on the screen - leave empty for fullscreen</param>
-        /// <param name="sceneMap">A texture containing the rendered scene, <see langword="null"/> if the shader doesn't need it</param>
+        /// <param name="sceneMap">A texture containing the rendered scene, <c>null</c> if the shader doesn't need it</param>
         public virtual void Apply(Action render, Size sceneSize, RenderTarget sceneMap)
         {
             #region Sanity checks

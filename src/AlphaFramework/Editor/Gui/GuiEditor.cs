@@ -54,7 +54,7 @@ namespace AlphaFramework.Editor.Gui
         /// Creates a new GUI editor.
         /// </summary>
         /// <param name="filePath">The path to the file to be edited.</param>
-        /// <param name="overwrite"><see langword="true"/> if an existing file supposed to be overwritten when <see cref="Tab.SaveFile"/> is called.</param>
+        /// <param name="overwrite"><c>true</c> if an existing file supposed to be overwritten when <see cref="Tab.SaveFile"/> is called.</param>
         public GuiEditor(string filePath, bool overwrite)
         {
             InitializeComponent();

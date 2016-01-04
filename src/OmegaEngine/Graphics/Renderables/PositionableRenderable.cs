@@ -491,7 +491,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Checks whether this object is visible at the moment (includes Frustum Culling and other filtering criteria).
         /// </summary>
         /// <param name="camera">The <see cref="Camera"/> used to look the object.</param>
-        /// <returns><see langword="true"/> if the object is visible.</returns>
+        /// <returns><c>true</c> if the object is visible.</returns>
         /// <seealso cref="Cameras.Camera.InFrustum(SlimDX.BoundingSphere)"/>
         /// <seealso cref="Cameras.Camera.InFrustum(SlimDX.BoundingBox)"/>
         public bool IsVisible(Camera camera)
@@ -529,7 +529,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         /// <param name="ray">A ray in world space along which to check for intersections.</param>
         /// <param name="distance">Returns the distance along the <paramref name="ray"/> at which the intersection took place.</param>
-        /// <returns><see langword="true"/> if this <see cref="PositionableRenderable"/> was intersected by the <paramref name="ray"/>.</returns>
+        /// <returns><c>true</c> if this <see cref="PositionableRenderable"/> was intersected by the <paramref name="ray"/>.</returns>
         /// <seealso cref="View.Pick"/>
         public virtual bool Intersects(Ray ray, out float distance)
         {
@@ -542,7 +542,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         /// <param name="ray">A ray in world space along which to check for intersections.</param>
         /// <param name="position">Returns the position of the intersection in entity space.</param>
-        /// <returns><see langword="true"/> if this <see cref="PositionableRenderable"/> was intersected by the <paramref name="ray"/>.</returns>
+        /// <returns><c>true</c> if this <see cref="PositionableRenderable"/> was intersected by the <paramref name="ray"/>.</returns>
         /// <seealso cref="View.Pick"/>
         public bool Intersects(Ray ray, out DoubleVector3 position)
         {
@@ -558,7 +558,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Determine whether <see cref="PositionableRenderable.WorldBoundingBox"/> and <see cref="PositionableRenderable.WorldBoundingSphere"/> (if defined) are intersected by a ray.
         /// </summary>
         /// <param name="ray">A ray in world space along which to check for intersections.</param>
-        /// <returns><see langword="true"/> if the bounding bodies were undefined or intersected by the <paramref name="ray"/>.</returns>
+        /// <returns><c>true</c> if the bounding bodies were undefined or intersected by the <paramref name="ray"/>.</returns>
         protected virtual bool IntersectsBounding(Ray ray)
         {
             float distance;

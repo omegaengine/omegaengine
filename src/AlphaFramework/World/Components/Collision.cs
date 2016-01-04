@@ -29,7 +29,7 @@ namespace AlphaFramework.World.Components
         /// </summary>
         /// <param name="point">The point to check for collision in entity space.</param>
         /// <param name="rotation">How the collision body shall be rotated before performing the collision test.</param>
-        /// <returns><see langword="true"/> if <paramref name="point"/> does collide with the body, <see langword="false"/> otherwise.</returns>
+        /// <returns><c>true</c> if <paramref name="point"/> does collide with the body, <c>false</c> otherwise.</returns>
         public abstract bool CollisionTest(TCoordinates point, float rotation);
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace AlphaFramework.World.Components
         /// </summary>
         /// <param name="area">The area to check for collision in entity space.</param>
         /// <param name="rotation">How the collision body shall be rotated before performing the collision test.</param>
-        /// <returns><see langword="true"/> if <paramref name="area"/> does collide with the body, <see langword="false"/> otherwise.</returns>
+        /// <returns><c>true</c> if <paramref name="area"/> does collide with the body, <c>false</c> otherwise.</returns>
         public abstract bool CollisionTest(Quadrangle area, float rotation);
 
         #region Clone

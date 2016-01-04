@@ -1,0 +1,21 @@
+﻿PROJECT_NAME = "Frame of Reference Game API"
+PROJECT_NUMBER = "1.0.0"
+
+INPUT = ../src/FrameOfReference
+STRIP_FROM_PATH = ../src/FrameOfReference
+RECURSIVE = YES
+EXCLUDE_PATTERNS = */UnitTests/* */Properties/* *.NativeMethods.cs */obj/*
+TAGFILES = ../build/common.tag=http://nano-byte.de/common/api/ ../build/Documentation/omegaengine.tag=../omegaengine ../build/Documentation/alphaframework.tag=../alphaframework
+
+OUTPUT_DIRECTORY = ../build/Documentation
+GENERATE_TAGFILE = ../build/Documentation/frame-of-reference.tag
+HTML_OUTPUT = frame-of-reference
+
+GENERATE_LATEX = NO
+CASE_SENSE_NAMES = NO
+
+EXTRACT_PACKAGE = YES
+EXTRACT_STATIC = YES
+AUTOLINK_SUPPORT = NO
+WARN_IF_UNDOCUMENTED = NO
+QUIET = YES
