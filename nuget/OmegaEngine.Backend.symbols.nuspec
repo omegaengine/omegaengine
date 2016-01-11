@@ -8,7 +8,8 @@
         <projectUrl>http://omegaengine.de/</projectUrl>
         <iconUrl>http://omegaengine.de/images/icon_omega.png</iconUrl>
         <description>This package contains the actual library binaries for the OmegaEngine without the default assets (content and shader files). It is automatically included by the main package.
-Use this package directly if another project in your solution with the same build output directory already references the main package to avoid duplicating the assets.</description>
+Use this package directly if another project in your solution with the same build output directory already references the main package to avoid duplicating the assets.
+API documentation: http://omegaengine.de/api/omegaengine/</description>
         <summary>Library binaries for the OmegaEngine without external resources, automatically included by the main package</summary>
         <dependencies>
             <dependency id="NanoByte.Common.SlimDX" version="[1.2.8]" />

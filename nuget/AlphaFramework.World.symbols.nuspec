@@ -9,7 +9,8 @@
         <iconUrl>http://omegaengine.de/images/icon_alpha.png</iconUrl>
         <description>The AlphaFramework is a Model-View-Presenter framework for creating game worlds.
 AlphaFramework.World is used to build Models, the OmegaEngine renders the Views and AlphaFramework.Presentation is used to build Presenters.
-The "OmegaEngine Templates" Visual Studio extension can help you set up a suitable project structure.</description>
+The "OmegaEngine Templates" Visual Studio extension can help you set up a suitable project structure.
+API documentation: http://omegaengine.de/api/alphaframework/</description>
         <summary>build game world models for presentation with AlphaFramework.Presentation</summary>
         <dependencies>
             <dependency id="NanoByte.Common.SlimDX" version="[1.2.8]" />
