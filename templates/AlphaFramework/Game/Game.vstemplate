@@ -3,7 +3,7 @@
     <Name>AlphaFramework Game Core</Name>
     <Description>The main game executable.</Description>
     <ProjectType>CSharp</ProjectType>
-	<ProjectSubType>OmegaEngine</ProjectSubType>
+    <ProjectSubType>OmegaEngine</ProjectSubType>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>Game</DefaultName>

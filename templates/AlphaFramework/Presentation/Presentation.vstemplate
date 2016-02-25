@@ -3,7 +3,7 @@
     <Name>AlphaFramework Presentation</Name>
     <Description>The world presentation/rendering logic.</Description>
     <ProjectType>CSharp</ProjectType>
-	<ProjectSubType>OmegaEngine</ProjectSubType>
+    <ProjectSubType>OmegaEngine</ProjectSubType>
     <SortOrder>1002</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>Presentation</DefaultName>

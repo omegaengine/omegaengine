@@ -3,7 +3,7 @@
     <Name>OmegaEngine Windows Forms Application</Name>
     <Description>A Windows Forms application that embeds a surface with 3D rendering via the OmegaEngine.</Description>
     <ProjectType>CSharp</ProjectType>
-	<ProjectSubType>OmegaEngine</ProjectSubType>
+    <ProjectSubType>OmegaEngine</ProjectSubType>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>OmegaEngineApplication</DefaultName>

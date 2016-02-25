@@ -4,7 +4,7 @@
     <Description>An IDE-like Editor for your game based on the OmegaEngine and AlphaFramework.
 You can use it to create GUI dialogs, maps, particle systems, etc..</Description>
     <ProjectType>CSharp</ProjectType>
-	<ProjectSubType>OmegaEngine</ProjectSubType>
+    <ProjectSubType>OmegaEngine</ProjectSubType>
     <SortOrder>1001</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>Editor</DefaultName>

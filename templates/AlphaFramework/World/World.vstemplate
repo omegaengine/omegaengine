@@ -3,7 +3,7 @@
     <Name>AlphaFramework World</Name>
     <Description>The game world.</Description>
     <ProjectType>CSharp</ProjectType>
-	<ProjectSubType>OmegaEngine</ProjectSubType>
+    <ProjectSubType>OmegaEngine</ProjectSubType>
     <SortOrder>1003</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>World</DefaultName>

@@ -3,7 +3,7 @@
     <Name>OmegaEngine Fullscreen Application</Name>
     <Description>A fullscreen application with 3D rendering via the OmegaEngine.</Description>
     <ProjectType>CSharp</ProjectType>
-	<ProjectSubType>OmegaEngine</ProjectSubType>
+    <ProjectSubType>OmegaEngine</ProjectSubType>
     <SortOrder>1001</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>OmegaEngineApplication</DefaultName>

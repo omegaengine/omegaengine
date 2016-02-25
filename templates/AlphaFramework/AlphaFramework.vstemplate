@@ -3,30 +3,30 @@
     <Name>AlphaFramework Game</Name>
     <Description>The AlphaFramework supplies a common base for building and rendering game worlds as well as an IDE-like Editor. The OmegaEngine provides the actual rendering functionality.</Description>
     <ProjectType>CSharp</ProjectType>
-	<ProjectSubType>OmegaEngine</ProjectSubType>
+    <ProjectSubType>OmegaEngine</ProjectSubType>
     <SortOrder>1002</SortOrder>
-	<CreateNewFolder>true</CreateNewFolder>
+    <CreateNewFolder>false</CreateNewFolder>
     <DefaultName>AlphaFrameworkGame</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
     <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
-	<Icon>AlphaFramework.ico</Icon>
+    <Icon>AlphaFramework.ico</Icon>
   </TemplateData>
   <TemplateContent>
     <ProjectCollection>
-      <ProjectTemplateLink ProjectName="$safeprojectname$.Game">
+      <ProjectTemplateLink>
           Game\Game.vstemplate
-	  </ProjectTemplateLink>
-      <ProjectTemplateLink ProjectName="$safeprojectname$.Editor">
+      </ProjectTemplateLink>
+      <ProjectTemplateLink>
           Editor\Editor.vstemplate
-	  </ProjectTemplateLink>
-      <ProjectTemplateLink ProjectName="$safeprojectname$.Presentation">
+      </ProjectTemplateLink>
+      <ProjectTemplateLink>
           Presentation\Presentation.vstemplate
-	  </ProjectTemplateLink>
-      <ProjectTemplateLink ProjectName="$safeprojectname$.World">
+      </ProjectTemplateLink>
+      <ProjectTemplateLink>
           World\World.vstemplate
-	  </ProjectTemplateLink>
+      </ProjectTemplateLink>
     </ProjectCollection>
   </TemplateContent>
 </VSTemplate>
