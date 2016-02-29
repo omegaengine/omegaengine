@@ -81,7 +81,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Global.cs" />
+    <Compile Include="..\GlobalAssemblyInfo.cs" />
     <Compile Include="DialogRenderer.cs" />
     <Compile Include="GuiManager.cs" />
     <Compile Include="Model\Button.cs" />

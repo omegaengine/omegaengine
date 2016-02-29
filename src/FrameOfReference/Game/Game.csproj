@@ -101,7 +101,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Global.cs" />
+    <Compile Include="..\GlobalAssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Game.Loading.cs">

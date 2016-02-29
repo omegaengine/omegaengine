@@ -70,7 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Global.cs" />
+    <Compile Include="..\GlobalAssemblyInfo.cs" />
     <Compile Include="BenchmarkPresenter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="InGamePresenter.cs" />

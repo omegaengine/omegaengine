@@ -72,7 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Global.cs" />
+    <Compile Include="..\GlobalAssemblyInfo.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="WelcomeForm.cs">
       <SubType>Form</SubType>

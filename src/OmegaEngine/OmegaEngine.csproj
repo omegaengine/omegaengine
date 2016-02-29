@@ -73,7 +73,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Global.cs" />
+    <Compile Include="..\GlobalAssemblyInfo.cs" />
     <Compile Include="Assets\Asset.cs" />
     <Compile Include="Assets\CacheManager.cs" />
     <Compile Include="Assets\IReferenceCount.cs" />

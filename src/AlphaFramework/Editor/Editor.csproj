@@ -72,7 +72,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Global.cs" />
+    <Compile Include="..\GlobalAssemblyInfo.cs" />
     <Compile Include="AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
