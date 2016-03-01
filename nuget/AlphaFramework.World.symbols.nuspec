@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>AlphaFramework.World</id>
-        <version>$version$</version>
+        <version>$version$$VersionSuffix$</version>
         <authors>Bastian Eicher</authors>
         <licenseUrl>https://github.com/omegaengine/omegaengine/wiki/License</licenseUrl>
         <projectUrl>http://omegaengine.de/</projectUrl>

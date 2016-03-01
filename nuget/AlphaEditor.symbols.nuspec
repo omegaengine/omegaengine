@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>AlphaEditor</id>
-        <version>$version$</version>
+        <version>$version$$VersionSuffix$</version>
         <authors>Bastian Eicher</authors>
         <licenseUrl>https://github.com/omegaengine/omegaengine/wiki/License</licenseUrl>
         <projectUrl>https://github.com/omegaengine/omegaengine/wiki/AlphaEditor</projectUrl>
@@ -13,10 +13,10 @@ API documentation: http://omegaengine.de/api/alphaframework/</description>
         <summary>IDE-like editor for OmegaEngine games (GUI, maps, particle systems, etc.)</summary>
         <dependencies>
             <dependency id="ICSharpCode.SharpZipLib.Patched" version="0.86.5" />
-            <dependency id="OmegaEngine.Backend" version="[$version$]" />
-            <dependency id="OmegaGUI" version="[$version$]" />
-            <dependency id="AlphaFramework.World" version="[$version$]" />
-            <dependency id="AlphaFramework.Presentation" version="[$version$]" />
+            <dependency id="OmegaEngine.Backend" version="[$version$$VersionSuffix$]" />
+            <dependency id="OmegaGUI" version="[$version$$VersionSuffix$]" />
+            <dependency id="AlphaFramework.World" version="[$version$$VersionSuffix$]" />
+            <dependency id="AlphaFramework.Presentation" version="[$version$$VersionSuffix$]" />
         </dependencies>
         <references>
             <reference file="AlphaFramework.Editor.dll" />
