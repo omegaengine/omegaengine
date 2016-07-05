@@ -48,20 +48,17 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\packages\ICSharpCode.SharpZipLib.Patched.0.86.5\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="LinqBridge">
-      <HintPath>..\packages\LinqBridge.1.3.0\lib\net20\LinqBridge.dll</HintPath>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\packages\JetBrains.Annotations.10.0.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="NanoByte.Common">
-      <HintPath>..\packages\NanoByte.Common.1.2.8\lib\net20\NanoByte.Common.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\NanoByte.Common.2.0.2\lib\net20\NanoByte.Common.dll</HintPath>
     </Reference>
     <Reference Include="NanoByte.Common.SlimDX">
-      <HintPath>..\packages\NanoByte.Common.SlimDX.1.2.8\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\NanoByte.Common.SlimDX.2.0.2\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
     </Reference>
     <Reference Include="NanoByte.Common.WinForms">
-      <HintPath>..\packages\NanoByte.Common.WinForms.1.2.8\lib\net20\NanoByte.Common.WinForms.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\NanoByte.Common.WinForms.2.0.2\lib\net20\NanoByte.Common.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="SlimDX">
       <HintPath>..\packages\SlimDX.4.0.13.44\lib\NET20\SlimDX.dll</HintPath>

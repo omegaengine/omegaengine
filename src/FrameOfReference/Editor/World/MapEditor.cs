@@ -210,7 +210,7 @@ namespace FrameOfReference.Editor.World
                 try
                 {
                     var generator = OcclusionIntervalMapGenerator.FromTerrain(_universe.Terrain, _universe.SunInclination);
-                    using (var handler = new GuiTaskHandler(this)) handler.RunTask(generator);
+                    using (var handler = new DialogTaskHandler(this)) handler.RunTask(generator);
 
                     _universe.Terrain.OcclusionIntervalMap = generator.Result;
                     _universe.Terrain.OcclusionIntervalMapOutdated = false;

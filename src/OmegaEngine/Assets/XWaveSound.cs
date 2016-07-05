@@ -38,7 +38,7 @@ namespace OmegaEngine.Assets
             {
                 SoundFormat = waveFile.Format;
                 SoundData = new MemoryStream((int)waveFile.Length);
-                waveFile.CopyTo(SoundData);
+                waveFile.CopyToEx(SoundData);
             }
         }
         #endregion
