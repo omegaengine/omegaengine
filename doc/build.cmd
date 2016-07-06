@@ -14,5 +14,6 @@ if errorlevel 1 exit /b %errorlevel%
 if errorlevel 1 exit /b %errorlevel%
 0install run http://0install.de/feeds/Doxygen.xml FrameOfReference.Doxyfile
 if errorlevel 1 exit /b %errorlevel%
+copy index.html ..\build\Documentation\index.html
 
 popd

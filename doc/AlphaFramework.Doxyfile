@@ -1,7 +1,8 @@
 ﻿PROJECT_NAME = "AlphaFramework API"
 PROJECT_NUMBER = "1.0.0"
 
-INPUT = ../src/AlphaFramework
+INPUT = AlphaFramework.md ../src/AlphaFramework
+USE_MDFILE_AS_MAINPAGE = AlphaFramework.md
 STRIP_FROM_PATH = ../src/AlphaFramework
 RECURSIVE = YES
 EXCLUDE_PATTERNS = */UnitTests/* */Properties/* *.NativeMethods.cs */obj/*

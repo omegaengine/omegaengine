@@ -1,8 +1,9 @@
 ﻿PROJECT_NAME = "OmegaEngine API"
 PROJECT_NUMBER = "1.0.0"
 
-INPUT = ../src/OmegaEngine
-STRIP_FROM_PATH = ../src/OmegaEngine
+INPUT = OmegaEngine.md ../src/OmegaEngine ../src/OmegaGUI
+USE_MDFILE_AS_MAINPAGE = OmegaEngine.md
+STRIP_FROM_PATH = ../src
 RECURSIVE = YES
 EXCLUDE_PATTERNS = */UnitTests/* */Properties/* *.NativeMethods.cs */obj/*
 TAGFILES = ../build/common.tag=http://nano-byte.de/common/api/

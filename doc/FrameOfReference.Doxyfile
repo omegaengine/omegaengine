@@ -1,7 +1,8 @@
 ﻿PROJECT_NAME = "Frame of Reference Game API"
 PROJECT_NUMBER = "1.0.0"
 
-INPUT = ../src/FrameOfReference
+INPUT = FrameOfReference.md ../src/FrameOfReference
+USE_MDFILE_AS_MAINPAGE = FrameOfReference.md
 STRIP_FROM_PATH = ../src/FrameOfReference
 RECURSIVE = YES
 EXCLUDE_PATTERNS = */UnitTests/* */Properties/* *.NativeMethods.cs */obj/*
