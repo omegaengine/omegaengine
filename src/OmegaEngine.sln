@@ -28,13 +28,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "AlphaFramework\Ed
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "AlphaFramework\UnitTests\UnitTests.csproj", "{BD0E2EA9-4AAD-4A1A-B748-2737FD1999D6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F9DC206C-2B8D-4D9E-A279-4F5A5D09B998}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AlphaFramework", "AlphaFramework", "{7A085010-2085-413F-AEB4-3DB5A1CD7E2D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "AlphaFramework\Presentation\Presentation.csproj", "{63F97B11-3B08-45C3-86F9-1F99129A3B3D}"

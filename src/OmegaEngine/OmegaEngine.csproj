@@ -302,5 +302,4 @@
     </PreBuildEvent>
     <PostBuildEvent>"$(ProjectDir)Shaders\compile.cmd" $(ConfigurationName) SM11 "$(TargetDir)Shaders"</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>
