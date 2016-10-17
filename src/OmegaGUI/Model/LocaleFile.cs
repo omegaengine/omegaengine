@@ -41,14 +41,12 @@ namespace OmegaGUI.Model
         #endregion
 
         #region Properties
-        private readonly XmlDictionary _entries;
-
         /// <summary>
         /// The collection of entries to be stored.
         /// </summary>
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [XmlElement("entry")]
-        public XmlDictionary Entries => _entries;
+        public XmlDictionary Entries { get; }
         #endregion
 
         #region Constructor
@@ -57,7 +55,7 @@ namespace OmegaGUI.Model
         /// </summary>
         public LocaleFile()
         {
-            _entries = new XmlDictionary();
+            Entries = new XmlDictionary();
         }
 
         /// <summary>
@@ -66,7 +64,7 @@ namespace OmegaGUI.Model
         /// <param name="entries">The collection of entries to be stored.</param>
         private LocaleFile(XmlDictionary entries)
         {
-            _entries = entries;
+            Entries = entries;
         }
         #endregion
 

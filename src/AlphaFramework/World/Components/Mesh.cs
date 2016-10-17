@@ -76,13 +76,11 @@ namespace AlphaFramework.World.Components
         [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
         public float RotationZ { get; set; }
 
-        private float _scale = 1;
-
         /// <summary>
         /// A factor by which to scale the mesh loaded from the file.
         /// </summary>
         [DefaultValue(1), Description("A factor by which to scale the mesh loaded from the file.")]
-        public float Scale { get { return _scale; } set { _scale = value; } }
+        public float Scale { get; set; } = 1;
 
         /// <summary>
         /// The level of transparency from 0 (solid) to 255 (invisible),
@@ -92,14 +90,12 @@ namespace AlphaFramework.World.Components
         [XmlAttribute]
         public int Alpha { get; set; }
 
-        private bool _pickable = true;
-
         /// <summary>
         /// Can this mesh be picked with the mouse?
         /// </summary>
         [DefaultValue(true), Description("Can this mesh be picked with the mouse?")]
         [XmlAttribute]
-        public bool Pickable { get { return _pickable; } set { _pickable = value; } }
+        public bool Pickable { get; set; } = true;
 
         /// <summary>
         /// In what kind of Views shall this mesh be rendered?

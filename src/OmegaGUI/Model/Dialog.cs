@@ -130,13 +130,11 @@ namespace OmegaGUI.Model
             }
         }
 
-        private bool _animate = true;
-
         /// <summary>
         /// Shall this dialog use animations?
         /// </summary>
         [XmlAttribute, DefaultValue(true), Description("Shall this dialog use animations?"), Category("Appearance")]
-        public bool Animate { get { return _animate; } set { _animate = value; } }
+        public bool Animate { get; set; } = true;
         #endregion
 
         #region Colors
@@ -297,7 +295,7 @@ namespace OmegaGUI.Model
                 _shift = value;
                 if (DialogRender != null)
                 {
-                    foreach (Control control in _controls)
+                    foreach (Control control in Controls)
                         control.UpdateLayout();
                 }
             }
@@ -317,7 +315,7 @@ namespace OmegaGUI.Model
                 _scale = value;
                 if (DialogRender != null)
                 {
-                    foreach (Control control in _controls)
+                    foreach (Control control in Controls)
                         control.UpdateLayout();
                     DialogRender.DefaultFontSize = (uint)(_fontSize * EffectiveScale);
                 }
@@ -337,7 +335,7 @@ namespace OmegaGUI.Model
                 _autoScale = value;
                 if (DialogRender != null)
                 {
-                    foreach (Control control in _controls)
+                    foreach (Control control in Controls)
                         control.UpdateLayout();
                     DialogRender.DefaultFontSize = (uint)(_fontSize * EffectiveScale);
                 }
@@ -367,26 +365,22 @@ namespace OmegaGUI.Model
         }
         #endregion
 
-        private bool _visible = true;
-
         /// <summary>
         /// Is this dialog currently visible?
         /// </summary>
         [XmlAttribute, XmlIgnore, Browsable(false)]
-        public bool Visible { get { return _visible; } set { _visible = value; } }
+        public bool Visible { get; set; } = true;
 
         #region Controls
-        private Collection<ButtonStyle> _buttonStyles = new Collection<ButtonStyle>();
         // Note: Can not use ICollection<T> interface with XML Serialization
         /// <summary>
         /// A list of all custom button styles available in the dialog
         /// </summary>
         [Category("Design"), Description("A list of all custom button styles available in the dialog")]
         [XmlElement(typeof(ButtonStyle))]
-        public Collection<ButtonStyle> ButtonStyles => _buttonStyles;
+        public Collection<ButtonStyle> ButtonStyles { get; private set; } = new Collection<ButtonStyle>();
 
         // Note: Can not use IBindingList<T> interface with XML Serialization
-        private BindingList<Control> _controls = new BindingList<Control>();
 
         /// <summary>
         /// A list of all controls on the dialog
@@ -398,7 +392,7 @@ namespace OmegaGUI.Model
          XmlElement(typeof(PictureBox)), XmlElement(typeof(RadioButton)),
          XmlElement(typeof(ScrollBar)), XmlElement(typeof(Slider)),
          XmlElement(typeof(Label))]
-        public BindingList<Control> Controls => _controls;
+        public BindingList<Control> Controls { get; private set; } = new BindingList<Control>();
         #endregion
 
         #endregion
@@ -448,14 +442,14 @@ namespace OmegaGUI.Model
             UpdateColors();
 
             // Load custom button styles
-            foreach (ButtonStyle style in _buttonStyles)
+            foreach (ButtonStyle style in ButtonStyles)
             {
                 style.Parent = this;
                 style.Generate();
             }
 
             // Generate control models from their view counterparts
-            foreach (Control control in _controls)
+            foreach (Control control in Controls)
             {
                 control.Parent = this;
                 control.Generate();
@@ -464,7 +458,7 @@ namespace OmegaGUI.Model
             // Update control positions
             DialogRender.Resize += delegate
             {
-                foreach (Control control in _controls)
+                foreach (Control control in Controls)
                     control.UpdateLayout();
             };
 
@@ -499,7 +493,7 @@ namespace OmegaGUI.Model
                 if (name == null) throw new ArgumentNullException("name");
                 #endregion
 
-                foreach (Control control in _controls)
+                foreach (Control control in Controls)
                     if (control.Name == name) return control;
                 throw new KeyNotFoundException(Resources.ControlNotFound);
             }
@@ -511,7 +505,7 @@ namespace OmegaGUI.Model
         /// <returns>The requested <see cref="ButtonStyle"/> or <c>null</c> if it couldn't be found</returns>
         internal ButtonStyle GetButtonStyle(string name)
         {
-            return _buttonStyles.FirstOrDefault(style => style.Name == name);
+            return ButtonStyles.FirstOrDefault(style => style.Name == name);
         }
 
         /// <summary>
@@ -565,13 +559,13 @@ namespace OmegaGUI.Model
         {
             var newDialog = (Dialog)MemberwiseClone();
 
-            newDialog._controls = new BindingList<Control>();
-            foreach (Control control in _controls)
-                newDialog._controls.Add(control.Clone());
+            newDialog.Controls = new BindingList<Control>();
+            foreach (Control control in Controls)
+                newDialog.Controls.Add(control.Clone());
 
-            newDialog._buttonStyles = new Collection<ButtonStyle>();
-            foreach (ButtonStyle style in _buttonStyles)
-                newDialog._buttonStyles.Add(style.Clone());
+            newDialog.ButtonStyles = new Collection<ButtonStyle>();
+            foreach (ButtonStyle style in ButtonStyles)
+                newDialog.ButtonStyles.Add(style.Clone());
 
             newDialog.ScriptFired = null;
 

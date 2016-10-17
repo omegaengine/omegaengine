@@ -23,12 +23,12 @@ namespace AlphaFramework.World
         /// The current state of the game world.
         /// </summary>
         [LuaHide]
-        public TUniverse Universe { get; set; }
+        public TUniverse Universe { get; }
 
         /// <summary>
         /// The filename of the map file the <see cref="Universe"/> was loaded from.
         /// </summary>
-        public string MapSourceFile { get; set; }
+        public string MapSourceFile { get; }
 
         /// <summary>
         ///  Base-constructor for XML serialization. Do not call manually!
@@ -53,13 +53,11 @@ namespace AlphaFramework.World
         }
 
         #region Update
-        private double _timeWarpFactor = 1;
-
         /// <summary>
         /// The factor by which <see cref="UniverseBase{TCoordinates}.GameTime"/> progression should be multiplied in relation to real time.
         /// </summary>
         [DefaultValue(1.0)]
-        public double TimeWarpFactor { get { return _timeWarpFactor; } set { _timeWarpFactor = value; } }
+        public double TimeWarpFactor { get; set; } = 1;
 
         /// <summary>
         /// Updates the underlying <see cref="Universe"/>.

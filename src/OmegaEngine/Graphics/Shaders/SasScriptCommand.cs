@@ -68,21 +68,18 @@ namespace OmegaEngine.Graphics.Shaders
 
         [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists")]
         public List<string> Options;
-
-        private readonly CommandType _commandType;
-        private string _selector;
         #endregion
 
         #region Properties
-        public CommandType Command => _commandType;
+        public CommandType Command { get; }
 
-        public string Selector { get { return _selector; } set { _selector = value; } }
+        public string Selector { get; set; }
         #endregion
 
         #region Constructor
         public SasScriptCommand(CommandType type, Effect effect)
         {
-            _commandType = type;
+            Command = type;
             Effect = effect;
         }
         #endregion
@@ -107,11 +104,11 @@ namespace OmegaEngine.Graphics.Shaders
         protected string EvaluateChoice(ref int index)
         {
             string ret = null;
-            if (string.IsNullOrEmpty(_selector))
+            if (string.IsNullOrEmpty(Selector))
                 ret = Options[0];
             else
             {
-                EffectHandle handle = Effect.GetParameter(null, _selector);
+                EffectHandle handle = Effect.GetParameter(null, Selector);
                 if (handle == null)
                 {
                     // bad - maybe they wanted a UI string, but this is probably not valid in the current spec.
@@ -517,8 +514,7 @@ namespace OmegaEngine.Graphics.Shaders
             Stencil
         }
 
-        private ClearType _clearType = ClearType.Color;
-        public ClearType ClearOption => _clearType;
+        public ClearType ClearOption { get; private set; } = ClearType.Color;
 
         public SasScriptClear(Effect effect) : base(CommandType.Clear, effect)
         {}
@@ -531,11 +527,11 @@ namespace OmegaEngine.Graphics.Shaders
                 int index = 0;
                 string selection = EvaluateChoice(ref index);
                 if (StringUtils.EqualsIgnoreCase(selection, "color"))
-                    _clearType = ClearType.Color;
+                    ClearOption = ClearType.Color;
                 else if (StringUtils.EqualsIgnoreCase(selection, "depth"))
-                    _clearType = ClearType.Depth;
+                    ClearOption = ClearType.Depth;
                 else if (StringUtils.EqualsIgnoreCase(selection, "stencil"))
-                    _clearType = ClearType.Stencil;
+                    ClearOption = ClearType.Stencil;
                 else
                     Log.Error("SAS: unrecognized clear command");
                 IsDirty = false;

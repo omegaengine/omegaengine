@@ -65,7 +65,7 @@ namespace OmegaEngine
         /// The <see cref="System.Windows.Forms.Control"/> the engine draws onto.
         /// </summary>
         [LuaHide]
-        public Control Target { get; private set; }
+        public Control Target { get; }
 
         private EngineConfig _config;
 
@@ -94,7 +94,7 @@ namespace OmegaEngine
         /// <summary>
         /// Methods for determining the rendering capabilities of the graphics hardware.
         /// </summary>
-        public EngineCapabilities Capabilities { get; private set; }
+        public EngineCapabilities Capabilities { get; }
 
         /// <summary>
         /// Turn specific rendering effects in the engine on or off.
@@ -104,19 +104,17 @@ namespace OmegaEngine
         /// <summary>
         /// Used by <see cref="Renderable"/> implementations to manipulate the graphics render state. Should not be manipulated manually.
         /// </summary>
-        public EngineState State { get; private set; }
+        public EngineState State { get; }
 
         /// <summary>
         /// Tracks the performance/speed of the engine.
         /// </summary>
-        public EnginePerformance Performance { get; private set; }
-
-        private readonly CacheManager _cache = new CacheManager();
+        public EnginePerformance Performance { get; }
 
         /// <summary>
         /// The central cache used for all graphics and sound assets.
         /// </summary>
-        public CacheManager Cache => _cache;
+        public CacheManager Cache { get; } = new CacheManager();
         #endregion
 
         #region Constructor
@@ -237,7 +235,7 @@ namespace OmegaEngine
             Music.Dispose();
 
             // Dispose cached assets
-            _cache.Dispose();
+            Cache.Dispose();
 
             // Dispose default meshes
             if (SimpleSphere != null) SimpleSphere.Dispose();

@@ -23,11 +23,6 @@ namespace OmegaEngine.Graphics.Renderables
     public class CpuParticlePreset : ICloneable
     {
         #region Variables
-        private int _maxParticles = 512;
-
-        private float _speed = 1;
-        private float _emitterSuctionRange = 32768;
-
         private string _particleTexture1, _particleTexture2;
 
         /// <summary>
@@ -93,7 +88,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// The maximum number particles in existance at any one point in time
         /// </summary>
         [DefaultValue(512), Category("Spawn"), Description("The maximum number particles in existance at any one point in time")]
-        public int MaxParticles { get { return _maxParticles; } set { _maxParticles = value; } }
+        public int MaxParticles { get; set; } = 512;
         #endregion
 
         #region Acceleration
@@ -113,7 +108,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// From where the emitter suction force starts to act
         /// </summary>
         [DefaultValue(32768f), Category("Acceleration"), Description("When the emitter suction force starts")]
-        public float EmitterSuctionRange { get { return _emitterSuctionRange; } set { _emitterSuctionRange = value; } }
+        public float EmitterSuctionRange { get; set; } = 32768;
 
         /// <summary>
         /// How fast particles will be sucked back to the emitter's centre
@@ -139,7 +134,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// A factor by which all elapsed times are multiplied
         /// </summary>
         [DefaultValue(1f), Category("General"), Description("A factor by which all elapsed times are multiplied")]
-        public float Speed { get { return _speed; } set { _speed = value; } }
+        public float Speed { get; set; } = 1;
 
         /// <summary>
         /// How many seconds to "fast forward" the particle system before it's render the first time

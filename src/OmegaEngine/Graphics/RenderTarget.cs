@@ -54,7 +54,7 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// The size for this render target (is empty for fullscreen)
         /// </summary>
-        internal Size Size { get; private set; }
+        internal Size Size { get; }
 
         /// <summary>
         /// The currently effective <see cref="Viewport"/> for this render target

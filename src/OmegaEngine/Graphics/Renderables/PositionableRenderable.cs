@@ -88,13 +88,11 @@ namespace OmegaEngine.Graphics.Renderables
         #region Properties
 
         #region Flags
-        private bool _pickable = true;
-
         /// <summary>
         /// Shall this <see cref="PositionableRenderable"/> be pickable with the mouse?
         /// </summary>
         [DefaultValue(true), Description("Shall this body be pickable with the mouse?"), Category("Behavior")]
-        public bool Pickable { get { return _pickable; } set { _pickable = value; } }
+        public bool Pickable { get; set; } = true;
 
         /// <summary>
         /// In what kind of <see cref="View"/>s shall this body be rendered?

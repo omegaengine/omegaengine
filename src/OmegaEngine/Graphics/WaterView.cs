@@ -28,7 +28,7 @@ namespace OmegaEngine.Graphics
         /// True if this is a <see cref="WaterViewSource.ReflectedView"/>, <c>false</c> if this is a <see cref="WaterViewSource.RefractedView"/>
         /// </summary>
         [Description("True if this is a reflection view, false if it is a refraction view"), Category("Behavior")]
-        public bool Reflection { get; private set; }
+        public bool Reflection { get; }
         #endregion
 
         #region Constructor

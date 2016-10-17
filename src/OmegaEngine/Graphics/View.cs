@@ -33,8 +33,6 @@ namespace OmegaEngine.Graphics
         #region Variables
 
         #region Flags
-        private bool _visible = true;
-        private bool _lighting = true;
         #endregion
 
         #region Content
@@ -143,7 +141,7 @@ namespace OmegaEngine.Graphics
         /// Shall the scene be rendered?
         /// </summary>
         [Description("Shall the scene be rendered?"), Category("Appearance")]
-        public bool Visible { get { return _visible; } set { _visible = value; } }
+        public bool Visible { get; set; } = true;
 
         /// <summary>
         /// Cull clockwise instead of counter-clockwise?
@@ -167,7 +165,7 @@ namespace OmegaEngine.Graphics
         /// Is lighting used in <see cref="RenderScene"/>?
         /// </summary>
         [Description("Is lighting used in rendering?"), Category("Appearance")]
-        public virtual bool Lighting { get { return _lighting; } set { _lighting = value; } }
+        public virtual bool Lighting { get; set; } = true;
 
         /// <summary>
         /// Does this <see cref="View"/> render to a texture <see cref="RenderTarget"/>? Only <c>true</c> for <see cref="TextureView"/>s.
@@ -194,14 +192,12 @@ namespace OmegaEngine.Graphics
         [Description("The background color and fog color of this scene - Color.Empty for no background, may use alpha-channel if FullAlpha is not set"), Category("Appearance")]
         public Color BackgroundColor { set { value.To(ref _backgroundColor, ref BackgroundQuadDirty); } get { return _backgroundColor; } }
 
-        private readonly Scene _scene;
-
         /// <summary>
         /// The scene containing the <see cref="PositionableRenderable"/>s to be rendered.
         /// </summary>
         /// <remarks>Will NOT be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
         [Browsable(false)]
-        public Scene Scene => _scene;
+        public Scene Scene { get; }
 
         private readonly EngineElementCollection<FloatingModel> _floatingModels = new EngineElementCollection<FloatingModel>();
 
@@ -250,7 +246,7 @@ namespace OmegaEngine.Graphics
             RegisterChild(_floatingModels);
             RegisterChild(_postShaders);
 
-            RegisterChild(_scene = scene, autoDispose: false);
+            RegisterChild(Scene = scene, autoDispose: false);
             _area = area;
             Camera = camera;
         }

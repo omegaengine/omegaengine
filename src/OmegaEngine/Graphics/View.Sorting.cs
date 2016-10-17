@@ -121,7 +121,7 @@ namespace OmegaEngine.Graphics
             #endregion
 
             #region Build master list
-            foreach (PositionableRenderable body in _scene.Positionables)
+            foreach (PositionableRenderable body in Scene.Positionables)
             {
                 // Filter out bodies that don't belong in this type of view
                 if (!IsToRender(body)) continue;

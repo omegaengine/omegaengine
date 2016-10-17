@@ -63,13 +63,11 @@ namespace OmegaEngine.Graphics.Renderables
         #endregion
 
         #region Flags
-        private bool _visible = true;
-
         /// <summary>
         /// Shall the entity be rendered?
         /// </summary>
         [DefaultValue(true), Description("Shall the entity be rendered?"), Category("Appearance")]
-        public bool Visible { get { return _visible; } set { _visible = value; } }
+        public bool Visible { get; set; } = true;
 
         /// <summary>
         /// Shall this entity be drawn in wireframe-mode? (used for debugging)

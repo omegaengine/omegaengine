@@ -29,7 +29,6 @@ namespace OmegaEngine.Graphics.Renderables
         #endregion
 
         #region Variables
-        private Color _color = Color.White;
         #endregion
 
         #region Properties
@@ -63,7 +62,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         /// <remarks>Is not serialized/stored, <see cref="Color4"/> is used for that.</remarks>
         [XmlIgnore, LuaHide, Description("The color of the particle")]
-        public Color Color { get { return _color; } set { _color = value; } }
+        public Color Color { get; set; } = Color.White;
 
         /// <summary>Used for XML serialization.</summary>
         /// <seealso cref="Color"/>
@@ -71,8 +70,8 @@ namespace OmegaEngine.Graphics.Renderables
         // ReSharper disable UnusedMember.Global
         public XColor Color4
         {
-            get { return _color; }
-            set { _color = (Color)value; }
+            get { return Color; }
+            set { Color = (Color)value; }
         }
 
         // ReSharper restore UnusedMember.Global

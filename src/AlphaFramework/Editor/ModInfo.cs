@@ -13,12 +13,10 @@ namespace AlphaFramework.Editor
     /// </summary>
     public sealed class ModInfo
     {
-        private static string _fileExt = ".OmegaMod";
-
         /// <summary>
         /// The file extensions used when this class is stored as a file including the leading dot.
         /// </summary>
-        public static string FileExt { get { return _fileExt; } set { _fileExt = value; } }
+        public static string FileExt { get; set; } = ".OmegaMod";
 
         /// <summary>
         /// Information about the currently loaded mod.

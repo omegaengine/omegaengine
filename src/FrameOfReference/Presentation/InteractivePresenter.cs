@@ -61,7 +61,7 @@ namespace FrameOfReference.Presentation
             // Add selection highlighting hooks
             engine.ExtraRender += DrawSelectionOutline;
 
-            _selectionsSync = new ModelViewSync<Positionable<Vector2>, PositionableRenderable>(_selectedPositionables, Scene.Positionables);
+            _selectionsSync = new ModelViewSync<Positionable<Vector2>, PositionableRenderable>(SelectedPositionables, Scene.Positionables);
 
             Universe.Positionables.Removed += OnPositionableRemoved;
         }
@@ -130,12 +130,10 @@ namespace FrameOfReference.Presentation
         //--------------------//
 
         #region Selection highlighting
-        private readonly MonitoredCollection<Positionable<Vector2>> _selectedPositionables = new MonitoredCollection<Positionable<Vector2>>();
-
         /// <summary>
         /// The <see cref="Positionable{TCoordinates}"/>s the user has selected with the mouse
         /// </summary>
-        public MonitoredCollection<Positionable<Vector2>> SelectedPositionables => _selectedPositionables;
+        public MonitoredCollection<Positionable<Vector2>> SelectedPositionables { get; } = new MonitoredCollection<Positionable<Vector2>>();
 
         /// <summary>
         /// Maps between <see cref="SelectedPositionables"/> and selection highlighting.
@@ -218,13 +216,13 @@ namespace FrameOfReference.Presentation
             #endregion
 
             // Remove all previous selections unless the user wants to accumulate selections
-            if (!accumulate) _selectedPositionables.Clear();
+            if (!accumulate) SelectedPositionables.Clear();
 
             foreach (var positionable in positionables)
             {
                 // Toggle entries when accumulating
-                if (accumulate && _selectedPositionables.Contains(positionable)) _selectedPositionables.Remove(positionable);
-                else _selectedPositionables.Add(positionable);
+                if (accumulate && SelectedPositionables.Contains(positionable)) SelectedPositionables.Remove(positionable);
+                else SelectedPositionables.Add(positionable);
             }
         }
 

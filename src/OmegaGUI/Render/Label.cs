@@ -19,9 +19,7 @@ namespace OmegaGUI.Render
     {
         protected string textData; // Window text
 
-        private TextAlign textAlign;
-
-        public TextAlign TextAlign { get { return textAlign; } set { textAlign = value; } }
+        public TextAlign TextAlign { get; set; }
 
         /// <summary>
         /// Create a new instance of a static text control
@@ -45,7 +43,7 @@ namespace OmegaGUI.Render
                 state = ControlState.Disabled;
 
             // Blend the element colors
-            Element e = elementList[(int)textAlign];
+            Element e = elementList[(int)TextAlign];
             e.FontColor.Blend(state, elapsedTime);
 
             // Render with a shadow

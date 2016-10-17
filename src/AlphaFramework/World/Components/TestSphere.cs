@@ -34,32 +34,26 @@ namespace AlphaFramework.World.Components
             return value;
         }
 
-        private float _radius = 50;
-
         /// <summary>
         /// The radius of the sphere.
         /// </summary>
         [DefaultValue(50f), Description("The radius of the sphere.")]
         [XmlAttribute]
-        public float Radius { get { return _radius; } set { _radius = value; } }
-
-        private int _slices = 50;
+        public float Radius { get; set; } = 50;
 
         /// <summary>
         /// The number of vertical slices to divide the sphere into.
         /// </summary>
         [DefaultValue(50), Description("The number of vertical slices to divide the sphere into.")]
         [XmlAttribute]
-        public int Slices { get { return _slices; } set { _slices = value; } }
-
-        private int _stacks = 50;
+        public int Slices { get; set; } = 50;
 
         /// <summary>
         /// The number of horizontal stacks to divide the sphere into.
         /// </summary>
         [DefaultValue(50), Description("The number of horizontal stacks to divide the sphere into.")]
         [XmlAttribute]
-        public int Stacks { get { return _stacks; } set { _stacks = value; } }
+        public int Stacks { get; set; } = 50;
 
         /// <summary>
         /// The level of transparency from 0 (solid) to 255 (invisible),

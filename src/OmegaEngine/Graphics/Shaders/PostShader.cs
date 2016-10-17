@@ -27,13 +27,11 @@ namespace OmegaEngine.Graphics.Shaders
         [Description("Does this post-screen shader use overlay rendering instead of a scene map?")]
         public virtual bool OverlayRendering => false;
 
-        private bool _enabled = true;
-
         /// <summary>
         /// Shall this post-screen effect be applied?
         /// </summary>
         [DefaultValue(true), Description("Shall this post-screen effect be applied?")]
-        public bool Enabled { get { return _enabled; } set { _enabled = value; } }
+        public bool Enabled { get; set; } = true;
         #endregion
 
         //--------------------//

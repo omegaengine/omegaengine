@@ -374,13 +374,11 @@ namespace OmegaEngine.Graphics.Cameras
         #endregion
 
         #region Properties
-        private bool _frustumCulling = true;
-
         /// <summary>
         /// Shall the engine use view frustum culling to optimize the rendering performance?
         /// </summary>
         [DefaultValue(true), Description("Shall the engine use view frustum culling to optimize the rendering performance?"), Category("Behavior")]
-        public bool FrustumCulling { get { return _frustumCulling; } set { _frustumCulling = value; } }
+        public bool FrustumCulling { get; set; } = true;
         #endregion
 
         //--------------------//
@@ -471,7 +469,7 @@ namespace OmegaEngine.Graphics.Cameras
         internal bool InFrustum(BoundingSphere boundingSphere)
         {
             // Pre-checks
-            if (!_frustumCulling) return true;
+            if (!FrustumCulling) return true;
 
             UpdateViewFrustum();
 
@@ -489,7 +487,7 @@ namespace OmegaEngine.Graphics.Cameras
         internal bool InFrustum(BoundingBox boundingBox)
         {
             // Pre-checks
-            if (!_frustumCulling) return true;
+            if (!FrustumCulling) return true;
             if ((boundingBox.Maximum - boundingBox.Minimum) == new Vector3()) return true;
 
             UpdateViewFrustum();

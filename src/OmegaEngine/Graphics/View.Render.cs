@@ -77,10 +77,10 @@ namespace OmegaEngine.Graphics
                 Engine.State.ProjectionTransform = Camera.Projection;
 
                 #region Activate lights
-                if (Lighting && _scene.Lights.Count > 0)
+                if (Lighting && Scene.Lights.Count > 0)
                 {
                     using (new ProfilerEvent("Setup lights"))
-                        _scene.ActivateLights(this);
+                        Scene.ActivateLights(this);
                 }
                 #endregion
 
@@ -121,10 +121,10 @@ namespace OmegaEngine.Graphics
                 #endregion
 
                 #region Deactivate lights
-                if (Lighting && _scene.Lights.Count > 0)
+                if (Lighting && Scene.Lights.Count > 0)
                 {
                     using (new ProfilerEvent("Deactivate lights"))
-                        _scene.DeactivateLights();
+                        Scene.DeactivateLights();
                 }
                 #endregion
             }
@@ -185,16 +185,16 @@ namespace OmegaEngine.Graphics
 
             #region Skybox
             // Don't render Skybox in shadow/glow maps
-            if (_scene.Skybox != null && _scene.Skybox.Visible && !Fog)
+            if (Scene.Skybox != null && Scene.Skybox.Visible && !Fog)
             {
                 // Render first, before all other entities using simplified transformations
-                using (new ProfilerEvent(() => "Render " + _scene.Skybox))
+                using (new ProfilerEvent(() => "Render " + Scene.Skybox))
                 {
                     // Render Skybox with no ZBuffer and no positioning information
                     Engine.State.ZBufferMode = ZBufferMode.Off;
                     Engine.State.ViewTransform = Camera.SimpleView;
                     Engine.State.ProjectionTransform = Camera.SimpleProjection;
-                    _scene.Skybox.Render(Camera);
+                    Scene.Skybox.Render(Camera);
                     Engine.State.ZBufferMode = ZBufferMode.Normal;
                 }
             }
@@ -217,7 +217,7 @@ namespace OmegaEngine.Graphics
             ApplyCameraBase(body);
 
             using (new ProfilerEvent(() => "Render " + body))
-                body.Render(Camera, _scene.GetEffectiveLights);
+                body.Render(Camera, Scene.GetEffectiveLights);
         }
         #endregion
 

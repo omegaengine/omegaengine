@@ -49,8 +49,6 @@ namespace FrameOfReference.World
          XmlElement(typeof(CameraState<Vector2>), ElementName = "CameraState"), XmlElement(typeof(BenchmarkPoint<Vector2>), ElementName = "BenchmarkPoint")]
         public override MonitoredCollection<Positionable<Vector2>> Positionables => _positionables;
 
-        private Terrain<TerrainTemplate> _terrain;
-
         /// <summary>
         /// The <see cref="Terrain"/> on which <see cref="Entity"/>s are placed.
         /// </summary>
@@ -61,10 +59,10 @@ namespace FrameOfReference.World
         {
             get
             {
-                if (_terrain != null && SourceFile != null && !_terrain.DataLoaded) LoadTerrainData();
-                return _terrain;
+                if (TerrainSerialize != null && SourceFile != null && !TerrainSerialize.DataLoaded) LoadTerrainData();
+                return TerrainSerialize;
             }
-            set { _terrain = value; }
+            set { TerrainSerialize = value; }
         }
 
         /// <summary>
@@ -73,7 +71,7 @@ namespace FrameOfReference.World
         /// <param name="terrain">The terrain for the new <see cref="Universe"/>.</param>
         public Universe(Terrain<TerrainTemplate> terrain)
         {
-            _terrain = terrain;
+            TerrainSerialize = terrain;
         }
 
         #region Update

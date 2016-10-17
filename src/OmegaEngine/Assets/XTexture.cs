@@ -22,12 +22,10 @@ namespace OmegaEngine.Assets
     public class XTexture : Asset, ITextureProvider
     {
         #region Properties
-        private readonly Texture _texture;
-
         /// <summary>
         /// The <see cref="SlimDX.Direct3D9.Texture"/> inside this asset. 
         /// </summary>
-        public Texture Texture => _texture;
+        public Texture Texture { get; }
         #endregion
 
         #region Constructor
@@ -47,7 +45,7 @@ namespace OmegaEngine.Assets
 
             try
             {
-                _texture = Texture.FromStream(engine.Device, stream,
+                Texture = Texture.FromStream(engine.Device, stream,
                     D3DX.Default, D3DX.Default, 0, Usage.None, Format.Unknown, Pool.Managed,
                     Filter.Default, Filter.Default, 0);
             }
@@ -119,7 +117,7 @@ namespace OmegaEngine.Assets
                 if (disposing)
                 { // This block will only be executed on manual disposal, not by Garbage Collection
                     Log.Info("Disposing " + this);
-                    if (_texture != null) _texture.Dispose();
+                    if (Texture != null) Texture.Dispose();
                 }
             }
             finally

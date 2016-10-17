@@ -44,12 +44,10 @@ namespace FrameOfReference.World.Config
         /// </summary>
         public static Settings Current { get; private set; }
 
-        private static bool _autoSave = true;
-
         /// <summary>
         /// Automatically save any changed settings?
         /// </summary>
-        public static bool AutoSave { get { return _autoSave; } set { _autoSave = value; } }
+        public static bool AutoSave { get; set; } = true;
         #endregion
 
         #region Constructor

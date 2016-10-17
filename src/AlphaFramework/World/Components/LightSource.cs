@@ -45,12 +45,10 @@ namespace AlphaFramework.World.Components
         [XmlAttribute]
         public float Range { get; set; }
 
-        private Attenuation _attenuation = new Attenuation(1, 0, 0);
-
         /// <summary>
         /// Factors describing the attenuation of light intensity over distance.
         /// </summary>
         [Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation.")]
-        public Attenuation Attenuation { get { return _attenuation; } set { _attenuation = value; } }
+        public Attenuation Attenuation { get; set; } = new Attenuation(1, 0, 0);
     }
 }

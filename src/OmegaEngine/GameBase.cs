@@ -83,17 +83,17 @@ namespace OmegaEngine
         /// <summary>
         /// A default <see cref="Input.KeyboardInputProvider"/> hooked up to the <see cref="Form"/>.
         /// </summary>
-        public KeyboardInputProvider KeyboardInputProvider { get; private set; }
+        public KeyboardInputProvider KeyboardInputProvider { get; }
 
         /// <summary>
         /// A default <see cref="Input.MouseInputProvider"/> hooked up to the <see cref="Form"/>.
         /// </summary>
-        public MouseInputProvider MouseInputProvider { get; private set; }
+        public MouseInputProvider MouseInputProvider { get; }
 
         /// <summary>
         /// A default <see cref="Input.TouchInputProvider"/> hooked up to the <see cref="Form"/>.
         /// </summary>
-        public TouchInputProvider TouchInputProvider { get; private set; }
+        public TouchInputProvider TouchInputProvider { get; }
         #endregion
 
         #region Constructor

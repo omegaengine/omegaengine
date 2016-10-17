@@ -29,12 +29,11 @@ namespace OmegaEngine.Graphics.Shaders
         #region Counters
         private abstract class Counter
         {
-            private readonly string _id;
-            public string ID => _id;
+            public string ID { get; }
 
             protected Counter(string id)
             {
-                _id = id;
+                ID = id;
             }
 
             public abstract string GetValue(int run);

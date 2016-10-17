@@ -82,7 +82,7 @@ namespace AlphaFramework.Presentation
         /// The game world to present.
         /// </summary>
         [LuaHide]
-        public TUniverse Universe { get; private set; }
+        public TUniverse Universe { get; }
         #endregion
 
         #region Initialize

@@ -25,7 +25,6 @@ namespace OmegaGUI.Render
     public sealed class DialogManager : IDisposable
     {
         #region Variables
-        private readonly Engine _engine;
 
         // Lists of textures/fonts
         private readonly List<TextureNode> _textureCache = new List<TextureNode>();
@@ -55,17 +54,17 @@ namespace OmegaGUI.Render
         /// <summary>
         /// Gets the render engine
         /// </summary>
-        public Engine Engine => _engine;
+        public Engine Engine { get; }
 
         /// <summary>
         /// Gets the DirectX device
         /// </summary>
-        public Device Device => _engine.Device;
+        public Device Device => Engine.Device;
 
         /// <summary>
         /// Gets the render target control
         /// </summary>
-        public System.Windows.Forms.Control Target => _engine.Target;
+        public System.Windows.Forms.Control Target => Engine.Target;
         #endregion
 
         #region Constructor
@@ -77,7 +76,7 @@ namespace OmegaGUI.Render
         {
             if (engine == null) throw new ArgumentNullException("engine");
 
-            _engine = engine;
+            Engine = engine;
             OnCreateDevice();
 
             // Handle lost devices properly
@@ -98,7 +97,7 @@ namespace OmegaGUI.Render
         /// <summary>
         /// Gets a Specialized MessageBox dialog
         /// </summary>
-        public MessageBox MessageBox { get; private set; }
+        public MessageBox MessageBox { get; }
         #endregion
 
         #region Fonts
@@ -126,7 +125,7 @@ namespace OmegaGUI.Render
 
             int fontIndex = _fontCache.Count - 1;
             // If a device is available, try to create immediately
-            if (_engine != null)
+            if (Engine != null)
                 CreateFont(fontIndex);
 
             return fontIndex;
@@ -143,7 +142,7 @@ namespace OmegaGUI.Render
                 fn.Font.Dispose(); // Get rid of this
 
             // Create the new font
-            fn.Font = new Font(_engine.Device, (int)fn.Height, 0, fn.Weight, 1, false, CharacterSet.Default,
+            fn.Font = new Font(Engine.Device, (int)fn.Height, 0, fn.Weight, 1, false, CharacterSet.Default,
                 // ReSharper disable BitwiseOperatorOnEnumWihtoutFlags
                 Precision.Default, FontQuality.Default, PitchAndFamily.Default | PitchAndFamily.DontCare, fn.FaceName);
             // ReSharper restore BitwiseOperatorOnEnumWihtoutFlags
@@ -174,7 +173,7 @@ namespace OmegaGUI.Render
             int texIndex = _textureCache.Count - 1;
 
             // If a device is available, try to create immediately
-            if (_engine != null)
+            if (Engine != null)
                 CreateTexture(texIndex);
 
             return texIndex;
@@ -195,7 +194,7 @@ namespace OmegaGUI.Render
             var info = new ImageInformation();
             using (var stream = ContentManager.GetFileStream("GUI/Textures", tn.Filename))
             {
-                tn.Texture = Texture.FromStream(_engine.Device, stream, D3DX.Default, D3DX.Default, D3DX.Default, Usage.None,
+                tn.Texture = Texture.FromStream(Engine.Device, stream, D3DX.Default, D3DX.Default, D3DX.Default, Usage.None,
                     Format.Unknown, Pool.Managed, Filter.Default, Filter.Default, 0);
             }
 
@@ -218,7 +217,7 @@ namespace OmegaGUI.Render
             for (int i = 0; i < _textureCache.Count; i++)
                 CreateTexture(i);
 
-            Sprite = new Sprite(_engine.Device); // Create the sprite
+            Sprite = new Sprite(Engine.Device); // Create the sprite
         }
 
         /// <summary>
@@ -226,7 +225,7 @@ namespace OmegaGUI.Render
         /// </summary>
         public void OnLostDevice()
         {
-            if (!_engine.IsDisposed)
+            if (!Engine.IsDisposed)
             {
                 foreach (FontNode fn in _fontCache)
                 {
@@ -256,12 +255,12 @@ namespace OmegaGUI.Render
                 Sprite.OnResetDevice();
 
             // Create new state block
-            StateBlock = new StateBlock(_engine.Device, StateBlockType.All);
+            StateBlock = new StateBlock(Engine.Device, StateBlockType.All);
 
             // Reposition the message box according to the new Viewport
             MessageBox.Location = new Point(
-                (_engine.RenderSize.Width - MessageBox.Width) / 2,
-                (_engine.RenderSize.Height - MessageBox.Height) / 2);
+                (Engine.RenderSize.Width - MessageBox.Width) / 2,
+                (Engine.RenderSize.Height - MessageBox.Height) / 2);
         }
         #endregion
 
@@ -282,8 +281,8 @@ namespace OmegaGUI.Render
             if (Disposed) return;
 
             // Unhook device events
-            _engine.DeviceLost -= OnLostDevice;
-            _engine.DeviceReset -= OnResetDevice;
+            Engine.DeviceLost -= OnLostDevice;
+            Engine.DeviceReset -= OnResetDevice;
 
             // Dispose DirectX objects
             Sprite.Dispose();

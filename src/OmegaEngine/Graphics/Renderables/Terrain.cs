@@ -42,7 +42,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Use/support lighting when rendering this terrain?
         /// </summary>
         [Description("Use/support lighting when rendering this terrain?"), Category("Appearance")]
-        public bool Lighting { get; private set; }
+        public bool Lighting { get; }
 
         /// <summary>
         /// The size of the terrain in game units

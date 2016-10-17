@@ -83,7 +83,7 @@ namespace FrameOfReference.World
 
         /// <summary>Used for XML serialization.</summary>
         [XmlElement("Terrain"), LuaHide, Browsable(false)]
-        public Terrain<TerrainTemplate> TerrainSerialize { get { return _terrain; } set { _terrain = value; } }
+        public Terrain<TerrainTemplate> TerrainSerialize { get; set; }
 
         /// <summary>
         /// Performs the deferred loading of <see cref="Terrain"/> data.
@@ -96,13 +96,13 @@ namespace FrameOfReference.World
                 XmlStorage.LoadXmlZip<Universe>(stream, additionalFiles: new[]
                 {
                     // Callbacks for loading terrain data
-                    new EmbeddedFile("height.png", _terrain.LoadHeightMap),
-                    new EmbeddedFile("texture.png", _terrain.LoadTextureMap),
-                    new EmbeddedFile("occlusion.png", _terrain.LoadOcclusionIntervalMap)
+                    new EmbeddedFile("height.png", TerrainSerialize.LoadHeightMap),
+                    new EmbeddedFile("texture.png", TerrainSerialize.LoadTextureMap),
+                    new EmbeddedFile("occlusion.png", TerrainSerialize.LoadOcclusionIntervalMap)
                 });
             }
 
-            if (!_terrain.DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
+            if (!TerrainSerialize.DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
 
             using (new TimedLogEvent("Initialize pathfinding"))
                 InitializePathfinding();

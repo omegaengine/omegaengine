@@ -46,8 +46,7 @@ namespace OmegaGUI.Render
         #endregion
 
         #region Instance Data
-        private readonly DialogManager dialogManager;
-        internal DialogManager DialogManager => dialogManager;
+        internal DialogManager DialogManager { get; }
 
         // Vertex information
         private TransformedColoredTextured[] dialogVertexes, captionVertexes;
@@ -66,7 +65,7 @@ namespace OmegaGUI.Render
         public bool IsMinimized;
 
         // Dialog information
-        private int dialogX, dialogY, width, height;
+        private int dialogX, dialogY;
         // Colors
         private Color4 topLeftColor, topRightColor, bottomLeftColor, bottomRightColor, captionColor;
 
@@ -118,17 +117,17 @@ namespace OmegaGUI.Render
         /// <summary>Called to set dialog's size</summary>
         public void SetSize(int w, int h)
         {
-            width = w;
-            height = h;
+            Width = w;
+            Height = h;
             UpdateVertexes();
             if (Resize != null) Resize(this, EventArgs.Empty);
         }
 
         /// <summary>Dialogs width</summary>
-        public int Width { get { return width; } set { width = value; } }
+        public int Width { get; set; }
 
         /// <summary>Dialogs height</summary>
-        public int Height { get { return height; } set { height = value; } }
+        public int Height { get; set; }
 
         /// <summary>Called to set dialog's caption</summary>
         public void SetCaptionText(string text)
@@ -181,7 +180,7 @@ namespace OmegaGUI.Render
         /// <param name="defaultFontSize">The default font size</param>
         public Dialog(DialogManager manager, Color4 defaultTextColor, string defaultTexture, string defaultFont, uint defaultFontSize)
         {
-            dialogManager = manager;
+            DialogManager = manager;
 
             topLeftColor = topRightColor = bottomLeftColor = bottomRightColor = new Color4();
 
@@ -508,7 +507,7 @@ namespace OmegaGUI.Render
                     Point mouseLocation = MouseLocationHelper(lParam);
 
                     // Is in caption area?
-                    if (mouseLocation.X >= dialogX && mouseLocation.X < dialogX + width &&
+                    if (mouseLocation.X >= dialogX && mouseLocation.X < dialogX + Width &&
                         mouseLocation.Y >= dialogY && mouseLocation.Y < dialogY + captionHeight)
                     {
                         isDragging = true;
@@ -550,7 +549,7 @@ namespace OmegaGUI.Render
                     Point mouseLocation = MouseLocationHelper(lParam);
 
                     // Is in caption area?
-                    if (mouseLocation.X >= dialogX && mouseLocation.X < dialogX + width &&
+                    if (mouseLocation.X >= dialogX && mouseLocation.X < dialogX + Width &&
                         mouseLocation.Y >= dialogY && mouseLocation.Y < dialogY + captionHeight)
                     {
                         IsMinimized = !IsMinimized;
@@ -979,7 +978,7 @@ namespace OmegaGUI.Render
             for (var i = (uint)fontList.Count; i <= index; i++)
                 fontList.Add(-1);
 
-            int fontIndex = dialogManager.AddFont(faceName, fontHeight, weight);
+            int fontIndex = DialogManager.AddFont(faceName, fontHeight, weight);
             fontList[(int)index] = fontIndex;
         }
 
@@ -989,7 +988,7 @@ namespace OmegaGUI.Render
         /// </summary>
         public FontNode GetFont(uint index)
         {
-            return dialogManager.GetFontNode(fontList[(int)index]);
+            return DialogManager.GetFontNode(fontList[(int)index]);
         }
 
         /// <summary>
@@ -1002,7 +1001,7 @@ namespace OmegaGUI.Render
             for (var i = (uint)textureList.Count; i <= index; i++)
                 textureList.Add(-1);
 
-            int textureIndex = dialogManager.AddTexture(filename);
+            int textureIndex = DialogManager.AddTexture(filename);
             textureList[(int)index] = textureIndex;
         }
 
@@ -1012,7 +1011,7 @@ namespace OmegaGUI.Render
         /// </summary>
         public TextureNode GetTexture(uint index)
         {
-            return dialogManager.GetTextureNode(textureList[(int)index]);
+            return DialogManager.GetTextureNode(textureList[(int)index]);
         }
         #endregion
 
@@ -1324,16 +1323,16 @@ namespace OmegaGUI.Render
             dialogVertexes = new[]
             {
                 new TransformedColoredTextured(dialogX - 1, dialogY - 1, 0.5f, 1.0f, topLeftColor.ToArgb(), 0.0f, 0.5f),
-                new TransformedColoredTextured(dialogX + width, dialogY - 1, 0.5f, 1.0f, topRightColor.ToArgb(), 1.0f, 0.5f),
-                new TransformedColoredTextured(dialogX + width, dialogY + height, 0.5f, 1.0f, bottomRightColor.ToArgb(), 1.0f, 1.0f),
-                new TransformedColoredTextured(dialogX - 1, dialogY + height, 0.5f, 1.0f, bottomLeftColor.ToArgb(), 0.0f, 1.0f)
+                new TransformedColoredTextured(dialogX + Width, dialogY - 1, 0.5f, 1.0f, topRightColor.ToArgb(), 1.0f, 0.5f),
+                new TransformedColoredTextured(dialogX + Width, dialogY + Height, 0.5f, 1.0f, bottomRightColor.ToArgb(), 1.0f, 1.0f),
+                new TransformedColoredTextured(dialogX - 1, dialogY + Height, 0.5f, 1.0f, bottomLeftColor.ToArgb(), 0.0f, 1.0f)
             };
 
             captionVertexes = new[]
             {
                 new TransformedColoredTextured(dialogX + 5, dialogY + 5, 0.5f, 1.0f, captionColor.ToArgb(), 0.0f, 0.5f),
-                new TransformedColoredTextured(dialogX + width - 5, dialogY + 5, 0.5f, 1.0f, captionColor.ToArgb(), 1.0f, 0.5f),
-                new TransformedColoredTextured(dialogX + width - 5, dialogY + captionHeight - 5, 0.5f, 1.0f, captionColor.ToArgb(), 1.0f, 1.0f),
+                new TransformedColoredTextured(dialogX + Width - 5, dialogY + 5, 0.5f, 1.0f, captionColor.ToArgb(), 1.0f, 0.5f),
+                new TransformedColoredTextured(dialogX + Width - 5, dialogY + captionHeight - 5, 0.5f, 1.0f, captionColor.ToArgb(), 1.0f, 1.0f),
                 new TransformedColoredTextured(dialogX + 5, dialogY + captionHeight - 5, 0.5f, 1.0f, captionColor.ToArgb(), 0.0f, 1.0f)
             };
         }
@@ -1352,12 +1351,12 @@ namespace OmegaGUI.Render
 
             using (new ProfilerEvent("Render GUI dialog"))
             {
-                Device device = dialogManager.Device;
+                Device device = DialogManager.Device;
 
                 using (new ProfilerEvent("Prepare Device for GUI rendering"))
                 {
                     // Set up a state block here and restore it when finished drawing all the controls
-                    dialogManager.StateBlock.Capture();
+                    DialogManager.StateBlock.Capture();
 
                     // Set some render/texture states
                     device.SetRenderState(RenderState.AlphaBlendEnable, true);
@@ -1391,7 +1390,7 @@ namespace OmegaGUI.Render
                     // Set the texture up, and begin the sprite
                     TextureNode tNode = GetTexture(0);
                     device.SetTexture(0, tNode.Texture);
-                    dialogManager.Sprite.Begin(SpriteFlags.DoNotSaveState);
+                    DialogManager.Sprite.Begin(SpriteFlags.DoNotSaveState);
 
                     // Render the caption if it's enabled.
                     if (!string.IsNullOrEmpty(caption))
@@ -1399,7 +1398,7 @@ namespace OmegaGUI.Render
                         // DrawSprite will offset the rect down by
                         // captionHeight, so adjust the rect higher
                         // here to negate the effect.
-                        var rect = new Rectangle(0, 0, width, captionHeight);
+                        var rect = new Rectangle(0, 0, Width, captionHeight);
                         DrawSprite(captionElement, rect);
                         rect.Offset(5, 0); // Make a left margin
                         DrawText(
@@ -1437,8 +1436,8 @@ namespace OmegaGUI.Render
                 using (new ProfilerEvent("Restore original Device state"))
                 {
                     // End the sprite and apply the stateblock
-                    dialogManager.Sprite.End();
-                    dialogManager.StateBlock.Apply();
+                    DialogManager.Sprite.End();
+                    DialogManager.StateBlock.Apply();
                 }
             }
         }
@@ -1475,7 +1474,7 @@ namespace OmegaGUI.Render
             screenRect.Offset(dialogX, dialogY);
 
             // Set the identity transform
-            dialogManager.Sprite.Transform = Matrix.Identity;
+            DialogManager.Sprite.Transform = Matrix.Identity;
 
             // Get the font node here
             FontNode fNode = GetFont(element.FontIndex);
@@ -1491,10 +1490,10 @@ namespace OmegaGUI.Render
                         Color.Black : Color.Gray;
 
                 // ToDo: Optimize performance
-                fNode.Font.DrawString(dialogManager.Sprite, text, shadowRect, element.textFormat, shadowColor);
+                fNode.Font.DrawString(DialogManager.Sprite, text, shadowRect, element.textFormat, shadowColor);
             }
 
-            fNode.Font.DrawString(dialogManager.Sprite, text,
+            fNode.Font.DrawString(DialogManager.Sprite, text,
                 screenRect, element.textFormat, element.FontColor.Current.ToArgb());
         }
 
@@ -1517,7 +1516,7 @@ namespace OmegaGUI.Render
             float scaleY = screenRect.Height / (float)texRect.Height;
 
             // Set the scaling transform
-            dialogManager.Sprite.Transform = Matrix.Scaling(scaleX, scaleY, 1.0f);
+            DialogManager.Sprite.Transform = Matrix.Scaling(scaleX, scaleY, 1.0f);
 
             // Calculate the position
             var pos = new Vector3(screenRect.Left, screenRect.Top, 0.0f);
@@ -1525,7 +1524,7 @@ namespace OmegaGUI.Render
             pos.Y /= scaleY;
 
             // Finally draw the sprite
-            dialogManager.Sprite.Draw(tNode.Texture, texRect, new Vector3(), pos, element.TextureColor.Current);
+            DialogManager.Sprite.Draw(tNode.Texture, texRect, new Vector3(), pos, element.TextureColor.Current);
         }
 
         /// <summary>Draw's some text</summary>
@@ -1554,10 +1553,10 @@ namespace OmegaGUI.Render
             };
 
             // Get the device
-            Device device = dialogManager.Device;
+            Device device = DialogManager.Device;
 
             // Since we're doing our own drawing here, we need to flush the sprites
-            dialogManager.Sprite.Flush();
+            DialogManager.Sprite.Flush();
             // Preserve the devices current vertex declaration
             using (VertexDeclaration decl = device.VertexDeclaration)
             {

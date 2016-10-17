@@ -69,13 +69,13 @@ namespace OmegaGUI
         /// The dialog to be displayed
         /// </summary>
         [CLSCompliant(false)]
-        public Dialog DialogModel { get; private set; }
+        public Dialog DialogModel { get; }
 
         /// <summary>
         /// The rendering system used to display <see cref="DialogModel"/>
         /// </summary>
         [CLSCompliant(false)]
-        public Render.Dialog DialogRender { get; private set; }
+        public Render.Dialog DialogRender { get; }
         #endregion
 
         #region Constructor

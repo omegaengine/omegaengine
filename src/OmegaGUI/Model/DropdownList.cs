@@ -45,15 +45,13 @@ namespace OmegaGUI.Model
         #endregion
 
         #region Properties
-        private readonly MonitoredCollection<string> _items = new MonitoredCollection<string>();
-
         /// <summary>
         /// A list of strings selectable in the control
         /// </summary>
         [Description("A list of strings selectable in the control"), Category("Data"), MergableProperty(false),
          Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
         [XmlElement("Item")]
-        public MonitoredCollection<string> Items => _items;
+        public MonitoredCollection<string> Items { get; } = new MonitoredCollection<string>();
 
         private string _selectedItem;
 
@@ -99,7 +97,7 @@ namespace OmegaGUI.Model
         #region Constructor
         public DropdownList()
         {
-            _items.Changed += delegate { if (_dropdownList != null) LoadItems(); };
+            Items.Changed += delegate { if (_dropdownList != null) LoadItems(); };
 
             Size = new Size(140, 30);
         }
@@ -129,7 +127,7 @@ namespace OmegaGUI.Model
         private void LoadItems()
         {
             _dropdownList.Clear();
-            foreach (string item in _items)
+            foreach (string item in Items)
                 if (!string.IsNullOrEmpty(item)) _dropdownList.AddItem(Parent.GetLocalized(item), item, null);
 
             if (!string.IsNullOrEmpty(_selectedItem))

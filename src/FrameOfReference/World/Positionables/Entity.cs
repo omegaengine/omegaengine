@@ -56,21 +56,17 @@ namespace FrameOfReference.World.Positionables
         [XmlAttribute, DefaultValue(false), Description("true if this entity is controlled by a human player, false if it is controlled by the computer.")]
         public bool IsPlayerControlled { get; set; }
 
-        private int _activeWaypointIndex = -1;
-
         /// <summary>
         /// The <see cref="Waypoints"/> index of the <see cref="Waypoint"/> this entity is currently moving towards; -1 for no <see cref="Waypoint"/>.
         /// </summary>
         [XmlAttribute, DefaultValue(-1), Browsable(false)]
-        public int ActiveWaypointIndex { get { return _activeWaypointIndex; } set { _activeWaypointIndex = value; } }
-
-        private readonly List<Waypoint> _waypoints = new List<Waypoint>();
+        public int ActiveWaypointIndex { get; set; } = -1;
 
         /// <summary>
         /// The <see cref="Waypoint"/>s associated with this entity ordered by <see cref="Waypoint.ActivationTime"/>.
         /// </summary>
         [XmlElement, Browsable(false)]
-        public List<Waypoint> Waypoints => _waypoints;
+        public List<Waypoint> Waypoints { get; } = new List<Waypoint>();
 
         //--------------------//
 
@@ -95,7 +91,7 @@ namespace FrameOfReference.World.Positionables
         /// <returns>The currently active <see cref="Waypoint"/>; <c>null</c> if none is active.</returns>
         public int GetCurrentWaypointIndex(double gameTime)
         {
-            int index = _waypoints.FindLastIndex(x => x.ActivationTime <= gameTime);
+            int index = Waypoints.FindLastIndex(x => x.ActivationTime <= gameTime);
             if (index == -1 || (Waypoints[index].ArrivalTimeSpecified && Waypoints[index].ArrivalTime <= gameTime)) return -1;
             return index;
         }

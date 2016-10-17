@@ -24,10 +24,6 @@ namespace OmegaEngine.Graphics.Renderables
     public class GpuParticlePreset : ICloneable
     {
         #region Variables
-        private float _spawnRadius = 1, _systemHeight = 80;
-        private Vector3 _movement = new Vector3(0, 0.48f, 0);
-        private float _particleSpread = 20, _particleSize = 7.8f, _particleShape = 0.38f;
-
         private string _particleTexture = "Flame.tga";
 
         /// <summary>
@@ -41,37 +37,37 @@ namespace OmegaEngine.Graphics.Renderables
         /// The largest distance from the emitter at which particle shall be spawned
         /// </summary>
         [DefaultValue(1f), Description("The largest distance from the emitter at which particle shall be spawned")]
-        public float SpawnRadius { get { return _spawnRadius; } set { _spawnRadius = value; } }
+        public float SpawnRadius { get; set; } = 1;
 
         /// <summary>
         /// The largest distance from the emitter particles can travel before dying
         /// </summary>
         [DefaultValue(80f), Description("The largest distance from the emitter particles can travel before dying")]
-        public float SystemHeight { get { return _systemHeight; } set { _systemHeight = value; } }
+        public float SystemHeight { get; set; } = 80;
 
         /// <summary>
         /// The direction and speed with which the particles move
         /// </summary>
         [Description("The direction and speed with which the particles move")]
-        public Vector3 Movement { get { return _movement; } set { _movement = value; } }
+        public Vector3 Movement { get; set; } = new Vector3(0, 0.48f, 0);
 
         /// <summary>
         /// How to spread the particles
         /// </summary>
         [DefaultValue(20f), Description("How to spread the particles")]
-        public float ParticleSpread { get { return _particleSpread; } set { _particleSpread = value; } }
+        public float ParticleSpread { get; set; } = 20;
 
         /// <summary>
         /// The size of the particles
         /// </summary>
         [DefaultValue(7.8f), Description("The size of the particles")]
-        public float ParticleSize { get { return _particleSize; } set { _particleSize = value; } }
+        public float ParticleSize { get; set; } = 7.8f;
 
         /// <summary>
         /// The shape of the particles
         /// </summary>
         [DefaultValue(0.38f), Description("The shape of the particles")]
-        public float ParticleShape { get { return _particleShape; } set { _particleShape = value; } }
+        public float ParticleShape { get; set; } = 0.38f;
 
         /// <summary>
         /// The ID of the texture to use for color lookup

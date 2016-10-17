@@ -91,12 +91,10 @@ namespace OmegaEngine
         #endregion
 
         #region Particle system quality
-        private Quality _particleSystemQuality = Quality.Medium;
-
         /// <summary>
         /// The quality of CPU-based particle systems
         /// </summary>
-        public Quality ParticleSystemQuality { get { return _particleSystemQuality; } set { _particleSystemQuality = value; } }
+        public Quality ParticleSystemQuality { get; set; } = Quality.Medium;
         #endregion
     }
 }

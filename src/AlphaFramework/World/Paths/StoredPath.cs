@@ -25,12 +25,10 @@ namespace AlphaFramework.World.Paths
         /// </summary>
         public TCoordinates Target { get; set; }
 
-        private readonly Queue<TCoordinates> _pathNodes = new Queue<TCoordinates>();
-
         /// <summary>
         /// The path to walk.
         /// </summary>
-        public Queue<TCoordinates> PathNodes => _pathNodes;
+        public Queue<TCoordinates> PathNodes { get; } = new Queue<TCoordinates>();
 
         /// <inheritdoc/>
         public override string ToString()

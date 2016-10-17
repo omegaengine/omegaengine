@@ -31,12 +31,10 @@ namespace OmegaEngine.Graphics.Renderables
         #endregion
 
         #region Properties
-        private readonly SizeF _size;
-
         /// <summary>
         /// The size of the water plane
         /// </summary>
-        public SizeF Size => _size;
+        public SizeF Size { get; }
         #endregion
 
         #region Constructor
@@ -48,7 +46,7 @@ namespace OmegaEngine.Graphics.Renderables
         public Water(Engine engine, SizeF size) : base(BuildMesh(engine, size), XMaterial.DefaultMaterial)
         {
             Engine = engine;
-            _size = size;
+            Size = size;
 
             RenderIn = ViewType.NormalOnly;
             Pickable = false;

@@ -147,10 +147,10 @@ namespace FrameOfReference.Presentation
                     break;
 
                 case MouseButtons.Right:
-                    if (_selectedPositionables.Count != 0 && pickedObject is OmegaEngine.Graphics.Renderables.Terrain)
+                    if (SelectedPositionables.Count != 0 && pickedObject is OmegaEngine.Graphics.Renderables.Terrain)
                     { // Action: Right-click on terrain to move
                         // Depending on the actual presenter type this may invoke pathfinding or teleportation
-                        MovePositionables(_selectedPositionables, intersectPosition.Flatten());
+                        MovePositionables(SelectedPositionables, intersectPosition.Flatten());
                     }
                     break;
             }
