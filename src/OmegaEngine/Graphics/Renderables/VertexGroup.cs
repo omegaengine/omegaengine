@@ -46,13 +46,13 @@ namespace OmegaEngine.Graphics.Renderables
             if (vertexes == null) throw new ArgumentNullException("vertexes");
             #endregion
 
-            _vertexCount = vertexes.Length;
-            _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionColored.Format);
-
             _primitiveType = primitiveType;
-            Initialize(indexes);
+            _vertexCount = vertexes.Length;
 
             _material = XMaterial.DefaultMaterial;
+
+            _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionColored.Format);
+            Initialize(indexes);
         }
 
         /// <summary>
@@ -67,10 +67,10 @@ namespace OmegaEngine.Graphics.Renderables
             if (vertexes == null) throw new ArgumentNullException("vertexes");
             #endregion
 
-            _vertexCount = vertexes.Length;
-            _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionNormalColored.Format);
-
             _primitiveType = primitiveType;
+            _vertexCount = vertexes.Length;
+
+            _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionNormalColored.Format);
             Initialize(indexes);
         }
         #endregion
@@ -90,16 +90,15 @@ namespace OmegaEngine.Graphics.Renderables
             if (vertexes == null) throw new ArgumentNullException("vertexes");
             #endregion
 
-            _vertexCount = vertexes.Length;
-            _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionTextured.Format);
-
             _primitiveType = primitiveType;
-            Initialize(indexes);
+            _vertexCount = vertexes.Length;
 
             _material = material;
-            // ReSharper disable ImpureMethodCallOnReadonlyValueField
+            // ReSharper disable once ImpureMethodCallOnReadonlyValueField
             _material.HoldReference();
-            // ReSharper restore ImpureMethodCallOnReadonlyValueField
+
+            _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionTextured.Format);
+            Initialize(indexes);
         }
 
         /// <summary>
@@ -116,16 +115,15 @@ namespace OmegaEngine.Graphics.Renderables
             if (vertexes == null) throw new ArgumentNullException("vertexes");
             #endregion
 
-            _vertexCount = vertexes.Length;
-            _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionNormalTextured.Format);
-
             _primitiveType = primitiveType;
-            Initialize(indexes);
+            _vertexCount = vertexes.Length;
 
             _material = material;
-            // ReSharper disable ImpureMethodCallOnReadonlyValueField
+            // ReSharper disable once ImpureMethodCallOnReadonlyValueField
             _material.HoldReference();
-            // ReSharper restore ImpureMethodCallOnReadonlyValueField
+
+            _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionNormalTextured.Format);
+            Initialize(indexes);
         }
         #endregion
 
@@ -179,10 +177,6 @@ namespace OmegaEngine.Graphics.Renderables
             }
             // ReSharper restore CompareOfFloatsByEqualityOperator
             #endregion
-
-            // Calculate bounding bodies
-            BoundingSphere = BufferHelper.ComputeBoundingSphere(_vb, _vertexCount);
-            BoundingBox = BufferHelper.ComputeBoundingBox(_vb, _vertexCount);
         }
         #endregion
 
@@ -254,10 +248,16 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         private readonly Func<VertexBuffer> _buildVertexBuffer;
 
+        /// <inheritdoc/>
         protected override void OnEngineSet()
         {
             base.OnEngineSet();
+
             _vb = _buildVertexBuffer();
+
+            // Calculate bounding bodies
+            BoundingSphere = BufferHelper.ComputeBoundingSphere(_vb, _vertexCount);
+            BoundingBox = BufferHelper.ComputeBoundingBox(_vb, _vertexCount);
         }
         #endregion
 
