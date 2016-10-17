@@ -32,7 +32,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// Does this post-screen shader use overlay rendering instead of a scene map?
         /// </summary>
         [Description("Does this post-screen shader use overlay rendering instead of a scene map?")]
-        public override sealed bool OverlayRendering => true;
+        public sealed override bool OverlayRendering => true;
 
         private float _glowStrength = 1;
 

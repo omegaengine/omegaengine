@@ -9,6 +9,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using NanoByte.Common;
 using NanoByte.Common.Storage.SlimDX;
@@ -206,11 +207,8 @@ namespace AlphaFramework.Editor.Gui
                 renderPanel.Engine.DrawRectangleOutline(_pickRectangle, Color.Black);
 
             // Display selection rectangles around controls
-            foreach (object obj in propertyGrid.SelectedObjects)
-            {
-                var control = obj as Control;
-                if (control != null) renderPanel.Engine.DrawRectangleOutline(control.DrawBox, Color.Red);
-            }
+            foreach (var control in propertyGrid.SelectedObjects.OfType<Control>())
+                renderPanel.Engine.DrawRectangleOutline(control.DrawBox, Color.Red);
         }
         #endregion
 
@@ -286,9 +284,9 @@ namespace AlphaFramework.Editor.Gui
 
         private void buttonCopy_Click(object sender, EventArgs e)
         {
-            foreach (object item in listBox.SelectedItems)
+            foreach (Control item in listBox.SelectedItems)
             {
-                Control clonedControl = ((Control)item).Clone();
+                var clonedControl = item.Clone();
                 clonedControl.Location = new Point();
                 DialogModel.Controls.Add(clonedControl);
             }

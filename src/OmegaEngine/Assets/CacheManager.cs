@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using Resources = OmegaEngine.Properties.Resources;
@@ -73,13 +74,10 @@ namespace OmegaEngine.Assets
             {
                 // Build a list of elements to remove
                 var pendingRemove = new LinkedList<Asset>();
-                foreach (var asset in _assetCache)
+                foreach (var asset in _assetCache.Where(x => x.ReferenceCount == 0))
                 {
-                    if (asset.ReferenceCount == 0)
-                    {
-                        asset.Dispose();
-                        pendingRemove.AddLast(asset);
-                    }
+                    asset.Dispose();
+                    pendingRemove.AddLast(asset);
                 }
 
                 // Remove the elements one-by-one

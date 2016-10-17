@@ -118,13 +118,10 @@ namespace OmegaEngine.Audio
         /// <param name="id">The name of the song to play</param>
         public void PlaySong(string id)
         {
-            foreach (Song song in _themes.Values)
+            foreach (var song in _themes.Values.Where(x => x.ID == id))
             {
-                if (song.ID == id)
-                {
-                    PlaySong(song);
-                    break;
-                }
+                PlaySong(song);
+                break;
             }
         }
 

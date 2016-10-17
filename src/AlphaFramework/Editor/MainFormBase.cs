@@ -130,9 +130,9 @@ namespace AlphaFramework.Editor
         protected void ShowTab(Tab tab)
         {
             // Hide and uncheck all tabs
-            foreach (Tab oldTab in Tabs.Keys)
-                if (oldTab != tab) oldTab.Hide();
-            foreach (ToolStripButton oldTabButton in Tabs.Values)
+            foreach (var oldTab in Tabs.Keys.Where(oldTab => oldTab != tab))
+                oldTab.Hide();
+            foreach (var oldTabButton in Tabs.Values)
                 oldTabButton.Checked = false;
 
             // Open/load the selected tab

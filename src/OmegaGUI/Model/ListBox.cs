@@ -24,6 +24,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
+using System.Linq;
 using System.Xml.Serialization;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Values;
@@ -151,8 +152,8 @@ namespace OmegaGUI.Model
         private void LoadItems()
         {
             _listBox.Clear();
-            foreach (string item in _items)
-                if (!string.IsNullOrEmpty(item)) _listBox.AddItem(Parent.GetLocalized(item), item, null);
+            foreach (string item in _items.Where(x => !string.IsNullOrEmpty(x)))
+                _listBox.AddItem(Parent.GetLocalized(item), item, null);
 
             if (!string.IsNullOrEmpty(_selectedItem))
             {
