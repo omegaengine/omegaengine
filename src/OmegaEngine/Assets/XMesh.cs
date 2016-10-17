@@ -41,7 +41,7 @@ namespace OmegaEngine.Assets
         /// </summary>
         private readonly Mesh _mesh;
 
-        public Mesh Mesh { get { return _mesh; } }
+        public Mesh Mesh => _mesh;
 
         /// <summary>
         /// A bounding sphere surrounding this mesh

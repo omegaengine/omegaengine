@@ -183,7 +183,7 @@ namespace OmegaEngine
         /// <summary>
         /// Information about the hardware of this computer.
         /// </summary>
-        public Hardware Hardware { get { return _hardware; } }
+        public Hardware Hardware => _hardware;
 
         /// <summary>
         /// A list of all supported monitor resolutions.
@@ -193,18 +193,18 @@ namespace OmegaEngine
         /// <summary>
         /// Does the graphics support rasterization, transform, lighting, and shading in hardware?
         /// </summary>
-        public bool PureDevice { get { return (_capabilities.DeviceCaps).HasFlag(DeviceCaps.PureDevice); } }
+        public bool PureDevice => (_capabilities.DeviceCaps).HasFlag(DeviceCaps.PureDevice);
 
         /// <summary>
         /// Does the graphics support hardware transformation and lighting?
         /// </summary>
-        public bool HardwareVertexProcessing { get { return (_capabilities.DeviceCaps).HasFlag(DeviceCaps.HWTransformAndLight); } }
+        public bool HardwareVertexProcessing => (_capabilities.DeviceCaps).HasFlag(DeviceCaps.HWTransformAndLight);
 
         /// <summary>
         /// Does the hardware the engine is running on support anisotropic texture filtering?
         /// </summary>
         /// <seealso cref="Engine.Anisotropic"/>
-        public bool Anisotropic { get { return (_direct3D.GetDeviceCaps(0, DeviceType.Hardware).TextureFilterCaps).HasFlag(FilterCaps.MinAnisotropic | FilterCaps.MagAnisotropic); } }
+        public bool Anisotropic => (_direct3D.GetDeviceCaps(0, DeviceType.Hardware).TextureFilterCaps).HasFlag(FilterCaps.MinAnisotropic | FilterCaps.MagAnisotropic);
 
         /// <summary>
         /// The maximum shader model version to be used (2.a is replaced by 2.0.1, 2.b is replaced by 2.0.2)
@@ -218,13 +218,13 @@ namespace OmegaEngine
         /// <seealso cref="EngineEffects.NormalMapping"/>
         /// <seealso cref="EngineEffects.PostScreenEffects"/>
         /// <seealso cref="EngineEffects.Shadows"/>
-        public bool PerPixelEffects { get { return MaxShaderModel >= new Version(2, 0); } }
+        public bool PerPixelEffects => MaxShaderModel >= new Version(2, 0);
 
         /// <summary>
         /// Does the hardware the engine is running on support terrain texture double sampling?
         /// </summary>
         /// <seealso cref="EngineEffects.DoubleSampling"/>
-        public bool DoubleSampling { get { return MaxShaderModel >= new Version(2, 0, 1); } }
+        public bool DoubleSampling => MaxShaderModel >= new Version(2, 0, 1);
         #endregion
 
         #region Resolution check

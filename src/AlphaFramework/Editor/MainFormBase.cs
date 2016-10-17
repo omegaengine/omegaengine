@@ -185,7 +185,7 @@ namespace AlphaFramework.Editor
         /// <summary>
         /// The currently visible tab
         /// </summary>
-        protected Tab CurrentTab { get { return (from pair in Tabs where pair.Value.Checked select pair.Key).FirstOrDefault(); } }
+        protected Tab CurrentTab => (from pair in Tabs where pair.Value.Checked select pair.Key).FirstOrDefault();
         #endregion
 
         #endregion

@@ -36,7 +36,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// The size of the water plane
         /// </summary>
-        public SizeF Size { get { return _size; } }
+        public SizeF Size => _size;
         #endregion
 
         #region Constructor

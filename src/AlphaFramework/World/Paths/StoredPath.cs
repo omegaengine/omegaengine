@@ -30,7 +30,7 @@ namespace AlphaFramework.World.Paths
         /// <summary>
         /// The path to walk.
         /// </summary>
-        public Queue<TCoordinates> PathNodes { get { return _pathNodes; } }
+        public Queue<TCoordinates> PathNodes => _pathNodes;
 
         /// <inheritdoc/>
         public override string ToString()

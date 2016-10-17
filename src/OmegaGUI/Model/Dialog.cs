@@ -229,7 +229,7 @@ namespace OmegaGUI.Model
         }
 
         [Description("Is the specified texture file name valid?"), Category("Appearance")]
-        public bool TextureFileValid { get { return !string.IsNullOrEmpty(_textureFile) && ContentManager.FileExists("GUI/Textures", _textureFile); } }
+        public bool TextureFileValid => !string.IsNullOrEmpty(_textureFile) && ContentManager.FileExists("GUI/Textures", _textureFile);
         #endregion
 
         #region Font
@@ -348,7 +348,7 @@ namespace OmegaGUI.Model
         /// The effective scale resulting from the user-defined and automatic scaling to fullscreen
         /// </summary>
         [Browsable(false)]
-        public float EffectiveScale { get { return _scale * _autoScale; } }
+        public float EffectiveScale => _scale * _autoScale;
 
         private bool _fullscreen;
 
@@ -383,7 +383,7 @@ namespace OmegaGUI.Model
         /// </summary>
         [Category("Design"), Description("A list of all custom button styles available in the dialog")]
         [XmlElement(typeof(ButtonStyle))]
-        public Collection<ButtonStyle> ButtonStyles { get { return _buttonStyles; } }
+        public Collection<ButtonStyle> ButtonStyles => _buttonStyles;
 
         // Note: Can not use IBindingList<T> interface with XML Serialization
         private BindingList<Control> _controls = new BindingList<Control>();
@@ -398,7 +398,7 @@ namespace OmegaGUI.Model
          XmlElement(typeof(PictureBox)), XmlElement(typeof(RadioButton)),
          XmlElement(typeof(ScrollBar)), XmlElement(typeof(Slider)),
          XmlElement(typeof(Label))]
-        public BindingList<Control> Controls { get { return _controls; } }
+        public BindingList<Control> Controls => _controls;
         #endregion
 
         #endregion

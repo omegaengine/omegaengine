@@ -61,7 +61,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// The position with the <see cref="PositionableRenderable.PreTransform"/> applied
         /// </summary>
-        private DoubleVector3 PreTransformedPosition { get { return Position + Vector3.TransformCoordinate(new Vector3(), PreTransform * Matrix.RotationQuaternion(Rotation)); } }
+        private DoubleVector3 PreTransformedPosition => Position + Vector3.TransformCoordinate(new Vector3(), PreTransform * Matrix.RotationQuaternion(Rotation));
         #endregion
 
         #region Constructor

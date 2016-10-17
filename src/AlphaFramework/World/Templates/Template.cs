@@ -87,7 +87,7 @@ namespace AlphaFramework.World.Templates
         /// <summary>
         /// The XML file <see cref="Template{TSelf}"/> instances are stored in.
         /// </summary>
-        public static string FileName { get { return typeof(TSelf).Name + "s.xml"; } }
+        public static string FileName => typeof(TSelf).Name + "s.xml";
 
         private static NamedCollection<TSelf> _all;
 

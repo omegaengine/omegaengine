@@ -104,13 +104,13 @@ namespace AlphaFramework.World.Terrains
 
         #region Thread code
         /// <inheritdoc/>
-        public override string Name { get { return Resources.CalculatingShadows; } }
+        public override string Name => Resources.CalculatingShadows;
 
         /// <inheritdoc/>
-        public override bool CanCancel { get { return true; } }
+        public override bool CanCancel => true;
 
         /// <inheritdoc/>
-        protected override bool UnitsByte { get { return false; } }
+        protected override bool UnitsByte => false;
 
         /// <inheritdoc/>
         protected override void Execute()

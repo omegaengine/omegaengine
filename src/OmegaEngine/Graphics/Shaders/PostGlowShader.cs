@@ -26,13 +26,13 @@ namespace OmegaEngine.Graphics.Shaders
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
-        public new static Version MinShaderModel { get { return new Version(2, 0); } }
+        public new static Version MinShaderModel => new Version(2, 0);
 
         /// <summary>
         /// Does this post-screen shader use overlay rendering instead of a scene map?
         /// </summary>
         [Description("Does this post-screen shader use overlay rendering instead of a scene map?")]
-        public override sealed bool OverlayRendering { get { return true; } }
+        public override sealed bool OverlayRendering => true;
 
         private float _glowStrength = 1;
 

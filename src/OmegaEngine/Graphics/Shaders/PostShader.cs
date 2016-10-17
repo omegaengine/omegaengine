@@ -25,7 +25,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// Does this post-screen shader use overlay rendering instead of a scene map?
         /// </summary>
         [Description("Does this post-screen shader use overlay rendering instead of a scene map?")]
-        public virtual bool OverlayRendering { get { return false; } }
+        public virtual bool OverlayRendering => false;
 
         private bool _enabled = true;
 

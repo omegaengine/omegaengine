@@ -64,7 +64,7 @@ namespace AlphaFramework.World.Terrains
 
         /// <inheritdoc/>
         [Browsable(false)]
-        public Vector2 Center { get { return new Vector2(_size.X * _size.StretchH / 2f, _size.Y * _size.StretchH / 2f); } }
+        public Vector2 Center => new Vector2(_size.X * _size.StretchH / 2f, _size.Y * _size.StretchH / 2f);
         #endregion
 
         #region Height-map
@@ -145,7 +145,7 @@ namespace AlphaFramework.World.Terrains
 
         /// <inheritdoc/>
         [Browsable(false), XmlIgnore]
-        public bool DataLoaded { get { return _heightMap != null && _textureMap != null; } }
+        public bool DataLoaded => _heightMap != null && _textureMap != null;
         #endregion
 
         #region Constructor

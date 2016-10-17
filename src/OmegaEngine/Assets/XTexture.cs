@@ -27,7 +27,7 @@ namespace OmegaEngine.Assets
         /// <summary>
         /// The <see cref="SlimDX.Direct3D9.Texture"/> inside this asset. 
         /// </summary>
-        public Texture Texture { get { return _texture; } }
+        public Texture Texture => _texture;
         #endregion
 
         #region Constructor

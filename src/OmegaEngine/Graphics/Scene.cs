@@ -82,7 +82,7 @@ namespace OmegaEngine.Graphics
         /// All <see cref="PositionableRenderable"/>s contained within this scene.
         /// </summary>
         /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
-        public ICollection<PositionableRenderable> Positionables { get { return _positionables; } }
+        public ICollection<PositionableRenderable> Positionables => _positionables;
 
         /// <summary>
         /// The current <see cref="Skybox"/> for this scene
@@ -105,7 +105,7 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// All light sources affecting the entities in this scene
         /// </summary>
-        public ICollection<LightSource> Lights { get { return _lights; } }
+        public ICollection<LightSource> Lights => _lights;
         #endregion
 
         #region Constructor

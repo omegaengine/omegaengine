@@ -47,7 +47,7 @@ namespace OmegaGUI.Render
 
         #region Instance Data
         private readonly DialogManager dialogManager;
-        internal DialogManager DialogManager { get { return dialogManager; } }
+        internal DialogManager DialogManager => dialogManager;
 
         // Vertex information
         private TransformedColoredTextured[] dialogVertexes, captionVertexes;

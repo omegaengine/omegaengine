@@ -133,15 +133,9 @@ namespace OmegaEngine.Graphics
         /// The center point of <see cref="Area"/>
         /// </summary>
         [Browsable(false)]
-        public Point AreaCenter
-        {
-            get
-            {
-                return new Point(
-                    _area.Location.X + _area.Size.Width / 2,
-                    _area.Location.Y + _area.Size.Height / 2);
-            }
-        }
+        public Point AreaCenter => new Point(
+            _area.Location.X + _area.Size.Width / 2,
+            _area.Location.Y + _area.Size.Height / 2);
         #endregion
 
         #region Flags
@@ -178,7 +172,7 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// Does this <see cref="View"/> render to a texture <see cref="RenderTarget"/>? Only <c>true</c> for <see cref="TextureView"/>s.
         /// </summary>
-        protected virtual bool TextureRenderTarget { get { return false; } }
+        protected virtual bool TextureRenderTarget => false;
         #endregion
 
         #region Content
@@ -190,7 +184,7 @@ namespace OmegaEngine.Graphics
         /// </summary>
         /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
         [Browsable(false)]
-        public ICollection<TextureView> ChildViews { get { return _childViews; } }
+        public ICollection<TextureView> ChildViews => _childViews;
 
         private Color _backgroundColor = Color.Black;
 
@@ -207,7 +201,7 @@ namespace OmegaEngine.Graphics
         /// </summary>
         /// <remarks>Will NOT be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
         [Browsable(false)]
-        public Scene Scene { get { return _scene; } }
+        public Scene Scene => _scene;
 
         private readonly EngineElementCollection<FloatingModel> _floatingModels = new EngineElementCollection<FloatingModel>();
 
@@ -216,7 +210,7 @@ namespace OmegaEngine.Graphics
         /// </summary>
         /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
         [Browsable(false)]
-        public ICollection<FloatingModel> FloatingModels { get { return _floatingModels; } }
+        public ICollection<FloatingModel> FloatingModels => _floatingModels;
 
         private readonly EngineElementCollection<PostShader> _postShaders = new EngineElementCollection<PostShader>();
 
@@ -225,7 +219,7 @@ namespace OmegaEngine.Graphics
         /// </summary>
         /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
         [Browsable(false)]
-        public ICollection<PostShader> PostShaders { get { return _postShaders; } }
+        public ICollection<PostShader> PostShaders => _postShaders;
 
         /// <summary>
         /// The camera describing how to look at the scene

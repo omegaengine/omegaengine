@@ -69,8 +69,8 @@ namespace OmegaEngine
             return _innerList.Remove(item);
         }
 
-        public int Count { get { return _innerList.Count; } }
+        public int Count => _innerList.Count;
 
-        public bool IsReadOnly { get { return false; } }
+        public bool IsReadOnly => false;
     }
 }

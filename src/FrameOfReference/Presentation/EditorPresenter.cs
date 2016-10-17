@@ -112,7 +112,7 @@ namespace FrameOfReference.Presentation
         }
 
         /// <inheritdoc/>
-        protected override double MaxCameraRadius { get { return 10000; } }
+        protected override double MaxCameraRadius => 10000;
 
         #region Movement
         /// <summary>

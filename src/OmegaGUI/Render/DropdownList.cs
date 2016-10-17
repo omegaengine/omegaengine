@@ -139,13 +139,13 @@ namespace OmegaGUI.Render
         }
 
         /// <summary>Can this control have focus</summary>
-        public override bool CanHaveFocus { get { return (IsVisible && IsEnabled); } }
+        public override bool CanHaveFocus => (IsVisible && IsEnabled);
 
         /// <summary>Number of items current in the list</summary>
-        public int NumberItems { get { return itemList.Count; } }
+        public int NumberItems => itemList.Count;
 
         /// <summary>Indexer for items in the list</summary>
-        public ListItem this[int index] { get { return itemList[index]; } }
+        public ListItem this[int index] => itemList[index];
 
         /// <summary>Initialize the scrollbar control here</summary>
         public override void OnInitialize()

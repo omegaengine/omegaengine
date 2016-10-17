@@ -269,7 +269,7 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// The value for <see cref="StrategyCamera.MaxRadius"/>.
         /// </summary>
-        protected virtual double MaxCameraRadius { get { return 2250; } }
+        protected virtual double MaxCameraRadius => 2250;
 
         /// <summary>
         /// Ensures the camera does not go under or outside the <see cref="Terrain"/>.

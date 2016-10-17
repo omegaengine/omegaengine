@@ -59,7 +59,7 @@ namespace OmegaEngine
         /// <summary>
         /// The version number of the engine.
         /// </summary>
-        public static Version Version { get { return Assembly.GetExecutingAssembly().GetName().Version; } }
+        public static Version Version => Assembly.GetExecutingAssembly().GetName().Version;
 
         /// <summary>
         /// The <see cref="System.Windows.Forms.Control"/> the engine draws onto.
@@ -116,7 +116,7 @@ namespace OmegaEngine
         /// <summary>
         /// The central cache used for all graphics and sound assets.
         /// </summary>
-        public CacheManager Cache { get { return _cache; } }
+        public CacheManager Cache => _cache;
         #endregion
 
         #region Constructor

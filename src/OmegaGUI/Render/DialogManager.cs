@@ -55,17 +55,17 @@ namespace OmegaGUI.Render
         /// <summary>
         /// Gets the render engine
         /// </summary>
-        public Engine Engine { get { return _engine; } }
+        public Engine Engine => _engine;
 
         /// <summary>
         /// Gets the DirectX device
         /// </summary>
-        public Device Device { get { return _engine.Device; } }
+        public Device Device => _engine.Device;
 
         /// <summary>
         /// Gets the render target control
         /// </summary>
-        public System.Windows.Forms.Control Target { get { return _engine.Target; } }
+        public System.Windows.Forms.Control Target => _engine.Target;
         #endregion
 
         #region Constructor

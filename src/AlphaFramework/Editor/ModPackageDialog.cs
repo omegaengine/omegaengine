@@ -25,7 +25,7 @@ namespace AlphaFramework.Editor
         /// <summary>
         /// The file extensions when a mod is stored in a package
         /// </summary>
-        public static string FileExt { get { return ModInfo.FileExt + "Package"; } }
+        public static string FileExt => ModInfo.FileExt + "Package";
         #endregion
 
         #region Variables

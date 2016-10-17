@@ -87,7 +87,7 @@ namespace OmegaGUI.Render
 
         #region Simple overrides/properties/methods
         /// <summary>Can the edit box have focus</summary>
-        public override bool CanHaveFocus { get { return (IsVisible && IsEnabled); } }
+        public override bool CanHaveFocus => (IsVisible && IsEnabled);
 
         /// <summary>Update the spacing</summary>
         public void SetSpacing(int space)

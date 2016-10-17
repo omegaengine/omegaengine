@@ -87,7 +87,7 @@ namespace FrameOfReference.World.Config
         /// <summary>
         /// A list of mod directories recently opened by the editor
         /// </summary>
-        public Collection<string> RecentMods { get { return _recentMods; } }
+        public Collection<string> RecentMods => _recentMods;
 
         #region Constructor
         /// <inheritdoc/>

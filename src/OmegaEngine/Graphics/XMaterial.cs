@@ -34,7 +34,7 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// A plain white untextured material
         /// </summary>
-        public static XMaterial DefaultMaterial { get { return new XMaterial(Color.White); } }
+        public static XMaterial DefaultMaterial => new XMaterial(Color.White);
 
         /// <summary>
         /// A DirectX material with the color information form this <see cref="XMaterial"/>

@@ -55,15 +55,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <c>true</c> <see cref="CpuParticleParameters.LifeTime"/> is set to <see cref="CpuParticleParameters.InfiniteFlag"/> for <see cref="LowerParameters1"/> or <see cref="UpperParameters1"/>.
         /// </summary>
         [Browsable(false)]
-        public bool InfiniteLifetime1
-        {
-            get
-            {
-                // ReSharper disable CompareOfFloatsByEqualityOperator
-                return LowerParameters1.LifeTime == CpuParticleParameters.InfiniteFlag || UpperParameters1.LifeTime == CpuParticleParameters.InfiniteFlag;
-                // ReSharper restore CompareOfFloatsByEqualityOperator
-            }
-        }
+        public bool InfiniteLifetime1 => LowerParameters1.LifeTime == CpuParticleParameters.InfiniteFlag || UpperParameters1.LifeTime == CpuParticleParameters.InfiniteFlag;
 
         /// <summary>
         /// The lower values of the range of parameters used to start particles' "second life"
@@ -81,15 +73,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <c>true</c> <see cref="CpuParticleParameters.LifeTime"/> is set to <see cref="CpuParticleParameters.InfiniteFlag"/> for <see cref="LowerParameters2"/> or <see cref="UpperParameters2"/>.
         /// </summary>
         [Browsable(false)]
-        public bool InfiniteLifetime2
-        {
-            get
-            {
-                // ReSharper disable CompareOfFloatsByEqualityOperator
-                return LowerParameters2.LifeTime == CpuParticleParameters.InfiniteFlag || UpperParameters2.LifeTime == CpuParticleParameters.InfiniteFlag;
-                // ReSharper restore CompareOfFloatsByEqualityOperator
-            }
-        }
+        public bool InfiniteLifetime2 => LowerParameters2.LifeTime == CpuParticleParameters.InfiniteFlag || UpperParameters2.LifeTime == CpuParticleParameters.InfiniteFlag;
         #endregion
 
         #region Spawn

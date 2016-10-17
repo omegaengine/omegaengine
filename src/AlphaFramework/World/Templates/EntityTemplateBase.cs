@@ -27,7 +27,7 @@ namespace AlphaFramework.World.Templates
         [Browsable(false)]
         // Note: Can not use ICollection<T> interface with XML Serialization
         [XmlElement(typeof(TestSphere)), XmlElement(typeof(StaticMesh)), XmlElement(typeof(AnimatedMesh)), XmlElement(typeof(CpuParticleSystem)), XmlElement(typeof(GpuParticleSystem)), XmlElement(typeof(LightSource))]
-        public Collection<Render> Render { get { return _render; } }
+        public Collection<Render> Render => _render;
 
         /// <summary>
         /// Controls the basic movement parameters.

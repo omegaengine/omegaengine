@@ -48,7 +48,7 @@ namespace OmegaGUI.Model
         /// </summary>
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [XmlElement("entry")]
-        public XmlDictionary Entries { get { return _entries; } }
+        public XmlDictionary Entries => _entries;
         #endregion
 
         #region Constructor

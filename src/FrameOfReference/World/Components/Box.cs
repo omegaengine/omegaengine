@@ -50,7 +50,7 @@ namespace FrameOfReference.World.Components
         /// The area covered by this box.
         /// </summary>
         [Browsable(false), XmlIgnore]
-        public RectangleF Area { get { return RectangleF.FromLTRB(Minimum.X, Minimum.Y, Maximum.X, Maximum.Y); } }
+        public RectangleF Area => RectangleF.FromLTRB(Minimum.X, Minimum.Y, Maximum.X, Maximum.Y);
 
         /// <summary>
         /// Determines whether a certain point lies within the box.

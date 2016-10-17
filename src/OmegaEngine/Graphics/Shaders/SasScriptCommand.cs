@@ -74,7 +74,7 @@ namespace OmegaEngine.Graphics.Shaders
         #endregion
 
         #region Properties
-        public CommandType Command { get { return _commandType; } }
+        public CommandType Command => _commandType;
 
         public string Selector { get { return _selector; } set { _selector = value; } }
         #endregion
@@ -518,7 +518,7 @@ namespace OmegaEngine.Graphics.Shaders
         }
 
         private ClearType _clearType = ClearType.Color;
-        public ClearType ClearOption { get { return _clearType; } }
+        public ClearType ClearOption => _clearType;
 
         public SasScriptClear(Effect effect) : base(CommandType.Clear, effect)
         {}

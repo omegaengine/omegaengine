@@ -47,7 +47,7 @@ namespace OmegaGUI.Render
         }
 
         /// <summary>Can the button have focus</summary>
-        public override bool CanHaveFocus { get { return IsVisible && IsEnabled; } }
+        public override bool CanHaveFocus => IsVisible && IsEnabled;
 
         /// <summary>The hotkey for this button was pressed</summary>
         public override void OnHotKey()

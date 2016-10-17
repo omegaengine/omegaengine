@@ -324,7 +324,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// A list of <see cref="View"/>s that must be rendered before this <see cref="PositionableRenderable"/> can be rendered
         /// </summary>
         [Browsable(false)]
-        public ICollection<View> RequiredViews { get { return _requiredViews; } }
+        public ICollection<View> RequiredViews => _requiredViews;
         #endregion
 
         //--------------------//

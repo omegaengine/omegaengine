@@ -42,7 +42,7 @@ namespace AlphaFramework.Editor.World
         /// <summary>
         /// The list of <see cref="Template{T}"/> to visualize
         /// </summary>
-        protected NamedCollection<T> Templates { get { return (NamedCollection<T>)Content; } }
+        protected NamedCollection<T> Templates => (NamedCollection<T>)Content;
         #endregion
 
         #region Constructor

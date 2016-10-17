@@ -26,7 +26,7 @@ namespace OmegaEngine.Input
         /// <summary>
         /// Indicates whether this handler currently has <see cref="IInputReceiver"/> attached to it.
         /// </summary>
-        public bool HasReceivers { get { return _receivers.Count != 0; } }
+        public bool HasReceivers => _receivers.Count != 0;
         #endregion
 
         //--------------------//

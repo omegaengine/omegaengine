@@ -27,10 +27,10 @@ namespace OmegaEngine.Audio
 
         #region Properties
         /// <inheritdoc/>
-        public bool Playing { get { return !SoundBuffer.Disposed && SoundBuffer.Status == BufferStatus.Playing; } }
+        public bool Playing => !SoundBuffer.Disposed && SoundBuffer.Status == BufferStatus.Playing;
 
         /// <inheritdoc/>
-        public bool Looping { get { return !SoundBuffer.Disposed && SoundBuffer.Status == BufferStatus.Looping; } }
+        public bool Looping => !SoundBuffer.Disposed && SoundBuffer.Status == BufferStatus.Looping;
 
         /// <inheritdoc/>>
         public int Volume { get { return SoundBuffer.Volume; } set { SoundBuffer.Volume = value; } }

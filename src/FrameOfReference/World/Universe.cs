@@ -47,7 +47,7 @@ namespace FrameOfReference.World
         [XmlElement(typeof(Entity)), XmlElement(typeof(Water)),
          XmlElement(typeof(Waypoint)), XmlElement(typeof(Trigger)),
          XmlElement(typeof(CameraState<Vector2>), ElementName = "CameraState"), XmlElement(typeof(BenchmarkPoint<Vector2>), ElementName = "BenchmarkPoint")]
-        public override MonitoredCollection<Positionable<Vector2>> Positionables { get { return _positionables; } }
+        public override MonitoredCollection<Positionable<Vector2>> Positionables => _positionables;
 
         private Terrain<TerrainTemplate> _terrain;
 

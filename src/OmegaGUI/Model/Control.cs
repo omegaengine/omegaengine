@@ -228,7 +228,7 @@ namespace OmegaGUI.Model
         /// The effective area on the window were this control is rendered
         /// </summary>
         [Browsable(false)]
-        public Rectangle DrawBox { get { return new Rectangle(EffectiveLocation, EffectiveSize); } }
+        public Rectangle DrawBox => new Rectangle(EffectiveLocation, EffectiveSize);
         #endregion
 
         #region Events
@@ -248,7 +248,7 @@ namespace OmegaGUI.Model
         #endregion
 
         [CLSCompliant(false), Browsable(false)]
-        public Render.Control ControlModel { get { return DXControl; } }
+        public Render.Control ControlModel => DXControl;
         #endregion
 
         #region Generate

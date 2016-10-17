@@ -85,7 +85,7 @@ namespace OmegaEngine
         /// <c>true</c> if the <see cref="Engine"/> has been set.
         /// </summary>
         [Browsable(false)]
-        public bool IsEngineSet { get { return _engine != null; } }
+        public bool IsEngineSet => _engine != null;
 
         /// <summary>
         /// Hook that is calld when <see cref="Engine"/> is set for the first time.

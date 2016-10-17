@@ -71,7 +71,7 @@ namespace OmegaEngine
         /// A list of all views to be rendered by the engine
         /// </summary>
         /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
-        public ICollection<View> Views { get { return _views; } }
+        public ICollection<View> Views => _views;
 
         #region Time
         /// <summary>

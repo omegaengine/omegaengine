@@ -41,7 +41,7 @@ namespace AlphaFramework.Editor
             }
         }
 
-        private static Version AssemblyVersion { get { return Assembly.GetEntryAssembly().GetName().Version; } }
+        private static Version AssemblyVersion => Assembly.GetEntryAssembly().GetName().Version;
 
         private static string AssemblyCopyright
         {

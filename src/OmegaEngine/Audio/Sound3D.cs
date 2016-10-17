@@ -43,7 +43,7 @@ namespace OmegaEngine.Audio
         /// The sounds's position in render space, based on <see cref="Position"/>
         /// </summary>
         /// <remarks>Constantly changes based on the values set for <see cref="IPositionableOffset.EffectivePosition"/></remarks>
-        Vector3 IPositionableOffset.EffectivePosition { get { return Position.ApplyOffset(((IPositionableOffset)this).Offset); } }
+        Vector3 IPositionableOffset.EffectivePosition => Position.ApplyOffset(((IPositionableOffset)this).Offset);
         #endregion
 
         #region Constructor

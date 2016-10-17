@@ -87,7 +87,7 @@ namespace OmegaGUI.Model
         public string TextureFile { get { return _textureFile; } set { _textureFile = value; } }
 
         [Description("Is the specified texture file name valid?"), Category("Appearance")]
-        public bool TextureFileValid { get { return !string.IsNullOrEmpty(_textureFile) && ContentManager.FileExists("GUI/Textures", _textureFile); } }
+        public bool TextureFileValid => !string.IsNullOrEmpty(_textureFile) && ContentManager.FileExists("GUI/Textures", _textureFile);
         #endregion
 
         #region Button layer

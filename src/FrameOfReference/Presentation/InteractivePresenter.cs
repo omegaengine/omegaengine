@@ -135,7 +135,7 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// The <see cref="Positionable{TCoordinates}"/>s the user has selected with the mouse
         /// </summary>
-        public MonitoredCollection<Positionable<Vector2>> SelectedPositionables { get { return _selectedPositionables; } }
+        public MonitoredCollection<Positionable<Vector2>> SelectedPositionables => _selectedPositionables;
 
         /// <summary>
         /// Maps between <see cref="SelectedPositionables"/> and selection highlighting.

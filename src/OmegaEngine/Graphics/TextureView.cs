@@ -31,7 +31,7 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// Does this <see cref="View"/> render to a texture <see cref="RenderTarget"/>? <c>true</c> since this is a <see cref="TextureView"/>.
         /// </summary>
-        protected override bool TextureRenderTarget { get { return true; } }
+        protected override bool TextureRenderTarget => true;
         #endregion
 
         #region Constructor

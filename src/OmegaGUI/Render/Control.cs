@@ -88,10 +88,10 @@ namespace OmegaGUI.Render
         public object UserData { get { return localUserData; } set { localUserData = value; } }
 
         /// <summary>The parent dialog of this control</summary>
-        public Dialog Parent { get { return parentDialog; } }
+        public Dialog Parent => parentDialog;
 
         /// <summary>Can the control have focus</summary>
-        public virtual bool CanHaveFocus { get { return false; } }
+        public virtual bool CanHaveFocus => false;
 
         /// <summary>Called when control gets focus</summary>
         public virtual void OnFocusIn()
@@ -139,7 +139,7 @@ namespace OmegaGUI.Render
         public virtual bool IsVisible { get { return visible; } set { visible = value; } }
 
         /// <summary>Type of the control</summary>
-        public virtual ControlType ControlType { get { return ctrlType; } }
+        public virtual ControlType ControlType => ctrlType;
 
         /// <summary>Unique ID of the control</summary>
         public virtual int ID { get { return controlId; } set { controlId = value; } }

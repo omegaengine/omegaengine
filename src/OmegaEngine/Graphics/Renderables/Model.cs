@@ -58,7 +58,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// The numbers of vertexes in this model
         /// </summary>
         [Description("The numbers of vertexes in this model"), Category("Design")]
-        public int VertexCount { get { return Mesh.VertexCount; } }
+        public int VertexCount => Mesh.VertexCount;
 
         /// <summary>
         /// The numbers of subsets in this model

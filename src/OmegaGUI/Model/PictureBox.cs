@@ -47,7 +47,7 @@ namespace OmegaGUI.Model
         }
 
         [Description("Is the specified texture file name valid?"), Category("Appearance")]
-        public bool TextureFileValid { get { return !string.IsNullOrEmpty(_textureFile) && ContentManager.FileExists("GUI/Textures", _textureFile); } }
+        public bool TextureFileValid => !string.IsNullOrEmpty(_textureFile) && ContentManager.FileExists("GUI/Textures", _textureFile);
 
         private Point _textureLocation = new Point(0, 0);
 

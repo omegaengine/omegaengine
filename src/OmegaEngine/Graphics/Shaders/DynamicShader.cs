@@ -30,7 +30,7 @@ namespace OmegaEngine.Graphics.Shaders
         private abstract class Counter
         {
             private readonly string _id;
-            public string ID { get { return _id; } }
+            public string ID => _id;
 
             protected Counter(string id)
             {

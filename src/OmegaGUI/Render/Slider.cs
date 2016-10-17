@@ -37,7 +37,7 @@ namespace OmegaGUI.Render
         protected Rectangle buttonRect;
 
         /// <summary>Slider's can always have focus</summary>
-        public override bool CanHaveFocus { get { return true; } }
+        public override bool CanHaveFocus => true;
 
         /// <summary>Current value of the slider</summary>
         protected void RaiseChanged(Slider sender, bool wasTriggeredByUser)
