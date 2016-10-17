@@ -78,7 +78,7 @@ namespace OmegaEngine.Graphics.Renderables
         public Model(XMesh mesh)
         {
             #region Sanity checks
-            if (mesh == null) throw new ArgumentNullException("mesh");
+            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
             #endregion
 
             _asset = mesh;
@@ -107,7 +107,7 @@ namespace OmegaEngine.Graphics.Renderables
         public Model(XMesh mesh, params XMaterial[] materials)
         {
             #region Sanity checks
-            if (mesh == null) throw new ArgumentNullException("mesh");
+            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
             #endregion
 
             _asset = mesh;
@@ -138,7 +138,7 @@ namespace OmegaEngine.Graphics.Renderables
         public Model(Mesh mesh, params XMaterial[] materials)
         {
             #region Sanity checks
-            if (mesh == null) throw new ArgumentNullException("mesh");
+            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
             #endregion
 
             // Get custom mesh

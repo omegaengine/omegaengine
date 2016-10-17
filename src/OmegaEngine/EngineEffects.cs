@@ -26,7 +26,7 @@ namespace OmegaEngine
         internal EngineEffects(EngineCapabilities capabilities)
         {
             #region Sanity checks
-            if (capabilities == null) throw new ArgumentNullException("capabilities");
+            if (capabilities == null) throw new ArgumentNullException(nameof(capabilities));
             #endregion
 
             _capabilities = capabilities;

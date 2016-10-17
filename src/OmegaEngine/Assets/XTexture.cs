@@ -39,8 +39,8 @@ namespace OmegaEngine.Assets
         protected XTexture(Engine engine, Stream stream)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (stream == null) throw new ArgumentNullException("stream");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
             #endregion
 
             try
@@ -74,7 +74,7 @@ namespace OmegaEngine.Assets
         public static XTexture Get(Engine engine, string id, bool meshTexture = false)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             if (string.IsNullOrEmpty(id)) return null;
             #endregion
 

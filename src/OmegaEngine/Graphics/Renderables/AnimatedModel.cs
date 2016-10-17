@@ -46,7 +46,7 @@ namespace OmegaEngine.Graphics.Renderables
         public AnimatedModel(XAnimatedMesh mesh)
         {
             #region Sanity checks
-            if (mesh == null) throw new ArgumentNullException("mesh");
+            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
             #endregion
 
             _asset = mesh;

@@ -490,7 +490,7 @@ namespace OmegaGUI.Model
             get
             {
                 #region Sanity checks
-                if (name == null) throw new ArgumentNullException("name");
+                if (name == null) throw new ArgumentNullException(nameof(name));
                 #endregion
 
                 foreach (Control control in Controls)

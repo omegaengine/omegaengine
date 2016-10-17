@@ -37,9 +37,9 @@ namespace OmegaEngine.Graphics.Renderables
         protected AdvancedSkybox(ITextureProvider[] textures) : base(textures)
         {
             #region Sanity checks
-            if (textures == null) throw new ArgumentNullException("textures");
+            if (textures == null) throw new ArgumentNullException(nameof(textures));
             if (textures.Length != 6)
-                throw new ArgumentException(string.Format(Resources.WrongTexArrayLength, "6"), "textures");
+                throw new ArgumentException(string.Format(Resources.WrongTexArrayLength, "6"), nameof(textures));
             #endregion
 
             // ToDo: Implement
@@ -66,7 +66,7 @@ namespace OmegaEngine.Graphics.Renderables
         public static AdvancedSkybox FromAssets(Engine engine, string rt, string lf, string up, string dn, string ft, string bk)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             var textures = new[]

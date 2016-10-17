@@ -40,8 +40,8 @@ namespace OmegaEngine.Assets
         protected XAnimatedMesh(Engine engine, Stream stream, string meshName) : base(engine, stream, meshName)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (stream == null) throw new ArgumentNullException("stream");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
             #endregion
 
             try
@@ -81,7 +81,7 @@ namespace OmegaEngine.Assets
         public new static XAnimatedMesh Get(Engine engine, string id)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             if (string.IsNullOrEmpty(id)) return null;
             #endregion
 

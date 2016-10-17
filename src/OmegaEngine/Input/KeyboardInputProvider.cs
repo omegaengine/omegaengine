@@ -40,7 +40,7 @@ namespace OmegaEngine.Input
         public KeyboardInputProvider(Control control)
         {
             #region Sanity checks
-            if (control == null) throw new ArgumentNullException("control");
+            if (control == null) throw new ArgumentNullException(nameof(control));
             #endregion
 
             _control = control;

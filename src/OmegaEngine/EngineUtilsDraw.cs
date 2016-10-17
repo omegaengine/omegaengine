@@ -29,7 +29,7 @@ namespace OmegaEngine
         public static void DrawRectangleOutline(this Engine engine, Rectangle rectangle, Color color)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             var vertexes = new[]
@@ -53,7 +53,7 @@ namespace OmegaEngine
         public static void DrawQuadShader(this Engine engine)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             using (new ProfilerEvent("Rendering textured quad for post-screen shaders"))
@@ -82,7 +82,7 @@ namespace OmegaEngine
         public static void DrawQuadTextured(this Engine engine)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             using (new ProfilerEvent("Rendering textured quad"))
@@ -122,7 +122,7 @@ namespace OmegaEngine
         public static void DrawQuadColored(this Engine engine, Color color)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             using (new ProfilerEvent("Rendering colored quad"))
@@ -157,7 +157,7 @@ namespace OmegaEngine
         public static void DrawBoundingSphere(this Engine engine, BoundingSphere sphere)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             using (new ProfilerEvent("Draw bounding sphere"))
@@ -194,7 +194,7 @@ namespace OmegaEngine
         public static void DrawBoundingBox(this Engine engine, BoundingBox box)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             using (new ProfilerEvent("Draw bounding box"))

@@ -30,8 +30,8 @@ namespace OmegaEngine.Graphics
         private static bool CompareDecl(VertexElement[] baseDecl, VertexElement[] testDecl)
         {
             #region Sanity checks
-            if (baseDecl == null) throw new ArgumentNullException("baseDecl");
-            if (testDecl == null) throw new ArgumentNullException("testDecl");
+            if (baseDecl == null) throw new ArgumentNullException(nameof(baseDecl));
+            if (testDecl == null) throw new ArgumentNullException(nameof(testDecl));
             #endregion
 
             // Cancel if the number of vertex elements is too low (too high is ok, there is and end marker to trim off excess data)
@@ -54,8 +54,8 @@ namespace OmegaEngine.Graphics
         private static bool ExpandDeclaration(Device device, ref Mesh mesh, out bool hadNormals, out bool hadTangents)
         {
             #region Sanity checks
-            if (device == null) throw new ArgumentNullException("device");
-            if (mesh == null) throw new ArgumentNullException("mesh");
+            if (device == null) throw new ArgumentNullException(nameof(device));
+            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
             #endregion
 
             // Check if vertex declaration of mesh already is already ok
@@ -129,8 +129,8 @@ namespace OmegaEngine.Graphics
         public static void GenerateNormals(Device device, ref Mesh mesh)
         {
             #region Sanity checks
-            if (device == null) throw new ArgumentNullException("device");
-            if (mesh == null) throw new ArgumentNullException("mesh");
+            if (device == null) throw new ArgumentNullException(nameof(device));
+            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
             #endregion
 
             bool hadNormals, hadTangents;
@@ -194,8 +194,8 @@ namespace OmegaEngine.Graphics
         public static void GenerateNormalsAndTangents(Device device, ref Mesh mesh, bool weldVertexes)
         {
             #region Sanity checks
-            if (device == null) throw new ArgumentNullException("device");
-            if (mesh == null) throw new ArgumentNullException("mesh");
+            if (device == null) throw new ArgumentNullException(nameof(device));
+            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
             #endregion
 
             bool hadNormals, hadTangents;

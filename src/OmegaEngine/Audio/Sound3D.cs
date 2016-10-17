@@ -54,7 +54,7 @@ namespace OmegaEngine.Audio
         public Sound3D(XSound sound) : base(sound)
         {
             #region Sanity checks
-            if (sound == null) throw new ArgumentNullException("sound");
+            if (sound == null) throw new ArgumentNullException(nameof(sound));
             #endregion
 
             _buffer3D = new SoundBuffer3D(SoundBuffer);

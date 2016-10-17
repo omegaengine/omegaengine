@@ -27,7 +27,7 @@ namespace OmegaEngine.Graphics.Renderables
         public static Model Quad(Engine engine, ITextureProvider texture = null, float width = 5, float height = 5)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             Log.Info("Generate predefined model: Quad");
@@ -51,7 +51,7 @@ namespace OmegaEngine.Graphics.Renderables
         public static Model Box(Engine engine, ITextureProvider texture = null, float width = 5, float height = 5, float depth = 5)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             Log.Info("Generate predefined model: Box");
@@ -77,7 +77,7 @@ namespace OmegaEngine.Graphics.Renderables
         public static Model Sphere(Engine engine, ITextureProvider texture = null, float radius = 10, int slices = 20, int stacks = 20)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             Log.Info("Generate predefined model: Sphere");
@@ -106,7 +106,7 @@ namespace OmegaEngine.Graphics.Renderables
         public static Model Cylinder(Engine engine, ITextureProvider texture, float radiusBottom, float radiusTop, float length, int slices, int stacks)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             Log.Info("Generate predefined model: Cylinder");
@@ -150,7 +150,7 @@ namespace OmegaEngine.Graphics.Renderables
         public static Model Disc(Engine engine, ITextureProvider texture, float radiusInner, float radiusOuter, float height, int segments)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             // ToDo: Calculate bounding box

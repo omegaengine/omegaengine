@@ -151,9 +151,9 @@ namespace OmegaEngine.Graphics.Shaders
         public override void Apply(Action render, XMaterial material, Camera camera, params LightSource[] lights)
         {
             #region Sanity checks
-            if (render == null) throw new ArgumentNullException("render");
-            if (camera == null) throw new ArgumentNullException("camera");
-            if (lights == null) throw new ArgumentNullException("lights");
+            if (render == null) throw new ArgumentNullException(nameof(render));
+            if (camera == null) throw new ArgumentNullException(nameof(camera));
+            if (lights == null) throw new ArgumentNullException(nameof(lights));
             #endregion
 
             // Always reset the textures since they might change their memory address at a device reset

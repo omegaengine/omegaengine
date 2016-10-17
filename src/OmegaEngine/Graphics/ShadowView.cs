@@ -35,7 +35,7 @@ namespace OmegaEngine.Graphics
         protected override void RenderBody(PositionableRenderable body)
         {
             #region Sanity checks
-            if (body == null) throw new ArgumentNullException("body");
+            if (body == null) throw new ArgumentNullException(nameof(body));
             #endregion
 
             // Backup the current surface effect and replace it by a special one for depth

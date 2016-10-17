@@ -118,7 +118,7 @@ namespace FrameOfReference.Presentation
         public virtual void Click(MouseEventArgs e, bool accumulate)
         {
             #region Sanity checks
-            if (e == null) throw new ArgumentNullException("e");
+            if (e == null) throw new ArgumentNullException(nameof(e));
             #endregion
 
             // Determine the Engine object the user clicked on
@@ -161,7 +161,7 @@ namespace FrameOfReference.Presentation
         public virtual void DoubleClick(MouseEventArgs e)
         {
             #region Sanity checks
-            if (e == null) throw new ArgumentNullException("e");
+            if (e == null) throw new ArgumentNullException(nameof(e));
             #endregion
 
             // Determine the Engine object the user double-clicked on

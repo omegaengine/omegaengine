@@ -131,7 +131,7 @@ namespace OmegaEngine
         public Engine(Control target, EngineConfig config)
         {
             #region Sanity checks
-            if (target == null) throw new ArgumentNullException("target");
+            if (target == null) throw new ArgumentNullException(nameof(target));
             #endregion
 
             Engine = this;

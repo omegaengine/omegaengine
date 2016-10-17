@@ -43,7 +43,7 @@ namespace AlphaFramework.World
         protected SessionBase(TUniverse baseUniverse)
         {
             #region Sanity checks
-            if (baseUniverse == null) throw new ArgumentNullException("baseUniverse");
+            if (baseUniverse == null) throw new ArgumentNullException(nameof(baseUniverse));
             #endregion
 
             Universe = baseUniverse;

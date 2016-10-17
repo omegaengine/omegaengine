@@ -32,8 +32,8 @@ namespace OmegaEngine.Graphics
         internal static VertexBuffer CreateVertexBuffer<T>(Device device, T[] data, VertexFormat format) where T : struct
         {
             #region Sanity checks
-            if (device == null) throw new ArgumentNullException("device");
-            if (data == null) throw new ArgumentNullException("data");
+            if (device == null) throw new ArgumentNullException(nameof(device));
+            if (data == null) throw new ArgumentNullException(nameof(data));
             #endregion
 
             var buffer = new VertexBuffer(device, Marshal.SizeOf(typeof(T)) * data.Length, Usage.WriteOnly, format, Pool.Managed);
@@ -53,7 +53,7 @@ namespace OmegaEngine.Graphics
         internal static T[] ReadVertexBuffer<T>(VertexBuffer buffer) where T : struct
         {
             #region Sanity checks
-            if (buffer == null) throw new ArgumentNullException("buffer");
+            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
             #endregion
 
             DataStream vertexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
@@ -74,7 +74,7 @@ namespace OmegaEngine.Graphics
         internal static T[] ReadVertexBuffer<T>(Mesh mesh) where T : struct
         {
             #region Sanity checks
-            if (mesh == null) throw new ArgumentNullException("mesh");
+            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
             #endregion
 
             DataStream vertexStream = mesh.LockVertexBuffer(LockFlags.ReadOnly);
@@ -96,8 +96,8 @@ namespace OmegaEngine.Graphics
         internal static void WriteVertexBuffer<T>(VertexBuffer buffer, T[] data) where T : struct
         {
             #region Sanity checks
-            if (buffer == null) throw new ArgumentNullException("buffer");
-            if (data == null) throw new ArgumentNullException("data");
+            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
+            if (data == null) throw new ArgumentNullException(nameof(data));
             #endregion
 
             using (DataStream vertexStream = buffer.Lock(0, Marshal.SizeOf(typeof(T)) * data.Length, LockFlags.None))
@@ -116,8 +116,8 @@ namespace OmegaEngine.Graphics
         internal static void WriteVertexBuffer<T>(Mesh mesh, T[] data) where T : struct
         {
             #region Sanity checks
-            if (mesh == null) throw new ArgumentNullException("mesh");
-            if (data == null) throw new ArgumentNullException("data");
+            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
+            if (data == null) throw new ArgumentNullException(nameof(data));
             #endregion
 
             using (DataStream vertexStream = mesh.LockVertexBuffer(LockFlags.None))
@@ -140,8 +140,8 @@ namespace OmegaEngine.Graphics
         internal static IndexBuffer CreateIndexBuffer(Device device, short[] data)
         {
             #region Sanity checks
-            if (device == null) throw new ArgumentNullException("device");
-            if (data == null) throw new ArgumentNullException("data");
+            if (device == null) throw new ArgumentNullException(nameof(device));
+            if (data == null) throw new ArgumentNullException(nameof(data));
             #endregion
 
             var buffer = new IndexBuffer(device, sizeof(short) * data.Length, Usage.WriteOnly, Pool.Managed, true);
@@ -159,8 +159,8 @@ namespace OmegaEngine.Graphics
         internal static IndexBuffer CreateIndexBuffer(Device device, int[] data)
         {
             #region Sanity checks
-            if (device == null) throw new ArgumentNullException("device");
-            if (data == null) throw new ArgumentNullException("data");
+            if (device == null) throw new ArgumentNullException(nameof(device));
+            if (data == null) throw new ArgumentNullException(nameof(data));
             #endregion
 
             var buffer = new IndexBuffer(device, sizeof(int) * data.Length, Usage.WriteOnly, Pool.Managed, false);
@@ -179,7 +179,7 @@ namespace OmegaEngine.Graphics
         internal static short[] Read16BitIndexBuffer(IndexBuffer buffer)
         {
             #region Sanity checks
-            if (buffer == null) throw new ArgumentNullException("buffer");
+            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
             #endregion
 
             DataStream indexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
@@ -199,7 +199,7 @@ namespace OmegaEngine.Graphics
         internal static int[] Read32BitIndexBuffer(IndexBuffer buffer)
         {
             #region Sanity checks
-            if (buffer == null) throw new ArgumentNullException("buffer");
+            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
             #endregion
 
             DataStream indexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
@@ -218,7 +218,7 @@ namespace OmegaEngine.Graphics
         internal static int[] ReadIndexBuffer(Mesh mesh)
         {
             #region Sanity checks
-            if (mesh == null) throw new ArgumentNullException("mesh");
+            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
             #endregion
 
             int indexCount = mesh.FaceCount * 3;
@@ -253,8 +253,8 @@ namespace OmegaEngine.Graphics
         internal static void WriteIndexBuffer(IndexBuffer buffer, short[] data)
         {
             #region Sanity checks
-            if (buffer == null) throw new ArgumentNullException("buffer");
-            if (data == null) throw new ArgumentNullException("data");
+            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
+            if (data == null) throw new ArgumentNullException(nameof(data));
             #endregion
 
             using (DataStream indexStream = buffer.Lock(0, sizeof(short) * data.Length, LockFlags.None))
@@ -273,8 +273,8 @@ namespace OmegaEngine.Graphics
         internal static void WriteIndexBuffer(IndexBuffer buffer, int[] data)
         {
             #region Sanity checks
-            if (buffer == null) throw new ArgumentNullException("buffer");
-            if (data == null) throw new ArgumentNullException("data");
+            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
+            if (data == null) throw new ArgumentNullException(nameof(data));
             #endregion
 
             using (DataStream indexStream = buffer.Lock(0, sizeof(int) * data.Length, LockFlags.None))
@@ -292,9 +292,9 @@ namespace OmegaEngine.Graphics
         internal static void WriteIndexBuffer(Mesh mesh, short[] data)
         {
             #region Sanity checks
-            if (mesh == null) throw new ArgumentNullException("mesh");
-            if (data == null) throw new ArgumentNullException("data");
-            if ((mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot16bit, "mesh");
+            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
+            if (data == null) throw new ArgumentNullException(nameof(data));
+            if ((mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot16bit, nameof(mesh));
             #endregion
 
             using (DataStream indexStream = mesh.LockIndexBuffer(LockFlags.None))
@@ -312,9 +312,9 @@ namespace OmegaEngine.Graphics
         internal static void WriteIndexBuffer(Mesh mesh, int[] data)
         {
             #region Sanity checks
-            if (mesh == null) throw new ArgumentNullException("mesh");
-            if (data == null) throw new ArgumentNullException("data");
-            if (!(mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot32bit, "mesh");
+            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
+            if (data == null) throw new ArgumentNullException(nameof(data));
+            if (!(mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot32bit, nameof(mesh));
             #endregion
 
             using (DataStream indexStream = mesh.LockIndexBuffer(LockFlags.None))

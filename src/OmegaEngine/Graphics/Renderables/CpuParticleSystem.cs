@@ -69,7 +69,7 @@ namespace OmegaEngine.Graphics.Renderables
         public CpuParticleSystem(CpuParticlePreset preset)
         {
             #region Sanity checks
-            if (preset == null) throw new ArgumentNullException("preset");
+            if (preset == null) throw new ArgumentNullException(nameof(preset));
             #endregion
 
             Pickable = false;

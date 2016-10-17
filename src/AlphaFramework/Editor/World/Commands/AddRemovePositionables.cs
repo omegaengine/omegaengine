@@ -36,8 +36,8 @@ namespace AlphaFramework.Editor.World.Commands
         protected AddRemovePositionables(UniverseBase<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> positionables)
         {
             #region Sanity checks
-            if (universe == null) throw new ArgumentNullException("universe");
-            if (positionables == null) throw new ArgumentNullException("positionables");
+            if (universe == null) throw new ArgumentNullException(nameof(universe));
+            if (positionables == null) throw new ArgumentNullException(nameof(positionables));
             #endregion
 
             _universe = universe;

@@ -93,7 +93,7 @@ namespace OmegaEngine.Graphics.Renderables
         public void SetupChildViews(View view, float clipTolerance = 2)
         {
             #region Sanity checks
-            if (view == null) throw new ArgumentNullException("view");
+            if (view == null) throw new ArgumentNullException(nameof(view));
             if (_viewSource != null) throw new InvalidOperationException(Resources.CallMethodOnlyOnce);
             #endregion
 

@@ -45,7 +45,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="sceneMap">A texture containing the rendered scene, <c>null</c> if the shader doesn't need it</param>
         protected virtual void RunPasses(Action render, Size sceneSize, RenderTarget sceneMap)
         {
-            if (render == null) throw new ArgumentNullException("render");
+            if (render == null) throw new ArgumentNullException(nameof(render));
 
             int passCount = Effect.Begin(FX.None);
             IList<SasScriptCommand> techniqueScript;
@@ -81,7 +81,7 @@ namespace OmegaEngine.Graphics.Shaders
         {
             #region Sanity checks
             if (IsDisposed) throw new ObjectDisposedException(ToString());
-            if (render == null) throw new ArgumentNullException("render");
+            if (render == null) throw new ArgumentNullException(nameof(render));
             #endregion
 
             #region Values

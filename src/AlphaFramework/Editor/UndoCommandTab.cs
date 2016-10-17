@@ -37,7 +37,7 @@ namespace AlphaFramework.Editor
         protected void ExecuteCommand(IUndoCommand command)
         {
             #region Sanity checks
-            if (command == null) throw new ArgumentNullException("command");
+            if (command == null) throw new ArgumentNullException(nameof(command));
             #endregion
 
             command.Execute();

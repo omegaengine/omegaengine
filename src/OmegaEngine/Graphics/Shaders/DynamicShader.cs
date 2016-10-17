@@ -105,9 +105,9 @@ namespace OmegaEngine.Graphics.Shaders
         public static Effect Parse(Engine engine, string source, bool lighting, IDictionary<string, IEnumerable<int>> controllers)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (string.IsNullOrEmpty(source)) throw new ArgumentNullException("source");
-            if (controllers == null) throw new ArgumentNullException("controllers");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (string.IsNullOrEmpty(source)) throw new ArgumentNullException(nameof(source));
+            if (controllers == null) throw new ArgumentNullException(nameof(controllers));
             #endregion
 
             source += "\n";
@@ -271,8 +271,8 @@ namespace OmegaEngine.Graphics.Shaders
         /// <returns>The compiled effect</returns>
         public static Effect FromContent(Engine engine, string id, bool lighting, IDictionary<string, IEnumerable<int>> controllers)
         {
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (string.IsNullOrEmpty(id)) throw new ArgumentNullException("id");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
 
             using (var stream = ContentManager.GetFileStream("Graphics/Shaders", id))
             {

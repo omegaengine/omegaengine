@@ -29,7 +29,7 @@ namespace OmegaEngine.Graphics
         protected virtual bool IsToRender(PositionableRenderable body)
         {
             #region Sanity checks
-            if (body == null) throw new ArgumentNullException("body");
+            if (body == null) throw new ArgumentNullException(nameof(body));
             #endregion
 
             switch (body.RenderIn)
@@ -41,7 +41,7 @@ namespace OmegaEngine.Graphics
                 case ViewType.GlowOnly:
                     return false;
                 default:
-                    throw new ArgumentException("Invalid ViewType!", "body");
+                    throw new ArgumentException("Invalid ViewType!", nameof(body));
             }
         }
         #endregion
@@ -248,7 +248,7 @@ namespace OmegaEngine.Graphics
         protected void ShaderToRenderTarget(PostShader shader)
         {
             #region Sanity checks
-            if (shader == null) throw new ArgumentNullException("shader");
+            if (shader == null) throw new ArgumentNullException(nameof(shader));
             #endregion
 
             // Make sure input and output texture aren't the same

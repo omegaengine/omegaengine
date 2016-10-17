@@ -210,7 +210,7 @@ namespace OmegaEngine.Graphics
         protected virtual void RenderBody(PositionableRenderable body)
         {
             #region Sanity checks
-            if (body == null) throw new ArgumentNullException("body");
+            if (body == null) throw new ArgumentNullException(nameof(body));
             #endregion
 
             // Apply the camera offset to make sure positioning is right

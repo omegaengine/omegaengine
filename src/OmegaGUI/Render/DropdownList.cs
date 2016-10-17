@@ -551,7 +551,7 @@ namespace OmegaGUI.Render
         /// <summary>Adds an item to the dropdown list control</summary>
         public void AddItem(string text, string tag, object data)
         {
-            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException("text");
+            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException(nameof(text));
 
             // Create a new item and add it
             var newitem = new ListItem {ItemText = text, ItemTag = tag, ItemData = data};
@@ -662,7 +662,7 @@ namespace OmegaGUI.Render
         public void SetSelected(int index)
         {
             if (index >= NumberItems)
-                throw new ArgumentOutOfRangeException("index", "There are not enough items in the list to select this index.");
+                throw new ArgumentOutOfRangeException(nameof(index), "There are not enough items in the list to select this index.");
 
             focusedIndex = selectedIndex = index;
             RaiseChangedEvent(this, false);
@@ -671,7 +671,7 @@ namespace OmegaGUI.Render
         /// <summary>Sets the selected item by text</summary>
         public void SetSelected(string text)
         {
-            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException("text");
+            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException(nameof(text));
 
             int i = FindItem(text);
             if (i == -1)

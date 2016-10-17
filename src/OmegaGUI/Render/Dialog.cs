@@ -790,7 +790,7 @@ namespace OmegaGUI.Render
         /// </summary>
         public static void RequestFocus(Control control)
         {
-            if (control == null) throw new ArgumentNullException("control");
+            if (control == null) throw new ArgumentNullException(nameof(control));
 
             if (controlFocus == control)
                 return; // Already does
@@ -1021,7 +1021,7 @@ namespace OmegaGUI.Render
         /// </summary>
         public void InitializeControl(Control control)
         {
-            if (control == null) throw new ArgumentNullException("control");
+            if (control == null) throw new ArgumentNullException(nameof(control));
 
             // Set the index
             control.index = (uint)controlList.Count;
@@ -1464,7 +1464,7 @@ namespace OmegaGUI.Render
         /// <summary>Draw's some text</summary>
         public void DrawText(string text, Element element, Rectangle rect, bool shadow)
         {
-            if (element == null) throw new ArgumentNullException("element");
+            if (element == null) throw new ArgumentNullException(nameof(element));
 
             // No need to draw fully transparant layers
             if (element.FontColor.Current.Alpha == 0)
@@ -1500,7 +1500,7 @@ namespace OmegaGUI.Render
         /// <summary>Draw a sprite</summary>
         public void DrawSprite(Element element, Rectangle rect)
         {
-            if (element == null) throw new ArgumentNullException("element");
+            if (element == null) throw new ArgumentNullException(nameof(element));
 
             // No need to draw fully transparant layers
             if (element.TextureColor.Current.Alpha == 0)
@@ -1530,7 +1530,7 @@ namespace OmegaGUI.Render
         /// <summary>Draw's some text</summary>
         public void DrawText(string text, Element element, Rectangle rect)
         {
-            if (element == null) throw new ArgumentNullException("element");
+            if (element == null) throw new ArgumentNullException(nameof(element));
 
             DrawText(text, element, rect, false);
         }

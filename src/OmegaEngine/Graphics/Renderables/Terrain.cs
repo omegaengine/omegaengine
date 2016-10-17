@@ -91,7 +91,7 @@ namespace OmegaEngine.Graphics.Renderables
         protected Terrain(Mesh mesh, XMaterial material, bool lighting) : base(mesh, material)
         {
             #region Sanity checks
-            if (mesh == null) throw new ArgumentNullException("mesh");
+            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
             #endregion
 
             SurfaceEffect = SurfaceEffect.Shader;
@@ -149,10 +149,10 @@ namespace OmegaEngine.Graphics.Renderables
         public static Terrain Create(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, string[] textures, ByteVector4Grid occlusionIntervalMap, bool lighting, int blockSize)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (heightMap == null) throw new ArgumentNullException("heightMap");
-            if (textureMap == null) throw new ArgumentNullException("textureMap");
-            if (textures == null) throw new ArgumentNullException("textures");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (heightMap == null) throw new ArgumentNullException(nameof(heightMap));
+            if (textureMap == null) throw new ArgumentNullException(nameof(textureMap));
+            if (textures == null) throw new ArgumentNullException(nameof(textures));
             #endregion
 
             if (TerrainShader.MinShaderModel > engine.Capabilities.MaxShaderModel)
@@ -191,7 +191,7 @@ namespace OmegaEngine.Graphics.Renderables
         {
             #region Sanity checks
             if (!Lighting) throw new InvalidOperationException(Resources.NoModifyTerrainColorWithoutLighting);
-            if (partialColorMap == null) throw new ArgumentNullException("partialColorMap");
+            if (partialColorMap == null) throw new ArgumentNullException(nameof(partialColorMap));
             #endregion
 
             var modifyArea = new Rectangle(start, new Size(partialColorMap.GetLength(0), partialColorMap.GetLength(1)));
@@ -228,7 +228,7 @@ namespace OmegaEngine.Graphics.Renderables
         {
             #region Sanity checks
             if (Lighting) throw new InvalidOperationException(Resources.NoModifyTerrainHeightWithLighting);
-            if (partialHeightMap == null) throw new ArgumentNullException("partialHeightMap");
+            if (partialHeightMap == null) throw new ArgumentNullException(nameof(partialHeightMap));
             #endregion
 
             var modifyArea = new Rectangle(start, new Size(partialHeightMap.GetLength(0), partialHeightMap.GetLength(1)));
@@ -261,7 +261,7 @@ namespace OmegaEngine.Graphics.Renderables
         internal override void Render(Camera camera, GetLights getLights = null)
         {
             #region Sanity checks
-            if (getLights == null) throw new ArgumentNullException("getLights");
+            if (getLights == null) throw new ArgumentNullException(nameof(getLights));
             #endregion
 
             // Rendering this without a shader isn't possible (non-standard FVF)
@@ -326,7 +326,7 @@ namespace OmegaEngine.Graphics.Renderables
         protected virtual Vector3 GetFacePosition(int faceIndex, float u, float v)
         {
             #region Sanity checks
-            if ((faceIndex >= Mesh.FaceCount) || (faceIndex < 0)) throw new ArgumentOutOfRangeException("faceIndex");
+            if ((faceIndex >= Mesh.FaceCount) || (faceIndex < 0)) throw new ArgumentOutOfRangeException(nameof(faceIndex));
             #endregion
 
             // Get the corner positions of the face

@@ -36,7 +36,7 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
         protected Base(ITerrain terrain)
         {
             #region Sanity checks
-            if (terrain == null) throw new ArgumentNullException("terrain");
+            if (terrain == null) throw new ArgumentNullException(nameof(terrain));
             #endregion
 
             Terrain = terrain;

@@ -59,7 +59,7 @@ namespace OmegaEngine.Graphics
         protected override bool IsToRender(PositionableRenderable body)
         {
             #region Sanity checks
-            if (body == null) throw new ArgumentNullException("body");
+            if (body == null) throw new ArgumentNullException(nameof(body));
             #endregion
 
             switch (body.RenderIn)
@@ -72,7 +72,7 @@ namespace OmegaEngine.Graphics
                 case ViewType.NormalOnly:
                     return false;
                 default:
-                    throw new ArgumentException("Invalid ViewType!", "body");
+                    throw new ArgumentException("Invalid ViewType!", nameof(body));
             }
         }
         #endregion

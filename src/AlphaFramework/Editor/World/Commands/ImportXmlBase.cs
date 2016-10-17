@@ -39,10 +39,10 @@ namespace AlphaFramework.Editor.World.Commands
         protected ImportXmlBase(Func<TUniverse> getUniverse, Action<TUniverse> setUniverse, string xmlData, Action refreshHandler)
         {
             #region Sanity checks
-            if (getUniverse == null) throw new ArgumentNullException("getUniverse");
-            if (setUniverse == null) throw new ArgumentNullException("setUniverse");
-            if (xmlData == null) throw new ArgumentNullException("xmlData");
-            if (refreshHandler == null) throw new ArgumentNullException("refreshHandler");
+            if (getUniverse == null) throw new ArgumentNullException(nameof(getUniverse));
+            if (setUniverse == null) throw new ArgumentNullException(nameof(setUniverse));
+            if (xmlData == null) throw new ArgumentNullException(nameof(xmlData));
+            if (refreshHandler == null) throw new ArgumentNullException(nameof(refreshHandler));
             #endregion
 
             _getUniverse = getUniverse;

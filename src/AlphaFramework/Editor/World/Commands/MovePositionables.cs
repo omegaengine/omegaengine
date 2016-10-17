@@ -36,7 +36,7 @@ namespace AlphaFramework.Editor.World.Commands
         public MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
         {
             #region Sanity checks
-            if (positionables == null) throw new ArgumentNullException("positionables");
+            if (positionables == null) throw new ArgumentNullException(nameof(positionables));
             #endregion
 
             // Create local defensive copy of entities

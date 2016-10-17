@@ -67,7 +67,7 @@ namespace OmegaEngine
             }
             set
             {
-                if (value == null) throw new ArgumentNullException("value");
+                if (value == null) throw new ArgumentNullException(nameof(value));
                 if (IsDisposed) throw new ObjectDisposedException(ToString());
 
                 if (IsEngineSet)

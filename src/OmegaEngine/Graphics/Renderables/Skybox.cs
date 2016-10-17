@@ -34,8 +34,8 @@ namespace OmegaEngine.Graphics.Renderables
         protected Skybox(ITextureProvider[] textures)
         {
             #region Sanity checks
-            if (textures == null) throw new ArgumentNullException("textures");
-            if (textures.Length != 6) throw new ArgumentException(string.Format(Resources.WrongTexArrayLength, "6"), "textures");
+            if (textures == null) throw new ArgumentNullException(nameof(textures));
+            if (textures.Length != 6) throw new ArgumentException(string.Format(Resources.WrongTexArrayLength, "6"), nameof(textures));
             #endregion
 
             for (int i = 0; i < textures.Length; i++)

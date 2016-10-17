@@ -43,8 +43,8 @@ namespace FrameOfReference.Presentation
         public MenuPresenter(Engine engine, Universe universe) : base(engine, universe)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (universe == null) throw new ArgumentNullException("universe");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (universe == null) throw new ArgumentNullException(nameof(universe));
             #endregion
 
             // Target a point slightly above the center of the map and then rotate

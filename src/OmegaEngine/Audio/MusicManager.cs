@@ -96,8 +96,8 @@ namespace OmegaEngine.Audio
         public void AddSong(string id, params string[] themes)
         {
             #region Sanity checks
-            if (string.IsNullOrEmpty(id)) throw new ArgumentNullException("id");
-            if (themes == null) throw new ArgumentNullException("themes");
+            if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
+            if (themes == null) throw new ArgumentNullException(nameof(themes));
             #endregion
 
             // Cancel if the music manager already knows the song
@@ -152,7 +152,7 @@ namespace OmegaEngine.Audio
         public void PlayTheme(string theme)
         {
             #region Sanity checks
-            if (string.IsNullOrEmpty(theme)) throw new ArgumentNullException("theme");
+            if (string.IsNullOrEmpty(theme)) throw new ArgumentNullException(nameof(theme));
             #endregion
 
             _currentTheme = theme;

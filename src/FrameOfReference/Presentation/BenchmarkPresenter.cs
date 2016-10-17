@@ -56,9 +56,9 @@ namespace FrameOfReference.Presentation
         public BenchmarkPresenter(Engine engine, Universe universe, Action<string> callback) : base(engine, universe)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (universe == null) throw new ArgumentNullException("universe");
-            if (callback == null) throw new ArgumentNullException("callback");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (universe == null) throw new ArgumentNullException(nameof(universe));
+            if (callback == null) throw new ArgumentNullException(nameof(callback));
             #endregion
 
             _callback = callback;

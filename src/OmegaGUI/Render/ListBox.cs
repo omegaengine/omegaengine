@@ -564,7 +564,7 @@ namespace OmegaGUI.Render
         /// <summary>Adds an item to the list box control</summary>
         public void AddItem(string text, string tag, object data)
         {
-            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException("text");
+            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException(nameof(text));
 
             // Create a new item and add it
             var newitem = new ListItem {ItemText = text, ItemTag = tag, ItemData = data, IsItemSelected = false};
@@ -577,7 +577,7 @@ namespace OmegaGUI.Render
         /// <summary>Inserts an item to the list box control</summary>
         public void InsertItem(int index, string text, object data)
         {
-            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException("text");
+            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException(nameof(text));
 
             // Create a new item and insert it
             var newitem = new ListItem {ItemText = text, ItemData = data, IsItemSelected = false};
@@ -666,7 +666,7 @@ namespace OmegaGUI.Render
         /// <summary>Sets the selected item by text</summary>
         public void SetSelected(string text)
         {
-            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException("text");
+            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException(nameof(text));
 
             for (int i = 0; i < itemList.Count; i++)
                 if (itemList[i].ItemText == text) SelectItem(i);

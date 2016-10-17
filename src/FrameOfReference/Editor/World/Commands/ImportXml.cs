@@ -46,8 +46,8 @@ namespace FrameOfReference.Editor.World.Commands
         protected override void TransferNonXmlData(Universe oldUniverse, Universe newUniverse)
         {
             #region Sanity checks
-            if (oldUniverse == null) throw new ArgumentNullException("oldUniverse");
-            if (newUniverse == null) throw new ArgumentNullException("newUniverse");
+            if (oldUniverse == null) throw new ArgumentNullException(nameof(oldUniverse));
+            if (newUniverse == null) throw new ArgumentNullException(nameof(newUniverse));
             #endregion
 
             newUniverse.Terrain = oldUniverse.Terrain;

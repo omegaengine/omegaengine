@@ -39,7 +39,7 @@ namespace AlphaFramework.World.Paths
         public SimplePathfinder(bool[,] obstructionMap)
         {
             #region Sanity checks
-            if (obstructionMap == null) throw new ArgumentNullException("obstructionMap");
+            if (obstructionMap == null) throw new ArgumentNullException(nameof(obstructionMap));
             #endregion
 
             _obstructionMap = obstructionMap;

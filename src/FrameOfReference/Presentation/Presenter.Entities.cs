@@ -112,8 +112,8 @@ namespace FrameOfReference.Presentation
         protected void UpdateRepresentation(Positionable<Vector2> element, IPositionable representation)
         {
             #region Sanity checks
-            if (element == null) throw new ArgumentNullException("element");
-            if (representation == null) throw new ArgumentNullException("representation");
+            if (element == null) throw new ArgumentNullException(nameof(element));
+            if (representation == null) throw new ArgumentNullException(nameof(representation));
             #endregion
 
             representation.Position = Universe.Terrain.ToEngineCoords(element.Position);
@@ -125,8 +125,8 @@ namespace FrameOfReference.Presentation
         protected void UpdateRepresentation(Entity element, PositionableRenderable representation)
         {
             #region Sanity checks
-            if (element == null) throw new ArgumentNullException("element");
-            if (representation == null) throw new ArgumentNullException("representation");
+            if (element == null) throw new ArgumentNullException(nameof(element));
+            if (representation == null) throw new ArgumentNullException(nameof(representation));
             #endregion
 
             representation.Position = Universe.Terrain.ToEngineCoords(element.Position);
@@ -139,8 +139,8 @@ namespace FrameOfReference.Presentation
         protected void UpdateRepresentation(Entity element, PointLight representation)
         {
             #region Sanity checks
-            if (element == null) throw new ArgumentNullException("element");
-            if (representation == null) throw new ArgumentNullException("representation");
+            if (element == null) throw new ArgumentNullException(nameof(element));
+            if (representation == null) throw new ArgumentNullException(nameof(representation));
             #endregion
 
             representation.Position = Universe.Terrain.ToEngineCoords(element.Position) +

@@ -86,7 +86,7 @@ namespace OmegaEngine.Graphics.Shaders
         public ParticleShader(ITextureProvider particleTexture)
         {
             #region Sanity checks
-            if (particleTexture == null) throw new ArgumentNullException("particleTexture");
+            if (particleTexture == null) throw new ArgumentNullException(nameof(particleTexture));
             #endregion
 
             ParticleTexture = particleTexture;
@@ -107,9 +107,9 @@ namespace OmegaEngine.Graphics.Shaders
         public override void Apply(Action render, XMaterial material, Camera camera, params LightSource[] lights)
         {
             #region Sanity checks
-            if (render == null) throw new ArgumentNullException("render");
-            if (camera == null) throw new ArgumentNullException("camera");
-            if (lights == null) throw new ArgumentNullException("lights");
+            if (render == null) throw new ArgumentNullException(nameof(render));
+            if (camera == null) throw new ArgumentNullException(nameof(camera));
+            if (lights == null) throw new ArgumentNullException(nameof(lights));
             #endregion
 
             // Always reset the texture since it might change its memory address at a device reset

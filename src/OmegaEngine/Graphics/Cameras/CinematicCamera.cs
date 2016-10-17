@@ -48,7 +48,7 @@ namespace OmegaEngine.Graphics.Cameras
         public CinematicCamera(DoubleVector3 sourcePosition, DoubleVector3 targetPosition, Quaternion sourceQuat, Quaternion targetQuat, float duration, Engine engine)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             _sourcePosition = sourcePosition;

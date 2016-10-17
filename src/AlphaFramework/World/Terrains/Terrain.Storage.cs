@@ -72,7 +72,7 @@ namespace AlphaFramework.World.Terrains
         public void LoadHeightMap(string path)
         {
             #region Sanity checks
-            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
+            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
             #endregion
 
             using (var stream = File.Open(path, FileMode.Open))
@@ -95,7 +95,7 @@ namespace AlphaFramework.World.Terrains
         public void LoadOcclusionIntervalMap(string path)
         {
             #region Sanity checks
-            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
+            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
             #endregion
 
             using (var stream = File.Open(path, FileMode.Open))
@@ -118,7 +118,7 @@ namespace AlphaFramework.World.Terrains
         public void LoadTextureMap(string path)
         {
             #region Sanity checks
-            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
+            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
             #endregion
 
             using (var stream = File.Open(path, FileMode.Open))

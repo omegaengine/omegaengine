@@ -44,8 +44,8 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
         protected override void ModifyTerrain(Point offset, TerrainBrush brush, byte[,] oldData, byte[,] newData)
         {
             #region Sanity checks
-            if (oldData == null) throw new ArgumentNullException("oldData");
-            if (newData == null) throw new ArgumentNullException("newData");
+            if (oldData == null) throw new ArgumentNullException(nameof(oldData));
+            if (newData == null) throw new ArgumentNullException(nameof(newData));
             #endregion
 
             var noise = new PerlinNoise {InitAmplitude = _amplitude, InitFrequency = _frequency};

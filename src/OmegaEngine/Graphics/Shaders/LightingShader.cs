@@ -38,8 +38,8 @@ namespace OmegaEngine.Graphics.Shaders
         protected override void RunPasses(Action render, XMaterial material, params LightSource[] lights)
         {
             #region Sanity checks
-            if (render == null) throw new ArgumentNullException("render");
-            if (lights == null) throw new ArgumentNullException("lights");
+            if (render == null) throw new ArgumentNullException(nameof(render));
+            if (lights == null) throw new ArgumentNullException(nameof(lights));
             #endregion
 
             // Note: Manual control of shader logic (no SAS scripting)

@@ -73,7 +73,7 @@ namespace OmegaEngine.Input
         public MouseInputProvider(Control control)
         {
             #region Sanity checks
-            if (control == null) throw new ArgumentNullException("control");
+            if (control == null) throw new ArgumentNullException(nameof(control));
             #endregion
 
             _control = control;

@@ -57,7 +57,7 @@ namespace AlphaFramework.World.Terrains
         public OcclusionIntervalMapGenerator(ByteGrid heightMap, float stretchH = 1, float stretchV = 1, double lightSourceInclination = 90)
         {
             #region Sanity chekcs
-            if (heightMap == null) throw new ArgumentNullException("heightMap");
+            if (heightMap == null) throw new ArgumentNullException(nameof(heightMap));
             #endregion
 
             _heightMap = heightMap;
@@ -93,7 +93,7 @@ namespace AlphaFramework.World.Terrains
         public static OcclusionIntervalMapGenerator FromTerrain(ITerrain terrain, double lightSourceInclination)
         {
             #region Sanity checks
-            if (terrain == null) throw new ArgumentNullException("terrain");
+            if (terrain == null) throw new ArgumentNullException(nameof(terrain));
             #endregion
 
             return new OcclusionIntervalMapGenerator(terrain.HeightMap, terrain.Size.StretchH, terrain.Size.StretchV, lightSourceInclination);

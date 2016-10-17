@@ -333,7 +333,7 @@ namespace OmegaEngine.Graphics.Renderables
         {
             #region Sanity checks
             if (IsDisposed) throw new ObjectDisposedException(ToString());
-            if (camera == null) throw new ArgumentNullException("camera");
+            if (camera == null) throw new ArgumentNullException(nameof(camera));
             #endregion
 
             // Auto-adapt the rotation for billboarding
@@ -374,9 +374,9 @@ namespace OmegaEngine.Graphics.Renderables
         protected void RenderHelper(Action render, XMaterial material, Camera camera, params LightSource[] lights)
         {
             #region Sanity checks
-            if (render == null) throw new ArgumentNullException("render");
-            if (camera == null) throw new ArgumentNullException("camera");
-            if (lights == null) throw new ArgumentNullException("lights");
+            if (render == null) throw new ArgumentNullException(nameof(render));
+            if (camera == null) throw new ArgumentNullException(nameof(camera));
+            if (lights == null) throw new ArgumentNullException(nameof(lights));
             #endregion
 
             SetEngineState(material);
@@ -495,7 +495,7 @@ namespace OmegaEngine.Graphics.Renderables
         public bool IsVisible(Camera camera)
         {
             #region Sanity checks
-            if (camera == null) throw new ArgumentNullException("camera");
+            if (camera == null) throw new ArgumentNullException(nameof(camera));
             #endregion
 
             // Filter invisible bodies

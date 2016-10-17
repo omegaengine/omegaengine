@@ -69,8 +69,8 @@ namespace FrameOfReference.Presentation
         public EditorPresenter(Engine engine, Universe universe, bool lighting) : base(engine, universe)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (universe == null) throw new ArgumentNullException("universe");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (universe == null) throw new ArgumentNullException(nameof(universe));
             #endregion
 
             Lighting = lighting;
@@ -223,7 +223,7 @@ namespace FrameOfReference.Presentation
         public override void Click(MouseEventArgs e, bool accumulate)
         {
             #region Sanity checks
-            if (e == null) throw new ArgumentNullException("e");
+            if (e == null) throw new ArgumentNullException(nameof(e));
             #endregion
 
             if (TerrainBrush != null)

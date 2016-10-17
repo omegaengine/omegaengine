@@ -36,7 +36,7 @@ namespace OmegaEngine
         internal EngineCapabilities(Direct3D direct3D, EngineConfig config)
         {
             #region Sanity checks
-            if (direct3D == null) throw new ArgumentNullException("direct3D");
+            if (direct3D == null) throw new ArgumentNullException(nameof(direct3D));
             #endregion
 
             _direct3D = direct3D;

@@ -93,7 +93,7 @@ namespace AlphaFramework.World
         protected virtual void Update(IUpdateable updateable, double elapsedGameTime)
         {
             #region Sanity checks
-            if (updateable == null) throw new ArgumentNullException("updateable");
+            if (updateable == null) throw new ArgumentNullException(nameof(updateable));
             #endregion
 
             updateable.Update(elapsedGameTime);

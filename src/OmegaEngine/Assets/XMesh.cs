@@ -66,8 +66,8 @@ namespace OmegaEngine.Assets
         protected XMesh(Engine engine, Stream stream, string meshName)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (stream == null) throw new ArgumentNullException("stream");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
             #endregion
 
             // Load mesh and materials
@@ -218,7 +218,7 @@ namespace OmegaEngine.Assets
         public static XMesh Get(Engine engine, string id)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             if (string.IsNullOrEmpty(id)) return null;
             #endregion
 

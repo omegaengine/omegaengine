@@ -27,7 +27,7 @@ namespace OmegaEngine.Graphics
         private static void CloneAddTexture(ref Mesh mesh)
         {
             if (mesh.VertexFormat.HasFlag(VertexFormat.Texture1))
-                throw new ArgumentException("The mesh already contains texture coordinates.", "mesh");
+                throw new ArgumentException("The mesh already contains texture coordinates.", nameof(mesh));
 
             // Clones the mesh, disposes the old one and then swaps them
             Mesh newMesh = mesh.Clone(mesh.Device, mesh.CreationOptions, mesh.VertexFormat | VertexFormat.Texture1);
@@ -45,9 +45,9 @@ namespace OmegaEngine.Graphics
             #region Sanity checks
             // Check the mesh looks like a box and has texture coordinates
             if (mesh.VertexCount != 24 || mesh.FaceCount != 12)
-                throw new ArgumentException("The mesh does not look like a box.", "mesh");
+                throw new ArgumentException("The mesh does not look like a box.", nameof(mesh));
             if (mesh.VertexFormat != PositionNormalTextured.Format)
-                throw new ArgumentException("The mesh doesn't have the correct format.", "mesh");
+                throw new ArgumentException("The mesh doesn't have the correct format.", nameof(mesh));
             #endregion
 
             // Copy the vertex buffer content to an array
@@ -165,7 +165,7 @@ namespace OmegaEngine.Graphics
         public static Mesh Quad(Device device, float width, float height)
         {
             #region Sanity checks
-            if (device == null) throw new ArgumentNullException("device");
+            if (device == null) throw new ArgumentNullException(nameof(device));
             #endregion
 
             var vertexes = new[]
@@ -198,7 +198,7 @@ namespace OmegaEngine.Graphics
         public static Mesh Box(Device device, float width, float height, float depth)
         {
             #region Sanity checks
-            if (device == null) throw new ArgumentNullException("device");
+            if (device == null) throw new ArgumentNullException(nameof(device));
             #endregion
 
             // Create an untextured box
@@ -224,9 +224,9 @@ namespace OmegaEngine.Graphics
         public static Mesh Sphere(Device device, float radius, int slices, int stacks)
         {
             #region Sanity checks
-            if (device == null) throw new ArgumentNullException("device");
-            if (slices <= 0) throw new ArgumentOutOfRangeException("slices");
-            if (stacks <= 0) throw new ArgumentOutOfRangeException("stacks");
+            if (device == null) throw new ArgumentNullException(nameof(device));
+            if (slices <= 0) throw new ArgumentOutOfRangeException(nameof(slices));
+            if (stacks <= 0) throw new ArgumentOutOfRangeException(nameof(stacks));
             #endregion
 
             int numVertexes = (slices + 1) * (stacks + 1);
@@ -306,9 +306,9 @@ namespace OmegaEngine.Graphics
         public static Mesh Cylinder(Device device, float radius1, float radius2, float length, int slices, int stacks)
         {
             #region Sanity checks
-            if (device == null) throw new ArgumentNullException("device");
-            if (slices <= 0) throw new ArgumentOutOfRangeException("slices");
-            if (stacks <= 0) throw new ArgumentOutOfRangeException("stacks");
+            if (device == null) throw new ArgumentNullException(nameof(device));
+            if (slices <= 0) throw new ArgumentOutOfRangeException(nameof(slices));
+            if (stacks <= 0) throw new ArgumentOutOfRangeException(nameof(stacks));
             #endregion
 
             // Create an untextured cylinder
@@ -334,7 +334,7 @@ namespace OmegaEngine.Graphics
         public static Mesh Disc(Device device, float radiusInner, float radiusOuter, float height, int segments)
         {
             #region Sanity checks
-            if (device == null) throw new ArgumentNullException("device");
+            if (device == null) throw new ArgumentNullException(nameof(device));
             #endregion
 
             const float tuInner = 0, tuOuter = 1;

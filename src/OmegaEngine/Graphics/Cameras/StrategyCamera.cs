@@ -56,8 +56,8 @@ namespace OmegaEngine.Graphics.Cameras
             set
             {
                 #region Sanity checks
-                if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException("value", Resources.NumberNotReal);
-                if (value <= 0) throw new ArgumentOutOfRangeException("value", Resources.ValueNotPositive);
+                if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
+                if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value), Resources.ValueNotPositive);
                 #endregion
 
                 // Apply limits (in case of conflict minimum is more important than maximum)
@@ -81,7 +81,7 @@ namespace OmegaEngine.Graphics.Cameras
             set
             {
                 #region Sanity checks
-                if (float.IsInfinity(value) || float.IsNaN(value)) throw new ArgumentOutOfRangeException("value", Resources.NumberNotReal);
+                if (float.IsInfinity(value) || float.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
                 #endregion
 
                 value.DegreeToRadian().To(ref _horizontalRotation, ref ViewDirty, ref ViewFrustumDirty);
@@ -101,8 +101,8 @@ namespace OmegaEngine.Graphics.Cameras
             set
             {
                 #region Sanity checks
-                if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException("value", Resources.NumberNotReal);
-                if (value <= 0) throw new ArgumentOutOfRangeException("value", Resources.ValueNotPositive);
+                if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
+                if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value), Resources.ValueNotPositive);
                 #endregion
 
                 value.To(ref _minRadius, ref ViewDirty, ref ViewFrustumDirty);
@@ -122,8 +122,8 @@ namespace OmegaEngine.Graphics.Cameras
             set
             {
                 #region Sanity checks
-                if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException("value", Resources.NumberNotReal);
-                if (value <= 0) throw new ArgumentOutOfRangeException("value", Resources.ValueNotPositive);
+                if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
+                if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value), Resources.ValueNotPositive);
                 #endregion
 
                 value.To(ref _maxRadius, ref ViewDirty, ref ViewFrustumDirty);
@@ -144,9 +144,9 @@ namespace OmegaEngine.Graphics.Cameras
             set
             {
                 #region Sanity checks
-                if (float.IsInfinity(value) || float.IsNaN(value)) throw new ArgumentOutOfRangeException("value", Resources.NumberNotReal);
-                if (value <= 0) throw new ArgumentOutOfRangeException("value", Resources.ValueNotPositive);
-                if (value >= 90) throw new ArgumentOutOfRangeException("value", Resources.AngleNotBelow90);
+                if (float.IsInfinity(value) || float.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
+                if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value), Resources.ValueNotPositive);
+                if (value >= 90) throw new ArgumentOutOfRangeException(nameof(value), Resources.AngleNotBelow90);
                 #endregion
 
                 value.DegreeToRadian().To(ref _minAngle, ref ViewDirty, ref ViewFrustumDirty);
@@ -167,9 +167,9 @@ namespace OmegaEngine.Graphics.Cameras
             set
             {
                 #region Sanity checks
-                if (float.IsInfinity(value) || float.IsNaN(value)) throw new ArgumentOutOfRangeException("value", Resources.NumberNotReal);
-                if (value <= 0) throw new ArgumentOutOfRangeException("value", Resources.ValueNotPositive);
-                if (value >= 90) throw new ArgumentOutOfRangeException("value", Resources.AngleNotBelow90);
+                if (float.IsInfinity(value) || float.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
+                if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value), Resources.ValueNotPositive);
+                if (value >= 90) throw new ArgumentOutOfRangeException(nameof(value), Resources.AngleNotBelow90);
                 #endregion
 
                 value.DegreeToRadian().To(ref _maxAngle, ref ViewDirty, ref ViewFrustumDirty);

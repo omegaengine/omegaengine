@@ -105,7 +105,7 @@ namespace OmegaEngine.Graphics
             {
                 #region Sanity checks
                 if (value.X < 0 || value.Y < 0 || value.Width < 0 || value.Height < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 #endregion
 
                 if (_area.Size != value.Size)
@@ -236,10 +236,10 @@ namespace OmegaEngine.Graphics
         public View(Scene scene, Camera camera, Rectangle area = new Rectangle())
         {
             #region Sanity checks
-            if (scene == null) throw new ArgumentNullException("scene");
-            if (camera == null) throw new ArgumentNullException("camera");
+            if (scene == null) throw new ArgumentNullException(nameof(scene));
+            if (camera == null) throw new ArgumentNullException(nameof(camera));
             if (area.X < 0 || area.Y < 0 || area.Width < 0 || area.Height < 0)
-                throw new ArgumentOutOfRangeException("area");
+                throw new ArgumentOutOfRangeException(nameof(area));
             #endregion
 
             RegisterChild(_childViews);
@@ -381,7 +381,7 @@ namespace OmegaEngine.Graphics
         public void SwingCameraTo(Camera target, float duration = 1)
         {
             #region Sanity checks
-            if (target == null) throw new ArgumentNullException("target");
+            if (target == null) throw new ArgumentNullException(nameof(target));
             #endregion
 
             // Create the transitional camera and make it active

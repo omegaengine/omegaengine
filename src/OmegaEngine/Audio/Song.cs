@@ -47,7 +47,7 @@ namespace OmegaEngine.Audio
         public Song(string id)
         {
             #region Sanity checks
-            if (string.IsNullOrEmpty(id)) throw new ArgumentNullException("id");
+            if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
             #endregion
 
             ID = id;

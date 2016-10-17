@@ -62,7 +62,7 @@ namespace OmegaGUI
         public GuiManager(Engine engine)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             _engine = engine;

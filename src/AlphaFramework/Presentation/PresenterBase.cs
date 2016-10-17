@@ -40,8 +40,8 @@ namespace AlphaFramework.Presentation
         protected PresenterBase(Engine engine, TUniverse universe)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (universe == null) throw new ArgumentNullException("universe");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (universe == null) throw new ArgumentNullException(nameof(universe));
             #endregion
 
             Engine = engine;

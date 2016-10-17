@@ -38,9 +38,9 @@ namespace OmegaEngine.Graphics.Shaders
         #region Annotation String
         public static string FindAnnotationString(Effect effect, EffectHandle handle, string name)
         {
-            if (effect == null) throw new ArgumentNullException("effect");
-            if (handle == null) throw new ArgumentNullException("handle");
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
+            if (effect == null) throw new ArgumentNullException(nameof(effect));
+            if (handle == null) throw new ArgumentNullException(nameof(handle));
+            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
             ParameterDescription paramDesc = effect.GetParameterDescription(handle);
             for (int i = 0; i < paramDesc.Annotations; i++)
@@ -60,9 +60,9 @@ namespace OmegaEngine.Graphics.Shaders
         #region Technique Annotation String
         public static string FindTechniqueAnnotationString(Effect effect, EffectHandle handle, string name)
         {
-            if (effect == null) throw new ArgumentNullException("effect");
-            if (handle == null) throw new ArgumentNullException("handle");
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
+            if (effect == null) throw new ArgumentNullException(nameof(effect));
+            if (handle == null) throw new ArgumentNullException(nameof(handle));
+            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
             TechniqueDescription paramDesc = effect.GetTechniqueDescription(handle);
             for (int i = 0; i < paramDesc.Annotations; i++)
@@ -82,9 +82,9 @@ namespace OmegaEngine.Graphics.Shaders
         #region Pass Annotation String
         public static string FindPassAnnotationString(Effect effect, EffectHandle handle, string name)
         {
-            if (effect == null) throw new ArgumentNullException("effect");
-            if (handle == null) throw new ArgumentNullException("handle");
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
+            if (effect == null) throw new ArgumentNullException(nameof(effect));
+            if (handle == null) throw new ArgumentNullException(nameof(handle));
+            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
             PassDescription paramDesc = effect.GetPassDescription(handle);
             for (int i = 0; i < paramDesc.Annotations; i++)
@@ -104,9 +104,9 @@ namespace OmegaEngine.Graphics.Shaders
         #region Annotation Float
         public static float FindAnnotationFloat(Effect effect, EffectHandle handle, string name)
         {
-            if (effect == null) throw new ArgumentNullException("effect");
-            if (handle == null) throw new ArgumentNullException("handle");
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
+            if (effect == null) throw new ArgumentNullException(nameof(effect));
+            if (handle == null) throw new ArgumentNullException(nameof(handle));
+            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
             ParameterDescription paramDesc = effect.GetParameterDescription(handle);
             for (int i = 0; i < paramDesc.Annotations; i++)
@@ -147,9 +147,9 @@ namespace OmegaEngine.Graphics.Shaders
         #region Annotation Vector4
         public static Vector4 FindAnnotationVector4(Effect effect, EffectHandle handle, string name)
         {
-            if (effect == null) throw new ArgumentNullException("effect");
-            if (handle == null) throw new ArgumentNullException("handle");
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
+            if (effect == null) throw new ArgumentNullException(nameof(effect));
+            if (handle == null) throw new ArgumentNullException(nameof(handle));
+            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
             var ret = new Vector4();
 
@@ -215,8 +215,8 @@ namespace OmegaEngine.Graphics.Shaders
         #region Get Integer
         public static int GetIntegerFromParam(Effect effect, EffectHandle handle)
         {
-            if (effect == null) throw new ArgumentNullException("effect");
-            if (handle == null) throw new ArgumentNullException("handle");
+            if (effect == null) throw new ArgumentNullException(nameof(effect));
+            if (handle == null) throw new ArgumentNullException(nameof(handle));
 
             ParameterDescription desc = effect.GetParameterDescription(handle);
             switch (desc.Type)
@@ -239,8 +239,8 @@ namespace OmegaEngine.Graphics.Shaders
         #region Set Integer
         public static void SetIntegerParam(Effect effect, EffectHandle handle, int value)
         {
-            if (effect == null) throw new ArgumentNullException("effect");
-            if (handle == null) throw new ArgumentNullException("handle");
+            if (effect == null) throw new ArgumentNullException(nameof(effect));
+            if (handle == null) throw new ArgumentNullException(nameof(handle));
 
             ParameterDescription desc = effect.GetParameterDescription(handle);
             switch (desc.Type)
@@ -264,8 +264,8 @@ namespace OmegaEngine.Graphics.Shaders
         #region Get Float
         public static float GetFloatFromParam(Effect effect, EffectHandle handle)
         {
-            if (effect == null) throw new ArgumentNullException("effect");
-            if (handle == null) throw new ArgumentNullException("handle");
+            if (effect == null) throw new ArgumentNullException(nameof(effect));
+            if (handle == null) throw new ArgumentNullException(nameof(handle));
 
             ParameterDescription desc = effect.GetParameterDescription(handle);
             switch (desc.Type)
@@ -288,8 +288,8 @@ namespace OmegaEngine.Graphics.Shaders
         #region Get Vector4
         public static Vector4 GetVector4FromParam(Effect effect, EffectHandle handle)
         {
-            if (effect == null) throw new ArgumentNullException("effect");
-            if (handle == null) throw new ArgumentNullException("handle");
+            if (effect == null) throw new ArgumentNullException(nameof(effect));
+            if (handle == null) throw new ArgumentNullException(nameof(handle));
 
             var ret = new Vector4(0.0f, 0.0f, 0.0f, 0.0f);
             ParameterDescription desc = effect.GetParameterDescription(handle);

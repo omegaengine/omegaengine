@@ -74,7 +74,7 @@ namespace OmegaGUI.Render
         /// <param name="engine">The rendering engine conaining the Direct3D device</param>
         public DialogManager(Engine engine)
         {
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
 
             Engine = engine;
             OnCreateDevice();

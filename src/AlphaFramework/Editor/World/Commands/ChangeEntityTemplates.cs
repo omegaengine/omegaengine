@@ -34,8 +34,8 @@ namespace AlphaFramework.Editor.World.Commands
         public ChangeEntityTemplates(IEnumerable<ITemplated> entities, string template)
         {
             #region Sanity checks
-            if (entities == null) throw new ArgumentNullException("entities");
-            if (template == null) throw new ArgumentNullException("template");
+            if (entities == null) throw new ArgumentNullException(nameof(entities));
+            if (template == null) throw new ArgumentNullException(nameof(template));
             #endregion
 
             // Create local defensive copy of entities

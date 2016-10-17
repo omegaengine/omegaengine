@@ -38,9 +38,9 @@ namespace AlphaFramework.Editor.World.Commands
         protected ImportMap(ITerrain terrain, string fileName, Action refreshHandler)
         {
             #region Sanity checks
-            if (terrain == null) throw new ArgumentNullException("terrain");
-            if (string.IsNullOrEmpty(fileName)) throw new ArgumentNullException("fileName");
-            if (refreshHandler == null) throw new ArgumentNullException("refreshHandler");
+            if (terrain == null) throw new ArgumentNullException(nameof(terrain));
+            if (string.IsNullOrEmpty(fileName)) throw new ArgumentNullException(nameof(fileName));
+            if (refreshHandler == null) throw new ArgumentNullException(nameof(refreshHandler));
             #endregion
 
             Terrain = terrain;

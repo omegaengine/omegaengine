@@ -29,8 +29,8 @@ namespace OmegaEngine
         public static void Interpolate(this Engine engine, double start, double target, Action<double> callback, double duration = 1, bool trigonometric = true)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (callback == null) throw new ArgumentNullException("callback");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (callback == null) throw new ArgumentNullException(nameof(callback));
             #endregion
 
             bool negative = start > target;
@@ -76,7 +76,7 @@ namespace OmegaEngine
         public static void FadeIn(this Engine engine)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             engine.Interpolate(
@@ -91,7 +91,7 @@ namespace OmegaEngine
         public static void DimDown(this Engine engine)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             engine.Interpolate(
@@ -106,7 +106,7 @@ namespace OmegaEngine
         public static void DimUp(this Engine engine)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             engine.Interpolate(

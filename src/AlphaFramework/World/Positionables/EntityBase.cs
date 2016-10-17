@@ -43,7 +43,7 @@ namespace AlphaFramework.World.Positionables
             set
             {
                 #region Sanity check
-                if (string.IsNullOrEmpty(value)) throw new ArgumentNullException("value");
+                if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value));
                 #endregion
 
                 // Create copy of the class so run-time modifications for individual entities are possible

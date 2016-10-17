@@ -70,9 +70,9 @@ namespace FrameOfReference.Presentation
         public Statistics(string gameVersion, string engineVersion, Universe universe)
         {
             #region Sanity checks
-            if (string.IsNullOrEmpty(gameVersion)) throw new ArgumentNullException("gameVersion");
-            if (string.IsNullOrEmpty(engineVersion)) throw new ArgumentNullException("engineVersion");
-            if (universe == null) throw new ArgumentNullException("universe");
+            if (string.IsNullOrEmpty(gameVersion)) throw new ArgumentNullException(nameof(gameVersion));
+            if (string.IsNullOrEmpty(engineVersion)) throw new ArgumentNullException(nameof(engineVersion));
+            if (universe == null) throw new ArgumentNullException(nameof(universe));
             #endregion
 
             GameVersion = gameVersion;

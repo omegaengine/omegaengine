@@ -43,7 +43,7 @@ namespace OmegaEngine.Graphics.Renderables
         public VertexGroup(PrimitiveType primitiveType, PositionColored[] vertexes, short[] indexes = null)
         {
             #region Sanity checks
-            if (vertexes == null) throw new ArgumentNullException("vertexes");
+            if (vertexes == null) throw new ArgumentNullException(nameof(vertexes));
             #endregion
 
             _primitiveType = primitiveType;
@@ -64,7 +64,7 @@ namespace OmegaEngine.Graphics.Renderables
         public VertexGroup(PrimitiveType primitiveType, PositionNormalColored[] vertexes, short[] indexes = null)
         {
             #region Sanity checks
-            if (vertexes == null) throw new ArgumentNullException("vertexes");
+            if (vertexes == null) throw new ArgumentNullException(nameof(vertexes));
             #endregion
 
             _primitiveType = primitiveType;
@@ -87,7 +87,7 @@ namespace OmegaEngine.Graphics.Renderables
             short[] indexes, XMaterial material)
         {
             #region Sanity checks
-            if (vertexes == null) throw new ArgumentNullException("vertexes");
+            if (vertexes == null) throw new ArgumentNullException(nameof(vertexes));
             #endregion
 
             _primitiveType = primitiveType;
@@ -112,7 +112,7 @@ namespace OmegaEngine.Graphics.Renderables
             short[] indexes, XMaterial material)
         {
             #region Sanity checks
-            if (vertexes == null) throw new ArgumentNullException("vertexes");
+            if (vertexes == null) throw new ArgumentNullException(nameof(vertexes));
             #endregion
 
             _primitiveType = primitiveType;

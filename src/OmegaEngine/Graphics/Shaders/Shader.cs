@@ -456,7 +456,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="passScipt">Is this a pass script?</param>
         protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action render, Size sceneSize, RenderTarget sceneMap, bool passScipt)
         {
-            if (script == null) throw new ArgumentNullException("script");
+            if (script == null) throw new ArgumentNullException(nameof(script));
 
             #region State variables
             //Color clearColor = Color.Black;

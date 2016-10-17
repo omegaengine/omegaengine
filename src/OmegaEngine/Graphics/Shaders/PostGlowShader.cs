@@ -60,7 +60,7 @@ namespace OmegaEngine.Graphics.Shaders
         public PostGlowShader(TextureView glowView)
         {
             #region Sanity checks
-            if (glowView == null) throw new ArgumentNullException("glowView");
+            if (glowView == null) throw new ArgumentNullException(nameof(glowView));
             #endregion
 
             _glowView = glowView;

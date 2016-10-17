@@ -77,9 +77,9 @@ namespace OmegaEngine.Graphics.VertexDecl
         public PositionMultiTextured(Vector3 position, float tu, float tv, Vector4 occlusionIntervals, float[] texWeights, Color4 color)
         {
             #region Sanity checks
-            if (texWeights == null) throw new ArgumentNullException("texWeights");
+            if (texWeights == null) throw new ArgumentNullException(nameof(texWeights));
             if (texWeights.Length != 16)
-                throw new ArgumentException(string.Format(Resources.WrongTexArrayLength, "16"), "texWeights");
+                throw new ArgumentException(string.Format(Resources.WrongTexArrayLength, "16"), nameof(texWeights));
             #endregion
 
             Position = position;

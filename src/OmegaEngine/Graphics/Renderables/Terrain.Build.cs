@@ -50,13 +50,13 @@ namespace OmegaEngine.Graphics.Renderables
         {
             #region Sanity checks
             if (heightMap.Width != size.Width || heightMap.Height != size.Height)
-                throw new ArgumentException(Resources.WrongHeightMapSize, "heightMap");
+                throw new ArgumentException(Resources.WrongHeightMapSize, nameof(heightMap));
 
             if (occlusionIntervalMap != null && (occlusionIntervalMap.Width != size.Width || occlusionIntervalMap.Height != size.Height))
-                throw new ArgumentException(Resources.WrongOcclusionIntervalMapSize, "occlusionIntervalMap");
+                throw new ArgumentException(Resources.WrongOcclusionIntervalMapSize, nameof(occlusionIntervalMap));
 
             if ((textureMap.Width) * 3 != size.Width || (textureMap.Height) * 3 != size.Height)
-                throw new ArgumentException(Resources.WrongTextureMapSize, "textureMap");
+                throw new ArgumentException(Resources.WrongTextureMapSize, nameof(textureMap));
             #endregion
 
             using (new TimedLogEvent("Building terrain mesh"))

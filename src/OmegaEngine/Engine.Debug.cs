@@ -47,11 +47,11 @@ namespace OmegaEngine
         public void Screenshot(string filename, Size size)
         {
             #region Sanity checks
-            if (filename == null) throw new ArgumentNullException("filename");
+            if (filename == null) throw new ArgumentNullException(nameof(filename));
             #endregion
 
             if (size.Width > RenderSize.Width || size.Height > RenderSize.Height)
-                throw new ArgumentException(Resources.InvalidScreenshotSize, "size");
+                throw new ArgumentException(Resources.InvalidScreenshotSize, nameof(size));
 
             // Backup PostRender delegate and deactiavte it
             Action postRender = PreRender;

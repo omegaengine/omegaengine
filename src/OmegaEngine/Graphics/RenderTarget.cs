@@ -80,7 +80,7 @@ namespace OmegaEngine.Graphics
         /// <param name="size">The size of the texture - leave empty for fullscreen</param>
         public RenderTarget(Engine engine, Size size)
         {
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
 
             _engine = engine;
             Size = size;
@@ -145,7 +145,7 @@ namespace OmegaEngine.Graphics
         {
             #region Sanity checks
             if (Disposed) throw new ObjectDisposedException(ToString());
-            if (render == null) throw new ArgumentNullException("render");
+            if (render == null) throw new ArgumentNullException(nameof(render));
             #endregion
 
             // Don't initialise this earlier, would cause trouble with resetting the device

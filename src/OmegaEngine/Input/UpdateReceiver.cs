@@ -26,7 +26,7 @@ namespace OmegaEngine.Input
         public UpdateReceiver(Action update)
         {
             #region Sanity checks
-            if (update == null) throw new ArgumentNullException("update");
+            if (update == null) throw new ArgumentNullException(nameof(update));
             #endregion
 
             _update = update;

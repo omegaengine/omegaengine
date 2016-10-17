@@ -107,7 +107,7 @@ namespace FrameOfReference.World
         private void StartMoving(Entity entity, Vector2 target)
         {
             #region Sanity checks
-            if (entity == null) throw new ArgumentNullException("entity");
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             #endregion
 
             if (Pathfinder == null)

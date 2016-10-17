@@ -67,7 +67,7 @@ namespace OmegaEngine.Graphics.Shaders
         protected void SetupLight(PointLight light, int index, XMaterial material)
         {
             #region Sanity checks
-            if (light == null) throw new ArgumentNullException("light");
+            if (light == null) throw new ArgumentNullException(nameof(light));
             #endregion
 
             SetupLightHelper(light, index, material);
@@ -90,7 +90,7 @@ namespace OmegaEngine.Graphics.Shaders
         protected void SetupLight(DirectionalLight light, int index, XMaterial material)
         {
             #region Sanity checks
-            if (light == null) throw new ArgumentNullException("light");
+            if (light == null) throw new ArgumentNullException(nameof(light));
             #endregion
 
             SetupLightHelper(light, index, material);
@@ -108,8 +108,8 @@ namespace OmegaEngine.Graphics.Shaders
         protected virtual void RunPasses(Action render, XMaterial material, params LightSource[] lights)
         {
             #region Sanity checks
-            if (render == null) throw new ArgumentNullException("render");
-            if (lights == null) throw new ArgumentNullException("lights");
+            if (render == null) throw new ArgumentNullException(nameof(render));
+            if (lights == null) throw new ArgumentNullException(nameof(lights));
             #endregion
 
             int passCount = Effect.Begin(FX.None);
@@ -143,9 +143,9 @@ namespace OmegaEngine.Graphics.Shaders
         {
             #region Sanity checks
             if (IsDisposed) throw new ObjectDisposedException(ToString());
-            if (render == null) throw new ArgumentNullException("render");
-            if (camera == null) throw new ArgumentNullException("camera");
-            if (lights == null) throw new ArgumentNullException("lights");
+            if (render == null) throw new ArgumentNullException(nameof(render));
+            if (camera == null) throw new ArgumentNullException(nameof(camera));
+            if (lights == null) throw new ArgumentNullException(nameof(lights));
             #endregion
 
             #region Values

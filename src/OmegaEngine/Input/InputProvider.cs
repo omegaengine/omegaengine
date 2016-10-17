@@ -39,7 +39,7 @@ namespace OmegaEngine.Input
         public void AddReceiver(IInputReceiver receiver)
         {
             #region Sanity checks
-            if (receiver == null) throw new ArgumentNullException("receiver");
+            if (receiver == null) throw new ArgumentNullException(nameof(receiver));
             #endregion
 
             _receivers.Add(receiver);
@@ -52,7 +52,7 @@ namespace OmegaEngine.Input
         public void RemoveReceiver(IInputReceiver receiver)
         {
             #region Sanity checks
-            if (receiver == null) throw new ArgumentNullException("receiver");
+            if (receiver == null) throw new ArgumentNullException(nameof(receiver));
             #endregion
 
             _receivers.Remove(receiver);

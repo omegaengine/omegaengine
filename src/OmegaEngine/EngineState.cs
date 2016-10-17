@@ -48,7 +48,7 @@ namespace OmegaEngine
         internal EngineState(Device device)
         {
             #region Sanity checks
-            if (device == null) throw new ArgumentNullException("device");
+            if (device == null) throw new ArgumentNullException(nameof(device));
             #endregion
 
             _device = device;
@@ -353,8 +353,8 @@ namespace OmegaEngine
         public void SetVertexBuffer(VertexBuffer buffer)
         {
             #region Sanity checks
-            if (buffer == null) throw new ArgumentNullException("buffer");
-            if (buffer.Description.FVF == VertexFormat.None) throw new ArgumentException(Resources.VBMustBeFVF, "buffer");
+            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
+            if (buffer.Description.FVF == VertexFormat.None) throw new ArgumentException(Resources.VBMustBeFVF, nameof(buffer));
             #endregion
 
             _device.SetStreamSource(0, buffer, 0, D3DX.GetFVFVertexSize(buffer.Description.FVF));

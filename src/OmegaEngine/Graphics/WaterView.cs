@@ -59,8 +59,8 @@ namespace OmegaEngine.Graphics
         public static WaterView CreateRefraction(View baseView, DoublePlane refractPlane, float clipTolerance)
         {
             #region Sanity checks
-            if (baseView == null) throw new ArgumentNullException("baseView");
-            if (refractPlane == default(DoublePlane)) throw new ArgumentNullException("refractPlane");
+            if (baseView == null) throw new ArgumentNullException(nameof(baseView));
+            if (refractPlane == default(DoublePlane)) throw new ArgumentNullException(nameof(refractPlane));
             #endregion
 
             // Clone and modify the camera
@@ -93,8 +93,8 @@ namespace OmegaEngine.Graphics
         public static WaterView CreateReflection(View baseView, DoublePlane reflectPlane, float clipTolerance)
         {
             #region Sanity checks
-            if (baseView == null) throw new ArgumentNullException("baseView");
-            if (reflectPlane == default(DoublePlane)) throw new ArgumentNullException("reflectPlane");
+            if (baseView == null) throw new ArgumentNullException(nameof(baseView));
+            if (reflectPlane == default(DoublePlane)) throw new ArgumentNullException(nameof(reflectPlane));
             #endregion
 
             // Clone and modify the camera
@@ -126,7 +126,7 @@ namespace OmegaEngine.Graphics
         protected override bool IsToRender(PositionableRenderable body)
         {
             #region Sanity checks
-            if (body == null) throw new ArgumentNullException("body");
+            if (body == null) throw new ArgumentNullException(nameof(body));
             #endregion
 
             // Filter bodies if this is a terrain-only reflection

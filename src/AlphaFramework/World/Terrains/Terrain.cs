@@ -202,8 +202,8 @@ namespace AlphaFramework.World.Terrains
         public void MarkUntraversableSlopes(bool[,] obstructionMap, int maxTraversableSlope)
         {
             #region Sanity checks
-            if (obstructionMap == null) throw new ArgumentNullException("obstructionMap");
-            if (obstructionMap.GetLength(0) != Size.X || obstructionMap.GetLength(1) != Size.Y) throw new ArgumentException("Obstruction map size does not match terrain size.", "obstructionMap");
+            if (obstructionMap == null) throw new ArgumentNullException(nameof(obstructionMap));
+            if (obstructionMap.GetLength(0) != Size.X || obstructionMap.GetLength(1) != Size.Y) throw new ArgumentException("Obstruction map size does not match terrain size.", nameof(obstructionMap));
             #endregion
 
             for (int x = 0; x < obstructionMap.GetLength(0); x++)

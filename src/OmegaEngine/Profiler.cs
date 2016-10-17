@@ -152,7 +152,7 @@ namespace OmegaEngine
         public ProfilerEvent(Func<string> getName)
         {
             #region Sanity checks
-            if (getName == null) throw new ArgumentNullException("getName");
+            if (getName == null) throw new ArgumentNullException(nameof(getName));
             #endregion
 
             if (Profiler.DeviceQuery != null) PipelineStall();

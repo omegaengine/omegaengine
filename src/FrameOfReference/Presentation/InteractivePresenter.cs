@@ -54,8 +54,8 @@ namespace FrameOfReference.Presentation
         protected InteractivePresenter(Engine engine, Universe universe) : base(engine, universe)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (universe == null) throw new ArgumentNullException("universe");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (universe == null) throw new ArgumentNullException(nameof(universe));
             #endregion
 
             // Add selection highlighting hooks
@@ -91,8 +91,8 @@ namespace FrameOfReference.Presentation
         private void UpdateRepresentationShifted(Entity element, PositionableRenderable representation)
         {
             #region Sanity checks
-            if (element == null) throw new ArgumentNullException("element");
-            if (representation == null) throw new ArgumentNullException("representation");
+            if (element == null) throw new ArgumentNullException(nameof(element));
+            if (representation == null) throw new ArgumentNullException(nameof(representation));
             #endregion
 
             representation.Position = Universe.Terrain.ToEngineCoords(element.Position) + new DoubleVector3(0, 20, 0);
@@ -209,7 +209,7 @@ namespace FrameOfReference.Presentation
         protected virtual void PickPositionables(IEnumerable<Positionable<Vector2>> positionables, bool accumulate)
         {
             #region Sanity checks
-            if (positionables == null) throw new ArgumentNullException("positionables");
+            if (positionables == null) throw new ArgumentNullException(nameof(positionables));
             #endregion
 
             // Remove all previous selections unless the user wants to accumulate selections
@@ -251,7 +251,7 @@ namespace FrameOfReference.Presentation
         public void SwingCameraTo(PositionableRenderable target)
         {
             #region Sanity checks
-            if (target == null) throw new ArgumentNullException("target");
+            if (target == null) throw new ArgumentNullException(nameof(target));
             #endregion
 
             SwingCameraTo(new CameraState<Vector2>

@@ -167,8 +167,8 @@ namespace OmegaEngine.Graphics.Renderables
         internal void Render(Engine engine, Camera camera)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (camera == null) throw new ArgumentNullException("camera");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (camera == null) throw new ArgumentNullException(nameof(camera));
             #endregion
 
             // Calculate the world transform

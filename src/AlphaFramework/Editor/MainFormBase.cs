@@ -411,9 +411,9 @@ namespace AlphaFramework.Editor
         protected void OpenFileTab<T>(string type, string extension, Func<string, bool, T> getInstance) where T : Tab
         {
             #region Sanity checks
-            if (string.IsNullOrEmpty(type)) throw new ArgumentNullException("type");
-            if (string.IsNullOrEmpty(extension)) throw new ArgumentNullException("extension");
-            if (getInstance == null) throw new ArgumentNullException("getInstance");
+            if (string.IsNullOrEmpty(type)) throw new ArgumentNullException(nameof(type));
+            if (string.IsNullOrEmpty(extension)) throw new ArgumentNullException(nameof(extension));
+            if (getInstance == null) throw new ArgumentNullException(nameof(getInstance));
             #endregion
 
             // Get the file path

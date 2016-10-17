@@ -95,7 +95,7 @@ namespace FrameOfReference
         public void LoadMenu(string name)
         {
             #region Sanity checks
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
+            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
             #endregion
 
             _menuUniverse = name.EndsWith(
@@ -124,7 +124,7 @@ namespace FrameOfReference
         public void LoadMap(string name)
         {
             #region Sanity checks
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
+            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
             #endregion
 
             CurrentSession = new Session(
@@ -149,7 +149,7 @@ namespace FrameOfReference
         public void ModifyMap(string name)
         {
             #region Sanity checks
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
+            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
             #endregion
 
             CurrentSession = new Session(

@@ -90,7 +90,7 @@ namespace FrameOfReference.World.Positionables
         public bool IsInRange(Positionable<Vector2> entity)
         {
             #region Sanity checks
-            if (entity == null) throw new ArgumentNullException("entity");
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             #endregion
 
             return (entity.Position - Position).Length() <= Range;

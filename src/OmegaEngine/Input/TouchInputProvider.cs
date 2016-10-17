@@ -30,7 +30,7 @@ namespace OmegaEngine.Input
         public TouchInputProvider(ITouchControl control)
         {
             #region Sanity checks
-            if (control == null) throw new ArgumentNullException("control");
+            if (control == null) throw new ArgumentNullException(nameof(control));
             #endregion
 
             _control = control;

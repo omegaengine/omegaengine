@@ -54,7 +54,7 @@ namespace OmegaEngine.Graphics.Renderables
         public static SimpleSkybox FromAssets(Engine engine, string rt, string lf, string up, string dn, string ft, string bk)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
             var textures = new[]

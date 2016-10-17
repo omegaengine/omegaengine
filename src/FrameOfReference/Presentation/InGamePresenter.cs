@@ -47,8 +47,8 @@ namespace FrameOfReference.Presentation
         public InGamePresenter(Engine engine, Universe universe) : base(engine, universe)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (universe == null) throw new ArgumentNullException("universe");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (universe == null) throw new ArgumentNullException(nameof(universe));
             #endregion
 
             // Restore previous camera position (or default to center of terrain)
@@ -87,7 +87,7 @@ namespace FrameOfReference.Presentation
         protected override void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
         {
             #region Sanity checks
-            if (positionables == null) throw new ArgumentNullException("positionables");
+            if (positionables == null) throw new ArgumentNullException(nameof(positionables));
             #endregion
 
             foreach (var entity in positionables.OfType<Entity>())

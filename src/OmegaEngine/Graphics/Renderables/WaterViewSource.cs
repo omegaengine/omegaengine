@@ -100,8 +100,8 @@ namespace OmegaEngine.Graphics.Renderables
         public static WaterViewSource FromEngine(Engine engine, double height, View baseView, float clipTolerance)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
-            if (baseView == null) throw new ArgumentNullException("baseView");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (baseView == null) throw new ArgumentNullException(nameof(baseView));
             #endregion
 
             // ReSharper disable CompareOfFloatsByEqualityOperator

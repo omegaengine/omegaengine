@@ -29,7 +29,7 @@ namespace OmegaEngine.Assets
         protected XOggSound(Stream stream)
         {
             #region Sanity checks
-            if (stream == null) throw new ArgumentNullException("stream");
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
             #endregion
 
             throw new NotImplementedException();
@@ -51,7 +51,7 @@ namespace OmegaEngine.Assets
         public new static XOggSound Get(Engine engine, string id)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             if (string.IsNullOrEmpty(id)) return null;
             #endregion
 

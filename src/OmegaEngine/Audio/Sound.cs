@@ -44,7 +44,7 @@ namespace OmegaEngine.Audio
         public Sound(XSound sound)
         {
             #region Sanity checks
-            if (sound == null) throw new ArgumentNullException("sound");
+            if (sound == null) throw new ArgumentNullException(nameof(sound));
             #endregion
 
             Asset = sound;

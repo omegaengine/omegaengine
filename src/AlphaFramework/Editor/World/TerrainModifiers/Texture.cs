@@ -36,7 +36,7 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
             : base(terrain)
         {
             #region Sanity checks
-            if (refreshHandler == null) throw new ArgumentNullException("refreshHandler");
+            if (refreshHandler == null) throw new ArgumentNullException(nameof(refreshHandler));
             #endregion
 
             _textureID = textureID;

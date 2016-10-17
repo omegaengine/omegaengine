@@ -57,8 +57,8 @@ namespace AlphaFramework.Editor
         public static void PackageMod(ModInfo info, string path)
         {
             #region Sanity checks
-            if (info == null) throw new ArgumentNullException("info");
-            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
+            if (info == null) throw new ArgumentNullException(nameof(info));
+            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
             #endregion
 
             var dialog = new ModPackageDialog

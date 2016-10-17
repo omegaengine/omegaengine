@@ -64,7 +64,7 @@ namespace OmegaEngine.Graphics.Shaders
         public TerrainShader(bool lighting, IDictionary<string, IEnumerable<int>> controllers)
         {
             #region Sanity checks
-            if (controllers == null) throw new ArgumentNullException("controllers");
+            if (controllers == null) throw new ArgumentNullException(nameof(controllers));
             #endregion
 
             _lighting = lighting;
@@ -85,9 +85,9 @@ namespace OmegaEngine.Graphics.Shaders
         public override void Apply(Action render, XMaterial material, Camera camera, params LightSource[] lights)
         {
             #region Sanity checks
-            if (render == null) throw new ArgumentNullException("render");
-            if (camera == null) throw new ArgumentNullException("camera");
-            if (lights == null) throw new ArgumentNullException("lights");
+            if (render == null) throw new ArgumentNullException(nameof(render));
+            if (camera == null) throw new ArgumentNullException(nameof(camera));
+            if (lights == null) throw new ArgumentNullException(nameof(lights));
             #endregion
 
             #region Auto-select technique

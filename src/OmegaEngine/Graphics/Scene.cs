@@ -126,7 +126,7 @@ namespace OmegaEngine.Graphics
         internal void ActivateLights(View view)
         {
             #region Sanity checks
-            if (view == null) throw new ArgumentNullException("view");
+            if (view == null) throw new ArgumentNullException(nameof(view));
             if (_dxLightCounter != 0) throw new InvalidOperationException(Resources.LightsNotDeactivated);
             #endregion
 

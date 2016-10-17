@@ -93,7 +93,7 @@ namespace OmegaEngine
         public void LogFrame(string path, FrameLog logMode = FrameLog.CpuGpu)
         {
             #region Sanity checks
-            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
+            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
             #endregion
 
             _frameLogMode = logMode;

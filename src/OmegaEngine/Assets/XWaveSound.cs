@@ -31,7 +31,7 @@ namespace OmegaEngine.Assets
         protected XWaveSound(Stream stream)
         {
             #region Sanity checks
-            if (stream == null) throw new ArgumentNullException("stream");
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
             #endregion
 
             using (var waveFile = new WaveStream(stream))
@@ -58,7 +58,7 @@ namespace OmegaEngine.Assets
         public new static XWaveSound Get(Engine engine, string id)
         {
             #region Sanity checks
-            if (engine == null) throw new ArgumentNullException("engine");
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
             if (string.IsNullOrEmpty(id)) return null;
             #endregion
 
