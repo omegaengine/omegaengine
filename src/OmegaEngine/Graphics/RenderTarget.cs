@@ -68,7 +68,7 @@ namespace OmegaEngine.Graphics
         /// </summary>
         public static implicit operator Texture(RenderTarget renderTarget)
         {
-            return (renderTarget == null) ? null : renderTarget.Texture;
+            return renderTarget?.Texture;
         }
         #endregion
 
@@ -100,7 +100,7 @@ namespace OmegaEngine.Graphics
             {
                 Texture.Dispose();
                 Surface.Dispose();
-                if (_rtsHelper != null) _rtsHelper.OnLostDevice();
+                _rtsHelper?.OnLostDevice();
             }
         }
         #endregion
@@ -124,7 +124,7 @@ namespace OmegaEngine.Graphics
                 });
 
                 // Reset the _rtsHelper if it already exists and is still valid
-                if (_rtsHelper != null) _rtsHelper.OnResetDevice();
+                _rtsHelper?.OnResetDevice();
 
                 // Create the target texture and surface
                 Texture = new Texture(_engine.Device, Viewport.Width, Viewport.Height, 1,
@@ -215,9 +215,9 @@ namespace OmegaEngine.Graphics
                 _engine.DeviceReset -= Initialize;
 
                 if (_engine == null || _engine.IsDisposed) return;
-                if (_rtsHelper != null) _rtsHelper.Dispose();
-                if (Surface != null) Surface.Dispose();
-                if (Texture != null) Texture.Dispose();
+                _rtsHelper?.Dispose();
+                Surface?.Dispose();
+                Texture?.Dispose();
             }
             else
             { // This block will only be executed on Garbage Collection, not by manual disposal

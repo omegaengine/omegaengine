@@ -113,7 +113,7 @@ namespace OmegaEngine.Graphics.Shaders
             #endregion
 
             // Always reset the texture since it might change its memory address at a device reset
-            Effect.SetTexture(_particleTextureHandle, (ParticleTexture == null) ? null : ParticleTexture.Texture);
+            Effect.SetTexture(_particleTextureHandle, ParticleTexture?.Texture);
 
             base.Apply(render, material, camera, lights);
         }

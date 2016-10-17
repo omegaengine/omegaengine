@@ -30,7 +30,7 @@ namespace AlphaFramework.Editor.World.Dialogs
 
         private void OnExecuteCommand(IUndoCommand command)
         {
-            if (ExecuteCommand != null) ExecuteCommand(command);
+            ExecuteCommand?.Invoke(command);
         }
         #endregion
 

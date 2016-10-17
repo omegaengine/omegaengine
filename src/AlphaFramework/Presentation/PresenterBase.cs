@@ -194,8 +194,8 @@ namespace AlphaFramework.Presentation
                 RenderablesSync.Dispose();
                 LightsSync.Dispose();
 
-                if (Scene != null) Scene.Dispose();
-                if (View != null) View.Dispose();
+                Scene?.Dispose();
+                View?.Dispose();
             }
             else
             { // This block will only be executed on Garbage Collection, not by manual disposal

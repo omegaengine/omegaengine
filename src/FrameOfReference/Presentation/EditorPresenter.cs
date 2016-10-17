@@ -129,7 +129,7 @@ namespace FrameOfReference.Presentation
         /// <remarks>This replaces <see cref="InteractivePresenter"/>s pathfinding based movement with a callback event.</remarks>
         protected override void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
         {
-            if (PostionableMove != null) PostionableMove(positionables, target);
+            PostionableMove?.Invoke(positionables, target);
         }
         #endregion
 

@@ -205,7 +205,7 @@ namespace OmegaEngine
         private void SelectView(View view)
         {
             // ReSharper disable RedundantComparisonWithNull
-            dumpViewButton.Enabled = view != null && view is TextureView;
+            dumpViewButton.Enabled = view is TextureView;
             // ReSharper restore RedundantComparisonWithNull
 
             if (viewPropertyGrid.SelectedObject != view)
@@ -273,7 +273,7 @@ namespace OmegaEngine
         private void dumpViewButton_Click(object sender, EventArgs e)
         {
             var view = CurrentView as TextureView;
-            if (view != null && view.GetRenderTarget() != null)
+            if (view?.GetRenderTarget() != null)
             {
                 // Select target file
                 dumpViewSaveFileDialog.ShowDialog();

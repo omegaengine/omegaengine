@@ -194,7 +194,7 @@ namespace AlphaFramework.Editor
         protected virtual void OnClose()
         {
             Dispose();
-            if (TabClosed != null) TabClosed(this, EventArgs.Empty);
+            TabClosed?.Invoke(this, EventArgs.Empty);
 
             Log.Info("Tab closed: " + FilePath);
         }

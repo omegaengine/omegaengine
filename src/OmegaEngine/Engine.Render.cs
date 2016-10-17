@@ -407,7 +407,7 @@ namespace OmegaEngine
             #region Cleanup
             Log.Info("Clearing Direct3D resources");
             BackBuffer.Dispose();
-            if (DeviceLost != null) DeviceLost();
+            DeviceLost?.Invoke();
             #endregion
 
             #region Wait
@@ -432,7 +432,7 @@ namespace OmegaEngine
             SetupTextureFiltering();
             RenderViewport = Device.Viewport;
             BackBuffer = Device.GetBackBuffer(0, 0);
-            if (DeviceReset != null) DeviceReset();
+            DeviceReset?.Invoke();
 
             State.Reset();
             Performance.Reset();

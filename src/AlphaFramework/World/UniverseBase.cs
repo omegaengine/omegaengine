@@ -29,7 +29,7 @@ namespace AlphaFramework.World
         #region Events
         private void OnSkyboxChanged()
         {
-            if (SkyboxChanged != null) SkyboxChanged();
+            SkyboxChanged?.Invoke();
         }
 
         /// <summary>

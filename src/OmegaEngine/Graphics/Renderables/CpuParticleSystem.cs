@@ -513,7 +513,7 @@ namespace OmegaEngine.Graphics.Renderables
                 _material1.ReleaseReference();
                 _material2.ReleaseReference();
 
-                if (_vb != null) _vb.Dispose();
+                _vb?.Dispose();
             }
             finally
             {

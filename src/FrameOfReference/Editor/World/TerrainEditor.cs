@@ -97,7 +97,7 @@ namespace FrameOfReference.Editor.World
         #region Texture preview
         private void UpdateTexturePreview()
         {
-            if (TemplateList.SelectedEntry != null && !string.IsNullOrEmpty(TemplateList.SelectedEntry.Texture))
+            if (!string.IsNullOrEmpty(TemplateList.SelectedEntry?.Texture))
             {
                 textPath.Text = TemplateList.SelectedEntry.Texture;
                 errorProvider.SetError(textPath, null); // Reset any previous error messages
@@ -105,7 +105,7 @@ namespace FrameOfReference.Editor.World
                 // Preview the texture
                 try
                 {
-                    if (pictureTexture.Image != null) pictureTexture.Image.Dispose();
+                    pictureTexture.Image?.Dispose();
                     using (Stream stream = ContentManager.GetFileStream("Textures/Terrain", TemplateList.SelectedEntry.Texture))
                         pictureTexture.Image = Image.FromStream(stream);
                 }

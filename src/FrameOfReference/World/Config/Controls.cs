@@ -41,7 +41,7 @@ namespace FrameOfReference.World.Config
 
         private void OnChanged()
         {
-            if (Changed != null) Changed();
+            Changed?.Invoke();
             if (Settings.AutoSave && Settings.Current != null && Settings.Current.Controls == this) Settings.SaveCurrent();
         }
         #endregion

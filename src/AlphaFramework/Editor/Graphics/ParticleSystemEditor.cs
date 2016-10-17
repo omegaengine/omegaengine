@@ -41,7 +41,7 @@ namespace AlphaFramework.Editor.Graphics
         private void timerRender_Tick(object sender, EventArgs e)
         {
             timerRender.Enabled = false; // Prevent multiple ticks from accumulating
-            if (Visible && renderPanel.Engine != null) renderPanel.Engine.Render();
+            if (Visible) renderPanel.Engine?.Render();
             timerRender.Enabled = true;
         }
         #endregion

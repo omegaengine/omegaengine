@@ -262,7 +262,7 @@ namespace OmegaEngine.Graphics
 
             using (new ProfilerEvent(() => "Render " + this))
             {
-                if (PreRender != null) PreRender(Camera);
+                PreRender?.Invoke(Camera);
 
                 Engine.Device.Viewport = _viewport;
                 Engine.State.CullMode = InvertCull ? Cull.Clockwise : Cull.Counterclockwise;

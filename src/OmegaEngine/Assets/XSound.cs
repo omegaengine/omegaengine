@@ -59,7 +59,7 @@ namespace OmegaEngine.Assets
                 {
                     // This block will only be executed on manual disposal, not by Garbage Collection
                     Log.Info("Disposing " + this);
-                    if (SoundData != null) SoundData.Dispose();
+                    SoundData?.Dispose();
                 }
             }
             finally

@@ -103,7 +103,7 @@ namespace OmegaEngine.Assets
         /// </summary>
         public static implicit operator Texture(XTexture xTexture)
         {
-            return (xTexture == null) ? null : xTexture.Texture;
+            return xTexture?.Texture;
         }
         #endregion
 
@@ -117,7 +117,7 @@ namespace OmegaEngine.Assets
                 if (disposing)
                 { // This block will only be executed on manual disposal, not by Garbage Collection
                     Log.Info("Disposing " + this);
-                    if (Texture != null) Texture.Dispose();
+                    Texture?.Dispose();
                 }
             }
             finally

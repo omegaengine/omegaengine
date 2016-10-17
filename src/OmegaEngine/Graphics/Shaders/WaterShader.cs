@@ -210,8 +210,8 @@ namespace OmegaEngine.Graphics.Shaders
         {
             try
             {
-                if (_waterTexture != null) _waterTexture.ReleaseReference();
-                if (_normalTexture != null) _normalTexture.ReleaseReference();
+                _waterTexture?.ReleaseReference();
+                _normalTexture?.ReleaseReference();
             }
             finally
             {

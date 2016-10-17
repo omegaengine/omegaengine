@@ -314,18 +314,18 @@ namespace OmegaEngine.Graphics.Shaders
                                     break;
                                 case SemanticID.Normal:
                                 case SemanticID.NormalMap:
-                                    Effect.SetTexture(info.Handle, (material.NormalMap == null) ? null : material.NormalMap.Texture);
+                                    Effect.SetTexture(info.Handle, material.NormalMap?.Texture);
                                     break;
                                 case SemanticID.Height:
                                 case SemanticID.HeightMap:
-                                    Effect.SetTexture(info.Handle, (material.HeightMap == null) ? null : material.HeightMap.Texture);
+                                    Effect.SetTexture(info.Handle, material.HeightMap?.Texture);
                                     break;
                                 case SemanticID.Specular:
                                 case SemanticID.SpecularMap:
-                                    Effect.SetTexture(info.Handle, (material.SpecularMap == null) ? null : material.SpecularMap.Texture);
+                                    Effect.SetTexture(info.Handle, material.SpecularMap?.Texture);
                                     break;
                                 case SemanticID.Emissive:
-                                    Effect.SetTexture(info.Handle, (material.EmissiveMap == null) ? null : material.EmissiveMap.Texture);
+                                    Effect.SetTexture(info.Handle, material.EmissiveMap?.Texture);
                                     break;
                                     #endregion
                             }

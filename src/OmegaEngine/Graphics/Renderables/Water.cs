@@ -162,7 +162,7 @@ namespace OmegaEngine.Graphics.Renderables
         {
             try
             {
-                if (_waterTexture != null) _waterTexture.ReleaseReference();
+                _waterTexture?.ReleaseReference();
 
                 foreach (XMaterial material in Materials)
                     material.ReleaseReference();

@@ -64,7 +64,7 @@ namespace AlphaFramework.Editor.Gui
             _overwrite = overwrite;
 
             // Close dialogs when the owning tab closes
-            TabClosed += delegate { if (_addControlTool != null) _addControlTool.Close(); };
+            TabClosed += delegate { _addControlTool?.Close(); };
         }
         #endregion
 
@@ -175,7 +175,7 @@ namespace AlphaFramework.Editor.Gui
                 listBox.SelectedItem = item;
 
             // Reset the GUI rendering system
-            if (_dialogRenderer != null) _dialogRenderer.Dispose();
+            _dialogRenderer?.Dispose();
             _dialogRenderer = new DialogRenderer(_guiManager, DialogModel);
             renderPanel.Engine.Render();
 
@@ -186,8 +186,8 @@ namespace AlphaFramework.Editor.Gui
         protected override void OnClose()
         {
             // Shutdown GUI system
-            if (_dialogRenderer != null) _dialogRenderer.Dispose();
-            if (_guiManager != null) _guiManager.Dispose();
+            _dialogRenderer?.Dispose();
+            _guiManager?.Dispose();
 
             base.OnClose();
         }
@@ -200,7 +200,7 @@ namespace AlphaFramework.Editor.Gui
         private void DialogRender()
         {
             // Call the GUI render handler
-            if (_dialogRenderer != null) _dialogRenderer.DialogRender.OnRender(1);
+            _dialogRenderer?.DialogRender.OnRender(1);
 
             // Display picking rectangles being pulled up by the mouse
             if (_pickRectangle != Rectangle.Empty)

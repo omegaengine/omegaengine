@@ -44,7 +44,7 @@ namespace FrameOfReference.World
 
         private void OnLightingChanged()
         {
-            if (LightingChanged != null) LightingChanged();
+            LightingChanged?.Invoke();
         }
         #endregion
 

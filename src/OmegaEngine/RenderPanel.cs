@@ -68,7 +68,7 @@ namespace OmegaEngine
         #region Constructor
         public RenderPanel()
         {
-            _renderTimer.Tick += delegate { if (Engine != null) Engine.Render(); };
+            _renderTimer.Tick += delegate { Engine?.Render(); };
 
             // Constantly steal focus so the scrool wheel will work
             MouseMove += delegate { Focus(); };
@@ -80,7 +80,7 @@ namespace OmegaEngine
         #region Event hooks
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (Engine != null) Engine.Render();
+            Engine?.Render();
         }
 
         protected override void OnResize(EventArgs eventargs)
@@ -151,10 +151,10 @@ namespace OmegaEngine
             {
                 _renderTimer.Dispose();
 
-                if (Engine != null) Engine.Dispose();
-                if (TouchInputProvider != null) TouchInputProvider.Dispose();
-                if (MouseInputProvider != null) MouseInputProvider.Dispose();
-                if (KeyboardInputProvider != null) KeyboardInputProvider.Dispose();
+                Engine?.Dispose();
+                TouchInputProvider?.Dispose();
+                MouseInputProvider?.Dispose();
+                KeyboardInputProvider?.Dispose();
             }
             finally
             {

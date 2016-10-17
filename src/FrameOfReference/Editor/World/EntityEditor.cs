@@ -70,7 +70,7 @@ namespace FrameOfReference.Editor.World
             splitRender.Panel2.MouseMove += delegate { splitRender.Panel2.Focus(); };
 
             // Close dialogs when the owning tab closes
-            TabClosed += delegate { if (_addRenderComponentTool != null) _addRenderComponentTool.Close(); };
+            TabClosed += delegate { _addRenderComponentTool?.Close(); };
         }
         #endregion
 
@@ -175,15 +175,14 @@ namespace FrameOfReference.Editor.World
                 buttonAddCollision.Enabled = (selectedClass.Collision == null);
                 buttonRemoveCollision.Enabled = !buttonAddCollision.Enabled;
                 propertyGridCollision.SelectedObject = selectedClass.Collision;
-                labelCollision.Text = (selectedClass.Collision == null) ? "None" : selectedClass.Collision.ToString();
+                labelCollision.Text = selectedClass.Collision?.ToString() ?? "None";
                 #endregion
 
                 #region Movement Control
                 buttonAddMovement.Enabled = (selectedClass.Movement == null);
                 buttonRemoveMovement.Enabled = !buttonAddMovement.Enabled;
                 propertyGridMovement.SelectedObject = selectedClass.Movement;
-                labelMovement.Text = (selectedClass.Movement == null) ? "None" :
-                    selectedClass.Movement.ToString();
+                labelMovement.Text = selectedClass.Movement?.ToString() ?? "None";
                 #endregion
 
                 #region Setup sample rendering

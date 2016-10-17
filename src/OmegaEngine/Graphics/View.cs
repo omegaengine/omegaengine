@@ -474,8 +474,8 @@ namespace OmegaEngine.Graphics
 
                 if (_disposeScene) Scene.Dispose();
 
-                if (RenderTarget != null) RenderTarget.Dispose();
-                if (_secondaryRenderTarget != null) _secondaryRenderTarget.Dispose();
+                RenderTarget?.Dispose();
+                _secondaryRenderTarget?.Dispose();
 
                 // Dispose and remove all water view sources associated to this view
                 Engine.WaterViewSources.RemoveWhere(viewSource =>

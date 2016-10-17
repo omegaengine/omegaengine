@@ -215,7 +215,7 @@ namespace OmegaEngine.Graphics.Renderables
         {
             try
             {
-                if (_ownMesh && Mesh != null) Mesh.Dispose();
+                if (_ownMesh) Mesh?.Dispose();
 
                 if (_asset != null)
                 {

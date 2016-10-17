@@ -119,7 +119,7 @@ namespace FrameOfReference.Editor.World
             _overwrite = overwrite;
 
             // Close dialogs when the owning tab closes
-            TabClosed += delegate { if (_mapPropertiesTool != null) _mapPropertiesTool.Close(); };
+            TabClosed += delegate { _mapPropertiesTool?.Close(); };
 
             // Ugly hack to make mouse wheel work
             splitVertical.Panel2.MouseMove += delegate { splitVertical.Panel2.Focus(); };
@@ -266,7 +266,7 @@ namespace FrameOfReference.Editor.World
             UpdatePositionablesListBox();
             UpdateSelectionControls();
             UpdateTextureControls();
-            if (_mapPropertiesTool != null) _mapPropertiesTool.UpdateUniverse(_universe);
+            _mapPropertiesTool?.UpdateUniverse(_universe);
 
             UpdateXml();
             UpdateGameTimeSlider();
@@ -931,7 +931,7 @@ namespace FrameOfReference.Editor.World
                     setUniverse: value =>
                     {
                         _universe = value;
-                        if (_mapPropertiesTool != null) _mapPropertiesTool.UpdateUniverse(_universe);
+                        _mapPropertiesTool?.UpdateUniverse(_universe);
                     },
                     xmlData: text,
                     refreshHandler: ResetPresenter));

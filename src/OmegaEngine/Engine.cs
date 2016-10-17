@@ -238,21 +238,21 @@ namespace OmegaEngine
             Cache.Dispose();
 
             // Dispose default meshes
-            if (SimpleSphere != null) SimpleSphere.Dispose();
-            if (SimpleBox != null) SimpleBox.Dispose();
+            SimpleSphere?.Dispose();
+            SimpleBox?.Dispose();
 
             // Dispose Direct3D device
-            if (BackBuffer != null) BackBuffer.Dispose();
-            if (Device != null) Device.Dispose();
+            BackBuffer?.Dispose();
+            Device?.Dispose();
 
             // Dispose DirectSound objects
-            //if (_listener != null) _listener.Dispose();
-            if (AudioDevice != null) AudioDevice.Dispose();
+            //_listener?.Dispose();
+            AudioDevice?.Dispose();
 
-            if (_direct3D != null) _direct3D.Dispose();
+            _direct3D?.Dispose();
 
             // Dispose debug window
-            if (_debugForm != null) _debugForm.Dispose();
+            _debugForm?.Dispose();
         }
         #endregion
     }

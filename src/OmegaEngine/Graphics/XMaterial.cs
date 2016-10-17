@@ -137,10 +137,10 @@ namespace OmegaEngine.Graphics
         {
             if (DiffuseMaps != null)
                 foreach (var texture in DiffuseMaps.WhereNotNull()) texture.HoldReference();
-            if (NormalMap != null) NormalMap.HoldReference();
-            if (HeightMap != null) HeightMap.HoldReference();
-            if (SpecularMap != null) SpecularMap.HoldReference();
-            if (EmissiveMap != null) EmissiveMap.HoldReference();
+            NormalMap?.HoldReference();
+            HeightMap?.HoldReference();
+            SpecularMap?.HoldReference();
+            EmissiveMap?.HoldReference();
         }
 
         /// <summary>
@@ -150,10 +150,10 @@ namespace OmegaEngine.Graphics
         {
             if (DiffuseMaps != null)
                 foreach (var texture in DiffuseMaps.WhereNotNull()) texture.ReleaseReference();
-            if (NormalMap != null) NormalMap.ReleaseReference();
-            if (HeightMap != null) HeightMap.ReleaseReference();
-            if (SpecularMap != null) SpecularMap.ReleaseReference();
-            if (EmissiveMap != null) EmissiveMap.ReleaseReference();
+            NormalMap?.ReleaseReference();
+            HeightMap?.ReleaseReference();
+            SpecularMap?.ReleaseReference();
+            EmissiveMap?.ReleaseReference();
         }
         #endregion
     }

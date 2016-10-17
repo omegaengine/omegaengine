@@ -370,7 +370,7 @@ namespace OmegaEngine
         /// <remarks>Corresponds to calling <see cref="SlimDX.Direct3D9.Device.SetTexture"/> with the texture stage parameter set to 0.</remarks>
         public void SetTexture(ITextureProvider texture)
         {
-            _device.SetTexture(0, (texture == null) ? null : texture.Texture);
+            _device.SetTexture(0, texture?.Texture);
         }
         #endregion
     }

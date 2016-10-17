@@ -96,8 +96,7 @@ namespace OmegaEngine.Graphics.Renderables
             if (Preset.TextureDirty)
             {
                 // Release the previous texture
-                if (_particleShader.ParticleTexture != null)
-                    _particleShader.ParticleTexture.ReleaseReference();
+                _particleShader.ParticleTexture?.ReleaseReference();
 
                 string id = Path.Combine("Shaders", Preset.ParticleTexture);
                 _particleShader.ParticleTexture =
@@ -134,8 +133,8 @@ namespace OmegaEngine.Graphics.Renderables
         {
             try
             {
-                if (_particleShader != null) _particleShader.Dispose();
-                if (_particleMesh != null) _particleMesh.Dispose();
+                _particleShader?.Dispose();
+                _particleMesh?.Dispose();
             }
             finally
             {

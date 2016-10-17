@@ -221,11 +221,11 @@ namespace FrameOfReference
                 if (disposing)
                 {
                     // Dispose presenters
-                    if (_menuPresenter != null) _menuPresenter.Dispose();
-                    if (CurrentPresenter != null) CurrentPresenter.Dispose();
+                    _menuPresenter?.Dispose();
+                    CurrentPresenter?.Dispose();
 
                     // Shutdown GUI system
-                    if (GuiManager != null) GuiManager.Dispose();
+                    GuiManager?.Dispose();
 
                     // Remove settings update hooks
                     Settings.Current.General.Changed -= Program.UpdateLocale;

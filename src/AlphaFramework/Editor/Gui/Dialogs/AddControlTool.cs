@@ -28,7 +28,7 @@ namespace AlphaFramework.Editor.Gui.Dialogs
 
         private void OnNewControl(Control control)
         {
-            if (NewControl != null) NewControl(control);
+            NewControl?.Invoke(control);
         }
         #endregion
 

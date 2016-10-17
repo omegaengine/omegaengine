@@ -163,8 +163,8 @@ namespace OmegaEngine.Graphics.Renderables
         {
             try
             {
-                if (_vb != null) _vb.Dispose();
-                if (_ib != null) _ib.Dispose();
+                _vb?.Dispose();
+                _ib?.Dispose();
             }
             finally
             {

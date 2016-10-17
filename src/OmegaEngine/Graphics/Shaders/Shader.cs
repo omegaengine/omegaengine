@@ -719,7 +719,7 @@ namespace OmegaEngine.Graphics.Shaders
 
                 if (!Engine.IsDisposed)
                 {
-                    if (_activeRenderTarget != null) _activeRenderTarget.Dispose();
+                    _activeRenderTarget?.Dispose();
                     _availableRenderTargets.ForEach(target => target.Dispose());
                     _usedRenderTargets.ForEach(target => target.Dispose());
 

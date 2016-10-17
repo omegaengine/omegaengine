@@ -219,7 +219,7 @@ namespace OmegaEngine
         protected void ToFullscreen()
         {
             // Cannot show debug-console in fullscreen-mode
-            if (_debugConsole != null) _debugConsole.Close();
+            _debugConsole?.Close();
 
             // Make the window borderless
             Form.FormBorderStyle = FormBorderStyle.None;
@@ -401,14 +401,14 @@ namespace OmegaEngine
 
             if (disposing)
             { // This block will only be executed on manual disposal, not by Garbage Collection
-                if (Engine != null) Engine.Dispose();
-                if (Form != null) Form.Dispose();
-                if (_debugConsole != null) _debugConsole.Dispose();
+                Engine?.Dispose();
+                Form?.Dispose();
+                _debugConsole?.Dispose();
 
                 // Stop tracking input
-                if (KeyboardInputProvider != null) KeyboardInputProvider.Dispose();
-                if (MouseInputProvider != null) MouseInputProvider.Dispose();
-                if (TouchInputProvider != null) TouchInputProvider.Dispose();
+                KeyboardInputProvider?.Dispose();
+                MouseInputProvider?.Dispose();
+                TouchInputProvider?.Dispose();
 
                 // Assume this is the only usage of SlimDX in the entire process (true for games, not for editors)
                 if (ObjectTable.Objects.Count > 0)

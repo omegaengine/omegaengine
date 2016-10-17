@@ -65,8 +65,8 @@ namespace OmegaEngine
                 RenderSize = size;
 
                 // Update everything hooked to the engine
-                if (DeviceLost != null) DeviceLost();
-                if (DeviceReset != null) DeviceReset();
+                DeviceLost?.Invoke();
+                DeviceReset?.Invoke();
             }
 
             // Render one frame for screenshot
@@ -82,8 +82,8 @@ namespace OmegaEngine
                 RenderSize = sizeBackup;
 
                 // Update everything hooked to the engine
-                if (DeviceLost != null) DeviceLost();
-                if (DeviceReset != null) DeviceReset();
+                DeviceLost?.Invoke();
+                DeviceReset?.Invoke();
 
                 // Render one frame to restore original configuration
                 Render(0, true);
@@ -123,7 +123,7 @@ namespace OmegaEngine
         /// </summary>
         public void DebugClose()
         {
-            if (_debugForm != null) _debugForm.Close();
+            _debugForm?.Close();
         }
         #endregion
     }

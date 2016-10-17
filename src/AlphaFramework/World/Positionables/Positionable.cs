@@ -32,7 +32,7 @@ namespace AlphaFramework.World.Positionables
         /// </summary>
         protected virtual void OnChanged()
         {
-            if (Changed != null) Changed(this);
+            Changed?.Invoke(this);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace AlphaFramework.World.Positionables
         /// </summary>
         protected void OnChangedRebuild()
         {
-            if (ChangedRebuild != null) ChangedRebuild(this);
+            ChangedRebuild?.Invoke(this);
         }
         #endregion
 

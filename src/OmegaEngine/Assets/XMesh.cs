@@ -317,7 +317,7 @@ namespace OmegaEngine.Assets
                 if (disposing)
                 { // This block will only be executed on manual disposal, not by Garbage Collection
                     Log.Info("Disposing " + this);
-                    if (Mesh != null) Mesh.Dispose();
+                    Mesh?.Dispose();
                 }
             }
             finally

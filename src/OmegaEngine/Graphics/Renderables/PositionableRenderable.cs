@@ -191,8 +191,8 @@ namespace OmegaEngine.Graphics.Renderables
             _inverseWorldTransform = Matrix.Invert(_worldTransform);
 
             // Transform bounding bodies into world space
-            _worldBoundingSphere = BoundingSphere.HasValue ? BoundingSphere.Value.Transform(_worldTransform) : (BoundingSphere?)null;
-            _worldBoundingBox = BoundingBox.HasValue ? BoundingBox.Value.Transform(_worldTransform) : (BoundingBox?)null;
+            _worldBoundingSphere = BoundingSphere?.Transform(_worldTransform);
+            _worldBoundingBox = BoundingBox?.Transform(_worldTransform);
 
             WorldTransformDirty = false;
         }

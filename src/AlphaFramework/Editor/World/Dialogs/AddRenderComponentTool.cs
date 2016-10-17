@@ -29,7 +29,7 @@ namespace AlphaFramework.Editor.World.Dialogs
 
         private void OnNewRenderComponent(Render component)
         {
-            if (NewRenderComponent != null) NewRenderComponent(component);
+            NewRenderComponent?.Invoke(component);
         }
         #endregion
 
