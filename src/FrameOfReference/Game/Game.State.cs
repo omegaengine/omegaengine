@@ -234,7 +234,7 @@ namespace FrameOfReference
                         //{
                         //    // ToDo: new Uri("http://omegaengine.de/benchmark-upload/?app=" + GeneralSettings.AppNameGrid)
                         //}
-                        Msg.Inform(null, string.Format("Please upload the file '{0}'.", path), MsgSeverity.Info);
+                        Msg.Inform(null, $"Please upload the file '{path}'.", MsgSeverity.Info);
                         Exit();
                     });
                 CurrentPresenter.Initialize();

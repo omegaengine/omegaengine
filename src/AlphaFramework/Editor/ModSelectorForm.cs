@@ -82,7 +82,7 @@ namespace AlphaFramework.Editor
             if (ex.Source.StartsWith("System.Xml", StringComparison.Ordinal) && ex.InnerException != null)
             {
                 string postion = ex.Message.GetRightPartAtFirstOccurrence('(').GetLeftPartAtFirstOccurrence(')');
-                string message = string.Format("{0}\nXML ({1}): {2}", Resources.FileDamaged, postion, ex.InnerException.Message);
+                string message = $"{Resources.FileDamaged}\nXML ({postion}): {ex.InnerException.Message}";
                 Msg.Inform(this, message, MsgSeverity.Warn);
                 return;
             }

@@ -54,7 +54,7 @@ namespace AlphaFramework.World.Positionables
                     #region Error handling
                 catch (KeyNotFoundException)
                 {
-                    throw new KeyNotFoundException(string.Format("Entity '{0}' references the non-existent '{1}' template.", Name, value));
+                    throw new KeyNotFoundException($"Entity '{Name}' references the non-existent '{value}' template.");
                 }
                 #endregion
 
