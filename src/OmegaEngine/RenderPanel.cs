@@ -78,10 +78,7 @@ namespace OmegaEngine
         //--------------------//
 
         #region Event hooks
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            Engine?.Render();
-        }
+        protected override void OnPaint(PaintEventArgs e) => Engine?.Render();
 
         protected override void OnResize(EventArgs eventargs)
         {

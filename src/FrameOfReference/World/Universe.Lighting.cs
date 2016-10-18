@@ -42,10 +42,7 @@ namespace FrameOfReference.World
         [Description("Occurs when LightPhase, AmbientColor, SunColor or ColorCorrectionPhase* was changed.")]
         public event Action LightingChanged;
 
-        private void OnLightingChanged()
-        {
-            LightingChanged?.Invoke();
-        }
+        private void OnLightingChanged() => LightingChanged?.Invoke();
         #endregion
 
         #region Light phase

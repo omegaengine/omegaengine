@@ -677,18 +677,12 @@ namespace OmegaEngine.Graphics.Shaders
         /// <summary>
         /// Called when the device has been lost.
         /// </summary>
-        public void OnLostDevice()
-        {
-            Effect.OnLostDevice();
-        }
+        public void OnLostDevice() => Effect.OnLostDevice();
 
         /// <summary>
         /// Called when the device has been reset.
         /// </summary>
-        public void OnResetDevice()
-        {
-            Effect.OnResetDevice();
-        }
+        public void OnResetDevice() => Effect.OnResetDevice();
         #endregion
 
         #region Engine

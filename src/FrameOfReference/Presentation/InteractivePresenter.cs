@@ -180,10 +180,7 @@ namespace FrameOfReference.Presentation
             return selectionHighlight;
         }
 
-        private void OnPositionableRemoved(Positionable<Vector2> positionable)
-        {
-            SelectedPositionables.Remove(positionable);
-        }
+        private void OnPositionableRemoved(Positionable<Vector2> positionable) => SelectedPositionables.Remove(positionable);
         #endregion
 
         #region Draw selection outline
