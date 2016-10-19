@@ -34,9 +34,9 @@
     <packages repository="extension" repositoryId="OmegaEngine_Templates">
       <package id="ICSharpCode.SharpZipLib.Patched" version="0.86.5" />
       <package id="JetBrains.Annotations" version="10.0.0" />
-      <package id="NanoByte.Common" version="2.0.2" />
-      <package id="NanoByte.Common.SlimDX" version="2.0.2" />
-      <package id="NanoByte.Common.WinForms" version="2.0.2" />
+      <package id="NanoByte.Common" version="2.0.4" />
+      <package id="NanoByte.Common.SlimDX" version="2.0.4" />
+      <package id="NanoByte.Common.WinForms" version="2.0.4" />
       <package id="SlimDX" version="4.0.13.44" />
       <package id="OmegaEngine.Backend" version="1.0.0" />
       <package id="OmegaEngine" version="1.0.0" />
