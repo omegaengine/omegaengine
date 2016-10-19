@@ -1,5 +1,5 @@
 ﻿PROJECT_NAME = "AlphaFramework API"
-PROJECT_NUMBER = "1.0.0"
+PROJECT_NUMBER = "1.0.1"
 
 INPUT = AlphaFramework.md ../src/AlphaFramework
 USE_MDFILE_AS_MAINPAGE = AlphaFramework.md
