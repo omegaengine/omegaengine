@@ -717,7 +717,7 @@ namespace OmegaEngine.Graphics.Shaders
                     _availableRenderTargets.ForEach(target => target.Dispose());
                     _usedRenderTargets.ForEach(target => target.Dispose());
 
-                    Effect.Dispose();
+                    Effect?.Dispose();
                 }
             }
             finally

@@ -30,9 +30,9 @@ namespace OmegaEngine
         {
             if (element == null) return;
 
+            if (autoDispose) _toDispose.Add(element);
             if (IsEngineSet) element.Engine = Engine;
             _toSetEngine.Add(element);
-            if (autoDispose) _toDispose.Add(element);
         }
 
         /// <summary>

@@ -162,12 +162,14 @@ namespace OmegaEngine
                 SetupAudio();
             }
                 #region Error handling
-            catch (Direct3D9Exception ex)
+            catch (Direct3D9Exception ex) when (ex.ResultCode == ResultCode.NotAvailable)
             {
-                // Don't try to clean up the engine if it was never properly created
-                GC.SuppressFinalize(this);
-
-                if (ex.ResultCode == ResultCode.NotAvailable) throw new NotSupportedException(Resources.NotAvailable, ex);
+                Dispose();
+                throw new NotSupportedException(Resources.NotAvailable, ex);
+            }
+            catch (Exception)
+            {
+                Dispose();
                 throw;
             }
             #endregion
@@ -232,10 +234,10 @@ namespace OmegaEngine
             base.OnDispose();
 
             // Shutdown music
-            Music.Dispose();
+            Music?.Dispose();
 
             // Dispose cached assets
-            Cache.Dispose();
+            Cache?.Dispose();
 
             // Dispose default meshes
             SimpleSphere?.Dispose();
