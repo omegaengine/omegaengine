@@ -26,17 +26,15 @@ if "%2"=="SM20" set legacy=/Gec /Gis
 ::%~dp0*.fx --> %%A = Shader source files (HLSL)
 ::%~dp0*.fx --> %%~nA.fxo =  Compiled shader
 FOR %%A IN ("%~dp0*.fx") DO fxc /nologo %debug% %legacy% /Tfx_2_0 /Fo"%~3\%%~nA.fxo" "%%A"
-goto end
+exit /b 0
 
 
 
 :error_arg
 echo Missing arguments! >&2
 echo Usage: compile Debug/Release SM11/SM20 TargetDir >&2
-goto end
+exit /b 1
 
 :error_dxsdk
 echo DirectX SDK must be installed! >&2
-goto end
-
-:end
+exit /b 2
