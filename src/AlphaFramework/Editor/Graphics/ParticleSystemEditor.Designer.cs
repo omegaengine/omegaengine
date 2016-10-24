@@ -42,7 +42,6 @@ namespace AlphaFramework.Editor.Graphics
             this.renderPanel.Name = "panelRender";
             this.renderPanel.Size = new System.Drawing.Size(318, 538);
             this.renderPanel.TabIndex = 0;
-            this.renderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelRender_MouseMove);
             // 
             // timerRender
             // 

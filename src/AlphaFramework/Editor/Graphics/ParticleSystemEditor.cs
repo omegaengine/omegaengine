@@ -10,13 +10,14 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Input;
 
 namespace AlphaFramework.Editor.Graphics
 {
     /// <summary>
     /// Abstract base class for editing particle system presets
     /// </summary>
-    public partial class ParticleSystemEditor : UndoCommandTab
+    public partial class ParticleSystemEditor : UndoCommandTab, IInputReceiver
     {
         #region Variables
         /// <summary>
@@ -30,8 +31,6 @@ namespace AlphaFramework.Editor.Graphics
         protected ParticleSystemEditor()
         {
             InitializeComponent();
-
-            MouseWheel += ParticleSystemEditor_MouseWheel;
         }
         #endregion
 
@@ -46,49 +45,29 @@ namespace AlphaFramework.Editor.Graphics
         }
         #endregion
 
-        #region Mouse control
-        private Point _lastMouseLoc;
+        #region View control
+        protected override void OnInitialize() => renderPanel.AddInputReceiver(this);
 
-        private void panelRender_MouseMove(object sender, MouseEventArgs e)
+        void IInputReceiver.PerspectiveChange(Point pan, int rotation, int zoom)
         {
-            // Make sure mouse wheel will work
-            renderPanel.Focus();
+            Camera.Radius *= (float)Math.Pow(1.1, zoom / 15.0);
+            Camera.VerticalRotation += pan.Y;
+            Camera.HorizontalRotation += (pan.X + rotation) / 2.0f;
 
-            var delta = new Point(e.X - _lastMouseLoc.X, e.Y - _lastMouseLoc.Y);
-            //if (Settings.Current.Controls.InvertMouse)
-            //{
-            //    delta.X = -delta.X;
-            //    delta.Y = -delta.Y;
-            //}
-
-            if (renderPanel.Engine != null)
-            {
-                switch (MouseButtons)
-                {
-                    case MouseButtons.Middle:
-                    case MouseButtons.Left | MouseButtons.Right:
-                        Camera.HorizontalRotation += delta.X / 2.0;
-                        Camera.Radius *= Math.Pow(1.1, delta.Y / 15f);
-                        renderPanel.Engine.Render();
-                        break;
-                    case MouseButtons.Right:
-                        Camera.HorizontalRotation += delta.X / 2.0;
-                        Camera.VerticalRotation += delta.Y / 2.0;
-                        renderPanel.Engine.Render();
-                        break;
-                }
-            }
-
-            _lastMouseLoc = new Point(e.X, e.Y);
-        }
-
-        private void ParticleSystemEditor_MouseWheel(object sender, MouseEventArgs e)
-        {
-            if (renderPanel.Engine == null) return;
-
-            Camera.Radius *= Math.Pow(1.1, e.Delta / -60f);
             renderPanel.Engine.Render();
         }
+
+        void IInputReceiver.Hover(Point target)
+        {}
+
+        void IInputReceiver.AreaSelection(Rectangle area, bool accumulate, bool done)
+        {}
+
+        void IInputReceiver.Click(MouseEventArgs e, bool accumulate)
+        {}
+
+        void IInputReceiver.DoubleClick(MouseEventArgs e)
+        {}
         #endregion
     }
 }
