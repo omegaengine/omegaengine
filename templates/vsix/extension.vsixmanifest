@@ -3,7 +3,7 @@
   <Identifier Id="OmegaEngine_Templates">
     <Name>OmegaEngine Templates</Name>
     <Author>Bastian Eicher</Author>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Description xml:space="preserve">The OmegaEngine is a general-purpose 3D graphics engine written in C# using the .NET Framework 2.0 and DirectX 9 via SlimDX. These templates help you to get started with the engine.
 The OmegaEngine uses the NuGet Package Manager (included in Visual Studio 2012 and 2013).</Description>
     <Locale>1033</Locale>
