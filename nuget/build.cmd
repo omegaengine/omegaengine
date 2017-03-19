@@ -1,8 +1,7 @@
 @echo off
 ::Creates NuGet packages. Assumes "..\src\build.cmd Release" has already been executed.
-set /p version= < "%~dp0..\VERSION"
 
-rem Project settings
+set /p version= < "%~dp0..\VERSION"
 set TargetDir=%~dp0..\build\Packages
 
 rem Prepare clean output directory

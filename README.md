@@ -25,7 +25,7 @@ Source directory structure
 `VERSION` contains the version numbers used by build scripts.
 Use `.\Set-Version.ps1 "X.Y.Z"` in PowerShall to change the version number. This ensures that the version also gets set in other locations (e.g. `AssemblyInfo`).
 
-The `build.cmd` script assumes that Visual Studio 2015 is installed.
+The `build.cmd` script assumes that Visual Studio 2017 is installed.
 To compile the included shader code the DirectX SDK (http://msdn.microsoft.com/directx/) needs to be installed.
 
 The engine requires shader files to be located in a subdirectory of the installation path named `Shaders`.
