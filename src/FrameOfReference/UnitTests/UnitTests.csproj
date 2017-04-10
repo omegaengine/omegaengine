@@ -38,7 +38,7 @@
       <HintPath>..\..\packages\JetBrains.Annotations.10.0.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
-      <HintPath>..\..\packages\Moq.4.2.1402.2112\lib\net35\Moq.dll</HintPath>
+      <HintPath>..\..\packages\Moq.4.2.1510.2205\lib\net35\Moq.dll</HintPath>
     </Reference>
     <Reference Include="NanoByte.Common">
       <HintPath>..\..\packages\NanoByte.Common.2.0.4\lib\net35-client\NanoByte.Common.dll</HintPath>
