@@ -13,7 +13,7 @@ The "OmegaEngine Templates" Visual Studio extension can help you set up a suitab
 API documentation: http://omegaengine.de/api/alphaframework/</description>
         <summary>build game world models for presentation with AlphaFramework.Presentation</summary>
         <dependencies>
-            <dependency id="NanoByte.Common.SlimDX" version="[1.2.8]" />
+            <dependency id="NanoByte.Common.SlimDX" version="[2.0.5]" />
         </dependencies>
         <references>
             <reference file="AlphaFramework.World.dll" />
