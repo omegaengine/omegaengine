@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Dialog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<ColorBackground A="128" R="0" G="0" B="0" />
-	<ColorCaption A="128" R="96" G="128" B="255" />
-	<ColorText A="255" R="255" G="255" B="255" />
-	<CaptionText>[Settings]</CaptionText>
-	<CaptionHeight>30</CaptionHeight>
-	<OnShow>Me:ImportLua("Utils.lua")
+  <ColorBackground A="128" R="0" G="0" B="0" />
+  <ColorCaption A="128" R="96" G="128" B="255" />
+  <ColorText A="255" R="255" G="255" B="255" />
+  <CaptionText>[Settings]</CaptionText>
+  <CaptionHeight>30</CaptionHeight>
+  <OnShow>Me:ImportLua("Utils.lua")
 
 -- Import .NET enumerations
 luanet.load_assembly("NanoByte.Common.SlimDX")
 Quality = luanet.import_type("NanoByte.Common.Values.Quality")
-WaterEffectsType = luanet.import_type("Common.Values.WaterEffectsType")
+WaterEffectsType = luanet.import_type("NanoByte.Common.Values.WaterEffectsType")
 
 -- Default to English language, provide German as an option
 if Settings.General.Language == "de" then Language.SelectedItem = "Deutsch"; end;
@@ -67,30 +67,30 @@ if State ~= GameState.Menu then
 	Language.Enabled = false
 end
 </OnShow>
-	<FontSize>15</FontSize>
-	<Size Width="750" Height="520" />
-	<Shift X="0" Y="0" />
-	<GroupBox Name="GeneralBox">
-		<Location X="10" Y="42" />
-		<Size Width="720" Height="82" />
-		<ColorBorder A="255" R="0" G="0" B="0" />
-		<ColorFill A="128" R="128" G="128" B="128" />
-	</GroupBox>
-	<Label Name="GeneralLabel" Text="[General]">
-		<Location X="20" Y="50" />
-		<Size Width="100" Height="20" />
-	</Label>
-	<Label Name="LanguageLabel" Text="[Language]">
-		<Location X="20" Y="80" />
-		<Size Width="80" Height="30" />
-	</Label>
-	<DropdownList Name="Language">
-		<Location X="100" Y="80" />
-		<Size Width="130" Height="30" />
-		<Item>English</Item>
-		<Item>Deutsch</Item>
-		<SelectedItem>English</SelectedItem>
-		<OnChanged>-- Default to English language, provide German as an option
+  <FontSize>15</FontSize>
+  <Size Width="750" Height="520" />
+  <Shift X="0" Y="0" />
+  <GroupBox Name="GeneralBox">
+    <Location X="10" Y="42" />
+    <Size Width="720" Height="82" />
+    <ColorBorder A="255" R="0" G="0" B="0" />
+    <ColorFill A="128" R="128" G="128" B="128" />
+  </GroupBox>
+  <Label Name="GeneralLabel" Text="[General]">
+    <Location X="20" Y="50" />
+    <Size Width="100" Height="20" />
+  </Label>
+  <Label Name="LanguageLabel" Text="[Language]">
+    <Location X="20" Y="80" />
+    <Size Width="80" Height="30" />
+  </Label>
+  <DropdownList Name="Language">
+    <Location X="100" Y="80" />
+    <Size Width="130" Height="30" />
+    <Item>English</Item>
+    <Item>Deutsch</Item>
+    <SelectedItem>English</SelectedItem>
+    <OnChanged>-- Default to English language, provide German as an option
 if Language.SelectedItem=="Deutsch" then
 	Settings.General.Language = "de"
 else
@@ -100,134 +100,134 @@ end
 -- Reload the Settings dialog to apply the language switch
 Me:Close()
 LoadModalDialog("Settings").DialogRender.Location = Me.DialogRender.Location</OnChanged>
-	</DropdownList>
-	<CheckBox Name="PlayMusic" Text="[PlayMusic]">
-		<Location X="290" Y="55" />
-		<Size Width="280" Height="20" />
-		<OnChanged>Settings.Sound.PlayMusic = PlayMusic.Checked</OnChanged>
-	</CheckBox>
-	<CheckBox Name="InvertMouse" Text="[InvertMouse]">
-		<Location X="290" Y="85" />
-		<Size Width="280" Height="20" />
-		<OnChanged>Settings.Controls.InvertMouse = InvertMouse.Checked</OnChanged>
-	</CheckBox>
-	<GroupBox Name="DisplayBox">
-		<Location X="10" Y="142" />
-		<Size Width="720" Height="122" />
-		<ColorBorder A="255" R="0" G="0" B="0" />
-		<ColorFill A="128" R="128" G="128" B="128" />
-	</GroupBox>
-	<Label Name="DisplayLabel" Text="[Display]">
-		<Location X="20" Y="150" />
-		<Size Width="100" Height="20" />
-	</Label>
-	<Label Name="ResolutionLabel" Text="[Resolution]">
-		<Location X="20" Y="180" />
-		<Size Width="80" Height="30" />
-	</Label>
-	<DropdownList Name="Resolution">
-		<Location X="100" Y="180" />
-		<Size Width="150" Height="30" />
-		<OnChanged>location_backup = Me.DialogRender.Location
+  </DropdownList>
+  <CheckBox Name="PlayMusic" Text="[PlayMusic]">
+    <Location X="290" Y="55" />
+    <Size Width="280" Height="20" />
+    <OnChanged>Settings.Sound.PlayMusic = PlayMusic.Checked</OnChanged>
+  </CheckBox>
+  <CheckBox Name="InvertMouse" Text="[InvertMouse]">
+    <Location X="290" Y="85" />
+    <Size Width="280" Height="20" />
+    <OnChanged>Settings.Controls.InvertMouse = InvertMouse.Checked</OnChanged>
+  </CheckBox>
+  <GroupBox Name="DisplayBox">
+    <Location X="10" Y="142" />
+    <Size Width="720" Height="122" />
+    <ColorBorder A="255" R="0" G="0" B="0" />
+    <ColorFill A="128" R="128" G="128" B="128" />
+  </GroupBox>
+  <Label Name="DisplayLabel" Text="[Display]">
+    <Location X="20" Y="150" />
+    <Size Width="100" Height="20" />
+  </Label>
+  <Label Name="ResolutionLabel" Text="[Resolution]">
+    <Location X="20" Y="180" />
+    <Size Width="80" Height="30" />
+  </Label>
+  <DropdownList Name="Resolution">
+    <Location X="100" Y="180" />
+    <Size Width="150" Height="30" />
+    <OnChanged>location_backup = Me.DialogRender.Location
 Settings.Display.ResolutionText = Resolution.SelectedItem
 Me.DialogRender.Location = location_backup</OnChanged>
-	</DropdownList>
-	<Label Name="AntiAliasingLabel" Text="Anti-Aliasing">
-		<Location X="20" Y="220" />
-		<Size Width="100" Height="30" />
-	</Label>
-	<DropdownList Name="AntiAliasing">
-		<Location X="120" Y="220" />
-		<Size Width="100" Height="30" />
-		<Item>[Off]</Item>
-		<SelectedItem>[Off]</SelectedItem>
-		<OnChanged>location_backup = Me.DialogRender.Location
+  </DropdownList>
+  <Label Name="AntiAliasingLabel" Text="Anti-Aliasing">
+    <Location X="20" Y="220" />
+    <Size Width="100" Height="30" />
+  </Label>
+  <DropdownList Name="AntiAliasing">
+    <Location X="120" Y="220" />
+    <Size Width="100" Height="30" />
+    <Item>[Off]</Item>
+    <SelectedItem>[Off]</SelectedItem>
+    <OnChanged>location_backup = Me.DialogRender.Location
 Settings.Display.AntiAliasingText = AntiAliasing.SelectedItem
 Me.DialogRender.Location = location_backup</OnChanged>
-	</DropdownList>
-	<CheckBox Name="Anisotropic" Text="[Anisotropic]">
-		<Location X="290" Y="223" />
-		<Size Width="280" Height="20" />
-		<OnChanged>Settings.Graphics.Anisotropic = Anisotropic.Checked</OnChanged>
-	</CheckBox>
-	<CheckBox Name="Fullscreen" Text="[Fullscreen]">
-		<Location X="290" Y="185" />
-		<Size Width="130" Height="20" />
-		<OnChanged>location_backup = Me.DialogRender.Location
+  </DropdownList>
+  <CheckBox Name="Anisotropic" Text="[Anisotropic]">
+    <Location X="290" Y="223" />
+    <Size Width="280" Height="20" />
+    <OnChanged>Settings.Graphics.Anisotropic = Anisotropic.Checked</OnChanged>
+  </CheckBox>
+  <CheckBox Name="Fullscreen" Text="[Fullscreen]">
+    <Location X="290" Y="185" />
+    <Size Width="130" Height="20" />
+    <OnChanged>location_backup = Me.DialogRender.Location
 Settings.Display.Fullscreen = Fullscreen.Checked
 Me.DialogRender.Location = location_backup</OnChanged>
-	</CheckBox>
-	<CheckBox Name="VSync" Text="VSync">
-		<Location X="440" Y="185" />
-		<Size Width="130" Height="20" />
-		<OnChanged>location_backup = Me.DialogRender.Location
+  </CheckBox>
+  <CheckBox Name="VSync" Text="VSync">
+    <Location X="440" Y="185" />
+    <Size Width="130" Height="20" />
+    <OnChanged>location_backup = Me.DialogRender.Location
 Settings.Display.VSync = VSync.Checked
 Me.DialogRender.Location = location_backup</OnChanged>
-	</CheckBox>
-	<GroupBox Name="GeneralBox">
-		<Location X="10" Y="282" />
-		<Size Width="720" Height="162" />
-		<ColorBorder A="255" R="0" G="0" B="0" />
-		<ColorFill A="128" R="128" G="128" B="128" />
-	</GroupBox>
-	<Label Name="EffectsLabel" Text="[Effects]">
-		<Location X="20" Y="290" />
-		<Size Width="100" Height="20" />
-	</Label>
-	<CheckBox Name="PostScreenEffects" Text="[PostScreenEffects]">
-		<Location X="20" Y="325" />
-		<Size Width="220" Height="20" />
-		<OnChanged>Settings.Graphics.PostScreenEffects = PostScreenEffects.Checked</OnChanged>
-	</CheckBox>
-	<CheckBox Name="Shadows" Text="[ShowUnitShadows]">
-		<Location X="255" Y="325" />
-		<Size Width="300" Height="20" />
-		<OnChanged>Settings.Graphics.Shadows = Shadows.Checked</OnChanged>
-	</CheckBox>
-	<CheckBox Name="TerrainDoubleSampling" Text="[TerrainDoubleSampling]">
-		<Location X="460" Y="359" />
-		<Size Width="260" Height="20" />
-		<OnChanged>Settings.Graphics.DoubleSampling = TerrainDoubleSampling.Checked</OnChanged>
-	</CheckBox>
-	<Label Name="WaterEffectsLabel" Text="[WaterEffects]">
-		<Location X="20" Y="360" />
-		<Size Width="160" Height="30" />
-	</Label>
-	<DropdownList Name="WaterEffects">
-		<Location X="185" Y="360" />
-		<Size Width="220" Height="30" />
-		<Item>[None]</Item>
-		<Item>[RefractionOnly]</Item>
-		<Item>[ReflectTerrain]</Item>
-		<Item>[ReflectAll]</Item>
-		<SelectedItem>[RefractionOnly]</SelectedItem>
-		<OnChanged>if WaterEffects.SelectedItem == "[None]" then Settings.Graphics.WaterEffects = WaterEffectsType.None
+  </CheckBox>
+  <GroupBox Name="GeneralBox">
+    <Location X="10" Y="282" />
+    <Size Width="720" Height="162" />
+    <ColorBorder A="255" R="0" G="0" B="0" />
+    <ColorFill A="128" R="128" G="128" B="128" />
+  </GroupBox>
+  <Label Name="EffectsLabel" Text="[Effects]">
+    <Location X="20" Y="290" />
+    <Size Width="100" Height="20" />
+  </Label>
+  <CheckBox Name="PostScreenEffects" Text="[PostScreenEffects]">
+    <Location X="20" Y="325" />
+    <Size Width="220" Height="20" />
+    <OnChanged>Settings.Graphics.PostScreenEffects = PostScreenEffects.Checked</OnChanged>
+  </CheckBox>
+  <CheckBox Name="Shadows" Text="[ShowUnitShadows]">
+    <Location X="255" Y="325" />
+    <Size Width="300" Height="20" />
+    <OnChanged>Settings.Graphics.Shadows = Shadows.Checked</OnChanged>
+  </CheckBox>
+  <CheckBox Name="TerrainDoubleSampling" Text="[TerrainDoubleSampling]">
+    <Location X="460" Y="359" />
+    <Size Width="260" Height="20" />
+    <OnChanged>Settings.Graphics.DoubleSampling = TerrainDoubleSampling.Checked</OnChanged>
+  </CheckBox>
+  <Label Name="WaterEffectsLabel" Text="[WaterEffects]">
+    <Location X="20" Y="360" />
+    <Size Width="160" Height="30" />
+  </Label>
+  <DropdownList Name="WaterEffects">
+    <Location X="185" Y="360" />
+    <Size Width="220" Height="30" />
+    <Item>[None]</Item>
+    <Item>[RefractionOnly]</Item>
+    <Item>[ReflectTerrain]</Item>
+    <Item>[ReflectAll]</Item>
+    <SelectedItem>[RefractionOnly]</SelectedItem>
+    <OnChanged>if WaterEffects.SelectedItem == "[None]" then Settings.Graphics.WaterEffects = WaterEffectsType.None
 elseif WaterEffects.SelectedItem == "[RefractionOnly]" then Settings.Graphics.WaterEffects = WaterEffectsType.RefractionOnly
 elseif WaterEffects.SelectedItem == "[ReflectTerrain]" then Settings.Graphics.WaterEffects = WaterEffectsType.ReflectTerrain
 elseif WaterEffects.SelectedItem == "[ReflectAll]" then Settings.Graphics.WaterEffects = WaterEffectsType.ReflectAll
 end</OnChanged>
-	</DropdownList>
-	<Label Name="ParticleSystemQualityLabel" Text="[ParticleSystemQuality]">
-		<Location X="20" Y="400" />
-		<Size Width="200" Height="30" />
-	</Label>
-	<DropdownList Name="ParticleSystemQuality">
-		<Location X="220" Y="400" />
-		<Size Width="120" Height="30" />
-		<Item>[Low]</Item>
-		<Item>[Medium]</Item>
-		<Item>[High]</Item>
-		<SelectedItem>[Medium]</SelectedItem>
-		<OnChanged>if ParticleSystemQuality.SelectedItem == "[Low]" then Settings.Graphics.ParticleSystemQuality = Quality.Low
+  </DropdownList>
+  <Label Name="ParticleSystemQualityLabel" Text="[ParticleSystemQuality]">
+    <Location X="20" Y="400" />
+    <Size Width="200" Height="30" />
+  </Label>
+  <DropdownList Name="ParticleSystemQuality">
+    <Location X="220" Y="400" />
+    <Size Width="120" Height="30" />
+    <Item>[Low]</Item>
+    <Item>[Medium]</Item>
+    <Item>[High]</Item>
+    <SelectedItem>[Medium]</SelectedItem>
+    <OnChanged>if ParticleSystemQuality.SelectedItem == "[Low]" then Settings.Graphics.ParticleSystemQuality = Quality.Low
 elseif ParticleSystemQuality.SelectedItem == "[Medium]" then Settings.Graphics.ParticleSystemQuality = Quality.Medium
 elseif ParticleSystemQuality.SelectedItem == "[High]" then Settings.Graphics.ParticleSystemQuality = Quality.High
 end</OnChanged>
-	</DropdownList>
-	<Button Name="Exit" Text="OK">
-		<Location X="0" Y="20" />
-		<Size Width="160" Height="40" />
-		<AlignHorizontal>Center</AlignHorizontal>
-		<AlignVertical>FromBottom</AlignVertical>
-		<OnClick>return_to_menu()</OnClick>
-	</Button>
+  </DropdownList>
+  <Button Name="Exit" Text="OK">
+    <Location X="0" Y="20" />
+    <Size Width="160" Height="40" />
+    <AlignHorizontal>Center</AlignHorizontal>
+    <AlignVertical>FromBottom</AlignVertical>
+    <OnClick>return_to_menu()</OnClick>
+  </Button>
 </Dialog>
