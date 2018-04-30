@@ -1,9 +1,11 @@
 /build/
 /src/packages/*/
+/src/.vs/
 /src/_ReSharper*/
 /templates/packages/*/
 /templates/**/bin/
 obj/
+bin/
 test-results/
 *.bak
 *.cache
@@ -11,5 +13,4 @@ test-results/
 *.suo
 *.user
 *.userprefs
-*.*proj.DotSettings
 *.resources
