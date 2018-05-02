@@ -13,6 +13,8 @@ The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games 
 [![AlphaFramework.Presentation](https://img.shields.io/nuget/v/AlphaFramework.Presentation.svg?label=AlphaFramework.Presentation)](https://www.nuget.org/packages/AlphaFramework.Presentation/)
 [![AlphaEditor](https://img.shields.io/nuget/v/AlphaEditor.svg?label=AlphaEditor)](https://www.nuget.org/packages/AlphaEditor/)
 
+[![Build status](https://img.shields.io/appveyor/ci/omegaengine/omegaengine.svg)](https://ci.appveyor.com/project/omegaengine/omegaengine)
+
 
 Source directory structure
 --------------------------

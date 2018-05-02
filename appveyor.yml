@@ -1,0 +1,24 @@
+image: Visual Studio 2017
+
+before_build:
+  - ps: Update-AppveyorBuild -Version "$(Get-Content VERSION).build.$env:APPVEYOR_BUILD_NUMBER"
+
+build_script:
+  - ps: src\build.ps1
+  - ps: nuget\build.ps1
+  - ps: templates\build.ps1
+  - ps: doc\build.ps1
+
+artifacts:
+  - path: build\Packages\*.nupkg
+    name: NuGet
+  - path: build\Templates\*.vsix
+    name: Templates
+  - path: build\Documentation
+    name: Documentation
+
+deploy:
+  provider: Environment
+  name: nuget.org
+  on:
+    appveyor_repo_tag: true
