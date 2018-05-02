@@ -6,7 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
+using NanoByte.Common;
 
 namespace AlphaFramework.Editor
 {
@@ -16,19 +16,20 @@ namespace AlphaFramework.Editor
     /// <remarks>Calling <see cref="OnChange"/> will create an undo checkpoint (<see cref="_currentBackup"/>) after the fact, ready for the next change.
     /// The first checkpoint is created right at startup.</remarks>
     // Note: Cannot be abstract to prevent WinForms designer problems
-    public class UndoCloneTab : UndoTab<ICloneable>
+    public class UndoCloneTab<T> : UndoTab<T>
+        where T : ICloneable<T>
     {
         #region Variables
         /// <summary>
         /// The content to be handled by the undo-system
         /// </summary>
-        protected ICloneable Content;
+        protected T Content;
 
         /// <summary>
         /// A backup of the current state of <see cref="Content"/>
         /// </summary>
         /// <remarks>This is used to get the state of <see cref="Content"/> as it was before <see cref="OnChange"/> was called</remarks>
-        private ICloneable _currentBackup;
+        private T _currentBackup;
         #endregion
 
         #region Constructor
@@ -47,7 +48,7 @@ namespace AlphaFramework.Editor
         protected override void OnInitialize()
         {
             // Create an initial backup after loading
-            if (Content != null) _currentBackup = (ICloneable)Content.Clone();
+            if (Content != null) _currentBackup = Content.Clone();
         }
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace AlphaFramework.Editor
         {
             // Move the last backup to the undo list and then create a new backup
             UndoBackups.Push(_currentBackup);
-            _currentBackup = (ICloneable)Content.Clone();
+            _currentBackup = Content.Clone();
 
             buttonUndo.Enabled = true;
 
@@ -74,12 +75,12 @@ namespace AlphaFramework.Editor
         protected override void OnUndo()
         {
             // Remove the last backup from the undo list, then add the current backup to the redo list
-            ICloneable toRestore = UndoBackups.Pop();
+            var toRestore = UndoBackups.Pop();
             RedoBackups.Push(_currentBackup);
 
             // Restore the backup and update the current backup
-            Content = (ICloneable)toRestore.Clone();
-            _currentBackup = (ICloneable)Content.Clone();
+            Content = toRestore.Clone();
+            _currentBackup = Content.Clone();
         }
         #endregion
 
@@ -90,12 +91,12 @@ namespace AlphaFramework.Editor
         protected override void OnRedo()
         {
             // Remove the last backup from the redo list, then add the current backup to the undo list
-            ICloneable toRestore = RedoBackups.Pop();
+            var toRestore = RedoBackups.Pop();
             UndoBackups.Push(_currentBackup);
 
             // Restore the backup and update the current backup
-            Content = (ICloneable)toRestore.Clone();
-            _currentBackup = (ICloneable)Content.Clone();
+            Content = toRestore.Clone();
+            _currentBackup = Content.Clone();
         }
         #endregion
     }

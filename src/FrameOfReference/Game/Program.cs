@@ -58,7 +58,8 @@ namespace FrameOfReference
 
 #if !DEBUG
             // Prevent multiple instances from running simultaneously
-            if (AppMutex.Create(GeneralSettings.AppName))
+            WindowsMutex.Create(GeneralSettings.AppName, out bool alreadyRunning);
+            if (alreadyRunning)
             {
                 Msg.Inform(null, Resources.AlreadyRunning, MsgSeverity.Warn);
                 return;

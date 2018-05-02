@@ -23,7 +23,7 @@ namespace AlphaFramework.Editor.World
     /// Abstract base tab for editing <see cref="Template{T}"/>es
     /// </summary>
     /// <typeparam name="T">The type of <see cref="Template{T}"/>es to edit</typeparam>
-    public abstract partial class TemplateEditor<T> : UndoCloneTab where T : Template<T>
+    public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T>> where T : Template<T>
     {
         #region Variables
         // Don't use WinForms designer for this, since it doesn't understand generics
@@ -36,13 +36,6 @@ namespace AlphaFramework.Editor.World
             Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
             TabIndex = 1
         };
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// The list of <see cref="Template{T}"/> to visualize
-        /// </summary>
-        protected NamedCollection<T> Templates => (NamedCollection<T>)Content;
         #endregion
 
         #region Constructor
@@ -79,7 +72,7 @@ namespace AlphaFramework.Editor.World
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
                     Content = new NamedCollection<T>();
-                    Templates.SaveXml(_fullPath);
+                    Content.SaveXml(_fullPath);
                 }
             }
             else
@@ -96,12 +89,12 @@ namespace AlphaFramework.Editor.World
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
                     Content = new NamedCollection<T>();
-                    Templates.SaveXml(_fullPath);
+                    Content.SaveXml(_fullPath);
                 }
             }
             #endregion
 
-            TemplateList.Nodes = Templates;
+            TemplateList.Nodes = Content;
 
             base.OnInitialize();
         }
@@ -114,7 +107,7 @@ namespace AlphaFramework.Editor.World
             Log.Info("Save file: " + _fullPath);
             string directory = Path.GetDirectoryName(_fullPath);
             if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
-            Templates.SaveXml(_fullPath);
+            Content.SaveXml(_fullPath);
 
             base.OnSaveFile();
         }
@@ -130,14 +123,14 @@ namespace AlphaFramework.Editor.World
                     return;
 
                 foreach (var entry in TemplateList.CheckedEntries)
-                    Templates.Remove(entry);
+                    Content.Remove(entry);
             }
             else if (TemplateList.SelectedEntry != null)
             {
                 if (!Msg.YesNo(this, string.Format(Resources.DeleteSelectedEntry, TemplateList.SelectedEntry), MsgSeverity.Warn, Resources.YesDelete, Resources.NoKeep))
                     return;
 
-                Templates.Remove(TemplateList.SelectedEntry);
+                Content.Remove(TemplateList.SelectedEntry);
             }
             else return;
 
@@ -180,12 +173,12 @@ namespace AlphaFramework.Editor.World
         {
             base.Undo();
 
-            TemplateList.Nodes = Templates;
+            TemplateList.Nodes = Content;
 
             // Reasign the selection if the class still exists after the undo-action
             if (TemplateList.SelectedEntry == null) return;
             string className = TemplateList.SelectedEntry.Name;
-            TemplateList.SelectedEntry = Templates.Contains(className) ? Templates[className] : null;
+            TemplateList.SelectedEntry = Content.Contains(className) ? Content[className] : null;
         }
 
         /// <inheritdoc/>
@@ -193,12 +186,12 @@ namespace AlphaFramework.Editor.World
         {
             base.Redo();
 
-            TemplateList.Nodes = Templates;
+            TemplateList.Nodes = Content;
 
             // Reasign the selection if the class still exists after the redo-action
             if (TemplateList.SelectedEntry == null) return;
             string className = TemplateList.SelectedEntry.Name;
-            TemplateList.SelectedEntry = Templates.Contains(className) ? Templates[className] : null;
+            TemplateList.SelectedEntry = Content.Contains(className) ? Content[className] : null;
         }
         #endregion
 
@@ -221,7 +214,7 @@ namespace AlphaFramework.Editor.World
             if (string.IsNullOrEmpty(newName)) return;
 
             #region Error handling
-            if (newName == TemplateList.SelectedEntry.Name || Templates.Contains(newName))
+            if (newName == TemplateList.SelectedEntry.Name || Content.Contains(newName))
             {
                 Msg.Inform(this, Resources.NameInUse, MsgSeverity.Warn);
                 return;
@@ -231,7 +224,7 @@ namespace AlphaFramework.Editor.World
             // Create a copy with a new name
             T clonedTemplate = TemplateList.SelectedEntry.Clone();
             clonedTemplate.Name = newName;
-            Templates.Add(clonedTemplate);
+            Content.Add(clonedTemplate);
 
             OnChange();
             OnUpdate();
@@ -247,7 +240,7 @@ namespace AlphaFramework.Editor.World
 
             try
             {
-                Templates.Rename(TemplateList.SelectedEntry, newName);
+                Content.Rename(TemplateList.SelectedEntry, newName);
             }
                 #region Error handling
             catch (InvalidOperationException)

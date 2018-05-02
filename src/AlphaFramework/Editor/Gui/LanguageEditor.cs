@@ -18,16 +18,8 @@ namespace AlphaFramework.Editor.Gui
     /// <summary>
     /// Allows a user to edit language localizations for the GUI
     /// </summary>
-    public partial class LanguageEditor : UndoCloneTab
+    public partial class LanguageEditor : UndoCloneTab<XmlDictionary>
     {
-        #region Properties
-        // ReSharper disable InconsistentNaming
-        /// <summary>Wrapper to save you the trouble of casting all the time</summary>
-        private XmlDictionary locale { get { return (XmlDictionary)Content; } set { Content = value; } }
-
-        // ReSharper restore InconsistentNaming
-        #endregion
-
         #region Constructor
         /// <summary>
         /// Creates a new GUI language editor.
@@ -60,19 +52,19 @@ namespace AlphaFramework.Editor.Gui
                 if (!_overwrite && File.Exists(_fullPath))
                 { // Load existing file
                     Log.Info("Load file: " + _fullPath);
-                    locale = LocaleFile.Load(_fullPath);
+                    Content = LocaleFile.Load(_fullPath);
                 }
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
-                    locale = new XmlDictionary {{"Test", "A"}};
-                    LocaleFile.Save(_fullPath, locale);
+                    Content = new XmlDictionary {{"Test", "A"}};
+                    LocaleFile.Save(_fullPath, Content);
                 }
             }
             else
             { // File name only? Might not save to same dir loaded from!
                 Log.Info("Load file: " + FilePath);
-                locale = LocaleFile.FromContent(FilePath);
+                Content = LocaleFile.FromContent(FilePath);
                 _fullPath = ContentManager.CreateFilePath("GUI/Language", FilePath);
             }
             #endregion
@@ -84,13 +76,13 @@ namespace AlphaFramework.Editor.Gui
         protected override void OnSaveFile()
         {
             // Sort alphabetically before saving
-            locale.Sort();
+            Content.Sort();
             // OnUpdate() will automatically be called
 
             Log.Info("Save file: " + _fullPath);
             string directory = Path.GetDirectoryName(_fullPath);
             if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
-            LocaleFile.Save(_fullPath, locale);
+            LocaleFile.Save(_fullPath, Content);
 
             base.OnSaveFile();
         }
@@ -115,7 +107,7 @@ namespace AlphaFramework.Editor.Gui
             dataGrid.NewRowNeeded -= OnDataGridViewRowEvent;
             dataGrid.UserDeletedRow -= OnDataGridViewRowEvent;
 
-            dataGrid.DataSource = locale;
+            dataGrid.DataSource = Content;
 
             // Restore the event handler delegates
             dataGrid.CellValueChanged += OnDataGridViewCellEvent;

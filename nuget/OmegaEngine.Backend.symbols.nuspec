@@ -12,7 +12,7 @@ Use this package directly if another project in your solution with the same buil
 API documentation: http://omegaengine.de/api/omegaengine/</description>
         <summary>Library binaries for the OmegaEngine without external resources, automatically included by the main package</summary>
         <dependencies>
-            <dependency id="NanoByte.Common.SlimDX" version="[2.0.5]" />
+            <dependency id="NanoByte.Common.SlimDX" version="[2.1.11]" />
         </dependencies>
         <references>
             <reference file="OmegaEngine.dll" />

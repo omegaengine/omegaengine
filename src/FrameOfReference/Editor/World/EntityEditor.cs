@@ -35,6 +35,7 @@ using FrameOfReference.World;
 using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
 using NanoByte.Common;
+using NanoByte.Common.Collections;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Cameras;
@@ -240,7 +241,7 @@ namespace FrameOfReference.Editor.World
 
             #region Error handling
             if (string.IsNullOrEmpty(newName)) return;
-            if (Templates.Contains(newName))
+            if (Content.Contains(newName))
             {
                 Msg.Inform(this, Resources.NameInUse, MsgSeverity.Warn);
                 return;
@@ -248,7 +249,7 @@ namespace FrameOfReference.Editor.World
             #endregion
 
             var template = new EntityTemplate {Name = newName};
-            Templates.Add(template);
+            Content.Add(template);
             OnChange();
             OnUpdate();
 

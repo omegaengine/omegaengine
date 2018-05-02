@@ -25,6 +25,7 @@ using AlphaFramework.Editor.Properties;
 using AlphaFramework.World.Templates;
 using FrameOfReference.World.Templates;
 using NanoByte.Common;
+using NanoByte.Common.Collections;
 using NanoByte.Common.Controls;
 
 namespace FrameOfReference.Editor.World
@@ -60,7 +61,7 @@ namespace FrameOfReference.Editor.World
 
             #region Error handling
             if (string.IsNullOrEmpty(newName)) return;
-            if (Templates.Contains(newName))
+            if (Content.Contains(newName))
             {
                 Msg.Inform(this, Resources.NameInUse, MsgSeverity.Warn);
                 return;
@@ -68,7 +69,7 @@ namespace FrameOfReference.Editor.World
             #endregion
 
             var itemClass = new ItemTemplate {Name = newName};
-            Templates.Add(itemClass);
+            Content.Add(itemClass);
             OnChange();
             OnUpdate();
 

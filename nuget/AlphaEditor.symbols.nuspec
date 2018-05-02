@@ -12,7 +12,7 @@ The "OmegaEngine Templates" Visual Studio extension can help you set up a suitab
 API documentation: http://omegaengine.de/api/alphaframework/</description>
         <summary>IDE-like editor for OmegaEngine games (GUI, maps, particle systems, etc.)</summary>
         <dependencies>
-            <dependency id="ICSharpCode.SharpZipLib.Patched" version="0.86.5" />
+            <dependency id="ICSharpCode.SharpZipLib.Patched" version="0.86.5.1" />
             <dependency id="OmegaEngine.Backend" version="[$version$$VersionSuffix$]" />
             <dependency id="OmegaGUI" version="[$version$$VersionSuffix$]" />
             <dependency id="AlphaFramework.World" version="[$version$$VersionSuffix$]" />

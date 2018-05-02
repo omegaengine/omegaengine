@@ -57,7 +57,7 @@ namespace OmegaGUI.Model
     /// </summary>
     [XmlInclude(typeof(Color4))]
     [CLSCompliant(false)]
-    public class Dialog : ICloneable
+    public class Dialog : ICloneable<Dialog>
     {
         #region Events
         /// <summary>
@@ -570,11 +570,6 @@ namespace OmegaGUI.Model
             newDialog.ScriptFired = null;
 
             return newDialog;
-        }
-
-        object ICloneable.Clone()
-        {
-            return Clone();
         }
         #endregion
     }

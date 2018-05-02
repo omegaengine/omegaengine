@@ -1,5 +1,5 @@
 ﻿PROJECT_NAME = "OmegaEngine API"
-PROJECT_NUMBER = "1.0.2"
+PROJECT_NUMBER = "1.0.3"
 
 INPUT = OmegaEngine.md ../src/OmegaEngine ../src/OmegaGUI
 USE_MDFILE_AS_MAINPAGE = OmegaEngine.md

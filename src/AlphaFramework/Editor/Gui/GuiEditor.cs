@@ -27,15 +27,12 @@ namespace AlphaFramework.Editor.Gui
     /// <summary>
     /// Allows a user to design a GUI dialog
     /// </summary>
-    public partial class GuiEditor : UndoCloneTab
+    public partial class GuiEditor : UndoCloneTab<Dialog>
     {
         #region Variables
         private GuiManager _guiManager;
         private DialogRenderer _dialogRenderer;
         private Dialogs.AddControlTool _addControlTool;
-
-        /// <summary>Wrapper to save you the trouble of casting all the time</summary>
-        private Dialog DialogModel { get { return (Dialog)Content; } set { Content = value; } }
 
         /// <summary>The mouse coordinates where the picking started (i.e. where the mouse was first pressed)</summary>
         private Point _pickStart;
@@ -81,19 +78,19 @@ namespace AlphaFramework.Editor.Gui
                 if (!_overwrite && File.Exists(_fullPath))
                 { // Load existing file
                     Log.Info("Load file: " + _fullPath);
-                    DialogModel = XmlStorage.LoadXml<Dialog>(_fullPath);
+                    Content = XmlStorage.LoadXml<Dialog>(_fullPath);
                 }
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
-                    DialogModel = new Dialog();
-                    DialogModel.SaveXml(_fullPath);
+                    Content = new Dialog();
+                    Content.SaveXml(_fullPath);
                 }
             }
             else
             { // File name only? Might not save to same dir loaded from!
                 Log.Info("Load file: " + FilePath);
-                DialogModel = Dialog.FromContent(FilePath);
+                Content = Dialog.FromContent(FilePath);
                 _fullPath = ContentManager.CreateFilePath("GUI", FilePath);
             }
             #endregion
@@ -117,7 +114,7 @@ namespace AlphaFramework.Editor.Gui
             Log.Info("Save file: " + _fullPath);
             string directory = Path.GetDirectoryName(_fullPath);
             if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
-            DialogModel.SaveXml(_fullPath);
+            Content.SaveXml(_fullPath);
 
             base.OnSaveFile();
         }
@@ -129,7 +126,7 @@ namespace AlphaFramework.Editor.Gui
             if (buttonRemove.Enabled)
             {
                 foreach (object item in listBox.SelectedItems)
-                    DialogModel.Controls.Remove((Control)item);
+                    Content.Controls.Remove((Control)item);
                 OnChange();
 
                 propertyGrid.SelectedObjects = null;
@@ -154,9 +151,9 @@ namespace AlphaFramework.Editor.Gui
             listBox.Items.Clear();
 
             // List the dialog itself as a control aswell
-            listBox.Items.Add(DialogModel);
+            listBox.Items.Add(Content);
 
-            foreach (Control control in DialogModel.Controls)
+            foreach (Control control in Content.Controls)
             {
                 listBox.Items.Add(control);
 
@@ -176,7 +173,7 @@ namespace AlphaFramework.Editor.Gui
 
             // Reset the GUI rendering system
             _dialogRenderer?.Dispose();
-            _dialogRenderer = new DialogRenderer(_guiManager, DialogModel);
+            _dialogRenderer = new DialogRenderer(_guiManager, Content);
             renderPanel.Engine.Render();
 
             base.OnUpdate();
@@ -226,7 +223,7 @@ namespace AlphaFramework.Editor.Gui
             _addControlTool = new Dialogs.AddControlTool();
             _addControlTool.NewControl += (control =>
             { // Callback when the "Add" button is clicked
-                DialogModel.Controls.Add(control);
+                Content.Controls.Add(control);
                 OnChange();
 
                 // Select the newly added control
@@ -258,11 +255,11 @@ namespace AlphaFramework.Editor.Gui
 
         private void buttonMoveUp_Click(object sender, EventArgs e)
         {
-            DialogModel.Controls.Remove((Control)listBox.SelectedItem);
+            Content.Controls.Remove((Control)listBox.SelectedItem);
 
             int insertIndex = listBox.SelectedIndex - 2;
-            if (insertIndex < 0) insertIndex = DialogModel.Controls.Count;
-            DialogModel.Controls.Insert(insertIndex, (Control)listBox.SelectedItem);
+            if (insertIndex < 0) insertIndex = Content.Controls.Count;
+            Content.Controls.Insert(insertIndex, (Control)listBox.SelectedItem);
             OnChange();
 
             OnUpdate();
@@ -271,11 +268,11 @@ namespace AlphaFramework.Editor.Gui
 
         private void buttonMoveDown_Click(object sender, EventArgs e)
         {
-            DialogModel.Controls.Remove((Control)listBox.SelectedItem);
+            Content.Controls.Remove((Control)listBox.SelectedItem);
 
             int insertIndex = listBox.SelectedIndex;
-            if (insertIndex > DialogModel.Controls.Count) insertIndex = 0;
-            DialogModel.Controls.Insert(insertIndex, (Control)listBox.SelectedItem);
+            if (insertIndex > Content.Controls.Count) insertIndex = 0;
+            Content.Controls.Insert(insertIndex, (Control)listBox.SelectedItem);
             OnChange();
 
             OnUpdate();
@@ -288,7 +285,7 @@ namespace AlphaFramework.Editor.Gui
             {
                 var clonedControl = item.Clone();
                 clonedControl.Location = new Point();
-                DialogModel.Controls.Add(clonedControl);
+                Content.Controls.Add(clonedControl);
             }
             OnChange();
 
@@ -313,7 +310,7 @@ namespace AlphaFramework.Editor.Gui
         {
             OnChange();
 
-            if (DialogModel.NeedsUpdate || e.ChangedItem.Label == "Name") OnUpdate();
+            if (Content.NeedsUpdate || e.ChangedItem.Label == "Name") OnUpdate();
             else renderPanel.Engine.Render();
 
             propertyGrid.Refresh();
@@ -330,14 +327,14 @@ namespace AlphaFramework.Editor.Gui
             bool accumulate = ModifierKeys.HasFlag(Keys.Control);
 
             // Switch to control dragging instead of selection if the mouse is pressed while above a control
-            if (DialogModel != null && DialogModel.EffectiveScale == 1)
+            if (Content != null && Content.EffectiveScale == 1)
             {
                 // Loop through all controls from back to front
-                for (int i = DialogModel.Controls.Count - 1; i >= 0; i--)
+                for (int i = Content.Controls.Count - 1; i >= 0; i--)
                 {
-                    if (DialogModel.Controls[i].DrawBox.Contains(_pickStart))
+                    if (Content.Controls[i].DrawBox.Contains(_pickStart))
                     {
-                        _dragControl = DialogModel.Controls[i];
+                        _dragControl = Content.Controls[i];
 
                         // Remove all previous selections unless the user wants to accumulate selections
                         if (!accumulate) listBox.ClearSelected();
@@ -404,7 +401,7 @@ namespace AlphaFramework.Editor.Gui
             if (_dragControl == null)
             {
                 // Select all controls within the rectangle
-                var selectedControls = DialogModel.PickControls(Rectangle.FromLTRB(
+                var selectedControls = Content.PickControls(Rectangle.FromLTRB(
                     _pickStart.X < e.X ? _pickStart.X : e.X,
                     _pickStart.Y < e.Y ? _pickStart.Y : e.Y,
                     _pickStart.X > e.X ? _pickStart.X : e.X,
