@@ -3,7 +3,15 @@ OmegaEngine
 The OmegaEngine is a general-purpose 3D graphics engine written in C# using the .NET Framework 2.0 and DirectX 9 via [SlimDX](http://slimdx.org/). The engine is designed to be light-weight, modular and gameplay-agnostic.
 The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games using the OmegaEngine.
 
-**[Website / Documentation](http://omegaengine.de/)**
+**[Documentation](http://omegaengine.de/)**
+
+**[NuGet packages](https://github.com/omegaengine/omegaengine/wiki/Download#nuget-packages)** (for .NET Framework 2.0+):  
+[![OmegaEngine](https://img.shields.io/nuget/v/OmegaEngine.svg?label=OmegaEngine)](https://www.nuget.org/packages/OmegaEngine/)
+[![OmegaEngine.Backend](https://img.shields.io/nuget/v/OmegaEngine.Backend.svg?label=OmegaEngine.Backend)](https://www.nuget.org/packages/OmegaEngine.Backend/)
+[![OmegaGUI](https://img.shields.io/nuget/v/OmegaGUI.svg?label=OmegaGUI)](https://www.nuget.org/packages/OmegaGUI/)  
+[![AlphaFramework.World](https://img.shields.io/nuget/v/AlphaFramework.World.svg?label=AlphaFramework.World)](https://www.nuget.org/packages/AlphaFramework.World/)
+[![AlphaFramework.Presentation](https://img.shields.io/nuget/v/AlphaFramework.Presentation.svg?label=AlphaFramework.Presentation)](https://www.nuget.org/packages/AlphaFramework.Presentation/)
+[![AlphaEditor](https://img.shields.io/nuget/v/AlphaEditor.svg?label=AlphaEditor)](https://www.nuget.org/packages/AlphaEditor/)
 
 
 Source directory structure
