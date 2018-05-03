@@ -6,7 +6,7 @@ USE_MDFILE_AS_MAINPAGE = FrameOfReference.md
 STRIP_FROM_PATH = ../src/FrameOfReference
 RECURSIVE = YES
 EXCLUDE_PATTERNS = */UnitTests/* */Properties/* *.NativeMethods.cs */obj/*
-TAGFILES = ../build/common.tag=http://nano-byte.de/common/api/ ../build/Documentation/omegaengine.tag=../omegaengine ../build/Documentation/alphaframework.tag=../alphaframework
+TAGFILES = nanobyte-common.tag=http://nano-byte.de/common/api/  ../build/Documentation/omegaengine.tag=../omegaengine ../build/Documentation/alphaframework.tag=../alphaframework
 
 OUTPUT_DIRECTORY = ../build/Documentation
 GENERATE_TAGFILE = ../build/Documentation/frame-of-reference.tag

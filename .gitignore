@@ -1,12 +1,12 @@
 /build/
-/src/packages/*/
 /src/.vs/
 /src/_ReSharper*/
+/src/packages/ 
 /templates/packages/*/
 /templates/**/bin/
+/doc/*.tag
 obj/
 bin/
-test-results/
 *.bak
 *.cache
 *.pidb

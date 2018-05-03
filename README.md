@@ -16,24 +16,23 @@ The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games 
 
 Source directory structure
 --------------------------
-- `\build.cmd` - A script that automatically compiles the source code (use the command-line argument `+doc` to compile source code documentation)
-- `\cleanup.cmd` - A cleanup script that removes compiled binaries, deletes temporary `obj` directories, resets Visual Studio settings and so on
+- `\build.ps1` - A script that compiles the entire project
 - `\src\` - The actual source code in a Visual Studio project
 - `\lib\` - Pre-compiled 3rd party libraries which are not available via NuGet
 - `\nuget\` - Specification files for building NuGet packages
 - `\templates\` - Source code for Visual Studio templates
 - `\doc\` - Files for creating source code documentation
 - `\content\` - Game content files (.X files, PNGs, ...) 
-- `\build\Debug\` - The compiled debug binaries (created by \src\build.cmd Debug)
-- `\build\Release\` - The compiled release binaries (created by \src\build.cmd Release)
-- `\build\Packages\` - The compiled NuGet packages (created by \nuget\build.cmd)
-- `\build\Templates\` - The packaged Visual Studio templates (created by \templates\build.cmd)
-- `\build\Documentation\` - The compiled source code documentation (created by \doc\build.cmd)
+- `\build\Debug\` - The compiled debug binaries (created by \src\build.ps1 Debug)
+- `\build\Release\` - The compiled release binaries (created by \src\build.ps1 Release)
+- `\build\Packages\` - The compiled NuGet packages (created by \nuget\build.ps1)
+- `\build\Templates\` - The packaged Visual Studio templates (created by \templates\build.ps1)
+- `\build\Documentation\` - The compiled source code documentation (created by \doc\build.ps1)
 
 `VERSION` contains the version numbers used by build scripts.
 Use `.\Set-Version.ps1 "X.Y.Z"` in PowerShall to change the version number. This ensures that the version also gets set in other locations (e.g. `AssemblyInfo`).
 
-The `build.cmd` script assumes that Visual Studio 2017 is installed.
+The `build.ps1` script assumes that Visual Studio 2017 is installed.
 To compile the included shader code the DirectX SDK (http://msdn.microsoft.com/directx/) needs to be installed.
 
 The engine requires shader files to be located in a subdirectory of the installation path named `Shaders`.
