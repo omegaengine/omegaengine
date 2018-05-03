@@ -14,7 +14,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// Label text control
     /// </summary>
-    [CLSCompliant(false)]
     public class Label : Control
     {
         protected string textData; // Window text

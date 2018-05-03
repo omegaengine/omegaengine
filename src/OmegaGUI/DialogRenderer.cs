@@ -68,13 +68,11 @@ namespace OmegaGUI
         /// <summary>
         /// The dialog to be displayed
         /// </summary>
-        [CLSCompliant(false)]
         public Dialog DialogModel { get; }
 
         /// <summary>
         /// The rendering system used to display <see cref="DialogModel"/>
         /// </summary>
-        [CLSCompliant(false)]
         public Render.Dialog DialogRender { get; }
         #endregion
 
@@ -100,7 +98,6 @@ namespace OmegaGUI
         /// <param name="dialog">The dialog to be displayed</param>
         /// <param name="location">The location of the dialog on the screen</param>
         /// <param name="lua">The scripting engine to execute event handlers.</param>
-        [CLSCompliant(false)]
         public DialogRenderer(GuiManager manager, Dialog dialog, Point location = new Point(), Lua lua = null)
         {
             _manager = manager;
@@ -287,7 +284,6 @@ namespace OmegaGUI
         #endregion
 
         #region MsgBox
-        [CLSCompliant(false)]
         public void MsgBox(string text)
         {
             MsgBox(text, null);

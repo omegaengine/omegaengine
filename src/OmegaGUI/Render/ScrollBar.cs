@@ -16,7 +16,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// A scroll bar control
     /// </summary>
-    [CLSCompliant(false)]
     public class ScrollBar : Control
     {
         public const int TrackLayer = 0;

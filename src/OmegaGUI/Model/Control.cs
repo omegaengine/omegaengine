@@ -73,7 +73,6 @@ namespace OmegaGUI.Model
         /// <summary>
         /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
         /// </summary>
-        [CLSCompliant(false)]
         protected Render.Control DXControl;
 
         /// <summary>
@@ -247,7 +246,7 @@ namespace OmegaGUI.Model
         public string OnMouseExit { get; set; }
         #endregion
 
-        [CLSCompliant(false), Browsable(false)]
+        [Browsable(false)]
         public Render.Control ControlModel => DXControl;
         #endregion
 

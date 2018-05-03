@@ -28,7 +28,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// Blends colors
     /// </summary>
-    [CLSCompliant(false)]
     public struct BlendColor
     {
         public Color4[] States; // Modulate colors for all possible control states
@@ -74,7 +73,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// Contains all the display information for a given control type
     /// </summary>
-    [CLSCompliant(false)]
     public struct ElementHolder
     {
         public ControlType ControlType;

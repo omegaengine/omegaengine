@@ -24,7 +24,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// A dialog model containing DirectX-based controls
     /// </summary>
-    [CLSCompliant(false)]
     public class Dialog
     {
         #region Constants

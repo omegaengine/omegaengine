@@ -15,7 +15,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// A filled rectangle used to optically group controls together
     /// </summary>
-    [CLSCompliant(false)]
     public class GroupBox : Control
     {
         public Color4 BorderColor, FillColor;

@@ -21,7 +21,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// Dropdown list control
     /// </summary>
-    [CLSCompliant(false)]
     public class DropdownList : Button
     {
         public const int MainLayer = 0;

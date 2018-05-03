@@ -33,7 +33,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// A message-box dialog
     /// </summary>
-    [CLSCompliant(false)]
     public class MessageBox : Dialog
     {
         public bool Visible { get; private set; }

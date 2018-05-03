@@ -20,7 +20,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// A basic edit box
     /// </summary>
-    [CLSCompliant(false)]
     public class TextBox : Control
     {
         #region Element layers

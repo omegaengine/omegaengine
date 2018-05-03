@@ -21,7 +21,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// List box control
     /// </summary>
-    [CLSCompliant(false)]
     public class ListBox : Control
     {
         public const int MainLayer = 0;

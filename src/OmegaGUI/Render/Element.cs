@@ -16,7 +16,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// Contains all the display tweakables for a control
     /// </summary>
-    [CLSCompliant(false)]
     public class Element : ICloneable
     {
         #region Instance Data

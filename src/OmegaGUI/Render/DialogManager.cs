@@ -21,7 +21,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// Manages shared resources of DirectX-based dialogs
     /// </summary>
-    [CLSCompliant(false)]
     public sealed class DialogManager : IDisposable
     {
         #region Variables
@@ -311,7 +310,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// Structure for shared textures
     /// </summary>
-    [CLSCompliant(false)]
     public class TextureNode
     {
         public string Filename;
@@ -323,7 +321,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// Structure for shared fonts
     /// </summary>
-    [CLSCompliant(false)]
     public class FontNode
     {
         public string FaceName;

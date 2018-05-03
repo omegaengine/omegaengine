@@ -19,7 +19,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// Abstract base class for all control models
     /// </summary>
-    [CLSCompliant(false)]
     public abstract class Control
     {
         public override string ToString()

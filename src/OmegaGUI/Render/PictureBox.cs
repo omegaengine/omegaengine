@@ -11,7 +11,6 @@ using SlimDX.Direct3D9;
 
 namespace OmegaGUI.Render
 {
-    [CLSCompliant(false)]
     public class PictureBox : Control
     {
         /// <summary>Create new picture box instance</summary>

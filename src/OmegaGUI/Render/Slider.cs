@@ -17,7 +17,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// Slider control
     /// </summary>
-    [CLSCompliant(false)]
     public class Slider : Control
     {
         public const int TrackLayer = 0;

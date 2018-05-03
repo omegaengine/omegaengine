@@ -18,7 +18,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// CheckBox control
     /// </summary>
-    [CLSCompliant(false)]
     public class CheckBox : Button
     {
         public const int BoxLayer = 0;

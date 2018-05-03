@@ -56,7 +56,6 @@ namespace OmegaGUI.Model
     /// An XML-serializable dialog view
     /// </summary>
     [XmlInclude(typeof(Color4))]
-    [CLSCompliant(false)]
     public class Dialog : ICloneable<Dialog>
     {
         #region Events

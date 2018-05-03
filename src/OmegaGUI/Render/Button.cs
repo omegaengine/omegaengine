@@ -17,7 +17,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// Button control
     /// </summary>
-    [CLSCompliant(false)]
     public class Button : Label
     {
         public const int ButtonLayer = 0;

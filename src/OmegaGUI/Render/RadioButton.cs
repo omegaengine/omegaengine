@@ -16,7 +16,6 @@ namespace OmegaGUI.Render
     /// <summary>
     /// Radio button control
     /// </summary>
-    [CLSCompliant(false)]
     public class RadioButton : CheckBox
     {
         protected uint buttonGroupIndex;

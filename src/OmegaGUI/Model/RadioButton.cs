@@ -45,7 +45,7 @@ namespace OmegaGUI.Model
         /// <summary>
         /// The ID of the radio button group - no auto-update
         /// </summary>
-        [Description("The ID of the radio button group"), Category("Design"), CLSCompliant(false)]
+        [Description("The ID of the radio button group"), Category("Design"),]
         public uint GroupID
         {
             get { return _groupID; }
