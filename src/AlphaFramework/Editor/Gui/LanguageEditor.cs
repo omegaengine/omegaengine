@@ -10,7 +10,7 @@ using System.IO;
 using System.Windows.Forms;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
-using NanoByte.Common.Storage.SlimDX;
+using OmegaEngine.Storage;
 using OmegaGUI.Model;
 
 namespace AlphaFramework.Editor.Gui

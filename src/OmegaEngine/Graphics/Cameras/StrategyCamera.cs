@@ -13,6 +13,8 @@ using NanoByte.Common;
 using NanoByte.Common.Values;
 using NanoByte.Common.Values.Design;
 using OmegaEngine.Properties;
+using OmegaEngine.Values;
+using OmegaEngine.Values.Design;
 
 namespace OmegaEngine.Graphics.Cameras
 {

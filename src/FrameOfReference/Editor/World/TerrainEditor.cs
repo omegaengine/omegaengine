@@ -32,7 +32,7 @@ using FrameOfReference.World.Templates;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Controls;
-using NanoByte.Common.Storage.SlimDX;
+using OmegaEngine.Storage;
 
 namespace FrameOfReference.Editor.World
 {

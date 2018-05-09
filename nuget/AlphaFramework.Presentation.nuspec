@@ -13,7 +13,7 @@ The "OmegaEngine Templates" Visual Studio extension can help you set up a suitab
 API documentation: http://omegaengine.de/api/alphaframework/</description>
         <summary>render AlphaFramework.World-based models using the OmegaEngine</summary>
         <dependencies>
-            <dependency id="NanoByte.Common.SlimDX" version="[2.1.11]" />
+            <dependency id="AlphaFramework.World" version="[$version$$VersionSuffix$]" />
         </dependencies>
         <references>
             <reference file="AlphaFramework.Presentation.dll" />

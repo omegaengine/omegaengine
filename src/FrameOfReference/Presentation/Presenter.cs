@@ -27,11 +27,12 @@ using AlphaFramework.World.Positionables;
 using FrameOfReference.World;
 using FrameOfReference.World.Config;
 using NanoByte.Common.Dispatch;
-using NanoByte.Common.Storage.SlimDX;
 using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
+using OmegaEngine.Storage;
+using OmegaEngine.Values;
 using SlimDX;
 
 namespace FrameOfReference.Presentation

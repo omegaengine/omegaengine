@@ -28,6 +28,8 @@ using System.Xml.Serialization;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Values;
 using NanoByte.Common.Values.Design;
+using OmegaEngine.Values;
+using OmegaEngine.Values.Design;
 using OmegaGUI.Render;
 
 namespace OmegaGUI.Model

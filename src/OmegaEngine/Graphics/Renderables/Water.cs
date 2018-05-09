@@ -15,6 +15,7 @@ using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
+using OmegaEngine.Values;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Renderables

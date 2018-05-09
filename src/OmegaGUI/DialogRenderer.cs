@@ -28,8 +28,8 @@ using System.Drawing;
 using System.IO;
 using LuaInterface;
 using NanoByte.Common;
-using NanoByte.Common.Storage.SlimDX;
 using OmegaEngine;
+using OmegaEngine.Storage;
 using OmegaGUI.Model;
 
 namespace OmegaGUI

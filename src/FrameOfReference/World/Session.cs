@@ -26,7 +26,7 @@ using System.Linq;
 using AlphaFramework.World;
 using FrameOfReference.World.Positionables;
 using LuaInterface;
-using NanoByte.Common;
+using OmegaEngine;
 
 namespace FrameOfReference.World
 {
@@ -61,7 +61,7 @@ namespace FrameOfReference.World
         public override double Update(double elapsedRealTime)
         {
             if (TimeTravelInProgress) return UpdateTimeTravel(elapsedRealTime);
-            
+
             double elapsedGameTime = elapsedRealTime * TimeWarpFactor;
             double gameTimeDelta = LeftoverGameTime + elapsedGameTime.Clamp(-MaximumUpdate, MaximumUpdate);
             LeftoverGameTime = UpdateDeterministic(gameTimeDelta);

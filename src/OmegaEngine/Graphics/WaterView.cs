@@ -11,6 +11,7 @@ using System.ComponentModel;
 using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
+using OmegaEngine.Values;
 
 namespace OmegaEngine.Graphics
 {

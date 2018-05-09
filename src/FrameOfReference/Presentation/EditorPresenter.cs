@@ -37,6 +37,7 @@ using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;
+using OmegaEngine.Values;
 using SlimDX;
 using View = OmegaEngine.Graphics.View;
 

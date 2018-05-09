@@ -26,7 +26,7 @@ using System.IO;
 using System.Xml.Serialization;
 using LuaInterface;
 using NanoByte.Common;
-using NanoByte.Common.Storage.SlimDX;
+using OmegaEngine.Storage;
 using Locations = NanoByte.Common.Storage.Locations;
 
 namespace FrameOfReference.World.Config

@@ -10,9 +10,11 @@ using System;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Values;
+using OmegaEngine.Collections;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Values;
 
 namespace OmegaEngine.Graphics.Renderables
 {

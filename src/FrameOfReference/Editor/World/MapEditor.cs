@@ -43,10 +43,11 @@ using ICSharpCode.SharpZipLib.Zip;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Dispatch;
-using NanoByte.Common.Storage.SlimDX;
 using NanoByte.Common.Tasks;
 using NanoByte.Common.Undo;
+using OmegaEngine;
 using OmegaEngine.Input;
+using OmegaEngine.Storage;
 using SlimDX;
 using Resources = AlphaFramework.Editor.Properties.Resources;
 

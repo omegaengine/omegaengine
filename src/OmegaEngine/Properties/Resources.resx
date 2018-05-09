@@ -120,11 +120,23 @@
   <data name="AngleNotBelow90" xml:space="preserve">
     <value>Value must be smaller than 90 degrees</value>
   </data>
+  <data name="ArgMustNotBeNegative" xml:space="preserve">
+    <value>The argument may not be less than zero.</value>
+  </data>
+  <data name="AtLeast2Values" xml:space="preserve">
+    <value>You need to pass at least two values.</value>
+  </data>
   <data name="BadGraphics" xml:space="preserve">
     <value>This game is not supported by your graphics card.</value>
   </data>
   <data name="CallMethodOnlyOnce" xml:space="preserve">
     <value>This method may be called only once on this object.</value>
+  </data>
+  <data name="ContentArchivesAlreadyLoaded" xml:space="preserve">
+    <value>The content archives were already loaded</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
   </data>
   <data name="DirectXMissing" xml:space="preserve">
     <value>The required version of DirectX is not installed on your computer.</value>
@@ -144,11 +156,17 @@
   <data name="InvalidScreenshotSize" xml:space="preserve">
     <value>The screenshot resolution must not exceed the current render resolution.</value>
   </data>
+  <data name="ItemAlreadyInPool" xml:space="preserve">
+    <value>The item is already in a pool. It can not be added to more than one pool.</value>
+  </data>
   <data name="LightsNotDeactivated" xml:space="preserve">
     <value>DeactivateLights was not called after the last render pass.</value>
   </data>
   <data name="LoadingMusic" xml:space="preserve">
     <value>Loading music...</value>
+  </data>
+  <data name="LoseChangesAsk" xml:space="preserve">
+    <value>Warning! All your changes to this file will be lost. Do you wish to continue?</value>
   </data>
   <data name="MeshIndexBufferNot16bit" xml:space="preserve">
     <value>The mesh doesn't use 16-bit indices.</value>
@@ -159,11 +177,17 @@
   <data name="MinimumShaderModel" xml:space="preserve">
     <value>You need a graphics card that supports at least Shader Model {0}.</value>
   </data>
+  <data name="MinLargerMax" xml:space="preserve">
+    <value>The Min value may not be larger than the Max value.</value>
+  </data>
   <data name="NoDebugInFullscreen" xml:space="preserve">
     <value>The engine debug interface cannot be activated while in fullscreen mode.</value>
   </data>
   <data name="NoLinearTextureFiltering" xml:space="preserve">
     <value>Your graphics card does not support linear texture filtering.</value>
+  </data>
+  <data name="NoModActive" xml:space="preserve">
+    <value>There is currently no active mod.</value>
   </data>
   <data name="NoModifyTerrainColorWithoutLighting" xml:space="preserve">
     <value>The terrain color can't be modified if terrain lighting is disabled.</value>
@@ -177,8 +201,20 @@
   <data name="NoSuchLightSource" xml:space="preserve">
     <value>There was no such light source found:</value>
   </data>
+  <data name="NotAnImage" xml:space="preserve">
+    <value>The file is not a valid image.</value>
+  </data>
   <data name="NotAvailable" xml:space="preserve">
     <value>A required graphics feature was not available</value>
+  </data>
+  <data name="NotFoundGameContentDir" xml:space="preserve">
+    <value>The game content directory could not be found:</value>
+  </data>
+  <data name="NotFoundGameContentFile" xml:space="preserve">
+    <value>The following game content file could not be found:</value>
+  </data>
+  <data name="NotFoundModContentDir" xml:space="preserve">
+    <value>The mod directory could not be found:</value>
   </data>
   <data name="NotFoundShaderFile" xml:space="preserve">
     <value>The following shader data file could not be found:</value>
@@ -186,17 +222,29 @@
   <data name="NotSupportedShader" xml:space="preserve">
     <value>This shader is not supported by your graphics card.</value>
   </data>
+  <data name="NoXmlDataInZip" xml:space="preserve">
+    <value>There was no XML data found in the ZIP file.</value>
+  </data>
   <data name="NumberNotReal" xml:space="preserve">
     <value>The value must be a real number.</value>
   </data>
+  <data name="ProblemLoading" xml:space="preserve">
+    <value>There was a problem loading '{0}'.</value>
+  </data>
   <data name="ReleasedTooOften" xml:space="preserve">
     <value>The Release method was called to often on {0}.</value>
+  </data>
+  <data name="Revert" xml:space="preserve">
+    <value>Revert</value>
   </data>
   <data name="SongAlreadyLoaded" xml:space="preserve">
     <value>This song was loaded more than once: </value>
   </data>
   <data name="SongLoadFailed" xml:space="preserve">
     <value>Failed to load song: </value>
+  </data>
+  <data name="UnableToDelete" xml:space="preserve">
+    <value>The file could not be deleted.</value>
   </data>
   <data name="UnknownVertexFormat" xml:space="preserve">
     <value>The specified vertex format is not known.</value>

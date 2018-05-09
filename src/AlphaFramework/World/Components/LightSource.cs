@@ -11,8 +11,7 @@ using System.Drawing;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 using LuaInterface;
-using NanoByte.Common.Values;
-using SlimDX;
+using OmegaEngine.Values;
 
 namespace AlphaFramework.World.Components
 {

@@ -12,6 +12,7 @@ using System.Linq;
 using NanoByte.Common;
 using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Shaders;
+using OmegaEngine.Values;
 using SlimDX;
 
 namespace OmegaEngine.Graphics.Renderables

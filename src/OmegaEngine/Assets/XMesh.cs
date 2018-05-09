@@ -13,11 +13,11 @@ using System.IO;
 using System.Text;
 using NanoByte.Common;
 using NanoByte.Common.Storage;
-using NanoByte.Common.Storage.SlimDX;
 using OmegaEngine.Graphics;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Renderables;
+using OmegaEngine.Storage;
 
 namespace OmegaEngine.Assets
 {

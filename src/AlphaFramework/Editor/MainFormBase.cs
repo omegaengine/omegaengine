@@ -18,7 +18,7 @@ using AlphaFramework.Editor.Gui;
 using AlphaFramework.Editor.Properties;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
-using NanoByte.Common.Storage.SlimDX;
+using OmegaEngine.Storage;
 
 namespace AlphaFramework.Editor
 {

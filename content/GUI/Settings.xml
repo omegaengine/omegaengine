@@ -8,9 +8,9 @@
   <OnShow>Me:ImportLua("Utils.lua")
 
 -- Import .NET enumerations
-luanet.load_assembly("NanoByte.Common.SlimDX")
-Quality = luanet.import_type("NanoByte.Common.Values.Quality")
-WaterEffectsType = luanet.import_type("NanoByte.Common.Values.WaterEffectsType")
+luanet.load_assembly("OmegaEngine")
+Quality = luanet.import_type("OmegaEngine.Values.Quality")
+WaterEffectsType = luanet.import_type("OmegaEngine.Values.WaterEffectsType")
 
 -- Default to English language, provide German as an option
 if Settings.General.Language == "de" then Language.SelectedItem = "Deutsch"; end;

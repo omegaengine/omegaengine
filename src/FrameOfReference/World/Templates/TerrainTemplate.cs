@@ -26,7 +26,7 @@ using System.Drawing;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 using LuaInterface;
-using NanoByte.Common.Values;
+using OmegaEngine.Values;
 
 namespace FrameOfReference.World.Templates
 {

@@ -15,6 +15,7 @@ using AlphaFramework.World.Templates;
 using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Values;
+using OmegaEngine.Values;
 using SlimDX;
 using Resources = AlphaFramework.World.Properties.Resources;
 

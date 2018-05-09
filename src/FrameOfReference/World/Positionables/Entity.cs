@@ -30,8 +30,9 @@ using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
 using FrameOfReference.World.Templates;
 using NanoByte.Common;
-using NanoByte.Common.Values;
-using NanoByte.Common.Values.Design;
+using OmegaEngine;
+using OmegaEngine.Values;
+using OmegaEngine.Values.Design;
 using SlimDX;
 
 namespace FrameOfReference.World.Positionables

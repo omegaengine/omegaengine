@@ -15,7 +15,7 @@ using AlphaFramework.World.Properties;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Controls;
-using NanoByte.Common.Storage.SlimDX;
+using OmegaEngine.Storage;
 
 namespace AlphaFramework.World.Templates
 {

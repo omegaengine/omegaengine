@@ -31,6 +31,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +44,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591</NoWarn>
     <PlatformTarget>x86</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.5.0, Culture=neutral, PublicKeyToken=9dea7c6e17aa31ff, processorArchitecture=MSIL">
@@ -56,9 +58,6 @@
     </Reference>
     <Reference Include="NanoByte.Common, Version=2.1.11.0, Culture=neutral, PublicKeyToken=3090a828a7702cec, processorArchitecture=MSIL">
       <HintPath>..\packages\NanoByte.Common.2.1.11\lib\net20\NanoByte.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="NanoByte.Common.SlimDX, Version=2.1.11.0, Culture=neutral, PublicKeyToken=3090a828a7702cec, processorArchitecture=x86">
-      <HintPath>..\packages\NanoByte.Common.SlimDX.2.1.11\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
     </Reference>
     <Reference Include="NanoByte.Common.WinForms, Version=2.1.11.0, Culture=neutral, PublicKeyToken=3090a828a7702cec, processorArchitecture=MSIL">
       <HintPath>..\packages\NanoByte.Common.WinForms.2.1.11\lib\net20\NanoByte.Common.WinForms.dll</HintPath>
@@ -95,6 +94,10 @@
     <Compile Include="Audio\Sound.cs" />
     <Compile Include="Audio\Sound3D.cs" />
     <Compile Include="Audio\_Namespace.cs" />
+    <Compile Include="Collections\IPoolable.cs" />
+    <Compile Include="Collections\Pool.cs" />
+    <Compile Include="Collections\_Namespace.cs" />
+    <Compile Include="ColorUtils.cs" />
     <Compile Include="DebugConsole.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -226,6 +229,7 @@
     <Compile Include="Input\_Namespace.cs" />
     <Compile Include="IPositionable.cs" />
     <Compile Include="IPositionableOffset.cs" />
+    <Compile Include="MathUtils.cs" />
     <Compile Include="PerlinNoise.cs" />
     <Compile Include="Profiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -234,9 +238,46 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RandomUtils.cs" />
     <Compile Include="RenderPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Storage\ContentArchiveEntry.cs" />
+    <Compile Include="Storage\ContentManager.cs" />
+    <Compile Include="Storage\EmbeddedFile.cs" />
+    <Compile Include="Storage\FileEntry.cs" />
+    <Compile Include="Storage\XmlStorage.cs" />
+    <Compile Include="Storage\_Namespace.cs" />
+    <Compile Include="Values\Attenuation.cs" />
+    <Compile Include="Values\ByteGrid.cs" />
+    <Compile Include="Values\ByteVector4.cs" />
+    <Compile Include="Values\ByteVector4Grid.cs" />
+    <Compile Include="Values\ColorCorrection.cs" />
+    <Compile Include="Values\Design\AngleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Values\Design\AngleEditor.cs" />
+    <Compile Include="Values\Design\AttenuationConverter.cs" />
+    <Compile Include="Values\Design\CodeEditor.cs" />
+    <Compile Include="Values\Design\ColorCorrectionConverter.cs" />
+    <Compile Include="Values\Design\DoublePaneConverter.cs" />
+    <Compile Include="Values\Design\DoubleVector3Converter.cs" />
+    <Compile Include="Values\Design\FloatEditor.cs" />
+    <Compile Include="Values\Design\QuadrangleConverter.cs" />
+    <Compile Include="Values\Design\SliderEditor.cs" />
+    <Compile Include="Values\Design\Vector2RayConverter.cs" />
+    <Compile Include="Values\DoublePlane.cs" />
+    <Compile Include="Values\DoubleVector3.cs" />
+    <Compile Include="Values\ExpandableRectangleArray.cs" />
+    <Compile Include="Values\FileTypeAttribute.cs" />
+    <Compile Include="Values\FloatRangeAttribute.cs" />
+    <Compile Include="Values\GraphicsEnums.cs" />
+    <Compile Include="Values\Grid.cs" />
+    <Compile Include="Values\NibbleGrid.cs" />
+    <Compile Include="Values\Quadrangle.cs" />
+    <Compile Include="Values\Vector2Ray.cs" />
+    <Compile Include="Values\XColor.cs" />
+    <Compile Include="Values\_Namespace.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\CodeAnalysisDictionary.xml" />

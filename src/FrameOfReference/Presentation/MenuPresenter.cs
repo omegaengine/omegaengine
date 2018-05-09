@@ -27,6 +27,7 @@ using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Values;
 
 namespace FrameOfReference.Presentation
 {

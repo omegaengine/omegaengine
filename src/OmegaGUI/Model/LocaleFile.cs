@@ -23,7 +23,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using NanoByte.Common.Collections;
-using NanoByte.Common.Storage.SlimDX;
+using OmegaEngine.Storage;
 
 namespace OmegaGUI.Model
 {

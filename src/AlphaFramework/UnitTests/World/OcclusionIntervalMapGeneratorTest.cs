@@ -10,6 +10,7 @@ using AlphaFramework.World.Terrains;
 using NanoByte.Common;
 using NanoByte.Common.Values;
 using NUnit.Framework;
+using OmegaEngine.Values;
 
 namespace AlphaFramework.World
 {

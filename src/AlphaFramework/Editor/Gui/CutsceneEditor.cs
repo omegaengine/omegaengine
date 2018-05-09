@@ -8,7 +8,7 @@
 
 using System.IO;
 using NanoByte.Common;
-using NanoByte.Common.Storage.SlimDX;
+using OmegaEngine.Storage;
 
 namespace AlphaFramework.Editor.Gui
 {

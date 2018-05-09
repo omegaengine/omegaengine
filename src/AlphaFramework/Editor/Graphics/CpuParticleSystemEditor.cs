@@ -11,10 +11,10 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using NanoByte.Common;
-using NanoByte.Common.Storage.SlimDX;
 using NanoByte.Common.Undo;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
+using OmegaEngine.Storage;
 using View = OmegaEngine.Graphics.View;
 
 namespace AlphaFramework.Editor.Graphics

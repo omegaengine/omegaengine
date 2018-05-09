@@ -23,7 +23,7 @@
 using System;
 using System.ComponentModel;
 using NanoByte.Common;
-using NanoByte.Common.Values;
+using OmegaEngine.Values;
 
 namespace FrameOfReference.World.Config
 {

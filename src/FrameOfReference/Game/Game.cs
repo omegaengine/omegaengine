@@ -29,8 +29,8 @@ using FrameOfReference.World;
 using FrameOfReference.World.Config;
 using LuaInterface;
 using NanoByte.Common;
-using NanoByte.Common.Storage.SlimDX;
 using OmegaEngine;
+using OmegaEngine.Storage;
 using OmegaGUI;
 
 namespace FrameOfReference

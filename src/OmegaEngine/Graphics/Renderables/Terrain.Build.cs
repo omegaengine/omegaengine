@@ -16,6 +16,7 @@ using SlimDX.Direct3D9;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
+using OmegaEngine.Values;
 using Resources = OmegaEngine.Properties.Resources;
 
 #if NETFX4

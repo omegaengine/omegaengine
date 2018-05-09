@@ -32,6 +32,7 @@ using NanoByte.Common;
 using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
+using OmegaEngine.Values;
 using SlimDX;
 
 namespace FrameOfReference.Presentation

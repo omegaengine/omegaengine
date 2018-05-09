@@ -12,6 +12,7 @@ using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Values;
 
 namespace OmegaEngine.Graphics
 {

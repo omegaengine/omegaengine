@@ -54,9 +54,6 @@
     <Reference Include="NanoByte.Common, Version=2.1.11.0, Culture=neutral, PublicKeyToken=3090a828a7702cec, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NanoByte.Common.2.1.11\lib\net20\NanoByte.Common.dll</HintPath>
     </Reference>
-    <Reference Include="NanoByte.Common.SlimDX, Version=2.1.11.0, Culture=neutral, PublicKeyToken=3090a828a7702cec, processorArchitecture=x86">
-      <HintPath>..\..\packages\NanoByte.Common.SlimDX.2.1.11\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
-    </Reference>
     <Reference Include="NanoByte.Common.WinForms, Version=2.1.11.0, Culture=neutral, PublicKeyToken=3090a828a7702cec, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NanoByte.Common.WinForms.2.1.11\lib\net20\NanoByte.Common.WinForms.dll</HintPath>
     </Reference>
@@ -118,6 +115,10 @@
     <ProjectReference Include="..\..\AlphaFramework\World\World.csproj">
       <Project>{C9062BE0-1762-4907-BA23-9D60AF183993}</Project>
       <Name>World %28AlphaFramework\World%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OmegaEngine\OmegaEngine.csproj">
+      <Project>{14e9fed0-4989-482d-85de-448161a6855e}</Project>
+      <Name>OmegaEngine</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

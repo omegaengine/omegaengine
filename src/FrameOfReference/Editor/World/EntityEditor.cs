@@ -40,6 +40,7 @@ using NanoByte.Common.Controls;
 using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;
+using OmegaEngine.Values;
 
 namespace FrameOfReference.Editor.World
 {

@@ -43,9 +43,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.5.0, Culture=neutral, PublicKeyToken=9dea7c6e17aa31ff, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ICSharpCode.SharpZipLib.Patched.0.86.5.1\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.TextEditor, Version=3.0.0.3437, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NanoByte.Common.WinForms.2.1.11\lib\net20\ICSharpCode.TextEditor.dll</HintPath>
     </Reference>
@@ -54,9 +51,6 @@
     </Reference>
     <Reference Include="NanoByte.Common, Version=2.1.11.0, Culture=neutral, PublicKeyToken=3090a828a7702cec, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NanoByte.Common.2.1.11\lib\net20\NanoByte.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="NanoByte.Common.SlimDX, Version=2.1.11.0, Culture=neutral, PublicKeyToken=3090a828a7702cec, processorArchitecture=x86">
-      <HintPath>..\..\packages\NanoByte.Common.SlimDX.2.1.11\lib\net20\NanoByte.Common.SlimDX.dll</HintPath>
     </Reference>
     <Reference Include="NanoByte.Common.WinForms, Version=2.1.11.0, Culture=neutral, PublicKeyToken=3090a828a7702cec, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NanoByte.Common.WinForms.2.1.11\lib\net20\NanoByte.Common.WinForms.dll</HintPath>
@@ -77,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\GlobalAssemblyInfo.cs" />
+    <Compile Include="Arguments.cs" />
     <Compile Include="PresenterBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

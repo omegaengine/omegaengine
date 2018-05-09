@@ -25,15 +25,17 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using AlphaFramework.Presentation;
 using FrameOfReference.Properties;
 using FrameOfReference.World.Config;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Native;
 using NanoByte.Common.Storage;
-using NanoByte.Common.Storage.SlimDX;
 using NanoByte.Common.Values;
 using OmegaEngine;
+using OmegaEngine.Storage;
+using OmegaEngine.Values;
 using OmegaGUI.Model;
 
 namespace FrameOfReference

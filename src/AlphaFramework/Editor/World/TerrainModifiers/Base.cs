@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using AlphaFramework.World.Terrains;
 using NanoByte.Common.Undo;
 using NanoByte.Common.Values;
+using OmegaEngine.Values;
 using SlimDX;
 
 namespace AlphaFramework.Editor.World.TerrainModifiers

@@ -30,6 +30,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
+using OmegaEngine.Collections;
 using SlimDX;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;

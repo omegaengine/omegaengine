@@ -16,7 +16,6 @@ API documentation: http://omegaengine.de/api/alphaframework/</description>
             <dependency id="OmegaEngine.Backend" version="[$version$$VersionSuffix$]" />
             <dependency id="OmegaGUI" version="[$version$$VersionSuffix$]" />
             <dependency id="AlphaFramework.World" version="[$version$$VersionSuffix$]" />
-            <dependency id="AlphaFramework.Presentation" version="[$version$$VersionSuffix$]" />
         </dependencies>
         <references>
             <reference file="AlphaFramework.Editor.dll" />

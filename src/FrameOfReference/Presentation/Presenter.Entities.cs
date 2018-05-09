@@ -32,6 +32,7 @@ using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
+using OmegaEngine.Values;
 using SlimDX;
 using CpuParticleSystem = AlphaFramework.World.Components.CpuParticleSystem;
 using GpuParticleSystem = AlphaFramework.World.Components.GpuParticleSystem;

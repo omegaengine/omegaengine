@@ -24,7 +24,7 @@ using System;
 using System.IO;
 using FrameOfReference.World.Config;
 using ICSharpCode.SharpZipLib.Zip;
-using NanoByte.Common.Storage.SlimDX;
+using OmegaEngine.Storage;
 
 namespace FrameOfReference.World
 {

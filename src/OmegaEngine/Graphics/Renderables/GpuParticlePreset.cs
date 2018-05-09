@@ -11,9 +11,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
 using NanoByte.Common;
-using NanoByte.Common.Storage.SlimDX;
 using SlimDX;
 using OmegaEngine.Graphics.Shaders;
+using OmegaEngine.Storage;
 
 namespace OmegaEngine.Graphics.Renderables
 {

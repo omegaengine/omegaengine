@@ -13,6 +13,7 @@ using System.IO;
 using System.Xml.Serialization;
 using LuaInterface;
 using NanoByte.Common.Values;
+using OmegaEngine.Values;
 using SlimDX;
 
 namespace AlphaFramework.World.Terrains

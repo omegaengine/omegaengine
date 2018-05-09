@@ -37,6 +37,7 @@ using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Input;
+using OmegaEngine.Values;
 using SlimDX;
 
 namespace FrameOfReference.Presentation

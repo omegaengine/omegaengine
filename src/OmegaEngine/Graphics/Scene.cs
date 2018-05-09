@@ -15,6 +15,7 @@ using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
+using OmegaEngine.Values;
 using SlimDX;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;

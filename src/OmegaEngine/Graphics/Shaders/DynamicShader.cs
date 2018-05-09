@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using NanoByte.Common;
-using NanoByte.Common.Storage.SlimDX;
+using OmegaEngine.Storage;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 

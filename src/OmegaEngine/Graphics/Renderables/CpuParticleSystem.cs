@@ -12,11 +12,13 @@ using System.ComponentModel;
 using System.IO;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
-using NanoByte.Common.Storage.SlimDX;
 using NanoByte.Common.Values;
 using OmegaEngine.Assets;
+using OmegaEngine.Collections;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.VertexDecl;
+using OmegaEngine.Storage;
+using OmegaEngine.Values;
 using SlimDX;
 using SlimDX.Direct3D9;
 
