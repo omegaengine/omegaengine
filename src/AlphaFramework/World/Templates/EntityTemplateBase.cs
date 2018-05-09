@@ -19,13 +19,15 @@ namespace AlphaFramework.World.Templates
     /// </summary>
     public abstract class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : EntityTemplateBase<TSelf>
     {
+        private Collection<Render> _render = new Collection<Render>();
+
         /// <summary>
         /// Controls how this class of entities shall be rendered.
         /// </summary>
         [Browsable(false)]
         // Note: Can not use ICollection<T> interface with XML Serialization
         [XmlElement(typeof(TestSphere)), XmlElement(typeof(StaticMesh)), XmlElement(typeof(AnimatedMesh)), XmlElement(typeof(CpuParticleSystem)), XmlElement(typeof(GpuParticleSystem)), XmlElement(typeof(LightSource))]
-        public Collection<Render> Render { get; private set; } = new Collection<Render>();
+        public Collection<Render> Render => _render;
 
         /// <summary>
         /// Controls the basic movement parameters.
@@ -46,7 +48,7 @@ namespace AlphaFramework.World.Templates
             var newClass = base.Clone();
 
             // Replace contained lists with deep copies
-            newClass.Render = new Collection<Render>();
+            newClass._render = new Collection<Render>();
             foreach (var render in Render)
                 newClass.Render.Add(render.Clone());
 

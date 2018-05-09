@@ -371,13 +371,17 @@ namespace OmegaGUI.Model
         public bool Visible { get; set; } = true;
 
         #region Controls
+        private Collection<ButtonStyle> _buttonStyles = new Collection<ButtonStyle>();
+
         // Note: Can not use ICollection<T> interface with XML Serialization
         /// <summary>
         /// A list of all custom button styles available in the dialog
         /// </summary>
         [Category("Design"), Description("A list of all custom button styles available in the dialog")]
         [XmlElement(typeof(ButtonStyle))]
-        public Collection<ButtonStyle> ButtonStyles { get; private set; } = new Collection<ButtonStyle>();
+        public Collection<ButtonStyle> ButtonStyles => _buttonStyles;
+
+        private BindingList<Control> _controls = new BindingList<Control>();
 
         // Note: Can not use IBindingList<T> interface with XML Serialization
 
@@ -391,7 +395,7 @@ namespace OmegaGUI.Model
          XmlElement(typeof(PictureBox)), XmlElement(typeof(RadioButton)),
          XmlElement(typeof(ScrollBar)), XmlElement(typeof(Slider)),
          XmlElement(typeof(Label))]
-        public BindingList<Control> Controls { get; private set; } = new BindingList<Control>();
+        public BindingList<Control> Controls => _controls;
         #endregion
 
         #endregion
@@ -558,11 +562,11 @@ namespace OmegaGUI.Model
         {
             var newDialog = (Dialog)MemberwiseClone();
 
-            newDialog.Controls = new BindingList<Control>();
+            newDialog._controls = new BindingList<Control>();
             foreach (Control control in Controls)
                 newDialog.Controls.Add(control.Clone());
 
-            newDialog.ButtonStyles = new Collection<ButtonStyle>();
+            newDialog._buttonStyles = new Collection<ButtonStyle>();
             foreach (ButtonStyle style in ButtonStyles)
                 newDialog.ButtonStyles.Add(style.Clone());
 
