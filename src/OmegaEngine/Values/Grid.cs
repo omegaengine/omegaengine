@@ -6,7 +6,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -58,10 +57,6 @@ namespace OmegaEngine.Values
             Data = data;
         }
 
-        /// <summary>
-        /// Gets or sets a value in the grid.
-        /// </summary>
-        /// <exception cref="IndexOutOfRangeException"><paramref name="x"/> or <paramref name="y"/> are out of bounds.</exception>
         public virtual T this[int x, int y] { get => Data[x, y]; set => Data[x, y] = value; }
 
         /// <summary>
