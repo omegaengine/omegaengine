@@ -10,15 +10,17 @@ build_script:
   - ps: doc\build.ps1
 
 artifacts:
-  - path: build\Packages\*.nupkg
-    name: NuGet
   - path: build\Templates\*.vsix
-    name: Templates
   - path: build\Documentation
-    name: Documentation
+    name: apidocs
+  - path: build\Packages\*.nupkg
 
 deploy:
-  provider: Environment
-  name: nuget.org
-  on:
-    appveyor_repo_tag: true
+  - provider: Environment
+    name: GitHub Releases
+    on:
+      appveyor_repo_tag: true
+  - provider: Environment
+    name: NuGet
+    on:
+      appveyor_repo_tag: true
