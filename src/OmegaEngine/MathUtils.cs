@@ -461,7 +461,6 @@ namespace OmegaEngine
         //--------------------//
 
         #region High/low values
-        [CLSCompliant(false)]
         [Pure]
         public static short LoWord(uint l)
         {
@@ -471,7 +470,6 @@ namespace OmegaEngine
             }
         }
 
-        [CLSCompliant(false)]
         [Pure]
         public static short LoWord(int l)
         {
@@ -481,7 +479,6 @@ namespace OmegaEngine
             }
         }
 
-        [CLSCompliant(false)]
         [Pure]
         public static short HiWord(uint l)
         {
@@ -491,7 +488,6 @@ namespace OmegaEngine
             }
         }
 
-        [CLSCompliant(false)]
         [Pure]
         public static short HiWord(int l)
         {
