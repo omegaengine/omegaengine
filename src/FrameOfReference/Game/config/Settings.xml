@@ -3,7 +3,7 @@
 	<!--
 	This is the default Settings.xml file. It is only used as a base configuration for developers.
 	Do not add this file to the final release of the application.
-	Once you modify the Settings.xml files in build\Debug and build\Release this file will be ignored.
+	Once you modify the Settings.xml files in artifacts\Debug and artifacts\Release this file will be ignored.
 	-->
 	<General>
 		<ContentDir>..\..\content</ContentDir>

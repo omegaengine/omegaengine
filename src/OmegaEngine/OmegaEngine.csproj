@@ -21,8 +21,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\build\Debug\</OutputPath>
-    <DocumentationFile>..\..\build\Debug\OmegaEngine.xml</DocumentationFile>
+    <OutputPath>..\..\artifacts\Debug\</OutputPath>
+    <DocumentationFile>..\..\artifacts\Debug\OmegaEngine.xml</DocumentationFile>
     <DefineConstants>DEBUG;TRACE;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -37,8 +37,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\build\Release\</OutputPath>
-    <DocumentationFile>..\..\build\Release\OmegaEngine.xml</DocumentationFile>
+    <OutputPath>..\..\artifacts\Release\</OutputPath>
+    <DocumentationFile>..\..\artifacts\Release\OmegaEngine.xml</DocumentationFile>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>

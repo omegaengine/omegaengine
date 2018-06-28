@@ -20,7 +20,7 @@ API documentation: http://omegaengine.de/api/alphaframework/</description>
         </references>
     </metadata>
     <files>
-        <file src="..\build\Release\AlphaFramework.Presentation.*" target="lib\net20" />
+        <file src="..\artifacts\Release\AlphaFramework.Presentation.*" target="lib\net20" />
 
         <!-- Symbols and source code -->
         <file src="..\src\AlphaFramework\Presentation\**\*.cs" target="src" />

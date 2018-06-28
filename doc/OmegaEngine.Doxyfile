@@ -6,10 +6,10 @@ USE_MDFILE_AS_MAINPAGE = OmegaEngine.md
 STRIP_FROM_PATH = ../src
 RECURSIVE = YES
 EXCLUDE_PATTERNS = */UnitTests/* */Properties/* *.NativeMethods.cs */obj/*
-TAGFILES = nanobyte-common.tag=http://nano-byte.de/common/api/ 
+TAGFILES = nanobyte-common.tag=http://nano-byte.de/common/api/
 
-OUTPUT_DIRECTORY = ../build/Documentation
-GENERATE_TAGFILE = ../build/Documentation/omegaengine.tag
+OUTPUT_DIRECTORY = ../artifacts/Documentation
+GENERATE_TAGFILE = ../artifacts/Documentation/omegaengine.tag
 HTML_OUTPUT = omegaengine
 
 GENERATE_LATEX = NO

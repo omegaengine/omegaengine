@@ -4,7 +4,7 @@ $ErrorActionPreference = "Stop"
 $RootDir = $(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)
 pushd $RootDir
 
-$TargetDir = Join-Path $RootDir ..\build\Templates
+$TargetDir = Join-Path $RootDir ..\artifacts\Templates
 if (Test-Path "$TargetDir\ProjectTemplates") { rm "$TargetDir\ProjectTemplates\*.zip" }
 if (!(Test-Path "$TargetDir\ProjectTemplates")) { mkdir "$TargetDir\ProjectTemplates" | Out-Null }
 
@@ -41,7 +41,7 @@ zip.exe -q -9 -r "$TargetDir\omegaengine-templates.vsix" ProjectTemplates
 popd
 
 echo "Adding NuGet packages to extension..."
-pushd ..\build
+pushd ..\artifacts
 copy ..\src\packages\ICSharpCode.SharpZipLib.Patched.*\*.nupkg Packages -Force
 copy ..\src\packages\NanoByte.Common.*\*.nupkg Packages -Force
 copy ..\src\packages\SlimDX.*\*.nupkg Packages -Force

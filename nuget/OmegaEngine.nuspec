@@ -27,7 +27,7 @@ API documentation: http://omegaengine.de/api/omegaengine/</description>
         <file src="..\content\Textures\flag.png" target="content\content\Textures" />
 
         <!-- Compiled shaders -->
-        <file src="..\build\Release\Shaders\**" target="content\Shaders" />
+        <file src="..\artifacts\Release\Shaders\**" target="content\Shaders" />
 
         <!-- Install script -->
         <file src="install.ps1" target="tools" />

@@ -22,10 +22,10 @@ API documentation: http://omegaengine.de/api/alphaframework/</description>
         </references>
     </metadata>
     <files>
-        <file src="..\build\Release\AlphaFramework.Editor.*" target="lib\net20" />
+        <file src="..\artifacts\Release\AlphaFramework.Editor.*" target="lib\net20" />
 
         <!-- Satellite assemblies (translations) -->
-        <file src="..\build\Release\**\AlphaFramework.Editor.resources.dll" target="lib\net20" />
+        <file src="..\artifacts\Release\**\AlphaFramework.Editor.resources.dll" target="lib\net20" />
 
         <!-- Source code -->
         <file src="..\src\AlphaFramework\Editor\**\*.cs" target="src" />

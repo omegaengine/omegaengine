@@ -20,10 +20,10 @@ API documentation: http://omegaengine.de/api/omegaengine/</description>
         </references>
     </metadata>
     <files>
-        <file src="..\build\Release\OmegaEngine.*" target="lib\net20" />
+        <file src="..\artifacts\Release\OmegaEngine.*" target="lib\net20" />
 
         <!-- Satellite assemblies (translations) -->
-        <file src="..\build\Release\**\OmegaEngine.resources.dll" target="lib\net20" />
+        <file src="..\artifacts\Release\**\OmegaEngine.resources.dll" target="lib\net20" />
 
         <!-- Bundled dependencies -->
         <file src="..\lib\lua51.*" target="lib\net20" />

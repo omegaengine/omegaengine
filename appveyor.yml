@@ -10,10 +10,10 @@ build_script:
   - ps: doc\build.ps1
 
 artifacts:
-  - path: build\Templates\*.vsix
-  - path: build\Documentation
+  - path: artifacts\Templates\*.vsix
+  - path: artifacts\Documentation
     name: apidocs
-  - path: build\Packages\*.nupkg
+  - path: artifacts\Packages\*.nupkg
 
 deploy:
   - provider: Environment

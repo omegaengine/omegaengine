@@ -25,11 +25,11 @@ Source directory structure
 - `\templates\` - Source code for Visual Studio templates
 - `\doc\` - Files for creating source code documentation
 - `\content\` - Game content files (.X files, PNGs, ...) 
-- `\build\Debug\` - The compiled debug binaries (created by \src\build.ps1 Debug)
-- `\build\Release\` - The compiled release binaries (created by \src\build.ps1 Release)
-- `\build\Packages\` - The compiled NuGet packages (created by \nuget\build.ps1)
-- `\build\Templates\` - The packaged Visual Studio templates (created by \templates\build.ps1)
-- `\build\Documentation\` - The compiled source code documentation (created by \doc\build.ps1)
+- `\artifacts\Debug\` - The compiled debug binaries (created by \src\build.ps1 Debug)
+- `\artifacts\Release\` - The compiled release binaries (created by \src\build.ps1 Release)
+- `\artifacts\Packages\` - The compiled NuGet packages (created by \nuget\build.ps1)
+- `\artifacts\Templates\` - The packaged Visual Studio templates (created by \templates\build.ps1)
+- `\artifacts\Documentation\` - The compiled source code documentation (created by \doc\build.ps1)
 
 `VERSION` contains the version numbers used by build scripts.
 Use `.\Set-Version.ps1 "X.Y.Z"` in PowerShall to change the version number. This ensures that the version also gets set in other locations (e.g. `AssemblyInfo`).
