@@ -7,12 +7,9 @@ build_script:
   - ps: src\build.ps1
   - ps: nuget\build.ps1
   - ps: templates\build.ps1
-  - ps: doc\build.ps1
 
 artifacts:
   - path: artifacts\Templates\*.vsix
-  - path: artifacts\Documentation
-    name: apidocs
   - path: artifacts\Packages\*.nupkg
 
 deploy:

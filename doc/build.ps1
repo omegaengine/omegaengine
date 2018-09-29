@@ -12,10 +12,12 @@ if (Test-Path ..\artifacts\Documentation) {rm -Recurse -Force ..\artifacts\Docum
 mkdir ..\artifacts\Documentation | Out-Null
 
 # Download tag files for external references
-Invoke-WebRequest http://nano-byte.de/common/api/nanobyte-common.tag -OutFile nanobyte-common.tag
+Invoke-WebRequest http://common.nanobyte.de/nanobyte-common.tag -OutFile nanobyte-common.tag
 
-0install run --batch http://0install.de/feeds/Doxygen.xml OmegaEngine.Doxyfile
-0install run --batch http://0install.de/feeds/Doxygen.xml AlphaFramework.Doxyfile
-0install run --batch http://0install.de/feeds/Doxygen.xml FrameOfReference.Doxyfile
+0install run --batch http://repo.roscidus.com/devel/doxygen OmegaEngine.Doxyfile
+0install run --batch http://repo.roscidus.com/devel/doxygen AlphaFramework.Doxyfile
+0install run --batch http://repo.roscidus.com/devel/doxygen FrameOfReference.Doxyfile
+
+cp CNAME index.html ..\artifacts\Documentation\
 
 popd

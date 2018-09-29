@@ -8,8 +8,7 @@
         <projectUrl>https://github.com/omegaengine/omegaengine/wiki/AlphaEditor</projectUrl>
         <iconUrl>http://omegaengine.de/images/icon_alpha.png</iconUrl>
         <description>The AlphaEditor is an IDE-like editor for games based on the AlphaFramework. You can use it to create GUI screens, maps, particle systems, etc..
-The "OmegaEngine Templates" Visual Studio extension can help you set up a suitable project structure.
-API documentation: http://omegaengine.de/api/alphaframework/</description>
+The "OmegaEngine Templates" Visual Studio extension can help you set up a suitable project structure.</description>
         <summary>IDE-like editor for OmegaEngine games (GUI, maps, particle systems, etc.)</summary>
         <dependencies>
             <dependency id="ICSharpCode.SharpZipLib.Patched" version="0.86.5.1" />

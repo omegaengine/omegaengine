@@ -8,8 +8,7 @@
         <projectUrl>https://github.com/omegaengine/omegaengine/wiki/OmegaGUI</projectUrl>
         <iconUrl>http://omegaengine.de/images/icon_omega.png</iconUrl>
         <description>OmegaGUI is a skinable GUI toolkit for the OmegaEngine with an XML file format und Lua scripting.
-The AlphaEditor contains a WYSIWYG editor for the toolkit.
-API documentation: http://omegaengine.de/api/omegaengine/</description>
+The AlphaEditor contains a WYSIWYG editor for the toolkit.</description>
         <summary>Skinable GUI toolkit for the OmegaEngine</summary>
         <dependencies>
             <dependency id="OmegaEngine.Backend" version="[$version$$VersionSuffix$]" />

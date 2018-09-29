@@ -6,7 +6,7 @@ USE_MDFILE_AS_MAINPAGE = AlphaFramework.md
 STRIP_FROM_PATH = ../src/AlphaFramework
 RECURSIVE = YES
 EXCLUDE_PATTERNS = */UnitTests/* */Properties/* *.NativeMethods.cs */obj/*
-TAGFILES = nanobyte-common.tag=http://nano-byte.de/common/api/  ../artifacts/Documentation/omegaengine.tag=../omegaengine
+TAGFILES = nanobyte-common.tag=https://common.nanobyte.de/  ../artifacts/Documentation/omegaengine.tag=../omegaengine
 
 OUTPUT_DIRECTORY = ../artifacts/Documentation
 GENERATE_TAGFILE = ../artifacts/Documentation/alphaframework.tag
