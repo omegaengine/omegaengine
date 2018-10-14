@@ -6,7 +6,7 @@
         <authors>Bastian Eicher</authors>
         <licenseUrl>https://github.com/omegaengine/omegaengine/wiki/License</licenseUrl>
         <projectUrl>http://omegaengine.de/</projectUrl>
-        <iconUrl>http://omegaengine.de/images/icon_alpha.png</iconUrl>
+        <iconUrl>https://raw.githubusercontent.com/omegaengine/omegaengine/master/icon-alpha.png</iconUrl>
         <description>The AlphaFramework is a Model-View-Presenter framework for creating game worlds.
 AlphaFramework.World is used to build Models, the OmegaEngine renders the Views and AlphaFramework.Presentation is used to build Presenters.
 The "OmegaEngine Templates" Visual Studio extension can help you set up a suitable project structure.</description>

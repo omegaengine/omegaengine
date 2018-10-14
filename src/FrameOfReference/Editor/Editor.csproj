@@ -16,7 +16,7 @@
     <StartupObject>FrameOfReference.Editor.Program</StartupObject>
     <SignManifests>false</SignManifests>
     <GenerateManifests>false</GenerateManifests>
-    <ApplicationIcon>Logo.ico</ApplicationIcon>
+    <ApplicationIcon>..\..\..\icon-alpha.ico</ApplicationIcon>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
@@ -152,7 +152,6 @@
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\..\CodeAnalysisDictionary.xml" />
-    <Content Include="Logo.ico" />
     <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />

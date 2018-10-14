@@ -6,7 +6,7 @@
         <authors>Bastian Eicher</authors>
         <licenseUrl>https://github.com/omegaengine/omegaengine/wiki/License</licenseUrl>
         <projectUrl>https://github.com/omegaengine/omegaengine/wiki/AlphaEditor</projectUrl>
-        <iconUrl>http://omegaengine.de/images/icon_alpha.png</iconUrl>
+        <iconUrl>https://raw.githubusercontent.com/omegaengine/omegaengine/master/icon-alpha.png</iconUrl>
         <description>The AlphaEditor is an IDE-like editor for games based on the AlphaFramework. You can use it to create GUI screens, maps, particle systems, etc..
 The "OmegaEngine Templates" Visual Studio extension can help you set up a suitable project structure.</description>
         <summary>IDE-like editor for OmegaEngine games (GUI, maps, particle systems, etc.)</summary>

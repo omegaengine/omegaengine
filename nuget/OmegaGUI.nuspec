@@ -6,7 +6,7 @@
         <authors>Bastian Eicher</authors>
         <licenseUrl>https://github.com/omegaengine/omegaengine/wiki/License</licenseUrl>
         <projectUrl>https://github.com/omegaengine/omegaengine/wiki/OmegaGUI</projectUrl>
-        <iconUrl>http://omegaengine.de/images/icon_omega.png</iconUrl>
+        <iconUrl>https://raw.githubusercontent.com/omegaengine/omegaengine/master/icon-omega.png</iconUrl>
         <description>OmegaGUI is a skinable GUI toolkit for the OmegaEngine with an XML file format und Lua scripting.
 The AlphaEditor contains a WYSIWYG editor for the toolkit.</description>
         <summary>Skinable GUI toolkit for the OmegaEngine</summary>
