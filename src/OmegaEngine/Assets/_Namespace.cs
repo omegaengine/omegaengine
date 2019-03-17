@@ -1,11 +1,2 @@
-﻿
-#pragma warning disable 1587
-// ReSharper disable EmptyNamespace
-
-/// <summary>
-/// Loading and caching file-based assets (textures, models, etc.).
-/// </summary>
-
-namespace OmegaEngine.Assets
-{
-}
+﻿//! \namespace OmegaEngine.Assets
+//! \brief Loading and caching file-based assets (textures, models, etc.).
