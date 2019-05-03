@@ -21,8 +21,9 @@ engine.Views.Add(view);
 ## Downloads
 
 Prerequisites:
-- [DirectX June 2010 Runtime](http://omegaengine.de/support/directx-jun2010-minimal.exe)
-- [Visual Studio Community 2013](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-community) or better
+- [DirectX June 2010 Runtime](http://omegaengine.de/support/directx-jun2010-minimal.exe) (run-time dependency)
+- [Visual Studio Community 2017 or newer](http://www.visualstudio.com/downloads/download-visual-studio-vs) (build-time dependency)
+- [DirectX SDK](https://www.microsoft.com/en-us/download/details.aspx?id=23549) (build-time dependency)
 
 ### OmegaEngine NuGet packages
 
@@ -57,6 +58,7 @@ When releasing the binaries as standalone applications these files are not prese
 To open the Debug Console when running the sample project press `Ctrl + Alt + Shift + D`.
 
 Command-line arguments for the sample project:
+
 | Usage             | Description                                             |
 | ----------------- | ------------------------------------------------------- |
 | `/map MapName`    | Loads *MapName* in normal game mode                     |
@@ -81,10 +83,8 @@ Command-line arguments for the sample project:
 | `\artifacts\Templates\`     | The packaged Visual Studio templates (created by `\templates\build.ps1`) |
 | `\artifacts\Documentation\` | The compiled source code documentation (created by `\doc\build.ps1`)     |
 
-`VERSION` contains the version numbers used by build scripts.
-Use `.\Set-Version.ps1 "X.Y.Z"` in PowerShall to change the version number. This ensures that the version also gets set in other locations (e.g. [`GlobalAssemblyInfo.cs`](src/GlobalAssemblyInfo.cs)).
+`VERSION` contains the version numbers used by build scripts. Use `.\Set-Version.ps1 "X.Y.Z"` in PowerShall to change the version number. This ensures that the version also gets set in other locations (e.g. [`GlobalAssemblyInfo.cs`](src/GlobalAssemblyInfo.cs)).
 
-The `build.ps1` script assumes that Visual Studio 2017 is installed.
-To compile the included shader code the [DirectX SDK](http://msdn.microsoft.com/directx/) needs to be installed.
+The `build.ps1` script assumes that Visual Studio 2017 or newer is installed. To compile the included shader code the DirectX SDK needs to be installed.
 
 The engine requires shader files to be located in a subdirectory of the installation path named `Shaders`.

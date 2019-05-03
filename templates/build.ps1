@@ -1,7 +1,7 @@
 ﻿Param ([Switch]$Deploy, [Switch]$Machine)
 $ErrorActionPreference = "Stop"
 
-$RootDir = $(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)
+$RootDir = $PSScriptRoot
 pushd $RootDir
 
 $TargetDir = Join-Path $RootDir ..\artifacts\Templates

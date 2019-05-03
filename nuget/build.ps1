@@ -1,5 +1,5 @@
 $ErrorActionPreference = "Stop"
-pushd $(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)
+pushd $PSScriptRoot
 
 $Version = Get-Content ..\VERSION
 
