@@ -19,6 +19,6 @@ Invoke-WebRequest https://common.nano-byte.net/nanobyte-common.tag -OutFile nano
 0install run --batch http://repo.roscidus.com/devel/doxygen AlphaFramework.Doxyfile
 0install run --batch http://repo.roscidus.com/devel/doxygen FrameOfReference.Doxyfile
 
-cp index.html,.nojekyll,CNAME ..\artifacts\Documentation\
+cp index.html ..\artifacts\Documentation\
 
 popd
