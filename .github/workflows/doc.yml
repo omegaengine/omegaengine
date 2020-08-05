@@ -6,22 +6,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up 0install
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends 0install-core
-      - name: Clone repo
-        uses: actions/checkout@v2
+      # Prepare
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/0install.net
+          key: 0install-${{hashFiles('**/build.sh')}}
+
+      # Build
       - name: Build documentation
         run: doc/build.sh
-      - name: Upload documentation
-        uses: actions/upload-artifact@v1
-        with:
-          name: Documentation
-          path: artifacts/Documentation
+
+      # Publish
       - name: Publish documentation
-        uses: peaceiris/actions-gh-pages@v3
         if: startsWith(github.event.ref, 'refs/tags')
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{github.token}}
           force_orphan: true
           publish_dir: artifacts/Documentation
           cname: api.omegaengine.de
