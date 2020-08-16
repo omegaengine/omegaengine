@@ -4,18 +4,21 @@ on: push
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       # Prepare
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
         with:
-          path: ~/.cache/0install.net
-          key: 0install-${{hashFiles('**/build.sh')}}
+          path: |
+            ~\AppData\Roaming\0install.net
+            ~\AppData\Local\0install.net
+            C:\ProgramData\0install.net
+          key: 0install-${{hashFiles('**/build.ps1')}}
 
       # Build
       - name: Build documentation
-        run: doc/build.sh
+        run: doc\build.ps1
 
       # Publish
       - name: Publish documentation
