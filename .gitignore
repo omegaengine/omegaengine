@@ -4,7 +4,6 @@
 /src/packages/ 
 /templates/packages/*/
 /templates/**/bin/
-/doc/*.tag
 obj/
 bin/
 *.bak
