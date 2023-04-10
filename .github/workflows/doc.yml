@@ -22,7 +22,7 @@ jobs:
 
       # Publish
       - name: Publish documentation
-        if: startsWith(github.event.ref, 'refs/tags')
+        if: github.ref_type == 'tag'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{github.token}}
