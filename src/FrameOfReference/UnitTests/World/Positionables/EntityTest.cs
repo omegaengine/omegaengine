@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace FrameOfReference.World.Positionables
@@ -39,10 +40,10 @@ namespace FrameOfReference.World.Positionables
                 }
             };
 
-            Assert.AreEqual(-1, entity.GetCurrentWaypointIndex(0));
-            Assert.AreEqual(0, entity.GetCurrentWaypointIndex(1.5));
-            Assert.AreEqual(1, entity.GetCurrentWaypointIndex(2.5));
-            Assert.AreEqual(-1, entity.GetCurrentWaypointIndex(3.5));
+            entity.GetCurrentWaypointIndex(0).Should().Be(-1);
+            entity.GetCurrentWaypointIndex(1.5).Should().Be(0);
+            entity.GetCurrentWaypointIndex(2.5).Should().Be(1);
+            entity.GetCurrentWaypointIndex(3.5).Should().Be(-1);
         }
     }
 }

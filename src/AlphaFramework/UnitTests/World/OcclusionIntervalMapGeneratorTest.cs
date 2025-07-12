@@ -7,8 +7,7 @@
  */
 
 using AlphaFramework.World.Terrains;
-using NanoByte.Common;
-using NanoByte.Common.Values;
+using FluentAssertions;
 using NUnit.Framework;
 using OmegaEngine.Values;
 
@@ -40,9 +39,9 @@ namespace AlphaFramework.World
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}));
             generator.Run();
 
-            Assert.AreEqual(new ByteVector4(38, 255, 255, 255), generator.Result[0, 0]);
-            Assert.AreEqual(new ByteVector4(64, 255, 255, 255), generator.Result[1, 0]);
-            Assert.AreEqual(new ByteVector4(0, 255, 255, 255), generator.Result[2, 0]);
+            generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
+            generator.Result[1, 0].Should().Be(new ByteVector4(64, 255, 255, 255));
+            generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
         }
 
         [Test]
@@ -51,12 +50,12 @@ namespace AlphaFramework.World
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{1, 0}, {1, 0}, {2, 1}}));
             generator.Run();
 
-            Assert.AreEqual(new ByteVector4(38, 255, 255, 255), generator.Result[0, 0]);
-            Assert.AreEqual(new ByteVector4(38, 255, 255, 255), generator.Result[0, 1]);
-            Assert.AreEqual(new ByteVector4(64, 255, 255, 255), generator.Result[1, 0]);
-            Assert.AreEqual(new ByteVector4(64, 255, 255, 255), generator.Result[1, 1]);
-            Assert.AreEqual(new ByteVector4(0, 255, 255, 255), generator.Result[2, 0]);
-            Assert.AreEqual(new ByteVector4(0, 255, 255, 255), generator.Result[2, 1]);
+            generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
+            generator.Result[0, 1].Should().Be(new ByteVector4(38, 255, 255, 255));
+            generator.Result[1, 0].Should().Be(new ByteVector4(64, 255, 255, 255));
+            generator.Result[1, 1].Should().Be(new ByteVector4(64, 255, 255, 255));
+            generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
+            generator.Result[2, 1].Should().Be(new ByteVector4(0, 255, 255, 255));
         }
 
         [Test]
@@ -65,12 +64,12 @@ namespace AlphaFramework.World
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0, 0}, {0, 0}, {1, 225}}));
             generator.Run();
 
-            Assert.AreEqual(new ByteVector4(38, 255, 255, 255), generator.Result[0, 0]);
-            Assert.AreEqual(new ByteVector4(127, 255, 255, 255), generator.Result[0, 1]);
-            Assert.AreEqual(new ByteVector4(64, 255, 255, 255), generator.Result[1, 0]);
-            Assert.AreEqual(new ByteVector4(128, 255, 255, 255), generator.Result[1, 1]);
-            Assert.AreEqual(new ByteVector4(0, 255, 255, 255), generator.Result[2, 0]);
-            Assert.AreEqual(new ByteVector4(0, 255, 255, 255), generator.Result[2, 1]);
+            generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
+            generator.Result[0, 1].Should().Be(new ByteVector4(127, 255, 255, 255));
+            generator.Result[1, 0].Should().Be(new ByteVector4(64, 255, 255, 255));
+            generator.Result[1, 1].Should().Be(new ByteVector4(128, 255, 255, 255));
+            generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
+            generator.Result[2, 1].Should().Be(new ByteVector4(0, 255, 255, 255));
         }
 
         [Test]
@@ -79,9 +78,9 @@ namespace AlphaFramework.World
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchV: 2);
             generator.Run();
 
-            Assert.AreEqual(new ByteVector4(64, 255, 255, 255), generator.Result[0, 0]);
-            Assert.AreEqual(new ByteVector4(90, 255, 255, 255), generator.Result[1, 0]);
-            Assert.AreEqual(new ByteVector4(0, 255, 255, 255), generator.Result[2, 0]);
+            generator.Result[0, 0].Should().Be(new ByteVector4(64, 255, 255, 255));
+            generator.Result[1, 0].Should().Be(new ByteVector4(90, 255, 255, 255));
+            generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
         }
 
         [Test]
@@ -90,9 +89,9 @@ namespace AlphaFramework.World
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchH: 2);
             generator.Run();
 
-            Assert.AreEqual(new ByteVector4(20, 255, 255, 255), generator.Result[0, 0]);
-            Assert.AreEqual(new ByteVector4(38, 255, 255, 255), generator.Result[1, 0]);
-            Assert.AreEqual(new ByteVector4(0, 255, 255, 255), generator.Result[2, 0]);
+            generator.Result[0, 0].Should().Be(new ByteVector4(20, 255, 255, 255));
+            generator.Result[1, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
+            generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
         }
     }
 }
