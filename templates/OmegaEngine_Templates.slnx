@@ -1,0 +1,13 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/AlphaFramework/">
+    <Project Path="AlphaFramework/Editor/Editor.csproj" />
+    <Project Path="AlphaFramework/Game/Game.csproj" />
+    <Project Path="AlphaFramework/Presentation/Presentation.csproj" />
+    <Project Path="AlphaFramework/World/World.csproj" />
+  </Folder>
+  <Project Path="Fullscreen/Fullscreen.csproj" />
+  <Project Path="WinForms/WinForms.csproj" />
+</Solution>
