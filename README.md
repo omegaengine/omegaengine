@@ -30,7 +30,6 @@ Prerequisites:
 [![API documentation](https://img.shields.io/badge/api-docs-orange.svg)](https://api.omegaengine.de/omegaengine/)
 
 - **[OmegaEngine](http://www.nuget.org/packages/OmegaEngine/)** is the main package. If you are unsure where to start, this is a safe bet.
-- **[OmegaEngine.Backend](http://www.nuget.org/packages/OmegaEngine.Backend/)** contains the actual library binaries for the OmegaEngine without the default assets (content and shader files). It is automatically included by the main package. Use this package directly if another project in your solution with the same build output directory already references the main package to avoid duplicating the assets.
 - **[OmegaGUI](http://www.nuget.org/packages/OmegaGUI/)** is a skinable GUI toolkit for the OmegaEngine with an XML file format und Lua scripting. The AlphaEditor contains a WYSIWYG editor for the toolkit.
 
 ### AlphaFramework NuGet packages
