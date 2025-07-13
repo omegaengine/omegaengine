@@ -5,7 +5,7 @@
     <description>An extensible framework allowing you to create IDE-like editors for games based on the OmegaEngine and AlphaFramework. You can use it to create GUI dialogs, maps, particle systems, etc. for your game.</description>
     <RootNamespace>AlphaFramework.Editor</RootNamespace>
     <AssemblyName>AlphaFramework.Editor</AssemblyName>
-    <TargetFramework>net20</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
     <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>

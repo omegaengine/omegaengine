@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Description>This package contains the actual library binaries for the OmegaEngine without the default assets (content and shader files). It is automatically included by the main package.
 Use this package directly if another project in your solution with the same build output directory already references the main package to avoid duplicating the assets.</Description>
-    <TargetFramework>net20</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
     <UseWindowsForms>True</UseWindowsForms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

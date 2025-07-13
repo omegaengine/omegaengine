@@ -73,7 +73,7 @@ namespace FrameOfReference.Presentation
 
                 PickPositionables(
                     // Check each entity in World if it is positioned on top of the selection area
-                    Universe.Positionables.OfType<Entity>().Where(x => x.CollisionTest(terrainArea)).Cast<Positionable<Vector2>>(),
+                    Universe.Positionables.OfType<Entity>().Where(x => x.CollisionTest(terrainArea)),
                     accumulate);
 
                 // Remove the outline from the screen
@@ -128,7 +128,7 @@ namespace FrameOfReference.Presentation
                     if (pickedObject is Terrain)
                     { // Action: Left-click on terrain to select one nearby entity
                         PickPositionables(
-                            Universe.Positionables.OfType<Entity>().Where(entity => entity.CollisionTest(intersectPosition.Flatten())).Take(1).Cast<Positionable<Vector2>>(),
+                            Universe.Positionables.OfType<Entity>().Where(entity => entity.CollisionTest(intersectPosition.Flatten())).Take(1),
                             accumulate);
                     }
                     else

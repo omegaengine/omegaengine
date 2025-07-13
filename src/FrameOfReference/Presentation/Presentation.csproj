@@ -4,7 +4,7 @@
   <PropertyGroup>
     <RootNamespace>FrameOfReference.Presentation</RootNamespace>
     <AssemblyName>FrameOfReference.Presentation</AssemblyName>
-    <TargetFramework>net20</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
   </PropertyGroup>
 
