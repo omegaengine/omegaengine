@@ -58,10 +58,9 @@ namespace FrameOfReference.Presentation
             #region Sanity checks
             if (engine == null) throw new ArgumentNullException(nameof(engine));
             if (universe == null) throw new ArgumentNullException(nameof(universe));
-            if (callback == null) throw new ArgumentNullException(nameof(callback));
             #endregion
 
-            _callback = callback;
+            _callback = callback ?? throw new ArgumentNullException(nameof(callback));
 
             // Make sure an empty directory is available for the benchmark results
             if (Directory.Exists(_resultDir)) Directory.Delete(_resultDir, true);

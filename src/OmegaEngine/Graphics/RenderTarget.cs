@@ -81,9 +81,7 @@ namespace OmegaEngine.Graphics
         /// <param name="size">The size of the texture - leave empty for fullscreen</param>
         public RenderTarget(Engine engine, Size size)
         {
-            if (engine == null) throw new ArgumentNullException(nameof(engine));
-
-            _engine = engine;
+            _engine = engine ?? throw new ArgumentNullException(nameof(engine));
             Size = size;
 
             // Hook device events

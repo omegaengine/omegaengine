@@ -135,7 +135,7 @@ namespace OmegaGUI.Model
         [XmlAttribute, DefaultValue(true), Description("Is this control currently active?"), Category("Behavior")]
         public bool Enabled
         {
-            get => DXControl != null ? DXControl.IsEnabled : IsEnabled;
+            get => DXControl?.IsEnabled ?? IsEnabled;
             set
             {
                 IsEnabled = value;
@@ -151,7 +151,7 @@ namespace OmegaGUI.Model
         [XmlAttribute, DefaultValue(true), Description("Is this control currently visible?"), Category("Behavior")]
         public bool Visible
         {
-            get => DXControl != null ? DXControl.IsVisible : IsVisible;
+            get => DXControl?.IsVisible ?? IsVisible;
             set
             {
                 IsVisible = value;

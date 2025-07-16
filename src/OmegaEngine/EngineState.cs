@@ -47,11 +47,7 @@ namespace OmegaEngine
         /// <param name="device">The Direct3D device to be manipulated internally.</param>
         internal EngineState(Device device)
         {
-            #region Sanity checks
-            if (device == null) throw new ArgumentNullException(nameof(device));
-            #endregion
-
-            _device = device;
+            _device = device ?? throw new ArgumentNullException(nameof(device));
         }
 
         /// <summary>

@@ -85,11 +85,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="particleTexture">The normal texture to apply to the water surface for ripples</param>
         public ParticleShader(ITextureProvider particleTexture)
         {
-            #region Sanity checks
-            if (particleTexture == null) throw new ArgumentNullException(nameof(particleTexture));
-            #endregion
-
-            ParticleTexture = particleTexture;
+            ParticleTexture = particleTexture ?? throw new ArgumentNullException(nameof(particleTexture));
             ParticleTexture.HoldReference();
         }
         #endregion

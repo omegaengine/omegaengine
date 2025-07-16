@@ -44,14 +44,10 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="preset">The initial configuration of the particle system.</param>
         public GpuParticleSystem(GpuParticlePreset preset)
         {
-            #region Sanity checks
-            if (preset == null) throw new ArgumentNullException(nameof(preset));
-            #endregion
-
             Pickable = false;
             RenderIn = ViewType.NormalOnly;
             SurfaceEffect = SurfaceEffect.Shader;
-            Preset = preset;
+            Preset = preset ?? throw new ArgumentNullException(nameof(preset));
             Alpha = EngineState.AdditivBlending; // Set alpha blending value here to get correct sorting behaviour
 
             // Calculate bounding sphere

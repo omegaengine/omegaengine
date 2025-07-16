@@ -72,11 +72,7 @@ namespace OmegaEngine.Input
         /// <param name="control">The control receiving the mouse events.</param>
         public MouseInputProvider(Control control)
         {
-            #region Sanity checks
-            if (control == null) throw new ArgumentNullException(nameof(control));
-            #endregion
-
-            _control = control;
+            _control = control ?? throw new ArgumentNullException(nameof(control));
 
             // Start tracking input events
             _control.MouseDown += MouseDown;

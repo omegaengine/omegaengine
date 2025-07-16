@@ -35,11 +35,7 @@ namespace OmegaEngine
         /// <param name="config">The settings used to initialize the <see cref="Engine"/>.</param>
         internal EngineCapabilities(Direct3D direct3D, EngineConfig config)
         {
-            #region Sanity checks
-            if (direct3D == null) throw new ArgumentNullException(nameof(direct3D));
-            #endregion
-
-            _direct3D = direct3D;
+            _direct3D = direct3D ?? throw new ArgumentNullException(nameof(direct3D));
             _capabilities = _direct3D.GetDeviceCaps(0, DeviceType.Hardware);
             _engineConfig = config;
 

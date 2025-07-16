@@ -45,11 +45,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="mesh">The animated mesh to use for rendering</param>
         public AnimatedModel(XAnimatedMesh mesh)
         {
-            #region Sanity checks
-            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
-            #endregion
-
-            _asset = mesh;
+            _asset = mesh ?? throw new ArgumentNullException(nameof(mesh));
             _asset.HoldReference();
             Materials = mesh.Materials;
             NumberSubsets = Materials.Length;
@@ -61,9 +57,6 @@ namespace OmegaEngine.Graphics.Renderables
             // Setup the matrices for animation
             //SetupBoneMatrices(_rootFrame.FrameHierarchy as AnimationFrame);
         }
-        #endregion
-
-        #region Static access
         #endregion
 
         //--------------------//

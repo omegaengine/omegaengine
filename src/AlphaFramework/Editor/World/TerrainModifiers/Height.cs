@@ -36,13 +36,8 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
         protected Height(ITerrain terrain, Terrain engineTerrain, Action refreshHandler)
             : base(terrain)
         {
-            #region Sanity checks
-            if (engineTerrain == null) throw new ArgumentNullException(nameof(engineTerrain));
-            if (refreshHandler == null) throw new ArgumentNullException(nameof(refreshHandler));
-            #endregion
-
-            _engineTerrain = engineTerrain;
-            _refreshHandler = refreshHandler;
+            _engineTerrain = engineTerrain ?? throw new ArgumentNullException(nameof(engineTerrain));
+            _refreshHandler = refreshHandler ?? throw new ArgumentNullException(nameof(refreshHandler));
         }
 
         /// <inheritdoc/>

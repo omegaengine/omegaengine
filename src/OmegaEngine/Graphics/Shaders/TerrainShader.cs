@@ -63,12 +63,8 @@ namespace OmegaEngine.Graphics.Shaders
         /// <exception cref="NotSupportedException">The graphics card does not support this shader.</exception>
         public TerrainShader(bool lighting, IDictionary<string, IEnumerable<int>> controllers)
         {
-            #region Sanity checks
-            if (controllers == null) throw new ArgumentNullException(nameof(controllers));
-            #endregion
-
             _lighting = lighting;
-            _controllers = controllers;
+            _controllers = controllers ?? throw new ArgumentNullException(nameof(controllers));
         }
         #endregion
 

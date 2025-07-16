@@ -26,11 +26,7 @@ namespace OmegaEngine
         /// <param name="capabilities">Determines which effects can be turned on.</param>
         internal EngineEffects(EngineCapabilities capabilities)
         {
-            #region Sanity checks
-            if (capabilities == null) throw new ArgumentNullException(nameof(capabilities));
-            #endregion
-
-            _capabilities = capabilities;
+            _capabilities = capabilities ?? throw new ArgumentNullException(nameof(capabilities));
         }
         #endregion
 

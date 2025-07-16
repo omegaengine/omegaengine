@@ -25,11 +25,7 @@ namespace OmegaEngine.Input
         /// <param name="update">The callback delegate to be called when any kind of input is received.</param>
         public UpdateReceiver(Action update)
         {
-            #region Sanity checks
-            if (update == null) throw new ArgumentNullException(nameof(update));
-            #endregion
-
-            _update = update;
+            _update = update ?? throw new ArgumentNullException(nameof(update));
         }
 
         /// <inheritdoc/>
