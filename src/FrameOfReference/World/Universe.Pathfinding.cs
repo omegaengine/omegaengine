@@ -43,7 +43,7 @@ namespace FrameOfReference.World
         /// The maximum slope the <see cref="IPathfinder{TCoordinates}"/> considers traversable.
         /// </summary>
         [DefaultValue(10), Category("Gameplay"), Description("The maximum slope the Pathfinder considers traversable.")]
-        public int MaxTraversableSlope { get { return _maxTraversableSlope; } set { Math.Abs(value).To(ref _maxTraversableSlope, InitializePathfinding); } }
+        public int MaxTraversableSlope { get => _maxTraversableSlope; set => Math.Abs(value).To(ref _maxTraversableSlope, InitializePathfinding); }
 
         #region Initialize
         /// <summary>

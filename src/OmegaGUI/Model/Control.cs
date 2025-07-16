@@ -119,7 +119,7 @@ namespace OmegaGUI.Model
         [XmlAttribute, DefaultValue(false), Description("Is this the default control on the dialog?"), Category("Behavior")]
         public bool Default
         {
-            get { return _isDefault; }
+            get => _isDefault;
             set
             {
                 _isDefault = value;
@@ -135,7 +135,7 @@ namespace OmegaGUI.Model
         [XmlAttribute, DefaultValue(true), Description("Is this control currently active?"), Category("Behavior")]
         public bool Enabled
         {
-            get { return DXControl != null ? DXControl.IsEnabled : IsEnabled; }
+            get => DXControl != null ? DXControl.IsEnabled : IsEnabled;
             set
             {
                 IsEnabled = value;
@@ -151,7 +151,7 @@ namespace OmegaGUI.Model
         [XmlAttribute, DefaultValue(true), Description("Is this control currently visible?"), Category("Behavior")]
         public bool Visible
         {
-            get { return DXControl != null ? DXControl.IsVisible : IsVisible; }
+            get => DXControl != null ? DXControl.IsVisible : IsVisible;
             set
             {
                 IsVisible = value;
@@ -169,7 +169,7 @@ namespace OmegaGUI.Model
         [Description("The location of the control on the dialog"), Category("Layout")]
         public Point Location
         {
-            get { return _location; }
+            get => _location;
             set
             {
                 _location = value;
@@ -185,7 +185,7 @@ namespace OmegaGUI.Model
         [Description("The size of the control on the dialog"), Category("Layout")]
         public Size Size
         {
-            get { return _size; }
+            get => _size;
             set
             {
                 _size = value;
@@ -201,7 +201,7 @@ namespace OmegaGUI.Model
         [DefaultValue(HorizontalMode.FromLeft), Description("How to handle the X values of Location and Size"), Category("Layout")]
         public HorizontalMode AlignHorizontal
         {
-            get { return _alignHorizontal; }
+            get => _alignHorizontal;
             set
             {
                 _alignHorizontal = value;
@@ -217,7 +217,7 @@ namespace OmegaGUI.Model
         [DefaultValue(VerticalMode.FromTop), Description("How to handle the Y values of Location and Size"), Category("Layout")]
         public VerticalMode AlignVertical
         {
-            get { return _alignVertical; }
+            get => _alignVertical;
             set
             {
                 _alignVertical = value;

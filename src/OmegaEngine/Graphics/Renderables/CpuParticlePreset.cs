@@ -148,7 +148,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// The ID of the texture to place on the particles
         /// </summary>
         [DefaultValue(""), Category("Render"), Description("The ID of the texture to place on the particles")]
-        public string Particle1Texture { get { return _particleTexture1; } set { value.To(ref _particleTexture1, ref TexturesDirty); } }
+        public string Particle1Texture { get => _particleTexture1; set => value.To(ref _particleTexture1, ref TexturesDirty); }
 
         /// <summary>
         /// The level of transparency from 0 (solid) to 255 (invisible),
@@ -161,7 +161,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// The ID of the texture to place on the particles during their "second life"
         /// </summary>
         [DefaultValue(""), Category("Render"), Description("The ID of the texture to place on the particles during their \"second life\"")]
-        public string Particle2Texture { get { return _particleTexture2; } set { value.To(ref _particleTexture2, ref TexturesDirty); } }
+        public string Particle2Texture { get => _particleTexture2; set => value.To(ref _particleTexture2, ref TexturesDirty); }
 
         /// <summary>
         /// The level of transparency from 0 (solid) to 255 (invisible) for particles' "second life",

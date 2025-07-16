@@ -50,7 +50,7 @@ namespace FrameOfReference.Presentation
         /// </summary>
         public bool WireframeTerrain
         {
-            get { return _wireframeTerrain; }
+            get => _wireframeTerrain;
             set
             {
                 _wireframeTerrain = value;
@@ -65,7 +65,7 @@ namespace FrameOfReference.Presentation
         /// </summary>
         public bool WireframeEntities
         {
-            get { return _wireframeEntities; }
+            get => _wireframeEntities;
             set
             {
                 _wireframeEntities = value;
@@ -81,7 +81,7 @@ namespace FrameOfReference.Presentation
         /// </summary>
         public bool BoundingSphereEntities
         {
-            get { return _boundingSpheresEntities; }
+            get => _boundingSpheresEntities;
             set
             {
                 _boundingSpheresEntities = value;
@@ -97,7 +97,7 @@ namespace FrameOfReference.Presentation
         /// </summary>
         public bool BoundingBoxEntities
         {
-            get { return _boundingBoxEntities; }
+            get => _boundingBoxEntities;
             set
             {
                 _boundingBoxEntities = value;
@@ -286,22 +286,17 @@ namespace FrameOfReference.Presentation
         /// Retreives the current state of the <see cref="Camera"/> for storage in the <see cref="Universe"/>.
         /// </summary>
         /// <returns>The current state of  the <see cref="Camera"/> or <c>null</c> if it can not be determined at this time (e.g. cinematic animation in progress).</returns>
-        public CameraState<Vector2> CameraState
-        {
-            get
+        public CameraState<Vector2> CameraState =>
+            new PerTypeDispatcher<Camera, CameraState<Vector2>>(ignoreMissing: true)
             {
-                return new PerTypeDispatcher<Camera, CameraState<Vector2>>(ignoreMissing: true)
+                (StrategyCamera camera) => new()
                 {
-                    (StrategyCamera camera) => new()
-                    {
-                        Name = camera.Name,
-                        Position = camera.Target.Flatten(),
-                        Radius = (float)camera.Radius,
-                        Rotation = camera.HorizontalRotation
-                    }
-                }.Dispatch(View.Camera);
-            }
-        }
+                    Name = camera.Name,
+                    Position = camera.Target.Flatten(),
+                    Radius = (float)camera.Radius,
+                    Rotation = camera.HorizontalRotation
+                }
+            }.Dispatch(View.Camera);
         #endregion
 
         #region Dimming

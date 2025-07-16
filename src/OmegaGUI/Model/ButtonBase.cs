@@ -46,7 +46,7 @@ namespace OmegaGUI.Model
         [XmlAttribute]
         public Keys Hotkey
         {
-            get { return _hotkey; }
+            get => _hotkey;
             set
             {
                 _hotkey = value;

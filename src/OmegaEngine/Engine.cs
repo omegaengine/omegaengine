@@ -54,7 +54,7 @@ namespace OmegaEngine
         /// <summary>
         /// The culture used for loading the assembly resources.
         /// </summary>
-        public static CultureInfo ResourceCulture { get { return Resources.Culture; } set { Resources.Culture = value; } }
+        public static CultureInfo ResourceCulture { get => Resources.Culture; set => Resources.Culture = value; }
 
         /// <summary>
         /// The version number of the engine.
@@ -75,9 +75,8 @@ namespace OmegaEngine
         /// <remarks>Changing this will cause the engine to reset on the next <see cref="Render()" /> call</remarks>
         public EngineConfig Config
         {
-            get { return _config; }
-            set
-            {
+            get => _config;
+            set =>
                 value.To(ref _config, delegate
                 {
                     // The device needs to be reset with changed presentation parameters
@@ -88,7 +87,6 @@ namespace OmegaEngine
                     }
                     PresentParams = BuildPresentParams(_config);
                 });
-            }
         }
 
         /// <summary>

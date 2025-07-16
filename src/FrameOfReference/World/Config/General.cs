@@ -64,7 +64,7 @@ namespace FrameOfReference.World.Config
         /// Path to the directory to load the game content from
         /// </summary>
         [DefaultValue(""), Description("Path to the directory to load the game content from")]
-        public string ContentDir { get { return _contentDir; } set { value.To(ref _contentDir, OnChanged); } }
+        public string ContentDir { get => _contentDir; set => value.To(ref _contentDir, OnChanged); }
 
         private string _language;
 
@@ -72,6 +72,6 @@ namespace FrameOfReference.World.Config
         /// The current game language
         /// </summary>
         [DefaultValue(""), Description("The current game language")]
-        public string Language { get { return _language; } set { value.To(ref _language, OnChanged); } }
+        public string Language { get => _language; set => value.To(ref _language, OnChanged); }
     }
 }

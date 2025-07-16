@@ -33,12 +33,12 @@ namespace OmegaEngine.Audio
         /// The sound's position in world space
         /// </summary>
         [Description("The body's position in world space"), Category("Layout")]
-        public DoubleVector3 Position { get { return _position; } set { value.To(ref _position, () => _buffer3D.Position = ((IPositionableOffset)this).EffectivePosition); } }
+        public DoubleVector3 Position { get => _position; set => value.To(ref _position, () => _buffer3D.Position = ((IPositionableOffset)this).EffectivePosition); }
 
         private DoubleVector3 _positionOffset;
 
         /// <inheritdoc/>
-        DoubleVector3 IPositionableOffset.Offset { get { return _positionOffset; } set { value.To(ref _positionOffset, () => _buffer3D.Position = ((IPositionableOffset)this).EffectivePosition); } }
+        DoubleVector3 IPositionableOffset.Offset { get => _positionOffset; set => value.To(ref _positionOffset, () => _buffer3D.Position = ((IPositionableOffset)this).EffectivePosition); }
 
         /// <summary>
         /// The sounds's position in render space, based on <see cref="Position"/>

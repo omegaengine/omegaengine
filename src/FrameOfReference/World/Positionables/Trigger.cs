@@ -44,7 +44,7 @@ namespace FrameOfReference.World.Positionables
         /// The maximum distance at which an <see cref="Entity"/> activates this trigger.
         /// </summary>
         [XmlAttribute, DefaultValue(200f), Description("The maximum distance at which an Entity activates this trigger.")]
-        public float Range { get { return _range; } set { value.To(ref _range, OnChangedRebuild); } }
+        public float Range { get => _range; set => value.To(ref _range, OnChangedRebuild); }
 
         /// <summary>
         /// The <see cref="UniverseBase{T}.GameTime"/> by which this trigger should have been activated.

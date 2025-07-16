@@ -76,7 +76,7 @@ namespace AlphaFramework.World.Terrains
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
         public ByteGrid HeightMap
         {
-            get { return _heightMap; }
+            get => _heightMap;
             set
             {
                 if (value != null)
@@ -98,7 +98,7 @@ namespace AlphaFramework.World.Terrains
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
         public ByteVector4Grid OcclusionIntervalMap
         {
-            get { return _occlusionIntervalMap; }
+            get => _occlusionIntervalMap;
             set
             {
                 if (value != null)
@@ -130,7 +130,7 @@ namespace AlphaFramework.World.Terrains
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
         public NibbleGrid TextureMap
         {
-            get { return _textureMap; }
+            get => _textureMap;
             set
             {
                 if (value != null)

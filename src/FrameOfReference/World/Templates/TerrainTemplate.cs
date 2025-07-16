@@ -48,12 +48,12 @@ namespace FrameOfReference.World.Templates
         /// </summary>
         /// <remarks>Is not serialized/stored, <see cref="ColorValue"/> is used for that.</remarks>
         [XmlIgnore, LuaHide, Description("The mini-map color for this terrain type. Should be unique.")]
-        public Color Color { get { return _color; } set { _color = Color.FromArgb(255, value); /* Drop alpha-channel */ } }
+        public Color Color { get => _color; set => _color = Color.FromArgb(255, value) /* Drop alpha-channel */; }
 
         /// <summary>Used for XML serialization.</summary>
         /// <seealso cref="Color"/>
         [XmlElement("Color"), LuaHide, Browsable(false)]
-        public XColor ColorValue { get { return Color; } set { Color = Color.FromArgb(value.R, value.G, value.B); /* Drop alpha-channel */ } }
+        public XColor ColorValue { get => Color; set => Color = Color.FromArgb(value.R, value.G, value.B) /* Drop alpha-channel */; }
 
         private float _movementAbility = 1;
 
@@ -61,6 +61,6 @@ namespace FrameOfReference.World.Templates
         /// How good can units walk on this ground? 0=not at all; 1=with full speed
         /// </summary>
         [DefaultValue(1f), Description("How good can units walk on this ground? 0=not at all; 1=with full speed")]
-        public float MovementAbility { get { return _movementAbility; } set { _movementAbility = Math.Max(0, value); } }
+        public float MovementAbility { get => _movementAbility; set => _movementAbility = Math.Max(0, value); }
     }
 }

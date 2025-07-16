@@ -84,7 +84,7 @@ namespace OmegaGUI.Render
         // Nothing to do here
 
         /// <summary>User specified data</summary>
-        public object UserData { get { return localUserData; } set { localUserData = value; } }
+        public object UserData { get => localUserData; set => localUserData = value; }
 
         /// <summary>The parent dialog of this control</summary>
         public Dialog Parent => parentDialog;
@@ -132,16 +132,16 @@ namespace OmegaGUI.Render
         }
 
         /// <summary>Is the control enabled</summary>
-        public virtual bool IsEnabled { get { return enabled; } set { enabled = value; } }
+        public virtual bool IsEnabled { get => enabled; set => enabled = value; }
 
         /// <summary>Is the control visible</summary>
-        public virtual bool IsVisible { get { return visible; } set { visible = value; } }
+        public virtual bool IsVisible { get => visible; set => visible = value; }
 
         /// <summary>Type of the control</summary>
         public virtual ControlType ControlType => ctrlType;
 
         /// <summary>Unique ID of the control</summary>
-        public virtual int ID { get { return controlId; } set { controlId = value; } }
+        public virtual int ID { get => controlId; set => controlId = value; }
 
         /// <summary>Called to set control's location</summary>
         public virtual void SetLocation(int x, int y)
@@ -160,7 +160,7 @@ namespace OmegaGUI.Render
         }
 
         /// <summary>The controls hotkey</summary>
-        public virtual Keys Hotkey { get { return ctrlHotKey; } set { ctrlHotKey = value; } }
+        public virtual Keys Hotkey { get => ctrlHotKey; set => ctrlHotKey = value; }
 
         /// <summary>
         /// Index for the elements this control has access to
@@ -168,7 +168,7 @@ namespace OmegaGUI.Render
         [SuppressMessage("Microsoft.Design", "CA1043:UseIntegralOrStringArgumentForIndexers", Justification = "The whole GUI subsystem uses uint for ID purposes")]
         public Element this[uint elementIndex]
         {
-            get { return elementList[(int)elementIndex]; }
+            get => elementList[(int)elementIndex];
             set
             {
                 if (value == null)

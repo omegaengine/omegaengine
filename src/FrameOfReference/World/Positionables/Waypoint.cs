@@ -39,7 +39,7 @@ namespace FrameOfReference.World.Positionables
         /// The name of the <see cref="Positionables.Entity"/> this waypoint is for.
         /// </summary>
         [XmlAttribute, Description("The name of the Entity this waypoint is for.")]
-        public string TargetEntity { get { return _targetEntity; } set { value.To(ref _targetEntity, OnChanged); } }
+        public string TargetEntity { get => _targetEntity; set => value.To(ref _targetEntity, OnChanged); }
 
         private double _activationTime;
 
@@ -47,7 +47,7 @@ namespace FrameOfReference.World.Positionables
         /// The <see cref="AlphaFramework.World.UniverseBase{T}.GameTime"/> when <see cref="Positionables.Entity"/>s start walking towards this waypoint.
         /// </summary>
         [DefaultValue(0.0), Description("The GameTime when Entities start walking towards this waypoint.")]
-        public double ActivationTime { get { return _activationTime; } set { value.To(ref _activationTime, OnChanged); } }
+        public double ActivationTime { get => _activationTime; set => value.To(ref _activationTime, OnChanged); }
 
         #region Auto-set
         /// <inheritdoc/>
@@ -66,7 +66,7 @@ namespace FrameOfReference.World.Positionables
         [ReadOnly(true)]
         public double ArrivalTime
         {
-            get { return _arrivalTime; }
+            get => _arrivalTime;
             set
             {
                 _arrivalTime = value;
@@ -89,7 +89,7 @@ namespace FrameOfReference.World.Positionables
         [ReadOnly(true)]
         public Vector2 OriginPosition
         {
-            get { return _originPosition; }
+            get => _originPosition;
             set
             {
                 _originPosition = value;

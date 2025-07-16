@@ -32,7 +32,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(1f), Description("How strong the bleaching effect should be - values between 0 and 1")]
         public float Opacity
         {
-            get { return _opacity; }
+            get => _opacity;
             set
             {
                 value = value.Clamp();

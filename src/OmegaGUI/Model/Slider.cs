@@ -53,7 +53,7 @@ namespace OmegaGUI.Model
         [DefaultValue(0), Description("Minimum value for control"), Category("Behavior")]
         public int Min
         {
-            get { return _min; }
+            get => _min;
             set
             {
                 if (value >= Max)
@@ -71,7 +71,7 @@ namespace OmegaGUI.Model
         [DefaultValue(10), Description("Maximum value for control"), Category("Behavior")]
         public int Max
         {
-            get { return _max; }
+            get => _max;
             set
             {
                 if (value <= Min)
@@ -89,7 +89,7 @@ namespace OmegaGUI.Model
         [DefaultValue(0), Description("The current value of the control"), Category("Appearance")]
         public virtual int Value
         {
-            get { return ControlValue; }
+            get => ControlValue;
             set
             {
                 if (value < Min || value > Max)

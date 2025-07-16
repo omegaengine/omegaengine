@@ -31,7 +31,7 @@ namespace OmegaEngine.Graphics.Cameras
         [Description("The position the camera is looking at."), Category("Layout")]
         public override DoubleVector3 Target
         {
-            get { return base.Target; }
+            get => base.Target;
             set
             {
                 if (_heightController == null) base.Target = value;

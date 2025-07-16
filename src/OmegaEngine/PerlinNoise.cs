@@ -103,7 +103,7 @@ namespace OmegaEngine
         /// 
         /// <para>Default value is set to <b>4</b>.</para>
         /// </remarks>
-        public int Octaves { get { return _octaves; } set { _octaves = value.Clamp(1, 32); } }
+        public int Octaves { get => _octaves; set => _octaves = value.Clamp(1, 32); }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PerlinNoise"/> class.

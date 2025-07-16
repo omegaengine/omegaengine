@@ -34,14 +34,14 @@ namespace OmegaEngine.Graphics
         /// The position of the light source
         /// </summary>
         [Description("The position of the light source"), Category("Layout")]
-        public DoubleVector3 Position { get { return _position; } set { value.To(ref _position, ref _effectivePositionDirty); } }
+        public DoubleVector3 Position { get => _position; set => value.To(ref _position, ref _effectivePositionDirty); }
 
         private DoubleVector3 _positionOffset;
 
         /// <summary>
         /// A value to be added to <see cref="Position"/> in order gain <see cref="IPositionableOffset.EffectivePosition"/> - auto-updated by <see cref="View.Render"/> to the negative <see cref="Camera.Position"/>
         /// </summary>
-        DoubleVector3 IPositionableOffset.Offset { get { return _positionOffset; } set { value.To(ref _positionOffset, ref _effectivePositionDirty); } }
+        DoubleVector3 IPositionableOffset.Offset { get => _positionOffset; set => value.To(ref _positionOffset, ref _effectivePositionDirty); }
 
         private bool _effectivePositionDirty;
         private Vector3 _effectivePosition;

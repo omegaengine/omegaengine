@@ -70,15 +70,13 @@ namespace OmegaEngine
         /// <remarks>On Windows 7 and newer this will cause a neat taskbar animation.</remarks>
         public bool Loading
         {
-            get { return _loading; }
-            set
-            {
+            get => _loading;
+            set =>
                 // Show taskbar animation on Windows 7 or newer
                 value.To(ref _loading, () =>
                     WindowsTaskbar.SetProgressState(Form.Handle, value
                         ? WindowsTaskbar.ProgressBarState.Indeterminate
                         : WindowsTaskbar.ProgressBarState.NoProgress));
-            }
         }
 
         /// <summary>

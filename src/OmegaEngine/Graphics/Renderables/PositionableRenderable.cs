@@ -115,7 +115,7 @@ namespace OmegaEngine.Graphics.Renderables
         [Description("The shader to apply to the surface of this body"), Category("Appearance")]
         public SurfaceShader SurfaceShader
         {
-            get { return _surfaceShader; }
+            get => _surfaceShader;
             set
             {
                 _surfaceShader = value;
@@ -137,7 +137,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// A transformation matrix that is to be applied before the normal world transform occurs - useful for correcting off-center meshes
         /// </summary>
         [Browsable(false)]
-        public Matrix PreTransform { get { return _preTransform; } set { value.To(ref _preTransform, ref WorldTransformDirty); } }
+        public Matrix PreTransform { get => _preTransform; set => value.To(ref _preTransform, ref WorldTransformDirty); }
 
         private Vector3 _scale = new(1, 1, 1);
 
@@ -145,7 +145,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// Scaling to be performed before rendering
         /// </summary>
         [Description("Scaling to be performed before rendering"), Category("Layout")]
-        public Vector3 Scale { get { return _scale; } set { value.To(ref _scale, ref WorldTransformDirty); } }
+        public Vector3 Scale { get => _scale; set => value.To(ref _scale, ref WorldTransformDirty); }
 
         /// <summary>
         /// Scales this <see cref="PositionableRenderable"/> symmetrically
@@ -162,7 +162,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// The body's rotation quaternion
         /// </summary>
         [Browsable(false)]
-        public Quaternion Rotation { get { return _rotation; } set { Quaternion.Normalize(value).To(ref _rotation, ref WorldTransformDirty); } }
+        public Quaternion Rotation { get => _rotation; set => Quaternion.Normalize(value).To(ref _rotation, ref WorldTransformDirty); }
 
         private DoubleVector3 _position;
 
@@ -170,14 +170,14 @@ namespace OmegaEngine.Graphics.Renderables
         /// The body's position in world space
         /// </summary>
         [Description("The body's position in world space"), Category("Layout")]
-        public DoubleVector3 Position { get { return _position; } set { value.To(ref _position, ref WorldTransformDirty); } }
+        public DoubleVector3 Position { get => _position; set => value.To(ref _position, ref WorldTransformDirty); }
 
         private DoubleVector3 _positionOffset;
 
         /// <summary>
         /// A value to be added to <see cref="Position"/> in order gain <see cref="IPositionableOffset.EffectivePosition"/> - auto-updated by <see cref="View.Render"/> to the negative <see cref="Camera.Position"/>
         /// </summary>
-        DoubleVector3 IPositionableOffset.Offset { get { return _positionOffset; } set { value.To(ref _positionOffset, ref WorldTransformDirty); } }
+        DoubleVector3 IPositionableOffset.Offset { get => _positionOffset; set => value.To(ref _positionOffset, ref WorldTransformDirty); }
         #endregion
 
         #region Transform results

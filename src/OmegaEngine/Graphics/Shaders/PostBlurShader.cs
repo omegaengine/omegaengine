@@ -32,7 +32,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(1f), Description("How strongly to blur the image - values between 0 and 10")]
         public float BlurStrength
         {
-            get { return _blurStrength; }
+            get => _blurStrength;
             set
             {
                 value = value.Clamp(0, 10);

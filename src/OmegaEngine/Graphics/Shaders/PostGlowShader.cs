@@ -42,7 +42,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(1f), Description("A factor by which the blurred glow color is multiplied - values between 0 and 100")]
         public float GlowStrength
         {
-            get { return _glowStrength; }
+            get => _glowStrength;
             set
             {
                 value = value.Clamp(0, 100);

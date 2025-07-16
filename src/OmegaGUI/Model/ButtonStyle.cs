@@ -97,16 +97,16 @@ namespace OmegaGUI.Model
         public Size ButtonTextureSize { get; set; } = new(136, 54);
 
         [XmlIgnore, Category("Button layer"), Description("The color of the button layer in its normal state")]
-        public Color ButtonNormalColor { get { return (Color)ButtonColorNormal; } set { ButtonColorNormal = value; } }
+        public Color ButtonNormalColor { get => (Color)ButtonColorNormal; set => ButtonColorNormal = value; }
 
         [XmlIgnore, Category("Button layer"), Description("The color of the button layer while the button is pressed")]
-        public Color ButtonPressedColor { get { return (Color)ButtonColorPressed; } set { ButtonColorPressed = value; } }
+        public Color ButtonPressedColor { get => (Color)ButtonColorPressed; set => ButtonColorPressed = value; }
 
         [XmlIgnore, Category("Button layer"), Description("The color of the text while the mouse is over the button")]
-        public Color TextNormalColor { get { return (Color)TextColorNormal; } set { TextColorNormal = value; } }
+        public Color TextNormalColor { get => (Color)TextColorNormal; set => TextColorNormal = value; }
 
         [XmlIgnore, Category("Button layer"), Description("The color of the text while the mouse is over the button")]
-        public Color TextMouseOverColor { get { return (Color)TextColorMouseOver; } set { TextColorMouseOver = value; } }
+        public Color TextMouseOverColor { get => (Color)TextColorMouseOver; set => TextColorMouseOver = value; }
         #endregion
 
         #region Fill layer
@@ -123,13 +123,13 @@ namespace OmegaGUI.Model
         public Size FillTextureSize { get; set; } = new(252, 54);
 
         [XmlIgnore, Category("Fill layer"), Description("The color of the fill layer in its normal state")]
-        public Color FillMouseOverColor { get { return (Color)FillColorMouseOver; } set { FillColorMouseOver = value; } }
+        public Color FillMouseOverColor { get => (Color)FillColorMouseOver; set => FillColorMouseOver = value; }
 
         [XmlIgnore, Category("Fill layer"), Description("The color of the fill layer while the button is pressed")]
-        public Color FillPressedColor { get { return (Color)FillColorPressed; } set { FillColorPressed = value; } }
+        public Color FillPressedColor { get => (Color)FillColorPressed; set => FillColorPressed = value; }
 
         [XmlIgnore, Category("Fill layer"), Description("The color of the fill layer while the button is focused")]
-        public Color FillFocusColor { get { return (Color)FillColorFocus; } set { FillColorFocus = value; } }
+        public Color FillFocusColor { get => (Color)FillColorFocus; set => FillColorFocus = value; }
         #endregion
 
         #endregion

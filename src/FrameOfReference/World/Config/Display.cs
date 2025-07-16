@@ -58,7 +58,7 @@ namespace FrameOfReference.World.Config
         [Description("The monitor resolution for fullscreen mode")]
         public Size Resolution
         {
-            get { return _resolution; }
+            get => _resolution;
             set
             {
                 if (value == Size.Empty)
@@ -96,7 +96,7 @@ namespace FrameOfReference.World.Config
         [Description("The size of the render window")]
         public Size WindowSize
         {
-            get { return _windowSize; }
+            get => _windowSize;
             set
             {
                 if (value == Size.Empty)
@@ -111,7 +111,7 @@ namespace FrameOfReference.World.Config
         /// The level of anti aliasing to use
         /// </summary>
         [Description("The level of anti aliasing to use")]
-        public int AntiAliasing { get { return _antiAliasing; } set { value.To(ref _antiAliasing, OnChanged); } }
+        public int AntiAliasing { get => _antiAliasing; set => value.To(ref _antiAliasing, OnChanged); }
 
         /// <summary>
         /// The level of anti aliasing to use - as a string followed by an x
@@ -137,7 +137,7 @@ namespace FrameOfReference.World.Config
         /// Run game in fullscreen mode
         /// </summary>
         [Description("Run game in fullscreen mode")]
-        public bool Fullscreen { get { return _fullscreen; } set { value.To(ref _fullscreen, OnChanged); } }
+        public bool Fullscreen { get => _fullscreen; set => value.To(ref _fullscreen, OnChanged); }
 
         private bool _vSync;
 
@@ -145,6 +145,6 @@ namespace FrameOfReference.World.Config
         /// Synchronize the framerate with the monitor's refresh rate
         /// </summary>
         [Description("Synchronize the framerate with the monitor's refresh rate")]
-        public bool VSync { get { return _vSync; } set { value.To(ref _vSync, OnChanged); } }
+        public bool VSync { get => _vSync; set => value.To(ref _vSync, OnChanged); }
     }
 }

@@ -57,7 +57,7 @@ namespace OmegaGUI.Render
         /// <summary>
         /// Checked property
         /// </summary>
-        public virtual bool IsChecked { get { return isBoxChecked; } set { SetCheckedInternal(value, false); } }
+        public virtual bool IsChecked { get => isBoxChecked; set => SetCheckedInternal(value, false); }
 
         /// <summary>
         /// Sets the checked state and fires the event if necessary

@@ -26,7 +26,7 @@ namespace OmegaEngine.Graphics
         /// Not applicable to <see cref="TextureView"/>
         /// </summary>
         [Browsable(false)]
-        public sealed override int FullAlpha { get { return 0; } set { } }
+        public sealed override int FullAlpha { get => 0; set { } }
 
         /// <summary>
         /// Does this <see cref="View"/> render to a texture <see cref="RenderTarget"/>? <c>true</c> since this is a <see cref="TextureView"/>.
