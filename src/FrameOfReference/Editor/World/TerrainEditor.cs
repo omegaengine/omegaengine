@@ -107,8 +107,8 @@ namespace FrameOfReference.Editor.World
                 try
                 {
                     pictureTexture.Image?.Dispose();
-                    using (Stream stream = ContentManager.GetFileStream("Textures/Terrain", TemplateList.SelectedEntry.Texture))
-                        pictureTexture.Image = Image.FromStream(stream);
+                    using Stream stream = ContentManager.GetFileStream("Textures/Terrain", TemplateList.SelectedEntry.Texture);
+                    pictureTexture.Image = Image.FromStream(stream);
                 }
                     #region Error handling
                 catch (ArgumentException)

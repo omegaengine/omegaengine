@@ -202,8 +202,8 @@ namespace OmegaEngine.Graphics.Renderables
         /// <exception cref="InvalidOperationException">A problem occurred while deserializing the XML data.</exception>
         public static CpuParticlePreset FromContent(string id)
         {
-            using (var stream = ContentManager.GetFileStream("Graphics/CpuParticleSystem", id))
-                return XmlStorage.LoadXml<CpuParticlePreset>(stream);
+            using var stream = ContentManager.GetFileStream("Graphics/CpuParticleSystem", id);
+            return XmlStorage.LoadXml<CpuParticlePreset>(stream);
         }
         #endregion
 

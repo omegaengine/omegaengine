@@ -78,8 +78,8 @@ namespace OmegaGUI.Model
         /// <returns>>The loaded table.</returns>
         public static XmlDictionary FromContent(string id)
         {
-            using (var stream = ContentManager.GetFileStream("GUI/Language", id))
-                return XmlStorage.LoadXml<LocaleFile>(stream).Entries;
+            using var stream = ContentManager.GetFileStream("GUI/Language", id);
+            return XmlStorage.LoadXml<LocaleFile>(stream).Entries;
         }
 
         /// <summary>

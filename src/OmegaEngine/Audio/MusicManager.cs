@@ -65,20 +65,18 @@ namespace OmegaEngine.Audio
         /// <param name="id">The ID of the library file to load</param>
         public void LoadLibrary(string id)
         {
-            using (var stream = ContentManager.GetFileStream("Music", id))
+            using var stream = ContentManager.GetFileStream("Music", id);
+            var streamReader = new StreamReader(stream);
+            while (!streamReader.EndOfStream)
             {
-                var streamReader = new StreamReader(stream);
-                while (!streamReader.EndOfStream)
-                {
-                    string line = streamReader.ReadLine();
-                    if (line == null) break;
-                    if (line.StartsWith("#")) continue;
+                string line = streamReader.ReadLine();
+                if (line == null) break;
+                if (line.StartsWith("#")) continue;
 
-                    // Lines formatted as Song|Theme1,Theme2,Theme3,...
-                    string[] values = line.Split('|');
-                    string[] songThemes = values[1].Split(',');
-                    AddSong(values[0], songThemes);
-                }
+                // Lines formatted as Song|Theme1,Theme2,Theme3,...
+                string[] values = line.Split('|');
+                string[] songThemes = values[1].Split(',');
+                AddSong(values[0], songThemes);
             }
         }
         #endregion

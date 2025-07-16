@@ -451,8 +451,8 @@ namespace OmegaEngine.Storage
                     Stream memoryStream = new MemoryStream();
                     try
                     {
-                        using (var inputStream = _modArchiveEntries[fullID].ZipFile.GetInputStream(_modArchiveEntries[fullID].ZipEntry))
-                            inputStream.CopyToEx(memoryStream);
+                        using var inputStream = _modArchiveEntries[fullID].ZipFile.GetInputStream(_modArchiveEntries[fullID].ZipEntry);
+                        inputStream.CopyToEx(memoryStream);
                     }
                     #region Error handling
                     catch (ZipException ex)
@@ -478,8 +478,8 @@ namespace OmegaEngine.Storage
                 {
                     // Copy from ZIP file to MemoryStream to provide seeking capability
                     Stream memoryStream = new MemoryStream();
-                    using (var inputStream = _baseArchiveEntries[fullID].ZipFile.GetInputStream(_baseArchiveEntries[fullID].ZipEntry))
-                        inputStream.CopyToEx(memoryStream);
+                    using var inputStream = _baseArchiveEntries[fullID].ZipFile.GetInputStream(_baseArchiveEntries[fullID].ZipEntry);
+                    inputStream.CopyToEx(memoryStream);
                     return memoryStream;
                 }
             }

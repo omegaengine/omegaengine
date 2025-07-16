@@ -21,19 +21,17 @@ namespace OmegaEngine.Values
         [Test]
         public void TestSaveLoad()
         {
-            using (var tempFile = new TemporaryFile("unit-tests"))
-            {
-                var grid = new NibbleGrid(new byte[,] {{2, 4}, {5, 10}});
-                grid.Save(tempFile);
+            using var tempFile = new TemporaryFile("unit-tests");
+            var grid = new NibbleGrid(new byte[,] {{2, 4}, {5, 10}});
+            grid.Save(tempFile);
 
-                using (var stream = File.OpenRead(tempFile))
-                    grid = NibbleGrid.Load(stream);
+            using (var stream = File.OpenRead(tempFile))
+                grid = NibbleGrid.Load(stream);
 
-                grid[0, 0].Should().Be(2);
-                grid[0, 1].Should().Be(4);
-                grid[1, 0].Should().Be(5);
-                grid[1, 1].Should().Be(10);
-            }
+            grid[0, 0].Should().Be(2);
+            grid[0, 1].Should().Be(4);
+            grid[1, 0].Should().Be(5);
+            grid[1, 1].Should().Be(10);
         }
     }
 }

@@ -100,11 +100,9 @@ namespace OmegaEngine.Graphics
             if (data == null) throw new ArgumentNullException(nameof(data));
             #endregion
 
-            using (DataStream vertexStream = buffer.Lock(0, Marshal.SizeOf(typeof(T)) * data.Length, LockFlags.None))
-            {
-                vertexStream.WriteRange(data);
-                buffer.Unlock();
-            }
+            using DataStream vertexStream = buffer.Lock(0, Marshal.SizeOf(typeof(T)) * data.Length, LockFlags.None);
+            vertexStream.WriteRange(data);
+            buffer.Unlock();
         }
 
         /// <summary>
@@ -120,11 +118,9 @@ namespace OmegaEngine.Graphics
             if (data == null) throw new ArgumentNullException(nameof(data));
             #endregion
 
-            using (DataStream vertexStream = mesh.LockVertexBuffer(LockFlags.None))
-            {
-                vertexStream.WriteRange(data);
-                mesh.UnlockVertexBuffer();
-            }
+            using DataStream vertexStream = mesh.LockVertexBuffer(LockFlags.None);
+            vertexStream.WriteRange(data);
+            mesh.UnlockVertexBuffer();
         }
         #endregion
 
@@ -223,21 +219,19 @@ namespace OmegaEngine.Graphics
 
             int indexCount = mesh.FaceCount * 3;
             int[] ret;
-            using (DataStream indexStream = mesh.LockIndexBuffer(LockFlags.ReadOnly))
-            {
-                if ((mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit))
-                { // 32-bit values
-                    ret = indexStream.ReadRange<int>(indexCount);
-                }
-                else
-                { // 16-bit values
-                    ret = new int[indexCount];
-                    var temp = indexStream.ReadRange<short>(indexCount);
-                    for (int i = 0; i < indexCount; i++)
-                        ret[i] = temp[i];
-                }
-                mesh.UnlockIndexBuffer();
+            using DataStream indexStream = mesh.LockIndexBuffer(LockFlags.ReadOnly);
+            if ((mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit))
+            { // 32-bit values
+                ret = indexStream.ReadRange<int>(indexCount);
             }
+            else
+            { // 16-bit values
+                ret = new int[indexCount];
+                var temp = indexStream.ReadRange<short>(indexCount);
+                for (int i = 0; i < indexCount; i++)
+                    ret[i] = temp[i];
+            }
+            mesh.UnlockIndexBuffer();
 
             return ret;
         }
@@ -257,11 +251,9 @@ namespace OmegaEngine.Graphics
             if (data == null) throw new ArgumentNullException(nameof(data));
             #endregion
 
-            using (DataStream indexStream = buffer.Lock(0, sizeof(short) * data.Length, LockFlags.None))
-            {
-                indexStream.WriteRange(data);
-                buffer.Unlock();
-            }
+            using DataStream indexStream = buffer.Lock(0, sizeof(short) * data.Length, LockFlags.None);
+            indexStream.WriteRange(data);
+            buffer.Unlock();
         }
 
         /// <summary>
@@ -277,11 +269,9 @@ namespace OmegaEngine.Graphics
             if (data == null) throw new ArgumentNullException(nameof(data));
             #endregion
 
-            using (DataStream indexStream = buffer.Lock(0, sizeof(int) * data.Length, LockFlags.None))
-            {
-                indexStream.WriteRange(data);
-                buffer.Unlock();
-            }
+            using DataStream indexStream = buffer.Lock(0, sizeof(int) * data.Length, LockFlags.None);
+            indexStream.WriteRange(data);
+            buffer.Unlock();
         }
 
         /// <summary>
@@ -297,11 +287,9 @@ namespace OmegaEngine.Graphics
             if ((mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot16bit, nameof(mesh));
             #endregion
 
-            using (DataStream indexStream = mesh.LockIndexBuffer(LockFlags.None))
-            {
-                indexStream.WriteRange(data);
-                mesh.UnlockIndexBuffer();
-            }
+            using DataStream indexStream = mesh.LockIndexBuffer(LockFlags.None);
+            indexStream.WriteRange(data);
+            mesh.UnlockIndexBuffer();
         }
 
         /// <summary>
@@ -317,11 +305,9 @@ namespace OmegaEngine.Graphics
             if (!(mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot32bit, nameof(mesh));
             #endregion
 
-            using (DataStream indexStream = mesh.LockIndexBuffer(LockFlags.None))
-            {
-                indexStream.WriteRange(data);
-                mesh.UnlockIndexBuffer();
-            }
+            using DataStream indexStream = mesh.LockIndexBuffer(LockFlags.None);
+            indexStream.WriteRange(data);
+            mesh.UnlockIndexBuffer();
         }
         #endregion
 

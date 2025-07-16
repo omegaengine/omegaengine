@@ -69,8 +69,8 @@ namespace OmegaEngine.Values
         /// </summary>
         public void Save([NotNull, Localizable(false)] string path)
         {
-            using (var bitmap = GenerateBitmap())
-                bitmap.Save(path, ImageFormat.Png);
+            using var bitmap = GenerateBitmap();
+            bitmap.Save(path, ImageFormat.Png);
         }
 
         /// <summary>
@@ -79,12 +79,10 @@ namespace OmegaEngine.Values
         public void Save([NotNull] Stream stream)
         {
             // NOTE: Use intermediate RAM buffer because writing a PNG directly to a ZIP won't work
-            using (var bitmap = GenerateBitmap())
-            using (var memory = new MemoryStream())
-            {
-                bitmap.Save(memory, ImageFormat.Png);
-                memory.CopyToEx(stream);
-            }
+            using var bitmap = GenerateBitmap();
+            using var memory = new MemoryStream();
+            bitmap.Save(memory, ImageFormat.Png);
+            memory.CopyToEx(stream);
         }
 
         /// <summary>

@@ -233,8 +233,8 @@ namespace OmegaEngine
         /// <returns><c>true</c> if the level is supported</returns>
         public static bool CheckResolution(int adapter, int width, int height)
         {
-            using (var manager = new Direct3D())
-                return manager.Adapters[adapter].GetDisplayModes(Format.X8R8G8B8).Any(mode => mode.Width == width && mode.Height == height);
+            using var manager = new Direct3D();
+            return manager.Adapters[adapter].GetDisplayModes(Format.X8R8G8B8).Any(mode => mode.Width == width && mode.Height == height);
         }
 
         /// <summary>
@@ -253,11 +253,9 @@ namespace OmegaEngine
         /// </summary>
         internal static bool TestDepthStencil(int adapter, Format depthFormat)
         {
-            using (var manager = new Direct3D())
-            {
-                return manager.CheckDeviceFormat(adapter, DeviceType.Hardware, Format.X8R8G8B8,
-                    Usage.DepthStencil, ResourceType.Surface, depthFormat);
-            }
+            using var manager = new Direct3D();
+            return manager.CheckDeviceFormat(adapter, DeviceType.Hardware, Format.X8R8G8B8,
+                Usage.DepthStencil, ResourceType.Surface, depthFormat);
         }
         #endregion
 
@@ -270,11 +268,9 @@ namespace OmegaEngine
         /// <returns><c>true</c> if the level is supported</returns>
         public static bool CheckAA(int adapter, int sample)
         {
-            using (var manager = new Direct3D())
-            {
-                return (manager.CheckDeviceMultisampleType(adapter, DeviceType.Hardware,
-                    manager.Adapters[adapter].CurrentDisplayMode.Format, true, (MultisampleType)sample));
-            }
+            using var manager = new Direct3D();
+            return (manager.CheckDeviceMultisampleType(adapter, DeviceType.Hardware,
+                manager.Adapters[adapter].CurrentDisplayMode.Format, true, (MultisampleType)sample));
         }
 
         /// <summary>

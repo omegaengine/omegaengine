@@ -1557,30 +1557,28 @@ namespace OmegaGUI.Render
             // Since we're doing our own drawing here, we need to flush the sprites
             DialogManager.Sprite.Flush();
             // Preserve the devices current vertex declaration
-            using (VertexDeclaration decl = device.VertexDeclaration)
+            using VertexDeclaration decl = device.VertexDeclaration;
+            // Set the vertex format
+            device.VertexFormat = TransformedColoredTextured.Format;
+
+            // Set some texture states
+            device.SetTextureStageState(0, TextureStage.ColorOperation, (int)TextureOperation.SelectArg2);
+            device.SetTextureStageState(0, TextureStage.AlphaOperation, (int)TextureOperation.SelectArg2);
+
+            // Draw the rectangle
+            if (filled) device.DrawUserPrimitives(PrimitiveType.TriangleFan, 2, vertexes);
+            else
             {
-                // Set the vertex format
-                device.VertexFormat = TransformedColoredTextured.Format;
-
-                // Set some texture states
-                device.SetTextureStageState(0, TextureStage.ColorOperation, (int)TextureOperation.SelectArg2);
-                device.SetTextureStageState(0, TextureStage.AlphaOperation, (int)TextureOperation.SelectArg2);
-
-                // Draw the rectangle
-                if (filled) device.DrawUserPrimitives(PrimitiveType.TriangleFan, 2, vertexes);
-                else
-                {
-                    device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0, 5, 4,
-                        new short[] {0, 1, 2, 3, 0}, Format.Index16, vertexes, TransformedColoredTextured.StrideSize);
-                }
-
-                // Reset some texture states
-                device.SetTextureStageState(0, TextureStage.ColorOperation, (int)TextureOperation.Modulate);
-                device.SetTextureStageState(0, TextureStage.AlphaOperation, (int)TextureOperation.Modulate);
-
-                // Restore the vertex declaration
-                device.VertexDeclaration = decl;
+                device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0, 5, 4,
+                    new short[] {0, 1, 2, 3, 0}, Format.Index16, vertexes, TransformedColoredTextured.StrideSize);
             }
+
+            // Reset some texture states
+            device.SetTextureStageState(0, TextureStage.ColorOperation, (int)TextureOperation.Modulate);
+            device.SetTextureStageState(0, TextureStage.AlphaOperation, (int)TextureOperation.Modulate);
+
+            // Restore the vertex declaration
+            device.VertexDeclaration = decl;
         }
         #endregion
     }

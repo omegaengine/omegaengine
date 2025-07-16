@@ -547,8 +547,8 @@ namespace OmegaGUI.Model
         /// <returns>The loaded dialog</returns>
         public static Dialog FromContent(string id)
         {
-            using (var stream = ContentManager.GetFileStream("GUI", id))
-                return XmlStorage.LoadXml<Dialog>(stream);
+            using var stream = ContentManager.GetFileStream("GUI", id);
+            return XmlStorage.LoadXml<Dialog>(stream);
         }
         #endregion
 

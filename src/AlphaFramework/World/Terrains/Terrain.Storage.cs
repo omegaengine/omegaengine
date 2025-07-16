@@ -76,8 +76,8 @@ namespace AlphaFramework.World.Terrains
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
             #endregion
 
-            using (var stream = File.Open(path, FileMode.Open))
-                LoadHeightMap(stream);
+            using var stream = File.Open(path, FileMode.Open);
+            LoadHeightMap(stream);
         }
 
         /// <inheritdoc/>
@@ -99,8 +99,8 @@ namespace AlphaFramework.World.Terrains
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
             #endregion
 
-            using (var stream = File.Open(path, FileMode.Open))
-                LoadOcclusionIntervalMap(stream);
+            using var stream = File.Open(path, FileMode.Open);
+            LoadOcclusionIntervalMap(stream);
         }
 
         /// <inheritdoc/>
@@ -122,8 +122,8 @@ namespace AlphaFramework.World.Terrains
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
             #endregion
 
-            using (var stream = File.Open(path, FileMode.Open))
-                LoadTextureMap(stream);
+            using var stream = File.Open(path, FileMode.Open);
+            LoadTextureMap(stream);
         }
         #endregion
     }

@@ -178,8 +178,8 @@ namespace OmegaEngine.Storage
             #endregion
 
             // Copy string to a stream and then parse
-            using (var stream = data.ToStream())
-                return LoadXml<T>(stream);
+            using var stream = data.ToStream();
+            return LoadXml<T>(stream);
         }
         #endregion
 
@@ -252,12 +252,10 @@ namespace OmegaEngine.Storage
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
             #endregion
 
-            using (var atomic = new AtomicWrite(path))
-            {
-                using (var fileStream = File.Create(atomic.WritePath))
-                    SaveXml(data, fileStream, stylesheet);
-                atomic.Commit();
-            }
+            using var atomic = new AtomicWrite(path);
+            using (var fileStream = File.Create(atomic.WritePath))
+                SaveXml(data, fileStream, stylesheet);
+            atomic.Commit();
         }
 
         /// <summary>
@@ -269,19 +267,17 @@ namespace OmegaEngine.Storage
         /// <returns>A string containing the XML code.</returns>
         public static string ToXmlString<T>([NotNull] this T data, [CanBeNull, Localizable(false)] string stylesheet = null)
         {
-            using (var stream = new MemoryStream())
-            {
-                // Write to a memory stream
-                SaveXml(data, stream, stylesheet);
+            using var stream = new MemoryStream();
+            // Write to a memory stream
+            SaveXml(data, stream, stylesheet);
 
-                // Copy the stream to a string
-                string result = stream.ReadToString();
+            // Copy the stream to a string
+            string result = stream.ReadToString();
 
-                // Remove encoding="utf-8" because we don't know how the string will actually be encoded on-dik
-                const string prefixWithEncoding = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-                const string prefixWithoutEncoding = "<?xml version=\"1.0\"?>";
-                return prefixWithoutEncoding + result.Substring(prefixWithEncoding.Length);
-            }
+            // Remove encoding="utf-8" because we don't know how the string will actually be encoded on-dik
+            const string prefixWithEncoding = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+            const string prefixWithoutEncoding = "<?xml version=\"1.0\"?>";
+            return prefixWithoutEncoding + result.Substring(prefixWithEncoding.Length);
         }
         #endregion
 
@@ -385,30 +381,28 @@ namespace OmegaEngine.Storage
             #endregion
 
             if (stream.CanSeek) stream.Position = 0;
-            using (var zipStream = new ZipOutputStream(stream) {IsStreamOwner = false})
+            using var zipStream = new ZipOutputStream(stream) {IsStreamOwner = false};
+            if (!string.IsNullOrEmpty(password)) zipStream.Password = password;
+
+            // Write the XML file to the ZIP archive
             {
-                if (!string.IsNullOrEmpty(password)) zipStream.Password = password;
+                var entry = new ZipEntry("data.xml") {DateTime = DateTime.Now};
+                if (!string.IsNullOrEmpty(password)) entry.AESKeySize = 128;
+                zipStream.SetLevel(9);
+                zipStream.PutNextEntry(entry);
+                SaveXml(data, zipStream);
+                zipStream.CloseEntry();
+            }
 
-                // Write the XML file to the ZIP archive
-                {
-                    var entry = new ZipEntry("data.xml") {DateTime = DateTime.Now};
-                    if (!string.IsNullOrEmpty(password)) entry.AESKeySize = 128;
-                    zipStream.SetLevel(9);
-                    zipStream.PutNextEntry(entry);
-                    SaveXml(data, zipStream);
-                    zipStream.CloseEntry();
-                }
-
-                // Write additional files to the ZIP archive
-                foreach (var file in additionalFiles)
-                {
-                    var entry = new ZipEntry(file.Filename) {DateTime = DateTime.Now};
-                    if (!string.IsNullOrEmpty(password)) entry.AESKeySize = 128;
-                    zipStream.SetLevel(file.CompressionLevel);
-                    zipStream.PutNextEntry(entry);
-                    file.StreamDelegate(zipStream);
-                    zipStream.CloseEntry();
-                }
+            // Write additional files to the ZIP archive
+            foreach (var file in additionalFiles)
+            {
+                var entry = new ZipEntry(file.Filename) {DateTime = DateTime.Now};
+                if (!string.IsNullOrEmpty(password)) entry.AESKeySize = 128;
+                zipStream.SetLevel(file.CompressionLevel);
+                zipStream.PutNextEntry(entry);
+                file.StreamDelegate(zipStream);
+                zipStream.CloseEntry();
             }
         }
 
@@ -430,12 +424,10 @@ namespace OmegaEngine.Storage
             if (additionalFiles == null) throw new ArgumentNullException(nameof(additionalFiles));
             #endregion
 
-            using (var atomic = new AtomicWrite(path))
-            {
-                using (var fileStream = File.Create(atomic.WritePath))
-                    SaveXmlZip(data, fileStream, password, additionalFiles);
-                atomic.Commit();
-            }
+            using var atomic = new AtomicWrite(path);
+            using (var fileStream = File.Create(atomic.WritePath))
+                SaveXmlZip(data, fileStream, password, additionalFiles);
+            atomic.Commit();
         }
         #endregion
     }
