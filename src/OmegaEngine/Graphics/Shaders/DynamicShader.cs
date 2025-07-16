@@ -274,12 +274,10 @@ namespace OmegaEngine.Graphics.Shaders
             if (engine == null) throw new ArgumentNullException(nameof(engine));
             if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
 
-            using (var stream = ContentManager.GetFileStream("Graphics/Shaders", id))
-            {
-                var reader = new StreamReader(stream);
-                string source = reader.ReadToEnd();
-                return Parse(engine, source, lighting, controllers);
-            }
+            using var stream = ContentManager.GetFileStream("Graphics/Shaders", id);
+            var reader = new StreamReader(stream);
+            string source = reader.ReadToEnd();
+            return Parse(engine, source, lighting, controllers);
         }
         #endregion
     }

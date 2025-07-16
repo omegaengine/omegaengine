@@ -82,8 +82,8 @@ namespace AlphaFramework.Editor.World
                 if (ContentManager.FileExists("World", FilePath))
                 { // Load existing file, might be from an Archive and not fullPath
                     string id = FilePath;
-                    using (var stream = ContentManager.GetFileStream("World", id))
-                        Content = XmlStorage.LoadXml<NamedCollection<T>>(stream);
+                    using var stream = ContentManager.GetFileStream("World", id);
+                    Content = XmlStorage.LoadXml<NamedCollection<T>>(stream);
                 }
                 else
                 { // Create new file

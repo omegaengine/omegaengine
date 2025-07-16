@@ -110,8 +110,8 @@ namespace AlphaFramework.World.Templates
         /// </summary>
         public static void LoadAll()
         {
-            using (var stream = ContentManager.GetFileStream("World", FileName))
-                _all = XmlStorage.LoadXml<NamedCollection<TSelf>>(stream);
+            using var stream = ContentManager.GetFileStream("World", FileName);
+            _all = XmlStorage.LoadXml<NamedCollection<TSelf>>(stream);
         }
         #endregion
     }

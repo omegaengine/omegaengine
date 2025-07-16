@@ -73,12 +73,10 @@ namespace FrameOfReference.World
         {
             Log.Info("Loading map: " + id);
 
-            using (var stream = ContentManager.GetFileStream("World/Maps", id))
-            {
-                var universe = XmlStorage.LoadXmlZip<Universe>(stream);
-                universe.SourceFile = id;
-                return universe;
-            }
+            using var stream = ContentManager.GetFileStream("World/Maps", id);
+            var universe = XmlStorage.LoadXmlZip<Universe>(stream);
+            universe.SourceFile = id;
+            return universe;
         }
 
         /// <summary>Used for XML serialization.</summary>

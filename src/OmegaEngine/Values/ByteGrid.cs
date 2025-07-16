@@ -65,16 +65,14 @@ namespace OmegaEngine.Values
 
             try
             {
-                using (var bitmap = (Bitmap)Image.FromStream(stream))
+                using var bitmap = (Bitmap)Image.FromStream(stream);
+                var data = new byte[bitmap.Width, bitmap.Height];
+                for (int x = 0; x < bitmap.Width; x++)
                 {
-                    var data = new byte[bitmap.Width, bitmap.Height];
-                    for (int x = 0; x < bitmap.Width; x++)
-                    {
-                        for (int y = 0; y < bitmap.Height; y++)
-                            data[x, y] = bitmap.GetPixel(x, y).R;
-                    }
-                    return new(data);
+                    for (int y = 0; y < bitmap.Height; y++)
+                        data[x, y] = bitmap.GetPixel(x, y).R;
                 }
+                return new(data);
             }
             #region Error handling
             catch (ArgumentException ex)

@@ -255,9 +255,9 @@ namespace OmegaGUI
         /// <param name="filename">The Lua file to import</param>
         public void ImportLua(string filename)
         {
-            using (var stream = ContentManager.GetFileStream("GUI", filename))
-            using (var streamReader = new StreamReader(stream))
-                _lua.DoString(streamReader.ReadToEnd());
+            using var stream = ContentManager.GetFileStream("GUI", filename);
+            using var streamReader = new StreamReader(stream);
+            _lua.DoString(streamReader.ReadToEnd());
         }
         #endregion
 

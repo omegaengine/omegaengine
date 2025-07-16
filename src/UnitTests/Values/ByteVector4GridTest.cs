@@ -21,23 +21,21 @@ namespace OmegaEngine.Values
         [Test]
         public void TestSaveLoad()
         {
-            using (var tempFile = new TemporaryFile("unit-tests"))
+            using var tempFile = new TemporaryFile("unit-tests");
+            var grid = new ByteVector4Grid(new[,]
             {
-                var grid = new ByteVector4Grid(new[,]
-                {
-                    {new ByteVector4(0, 1, 2, 3), new ByteVector4(3, 2, 1, 0)},
-                    {new ByteVector4(0, 10, 20, 30), new ByteVector4(30, 20, 10, 0)}
-                });
-                grid.Save(tempFile);
+                {new ByteVector4(0, 1, 2, 3), new ByteVector4(3, 2, 1, 0)},
+                {new ByteVector4(0, 10, 20, 30), new ByteVector4(30, 20, 10, 0)}
+            });
+            grid.Save(tempFile);
 
-                using (var stream = File.OpenRead(tempFile))
-                    grid = ByteVector4Grid.Load(stream);
+            using (var stream = File.OpenRead(tempFile))
+                grid = ByteVector4Grid.Load(stream);
 
-                grid[0, 0].Should().Be(new ByteVector4(0, 1, 2, 3));
-                grid[0, 1].Should().Be(new ByteVector4(3, 2, 1, 0));
-                grid[1, 0].Should().Be(new ByteVector4(0, 10, 20, 30));
-                grid[1, 1].Should().Be(new ByteVector4(30, 20, 10, 0));
-            }
+            grid[0, 0].Should().Be(new ByteVector4(0, 1, 2, 3));
+            grid[0, 1].Should().Be(new ByteVector4(3, 2, 1, 0));
+            grid[1, 0].Should().Be(new ByteVector4(0, 10, 20, 30));
+            grid[1, 1].Should().Be(new ByteVector4(30, 20, 10, 0));
         }
     }
 }
