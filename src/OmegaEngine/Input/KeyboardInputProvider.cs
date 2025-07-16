@@ -34,7 +34,7 @@ namespace OmegaEngine.Input
 
         #region Constructor
         /// <summary>
-        /// Starts monitoring and processing keyboard events receieved by a specififc control.
+        /// Starts monitoring and processing keyboard events received by a specific control.
         /// </summary>
         /// <param name="control">The control receiving the keyboard events.</param>
         public KeyboardInputProvider(Control control)

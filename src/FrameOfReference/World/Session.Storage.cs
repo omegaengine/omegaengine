@@ -70,7 +70,7 @@ namespace FrameOfReference.World
             }
             #endregion
 
-            // Restore the orginal map filename
+            // Restore the original map filename
             session.Universe.SourceFile = session.MapSourceFile;
 
             return session;

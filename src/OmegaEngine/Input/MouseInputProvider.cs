@@ -67,7 +67,7 @@ namespace OmegaEngine.Input
 
         #region Constructor
         /// <summary>
-        /// Starts monitoring and processing mouse events receieved by a specififc control.
+        /// Starts monitoring and processing mouse events received by a specific control.
         /// </summary>
         /// <param name="control">The control receiving the mouse events.</param>
         public MouseInputProvider(Control control)

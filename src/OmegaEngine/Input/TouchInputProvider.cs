@@ -24,7 +24,7 @@ namespace OmegaEngine.Input
 
         #region Constructor
         /// <summary>
-        /// Starts monitoring and processing Touch events receieved by a specififc control.
+        /// Starts monitoring and processing Touch events received by a specific control.
         /// </summary>
         /// <param name="control">The control receiving the touch events.</param>
         public TouchInputProvider(ITouchControl control)

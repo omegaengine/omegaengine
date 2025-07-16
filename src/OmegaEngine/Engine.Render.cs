@@ -242,7 +242,7 @@ namespace OmegaEngine
         /// Renders all <see cref="Views"/>. Uses external game time tracking.
         /// </summary>
         /// <param name="elapsedGameTime">How many seconds of game time have elapsed since the last frame was drawn.</param>
-        /// <param name="noPresent"><c>true</c> to supress actually displaying the render output at the end.</param>
+        /// <param name="noPresent"><c>true</c> to suppress actually displaying the render output at the end.</param>
         public void Render(double elapsedGameTime, bool noPresent = false)
         {
             LastFrameGameTime = elapsedGameTime;

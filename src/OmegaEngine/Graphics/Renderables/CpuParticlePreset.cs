@@ -19,7 +19,7 @@ namespace OmegaEngine.Graphics.Renderables
     /// <summary>
     /// A set of information about a particle system as a whole
     /// </summary>
-    [XmlRoot("CpuParticlePreset")] // Supress XMLSchema declarations (no inheritance used for properties)
+    [XmlRoot("CpuParticlePreset")] // Suppress XMLSchema declarations (no inheritance used for properties)
     public class CpuParticlePreset : ICloneable
     {
         #region Variables
