@@ -61,7 +61,7 @@ namespace OmegaGUI.Render
         protected Rectangle dropDownTextRect;
 
         [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "There will never be any need for a different collection type")]
-        protected List<ListItem> itemList = new List<ListItem>();
+        protected List<ListItem> itemList = [];
         #endregion
 
         /// <summary>Create new dropdown list control</summary>
@@ -71,7 +71,7 @@ namespace OmegaGUI.Render
             ctrlType = ControlType.DropdownList;
 
             // Create the scrollbar control too
-            scrollbarControl = new ScrollBar(parent);
+            scrollbarControl = new(parent);
 
             // Set some default items
             dropHeight = 100;
@@ -87,15 +87,15 @@ namespace OmegaGUI.Render
             base.UpdateRectangles();
 
             // Update the bounding box for the items
-            buttonRect = new Rectangle(boundingBox.Right - boundingBox.Height, boundingBox.Top,
+            buttonRect = new(boundingBox.Right - boundingBox.Height, boundingBox.Top,
                 boundingBox.Height, boundingBox.Height);
 
             textRect = boundingBox;
-            textRect.Size = new Size(textRect.Width - buttonRect.Width, textRect.Height);
+            textRect.Size = new(textRect.Width - buttonRect.Width, textRect.Height);
 
             dropDownRect = textRect;
             dropDownRect.Offset(0, (int)(0.9f * textRect.Height));
-            dropDownRect.Size = new Size(dropDownRect.Width - scrollWidth, dropDownRect.Height + dropHeight);
+            dropDownRect.Size = new(dropDownRect.Width - scrollWidth, dropDownRect.Height + dropHeight);
 
             // Scale it down slightly
             Point loc = dropDownRect.Location;
@@ -106,7 +106,7 @@ namespace OmegaGUI.Render
             size.Width -= (2 * (int)(0.1f * dropDownRect.Width));
             size.Height -= (2 * (int)(0.1f * dropDownRect.Height));
 
-            dropDownTextRect = new Rectangle(loc, size);
+            dropDownTextRect = new(loc, size);
 
             // Update the scroll bars rects too
             scrollbarControl.SetLocation(dropDownRect.Right, dropDownRect.Top + 2);
@@ -462,7 +462,7 @@ namespace OmegaGUI.Render
                     continue;
                 }
 
-                cbi.ItemRect = new Rectangle(dropDownTextRect.Left, currentY,
+                cbi.ItemRect = new(dropDownTextRect.Left, currentY,
                     dropDownTextRect.Width, (int)font.Height);
                 cbi.IsItemVisible = true;
                 currentY += (int)font.Height;
@@ -537,9 +537,9 @@ namespace OmegaGUI.Render
                 try
                 {
                     ListItem cbi = itemList[selectedIndex];
-                    parentDialog.DrawText(cbi.ItemText, e, new Rectangle(
-                        new Point(textRect.Left + 5, textRect.Top),
-                        new Size(textRect.Width - 10, textRect.Height)));
+                    parentDialog.DrawText(cbi.ItemText, e, new(
+                        new(textRect.Left + 5, textRect.Top),
+                        new(textRect.Width - 10, textRect.Height)));
                 }
                 catch (ArgumentOutOfRangeException)
                 {} // Ignore

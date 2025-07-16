@@ -25,7 +25,7 @@ namespace OmegaEngine.Audio
     {
         #region Variables
         private readonly Engine _engine;
-        private readonly MultiDictionary<string, Song> _themes = new MultiDictionary<string, Song>();
+        private readonly MultiDictionary<string, Song> _themes = new();
 
         private string _currentTheme;
         private Song _currentSong;

@@ -68,7 +68,7 @@ namespace OmegaEngine.Graphics
             var newCamera = new CloneCamera(baseView.Camera)
             {
                 Name = baseView.Camera.Name + " Refraction",
-                ClipPlane = new DoublePlane(refractPlane.Point - refractPlane.Normal * clipTolerance, refractPlane.Normal)
+                ClipPlane = new(refractPlane.Point - refractPlane.Normal * clipTolerance, refractPlane.Normal)
             };
 
             // Create the new view, make sure the camera stays in sync, copy default properties
@@ -102,7 +102,7 @@ namespace OmegaEngine.Graphics
             var newCamera = new ReflectCamera(baseView.Camera, reflectPlane)
             {
                 Name = baseView.Camera.Name + " Reflection",
-                ClipPlane = new DoublePlane(reflectPlane.Point - reflectPlane.Normal * clipTolerance, reflectPlane.Normal)
+                ClipPlane = new(reflectPlane.Point - reflectPlane.Normal * clipTolerance, reflectPlane.Normal)
             };
 
             // Create the new view, make sure the camera stays in sync, copy default properties

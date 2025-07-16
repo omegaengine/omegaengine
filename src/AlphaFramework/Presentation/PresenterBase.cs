@@ -47,9 +47,9 @@ namespace AlphaFramework.Presentation
             Engine = engine;
             Universe = universe;
 
-            Scene = new Scene();
-            RenderablesSync = new ModelViewSync<Positionable<TCoordinates>, PositionableRenderable>(Universe.Positionables, Scene.Positionables);
-            LightsSync = new ModelViewSync<Positionable<TCoordinates>, LightSource>(Universe.Positionables, Scene.Lights);
+            Scene = new();
+            RenderablesSync = new(Universe.Positionables, Scene.Positionables);
+            LightsSync = new(Universe.Positionables, Scene.Lights);
         }
 
         #region Model-View

@@ -55,7 +55,7 @@ namespace OmegaGUI.Model
         /// </summary>
         public LocaleFile()
         {
-            Entries = new XmlDictionary();
+            Entries = [];
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace OmegaGUI.Model
                 return FromContent("English" + FileExt);
             if (ContentManager.FileExists("GUI/Language", "German" + FileExt))
                 return FromContent("German" + FileExt);
-            return new XmlDictionary();
+            return [];
         }
 
         /// <summary>

@@ -28,9 +28,9 @@ namespace OmegaGUI.Render
     {
         #region Constants
         public const int WheelDelta = 120;
-        public static readonly Color4 WhiteColorValue = new Color4(1.0f, 1.0f, 1.0f);
-        public static readonly Color4 TransparentWhite = new Color4(0.0f, 1.0f, 1.0f, 1.0f);
-        public static readonly Color4 BlackColorValue = new Color4(0.0f, 0.0f, 0.0f);
+        public static readonly Color4 WhiteColorValue = new(1.0f, 1.0f, 1.0f);
+        public static readonly Color4 TransparentWhite = new(0.0f, 1.0f, 1.0f, 1.0f);
+        public static readonly Color4 BlackColorValue = new(0.0f, 0.0f, 0.0f);
         private static Control controlFocus; // The control which has focus
         private static Control controlMouseOver; // The control which is hovered over
         private static Control controlMouseDown; // The control which the mouse was pressed on
@@ -54,8 +54,8 @@ namespace OmegaGUI.Render
         private double timeLastRefresh;
 
         // Control/Elements
-        private readonly List<Control> controlList = new List<Control>();
-        private readonly List<ElementHolder> defaultElementList = new List<ElementHolder>();
+        private readonly List<Control> controlList = [];
+        private readonly List<ElementHolder> defaultElementList = [];
 
         // Captions
         private string caption;
@@ -69,8 +69,8 @@ namespace OmegaGUI.Render
         private Color4 topLeftColor, topRightColor, bottomLeftColor, bottomRightColor, captionColor;
 
         // Fonts/Textures
-        private readonly List<int> textureList = new List<int>(); // Index into texture cache
-        private readonly List<int> fontList = new List<int>(); // Index into font cache
+        private readonly List<int> textureList = []; // Index into texture cache
+        private readonly List<int> fontList = []; // Index into font cache
 
         // Dialogs
         private readonly Dialog nextDialog;
@@ -102,7 +102,7 @@ namespace OmegaGUI.Render
         /// <summary>The dialog's location</summary>
         public Point Location
         {
-            get { return new Point(dialogX, dialogY); }
+            get { return new(dialogX, dialogY); }
             set
             {
                 dialogX = value.X;
@@ -181,7 +181,7 @@ namespace OmegaGUI.Render
         {
             DialogManager = manager;
 
-            topLeftColor = topRightColor = bottomLeftColor = bottomRightColor = new Color4();
+            topLeftColor = topRightColor = bottomLeftColor = bottomRightColor = new();
 
             nextDialog = this; // Only one dialog
             prevDialog = this; // Only one dialog
@@ -225,7 +225,7 @@ namespace OmegaGUI.Render
             //-------------------------------------
             // Element for the caption
             //-------------------------------------
-            captionElement = new Element();
+            captionElement = new();
             captionElement.SetFont(0, defaultTextColor, DrawTextFormat.Center | DrawTextFormat.VerticalCenter);
             captionElement.SetTexture(0, Rectangle.FromLTRB(17, 269, 241, 287));
             captionElement.TextureColor.States[(int)ControlState.Normal] = WhiteColorValue;
@@ -240,15 +240,15 @@ namespace OmegaGUI.Render
             // Label
             //-------------------------------------
             e.SetFont(0, defaultTextColor, DrawTextFormat.Left | DrawTextFormat.VerticalCenter);
-            e.FontColor.States[(int)ControlState.Disabled] = new Color4(0.75f, 0.75f, 0.75f, 0.75f);
+            e.FontColor.States[(int)ControlState.Disabled] = new(0.75f, 0.75f, 0.75f, 0.75f);
             SetDefaultElement(ControlType.Label, (int)TextAlign.Left, e);
 
             e.SetFont(0, defaultTextColor, DrawTextFormat.Center | DrawTextFormat.VerticalCenter);
-            e.FontColor.States[(int)ControlState.Disabled] = new Color4(0.75f, 0.75f, 0.75f, 0.75f);
+            e.FontColor.States[(int)ControlState.Disabled] = new(0.75f, 0.75f, 0.75f, 0.75f);
             SetDefaultElement(ControlType.Label, (int)TextAlign.Center, e);
 
             e.SetFont(0, defaultTextColor, DrawTextFormat.Right | DrawTextFormat.VerticalCenter);
-            e.FontColor.States[(int)ControlState.Disabled] = new Color4(0.75f, 0.75f, 0.75f, 0.75f);
+            e.FontColor.States[(int)ControlState.Disabled] = new(0.75f, 0.75f, 0.75f, 0.75f);
             SetDefaultElement(ControlType.Label, (int)TextAlign.Right, e);
 
             //-------------------------------------
@@ -256,8 +256,8 @@ namespace OmegaGUI.Render
             //-------------------------------------
             e.SetTexture(0, Rectangle.FromLTRB(0, 0, 136, 54));
             e.SetFont(0, defaultTextColor, DrawTextFormat.Center | DrawTextFormat.VerticalCenter);
-            e.TextureColor.States[(int)ControlState.Normal] = new Color4(0.55f, 1.0f, 1.0f, 1.0f);
-            e.TextureColor.States[(int)ControlState.Pressed] = new Color4(0.85f, 1.0f, 1.0f, 1.0f);
+            e.TextureColor.States[(int)ControlState.Normal] = new(0.55f, 1.0f, 1.0f, 1.0f);
+            e.TextureColor.States[(int)ControlState.Pressed] = new(0.85f, 1.0f, 1.0f, 1.0f);
             e.FontColor.States[(int)ControlState.MouseOver] = BlackColorValue;
             // Assign the element
             SetDefaultElement(ControlType.Button, Button.ButtonLayer, e);
@@ -266,9 +266,9 @@ namespace OmegaGUI.Render
             // Button - Fill Layer
             //-------------------------------------
             e.SetTexture(0, Rectangle.FromLTRB(136, 0, 252, 54), TransparentWhite);
-            e.TextureColor.States[(int)ControlState.MouseOver] = new Color4(0.6f, 1.0f, 1.0f, 1.0f);
-            e.TextureColor.States[(int)ControlState.Pressed] = new Color4(0, 0, 0, 0.25f);
-            e.TextureColor.States[(int)ControlState.Focus] = new Color4(0.05f, 1.0f, 1.0f, 1.0f);
+            e.TextureColor.States[(int)ControlState.MouseOver] = new(0.6f, 1.0f, 1.0f, 1.0f);
+            e.TextureColor.States[(int)ControlState.Pressed] = new(0, 0, 0, 0.25f);
+            e.TextureColor.States[(int)ControlState.Focus] = new(0.05f, 1.0f, 1.0f, 1.0f);
             // Assign the element
             SetDefaultElement(ControlType.Button, Button.FillLayer, e);
 
@@ -277,9 +277,9 @@ namespace OmegaGUI.Render
             //-------------------------------------
             e.SetTexture(0, Rectangle.FromLTRB(0, 54, 27, 81));
             e.SetFont(0, defaultTextColor, DrawTextFormat.Left | DrawTextFormat.VerticalCenter);
-            e.FontColor.States[(int)ControlState.Disabled] = new Color4(0.8f, 0.8f, 0.8f, 0.8f);
-            e.TextureColor.States[(int)ControlState.Normal] = new Color4(0.55f, 1.0f, 1.0f, 1.0f);
-            e.TextureColor.States[(int)ControlState.Focus] = new Color4(0.8f, 1.0f, 1.0f, 1.0f);
+            e.FontColor.States[(int)ControlState.Disabled] = new(0.8f, 0.8f, 0.8f, 0.8f);
+            e.TextureColor.States[(int)ControlState.Normal] = new(0.55f, 1.0f, 1.0f, 1.0f);
+            e.TextureColor.States[(int)ControlState.Focus] = new(0.8f, 1.0f, 1.0f, 1.0f);
             e.TextureColor.States[(int)ControlState.Pressed] = WhiteColorValue;
             // Assign the element
             SetDefaultElement(ControlType.CheckBox, CheckBox.BoxLayer, e);
@@ -296,9 +296,9 @@ namespace OmegaGUI.Render
             //-------------------------------------
             e.SetTexture(0, Rectangle.FromLTRB(54, 54, 81, 81));
             e.SetFont(0, defaultTextColor, DrawTextFormat.Left | DrawTextFormat.VerticalCenter);
-            e.FontColor.States[(int)ControlState.Disabled] = new Color4(0.8f, 0.8f, 0.8f, 0.8f);
-            e.TextureColor.States[(int)ControlState.Normal] = new Color4(0.55f, 1.0f, 1.0f, 1.0f);
-            e.TextureColor.States[(int)ControlState.Focus] = new Color4(0.8f, 1.0f, 1.0f, 1.0f);
+            e.FontColor.States[(int)ControlState.Disabled] = new(0.8f, 0.8f, 0.8f, 0.8f);
+            e.TextureColor.States[(int)ControlState.Normal] = new(0.55f, 1.0f, 1.0f, 1.0f);
+            e.TextureColor.States[(int)ControlState.Focus] = new(0.8f, 1.0f, 1.0f, 1.0f);
             e.TextureColor.States[(int)ControlState.Pressed] = WhiteColorValue;
             // Assign the element
             SetDefaultElement(ControlType.RadioButton, CheckBox.BoxLayer, e);
@@ -315,12 +315,12 @@ namespace OmegaGUI.Render
             //-------------------------------------
             e.SetTexture(0, Rectangle.FromLTRB(7, 81, 247, 123));
             e.SetFont(0, defaultTextColor, DrawTextFormat.Left | DrawTextFormat.VerticalCenter);
-            e.TextureColor.States[(int)ControlState.Normal] = new Color4(0.55f, 0.8f, 0.8f, 0.8f);
-            e.TextureColor.States[(int)ControlState.Focus] = new Color4(0.6f, 0.95f, 0.95f, 0.95f);
-            e.TextureColor.States[(int)ControlState.Disabled] = new Color4(0.25f, 0.8f, 0.8f, 0.8f);
-            e.FontColor.States[(int)ControlState.MouseOver] = new Color4(0, 0, 0);
-            e.FontColor.States[(int)ControlState.Pressed] = new Color4(0, 0, 0);
-            e.FontColor.States[(int)ControlState.Disabled] = new Color4(0.8f, 0.8f, 0.8f, 0.8f);
+            e.TextureColor.States[(int)ControlState.Normal] = new(0.55f, 0.8f, 0.8f, 0.8f);
+            e.TextureColor.States[(int)ControlState.Focus] = new(0.6f, 0.95f, 0.95f, 0.95f);
+            e.TextureColor.States[(int)ControlState.Disabled] = new(0.25f, 0.8f, 0.8f, 0.8f);
+            e.FontColor.States[(int)ControlState.MouseOver] = new(0, 0, 0);
+            e.FontColor.States[(int)ControlState.Pressed] = new(0, 0, 0);
+            e.FontColor.States[(int)ControlState.Disabled] = new(0.8f, 0.8f, 0.8f, 0.8f);
             // Assign the element
             SetDefaultElement(ControlType.DropdownList, DropdownList.MainLayer, e);
 
@@ -328,10 +328,10 @@ namespace OmegaGUI.Render
             // DropdownList - Button
             //-------------------------------------
             e.SetTexture(0, Rectangle.FromLTRB(98, 189, 151, 238));
-            e.TextureColor.States[(int)ControlState.Normal] = new Color4(0.55f, 1.0f, 1.0f, 1.0f);
-            e.TextureColor.States[(int)ControlState.Pressed] = new Color4(0.55f, 0.55f, 0.55f);
-            e.TextureColor.States[(int)ControlState.Focus] = new Color4(0.75f, 1.0f, 1.0f, 1.0f);
-            e.TextureColor.States[(int)ControlState.Disabled] = new Color4(0.25f, 1.0f, 1.0f, 1.0f);
+            e.TextureColor.States[(int)ControlState.Normal] = new(0.55f, 1.0f, 1.0f, 1.0f);
+            e.TextureColor.States[(int)ControlState.Pressed] = new(0.55f, 0.55f, 0.55f);
+            e.TextureColor.States[(int)ControlState.Focus] = new(0.75f, 1.0f, 1.0f, 1.0f);
+            e.TextureColor.States[(int)ControlState.Disabled] = new(0.25f, 1.0f, 1.0f, 1.0f);
             // Assign the element
             SetDefaultElement(ControlType.DropdownList, DropdownList.ComboButtonLayer, e);
 
@@ -355,9 +355,9 @@ namespace OmegaGUI.Render
             // Slider - Track
             //-------------------------------------
             e.SetTexture(0, Rectangle.FromLTRB(1, 187, 93, 228));
-            e.TextureColor.States[(int)ControlState.Normal] = new Color4(0.55f, 1.0f, 1.0f, 1.0f);
-            e.TextureColor.States[(int)ControlState.Focus] = new Color4(0.75f, 1.0f, 1.0f, 1.0f);
-            e.TextureColor.States[(int)ControlState.Disabled] = new Color4(0.25f, 1.0f, 1.0f, 1.0f);
+            e.TextureColor.States[(int)ControlState.Normal] = new(0.55f, 1.0f, 1.0f, 1.0f);
+            e.TextureColor.States[(int)ControlState.Focus] = new(0.75f, 1.0f, 1.0f, 1.0f);
+            e.TextureColor.States[(int)ControlState.Disabled] = new(0.25f, 1.0f, 1.0f, 1.0f);
             // Assign the element
             SetDefaultElement(ControlType.Slider, Slider.TrackLayer, e);
 
@@ -381,7 +381,7 @@ namespace OmegaGUI.Render
             // Scrollbar - Up Arrow
             //-------------------------------------
             e.SetTexture(0, Rectangle.FromLTRB(scrollBarStartX + 0, scrollBarStartY + 1, scrollBarStartX + 22, scrollBarStartY + 21));
-            e.TextureColor.States[(int)ControlState.Disabled] = new Color4(0.8f, 0.8f, 0.8f);
+            e.TextureColor.States[(int)ControlState.Disabled] = new(0.8f, 0.8f, 0.8f);
             // Assign the element
             SetDefaultElement(ControlType.Scrollbar, ScrollBar.UpButtonLayer, e);
 
@@ -389,7 +389,7 @@ namespace OmegaGUI.Render
             // Scrollbar - Down Arrow
             //-------------------------------------
             e.SetTexture(0, Rectangle.FromLTRB(scrollBarStartX + 0, scrollBarStartY + 32, scrollBarStartX + 22, scrollBarStartY + 53));
-            e.TextureColor.States[(int)ControlState.Disabled] = new Color4(0.8f, 0.8f, 0.8f);
+            e.TextureColor.States[(int)ControlState.Disabled] = new(0.8f, 0.8f, 0.8f);
             // Assign the element
             SetDefaultElement(ControlType.Scrollbar, ScrollBar.DownButtonLayer, e);
 
@@ -487,7 +487,7 @@ namespace OmegaGUI.Render
 
         private static Point MouseLocationHelper(IntPtr lParam)
         {
-            return new Point(
+            return new(
                 MathUtils.LoWord((uint)lParam.ToInt32()),
                 MathUtils.HiWord((uint)lParam.ToInt32()));
         }
@@ -510,7 +510,7 @@ namespace OmegaGUI.Render
                         mouseLocation.Y >= dialogY && mouseLocation.Y < dialogY + captionHeight)
                     {
                         isDragging = true;
-                        lastMouseLocation = new Point(mouseLocation.X, mouseLocation.Y);
+                        lastMouseLocation = new(mouseLocation.X, mouseLocation.Y);
                         WinFormsUtils.SetCapture(hWnd);
 
                         // Click was handled
@@ -521,7 +521,7 @@ namespace OmegaGUI.Render
                 { // Update dragging
                     Point mouseLocation = MouseLocationHelper(lParam);
 
-                    Location = new Point(
+                    Location = new(
                         Location.X + (mouseLocation.X - lastMouseLocation.X),
                         Location.Y + (mouseLocation.Y - lastMouseLocation.Y));
 
@@ -535,7 +535,7 @@ namespace OmegaGUI.Render
                     {
                         WinFormsUtils.ReleaseCapture();
                         isDragging = false;
-                        Location = new Point(
+                        Location = new(
                             Location.X + (mouseLocation.X - lastMouseLocation.X),
                             Location.Y + (mouseLocation.Y - lastMouseLocation.Y));
 
@@ -686,7 +686,7 @@ namespace OmegaGUI.Render
                     Point mousePoint;
                     unchecked
                     {
-                        mousePoint = new Point(
+                        mousePoint = new(
                             MathUtils.LoWord((uint)lParam.ToInt32()),
                             MathUtils.HiWord((uint)lParam.ToInt32()));
                     }
@@ -1319,21 +1319,21 @@ namespace OmegaGUI.Render
         /// <summary>Render the dialog</summary>
         private void UpdateVertexes()
         {
-            dialogVertexes = new[]
-            {
+            dialogVertexes =
+            [
                 new TransformedColoredTextured(dialogX - 1, dialogY - 1, 0.5f, 1.0f, topLeftColor.ToArgb(), 0.0f, 0.5f),
                 new TransformedColoredTextured(dialogX + Width, dialogY - 1, 0.5f, 1.0f, topRightColor.ToArgb(), 1.0f, 0.5f),
                 new TransformedColoredTextured(dialogX + Width, dialogY + Height, 0.5f, 1.0f, bottomRightColor.ToArgb(), 1.0f, 1.0f),
                 new TransformedColoredTextured(dialogX - 1, dialogY + Height, 0.5f, 1.0f, bottomLeftColor.ToArgb(), 0.0f, 1.0f)
-            };
+            ];
 
-            captionVertexes = new[]
-            {
+            captionVertexes =
+            [
                 new TransformedColoredTextured(dialogX + 5, dialogY + 5, 0.5f, 1.0f, captionColor.ToArgb(), 0.0f, 0.5f),
                 new TransformedColoredTextured(dialogX + Width - 5, dialogY + 5, 0.5f, 1.0f, captionColor.ToArgb(), 1.0f, 0.5f),
                 new TransformedColoredTextured(dialogX + Width - 5, dialogY + captionHeight - 5, 0.5f, 1.0f, captionColor.ToArgb(), 1.0f, 1.0f),
                 new TransformedColoredTextured(dialogX + 5, dialogY + captionHeight - 5, 0.5f, 1.0f, captionColor.ToArgb(), 0.0f, 1.0f)
-            };
+            ];
         }
         #endregion
 
@@ -1544,12 +1544,12 @@ namespace OmegaGUI.Render
             int realColor = color.ToArgb();
             // Create some vertexes
             TransformedColoredTextured[] vertexes =
-            {
-                new TransformedColoredTextured(rect.Left - 0.5f, rect.Top - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
-                new TransformedColoredTextured(rect.Right - 0.5f, rect.Top - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
-                new TransformedColoredTextured(rect.Right - 0.5f, rect.Bottom - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
-                new TransformedColoredTextured(rect.Left - 0.5f, rect.Bottom - 0.5f, 0.5f, 1.0f, realColor, 0, 0)
-            };
+            [
+                new(rect.Left - 0.5f, rect.Top - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
+                new(rect.Right - 0.5f, rect.Top - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
+                new(rect.Right - 0.5f, rect.Bottom - 0.5f, 0.5f, 1.0f, realColor, 0, 0),
+                new(rect.Left - 0.5f, rect.Bottom - 0.5f, 0.5f, 1.0f, realColor, 0, 0)
+            ];
 
             // Get the device
             Device device = DialogManager.Device;

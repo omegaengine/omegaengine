@@ -178,7 +178,7 @@ namespace OmegaEngine.Graphics.Cameras
             Position = relativePosition + Target;
 
             // Switch up-vector based on vertical rotation
-            UpVector = (_verticalRotation > Math.PI / 2 && _verticalRotation < Math.PI / 2 * 3) ? new Vector3(0, -1, 0) : new Vector3(0, 1, 0);
+            UpVector = (_verticalRotation > Math.PI / 2 && _verticalRotation < Math.PI / 2 * 3) ? new(0, -1, 0) : new Vector3(0, 1, 0);
 
             base.UpdateView();
 

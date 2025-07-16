@@ -53,7 +53,7 @@ namespace FrameOfReference.Presentation
             RenderablesSync.Register<Water, OmegaEngine.Graphics.Renderables.Water>(
                 element =>
                 {
-                    var representation = new OmegaEngine.Graphics.Renderables.Water(Engine, new SizeF(element.Size.X, element.Size.Y))
+                    var representation = new OmegaEngine.Graphics.Renderables.Water(Engine, new(element.Size.X, element.Size.Y))
                     {
                         Name = element.Name,
                         // NOTE: Height must be set before child views are initialized

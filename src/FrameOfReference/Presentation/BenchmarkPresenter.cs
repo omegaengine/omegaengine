@@ -67,12 +67,12 @@ namespace FrameOfReference.Presentation
             if (Directory.Exists(_resultDir)) Directory.Delete(_resultDir, true);
             Directory.CreateDirectory(_resultDir);
 
-            _statistics = new Statistics(AppInfo.Current.Version.ToString(), Engine.Version.ToString(), universe);
+            _statistics = new(AppInfo.Current.Version.ToString(), Engine.Version.ToString(), universe);
 
             // Target camera on first BenchmarkPoint
             var mainCamera = CreateCamera(_statistics.TestCases.Length > 0 ? _statistics.TestCases[0].Target : null);
 
-            View = new View(Scene, mainCamera) {Name = "Benchmark", BackgroundColor = universe.FogColor};
+            View = new(Scene, mainCamera) {Name = "Benchmark", BackgroundColor = universe.FogColor};
         }
 
         #region Variables
@@ -142,7 +142,7 @@ namespace FrameOfReference.Presentation
 
             // Apply settings
             Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize =
-                testCase.HighRes ? new Size(1024, 768) : new Size(800, 600);
+                testCase.HighRes ? new(1024, 768) : new Size(800, 600);
             Settings.Current.Display.AntiAliasing = testCase.AntiAliasing ? 2 : 0;
             Settings.Current.Graphics.Anisotropic = testCase.GraphicsSettings.HasFlag(TestGraphicsSettings.Anisotropic);
             Settings.Current.Graphics.DoubleSampling = testCase.GraphicsSettings.HasFlag(TestGraphicsSettings.DoubleSampling);
@@ -177,7 +177,7 @@ namespace FrameOfReference.Presentation
             Engine.Performance.LogFrame(Path.Combine(_resultDir, "test-case" + _testCaseCounter + ".xml"));
 
             if (_statistics.TestCases[_testCaseCounter].Screenshot)
-                Engine.Screenshot(Path.Combine(_resultDir, "test-case" + _testCaseCounter + ".jpg"), new Size(640, 480));
+                Engine.Screenshot(Path.Combine(_resultDir, "test-case" + _testCaseCounter + ".jpg"), new(640, 480));
 
             // Prepare next test-case
             _testCaseCounter++;

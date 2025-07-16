@@ -49,7 +49,7 @@ namespace OmegaGUI.Model
         [Description("Is the specified texture file name valid?"), Category("Appearance")]
         public bool TextureFileValid => !string.IsNullOrEmpty(_textureFile) && ContentManager.FileExists("GUI/Textures", _textureFile);
 
-        private Point _textureLocation = new Point(0, 0);
+        private Point _textureLocation = new(0, 0);
 
         /// <summary>
         /// The upper left corner of the area in the texture file to use - no auto-update
@@ -65,7 +65,7 @@ namespace OmegaGUI.Model
             }
         }
 
-        private Size _textureSize = new Size(256, 256);
+        private Size _textureSize = new(256, 256);
 
         /// <summary>
         /// The distance to the lower right corner of the area in the texture file to use - no auto-update
@@ -102,7 +102,7 @@ namespace OmegaGUI.Model
         #region Constructor
         public PictureBox()
         {
-            Size = new Size(120, 60);
+            Size = new(120, 60);
         }
         #endregion
 
@@ -116,7 +116,7 @@ namespace OmegaGUI.Model
             Parent.DialogRender.SetTexture(textureNumber, _textureFile);
 
             var fill = new Element();
-            fill.SetTexture(textureNumber, new Rectangle(_textureLocation, _textureSize));
+            fill.SetTexture(textureNumber, new(_textureLocation, _textureSize));
             fill.TextureColor.States[(int)ControlState.Normal] = Render.Dialog.WhiteColorValue;
             fill.TextureColor.States[(int)ControlState.Normal].Alpha = (float)_alpha / 255;
 

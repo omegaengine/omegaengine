@@ -27,7 +27,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
-        public static Version MinShaderModel => new Version(2, 0);
+        public static Version MinShaderModel => new(2, 0);
 
         private float _speed = 0.03f, _speed2 = 0.02f, _scratchIntensity = 0.65f, _scratchWidth = 0.0075f;
 

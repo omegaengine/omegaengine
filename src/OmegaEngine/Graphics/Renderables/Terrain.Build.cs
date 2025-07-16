@@ -131,8 +131,8 @@ namespace OmegaEngine.Graphics.Renderables
                     // Map X = Engine +X
                     // Map Y = Engine -Z
                     // Map height = Engine +Y
-                    vertexes[x + size.Width * y] = new PositionMultiTextured(
-                        new Vector3(x * stretchH, heightMap[x, y] * stretchV, -y * stretchH),
+                    vertexes[x + size.Width * y] = new(
+                        new(x * stretchH, heightMap[x, y] * stretchV, -y * stretchH),
                         x * stretchH / 500f, y * stretchH / 500f,
                         occlusionIntervals.ByteToAngle(),
                         texWeights, Color.White);
@@ -206,9 +206,9 @@ namespace OmegaEngine.Graphics.Renderables
                     #endregion
 
                     // Generate a bounding box using the minimum and maximum heights
-                    subsetBoundingBoxesOut[subsetCount] = new BoundingBox(
-                        new Vector3(xBlock * blockSize * stretchH, blockMinHeight * stretchV, -yBlock * blockSize * stretchH),
-                        new Vector3((xBlock + 1) * blockSize * stretchH, blockMaxHeight * stretchV, -(yBlock + 1) * blockSize * stretchH));
+                    subsetBoundingBoxesOut[subsetCount] = new(
+                        new(xBlock * blockSize * stretchH, blockMinHeight * stretchV, -yBlock * blockSize * stretchH),
+                        new((xBlock + 1) * blockSize * stretchH, blockMaxHeight * stretchV, -(yBlock + 1) * blockSize * stretchH));
                 }
             }
 #if NETFX4

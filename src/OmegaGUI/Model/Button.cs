@@ -88,7 +88,7 @@ namespace OmegaGUI.Model
         #region Constructor
         public Button()
         {
-            Size = new Size(140, 40);
+            Size = new(140, 40);
         }
         #endregion
 

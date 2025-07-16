@@ -35,8 +35,8 @@ namespace FrameOfReference.World.Positionables
             {
                 Waypoints =
                 {
-                    new Waypoint {ActivationTime = 1},
-                    new Waypoint {ActivationTime = 2, ArrivalTime = 3}
+                    new() {ActivationTime = 1},
+                    new() {ActivationTime = 2, ArrivalTime = 3}
                 }
             };
 

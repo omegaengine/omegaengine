@@ -24,11 +24,11 @@ namespace AlphaFramework.Editor
     {
         #region Variables
         // Don't use WinForms designer for this, since it doesn't understand generics
-        private readonly FilteredTreeView<FileEntry> _fileList = new FilteredTreeView<FileEntry>
+        private readonly FilteredTreeView<FileEntry> _fileList = new()
         {
             Name = "FileList",
-            Location = new System.Drawing.Point(12, 57),
-            Size = new System.Drawing.Size(240, 196),
+            Location = new(12, 57),
+            Size = new(240, 196),
             Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
             TabIndex = 1,
             Separator = Path.DirectorySeparatorChar

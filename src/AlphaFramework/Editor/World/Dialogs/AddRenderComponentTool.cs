@@ -39,10 +39,9 @@ namespace AlphaFramework.Editor.World.Dialogs
         {
             InitializeComponent();
 
-            typeBoxType.Items.AddRange(new object[]
-            {
+            typeBoxType.Items.AddRange([
                 "TestSphere", "StaticMesh", "AnimatedMesh", "CpuParticleSystem", "GpuParticleSystem", "LightSource"
-            });
+            ]);
         }
         #endregion
 

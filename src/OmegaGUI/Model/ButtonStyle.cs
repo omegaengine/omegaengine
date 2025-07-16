@@ -44,15 +44,15 @@ namespace OmegaGUI.Model
         internal Dialog Parent;
 
         public XColor
-            ButtonColorNormal = new XColor(1.0f, 1.0f, 1.0f, 0.55f),
-            ButtonColorPressed = new XColor(1.0f, 1.0f, 1.0f, 0.85f),
+            ButtonColorNormal = new(1.0f, 1.0f, 1.0f, 0.55f),
+            ButtonColorPressed = new(1.0f, 1.0f, 1.0f, 0.85f),
             TextColorNormal = Color.White,
             TextColorMouseOver = Color.Black;
 
         public XColor
-            FillColorMouseOver = new XColor(1.0f, 1.0f, 1.0f, 0.6f),
-            FillColorPressed = new XColor(0, 0, 0, 0.25f),
-            FillColorFocus = new XColor(1.0f, 1.0f, 1.0f, 0.05f);
+            FillColorMouseOver = new(1.0f, 1.0f, 1.0f, 0.6f),
+            FillColorPressed = new(0, 0, 0, 0.25f),
+            FillColorFocus = new(1.0f, 1.0f, 1.0f, 0.05f);
 
         internal Element ButtonElement, FillElement;
         #endregion
@@ -88,13 +88,13 @@ namespace OmegaGUI.Model
         /// The upper left corner of the area in the texture file to use for the button layer
         /// </summary>
         [Description("The upper left corner of the area in the texture file to use for the button layer"), Category("Button layer")]
-        public Point ButtonTextureLocation { get; set; } = new Point(0, 0);
+        public Point ButtonTextureLocation { get; set; } = new(0, 0);
 
         /// <summary>
         /// The distance to the lower right corner of the area in the texture file to use for the button layer
         /// </summary>
         [Description("The distance to the lower right corner of the area in the texture file to use for the button layer"), Category("Button layer")]
-        public Size ButtonTextureSize { get; set; } = new Size(136, 54);
+        public Size ButtonTextureSize { get; set; } = new(136, 54);
 
         [XmlIgnore, Category("Button layer"), Description("The color of the button layer in its normal state")]
         public Color ButtonNormalColor { get { return (Color)ButtonColorNormal; } set { ButtonColorNormal = value; } }
@@ -114,13 +114,13 @@ namespace OmegaGUI.Model
         /// The upper left corner of the area in the texture file to use for the fill layer
         /// </summary>
         [Description("The upper left corner of the area in the texture file to use for the fill layer"), Category("Fill layer")]
-        public Point FillTextureLocation { get; set; } = new Point(136, 0);
+        public Point FillTextureLocation { get; set; } = new(136, 0);
 
         /// <summary>
         /// The distance to the lower right corner of the area in the texture file to use for the fill layer
         /// </summary>
         [Description("The distance to the lower right corner of the area in the texture file to use for the fill layer"), Category("Fill layer")]
-        public Size FillTextureSize { get; set; } = new Size(252, 54);
+        public Size FillTextureSize { get; set; } = new(252, 54);
 
         [XmlIgnore, Category("Fill layer"), Description("The color of the fill layer in its normal state")]
         public Color FillMouseOverColor { get { return (Color)FillColorMouseOver; } set { FillColorMouseOver = value; } }
@@ -143,16 +143,16 @@ namespace OmegaGUI.Model
             uint textureNumber = Parent.CustomTexture++;
             Parent.DialogRender.SetTexture(textureNumber, TextureFile);
 
-            ButtonElement = new Element();
-            ButtonElement.SetTexture(textureNumber, new Rectangle(ButtonTextureLocation, ButtonTextureSize));
+            ButtonElement = new();
+            ButtonElement.SetTexture(textureNumber, new(ButtonTextureLocation, ButtonTextureSize));
             ButtonElement.SetFont(0, TextColorNormal.ToColorValue(), DrawTextFormat.Center | DrawTextFormat.VerticalCenter);
             ButtonElement.TextureColor.States[(int)ControlState.Normal] = ButtonColorNormal.ToColorValue();
             ButtonElement.TextureColor.States[(int)ControlState.Pressed] = ButtonColorPressed.ToColorValue();
             ButtonElement.FontColor.States[(int)ControlState.Normal] = TextColorNormal.ToColorValue();
             ButtonElement.FontColor.States[(int)ControlState.MouseOver] = TextColorMouseOver.ToColorValue();
 
-            FillElement = new Element();
-            FillElement.SetTexture(textureNumber, new Rectangle(FillTextureLocation, FillTextureSize), Render.Dialog.TransparentWhite);
+            FillElement = new();
+            FillElement.SetTexture(textureNumber, new(FillTextureLocation, FillTextureSize), Render.Dialog.TransparentWhite);
             FillElement.TextureColor.States[(int)ControlState.MouseOver] = FillColorMouseOver.ToColorValue();
             FillElement.TextureColor.States[(int)ControlState.Pressed] = FillColorPressed.ToColorValue();
             FillElement.TextureColor.States[(int)ControlState.Focus] = FillColorFocus.ToColorValue();

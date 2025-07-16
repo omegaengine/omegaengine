@@ -54,14 +54,14 @@ namespace OmegaEngine.Storage
             _envVarModArchives = Environment.GetEnvironmentVariable(EnvVarNamerModArchives);
 
         private static DirectoryInfo
-            _baseDir = new DirectoryInfo(_envVarBaseDir ?? Path.Combine(Locations.InstallBase, "content")),
+            _baseDir = new(_envVarBaseDir ?? Path.Combine(Locations.InstallBase, "content")),
             _modDir = (_envVarModDir == null) ? null : new DirectoryInfo(_envVarModDir);
 
-        private static readonly List<ZipFile> _loadedArchives = new List<ZipFile>();
+        private static readonly List<ZipFile> _loadedArchives = [];
 
         private static readonly Dictionary<string, ContentArchiveEntry>
-            _baseArchiveEntries = new Dictionary<string, ContentArchiveEntry>(StringComparer.OrdinalIgnoreCase),
-            _modArchiveEntries = new Dictionary<string, ContentArchiveEntry>(StringComparer.OrdinalIgnoreCase);
+            _baseArchiveEntries = new(StringComparer.OrdinalIgnoreCase),
+            _modArchiveEntries = new(StringComparer.OrdinalIgnoreCase);
         #endregion
 
         #region Properties
@@ -145,7 +145,7 @@ namespace OmegaEngine.Storage
 
             // Overwrite existing entries
             if (dictionary.ContainsKey(filename)) _baseArchiveEntries.Remove(filename);
-            dictionary.Add(filename, new ContentArchiveEntry(zipFile, zipEntry));
+            dictionary.Add(filename, new(zipFile, zipEntry));
         }
         #endregion
 
@@ -275,15 +275,15 @@ namespace OmegaEngine.Storage
                     if (previousEntry.EntryType == FileEntryType.Normal)
                     {
                         files.Remove(previousEntry);
-                        files.Add(new FileEntry(type, name, FileEntryType.Modified));
+                        files.Add(new(type, name, FileEntryType.Modified));
                     }
                 }
-                else files.Add(new FileEntry(type, name, FileEntryType.Added));
+                else files.Add(new(type, name, FileEntryType.Added));
             }
             else
             {
                 // Prevent duplicate entries
-                if (!files.Contains(name)) files.Add(new FileEntry(type, name));
+                if (!files.Contains(name)) files.Add(new(type, name));
             }
         }
 
@@ -347,7 +347,7 @@ namespace OmegaEngine.Storage
             if (Directory.Exists(Path.Combine(BaseDir.FullName, type)))
             {
                 AddDirectoryToList(files, type, extension,
-                    new DirectoryInfo(Path.Combine(BaseDir.FullName, type)), "", false);
+                    new(Path.Combine(BaseDir.FullName, type)), "", false);
             }
 
             // Find files in archives
@@ -361,7 +361,7 @@ namespace OmegaEngine.Storage
                 if (Directory.Exists(Path.Combine(ModDir.FullName, type)))
                 {
                     AddDirectoryToList(files, type, extension,
-                        new DirectoryInfo(Path.Combine(ModDir.FullName, type)), "", true);
+                        new(Path.Combine(ModDir.FullName, type)), "", true);
                 }
 
                 // Find files in archives

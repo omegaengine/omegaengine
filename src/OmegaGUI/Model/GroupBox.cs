@@ -77,7 +77,7 @@ namespace OmegaGUI.Model
         #region Constructor
         public GroupBox()
         {
-            Size = new Size(200, 100);
+            Size = new(200, 100);
         }
         #endregion
 

@@ -252,7 +252,7 @@ namespace FrameOfReference.Presentation
         protected Camera CreateCamera(CameraState<Vector2> state = null)
         {
             if (state == null)
-                state = new CameraState<Vector2> {Name = "Main", Position = Universe.Terrain.Center, Radius = 1500};
+                state = new() {Name = "Main", Position = Universe.Terrain.Center, Radius = 1500};
 
             return new StrategyCamera(
                 minRadius: 200, maxRadius: MaxCameraRadius,
@@ -292,7 +292,7 @@ namespace FrameOfReference.Presentation
             {
                 return new PerTypeDispatcher<Camera, CameraState<Vector2>>(ignoreMissing: true)
                 {
-                    (StrategyCamera camera) => new CameraState<Vector2>
+                    (StrategyCamera camera) => new()
                     {
                         Name = camera.Name,
                         Position = camera.Target.Flatten(),

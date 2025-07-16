@@ -68,7 +68,7 @@ namespace FrameOfReference
             }
 #endif
 
-            Args = new Arguments(args);
+            Args = new(args);
 
             Settings.LoadCurrent();
             UpdateLocale();
@@ -116,7 +116,7 @@ namespace FrameOfReference
             Settings.Current.Graphics.WaterEffects = WaterEffectsType.None;
             Settings.Current.Graphics.ParticleSystemQuality = Quality.Low;
             Settings.Current.Display.VSync = false;
-            Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize = new Size(800, 600);
+            Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize = new(800, 600);
 #if !DEBUG
             Settings.Current.Display.Fullscreen = true;
 #endif

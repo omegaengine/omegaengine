@@ -101,7 +101,7 @@ namespace OmegaEngine.Input
             if (_moving)
             {
                 bool accumulate = Control.ModifierKeys.HasFlag(Keys.Control);
-                OnAreaSelection(new Rectangle(_origMouseLoc, _totalMouseDelta), accumulate, done: true);
+                OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), accumulate, done: true);
                 _moving = false;
             }
 
@@ -145,7 +145,7 @@ namespace OmegaEngine.Input
                 case MouseButtons.Left:
                     if (_moving)
                     { // The mouse moved more than a click, so this is an active selection
-                        OnAreaSelection(new Rectangle(_origMouseLoc, _totalMouseDelta), accumulate);
+                        OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), accumulate);
                     }
                     break;
 
@@ -153,14 +153,14 @@ namespace OmegaEngine.Input
                     if (_moving)
                     { // The mouse moved more than a click, so this is an active pan
                         // Linear panning (possibly inverted), no rotation, no zoom
-                        OnPerspectiveChange(InvertMouse ? new Point(-delta.X, -delta.Y) : delta, 0, 0);
+                        OnPerspectiveChange(InvertMouse ? new(-delta.X, -delta.Y) : delta, 0, 0);
                     }
                     break;
 
                 case MouseButtons.Middle:
                 case MouseButtons.Left | MouseButtons.Right:
                     // No panning, linear rotation (possibly inverted), exponential zoom
-                    OnPerspectiveChange(new Point(), InvertMouse ? -delta.X : delta.X, delta.Y);
+                    OnPerspectiveChange(new(), InvertMouse ? -delta.X : delta.X, delta.Y);
                     break;
             }
             #endregion
@@ -195,7 +195,7 @@ namespace OmegaEngine.Input
             {
                 if (_moving)
                 { // The mouse moved more than a click, so this is a completed selection
-                    OnAreaSelection(new Rectangle(_origMouseLoc, _totalMouseDelta), accumulate, done: true);
+                    OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), accumulate, done: true);
                 }
                 else
                 { // The mouse didn't move more than a click, so this is a click
@@ -224,7 +224,7 @@ namespace OmegaEngine.Input
             if (!HasReceivers) return;
 
             // No panning, no rotation, exponential zoom
-            OnPerspectiveChange(new Point(), 0, e.Delta / -4);
+            OnPerspectiveChange(new(), 0, e.Delta / -4);
         }
 
         private void MouseDoubleClick(object sender, MouseEventArgs e)

@@ -129,10 +129,10 @@ namespace OmegaEngine.Graphics.Shaders
         protected IList<SasScriptCommand> GlobalScript;
 
         /// <summary>A list of techniques and their SAS scripts</summary>
-        protected readonly Dictionary<EffectHandle, IList<SasScriptCommand>> Techniques = new Dictionary<EffectHandle, IList<SasScriptCommand>>();
+        protected readonly Dictionary<EffectHandle, IList<SasScriptCommand>> Techniques = new();
 
         /// <summary>A list of passes and their SAS scripts</summary>
-        protected readonly Dictionary<EffectHandle, IList<SasScriptCommand>> Passes = new Dictionary<EffectHandle, IList<SasScriptCommand>>();
+        protected readonly Dictionary<EffectHandle, IList<SasScriptCommand>> Passes = new();
 
         /// <summary>A list of annotated shader parameters</summary>
         protected ParameterInfo[] ParameterInfos;
@@ -140,8 +140,8 @@ namespace OmegaEngine.Graphics.Shaders
         private RenderTarget _activeRenderTarget;
 
         private readonly Pool<RenderTarget>
-            _availableRenderTargets = new Pool<RenderTarget>(),
-            _usedRenderTargets = new Pool<RenderTarget>();
+            _availableRenderTargets = new(),
+            _usedRenderTargets = new();
         #endregion
 
         //--------------------//
@@ -543,7 +543,7 @@ namespace OmegaEngine.Graphics.Shaders
                                     // Create new RenderTargets if necessary
                                     if (_activeRenderTarget == null)
                                     {
-                                        _activeRenderTarget = new RenderTarget(Engine, sceneSize);
+                                        _activeRenderTarget = new(Engine, sceneSize);
                                         _usedRenderTargets.Add(_activeRenderTarget);
                                     }
                                     Effect.SetTexture(renderColorTarget.TextureHandle, _activeRenderTarget);
@@ -608,7 +608,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="render">The render delegate (is called once for every shader pass); <c>null</c> for global script</param>
         /// <param name="sceneSize">The size of the scene on the screen - leave empty for fullscreen</param>
         /// <param name="sceneMap">A texture containing the rendered scene for <see cref="PostShader"/>), <c>null</c> if the shader doesn't need it</param>
-        protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action render = null, Size sceneSize = new Size(), RenderTarget sceneMap = null)
+        protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action render = null, Size sceneSize = new(), RenderTarget sceneMap = null)
         {
             ExecuteScript(script, render, sceneSize, sceneMap, false);
 
@@ -621,7 +621,7 @@ namespace OmegaEngine.Graphics.Shaders
 
         #region Shader parameters
         private Effect _effect;
-        private readonly Queue<Action> _defferedActions = new Queue<Action>();
+        private readonly Queue<Action> _defferedActions = new();
 
         /// <summary>
         /// The Direct3D effect for this shader
@@ -633,7 +633,7 @@ namespace OmegaEngine.Graphics.Shaders
             set
             {
                 _effect = value;
-                _effectHandles = new TransparentCache<string, EffectHandle>(name => value.GetParameter(null, name));
+                _effectHandles = new(name => value.GetParameter(null, name));
                 while (_defferedActions.Count != 0) _defferedActions.Dequeue()();
             }
         }

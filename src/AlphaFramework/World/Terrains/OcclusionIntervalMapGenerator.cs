@@ -98,7 +98,7 @@ namespace AlphaFramework.World.Terrains
             if (terrain == null) throw new ArgumentNullException(nameof(terrain));
             #endregion
 
-            return new OcclusionIntervalMapGenerator(terrain.HeightMap, terrain.Size.StretchH, terrain.Size.StretchV, lightSourceInclination);
+            return new(terrain.HeightMap, terrain.Size.StretchH, terrain.Size.StretchV, lightSourceInclination);
         }
         #endregion
 
@@ -117,7 +117,7 @@ namespace AlphaFramework.World.Terrains
         /// <inheritdoc/>
         protected override void Execute()
         {
-            _result = new ByteVector4Grid(_heightMap.Width, _heightMap.Height);
+            _result = new(_heightMap.Width, _heightMap.Height);
 
             State = TaskState.Data;
 
@@ -141,7 +141,7 @@ namespace AlphaFramework.World.Terrains
 
         private ByteVector4 GetOcclusionVector(int x, int y)
         {
-            if (_boundaries == null) _boundaries = new List<byte>();
+            if (_boundaries == null) _boundaries = [];
             else _boundaries.Clear();
 
             CalculateBoundaries(x, y);
@@ -149,7 +149,7 @@ namespace AlphaFramework.World.Terrains
             if (_boundaries.Count % 2 == 1) _boundaries.Add(255);
             while (_boundaries.Count > 4) RemoveShortestInterval();
 
-            return new ByteVector4(_boundaries[0], _boundaries[1], _boundaries[2], _boundaries[3]);
+            return new(_boundaries[0], _boundaries[1], _boundaries[2], _boundaries[3]);
         }
 
         private void CalculateBoundaries(int x, int y)

@@ -47,7 +47,7 @@ namespace OmegaEngine
         /// A list of possible <see cref="View"/>s usable for rendering <see cref="Water"/>
         /// </summary>
         /// <seealso cref="WaterViewSource.FromEngine"/>
-        internal readonly HashSet<WaterViewSource> WaterViewSources = new HashSet<WaterViewSource>();
+        internal readonly HashSet<WaterViewSource> WaterViewSources = [];
         #endregion
 
         #region Properties
@@ -114,7 +114,7 @@ namespace OmegaEngine
         /// <summary>
         /// The central cache used for all graphics and sound assets.
         /// </summary>
-        public CacheManager Cache { get; } = new CacheManager();
+        public CacheManager Cache { get; } = new();
         #endregion
 
         #region Constructor
@@ -137,23 +137,23 @@ namespace OmegaEngine
             Engine = this;
             RegisterChild(_views);
 
-            _direct3D = new Direct3D();
+            _direct3D = new();
             Target = target;
             Config = config;
             ShaderDir = Path.Combine(Locations.InstallBase, "Shaders");
 
-            Capabilities = new EngineCapabilities(_direct3D, config);
-            Effects = new EngineEffects(Capabilities) {PerPixelLighting = true};
+            Capabilities = new(_direct3D, config);
+            Effects = new(Capabilities) {PerPixelLighting = true};
 
             try
             {
                 CreateDevice();
-                State = new EngineState(Device);
+                State = new(Device);
                 SetupTextureFiltering();
-                Performance = new EnginePerformance(Device, RenderPure);
+                Performance = new(Device, RenderPure);
 
                 if (GeneralShader.MinShaderModel <= Capabilities.MaxShaderModel)
-                    RegisterChild(DefaultShader = new GeneralShader());
+                    RegisterChild(DefaultShader = new());
 
                 // Create simple default meshes ready
                 SimpleSphere = Mesh.CreateSphere(Device, 1, 12, 12);
@@ -187,17 +187,17 @@ namespace OmegaEngine
             if (Capabilities.PureDevice)
             {
                 Log.Info("Creating Direct3D device with Hardware Vertex Processing & Pure Device");
-                Device = new Device(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing | CreateFlags.PureDevice, PresentParams);
+                Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing | CreateFlags.PureDevice, PresentParams);
             }
             else if (Capabilities.HardwareVertexProcessing)
             {
                 Log.Info("Creating Direct3D device with Hardware Vertex Processing");
-                Device = new Device(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing, PresentParams);
+                Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing, PresentParams);
             }
             else
             {
                 Log.Info("Creating Direct3D device with Software Vertex Processing");
-                Device = new Device(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.SoftwareVertexProcessing, PresentParams);
+                Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.SoftwareVertexProcessing, PresentParams);
             }
 
             // Store the default Viewport and BackBuffer
@@ -209,7 +209,7 @@ namespace OmegaEngine
         //--------------------//
 
         #region Reset queue
-        private readonly Queue<IResetable> _pendingReset = new Queue<IResetable>();
+        private readonly Queue<IResetable> _pendingReset = new();
 
         /// <summary>
         /// Queues an object for resetting at the beginning of the next frame.

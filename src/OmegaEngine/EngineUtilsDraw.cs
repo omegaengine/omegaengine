@@ -32,18 +32,18 @@ namespace OmegaEngine
             if (engine == null) throw new ArgumentNullException(nameof(engine));
             #endregion
 
-            var vertexes = new[]
-            {
-                new TransformedColored(rectangle.Left, rectangle.Top, 0, 1, color.ToArgb()),
-                new TransformedColored(rectangle.Right, rectangle.Top, 0, 1, color.ToArgb()),
-                new TransformedColored(rectangle.Right, rectangle.Bottom, 0, 1, color.ToArgb()),
-                new TransformedColored(rectangle.Left, rectangle.Bottom, 0, 1, color.ToArgb())
-            };
+            TransformedColored[] vertexes =
+            [
+                new(rectangle.Left, rectangle.Top, 0, 1, color.ToArgb()),
+                new(rectangle.Right, rectangle.Top, 0, 1, color.ToArgb()),
+                new(rectangle.Right, rectangle.Bottom, 0, 1, color.ToArgb()),
+                new(rectangle.Left, rectangle.Bottom, 0, 1, color.ToArgb())
+            ];
             engine.Device.VertexFormat = TransformedColored.Format;
             engine.State.SetTexture(null);
             engine.Device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0, 5, 4,
                 // ToDo: Properly determine vertex stride
-                new[] {0, 1, 2, 3, 0}, Format.Index32, vertexes, 20);
+                [0, 1, 2, 3, 0], Format.Index32, vertexes, 20);
         }
 
         /// <summary>
@@ -64,11 +64,13 @@ namespace OmegaEngine
                 engine.State.FfpLighting = false;
                 engine.State.Fog = false;
 
-                var vertexes = new[]
-                {
-                    new PositionTextured(-1, 1, 0, 0, 0), new PositionTextured(-1, -1, 0, 0, 1),
-                    new PositionTextured(1, 1, 0, 1, 0), new PositionTextured(1, -1, 0, 1, 1)
-                };
+                PositionTextured[] vertexes =
+                [
+                    new(-1, 1, 0, 0, 0),
+                    new(-1, -1, 0, 0, 1),
+                    new(1, 1, 0, 1, 0),
+                    new(1, -1, 0, 1, 1)
+                ];
 
                 engine.Device.VertexFormat = PositionTextured.Format;
                 engine.Device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, vertexes);
@@ -94,13 +96,13 @@ namespace OmegaEngine
                 engine.State.Fog = false;
 
                 // Calculate texture coordinates in the centers of the corner texels
-                var vertexes = new[]
-                {
-                    new TransformedTextured(engine.Device.Viewport.X, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 1, 0, 1, 0, 1),
-                    new TransformedTextured(engine.Device.Viewport.X, engine.Device.Viewport.Y, 0, 1, 0, 0),
-                    new TransformedTextured(engine.Device.Viewport.X + engine.Device.Viewport.Width - 1, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 1, 0, 1, 1, 1),
-                    new TransformedTextured(engine.Device.Viewport.X + engine.Device.Viewport.Width - 1, engine.Device.Viewport.Y, 0, 1, 1, 0)
-                };
+                TransformedTextured[] vertexes =
+                [
+                    new(engine.Device.Viewport.X, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 1, 0, 1, 0, 1),
+                    new(engine.Device.Viewport.X, engine.Device.Viewport.Y, 0, 1, 0, 0),
+                    new(engine.Device.Viewport.X + engine.Device.Viewport.Width - 1, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 1, 0, 1, 1, 1),
+                    new(engine.Device.Viewport.X + engine.Device.Viewport.Width - 1, engine.Device.Viewport.Y, 0, 1, 1, 0)
+                ];
 
                 // Disable texture filtering
                 engine.Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
@@ -135,13 +137,13 @@ namespace OmegaEngine
                 engine.State.FfpLighting = false;
                 engine.State.Fog = false;
 
-                var vertexes = new[]
-                {
-                    new TransformedColored(engine.Device.Viewport.X, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 1, 0, 1, colVal),
-                    new TransformedColored(engine.Device.Viewport.X, engine.Device.Viewport.Y, 0, 1, colVal),
-                    new TransformedColored(engine.Device.Viewport.X + engine.Device.Viewport.Width - 1, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 1, 0, 1, colVal),
-                    new TransformedColored(engine.Device.Viewport.X + engine.Device.Viewport.Width - 1, engine.Device.Viewport.Y, 0, 1, colVal)
-                };
+                TransformedColored[] vertexes =
+                [
+                    new(engine.Device.Viewport.X, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 1, 0, 1, colVal),
+                    new(engine.Device.Viewport.X, engine.Device.Viewport.Y, 0, 1, colVal),
+                    new(engine.Device.Viewport.X + engine.Device.Viewport.Width - 1, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 1, 0, 1, colVal),
+                    new(engine.Device.Viewport.X + engine.Device.Viewport.Width - 1, engine.Device.Viewport.Y, 0, 1, colVal)
+                ];
 
                 engine.State.SetTexture(null);
                 engine.Device.VertexFormat = TransformedColored.Format;
@@ -169,7 +171,7 @@ namespace OmegaEngine
                 bool lastLighting = engine.State.FfpLighting;
 
                 // Set new states
-                engine.State.WorldTransform = Matrix.Scaling(new Vector3(sphere.Radius)) * Matrix.Translation(sphere.Center);
+                engine.State.WorldTransform = Matrix.Scaling(new(sphere.Radius)) * Matrix.Translation(sphere.Center);
                 engine.State.CullMode = Cull.None;
                 engine.State.FillMode = FillMode.Wireframe;
                 engine.State.FfpLighting = false;

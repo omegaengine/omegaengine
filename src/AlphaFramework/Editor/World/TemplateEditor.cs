@@ -28,11 +28,11 @@ namespace AlphaFramework.Editor.World
         #region Variables
         // Don't use WinForms designer for this, since it doesn't understand generics
         /// <summary>The filtered tree view listing all <see cref="Template{T}"/>s.</summary>
-        protected readonly FilteredTreeView<T> TemplateList = new FilteredTreeView<T>
+        protected readonly FilteredTreeView<T> TemplateList = new()
         {
             CheckBoxes = true,
-            Location = new System.Drawing.Point(6, 44),
-            Size = new System.Drawing.Size(128, 306),
+            Location = new(6, 44),
+            Size = new(128, 306),
             Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
             TabIndex = 1
         };
@@ -71,7 +71,7 @@ namespace AlphaFramework.Editor.World
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
-                    Content = new NamedCollection<T>();
+                    Content = [];
                     Content.SaveXml(_fullPath);
                 }
             }
@@ -88,7 +88,7 @@ namespace AlphaFramework.Editor.World
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
-                    Content = new NamedCollection<T>();
+                    Content = [];
                     Content.SaveXml(_fullPath);
                 }
             }

@@ -413,7 +413,7 @@ namespace OmegaEngine.Graphics.Cameras
             Quaternion spherical = Quaternion.RotationMatrix(_viewInverse);
             _sphericalBillboard = Matrix.RotationQuaternion(spherical);
 
-            Quaternion cylindric = Quaternion.Normalize(new Quaternion(0, spherical.Y, 0, spherical.W));
+            Quaternion cylindric = Quaternion.Normalize(new(0, spherical.Y, 0, spherical.W));
             _cylindricBillboard = Matrix.RotationQuaternion(cylindric);
 
             _effectiveClipPlane = _clipPlane.ApplyOffset(PositionBaseCached);

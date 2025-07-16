@@ -65,7 +65,7 @@ namespace OmegaEngine.Assets
             if (data == null)
             {
                 using (new TimedLogEvent("Loading OGG Vorbis sound: " + id))
-                    data = new XOggSound(ContentManager.GetFileStream("Sounds", id)) {Name = fullID};
+                    data = new(ContentManager.GetFileStream("Sounds", id)) {Name = fullID};
                 engine.Cache.AddAsset(data);
             }
 

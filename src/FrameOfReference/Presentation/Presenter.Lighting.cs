@@ -41,8 +41,8 @@ namespace FrameOfReference.Presentation
         protected bool Lighting = true;
 
         private readonly DirectionalLight
-            _lightSun = new DirectionalLight {Name = "Sun", Enabled = false},
-            _lightMoon = new DirectionalLight {Name = "Moon", Enabled = false};
+            _lightSun = new() {Name = "Sun", Enabled = false},
+            _lightMoon = new() {Name = "Moon", Enabled = false};
 
         /// <summary>
         /// The ratio between the strength of diffuse and specular lighting
@@ -65,9 +65,9 @@ namespace FrameOfReference.Presentation
                 View.SetupGlow();
 
                 // Pre-load deactivated effects for later use
-                View.PostShaders.Add(_bleachShader = new PostBleachShader {Enabled = false});
-                View.PostShaders.Add(_colorCorrectionShader = new PostColorCorrectionShader {Enabled = false});
-                View.PostShaders.Add(_sepiaShader = new PostSepiaShader {Enabled = false, Desaturation = 0, Toning = 0});
+                View.PostShaders.Add(_bleachShader = new() {Enabled = false});
+                View.PostShaders.Add(_colorCorrectionShader = new() {Enabled = false});
+                View.PostShaders.Add(_sepiaShader = new() {Enabled = false, Desaturation = 0, Toning = 0});
             }
 
             // Add the lights to the scene

@@ -24,13 +24,13 @@ namespace AlphaFramework.World.Paths
         }
 
         private static readonly Vector2[] _direction =
-        {
-            new Vector2(0, -1), new Vector2(1, 0), new Vector2(0, 1), new Vector2(-1, 0),
-            new Vector2(1, -1), new Vector2(1, 1), new Vector2(-1, 1), new Vector2(-1, -1)
-        };
+        [
+            new(0, -1), new(1, 0), new(0, 1), new(-1, 0),
+            new(1, -1), new(1, 1), new(-1, 1), new(-1, -1)
+        ];
 
         private readonly bool[,] _obstructionMap;
-        private readonly List<Node> _openList = new List<Node>(), _closeList = new List<Node>();
+        private readonly List<Node> _openList = [], _closeList = [];
 
         /// <summary>
         /// Initializes a new pathfinder.
@@ -76,7 +76,7 @@ namespace AlphaFramework.World.Paths
 
                 for (int i = 0; i < 8; i++)
                 {
-                    nextNode = new Node {Position = parentNode.Position + _direction[i]};
+                    nextNode = new() {Position = parentNode.Position + _direction[i]};
                     if ((nextNode.Position.X < 0) || (nextNode.Position.Y < 0)
                         || (nextNode.Position.X >= _obstructionMap.GetLength(0)) || (nextNode.Position.Y >= _obstructionMap.GetLength(1)))
                         continue;

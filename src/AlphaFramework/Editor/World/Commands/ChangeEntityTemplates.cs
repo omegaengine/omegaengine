@@ -39,7 +39,7 @@ namespace AlphaFramework.Editor.World.Commands
             #endregion
 
             // Create local defensive copy of entities
-            _entities = new List<ITemplated>(entities);
+            _entities = new(entities);
 
             // Backup the old template names
             _oldTemplates = new string[_entities.Count];

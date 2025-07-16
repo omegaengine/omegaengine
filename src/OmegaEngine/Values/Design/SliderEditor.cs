@@ -21,7 +21,7 @@ namespace OmegaEngine.Values.Design
     {
         /// <inheritdoc/>
         protected override float EditValue(float value, IWindowsFormsEditorService editorService)
-            => EditValue(value, new FloatRangeAttribute(0, 10), editorService);
+            => EditValue(value, new(0, 10), editorService);
 
         /// <inheritdoc/>
         protected override float EditValue(float value, FloatRangeAttribute range, IWindowsFormsEditorService editorService)

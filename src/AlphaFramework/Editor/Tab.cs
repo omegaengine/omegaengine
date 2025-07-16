@@ -73,7 +73,7 @@ namespace AlphaFramework.Editor
         /// <inheritdoc/>
         protected Tab()
         {
-            Size = new Size(720, 540);
+            Size = new(720, 540);
 
             Load += delegate
             {
@@ -87,10 +87,10 @@ namespace AlphaFramework.Editor
                 Name = "closeButton",
                 FlatStyle = FlatStyle.Flat,
                 Text = @"X",
-                Font = new Font("Arial", 10, FontStyle.Bold),
+                Font = new("Arial", 10, FontStyle.Bold),
                 BackColor = Color.FromArgb(224, 118, 92),
                 TabStop = false,
-                Size = new Size(22, 22),
+                Size = new(22, 22),
                 Top = (-1)
             };
             buttonClose.Click += delegate { RequestClose(); };
@@ -111,7 +111,7 @@ namespace AlphaFramework.Editor
                 Image = Resources.SaveButton,
                 BackColor = Color.White,
                 TabStop = false,
-                Size = new Size(22, 22),
+                Size = new(22, 22),
                 Top = (buttonClose.Top + buttonClose.Height - 1)
             };
             saveButton.Click += delegate { SaveFile(); };

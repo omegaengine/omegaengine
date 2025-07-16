@@ -92,7 +92,7 @@ namespace OmegaEngine.Audio
                 Flags = BufferFlags.ControlVolume
             };
 
-            _soundBuffer = new SecondarySoundBuffer(Engine.AudioDevice, description);
+            _soundBuffer = new(Engine.AudioDevice, description);
         }
         #endregion
 

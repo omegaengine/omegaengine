@@ -23,10 +23,10 @@ namespace AlphaFramework.Editor.World.Dialogs
     {
         #region Variables
         // Don't use WinForms designer for this, since it doesn't understand generics
-        private readonly FilteredTreeView<T> _templateList = new FilteredTreeView<T>
+        private readonly FilteredTreeView<T> _templateList = new()
         {
-            Location = new System.Drawing.Point(12, 12),
-            Size = new System.Drawing.Size(262, 209),
+            Location = new(12, 12),
+            Size = new(262, 209),
             Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
             TabIndex = 1
         };

@@ -145,12 +145,12 @@ namespace OmegaEngine
                     if (_capabilities.PS20Caps.TempCount >= 22 &&
                         _capabilities.PS20Caps.Caps.HasFlag(PixelShaderCaps.ArbitrarySwizzle | PixelShaderCaps.GradientInstructions | PixelShaderCaps.Predication | PixelShaderCaps.NoDependentReadLimit | PixelShaderCaps.NoTextureInstructionLimit))
                     { // Pixel shader 2.0a
-                        MaxShaderModel = new Version(2, 0, 1);
+                        MaxShaderModel = new(2, 0, 1);
                     }
                     else if (_capabilities.PS20Caps.TempCount >= 32 &&
                              _capabilities.PS20Caps.Caps.HasFlag(PixelShaderCaps.NoTextureInstructionLimit))
                     { // Pixel shader 2.0b
-                        MaxShaderModel = new Version(2, 0, 2);
+                        MaxShaderModel = new(2, 0, 2);
                     }
                 }
             }

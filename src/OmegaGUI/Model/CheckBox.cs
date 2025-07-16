@@ -90,7 +90,7 @@ namespace OmegaGUI.Model
         #region Constructor
         public CheckBox()
         {
-            Size = new Size(140, 20);
+            Size = new(140, 20);
         }
         #endregion
 

@@ -150,7 +150,7 @@ namespace OmegaEngine.Storage
                 if (EntryType == FileEntryType.Added) EntryType = FileEntryType.Deleted;
                 if (EntryType == FileEntryType.Modified) EntryType = FileEntryType.Normal;
             };
-            return new ContextMenu(new[] {revertMenuEntry});
+            return new([revertMenuEntry]);
         }
         #endregion
 

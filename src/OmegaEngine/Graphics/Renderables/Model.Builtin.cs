@@ -31,10 +31,10 @@ namespace OmegaEngine.Graphics.Renderables
             #endregion
 
             Log.Info("Generate predefined model: Quad");
-            return new Model(MeshGenerator.Quad(engine.Device, width, height), new XMaterial(texture))
+            return new(MeshGenerator.Quad(engine.Device, width, height), new XMaterial(texture))
             {
                 BoundingSphere = new BoundingSphere(default(Vector3), (float)Math.Sqrt(width * width + height * height) / 2f),
-                BoundingBox = new BoundingBox(default(Vector3), new Vector3(width, height, 0))
+                BoundingBox = new BoundingBox(default(Vector3), new(width, height, 0))
             };
         }
         #endregion
@@ -58,9 +58,9 @@ namespace OmegaEngine.Graphics.Renderables
             Mesh mesh = MeshGenerator.Box(engine.Device, width, height, depth);
             MeshHelper.GenerateNormals(engine.Device, ref mesh);
 
-            return new Model(mesh, new XMaterial(texture))
+            return new(mesh, new XMaterial(texture))
             {
-                BoundingBox = new BoundingBox(default(Vector3), new Vector3(width, height, depth))
+                BoundingBox = new BoundingBox(default(Vector3), new(width, height, depth))
             };
         }
         #endregion
@@ -84,7 +84,7 @@ namespace OmegaEngine.Graphics.Renderables
             Mesh mesh = MeshGenerator.Sphere(engine.Device, radius, slices, stacks);
             MeshHelper.GenerateNormals(engine.Device, ref mesh);
 
-            return new Model(mesh, new XMaterial(texture))
+            return new(mesh, new XMaterial(texture))
             {
                 Engine = engine,
                 BoundingSphere = new BoundingSphere(default(Vector3), radius)
@@ -114,7 +114,7 @@ namespace OmegaEngine.Graphics.Renderables
             MeshHelper.GenerateNormals(engine.Device, ref mesh);
 
             // ToDo: Calculate bounding box
-            return new Model(mesh, new XMaterial(texture));
+            return new(mesh, new XMaterial(texture));
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace OmegaEngine.Graphics.Renderables
             #endregion
 
             // ToDo: Calculate bounding box
-            return new Model(MeshGenerator.Disc(engine.Device, radiusInner, radiusOuter, height, segments), new XMaterial(texture));
+            return new(MeshGenerator.Disc(engine.Device, radiusInner, radiusOuter, height, segments), new XMaterial(texture));
         }
 
         /// <summary>

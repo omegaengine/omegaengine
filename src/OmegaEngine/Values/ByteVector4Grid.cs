@@ -49,10 +49,10 @@ namespace OmegaEngine.Values
                         for (int y = 0; y < bitmap.Height; y++)
                         {
                             var color = bitmap.GetPixel(x, y);
-                            data[x, y] = new ByteVector4(color.B, color.G, color.R, color.A);
+                            data[x, y] = new(color.B, color.G, color.R, color.A);
                         }
                     }
-                    return new ByteVector4Grid(data);
+                    return new(data);
                 }
             }
             #region Error handling
@@ -67,7 +67,7 @@ namespace OmegaEngine.Values
         public override unsafe Bitmap GenerateBitmap()
         {
             var bitmap = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
-            var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.WriteOnly, bitmap.PixelFormat);
+            var bitmapData = bitmap.LockBits(new(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.WriteOnly, bitmap.PixelFormat);
             try
             {
                 var pointer = (byte*)bitmapData.Scan0;

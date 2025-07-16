@@ -91,7 +91,7 @@ namespace OmegaEngine.Graphics
         public PointLight()
         {
             Range = 1000;
-            Attenuation = new Attenuation(1, 0, 0);
+            Attenuation = new(1, 0, 0);
         }
         #endregion
     }

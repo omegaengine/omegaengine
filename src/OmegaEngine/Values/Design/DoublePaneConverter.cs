@@ -22,41 +22,40 @@ namespace OmegaEngine.Values.Design
         protected override int NoArguments => 6;
 
         /// <inheritdoc/>
-        protected override ConstructorInfo GetConstructor() => typeof(DoublePlane).GetConstructor(new[]
-        {
+        protected override ConstructorInfo GetConstructor() => typeof(DoublePlane).GetConstructor([
             typeof(double),
             typeof(double),
             typeof(double),
             typeof(float),
             typeof(float),
             typeof(float)
-        });
+        ]);
 
         /// <inheritdoc/>
-        protected override object[] GetArguments(DoublePlane value) => new object[]
-        {
+        protected override object[] GetArguments(DoublePlane value) =>
+        [
             value.Point.X,
             value.Point.Y,
             value.Point.Z,
             value.Normal.X,
             value.Normal.Y,
             value.Normal.Z
-        };
+        ];
 
         /// <inheritdoc/>
         protected override string[] GetValues(DoublePlane value, ITypeDescriptorContext context, CultureInfo culture)
         {
             var doubleConverter = TypeDescriptor.GetConverter(typeof(double));
             var floatConverter = TypeDescriptor.GetConverter(typeof(float));
-            return new[]
-            {
+            return
+            [
                 doubleConverter.ConvertToString(context, culture, value.Point.X),
                 doubleConverter.ConvertToString(context, culture, value.Point.Y),
                 doubleConverter.ConvertToString(context, culture, value.Point.Z),
                 floatConverter.ConvertToString(context, culture, value.Normal.X),
                 floatConverter.ConvertToString(context, culture, value.Normal.Y),
                 floatConverter.ConvertToString(context, culture, value.Normal.Z)
-            };
+            ];
         }
 
         /// <inheritdoc/>
@@ -67,9 +66,9 @@ namespace OmegaEngine.Values.Design
             if (culture == null) throw new ArgumentNullException(nameof(culture));
             #endregion
 
-            return new DoublePlane(
-                new DoubleVector3(Convert.ToDouble(values[0], culture), Convert.ToDouble(values[1], culture), Convert.ToDouble(values[2], culture)),
-                new Vector3(Convert.ToSingle(values[3], culture), Convert.ToSingle(values[4], culture), Convert.ToSingle(values[5], culture)));
+            return new(
+                new(Convert.ToDouble(values[0], culture), Convert.ToDouble(values[1], culture), Convert.ToDouble(values[2], culture)),
+                new(Convert.ToSingle(values[3], culture), Convert.ToSingle(values[4], culture), Convert.ToSingle(values[5], culture)));
         }
 
         /// <inheritdoc/>
@@ -79,7 +78,7 @@ namespace OmegaEngine.Values.Design
             if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
             #endregion
 
-            return new DoublePlane((DoubleVector3)propertyValues["Point"], (Vector3)propertyValues["Normal"]);
+            return new((DoubleVector3)propertyValues["Point"], (Vector3)propertyValues["Normal"]);
         }
     }
 }

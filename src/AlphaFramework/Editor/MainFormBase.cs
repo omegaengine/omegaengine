@@ -46,7 +46,7 @@ namespace AlphaFramework.Editor
                 {
                     if (value)
                     {
-                        _waitDialog = new AsyncWaitDialog("AlphEditor - " + Resources.Loading, Icon);
+                        _waitDialog = new("AlphEditor - " + Resources.Loading, Icon);
                         _waitDialog.Start();
                     }
                     else
@@ -94,7 +94,7 @@ namespace AlphaFramework.Editor
         #endregion
 
         #region Tab control
-        protected readonly Dictionary<Tab, ToolStripButton> Tabs = new Dictionary<Tab, ToolStripButton>();
+        protected readonly Dictionary<Tab, ToolStripButton> Tabs = new();
 
         #region Add tab
         protected void AddTab(Tab tab)

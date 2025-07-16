@@ -65,14 +65,14 @@ namespace OmegaEngine.Graphics.Renderables
             float tu = size.Width / 1500;
             float tv = size.Height / 1500;
 
-            var vertexes = new[]
-            {
-                new PositionNormalTextured(new Vector3(0, 0, 0), new Vector3(0, 1, 0), 0, 0),
-                new PositionNormalTextured(new Vector3(size.Width, 0, 0), new Vector3(0, 1, 0), tu, 0),
-                new PositionNormalTextured(new Vector3(0, 0, -size.Height), new Vector3(0, 1, 0), 0, tv),
-                new PositionNormalTextured(new Vector3(size.Width, 0, -size.Height), new Vector3(0, 1, 0), tu, tv)
-            };
-            short[] indexes = {0, 1, 3, 3, 2, 0};
+            PositionNormalTextured[] vertexes =
+            [
+                new(new Vector3(0, 0, 0), new Vector3(0, 1, 0), 0, 0),
+                new(new Vector3(size.Width, 0, 0), new Vector3(0, 1, 0), tu, 0),
+                new(new Vector3(0, 0, -size.Height), new Vector3(0, 1, 0), 0, tv),
+                new(new Vector3(size.Width, 0, -size.Height), new Vector3(0, 1, 0), tu, tv)
+            ];
+            short[] indexes = [0, 1, 3, 3, 2, 0];
 
             var mesh = new Mesh(engine.Device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionNormalTextured.Format);
             BufferHelper.WriteVertexBuffer(mesh, vertexes);

@@ -67,7 +67,7 @@ namespace OmegaEngine
             _fogColor = Color.Empty;
             _fogStart = _fogEnd = 0;
             _alphaBlend = 0;
-            _worldTransform = _viewTransform = _projectionTransform = new Matrix();
+            _worldTransform = _viewTransform = _projectionTransform = new();
         }
         #endregion
 

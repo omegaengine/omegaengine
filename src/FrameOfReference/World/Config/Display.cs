@@ -80,7 +80,7 @@ namespace FrameOfReference.World.Config
                 if (!string.IsNullOrEmpty(value))
                 {
                     string[] components = value.Split('x');
-                    Resolution = new Size(
+                    Resolution = new(
                         int.Parse(components[0], CultureInfo.InvariantCulture),
                         int.Parse(components[1], CultureInfo.InvariantCulture));
                 }
@@ -88,7 +88,7 @@ namespace FrameOfReference.World.Config
             #endregion
         }
 
-        private Size _windowSize = new Size(1024, 768);
+        private Size _windowSize = new(1024, 768);
 
         /// <summary>
         /// The size of the render window
@@ -100,7 +100,7 @@ namespace FrameOfReference.World.Config
             set
             {
                 if (value == Size.Empty)
-                    value = new Size(1024, 768);
+                    value = new(1024, 768);
                 value.To(ref _windowSize, OnChanged);
             }
         }

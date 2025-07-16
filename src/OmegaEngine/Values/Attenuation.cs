@@ -25,7 +25,7 @@ namespace OmegaEngine.Values
         /// <summary>
         /// Value for no attenuation over distance.
         /// </summary>
-        public static readonly Attenuation None = new Attenuation(1, 0, 0);
+        public static readonly Attenuation None = new(1, 0, 0);
         #endregion
 
         /// <summary>
@@ -65,10 +65,10 @@ namespace OmegaEngine.Values
         public override string ToString() => $"(Constant: {Constant}, Linear: {Linear}, Quadratic: {Quadratic})";
 
         /// <summary>Convert <see cref="Attenuation"/> into <see cref="Vector4"/></summary>
-        public static explicit operator Vector4(Attenuation attenuation) => new Vector4(attenuation.Constant, attenuation.Linear, attenuation.Quadratic, 0);
+        public static explicit operator Vector4(Attenuation attenuation) => new(attenuation.Constant, attenuation.Linear, attenuation.Quadratic, 0);
 
         /// <summary>Convert <see cref="Vector4"/> into <see cref="Attenuation"/></summary>
-        public static explicit operator Attenuation(Vector4 vector) => new Attenuation(vector.X, vector.Y, vector.Z);
+        public static explicit operator Attenuation(Vector4 vector) => new(vector.X, vector.Y, vector.Z);
         #endregion
 
         #region Equality

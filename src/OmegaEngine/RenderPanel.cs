@@ -22,7 +22,7 @@ namespace OmegaEngine
     public class RenderPanel : TouchPanel
     {
         #region Variables
-        private readonly Timer _renderTimer = new Timer {Interval = 33};
+        private readonly Timer _renderTimer = new() {Interval = 33};
         #endregion
 
         #region Properties
@@ -84,7 +84,7 @@ namespace OmegaEngine
         {
             base.OnResize(eventargs);
 
-            if (Engine != null) Engine.Config = new EngineConfig {TargetSize = ClientSize};
+            if (Engine != null) Engine.Config = new() {TargetSize = ClientSize};
         }
         #endregion
 
@@ -105,10 +105,10 @@ namespace OmegaEngine
         {
             if (Engine == null)
             {
-                Engine = new Engine(this, new EngineConfig {TargetSize = ClientSize});
-                KeyboardInputProvider = new KeyboardInputProvider(this);
-                MouseInputProvider = new MouseInputProvider(this);
-                TouchInputProvider = new TouchInputProvider(this);
+                Engine = new(this, new() {TargetSize = ClientSize});
+                KeyboardInputProvider = new(this);
+                MouseInputProvider = new(this);
+                TouchInputProvider = new(this);
             }
 
             return Engine;

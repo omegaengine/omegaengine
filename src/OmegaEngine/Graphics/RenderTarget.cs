@@ -112,7 +112,7 @@ namespace OmegaEngine.Graphics
             if (!_engine.IsDisposed)
             {
                 // Use the engine's default viewport if selected
-                Viewport = (Size == Size.Empty) ? _engine.RenderViewport : new Viewport {Width = Size.Width, Height = Size.Height, MaxZ = 1};
+                Viewport = (Size == Size.Empty) ? _engine.RenderViewport : new() {Width = Size.Width, Height = Size.Height, MaxZ = 1};
 
                 // Dispose the _rtsHelper if it already exists but the size has changed
                 new Size(Viewport.Width, Viewport.Height).To(ref _rtsHelperSize, delegate
@@ -128,7 +128,7 @@ namespace OmegaEngine.Graphics
                 _rtsHelper?.OnResetDevice();
 
                 // Create the target texture and surface
-                Texture = new Texture(_engine.Device, Viewport.Width, Viewport.Height, 1,
+                Texture = new(_engine.Device, Viewport.Width, Viewport.Height, 1,
                     Usage.RenderTarget, _engine.PresentParams.BackBufferFormat, Pool.Default);
                 Surface = Texture.GetSurfaceLevel(0);
             }
@@ -152,7 +152,7 @@ namespace OmegaEngine.Graphics
             // Don't initialise this earlier, would cause trouble with resetting the device
             if (_rtsHelper == null)
             {
-                _rtsHelper = new RenderToSurface(_engine.Device, _rtsHelperSize.Width, _rtsHelperSize.Height,
+                _rtsHelper = new(_engine.Device, _rtsHelperSize.Width, _rtsHelperSize.Height,
                     _engine.PresentParams.BackBufferFormat, _engine.PresentParams.AutoDepthStencilFormat);
             }
 

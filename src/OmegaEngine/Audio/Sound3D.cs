@@ -58,7 +58,7 @@ namespace OmegaEngine.Audio
             if (sound == null) throw new ArgumentNullException(nameof(sound));
             #endregion
 
-            _buffer3D = new SoundBuffer3D(SoundBuffer);
+            _buffer3D = new(SoundBuffer);
         }
         #endregion
 

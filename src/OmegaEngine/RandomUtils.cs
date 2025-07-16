@@ -23,7 +23,7 @@ namespace OmegaEngine
         /// <summary>
         /// Global random generator
         /// </summary>
-        private static readonly Random _randomGenerator = new Random();
+        private static readonly Random _randomGenerator = new();
         #endregion
 
         #region One dimensional
@@ -90,7 +90,7 @@ namespace OmegaEngine
         /// <param name="min">minimum for each component</param>
         /// <param name="max">maximum for each component</param>
         [Pure]
-        public static Vector2 GetRandomVector2(Vector2 min, Vector2 max) => new Vector2(GetRandomFloat(min.X, max.X), GetRandomFloat(min.Y, max.Y));
+        public static Vector2 GetRandomVector2(Vector2 min, Vector2 max) => new(GetRandomFloat(min.X, max.X), GetRandomFloat(min.Y, max.Y));
 
         /// <summary>
         /// Get a random Vector3 value between <paramref name="min"/> and <paramref name="max"/>
@@ -98,7 +98,7 @@ namespace OmegaEngine
         /// <param name="min">minimum for each component</param>
         /// <param name="max">maximum for each component</param>
         [Pure]
-        public static Vector3 GetRandomVector3(Vector3 min, Vector3 max) => new Vector3(
+        public static Vector3 GetRandomVector3(Vector3 min, Vector3 max) => new(
             GetRandomFloat(min.X, max.X),
             GetRandomFloat(min.Y, max.Y),
             GetRandomFloat(min.Z, max.Z));

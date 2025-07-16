@@ -233,7 +233,7 @@ namespace OmegaEngine.Assets
             {
                 using (new TimedLogEvent("Loading mesh: " + id))
                 using (var stream = ContentManager.GetFileStream(type, id))
-                    data = new XMesh(engine, stream, id) {Name = fullID};
+                    data = new(engine, stream, id) {Name = fullID};
                 engine.Cache.AddAsset(data);
             }
 

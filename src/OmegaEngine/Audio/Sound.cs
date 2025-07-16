@@ -92,7 +92,7 @@ namespace OmegaEngine.Audio
                 Flags = BufferFlags.ControlVolume | BufferFlags.Control3D
             };
 
-            SoundBuffer = new SecondarySoundBuffer(Engine.AudioDevice, description);
+            SoundBuffer = new(Engine.AudioDevice, description);
             var data = new byte[description.SizeInBytes];
             Asset.SoundData.Read(data, 0, (int)Asset.SoundData.Length);
             SoundBuffer.Write(data, 0, LockFlags.None);

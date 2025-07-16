@@ -96,7 +96,7 @@ namespace OmegaEngine.Assets
             {
                 using (new TimedLogEvent("Loading animated mesh: " + id))
                 using (var stream = ContentManager.GetFileStream(type, id))
-                    data = new XAnimatedMesh(engine, stream, id) {Name = fullID};
+                    data = new(engine, stream, id) {Name = fullID};
                 engine.Cache.AddAsset(data);
             }
 

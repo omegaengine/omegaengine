@@ -68,7 +68,7 @@ namespace OmegaEngine.Graphics
             else
             { // Use a custom viewport
                 // Convert the area rectangle to a viewport
-                _viewport = new Viewport {X = _area.X, Y = _area.Y, Width = _area.Width, Height = _area.Height, MaxZ = 1};
+                _viewport = new() {X = _area.X, Y = _area.Y, Width = _area.Width, Height = _area.Height, MaxZ = 1};
 
                 // Trim the viewport size if it sticks over the edge
                 if (_viewport.X + _viewport.Width > Engine.RenderSize.Width)
@@ -185,7 +185,7 @@ namespace OmegaEngine.Graphics
             if (RenderTarget != null) return;
 
             using (new ProfilerEvent("Prepare render target texture"))
-                RenderTarget = new RenderTarget(Engine, _area.Size);
+                RenderTarget = new(Engine, _area.Size);
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace OmegaEngine.Graphics
             if (_secondaryRenderTarget == null)
             {
                 using (new ProfilerEvent("Prepare secondary render target texture"))
-                    _secondaryRenderTarget = new RenderTarget(Engine, _area.Size);
+                    _secondaryRenderTarget = new(Engine, _area.Size);
             }
 
             // Swap the render targets
@@ -216,8 +216,8 @@ namespace OmegaEngine.Graphics
             {
                 Engine.Device.StretchRectangle(
                     Engine.BackBuffer,
-                    new Rectangle(_viewport.X, _viewport.Y, _viewport.Width, _viewport.Height),
-                    RenderTarget.Surface, new Rectangle(0, 0, _viewport.Width, _viewport.Height),
+                    new(_viewport.X, _viewport.Y, _viewport.Width, _viewport.Height),
+                    RenderTarget.Surface, new(0, 0, _viewport.Width, _viewport.Height),
                     TextureFilter.None);
             }
         }

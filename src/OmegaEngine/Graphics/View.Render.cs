@@ -246,7 +246,7 @@ namespace OmegaEngine.Graphics
             }
 
             // Update transformation matrices
-            Camera.Size = new Size(_viewport.Width, _viewport.Height);
+            Camera.Size = new(_viewport.Width, _viewport.Height);
             #endregion
 
             using (new ProfilerEvent(() => "Sort bodies for " + this))

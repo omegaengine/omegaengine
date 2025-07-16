@@ -37,7 +37,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
-        public static Version MinShaderModel => new Version(1, 4);
+        public static Version MinShaderModel => new(1, 4);
 
         private float _blendDistance = 400, _blendWidth = 700;
 

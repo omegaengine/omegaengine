@@ -39,7 +39,7 @@ namespace FrameOfReference.World
     /// </summary>
     public sealed partial class Universe : UniverseBase<Vector2>
     {
-        private readonly MonitoredCollection<Positionable<Vector2>> _positionables = new MonitoredCollection<Positionable<Vector2>>();
+        private readonly MonitoredCollection<Positionable<Vector2>> _positionables = [];
 
         /// <inheritdoc/>
         [Browsable(false)]
@@ -132,7 +132,7 @@ namespace FrameOfReference.World
 
             if (!entity.IsPlayerControlled || entity.TemplateData.Movement == null) return;
 
-            entity.Waypoints.Add(new Waypoint {TargetEntity = entity.Name, ActivationTime = GameTime, Position = target, OriginPosition = entity.Position});
+            entity.Waypoints.Add(new() {TargetEntity = entity.Name, ActivationTime = GameTime, Position = target, OriginPosition = entity.Position});
             entity.ActiveWaypointIndex = entity.Waypoints.Count - 1;
 
             StartMoving(entity, target);

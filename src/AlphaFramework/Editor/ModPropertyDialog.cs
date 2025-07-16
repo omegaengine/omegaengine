@@ -157,7 +157,7 @@ namespace AlphaFramework.Editor
                 }
                 #endregion
 
-                _info = new ModInfo();
+                _info = new();
             }
 
             // Store mod information

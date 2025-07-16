@@ -28,7 +28,7 @@ namespace OmegaEngine.Graphics.Cameras
         [Description("The position the camera is looking at."), Category("Layout")]
         public virtual DoubleVector3 Target { get { return _target; } set { value.To(ref _target, ref ViewDirty, ref ViewFrustumDirty); } }
 
-        private Vector3 _upVector = new Vector3(0, 1, 0);
+        private Vector3 _upVector = new(0, 1, 0);
 
         /// <summary>
         /// A vector indicating the up-direction
@@ -45,7 +45,7 @@ namespace OmegaEngine.Graphics.Cameras
         /// </summary>
         protected override void UpdateView()
         {
-            SimpleViewCached = Matrix.LookAtLH(new Vector3(), _target.ApplyOffset(PositionCached), _upVector);
+            SimpleViewCached = Matrix.LookAtLH(new(), _target.ApplyOffset(PositionCached), _upVector);
             ViewCached = Matrix.LookAtLH(PositionCached.ApplyOffset(PositionBaseCached), _target.ApplyOffset(PositionBaseCached), _upVector);
 
             CacheSpecialMatrices();

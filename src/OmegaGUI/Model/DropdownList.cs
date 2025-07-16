@@ -53,7 +53,7 @@ namespace OmegaGUI.Model
         [Description("A list of strings selectable in the control"), Category("Data"), MergableProperty(false),
          Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
         [XmlElement("Item")]
-        public MonitoredCollection<string> Items { get; } = new MonitoredCollection<string>();
+        public MonitoredCollection<string> Items { get; } = [];
 
         private string _selectedItem;
 
@@ -101,7 +101,7 @@ namespace OmegaGUI.Model
         {
             Items.Changed += delegate { if (_dropdownList != null) LoadItems(); };
 
-            Size = new Size(140, 30);
+            Size = new(140, 30);
         }
         #endregion
 

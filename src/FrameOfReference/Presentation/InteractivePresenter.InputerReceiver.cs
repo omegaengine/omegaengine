@@ -94,19 +94,19 @@ namespace FrameOfReference.Presentation
             using (new TimedLogEvent("Calculating terrain coordinates for picking"))
             {
                 DoubleVector3 topLeftPoint;
-                if (!Terrain.Intersects(View.PickingRay(new Point(area.Left, area.Top)), out topLeftPoint)) return new Quadrangle();
+                if (!Terrain.Intersects(View.PickingRay(new(area.Left, area.Top)), out topLeftPoint)) return new();
                 topLeftCoord = topLeftPoint.Flatten();
 
                 DoubleVector3 bottomLeftPoint;
-                if (!Terrain.Intersects(View.PickingRay(new Point(area.Left, area.Bottom)), out bottomLeftPoint)) return new Quadrangle();
+                if (!Terrain.Intersects(View.PickingRay(new(area.Left, area.Bottom)), out bottomLeftPoint)) return new();
                 bottomLeftCoord = bottomLeftPoint.Flatten();
 
                 DoubleVector3 bottomRightPoint;
-                if (!Terrain.Intersects(View.PickingRay(new Point(area.Right, area.Bottom)), out bottomRightPoint)) return new Quadrangle();
+                if (!Terrain.Intersects(View.PickingRay(new(area.Right, area.Bottom)), out bottomRightPoint)) return new();
                 bottomRightCoord = bottomRightPoint.Flatten();
 
                 DoubleVector3 topRightPoint;
-                if (!Terrain.Intersects(View.PickingRay(new Point(area.Right, area.Top)), out topRightPoint)) return new Quadrangle();
+                if (!Terrain.Intersects(View.PickingRay(new(area.Right, area.Top)), out topRightPoint)) return new();
                 topRightCoord = topRightPoint.Flatten();
             }
 
@@ -140,7 +140,7 @@ namespace FrameOfReference.Presentation
                     { // Action: Left-click on entity to select it
                         try
                         {
-                            PickPositionables(new[] {RenderablesSync.Lookup(pickedObject)}, accumulate);
+                            PickPositionables([RenderablesSync.Lookup(pickedObject)], accumulate);
                         }
                         catch (KeyNotFoundException)
                         {}

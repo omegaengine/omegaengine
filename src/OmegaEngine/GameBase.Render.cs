@@ -38,7 +38,7 @@ namespace OmegaEngine
         /// <param name="fullscreen">Shall the configuration be generated for fullscreen mode?</param>
         protected virtual EngineConfig BuildEngineConfig(bool fullscreen)
         {
-            return new EngineConfig
+            return new()
             {
                 Fullscreen = fullscreen,
                 TargetSize = fullscreen ? Screen.PrimaryScreen.Bounds.Size : Form.ClientSize
@@ -68,7 +68,7 @@ namespace OmegaEngine
                 // Initialize engine
                 try
                 {
-                    Engine = new Engine(Form, BuildEngineConfig(fullscreen: false)); // No fullscreen while loading
+                    Engine = new(Form, BuildEngineConfig(fullscreen: false)); // No fullscreen while loading
                     ApplyGraphicsSettings();
                 }
                     #region Error handling

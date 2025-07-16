@@ -30,7 +30,7 @@ namespace AlphaFramework.Editor
 
         #region Variables
         private string _modProjectFile, _modDirPath;
-        private readonly FastZipEvents _fastZipEvents = new FastZipEvents();
+        private readonly FastZipEvents _fastZipEvents = new();
         private readonly FastZip _fastZip;
         #endregion
 
@@ -42,7 +42,7 @@ namespace AlphaFramework.Editor
             saveFileDialog.DefaultExt = FileExt;
             saveFileDialog.Filter = string.Format("Mod package (*{0})|*{0}", FileExt);
 
-            _fastZip = new FastZip(_fastZipEvents);
+            _fastZip = new(_fastZipEvents);
             _fastZipEvents.Progress += ((sender, e) =>
                 e.ContinueRunning = !backgroundWorker.CancellationPending);
         }

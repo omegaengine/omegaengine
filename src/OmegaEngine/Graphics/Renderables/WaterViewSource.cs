@@ -26,7 +26,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// A vector indicating the up-direction
         /// </summary>
-        public static Vector3 UpVector = new Vector3(0, 1, 0);
+        public static Vector3 UpVector = new(0, 1, 0);
 
         /// <summary>
         /// The height of the <see cref="Water"/> planes (Y axis)
@@ -79,12 +79,12 @@ namespace OmegaEngine.Graphics.Renderables
             // Create child views
             var position = new DoubleVector3(0, height, 0);
 
-            RefractedView = WaterView.CreateRefraction(baseView, new DoublePlane(position, -1 * UpVector), clipTolerance);
-            ReflectedView = WaterView.CreateReflection(baseView, new DoublePlane(position, UpVector), clipTolerance);
+            RefractedView = WaterView.CreateRefraction(baseView, new(position, -1 * UpVector), clipTolerance);
+            ReflectedView = WaterView.CreateReflection(baseView, new(position, UpVector), clipTolerance);
 
             // Load shaders
-            RefractionOnlyShader = new WaterShader(RefractedView);
-            RefractionReflectionShader = new WaterShader(RefractedView, ReflectedView);
+            RefractionOnlyShader = new(RefractedView);
+            RefractionReflectionShader = new(RefractedView, ReflectedView);
         }
         #endregion
 
@@ -112,7 +112,7 @@ namespace OmegaEngine.Graphics.Renderables
                              candidate.ClipTolerance == clipTolerance);
             // ReSharper restore CompareOfFloatsByEqualityOperator
 
-            if (view == null) engine.WaterViewSources.Add(view = new WaterViewSource(height, baseView, clipTolerance));
+            if (view == null) engine.WaterViewSources.Add(view = new(height, baseView, clipTolerance));
 
             view.ReferenceCount++;
             return view;

@@ -177,7 +177,7 @@ namespace OmegaGUI.Model
             }
         }
 
-        private Size _size = new Size(32, 32);
+        private Size _size = new(32, 32);
 
         /// <summary>
         /// The size of the control on the dialog
@@ -229,7 +229,7 @@ namespace OmegaGUI.Model
         /// The effective area on the window were this control is rendered
         /// </summary>
         [Browsable(false)]
-        public Rectangle DrawBox => new Rectangle(EffectiveLocation, EffectiveSize);
+        public Rectangle DrawBox => new(EffectiveLocation, EffectiveSize);
         #endregion
 
         #region Events

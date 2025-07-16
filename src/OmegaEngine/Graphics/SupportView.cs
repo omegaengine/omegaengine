@@ -50,7 +50,7 @@ namespace OmegaEngine.Graphics
         /// <returns>.</returns>
         private static Size SupportSize(Size size)
         {
-            return new Size(size.Width * 2 / 3, size.Height * 2 / 3);
+            return new(size.Width * 2 / 3, size.Height * 2 / 3);
         }
         #endregion
 
@@ -84,7 +84,7 @@ namespace OmegaEngine.Graphics
         internal override void Render()
         {
             // Keep the size in sync with the base view
-            Area = new Rectangle(new Point(), SupportSize(BaseView.Area.Size));
+            Area = new(new(), SupportSize(BaseView.Area.Size));
 
             base.Render();
         }

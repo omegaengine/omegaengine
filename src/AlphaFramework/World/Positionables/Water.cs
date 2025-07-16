@@ -29,7 +29,7 @@ namespace AlphaFramework.World.Positionables
         /// World height = Engine +Y
         /// </remarks>
         [Browsable(false)]
-        public DoubleVector3 EnginePosition => new DoubleVector3(Position.X, Height, -Position.Y);
+        public DoubleVector3 EnginePosition => new(Position.X, Height, -Position.Y);
 
         private Vector2 _size;
 

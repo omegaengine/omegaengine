@@ -132,7 +132,7 @@ namespace OmegaEngine.Graphics
         /// The center point of <see cref="Area"/>
         /// </summary>
         [Browsable(false)]
-        public Point AreaCenter => new Point(
+        public Point AreaCenter => new(
             _area.Location.X + _area.Size.Width / 2,
             _area.Location.Y + _area.Size.Height / 2);
         #endregion
@@ -175,7 +175,7 @@ namespace OmegaEngine.Graphics
         #endregion
 
         #region Content
-        private readonly EngineElementCollection<TextureView> _childViews = new EngineElementCollection<TextureView>();
+        private readonly EngineElementCollection<TextureView> _childViews = new();
 
         /// <summary>
         /// A list of <see cref="TextureView"/>s that are to be <see cref="Render"/>ed before this <see cref="View"/>.
@@ -200,7 +200,7 @@ namespace OmegaEngine.Graphics
         [Browsable(false)]
         public Scene Scene { get; }
 
-        private readonly EngineElementCollection<FloatingModel> _floatingModels = new EngineElementCollection<FloatingModel>();
+        private readonly EngineElementCollection<FloatingModel> _floatingModels = new();
 
         /// <summary>
         /// A list of <see cref="FloatingModel"/>s to be overlayed on top of the <see cref="Scene"/>. Use this for UI-like elements, e.g. axis-arrows.
@@ -209,7 +209,7 @@ namespace OmegaEngine.Graphics
         [Browsable(false)]
         public ICollection<FloatingModel> FloatingModels => _floatingModels;
 
-        private readonly EngineElementCollection<PostShader> _postShaders = new EngineElementCollection<PostShader>();
+        private readonly EngineElementCollection<PostShader> _postShaders = new();
 
         /// <summary>
         /// A list of post-processing shaders to be applied after rendering the scene
@@ -234,7 +234,7 @@ namespace OmegaEngine.Graphics
         /// <param name="scene">The scene containing the <see cref="PositionableRenderable"/>s to be rendered. Will NOT be disposed when <see cref="EngineElement.Dispose"/> is called.</param>
         /// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
         /// <param name="area">The screen area this view should fill (leave empty for fullscreen)</param>
-        public View(Scene scene, Camera camera, Rectangle area = new Rectangle())
+        public View(Scene scene, Camera camera, Rectangle area = new())
         {
             #region Sanity checks
             if (scene == null) throw new ArgumentNullException(nameof(scene));
@@ -256,7 +256,7 @@ namespace OmegaEngine.Graphics
         /// Creates a new view for rendering a plain color fullscreen
         /// </summary>
         /// <param name="color">The plain color to render</param>
-        public View(Color color) : this(new Scene(), new TrackCamera(1, 10))
+        public View(Color color) : this(new(), new TrackCamera(1, 10))
         {
             _backgroundColor = color;
             _disposeScene = true;
@@ -326,12 +326,12 @@ namespace OmegaEngine.Graphics
                 1.0f);
 
             // Transform from screen space into world space
-            direction = new Vector3(
+            direction = new(
                 direction.X * m.M11 + direction.Y * m.M21 + direction.Z * m.M31,
                 direction.X * m.M12 + direction.Y * m.M22 + direction.Z * m.M32,
                 direction.X * m.M13 + direction.Y * m.M23 + direction.Z * m.M33);
 
-            return new Ray(point, direction);
+            return new(point, direction);
         }
 
         /// <summary>
@@ -386,7 +386,7 @@ namespace OmegaEngine.Graphics
             #endregion
 
             // Create the transitional camera and make it active
-            Camera = _cinematicCamera = new CinematicCamera(
+            Camera = _cinematicCamera = new(
                 sourcePosition: Camera.Position,
                 targetPosition: target.Position,
                 sourceQuat: Quaternion.RotationMatrix(Camera.View),

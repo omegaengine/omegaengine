@@ -88,7 +88,7 @@ namespace OmegaEngine.Graphics.Renderables
         {
             Alive = true;
             Position = position;
-            Color = new Color4(parameters1.Color);
+            Color = new(parameters1.Color);
 
             Parameters1 = parameters1;
             Parameters2 = parameters2;
@@ -153,7 +153,7 @@ namespace OmegaEngine.Graphics.Renderables
 
             // Update color
             float currentDeltaColor = (SecondLife ? Parameters2.DeltaColor : Parameters1.DeltaColor) * elapsedTime;
-            Color = new Color4(
+            Color = new(
                 (Color.Red - currentDeltaColor).Clamp(),
                 (Color.Green - currentDeltaColor).Clamp(),
                 (Color.Blue - currentDeltaColor).Clamp());
@@ -175,7 +175,7 @@ namespace OmegaEngine.Graphics.Renderables
 
             // Calculate the world transform
             engine.State.WorldTransform =
-                Matrix.Scaling(new Vector3(Size)) *
+                Matrix.Scaling(new(Size)) *
                 camera.SphericalBillboard *
                 Matrix.Translation(Position.ApplyOffset(camera.PositionBase));
 

@@ -11,7 +11,7 @@ namespace OmegaEngine
     internal sealed class EngineElementCollection<T> : EngineElement, ICollection<T>
         where T : EngineElement
     {
-        private readonly List<T> _innerList = new List<T>();
+        private readonly List<T> _innerList = [];
 
         protected override void OnEngineSet()
         {

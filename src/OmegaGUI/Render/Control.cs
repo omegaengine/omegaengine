@@ -45,7 +45,7 @@ namespace OmegaGUI.Render
         protected int controlX, controlY, width, height; // Size, scale, and positioning members
 
         [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "There will never be any need for a different collection type")]
-        protected List<Element> elementList = new List<Element>(); // All display elements
+        protected List<Element> elementList = []; // All display elements
         #endregion
 
         public event EventHandler MouseEnter , MouseExit;
@@ -178,7 +178,7 @@ namespace OmegaGUI.Render
                 for (var i = (uint)elementList.Count; i <= elementIndex; i++)
                 {
                     // Add a new one
-                    elementList.Add(new Element());
+                    elementList.Add(new());
                 }
                 // Update the data (with a clone)
                 elementList[(int)elementIndex] = value.Clone();
@@ -208,7 +208,7 @@ namespace OmegaGUI.Render
         /// </summary>
         protected virtual void UpdateRectangles()
         {
-            boundingBox = new Rectangle(controlX, controlY, width, height);
+            boundingBox = new(controlX, controlY, width, height);
         }
     }
 }

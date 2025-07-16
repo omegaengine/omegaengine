@@ -139,7 +139,7 @@ namespace OmegaEngine.Graphics.Renderables
         [Browsable(false)]
         public Matrix PreTransform { get { return _preTransform; } set { value.To(ref _preTransform, ref WorldTransformDirty); } }
 
-        private Vector3 _scale = new Vector3(1, 1, 1);
+        private Vector3 _scale = new(1, 1, 1);
 
         /// <summary>
         /// Scaling to be performed before rendering
@@ -316,7 +316,7 @@ namespace OmegaEngine.Graphics.Renderables
         #endregion
 
         // Order is not important, duplicate entries are not allowed
-        private readonly HashSet<View> _requiredViews = new HashSet<View>();
+        private readonly HashSet<View> _requiredViews = [];
         private SurfaceShader _surfaceShader;
 
         /// <summary>

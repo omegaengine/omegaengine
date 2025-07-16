@@ -36,7 +36,7 @@ namespace OmegaEngine
         /// <param name="height">The height to scale the resolution down too</param>
         public void Screenshot(string filename, int width, int height)
         {
-            Screenshot(filename, new Size(width, height));
+            Screenshot(filename, new(width, height));
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace OmegaEngine
             Render(0, true);
 
             // Copy the BackBuffer to the file
-            Surface.ToFile(BackBuffer, filename, ImageFileFormat.Jpg, new Rectangle(new Point(), size));
+            Surface.ToFile(BackBuffer, filename, ImageFileFormat.Jpg, new(new(), size));
             Log.Info("Screenshot created");
 
             if (sizeBackup != Size.Empty)
@@ -109,7 +109,7 @@ namespace OmegaEngine
             // Only create a new form if there isn't already one open
             if (_debugForm == null)
             {
-                _debugForm = new DebugForm(this);
+                _debugForm = new(this);
 
                 // Remove the reference as soon the form is closed
                 _debugForm.FormClosed += delegate { _debugForm = null; };

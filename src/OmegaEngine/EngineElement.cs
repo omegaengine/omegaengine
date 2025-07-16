@@ -50,7 +50,7 @@ namespace OmegaEngine
 
         #region Engine
         private Engine _engine;
-        private readonly List<EngineElement> _toSetEngine = new List<EngineElement>();
+        private readonly List<EngineElement> _toSetEngine = [];
 
         /// <summary>
         /// The <see cref="Engine"/> instance used by this object. Must be set before using the object. May not be changed once it has been set!
@@ -98,7 +98,7 @@ namespace OmegaEngine
         #endregion
 
         #region Dispose
-        private readonly List<EngineElement> _toDispose = new List<EngineElement>();
+        private readonly List<EngineElement> _toDispose = [];
 
         /// <summary>
         /// Indicates whether this object has been disposed and can therefore no longer be used.

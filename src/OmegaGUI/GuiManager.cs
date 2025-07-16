@@ -41,9 +41,9 @@ namespace OmegaGUI
         #region Variables
         private readonly Engine _engine;
 
-        private readonly List<DialogRenderer> _normalDialogs = new List<DialogRenderer>();
-        private readonly List<DialogRenderer> _modalDialogs = new List<DialogRenderer>();
-        private readonly List<Lua> _pendingLuaDisposes = new List<Lua>();
+        private readonly List<DialogRenderer> _normalDialogs = [];
+        private readonly List<DialogRenderer> _modalDialogs = [];
+        private readonly List<Lua> _pendingLuaDisposes = [];
 
         private Stopwatch _timer;
         private float _timeSinceLastUpdate;
@@ -66,7 +66,7 @@ namespace OmegaGUI
             #endregion
 
             _engine = engine;
-            DialogManager = new Render.DialogManager(engine);
+            DialogManager = new(engine);
             engine.ExtraRender += Render;
         }
         #endregion
@@ -127,7 +127,7 @@ namespace OmegaGUI
         {
             CloseAll();
             DialogManager.Dispose();
-            DialogManager = new Render.DialogManager(_engine);
+            DialogManager = new(_engine);
         }
         #endregion
 

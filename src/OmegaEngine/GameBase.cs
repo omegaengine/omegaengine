@@ -109,11 +109,11 @@ namespace OmegaEngine
         protected GameBase(string name, Icon icon = null, Image background = null, bool stretch = false)
         {
             // Setup render-target form
-            Form = new GameForm
+            Form = new()
             {
                 Text = name, Icon = icon,
                 BackgroundImage = background, BackgroundImageLayout = stretch ? ImageLayout.Stretch : ImageLayout.Center, BackColor = Color.Black,
-                MinimumSize = new Size(800, 600), Size = new Size(800, 600), MaximizeBox = false
+                MinimumSize = new(800, 600), Size = new(800, 600), MaximizeBox = false
             };
 
             // Setup event hooks
@@ -126,9 +126,9 @@ namespace OmegaEngine
             };
 
             // Start tracking input
-            KeyboardInputProvider = new KeyboardInputProvider(Form);
-            MouseInputProvider = new MouseInputProvider(Form);
-            TouchInputProvider = new TouchInputProvider(Form);
+            KeyboardInputProvider = new(Form);
+            MouseInputProvider = new(Form);
+            TouchInputProvider = new(Form);
         }
         #endregion
 
@@ -227,7 +227,7 @@ namespace OmegaEngine
 
             // Place the window in the top-left corner
             Form.StartPosition = FormStartPosition.Manual;
-            Form.Location = new Point(0, 0);
+            Form.Location = new(0, 0);
 
             // Make the window fill the entire screen (no need to maximize the window)
             Form.Size = Screen.PrimaryScreen.Bounds.Size;
@@ -249,7 +249,7 @@ namespace OmegaEngine
             Form.ClientSize = size;
 
             // Move the window away from the top-left corner if we're coming from fullscreen-mode
-            if (Fullscreen) Form.Location = new Point(20, 20);
+            if (Fullscreen) Form.Location = new(20, 20);
 
             Fullscreen = false;
         }
@@ -304,7 +304,7 @@ namespace OmegaEngine
             // Only create a new form if there isn't already one open
             if (_debugConsole == null)
             {
-                _debugConsole = new DebugConsole(NewLua());
+                _debugConsole = new(NewLua());
                 _debugConsole.Text = Application.ProductName + @" " + _debugConsole.Text;
 
                 // Remove the reference as soon the form is closed
@@ -398,7 +398,7 @@ namespace OmegaEngine
         protected virtual void Dispose(bool disposing)
         {
             // Unlock the mouse cursor
-            Cursor.Clip = new Rectangle();
+            Cursor.Clip = new();
 
             if (disposing)
             { // This block will only be executed on manual disposal, not by Garbage Collection

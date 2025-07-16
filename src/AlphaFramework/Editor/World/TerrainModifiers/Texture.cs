@@ -47,7 +47,7 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
         public override void Apply(Vector2 terrainCoords, TerrainBrush brush)
         {
             // Handle texture 3x scale and calculate top-left point of area to modify
-            brush = new TerrainBrush(brush.Size / 3, brush.Circle);
+            brush = new(brush.Size / 3, brush.Circle);
             var offset = new Point(
                 (int)Math.Round(terrainCoords.X / Terrain.Size.StretchH / 3) - brush.Size / 2,
                 (int)Math.Round(terrainCoords.Y / Terrain.Size.StretchH / 3) - brush.Size / 2);

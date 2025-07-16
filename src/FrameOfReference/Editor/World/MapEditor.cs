@@ -74,7 +74,7 @@ namespace FrameOfReference.Editor.World
         private readonly MultiPropertyTracker _propertyGridPositionableTracker;
 
         // Don't use WinForms designer for this, since it doesn't understand generics
-        private readonly FilteredTreeView<EntityTemplate> _entityTemplateList = new FilteredTreeView<EntityTemplate>
+        private readonly FilteredTreeView<EntityTemplate> _entityTemplateList = new()
         {
             Dock = DockStyle.Fill,
             Enabled = false
@@ -111,7 +111,7 @@ namespace FrameOfReference.Editor.World
             InitializeComponent();
             InitializeTextureComponents();
 
-            _propertyGridPositionableTracker = new MultiPropertyTracker(propertyGridPositionable);
+            _propertyGridPositionableTracker = new(propertyGridPositionable);
 
             tabPageTemplate.Controls.Add(_entityTemplateList);
             _entityTemplateList.SelectedEntryChanged += SelectedEntityTemplateChanged;
@@ -133,10 +133,10 @@ namespace FrameOfReference.Editor.World
         {
             for (int i = 0; i < 16; i++)
             {
-                _textureRadios[i] = new RadioButton {UseVisualStyleBackColor = true, AutoSize = true, Left = 6, Top = 6 + 16 * i};
+                _textureRadios[i] = new() {UseVisualStyleBackColor = true, AutoSize = true, Left = 6, Top = 6 + 16 * i};
                 tabPageTexture.Controls.Add(_textureRadios[i]);
 
-                _textureButtons[i] = new Button {UseVisualStyleBackColor = true, Size = new Size(28, 16), Left = 119, Top = 3 + 16 * i, Anchor = AnchorStyles.Top | AnchorStyles.Right, Text = @"..."};
+                _textureButtons[i] = new() {UseVisualStyleBackColor = true, Size = new(28, 16), Left = 119, Top = 3 + 16 * i, Anchor = AnchorStyles.Top | AnchorStyles.Right, Text = @"..."};
                 int templateIndex = i; // Copy to local variable to prevent modification by loop outside of closure
                 _textureButtons[i].Click += delegate
                 {
@@ -173,7 +173,7 @@ namespace FrameOfReference.Editor.World
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
-                    _universe = new Universe(new Terrain<TerrainTemplate>(TerrainSizeDialog.Create()));
+                    _universe = new(new(TerrainSizeDialog.Create()));
                     _universe.Save(_fullPath);
                 }
             }
@@ -243,7 +243,7 @@ namespace FrameOfReference.Editor.World
             // Setup the presentator on startup or when it was lost/reset
             if (_presenter == null)
             {
-                _presenter = new EditorPresenter(renderPanel.Engine, _universe, false)
+                _presenter = new(renderPanel.Engine, _universe, false)
                 {
                     WireframeTerrain = checkWireframe.Checked
                 };
@@ -251,7 +251,7 @@ namespace FrameOfReference.Editor.World
                 _presenter.HookIn();
 
                 renderPanel.AddInputReceiver(_presenter); // Update the presenter based on user input
-                renderPanel.AddInputReceiver(_updateReceiver = new UpdateReceiver(() => renderPanel.Engine.Render())); // Force immediate redraw to give responsive feel
+                renderPanel.AddInputReceiver(_updateReceiver = new(() => renderPanel.Engine.Render())); // Force immediate redraw to give responsive feel
 
                 UpdatePaintingStatus(null, EventArgs.Empty);
 
@@ -312,7 +312,7 @@ namespace FrameOfReference.Editor.World
             // Keep existing dialog instance
             if (_mapPropertiesTool != null) return;
 
-            _mapPropertiesTool = new MapPropertiesTool(_universe);
+            _mapPropertiesTool = new(_universe);
             _mapPropertiesTool.ExecuteCommand += ExecuteCommandSafe;
 
             // Clear the reference when the dialog is disposed
@@ -534,7 +534,7 @@ namespace FrameOfReference.Editor.World
 
         private void AddNewPositionable(Positionable<Vector2> positionable)
         {
-            ExecuteCommandSafe(new AddPositionables<Vector2>(_universe, new[] {positionable}));
+            ExecuteCommandSafe(new AddPositionables<Vector2>(_universe, [positionable]));
 
             _presenter.SelectedPositionables.Clear();
             _presenter.SelectedPositionables.Add(positionable);
@@ -597,7 +597,7 @@ namespace FrameOfReference.Editor.World
         private void buttonRandomizeRotations_Click(object sender, EventArgs e)
         {
             var commands = _presenter.SelectedPositionables.OfType<Entity>().Select(entity => new SetValueCommand<float>(
-                new PropertyPointer<float>(() => entity.Rotation, rotation => entity.Rotation = rotation),
+                new(() => entity.Rotation, rotation => entity.Rotation = rotation),
                 RandomUtils.GetRandomInt(0, 360)));
             ExecuteCommand(new CompositeCommand(commands.Cast<IUndoCommand>().ToArray()));
         }

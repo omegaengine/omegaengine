@@ -80,7 +80,7 @@ namespace OmegaGUI.Model
         #region Constructor
         public TextBox()
         {
-            Size = new Size(150, 35);
+            Size = new(150, 35);
         }
         #endregion
 

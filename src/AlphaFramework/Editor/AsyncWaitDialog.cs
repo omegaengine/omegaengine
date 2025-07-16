@@ -25,7 +25,7 @@ namespace AlphaFramework.Editor
         private readonly Thread _thread;
 
         /// <summary>A barrier that blocks threads until the window handle is ready.</summary>
-        private readonly ManualResetEvent _handleReady = new ManualResetEvent(false);
+        private readonly ManualResetEvent _handleReady = new(initialState: false);
         #endregion
 
         #region Constructor
@@ -44,7 +44,7 @@ namespace AlphaFramework.Editor
             HandleCreated += delegate { _handleReady.Set(); };
             HandleDestroyed += delegate { _handleReady.Reset(); };
 
-            _thread = new Thread(() => Application.Run(this));
+            _thread = new(() => Application.Run(this));
         }
         #endregion
 

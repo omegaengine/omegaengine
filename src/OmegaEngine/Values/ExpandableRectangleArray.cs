@@ -38,7 +38,7 @@ namespace OmegaEngine.Values
         }
 
         /// <summary>Maintains a list of all <see cref="Subset"/>s inserted so far.</summary>
-        private readonly LinkedList<Subset> _subsets = new LinkedList<Subset>();
+        private readonly LinkedList<Subset> _subsets = [];
 
         /// <summary>
         /// Insert a new subset array before any existing entries growing the rectangle as necessary.
@@ -53,7 +53,7 @@ namespace OmegaEngine.Values
             #endregion
 
             _subsets.AddFirst(new Subset(start, array));
-            ExpandArea(new Rectangle(start, new Size(array.GetLength(0), array.GetLength(1))));
+            ExpandArea(new(start, new(array.GetLength(0), array.GetLength(1))));
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace OmegaEngine.Values
             #endregion
 
             _subsets.AddLast(new Subset(start, array));
-            ExpandArea(new Rectangle(start, new Size(array.GetLength(0), array.GetLength(1))));
+            ExpandArea(new(start, new(array.GetLength(0), array.GetLength(1))));
         }
 
         /// <summary>

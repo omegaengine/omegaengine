@@ -36,8 +36,8 @@ namespace OmegaEngine
         #endregion
 
         #region Variables
-        private readonly Stopwatch _frameTimer = new Stopwatch();
-        private readonly Stopwatch _fpsTimer = new Stopwatch();
+        private readonly Stopwatch _frameTimer = new();
+        private readonly Stopwatch _fpsTimer = new();
         private long _framesCounted;
 
         private FrameLog _frameLogMode;
@@ -144,12 +144,12 @@ namespace OmegaEngine
             if (_frameLogMode == FrameLog.Off) return;
 
             // Setup log XML document
-            Profiler.LogXml = new XmlDocument();
+            Profiler.LogXml = new();
 
             // Log the GPU time as well
             if (_frameLogMode == FrameLog.CpuGpu)
             {
-                Profiler.DeviceQuery = new Query(_device, QueryType.Event);
+                Profiler.DeviceQuery = new(_device, QueryType.Event);
                 Profiler.AddEvent("Forcing render pipeline stalls to log GPU performance");
             }
         }

@@ -75,7 +75,7 @@ namespace OmegaEngine.Graphics.VertexDecl
         /// <param name="zvalue">The Z-component of the position of the vertex in entity-space</param>
         /// <param name="color">The color of the vertex</param>
         public PositionColored(float xvalue, float yvalue, float zvalue, int color)
-            : this(new Vector3(xvalue, yvalue, zvalue), color)
+            : this(new(xvalue, yvalue, zvalue), color)
         {}
         #endregion
 

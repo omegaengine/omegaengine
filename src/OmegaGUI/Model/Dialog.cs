@@ -371,7 +371,7 @@ namespace OmegaGUI.Model
         public bool Visible { get; set; } = true;
 
         #region Controls
-        private Collection<ButtonStyle> _buttonStyles = new Collection<ButtonStyle>();
+        private Collection<ButtonStyle> _buttonStyles = [];
 
         // Note: Can not use ICollection<T> interface with XML Serialization
         /// <summary>
@@ -381,7 +381,7 @@ namespace OmegaGUI.Model
         [XmlElement(typeof(ButtonStyle))]
         public Collection<ButtonStyle> ButtonStyles => _buttonStyles;
 
-        private BindingList<Control> _controls = new BindingList<Control>();
+        private BindingList<Control> _controls = [];
 
         // Note: Can not use IBindingList<T> interface with XML Serialization
 
@@ -436,7 +436,7 @@ namespace OmegaGUI.Model
 
             // Generate dialog model object
             DialogRender = TextureFileValid
-                ? new Render.Dialog(manager, ColorText.ToColorValue(), _textureFile, _fontName, (uint)(_fontSize * EffectiveScale))
+                ? new(manager, ColorText.ToColorValue(), _textureFile, _fontName, (uint)(_fontSize * EffectiveScale))
                 : new Render.Dialog(manager, ColorText.ToColorValue());
 
             // Set dialog properites
@@ -562,11 +562,11 @@ namespace OmegaGUI.Model
         {
             var newDialog = (Dialog)MemberwiseClone();
 
-            newDialog._controls = new BindingList<Control>();
+            newDialog._controls = [];
             foreach (Control control in Controls)
                 newDialog.Controls.Add(control.Clone());
 
-            newDialog._buttonStyles = new Collection<ButtonStyle>();
+            newDialog._buttonStyles = [];
             foreach (ButtonStyle style in ButtonStyles)
                 newDialog.ButtonStyles.Add(style.Clone());
 

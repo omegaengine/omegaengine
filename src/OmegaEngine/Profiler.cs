@@ -93,7 +93,7 @@ namespace OmegaEngine
         [Conditional("DEBUG")]
         internal static void BeginEvent(string name)
         {
-            Performance.BeginEvent(new Color4(), name);
+            Performance.BeginEvent(new(), name);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace OmegaEngine
         [Conditional("DEBUG")]
         internal static void SetMarker(string name)
         {
-            Performance.SetMarker(new Color4(), name);
+            Performance.SetMarker(new(), name);
         }
         #endregion
     }

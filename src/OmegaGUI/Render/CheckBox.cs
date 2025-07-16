@@ -94,8 +94,8 @@ namespace OmegaGUI.Render
 
             // Update the two rects
             buttonRect = boundingBox;
-            buttonRect = new Rectangle(boundingBox.Location,
-                new Size(boundingBox.Height, boundingBox.Height));
+            buttonRect = new(boundingBox.Location,
+                new(boundingBox.Height, boundingBox.Height));
 
             textRect = boundingBox;
             textRect.Offset((int)(1.25f * buttonRect.Width), 0);

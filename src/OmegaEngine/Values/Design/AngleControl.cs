@@ -65,7 +65,7 @@ namespace OmegaEngine.Values.Design
             var endPoint = new Point(
                 center.X + (int)(center.X * Math.Sin(angle)),
                 center.Y + (int)(center.Y * -Math.Cos(angle)));
-            e.Graphics.DrawLine(new Pen(new SolidBrush(Color.Red), 1), center, endPoint);
+            e.Graphics.DrawLine(new(new SolidBrush(Color.Red), 1), center, endPoint);
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
@@ -98,7 +98,7 @@ namespace OmegaEngine.Values.Design
             else distortedY = (Height / 2) + (int)((location.Y - (Height / 2)) * widthToHeightRatio);
 
             var center = new Point(Width / 2, Height / 2);
-            Angle = GetAngle(center, new Point(location.X, distortedY));
+            Angle = GetAngle(center, new(location.X, distortedY));
             if (Range != null) Angle = Angle.Clamp(Range.Minimum, Range.Maximum);
 
             Refresh();

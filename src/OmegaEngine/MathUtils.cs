@@ -189,7 +189,7 @@ namespace OmegaEngine
         /// <param name="inclination">Angle away from positive Z axis in radians. Values from 0 to Pi.</param>
         /// <param name="azimuth">Angle away from from positive X axis in radians. Values from 0 to 2*Pi.</param>
         [Pure]
-        public static Vector3 UnitVector(double inclination, double azimuth) => new Vector3(
+        public static Vector3 UnitVector(double inclination, double azimuth) => new(
             (float)(Math.Sin(inclination) * Math.Cos(azimuth)),
             (float)(Math.Sin(inclination) * Math.Sin(azimuth)),
             (float)Math.Cos(inclination));
@@ -212,7 +212,7 @@ namespace OmegaEngine
         /// Maps a vector of 0-255 byte values to a vector of 0�-180� angles in radians.
         /// </summary>
         [Pure]
-        public static Vector4 ByteToAngle(this ByteVector4 vector) => new Vector4(
+        public static Vector4 ByteToAngle(this ByteVector4 vector) => new(
             (float)vector.X.ByteToAngle(),
             (float)vector.Y.ByteToAngle(),
             (float)vector.Z.ByteToAngle(),
@@ -304,7 +304,7 @@ namespace OmegaEngine
             factor -= index;
 
             // Apply sinus smoothing to factor component-wise
-            return new Vector4(
+            return new(
                 values[index].X + factor * (values[index + 1].X - values[index].X),
                 values[index].Y + factor * (values[index + 1].Y - values[index].Y),
                 values[index].Z + factor * (values[index + 1].Z - values[index].Z),
@@ -316,7 +316,7 @@ namespace OmegaEngine
 
         #region Factorial
         /// <summary>Pre-calculated factorial lookup-table</summary>
-        private static readonly double[] _factorialLookup = {1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800, 479001600, 6227020800, 87178291200, 1307674368000, 20922789888000};
+        private static readonly double[] _factorialLookup = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800, 479001600, 6227020800, 87178291200, 1307674368000, 20922789888000];
 
         /// <summary>
         /// Calculates the factorial of n (n!)
@@ -514,7 +514,7 @@ namespace OmegaEngine
         /// <param name="roll">The roll value</param>
         /// <returns>A normalized quaternion</returns>
         [Pure]
-        public static Quaternion ViewQuaternion(this Vector3 view, float roll) => Quaternion.Normalize(new Quaternion(view.X, view.Y, view.Z, roll));
+        public static Quaternion ViewQuaternion(this Vector3 view, float roll) => Quaternion.Normalize(new(view.X, view.Y, view.Z, roll));
         #endregion
 
         #region Rotate
@@ -528,7 +528,7 @@ namespace OmegaEngine
         public static Vector2 Rotate(this Vector2 value, float rotation)
         {
             double phi = DegreeToRadian(rotation);
-            return new Vector2(
+            return new(
                 (float)(value.X * Math.Cos(phi) - value.Y * Math.Sin(phi)),
                 (float)(value.X * Math.Sin(phi) + value.Y * Math.Cos(phi)));
         }
@@ -591,9 +591,9 @@ namespace OmegaEngine
             }
 
             // Copy the result into the new box
-            return new BoundingBox(
-                new Vector3(outputMin[0], outputMin[1], outputMin[2]),
-                new Vector3(outputMax[0], outputMax[1], outputMax[2]));
+            return new(
+                new(outputMin[0], outputMin[1], outputMin[2]),
+                new(outputMax[0], outputMax[1], outputMax[2]));
         }
         #endregion
 
@@ -611,16 +611,16 @@ namespace OmegaEngine
             var translation = new Vector3(matrix.M41, matrix.M42, matrix.M43);
 
             if (sphere.Radius <= 0)
-                return new BoundingSphere(sphere.Center + translation, 0);
+                return new(sphere.Center + translation, 0);
 
             // Scale, rotate and transform the center of the bounding sphere
             var newCenter = Vector3.TransformCoordinate(sphere.Center, matrix);
 
             // Scale a reference vector to determine the average axis factor for sphere scaling
-            var referenceVector = Vector3.TransformCoordinate(new Vector3(_sqrtThreeThirds, _sqrtThreeThirds, _sqrtThreeThirds), matrix) - translation;
+            var referenceVector = Vector3.TransformCoordinate(new(_sqrtThreeThirds, _sqrtThreeThirds, _sqrtThreeThirds), matrix) - translation;
             float scale = referenceVector.Length();
 
-            return new BoundingSphere(newCenter, sphere.Radius * scale);
+            return new(newCenter, sphere.Radius * scale);
         }
         #endregion
     }

@@ -127,7 +127,7 @@ namespace FrameOfReference
             if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
             #endregion
 
-            CurrentSession = new Session(
+            CurrentSession = new(
                 // Does the name have file ending?
                 name.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
                     // Real filename
@@ -152,7 +152,7 @@ namespace FrameOfReference
             if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
             #endregion
 
-            CurrentSession = new Session(
+            CurrentSession = new(
                 // Does the name have file ending?
                 name.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
                     // Real filename
