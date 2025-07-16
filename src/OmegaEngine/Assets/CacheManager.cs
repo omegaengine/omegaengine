@@ -23,7 +23,7 @@ namespace OmegaEngine.Assets
     public sealed class CacheManager : IDisposable
     {
         #region Variables
-        private readonly NamedCollection<Asset> _assetCache = new NamedCollection<Asset>();
+        private readonly NamedCollection<Asset> _assetCache = [];
         #endregion
 
         #region Constructor

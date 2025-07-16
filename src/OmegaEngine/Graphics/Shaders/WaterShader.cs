@@ -36,7 +36,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
-        public static Version MinShaderModel => new Version(1, 1);
+        public static Version MinShaderModel => new(1, 1);
 
         private Color _dullColor = Color.FromArgb(77, 77, 128);
 

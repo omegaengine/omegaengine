@@ -62,7 +62,7 @@ namespace OmegaEngine.Graphics.Renderables
                 XTexture.Get(engine, rt), XTexture.Get(engine, lf), XTexture.Get(engine, up),
                 XTexture.Get(engine, dn), XTexture.Get(engine, ft), XTexture.Get(engine, bk)
             };
-            return new SimpleSkybox(textures);
+            return new(textures);
         }
         #endregion
 

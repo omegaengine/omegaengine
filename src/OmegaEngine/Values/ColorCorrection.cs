@@ -26,7 +26,7 @@ namespace OmegaEngine.Values
         /// <summary>
         /// No color change.
         /// </summary>
-        public static readonly ColorCorrection Default = new ColorCorrection(brightness: 1);
+        public static readonly ColorCorrection Default = new(brightness: 1);
         #endregion
 
         private float _brightness;
@@ -103,10 +103,10 @@ namespace OmegaEngine.Values
         public override string ToString() => $"(Brightness: {Brightness}, Contrast: {Contrast}, Saturation: {Saturation}, Hue: {Hue})";
 
         /// <summary>Convert <see cref="ColorCorrection"/> into <see cref="Vector4"/></summary>
-        public static explicit operator Vector4(ColorCorrection correction) => new Vector4(correction._brightness, correction._contrast, correction._saturation, correction._hue);
+        public static explicit operator Vector4(ColorCorrection correction) => new(correction._brightness, correction._contrast, correction._saturation, correction._hue);
 
         /// <summary>Convert <see cref="Vector4"/> into see <see cref="ColorCorrection"/></summary>
-        public static explicit operator ColorCorrection(Vector4 vector) => new ColorCorrection(vector.X, vector.Y, vector.Z, vector.W);
+        public static explicit operator ColorCorrection(Vector4 vector) => new(vector.X, vector.Y, vector.Z, vector.W);
         #endregion
 
         #region Equality

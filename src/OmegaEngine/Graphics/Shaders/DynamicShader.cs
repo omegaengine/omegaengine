@@ -238,7 +238,7 @@ namespace OmegaEngine.Graphics.Shaders
                             }
                         }
 
-                        xmlBuffer = new StringBuilder();
+                        xmlBuffer = new();
                     }
 
                     // Store normal code for later compilation

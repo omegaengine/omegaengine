@@ -19,7 +19,7 @@ namespace AlphaFramework.World.Templates
     /// </summary>
     public abstract class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : EntityTemplateBase<TSelf>
     {
-        private Collection<Render> _render = new Collection<Render>();
+        private Collection<Render> _render = [];
 
         /// <summary>
         /// Controls how this class of entities shall be rendered.
@@ -48,7 +48,7 @@ namespace AlphaFramework.World.Templates
             var newClass = base.Clone();
 
             // Replace contained lists with deep copies
-            newClass._render = new Collection<Render>();
+            newClass._render = [];
             foreach (var render in Render)
                 newClass.Render.Add(render.Clone());
 

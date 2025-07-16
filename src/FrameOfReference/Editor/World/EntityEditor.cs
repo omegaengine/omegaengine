@@ -87,7 +87,7 @@ namespace FrameOfReference.Editor.World
             TerrainTemplate.LoadAll();
 
             // Create an empty testing universe with a plain terrain
-            _universe = new Universe(new Terrain<TerrainTemplate>(new TerrainSize(27, 27, 30, 30))) {LightPhase = 1};
+            _universe = new(new(new(27, 27, 30, 30))) {LightPhase = 1};
 
             base.OnInitialize();
 
@@ -113,7 +113,7 @@ namespace FrameOfReference.Editor.World
             // Setup the presentator on startup or when it was lost/reset
             if (_presenter == null)
             {
-                _presenter = new EditorPresenter(renderPanel.Engine, _universe, true);
+                _presenter = new(renderPanel.Engine, _universe, true);
                 _presenter.Initialize();
                 _presenter.HookIn();
 
@@ -270,7 +270,7 @@ namespace FrameOfReference.Editor.World
             // Keep existing dialog instance
             if (_addRenderComponentTool != null) return;
 
-            _addRenderComponentTool = new AddRenderComponentTool();
+            _addRenderComponentTool = new();
             _addRenderComponentTool.NewRenderComponent += delegate(Render render)
             { // Callback when the "Add" button is clicked
                 TemplateList.SelectedEntry.Render.Add(render);
@@ -414,7 +414,7 @@ namespace FrameOfReference.Editor.World
         #region Movement Control
         private void buttonAddMovement_Click(object sender, EventArgs e)
         {
-            TemplateList.SelectedEntry.Movement = new Movement();
+            TemplateList.SelectedEntry.Movement = new();
             OnChange();
 
             OnUpdate();

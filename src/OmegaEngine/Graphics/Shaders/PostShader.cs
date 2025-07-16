@@ -94,7 +94,7 @@ namespace OmegaEngine.Graphics.Shaders
                         {
                                 #region Viewport
                             case SemanticID.ViewportPixelSize:
-                                Size viewportSize = (sceneSize == Size.Empty) ? new Size(Engine.RenderSize.Width, Engine.RenderSize.Height) : sceneSize;
+                                Size viewportSize = (sceneSize == Size.Empty) ? new(Engine.RenderSize.Width, Engine.RenderSize.Height) : sceneSize;
                                 Effect.SetValue(info.Handle, new float[] {viewportSize.Width, viewportSize.Height});
                                 break;
                                 #endregion

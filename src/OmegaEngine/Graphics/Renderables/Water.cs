@@ -54,7 +54,7 @@ namespace OmegaEngine.Graphics.Renderables
             SurfaceEffect = SurfaceEffect.Shader;
             Materials[0].Emissive = Color.LightBlue;
 
-            BoundingBox = new BoundingBox(new Vector3(0, 0, 0), new Vector3(size.Width, 0, -size.Height));
+            BoundingBox = new BoundingBox(new(0, 0, 0), new(size.Width, 0, -size.Height));
             _waterTexture = XTexture.Get(Engine, @"Water\surface.png");
             _waterTexture.HoldReference();
         }
@@ -67,12 +67,12 @@ namespace OmegaEngine.Graphics.Renderables
 
             var vertexes = new[]
             {
-                new PositionNormalTextured(new Vector3(0, 0, 0), new Vector3(0, 1, 0), 0, 0),
-                new PositionNormalTextured(new Vector3(size.Width, 0, 0), new Vector3(0, 1, 0), tu, 0),
-                new PositionNormalTextured(new Vector3(0, 0, -size.Height), new Vector3(0, 1, 0), 0, tv),
-                new PositionNormalTextured(new Vector3(size.Width, 0, -size.Height), new Vector3(0, 1, 0), tu, tv)
+                new PositionNormalTextured(new(0, 0, 0), new(0, 1, 0), 0, 0),
+                new PositionNormalTextured(new(size.Width, 0, 0), new(0, 1, 0), tu, 0),
+                new PositionNormalTextured(new(0, 0, -size.Height), new(0, 1, 0), 0, tv),
+                new PositionNormalTextured(new(size.Width, 0, -size.Height), new(0, 1, 0), tu, tv)
             };
-            short[] indexes = {0, 1, 3, 3, 2, 0};
+            short[] indexes = [0, 1, 3, 3, 2, 0];
 
             var mesh = new Mesh(engine.Device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionNormalTextured.Format);
             BufferHelper.WriteVertexBuffer(mesh, vertexes);

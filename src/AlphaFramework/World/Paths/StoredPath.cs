@@ -28,7 +28,7 @@ namespace AlphaFramework.World.Paths
         /// <summary>
         /// The path to walk.
         /// </summary>
-        public Queue<TCoordinates> PathNodes { get; } = new Queue<TCoordinates>();
+        public Queue<TCoordinates> PathNodes { get; } = new();
 
         /// <inheritdoc/>
         public override string ToString()

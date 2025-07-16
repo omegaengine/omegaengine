@@ -194,13 +194,13 @@ namespace OmegaEngine.Graphics.Renderables
             var normalVector = new Vector3(0, 0, 1);
             var vertexes = new[]
             {
-                new PositionNormalTextured(new Vector3(size * -0.5f, size * 0.5f, 0), normalVector, 0, 0),
-                new PositionNormalTextured(new Vector3(size * 0.5f, size * 0.5f, 0), normalVector, 1, 0),
-                new PositionNormalTextured(new Vector3(size * -0.5f, size * -0.5f, 0), normalVector, 0, 1),
-                new PositionNormalTextured(new Vector3(size * 0.5f, size * -0.5f, 0), normalVector, 1, 1)
+                new PositionNormalTextured(new(size * -0.5f, size * 0.5f, 0), normalVector, 0, 0),
+                new PositionNormalTextured(new(size * 0.5f, size * 0.5f, 0), normalVector, 1, 0),
+                new PositionNormalTextured(new(size * -0.5f, size * -0.5f, 0), normalVector, 0, 1),
+                new PositionNormalTextured(new(size * 0.5f, size * -0.5f, 0), normalVector, 1, 1)
             };
 
-            return new VertexGroup(PrimitiveType.TriangleStrip, vertexes, null, new XMaterial(texture));
+            return new(PrimitiveType.TriangleStrip, vertexes, null, new(texture));
         }
         #endregion
 
@@ -233,7 +233,7 @@ namespace OmegaEngine.Graphics.Renderables
 
             // Handle lights for fixed-function or shader rendering
             var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getLights == null)
-                ? new LightSource[0]
+                ? []
                 : getLights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
             RenderHelper(render, _material, camera, effectiveLights);
             #endregion

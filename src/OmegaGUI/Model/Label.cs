@@ -77,7 +77,7 @@ namespace OmegaGUI.Model
         #region Constructor
         public Label()
         {
-            Size = new Size(100, 20);
+            Size = new(100, 20);
         }
         #endregion
 

@@ -81,7 +81,7 @@ namespace OmegaEngine.Graphics.VertexDecl
         /// <param name="tu">The U-component of the texture coordinates</param>
         /// <param name="tv">The V-component of the texture coordinates</param>
         public PositionTextured(float xvalue, float yvalue, float zvalue, float tu, float tv)
-            : this(new Vector3(xvalue, yvalue, zvalue), tu, tv)
+            : this(new(xvalue, yvalue, zvalue), tu, tv)
         {}
         #endregion
 

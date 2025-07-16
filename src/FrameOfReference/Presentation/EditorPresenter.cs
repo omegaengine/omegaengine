@@ -79,14 +79,14 @@ namespace FrameOfReference.Presentation
             // Restore previous camera position (or default to center of terrain)
             var mainCamera = CreateCamera(universe.CurrentCamera);
 
-            View = new View(Scene, mainCamera) {Name = "Editor", BackgroundColor = universe.FogColor};
+            View = new(Scene, mainCamera) {Name = "Editor", BackgroundColor = universe.FogColor};
 
             // Floating axis-arrows for easier orientation
             var axisArrows = new FloatingModel(XMesh.Get(engine, "Engine/AxisArrows.x"))
             {
                 Name = "AxisArrows",
                 Alpha = 160,
-                Position = new DoubleVector3(-16, -12, 40),
+                Position = new(-16, -12, 40),
                 Rotation = Quaternion.RotationYawPitchRoll(0, 0, 0)
             };
             axisArrows.SetScale(0.03f);
@@ -99,7 +99,7 @@ namespace FrameOfReference.Presentation
             base.RegisterRenderablesSync();
 
             RenderablesSync.Register(
-                (Waypoint waypoint) => new Model(XMesh.Get(Engine, "Engine/Waypoint.x")) {Scale = new Vector3(100)},
+                (Waypoint waypoint) => new Model(XMesh.Get(Engine, "Engine/Waypoint.x")) {Scale = new(100)},
                 UpdateRepresentation);
             RenderablesSync.Register(
                 (Trigger trigger) =>
@@ -171,8 +171,8 @@ namespace FrameOfReference.Presentation
             base.Initialize();
 
             // Prepare painting brush meshes
-            Scene.Positionables.Add(_terrainPaintingBrushCircle = new Model(XMesh.Get(Engine, "Engine/Circle.x")) {Visible = false});
-            Scene.Positionables.Add(_terrainPaintingBrushSquare = new Model(XMesh.Get(Engine, "Engine/Rectangle.x")) {Visible = false});
+            Scene.Positionables.Add(_terrainPaintingBrushCircle = new(XMesh.Get(Engine, "Engine/Circle.x")) {Visible = false});
+            Scene.Positionables.Add(_terrainPaintingBrushSquare = new(XMesh.Get(Engine, "Engine/Rectangle.x")) {Visible = false});
         }
 
         /// <inheritdoc/>
@@ -207,13 +207,13 @@ namespace FrameOfReference.Presentation
                 if (TerrainPaint != null)
                 {
                     DoubleVector3 paintPoint;
-                    if (Terrain.Intersects(View.PickingRay(new Point(area.Right, area.Bottom)), out paintPoint))
+                    if (Terrain.Intersects(View.PickingRay(new(area.Right, area.Bottom)), out paintPoint))
                     { // Determine the terrain point at the location the user is currently "selecting" and "paint" on it
                         TerrainPaint(paintPoint.Flatten(), done);
                     }
                     else if (done)
                     { // If there is no terrain where the user is currently "selecting" finish running "paint" operations with a null operation (indicated by negative value)
-                        TerrainPaint(new Vector2(-1), true);
+                        TerrainPaint(new(-1), true);
                     }
                 }
             }
@@ -254,7 +254,7 @@ namespace FrameOfReference.Presentation
                     // ReSharper disable once PossibleInvalidOperationException
                     select positionable.BoundingSphere.Value.Transform(positionable.PreTransform)).
                     Aggregate<BoundingSphere, float>(0, (current, boundingSphere) => Math.Max(current, boundingSphere.Radius + boundingSphere.Center.Length()));
-            return new Circle {Radius = radius};
+            return new() {Radius = radius};
         }
 
         /// <summary>
@@ -270,12 +270,12 @@ namespace FrameOfReference.Presentation
                     select positionable.BoundingBox.Value.Transform(positionable.PreTransform))
                     .ToList();
 
-            return new Box
+            return new()
             {
-                Minimum = new Vector2(
+                Minimum = new(
                     boundingBoxes.Min(box => box.Minimum.X),
                     boundingBoxes.Min(box => -box.Maximum.Z)),
-                Maximum = new Vector2(
+                Maximum = new(
                     boundingBoxes.Max(box => box.Maximum.X),
                     boundingBoxes.Max(box => -box.Minimum.Z))
             };

@@ -21,22 +21,22 @@ namespace OmegaEngine.Values.Design
         protected override int NoArguments => 4;
 
         /// <inheritdoc/>
-        protected override ConstructorInfo GetConstructor() => typeof(ColorCorrection).GetConstructor(new[] {typeof(float), typeof(float), typeof(float), typeof(float)});
+        protected override ConstructorInfo GetConstructor() => typeof(ColorCorrection).GetConstructor([typeof(float), typeof(float), typeof(float), typeof(float)]);
 
         /// <inheritdoc/>
-        protected override object[] GetArguments(ColorCorrection value) => new object[] {value.Brightness, value.Contrast, value.Saturation, value.Hue};
+        protected override object[] GetArguments(ColorCorrection value) => [value.Brightness, value.Contrast, value.Saturation, value.Hue];
 
         /// <inheritdoc/>
         protected override string[] GetValues(ColorCorrection value, ITypeDescriptorContext context, CultureInfo culture)
         {
             var floatConverter = TypeDescriptor.GetConverter(typeof(float));
-            return new[]
-            {
+            return
+            [
                 floatConverter.ConvertToString(context, culture, value.Brightness),
                 floatConverter.ConvertToString(context, culture, value.Contrast),
                 floatConverter.ConvertToString(context, culture, value.Saturation),
                 floatConverter.ConvertToString(context, culture, value.Hue)
-            };
+            ];
         }
 
         /// <inheritdoc/>
@@ -47,7 +47,7 @@ namespace OmegaEngine.Values.Design
             if (culture == null) throw new ArgumentNullException(nameof(culture));
             #endregion
 
-            return new ColorCorrection(
+            return new(
                 brightness: Convert.ToSingle(values[0], culture),
                 contrast: Convert.ToSingle(values[1], culture),
                 saturation: Convert.ToSingle(values[2], culture),
@@ -61,7 +61,7 @@ namespace OmegaEngine.Values.Design
             if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
             #endregion
 
-            return new ColorCorrection(
+            return new(
                 brightness: (float)propertyValues["Brightness"],
                 contrast: (float)propertyValues["Contrast"],
                 saturation: (float)propertyValues["Saturation"],

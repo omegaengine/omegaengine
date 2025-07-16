@@ -65,7 +65,7 @@ namespace AlphaFramework.World.Terrains
 
         /// <inheritdoc/>
         [Browsable(false)]
-        public Vector2 Center => new Vector2(_size.X * _size.StretchH / 2f, _size.Y * _size.StretchH / 2f);
+        public Vector2 Center => new(_size.X * _size.StretchH / 2f, _size.Y * _size.StretchH / 2f);
         #endregion
 
         #region Height-map
@@ -157,8 +157,8 @@ namespace AlphaFramework.World.Terrains
         public Terrain(TerrainSize size)
         {
             Size = size;
-            _heightMap = new ByteGrid(size.X, size.Y);
-            _textureMap = new NibbleGrid(size.X / 3, size.Y / 3);
+            _heightMap = new(size.X, size.Y);
+            _textureMap = new(size.X / 3, size.Y / 3);
 
             // Try to use "Grass" as the default Terrain type
             try
@@ -190,7 +190,7 @@ namespace AlphaFramework.World.Terrains
 
             var height = HeightMap.SampledRead(unstrechedCoords.X, unstrechedCoords.Y);
 
-            return new DoubleVector3(
+            return new(
                 coordinates.X, // World X = Engine +X
                 height * _size.StretchV, // World height = Engine +Y
                 -coordinates.Y); // World Y = Engine -Z

@@ -22,10 +22,10 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
     public abstract class Base
     {
         /// <summary>Used to collect data as it was before the modifications.</summary>
-        protected readonly ExpandableRectangleArray<byte> OldData = new ExpandableRectangleArray<byte>();
+        protected readonly ExpandableRectangleArray<byte> OldData = new();
 
         /// <summary>Used to collect data as it is after the modifcations.</summary>
-        protected readonly ExpandableRectangleArray<byte> NewData = new ExpandableRectangleArray<byte>();
+        protected readonly ExpandableRectangleArray<byte> NewData = new();
 
         /// <summary>The <see cref="Terrain"/> to modify.</summary>
         protected readonly ITerrain Terrain;

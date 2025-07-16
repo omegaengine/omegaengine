@@ -170,12 +170,12 @@ namespace OmegaEngine.Graphics
 
             var vertexes = new[]
             {
-                new PositionTextured(new Vector3(-width / 2, -height / 2, 0), 0, 0),
-                new PositionTextured(new Vector3(-width / 2, height / 2, 0), 0, 1),
-                new PositionTextured(new Vector3(width / 2, -height / 2, 0), 1, 0),
-                new PositionTextured(new Vector3(width / 2, height / 2, 0), 1, 1)
+                new PositionTextured(new(-width / 2, -height / 2, 0), 0, 0),
+                new PositionTextured(new(-width / 2, height / 2, 0), 0, 1),
+                new PositionTextured(new(width / 2, -height / 2, 0), 1, 0),
+                new PositionTextured(new(width / 2, height / 2, 0), 1, 1)
             };
-            short[] indexes = {0, 1, 3, 3, 2, 0};
+            short[] indexes = [0, 1, 3, 3, 2, 0];
 
             var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
             BufferHelper.WriteVertexBuffer(mesh, vertexes);
@@ -350,10 +350,10 @@ namespace OmegaEngine.Graphics
 
             for (int i = 0; i < segments; i++)
             {
-                vertexes[vertCount++] = new PositionTextured(posInner.X, posInner.Y - height / 2, posInner.Z, tuInner, 0);
-                vertexes[vertCount++] = new PositionTextured(posInner.X, posInner.Y + height / 2, posInner.Z, tuInner, 0);
-                vertexes[vertCount++] = new PositionTextured(posOuter.X, posOuter.Y - height / 2, posOuter.Z, tuOuter, 0);
-                vertexes[vertCount++] = new PositionTextured(posOuter.X, posOuter.Y + height / 2, posOuter.Z, tuOuter, 0);
+                vertexes[vertCount++] = new(posInner.X, posInner.Y - height / 2, posInner.Z, tuInner, 0);
+                vertexes[vertCount++] = new(posInner.X, posInner.Y + height / 2, posInner.Z, tuInner, 0);
+                vertexes[vertCount++] = new(posOuter.X, posOuter.Y - height / 2, posOuter.Z, tuOuter, 0);
+                vertexes[vertCount++] = new(posOuter.X, posOuter.Y + height / 2, posOuter.Z, tuOuter, 0);
 
                 // Increment rotation
                 posInner = Vector3.TransformCoordinate(posInner, Matrix.RotationY(step));

@@ -78,7 +78,7 @@ namespace FrameOfReference
                 AntiAliasing = Settings.Current.Display.AntiAliasing
             };
             if (!string.IsNullOrEmpty(Settings.Current.Graphics.ForceShaderModel))
-                engineConfig.ForceShaderModel = new Version(Settings.Current.Graphics.ForceShaderModel);
+                engineConfig.ForceShaderModel = new(Settings.Current.Graphics.ForceShaderModel);
 
             return engineConfig;
         }
@@ -135,7 +135,7 @@ namespace FrameOfReference
             using (new TimedLogEvent("Initialize GUI"))
             {
                 // Initialize GUI subsystem
-                GuiManager = new GuiManager(Engine);
+                GuiManager = new(Engine);
                 Form.WindowMessage += GuiManager.OnMsgProc;
             }
 

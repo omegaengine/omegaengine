@@ -43,7 +43,7 @@ namespace OmegaEngine
             engine.State.SetTexture(null);
             engine.Device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0, 5, 4,
                 // ToDo: Properly determine vertex stride
-                new[] {0, 1, 2, 3, 0}, Format.Index32, vertexes, 20);
+                [0, 1, 2, 3, 0], Format.Index32, vertexes, 20);
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace OmegaEngine
                 bool lastLighting = engine.State.FfpLighting;
 
                 // Set new states
-                engine.State.WorldTransform = Matrix.Scaling(new Vector3(sphere.Radius)) * Matrix.Translation(sphere.Center);
+                engine.State.WorldTransform = Matrix.Scaling(new(sphere.Radius)) * Matrix.Translation(sphere.Center);
                 engine.State.CullMode = Cull.None;
                 engine.State.FillMode = FillMode.Wireframe;
                 engine.State.FfpLighting = false;

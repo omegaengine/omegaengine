@@ -199,7 +199,7 @@ namespace FrameOfReference
             using (new TimedLogEvent("Start benchmark"))
             {
                 // Load map
-                CurrentSession = new Session(Universe.FromContent("Benchmark" + Universe.FileExt)) {Lua = NewLua()};
+                CurrentSession = new(Universe.FromContent("Benchmark" + Universe.FileExt)) {Lua = NewLua()};
 
                 // Switch mode
                 CurrentState = GameState.Benchmark;
@@ -211,7 +211,7 @@ namespace FrameOfReference
                 Settings.Current.Graphics.WaterEffects = WaterEffectsType.None;
                 Settings.Current.Graphics.ParticleSystemQuality = Quality.Low;
                 Settings.Current.Display.VSync = false;
-                Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize = new Size(800, 600);
+                Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize = new(800, 600);
 #if !DEBUG
                 Settings.Current.Display.Fullscreen = true;
 #endif
@@ -276,7 +276,7 @@ namespace FrameOfReference
                 //CleanupPresenter();
 
                 // Load menu scene
-                if (_menuPresenter == null) _menuPresenter = new MenuPresenter(Engine, _menuUniverse);
+                if (_menuPresenter == null) _menuPresenter = new(Engine, _menuUniverse);
                 _menuPresenter.Initialize();
                 CurrentPresenter = _menuPresenter;
 

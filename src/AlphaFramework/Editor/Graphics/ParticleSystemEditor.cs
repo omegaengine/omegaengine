@@ -23,7 +23,7 @@ namespace AlphaFramework.Editor.Graphics
         /// <summary>
         /// The camera used by the presenter
         /// </summary>
-        protected readonly TrackCamera Camera = new TrackCamera(50, 2000) {Radius = 400};
+        protected readonly TrackCamera Camera = new(50, 2000) {Radius = 400};
         #endregion
 
         #region Constructor

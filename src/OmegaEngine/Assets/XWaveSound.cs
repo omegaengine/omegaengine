@@ -73,7 +73,7 @@ namespace OmegaEngine.Assets
             {
                 using (new TimedLogEvent("Loading WAVE sound: " + id))
                 using (var stream = ContentManager.GetFileStream("Sounds", id))
-                    data = new XWaveSound(stream) {Name = fullID};
+                    data = new(stream) {Name = fullID};
                 engine.Cache.AddAsset(data);
             }
 

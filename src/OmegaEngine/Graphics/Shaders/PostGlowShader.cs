@@ -26,7 +26,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
-        public new static Version MinShaderModel => new Version(2, 0);
+        public new static Version MinShaderModel => new(2, 0);
 
         /// <summary>
         /// Does this post-screen shader use overlay rendering instead of a scene map?

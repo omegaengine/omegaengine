@@ -72,7 +72,7 @@ namespace OmegaGUI.Render
         protected ListBoxStyle ctrlStyle = ListBoxStyle.SingleSelection;
 
         [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "There will never be any need for a different collection type")]
-        protected List<ListItem> itemList = new List<ListItem>();
+        protected List<ListItem> itemList = [];
         #endregion
 
         /// <summary>Create a new list box control</summary>
@@ -81,7 +81,7 @@ namespace OmegaGUI.Render
             ctrlType = ControlType.ListBox;
 
             // Create the scrollbar control too
-            scrollbarControl = new ScrollBar(parent);
+            scrollbarControl = new(parent);
         }
 
         /// <summary>Update the rectangles for the list box control</summary>
@@ -542,7 +542,7 @@ namespace OmegaGUI.Render
                     // Now render the text
                     if (isSelectedStyle)
                     {
-                        sel.Location = new Point(sel.Left, rc.Top);
+                        sel.Location = new(sel.Left, rc.Top);
                         sel.Height = rc.Height;
                         parentDialog.DrawSprite(selectedElement, sel);
                         parentDialog.DrawText(lb.ItemText, selectedElement, rc);

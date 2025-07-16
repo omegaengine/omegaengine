@@ -82,7 +82,7 @@ namespace FrameOfReference.World.Config
         public bool WindowMaximized { get { return _windowMaximized; } set { value.To(ref _windowMaximized, OnChanged); } }
 
         // Note: Can not use ICollection<T> interface with XML Serialization
-        private readonly MonitoredCollection<string> _recentMods = new MonitoredCollection<string>();
+        private readonly MonitoredCollection<string> _recentMods = [];
 
         /// <summary>
         /// A list of mod directories recently opened by the editor

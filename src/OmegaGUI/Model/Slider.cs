@@ -113,7 +113,7 @@ namespace OmegaGUI.Model
         #region Constructor
         public Slider()
         {
-            Size = new Size(150, 32);
+            Size = new(150, 32);
         }
         #endregion
 

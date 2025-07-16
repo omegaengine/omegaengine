@@ -29,7 +29,7 @@ namespace OmegaEngine.Input
         private readonly Control _control;
 
         /// <summary>A timer that continuously raises events while a key is kept pressed.</summary>
-        private readonly Timer _timerKeyboard = new Timer {Interval = 10};
+        private readonly Timer _timerKeyboard = new() {Interval = 10};
         #endregion
 
         #region Constructor
@@ -76,16 +76,16 @@ namespace OmegaEngine.Input
             switch (_pressedKey)
             {
                 case Keys.Up:
-                    OnPerspectiveChange(new Point(), 0, 7);
+                    OnPerspectiveChange(new(), 0, 7);
                     break;
                 case Keys.Down:
-                    OnPerspectiveChange(new Point(), 0, -7);
+                    OnPerspectiveChange(new(), 0, -7);
                     break;
                 case Keys.Right:
-                    OnPerspectiveChange(new Point(), 7, 0);
+                    OnPerspectiveChange(new(), 7, 0);
                     break;
                 case Keys.Left:
-                    OnPerspectiveChange(new Point(), -7, 0);
+                    OnPerspectiveChange(new(), -7, 0);
                     break;
             }
         }

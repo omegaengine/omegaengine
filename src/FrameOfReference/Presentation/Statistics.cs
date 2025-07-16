@@ -87,7 +87,7 @@ namespace FrameOfReference.Presentation
                 // Handle all possible settings combinations
                 for (int i = 0; i < TestCase.TestGraphicsSettingsUpperBound; i++)
                 {
-                    testCaseList.Add(new TestCase
+                    testCaseList.Add(new()
                     {
                         Target = target,
                         GraphicsSettings = ((TestGraphicsSettings)i),
@@ -101,7 +101,7 @@ namespace FrameOfReference.Presentation
                     #region Water refraction only
                     for (int i = 0; i < 8; i++)
                     {
-                        testCaseList.Add(new TestCase
+                        testCaseList.Add(new()
                         {
                             Target = target,
                             GraphicsSettings = ((TestGraphicsSettings)i),
@@ -115,7 +115,7 @@ namespace FrameOfReference.Presentation
                     #region Water reflect all
                     for (int i = 0; i < 8; i++)
                     {
-                        testCaseList.Add(new TestCase
+                        testCaseList.Add(new()
                         {
                             Target = target,
                             GraphicsSettings = ((TestGraphicsSettings)i),
@@ -132,7 +132,7 @@ namespace FrameOfReference.Presentation
                     #region Particle-system high quality
                     for (int i = 0; i < 8; i++)
                     {
-                        testCaseList.Add(new TestCase
+                        testCaseList.Add(new()
                         {
                             Target = target,
                             GraphicsSettings = ((TestGraphicsSettings)i),

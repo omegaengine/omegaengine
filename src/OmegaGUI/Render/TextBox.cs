@@ -146,10 +146,10 @@ namespace OmegaGUI.Render
             spacing = 4; // default spacing
             isCaretOn = true;
 
-            textData = new RichTextBox
+            textData = new()
             {
                 Visible = true,
-                Font = new WinFont("Arial", 12.1f),
+                Font = new("Arial", 12.1f),
                 ScrollBars = RichTextBoxScrollBars.None,
                 Text = string.Empty,
                 MaxLength = ushort.MaxValue
@@ -158,10 +158,10 @@ namespace OmegaGUI.Render
 
             blinkTime = WinFormsUtils.CaretBlinkTime;
             lastBlink = WindowsUtils.AbsoluteTime;
-            textColor = new Color4(0.06f, 0.06f, 0.06f);
-            selectedTextColor = new Color4(1.0f, 1.0f, 1.0f);
-            selectedBackColor = new Color4(0.15f, 0.196f, 0.36f);
-            caretColor = new Color4(0, 0, 0);
+            textColor = new(0.06f, 0.06f, 0.06f);
+            selectedTextColor = new(1.0f, 1.0f, 1.0f);
+            selectedBackColor = new(0.15f, 0.196f, 0.36f);
+            caretColor = new(0, 0, 0);
             isInsertMode = true;
         }
 
@@ -234,14 +234,14 @@ namespace OmegaGUI.Render
 
             // Update the render rectangles
             elementRects[0] = textRect;
-            elementRects[1] = new Rectangle(boundingBox.Left, boundingBox.Top, (textRect.Left - boundingBox.Left), (textRect.Top - boundingBox.Top));
-            elementRects[2] = new Rectangle(textRect.Left, boundingBox.Top, textRect.Width, (textRect.Top - boundingBox.Top));
-            elementRects[3] = new Rectangle(textRect.Right, boundingBox.Top, (boundingBox.Right - textRect.Right), (textRect.Top - boundingBox.Top));
-            elementRects[4] = new Rectangle(boundingBox.Left, textRect.Top, (textRect.Left - boundingBox.Left), textRect.Height);
-            elementRects[5] = new Rectangle(textRect.Right, textRect.Top, (boundingBox.Right - textRect.Right), textRect.Height);
-            elementRects[6] = new Rectangle(boundingBox.Left, textRect.Bottom, (textRect.Left - boundingBox.Left), (boundingBox.Bottom - textRect.Bottom));
-            elementRects[7] = new Rectangle(textRect.Left, textRect.Bottom, textRect.Width, (boundingBox.Bottom - textRect.Bottom));
-            elementRects[8] = new Rectangle(textRect.Right, textRect.Bottom, (boundingBox.Right - textRect.Right), (boundingBox.Bottom - textRect.Bottom));
+            elementRects[1] = new(boundingBox.Left, boundingBox.Top, (textRect.Left - boundingBox.Left), (textRect.Top - boundingBox.Top));
+            elementRects[2] = new(textRect.Left, boundingBox.Top, textRect.Width, (textRect.Top - boundingBox.Top));
+            elementRects[3] = new(textRect.Right, boundingBox.Top, (boundingBox.Right - textRect.Right), (textRect.Top - boundingBox.Top));
+            elementRects[4] = new(boundingBox.Left, textRect.Top, (textRect.Left - boundingBox.Left), textRect.Height);
+            elementRects[5] = new(textRect.Right, textRect.Top, (boundingBox.Right - textRect.Right), textRect.Height);
+            elementRects[6] = new(boundingBox.Left, textRect.Bottom, (textRect.Left - boundingBox.Left), (boundingBox.Bottom - textRect.Bottom));
+            elementRects[7] = new(textRect.Left, textRect.Bottom, textRect.Width, (boundingBox.Bottom - textRect.Bottom));
+            elementRects[8] = new(textRect.Right, textRect.Bottom, (boundingBox.Right - textRect.Right), (boundingBox.Bottom - textRect.Bottom));
 
             // Inflate further by spacing
             textRect.Inflate(-spacing, -spacing);
@@ -585,7 +585,7 @@ namespace OmegaGUI.Render
                             // and shows the correct behavior
                             char[] charData = textData.Text.ToCharArray();
                             charData[caretPosition] = (char)wParam.ToInt32();
-                            textData.Text = new string(charData);
+                            textData.Text = new(charData);
                         }
                         else
                         {
@@ -678,7 +678,7 @@ namespace OmegaGUI.Render
                 // Start the rectangle with insert mode caret
                 Rectangle caretRect = textRect;
                 caretRect.Width = 2;
-                caretRect.Location = new Point(
+                caretRect.Location = new(
                     caretRect.Left - xFirst + xCaret - 1,
                     caretRect.Top);
 

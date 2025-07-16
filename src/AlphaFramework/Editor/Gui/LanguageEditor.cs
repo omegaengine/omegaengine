@@ -57,7 +57,7 @@ namespace AlphaFramework.Editor.Gui
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
-                    Content = new XmlDictionary {{"Test", "A"}};
+                    Content = new() {{"Test", "A"}};
                     LocaleFile.Save(_fullPath, Content);
                 }
             }

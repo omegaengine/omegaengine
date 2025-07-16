@@ -176,10 +176,10 @@ namespace OmegaEngine.Graphics.Renderables
         #region Constructor
         public CpuParticlePreset()
         {
-            LowerParameters1 = new CpuParticleParameters {LifeTime = 2, Size = 10};
-            UpperParameters1 = new CpuParticleParameters {LifeTime = 2, Size = 10};
-            LowerParameters2 = new CpuParticleParameters();
-            UpperParameters2 = new CpuParticleParameters();
+            LowerParameters1 = new() {LifeTime = 2, Size = 10};
+            UpperParameters1 = new() {LifeTime = 2, Size = 10};
+            LowerParameters2 = new();
+            UpperParameters2 = new();
 
             // Pre-initialize with some useful default values (not the "official" default values for serialization)
             Particle1Texture = "fire.png";

@@ -45,13 +45,13 @@ namespace OmegaEngine
             /// <summary>
             /// A <see cref="Label"/> for displaying loading messages during startup
             /// </summary>
-            internal readonly Label LoadingLabel = new Label
+            internal readonly Label LoadingLabel = new()
             {
                 Text = "Loading...",
                 TextAlign = ContentAlignment.MiddleCenter,
                 Dock = DockStyle.Bottom,
-                Size = new Size(0, 100),
-                Font = new Font("Arial", 26.25f, FontStyle.Regular, GraphicsUnit.Point, 0),
+                Size = new(0, 100),
+                Font = new("Arial", 26.25f, FontStyle.Regular, GraphicsUnit.Point, 0),
                 ForeColor = Color.White
             };
             #endregion
@@ -77,7 +77,7 @@ namespace OmegaEngine
                     // Allow external handling of window messages
                     if (WindowMessage(m))
                     {
-                        m.Result = new IntPtr(1); // Indicate to Windows that the message was handled
+                        m.Result = new(1); // Indicate to Windows that the message was handled
                         return; // Suppress any additional event handlers that might be registered further along the line
                     }
                 }

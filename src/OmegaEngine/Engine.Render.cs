@@ -65,7 +65,7 @@ namespace OmegaEngine
         #endregion
 
         #region Properties
-        private readonly EngineElementCollection<View> _views = new EngineElementCollection<View>();
+        private readonly EngineElementCollection<View> _views = new();
 
         /// <summary>
         /// A list of all views to be rendered by the engine
@@ -153,10 +153,10 @@ namespace OmegaEngine
         /// </summary>
         public Size RenderSize
         {
-            get { return new Size(RenderViewport.Width, RenderViewport.Height); }
+            get { return new(RenderViewport.Width, RenderViewport.Height); }
             set
             {
-                RenderViewport = new Viewport
+                RenderViewport = new()
                 {
                     Width = value.Width,
                     Height = value.Height,
@@ -207,7 +207,7 @@ namespace OmegaEngine
         {
             get
             {
-                if (_simpleWaterShader == null) RegisterChild(_simpleWaterShader = new WaterShader());
+                if (_simpleWaterShader == null) RegisterChild(_simpleWaterShader = new());
                 return _simpleWaterShader;
             }
         }
@@ -252,12 +252,12 @@ namespace OmegaEngine
             // Unlock the mouse and skip rendering if the target is invisible or the device disposed
             if (!Target.Visible || _isResetting || IsDisposed)
             {
-                WinForms.Cursor.Clip = new Rectangle();
+                WinForms.Cursor.Clip = new();
                 return;
             }
 
             // Lock mouse cursor inside window to prevent glitches with multi-monitor systems
-            if (_config.Fullscreen) WinForms.Cursor.Clip = new Rectangle(new Point(), RenderSize);
+            if (_config.Fullscreen) WinForms.Cursor.Clip = new(new(), RenderSize);
 
             // Detect and handle lost device (Note: Reset can also be triggered from elsewhere)
             if (Device.TestCooperativeLevel() != ResultCode.Success)

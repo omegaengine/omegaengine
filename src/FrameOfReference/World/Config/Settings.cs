@@ -94,7 +94,7 @@ namespace FrameOfReference.World.Config
             #endregion
 
             Log.Info("Loaded default settings");
-            Current = new Settings();
+            Current = new();
         }
         #endregion
 
@@ -130,22 +130,22 @@ namespace FrameOfReference.World.Config
         #region Values
         // ReSharper disable FieldCanBeMadeReadOnly.Global
         /// <summary>Stores general game settings (UI language, difficulty level, etc.).</summary>
-        public GeneralSettings General = new GeneralSettings();
+        public GeneralSettings General = new();
 
         /// <summary>Stores settings for the user controls (mouse, keyboard, etc.).</summary>
-        public ControlsSettings Controls = new ControlsSettings();
+        public ControlsSettings Controls = new();
 
         /// <summary>Stores display settings (resolution, etc.). Changes here require the engine to be reset.</summary>
-        public DisplaySettings Display = new DisplaySettings();
+        public DisplaySettings Display = new();
 
         /// <summary>Stores graphics settings (effect details, etc.). Changes here don't require the engine to be reset.</summary>
-        public GraphicsSettings Graphics = new GraphicsSettings();
+        public GraphicsSettings Graphics = new();
 
         /// <summary>Stores sound settings (turn music on or off, etc.).</summary>
-        public SoundSettings Sound = new SoundSettings();
+        public SoundSettings Sound = new();
 
         /// <summary>Stores settings for the game's editor.</summary>
-        public EditorSettings Editor = new EditorSettings();
+        public EditorSettings Editor = new();
 
         // ReSharper restore FieldCanBeMadeReadOnly.Global
         #endregion
@@ -162,7 +162,7 @@ namespace FrameOfReference.World.Config
             // Only create a new form if there isn't already one open
             if (_configForm == null)
             {
-                _configForm = new ConfigForm(this);
+                _configForm = new(this);
 
                 // Remove the reference as soon the form is closed
                 _configForm.FormClosed += delegate { _configForm = null; };

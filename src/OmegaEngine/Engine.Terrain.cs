@@ -42,7 +42,7 @@ namespace OmegaEngine
                         texturesList.AddLast(i + 1);
                 }
                 var controllers = new Dictionary<string, IEnumerable<int>>(1) {{"textures", texturesList}};
-                RegisterChild(terrainShaders[textureMask] = new TerrainShader(lighting, controllers));
+                RegisterChild(terrainShaders[textureMask] = new(lighting, controllers));
             }
             return terrainShaders[textureMask];
         }

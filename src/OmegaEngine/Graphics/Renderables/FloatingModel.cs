@@ -84,7 +84,7 @@ namespace OmegaEngine.Graphics.Renderables
             SurfaceEffect = SurfaceEffect.Plain;
 
             var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getLights == null)
-                ? new LightSource[0]
+                ? []
                 : getLights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
             for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, effectiveLights);
         }

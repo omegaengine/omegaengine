@@ -49,7 +49,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// The direction and speed with which the particles move
         /// </summary>
         [Description("The direction and speed with which the particles move")]
-        public Vector3 Movement { get; set; } = new Vector3(0, 0.48f, 0);
+        public Vector3 Movement { get; set; } = new(0, 0.48f, 0);
 
         /// <summary>
         /// How to spread the particles
