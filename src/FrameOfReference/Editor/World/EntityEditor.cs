@@ -296,8 +296,7 @@ namespace FrameOfReference.Editor.World
             if (testSphere != null)
             {
                 // Get a particle system preset file path
-                string path;
-                if (!FileSelectorDialog.TryGetPath("Textures", ".*", out path)) return;
+                if (!FileSelectorDialog.TryGetPath("Textures", ".*", out string path)) return;
 
                 // Apply the new texture file
                 testSphere.Texture = path;
@@ -311,8 +310,7 @@ namespace FrameOfReference.Editor.World
                 if (mesh != null)
                 {
                     // Get a particle system preset file path
-                    string path;
-                    if (!FileSelectorDialog.TryGetPath("Meshes", ".x", out path)) return;
+                    if (!FileSelectorDialog.TryGetPath("Meshes", ".x", out string path)) return;
 
                     // Apply the new mesh file
                     mesh.Filename = path;
@@ -326,8 +324,7 @@ namespace FrameOfReference.Editor.World
                     if (particleSystem == null) return;
 
                     // Get a particle system preset file path
-                    string path;
-                    if (!FileSelectorDialog.TryGetPath("Graphics" + Path.DirectorySeparatorChar + particleSystem.GetType().Name, ".xml", out path)) return;
+                    if (!FileSelectorDialog.TryGetPath("Graphics" + Path.DirectorySeparatorChar + particleSystem.GetType().Name, ".xml", out string path)) return;
 
                     // Apply the new preset file
                     particleSystem.Filename = path;

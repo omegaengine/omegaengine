@@ -180,8 +180,7 @@ namespace FrameOfReference.Presentation
         {
             if (!TerrainBrush.HasValue) return;
 
-            DoubleVector3 hoverPoint;
-            if (Terrain.Intersects(View.PickingRay(target), out hoverPoint))
+            if (Terrain.Intersects(View.PickingRay(target), out DoubleVector3 hoverPoint))
             {
                 // ToDo: Make steps discrete
                 _terrainPaintingBrushCircle.Position = _terrainPaintingBrushSquare.Position = hoverPoint;
@@ -206,8 +205,7 @@ namespace FrameOfReference.Presentation
             {
                 if (TerrainPaint != null)
                 {
-                    DoubleVector3 paintPoint;
-                    if (Terrain.Intersects(View.PickingRay(new(area.Right, area.Bottom)), out paintPoint))
+                    if (Terrain.Intersects(View.PickingRay(new(area.Right, area.Bottom)), out DoubleVector3 paintPoint))
                     { // Determine the terrain point at the location the user is currently "selecting" and "paint" on it
                         TerrainPaint(paintPoint.Flatten(), done);
                     }
@@ -232,8 +230,7 @@ namespace FrameOfReference.Presentation
                 if (TerrainPaint != null && e.Button == MouseButtons.Left)
                 {
                     // Determine the point the user click on and "paint" on it
-                    DoubleVector3 paintPoint;
-                    if (Terrain.Intersects(View.PickingRay(e.Location), out paintPoint))
+                    if (Terrain.Intersects(View.PickingRay(e.Location), out DoubleVector3 paintPoint))
                         TerrainPaint(paintPoint.Flatten(), true);
                 }
             }

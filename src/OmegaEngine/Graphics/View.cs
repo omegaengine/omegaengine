@@ -349,8 +349,7 @@ namespace OmegaEngine.Graphics
             foreach (PositionableRenderable body in _sortedBodies)
             {
                 // Find bodies that intersect the ray
-                float distance;
-                if (body.Pickable && body.Intersects(pickingRay, out distance))
+                if (body.Pickable && body.Intersects(pickingRay, out float distance))
                 {
                     // Check if new hit is closer that the previous best
                     if (distance < closestDistance)

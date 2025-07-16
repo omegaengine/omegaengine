@@ -413,8 +413,7 @@ namespace OmegaGUI.Model
             if (_locale != null && value.StartsWith("[", StringComparison.Ordinal) && value.EndsWith("]", StringComparison.Ordinal))
             {
                 string localeKey = value.Substring(1, value.Length - 2);
-                string localeValue;
-                if (_locale.TryGetValue(localeKey, out localeValue)) return localeValue;
+                if (_locale.TryGetValue(localeKey, out string localeValue)) return localeValue;
             }
             return value;
         }

@@ -48,8 +48,7 @@ namespace OmegaEngine.Graphics.Shaders
             if (render == null) throw new ArgumentNullException(nameof(render));
 
             int passCount = Effect.Begin(FX.None);
-            IList<SasScriptCommand> techniqueScript;
-            if (Techniques.TryGetValue(Effect.Technique, out techniqueScript))
+            if (Techniques.TryGetValue(Effect.Technique, out var techniqueScript))
                 ExecuteScript(techniqueScript, render, sceneSize, sceneMap);
             else
             {

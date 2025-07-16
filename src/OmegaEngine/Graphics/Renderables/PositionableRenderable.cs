@@ -545,8 +545,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <seealso cref="View.Pick"/>
         public bool Intersects(Ray ray, out DoubleVector3 position)
         {
-            float distance;
-            bool result = Intersects(ray, out distance);
+            bool result = Intersects(ray, out float distance);
 
             // Calculate position along the ray and compensate for position offset
             position = (ray.Position + distance * ray.Direction) - ((IPositionableOffset)this).Offset;
@@ -560,10 +559,9 @@ namespace OmegaEngine.Graphics.Renderables
         /// <returns><c>true</c> if the bounding bodies were undefined or intersected by the <paramref name="ray"/>.</returns>
         protected virtual bool IntersectsBounding(Ray ray)
         {
-            float distance;
-            if (WorldBoundingSphere.HasValue && !SlimDX.BoundingSphere.Intersects(WorldBoundingSphere.Value, ray, out distance))
+            if (WorldBoundingSphere.HasValue && !SlimDX.BoundingSphere.Intersects(WorldBoundingSphere.Value, ray, out float _))
                 return false;
-            if (WorldBoundingBox.HasValue && !SlimDX.BoundingBox.Intersects(WorldBoundingBox.Value, ray, out distance))
+            if (WorldBoundingBox.HasValue && !SlimDX.BoundingBox.Intersects(WorldBoundingBox.Value, ray, out float _))
                 return false;
             return true;
         }
