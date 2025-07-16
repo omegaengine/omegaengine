@@ -14,7 +14,6 @@ using System.Reflection;
 using System.Windows.Forms;
 using LuaInterface;
 using NanoByte.Common;
-using NanoByte.Common.Collections;
 using NanoByte.Common.Storage;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Renderables;

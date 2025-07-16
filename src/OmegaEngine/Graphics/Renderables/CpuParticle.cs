@@ -7,9 +7,6 @@
  */
 
 using System;
-using NanoByte.Common;
-using NanoByte.Common.Collections;
-using NanoByte.Common.Values;
 using OmegaEngine.Collections;
 using SlimDX;
 using SlimDX.Direct3D9;
