@@ -9,7 +9,6 @@
 using System;
 using System.ComponentModel;
 using NanoByte.Common;
-using NanoByte.Common.Values;
 using OmegaEngine.Properties;
 using OmegaEngine.Values;
 using Vector3 = SlimDX.Vector3;

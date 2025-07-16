@@ -22,7 +22,6 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
 using AlphaFramework.Presentation;
 using FrameOfReference.Presentation;
 using FrameOfReference.Properties;
@@ -30,7 +29,6 @@ using FrameOfReference.World;
 using FrameOfReference.World.Config;
 using LuaInterface;
 using NanoByte.Common;
-using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Values;
 

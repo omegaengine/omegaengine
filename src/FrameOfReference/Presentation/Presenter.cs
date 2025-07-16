@@ -27,7 +27,6 @@ using AlphaFramework.World.Positionables;
 using FrameOfReference.World;
 using FrameOfReference.World.Config;
 using NanoByte.Common.Dispatch;
-using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;

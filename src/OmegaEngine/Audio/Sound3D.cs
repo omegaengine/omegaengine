@@ -9,7 +9,6 @@
 using System;
 using System.ComponentModel;
 using NanoByte.Common;
-using NanoByte.Common.Values;
 using SlimDX;
 using SlimDX.DirectSound;
 using OmegaEngine.Assets;

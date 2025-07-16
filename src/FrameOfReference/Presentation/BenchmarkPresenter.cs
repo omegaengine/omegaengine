@@ -29,9 +29,7 @@ using FrameOfReference.World.Config;
 using ICSharpCode.SharpZipLib.Zip;
 using NanoByte.Common;
 using NanoByte.Common.Info;
-using NanoByte.Common.Values;
 using OmegaEngine;
-using OmegaEngine.Graphics;
 using OmegaEngine.Storage;
 using Locations = NanoByte.Common.Storage.Locations;
 

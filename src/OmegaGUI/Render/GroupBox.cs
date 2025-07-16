@@ -6,7 +6,6 @@
  * under the Microsoft Public License.
  */
 
-using System;
 using SlimDX;
 using SlimDX.Direct3D9;
 

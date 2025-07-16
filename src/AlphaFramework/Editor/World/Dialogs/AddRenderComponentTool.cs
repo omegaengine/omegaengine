@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Templates;
 

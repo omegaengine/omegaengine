@@ -24,7 +24,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
-using NanoByte.Common.Values;
 using OmegaEngine.Storage;
 using OmegaEngine.Values;
 using SlimDX.Direct3D9;

@@ -17,7 +17,6 @@ using System.Windows.Forms;
 using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Native;
-using NanoByte.Common.Values;
 using OmegaEngine.Input;
 using OmegaEngine.Values;
 using SlimDX;

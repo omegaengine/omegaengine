@@ -7,7 +7,6 @@
  */
 
 using System;
-using NanoByte.Common;
 using OmegaEngine;
 
 namespace AlphaFramework.World.Terrains

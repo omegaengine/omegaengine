@@ -9,7 +9,6 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using NanoByte.Common.Values;
 
 namespace OmegaEngine.Input
 {

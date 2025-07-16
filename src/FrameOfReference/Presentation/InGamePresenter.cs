@@ -30,7 +30,6 @@ using FrameOfReference.World.Positionables;
 using OmegaEngine;
 using OmegaEngine.Graphics.Cameras;
 using SlimDX;
-using View = OmegaEngine.Graphics.View;
 
 namespace FrameOfReference.Presentation
 {

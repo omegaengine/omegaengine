@@ -13,7 +13,6 @@ using System.Windows.Forms;
 using NanoByte.Common.Native;
 using SlimDX;
 using SlimDX.Direct3D9;
-using WinFont = System.Drawing.Font;
 
 namespace OmegaGUI.Render
 {

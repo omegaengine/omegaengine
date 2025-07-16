@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using NanoByte.Common;
-using NanoByte.Common.Collections;
 using OmegaEngine.Collections;
 using SlimDX.Direct3D9;
 

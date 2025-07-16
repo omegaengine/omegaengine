@@ -12,7 +12,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NanoByte.Common;
-using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Storage;
 using OmegaGUI;
@@ -20,7 +19,6 @@ using OmegaGUI.Model;
 using Control = OmegaGUI.Model.Control;
 using GroupBox = OmegaGUI.Model.GroupBox;
 using ListBox = OmegaGUI.Model.ListBox;
-using View = OmegaEngine.Graphics.View;
 
 namespace AlphaFramework.Editor.Gui
 {

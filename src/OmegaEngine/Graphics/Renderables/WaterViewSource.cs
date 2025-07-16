@@ -10,7 +10,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using NanoByte.Common;
-using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Values;
 using SlimDX;

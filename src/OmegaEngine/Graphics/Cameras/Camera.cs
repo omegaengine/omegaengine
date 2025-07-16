@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using NanoByte.Common;
-using NanoByte.Common.Values;
 using OmegaEngine.Values;
 using SlimDX;
 
