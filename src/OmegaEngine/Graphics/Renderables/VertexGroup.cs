@@ -234,7 +234,7 @@ namespace OmegaEngine.Graphics.Renderables
             // Handle lights for fixed-function or shader rendering
             var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getLights == null)
                 ? []
-                : getLights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
+                : getLights(Position, BoundingSphere?.Radius ?? 0);
             RenderHelper(render, _material, camera, effectiveLights);
             #endregion
         }

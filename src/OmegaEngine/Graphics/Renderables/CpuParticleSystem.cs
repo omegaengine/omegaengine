@@ -70,13 +70,9 @@ namespace OmegaEngine.Graphics.Renderables
         /// <param name="preset">The initial configuration of the particle system.</param>
         public CpuParticleSystem(CpuParticlePreset preset)
         {
-            #region Sanity checks
-            if (preset == null) throw new ArgumentNullException(nameof(preset));
-            #endregion
-
             Pickable = false;
             RenderIn = ViewType.NormalOnly;
-            Preset = preset;
+            Preset = preset ?? throw new ArgumentNullException(nameof(preset));
 
             // Set the highest alpha blending value here to get correct sorting behaviour
             Alpha = preset.Particle1Alpha > preset.Particle2Alpha ? preset.Particle1Alpha : preset.Particle2Alpha;

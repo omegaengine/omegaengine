@@ -36,11 +36,7 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
         /// <param name="terrain">The <see cref="Terrain"/> to modify.</param>
         protected Base(ITerrain terrain)
         {
-            #region Sanity checks
-            if (terrain == null) throw new ArgumentNullException(nameof(terrain));
-            #endregion
-
-            Terrain = terrain;
+            Terrain = terrain ?? throw new ArgumentNullException(nameof(terrain));
         }
 
         /// <summary>

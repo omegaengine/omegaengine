@@ -38,11 +38,7 @@ namespace AlphaFramework.World.Paths
         /// <param name="obstructionMap">A 2D map of obstructed (untraversable) fields.</param>
         public SimplePathfinder(bool[,] obstructionMap)
         {
-            #region Sanity checks
-            if (obstructionMap == null) throw new ArgumentNullException(nameof(obstructionMap));
-            #endregion
-
-            _obstructionMap = obstructionMap;
+            _obstructionMap = obstructionMap ?? throw new ArgumentNullException(nameof(obstructionMap));
         }
 
         /// <inheritdoc/>

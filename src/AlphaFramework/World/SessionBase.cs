@@ -42,11 +42,7 @@ namespace AlphaFramework.World
         /// <param name="baseUniverse">The universe to base the new game session on.</param>
         protected SessionBase(TUniverse baseUniverse)
         {
-            #region Sanity checks
-            if (baseUniverse == null) throw new ArgumentNullException(nameof(baseUniverse));
-            #endregion
-
-            Universe = baseUniverse;
+            Universe = baseUniverse ?? throw new ArgumentNullException(nameof(baseUniverse));
 
             // Transfer map name from universe to session, because it will persist there
             MapSourceFile = baseUniverse.SourceFile;

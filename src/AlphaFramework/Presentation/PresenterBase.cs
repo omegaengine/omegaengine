@@ -39,13 +39,8 @@ namespace AlphaFramework.Presentation
         /// <param name="universe">The game world to present.</param>
         protected PresenterBase(Engine engine, TUniverse universe)
         {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException(nameof(engine));
-            if (universe == null) throw new ArgumentNullException(nameof(universe));
-            #endregion
-
-            Engine = engine;
-            Universe = universe;
+            Engine = engine ?? throw new ArgumentNullException(nameof(engine));
+            Universe = universe ?? throw new ArgumentNullException(nameof(universe));
 
             Scene = new();
             RenderablesSync = new(Universe.Positionables, Scene.Positionables);

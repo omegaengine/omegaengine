@@ -35,15 +35,10 @@ namespace AlphaFramework.Editor.World.Commands
         /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to add/remove.</param>
         protected AddRemovePositionables(UniverseBase<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> positionables)
         {
-            #region Sanity checks
-            if (universe == null) throw new ArgumentNullException(nameof(universe));
-            if (positionables == null) throw new ArgumentNullException(nameof(positionables));
-            #endregion
-
-            _universe = universe;
+            _universe = universe ?? throw new ArgumentNullException(nameof(universe));
 
             // Create local defensive copy of entities
-            _positionables = new(positionables);
+            _positionables = new(positionables ?? throw new ArgumentNullException(nameof(positionables)));
         }
         #endregion
 

@@ -43,11 +43,7 @@ namespace OmegaEngine.Audio
         /// <param name="sound">The <see cref="XSound"/> asset to get the audio data from.</param>
         public Sound(XSound sound)
         {
-            #region Sanity checks
-            if (sound == null) throw new ArgumentNullException(nameof(sound));
-            #endregion
-
-            Asset = sound;
+            Asset = sound ?? throw new ArgumentNullException(nameof(sound));
             Asset.HoldReference();
         }
         #endregion

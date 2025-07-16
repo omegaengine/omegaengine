@@ -37,19 +37,13 @@ namespace AlphaFramework.Editor.World.Commands
         /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
         public ModifyHeightMap(ITerrain terrain, Point offset, byte[,] oldPartialData, byte[,] newPartialData, Action refreshHandler)
         {
-            #region Sanity checks
-            if (terrain == null) throw new ArgumentNullException(nameof(terrain));
-            if (oldPartialData == null) throw new ArgumentNullException(nameof(oldPartialData));
-            if (newPartialData == null) throw new ArgumentNullException(nameof(newPartialData));
-            if (refreshHandler == null) throw new ArgumentNullException(nameof(refreshHandler));
-            if (oldPartialData.GetLength(0) != newPartialData.GetLength(0) || oldPartialData.GetLength(1) != newPartialData.GetLength(1)) throw new ArgumentException(Resources.PartialDataArrayDimensionsNotEqual, nameof(newPartialData));
-            #endregion
-
-            _terrain = terrain;
+            _terrain = terrain ?? throw new ArgumentNullException(nameof(terrain));
             _start = offset;
-            _oldPartialData = oldPartialData;
-            _newPartialData = newPartialData;
-            _refreshHandler = refreshHandler;
+            _oldPartialData = oldPartialData ?? throw new ArgumentNullException(nameof(oldPartialData));
+            _newPartialData = newPartialData ??  throw new ArgumentNullException(nameof(newPartialData));
+            _refreshHandler = refreshHandler ?? throw new ArgumentNullException(nameof(refreshHandler));
+
+            if (oldPartialData.GetLength(0) != newPartialData.GetLength(0) || oldPartialData.GetLength(1) != newPartialData.GetLength(1)) throw new ArgumentException(Resources.PartialDataArrayDimensionsNotEqual, nameof(newPartialData));
         }
         #endregion
 
