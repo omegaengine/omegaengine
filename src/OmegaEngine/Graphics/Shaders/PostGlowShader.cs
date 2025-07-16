@@ -59,11 +59,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <exception cref="NotSupportedException">The graphics card does not support this shader.</exception>
         public PostGlowShader(TextureView glowView)
         {
-            #region Sanity checks
-            if (glowView == null) throw new ArgumentNullException(nameof(glowView));
-            #endregion
-
-            _glowView = glowView;
+            _glowView = glowView ?? throw new ArgumentNullException(nameof(glowView));
         }
         #endregion
 

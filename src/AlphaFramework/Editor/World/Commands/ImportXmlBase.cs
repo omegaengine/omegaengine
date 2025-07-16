@@ -38,17 +38,10 @@ namespace AlphaFramework.Editor.World.Commands
         /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
         protected ImportXmlBase(Func<TUniverse> getUniverse, Action<TUniverse> setUniverse, string xmlData, Action refreshHandler)
         {
-            #region Sanity checks
-            if (getUniverse == null) throw new ArgumentNullException(nameof(getUniverse));
-            if (setUniverse == null) throw new ArgumentNullException(nameof(setUniverse));
-            if (xmlData == null) throw new ArgumentNullException(nameof(xmlData));
-            if (refreshHandler == null) throw new ArgumentNullException(nameof(refreshHandler));
-            #endregion
-
-            _getUniverse = getUniverse;
-            _setUniverse = setUniverse;
-            _xmlData = xmlData;
-            _refreshHandler = refreshHandler;
+            _getUniverse = getUniverse ?? throw new ArgumentNullException(nameof(getUniverse));
+            _setUniverse = setUniverse ?? throw new ArgumentNullException(nameof(setUniverse));
+            _xmlData = xmlData ?? throw new ArgumentNullException(nameof(xmlData));
+            _refreshHandler = refreshHandler ?? throw new ArgumentNullException(nameof(refreshHandler));
         }
         #endregion
 

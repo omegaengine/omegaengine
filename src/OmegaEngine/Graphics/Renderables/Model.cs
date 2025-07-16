@@ -77,11 +77,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <remarks>Calling <see cref="IDisposable.Dispose"/> will not dispose the <paramref name="mesh"/>. This is handled by the <see cref="CacheManager"/>.</remarks>
         public Model(XMesh mesh)
         {
-            #region Sanity checks
-            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
-            #endregion
-
-            _asset = mesh;
+            _asset = mesh ?? throw new ArgumentNullException(nameof(mesh));
             _asset.HoldReference();
 
             // Get mesh from asset
@@ -106,11 +102,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <remarks>Calling <see cref="IDisposable.Dispose"/> will call <see cref="IReferenceCount.ReleaseReference"/> on <paramref name="mesh"/> and <paramref name="materials"/>.</remarks>
         public Model(XMesh mesh, params XMaterial[] materials)
         {
-            #region Sanity checks
-            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
-            #endregion
-
-            _asset = mesh;
+            _asset = mesh ?? throw new ArgumentNullException(nameof(mesh));
             _asset.HoldReference();
 
             // Get mesh from asset
@@ -137,12 +129,8 @@ namespace OmegaEngine.Graphics.Renderables
         /// <remarks>Calling <see cref="IDisposable.Dispose"/> will call <see cref="IDisposable.Dispose"/> on <paramref name="mesh"/> and <see cref="IReferenceCount.ReleaseReference"/> on <paramref name="materials"/>.</remarks>
         public Model(Mesh mesh, params XMaterial[] materials)
         {
-            #region Sanity checks
-            if (mesh == null) throw new ArgumentNullException(nameof(mesh));
-            #endregion
-
             // Get custom mesh
-            Mesh = mesh;
+            Mesh = mesh ?? throw new ArgumentNullException(nameof(mesh));
             _ownMesh = true;
 
             // Get separate materials
@@ -166,7 +154,7 @@ namespace OmegaEngine.Graphics.Renderables
 
             var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getLights == null)
                 ? []
-                : getLights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
+                : getLights(Position, BoundingSphere?.Radius ?? 0);
             for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, effectiveLights);
         }
 

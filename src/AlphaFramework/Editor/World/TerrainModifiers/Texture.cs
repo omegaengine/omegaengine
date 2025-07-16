@@ -35,12 +35,8 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
         public Texture(ITerrain terrain, Action refreshHandler, byte textureID)
             : base(terrain)
         {
-            #region Sanity checks
-            if (refreshHandler == null) throw new ArgumentNullException(nameof(refreshHandler));
-            #endregion
-
             _textureID = textureID;
-            _refreshHandler = refreshHandler;
+            _refreshHandler = refreshHandler ?? throw new ArgumentNullException(nameof(refreshHandler));
         }
 
         /// <inheritdoc/>

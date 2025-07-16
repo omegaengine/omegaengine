@@ -61,11 +61,7 @@ namespace OmegaGUI
         /// <param name="engine">The <see cref="Engine"/> to render in.</param>
         public GuiManager(Engine engine)
         {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException(nameof(engine));
-            #endregion
-
-            _engine = engine;
+            _engine = engine ?? throw new ArgumentNullException(nameof(engine));
             DialogManager = new(engine);
             engine.ExtraRender += Render;
         }

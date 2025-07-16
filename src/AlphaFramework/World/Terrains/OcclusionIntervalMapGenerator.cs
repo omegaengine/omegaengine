@@ -58,11 +58,7 @@ namespace AlphaFramework.World.Terrains
         /// <param name="lightSourceInclination">The angle of inclination of the sun's path away from the horizon in degrees.</param>
         public OcclusionIntervalMapGenerator(ByteGrid heightMap, float stretchH = 1, float stretchV = 1, double lightSourceInclination = 90)
         {
-            #region Sanity chekcs
-            if (heightMap == null) throw new ArgumentNullException(nameof(heightMap));
-            #endregion
-
-            _heightMap = heightMap;
+            _heightMap = heightMap ?? throw new ArgumentNullException(nameof(heightMap));
 
             // Pre-calculate all ray directions
             lightSourceInclination = lightSourceInclination.DegreeToRadian();

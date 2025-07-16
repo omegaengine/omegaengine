@@ -78,7 +78,7 @@ namespace OmegaGUI.Model
         [XmlAttribute]
         public override bool Checked
         {
-            get => _radioButton != null ? _radioButton.IsChecked : IsChecked;
+            get => _radioButton?.IsChecked ?? IsChecked;
             set
             {
                 IsChecked = value;
