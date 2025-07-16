@@ -586,7 +586,7 @@ namespace FrameOfReference.Editor.World
             else _mapPropertiesTool.Show(this);
         }
 
-        private void buttonCameraStatupPerspective_Click(object sender, EventArgs e)
+        private void buttonCameraStartupPerspective_Click(object sender, EventArgs e)
         {
             if (!Msg.OkCancel(this, Resources.StoreCameraPerspective, MsgSeverity.Info, Resources.StoreCameraPerspectiveOK, Resources.StoreCameraPerspectiveCancel)) return;
 

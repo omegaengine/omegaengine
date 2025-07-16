@@ -55,7 +55,7 @@ namespace FrameOfReference.Editor.World
             this.buttonRemove = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonMapProperties = new System.Windows.Forms.ToolStripSplitButton();
-            this.buttonCameraStatupPerspective = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonCameraStartupPerspective = new System.Windows.Forms.ToolStripMenuItem();
             this.dialogExportHeightMap = new System.Windows.Forms.SaveFileDialog();
             this.dialogImportHeightMap = new System.Windows.Forms.OpenFileDialog();
             this.dialogExportTextureMap = new System.Windows.Forms.SaveFileDialog();
@@ -334,7 +334,7 @@ namespace FrameOfReference.Editor.World
             // buttonMapProperties
             // 
             this.buttonMapProperties.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.buttonCameraStatupPerspective,
+            this.buttonCameraStartupPerspective,
             this.buttonRandomizeRotations});
             this.buttonMapProperties.Image = ((System.Drawing.Image)(resources.GetObject("buttonMapProperties.Image")));
             this.buttonMapProperties.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -343,12 +343,12 @@ namespace FrameOfReference.Editor.World
             this.buttonMapProperties.Text = "Map properties";
             this.buttonMapProperties.ButtonClick += new System.EventHandler(this.buttonMapProperties_ButtonClick);
             // 
-            // buttonCameraStatupPerspective
+            // buttonCameraStartupPerspective
             // 
-            this.buttonCameraStatupPerspective.Name = "buttonCameraStatupPerspective";
-            this.buttonCameraStatupPerspective.Size = new System.Drawing.Size(235, 22);
-            this.buttonCameraStatupPerspective.Text = "Set camera &startup perspective";
-            this.buttonCameraStatupPerspective.Click += new System.EventHandler(this.buttonCameraStatupPerspective_Click);
+            this.buttonCameraStartupPerspective.Name = "buttonCameraStartupPerspective";
+            this.buttonCameraStartupPerspective.Size = new System.Drawing.Size(235, 22);
+            this.buttonCameraStartupPerspective.Text = "Set camera &startup perspective";
+            this.buttonCameraStartupPerspective.Click += new System.EventHandler(this.buttonCameraStartupPerspective_Click);
             // 
             // dialogExportHeightMap
             // 
@@ -1041,7 +1041,7 @@ namespace FrameOfReference.Editor.World
         private System.Windows.Forms.CheckBox checkWater;
         private System.Windows.Forms.TabPage tabPageHeight;
         private System.Windows.Forms.ToolStripSplitButton buttonMapProperties;
-        private System.Windows.Forms.ToolStripMenuItem buttonCameraStatupPerspective;
+        private System.Windows.Forms.ToolStripMenuItem buttonCameraStartupPerspective;
         private System.Windows.Forms.GroupBox groupHeightShape;
         private System.Windows.Forms.RadioButton radioHeightSmooth;
         private System.Windows.Forms.RadioButton radioHeightNoise;
