@@ -160,10 +160,8 @@ namespace OmegaEngine.Graphics.Renderables
                 throw new NotSupportedException(Resources.NotSupportedShader);
 
             // Generate mesh with subsets and bounding bodies
-            BoundingBox[] subsetBoundingBoxes;
-            SurfaceShader[] subsetShaders;
             var terrain = new Terrain(
-                BuildMesh(engine, size, stretchH, stretchV, heightMap, textureMap, occlusionIntervalMap, lighting, blockSize, out subsetShaders, out subsetBoundingBoxes),
+                BuildMesh(engine, size, stretchH, stretchV, heightMap, textureMap, occlusionIntervalMap, lighting, blockSize, out var subsetShaders, out var subsetBoundingBoxes),
                 BuildMaterial(engine, textures),
                 lighting)
             {

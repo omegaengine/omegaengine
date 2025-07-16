@@ -188,9 +188,7 @@ namespace OmegaEngine.Graphics.Renderables
                 Vector3.TransformNormal(ray.Direction, InverseWorldTransform));
 
             // Check for mesh intersection
-            int faceIndex;
-            IntersectInformation[] hits;
-            bool result = Mesh.Intersects(ray, out distance, out faceIndex, out hits);
+            bool result = Mesh.Intersects(ray, out distance, out int _, out _);
             return result;
         }
         #endregion

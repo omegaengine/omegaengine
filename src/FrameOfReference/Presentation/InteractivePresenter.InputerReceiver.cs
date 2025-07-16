@@ -93,20 +93,16 @@ namespace FrameOfReference.Presentation
             Vector2 topLeftCoord, bottomLeftCoord, bottomRightCoord, topRightCoord;
             using (new TimedLogEvent("Calculating terrain coordinates for picking"))
             {
-                DoubleVector3 topLeftPoint;
-                if (!Terrain.Intersects(View.PickingRay(new(area.Left, area.Top)), out topLeftPoint)) return new();
+                if (!Terrain.Intersects(View.PickingRay(new(area.Left, area.Top)), out DoubleVector3 topLeftPoint)) return new();
                 topLeftCoord = topLeftPoint.Flatten();
 
-                DoubleVector3 bottomLeftPoint;
-                if (!Terrain.Intersects(View.PickingRay(new(area.Left, area.Bottom)), out bottomLeftPoint)) return new();
+                if (!Terrain.Intersects(View.PickingRay(new(area.Left, area.Bottom)), out DoubleVector3 bottomLeftPoint)) return new();
                 bottomLeftCoord = bottomLeftPoint.Flatten();
 
-                DoubleVector3 bottomRightPoint;
-                if (!Terrain.Intersects(View.PickingRay(new(area.Right, area.Bottom)), out bottomRightPoint)) return new();
+                if (!Terrain.Intersects(View.PickingRay(new(area.Right, area.Bottom)), out DoubleVector3 bottomRightPoint)) return new();
                 bottomRightCoord = bottomRightPoint.Flatten();
 
-                DoubleVector3 topRightPoint;
-                if (!Terrain.Intersects(View.PickingRay(new(area.Right, area.Top)), out topRightPoint)) return new();
+                if (!Terrain.Intersects(View.PickingRay(new(area.Right, area.Top)), out DoubleVector3 topRightPoint)) return new();
                 topRightCoord = topRightPoint.Flatten();
             }
 
@@ -123,8 +119,7 @@ namespace FrameOfReference.Presentation
             #endregion
 
             // Determine the Engine object the user clicked on
-            DoubleVector3 intersectPosition;
-            var pickedObject = View.Pick(e.Location, out intersectPosition);
+            var pickedObject = View.Pick(e.Location, out var intersectPosition);
             if (pickedObject == null) return;
 
             switch (e.Button)
@@ -166,8 +161,7 @@ namespace FrameOfReference.Presentation
             #endregion
 
             // Determine the Engine object the user double-clicked on
-            DoubleVector3 intersectPosition;
-            var pickedObject = View.Pick(e.Location, out intersectPosition);
+            var pickedObject = View.Pick(e.Location, out _);
 
             // Action: Double-click on entity to select and focus camera
             if (pickedObject != null && !(pickedObject is Terrain) && !(View.Camera is CinematicCamera)) /* Each swing must complete before the next one can start */
