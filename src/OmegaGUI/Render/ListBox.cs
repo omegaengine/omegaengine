@@ -101,7 +101,7 @@ namespace OmegaGUI.Render
             scrollbarControl.SetLocation(boundingBox.Right - scrollWidth, boundingBox.Top);
             scrollbarControl.SetSize(scrollWidth, height);
             FontNode fNode = parentDialog.DialogManager.GetFontNode((int)elementList[0].FontIndex);
-            if ((fNode != null) && (fNode.Height > 0))
+            if (fNode is { Height: > 0 })
             {
                 scrollbarControl.PageSize = (int)(textRect.Height / fNode.Height);
 

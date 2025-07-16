@@ -75,7 +75,7 @@ namespace OmegaEngine.Storage
             get => _baseDir;
             set
             {
-                if (value != null && !value.Exists)
+                if (value is { Exists: false })
                     throw new DirectoryNotFoundException(Resources.NotFoundGameContentDir + Environment.NewLine + value.FullName);
                 _baseDir = value;
             }
@@ -91,7 +91,7 @@ namespace OmegaEngine.Storage
             get => _modDir;
             set
             {
-                if (value != null && !value.Exists)
+                if (value is { Exists: false })
                     throw new DirectoryNotFoundException(Resources.NotFoundModContentDir + Environment.NewLine + value.FullName);
                 _modDir = value;
             }

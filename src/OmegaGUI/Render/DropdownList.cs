@@ -113,7 +113,7 @@ namespace OmegaGUI.Render
             scrollbarControl.SetSize(scrollWidth, dropDownRect.Height - 2);
             FontNode fNode = parentDialog.DialogManager.GetFontNode(
                 (int)(elementList[2]).FontIndex);
-            if ((fNode != null) && (fNode.Height > 0))
+            if (fNode is { Height: > 0 })
             {
                 scrollbarControl.PageSize = (int)(dropDownTextRect.Height / fNode.Height);
 
@@ -420,7 +420,7 @@ namespace OmegaGUI.Render
             if (!isScrollBarInit)
             {
                 FontNode fNode = parentDialog.DialogManager.GetFontNode((int)e.FontIndex);
-                if ((fNode != null) && (fNode.Height > 0))
+                if (fNode is { Height: > 0 })
                     scrollbarControl.PageSize = (int)(dropDownTextRect.Height / fNode.Height);
                 else
                     scrollbarControl.PageSize = dropDownTextRect.Height;
