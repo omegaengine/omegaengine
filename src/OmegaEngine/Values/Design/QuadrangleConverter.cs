@@ -22,8 +22,7 @@ namespace OmegaEngine.Values.Design
         protected override int NoArguments => 8;
 
         /// <inheritdoc/>
-        protected override ConstructorInfo GetConstructor() => typeof(Quadrangle).GetConstructor(new[]
-        {
+        protected override ConstructorInfo GetConstructor() => typeof(Quadrangle).GetConstructor([
             typeof(float),
             typeof(float),
             typeof(float),
@@ -32,11 +31,11 @@ namespace OmegaEngine.Values.Design
             typeof(float),
             typeof(float),
             typeof(float)
-        });
+        ]);
 
         /// <inheritdoc/>
-        protected override object[] GetArguments(Quadrangle value) => new object[]
-        {
+        protected override object[] GetArguments(Quadrangle value) =>
+        [
             value.P1.X,
             value.P1.Y,
             value.P2.X,
@@ -45,14 +44,14 @@ namespace OmegaEngine.Values.Design
             value.P3.Y,
             value.P4.X,
             value.P4.Y
-        };
+        ];
 
         /// <inheritdoc/>
         protected override string[] GetValues(Quadrangle value, ITypeDescriptorContext context, CultureInfo culture)
         {
             var floatConverter = TypeDescriptor.GetConverter(typeof(float));
-            return new[]
-            {
+            return
+            [
                 floatConverter.ConvertToString(context, culture, value.P1.X),
                 floatConverter.ConvertToString(context, culture, value.P1.Y),
                 floatConverter.ConvertToString(context, culture, value.P2.X),
@@ -61,7 +60,7 @@ namespace OmegaEngine.Values.Design
                 floatConverter.ConvertToString(context, culture, value.P3.Y),
                 floatConverter.ConvertToString(context, culture, value.P4.X),
                 floatConverter.ConvertToString(context, culture, value.P4.Y)
-            };
+            ];
         }
 
         /// <inheritdoc/>
@@ -72,11 +71,11 @@ namespace OmegaEngine.Values.Design
             if (culture == null) throw new ArgumentNullException(nameof(culture));
             #endregion
 
-            return new Quadrangle(
-                new Vector2(Convert.ToSingle(values[0], culture), Convert.ToSingle(values[1], culture)),
-                new Vector2(Convert.ToSingle(values[2], culture), Convert.ToSingle(values[3], culture)),
-                new Vector2(Convert.ToSingle(values[4], culture), Convert.ToSingle(values[5], culture)),
-                new Vector2(Convert.ToSingle(values[6], culture), Convert.ToSingle(values[7], culture)));
+            return new(
+                new(Convert.ToSingle(values[0], culture), Convert.ToSingle(values[1], culture)),
+                new(Convert.ToSingle(values[2], culture), Convert.ToSingle(values[3], culture)),
+                new(Convert.ToSingle(values[4], culture), Convert.ToSingle(values[5], culture)),
+                new(Convert.ToSingle(values[6], culture), Convert.ToSingle(values[7], culture)));
         }
 
         /// <inheritdoc/>
@@ -86,7 +85,7 @@ namespace OmegaEngine.Values.Design
             if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
             #endregion
 
-            return new Quadrangle(
+            return new(
                 (Vector2)propertyValues["P1"], (Vector2)propertyValues["P2"],
                 (Vector2)propertyValues["P3"], (Vector2)propertyValues["P4"]);
         }

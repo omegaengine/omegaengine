@@ -23,7 +23,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
-        public static Version MinShaderModel => new Version(2, 0);
+        public static Version MinShaderModel => new(2, 0);
 
         private float _blurStart = 5.0f, _blurWidth = -0.05f;
 
@@ -55,7 +55,7 @@ namespace OmegaEngine.Graphics.Shaders
             }
         }
 
-        private Vector2 _blurCenter = new Vector2(0.5f, 0.5f);
+        private Vector2 _blurCenter = new(0.5f, 0.5f);
 
         /// <summary>
         /// The center/origin of the radial blur effect

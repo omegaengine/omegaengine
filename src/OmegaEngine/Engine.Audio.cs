@@ -41,14 +41,14 @@ namespace OmegaEngine
         /// <exception cref="SlimDX.DirectSound.DirectSoundException">internal errors occurred while intiliazing the sound card.</exception>
         private void SetupAudio()
         {
-            AudioDevice = new DirectSound();
+            AudioDevice = new();
             AudioDevice.SetCooperativeLevel(Target.Handle, CooperativeLevel.Priority);
 
             // ToDo
             //var buffer = new PrimarySoundBuffer(SoundDevice, new SoundBufferDescription {Flags = BufferFlags.Control3D | BufferFlags.PrimaryBuffer});
             //_listener = new SoundListener3D(buffer) { RolloffFactor = 0.005f };
 
-            Music = new MusicManager(this);
+            Music = new(this);
         }
         #endregion
     }

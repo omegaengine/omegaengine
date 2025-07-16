@@ -60,7 +60,7 @@ namespace OmegaGUI.Model
         #region Constructor
         public ScrollBar()
         {
-            Size = new Size(20, 150);
+            Size = new(20, 150);
         }
         #endregion
 

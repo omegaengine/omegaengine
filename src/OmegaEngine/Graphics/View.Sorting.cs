@@ -26,7 +26,7 @@ namespace OmegaEngine.Graphics
         /// Subset of <see cref="PostShaders"/>.
         /// Cache for a single frame, used in <see cref="Render"/>
         /// </remarks>
-        private readonly List<PostShader> _effectivePostShaders = new List<PostShader>(5); // Use educated guess for list capacity
+        private readonly List<PostShader> _effectivePostShaders = new(5); // Use educated guess for list capacity
 
         /// <summary>
         /// A front-to-back sorted list of visible <see cref="PositionableRenderable"/>s
@@ -35,7 +35,7 @@ namespace OmegaEngine.Graphics
         /// Subset of <see cref="OmegaEngine.Graphics.Scene.Positionables"/>.
         /// Cache for a single frame, used in <see cref="RenderScene"/> and <see cref="Pick"/>
         /// </remarks>
-        private readonly List<PositionableRenderable> _sortedBodies = new List<PositionableRenderable>(50); // Use educated guess for list capacity
+        private readonly List<PositionableRenderable> _sortedBodies = new(50); // Use educated guess for list capacity
 
         /// <summary>
         /// A front-to-back sorted list of visible <see cref="Water"/>s
@@ -44,7 +44,7 @@ namespace OmegaEngine.Graphics
         /// Subset of <see cref="_sortedBodies"/>.
         /// Cache for a single frame, used in <see cref="RenderScene"/>
         /// </remarks>
-        private readonly List<Water> _sortedWaters = new List<Water>(10); // Use educated guess for list capacity
+        private readonly List<Water> _sortedWaters = new(10); // Use educated guess for list capacity
 
         /// <summary>
         /// A front-to-back sorted list of visible <see cref="Terrain"/>s
@@ -53,7 +53,7 @@ namespace OmegaEngine.Graphics
         /// Subset of <see cref="_sortedBodies"/>.
         /// Cache for a single frame, used in <see cref="RenderScene"/>
         /// </remarks>
-        private readonly List<Terrain> _sortedTerrains = new List<Terrain>(1); // Use educated guess for list capacity
+        private readonly List<Terrain> _sortedTerrains = new(1); // Use educated guess for list capacity
 
         /// <summary>
         /// A front-to-back sorted list of visible, transparent (<see cref="Renderable.Alpha"/>) <see cref="PositionableRenderable"/>s
@@ -62,7 +62,7 @@ namespace OmegaEngine.Graphics
         /// Subset of <see cref="_sortedBodies"/>.
         /// Cache for a single frame, used in <see cref="RenderScene"/>
         /// </remarks>
-        private readonly List<PositionableRenderable> _sortedTransparentBodies = new List<PositionableRenderable>(10); // Use educated guess for list capacity
+        private readonly List<PositionableRenderable> _sortedTransparentBodies = new(10); // Use educated guess for list capacity
 
         /// <summary>
         /// A front-to-back sorted list of visible, opaque (<see cref="Renderable.Alpha"/>) <see cref="PositionableRenderable"/>s, except for <see cref="Water"/>s and <see cref="Terrain"/>s
@@ -71,7 +71,7 @@ namespace OmegaEngine.Graphics
         /// Subset of <see cref="_sortedBodies"/>.
         /// Cache for a single frame, used in <see cref="RenderScene"/>
         /// </remarks>
-        private readonly List<PositionableRenderable> _sortedOpaqueBodies = new List<PositionableRenderable>(30); // Use educated guess for list capacity
+        private readonly List<PositionableRenderable> _sortedOpaqueBodies = new(30); // Use educated guess for list capacity
         #endregion
 
         #region Sorting algorithms

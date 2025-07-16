@@ -195,7 +195,7 @@ namespace OmegaEngine.Graphics.Renderables
             if (partialColorMap == null) throw new ArgumentNullException(nameof(partialColorMap));
             #endregion
 
-            var modifyArea = new Rectangle(start, new Size(partialColorMap.GetLength(0), partialColorMap.GetLength(1)));
+            var modifyArea = new Rectangle(start, new(partialColorMap.GetLength(0), partialColorMap.GetLength(1)));
             var verts = BufferHelper.ReadVertexBuffer<PositionNormalMultiTextured>(Mesh);
 
             // Verts may no longer be in their original order (mesh optimized)
@@ -232,7 +232,7 @@ namespace OmegaEngine.Graphics.Renderables
             if (partialHeightMap == null) throw new ArgumentNullException(nameof(partialHeightMap));
             #endregion
 
-            var modifyArea = new Rectangle(start, new Size(partialHeightMap.GetLength(0), partialHeightMap.GetLength(1)));
+            var modifyArea = new Rectangle(start, new(partialHeightMap.GetLength(0), partialHeightMap.GetLength(1)));
             var verts = BufferHelper.ReadVertexBuffer<PositionMultiTextured>(Mesh);
 
             // Verts may no longer be in their original order (mesh optimized)
@@ -300,10 +300,10 @@ namespace OmegaEngine.Graphics.Renderables
                     XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
                     // Handle lights for fixed-function or shader rendering
-                    Vector3 boxCenter = (_subsetBoundingBoxes == null ? new Vector3() : _subsetBoundingBoxes[i].Minimum + (_subsetBoundingBoxes[i].Maximum - _subsetBoundingBoxes[i].Minimum) * 0.5f);
+                    Vector3 boxCenter = (_subsetBoundingBoxes == null ? new() : _subsetBoundingBoxes[i].Minimum + (_subsetBoundingBoxes[i].Maximum - _subsetBoundingBoxes[i].Minimum) * 0.5f);
 
                     var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain)
-                        ? new LightSource[0]
+                        ? []
                         : lights(Position + boxCenter, _blockSize * StretchH * (float)(Math.Sqrt(2) / 2));
                     RenderHelper(renderSubset, currentMaterial, camera, effectiveLights);
                 }

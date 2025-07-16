@@ -21,21 +21,21 @@ namespace OmegaEngine.Values.Design
         protected override int NoArguments => 3;
 
         /// <inheritdoc/>
-        protected override ConstructorInfo GetConstructor() => typeof(Attenuation).GetConstructor(new[] {typeof(float), typeof(float), typeof(float)});
+        protected override ConstructorInfo GetConstructor() => typeof(Attenuation).GetConstructor([typeof(float), typeof(float), typeof(float)]);
 
         /// <inheritdoc/>
-        protected override object[] GetArguments(Attenuation value) => new object[] {value.Constant, value.Linear, value.Quadratic};
+        protected override object[] GetArguments(Attenuation value) => [value.Constant, value.Linear, value.Quadratic];
 
         /// <inheritdoc/>
         protected override string[] GetValues(Attenuation value, ITypeDescriptorContext context, CultureInfo culture)
         {
             var floatConverter = TypeDescriptor.GetConverter(typeof(float));
-            return new[]
-            {
+            return
+            [
                 floatConverter.ConvertToString(context, culture, value.Constant),
                 floatConverter.ConvertToString(context, culture, value.Linear),
                 floatConverter.ConvertToString(context, culture, value.Quadratic)
-            };
+            ];
         }
 
         /// <inheritdoc/>
@@ -46,7 +46,7 @@ namespace OmegaEngine.Values.Design
             if (culture == null) throw new ArgumentNullException(nameof(culture));
             #endregion
 
-            return new Attenuation(Convert.ToSingle(values[0], culture), Convert.ToSingle(values[1], culture), Convert.ToSingle(values[2], culture));
+            return new(Convert.ToSingle(values[0], culture), Convert.ToSingle(values[1], culture), Convert.ToSingle(values[2], culture));
         }
 
         /// <inheritdoc/>
@@ -56,7 +56,7 @@ namespace OmegaEngine.Values.Design
             if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
             #endregion
 
-            return new Attenuation((float)propertyValues["Constant"], (float)propertyValues["Linear"], (float)propertyValues["Quadratic"]);
+            return new((float)propertyValues["Constant"], (float)propertyValues["Linear"], (float)propertyValues["Quadratic"]);
         }
     }
 }

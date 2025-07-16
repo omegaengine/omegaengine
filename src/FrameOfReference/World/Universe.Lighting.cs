@@ -148,7 +148,7 @@ namespace FrameOfReference.World
         #endregion
 
         #region Color correction
-        private ColorCorrection _colorCorrectionDawn = new ColorCorrection(brightness: 1.4f, saturation: 0.7f);
+        private ColorCorrection _colorCorrectionDawn = new(brightness: 1.4f, saturation: 0.7f);
 
         /// <summary>
         /// Color correction values to apply at dawn.
@@ -164,7 +164,7 @@ namespace FrameOfReference.World
         [Category("Lighting"), Description("Color correction values to apply in light phase 2 or 6 (noon).")]
         public ColorCorrection ColorCorrectionNoon { get { return _colorCorrectionNoon; } set { value.To(ref _colorCorrectionNoon, OnLightingChanged); } }
 
-        private ColorCorrection _colorCorrectionDusk = new ColorCorrection(brightness: 1.4f, contrast: 1.4f, saturation: 0.7f);
+        private ColorCorrection _colorCorrectionDusk = new(brightness: 1.4f, contrast: 1.4f, saturation: 0.7f);
 
         /// <summary>
         /// Color correction values to apply at dusk.
@@ -172,7 +172,7 @@ namespace FrameOfReference.World
         [Category("Lighting"), Description("Color correction values to apply in light phase  3 or 7 (twilight).")]
         public ColorCorrection ColorCorrectionDusk { get { return _colorCorrectionDusk; } set { value.To(ref _colorCorrectionDusk, OnLightingChanged); } }
 
-        private ColorCorrection _colorCorrectionMidnight = new ColorCorrection(brightness: 2, saturation: 0.5f);
+        private ColorCorrection _colorCorrectionMidnight = new(brightness: 2, saturation: 0.5f);
 
         /// <summary>
         /// Color correction values to apply at midnight.

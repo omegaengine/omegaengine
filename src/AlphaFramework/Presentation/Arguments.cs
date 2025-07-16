@@ -25,14 +25,14 @@ namespace AlphaFramework.Presentation
         /// </summary>
         public override string ToString() => _args;
 
-        private readonly List<string> _files = new List<string>();
+        private readonly List<string> _files = [];
 
         /// <summary>
         /// A list of all file names in the arguments.
         /// </summary>
         public IEnumerable<string> Files => _files;
 
-        private readonly Dictionary<string, string> _commands = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _commands = new();
 
         /// <summary>
         /// A list of all commands without leading slash or hyphen in the arguments.

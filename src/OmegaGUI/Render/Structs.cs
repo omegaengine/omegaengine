@@ -50,7 +50,7 @@ namespace OmegaGUI.Render
         /// <summary>Initialize the color blending</summary>
         public void Initialize(Color4 defaultColor)
         {
-            Initialize(defaultColor, new Color4(0.75f, 0.5f, 0.5f, 0.5f), new Color4());
+            Initialize(defaultColor, new(0.75f, 0.5f, 0.5f, 0.5f), new());
         }
 
         /// <summary>Blend the colors together</summary>

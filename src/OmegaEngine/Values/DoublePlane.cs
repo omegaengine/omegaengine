@@ -50,7 +50,7 @@ namespace OmegaEngine.Values
         /// </summary>
         /// <param name="offset">This value is subtracted from the double-precision data before it is casted to single-precision.</param>
         /// <returns>The newly positioned <see cref="Plane"/>.</returns>
-        public Plane ApplyOffset(DoubleVector3 offset) => new Plane(Point.ApplyOffset(offset), _normal);
+        public Plane ApplyOffset(DoubleVector3 offset) => new(Point.ApplyOffset(offset), _normal);
 
         #region Conversion
         /// <inheritdoc/>

@@ -23,7 +23,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
-        public static Version MinShaderModel => new Version(2, 0);
+        public static Version MinShaderModel => new(2, 0);
 
         private Color _glowColor = Color.White;
 

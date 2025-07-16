@@ -117,7 +117,7 @@ namespace OmegaEngine.Graphics.Renderables
             Mesh = mesh.Mesh;
 
             // Get separate materials
-            Materials = materials ?? new XMaterial[0];
+            Materials = materials ?? [];
             NumberSubsets = Materials.Length;
             foreach (var material in Materials) material.HoldReference();
             _separateMaterials = true;
@@ -146,7 +146,7 @@ namespace OmegaEngine.Graphics.Renderables
             _ownMesh = true;
 
             // Get separate materials
-            Materials = materials ?? new XMaterial[0];
+            Materials = materials ?? [];
             NumberSubsets = Materials.Length;
             foreach (var material in Materials) material.HoldReference();
             _separateMaterials = true;
@@ -165,7 +165,7 @@ namespace OmegaEngine.Graphics.Renderables
             Engine.State.WorldTransform = WorldTransform;
 
             var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getLights == null)
-                ? new LightSource[0]
+                ? []
                 : getLights(Position, BoundingSphere.HasValue ? BoundingSphere.Value.Radius : 0);
             for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, effectiveLights);
         }
@@ -194,7 +194,7 @@ namespace OmegaEngine.Graphics.Renderables
             }
 
             // Transform the world space picking ray into entity space
-            ray = new Ray(
+            ray = new(
                 Vector3.TransformCoordinate(ray.Position, InverseWorldTransform),
                 // Do not normalize so that ray length remains the same
                 Vector3.TransformNormal(ray.Direction, InverseWorldTransform));

@@ -54,7 +54,7 @@ namespace OmegaEngine.Graphics
         /// Subset of <see cref="Lights"/>.
         /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLights"/>
         /// </remarks>
-        private readonly List<DirectionalLight> _directionalLights = new List<DirectionalLight>();
+        private readonly List<DirectionalLight> _directionalLights = [];
 
         /// <summary>
         /// List of enabled (<see cref="LightSource.Enabled"/>) <see cref="PointLight"/>s to be treated like <see cref="DirectionalLight"/>s by <see cref="SurfaceShader"/>s
@@ -64,7 +64,7 @@ namespace OmegaEngine.Graphics
         /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLights"/>
         /// </remarks>
         /// <seealso cref="PointLight.DirectionalForShader"/>
-        private readonly List<PointLight> _pseudoDirectionalLights = new List<PointLight>();
+        private readonly List<PointLight> _pseudoDirectionalLights = [];
 
         /// <summary>
         /// List of enabled (<see cref="LightSource.Enabled"/>) <see cref="PointLight"/>s
@@ -73,11 +73,11 @@ namespace OmegaEngine.Graphics
         /// Subset of <see cref="Lights"/>.
         /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLights"/>
         /// </remarks>
-        private readonly List<PointLight> _pointLights = new List<PointLight>();
+        private readonly List<PointLight> _pointLights = [];
         #endregion
 
         #region Properties
-        private readonly EngineElementCollection<PositionableRenderable> _positionables = new EngineElementCollection<PositionableRenderable>();
+        private readonly EngineElementCollection<PositionableRenderable> _positionables = new();
 
         /// <summary>
         /// All <see cref="PositionableRenderable"/>s contained within this scene.
@@ -100,7 +100,7 @@ namespace OmegaEngine.Graphics
         }
 
         // Order is not important, duplicate entries are not allowed
-        private readonly HashSet<LightSource> _lights = new HashSet<LightSource>();
+        private readonly HashSet<LightSource> _lights = [];
         private Skybox _skybox;
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace OmegaEngine.Graphics
                     _directionalLights.Add(light);
 
                     // Fixed-function lighting
-                    return new Light
+                    return new()
                     {
                         Type = LightType.Directional, Direction = light.Direction,
                         Diffuse = light.Diffuse, Specular = light.Specular, Ambient = light.Ambient
@@ -152,7 +152,7 @@ namespace OmegaEngine.Graphics
                     else _pointLights.Add(light);
 
                     // Fixed-function lighting
-                    return new Light
+                    return new()
                     {
                         Type = LightType.Point, Position = ((IPositionableOffset)light).EffectivePosition, Range = light.Range,
                         Attenuation0 = light.Attenuation.Constant, Attenuation1 = light.Attenuation.Linear, Attenuation2 = light.Attenuation.Quadratic,

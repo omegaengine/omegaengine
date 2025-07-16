@@ -67,7 +67,7 @@ namespace FrameOfReference.World.Positionables
         /// The <see cref="Waypoint"/>s associated with this entity ordered by <see cref="Waypoint.ActivationTime"/>.
         /// </summary>
         [XmlElement, Browsable(false)]
-        public List<Waypoint> Waypoints { get; } = new List<Waypoint>();
+        public List<Waypoint> Waypoints { get; } = [];
 
         //--------------------//
 

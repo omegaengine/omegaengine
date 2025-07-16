@@ -50,22 +50,22 @@ namespace OmegaEngine.Values
         /// <summary>
         /// The edge from <see cref="P1"/> to <see cref="P2"/>.
         /// </summary>
-        public Vector2Ray Edge1 => new Vector2Ray(P1, P2 - P1);
+        public Vector2Ray Edge1 => new(P1, P2 - P1);
 
         /// <summary>
         /// The edge from <see cref="P2"/> to <see cref="P3"/>.
         /// </summary>
-        public Vector2Ray Edge2 => new Vector2Ray(P2, P3 - P2);
+        public Vector2Ray Edge2 => new(P2, P3 - P2);
 
         /// <summary>
         /// The edge from <see cref="P3"/> to <see cref="P4"/>.
         /// </summary>
-        public Vector2Ray Edge3 => new Vector2Ray(P3, P4 - P3);
+        public Vector2Ray Edge3 => new(P3, P4 - P3);
 
         /// <summary>
         /// The edge from <see cref="P4"/> to <see cref="P1"/>.
         /// </summary>
-        public Vector2Ray Edge4 => new Vector2Ray(P4, P1 - P4);
+        public Vector2Ray Edge4 => new(P4, P1 - P4);
         #endregion
 
         #region Constructor
@@ -88,10 +88,10 @@ namespace OmegaEngine.Values
         public Quadrangle(float p1X, float p1Y, float p2X, float p2Y, float p3X, float p3Y, float p4X, float p4Y)
             : this()
         {
-            P1 = new Vector2(p1X, p1Y);
-            P2 = new Vector2(p2X, p2Y);
-            P3 = new Vector2(p3X, p3Y);
-            P4 = new Vector2(p4X, p4Y);
+            P1 = new(p1X, p1Y);
+            P2 = new(p2X, p2Y);
+            P3 = new(p3X, p3Y);
+            P4 = new(p4X, p4Y);
         }
 
         /// <summary>
@@ -100,10 +100,10 @@ namespace OmegaEngine.Values
         public Quadrangle(RectangleF rectangle)
             : this()
         {
-            P1 = new Vector2(rectangle.Left, rectangle.Top);
-            P2 = new Vector2(rectangle.Left, rectangle.Bottom);
-            P3 = new Vector2(rectangle.Right, rectangle.Bottom);
-            P4 = new Vector2(rectangle.Right, rectangle.Top);
+            P1 = new(rectangle.Left, rectangle.Top);
+            P2 = new(rectangle.Left, rectangle.Bottom);
+            P3 = new(rectangle.Right, rectangle.Bottom);
+            P4 = new(rectangle.Right, rectangle.Top);
         }
         #endregion
 
@@ -115,7 +115,7 @@ namespace OmegaEngine.Values
         /// </summary>
         /// <param name="distance">This value is added to each corner position.</param>
         /// <returns>The shifted <see cref="Quadrangle"/>.</returns>
-        public Quadrangle Offset(Vector2 distance) => new Quadrangle(
+        public Quadrangle Offset(Vector2 distance) => new(
             P1 + distance, P2 + distance,
             P3 + distance, P4 + distance);
         #endregion
@@ -126,7 +126,7 @@ namespace OmegaEngine.Values
         /// </summary>
         /// <param name="rotation">The angle to rotate by in degrees.</param>
         /// <returns>The rotated <see cref="Quadrangle"/>.</returns>
-        public Quadrangle Rotate(float rotation) => new Quadrangle(
+        public Quadrangle Rotate(float rotation) => new(
             P1.Rotate(rotation), P2.Rotate(rotation),
             P3.Rotate(rotation), P4.Rotate(rotation));
         #endregion

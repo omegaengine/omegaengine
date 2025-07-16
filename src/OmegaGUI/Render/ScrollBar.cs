@@ -55,13 +55,13 @@ namespace OmegaGUI.Render
             base.UpdateRectangles();
 
             // Make sure buttons are square
-            upButtonRect = new Rectangle(boundingBox.Location,
-                new Size(boundingBox.Width, boundingBox.Width));
+            upButtonRect = new(boundingBox.Location,
+                new(boundingBox.Width, boundingBox.Width));
 
-            downButtonRect = new Rectangle(boundingBox.Left, boundingBox.Bottom - boundingBox.Width,
+            downButtonRect = new(boundingBox.Left, boundingBox.Bottom - boundingBox.Width,
                 boundingBox.Width, boundingBox.Width);
 
-            trackRect = new Rectangle(upButtonRect.Left, upButtonRect.Bottom,
+            trackRect = new(upButtonRect.Left, upButtonRect.Bottom,
                 upButtonRect.Width, downButtonRect.Top - upButtonRect.Bottom);
 
             thumbRect = upButtonRect;
@@ -113,9 +113,9 @@ namespace OmegaGUI.Render
             {
                 int thumbHeight = Math.Max(trackRect.Height * pgSize / (end - start), MinimumThumbSize);
                 int maxPosition = end - start - pgSize;
-                thumbRect.Location = new Point(thumbRect.Left,
+                thumbRect.Location = new(thumbRect.Left,
                     trackRect.Top + (m_position - start) * (trackRect.Height - thumbHeight) / maxPosition);
-                thumbRect.Size = new Size(thumbRect.Width, thumbHeight);
+                thumbRect.Size = new(thumbRect.Width, thumbHeight);
                 showingThumb = true;
             }
             else
@@ -286,7 +286,7 @@ namespace OmegaGUI.Render
                         // Calculate new bottom and top of thumb rect
                         int bottom = thumbRect.Bottom + (pt.Y - thumbOffsetY - thumbRect.Top);
                         int top = pt.Y - thumbOffsetY;
-                        thumbRect = new Rectangle(thumbRect.Left, top, thumbRect.Width, bottom - top);
+                        thumbRect = new(thumbRect.Left, top, thumbRect.Width, bottom - top);
                         if (thumbRect.Top < trackRect.Top)
                             thumbRect.Offset(0, trackRect.Top - thumbRect.Top);
                         else if (thumbRect.Bottom > trackRect.Bottom)

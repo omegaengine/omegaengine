@@ -27,7 +27,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// <summary>
         /// The minimum shader model version required to use this shader
         /// </summary>
-        public static Version MinShaderModel => new Version(2, 0);
+        public static Version MinShaderModel => new(2, 0);
 
         private float _speed = 20.0f, _shakiness = 0.25f, _sharpness = 2.2f;
 
@@ -73,7 +73,7 @@ namespace OmegaEngine.Graphics.Shaders
             }
         }
 
-        private Vector2 _timeDelta = new Vector2(1, 0.2f);
+        private Vector2 _timeDelta = new(1, 0.2f);
 
         public Vector2 TimeDelta { get { return _timeDelta; } set { value.To(ref _timeDelta, () => SetShaderParameter("TimeDelta", value)); } }
         #endregion

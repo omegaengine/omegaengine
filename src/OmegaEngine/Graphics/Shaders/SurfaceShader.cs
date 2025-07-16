@@ -28,13 +28,13 @@ namespace OmegaEngine.Graphics.Shaders
 
         // Note: Using Lists here, because the size of the internal arrays will auto-optimize after a few frames and because we need index access
         private readonly List<EffectHandle>
-            _lightPositionHandles = new List<EffectHandle>(),
-            _lightDirectionHandles = new List<EffectHandle>(),
-            _lightAttenuationHandles = new List<EffectHandle>(),
-            _lightDiffuseHandles = new List<EffectHandle>(),
-            _lightAmbientHandles = new List<EffectHandle>(),
-            _lightSpecularHandles = new List<EffectHandle>(),
-            _lightSpecularPowerHandles = new List<EffectHandle>();
+            _lightPositionHandles = [],
+            _lightDirectionHandles = [],
+            _lightAttenuationHandles = [],
+            _lightDiffuseHandles = [],
+            _lightAmbientHandles = [],
+            _lightSpecularHandles = [],
+            _lightSpecularPowerHandles = [];
         #endregion
 
         //--------------------//

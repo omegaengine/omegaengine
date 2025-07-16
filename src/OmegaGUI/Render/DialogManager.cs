@@ -26,8 +26,8 @@ namespace OmegaGUI.Render
         #region Variables
 
         // Lists of textures/fonts
-        private readonly List<TextureNode> _textureCache = new List<TextureNode>();
-        private readonly List<FontNode> _fontCache = new List<FontNode>();
+        private readonly List<TextureNode> _textureCache = [];
+        private readonly List<FontNode> _fontCache = [];
         #endregion
 
         #region Properties
@@ -83,7 +83,7 @@ namespace OmegaGUI.Render
             engine.DeviceReset += OnResetDevice;
 
             // Create the default MessageBox dialog
-            MessageBox = new MessageBox(this);
+            MessageBox = new(this);
             MessageBox.SetSize(400, 150);
 
             OnResetDevice();
@@ -141,7 +141,7 @@ namespace OmegaGUI.Render
                 fn.Font.Dispose(); // Get rid of this
 
             // Create the new font
-            fn.Font = new Font(Engine.Device, (int)fn.Height, 0, fn.Weight, 1, false, CharacterSet.Default,
+            fn.Font = new(Engine.Device, (int)fn.Height, 0, fn.Weight, 1, false, CharacterSet.Default,
                 // ReSharper disable BitwiseOperatorOnEnumWihtoutFlags
                 Precision.Default, FontQuality.Default, PitchAndFamily.Default | PitchAndFamily.DontCare, fn.FaceName);
             // ReSharper restore BitwiseOperatorOnEnumWihtoutFlags
@@ -216,7 +216,7 @@ namespace OmegaGUI.Render
             for (int i = 0; i < _textureCache.Count; i++)
                 CreateTexture(i);
 
-            Sprite = new Sprite(Engine.Device); // Create the sprite
+            Sprite = new(Engine.Device); // Create the sprite
         }
 
         /// <summary>
@@ -254,10 +254,10 @@ namespace OmegaGUI.Render
                 Sprite.OnResetDevice();
 
             // Create new state block
-            StateBlock = new StateBlock(Engine.Device, StateBlockType.All);
+            StateBlock = new(Engine.Device, StateBlockType.All);
 
             // Reposition the message box according to the new Viewport
-            MessageBox.Location = new Point(
+            MessageBox.Location = new(
                 (Engine.RenderSize.Width - MessageBox.Width) / 2,
                 (Engine.RenderSize.Height - MessageBox.Height) / 2);
         }

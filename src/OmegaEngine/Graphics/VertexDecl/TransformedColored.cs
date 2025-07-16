@@ -80,7 +80,7 @@ namespace OmegaEngine.Graphics.VertexDecl
         /// <param name="rhw">The reciprocal of homogeneous W (the depth-value)</param>
         /// <param name="color">The color of the vertex</param>
         public TransformedColored(float xvalue, float yvalue, float zvalue, float rhw, int color)
-            : this(new Vector3(xvalue, yvalue, zvalue), rhw, color)
+            : this(new(xvalue, yvalue, zvalue), rhw, color)
         {}
         #endregion
 

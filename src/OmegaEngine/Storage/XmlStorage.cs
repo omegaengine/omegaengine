@@ -40,13 +40,13 @@ namespace OmegaEngine.Storage
 
         #region Serializer generation
         /// <summary>An internal cache of XML serializers identified by the target type and ignored sub-types.</summary>
-        private static readonly TransparentCache<Type, XmlSerializer> _serializers = new TransparentCache<Type, XmlSerializer>(CreateSerializer);
+        private static readonly TransparentCache<Type, XmlSerializer> _serializers = new(CreateSerializer);
 
         /// <summary>Used to mark something as "serialize as XML attribute".</summary>
-        private static readonly XmlAttributes _asAttribute = new XmlAttributes {XmlAttribute = new XmlAttributeAttribute()};
+        private static readonly XmlAttributes _asAttribute = new() {XmlAttribute = new()};
 
         /// <summary>Used to mark something to be ignored when serializing.</summary>
-        private static readonly XmlAttributes _ignore = new XmlAttributes {XmlIgnore = true};
+        private static readonly XmlAttributes _ignore = new() {XmlIgnore = true};
 
         /// <summary>
         /// Creates a new <see cref="XmlSerializer"/> for the type <paramref name="type"/> and applies a set of default augmentations for .NET types.
@@ -199,7 +199,7 @@ namespace OmegaEngine.Storage
 
             var serializer = _serializers[typeof(T)];
 
-            var xmlWriter = XmlWriter.Create(stream, new XmlWriterSettings
+            var xmlWriter = XmlWriter.Create(stream, new()
             {
                 Encoding = new UTF8Encoding(false),
                 Indent = true,
@@ -213,7 +213,7 @@ namespace OmegaEngine.Storage
 
             var qualifiedNames = GetQualifiedNames<T>();
             if (qualifiedNames.Length == 0) serializer.Serialize(xmlWriter, data);
-            else serializer.Serialize(xmlWriter, data, new XmlSerializerNamespaces(qualifiedNames));
+            else serializer.Serialize(xmlWriter, data, new(qualifiedNames));
 
             // End file with line break
             xmlWriter.Flush();
@@ -230,7 +230,7 @@ namespace OmegaEngine.Storage
             var qualifiedNames = namespaceAttributes.Select(attr => attr.QualifiedName);
 
             var rootAttribute = AttributeUtils.GetAttributes<XmlRootAttribute, T>().FirstOrDefault();
-            if (rootAttribute != null) qualifiedNames = qualifiedNames.Concat(new[] {new XmlQualifiedName("", rootAttribute.Namespace)});
+            if (rootAttribute != null) qualifiedNames = qualifiedNames.Concat([new XmlQualifiedName("", rootAttribute.Namespace)]);
 
             return qualifiedNames.ToArray();
         }

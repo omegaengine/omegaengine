@@ -31,11 +31,11 @@ namespace OmegaEngine.Graphics.Renderables
     {
         #region Variables
         private readonly Pool<CpuParticle>
-            _firstLifeParticles = new Pool<CpuParticle>(),
-            _secondLifeParticles = new Pool<CpuParticle>();
+            _firstLifeParticles = new(),
+            _secondLifeParticles = new();
 
         /// <summary>A free-list of <see cref="CpuParticle"/>s to be reused</summary>
-        private readonly Stack<CpuParticle> _deadParticles = new Stack<CpuParticle>();
+        private readonly Stack<CpuParticle> _deadParticles = new();
 
         /// <summary>The last <see cref="Camera"/> <see cref="Render"/> was called with</summary>
         private Camera _lastCamera;
@@ -60,7 +60,7 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// The position with the <see cref="PositionableRenderable.PreTransform"/> applied
         /// </summary>
-        private DoubleVector3 PreTransformedPosition => Position + Vector3.TransformCoordinate(new Vector3(), PreTransform * Matrix.RotationQuaternion(Rotation));
+        private DoubleVector3 PreTransformedPosition => Position + Vector3.TransformCoordinate(new(), PreTransform * Matrix.RotationQuaternion(Rotation));
         #endregion
 
         #region Constructor
@@ -89,7 +89,7 @@ namespace OmegaEngine.Graphics.Renderables
             { // ... use rather wild approximation
                 float maxDistance = preset.RandomAcceleration * preset.EmitterRepelRange * preset.EmitterRepelSpeed / 10;
 
-                BoundingSphere = new BoundingSphere(new Vector3(), maxDistance / 2);
+                BoundingSphere = new BoundingSphere(new(), maxDistance / 2);
             }
                 // ReSharper restore CompareOfFloatsByEqualityOperator
 
@@ -270,8 +270,8 @@ namespace OmegaEngine.Graphics.Renderables
             {
                 float randomFactor = Preset.RandomAcceleration / 1.732f /* approx. sqrt(3) */;
                 particle.Velocity += RandomUtils.GetRandomVector3(
-                    new Vector3(-randomFactor, -randomFactor, -randomFactor),
-                    new Vector3(randomFactor, randomFactor, randomFactor));
+                    new(-randomFactor, -randomFactor, -randomFactor),
+                    new(randomFactor, randomFactor, randomFactor));
             }
         }
 
@@ -315,13 +315,13 @@ namespace OmegaEngine.Graphics.Renderables
                 RandomUtils.GetRandomFloat(0, 2 * (float)Math.PI), 0,
                 RandomUtils.GetRandomFloat(0, 2 * (float)Math.PI));
 
-            return Vector3.TransformCoordinate(new Vector3(randomSpawnRadius, 0, 0), rotationMatrix);
+            return Vector3.TransformCoordinate(new(randomSpawnRadius, 0, 0), rotationMatrix);
         }
 
         private CpuParticleParametersStruct GetFirstLifeParameters(float lodFactor)
         {
             // ReSharper disable CompareOfFloatsByEqualityOperator
-            return new CpuParticleParametersStruct
+            return new()
             {
                 LifeTime = Preset.InfiniteLifetime1
                     ? CpuParticleParameters.InfiniteFlag
@@ -337,7 +337,7 @@ namespace OmegaEngine.Graphics.Renderables
 
         private CpuParticleParametersStruct GetSecondLifeParameters(float lodFactor)
         {
-            return new CpuParticleParametersStruct
+            return new()
             {
                 LifeTime = Preset.InfiniteLifetime2
                     ? CpuParticleParameters.InfiniteFlag
@@ -370,7 +370,7 @@ namespace OmegaEngine.Graphics.Renderables
                 particle.SecondLife = false;
                 _firstLifeParticles.Add(particle);
             }
-            else _firstLifeParticles.Add(new CpuParticle(position, parameters1, parameters2));
+            else _firstLifeParticles.Add(new(position, parameters1, parameters2));
         }
         #endregion
 
@@ -397,7 +397,7 @@ namespace OmegaEngine.Graphics.Renderables
                 // Check if texture path is valid
                 if (ContentManager.FileExists("Textures", texture))
                 {
-                    _material1 = new XMaterial(XTexture.Get(Engine, texture));
+                    _material1 = new(XTexture.Get(Engine, texture));
                     _material1.HoldReference();
                 }
             }
@@ -413,7 +413,7 @@ namespace OmegaEngine.Graphics.Renderables
                 // Check if texture path is valid
                 if (ContentManager.FileExists("Textures", texture))
                 {
-                    _material2 = new XMaterial(XTexture.Get(Engine, texture));
+                    _material2 = new(XTexture.Get(Engine, texture));
                     _material2.HoldReference();
                 }
             }
@@ -492,13 +492,13 @@ namespace OmegaEngine.Graphics.Renderables
             base.OnEngineSet();
 
             // Create single vertex for all particles
-            var vertexes = new[]
-            {
-                new PositionTextured(new Vector3(-0.5f, 0.5f, 0), 0, 0),
-                new PositionTextured(new Vector3(0.5f, 0.5f, 0), 1, 0),
-                new PositionTextured(new Vector3(-0.5f, -0.5f, 0), 0, 1),
-                new PositionTextured(new Vector3(0.5f, -0.5f, 0), 1, 1)
-            };
+            PositionTextured[] vertexes =
+            [
+                new(new Vector3(-0.5f, 0.5f, 0), 0, 0),
+                new(new Vector3(0.5f, 0.5f, 0), 1, 0),
+                new(new Vector3(-0.5f, -0.5f, 0), 0, 1),
+                new(new Vector3(0.5f, -0.5f, 0), 1, 1)
+            ];
             _vb = BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionTextured.Format);
 
             // Load textures for the first time

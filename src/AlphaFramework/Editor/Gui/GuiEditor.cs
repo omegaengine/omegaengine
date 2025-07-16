@@ -83,7 +83,7 @@ namespace AlphaFramework.Editor.Gui
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
-                    Content = new Dialog();
+                    Content = new();
                     Content.SaveXml(_fullPath);
                 }
             }
@@ -99,11 +99,11 @@ namespace AlphaFramework.Editor.Gui
             var engine = renderPanel.Setup();
 
             // Blue background
-            engine.Views.Add(new View(Color.CornflowerBlue));
+            engine.Views.Add(new(Color.CornflowerBlue));
 
             // Render GUI
             engine.ExtraRender += DialogRender;
-            _guiManager = new GuiManager(engine);
+            _guiManager = new(engine);
 
             base.OnInitialize();
         }
@@ -173,7 +173,7 @@ namespace AlphaFramework.Editor.Gui
 
             // Reset the GUI rendering system
             _dialogRenderer?.Dispose();
-            _dialogRenderer = new DialogRenderer(_guiManager, Content);
+            _dialogRenderer = new(_guiManager, Content);
             renderPanel.Engine.Render();
 
             base.OnUpdate();
@@ -220,7 +220,7 @@ namespace AlphaFramework.Editor.Gui
             // Keep existing dialog instance
             if (_addControlTool != null) return;
 
-            _addControlTool = new Dialogs.AddControlTool();
+            _addControlTool = new();
             _addControlTool.NewControl += (control =>
             { // Callback when the "Add" button is clicked
                 Content.Controls.Add(control);
@@ -284,7 +284,7 @@ namespace AlphaFramework.Editor.Gui
             foreach (Control item in listBox.SelectedItems)
             {
                 var clonedControl = item.Clone();
-                clonedControl.Location = new Point();
+                clonedControl.Location = new();
                 Content.Controls.Add(clonedControl);
             }
             OnChange();
@@ -378,7 +378,7 @@ namespace AlphaFramework.Editor.Gui
                         _lastLocation = e.Location;
 
                         // Move the control accordingly
-                        _dragControl.Location = new Point(
+                        _dragControl.Location = new(
                             _dragControl.Location.X + locationDelta.X,
                             _dragControl.Location.Y + locationDelta.Y);
 

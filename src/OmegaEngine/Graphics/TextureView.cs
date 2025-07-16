@@ -42,7 +42,7 @@ namespace OmegaEngine.Graphics
         /// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
         /// <param name="size">The size of screen area this view should fill (leave empty for fullscreen)</param>
         protected TextureView(Scene scene, Camera camera, Size size) :
-            base(scene, camera, new Rectangle(new Point(), size))
+            base(scene, camera, new(new(), size))
         {}
         #endregion
 

@@ -111,8 +111,8 @@ namespace OmegaEngine.Graphics.VertexDecl
         /// </summary>
         public static VertexElement[] GetVertexElements()
         {
-            return new[]
-            {
+            return
+            [
                 // Position
                 new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default,
                     DeclarationUsage.Position, 0),
@@ -130,7 +130,7 @@ namespace OmegaEngine.Graphics.VertexDecl
                     DeclarationUsage.Tangent, 0),
                 // End
                 VertexElement.VertexDeclarationEnd
-            };
+            ];
         }
         #endregion
     }

@@ -62,7 +62,7 @@ namespace FrameOfReference.Presentation
             // Add selection highlighting hooks
             engine.ExtraRender += DrawSelectionOutline;
 
-            _selectionsSync = new ModelViewSync<Positionable<Vector2>, PositionableRenderable>(SelectedPositionables, Scene.Positionables);
+            _selectionsSync = new(SelectedPositionables, Scene.Positionables);
 
             Universe.Positionables.Removed += OnPositionableRemoved;
         }
@@ -78,7 +78,7 @@ namespace FrameOfReference.Presentation
             if (_preCachedAssets == null)
             {
                 // Preload selection highlighting meshes
-                _preCachedAssets = new Asset[] {XMesh.Get(Engine, "Engine/Circle.x"), XMesh.Get(Engine, "Engine/Rectangle.x")};
+                _preCachedAssets = [XMesh.Get(Engine, "Engine/Circle.x"), XMesh.Get(Engine, "Engine/Rectangle.x")];
                 foreach (var asset in _preCachedAssets) asset.HoldReference();
             }
 
@@ -134,7 +134,7 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// The <see cref="Positionable{TCoordinates}"/>s the user has selected with the mouse
         /// </summary>
-        public MonitoredCollection<Positionable<Vector2>> SelectedPositionables { get; } = new MonitoredCollection<Positionable<Vector2>>();
+        public MonitoredCollection<Positionable<Vector2>> SelectedPositionables { get; } = [];
 
         /// <summary>
         /// Maps between <see cref="SelectedPositionables"/> and selection highlighting.

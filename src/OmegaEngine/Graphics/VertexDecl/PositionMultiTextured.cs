@@ -86,10 +86,10 @@ namespace OmegaEngine.Graphics.VertexDecl
             Tu = tu;
             Tv = tv;
             OcclusionIntervals = occlusionIntervals;
-            TexWeights1 = new Vector4(texWeights[0], texWeights[1], texWeights[2], texWeights[3]);
-            TexWeights2 = new Vector4(texWeights[4], texWeights[5], texWeights[6], texWeights[7]);
-            TexWeights3 = new Vector4(texWeights[8], texWeights[9], texWeights[10], texWeights[11]);
-            TexWeights4 = new Vector4(texWeights[12], texWeights[13], texWeights[14], texWeights[15]);
+            TexWeights1 = new(texWeights[0], texWeights[1], texWeights[2], texWeights[3]);
+            TexWeights2 = new(texWeights[4], texWeights[5], texWeights[6], texWeights[7]);
+            TexWeights3 = new(texWeights[8], texWeights[9], texWeights[10], texWeights[11]);
+            TexWeights4 = new(texWeights[12], texWeights[13], texWeights[14], texWeights[15]);
             Color = color;
         }
         #endregion
@@ -111,8 +111,8 @@ namespace OmegaEngine.Graphics.VertexDecl
         /// </summary>
         public static VertexElement[] GetVertexElements()
         {
-            return new[]
-            {
+            return
+            [
                 // Position
                 new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default,
                     DeclarationUsage.Position, 0),
@@ -139,7 +139,7 @@ namespace OmegaEngine.Graphics.VertexDecl
                     DeclarationUsage.Color, 0),
                 // End
                 VertexElement.VertexDeclarationEnd
-            };
+            ];
         }
         #endregion
     }

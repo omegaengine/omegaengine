@@ -84,7 +84,7 @@ namespace OmegaGUI
         /// <param name="filename">The filename of the XML file to load</param>
         /// <param name="location">The location of the dialog on the screen</param>
         /// <param name="lua">The scripting engine to execute event handlers.</param>
-        public DialogRenderer(GuiManager manager, string filename, Point location = new Point(), Lua lua = null)
+        public DialogRenderer(GuiManager manager, string filename, Point location = new(), Lua lua = null)
             : this(manager, Dialog.FromContent(filename), location: location, lua: lua)
         {
             Log.Info("Loading GUI dialog: " + filename);
@@ -98,7 +98,7 @@ namespace OmegaGUI
         /// <param name="dialog">The dialog to be displayed</param>
         /// <param name="location">The location of the dialog on the screen</param>
         /// <param name="lua">The scripting engine to execute event handlers.</param>
-        public DialogRenderer(GuiManager manager, Dialog dialog, Point location = new Point(), Lua lua = null)
+        public DialogRenderer(GuiManager manager, Dialog dialog, Point location = new(), Lua lua = null)
         {
             _manager = manager;
             DialogModel = dialog;
@@ -148,7 +148,7 @@ namespace OmegaGUI
 
             if (DialogModel.Fullscreen && DialogModel.Size != Size.Empty)
             {
-                DialogRender.Location = new Point();
+                DialogRender.Location = new();
 
                 // Setup fullscreen layout
                 DialogRender.SetSize(renderSize.Width, renderSize.Height);
@@ -160,7 +160,7 @@ namespace OmegaGUI
             }
             else
             {
-                DialogRender.Location = new Point(_location.X, _location.Y);
+                DialogRender.Location = new(_location.X, _location.Y);
 
                 if (DialogModel.Size == Size.Empty)
                     DialogRender.SetSize(renderSize.Width, renderSize.Height);
@@ -279,7 +279,7 @@ namespace OmegaGUI
         // Note: Keep this in addition to the DialogModel property for Lua access
         public void SetLocation(int x, int y)
         {
-            DialogRender.Location = new Point(x, y);
+            DialogRender.Location = new(x, y);
         }
         #endregion
 

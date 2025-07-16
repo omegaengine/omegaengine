@@ -141,7 +141,7 @@ namespace AlphaFramework.Editor
                 return;
             }
             ModInfo.CurrentLocation = path;
-            ContentManager.ModDir = new DirectoryInfo(directory);
+            ContentManager.ModDir = new(directory);
 
             #region Recently used List
             // Remove the entry from the list if it is already there

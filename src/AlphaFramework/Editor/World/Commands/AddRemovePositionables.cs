@@ -43,7 +43,7 @@ namespace AlphaFramework.Editor.World.Commands
             _universe = universe;
 
             // Create local defensive copy of entities
-            _positionables = new List<Positionable<TCoordinates>>(positionables);
+            _positionables = new(positionables);
         }
         #endregion
 

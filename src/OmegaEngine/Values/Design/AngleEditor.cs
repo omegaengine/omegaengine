@@ -71,7 +71,7 @@ namespace OmegaEngine.Values.Design
             var endPoint = new Point(
                 center.X + (int)(center.X * Math.Sin(angle)),
                 center.Y + (int)(center.Y * -Math.Cos(angle)));
-            e.Graphics.DrawLine(new Pen(new SolidBrush(Color.Red), 1), center, endPoint);
+            e.Graphics.DrawLine(new(new SolidBrush(Color.Red), 1), center, endPoint);
         }
     }
 }

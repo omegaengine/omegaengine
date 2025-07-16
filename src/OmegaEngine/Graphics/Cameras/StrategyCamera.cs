@@ -37,7 +37,7 @@ namespace OmegaEngine.Graphics.Cameras
                 if (_heightController == null) base.Target = value;
                 else
                 {
-                    base.Target = new DoubleVector3(
+                    base.Target = new(
                         value.X,
                         _heightController(value), // Target object on the terrain's surface
                         value.Z);

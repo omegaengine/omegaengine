@@ -28,10 +28,10 @@ namespace OmegaEngine
     {
         #region Variables
         private readonly Engine _engine;
-        private readonly MonitoredCollection<View> _views = new MonitoredCollection<View>();
-        private readonly MonitoredCollection<PostShader> _shaders = new MonitoredCollection<PostShader>();
-        private readonly MonitoredCollection<Renderable> _renderables = new MonitoredCollection<Renderable>();
-        private readonly MonitoredCollection<LightSource> _lights = new MonitoredCollection<LightSource>();
+        private readonly MonitoredCollection<View> _views = [];
+        private readonly MonitoredCollection<PostShader> _shaders = [];
+        private readonly MonitoredCollection<Renderable> _renderables = [];
+        private readonly MonitoredCollection<LightSource> _lights = [];
         #endregion
 
         #region Properties

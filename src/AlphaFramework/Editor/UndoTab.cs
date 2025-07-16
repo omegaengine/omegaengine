@@ -32,10 +32,10 @@ namespace AlphaFramework.Editor
         // ReSharper restore InconsistentNaming
 
         /// <summary>Entries used by the undo-system to undo changes</summary>
-        protected readonly Stack<T> UndoBackups = new Stack<T>();
+        protected readonly Stack<T> UndoBackups = new();
 
         /// <summary>Entries used by the undo-system to redo changes previously undone</summary>
-        protected readonly Stack<T> RedoBackups = new Stack<T>();
+        protected readonly Stack<T> RedoBackups = new();
         #endregion
 
         #region Constructor
@@ -43,14 +43,14 @@ namespace AlphaFramework.Editor
         protected UndoTab()
         {
             #region Undo Button
-            buttonUndo = new Button
+            buttonUndo = new()
             {
                 Name = "undoButton",
                 FlatStyle = FlatStyle.Flat,
                 Image = Resources.UndoButton,
                 BackColor = Color.White,
                 TabStop = false,
-                Size = new Size(22, 22),
+                Size = new(22, 22),
                 Enabled = false
             };
             buttonUndo.Click += delegate { Undo(); };
@@ -68,14 +68,14 @@ namespace AlphaFramework.Editor
             #endregion
 
             #region Redo Button
-            buttonRedo = new Button
+            buttonRedo = new()
             {
                 Name = "redoButton",
                 FlatStyle = FlatStyle.Flat,
                 Image = Resources.RedoButton,
                 BackColor = Color.White,
                 TabStop = false,
-                Size = new Size(22, 22),
+                Size = new(22, 22),
                 Enabled = false
             };
             buttonRedo.Click += delegate { Redo(); };

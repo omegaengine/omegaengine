@@ -21,7 +21,7 @@ namespace AlphaFramework.Editor.World.Commands
     {
         #region Variables
         // Note: Use List<> instead of Array, because the size of the incoming IEnumerable<> will be unkown
-        private readonly List<Positionable<Vector2>> _positionables = new List<Positionable<Vector2>>();
+        private readonly List<Positionable<Vector2>> _positionables = [];
 
         private readonly Vector2[] _oldPositions;
         private readonly Vector2 _newPosition;
@@ -40,7 +40,7 @@ namespace AlphaFramework.Editor.World.Commands
             #endregion
 
             // Create local defensive copy of entities
-            _positionables = new List<Positionable<Vector2>>(positionables);
+            _positionables = new(positionables);
 
             // Create array based on collection size to backup old positions
             _oldPositions = new Vector2[_positionables.Count];

@@ -123,7 +123,7 @@ namespace OmegaEngine.Graphics.Renderables
 
             // Load particle shader
             string id = Path.Combine("Shaders", Preset.ParticleTexture);
-            _particleShader = new ParticleShader(XTexture.Get(Engine, id));
+            _particleShader = new(XTexture.Get(Engine, id));
         }
         #endregion
 

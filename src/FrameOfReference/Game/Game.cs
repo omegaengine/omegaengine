@@ -176,7 +176,7 @@ namespace FrameOfReference
         [LuaGlobal(Description = "Loads and displays a new dialog.")]
         public DialogRenderer LoadDialog(string name)
         {
-            var dialogRenderer = new DialogRenderer(GuiManager, name + ".xml", location: new Point(25, 25), lua: NewLua());
+            var dialogRenderer = new DialogRenderer(GuiManager, name + ".xml", location: new(25, 25), lua: NewLua());
             dialogRenderer.Show();
             Engine.Render(0);
             return dialogRenderer;
@@ -190,7 +190,7 @@ namespace FrameOfReference
         [LuaGlobal(Description = "Loads and displays a new modal (exclusivly focused) dialog.")]
         public DialogRenderer LoadModalDialog(string name)
         {
-            var dialogRenderer = new DialogRenderer(GuiManager, name + ".xml", location: new Point(25, 25), lua: NewLua());
+            var dialogRenderer = new DialogRenderer(GuiManager, name + ".xml", location: new(25, 25), lua: NewLua());
             dialogRenderer.ShowModal();
             Engine.Render(0);
             return dialogRenderer;

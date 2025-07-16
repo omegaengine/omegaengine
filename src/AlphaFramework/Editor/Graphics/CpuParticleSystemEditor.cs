@@ -63,7 +63,7 @@ namespace AlphaFramework.Editor.Graphics
                 else
                 { // Create new file
                     Log.Info("Create file: " + _fullPath);
-                    _preset = new CpuParticlePreset();
+                    _preset = new();
                     _preset.SaveXml(_fullPath);
                 }
             }
@@ -79,9 +79,9 @@ namespace AlphaFramework.Editor.Graphics
             renderPanel.Setup();
 
             // Setup scene
-            _particleSystem = new CpuParticleSystem(_preset);
-            _scene = new Scene {Positionables = {_particleSystem}};
-            renderPanel.Engine.Views.Add(new View(_scene, Camera) {BackgroundColor = Color.Black});
+            _particleSystem = new(_preset);
+            _scene = new() {Positionables = {_particleSystem}};
+            renderPanel.Engine.Views.Add(new(_scene, Camera) {BackgroundColor = Color.Black});
 
             base.OnInitialize();
         }
@@ -132,7 +132,7 @@ namespace AlphaFramework.Editor.Graphics
             _particleSystem.Dispose();
 
             // ... and replace it with a new one using the same _preset
-            _particleSystem = new CpuParticleSystem(_preset);
+            _particleSystem = new(_preset);
             _scene.Positionables.Add(_particleSystem);
         }
         #endregion

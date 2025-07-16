@@ -69,7 +69,7 @@ namespace FrameOfReference.Editor
             // Allow setup to detect running instances
             AppMutex.Create(GeneralSettings.AppName + " Editor");
 
-            Args = new Arguments(args);
+            Args = new(args);
 
             Settings.LoadCurrent();
             UpdateLocale();

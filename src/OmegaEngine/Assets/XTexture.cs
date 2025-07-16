@@ -89,7 +89,7 @@ namespace OmegaEngine.Assets
             {
                 using (new TimedLogEvent((meshTexture ? "Loading mesh texture: " : "Loading texture: ") + id))
                 using (var stream = ContentManager.GetFileStream(type, id))
-                    data = new XTexture(engine, stream) {Name = fullID};
+                    data = new(engine, stream) {Name = fullID};
                 engine.Cache.AddAsset(data);
             }
 

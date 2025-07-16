@@ -73,7 +73,7 @@ namespace OmegaEngine.Values
                         for (int y = 0; y < bitmap.Height; y++)
                             data[x, y] = bitmap.GetPixel(x, y).R;
                     }
-                    return new ByteGrid(data);
+                    return new(data);
                 }
             }
             #region Error handling
@@ -95,7 +95,7 @@ namespace OmegaEngine.Values
                 palette.Entries[i] = Color.FromArgb(255, i, i, i);
             bitmap.Palette = palette;
 
-            var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.WriteOnly, bitmap.PixelFormat);
+            var bitmapData = bitmap.LockBits(new(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.WriteOnly, bitmap.PixelFormat);
             try
             {
                 var pointer = (byte*)bitmapData.Scan0;

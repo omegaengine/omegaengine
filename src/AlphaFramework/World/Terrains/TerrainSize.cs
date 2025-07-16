@@ -67,7 +67,7 @@ namespace AlphaFramework.World.Terrains
         /// </summary>
         public static implicit operator TerrainSize(Size size)
         {
-            return new TerrainSize(size.Width, size.Height);
+            return new(size.Width, size.Height);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace AlphaFramework.World.Terrains
         /// </summary>
         public static implicit operator Size(TerrainSize size)
         {
-            return new Size(size.X, size.Y);
+            return new(size.X, size.Y);
         }
 
         /// <inheritdoc/>

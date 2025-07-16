@@ -72,16 +72,16 @@ namespace OmegaEngine.Values
         public override string ToString() => ((Color)this).ToString();
 
         // Convert Drawing.Color into EasyColor
-        public static implicit operator XColor(Color color) => new XColor(color.A, color.R, color.G, color.B);
+        public static implicit operator XColor(Color color) => new(color.A, color.R, color.G, color.B);
 
         // Convert EasyColor into Drawing.Color
         public static explicit operator Color(XColor color) => Color.FromArgb(color.A, color.R, color.G, color.B);
 
         [Pure]
-        public static XColor FromColorValue(Color4 color) => new XColor(color.Red, color.Green, color.Blue, color.Alpha);
+        public static XColor FromColorValue(Color4 color) => new(color.Red, color.Green, color.Blue, color.Alpha);
 
         [Pure]
-        public Color4 ToColorValue() => new Color4(Alpha, Red, Green, Blue);
+        public Color4 ToColorValue() => new(Alpha, Red, Green, Blue);
         #endregion
 
         #region Equality
