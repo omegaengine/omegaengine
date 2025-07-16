@@ -52,6 +52,6 @@ namespace FrameOfReference.World.Config
         /// Invert the mouse axes
         /// </summary>
         [DefaultValue(false), Description("Invert the mouse axes")]
-        public bool InvertMouse { get { return _invertMouse; } set { value.To(ref _invertMouse, OnChanged); } }
+        public bool InvertMouse { get => _invertMouse; set => value.To(ref _invertMouse, OnChanged); }
     }
 }

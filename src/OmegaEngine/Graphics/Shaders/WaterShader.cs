@@ -44,7 +44,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// The basic color of the water (usually blueish)
         /// </summary>
         [Description("The basic color of the water (usually blueish)")]
-        public Color DullColor { get { return _dullColor; } set { value.To(ref _dullColor, () => SetShaderParameter("DullColor", value)); } }
+        public Color DullColor { get => _dullColor; set => value.To(ref _dullColor, () => SetShaderParameter("DullColor", value)); }
 
         private float _dullBlendFactor = 0.15f;
 
@@ -54,7 +54,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(0.15f), Description("How strongly to factor in DullColor - values between 0 and 1")]
         public float DullBlendFactor
         {
-            get { return _dullBlendFactor; }
+            get => _dullBlendFactor;
             set
             {
                 value = value.Clamp();
@@ -70,7 +70,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(0.1f), Description("The length of waves on the water surface - values between 0 and 1")]
         public float WaveLength
         {
-            get { return _waveLength; }
+            get => _waveLength;
             set
             {
                 value = value.Clamp();
@@ -84,7 +84,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(0.01f), Description("The height of waves on the water surface - values between 0 and 0.2")]
         public float WaveHeight
         {
-            get { return _waveHeight; }
+            get => _waveHeight;
             set
             {
                 value = value.Clamp(0, 0.2f);
@@ -98,7 +98,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(0.2f), Description("The strength of the wind moving the waves - values between 0 and 1")]
         public float WindForce
         {
-            get { return _windForce; }
+            get => _windForce;
             set
             {
                 value = value.Clamp();
@@ -112,7 +112,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// The direction of the wind moving the waves
         /// </summary>
         [Description("The direction of the wind moving the waves")]
-        public Matrix WindDirection { get { return _windDirection; } set { value.To(ref _windDirection, () => SetShaderParameter("WindDirection", value)); } }
+        public Matrix WindDirection { get => _windDirection; set => value.To(ref _windDirection, () => SetShaderParameter("WindDirection", value)); }
 
         private Matrix _reflectionViewProjection;
 
@@ -120,7 +120,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// The reflected view-projection from the <see cref="Camera"/>
         /// </summary>
         [Browsable(false)]
-        public Matrix ReflectionViewProjection { get { return _reflectionViewProjection; } set { value.To(ref _reflectionViewProjection, () => SetShaderParameter("ReflectionViewProjection", value)); } }
+        public Matrix ReflectionViewProjection { get => _reflectionViewProjection; set => value.To(ref _reflectionViewProjection, () => SetShaderParameter("ReflectionViewProjection", value)); }
         #endregion
 
         #region Constructor

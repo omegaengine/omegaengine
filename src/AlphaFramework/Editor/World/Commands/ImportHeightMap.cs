@@ -38,7 +38,7 @@ namespace AlphaFramework.Editor.World.Commands
         /// Points to <see cref="ITerrain.HeightMap"/>
         /// </summary>
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "This property provides direct access to the underlying array without any cloning involved")]
-        protected override ByteGrid MapData { get { return Terrain.HeightMap; } set { Terrain.HeightMap = value; } }
+        protected override ByteGrid MapData { get => Terrain.HeightMap; set => Terrain.HeightMap = value; }
 
         /// <summary>
         /// Loads the height-map data from a file into the <see cref="ITerrain"/>

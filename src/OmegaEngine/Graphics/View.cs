@@ -191,7 +191,7 @@ namespace OmegaEngine.Graphics
         /// The background color and fog color of this scene - <see cref="Color.Empty"/> for no background, may use alpha-channel if <see cref="FullAlpha"/> is not set
         /// </summary>
         [Description("The background color and fog color of this scene - Color.Empty for no background, may use alpha-channel if FullAlpha is not set"), Category("Appearance")]
-        public Color BackgroundColor { set { value.To(ref _backgroundColor, ref BackgroundQuadDirty); } get { return _backgroundColor; } }
+        public Color BackgroundColor { set => value.To(ref _backgroundColor, ref BackgroundQuadDirty); get => _backgroundColor; }
 
         /// <summary>
         /// The scene containing the <see cref="PositionableRenderable"/>s to be rendered.

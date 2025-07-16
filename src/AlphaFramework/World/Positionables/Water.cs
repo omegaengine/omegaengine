@@ -37,7 +37,7 @@ namespace AlphaFramework.World.Positionables
         /// The size of the area of the <see cref="ITerrain"/> this water plane spans.
         /// </summary>
         [Description("The size of the area of the terrain this water plane spans.")]
-        public Vector2 Size { get { return _size; } set { value.To(ref _size, OnChangedRebuild); } }
+        public Vector2 Size { get => _size; set => value.To(ref _size, OnChangedRebuild); }
 
         private float _height;
 
@@ -45,7 +45,7 @@ namespace AlphaFramework.World.Positionables
         /// The height of the water above reference zero.
         /// </summary>
         [XmlAttribute, DefaultValue(0f), Description("The height of the water above reference zero.")]
-        public float Height { get { return _height; } set { value.To(ref _height, OnChangedRebuild); } }
+        public float Height { get => _height; set => value.To(ref _height, OnChangedRebuild); }
 
         /// <summary>
         /// The maximum depth an <see cref="EntityBase{TCoordinates,TTemplate}"/> can walk into this water.

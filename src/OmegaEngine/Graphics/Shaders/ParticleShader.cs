@@ -43,13 +43,13 @@ namespace OmegaEngine.Graphics.Shaders
         /// The largest distance from the emitter at which particle shall be spawned
         /// </summary>
         [DefaultValue(0f), Description("The largest distance from the emitter at which particle shall be spawned")]
-        public float SpawnRadius { get { return _spawnRadius; } set { value.To(ref _spawnRadius, () => SetShaderParameter("SpawnRadius", value)); } }
+        public float SpawnRadius { get => _spawnRadius; set => value.To(ref _spawnRadius, () => SetShaderParameter("SpawnRadius", value)); }
 
         /// <summary>
         /// The largest distance from the emitter particles can travel before dying
         /// </summary>
         [DefaultValue(0f), Description("The largest distance from the emitter particles can travel before dying")]
-        public float SystemHeight { get { return _systemHeight; } set { value.To(ref _systemHeight, () => SetShaderParameter("SystemHeight", value)); } }
+        public float SystemHeight { get => _systemHeight; set => value.To(ref _systemHeight, () => SetShaderParameter("SystemHeight", value)); }
 
         private float _particleSpeed, _particleSpread, _particleSize, _particleShape;
 
@@ -57,25 +57,25 @@ namespace OmegaEngine.Graphics.Shaders
         /// The speed with which the particles move
         /// </summary>
         [DefaultValue(0f), Description("The speed with which the particles move")]
-        public float ParticleSpeed { get { return _particleSpeed; } set { value.To(ref _particleSpeed, () => SetShaderParameter("ParticleSpeed", value)); } }
+        public float ParticleSpeed { get => _particleSpeed; set => value.To(ref _particleSpeed, () => SetShaderParameter("ParticleSpeed", value)); }
 
         /// <summary>
         /// How to spread the particles
         /// </summary>
         [DefaultValue(0f), Description("How to spread the particles")]
-        public float ParticleSpread { get { return _particleSpread; } set { value.To(ref _particleSpread, () => SetShaderParameter("ParticleSpread", value)); } }
+        public float ParticleSpread { get => _particleSpread; set => value.To(ref _particleSpread, () => SetShaderParameter("ParticleSpread", value)); }
 
         /// <summary>
         /// The size of the particles
         /// </summary>
         [DefaultValue(0f), Description("The size of the particles")]
-        public float ParticleSize { get { return _particleSize; } set { value.To(ref _particleSize, () => SetShaderParameter("ParticleSize", value)); } }
+        public float ParticleSize { get => _particleSize; set => value.To(ref _particleSize, () => SetShaderParameter("ParticleSize", value)); }
 
         /// <summary>
         /// The shape of the particles
         /// </summary>
         [DefaultValue(0f), Description("The shape of the particles")]
-        public float ParticleShape { get { return _particleShape; } set { value.To(ref _particleShape, () => SetShaderParameter("ParticleShape", value)); } }
+        public float ParticleShape { get => _particleShape; set => value.To(ref _particleShape, () => SetShaderParameter("ParticleShape", value)); }
         #endregion
 
         #region Constructor

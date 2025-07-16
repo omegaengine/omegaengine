@@ -49,7 +49,7 @@ namespace FrameOfReference.World.Positionables
         /// </summary>
         [DefaultValue(0f), Description("The horizontal rotation of the view direction in degrees.")]
         [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
-        public float Rotation { get { return _rotation; } set { value.To(ref _rotation, OnChanged); } }
+        public float Rotation { get => _rotation; set => value.To(ref _rotation, OnChanged); }
 
         /// <summary>
         /// <c>true</c> if this entity is controlled by a human player, <c>false</c> if it is controlled by the computer.

@@ -91,7 +91,7 @@ namespace OmegaEngine.Graphics
         /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
         public Skybox Skybox
         {
-            get { return _skybox; }
+            get => _skybox;
             set
             {
                 UnregisterChild(_skybox);

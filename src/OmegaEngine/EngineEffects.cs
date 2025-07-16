@@ -43,25 +43,25 @@ namespace OmegaEngine
         /// Use per-pixel lighting
         /// </summary>
         /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
-        public bool PerPixelLighting { get { return _perPixelLighting; } set { _perPixelLighting = _capabilities.PerPixelEffects && value; } }
+        public bool PerPixelLighting { get => _perPixelLighting; set => _perPixelLighting = _capabilities.PerPixelEffects && value; }
 
         /// <summary>
         /// Use normal mapping
         /// </summary>
         /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
-        public bool NormalMapping { get { return _normalMapping; } set { _normalMapping = _capabilities.PerPixelEffects && value; } }
+        public bool NormalMapping { get => _normalMapping; set => _normalMapping = _capabilities.PerPixelEffects && value; }
 
         /// <summary>
         /// Use post-screen effects
         /// </summary>
         /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
-        public bool PostScreenEffects { get { return _postScreenEffects; } set { _postScreenEffects = _capabilities.PerPixelEffects && value; } }
+        public bool PostScreenEffects { get => _postScreenEffects; set => _postScreenEffects = _capabilities.PerPixelEffects && value; }
 
         /// <summary>
         /// Apply shadows
         /// </summary>
         /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
-        public bool Shadows { get { return _shadows; } set { _shadows = _capabilities.PerPixelEffects && value; } }
+        public bool Shadows { get => _shadows; set => _shadows = _capabilities.PerPixelEffects && value; }
         #endregion
 
         #region Double sampling
@@ -71,7 +71,7 @@ namespace OmegaEngine
         /// Sample terrain textures twice with different texture coordinates for better image quality
         /// </summary>
         /// <seealso cref="EngineCapabilities.DoubleSampling"/>
-        public bool DoubleSampling { get { return _doubleSampling; } set { _doubleSampling = _capabilities.DoubleSampling && value; } }
+        public bool DoubleSampling { get => _doubleSampling; set => _doubleSampling = _capabilities.DoubleSampling && value; }
         #endregion
 
         #region Water effects
@@ -82,12 +82,10 @@ namespace OmegaEngine
         /// </summary>
         public WaterEffectsType WaterEffects
         {
-            get { return _waterEffects; }
-            set
-            {
+            get => _waterEffects;
+            set =>
                 // Check if the selected effect mode is supported by the hardware
                 _waterEffects = _capabilities.PerPixelEffects ? value : WaterEffectsType.None;
-            }
         }
         #endregion
 

@@ -35,25 +35,25 @@ namespace OmegaEngine.Graphics.Shaders
         /// The horizontal speed of the scratches
         /// </summary>
         [DefaultValue(0.03f), Description("The horizontal speed of the scratches")]
-        public float Speed { get { return _speed; } set { value.To(ref _speed, () => SetShaderParameter("Speed", value)); } }
+        public float Speed { get => _speed; set => value.To(ref _speed, () => SetShaderParameter("Speed", value)); }
 
         /// <summary>
         /// The vertical speed of the scratches
         /// </summary>
         [DefaultValue(0.02f), Description("The vertical speed of the scratches")]
-        public float Speed2 { get { return _speed2; } set { value.To(ref _speed2, () => SetShaderParameter("Speed2", value)); } }
+        public float Speed2 { get => _speed2; set => value.To(ref _speed2, () => SetShaderParameter("Speed2", value)); }
 
         /// <summary>
         /// The number of scratches
         /// </summary>
         [DefaultValue(0.65f), Description("The number of scratches")]
-        public float ScratchIntensity { get { return _scratchIntensity; } set { value.To(ref _scratchIntensity, () => SetShaderParameter("ScratchIntensity", value)); } }
+        public float ScratchIntensity { get => _scratchIntensity; set => value.To(ref _scratchIntensity, () => SetShaderParameter("ScratchIntensity", value)); }
 
         /// <summary>
         /// The size of the scratches
         /// </summary>
         [DefaultValue(0.0075f), Description("The size of the scratches")]
-        public float ScratchWidth { get { return _scratchWidth; } set { value.To(ref _scratchWidth, () => SetShaderParameter("IS", value)); } }
+        public float ScratchWidth { get => _scratchWidth; set => value.To(ref _scratchWidth, () => SetShaderParameter("IS", value)); }
         #endregion
 
         #region Engine

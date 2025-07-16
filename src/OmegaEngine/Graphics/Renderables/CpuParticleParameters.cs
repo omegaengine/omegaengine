@@ -71,8 +71,8 @@ namespace OmegaEngine.Graphics.Renderables
         // ReSharper disable UnusedMember.Global
         public XColor Color4
         {
-            get { return Color; }
-            set { Color = (Color)value; }
+            get => Color;
+            set => Color = (Color)value;
         }
 
         // ReSharper restore UnusedMember.Global

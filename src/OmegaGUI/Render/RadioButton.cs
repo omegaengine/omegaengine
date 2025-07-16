@@ -31,7 +31,7 @@ namespace OmegaGUI.Render
         /// <summary>
         /// Button Group property
         /// </summary>
-        public uint ButtonGroup { get { return buttonGroupIndex; } set { buttonGroupIndex = value; } }
+        public uint ButtonGroup { get => buttonGroupIndex; set => buttonGroupIndex = value; }
 
         /// <summary>
         /// Sets the check state and potentially clears the group

@@ -43,7 +43,7 @@ namespace OmegaEngine
         [SuppressMessage("Microsoft.Design", "CA1059:MembersShouldNotExposeCertainConcreteTypes", Justification = "Direct access to an XmlDocument is the easiest way to allow for flexible storage")]
         internal static XmlDocument LogXml
         {
-            get { return _currentLogXml; }
+            get => _currentLogXml;
             set
             {
                 _currentLogXml = value;

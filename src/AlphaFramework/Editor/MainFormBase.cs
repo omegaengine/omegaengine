@@ -38,12 +38,10 @@ namespace AlphaFramework.Editor
         [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AlphEditor")]
         public bool Loading
         {
-            get { return _loading; }
-            set
-            {
-                // Show a "Loading..." dialog in a separate thread
+            get => _loading;
+            set =>
                 value.To(ref _loading, delegate
-                {
+                { // Show a "Loading..." dialog in a separate thread
                     if (value)
                     {
                         _waitDialog = new("AlphEditor - " + Resources.Loading, Icon);
@@ -55,7 +53,6 @@ namespace AlphaFramework.Editor
                         _waitDialog = null;
                     }
                 });
-            }
         }
         #endregion
 

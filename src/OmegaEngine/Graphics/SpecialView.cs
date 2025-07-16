@@ -23,13 +23,13 @@ namespace OmegaEngine.Graphics
         /// Not applicable to <see cref="SpecialView"/>.
         /// </summary>
         [Browsable(false)]
-        public sealed override bool Fog { get { return false; } set { } }
+        public sealed override bool Fog { get => false; set { } }
 
         /// <summary>
         /// Not applicable to <see cref="SpecialView"/>.
         /// </summary>
         [Browsable(false)]
-        public sealed override bool Lighting { get { return false; } set { } }
+        public sealed override bool Lighting { get => false; set { } }
         #endregion
 
         #region Constructor

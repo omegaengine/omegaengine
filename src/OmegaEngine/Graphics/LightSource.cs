@@ -51,19 +51,19 @@ namespace OmegaEngine.Graphics
         /// The diffuse color this light source emits
         /// </summary>
         [Description("The diffuse color this light source emits"), Category("Appearance")]
-        public Color Diffuse { get { return _diffuse; } set { _diffuse = Color.FromArgb(255, value); /* Drop alpha-channel */ } }
+        public Color Diffuse { get => _diffuse; set => _diffuse = Color.FromArgb(255, value) /* Drop alpha-channel */; }
 
         /// <summary>
         /// The specular color this light source emits
         /// </summary>
         [Description("The specular color this light source emits"), Category("Appearance")]
-        public Color Specular { get { return _specular; } set { _specular = Color.FromArgb(255, value); /* Drop alpha-channel */ } }
+        public Color Specular { get => _specular; set => _specular = Color.FromArgb(255, value) /* Drop alpha-channel */; }
 
         /// <summary>
         /// The ambient color this light source emits
         /// </summary>
         [Description("The ambient color this light source emits"), Category("Appearance")]
-        public Color Ambient { get { return _ambient; } set { _ambient = Color.FromArgb(255, value); /* Drop alpha-channel */ } }
+        public Color Ambient { get => _ambient; set => _ambient = Color.FromArgb(255, value) /* Drop alpha-channel */; }
         #endregion
 
         #endregion

@@ -55,7 +55,7 @@ namespace FrameOfReference.World.Config
         /// Show the welcome message on startup
         /// </summary>
         [DefaultValue(true), Description("Show the welcome message on startup")]
-        public bool ShowWelcomeMessage { get { return _showWelcomeMessage; } set { value.To(ref _showWelcomeMessage, OnChanged); } }
+        public bool ShowWelcomeMessage { get => _showWelcomeMessage; set => value.To(ref _showWelcomeMessage, OnChanged); }
 
         private bool _editBase;
 
@@ -63,7 +63,7 @@ namespace FrameOfReference.World.Config
         /// May the user edit the base game?
         /// </summary>
         [DefaultValue(false), Description("May the user edit the base game?")]
-        public bool EditBase { get { return _editBase; } set { value.To(ref _editBase, OnChanged); } }
+        public bool EditBase { get => _editBase; set => value.To(ref _editBase, OnChanged); }
 
         private Size _windowSize;
 
@@ -71,7 +71,7 @@ namespace FrameOfReference.World.Config
         /// The size of the editor window
         /// </summary>
         [Description("The size of the editor window")]
-        public Size WindowSize { get { return _windowSize; } set { value.To(ref _windowSize, OnChanged); } }
+        public Size WindowSize { get => _windowSize; set => value.To(ref _windowSize, OnChanged); }
 
         private bool _windowMaximized;
 
@@ -79,7 +79,7 @@ namespace FrameOfReference.World.Config
         /// Is the editor window maximized?
         /// </summary>
         [Description("Is the editor window maximized?")]
-        public bool WindowMaximized { get { return _windowMaximized; } set { value.To(ref _windowMaximized, OnChanged); } }
+        public bool WindowMaximized { get => _windowMaximized; set => value.To(ref _windowMaximized, OnChanged); }
 
         // Note: Can not use ICollection<T> interface with XML Serialization
         private readonly MonitoredCollection<string> _recentMods = [];

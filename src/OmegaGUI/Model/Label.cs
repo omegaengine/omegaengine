@@ -49,7 +49,7 @@ namespace OmegaGUI.Model
         [XmlAttribute]
         public virtual string Text
         {
-            get { return ControlText; }
+            get => ControlText;
             set
             {
                 ControlText = value;
@@ -65,7 +65,7 @@ namespace OmegaGUI.Model
         [DefaultValue(TextAlign.Left), Description("How the text is to be aligned - only effective for Label"), Category("Appearance")]
         public TextAlign TextAlign
         {
-            get { return _textAlign; }
+            get => _textAlign;
             set
             {
                 _textAlign = value;

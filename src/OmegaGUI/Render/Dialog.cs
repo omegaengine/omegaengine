@@ -91,7 +91,7 @@ namespace OmegaGUI.Render
         #region Simple Properties/Methods
         public uint DefaultFontSize
         {
-            get { return defaultFontSize; }
+            get => defaultFontSize;
             set
             {
                 defaultFontSize = value;
@@ -102,7 +102,7 @@ namespace OmegaGUI.Render
         /// <summary>The dialog's location</summary>
         public Point Location
         {
-            get { return new(dialogX, dialogY); }
+            get => new(dialogX, dialogY);
             set
             {
                 dialogX = value.X;
@@ -137,7 +137,7 @@ namespace OmegaGUI.Render
         /// <summary>The height of the caption bar at the top of the dialog</summary>
         public int CaptionHeight
         {
-            get { return captionHeight; }
+            get => captionHeight;
             set
             {
                 captionHeight = value;

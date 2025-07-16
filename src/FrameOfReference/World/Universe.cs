@@ -62,7 +62,7 @@ namespace FrameOfReference.World
                 if (TerrainSerialize != null && SourceFile != null && !TerrainSerialize.DataLoaded) LoadTerrainData();
                 return TerrainSerialize;
             }
-            set { TerrainSerialize = value; }
+            set => TerrainSerialize = value;
         }
 
         /// <summary>

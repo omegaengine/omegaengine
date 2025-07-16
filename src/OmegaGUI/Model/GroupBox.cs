@@ -49,7 +49,7 @@ namespace OmegaGUI.Model
         [XmlIgnore, Description("The color of the border of the group box"), Category("Appearance")]
         public Color BorderColor
         {
-            get { return (Color)ColorBorder; }
+            get => (Color)ColorBorder;
             set
             {
                 ColorBorder = value;
@@ -64,7 +64,7 @@ namespace OmegaGUI.Model
         [XmlIgnore, Description("The background color of the group box"), Category("Appearance")]
         public Color FillColor
         {
-            get { return (Color)ColorFill; }
+            get => (Color)ColorFill;
             set
             {
                 ColorFill = value;

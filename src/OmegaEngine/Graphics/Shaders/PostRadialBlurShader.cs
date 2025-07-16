@@ -33,7 +33,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(5.0f), Description("The minimum range at which to start blur sampling - values between 0 and 10")]
         public float BlurStart
         {
-            get { return _blurStart; }
+            get => _blurStart;
             set
             {
                 value = value.Clamp(0, 10);
@@ -47,7 +47,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(-0.05f), Description("The minimum range at which to start blur sampling - values between -1 and 1")]
         public float BlurWidth
         {
-            get { return _blurWidth; }
+            get => _blurWidth;
             set
             {
                 value = value.Clamp(-1, 1);
@@ -61,7 +61,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// The center/origin of the radial blur effect
         /// </summary>
         [Description("The center/origin of the radial blur effect")]
-        public Vector2 BlurCenter { get { return _blurCenter; } set { value.To(ref _blurCenter, () => SetShaderParameter("BlurCenter", value)); } }
+        public Vector2 BlurCenter { get => _blurCenter; set => value.To(ref _blurCenter, () => SetShaderParameter("BlurCenter", value)); }
         #endregion
 
         #region Engine

@@ -51,7 +51,7 @@ namespace OmegaGUI.Model
         [XmlAttribute]
         public override string Text
         {
-            get { return ControlText; }
+            get => ControlText;
             set
             {
                 ControlText = value;

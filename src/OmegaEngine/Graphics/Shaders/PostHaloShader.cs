@@ -31,7 +31,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// The color of the halo
         /// </summary>
         [Description("The color of the halo")]
-        public Color GlowColor { get { return _glowColor; } set { value.To(ref _glowColor, () => SetShaderParameter("GlowCol", value)); } }
+        public Color GlowColor { get => _glowColor; set => value.To(ref _glowColor, () => SetShaderParameter("GlowCol", value)); }
 
         private float _glowness = 1.6f;
 
@@ -39,7 +39,7 @@ namespace OmegaEngine.Graphics.Shaders
         /// How strong the halo shall glow - values between 0 and 3
         /// </summary>
         [DefaultValue(1.6f), Description("How strong the halo shall glow - values between 0 and 3")]
-        public float Glowness { get { return _glowness; } set { value.To(ref _glowness, () => SetShaderParameter("Glowness", value)); } }
+        public float Glowness { get => _glowness; set => value.To(ref _glowness, () => SetShaderParameter("Glowness", value)); }
         #endregion
 
         #region Engine

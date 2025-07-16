@@ -83,7 +83,7 @@ namespace OmegaGUI.Model
         /// <summary>
         /// The culture used for loading the assembly resources
         /// </summary>
-        public static CultureInfo ResourceCulture { get { return Resources.Culture; } set { Resources.Culture = value; } }
+        public static CultureInfo ResourceCulture { get => Resources.Culture; set => Resources.Culture = value; }
 
         public override string ToString()
         {
@@ -105,7 +105,7 @@ namespace OmegaGUI.Model
         [DefaultValue(""), Description("The caption text displayed at the top of this dialog"), Category("Appearance")]
         public string CaptionText
         {
-            get { return _captionText; }
+            get => _captionText;
             set
             {
                 _captionText = value;
@@ -121,7 +121,7 @@ namespace OmegaGUI.Model
         [DefaultValue(20), Description("The height of caption displayed at the top of this dialog"), Category("Appearance")]
         public int CaptionHeight
         {
-            get { return _captionHeight; }
+            get => _captionHeight;
             set
             {
                 _captionHeight = value;
@@ -155,7 +155,7 @@ namespace OmegaGUI.Model
         [XmlIgnore, Description("The dialog's background color"), Category("Appearance")]
         public Color BackgroundColor
         {
-            get { return (Color)ColorBackground; }
+            get => (Color)ColorBackground;
             set
             {
                 ColorBackground = value;
@@ -169,7 +169,7 @@ namespace OmegaGUI.Model
         [XmlIgnore, Description("The dialog's caption bar color"), Category("Appearance")]
         public Color CaptionColor
         {
-            get { return (Color)ColorCaption; }
+            get => (Color)ColorCaption;
             set
             {
                 ColorCaption = value;
@@ -183,7 +183,7 @@ namespace OmegaGUI.Model
         [XmlIgnore, Description("The color of text on the dialog"), Category("Appearance")]
         public Color TextColor
         {
-            get { return (Color)ColorText; }
+            get => (Color)ColorText;
             set
             {
                 ColorText = value;
@@ -217,7 +217,7 @@ namespace OmegaGUI.Model
         [XmlAttribute, DefaultValue("base.png"), Description("The file containing the texture for controls on this dialog"), Category("Appearance")]
         public string TextureFile
         {
-            get { return _textureFile; }
+            get => _textureFile;
             set
             {
                 _textureFile = value;
@@ -238,7 +238,7 @@ namespace OmegaGUI.Model
         [DefaultValue("Arial"), Description("The name of font for text on controls"), Category("Appearance")]
         public string FontName
         {
-            get { return _fontName; }
+            get => _fontName;
             set
             {
                 _fontName = value;
@@ -254,7 +254,7 @@ namespace OmegaGUI.Model
         [DefaultValue((uint)16), Description("The font size"), Category("Appearance")]
         public uint FontSize
         {
-            get { return _fontSize; }
+            get => _fontSize;
             set
             {
                 _fontSize = value;
@@ -272,7 +272,7 @@ namespace OmegaGUI.Model
         [Category("Layout"), Description("The initial size of the dialog, used for auto-scaling fullscreen dialogs")]
         public Size Size
         {
-            get { return _size; }
+            get => _size;
             set
             {
                 _size = value;
@@ -288,7 +288,7 @@ namespace OmegaGUI.Model
         [DefaultValue(typeof(Point), "0; 0"), Category("Layout"), Description("A set of coordinates by which all control positions are shifted")]
         public Point Shift
         {
-            get { return _shift; }
+            get => _shift;
             set
             {
                 _shift = value;
@@ -308,7 +308,7 @@ namespace OmegaGUI.Model
         [XmlAttribute, DefaultValue(1f), Category("Layout"), Description("A factor by which all sizes are multiplied, is ignored in fullscreen mode")]
         public float Scale
         {
-            get { return _scale; }
+            get => _scale;
             set
             {
                 _scale = value;
@@ -328,7 +328,7 @@ namespace OmegaGUI.Model
         /// </summary>
         internal float AutoScale
         {
-            get { return _autoScale; }
+            get => _autoScale;
             set
             {
                 _autoScale = value;
@@ -355,7 +355,7 @@ namespace OmegaGUI.Model
         [XmlAttribute, DefaultValue(false), Category("Layout"), Description("Shall this dialog be auto-scaled to fill the complete screen?")]
         public bool Fullscreen
         {
-            get { return _fullscreen; }
+            get => _fullscreen;
             set
             {
                 _fullscreen = value;

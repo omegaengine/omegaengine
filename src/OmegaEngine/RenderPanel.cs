@@ -55,14 +55,14 @@ namespace OmegaEngine
         /// </summary>
         /// <seealso cref="AutoRenderInterval"/>
         [DefaultValue(false), Category("Behavior"), Description("When set to true Engine.Render() is automatically called in regular intervals.")]
-        public bool AutoRender { get { return _renderTimer.Enabled; } set { _renderTimer.Enabled = value; } }
+        public bool AutoRender { get => _renderTimer.Enabled; set => _renderTimer.Enabled = value; }
 
         /// <summary>
         /// The interval in milliseconds in which <see cref="OmegaEngine.Engine.Render()"/> is automatically called.
         /// </summary>
         /// <seealso cref="AutoRender"/>
         [DefaultValue(33), Category("Behavior"), Description("The interval in milliseconds in which Engine.Render() is automatically called.")]
-        public int AutoRenderInterval { get { return _renderTimer.Interval; } set { _renderTimer.Interval = value; } }
+        public int AutoRenderInterval { get => _renderTimer.Interval; set => _renderTimer.Interval = value; }
         #endregion
 
         #region Constructor

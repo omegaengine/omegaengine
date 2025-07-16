@@ -74,7 +74,7 @@ namespace OmegaGUI.Render
         /// </summary>
         public int TrackPosition
         {
-            get { return m_position; }
+            get => m_position;
             set
             {
                 m_position = value;
@@ -88,7 +88,7 @@ namespace OmegaGUI.Render
         /// </summary>
         public int PageSize
         {
-            get { return pgSize; }
+            get => pgSize;
             set
             {
                 pgSize = value;

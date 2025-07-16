@@ -629,7 +629,7 @@ namespace OmegaEngine.Graphics.Shaders
         [Browsable(false)]
         protected Effect Effect
         {
-            get { return _effect; }
+            get => _effect;
             set
             {
                 _effect = value;

@@ -37,7 +37,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(20.0f), Description("How fast to shake the camera - values between -1 and 100")]
         public float Speed
         {
-            get { return _speed; }
+            get => _speed;
             set
             {
                 value = value.Clamp(-1, 100);
@@ -51,7 +51,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(0.25f), Description("How erratically to shake the camera - values between 0 and 1")]
         public float Shakiness
         {
-            get { return _shakiness; }
+            get => _shakiness;
             set
             {
                 value = value.Clamp();
@@ -65,7 +65,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(2.2f), Description("How close the the origin to keep the shaking view - values between 0 and 10")]
         public float Sharpness
         {
-            get { return _sharpness; }
+            get => _sharpness;
             set
             {
                 value = value.Clamp(0, 10);
@@ -75,7 +75,7 @@ namespace OmegaEngine.Graphics.Shaders
 
         private Vector2 _timeDelta = new(1, 0.2f);
 
-        public Vector2 TimeDelta { get { return _timeDelta; } set { value.To(ref _timeDelta, () => SetShaderParameter("TimeDelta", value)); } }
+        public Vector2 TimeDelta { get => _timeDelta; set => value.To(ref _timeDelta, () => SetShaderParameter("TimeDelta", value)); }
         #endregion
 
         #region Engine

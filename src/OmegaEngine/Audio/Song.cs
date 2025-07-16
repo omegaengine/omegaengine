@@ -35,7 +35,7 @@ namespace OmegaEngine.Audio
         public bool Looping => !_soundBuffer.Disposed && _soundBuffer.Status == BufferStatus.Looping;
 
         /// <inheritdoc/>>
-        public int Volume { get { return _soundBuffer.Volume; } set { _soundBuffer.Volume = value; } }
+        public int Volume { get => _soundBuffer.Volume; set => _soundBuffer.Volume = value; }
         #endregion
 
         #region Constructor

@@ -122,7 +122,7 @@ namespace OmegaGUI.Render
         public override bool CanHaveFocus => (IsVisible && IsEnabled);
 
         /// <summary>Sets the style of the listbox</summary>
-        public ListBoxStyle Style { get { return ctrlStyle; } set { ctrlStyle = value; } }
+        public ListBoxStyle Style { get => ctrlStyle; set => ctrlStyle = value; }
 
         /// <summary>Number of items current in the list</summary>
         public int NumberItems => itemList.Count;

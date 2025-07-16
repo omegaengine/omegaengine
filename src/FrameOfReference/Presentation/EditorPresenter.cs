@@ -145,7 +145,7 @@ namespace FrameOfReference.Presentation
         /// <remarks>Raise the <see cref="TerrainPaint"/> event instead of selecting <see cref="Positionable{TCoordinates}"/>s when set to a value other than <c>null</c>.</remarks>
         public TerrainBrush? TerrainBrush
         {
-            get { return _terrainBrush; }
+            get => _terrainBrush;
             set
             {
                 _terrainBrush = value;
