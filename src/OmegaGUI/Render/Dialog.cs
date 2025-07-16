@@ -708,7 +708,7 @@ namespace OmegaGUI.Render
 
                     // Not yet handled, see if the mouse is over any controls
                     Control control = GetControlAtPoint(mousePoint);
-                    if ((control != null) && (control.IsEnabled))
+                    if (control is { IsEnabled: true })
                     {
                         // Let the control handle the mouse if it wants (and return true if it handles it)
                         if (control.HandleMouse(msg, mousePoint, wParam, lParam))

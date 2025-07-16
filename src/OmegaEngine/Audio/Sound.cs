@@ -101,7 +101,7 @@ namespace OmegaEngine.Audio
         {
             try
             {
-                if (SoundBuffer != null && !SoundBuffer.Disposed)
+                if (SoundBuffer is { Disposed: false })
                 {
                     if (Playing) SoundBuffer.Stop();
                     SoundBuffer.Dispose();

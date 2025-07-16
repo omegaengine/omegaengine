@@ -188,7 +188,7 @@ namespace OmegaGUI
         public bool OnMsgProc(Message m)
         {
             // Exclusive input handling for MessageBox
-            if (DialogManager.MessageBox != null && DialogManager.MessageBox.Visible)
+            if (DialogManager.MessageBox is { Visible: true })
             {
                 return DialogManager.MessageBox.
                     MessageProc(m.HWnd, (WindowMessage)m.Msg, m.WParam, m.LParam);

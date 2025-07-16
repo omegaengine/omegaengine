@@ -94,7 +94,7 @@ namespace OmegaEngine.Assets
             {
                 #region Extract material data
                 bool needsTangents = false;
-                if ((extendedMaterials != null) && (extendedMaterials.Length > 0))
+                if (extendedMaterials is { Length: > 0 })
                 {
                     Materials = new XMaterial[extendedMaterials.Length];
 

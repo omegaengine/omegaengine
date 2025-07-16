@@ -94,7 +94,7 @@ namespace OmegaEngine.Audio
         {
             try
             {
-                if (_buffer3D != null && !_buffer3D.Disposed) _buffer3D.Dispose();
+                if (_buffer3D is { Disposed: false }) _buffer3D.Dispose();
             }
             finally
             {

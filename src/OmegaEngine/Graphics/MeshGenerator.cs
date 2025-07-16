@@ -143,7 +143,7 @@ namespace OmegaEngine.Graphics
         private static float CalculateTu(Vector3 vertexRay, double phi)
         {
             // ReSharper disable CompareOfFloatsByEqualityOperator
-            if (vertexRay.Z == 1.0f || vertexRay.Z == -1.0f) return 0.5f;
+            if (vertexRay.Z is 1.0f or -1.0f) return 0.5f;
                 // ReSharper restore CompareOfFloatsByEqualityOperator
             else
             {
