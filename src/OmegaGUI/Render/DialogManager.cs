@@ -226,7 +226,7 @@ namespace OmegaGUI.Render
             {
                 foreach (FontNode fn in _fontCache)
                 {
-                    if ((fn.Font != null) && (!fn.Font.Disposed))
+                    if (fn.Font is { Disposed: false })
                         fn.Font.OnLostDevice();
                 }
 

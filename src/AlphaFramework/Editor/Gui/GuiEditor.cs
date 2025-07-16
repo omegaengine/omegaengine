@@ -327,7 +327,7 @@ namespace AlphaFramework.Editor.Gui
             bool accumulate = ModifierKeys.HasFlag(Keys.Control);
 
             // Switch to control dragging instead of selection if the mouse is pressed while above a control
-            if (Content != null && Content.EffectiveScale == 1)
+            if (Content is { EffectiveScale: 1 })
             {
                 // Loop through all controls from back to front
                 for (int i = Content.Controls.Count - 1; i >= 0; i--)

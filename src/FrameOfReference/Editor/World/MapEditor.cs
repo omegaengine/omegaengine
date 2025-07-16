@@ -900,7 +900,7 @@ namespace FrameOfReference.Editor.World
             }
 
             // Negative coordinates indicate null operations
-            if (terrainCoords.X >= 0 && terrainCoords.Y >= 0 && _presenter.TerrainBrush.HasValue)
+            if (terrainCoords is { X: >= 0, Y: >= 0 } && _presenter.TerrainBrush.HasValue)
                 _mapModifier.Apply(terrainCoords, _presenter.TerrainBrush.Value);
 
             if (done)

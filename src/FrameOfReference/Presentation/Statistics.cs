@@ -106,7 +106,7 @@ namespace FrameOfReference.Presentation
                             Target = target,
                             GraphicsSettings = ((TestGraphicsSettings)i),
                             // Create screenshots only for "no effects" and for "all effects"
-                            Screenshot = (i == 0 || i == 7),
+                            Screenshot = i is 0 or 7,
                             WaterEffects = WaterEffectsType.RefractionOnly
                         });
                     }
@@ -120,7 +120,7 @@ namespace FrameOfReference.Presentation
                             Target = target,
                             GraphicsSettings = ((TestGraphicsSettings)i),
                             // Create screenshots only for "no effects" and for "all effects"
-                            Screenshot = (i == 0 || i == 7),
+                            Screenshot = i is 0 or 7,
                             WaterEffects = WaterEffectsType.ReflectAll
                         });
                     }
@@ -137,7 +137,7 @@ namespace FrameOfReference.Presentation
                             Target = target,
                             GraphicsSettings = ((TestGraphicsSettings)i),
                             // Create screenshots only for "no effects" and for "all effects"
-                            Screenshot = (i == 0 || i == 7),
+                            Screenshot = i is 0 or 7,
                             ParticleSystemQuality = Quality.High
                         });
                     }

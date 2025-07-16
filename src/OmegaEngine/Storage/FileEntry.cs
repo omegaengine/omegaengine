@@ -125,7 +125,7 @@ namespace OmegaEngine.Storage
             revertMenuEntry.Click += delegate
             {
                 // Prevent multiple calls
-                if (EntryType == FileEntryType.Normal || EntryType == FileEntryType.Deleted) return;
+                if (EntryType is FileEntryType.Normal or FileEntryType.Deleted) return;
 
                 if (!Msg.YesNo(null, Resources.LoseChangesAsk, MsgSeverity.Warn)) return;
 

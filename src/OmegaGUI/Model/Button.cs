@@ -78,7 +78,7 @@ namespace OmegaGUI.Model
                 if (Parent != null)
                 {
                     ButtonStyle style = Parent.GetButtonStyle(_customStyle);
-                    return style != null && style.TextureFileValid;
+                    return style is { TextureFileValid: true };
                 }
                 return false;
             }
