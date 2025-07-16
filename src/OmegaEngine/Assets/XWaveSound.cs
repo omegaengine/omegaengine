@@ -34,12 +34,10 @@ namespace OmegaEngine.Assets
             if (stream == null) throw new ArgumentNullException(nameof(stream));
             #endregion
 
-            using (var waveFile = new WaveStream(stream))
-            {
-                SoundFormat = waveFile.Format;
-                SoundData = new MemoryStream((int)waveFile.Length);
-                waveFile.CopyToEx(SoundData);
-            }
+            using var waveFile = new WaveStream(stream);
+            SoundFormat = waveFile.Format;
+            SoundData = new MemoryStream((int)waveFile.Length);
+            waveFile.CopyToEx(SoundData);
         }
         #endregion
 
