@@ -51,7 +51,7 @@ namespace OmegaGUI.Render
         }
 
         /// <summary>Current value of the slider</summary>
-        public int Value { get { return currentValue; } set { SetValueInternal(value, false); } }
+        public int Value { get => currentValue; set => SetValueInternal(value, false); }
 
         /// <summary>Sets the range of the slider</summary>
         public void SetRange(int min, int max)

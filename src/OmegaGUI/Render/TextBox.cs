@@ -127,7 +127,7 @@ namespace OmegaGUI.Render
         }
 
         /// <summary>Get or sets the text</summary>
-        public string Text { get { return textData.Text; } set { SetText(value, false); } }
+        public string Text { get => textData.Text; set => SetText(value, false); }
 
         /// <summary>Gets a copy of the text</summary>
         public string GetTextCopy()

@@ -79,14 +79,14 @@ namespace OmegaEngine
         /// <summary>
         /// Controls how vertexes are filled (normal, wireframe, dotted)
         /// </summary>
-        public FillMode FillMode { get { return _fillMode; } set { value.To(ref _fillMode, () => _device.SetRenderState(RenderState.FillMode, (int)value)); } }
+        public FillMode FillMode { get => _fillMode; set => value.To(ref _fillMode, () => _device.SetRenderState(RenderState.FillMode, (int)value)); }
 
         private Cull _cullMode = Cull.Counterclockwise;
 
         /// <summary>
         /// The current culling mode used for rendering
         /// </summary>
-        public Cull CullMode { get { return _cullMode; } set { value.To(ref _cullMode, () => _device.SetRenderState(RenderState.CullMode, (int)value)); } }
+        public Cull CullMode { get => _cullMode; set => value.To(ref _cullMode, () => _device.SetRenderState(RenderState.CullMode, (int)value)); }
 
         private ZBufferMode _zBufferMode = ZBufferMode.Normal;
 
@@ -95,9 +95,8 @@ namespace OmegaEngine
         /// </summary>
         public ZBufferMode ZBufferMode
         {
-            get { return _zBufferMode; }
-            set
-            {
+            get => _zBufferMode;
+            set =>
                 value.To(ref _zBufferMode, delegate
                 {
                     switch (value)
@@ -115,7 +114,6 @@ namespace OmegaEngine
                             break;
                     }
                 });
-            }
         }
         #endregion
 
@@ -125,7 +123,7 @@ namespace OmegaEngine
         /// <summary>
         /// Controls whether fixed-function pipeline lighting is used at the moment instead of <see cref="SurfaceShader"/>s
         /// </summary>
-        public bool FfpLighting { get { return _ffpLighting; } set { value.To(ref _ffpLighting, () => _device.SetRenderState(RenderState.Lighting, value)); } }
+        public bool FfpLighting { get => _ffpLighting; set => value.To(ref _ffpLighting, () => _device.SetRenderState(RenderState.Lighting, value)); }
         #endregion
 
         #region Fog
@@ -136,7 +134,7 @@ namespace OmegaEngine
         /// </summary>
         public bool Fog
         {
-            get { return _fog; }
+            get => _fog;
             set
             {
                 _fog = value;
@@ -157,19 +155,19 @@ namespace OmegaEngine
         /// <summary>
         /// The color of the fog
         /// </summary>
-        public Color FogColor { get { return _fogColor; } set { value.To(ref _fogColor, () => _device.SetRenderState(RenderState.FogColor, value.ToArgb())); } }
+        public Color FogColor { get => _fogColor; set => value.To(ref _fogColor, () => _device.SetRenderState(RenderState.FogColor, value.ToArgb())); }
 
         private float _fogStart, _fogEnd;
 
         /// <summary>
         /// The distance at which the linear fog shall start
         /// </summary>
-        public float FogStart { get { return _fogStart; } set { value.To(ref _fogStart, () => _device.SetRenderState(RenderState.FogStart, value)); } }
+        public float FogStart { get => _fogStart; set => value.To(ref _fogStart, () => _device.SetRenderState(RenderState.FogStart, value)); }
 
         /// <summary>
         /// The distance at which the linear fog shall have obscured everything
         /// </summary>
-        public float FogEnd { get { return _fogEnd; } set { value.To(ref _fogEnd, () => _device.SetRenderState(RenderState.FogEnd, value)); } }
+        public float FogEnd { get => _fogEnd; set => value.To(ref _fogEnd, () => _device.SetRenderState(RenderState.FogEnd, value)); }
         #endregion
 
         #region Alpha blending
@@ -209,9 +207,8 @@ namespace OmegaEngine
         /// </summary>
         public int AlphaBlend
         {
-            get { return _alphaBlend; }
-            set
-            {
+            get => _alphaBlend;
+            set =>
                 value.To(ref _alphaBlend, delegate
                 {
                     switch (value)
@@ -279,7 +276,6 @@ namespace OmegaEngine
                             break;
                     }
                 });
-            }
         }
         #endregion
 
@@ -293,7 +289,7 @@ namespace OmegaEngine
         /// </summary>
         public Matrix WorldTransform
         {
-            get { return _worldTransform; }
+            get => _worldTransform;
             set
             {
                 _worldTransform = value;
@@ -304,12 +300,12 @@ namespace OmegaEngine
         /// <summary>
         /// The currently active view transformation matrix
         /// </summary>
-        public Matrix ViewTransform { get { return _viewTransform; } set { value.To(ref _viewTransform, () => _device.SetTransform(TransformState.View, value)); } }
+        public Matrix ViewTransform { get => _viewTransform; set => value.To(ref _viewTransform, () => _device.SetTransform(TransformState.View, value)); }
 
         /// <summary>
         /// The currently active projection transformation matrix
         /// </summary>
-        public Matrix ProjectionTransform { get { return _projectionTransform; } set { value.To(ref _projectionTransform, () => _device.SetTransform(TransformState.Projection, value)); } }
+        public Matrix ProjectionTransform { get => _projectionTransform; set => value.To(ref _projectionTransform, () => _device.SetTransform(TransformState.Projection, value)); }
         #endregion
 
         #region User clip plane
@@ -324,9 +320,8 @@ namespace OmegaEngine
         /// </remarks>
         public Plane UserClipPlane
         {
-            get { return _userClipPlane; }
-            set
-            {
+            get => _userClipPlane;
+            set =>
                 value.To(ref _userClipPlane, delegate
                 {
                     if (value == default(Plane))
@@ -339,7 +334,6 @@ namespace OmegaEngine
                         _device.SetRenderState(RenderState.ClipPlaneEnable, 1);
                     }
                 });
-            }
         }
         #endregion
 

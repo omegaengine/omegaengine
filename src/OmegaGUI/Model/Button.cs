@@ -46,7 +46,7 @@ namespace OmegaGUI.Model
         [XmlAttribute]
         public override string Text
         {
-            get { return ControlText; }
+            get => ControlText;
             set
             {
                 ControlText = value;
@@ -62,7 +62,7 @@ namespace OmegaGUI.Model
         [Description("A custom style for this button"), Category("Appearance")]
         public string CustomStyle
         {
-            get { return _customStyle; }
+            get => _customStyle;
             set
             {
                 _customStyle = value;

@@ -53,7 +53,7 @@ namespace FrameOfReference.World.Config
         /// Play in-game music
         /// </summary>
         [DefaultValue(true), Description("Play in-game music")]
-        public bool PlayMusic { get { return _playMusic; } set { value.To(ref _playMusic, OnChanged); } }
+        public bool PlayMusic { get => _playMusic; set => value.To(ref _playMusic, OnChanged); }
         #endregion
     }
 }

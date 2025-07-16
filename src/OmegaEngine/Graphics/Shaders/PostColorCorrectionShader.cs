@@ -32,7 +32,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(1f), Description("How bright the picture should be - values between 0 (black) and 5 (5x normal)")]
         public float Brightness
         {
-            get { return _brightness; }
+            get => _brightness;
             set
             {
                 value = value.Clamp(0, 5);
@@ -46,7 +46,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(1f), Description("The contrast level of the picture - values between -5 and 5")]
         public float Contrast
         {
-            get { return _contrast; }
+            get => _contrast;
             set
             {
                 value = value.Clamp(-5, 5);
@@ -60,7 +60,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(1f), Description("The color saturation level of the picture - values between -5 and 5")]
         public float Saturation
         {
-            get { return _saturation; }
+            get => _saturation;
             set
             {
                 value = value.Clamp(-5, 5);
@@ -74,7 +74,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(0f), Description("The color hue rotation of the picture - values between 0 and 360")]
         public float Hue
         {
-            get { return _hue; }
+            get => _hue;
             set
             {
                 value = value.Clamp(0, 360);

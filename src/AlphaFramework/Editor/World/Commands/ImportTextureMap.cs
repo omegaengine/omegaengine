@@ -38,7 +38,7 @@ namespace AlphaFramework.Editor.World.Commands
         /// Points to <see cref="ITerrain.TextureMap"/>
         /// </summary>
         [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "This property provides direct access to the underlying array without any cloning involved")]
-        protected override NibbleGrid MapData { get { return Terrain.TextureMap; } set { Terrain.TextureMap = value; } }
+        protected override NibbleGrid MapData { get => Terrain.TextureMap; set => Terrain.TextureMap = value; }
 
         /// <summary>
         /// Loads the texture-map data from a file into the <see cref="ITerrain"/>

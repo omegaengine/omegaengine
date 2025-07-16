@@ -31,13 +31,13 @@ namespace OmegaEngine.Graphics.Shaders
         /// The color to give the image after turning it into grayscale
         /// </summary>
         [Description("The color to give the image after turning it into grayscale")]
-        public Color PaperTone { get { return _paperTone; } set { value.To(ref _paperTone, () => SetShaderParameter("LightColor", value)); } }
+        public Color PaperTone { get => _paperTone; set => value.To(ref _paperTone, () => SetShaderParameter("LightColor", value)); }
 
         /// <summary>
         /// The color of the image stains
         /// </summary>
         [Description("The color of the image stains")]
-        public Color StainTone { get { return _stainTone; } set { value.To(ref _stainTone, () => SetShaderParameter("DarkColor", value)); } }
+        public Color StainTone { get => _stainTone; set => value.To(ref _stainTone, () => SetShaderParameter("DarkColor", value)); }
 
         private float _desaturation = 0.5f, _toning = 1.0f;
 
@@ -47,7 +47,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(0.5f), Description("How strongly to turn the image it into grayscale - values between 0 and 1")]
         public float Desaturation
         {
-            get { return _desaturation; }
+            get => _desaturation;
             set
             {
                 value = value.Clamp();
@@ -61,7 +61,7 @@ namespace OmegaEngine.Graphics.Shaders
         [DefaultValue(1f), Description("How strongly to apply the PaperTone color - values between 0 and 1")]
         public float Toning
         {
-            get { return _toning; }
+            get => _toning;
             set
             {
                 value = value.Clamp();

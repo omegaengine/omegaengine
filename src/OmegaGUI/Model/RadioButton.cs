@@ -48,7 +48,7 @@ namespace OmegaGUI.Model
         [Description("The ID of the radio button group"), Category("Design"),]
         public uint GroupID
         {
-            get { return _groupID; }
+            get => _groupID;
             set
             {
                 _groupID = value;
@@ -63,7 +63,7 @@ namespace OmegaGUI.Model
         [XmlAttribute]
         public override string Text
         {
-            get { return ControlText; }
+            get => ControlText;
             set
             {
                 ControlText = value;
@@ -78,7 +78,7 @@ namespace OmegaGUI.Model
         [XmlAttribute]
         public override bool Checked
         {
-            get { return _radioButton != null ? _radioButton.IsChecked : IsChecked; }
+            get => _radioButton != null ? _radioButton.IsChecked : IsChecked;
             set
             {
                 IsChecked = value;

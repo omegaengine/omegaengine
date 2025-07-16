@@ -56,7 +56,7 @@ namespace OmegaGUI.Model
         [DefaultValue(ListBoxStyle.SingleSelection), Description("The style of the list box"), Category("Behavior")]
         public ListBoxStyle Style
         {
-            get { return _listBox == null ? _style : _listBox.Style; }
+            get => _listBox == null ? _style : _listBox.Style;
             set
             {
                 _style = value;

@@ -53,7 +53,7 @@ namespace FrameOfReference.World.Config
         /// Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective
         /// </summary>
         [DefaultValue(null), Description("Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective")]
-        public string ForceShaderModel { get { return _forceShaderModel; } set { value.To(ref _forceShaderModel, OnChanged); } }
+        public string ForceShaderModel { get => _forceShaderModel; set => value.To(ref _forceShaderModel, OnChanged); }
 
         private bool _anisotropic;
 
@@ -61,7 +61,7 @@ namespace FrameOfReference.World.Config
         /// Use anisotropic texture filtering
         /// </summary>
         [DefaultValue(false), Description("Use anisotropic texture filtering")]
-        public bool Anisotropic { get { return _anisotropic; } set { value.To(ref _anisotropic, OnChanged); } }
+        public bool Anisotropic { get => _anisotropic; set => value.To(ref _anisotropic, OnChanged); }
 
         private bool _normalMapping = true;
 
@@ -69,7 +69,7 @@ namespace FrameOfReference.World.Config
         /// Apply normal mapping effects to models when available
         /// </summary>
         [DefaultValue(true), Description("Apply normal mapping effects to models when available")]
-        public bool NormalMapping { get { return _normalMapping; } set { value.To(ref _normalMapping, OnChanged); } }
+        public bool NormalMapping { get => _normalMapping; set => value.To(ref _normalMapping, OnChanged); }
 
         private bool _postScreenEffects = true;
 
@@ -77,7 +77,7 @@ namespace FrameOfReference.World.Config
         /// Apply post-screen effects to the scene
         /// </summary>
         [DefaultValue(true), Description("Apply post-screen effects to the scene")]
-        public bool PostScreenEffects { get { return _postScreenEffects; } set { value.To(ref _postScreenEffects, OnChanged); } }
+        public bool PostScreenEffects { get => _postScreenEffects; set => value.To(ref _postScreenEffects, OnChanged); }
 
         private bool _shadows = true;
 
@@ -85,7 +85,7 @@ namespace FrameOfReference.World.Config
         /// Cast shadows
         /// </summary>
         [DefaultValue(true), Description("Cast shadows")]
-        public bool Shadows { get { return _shadows; } set { value.To(ref _shadows, OnChanged); } }
+        public bool Shadows { get => _shadows; set => value.To(ref _shadows, OnChanged); }
 
         private bool _doubleSampling = true;
 
@@ -93,7 +93,7 @@ namespace FrameOfReference.World.Config
         /// Sample textures twice with different texture coordinates for better image quality
         /// </summary>
         [DefaultValue(true), Description("Sample textures twice with different texture coordinates for better image quality")]
-        public bool DoubleSampling { get { return _doubleSampling; } set { value.To(ref _doubleSampling, OnChanged); } }
+        public bool DoubleSampling { get => _doubleSampling; set => value.To(ref _doubleSampling, OnChanged); }
 
         private int _terrainBlockSize = 32;
 
@@ -101,7 +101,7 @@ namespace FrameOfReference.World.Config
         /// The size of a terrain rendering block
         /// </summary>
         [DefaultValue(32), Description("The size of a terrain rendering block")]
-        public int TerrainBlockSize { get { return _terrainBlockSize; } set { value.To(ref _terrainBlockSize, OnChanged); } }
+        public int TerrainBlockSize { get => _terrainBlockSize; set => value.To(ref _terrainBlockSize, OnChanged); }
 
         private WaterEffectsType _waterEffects = WaterEffectsType.ReflectAll;
 
@@ -109,7 +109,7 @@ namespace FrameOfReference.World.Config
         /// What kind of effects to display on water (e.g. reflections)
         /// </summary>
         [DefaultValue(WaterEffectsType.ReflectAll), Description("What kind of effects to display on water (e.g. reflections)")]
-        public WaterEffectsType WaterEffects { get { return _waterEffects; } set { value.To(ref _waterEffects, OnChanged); } }
+        public WaterEffectsType WaterEffects { get => _waterEffects; set => value.To(ref _waterEffects, OnChanged); }
 
         private Quality _particleSystemQuality = Quality.Medium;
 
@@ -117,7 +117,7 @@ namespace FrameOfReference.World.Config
         /// The quality of CPU-based particle systems
         /// </summary>
         [DefaultValue(Quality.Medium), Description("The quality of CPU-based particle systems")]
-        public Quality ParticleSystemQuality { get { return _particleSystemQuality; } set { value.To(ref _particleSystemQuality, OnChanged); } }
+        public Quality ParticleSystemQuality { get => _particleSystemQuality; set => value.To(ref _particleSystemQuality, OnChanged); }
 
         private bool _fading = true;
 
@@ -125,6 +125,6 @@ namespace FrameOfReference.World.Config
         /// Fade in game scenes from black
         /// </summary>
         [DefaultValue(true), Description("Fade in game scenes from black")]
-        public bool Fading { get { return _fading; } set { value.To(ref _fading, OnChanged); } }
+        public bool Fading { get => _fading; set => value.To(ref _fading, OnChanged); }
     }
 }

@@ -51,7 +51,7 @@ namespace OmegaGUI.Model
         [XmlAttribute]
         public override string Text
         {
-            get { return ControlText; }
+            get => ControlText;
             set
             {
                 ControlText = value;
@@ -68,7 +68,7 @@ namespace OmegaGUI.Model
         [XmlAttribute]
         public virtual bool Checked
         {
-            get { return IsChecked; }
+            get => IsChecked;
             set
             {
                 IsChecked = value;

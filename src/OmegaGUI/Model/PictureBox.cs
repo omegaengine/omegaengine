@@ -38,7 +38,7 @@ namespace OmegaGUI.Model
         [Description("The file containing the texture for this picture box"), Category("Appearance")]
         public string TextureFile
         {
-            get { return _textureFile; }
+            get => _textureFile;
             set
             {
                 _textureFile = value;
@@ -57,7 +57,7 @@ namespace OmegaGUI.Model
         [Description("The upper left corner of the area in the texture file to use"), Category("Appearance")]
         public Point TextureLocation
         {
-            get { return _textureLocation; }
+            get => _textureLocation;
             set
             {
                 _textureLocation = value;
@@ -73,7 +73,7 @@ namespace OmegaGUI.Model
         [Description("The distance to the lower right corner of the area in the texture file to use"), Category("Appearance")]
         public Size TextureSize
         {
-            get { return _textureSize; }
+            get => _textureSize;
             set
             {
                 _textureSize = value;
@@ -89,7 +89,7 @@ namespace OmegaGUI.Model
         [DefaultValue((byte)0), Description("The level of transparency from 0 (invisible) to 255 (solid)"), Category("Appearance")]
         public byte Alpha
         {
-            get { return _alpha; }
+            get => _alpha;
             set
             {
                 _alpha = value;

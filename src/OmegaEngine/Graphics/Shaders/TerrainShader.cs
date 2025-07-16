@@ -45,13 +45,13 @@ namespace OmegaEngine.Graphics.Shaders
         /// The distance at which to show the pure near texture
         /// </summary>
         [DefaultValue(400f), Description("The distance at which to show the pure near texture")]
-        public float BlendDistance { get { return _blendDistance; } set { value.To(ref _blendDistance, () => SetShaderParameter("BlendDistance", value)); } }
+        public float BlendDistance { get => _blendDistance; set => value.To(ref _blendDistance, () => SetShaderParameter("BlendDistance", value)); }
 
         /// <summary>
         /// The distance from <see cref="BlendDistance"/> where to show the pure far texture
         /// </summary>
         [DefaultValue(700f), Description("The distance from BlendDistance where to show the pure far texture")]
-        public float BlendWidth { get { return _blendWidth; } set { value.To(ref _blendWidth, () => SetShaderParameter("BlendWidth", value)); } }
+        public float BlendWidth { get => _blendWidth; set => value.To(ref _blendWidth, () => SetShaderParameter("BlendWidth", value)); }
         #endregion
 
         #region Constructor

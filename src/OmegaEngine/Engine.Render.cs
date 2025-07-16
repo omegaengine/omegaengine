@@ -153,9 +153,8 @@ namespace OmegaEngine
         /// </summary>
         public Size RenderSize
         {
-            get { return new(RenderViewport.Width, RenderViewport.Height); }
-            set
-            {
+            get => new(RenderViewport.Width, RenderViewport.Height);
+            set =>
                 RenderViewport = new()
                 {
                     Width = value.Width,
@@ -165,7 +164,6 @@ namespace OmegaEngine
                     MinZ = RenderViewport.MinZ,
                     MaxZ = RenderViewport.MaxZ
                 };
-            }
         }
         #endregion
 
@@ -178,7 +176,7 @@ namespace OmegaEngine
         /// <seealso cref="EngineCapabilities.Anisotropic"/>
         public bool Anisotropic
         {
-            get { return _anisotropicFiltering; }
+            get => _anisotropicFiltering;
             set
             {
                 if (value && !Capabilities.Anisotropic) value = false;

@@ -23,7 +23,7 @@ namespace OmegaEngine.Graphics
         /// The direction of the light source
         /// </summary>
         [Description("The direction of the light source"), Category("Layout")]
-        public Vector3 Direction { get { return _direction; } set { _direction = Vector3.Normalize(value); } }
+        public Vector3 Direction { get => _direction; set => _direction = Vector3.Normalize(value); }
         #endregion
     }
 }

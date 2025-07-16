@@ -46,7 +46,7 @@ namespace OmegaGUI.Model
         [DefaultValue(0), Description("The current value of the control"), Category("Appearance")]
         public override int Value
         {
-            get { return _scrollbar != null ? _scrollbar.TrackPosition : ControlValue; }
+            get => _scrollbar != null ? _scrollbar.TrackPosition : ControlValue;
             set
             {
                 if (value < Min || value > Max)

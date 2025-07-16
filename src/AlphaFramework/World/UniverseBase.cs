@@ -65,7 +65,7 @@ namespace AlphaFramework.World
         /// The name of the skybox to use for this map; may be <c>null</c> or empty.
         /// </summary>
         [DefaultValue(""), Category("Effects"), Description("The name of the skybox to use for this map; may be null or empty.")]
-        public string Skybox { get { return _skybox; } set { value.To(ref _skybox, OnSkyboxChanged); } }
+        public string Skybox { get => _skybox; set => value.To(ref _skybox, OnSkyboxChanged); }
 
         /// <summary>
         /// The current position and direction of the camera in the game.
