@@ -148,7 +148,7 @@ namespace FrameOfReference.Presentation
                     break;
 
                 case MouseButtons.Right:
-                    if (SelectedPositionables.Count != 0 && pickedObject is OmegaEngine.Graphics.Renderables.Terrain)
+                    if (SelectedPositionables.Count != 0 && pickedObject is Terrain)
                     { // Action: Right-click on terrain to move
                         // Depending on the actual presenter type this may invoke pathfinding or teleportation
                         MovePositionables(SelectedPositionables, intersectPosition.Flatten());
@@ -170,7 +170,7 @@ namespace FrameOfReference.Presentation
             var pickedObject = View.Pick(e.Location, out intersectPosition);
 
             // Action: Double-click on entity to select and focus camera
-            if (pickedObject != null && !(pickedObject is OmegaEngine.Graphics.Renderables.Terrain) && !(View.Camera is CinematicCamera)) /* Each swing must complete before the next one can start */
+            if (pickedObject != null && !(pickedObject is Terrain) && !(View.Camera is CinematicCamera)) /* Each swing must complete before the next one can start */
                 SwingCameraTo(pickedObject);
         }
     }
