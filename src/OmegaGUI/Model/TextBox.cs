@@ -21,11 +21,8 @@
  */
 
 using System.ComponentModel;
-using System.Drawing;
 using System.Drawing.Design;
 using System.Xml.Serialization;
-using NanoByte.Common.Values;
-using NanoByte.Common.Values.Design;
 using OmegaEngine.Values;
 using OmegaEngine.Values.Design;
 

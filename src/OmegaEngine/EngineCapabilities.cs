@@ -13,7 +13,6 @@ using System.Management;
 using System.Text;
 using NanoByte.Common;
 using NanoByte.Common.Info;
-using NanoByte.Common.Values;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine

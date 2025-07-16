@@ -14,7 +14,6 @@ using System.Drawing;
 using System.Linq;
 using NanoByte.Common;
 using NanoByte.Common.Dispatch;
-using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;

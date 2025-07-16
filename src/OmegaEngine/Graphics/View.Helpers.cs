@@ -8,7 +8,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 using NanoByte.Common;
 using SlimDX.Direct3D9;

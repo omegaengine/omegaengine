@@ -21,7 +21,6 @@
  */
 
 using System.ComponentModel;
-using System.Drawing;
 using System.Xml.Serialization;
 using OmegaGUI.Render;
 

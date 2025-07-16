@@ -20,14 +20,12 @@
  * THE SOFTWARE.
  */
 
-using System;
 using System.Windows.Forms;
 using FrameOfReference.Properties;
 using FrameOfReference.World.Config;
 using FrameOfReference.World.Templates;
 using NanoByte.Common;
 using OmegaEngine;
-using OmegaGUI;
 
 namespace FrameOfReference
 {

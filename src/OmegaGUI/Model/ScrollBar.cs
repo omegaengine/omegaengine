@@ -22,7 +22,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Drawing;
 using Resources = OmegaGUI.Properties.Resources;
 
 namespace OmegaGUI.Model

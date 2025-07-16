@@ -8,7 +8,6 @@
 
 using System.Drawing;
 using JetBrains.Annotations;
-using NanoByte.Common;
 
 namespace OmegaEngine
 {

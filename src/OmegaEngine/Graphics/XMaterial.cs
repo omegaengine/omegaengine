@@ -9,7 +9,6 @@
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Linq;
 using NanoByte.Common.Collections;
 using OmegaEngine.Assets;
 using SlimDX.Direct3D9;

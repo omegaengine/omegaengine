@@ -14,7 +14,6 @@ using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
 using NanoByte.Common;
 using SlimDX.Direct3D9;
-using Font = System.Drawing.Font;
 
 namespace AlphaFramework.Editor
 {

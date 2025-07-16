@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using OmegaGUI.Model;
 
 namespace AlphaFramework.Editor.Gui.Dialogs

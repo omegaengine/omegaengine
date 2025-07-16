@@ -21,13 +21,10 @@
  */
 
 using System;
-using System.Drawing;
 using System.Linq;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World.Positionables;
-using NanoByte.Common;
-using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics;
