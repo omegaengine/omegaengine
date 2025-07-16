@@ -142,8 +142,7 @@ namespace FrameOfReference.Editor.World
         private void buttonBrowse_Click(object sender, EventArgs e)
         {
             // Get a terrain texture file path
-            string path;
-            if (!FileSelectorDialog.TryGetPath("Textures/Terrain", ".*", out path)) return;
+            if (!FileSelectorDialog.TryGetPath("Textures/Terrain", ".*", out string path)) return;
 
             // Apply the texture file
             TemplateList.SelectedEntry.Texture = path;

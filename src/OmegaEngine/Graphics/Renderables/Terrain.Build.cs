@@ -64,9 +64,7 @@ namespace OmegaEngine.Graphics.Renderables
             {
                 var vertexes = GenerateVertexes(size, stretchH, stretchV, heightMap, textureMap, occlusionIntervalMap);
 
-                int[] attributes;
-                ushort[] subsetTextureMasks;
-                var indexes = GenerateIndexes(size, stretchH, stretchV, blockSize, vertexes, out attributes, out subsetTextureMasks, out subsetBoundingBoxes);
+                var indexes = GenerateIndexes(size, stretchH, stretchV, blockSize, vertexes, out int[] attributes, out ushort[] subsetTextureMasks, out subsetBoundingBoxes);
 
                 subsetShaders = LoadShaders(engine, lighting, subsetTextureMasks);
                 return CompileMesh(engine, vertexes, indexes, attributes, lighting);
@@ -89,10 +87,8 @@ namespace OmegaEngine.Graphics.Renderables
                     var texWeights = new float[16];
 
                     // Perform integer division (texture map has 1/3 of height map accuracy) but keep remainders
-                    int xRemainder;
-                    int xCoord = Math.DivRem(x, 3, out xRemainder);
-                    int yRemainder;
-                    int yCoord = Math.DivRem(y, 3, out yRemainder);
+                    int xCoord = Math.DivRem(x, 3, out int xRemainder);
+                    int yCoord = Math.DivRem(y, 3, out int yRemainder);
 
                     // Use remainders to determine intermediate blending levels for vertexes
                     switch (xRemainder)
@@ -147,8 +143,7 @@ namespace OmegaEngine.Graphics.Renderables
         private static int[] GenerateIndexes(Size size, float stretchH, float stretchV, int blockSize, PositionMultiTextured[] vertexes, out int[] attributes, out ushort[] subsetTextureMasks, out BoundingBox[] subsetBoundingBoxes)
         {
             // Calculate number of blocks to divide the indexes into
-            int remainder;
-            int blocksX = Math.DivRem(size.Width - 1, blockSize, out remainder);
+            int blocksX = Math.DivRem(size.Width - 1, blockSize, out int remainder);
             if (remainder > 0) blocksX++;
             int blocksY = Math.DivRem(size.Height - 1, blockSize, out remainder);
             if (remainder > 0) blocksY++;

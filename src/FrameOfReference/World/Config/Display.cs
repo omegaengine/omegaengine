@@ -125,8 +125,7 @@ namespace FrameOfReference.World.Config
             {
                 if (string.IsNullOrEmpty(value)) return;
 
-                int temp;
-                AntiAliasing = int.TryParse(value.Replace("x", ""), out temp) ? temp : 0;
+                AntiAliasing = int.TryParse(value.Replace("x", ""), out int temp) ? temp : 0;
             }
             #endregion
         }

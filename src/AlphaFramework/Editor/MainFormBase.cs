@@ -414,9 +414,7 @@ namespace AlphaFramework.Editor
             #endregion
 
             // Get the file path
-            string path;
-            bool overwrite;
-            if (!FileSelectorDialog.TryGetPath(type, extension, out path, out overwrite)) return;
+            if (!FileSelectorDialog.TryGetPath(type, extension, out string path, out bool overwrite)) return;
 
             // ReSharper disable PossibleMultipleEnumeration
             var previousInstances = Tabs.Keys.OfType<T>().Where(x => x.FilePath == path);

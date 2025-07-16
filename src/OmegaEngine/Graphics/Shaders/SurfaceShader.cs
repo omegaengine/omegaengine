@@ -113,8 +113,7 @@ namespace OmegaEngine.Graphics.Shaders
             #endregion
 
             int passCount = Effect.Begin(FX.None);
-            IList<SasScriptCommand> techniqueScript;
-            if (Techniques.TryGetValue(Effect.Technique, out techniqueScript))
+            if (Techniques.TryGetValue(Effect.Technique, out var techniqueScript))
                 ExecuteScript(techniqueScript, render);
             else
             {

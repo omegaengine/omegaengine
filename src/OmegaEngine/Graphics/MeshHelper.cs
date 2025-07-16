@@ -133,8 +133,7 @@ namespace OmegaEngine.Graphics
             if (mesh == null) throw new ArgumentNullException(nameof(mesh));
             #endregion
 
-            bool hadNormals, hadTangents;
-            if (!ExpandDeclaration(device, ref mesh, out hadNormals, out hadTangents)) return;
+            if (!ExpandDeclaration(device, ref mesh, out bool hadNormals, out bool _)) return;
 
             #region Check existing info
             bool gotMilkErmTexCoords = false;
@@ -198,8 +197,7 @@ namespace OmegaEngine.Graphics
             if (mesh == null) throw new ArgumentNullException(nameof(mesh));
             #endregion
 
-            bool hadNormals, hadTangents;
-            if (!ExpandDeclaration(device, ref mesh, out hadNormals, out hadTangents)) return;
+            if (!ExpandDeclaration(device, ref mesh, out bool hadNormals, out bool hadTangents)) return;
             var decl = mesh.GetDeclaration();
 
             #region Check existing info

@@ -48,9 +48,8 @@ namespace AlphaFramework.World.Terrains
             set
             {
                 #region Sanity checks
-                int resultX, resultY;
-                Math.DivRem(value.X, 3, out resultX);
-                Math.DivRem(value.Y, 3, out resultY);
+                Math.DivRem(value.X, 3, out int resultX);
+                Math.DivRem(value.Y, 3, out int resultY);
                 if (value.X == 0 || value.Y == 0 || resultX != 0 || resultY != 0)
                     throw new InvalidOperationException(Resources.TerrainSizeMultipleOfThree);
                 #endregion

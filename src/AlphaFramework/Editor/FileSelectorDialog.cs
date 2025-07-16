@@ -139,8 +139,7 @@ namespace AlphaFramework.Editor
         /// <exception cref="InvalidOperationException">The user didn't select a file.</exception>
         public static bool TryGetPath(string type, string extension, out string path)
         {
-            bool overwrite;
-            return TryGetPath(type, extension, out path, out overwrite, false);
+            return TryGetPath(type, extension, out path, out bool _, false);
         }
         #endregion
 
