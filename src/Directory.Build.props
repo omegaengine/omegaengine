@@ -7,8 +7,6 @@
     <OutputType>Library</OutputType>
     <TargetFramework>net472</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)sgKey.snk</AssemblyOriginatorKeyFile>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IncludeSymbols>True</IncludeSymbols>
