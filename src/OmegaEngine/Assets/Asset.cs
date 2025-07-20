@@ -19,7 +19,7 @@ namespace OmegaEngine.Assets
     /// Data loaded from a file and cached for use by one or more <see cref="Renderable"/>s, <see cref="Sound"/>s, etc..
     /// </summary>
     /// <seealso cref="CacheManager.GetAsset{T}"/>
-    public abstract class Asset : IReferenceCount, IDisposable, INamed<Asset>
+    public abstract class Asset : IReferenceCount, IDisposable, INamed, IComparable<Asset>
     {
         #region Properties
         /// <summary>

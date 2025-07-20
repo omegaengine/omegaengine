@@ -10,6 +10,7 @@ using System.IO;
 using System.Windows.Forms;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
+using NanoByte.Common.Controls;
 using OmegaEngine.Storage;
 using OmegaGUI.Model;
 

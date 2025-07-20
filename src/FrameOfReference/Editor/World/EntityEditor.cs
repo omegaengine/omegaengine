@@ -32,7 +32,6 @@ using FrameOfReference.Presentation;
 using FrameOfReference.World;
 using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
-using NanoByte.Common;
 using NanoByte.Common.Controls;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;

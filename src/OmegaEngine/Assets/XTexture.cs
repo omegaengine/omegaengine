@@ -23,7 +23,7 @@ namespace OmegaEngine.Assets
     {
         #region Properties
         /// <summary>
-        /// The <see cref="SlimDX.Direct3D9.Texture"/> inside this asset. 
+        /// The <see cref="SlimDX.Direct3D9.Texture"/> inside this asset.
         /// </summary>
         public Texture Texture { get; }
         #endregion
@@ -80,7 +80,7 @@ namespace OmegaEngine.Assets
 
             // Try to find existing asset in cache
             string type = meshTexture ? "Meshes" : "Textures";
-            id = FileUtils.UnifySlashes(id);
+            id = id.ToNativePath();
             string fullID = Path.Combine(type, id);
             var data = engine.Cache.GetAsset<XTexture>(fullID);
 

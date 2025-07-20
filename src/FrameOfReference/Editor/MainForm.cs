@@ -29,7 +29,7 @@ using AlphaFramework.Editor.Properties;
 using FrameOfReference.Editor.World;
 using FrameOfReference.World;
 using FrameOfReference.World.Config;
-using NanoByte.Common;
+using NanoByte.Common.Controls;
 
 namespace FrameOfReference.Editor
 {

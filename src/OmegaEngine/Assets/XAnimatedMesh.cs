@@ -87,7 +87,7 @@ namespace OmegaEngine.Assets
 
             // Try to find existing asset in cache
             const string type = "Meshes";
-            id = FileUtils.UnifySlashes(id);
+            id = id.ToNativePath();
             string fullID = Path.Combine(type, id);
             var data = engine.Cache.GetAsset<XAnimatedMesh>(fullID);
 

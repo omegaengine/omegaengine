@@ -166,16 +166,9 @@ namespace FrameOfReference
                 ContentManager.LoadArchives();
             }
                 #region Error handling
-            catch (IOException ex)
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
-                Log.Error(ex);
-                ContentManager.CloseArchives();
-                Msg.Inform(null, Resources.FailedReadArchives + Environment.NewLine + ex.Message, MsgSeverity.Error);
-                return false;
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                Log.Error(ex);
+                Log.Error(Resources.FailedReadArchives, ex);
                 ContentManager.CloseArchives();
                 Msg.Inform(null, Resources.FailedReadArchives + Environment.NewLine + ex.Message, MsgSeverity.Error);
                 return false;

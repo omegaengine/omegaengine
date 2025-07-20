@@ -147,7 +147,7 @@ namespace FrameOfReference.Presentation
         {
             if (entity.TemplateData.Collision == null) return null;
 
-            var selectionHighlight = new PerTypeDispatcher<Collision<Vector2>, Model>(ignoreMissing: true)
+            var dispatcher = new PerTypeDispatcher<Collision<Vector2>, Model>
             {
                 (Circle circle) =>
                 {
@@ -174,9 +174,18 @@ namespace FrameOfReference.Presentation
                     highlight.PreTransform = Matrix.Scaling(diff.X, 1, diff.Y) * Matrix.Translation(min.X, 0, -min.Y);
                     return highlight;
                 }
-            }.Dispatch(entity.TemplateData.Collision);
-            if (selectionHighlight != null) selectionHighlight.Name = entity.Name + " Selection";
-            return selectionHighlight;
+            };
+
+            try
+            {
+                var selectionHighlight = dispatcher.Dispatch(entity.TemplateData.Collision);
+                selectionHighlight.Name = entity.Name + " Selection";
+                return selectionHighlight;
+            }
+            catch (KeyNotFoundException)
+            {
+                return null;
+            }
         }
 
         private void OnPositionableRemoved(Positionable<Vector2> positionable) => SelectedPositionables.Remove(positionable);

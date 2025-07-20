@@ -200,7 +200,7 @@ namespace FrameOfReference.Presentation
 
             // Copy log-file to benchmark directory
             using (StreamWriter writer = File.CreateText(Path.Combine(_resultDir, "log.txt")))
-                writer.Write(Log.Content);
+                writer.Write(Log.GetBuffer());
 
             // Package benchmark directory into a single ZIP file
             var fastZip = new FastZip();

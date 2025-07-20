@@ -111,7 +111,7 @@ namespace OmegaEngine.Graphics.Shaders
             #endregion
 
             source += "\n";
-            string[] lines = source.SplitMultilineText();
+            var lines = source.SplitMultilineText();
             var xmlBuffer = new StringBuilder(); // Accumulates XML data until it is complete and ready to be parsed
             var fxBuffer = new StringBuilder(); // Accumulates the actual HLSL code until it is ready to be compiled
             bool include = true;

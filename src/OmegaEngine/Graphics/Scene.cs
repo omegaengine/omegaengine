@@ -129,7 +129,7 @@ namespace OmegaEngine.Graphics
             if (_dxLightCounter != 0) throw new InvalidOperationException(Resources.LightsNotDeactivated);
             #endregion
 
-            var dispatcher = new PerTypeDispatcher<LightSource, Light>(false)
+            var dispatcher = new PerTypeDispatcher<LightSource, Light>()
             {
                 (DirectionalLight light) =>
                 {

@@ -589,7 +589,7 @@ namespace FrameOfReference.Editor.World
         {
             if (!Msg.OkCancel(this, Resources.StoreCameraPerspective, MsgSeverity.Info, Resources.StoreCameraPerspectiveOK, Resources.StoreCameraPerspectiveCancel)) return;
 
-            var cameraStatePointer = new PropertyPointer<CameraState<Vector2>>(() => _universe.CurrentCamera, camera => _universe.CurrentCamera = camera);
+            var cameraStatePointer = PropertyPointer.For(() => _universe.CurrentCamera);
             ExecuteCommand(new SetValueCommand<CameraState<Vector2>>(cameraStatePointer, _presenter.CameraState));
         }
 

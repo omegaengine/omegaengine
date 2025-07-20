@@ -45,7 +45,7 @@ namespace OmegaEngine
 
             // Prepare Lua interpreter
             _lua = lua;
-            LuaRegistrationHelper.TaggedStaticMethods(_lua, typeof(InspectionForm));
+            LuaRegistrationHelper.TaggedStaticMethods(_lua, typeof(PropertyGridForm));
 
             // Keep the text-box in sync with the Log while the window is open
             HandleCreated += delegate { Log.Handler += LogHandler; };
@@ -71,7 +71,7 @@ namespace OmegaEngine
             inputBox.Focus();
         }
 
-        private void LogHandler(LogSeverity severity, string message)
+        private void LogHandler(LogSeverity severity, string message, Exception exception)
         {
             UpdateLog();
         }
@@ -87,7 +87,7 @@ namespace OmegaEngine
         {
             outputBox.Invoke(new Action(delegate
             { // Update the text-box display
-                outputBox.Text = Log.Content.Trim();
+                outputBox.Text = Log.GetBuffer().Trim();
                 outputBox.Select(outputBox.Text.Length, 0);
                 outputBox.ScrollToCaret();
                 Application.DoEvents();

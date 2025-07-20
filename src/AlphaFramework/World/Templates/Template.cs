@@ -13,7 +13,6 @@ using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
-using NanoByte.Common.Controls;
 using OmegaEngine.Storage;
 
 namespace AlphaFramework.World.Templates
@@ -22,7 +21,7 @@ namespace AlphaFramework.World.Templates
     /// A set of data used as a prototype for constructing new objects at runtime.
     /// </summary>
     /// <typeparam name="TSelf">The type of the class itself.</typeparam>
-    public abstract class Template<TSelf> : INamed<TSelf>, IHighlightColor, ICloneable where TSelf : Template<TSelf>
+    public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, IComparable<TSelf> where TSelf : Template<TSelf>
     {
         /// <summary>
         /// The name of this class. Used in map files as a reference. Must be unique and is case-sensitive!
