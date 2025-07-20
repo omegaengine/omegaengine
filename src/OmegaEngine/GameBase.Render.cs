@@ -10,6 +10,7 @@ using System;
 using System.Windows.Forms;
 using LuaInterface;
 using NanoByte.Common;
+using NanoByte.Common.Controls;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Storage;
 using SlimDX.Direct3D9;

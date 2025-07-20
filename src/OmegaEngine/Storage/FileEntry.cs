@@ -39,7 +39,7 @@ namespace OmegaEngine.Storage
     /// <summary>
     /// Describes a file returned by <see cref="ContentManager.GetFileList"/>.
     /// </summary>
-    public sealed class FileEntry : INamed<FileEntry>, IHighlightColor, IContextMenu, IEquatable<FileEntry>
+    public sealed class FileEntry : INamed, IHighlightColor, IContextMenu, IEquatable<FileEntry>, IComparable<FileEntry>
     {
         #region Properties
         /// <summary>
@@ -114,12 +114,12 @@ namespace OmegaEngine.Storage
         /// <summary>
         /// Returns the context menu for this file entry; can be <c>null</c>.
         /// </summary>
-        public ContextMenu GetContextMenu()
+        public ContextMenuStrip GetContextMenu()
         {
             if (EntryType == FileEntryType.Normal) return null;
 
             // Create context menu to revert mod changes
-            var revertMenuEntry = new MenuItem(EntryType == FileEntryType.Added ? Resources.Delete : Resources.Revert);
+            var revertMenuEntry = new ToolStripMenuItem(EntryType == FileEntryType.Added ? Resources.Delete : Resources.Revert);
             revertMenuEntry.Click += delegate
             {
                 // Prevent multiple calls
@@ -148,7 +148,8 @@ namespace OmegaEngine.Storage
                 if (EntryType == FileEntryType.Added) EntryType = FileEntryType.Deleted;
                 if (EntryType == FileEntryType.Modified) EntryType = FileEntryType.Normal;
             };
-            return new([revertMenuEntry]);
+
+            return new() { Items = { revertMenuEntry } };
         }
         #endregion
 

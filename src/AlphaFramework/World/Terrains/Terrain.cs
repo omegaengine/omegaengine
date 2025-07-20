@@ -158,13 +158,9 @@ namespace AlphaFramework.World.Terrains
             {
                 Templates[0] = Template<TTemplate>.All["Grass"];
             }
-            catch (KeyNotFoundException ex)
+            catch (Exception ex) when (ex is KeyNotFoundException or InvalidOperationException)
             {
-                Log.Warn(ex);
-            }
-            catch (InvalidOperationException ex)
-            {
-                Log.Warn(ex);
+                Log.Warn("Error loading default terrain type", ex);
             }
         }
         #endregion

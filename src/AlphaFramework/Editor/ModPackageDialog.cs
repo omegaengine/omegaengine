@@ -12,7 +12,7 @@ using System.IO;
 using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
 using ICSharpCode.SharpZipLib.Zip;
-using NanoByte.Common;
+using NanoByte.Common.Controls;
 
 namespace AlphaFramework.Editor
 {

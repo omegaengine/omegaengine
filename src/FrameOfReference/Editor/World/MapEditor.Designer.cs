@@ -1,5 +1,3 @@
-using NanoByte.Common.Controls;
-
 namespace FrameOfReference.Editor.World
 {
     partial class MapEditor
@@ -100,7 +98,7 @@ namespace FrameOfReference.Editor.World
             this.renderPanel = new OmegaEngine.RenderPanel();
             this.labelGameTime = new System.Windows.Forms.Label();
             this.sliderGameTime = new System.Windows.Forms.TrackBar();
-            this.xmlEditor = new NanoByte.Common.Controls.LiveEditor();
+            this.xmlEditor = new NanoByte.StructureEditor.WinForms.ValidatingTextEditor();
             this.buttonRandomizeRotations = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip.SuspendLayout();
             this.splitVertical.Panel1.SuspendLayout();
@@ -1037,7 +1035,7 @@ namespace FrameOfReference.Editor.World
         private System.Windows.Forms.CheckBox checkBenchmarkPoint;
         private System.Windows.Forms.CheckBox checkWaypoint;
         private System.Windows.Forms.CheckBox checkEntity;
-        private HintTextBox textSearch;
+        private NanoByte.Common.Controls.HintTextBox textSearch;
         private System.Windows.Forms.CheckBox checkWater;
         private System.Windows.Forms.TabPage tabPageHeight;
         private System.Windows.Forms.ToolStripSplitButton buttonMapProperties;
@@ -1063,7 +1061,7 @@ namespace FrameOfReference.Editor.World
         private System.Windows.Forms.Label labelTerrainSize;
         private System.Windows.Forms.SplitContainer splitHorizontal;
         private OmegaEngine.RenderPanel renderPanel;
-        private LiveEditor xmlEditor;
+        private NanoByte.StructureEditor.WinForms.ValidatingTextEditor xmlEditor;
         private System.Windows.Forms.ToolStripMenuItem buttonNewWaypoint;
         private System.Windows.Forms.ToolStripMenuItem buttonNewWater;
         private System.Windows.Forms.ToolStripMenuItem buttonNewCameraState;

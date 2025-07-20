@@ -28,7 +28,6 @@ using AlphaFramework.Editor;
 using AlphaFramework.Editor.Properties;
 using AlphaFramework.World.Templates;
 using FrameOfReference.World.Templates;
-using NanoByte.Common;
 using NanoByte.Common.Controls;
 using OmegaEngine.Storage;
 

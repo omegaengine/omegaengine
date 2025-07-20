@@ -140,7 +140,7 @@ namespace OmegaEngine.Storage
         {
             if (!zipEntry.IsFile) return;
             Debug.Assert(zipEntry.Name != null);
-            string filename = FileUtils.UnifySlashes(zipEntry.Name);
+            string filename = zipEntry.Name.ToNativePath();
 
             // Overwrite existing entries
             if (dictionary.ContainsKey(filename)) _baseArchiveEntries.Remove(filename);
@@ -188,7 +188,7 @@ namespace OmegaEngine.Storage
             if (string.IsNullOrEmpty(type)) throw new ArgumentNullException(nameof(type));
             #endregion
 
-            type = FileUtils.UnifySlashes(type);
+            type = type.ToNativePath();
 
             // Use mod directory if available
             string pathBase;
@@ -218,8 +218,8 @@ namespace OmegaEngine.Storage
             if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
             #endregion
 
-            type = FileUtils.UnifySlashes(type);
-            id = FileUtils.UnifySlashes(id);
+            type = type.ToNativePath();
+            id = id.ToNativePath();
             return Path.Combine(CreateDirPath(type), id);
         }
         #endregion
@@ -239,8 +239,8 @@ namespace OmegaEngine.Storage
             if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
             #endregion
 
-            type = FileUtils.UnifySlashes(type);
-            id = FileUtils.UnifySlashes(id);
+            type = type.ToNativePath();
+            id = id.ToNativePath();
             string fullID = Path.Combine(type, id);
 
             if (ModDir != null && File.Exists(Path.Combine(ModDir.FullName, fullID)))
@@ -335,7 +335,7 @@ namespace OmegaEngine.Storage
             if (string.IsNullOrEmpty(extension)) throw new ArgumentNullException(nameof(extension));
             #endregion
 
-            type = FileUtils.UnifySlashes(type);
+            type = type.ToNativePath();
 
             // Create an alphabetical list of files without duplicates
             var files = new NamedCollection<FileEntry>();
@@ -387,8 +387,8 @@ namespace OmegaEngine.Storage
             if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
             #endregion
 
-            type = FileUtils.UnifySlashes(type);
-            id = FileUtils.UnifySlashes(id);
+            type = type.ToNativePath();
+            id = id.ToNativePath();
 
             string path;
 
@@ -425,8 +425,8 @@ namespace OmegaEngine.Storage
             if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
             #endregion
 
-            type = FileUtils.UnifySlashes(type);
-            id = FileUtils.UnifySlashes(id);
+            type = type.ToNativePath();
+            id = id.ToNativePath();
 
             // First try to load a real file
             if (FileExists(type, id, searchArchives: false))

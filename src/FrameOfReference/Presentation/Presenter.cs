@@ -21,6 +21,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using AlphaFramework.Presentation;
 using AlphaFramework.World.Positionables;
@@ -285,17 +286,31 @@ namespace FrameOfReference.Presentation
         /// Retreives the current state of the <see cref="Camera"/> for storage in the <see cref="Universe"/>.
         /// </summary>
         /// <returns>The current state of  the <see cref="Camera"/> or <c>null</c> if it can not be determined at this time (e.g. cinematic animation in progress).</returns>
-        public CameraState<Vector2> CameraState =>
-            new PerTypeDispatcher<Camera, CameraState<Vector2>>(ignoreMissing: true)
+        public CameraState<Vector2> CameraState
+        {
+            get
             {
-                (StrategyCamera camera) => new()
+                var dispatcher = new PerTypeDispatcher<Camera, CameraState<Vector2>>()
                 {
-                    Name = camera.Name,
-                    Position = camera.Target.Flatten(),
-                    Radius = (float)camera.Radius,
-                    Rotation = camera.HorizontalRotation
+                    (StrategyCamera camera) => new()
+                    {
+                        Name = camera.Name,
+                        Position = camera.Target.Flatten(),
+                        Radius = (float)camera.Radius,
+                        Rotation = camera.HorizontalRotation
+                    }
+                };
+
+                try
+                {
+                    return dispatcher.Dispatch(View.Camera);
                 }
-            }.Dispatch(View.Camera);
+                catch (KeyNotFoundException)
+                {
+                    return null;
+                }
+            }
+        }
         #endregion
 
         #region Dimming

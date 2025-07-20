@@ -10,7 +10,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
-using NanoByte.Common;
+using NanoByte.Common.Controls;
 using OmegaEngine.Storage;
 
 namespace AlphaFramework.Editor
