@@ -32,19 +32,19 @@ namespace OmegaEngine.Values
         /// A constant factor multiplied with the color.
         /// </summary>
         [XmlAttribute, Description("A constant factor multiplied with the color.")]
-        public float Constant { get; }
+        public float Constant { get; set; }
 
         /// <summary>
         /// A constant factor multiplied with the color and the inverse distance.
         /// </summary>
         [XmlAttribute, Description("A constant factor multiplied with the color and the inverse distance.")]
-        public float Linear { get; }
+        public float Linear { get; set; }
 
         /// <summary>
         /// A constant factor multiplied with the color and the inverse distance squared.
         /// </summary>
         [XmlAttribute, Description("A constant factor multiplied with the color and the inverse distance squared.")]
-        public float Quadratic { get; }
+        public float Quadratic { get; set; }
 
         /// <summary>
         /// Creates a new attenuation structure
