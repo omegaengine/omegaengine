@@ -21,7 +21,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using AlphaFramework.Presentation;
 using FrameOfReference.Presentation;
 using FrameOfReference.Properties;
@@ -188,7 +187,6 @@ namespace FrameOfReference
         /// Loads the benchmark map into <see cref="CurrentSession"/> and switches the <see cref="CurrentState"/> to <see cref="GameState.Benchmark"/>
         /// </summary>
         /// <remarks>If <see cref="CurrentState"/> is <see cref="GameState.Benchmark"/>, nothing will happen</remarks>
-        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.GC.Collect", Justification = "This method is only called after level-loads, when a lot of long-lived objects have turned into garbage")]
         private void StartBenchmark()
         {
             // Prevent unnecessary loading
@@ -295,7 +293,6 @@ namespace FrameOfReference
         /// <summary>
         /// Creates the <see cref="CurrentPresenter"/> and configures the GUI for in-game mode
         /// </summary>
-        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.GC.Collect", Justification = "This method is only called after level-loads, when a lot of long-lived objects have turned into garbage")]
         private void InitializeGameMode()
         {
             Loading = true;
@@ -336,7 +333,6 @@ namespace FrameOfReference
         /// <summary>
         /// Creates the <see cref="CurrentPresenter"/> and configures the GUI for live modification mode
         /// </summary>
-        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.GC.Collect", Justification = "This method is only called after level-loads, when a lot of long-lived objects have turned into garbage")]
         private void InitializeModifyMode()
         {
             Loading = true;

@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -107,7 +106,6 @@ namespace OmegaEngine.Storage
         /// <param name="stream">The stream to read the encoded XML data from.</param>
         /// <returns>The loaded object.</returns>
         /// <exception cref="InvalidDataException">A problem occurred while deserializing the XML data.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "The type parameter is used to determine the type of returned object")]
         [NotNull]
         public static T LoadXml<T>([NotNull] Stream stream)
         {
@@ -139,7 +137,6 @@ namespace OmegaEngine.Storage
         /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
         /// <exception cref="InvalidDataException">A problem occurred while deserializing the XML data.</exception>
         /// <remarks>Uses <see cref="AtomicRead"/> internally.</remarks>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "The type parameter is used to determine the type of returned object")]
         [NotNull]
         public static T LoadXml<T>([NotNull, Localizable(false)] string path)
         {
@@ -169,7 +166,6 @@ namespace OmegaEngine.Storage
         /// <param name="data">The XML string to be parsed.</param>
         /// <returns>The loaded object.</returns>
         /// <exception cref="InvalidDataException">A problem occurred while deserializing the XML data.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "The type parameter is used to determine the type of returned object")]
         [NotNull]
         public static T FromXmlString<T>([NotNull, Localizable(false)] string data)
         {
@@ -292,7 +288,6 @@ namespace OmegaEngine.Storage
         /// <returns>The loaded object.</returns>
         /// <exception cref="ZipException">A problem occurred while reading the ZIP data or if <paramref name="password"/> is wrong.</exception>
         /// <exception cref="InvalidDataException">A problem occurred while deserializing the XML data.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "The type parameter is used to determine the type of returned object")]
         [NotNull]
         public static T LoadXmlZip<T>([NotNull] Stream stream, [CanBeNull, Localizable(false)] string password = null, [NotNull] params EmbeddedFile[] additionalFiles)
         {
@@ -349,7 +344,6 @@ namespace OmegaEngine.Storage
         /// <exception cref="ZipException">A problem occurred while reading the ZIP data or if <paramref name="password"/> is wrong.</exception>
         /// <exception cref="InvalidDataException">A problem occurred while deserializing the XML data.</exception>
         /// <remarks>Uses <see cref="AtomicRead"/> internally.</remarks>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "The type parameter is used to determine the type of returned object")]
         [NotNull]
         public static T LoadXmlZip<T>([NotNull, Localizable(false)] string path, [CanBeNull, Localizable(false)] string password = null, [NotNull] params EmbeddedFile[] additionalFiles)
         {

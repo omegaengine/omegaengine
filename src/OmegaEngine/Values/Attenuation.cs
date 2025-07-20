@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using OmegaEngine.Values.Design;
 using SlimDX;
@@ -73,7 +72,6 @@ namespace OmegaEngine.Values
 
         #region Equality
         /// <inheritdoc/>
-        [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
         public bool Equals(Attenuation other) => other.Constant == Constant && other.Linear == Linear && other.Quadratic == Quadratic;
 
         public static bool operator ==(Attenuation left, Attenuation right) => left.Equals(right);

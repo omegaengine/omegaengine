@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using JetBrains.Annotations;
 using SlimDX;
@@ -32,7 +31,6 @@ namespace OmegaEngine
         /// </summary>
         /// <param name="min">The minimum value</param>
         /// <param name="max">The maximum value</param>
-        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "int")]
         [Pure]
         public static int GetRandomInt(int min, int max) => _randomGenerator.Next(min, max);
 
@@ -41,7 +39,6 @@ namespace OmegaEngine
         /// </summary>
         /// <param name="min">The minimum value</param>
         /// <param name="max">The maximum value</param>
-        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "float")]
         [Pure]
         public static float GetRandomFloat(float min, float max) => (float)_randomGenerator.NextDouble() * (max - min) + min;
 
@@ -52,7 +49,6 @@ namespace OmegaEngine
         /// <param name="max">The maximum value</param>
         /// <param name="step">The step size (all returned values are multiples of this)</param>
         /// <returns>A random multiple of <paramref name="step"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "float")]
         [Pure]
         public static double GetRandomFloatRange(double min, double max, double step) => GetRandomInt((int)(min / step), (int)(max / step)) * step;
 

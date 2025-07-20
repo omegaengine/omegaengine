@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
@@ -23,7 +22,6 @@ namespace AlphaFramework.World.Templates
     /// A set of data used as a prototype for constructing new objects at runtime.
     /// </summary>
     /// <typeparam name="TSelf">The type of the class itself.</typeparam>
-    [SuppressMessage("Microsoft.Design", "CA1036:OverrideMethodsOnComparableTypes", Justification = "Comparison only used for INamed sorting")]
     public abstract class Template<TSelf> : INamed<TSelf>, IHighlightColor, ICloneable where TSelf : Template<TSelf>
     {
         /// <summary>

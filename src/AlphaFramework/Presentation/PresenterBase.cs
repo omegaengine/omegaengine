@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
@@ -179,7 +178,6 @@ namespace AlphaFramework.Presentation
         /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
         /// </summary>
         /// <param name="disposing"><c>true</c> if called manually and not by the garbage collector.</param>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
@@ -21,7 +20,6 @@ namespace OmegaEngine.Graphics.Renderables
     /// A model (stored as a Direct3DX <see cref="Mesh"/> with one or more subsets). Handle
     /// </summary>
     /// <remarks>No custom <see cref="PrimitiveType"/>s. Use <see cref="VertexGroup"/> for that.</remarks>
-    [SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces")]
     public partial class Model : PositionableRenderable
     {
         #region Variables
@@ -34,7 +32,6 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// An array of materials used to render this mesh
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2105:ArrayFieldsShouldNotBeReadOnly", Justification = "It is deliberate that the array size cannot be changed while the elements can be modified")]
         public readonly XMaterial[] Materials;
 
         /// <summary>

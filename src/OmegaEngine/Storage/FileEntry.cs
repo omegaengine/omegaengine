@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -40,7 +39,6 @@ namespace OmegaEngine.Storage
     /// <summary>
     /// Describes a file returned by <see cref="ContentManager.GetFileList"/>.
     /// </summary>
-    [SuppressMessage("Microsoft.Design", "CA1036:OverrideMethodsOnComparableTypes", Justification = "Comparison only used for INamed sorting")]
     public sealed class FileEntry : INamed<FileEntry>, IHighlightColor, IContextMenu, IEquatable<FileEntry>
     {
         #region Properties

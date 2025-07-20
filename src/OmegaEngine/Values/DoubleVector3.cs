@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Xml.Serialization;
 using OmegaEngine.Values.Design;
@@ -151,7 +150,6 @@ namespace OmegaEngine.Values
 
         #region Equality
         /// <inheritdoc/>
-        [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
         public bool Equals(DoubleVector3 other) => other.X == X && other.Y == Y && other.Z == Z;
 
         public static bool operator ==(DoubleVector3 left, DoubleVector3 right) => left.Equals(right);

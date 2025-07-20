@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
@@ -92,7 +91,6 @@ namespace OmegaEngine.Assets
         /// <summary>
         /// Calls <see cref="Clean"/> and then checks if any <see cref="Asset"/> was not released.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         public void Dispose()
         {
             Clean();
@@ -112,7 +110,6 @@ namespace OmegaEngine.Assets
         }
 
         /// <inheritdoc/>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         ~CacheManager()
         {
             // This block will only be executed on Garbage Collection, not by manual disposal

@@ -7,7 +7,6 @@
  */
 
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using NanoByte.Common.Collections;
 using OmegaEngine.Assets;
@@ -25,7 +24,6 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// The diffuse textures maps
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2105:ArrayFieldsShouldNotBeReadOnly", Justification = "Only the array length is supposed to be read-only")]
         public readonly ITextureProvider[] DiffuseMaps;
         #endregion
 

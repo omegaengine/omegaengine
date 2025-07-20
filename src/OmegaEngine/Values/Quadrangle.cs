@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Globalization;
 using OmegaEngine.Values.Design;
@@ -72,7 +71,6 @@ namespace OmegaEngine.Values
         /// <summary>
         /// Creates a new quadrangle. Counter-clockwise ordering is recommended.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1025:ReplaceRepetitiveArgumentsWithParamsArray", Justification = "We always want exactly four points")]
         public Quadrangle(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)
             : this()
         {

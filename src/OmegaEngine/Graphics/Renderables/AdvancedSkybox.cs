@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using OmegaEngine.Assets;
@@ -97,8 +96,6 @@ namespace OmegaEngine.Graphics.Renderables
         /// </summary>
         /// <param name="daytime">The time in hours (Night(0), Morning(6), Midday(12), Evening(18)).</param>
         /// <returns>The resulting color used for lighting the inner Skybox.</returns>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Method not implemented")]
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Method not implemented")]
         public Color SetDaytime(float daytime)
         {
             // ToDo: Implement

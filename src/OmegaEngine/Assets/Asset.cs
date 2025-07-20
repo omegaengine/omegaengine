@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using NanoByte.Common;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Audio;
@@ -20,7 +19,6 @@ namespace OmegaEngine.Assets
     /// Data loaded from a file and cached for use by one or more <see cref="Renderable"/>s, <see cref="Sound"/>s, etc..
     /// </summary>
     /// <seealso cref="CacheManager.GetAsset{T}"/>
-    [SuppressMessage("Microsoft.Design", "CA1036:OverrideMethodsOnComparableTypes", Justification = "Comparison only used for INamed sorting")]
     public abstract class Asset : IReferenceCount, IDisposable, INamed<Asset>
     {
         #region Properties
@@ -107,7 +105,6 @@ namespace OmegaEngine.Assets
         /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
         /// </summary>
         /// <param name="disposing"><c>true</c> if called manually and not by the garbage collector.</param>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         protected virtual void Dispose(bool disposing)
         {
             if (!disposing)

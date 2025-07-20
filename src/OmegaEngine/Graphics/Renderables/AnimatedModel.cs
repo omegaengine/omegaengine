@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Assets;
 
@@ -26,7 +25,6 @@ namespace OmegaEngine.Graphics.Renderables
         /// <summary>
         /// An array of materials used to render this mesh
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2105:ArrayFieldsShouldNotBeReadOnly", Justification = "It is deliberate that the array size cannot be changed while the elements can be modified")]
         public readonly XMaterial[] Materials;
         #endregion
 

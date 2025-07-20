@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using AlphaFramework.World.Paths;
 using AlphaFramework.World.Templates;
@@ -21,7 +20,6 @@ namespace AlphaFramework.World.Positionables
     /// </summary>
     /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
     /// <typeparam name="TTemplate">The specific type of <see cref="EntityTemplateBase{TSelf}"/> to use as a component container.</typeparam>
-    [SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "The first type parameter is a type self-reference and is always fixated by derived classes")]
     public abstract class EntityBase<TCoordinates, TTemplate> : Positionable<TCoordinates>, IUpdateable, ITemplated
         where TCoordinates : struct
         where TTemplate : EntityTemplateBase<TTemplate>

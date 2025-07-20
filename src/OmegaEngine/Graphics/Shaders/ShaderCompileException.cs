@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
 namespace OmegaEngine.Graphics.Shaders
@@ -16,7 +15,6 @@ namespace OmegaEngine.Graphics.Shaders
     /// Exception thrown when <see cref="DynamicShader"/> fails to compile FX code
     /// </summary>
     [Serializable]
-    [SuppressMessage("Microsoft.Usage", "CA2240:ImplementISerializableCorrectly")]
     public class ShaderCompileException : Exception
     {
         /// <summary>

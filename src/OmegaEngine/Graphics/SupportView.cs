@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
@@ -32,7 +31,6 @@ namespace OmegaEngine.Graphics
         /// </summary>
         /// <param name="baseView">The <see cref="View"/> to base this support-view on</param>
         /// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Argument is passed directly into super-constructor and can not be validated first.")]
         protected SupportView(View baseView, Camera camera) :
             base(baseView.Scene, camera, SupportSize(baseView.Area.Size))
         {

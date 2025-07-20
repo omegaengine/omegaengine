@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using NanoByte.Common.Tasks;
 using OmegaEngine;
@@ -35,7 +34,6 @@ namespace AlphaFramework.World.Terrains
         /// </summary>
         /// <remarks>A light rise angles is the minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded.</remarks>
         /// <exception cref="InvalidOperationException">The calculation is not complete yet.</exception>
-        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
         public ByteVector4Grid Result
         {
             get

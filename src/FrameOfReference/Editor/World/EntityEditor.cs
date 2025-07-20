@@ -21,7 +21,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Windows.Forms;
 using AlphaFramework.Editor;
@@ -44,7 +43,6 @@ namespace FrameOfReference.Editor.World
     /// <summary>
     /// Allows the user to edit <see cref="EntityTemplate"/>s
     /// </summary>
-    [SuppressMessage("Microsoft.Maintainability", "CA1501:AvoidExcessiveInheritance", Justification = "The designer-shim class doesn't add any complexity, it only prevents the WinForms designer from getting confused")]
     public partial class EntityEditor : EntityEditorDesignerShim
     {
         #region Variables

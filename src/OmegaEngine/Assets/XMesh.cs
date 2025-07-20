@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -31,7 +30,6 @@ namespace OmegaEngine.Assets
         /// <summary>
         /// Materials (diffuse/normal/height/specular map, lighting settings) associated with the mesh
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2105:ArrayFieldsShouldNotBeReadOnly", Justification = "Only the array length is supposed to be read-only")]
         public readonly XMaterial[] Materials;
         #endregion
 

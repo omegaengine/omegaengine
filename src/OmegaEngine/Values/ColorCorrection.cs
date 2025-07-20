@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using JetBrains.Annotations;
 using OmegaEngine.Values.Design;
@@ -111,7 +110,6 @@ namespace OmegaEngine.Values
 
         #region Equality
         /// <inheritdoc/>
-        [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
         public bool Equals(ColorCorrection other) => other.Brightness == Brightness && other.Contrast == Contrast && other.Saturation == Saturation && other.Hue == Hue;
 
         public static bool operator ==(ColorCorrection left, ColorCorrection right) => left.Equals(right);
@@ -125,7 +123,6 @@ namespace OmegaEngine.Values
         }
 
         /// <inheritdoc/>
-        [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode")]
         public override int GetHashCode()
         {
             unchecked

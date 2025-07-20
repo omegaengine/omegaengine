@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
@@ -137,7 +136,6 @@ namespace OmegaEngine.Graphics.Shaders
         /// <param name="material">The material to be used by this shader; <c>null</c> for device texture</param>
         /// <param name="camera">The camera for transformation information</param>
         /// <param name="lights">An array of all lights this shader should consider</param>
-        [SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode", Justification = "Default parameters are set via a huge set of cascading switch-statements.")]
         public virtual void Apply(Action render, XMaterial material, Camera camera, params LightSource[] lights)
         {
             #region Sanity checks

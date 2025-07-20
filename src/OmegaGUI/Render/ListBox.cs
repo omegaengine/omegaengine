@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
 using NanoByte.Common.Native;
@@ -70,7 +69,6 @@ namespace OmegaGUI.Render
         protected bool isDragging;
         protected ListBoxStyle ctrlStyle = ListBoxStyle.SingleSelection;
 
-        [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "There will never be any need for a different collection type")]
         protected List<ListItem> itemList = [];
         #endregion
 

@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -34,7 +33,6 @@ namespace AlphaFramework.Editor
         /// <summary>
         /// Indicates the editor is currently loading something and the user must wait.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AlphEditor")]
         public bool Loading
         {
             get => _loading;
@@ -150,7 +148,6 @@ namespace AlphaFramework.Editor
         #endregion
 
         #region Remove tab
-        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.GC.Collect", Justification = "GC.Collect is only called after tab-closes, when a lot of long-lived objects have turned into garbage")]
         private void RemoveTab(Tab tab)
         {
             // Remove the tab from all list

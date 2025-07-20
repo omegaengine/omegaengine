@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -259,7 +258,6 @@ namespace OmegaEngine.Audio
         }
 
         /// <inheritdoc/>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         ~MusicManager()
         {
             // This block will only be executed on Garbage Collection, not by manual disposal

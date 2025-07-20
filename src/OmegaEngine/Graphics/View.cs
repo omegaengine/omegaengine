@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using NanoByte.Common;
@@ -27,7 +26,6 @@ namespace OmegaEngine.Graphics
     /// Controls the rendering of a <see cref="OmegaEngine.Graphics.Scene"/> using a <see cref="Cameras.Camera"/>.
     /// </summary>
     /// <remarks>Multiple <see cref="View"/>s can share the same <see cref="OmegaEngine.Graphics.Scene"/>, but they should all have separate <see cref="Cameras.Camera"/>s.</remarks>
-    [SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces")]
     public partial class View : EngineElement, IResetable
     {
         #region Variables

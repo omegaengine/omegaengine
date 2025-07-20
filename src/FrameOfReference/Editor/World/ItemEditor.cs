@@ -20,7 +20,6 @@
  * THE SOFTWARE.
  */
 
-using System.Diagnostics.CodeAnalysis;
 using AlphaFramework.Editor.Properties;
 using AlphaFramework.World.Templates;
 using FrameOfReference.World.Templates;
@@ -32,7 +31,6 @@ namespace FrameOfReference.Editor.World
     /// <summary>
     /// Allows the user to edit <see cref="ItemTemplate"/>s
     /// </summary>
-    [SuppressMessage("Microsoft.Maintainability", "CA1501:AvoidExcessiveInheritance", Justification = "The designer-shim class doesn't add any complexity, it only prevents the WinForms designer from getting confused")]
     public partial class ItemEditor : ItemEditorDesignerShim
     {
         #region Constructor

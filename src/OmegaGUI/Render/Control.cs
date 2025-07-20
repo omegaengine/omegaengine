@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
 using NanoByte.Common.Native;
@@ -44,7 +43,6 @@ namespace OmegaGUI.Render
 
         protected int controlX, controlY, width, height; // Size, scale, and positioning members
 
-        [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "There will never be any need for a different collection type")]
         protected List<Element> elementList = []; // All display elements
         #endregion
 
@@ -165,7 +163,6 @@ namespace OmegaGUI.Render
         /// <summary>
         /// Index for the elements this control has access to
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1043:UseIntegralOrStringArgumentForIndexers", Justification = "The whole GUI subsystem uses uint for ID purposes")]
         public Element this[uint elementIndex]
         {
             get => elementList[(int)elementIndex];

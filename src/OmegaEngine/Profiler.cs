@@ -8,7 +8,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Xml;
 using SlimDX;
@@ -40,7 +39,6 @@ namespace OmegaEngine
         /// <summary>
         /// The XML DOM to store the log data in.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1059:MembersShouldNotExposeCertainConcreteTypes", Justification = "Direct access to an XmlDocument is the easiest way to allow for flexible storage")]
         internal static XmlDocument LogXml
         {
             get => _currentLogXml;
@@ -89,7 +87,6 @@ namespace OmegaEngine
         /// <summary>
         /// Notifies PIX about the start of an event.
         /// </summary>
-        [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", Justification = "This method is only used for debugging and may fail during normal operation without consequences")]
         [Conditional("DEBUG")]
         internal static void BeginEvent(string name)
         {
@@ -99,7 +96,6 @@ namespace OmegaEngine
         /// <summary>
         /// Notifies PIX about the end of an event.
         /// </summary>
-        [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", Justification = "This method is only used for debugging and may fail during normal operation without consequences")]
         [Conditional("DEBUG")]
         internal static void EndEvent()
         {
@@ -109,7 +105,6 @@ namespace OmegaEngine
         /// <summary>
         /// Notifies PIX about an untimed event.
         /// </summary>
-        [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", Justification = "This method is only used for debugging and may fail during normal operation without consequences")]
         [Conditional("DEBUG")]
         internal static void SetMarker(string name)
         {

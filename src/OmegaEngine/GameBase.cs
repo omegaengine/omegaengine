@@ -9,7 +9,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Threading;
@@ -391,7 +390,6 @@ namespace OmegaEngine
         /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
         /// </summary>
         /// <param name="disposing"><c>true</c> if called manually and not by the garbage collector.</param>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         protected virtual void Dispose(bool disposing)
         {
             // Unlock the mouse cursor

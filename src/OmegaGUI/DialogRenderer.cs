@@ -23,7 +23,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using LuaInterface;
@@ -306,7 +305,6 @@ namespace OmegaGUI
         /// <summary>
         /// Removes the <see cref="Engine"/> hooks and queues the <see cref="LuaInterface.Lua"/> interpreter for disposal
         /// </summary>
-        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", Justification = "Lua is queued for delayed disposal")]
         public void Dispose()
         {
             if (Disposed) return;
@@ -326,7 +324,6 @@ namespace OmegaGUI
         }
 
         /// <inheritdoc/>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         ~DialogRenderer()
         {
             // This block will only be executed on Garbage Collection, not by manual disposal
