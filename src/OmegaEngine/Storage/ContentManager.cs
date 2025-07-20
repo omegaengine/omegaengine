@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using ICSharpCode.SharpZipLib.Zip;
@@ -153,7 +152,6 @@ namespace OmegaEngine.Storage
         /// <summary>
         /// Closes the content archives loaded by <see cref="LoadArchives"/>.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Errors on shutdown because of an inconsistent state are useless and annoying"), SuppressMessage("ReSharper", "EmptyGeneralCatchClause")]
         [PublicAPI]
         public static void CloseArchives()
         {

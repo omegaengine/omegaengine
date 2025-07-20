@@ -21,7 +21,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
 using LuaInterface;
@@ -34,7 +33,6 @@ namespace FrameOfReference.World.Config
     /// <summary>
     /// Stores settings for the application
     /// </summary>
-    [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "The contained configuration form will dispose itself automatically when closed")]
     [XmlRoot("Settings")] // Supress XMLSchema declarations (no inheritance used for properties)
     public sealed class Settings
     {

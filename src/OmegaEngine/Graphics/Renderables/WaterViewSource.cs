@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using NanoByte.Common;
 using OmegaEngine.Graphics.Shaders;
@@ -145,7 +144,6 @@ namespace OmegaEngine.Graphics.Renderables
         }
 
         /// <inheritdoc/>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         ~WaterViewSource()
         {
             // This block will only be executed on Garbage Collection, not by manual disposal

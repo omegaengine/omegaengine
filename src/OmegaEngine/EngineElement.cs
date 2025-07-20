@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using NanoByte.Common;
 using OmegaEngine.Properties;
 
@@ -107,7 +106,6 @@ namespace OmegaEngine
         public bool IsDisposed { get; private set; }
 
         /// <inheritdoc/>
-        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Using an alternative OnDispose() pattern")]
         public void Dispose()
         {
             if (IsDisposed) return;
@@ -126,8 +124,6 @@ namespace OmegaEngine
                 element.Dispose();
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Using an alternative OnDispose() pattern")]
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
         ~EngineElement()
         {
             // This block will only be executed on Garbage Collection, not by manual disposal

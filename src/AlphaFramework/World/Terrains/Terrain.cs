@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 using LuaInterface;
@@ -30,7 +29,6 @@ namespace AlphaFramework.World.Terrains
     ///   the negative Y-axis points towards south.
     /// </remarks>
     /// <typeparam name="TTemplate">The specific type of <see cref="Template{T}"/> to use for storing information about terrain types.</typeparam>
-    [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "The contained height-map bitmap will automatically be disposed after saving")]
     public sealed partial class Terrain<TTemplate> : ITerrain
         where TTemplate : Template<TTemplate>
     {
@@ -71,7 +69,6 @@ namespace AlphaFramework.World.Terrains
 
         /// <inheritdoc/>
         [XmlIgnore, Browsable(false)]
-        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
         public ByteGrid HeightMap
         {
             get => _heightMap;
@@ -93,7 +90,6 @@ namespace AlphaFramework.World.Terrains
 
         /// <inheritdoc/>
         [XmlIgnore, Browsable(false)]
-        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
         public ByteVector4Grid OcclusionIntervalMap
         {
             get => _occlusionIntervalMap;
@@ -125,7 +121,6 @@ namespace AlphaFramework.World.Terrains
 
         /// <inheritdoc/>
         [XmlIgnore, Browsable(false)]
-        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
         public NibbleGrid TextureMap
         {
             get => _textureMap;

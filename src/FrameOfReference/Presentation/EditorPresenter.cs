@@ -23,7 +23,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -239,7 +238,6 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// Calculates a collision <see cref="Circle"/> from the <see cref="BoundingSphere"/>s of pickable <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>s.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Performs a calculation based on the currently set of visible bodies")]
         public Circle GetCollisionCircle()
         {
             float radius =
@@ -254,7 +252,6 @@ namespace FrameOfReference.Presentation
         /// <summary>
         /// Calculates a collision <see cref="Box"/> from the <see cref="BoundingBox"/>s of pickable <see cref="OmegaEngine.Graphics.Renderables.PositionableRenderable"/>s.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Performs a calculation based on the currently set of visible bodies")]
         public Box GetCollisionBox()
         {
             var boundingBoxes =

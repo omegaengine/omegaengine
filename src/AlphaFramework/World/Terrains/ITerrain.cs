@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
 using LuaInterface;
@@ -40,7 +39,6 @@ namespace AlphaFramework.World.Terrains
         /// <exception cref="InvalidOperationException">The height-map size is incorrect.</exception>
         /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadHeightMap(Stream)"/>.</remarks>
         [XmlIgnore, Browsable(false)]
-        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
         ByteGrid HeightMap { get; set; }
 
         /// <summary>
@@ -49,7 +47,6 @@ namespace AlphaFramework.World.Terrains
         /// <exception cref="InvalidOperationException">The size is incorrect.</exception>
         /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadOcclusionIntervalMap(System.IO.Stream)"/>.</remarks>
         [XmlIgnore, Browsable(false)]
-        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
         ByteVector4Grid OcclusionIntervalMap { get; set; }
 
         /// <summary>
@@ -64,7 +61,6 @@ namespace AlphaFramework.World.Terrains
         /// <exception cref="InvalidOperationException">The height-map size is incorrect.</exception>
         /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadTextureMap(string)"/>.</remarks>
         [XmlIgnore, Browsable(false)]
-        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "For performance reasons this property provides direct access to the underlying array without any cloning involved")]
         NibbleGrid TextureMap { get; set; }
 
         /// <summary>

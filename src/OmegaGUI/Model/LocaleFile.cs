@@ -20,7 +20,6 @@
  * THE SOFTWARE.
  */
 
-using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using NanoByte.Common.Collections;
 using OmegaEngine.Storage;
@@ -44,7 +43,6 @@ namespace OmegaGUI.Model
         /// <summary>
         /// The collection of entries to be stored.
         /// </summary>
-        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [XmlElement("entry")]
         public XmlDictionary Entries { get; }
         #endregion

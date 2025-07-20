@@ -8,7 +8,6 @@
 
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using OmegaEngine.Graphics.Cameras;
 
@@ -52,7 +51,6 @@ namespace OmegaEngine.Graphics
         /// <summary>
         /// The texture this view renders to. May change, do not store externally!
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Requesting a render target has a considerable performance cost.")]
         public RenderTarget GetRenderTarget()
         {
             PrepareRenderTarget();

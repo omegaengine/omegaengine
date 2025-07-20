@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using AlphaFramework.World.Terrains;
 using NanoByte.Common.Undo;
 using OmegaEngine.Values;
@@ -48,7 +47,6 @@ namespace AlphaFramework.Editor.World.TerrainModifiers
         /// <summary>
         /// Creates a pre-executed undo command representing the accumulated <see cref="Apply"/> calls to this instance.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public abstract IUndoCommand GetCommand();
     }
 }

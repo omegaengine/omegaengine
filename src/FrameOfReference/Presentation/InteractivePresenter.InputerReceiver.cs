@@ -22,7 +22,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -109,7 +108,6 @@ namespace FrameOfReference.Presentation
         }
 
         /// <inheritdoc/>
-        [SuppressMessage("Microsoft.Security", "CA2109:ReviewVisibleEventHandlers", Justification = "There are no dangerous operations in this event handler")]
         public virtual void Click(MouseEventArgs e, bool accumulate)
         {
             #region Sanity checks
@@ -151,7 +149,6 @@ namespace FrameOfReference.Presentation
         }
 
         /// <inheritdoc/>
-        [SuppressMessage("Microsoft.Security", "CA2109:ReviewVisibleEventHandlers", Justification = "There are no dangerous operations in this event handler")]
         public virtual void DoubleClick(MouseEventArgs e)
         {
             #region Sanity checks

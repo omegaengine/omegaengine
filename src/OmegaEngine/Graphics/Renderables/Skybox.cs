@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using SlimDX;
 using OmegaEngine.Graphics.Cameras;
 using Resources = OmegaEngine.Properties.Resources;
@@ -21,7 +20,6 @@ namespace OmegaEngine.Graphics.Renderables
     public abstract class Skybox : Renderable
     {
         #region Variables
-        [SuppressMessage("Microsoft.Security", "CA2105:ArrayFieldsShouldNotBeReadOnly", Justification = "It is deliberate that the array size cannot be changed while the elements can be modified")]
         protected readonly ITextureProvider[] Textures = new ITextureProvider[6];
         #endregion
 

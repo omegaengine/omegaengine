@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using AlphaFramework.World.Terrains;
 using NanoByte.Common.Undo;
 
@@ -107,7 +106,6 @@ namespace AlphaFramework.Editor.World.Commands
         /// <summary>
         /// Override to point to the appropriate <see cref="ITerrain"/> array map
         /// </summary>
-        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "This property provides direct access to the underlying array without any cloning involved")]
         protected abstract T MapData { get; set; }
 
         /// <summary>

@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
@@ -24,7 +23,6 @@ namespace AlphaFramework.World.Terrains
         #region XML serialization
         /// <summary>Used for XML serialization.</summary>
         /// <seealso cref="Templates"/>
-        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Used for XML serialization")]
         [XmlElement("Template"), Browsable(false)]
         public string[] TemplateNames
         {

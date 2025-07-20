@@ -23,7 +23,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
@@ -57,7 +56,6 @@ namespace FrameOfReference.Editor
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.GC.Collect", Justification = "GC.Collect is only called after the main form closes, when a lot of long-lived objects have turned into garbage")]
         private static void Main(string[] args)
         {
             WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameShort + ".AlphaEditor");

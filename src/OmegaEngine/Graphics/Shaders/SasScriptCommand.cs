@@ -24,7 +24,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using NanoByte.Common;
@@ -36,7 +35,6 @@ namespace OmegaEngine.Graphics.Shaders
     public class SasScriptCommand
     {
         #region Enumerations
-        [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible", Justification = "Only used internally in the SAS Shader control system")]
         public enum CommandType
         {
             LoopByType,
@@ -66,7 +64,6 @@ namespace OmegaEngine.Graphics.Shaders
         public bool IsDirty;
         protected readonly Effect Effect;
 
-        [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists")]
         public List<string> Options;
         #endregion
 
@@ -453,7 +450,6 @@ namespace OmegaEngine.Graphics.Shaders
     #region Draw
     public class SasScriptDraw : SasScriptCommand
     {
-        [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible", Justification = "Only used internally in the SAS Shader control system")]
         public enum DrawType
         {
             Scene,
@@ -506,7 +502,6 @@ namespace OmegaEngine.Graphics.Shaders
     #region Script command
     public class SasScriptClear : SasScriptCommand
     {
-        [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible", Justification = "Only used internally in the SAS Shader control system")]
         public enum ClearType
         {
             Color,

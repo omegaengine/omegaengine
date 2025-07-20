@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using NanoByte.Common;
 using OmegaEngine.Collections;
@@ -202,8 +201,6 @@ namespace OmegaEngine.Graphics
         /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
         /// </summary>
         /// <param name="disposing"><c>true</c> if called manually and not by the garbage collector.</param>
-        [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Only for debugging, not present in Release code")]
-        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_rtsHelper", Justification = "_rtsHelper is queued for disposal at the end of the frame")]
         private void Dispose(bool disposing)
         {
             if (disposing)

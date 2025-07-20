@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
@@ -98,7 +97,6 @@ namespace AlphaFramework.Editor
 
         #region Handlers
         /// <inheritdoc/>
-        [SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.GC.Collect", Justification = "GC.Collect is only called after undo-information is purged, when a lot of long-lived objects have turned into garbage")]
         protected override void OnSaveFile()
         {
             // Clear undo/redo backups after file was saved

@@ -22,7 +22,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using FrameOfReference.Presentation;
@@ -65,7 +64,6 @@ namespace FrameOfReference
         /// <summary>
         /// Loads the auto-save into <see cref="CurrentSession"/> for later usage
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Any kind of problems loading the previous game session should be ignored")]
         private void PreloadPreviousSession()
         {
             try
@@ -205,7 +203,6 @@ namespace FrameOfReference
         /// <summary>
         /// Lists the names of all stored <see cref="Session"/>s.
         /// </summary>
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "For LUA use"), SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "For LUA use")]
         public IEnumerable<string> GetSavegameNames()
         {
             var savegameDir = new DirectoryInfo(Locations.GetSaveDataPath(GeneralSettings.AppName, isFile: false));
