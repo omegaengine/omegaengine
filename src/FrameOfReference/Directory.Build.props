@@ -1,0 +1,25 @@
+﻿<Project>
+
+  <Import Project="$(MSBuildThisFileDirectory)..\Directory.Build.props" />
+
+  <!-- Build config -->
+  <PropertyGroup>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <SignAssembly>False</SignAssembly>
+    <IsPackable>False</IsPackable>
+    <DeterministicSourcePaths>False</DeterministicSourcePaths>
+  </PropertyGroup>
+
+  <!-- Remove assets intended for NuGet packaging -->
+  <ItemGroup>
+    <None Remove="$(MSBuildThisFileDirectory)..\..\*" />
+  </ItemGroup>
+
+  <!-- Expose internals to unit tests -->
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+    <_Parameter1>FrameOfReference.UnitTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+</Project>

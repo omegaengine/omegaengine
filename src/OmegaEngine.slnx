@@ -1,0 +1,30 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/AlphaFramework/">
+    <Project Path="AlphaFramework/Editor/Editor.csproj" />
+    <Project Path="AlphaFramework/Presentation/Presentation.csproj" />
+    <Project Path="AlphaFramework/UnitTests/UnitTests.csproj" />
+    <Project Path="AlphaFramework/World/World.csproj" />
+    <File Path="AlphaFramework/Directory.Build.props" />
+  </Folder>
+  <Folder Name="/FrameOfReference/">
+    <Project Path="FrameOfReference/Editor/Editor.csproj">
+      <BuildDependency Project="FrameOfReference/Game/Game.csproj" />
+    </Project>
+    <Project Path="FrameOfReference/Game/Game.csproj" />
+    <Project Path="FrameOfReference/Presentation/Presentation.csproj" />
+    <Project Path="FrameOfReference/UnitTests/UnitTests.csproj" />
+    <Project Path="FrameOfReference/World/World.csproj" />
+    <File Path="FrameOfReference/Directory.Build.props" />
+    <File Path="FrameOfReference/README.md" />
+  </Folder>
+  <Folder Name="/_Shared/">
+    <File Path="../README.md" />
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <Project Path="OmegaEngine/OmegaEngine.csproj" />
+  <Project Path="OmegaGUI/OmegaGUI.csproj" />
+  <Project Path="UnitTests/UnitTests.csproj" />
+</Solution>

@@ -1,0 +1,61 @@
+name: Build
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-2025
+    steps:
+      # Prepare
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          show-progress: false
+      - uses: gittools/actions/gitversion/setup@v3.2.1
+        with:
+          versionSpec: '5.12.x'
+      - uses: gittools/actions/gitversion/execute@v3.2.1
+        id: gitversion
+      - name: Install MSVC Runtime
+        run: winget install --force --silent --accept-package-agreements --accept-source-agreements --disable-interactivity --id=Microsoft.VCRedist.2010.x86
+
+      # Build
+      - name: Build (pre-release)
+        if: github.ref_type != 'tag'
+        run: .\build.ps1 ${{steps.gitversion.outputs.nuGetVersion}}-${{steps.gitversion.outputs.shortSha}}
+      - name: Build (release)
+        if: github.ref_type == 'tag'
+        run: .\build.ps1 ${{steps.gitversion.outputs.nuGetVersion}}
+      - name: Upload UnitTests bin artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: UnitTests-bin
+          path: src/UnitTests/bin
+      - name: Report test results
+        if: always()
+        uses: dorny/test-reporter@v2
+        with:
+          name: Test Report
+          reporter: dotnet-trx
+          path: src/UnitTests/TestResults/*.trx
+
+      # Release
+      - name: Create GitHub Release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+
+      # Publish
+      - name: Publish packages (GitHub)
+        if: github.event_name == 'push' && !startsWith(github.ref_name, 'renovate/')
+        run: dotnet nuget push artifacts\Release\*.nupkg --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json --api-key ${{github.token}} --no-symbols --skip-duplicate
+      - name: Publish packages (NuGet.org)
+        if: github.ref_type == 'tag'
+        run: dotnet nuget push artifacts\Release\*.nupkg --source nuget.org --api-key ${{secrets.NUGET_API_KEY}}
+      - name: Publish documentation
+        if: github.ref_type == 'tag'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{github.token}}
+          force_orphan: true
+          publish_dir: artifacts/Documentation
+          cname: api.omegaengine.de

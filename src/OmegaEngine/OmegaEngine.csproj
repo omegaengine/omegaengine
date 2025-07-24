@@ -1,352 +1,42 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Build config -->
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{14E9FED0-4989-482D-85DE-448161A6855E}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OmegaEngine</RootNamespace>
-    <AssemblyName>OmegaEngine</AssemblyName>
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>..\sgKey.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\artifacts\Debug\</OutputPath>
-    <DocumentationFile>..\..\artifacts\Debug\OmegaEngine.xml</DocumentationFile>
-    <DefineConstants>DEBUG;TRACE;CODE_ANALYSIS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <NoWarn>1591</NoWarn>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <PlatformTarget>x86</PlatformTarget>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
+    <Description>The OmegaEngine is a general-purpose 3D graphics engine written in C# using the .NET Framework 2.0 and DirectX 9 via SlimDX. The engine is designed to be light-weight, modular and gameplay-agnostic.
+The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games using the OmegaEngine.</Description>
+    <TargetFramework>net20</TargetFramework>
+    <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
+    <UseWindowsForms>True</UseWindowsForms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\artifacts\Release\</OutputPath>
-    <DocumentationFile>..\..\artifacts\Release\OmegaEngine.xml</DocumentationFile>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <NoWarn>1591</NoWarn>
-    <PlatformTarget>x86</PlatformTarget>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+
+  <!-- Dependencies -->
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.5.0, Culture=neutral, PublicKeyToken=9dea7c6e17aa31ff, processorArchitecture=MSIL">
-      <HintPath>..\packages\ICSharpCode.SharpZipLib.Patched.0.86.5.1\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.TextEditor, Version=3.0.0.3437, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
-      <HintPath>..\packages\NanoByte.Common.WinForms.2.1.11\lib\net20\ICSharpCode.TextEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="NanoByte.Common, Version=2.1.11.0, Culture=neutral, PublicKeyToken=3090a828a7702cec, processorArchitecture=MSIL">
-      <HintPath>..\packages\NanoByte.Common.2.1.11\lib\net20\NanoByte.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="NanoByte.Common.WinForms, Version=2.1.11.0, Culture=neutral, PublicKeyToken=3090a828a7702cec, processorArchitecture=MSIL">
-      <HintPath>..\packages\NanoByte.Common.WinForms.2.1.11\lib\net20\NanoByte.Common.WinForms.dll</HintPath>
-    </Reference>
-    <Reference Include="SlimDX">
-      <HintPath>..\packages\SlimDX.4.0.13.44\lib\NET20\SlimDX.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Drawing" />
+    <PackageReference Include="SlimDX" Version="4.0.13.44" />
+    <PackageReference Include="ICSharpCode.SharpZipLib.Patched" Version="0.86.5.1" />
+    <PackageReference Include="LuaInterface.Custom" Version="2.0.3.1" />
+    <PackageReference Include="NanoByte.Common.WinForms" Version="2.1.11" />
     <Reference Include="System.Management" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="LuaInterface">
-      <HintPath>..\..\lib\LuaInterface.dll</HintPath>
-    </Reference>
-    <Reference Include="TaskDialog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fefb7635387ec9bb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NanoByte.Common.WinForms.2.1.11\lib\net20\TaskDialog.dll</HintPath>
-    </Reference>
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="..\GlobalAssemblyInfo.cs" />
-    <Compile Include="Assets\Asset.cs" />
-    <Compile Include="Assets\CacheManager.cs" />
-    <Compile Include="Assets\IReferenceCount.cs" />
-    <Compile Include="Assets\XAnimatedMesh.cs" />
-    <Compile Include="Assets\XMesh.cs" />
-    <Compile Include="Assets\XOggSound.cs" />
-    <Compile Include="Assets\XSound.cs" />
-    <Compile Include="Assets\XTexture.cs" />
-    <Compile Include="Assets\XWaveSound.cs" />
-    <Compile Include="Assets\_Namespace.cs" />
-    <Compile Include="Audio\MusicManager.cs" />
-    <Compile Include="Audio\Song.cs" />
-    <Compile Include="Audio\Sound.cs" />
-    <Compile Include="Audio\Sound3D.cs" />
-    <Compile Include="Audio\_Namespace.cs" />
-    <Compile Include="Collections\IPoolable.cs" />
-    <Compile Include="Collections\Pool.cs" />
-    <Compile Include="Collections\_Namespace.cs" />
-    <Compile Include="ColorUtils.cs" />
-    <Compile Include="DebugConsole.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DebugConsole.Designer.cs">
-      <DependentUpon>DebugConsole.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DebugForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DebugForm.Designer.cs">
-      <DependentUpon>DebugForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Engine.Audio.cs" />
-    <Compile Include="Engine.cs" />
-    <Compile Include="Engine.Debug.cs" />
-    <Compile Include="Engine.Render.cs" />
-    <Compile Include="Engine.Terrain.cs" />
-    <Compile Include="EngineCapabilities.cs" />
-    <Compile Include="EngineConfig.cs" />
-    <Compile Include="EngineEffects.cs" />
-    <Compile Include="EngineElement.cs" />
-    <Compile Include="EngineElementCollection.cs" />
-    <Compile Include="EnginePerformance.cs" />
-    <Compile Include="EngineState.cs" />
-    <Compile Include="EngineUtilsAnimation.cs" />
-    <Compile Include="EngineUtilsDraw.cs" />
-    <Compile Include="GameBase.cs" />
-    <Compile Include="GameBase.Form.cs" />
-    <Compile Include="GameBase.Render.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Graphics\BufferHelper.cs" />
-    <Compile Include="Graphics\Cameras\Camera.cs" />
-    <Compile Include="Graphics\Cameras\CinematicCamera.cs" />
-    <Compile Include="Graphics\Cameras\CloneCamera.cs" />
-    <Compile Include="Graphics\Cameras\EgoCamera.cs" />
-    <Compile Include="Graphics\Cameras\MatrixCamera.cs" />
-    <Compile Include="Graphics\Cameras\QuaternionCamera.cs" />
-    <Compile Include="Graphics\Cameras\ReflectCamera.cs" />
-    <Compile Include="Graphics\Cameras\SpaceCamera.cs" />
-    <Compile Include="Graphics\Cameras\StrategyCamera.cs" />
-    <Compile Include="Graphics\Cameras\TrackCamera.cs" />
-    <Compile Include="Graphics\Cameras\_Namespace.cs" />
-    <Compile Include="Graphics\DirectionalLight.cs" />
-    <Compile Include="Graphics\GlowView.cs" />
-    <Compile Include="Graphics\ITextureProvider.cs" />
-    <Compile Include="Graphics\LazyView.cs" />
-    <Compile Include="Graphics\LightSource.cs" />
-    <Compile Include="Graphics\MeshGenerator.cs" />
-    <Compile Include="Graphics\MeshHelper.cs" />
-    <Compile Include="Graphics\PointLight.cs" />
-    <Compile Include="Graphics\Renderables\AdvancedSkybox.cs" />
-    <Compile Include="Graphics\Renderables\AnimatedModel.cs" />
-    <Compile Include="Graphics\Renderables\CpuParticle.cs" />
-    <Compile Include="Graphics\Renderables\CpuParticleParameters.cs" />
-    <Compile Include="Graphics\Renderables\CpuParticleParametersStruct.cs" />
-    <Compile Include="Graphics\Renderables\CpuParticlePreset.cs" />
-    <Compile Include="Graphics\Renderables\CpuParticleSystem.cs" />
-    <Compile Include="Graphics\Renderables\FloatingModel.cs" />
-    <Compile Include="Graphics\Renderables\GpuParticlePreset.cs" />
-    <Compile Include="Graphics\Renderables\GpuParticleSystem.cs" />
-    <Compile Include="Graphics\Renderables\Model.Builtin.cs" />
-    <Compile Include="Graphics\Renderables\Model.cs" />
-    <Compile Include="Graphics\Renderables\PositionableRenderable.cs" />
-    <Compile Include="Graphics\Renderables\Renderable.cs" />
-    <Compile Include="Graphics\Renderables\SimpleSkybox.cs" />
-    <Compile Include="Graphics\Renderables\Skybox.cs" />
-    <Compile Include="Graphics\Renderables\Terrain.Build.cs" />
-    <Compile Include="Graphics\Renderables\Terrain.cs" />
-    <Compile Include="Graphics\Renderables\VertexGroup.cs" />
-    <Compile Include="Graphics\Renderables\Water.cs" />
-    <Compile Include="Graphics\Renderables\WaterViewSource.cs" />
-    <Compile Include="Graphics\Renderables\_Namespace.cs" />
-    <Compile Include="Graphics\RenderTarget.cs" />
-    <Compile Include="Graphics\Scene.cs" />
-    <Compile Include="Graphics\Shaders\DynamicShader.cs" />
-    <Compile Include="Graphics\Shaders\GeneralShader.cs" />
-    <Compile Include="Graphics\Shaders\LightingShader.cs" />
-    <Compile Include="Graphics\Shaders\ParticleShader.cs" />
-    <Compile Include="Graphics\Shaders\PostBleachShader.cs" />
-    <Compile Include="Graphics\Shaders\PostBlurShader.cs" />
-    <Compile Include="Graphics\Shaders\PostCameraShakeShader.cs" />
-    <Compile Include="Graphics\Shaders\PostColorCorrectionShader.cs" />
-    <Compile Include="Graphics\Shaders\PostGlowShader.cs" />
-    <Compile Include="Graphics\Shaders\PostHaloShader.cs" />
-    <Compile Include="Graphics\Shaders\PostRadialBlurShader.cs" />
-    <Compile Include="Graphics\Shaders\PostScratchedFilmShader.cs" />
-    <Compile Include="Graphics\Shaders\PostSepiaShader.cs" />
-    <Compile Include="Graphics\Shaders\PostShader.cs" />
-    <Compile Include="Graphics\Shaders\SasHelper.cs" />
-    <Compile Include="Graphics\Shaders\SasScriptCommand.cs" />
-    <Compile Include="Graphics\Shaders\SasScriptEngine.cs" />
-    <Compile Include="Graphics\Shaders\Shader.cs" />
-    <Compile Include="Graphics\Shaders\ShaderCompileException.cs" />
-    <Compile Include="Graphics\Shaders\SurfaceShader.cs" />
-    <Compile Include="Graphics\Shaders\TerrainShader.cs" />
-    <Compile Include="Graphics\Shaders\WaterShader.cs" />
-    <Compile Include="Graphics\Shaders\_Namespace.cs" />
-    <Compile Include="Graphics\ShadowView.cs" />
-    <Compile Include="Graphics\SpecialView.cs" />
-    <Compile Include="Graphics\SupportView.cs" />
-    <Compile Include="Graphics\TextureView.cs" />
-    <Compile Include="Graphics\VertexDecl\PositionColored.cs" />
-    <Compile Include="Graphics\VertexDecl\PositionColoredTextured.cs" />
-    <Compile Include="Graphics\VertexDecl\PositionMultiTextured.cs" />
-    <Compile Include="Graphics\VertexDecl\PositionNormalBinormalTangentTextured.cs" />
-    <Compile Include="Graphics\VertexDecl\PositionNormalColored.cs" />
-    <Compile Include="Graphics\VertexDecl\PositionNormalMultiTextured.cs" />
-    <Compile Include="Graphics\VertexDecl\PositionNormalTextured.cs" />
-    <Compile Include="Graphics\VertexDecl\PositionTextured.cs" />
-    <Compile Include="Graphics\VertexDecl\TransformedColored.cs" />
-    <Compile Include="Graphics\VertexDecl\TransformedColoredTextured.cs" />
-    <Compile Include="Graphics\VertexDecl\TransformedTextured.cs" />
-    <Compile Include="Graphics\VertexDecl\_Namespace.cs" />
-    <Compile Include="Graphics\View.cs" />
-    <Compile Include="Graphics\View.Helpers.cs" />
-    <Compile Include="Graphics\View.Render.cs" />
-    <Compile Include="Graphics\View.Sorting.cs" />
-    <Compile Include="Graphics\WaterView.cs" />
-    <Compile Include="Graphics\XMaterial.cs" />
-    <Compile Include="Graphics\_Namespace.cs" />
-    <Compile Include="Hardware.cs" />
-    <Compile Include="IAudio.cs" />
-    <Compile Include="Input\IInputReceiver.cs" />
-    <Compile Include="Input\InputProvider.cs" />
-    <Compile Include="Input\KeyboardInputProvider.cs" />
-    <Compile Include="Input\MouseInputProvider.cs" />
-    <Compile Include="Input\TouchInputProvider.cs" />
-    <Compile Include="Input\UpdateReceiver.cs" />
-    <Compile Include="Input\_Namespace.cs" />
-    <Compile Include="IPositionable.cs" />
-    <Compile Include="IPositionableOffset.cs" />
-    <Compile Include="MathUtils.cs" />
-    <Compile Include="PerlinNoise.cs" />
-    <Compile Include="Profiler.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="RandomUtils.cs" />
-    <Compile Include="RenderPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Storage\ContentArchiveEntry.cs" />
-    <Compile Include="Storage\ContentManager.cs" />
-    <Compile Include="Storage\EmbeddedFile.cs" />
-    <Compile Include="Storage\FileEntry.cs" />
-    <Compile Include="Storage\XmlStorage.cs" />
-    <Compile Include="Storage\_Namespace.cs" />
-    <Compile Include="Values\Attenuation.cs" />
-    <Compile Include="Values\ByteGrid.cs" />
-    <Compile Include="Values\ByteVector4.cs" />
-    <Compile Include="Values\ByteVector4Grid.cs" />
-    <Compile Include="Values\ColorCorrection.cs" />
-    <Compile Include="Values\Design\AngleControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Values\Design\AngleEditor.cs" />
-    <Compile Include="Values\Design\AttenuationConverter.cs" />
-    <Compile Include="Values\Design\CodeEditor.cs" />
-    <Compile Include="Values\Design\ColorCorrectionConverter.cs" />
-    <Compile Include="Values\Design\DoublePaneConverter.cs" />
-    <Compile Include="Values\Design\DoubleVector3Converter.cs" />
-    <Compile Include="Values\Design\FloatEditor.cs" />
-    <Compile Include="Values\Design\QuadrangleConverter.cs" />
-    <Compile Include="Values\Design\SliderEditor.cs" />
-    <Compile Include="Values\Design\Vector2RayConverter.cs" />
-    <Compile Include="Values\DoublePlane.cs" />
-    <Compile Include="Values\DoubleVector3.cs" />
-    <Compile Include="Values\ExpandableRectangleArray.cs" />
-    <Compile Include="Values\FileTypeAttribute.cs" />
-    <Compile Include="Values\FloatRangeAttribute.cs" />
-    <Compile Include="Values\GraphicsEnums.cs" />
-    <Compile Include="Values\Grid.cs" />
-    <Compile Include="Values\NibbleGrid.cs" />
-    <Compile Include="Values\Quadrangle.cs" />
-    <Compile Include="Values\Vector2Ray.cs" />
-    <Compile Include="Values\XColor.cs" />
-    <Compile Include="Values\_Namespace.cs" />
+    <None Include="Shaders\*.fxo" CopyToOutputDirectory="Always" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\Shaders\" />
+
+    <!-- Parts of "content" directory that are essential for OmegaEngine -->
+    <None Include="..\..\content\Graphics\**" LinkBase="content\Graphics" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\Graphics\" />
+    <None Include="..\..\content\GUI\Textures\**" LinkBase="content\GUI\Textures" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\GUI\Textures\" />
+    <None Include="..\..\content\Meshes\Engine\**" LinkBase="content\Meshes\Engine" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\Meshes\Engine\" />
+    <None Include="..\..\content\Textures\Particles\**" LinkBase="content\Textures\Particles" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\Textures\Particles\" />
+    <None Include="..\..\content\Textures\Shaders\**" LinkBase="content\Textures\Shaders\" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\Textures\Shaders\" />
+    <None Include="..\..\content\Textures\Water\**" LinkBase="content\Textures\Water" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\Textures\Water\" />
+    <None Include="..\..\content\Textures\flag.png" LinkBase="content\Textures" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\Textures\" />
   </ItemGroup>
+
+  <!-- Expose internals to unit tests -->
   <ItemGroup>
-    <CodeAnalysisDictionary Include="..\CodeAnalysisDictionary.xml" />
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+    <_Parameter1>OmegaEngine.UnitTests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100f3cd86e318750437d1a82f10f73d35fd8218bd43139887580f9c17b35181469d5468d390989a85c2f27645b1cf95832cfaa42dd9ea71baefc58191836d46b9c8889caf67213b91d5e383825a61582a59cd197f7f21a66168946cc1558c836620f298ea6d9c8540b6d02fb364bc32a0e33ad7ca78a23a6de83a0f7ccd4e2e88c7</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\Assets.cd" />
-    <None Include="ClassDiagram.cd" />
-    <None Include="Graphics\Cameras\Cameras.cd" />
-    <None Include="Graphics\Renderables\CpuParticlePreset.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Graphics\Renderables\GpuParticlePreset.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Graphics\Renderables\Renderables.cd" />
-    <None Include="Graphics\Shaders\Shaders.cd" />
-    <None Include="Graphics\Views.cd" />
-    <None Include="Hardware.cd" />
-    <None Include="Hardware.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Input\InputProviders.cd" />
-    <None Include="packages.config" />
-    <None Include="Shaders\compile.cmd" />
-    <None Include="Shaders\General.fx" />
-    <None Include="Shaders\General.Techniques.fxh" />
-    <None Include="Shaders\include\noise_2d.fxh" />
-    <None Include="Shaders\include\Quad.fxh" />
-    <None Include="Shaders\include\vertex_noise.fxh" />
-    <None Include="Shaders\include\vnoise-table.fxh" />
-    <None Include="Shaders\nvidia_license.txt" />
-    <None Include="Shaders\ParticleSystem.fx" />
-    <None Include="Shaders\Post_Bleach.fx" />
-    <None Include="Shaders\Post_Blur.fx" />
-    <None Include="Shaders\Post_CameraShake.fx" />
-    <None Include="Shaders\Post_ColorCorrection.fx" />
-    <None Include="Shaders\Post_Halo.fx" />
-    <None Include="Shaders\Post_RadialBlur.fx" />
-    <None Include="Shaders\Post_ScratchedFilm.fx" />
-    <None Include="Shaders\Post_Sepia.fx" />
-    <None Include="Shaders\readme.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Shaders\Water.fx" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="DebugForm.resx">
-      <DependentUpon>DebugForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.de.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-    <PostBuildEvent>"$(ProjectDir)Shaders\compile.cmd" $(ConfigurationName) SM11 "$(TargetDir)Shaders"</PostBuildEvent>
-  </PropertyGroup>
+
 </Project>

@@ -1,0 +1,39 @@
+﻿<Project>
+
+  <!-- Build configuration -->
+  <PropertyGroup>
+    <LangVersion>13.0</LangVersion>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <OutputType>Library</OutputType>
+    <PlatformTarget>x86</PlatformTarget>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)sgKey.snk</AssemblyOriginatorKeyFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <NoWarn>$(NoWarn);1591;NU1901;NU1902;NU1903;NU1904</NoWarn><!-- Missing XML comments + NuGet advisories -->
+  </PropertyGroup>
+
+  <!-- NuGet Metadata -->
+  <PropertyGroup>
+    <Authors>Bastian Eicher</Authors>
+    <Copyright>Copyright Bastian Eicher</Copyright>
+    <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
+    <RepositoryUrl>https://raw.githubusercontent.com/omegaengine/omegaengine/</RepositoryUrl>
+    <PackageProjectUrl>https://omegaengine.de/</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon-omega.png</PackageIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)..\README.md" Pack="true" PackagePath=""/>
+    <None Include="$(MSBuildThisFileDirectory)..\icon-omega.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <!-- Build-time dependencies -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>
