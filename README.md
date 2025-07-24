@@ -42,9 +42,9 @@ The AlphaFramework is a Model-View-Presenter framework for creating game worlds 
 - **[AlphaFramework.Presentation](http://www.nuget.org/packages/AlphaFramework.Presentation/)** is used to build Presenters that bind Models to Views.
 - **[AlphaEditor](http://www.nuget.org/packages/AlphaEditor/)** is an IDE-like editor for AlphaFramework games. You can use it to create GUI screens, maps, particle systems, etc..
 
-### Visual Studio templates
+### Project templates
 
-The **[OmegaEngine Templates](https://visualstudiogallery.msdn.microsoft.com/65016a18-e699-47e8-ad91-114faf038d05)** Visual Studio extension can help you to quickly set up a suitable structure for an OmegaEngine project.
+The **[project templates](templates/README.md)** can help you to quickly set up a suitable structure for an OmegaEngine project.
 
 ## Frame of Reference
 

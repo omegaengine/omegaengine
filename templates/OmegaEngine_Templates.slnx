@@ -1,0 +1,26 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/AlphaFramework/">
+    <Project Path="AlphaFramework/Editor/Editor.csproj">
+      <Platform Project="x86" />
+    </Project>
+    <Project Path="AlphaFramework/Game/Game.csproj">
+      <Platform Project="x86" />
+    </Project>
+    <Project Path="AlphaFramework/Presentation/Presentation.csproj">
+      <Platform Project="x86" />
+    </Project>
+    <Project Path="AlphaFramework/World/World.csproj">
+      <Platform Project="x86" />
+    </Project>
+    <File Path="AlphaFramework/.template/template.json" />
+  </Folder>
+  <Project Path="Fullscreen/Fullscreen.csproj">
+    <Platform Project="x86" />
+  </Project>
+  <Project Path="WinForms/WinForms.csproj">
+    <Platform Project="x86" />
+  </Project>
+</Solution>
