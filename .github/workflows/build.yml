@@ -18,7 +18,7 @@ jobs:
       - name: Download and install DirectX 9 runtime
         shell: pwsh
         run: |
-          $url = "https://download.microsoft.com/download/1/4/7/14759443-3E56-496C-8A18-42E1456E7A50/directx_Jun2010_redist.exe"
+          $url = "https://download.microsoft.com/download/8/4/a/84a35bf1-dafe-4ae8-82af-ad2ae20b6b14/directx_Jun2010_redist.exe"
           $output = "$env:TEMP\directx_redist.exe"
           Invoke-WebRequest -Uri $url -OutFile $output
           Start-Process -FilePath $output -ArgumentList "/Q" -Wait
