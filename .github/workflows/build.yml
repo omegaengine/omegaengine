@@ -23,6 +23,12 @@ jobs:
       - name: Build (release)
         if: github.ref_type == 'tag'
         run: .\build.ps1 ${{steps.gitversion.outputs.nuGetVersion}}
+      - name: Upload UnitTests bin artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: UnitTests-bin
+          path: src/UnitTests/bin
       - name: Report test results
         if: always()
         uses: dorny/test-reporter@v2
