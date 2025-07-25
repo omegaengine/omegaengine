@@ -8,7 +8,7 @@
 
 using NanoByte.Common.Storage;
 using FluentAssertions;
-using NUnit.Framework;
+using Xunit;
 
 namespace OmegaEngine.Storage
 {
@@ -31,7 +31,7 @@ namespace OmegaEngine.Storage
         /// <summary>
         /// Ensures <see cref="NanoByte.Common.Storage.XmlStorage.SaveXml{T}(T,string,string)"/> and <see cref="NanoByte.Common.Storage.XmlStorage.LoadXml{T}(string)"/> work correctly.
         /// </summary>
-        [Test]
+        [Fact]
         public void TestFile()
         {
             TestData testData1 = new() {Data = "Hello"}, testData2;
@@ -49,7 +49,7 @@ namespace OmegaEngine.Storage
         /// <summary>
         /// Ensures <see cref="NanoByte.Common.Storage.XmlStorage.SaveXml{T}(T,string,string)"/> and <see cref="NanoByte.Common.Storage.XmlStorage.LoadXml{T}(string)"/> work correctly with relative paths.
         /// </summary>
-        [Test]
+        [Fact]
         public void TestFileRelative()
         {
             TestData testData1 = new() {Data = "Hello"}, testData2;
@@ -64,11 +64,11 @@ namespace OmegaEngine.Storage
             testData2.Data.Should().Be(testData1.Data);
         }
 
-        [Test]
+        [Fact]
         public void TestToXmlString()
             => NanoByte.Common.Storage.XmlStorage.ToXmlString(new TestData {Data = "Hello"}).Should().Be("<?xml version=\"1.0\"?>\n<TestData>\n  <Data>Hello</Data>\n</TestData>\n");
 
-        [Test]
+        [Fact]
         public void TestFromXmlString()
             => NanoByte.Common.Storage.XmlStorage.FromXmlString<TestData>("<?xml version=\"1.0\"?><TestData><Data>Hello</Data></TestData>").Data.Should().Be("Hello");
 
@@ -76,7 +76,7 @@ namespace OmegaEngine.Storage
         /// <summary>
         /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,string,string,EmbeddedFile[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(string,string,EmbeddedFile[])"/> work correctly with no password.
         /// </summary>
-        [Test]
+        [Fact]
         public void TestZipNoPassword()
         {
             // Write and read file
@@ -93,7 +93,7 @@ namespace OmegaEngine.Storage
         /// <summary>
         /// Ensures <see cref="XmlStorage.SaveXmlZip{T}(T,string,string,EmbeddedFile[])"/> and <see cref="XmlStorage.LoadXmlZip{T}(string,string,EmbeddedFile[])"/> work correctly with a password.
         /// </summary>
-        [Test]
+        [Fact]
         public void TestZipPassword()
         {
             // Write and read file
@@ -110,7 +110,7 @@ namespace OmegaEngine.Storage
         /// <summary>
         /// Ensures <see cref="XmlStorage.LoadXmlZip{T}(string,string,EmbeddedFile[])"/> correctly detects incorrect passwords.
         /// </summary>
-        [Test]
+        [Fact]
         public void TestIncorrectPassword()
         {
             var tempStream = new MemoryStream();

@@ -7,7 +7,7 @@
  */
 
 using FluentAssertions;
-using NUnit.Framework;
+using Xunit;
 
 namespace OmegaEngine
 {
@@ -16,7 +16,7 @@ namespace OmegaEngine
     /// </summary>
     public class MathUtilsTest
     {
-        [Test]
+        [Fact]
         public void TestModuloDouble()
         {
             5.0.Modulo(3).Should().Be(2);
@@ -30,7 +30,7 @@ namespace OmegaEngine
             (-3.0).Modulo(3).Should().Be(0);
         }
 
-        [Test]
+        [Fact]
         public void TestModuloFloat()
         {
             5f.Modulo(3).Should().Be(2);
@@ -44,7 +44,7 @@ namespace OmegaEngine
             (-3f).Modulo(3).Should().Be(0);
         }
 
-        [Test]
+        [Fact]
         public void TestModuloInt()
         {
             5.Modulo(3).Should().Be(2);

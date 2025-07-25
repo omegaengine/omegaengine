@@ -8,18 +8,17 @@
 
 using AlphaFramework.World.Terrains;
 using FluentAssertions;
-using NUnit.Framework;
 using OmegaEngine.Values;
+using Xunit;
 
 namespace AlphaFramework.World
 {
     /// <summary>
     /// Contains test methods for <see cref="OcclusionIntervalMapGenerator"/>.
     /// </summary>
-    [TestFixture]
     public class OcclusionIntervalMapGeneratorTest
     {
-        [Test]
+        [Fact]
         public void TestMinimal1()
         {
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
@@ -30,7 +29,7 @@ namespace AlphaFramework.World
             generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
         }
 
-        [Test]
+        [Fact]
         public void TestMinimal2()
         {
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{1, 0}, {1, 0}, {2, 1}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
@@ -44,7 +43,7 @@ namespace AlphaFramework.World
             generator.Result[2, 1].Should().Be(new ByteVector4(0, 255, 255, 255));
         }
 
-        [Test]
+        [Fact]
         public void TestMinimal3()
         {
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0, 0}, {0, 0}, {1, 225}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
@@ -58,7 +57,7 @@ namespace AlphaFramework.World
             generator.Result[2, 1].Should().Be(new ByteVector4(0, 255, 255, 255));
         }
 
-        [Test]
+        [Fact]
         public void TestStretchV()
         {
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchV: 2) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
@@ -69,7 +68,7 @@ namespace AlphaFramework.World
             generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
         }
 
-        [Test]
+        [Fact]
         public void TestStretchH()
         {
             var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchH: 2) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
