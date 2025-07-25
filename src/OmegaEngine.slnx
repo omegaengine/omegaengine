@@ -15,6 +15,7 @@
     <Project Path="AlphaFramework/World/World.csproj">
       <Platform Project="x86" />
     </Project>
+    <File Path="AlphaFramework/_Namespace.md" />
     <File Path="AlphaFramework/Directory.Build.props" />
   </Folder>
   <Folder Name="/FrameOfReference/">
