@@ -4,7 +4,6 @@
   <PropertyGroup>
     <RootNamespace>AlphaFramework</RootNamespace>
     <AssemblyName>AlphaFramework.UnitTests</AssemblyName>
-    <TargetFramework>net48</TargetFramework>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <SignAssembly>False</SignAssembly>
     <IsPackable>False</IsPackable>

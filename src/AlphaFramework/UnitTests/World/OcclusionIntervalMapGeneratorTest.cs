@@ -19,24 +19,10 @@ namespace AlphaFramework.World
     [TestFixture]
     public class OcclusionIntervalMapGeneratorTest
     {
-        #region Suppress parallelization
-        [SetUp]
-        public void SetUp()
-        {
-            Parallel.ThreadsCount = 1;
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Parallel.ThreadsCount = 0;
-        }
-        #endregion
-
         [Test]
         public void TestMinimal1()
         {
-            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}));
+            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
             generator.Run();
 
             generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
@@ -47,7 +33,7 @@ namespace AlphaFramework.World
         [Test]
         public void TestMinimal2()
         {
-            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{1, 0}, {1, 0}, {2, 1}}));
+            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{1, 0}, {1, 0}, {2, 1}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
             generator.Run();
 
             generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
@@ -61,7 +47,7 @@ namespace AlphaFramework.World
         [Test]
         public void TestMinimal3()
         {
-            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0, 0}, {0, 0}, {1, 225}}));
+            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0, 0}, {0, 0}, {1, 225}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
             generator.Run();
 
             generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
@@ -75,7 +61,7 @@ namespace AlphaFramework.World
         [Test]
         public void TestStretchV()
         {
-            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchV: 2);
+            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchV: 2) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
             generator.Run();
 
             generator.Result[0, 0].Should().Be(new ByteVector4(64, 255, 255, 255));
@@ -86,7 +72,7 @@ namespace AlphaFramework.World
         [Test]
         public void TestStretchH()
         {
-            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchH: 2);
+            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchH: 2) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
             generator.Run();
 
             generator.Result[0, 0].Should().Be(new ByteVector4(20, 255, 255, 255));

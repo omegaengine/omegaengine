@@ -6,7 +6,6 @@
 AlphaFramework is a Model-View-Presenter framework for creating game worlds with OmegaEngine.</Description>
     <RootNamespace>AlphaFramework.World</RootNamespace>
     <AssemblyName>AlphaFramework.World</AssemblyName>
-    <TargetFramework>net20</TargetFramework>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
   </PropertyGroup>
 

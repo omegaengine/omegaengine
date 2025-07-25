@@ -9,9 +9,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using NanoByte.Common;
+using System.Threading.Tasks;
 using NanoByte.Common.Tasks;
-using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Values;
 using SlimDX;
@@ -101,6 +100,8 @@ namespace AlphaFramework.World.Terrains
         //--------------------//
 
         #region Thread code
+        public ParallelOptions ParallelOptions { get; } = new();
+
         /// <inheritdoc/>
         public override string Name => Resources.CalculatingShadows;
 
@@ -118,13 +119,13 @@ namespace AlphaFramework.World.Terrains
             State = TaskState.Data;
 
             var progressLock = new object();
-            Parallel.For(0, _heightMap.Width, x =>
+            Parallel.For(0, _heightMap.Width, ParallelOptions, x =>
             {
                 for (int y = 0; y < _heightMap.Height; y++)
                     _result[x, y] = GetOcclusionVector(x, y);
 
                 lock (progressLock) UnitsProcessed += _heightMap.Height;
-            }, CancellationToken);
+            }/*, CancellationToken*/);
 
             State = TaskState.Complete;
         }

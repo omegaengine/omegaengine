@@ -5,7 +5,6 @@
     <Description>Renders AlphaFramework.World-based models using the OmegaEngine.</Description>
     <RootNamespace>AlphaFramework.Presentation</RootNamespace>
     <AssemblyName>AlphaFramework.Presentation</AssemblyName>
-    <TargetFramework>net20</TargetFramework>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
   </PropertyGroup>
 

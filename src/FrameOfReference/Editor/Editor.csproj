@@ -4,7 +4,6 @@
   <PropertyGroup>
     <RootNamespace>FrameOfReference.Editor</RootNamespace>
     <AssemblyName>FrameOfReference.Editor</AssemblyName>
-    <TargetFramework>net20</TargetFramework>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
     <OutputType>WinExe</OutputType>
     <ApplicationIcon>..\..\..\icon-alpha.ico</ApplicationIcon>

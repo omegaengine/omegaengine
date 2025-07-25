@@ -4,7 +4,6 @@
   <PropertyGroup>
     <RootNamespace>FrameOfReference.World</RootNamespace>
     <AssemblyName>FrameOfReference.World</AssemblyName>
-    <TargetFramework>net20</TargetFramework>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
   </PropertyGroup>
 

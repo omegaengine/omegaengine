@@ -5,7 +5,6 @@
     <Description>OmegaGUI is a skinable GUI toolkit for the OmegaEngine with an XML file format und Lua scripting.
 The AlphaEditor contains a WYSIWYG editor for the toolkit.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <TargetFramework>net20</TargetFramework>
     <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>

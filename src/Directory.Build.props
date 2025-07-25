@@ -5,6 +5,7 @@
     <LangVersion>13.0</LangVersion>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <OutputType>Library</OutputType>
+    <TargetFramework>net472</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)sgKey.snk</AssemblyOriginatorKeyFile>
@@ -32,6 +33,7 @@
 
   <!-- Build-time dependencies -->
   <ItemGroup>
+    <PackageReference Include="System.Resources.Extensions" Version="9.0.7" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>

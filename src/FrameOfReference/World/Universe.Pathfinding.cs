@@ -178,7 +178,7 @@ namespace FrameOfReference.World
         {
             foreach (var entity in Positionables.OfType<Entity>().ToList())
             {
-                Positionables.AddMany(entity.Waypoints.Cast<Positionable<Vector2>>());
+                Positionables.AddMany(entity.Waypoints);
                 entity.Waypoints.Clear();
             }
         }
