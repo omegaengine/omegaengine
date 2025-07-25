@@ -21,14 +21,13 @@
  */
 
 using FluentAssertions;
-using NUnit.Framework;
+using Xunit;
 
 namespace FrameOfReference.World.Positionables
 {
-    [TestFixture]
     public class EntityTest
     {
-        [Test]
+        [Fact]
         public void TestGetCurrentWaypointIndex()
         {
             var entity = new Entity

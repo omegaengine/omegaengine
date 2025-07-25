@@ -8,7 +8,7 @@
 
 using System.Drawing;
 using FluentAssertions;
-using NUnit.Framework;
+using Xunit;
 
 namespace OmegaEngine.Values
 {
@@ -17,7 +17,7 @@ namespace OmegaEngine.Values
     /// </summary>
     public class ExpandableRectangleArrayTest
     {
-        [Test]
+        [Fact]
         public void TestGetArrayBase()
         {
             var expandableRectangleArray = new ExpandableRectangleArray<int>();
@@ -29,7 +29,7 @@ namespace OmegaEngine.Values
             expandableRectangleArray.TotalArea.Should().BeEquivalentTo(new Rectangle(1, 1, 3, 3));
         }
 
-        [Test]
+        [Fact]
         public void TestGetArraySmallBase()
         {
             var expandableRectangleArray = new ExpandableRectangleArray<int>();
@@ -41,7 +41,7 @@ namespace OmegaEngine.Values
             expandableRectangleArray.TotalArea.Should().BeEquivalentTo(new Rectangle(1, 1, 3, 3));
         }
 
-        [Test]
+        [Fact]
         public void TestGetArrayNoBase()
         {
             var expandableRectangleArray = new ExpandableRectangleArray<int>();
@@ -53,7 +53,7 @@ namespace OmegaEngine.Values
             expandableRectangleArray.TotalArea.Should().BeEquivalentTo(new Rectangle(1, 1, 3, 3));
         }
 
-        [Test]
+        [Fact]
         public void TestNegativeArea()
         {
             var expandableRectangleArray = new ExpandableRectangleArray<int>();

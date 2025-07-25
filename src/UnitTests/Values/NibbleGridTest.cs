@@ -9,7 +9,7 @@
 using System.IO;
 using FluentAssertions;
 using NanoByte.Common.Storage;
-using NUnit.Framework;
+using Xunit;
 
 namespace OmegaEngine.Values
 {
@@ -18,7 +18,7 @@ namespace OmegaEngine.Values
     /// </summary>
     public class NibbleGridTest
     {
-        [Test]
+        [Fact]
         public void TestSaveLoad()
         {
             using var tempFile = new TemporaryFile("unit-tests");
