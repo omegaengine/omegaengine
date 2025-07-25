@@ -1,0 +1,68 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../src",
+          "files": ["**/*.csproj"],
+          "exclude": ["UnitTests/*", "**/UnitTests/*"]
+        }
+      ],
+      "properties": {
+        "TargetFramework": "net472"
+      },
+      "namespaceLayout": "nested",
+      "dest": "api"
+    }
+  ],
+  "build": {
+    "globalMetadata": {
+      "_baseUrl": "https://docs.omegaengine.de/",
+      "_appTitle": "OmegaEngine",
+      "_appFooter": "Copyright Bastian Eicher"
+    },
+    "content": [
+      {
+        "files": [
+          "*.md",
+          "toc.yml",
+          "docs/toc.yml",
+          "api/*.yml"
+        ]
+      },
+      {
+        "src": "..",
+        "files": ["license.md"]
+      }
+    ],
+    "resource": [
+      {
+        "src": "..",
+        "files": ["logo.png"]
+      },
+      {
+        "src": ".",
+        "files": ["images/**"]
+      }
+    ],
+    "overwrite": [
+      {
+        "src": "../src/",
+        "files": ["**/*.md"]
+      }
+    ],
+    "xref": [
+      "https://common.nano-byte.net/xrefmap.yml"
+    ],
+    "xrefService": [
+      "https://xref.docs.microsoft.com/query?uid={uid}"
+    ],
+    "postProcessors": ["ExtractSearchIndex"],
+    "template": [
+      "default",
+      "modern",
+      "template"
+    ],
+    "dest": "../artifacts/Documentation"
+  }
+}

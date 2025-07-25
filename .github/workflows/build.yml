@@ -58,4 +58,4 @@ jobs:
           github_token: ${{github.token}}
           force_orphan: true
           publish_dir: artifacts/Documentation
-          cname: api.omegaengine.de
+          cname: docs.omegaengine.de

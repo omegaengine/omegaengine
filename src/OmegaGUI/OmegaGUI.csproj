@@ -2,8 +2,7 @@
 
   <!-- Build config -->
   <PropertyGroup>
-    <Description>OmegaGUI is a skinable GUI toolkit for the OmegaEngine with an XML file format und Lua scripting.
-The AlphaEditor contains a WYSIWYG editor for the toolkit.</Description>
+    <Description>OmegaGUI is a GUI toolkit for OmegaEngine. It has an XML file format for describing UIs (AlphaEditor provides a WYSIWYG editor). It uses Lua scripting for event handling.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

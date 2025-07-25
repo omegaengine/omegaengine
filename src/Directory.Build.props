@@ -7,6 +7,8 @@
     <OutputType>Library</OutputType>
     <TargetFramework>net472</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+    <GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IncludeSymbols>True</IncludeSymbols>

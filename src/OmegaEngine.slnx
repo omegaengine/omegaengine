@@ -7,6 +7,7 @@
     <Project Path="AlphaFramework/Presentation/Presentation.csproj" />
     <Project Path="AlphaFramework/UnitTests/UnitTests.csproj" />
     <Project Path="AlphaFramework/World/World.csproj" />
+    <File Path="AlphaFramework/_Namespace.md" />
     <File Path="AlphaFramework/Directory.Build.props" />
   </Folder>
   <Folder Name="/FrameOfReference/">

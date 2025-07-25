@@ -2,8 +2,8 @@
 
   <!-- Build config -->
   <PropertyGroup>
-    <Description>Provides a flexible basis for building rendering-agnostic game world representations. Designed for AlphaFramework.Presentation.
-AlphaFramework is a Model-View-Presenter framework for creating game worlds with OmegaEngine.</Description>
+    <Description>AlphaFramework is a Model-View-Presenter framework for creating game worlds with OmegaEngine.
+AlphaFramework.World provides a basis for building engine-agnostic models of game worlds.</Description>
     <RootNamespace>AlphaFramework.World</RootNamespace>
     <AssemblyName>AlphaFramework.World</AssemblyName>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
