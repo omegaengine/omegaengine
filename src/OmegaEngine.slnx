@@ -23,6 +23,7 @@
   <Folder Name="/_Shared/">
     <File Path="../README.md" />
     <File Path="Directory.Build.props" />
+    <File Path="UnitTests.targets" />
   </Folder>
   <Project Path="OmegaEngine/OmegaEngine.csproj" />
   <Project Path="OmegaGUI/OmegaGUI.csproj" />
