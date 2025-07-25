@@ -40,6 +40,7 @@
   <Folder Name="/_TopLevel/">
     <File Path="../README.md" />
     <File Path="Directory.Build.props" />
+    <File Path="UnitTests.targets" />
   </Folder>
   <Project Path="OmegaEngine/OmegaEngine.csproj">
     <Platform Project="x86" />
