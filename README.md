@@ -1,7 +1,7 @@
 ![OmegaEngine](logo.png)
 
 [![Build](https://github.com/omegaengine/omegaengine/workflows/Build/badge.svg?branch=master)](https://github.com/omegaengine/omegaengine/actions?query=workflow%3ABuild)  
-The OmegaEngine is a general-purpose 3D graphics engine written in C# using the .NET Framework 2.0 and DirectX 9 via [SlimDX](http://slimdx.org/). The engine is designed to be light-weight, modular and gameplay-agnostic.
+The OmegaEngine is a general-purpose 3D graphics engine written in C# using the .NET Framework 4.7.2 and DirectX 9. The engine is designed to be light-weight, modular and gameplay-agnostic.
 The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games using the OmegaEngine.
 
 **[Documentation](http://omegaengine.de/)**

@@ -4,7 +4,6 @@
   <PropertyGroup>
     <RootNamespace>FrameOfReference</RootNamespace>
     <AssemblyName>FrameOfReference</AssemblyName>
-    <TargetFramework>net20</TargetFramework>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
     <OutputType>WinExe</OutputType>
     <ApplicationIcon>..\..\..\icon-omega.ico</ApplicationIcon>

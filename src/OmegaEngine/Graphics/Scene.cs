@@ -206,14 +206,14 @@ namespace OmegaEngine.Graphics
             // Copy all directional lights
             _directionalLights.ForEach(effectiveLights.Add);
 
-            effectiveLights.AddRange((from light in _pseudoDirectionalLights
+            effectiveLights.AddRange(from light in _pseudoDirectionalLights
                 // Filter out lights that are too far away
                 where (light.Position - position).Length() <= light.Range + radius
                 // Convert pseudo-directional point lights to real directional lights
                 select new DirectionalLight
                 {
                     Name = light.Name, Direction = (Vector3)(position - light.Position), Diffuse = light.Diffuse, Specular = light.Specular, Ambient = light.Ambient,
-                }).Cast<LightSource>());
+                });
 
             _pointLights.ForEach(light =>
             {

@@ -6,7 +6,6 @@
     <RootNamespace>AlphaFramework.Editor</RootNamespace>
     <AssemblyName>AlphaFramework.Editor</AssemblyName>
     <PackageId>AlphaEditor</PackageId>
-    <TargetFramework>net20</TargetFramework>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
     <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
