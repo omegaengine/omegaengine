@@ -15,8 +15,6 @@ jobs:
           versionSpec: '5.12.x'
       - uses: gittools/actions/gitversion/execute@v3.2.1
         id: gitversion
-      - name: Install DirectX Runtime
-        run: winget install --force --silent --accept-package-agreements --accept-source-agreements --disable-interactivity --id Microsoft.DirectX
 
       # Build
       - name: Build (pre-release)
