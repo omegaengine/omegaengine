@@ -1,0 +1,27 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/omegaengine-alphaframework/">
+    <Project Path="content\omegaengine-alphaframework\Editor\Editor.csproj" />
+    <Project Path="content\omegaengine-alphaframework\Game\Game.csproj" />
+    <Project Path="content\omegaengine-alphaframework\Presentation\Presentation.csproj" />
+    <Project Path="content\omegaengine-alphaframework\World\World.csproj" />
+    <File Path="content\omegaengine-alphaframework\Template.AlphaFramework.slnx" />
+    <File Path="content\omegaengine-alphaframework\.template.config\template.json" />
+  </Folder>
+  <Folder Name="/omegaengine-fullscreen/">
+    <Project Path="content\omegaengine-fullscreen\Template.Fullscreen.csproj" />
+    <File Path="content\omegaengine-fullscreen\.template.config\template.json" />
+  </Folder>
+  <Folder Name="/omegaengine-winforms/">
+    <Project Path="content\omegaengine-winforms\Template.WinForms.csproj" />
+    <File Path="content\omegaengine-winforms\.template.config\template.json" />
+  </Folder>
+  <Folder Name="/_Shared/">
+    <File Path="Directory.Build.props" />
+    <File Path="NuGet.config" />
+    <File Path="OmegaEngine.Templates.nuspec" />
+    <File Path="README.md" />
+  </Folder>
+</Solution>

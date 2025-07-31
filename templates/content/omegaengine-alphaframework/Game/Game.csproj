@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseWindowsForms>true</UseWindowsForms>
+    <OutputType>WinExe</OutputType>
+    <OutputPath>..\artifacts\$(Configuration)\</OutputPath>
+    <RootNamespace>Template.AlphaFramework.Game</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Presentation\Presentation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OmegaEngine" Version="$(OmegaEngineVersion)" />
+    <PackageReference Include="OmegaGUI" Version="$(OmegaEngineVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="content\**" CopyToOutputDirectory="Always" />
+  </ItemGroup>
+
+</Project>

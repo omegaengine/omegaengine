@@ -1,54 +1,24 @@
-﻿Param ([Switch]$Deploy, [Switch]$Machine)
+﻿Param ($Version = "1.0.0-dev")
 $ErrorActionPreference = "Stop"
+pushd $PSScriptRoot
 
-$RootDir = $PSScriptRoot
-pushd $RootDir
+echo "Testing templates against local build"
+dotnet build --verbosity quiet --property OmegaEngineVersion=$Version
+if ($LASTEXITCODE -ne 0) {throw "Exit Code: $LASTEXITCODE"}
 
-$TargetDir = Join-Path $RootDir ..\artifacts\Templates
-if (Test-Path "$TargetDir\ProjectTemplates") { rm "$TargetDir\ProjectTemplates\*.zip" }
-if (!(Test-Path "$TargetDir\ProjectTemplates")) { mkdir "$TargetDir\ProjectTemplates" | Out-Null }
+echo "Generating Directory.Build.props"
+if (!(Test-Path generated)) { mkdir generated | Out-Null }
+Set-Content generated\Directory.Build.props -Encoding UTF8 -Value @"
+<Project>
 
-# Adding zip.exe to PATH
-$env:PATH = "$env:PATH;$RootDir"
+  <PropertyGroup>
+    <OmegaEngineVersion>$Version</OmegaEngineVersion>
+  </PropertyGroup>
 
-echo "Packaging WinForms template..."
-pushd WinForms
-zip.exe -q -9 -r "$TargetDir\ProjectTemplates\WinForms.zip" . --exclude obj bin
-popd
+</Project>
+"@
 
-echo "Packaging Fullscreen template..."
-pushd Fullscreen
-zip.exe -q -9 -r "$TargetDir\ProjectTemplates\Fullscreen.zip" . --exclude obj bin
-popd
-
-echo "Packaging AlphaFramework template..."
-pushd AlphaFramework
-zip.exe -q -9 -r "$TargetDir\ProjectTemplates\AlphaFramework.zip" . --exclude obj bin
-popd
-
-
-
-if (Test-Path "$TargetDir\omegaengine-templates.vsix") { rm "$TargetDir\omegaengine-templates.vsix" }
-
-echo "Creating VSIX extension..."
-pushd vsix
-zip.exe -q -9 -r "$TargetDir\omegaengine-templates.vsix" .
-popd
-
-echo "Adding templates to extension..."
-pushd $TargetDir
-zip.exe -q -9 -r "$TargetDir\omegaengine-templates.vsix" ProjectTemplates
-popd
-
-echo "Adding NuGet packages to extension..."
-pushd ..\artifacts
-copy ..\src\packages\ICSharpCode.SharpZipLib.Patched.*\*.nupkg Packages -Force
-copy ..\src\packages\NanoByte.Common.*\*.nupkg Packages -Force
-copy ..\src\packages\SlimDX.*\*.nupkg Packages -Force
-zip.exe -q -9 -r "$TargetDir\omegaengine-templates.vsix" Packages
-rm Packages\ICSharpCode.SharpZipLib.Patched.*.nupkg -Force
-rm Packages\NanoByte.Common.*.nupkg -Force
-rm Packages\SlimDX.*.nupkg -Force
-popd
+echo "Packaging templates"
+nuget pack -Verbosity quiet -Version $Version -OutputDirectory ..\artifacts\Release
 
 popd

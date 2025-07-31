@@ -62,6 +62,10 @@ flowchart TD
     editor --> gui
 ```
 
+## Project templates
+
+The OmegaEngine [project templates](https://www.nuget.org/packages/OmegaEngine.Templates#readme-body-tab) help you create C# projects that use OmegaEngine, OmegaGUI and AlphaFramework.
+
 ## Frame of Reference
 
 [Frame of Reference](https://github.com/omegaengine/omegaengine/tree/master/src/FrameOfReference) is the official sample game for OmegaEngine. It is included in OmegaEngine source code but is not a part of the released library binaries.

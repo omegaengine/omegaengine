@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Bastian Eicher",
+  "classifications": [ "OmegaEngine" ],
+  "identity": "OmegaEngine.Templates.Fullscreen",
+  "sourceName":"Template.Fullscreen",
+  "name": "OmegaEngine templates: Fullscreen project",
+  "shortName": "omegaengine-fullscreen",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  }
+}

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget>
+    <RootNamespace>Template.AlphaFramework.World</RootNamespace>
+    <OutputPath>..\artifacts\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AlphaFramework.World" Version="$(OmegaEngineVersion)" />
+  </ItemGroup>
+
+</Project>

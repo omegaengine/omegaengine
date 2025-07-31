@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>OmegaEngine.Templates</id>
+    <version>1.0.0-dev</version>
+    <authors>Bastian Eicher</authors>
+    <license type="expression">MIT</license>
+    <description>The OmegaEngine project templates help you create C# projects that use OmegaEngine, OmegaGUI and AlphaFramework.</description>
+    <copyright>Copyright Bastian Eicher</copyright>
+    <projectUrl>https://omegaengine.de/</projectUrl>
+    <repository type="git" url="https://raw.githubusercontent.com/omegaengine/omegaengine/" />
+    <readme>README.md</readme>
+    <icon>icon-omega.png</icon>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+  </metadata>
+
+  <files>
+    <file src="content\**" target="content" exclude="**\bin\**;**\obj\**;**\artifacts\**;**\*.user" />
+    <file src="generated\**" target="content\omegaengine-winforms" />
+    <file src="generated\**" target="content\omegaengine-fullscreen" />
+    <file src="generated\**" target="content\omegaengine-alphaframework" />
+    <file src="README.md" />
+    <file src="..\icon-omega.png" />
+  </files>
+</package>

@@ -1,0 +1,9 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Editor\Editor.csproj" />
+  <Project Path="Game\Game.csproj" />
+  <Project Path="Presentation\Presentation.csproj" />
+  <Project Path="World\World.csproj" />
+</Solution>

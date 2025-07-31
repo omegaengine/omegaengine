@@ -42,9 +42,9 @@ engine.Views.Add(view);
 | [AlphaFramework.Presentation](https://www.nuget.org/packages/AlphaFramework.Presentation/) | Basis for presenters that visualize game worlds using the engine. |
 | [AlphaEditor](https://www.nuget.org/packages/AlphaEditor/)                                 | Toolkit for creating editors for games based on AlphaFramework.   |
 
-## Visual Studio templates
+## Project templates
 
-The **[OmegaEngine Templates](https://visualstudiogallery.msdn.microsoft.com/65016a18-e699-47e8-ad91-114faf038d05)** Visual Studio extension can help you to quickly set up a suitable structure for an OmegaEngine project.
+The **[project templates](https://www.nuget.org/packages/OmegaEngine.Templates#readme-body-tab)** help you create C# projects that use OmegaEngine, OmegaGUI and AlphaFramework.
 
 ## Frame of Reference
 
