@@ -233,7 +233,7 @@ namespace FrameOfReference
                         Form.Visible = false;
                         //if (Msg.Ask(Form, Resources.BenchmarkReady, MsgSeverity.Info, Resources.BenchmarkReadyContinue, Resources.BenchmarkReadyCancel))
                         //{
-                        //    // ToDo: new Uri("http://omegaengine.de/benchmark-upload/?app=" + GeneralSettings.AppNameGrid)
+                        //    // ToDo: new Uri("https://omegaengine.de/benchmark-upload/?app=" + GeneralSettings.AppNameGrid)
                         //}
                         Msg.Inform(null, $"Please upload the file '{path}'.", MsgSeverity.Info);
                         Exit();

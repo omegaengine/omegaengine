@@ -56,7 +56,7 @@ namespace FrameOfReference
             WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameShort);
 
             Application.EnableVisualStyles();
-            ErrorReportForm.SetupMonitoring(new Uri("http://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameShort));
+            ErrorReportForm.SetupMonitoring(new Uri("https://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameShort));
 
 #if !DEBUG
             // Prevent multiple instances from running simultaneously
