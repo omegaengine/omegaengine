@@ -67,7 +67,7 @@ public class OcclusionIntervalMapGenerator : TaskBase
 
     private static Vector3 GetRayDirection(double inclination, byte angle, float stretchH, float stretchV)
     {
-        var direction = MathUtils.UnitVector(inclination, angle.ByteToAngle());
+        var direction = VectorMath.UnitVector(inclination, angle.ByteToAngle());
         direction.X /= stretchH;
         direction.Z /= stretchH;
         direction.Y /= stretchV;

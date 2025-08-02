@@ -8,8 +8,6 @@
 
 using System;
 using JetBrains.Annotations;
-using OmegaEngine.Values;
-using SlimDX;
 
 namespace OmegaEngine;
 
@@ -152,37 +150,6 @@ public static class MathUtils
     public static double RadianToDegree(this double value) => value * (180 / Math.PI);
     #endregion
 
-    #region Sphere coordinates
-    /// <summary>
-    /// Calculates a unit vector using spherical coordinates.
-    /// </summary>
-    /// <param name="inclination">Angle away from positive Z axis in radians. Values from 0 to Pi.</param>
-    /// <param name="azimuth">Angle away from positive X axis in radians. Values from 0 to 2*Pi.</param>
-    [Pure]
-    public static Vector3 UnitVector(double inclination, double azimuth) => new(
-        (float)(Math.Sin(inclination) * Math.Cos(azimuth)),
-        (float)(Math.Sin(inclination) * Math.Sin(azimuth)),
-        (float)Math.Cos(inclination));
-    #endregion
-
-    #region Byte angles
-    /// <summary>
-    /// Maps a 0-255 byte value to a 0�-180� angle in radians.
-    /// </summary>
-    [Pure]
-    public static double ByteToAngle(this byte b) => b / 255.0 * Math.PI;
-
-    /// <summary>
-    /// Maps a vector of 0-255 byte values to a vector of 0�-180� angles in radians.
-    /// </summary>
-    [Pure]
-    public static Vector4 ByteToAngle(this ByteVector4 vector) => new(
-        (float)vector.X.ByteToAngle(),
-        (float)vector.Y.ByteToAngle(),
-        (float)vector.Z.ByteToAngle(),
-        (float)vector.W.ByteToAngle());
-    #endregion
-
     //--------------------//
 
     #region Interpolate
@@ -213,37 +180,6 @@ public static class MathUtils
         factor = -0.5 * Math.Cos(factor * Math.PI) + 0.5;
 
         return values[index] + factor * (values[index + 1] - values[index]);
-    }
-
-    /// <summary>
-    /// Performs smooth (trigonometric) interpolation between two or more values
-    /// </summary>
-    /// <param name="factor">A factor between 0 and <paramref name="values"/>.Length</param>
-    /// <param name="values">The value checkpoints</param>
-    [Pure]
-    public static Vector4 InterpolateTrigonometric(float factor, [NotNull] params Vector4[] values)
-    {
-        #region Sanity checks
-        if (values == null) throw new ArgumentNullException(nameof(values));
-        if (values.Length < 2) throw new ArgumentException(Properties.Resources.AtLeast2Values);
-        #endregion
-
-        // Handle value overflows
-        if (factor <= 0) return values[0];
-        if (factor >= values.Length - 1) return values[values.Length - 1];
-
-        // Isolate index shift from factor
-        int index = (int)factor;
-
-        // Remove index shift from factor
-        factor -= index;
-
-        // Apply sinus smoothing to factor component-wise
-        return new(
-            values[index].X + factor * (values[index + 1].X - values[index].X),
-            values[index].Y + factor * (values[index + 1].Y - values[index].Y),
-            values[index].Z + factor * (values[index + 1].Z - values[index].Z),
-            values[index].W + factor * (values[index + 1].W - values[index].W));
     }
     #endregion
 
@@ -294,24 +230,5 @@ public static class MathUtils
     }
 
     [Pure] public static byte CombineHiLoByte(int high, int low) => (byte)((high << 4) + low);
-    #endregion
-
-    //--------------------//
-
-    #region Rotate
-    /// <summary>
-    /// Rotates a <see cref="Vector2"/> by <paramref name="rotation"/> around the origin.
-    /// </summary>
-    /// <param name="value">The original vector.</param>
-    /// <param name="rotation">The angle to rotate by in degrees.</param>
-    /// <returns>The rotated <see cref="Vector2"/>.</returns>
-    [Pure]
-    public static Vector2 Rotate(this Vector2 value, float rotation)
-    {
-        double phi = DegreeToRadian(rotation);
-        return new(
-            (float)(value.X * Math.Cos(phi) - value.Y * Math.Sin(phi)),
-            (float)(value.X * Math.Sin(phi) + value.Y * Math.Cos(phi)));
-    }
     #endregion
 }
