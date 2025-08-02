@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class PerlinNoise | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class PerlinNoise | OmegaEngine ">
+      
+      <meta name="description" content="Perlin noise function.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.1.0/apiSpec/new?filename=OmegaEngine_PerlinNoise.md&amp;value=---%0Auid%3A%20OmegaEngine.PerlinNoise%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.PerlinNoise">
+
+
+
+  <h1 id="OmegaEngine_PerlinNoise" data-uid="OmegaEngine.PerlinNoise" class="text-break">
+Class PerlinNoise  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.1.0/src/OmegaEngine/PerlinNoise.cs/#L51"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Perlin noise function.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class PerlinNoise</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">PerlinNoise</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="OmegaEngine.Storage.XmlStorage.html#OmegaEngine_Storage_XmlStorage_SaveXmlZip__1___0_System_IO_Stream_System_String_OmegaEngine_Storage_EmbeddedFile___">XmlStorage.SaveXmlZip&lt;T&gt;(T, Stream, string, params EmbeddedFile[])</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.Storage.XmlStorage.html#OmegaEngine_Storage_XmlStorage_SaveXmlZip__1___0_System_String_System_String_OmegaEngine_Storage_EmbeddedFile___">XmlStorage.SaveXmlZip&lt;T&gt;(T, string, string, params EmbeddedFile[])</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.Storage.XmlStorage.html#OmegaEngine_Storage_XmlStorage_SaveXml__1___0_System_IO_Stream_System_String_">XmlStorage.SaveXml&lt;T&gt;(T, Stream, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.Storage.XmlStorage.html#OmegaEngine_Storage_XmlStorage_SaveXml__1___0_System_String_System_String_">XmlStorage.SaveXml&lt;T&gt;(T, string, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.Storage.XmlStorage.html#OmegaEngine_Storage_XmlStorage_ToXmlString__1___0_System_String_">XmlStorage.ToXmlString&lt;T&gt;(T, string)</a>
+  </div>
+  </dd></dl>
+
+
+
+  <h2 id="OmegaEngine_PerlinNoise_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>The class implements 1-D and 2-D Perlin noise functions, which represent
+    sum of several smooth noise functions with different frequency and amplitude. The description
+    of Perlin noise function and its calculation may be found on
+    <a href="http://freespace.virgin.net/hugo.elias/models/m_perlin.htm" target="_blank">Hugo Elias's page</a>.
+    </p>
+<pre><code>&lt;p&gt;The number of noise functions, which comprise the resulting Perlin noise function, is
+set by &lt;xref href=&quot;OmegaEngine.PerlinNoise.Octaves&quot; data-throw-if-not-resolved=&quot;false&quot;&gt;&lt;/xref&gt; property. Amplitude and frequency values for each octave
+start from values, which are set by &lt;xref href=&quot;OmegaEngine.PerlinNoise.InitFrequency&quot; data-throw-if-not-resolved=&quot;false&quot;&gt;&lt;/xref&gt; and &lt;xref href=&quot;OmegaEngine.PerlinNoise.InitAmplitude&quot; data-throw-if-not-resolved=&quot;false&quot;&gt;&lt;/xref&gt;
+properties.&lt;/p&gt;
+
+&lt;p&gt;Sample usage (clouds effect):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;lang-csharp&quot;&gt;// create Perlin noise function
+PerlinNoise noise = new PerlinNoise( 8, 0.5, 1.0 / 32 );
+// generate clouds effect
+float[,] texture = new float[height, width];
+
+for ( int y = 0; y &lt; height; y++ )
+{
+	for ( int x = 0; x &lt; width; x++ )
+	{
+		texture[y, x] = 
+			Math.Max( 0.0f, Math.Min( 1.0f,
+				(float) noise.Function2D( x, y ) * 0.5f + 0.5f
+			) );
+	}
+}&lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+</div>
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaEngine_PerlinNoise__ctor_" data-uid="OmegaEngine.PerlinNoise.#ctor*"></a>
+
+  <h3 id="OmegaEngine_PerlinNoise__ctor" data-uid="OmegaEngine.PerlinNoise.#ctor">
+  PerlinNoise()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.1.0/src/OmegaEngine/PerlinNoise.cs/#L109"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="OmegaEngine.PerlinNoise.html">PerlinNoise</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PerlinNoise()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaEngine_PerlinNoise_InitAmplitude_" data-uid="OmegaEngine.PerlinNoise.InitAmplitude*"></a>
+
+  <h3 id="OmegaEngine_PerlinNoise_InitAmplitude" data-uid="OmegaEngine.PerlinNoise.InitAmplitude">
+  InitAmplitude
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.1.0/src/OmegaEngine/PerlinNoise.cs/#L79"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initial amplitude.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double InitAmplitude { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="OmegaEngine_PerlinNoise_InitAmplitude_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The property sets initial amplitude of the first octave. Amplitudes for
+    next octaves are calculated using the next equation:<br>
+    amplitude<sub>i</sub> = <a class="xref" href="OmegaEngine.PerlinNoise.html#OmegaEngine_PerlinNoise_InitAmplitude">InitAmplitude</a> * <a class="xref" href="OmegaEngine.PerlinNoise.html#OmegaEngine_PerlinNoise_Persistence">Persistence</a><sup>i</sup>,
+    where i = [0, <a class="xref" href="OmegaEngine.PerlinNoise.html#OmegaEngine_PerlinNoise_Octaves">Octaves</a>).
+    </p>
+<pre><code>&lt;p&gt;Default value is set to &lt;b&gt;1&lt;/b&gt;.&lt;/p&gt;
+</code></pre>
+</div>
+
+
+
+
+  <a id="OmegaEngine_PerlinNoise_InitFrequency_" data-uid="OmegaEngine.PerlinNoise.InitFrequency*"></a>
+
+  <h3 id="OmegaEngine_PerlinNoise_InitFrequency" data-uid="OmegaEngine.PerlinNoise.InitFrequency">
+  InitFrequency
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.1.0/src/OmegaEngine/PerlinNoise.cs/#L65"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initial frequency.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double InitFrequency { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="OmegaEngine_PerlinNoise_InitFrequency_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The property sets initial frequency of the first octave. Frequencies for
+    next octaves are calculated using the next equation:<br>
+    frequency<sub>i</sub> = <a class="xref" href="OmegaEngine.PerlinNoise.html#OmegaEngine_PerlinNoise_InitFrequency">InitFrequency</a> * 2<sup>i</sup>,
+    where i = [0, <a class="xref" href="OmegaEngine.PerlinNoise.html#OmegaEngine_PerlinNoise_Octaves">Octaves</a>).
+    </p>
+<pre><code>&lt;p&gt;Default value is set to &lt;b&gt;1&lt;/b&gt;.&lt;/p&gt;
+</code></pre>
+</div>
+
+
+
+
+  <a id="OmegaEngine_PerlinNoise_Octaves_" data-uid="OmegaEngine.PerlinNoise.Octaves*"></a>
+
+  <h3 id="OmegaEngine_PerlinNoise_Octaves" data-uid="OmegaEngine.PerlinNoise.Octaves">
+  Octaves
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.1.0/src/OmegaEngine/PerlinNoise.cs/#L104"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Number of octaves, [1, 32].</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Octaves { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="OmegaEngine_PerlinNoise_Octaves_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The property sets the number of noise functions, which sum up the resulting
+    Perlin noise function.</p>
+<pre><code>&lt;p&gt;Default value is set to &lt;b&gt;4&lt;/b&gt;.&lt;/p&gt;
+</code></pre>
+</div>
+
+
+
+
+  <a id="OmegaEngine_PerlinNoise_Persistence_" data-uid="OmegaEngine.PerlinNoise.Persistence*"></a>
+
+  <h3 id="OmegaEngine_PerlinNoise_Persistence" data-uid="OmegaEngine.PerlinNoise.Persistence">
+  Persistence
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.1.0/src/OmegaEngine/PerlinNoise.cs/#L91"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Persistence value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double Persistence { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="OmegaEngine_PerlinNoise_Persistence_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The property sets so called persistence value, which controls the way
+     how <a class="xref" href="OmegaEngine.PerlinNoise.html#OmegaEngine_PerlinNoise_InitAmplitude">amplitude</a> is calculated for each octave comprising
+     the Perlin noise function.</p>
+<pre><code> &lt;p&gt;Default value is set to &lt;b&gt;0.65&lt;/b&gt;.&lt;/p&gt;
+</code></pre>
+</div>
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_PerlinNoise_Function_" data-uid="OmegaEngine.PerlinNoise.Function*"></a>
+
+  <h3 id="OmegaEngine_PerlinNoise_Function_System_Double_" data-uid="OmegaEngine.PerlinNoise.Function(System.Double)">
+  Function(double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.1.0/src/OmegaEngine/PerlinNoise.cs/#L123"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>1-D Perlin noise function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double Function(double x)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>x value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Returns function's value at point <code class="paramref">x</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_PerlinNoise_Function2D_" data-uid="OmegaEngine.PerlinNoise.Function2D*"></a>
+
+  <h3 id="OmegaEngine_PerlinNoise_Function2D_System_Double_System_Double_" data-uid="OmegaEngine.PerlinNoise.Function2D(System.Double,System.Double)">
+  Function2D(double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.1.0/src/OmegaEngine/PerlinNoise.cs/#L148"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>2-D Perlin noise function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double Function2D(double x, double y)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>x value.</p>
+</dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>y value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Returns function's value at point (<code class="paramref">x</code>, <code class="paramref">y</code>).</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.1.0/src/OmegaEngine/PerlinNoise.cs/#L51" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
