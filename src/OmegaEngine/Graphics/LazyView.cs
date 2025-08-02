@@ -9,60 +9,59 @@
 using System.Drawing;
 using OmegaEngine.Graphics.Cameras;
 
-namespace OmegaEngine.Graphics
+namespace OmegaEngine.Graphics;
+
+/// <summary>
+/// An <see cref="TextureView"/> that only handles <see cref="Render"/> when <see cref="SetDirty"/> has been called.
+/// </summary>
+/// <remarks>Useful for <see cref="Scene"/>s and <see cref="Camera"/>s that stay static for most of the time.</remarks>
+public sealed class LazyView : TextureView
 {
+    #region Variables
     /// <summary>
-    /// An <see cref="TextureView"/> that only handles <see cref="Render"/> when <see cref="SetDirty"/> has been called.
+    /// Does this <see cref="LazyView"/> need handle the next <see cref="Render"/> call?
     /// </summary>
-    /// <remarks>Useful for <see cref="Scene"/>s and <see cref="Camera"/>s that stay static for most of the time.</remarks>
-    public sealed class LazyView : TextureView
+    public bool Dirty { get; private set; }
+    #endregion
+
+    #region Constructor
+    /// <summary>
+    /// Creates a new lazy view
+    /// </summary>
+    /// <param name="scene">The <see cref="Scene"/> to render</param>
+    /// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
+    /// <param name="size">The size of screen area this view should fill (leave empty for fullscreen)</param>
+    public LazyView(Scene scene, Camera camera, Size size) :
+        base(scene, camera, size)
     {
-        #region Variables
-        /// <summary>
-        /// Does this <see cref="LazyView"/> need handle the next <see cref="Render"/> call?
-        /// </summary>
-        public bool Dirty { get; private set; }
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Creates a new lazy view
-        /// </summary>
-        /// <param name="scene">The <see cref="Scene"/> to render</param>
-        /// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
-        /// <param name="size">The size of screen area this view should fill (leave empty for fullscreen)</param>
-        public LazyView(Scene scene, Camera camera, Size size) :
-            base(scene, camera, size)
-        {
-            Dirty = true;
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Control
-        /// <summary>
-        /// Sets <see cref="Dirty"/> to <c>true</c>
-        /// </summary>
-        public void SetDirty()
-        {
-            Dirty = true;
-        }
-        #endregion
-
-        #region Render
-        /// <summary>
-        /// Renders the view if <see cref="Dirty"/> is <c>true</c>.
-        /// </summary>
-        /// <remarks>At the end <see cref="Dirty"/> is set back to <c>false</c>.</remarks>
-        internal override void Render()
-        {
-            if (!Dirty) return;
-
-            base.Render();
-
-            Dirty = false;
-        }
-        #endregion
+        Dirty = true;
     }
+    #endregion
+
+    //--------------------//
+
+    #region Control
+    /// <summary>
+    /// Sets <see cref="Dirty"/> to <c>true</c>
+    /// </summary>
+    public void SetDirty()
+    {
+        Dirty = true;
+    }
+    #endregion
+
+    #region Render
+    /// <summary>
+    /// Renders the view if <see cref="Dirty"/> is <c>true</c>.
+    /// </summary>
+    /// <remarks>At the end <see cref="Dirty"/> is set back to <c>false</c>.</remarks>
+    internal override void Render()
+    {
+        if (!Dirty) return;
+
+        base.Render();
+
+        Dirty = false;
+    }
+    #endregion
 }

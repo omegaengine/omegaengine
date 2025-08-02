@@ -24,26 +24,25 @@ using System.Windows.Forms;
 using AlphaFramework.Editor;
 using FrameOfReference.World.Config;
 
-namespace FrameOfReference.Editor
+namespace FrameOfReference.Editor;
+
+/// <summary>
+/// Displays an introduction text for new users
+/// </summary>
+public sealed partial class WelcomeForm : Form
 {
-    /// <summary>
-    /// Displays an introduction text for new users
-    /// </summary>
-    public sealed partial class WelcomeForm : Form
+    /// <inheritdoc/>
+    public WelcomeForm()
     {
-        /// <inheritdoc/>
-        public WelcomeForm()
-        {
-            InitializeComponent();
-            Load += delegate { Text = AboutBox.AssemblyTitle; };
-        }
+        InitializeComponent();
+        Load += delegate { Text = AboutBox.AssemblyTitle; };
+    }
 
-        private void buttonContinue_Click(object sender, System.EventArgs e)
-        {
-            Settings.Current.Editor.ShowWelcomeMessage = !checkBoxDontShowAgain.Checked;
+    private void buttonContinue_Click(object sender, System.EventArgs e)
+    {
+        Settings.Current.Editor.ShowWelcomeMessage = !checkBoxDontShowAgain.Checked;
 
-            Program.Restart = true; // Make sure the program keeps running
-            Close();
-        }
+        Program.Restart = true; // Make sure the program keeps running
+        Close();
     }
 }

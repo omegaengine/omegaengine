@@ -28,96 +28,95 @@ using FrameOfReference.World.Positionables;
 using LuaInterface;
 using OmegaEngine;
 
-namespace FrameOfReference.World
+namespace FrameOfReference.World;
+
+/// <summary>
+/// Represents a game session (i.e. a game actually being played).
+/// It is equivalent to the content of a savegame.
+/// </summary>
+public sealed partial class Session : SessionBase<Universe>
 {
     /// <summary>
-    /// Represents a game session (i.e. a game actually being played).
-    /// It is equivalent to the content of a savegame.
+    /// The scripting engine used to execute story scripts.
     /// </summary>
-    public sealed partial class Session : SessionBase<Universe>
+    public Lua Lua { get; set; }
+
+    /// <summary>
+    /// Creates a new game session based upon a given <see cref="Universe"/>.
+    /// </summary>
+    /// <param name="baseUniverse">The universe to base the new game session on.</param>
+    public Session(Universe baseUniverse) : base(baseUniverse)
+    {}
+
+    /// <summary>The maximum number of seconds to handle in one call to <see cref="Update"/>. Additional time is simply dropped.</summary>
+    private const double MaximumUpdate = 0.75;
+
+    /// <summary>
+    /// <see cref="UniverseBase{T}.GameTime"/> time left over from the last <see cref="Update"/> call due to the fixed update step size.
+    /// </summary>
+    [DefaultValue(0.0)]
+    public double LeftoverGameTime { get; set; }
+
+    /// <inheritdoc/>
+    public override double Update(double elapsedRealTime)
     {
-        /// <summary>
-        /// The scripting engine used to execute story scripts.
-        /// </summary>
-        public Lua Lua { get; set; }
+        if (TimeTravelInProgress) return UpdateTimeTravel(elapsedRealTime);
 
-        /// <summary>
-        /// Creates a new game session based upon a given <see cref="Universe"/>.
-        /// </summary>
-        /// <param name="baseUniverse">The universe to base the new game session on.</param>
-        public Session(Universe baseUniverse) : base(baseUniverse)
-        {}
+        double elapsedGameTime = elapsedRealTime * TimeWarpFactor;
+        double gameTimeDelta = LeftoverGameTime + elapsedGameTime.Clamp(-MaximumUpdate, MaximumUpdate);
+        LeftoverGameTime = UpdateDeterministic(gameTimeDelta);
+        return elapsedGameTime;
+    }
 
-        /// <summary>The maximum number of seconds to handle in one call to <see cref="Update"/>. Additional time is simply dropped.</summary>
-        private const double MaximumUpdate = 0.75;
+    /// <summary>
+    /// Updates the world to a specific point in game time.
+    /// </summary>
+    /// <param name="gameTime">The target value for <see cref="UniverseBase{TCoordinates}.GameTime"/>.</param>
+    public void UpdateTo(double gameTime)
+    {
+        UpdateDeterministic(gameTime - Universe.GameTime);
+    }
 
-        /// <summary>
-        /// <see cref="UniverseBase{T}.GameTime"/> time left over from the last <see cref="Update"/> call due to the fixed update step size.
-        /// </summary>
-        [DefaultValue(0.0)]
-        public double LeftoverGameTime { get; set; }
+    /// <summary>Fixed step size for updates in seconds. Makes updates deterministic.</summary>
+    private const double UpdateStepSize = 0.015;
 
-        /// <inheritdoc/>
-        public override double Update(double elapsedRealTime)
+    private double UpdateDeterministic(double gameTimeDelta)
+    {
+        while (Math.Abs(gameTimeDelta) >= UpdateStepSize)
         {
-            if (TimeTravelInProgress) return UpdateTimeTravel(elapsedRealTime);
+            // Handle negative time
+            double effectiveStep = Math.Sign(gameTimeDelta) * UpdateStepSize;
 
-            double elapsedGameTime = elapsedRealTime * TimeWarpFactor;
-            double gameTimeDelta = LeftoverGameTime + elapsedGameTime.Clamp(-MaximumUpdate, MaximumUpdate);
-            LeftoverGameTime = UpdateDeterministic(gameTimeDelta);
-            return elapsedGameTime;
+            Universe.Update(effectiveStep);
+            if (Lua != null && !TimeTravelInProgress) HandleTriggers();
+            gameTimeDelta -= effectiveStep;
         }
 
-        /// <summary>
-        /// Updates the world to a specific point in game time.
-        /// </summary>
-        /// <param name="gameTime">The target value for <see cref="UniverseBase{TCoordinates}.GameTime"/>.</param>
-        public void UpdateTo(double gameTime)
-        {
-            UpdateDeterministic(gameTime - Universe.GameTime);
-        }
+        return gameTimeDelta;
+    }
 
-        /// <summary>Fixed step size for updates in seconds. Makes updates deterministic.</summary>
-        private const double UpdateStepSize = 0.015;
+    private void HandleTriggers()
+    {
+        var playerEntities = Universe.Positionables.OfType<Entity>().Where(x => x.IsPlayerControlled).ToList();
 
-        private double UpdateDeterministic(double gameTimeDelta)
+        foreach (var trigger in Universe.Positionables.OfType<Trigger>().Where(x => !x.WasTriggered))
         {
-            while (Math.Abs(gameTimeDelta) >= UpdateStepSize)
+            // Skip triggers with unmet dependencies
+            if (!string.IsNullOrEmpty(trigger.DependsOn))
+                if (!Universe.GetTrigger(trigger.DependsOn).WasTriggered) continue;
+
+            var targetEntity = playerEntities.FirstOrDefault(x => x.Name == trigger.TargetEntity);
+            if (targetEntity != null)
             {
-                // Handle negative time
-                double effectiveStep = Math.Sign(gameTimeDelta) * UpdateStepSize;
-
-                Universe.Update(effectiveStep);
-                if (Lua != null && !TimeTravelInProgress) HandleTriggers();
-                gameTimeDelta -= effectiveStep;
-            }
-
-            return gameTimeDelta;
-        }
-
-        private void HandleTriggers()
-        {
-            var playerEntities = Universe.Positionables.OfType<Entity>().Where(x => x.IsPlayerControlled).ToList();
-
-            foreach (var trigger in Universe.Positionables.OfType<Trigger>().Where(x => !x.WasTriggered))
-            {
-                // Skip triggers with unmet dependencies
-                if (!string.IsNullOrEmpty(trigger.DependsOn))
-                    if (!Universe.GetTrigger(trigger.DependsOn).WasTriggered) continue;
-
-                var targetEntity = playerEntities.FirstOrDefault(x => x.Name == trigger.TargetEntity);
-                if (targetEntity != null)
+                if (trigger.IsInRange(targetEntity))
                 {
-                    if (trigger.IsInRange(targetEntity))
-                    {
-                        trigger.WasTriggered = true;
-                        if (!string.IsNullOrEmpty(trigger.OnActivation)) Lua.DoString(trigger.OnActivation);
-                    }
-                    else if (Universe.GameTime >= trigger.DueTime)
-                    {
-                        trigger.WasTriggered = true;
-                        if (!string.IsNullOrEmpty(trigger.OnTimeout)) Lua.DoString(trigger.OnTimeout);
-                    }
+                    trigger.WasTriggered = true;
+                    if (!string.IsNullOrEmpty(trigger.OnActivation)) Lua.DoString(trigger.OnActivation);
+                }
+                else if (Universe.GameTime >= trigger.DueTime)
+                {
+                    trigger.WasTriggered = true;
+                    if (!string.IsNullOrEmpty(trigger.OnTimeout)) Lua.DoString(trigger.OnTimeout);
                 }
             }
         }

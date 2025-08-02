@@ -26,84 +26,83 @@ using System.Xml.Serialization;
 using OmegaEngine.Values;
 using OmegaEngine.Values.Design;
 
-namespace OmegaGUI.Model
+namespace OmegaGUI.Model;
+
+/// <summary>
+/// A basic edit box
+/// </summary>
+public class TextBox : Label
 {
+    #region Variables
     /// <summary>
-    /// A basic edit box
+    /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    public class TextBox : Label
+    private Render.TextBox _editBox;
+    #endregion
+
+    #region Properties
+    /// <summary>
+    /// The text entered in the control
+    /// </summary>
+    [Description("The text entered in the control"), Category("Appearance")]
+    [XmlAttribute]
+    public override string Text
     {
-        #region Variables
-        /// <summary>
-        /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
-        /// </summary>
-        private Render.TextBox _editBox;
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// The text entered in the control
-        /// </summary>
-        [Description("The text entered in the control"), Category("Appearance")]
-        [XmlAttribute]
-        public override string Text
+        get => ControlText;
+        set
         {
-            get => ControlText;
-            set
-            {
-                ControlText = value;
-                if (_editBox != null) _editBox.Text = value;
-            }
+            ControlText = value;
+            if (_editBox != null) _editBox.Text = value;
         }
-
-        #region Events
-        /// <summary>
-        /// A Lua script to execute when the user presses the ENTER key
-        /// </summary>
-        [DefaultValue(""), Description("A Lua script to execute when the user presses the ENTER key"), Category("Events"), FileType("Lua")]
-        [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-        public string OnEnter { get; set; }
-
-        /// <summary>
-        /// A Lua script to execute when the control's value has changed
-        /// </summary>
-        [DefaultValue(""), Description("A Lua script to execute when the control's value has changed"), Category("Events"), FileType("Lua")]
-        [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-        public string OnChanged { get; set; }
-        #endregion
-
-        #endregion
-
-        #region Constructor
-        public TextBox()
-        {
-            Size = new(150, 35);
-        }
-        #endregion
-
-        #region Generate
-        internal override void Generate()
-        {
-            // Add control to dialog
-            UpdateLayout();
-            DXControl = _editBox =
-                Parent.DialogRender.AddTextBox(0, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Default);
-            ControlModel.IsVisible = IsVisible;
-            ControlModel.IsEnabled = IsEnabled;
-
-            // Setup event hooks
-            SetupMouseEvents();
-            if (!string.IsNullOrEmpty(OnEnter))
-                _editBox.Enter += delegate { Parent.RaiseEvent(OnEnter, Name + "_Enter"); };
-            if (!string.IsNullOrEmpty(OnChanged))
-            {
-                _editBox.Changed += delegate
-                {
-                    ControlText = _editBox.Text;
-                    Parent.RaiseEvent(OnChanged, Name + "_Changed");
-                };
-            }
-        }
-        #endregion
     }
+
+    #region Events
+    /// <summary>
+    /// A Lua script to execute when the user presses the ENTER key
+    /// </summary>
+    [DefaultValue(""), Description("A Lua script to execute when the user presses the ENTER key"), Category("Events"), FileType("Lua")]
+    [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
+    public string OnEnter { get; set; }
+
+    /// <summary>
+    /// A Lua script to execute when the control's value has changed
+    /// </summary>
+    [DefaultValue(""), Description("A Lua script to execute when the control's value has changed"), Category("Events"), FileType("Lua")]
+    [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
+    public string OnChanged { get; set; }
+    #endregion
+
+    #endregion
+
+    #region Constructor
+    public TextBox()
+    {
+        Size = new(150, 35);
+    }
+    #endregion
+
+    #region Generate
+    internal override void Generate()
+    {
+        // Add control to dialog
+        UpdateLayout();
+        DXControl = _editBox =
+            Parent.DialogRender.AddTextBox(0, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Default);
+        ControlModel.IsVisible = IsVisible;
+        ControlModel.IsEnabled = IsEnabled;
+
+        // Setup event hooks
+        SetupMouseEvents();
+        if (!string.IsNullOrEmpty(OnEnter))
+            _editBox.Enter += delegate { Parent.RaiseEvent(OnEnter, Name + "_Enter"); };
+        if (!string.IsNullOrEmpty(OnChanged))
+        {
+            _editBox.Changed += delegate
+            {
+                ControlText = _editBox.Text;
+                Parent.RaiseEvent(OnChanged, Name + "_Changed");
+            };
+        }
+    }
+    #endregion
 }

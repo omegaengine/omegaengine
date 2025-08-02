@@ -12,96 +12,94 @@ using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 using OmegaEngine.Values.Design;
 
-namespace AlphaFramework.World.Components
+namespace AlphaFramework.World.Components;
+
+#region Enumerations
+/// <seealso cref="Mesh.RenderIn"/>
+public enum ViewType
 {
+    /// <summary>Render in all types of Views</summary>
+    All,
 
-    #region Enumerations
-    /// <seealso cref="Mesh.RenderIn"/>
-    public enum ViewType
+    /// <summary>Do not render in Support Views</summary>
+    NormalOnly,
+
+    /// <summary>Render only in Support Views</summary>
+    SupportOnly,
+
+    /// <summary>Render only in Support Views for glow maps</summary>
+    GlowOnly
+};
+#endregion
+
+/// <summary>
+/// Represents a mesh loaded from a file.
+/// </summary>
+/// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
+public abstract class Mesh : Render
+{
+    /// <summary>
+    /// The filename of the mesh-file to use for rendering.
+    /// </summary>
+    [DefaultValue(""), Description("The filename of the mesh-file to use for rendering.")]
+    [XmlAttribute]
+    public string Filename { get; set; }
+
+    /// <inheritdoc/>
+    public override string ToString()
     {
-        /// <summary>Render in all types of Views</summary>
-        All,
-
-        /// <summary>Do not render in Support Views</summary>
-        NormalOnly,
-
-        /// <summary>Render only in Support Views</summary>
-        SupportOnly,
-
-        /// <summary>Render only in Support Views for glow maps</summary>
-        GlowOnly
-    };
-    #endregion
+        string value = base.ToString();
+        if (!string.IsNullOrEmpty(Filename))
+            value += ": " + Filename;
+        return value;
+    }
 
     /// <summary>
-    /// Represents a mesh loaded from a file.
+    /// How the mesh loaded from the file shall be rotated around the X axis (east to west).
     /// </summary>
-    /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-    public abstract class Mesh : Render
-    {
-        /// <summary>
-        /// The filename of the mesh-file to use for rendering.
-        /// </summary>
-        [DefaultValue(""), Description("The filename of the mesh-file to use for rendering.")]
-        [XmlAttribute]
-        public string Filename { get; set; }
+    [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the X axis (east to west).")]
+    [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
+    public float RotationX { get; set; }
 
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            string value = base.ToString();
-            if (!string.IsNullOrEmpty(Filename))
-                value += ": " + Filename;
-            return value;
-        }
+    /// <summary>
+    /// How the mesh loaded from the file shall be rotated around the Y axis (top to bottom).
+    /// </summary>
+    [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Y axis (top to bottom).")]
+    [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
+    public float RotationY { get; set; }
 
-        /// <summary>
-        /// How the mesh loaded from the file shall be rotated around the X axis (east to west).
-        /// </summary>
-        [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the X axis (east to west).")]
-        [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-        public float RotationX { get; set; }
+    /// <summary>
+    /// How the mesh loaded from the file shall be rotated around the Z axis (north to south).
+    /// </summary>
+    [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Z axis (north to south).")]
+    [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
+    public float RotationZ { get; set; }
 
-        /// <summary>
-        /// How the mesh loaded from the file shall be rotated around the Y axis (top to bottom).
-        /// </summary>
-        [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Y axis (top to bottom).")]
-        [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-        public float RotationY { get; set; }
+    /// <summary>
+    /// A factor by which to scale the mesh loaded from the file.
+    /// </summary>
+    [DefaultValue(1), Description("A factor by which to scale the mesh loaded from the file.")]
+    public float Scale { get; set; } = 1;
 
-        /// <summary>
-        /// How the mesh loaded from the file shall be rotated around the Z axis (north to south).
-        /// </summary>
-        [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Z axis (north to south).")]
-        [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-        public float RotationZ { get; set; }
+    /// <summary>
+    /// The level of transparency from 0 (solid) to 255 (invisible),
+    /// 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending.
+    /// </summary>
+    [DefaultValue(0), Description("The level of transparency from 0 (solid) to 255 (invisible), 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending.")]
+    [XmlAttribute]
+    public int Alpha { get; set; }
 
-        /// <summary>
-        /// A factor by which to scale the mesh loaded from the file.
-        /// </summary>
-        [DefaultValue(1), Description("A factor by which to scale the mesh loaded from the file.")]
-        public float Scale { get; set; } = 1;
+    /// <summary>
+    /// Can this mesh be picked with the mouse?
+    /// </summary>
+    [DefaultValue(true), Description("Can this mesh be picked with the mouse?")]
+    [XmlAttribute]
+    public bool Pickable { get; set; } = true;
 
-        /// <summary>
-        /// The level of transparency from 0 (solid) to 255 (invisible),
-        /// 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending.
-        /// </summary>
-        [DefaultValue(0), Description("The level of transparency from 0 (solid) to 255 (invisible), 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending.")]
-        [XmlAttribute]
-        public int Alpha { get; set; }
-
-        /// <summary>
-        /// Can this mesh be picked with the mouse?
-        /// </summary>
-        [DefaultValue(true), Description("Can this mesh be picked with the mouse?")]
-        [XmlAttribute]
-        public bool Pickable { get; set; } = true;
-
-        /// <summary>
-        /// In what kind of Views shall this mesh be rendered?
-        /// </summary>
-        [DefaultValue(ViewType.All), Description("In what kind of Views shall this mesh be rendered?"), Category("Behavior")]
-        [XmlAttribute]
-        public ViewType RenderIn { get; set; }
-    }
+    /// <summary>
+    /// In what kind of Views shall this mesh be rendered?
+    /// </summary>
+    [DefaultValue(ViewType.All), Description("In what kind of Views shall this mesh be rendered?"), Category("Behavior")]
+    [XmlAttribute]
+    public ViewType RenderIn { get; set; }
 }

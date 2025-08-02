@@ -6,21 +6,20 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace OmegaEngine.Assets
+namespace OmegaEngine.Assets;
+
+/// <summary>
+/// Represents an object that tracks whether it is still needed by increasing and decreasing a reference counter.
+/// </summary>
+public interface IReferenceCount
 {
     /// <summary>
-    /// Represents an object that tracks whether it is still needed by increasing and decreasing a reference counter.
+    /// Increments the reference count by one.
     /// </summary>
-    public interface IReferenceCount
-    {
-        /// <summary>
-        /// Increments the reference count by one.
-        /// </summary>
-        void HoldReference();
+    void HoldReference();
 
-        /// <summary>
-        /// Decrements the reference count by one.
-        /// </summary>
-        void ReleaseReference();
-    }
+    /// <summary>
+    /// Decrements the reference count by one.
+    /// </summary>
+    void ReleaseReference();
 }

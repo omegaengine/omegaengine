@@ -19,323 +19,322 @@ using OmegaEngine.Graphics.Shaders;
 using View = OmegaEngine.Graphics.View;
 using Resources = OmegaEngine.Properties.Resources;
 
-namespace OmegaEngine
+namespace OmegaEngine;
+
+/// <summary>
+/// Provides a debug interface for manipulating views, scenes, bodies and lights in the Engine in real-time
+/// </summary>
+internal partial class DebugForm : Form
 {
+    #region Variables
+    private readonly Engine _engine;
+    private readonly MonitoredCollection<View> _views = [];
+    private readonly MonitoredCollection<PostShader> _shaders = [];
+    private readonly MonitoredCollection<Renderable> _renderables = [];
+    private readonly MonitoredCollection<LightSource> _lights = [];
+    #endregion
+
+    #region Properties
+    /// <summary>The currently selected <see cref="View"/>; <c>null</c> if none.</summary>
+    private View CurrentView => viewListBox.SelectedItem as View;
+    #endregion
+
+    #region Constructor
     /// <summary>
-    /// Provides a debug interface for manipulating views, scenes, bodies and lights in the Engine in real-time
+    /// Makes <paramref name="listBox"/> mirror the contents of <paramref name="collection"/>.
     /// </summary>
-    internal partial class DebugForm : Form
+    private static void ConnectCollectionToListBox<T>(MonitoredCollection<T> collection, ListBox listBox)
     {
-        #region Variables
-        private readonly Engine _engine;
-        private readonly MonitoredCollection<View> _views = [];
-        private readonly MonitoredCollection<PostShader> _shaders = [];
-        private readonly MonitoredCollection<Renderable> _renderables = [];
-        private readonly MonitoredCollection<LightSource> _lights = [];
-        #endregion
+        collection.Added += entry => listBox.Items.Add(entry);
+        collection.Removing += entry => listBox.Items.Remove(entry);
+    }
 
-        #region Properties
-        /// <summary>The currently selected <see cref="View"/>; <c>null</c> if none.</summary>
-        private View CurrentView => viewListBox.SelectedItem as View;
-        #endregion
+    /// <summary>
+    /// Initializes the debug interface for a specific instance of the <see cref="Engine"/>.
+    /// </summary>
+    /// <param name="engine">The <see cref="Engine"/> instance to debug.</param>
+    public DebugForm(Engine engine)
+    {
+        InitializeComponent();
 
-        #region Constructor
-        /// <summary>
-        /// Makes <paramref name="listBox"/> mirror the contents of <paramref name="collection"/>.
-        /// </summary>
-        private static void ConnectCollectionToListBox<T>(MonitoredCollection<T> collection, ListBox listBox)
+        _engine = engine;
+
+        // Show the initial selection options
+        UpdateViews();
+
+        // Keep the collections and GUI in sync
+        ConnectCollectionToListBox(_views, viewListBox);
+        ConnectCollectionToListBox(_shaders, shaderListBox);
+        ConnectCollectionToListBox(_renderables, renderableListBox);
+        ConnectCollectionToListBox(_lights, lightListBox);
+    }
+    #endregion
+
+    //--------------------//
+
+    #region Event hanlders
+    private void viewListBox_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        SelectView(CurrentView);
+    }
+
+    private void viewPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+    {
+        UpdateViews();
+    }
+
+    private void shaderListBox_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        HandleSelection(shaderListBox, shaderPropertyGrid);
+    }
+
+    private void renderablePropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+    {
+        UpdateRenderables();
+    }
+
+    private void renderableListBox_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        HandleSelection(renderableListBox, renderablePropertyGrid);
+    }
+
+    private void lightPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+    {
+        UpdateLights();
+    }
+
+    private void lightListBox_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        HandleSelection(lightListBox, lightPropertyGrid);
+    }
+
+    private void updateTimer_Tick(object sender, EventArgs e)
+    {
+        UpdateViews();
+        UpdateShaders();
+        UpdateRenderables();
+        UpdateLights();
+    }
+    #endregion
+
+    #region Update
+
+    #region Views
+    private void UpdateViews()
+    {
+        // Store currently selected view
+        var lastView = CurrentView;
+
+        // Fill the list box with the current list of views
+        viewListBox.Items.Clear();
+        foreach (var view in _engine.Views)
         {
-            collection.Added += entry => listBox.Items.Add(entry);
-            collection.Removing += entry => listBox.Items.Remove(entry);
+            foreach (var childView in view.ChildViews)
+                viewListBox.Items.Add(childView);
+            viewListBox.Items.Add(view);
         }
 
-        /// <summary>
-        /// Initializes the debug interface for a specific instance of the <see cref="Engine"/>.
-        /// </summary>
-        /// <param name="engine">The <see cref="Engine"/> instance to debug.</param>
-        public DebugForm(Engine engine)
+        // Reselect the last view if it is still available
+        if (lastView != null && viewListBox.Items.Contains(lastView))
         {
-            InitializeComponent();
+            viewListBox.SelectedItem = lastView;
+            SelectView(lastView);
 
-            _engine = engine;
-
-            // Show the initial selection options
-            UpdateViews();
-
-            // Keep the collections and GUI in sync
-            ConnectCollectionToListBox(_views, viewListBox);
-            ConnectCollectionToListBox(_shaders, shaderListBox);
-            ConnectCollectionToListBox(_renderables, renderableListBox);
-            ConnectCollectionToListBox(_lights, lightListBox);
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Event hanlders
-        private void viewListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            SelectView(CurrentView);
-        }
-
-        private void viewPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            UpdateViews();
-        }
-
-        private void shaderListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            HandleSelection(shaderListBox, shaderPropertyGrid);
-        }
-
-        private void renderablePropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            UpdateRenderables();
-        }
-
-        private void renderableListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            HandleSelection(renderableListBox, renderablePropertyGrid);
-        }
-
-        private void lightPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            UpdateLights();
-        }
-
-        private void lightListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            HandleSelection(lightListBox, lightPropertyGrid);
-        }
-
-        private void updateTimer_Tick(object sender, EventArgs e)
-        {
-            UpdateViews();
-            UpdateShaders();
-            UpdateRenderables();
-            UpdateLights();
-        }
-        #endregion
-
-        #region Update
-
-        #region Views
-        private void UpdateViews()
-        {
-            // Store currently selected view
-            var lastView = CurrentView;
-
-            // Fill the list box with the current list of views
-            viewListBox.Items.Clear();
-            foreach (var view in _engine.Views)
+            if (cameraPropertyGrid.SelectedObject != lastView.Camera)
             {
-                foreach (var childView in view.ChildViews)
-                    viewListBox.Items.Add(childView);
-                viewListBox.Items.Add(view);
+                cameraPropertyGrid.SelectedObject = lastView.Camera;
+                cameraLabel.Text = lastView.Camera.ToString();
             }
-
-            // Reselect the last view if it is still available
-            if (lastView != null && viewListBox.Items.Contains(lastView))
-            {
-                viewListBox.SelectedItem = lastView;
-                SelectView(lastView);
-
-                if (cameraPropertyGrid.SelectedObject != lastView.Camera)
-                {
-                    cameraPropertyGrid.SelectedObject = lastView.Camera;
-                    cameraLabel.Text = lastView.Camera.ToString();
-                }
-            }
-            else SelectView(null);
         }
-        #endregion
+        else SelectView(null);
+    }
+    #endregion
 
-        #region Shaders
-        private void UpdateShaders()
+    #region Shaders
+    private void UpdateShaders()
+    {
+        var currentView = CurrentView;
+        if (currentView == null) _shaders.Clear();
+        else
         {
-            var currentView = CurrentView;
-            if (currentView == null) _shaders.Clear();
+            // Transfer the list en bloc, thereby updating the list box without loosing the current selection
+            _shaders.SetMany(currentView.PostShaders);
+        }
+    }
+    #endregion
+
+    #region Renderables
+    private void UpdateRenderables()
+    {
+        var currentView = CurrentView;
+        var tempList = new LinkedList<Renderable>();
+        if (currentView != null)
+        {
+            // Fill a temporary list with the current list of renderables
+            foreach (var model in currentView.FloatingModels)
+                tempList.AddLast(model);
+            if (currentView.Scene.Skybox != null)
+                tempList.AddLast(currentView.Scene.Skybox);
+            foreach (var positionable in currentView.Scene.Positionables)
+                tempList.AddLast(positionable);
+        }
+
+        // Transfer the new list en bloc, thereby updating the list box without loosing the current selection
+        _renderables.SetMany(tempList);
+    }
+    #endregion
+
+    #region Lights
+    private void UpdateLights()
+    {
+        var currentView = CurrentView;
+        if (currentView == null) _lights.Clear();
+        else
+        {
+            // Transfer the list en bloc, thereby updating the list box without loosing the current selection
+            _lights.SetMany(currentView.Scene.Lights);
+        }
+    }
+    #endregion
+
+    #endregion
+
+    #region Select
+
+    #region View
+    private void SelectView(View view)
+    {
+        // ReSharper disable RedundantComparisonWithNull
+        dumpViewButton.Enabled = view is TextureView;
+        // ReSharper restore RedundantComparisonWithNull
+
+        if (viewPropertyGrid.SelectedObject != view)
+        {
+            viewPropertyGrid.SelectedObject = view;
+            if (view == null)
+            {
+                cameraPropertyGrid.SelectedObject = null;
+                cameraLabel.Text = "Camera:";
+            }
             else
             {
-                // Transfer the list en bloc, thereby updating the list box without loosing the current selection
-                _shaders.SetMany(currentView.PostShaders);
+                cameraPropertyGrid.SelectedObject = view.Camera;
+                cameraLabel.Text = view.Camera.ToString();
             }
         }
-        #endregion
 
-        #region Renderables
-        private void UpdateRenderables()
+        UpdateShaders();
+        UpdateRenderables();
+        UpdateLights();
+    }
+    #endregion
+
+    #region Generic
+    /// <summary>
+    /// Transfers the selected objects from <paramref name="listBox"/> to <paramref name="propertyGrid"/>.
+    /// </summary>
+    private static void HandleSelection(ListBox listBox, PropertyGrid propertyGrid)
+    {
+        if (listBox.SelectedItems.Count == 0)
         {
-            var currentView = CurrentView;
-            var tempList = new LinkedList<Renderable>();
-            if (currentView != null)
-            {
-                // Fill a temporary list with the current list of renderables
-                foreach (var model in currentView.FloatingModels)
-                    tempList.AddLast(model);
-                if (currentView.Scene.Skybox != null)
-                    tempList.AddLast(currentView.Scene.Skybox);
-                foreach (var positionable in currentView.Scene.Positionables)
-                    tempList.AddLast(positionable);
-            }
-
-            // Transfer the new list en bloc, thereby updating the list box without loosing the current selection
-            _renderables.SetMany(tempList);
+            propertyGrid.SelectedObjects = null;
+            return;
         }
-        #endregion
 
-        #region Lights
-        private void UpdateLights()
+        // Copy selected items to an array
+        var array = new object[listBox.SelectedItems.Count];
+        listBox.SelectedItems.CopyTo(array, 0);
+
+        // Transfer the array to the property grid
+        propertyGrid.SelectedObjects = array;
+    }
+    #endregion
+
+    #endregion
+
+    //--------------------//
+
+    #region Buttons
+
+    #region Frame log
+    private void logFrameButton_Click(object sender, EventArgs e)
+    {
+        logFrameSaveFileDialog.ShowDialog();
+    }
+
+    private void logFrameSaveFileDialog_FileOk(object sender, CancelEventArgs e)
+    {
+        _engine.Performance.LogFrame(logFrameSaveFileDialog.FileName);
+        logFrameSaveFileDialog.FileName = "";
+    }
+    #endregion
+
+    #region Dump view
+    private void dumpViewButton_Click(object sender, EventArgs e)
+    {
+        var view = CurrentView as TextureView;
+        if (view?.GetRenderTarget() != null)
         {
-            var currentView = CurrentView;
-            if (currentView == null) _lights.Clear();
-            else
-            {
-                // Transfer the list en bloc, thereby updating the list box without loosing the current selection
-                _lights.SetMany(currentView.Scene.Lights);
-            }
+            // Select target file
+            dumpViewSaveFileDialog.ShowDialog();
         }
-        #endregion
+    }
 
-        #endregion
-
-        #region Select
-
-        #region View
-        private void SelectView(View view)
+    private void dumpViewSaveFileDialog_FileOk(object sender, CancelEventArgs e)
+    {
+        try
         {
-            // ReSharper disable RedundantComparisonWithNull
-            dumpViewButton.Enabled = view is TextureView;
-            // ReSharper restore RedundantComparisonWithNull
-
-            if (viewPropertyGrid.SelectedObject != view)
+            // Copy the render target surface to the file
+            var view = CurrentView as TextureView;
+            if (view == null)
             {
-                viewPropertyGrid.SelectedObject = view;
-                if (view == null)
-                {
-                    cameraPropertyGrid.SelectedObject = null;
-                    cameraLabel.Text = "Camera:";
-                }
-                else
-                {
-                    cameraPropertyGrid.SelectedObject = view.Camera;
-                    cameraLabel.Text = view.Camera.ToString();
-                }
-            }
-
-            UpdateShaders();
-            UpdateRenderables();
-            UpdateLights();
-        }
-        #endregion
-
-        #region Generic
-        /// <summary>
-        /// Transfers the selected objects from <paramref name="listBox"/> to <paramref name="propertyGrid"/>.
-        /// </summary>
-        private static void HandleSelection(ListBox listBox, PropertyGrid propertyGrid)
-        {
-            if (listBox.SelectedItems.Count == 0)
-            {
-                propertyGrid.SelectedObjects = null;
+                Msg.Inform(this, Resources.DumpFail, MsgSeverity.Warn);
                 return;
             }
 
-            // Copy selected items to an array
-            var array = new object[listBox.SelectedItems.Count];
-            listBox.SelectedItems.CopyTo(array, 0);
-
-            // Transfer the array to the property grid
-            propertyGrid.SelectedObjects = array;
+            Surface.ToFile(view.GetRenderTarget().Surface, dumpViewSaveFileDialog.FileName, ImageFileFormat.Png);
         }
-        #endregion
-
-        #endregion
-
-        //--------------------//
-
-        #region Buttons
-
-        #region Frame log
-        private void logFrameButton_Click(object sender, EventArgs e)
+        catch (Direct3D9Exception)
         {
-            logFrameSaveFileDialog.ShowDialog();
+            Msg.Inform(this, Resources.DumpFail, MsgSeverity.Warn);
         }
 
-        private void logFrameSaveFileDialog_FileOk(object sender, CancelEventArgs e)
-        {
-            _engine.Performance.LogFrame(logFrameSaveFileDialog.FileName);
-            logFrameSaveFileDialog.FileName = "";
-        }
-        #endregion
-
-        #region Dump view
-        private void dumpViewButton_Click(object sender, EventArgs e)
-        {
-            var view = CurrentView as TextureView;
-            if (view?.GetRenderTarget() != null)
-            {
-                // Select target file
-                dumpViewSaveFileDialog.ShowDialog();
-            }
-        }
-
-        private void dumpViewSaveFileDialog_FileOk(object sender, CancelEventArgs e)
-        {
-            try
-            {
-                // Copy the render target surface to the file
-                var view = CurrentView as TextureView;
-                if (view == null)
-                {
-                    Msg.Inform(this, Resources.DumpFail, MsgSeverity.Warn);
-                    return;
-                }
-
-                Surface.ToFile(view.GetRenderTarget().Surface, dumpViewSaveFileDialog.FileName, ImageFileFormat.Png);
-            }
-            catch (Direct3D9Exception)
-            {
-                Msg.Inform(this, Resources.DumpFail, MsgSeverity.Warn);
-            }
-
-            dumpViewSaveFileDialog.FileName = "";
-        }
-        #endregion
-
-        #region Post Screen Shaders
-        private void addButton_Click(object sender, EventArgs e)
-        {
-            var currentView = CurrentView;
-            if (currentView != null)
-            {
-                switch (Msg.YesNoCancel(this, "Make light source directional?", MsgSeverity.Info,
-                    "Directional\nCreate a new directional light source",
-                    "Point\nCreate a new point light source"))
-                {
-                    case DialogResult.Yes:
-                        currentView.Scene.Lights.Add(new DirectionalLight());
-                        UpdateLights();
-                        break;
-                    case DialogResult.No:
-                        currentView.Scene.Lights.Add(new PointLight());
-                        UpdateLights();
-                        break;
-                }
-            }
-        }
-
-        private void removeButton_Click(object sender, EventArgs e)
-        {
-            var currentView = CurrentView;
-            if (currentView == null) return;
-
-            foreach (LightSource light in lightListBox.SelectedItems)
-                currentView.Scene.Lights.Remove(light);
-            UpdateLights();
-        }
-        #endregion
-
-        #endregion
+        dumpViewSaveFileDialog.FileName = "";
     }
+    #endregion
+
+    #region Post Screen Shaders
+    private void addButton_Click(object sender, EventArgs e)
+    {
+        var currentView = CurrentView;
+        if (currentView != null)
+        {
+            switch (Msg.YesNoCancel(this, "Make light source directional?", MsgSeverity.Info,
+                        "Directional\nCreate a new directional light source",
+                        "Point\nCreate a new point light source"))
+            {
+                case DialogResult.Yes:
+                    currentView.Scene.Lights.Add(new DirectionalLight());
+                    UpdateLights();
+                    break;
+                case DialogResult.No:
+                    currentView.Scene.Lights.Add(new PointLight());
+                    UpdateLights();
+                    break;
+            }
+        }
+    }
+
+    private void removeButton_Click(object sender, EventArgs e)
+    {
+        var currentView = CurrentView;
+        if (currentView == null) return;
+
+        foreach (LightSource light in lightListBox.SelectedItems)
+            currentView.Scene.Lights.Remove(light);
+        UpdateLights();
+    }
+    #endregion
+
+    #endregion
 }

@@ -14,80 +14,79 @@ using System.Reflection;
 using NanoByte.Common.Values.Design;
 using SlimDX;
 
-namespace OmegaEngine.Values.Design
+namespace OmegaEngine.Values.Design;
+
+internal class QuadrangleConverter : ValueTypeConverter<Quadrangle>
 {
-    internal class QuadrangleConverter : ValueTypeConverter<Quadrangle>
+    /// <inheritdoc/>
+    protected override int NoArguments => 8;
+
+    /// <inheritdoc/>
+    protected override ConstructorInfo GetConstructor() => typeof(Quadrangle).GetConstructor([
+        typeof(float),
+        typeof(float),
+        typeof(float),
+        typeof(float),
+        typeof(float),
+        typeof(float),
+        typeof(float),
+        typeof(float)
+    ]);
+
+    /// <inheritdoc/>
+    protected override object[] GetArguments(Quadrangle value) =>
+    [
+        value.P1.X,
+        value.P1.Y,
+        value.P2.X,
+        value.P2.Y,
+        value.P3.X,
+        value.P3.Y,
+        value.P4.X,
+        value.P4.Y
+    ];
+
+    /// <inheritdoc/>
+    protected override string[] GetValues(Quadrangle value, ITypeDescriptorContext context, CultureInfo culture)
     {
-        /// <inheritdoc/>
-        protected override int NoArguments => 8;
-
-        /// <inheritdoc/>
-        protected override ConstructorInfo GetConstructor() => typeof(Quadrangle).GetConstructor([
-            typeof(float),
-            typeof(float),
-            typeof(float),
-            typeof(float),
-            typeof(float),
-            typeof(float),
-            typeof(float),
-            typeof(float)
-        ]);
-
-        /// <inheritdoc/>
-        protected override object[] GetArguments(Quadrangle value) =>
+        var floatConverter = TypeDescriptor.GetConverter(typeof(float));
+        return
         [
-            value.P1.X,
-            value.P1.Y,
-            value.P2.X,
-            value.P2.Y,
-            value.P3.X,
-            value.P3.Y,
-            value.P4.X,
-            value.P4.Y
+            floatConverter.ConvertToString(context, culture, value.P1.X),
+            floatConverter.ConvertToString(context, culture, value.P1.Y),
+            floatConverter.ConvertToString(context, culture, value.P2.X),
+            floatConverter.ConvertToString(context, culture, value.P2.Y),
+            floatConverter.ConvertToString(context, culture, value.P3.X),
+            floatConverter.ConvertToString(context, culture, value.P3.Y),
+            floatConverter.ConvertToString(context, culture, value.P4.X),
+            floatConverter.ConvertToString(context, culture, value.P4.Y)
         ];
+    }
 
-        /// <inheritdoc/>
-        protected override string[] GetValues(Quadrangle value, ITypeDescriptorContext context, CultureInfo culture)
-        {
-            var floatConverter = TypeDescriptor.GetConverter(typeof(float));
-            return
-            [
-                floatConverter.ConvertToString(context, culture, value.P1.X),
-                floatConverter.ConvertToString(context, culture, value.P1.Y),
-                floatConverter.ConvertToString(context, culture, value.P2.X),
-                floatConverter.ConvertToString(context, culture, value.P2.Y),
-                floatConverter.ConvertToString(context, culture, value.P3.X),
-                floatConverter.ConvertToString(context, culture, value.P3.Y),
-                floatConverter.ConvertToString(context, culture, value.P4.X),
-                floatConverter.ConvertToString(context, culture, value.P4.Y)
-            ];
-        }
+    /// <inheritdoc/>
+    protected override Quadrangle GetObject(string[] values, CultureInfo culture)
+    {
+        #region Sanity checks
+        if (values == null) throw new ArgumentNullException(nameof(values));
+        if (culture == null) throw new ArgumentNullException(nameof(culture));
+        #endregion
 
-        /// <inheritdoc/>
-        protected override Quadrangle GetObject(string[] values, CultureInfo culture)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException(nameof(values));
-            if (culture == null) throw new ArgumentNullException(nameof(culture));
-            #endregion
+        return new(
+            new(Convert.ToSingle(values[0], culture), Convert.ToSingle(values[1], culture)),
+            new(Convert.ToSingle(values[2], culture), Convert.ToSingle(values[3], culture)),
+            new(Convert.ToSingle(values[4], culture), Convert.ToSingle(values[5], culture)),
+            new(Convert.ToSingle(values[6], culture), Convert.ToSingle(values[7], culture)));
+    }
 
-            return new(
-                new(Convert.ToSingle(values[0], culture), Convert.ToSingle(values[1], culture)),
-                new(Convert.ToSingle(values[2], culture), Convert.ToSingle(values[3], culture)),
-                new(Convert.ToSingle(values[4], culture), Convert.ToSingle(values[5], culture)),
-                new(Convert.ToSingle(values[6], culture), Convert.ToSingle(values[7], culture)));
-        }
+    /// <inheritdoc/>
+    protected override Quadrangle GetObject(IDictionary propertyValues)
+    {
+        #region Sanity checks
+        if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
+        #endregion
 
-        /// <inheritdoc/>
-        protected override Quadrangle GetObject(IDictionary propertyValues)
-        {
-            #region Sanity checks
-            if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
-            #endregion
-
-            return new(
-                (Vector2)propertyValues["P1"], (Vector2)propertyValues["P2"],
-                (Vector2)propertyValues["P3"], (Vector2)propertyValues["P4"]);
-        }
+        return new(
+            (Vector2)propertyValues["P1"], (Vector2)propertyValues["P2"],
+            (Vector2)propertyValues["P3"], (Vector2)propertyValues["P4"]);
     }
 }

@@ -29,149 +29,148 @@ using FrameOfReference.World;
 using OmegaEngine.Values;
 using SlimDX;
 
-namespace FrameOfReference.Presentation
+namespace FrameOfReference.Presentation;
+
+/// <summary>
+/// Represents a set of <see cref="TestCase"/>s that can be executed, recorded and serialized.
+/// </summary>
+[XmlRoot("statistics")]
+public class Statistics
 {
     /// <summary>
-    /// Represents a set of <see cref="TestCase"/>s that can be executed, recorded and serialized.
+    /// The version number of the game.
     /// </summary>
-    [XmlRoot("statistics")]
-    public class Statistics
+    [XmlAttribute("game-version")]
+    public string GameVersion { get; set; }
+
+    /// <summary>
+    /// The version number of the engine.
+    /// </summary>
+    [XmlAttribute("engine-version")]
+    public string EngineVersion { get; set; }
+
+    /// <summary>
+    /// The set of <see cref="TestCase"/>s.
+    /// </summary>
+    [XmlElement("test-case")]
+    public TestCase[] TestCases;
+
+    /// <summary>
+    /// Base-constructor for XML serialization. Do not call manually!
+    /// </summary>
+    public Statistics()
+    {}
+
+    /// <summary>
+    /// Creates a set of <see cref="TestCase"/>s based on <see cref="BenchmarkPoint{TCoordinates}"/>s in a <see cref="Universe"/>.
+    /// </summary>
+    /// <param name="gameVersion">The version number of the game.</param>
+    /// <param name="engineVersion">The version number of the engine.</param>
+    /// <param name="universe">The <see cref="Universe"/> containing the <see cref="BenchmarkPoint{TCoordinates}"/>s.</param>
+    public Statistics(string gameVersion, string engineVersion, Universe universe)
     {
-        /// <summary>
-        /// The version number of the game.
-        /// </summary>
-        [XmlAttribute("game-version")]
-        public string GameVersion { get; set; }
+        #region Sanity checks
+        if (string.IsNullOrEmpty(gameVersion)) throw new ArgumentNullException(nameof(gameVersion));
+        if (string.IsNullOrEmpty(engineVersion)) throw new ArgumentNullException(nameof(engineVersion));
+        if (universe == null) throw new ArgumentNullException(nameof(universe));
+        #endregion
 
-        /// <summary>
-        /// The version number of the engine.
-        /// </summary>
-        [XmlAttribute("engine-version")]
-        public string EngineVersion { get; set; }
+        GameVersion = gameVersion;
+        EngineVersion = engineVersion;
 
-        /// <summary>
-        /// The set of <see cref="TestCase"/>s.
-        /// </summary>
-        [XmlElement("test-case")]
-        public TestCase[] TestCases;
+        var testCaseList = new List<TestCase>();
 
-        /// <summary>
-        /// Base-constructor for XML serialization. Do not call manually!
-        /// </summary>
-        public Statistics()
-        {}
-
-        /// <summary>
-        /// Creates a set of <see cref="TestCase"/>s based on <see cref="BenchmarkPoint{TCoordinates}"/>s in a <see cref="Universe"/>.
-        /// </summary>
-        /// <param name="gameVersion">The version number of the game.</param>
-        /// <param name="engineVersion">The version number of the engine.</param>
-        /// <param name="universe">The <see cref="Universe"/> containing the <see cref="BenchmarkPoint{TCoordinates}"/>s.</param>
-        public Statistics(string gameVersion, string engineVersion, Universe universe)
+        #region Read benchmark points from settings
+        foreach (var target in universe.Positionables.OfType<BenchmarkPoint<Vector2>>())
         {
-            #region Sanity checks
-            if (string.IsNullOrEmpty(gameVersion)) throw new ArgumentNullException(nameof(gameVersion));
-            if (string.IsNullOrEmpty(engineVersion)) throw new ArgumentNullException(nameof(engineVersion));
-            if (universe == null) throw new ArgumentNullException(nameof(universe));
-            #endregion
-
-            GameVersion = gameVersion;
-            EngineVersion = engineVersion;
-
-            var testCaseList = new List<TestCase>();
-
-            #region Read benchmark points from settings
-            foreach (var target in universe.Positionables.OfType<BenchmarkPoint<Vector2>>())
+            // Handle all possible settings combinations
+            for (int i = 0; i < TestCase.TestGraphicsSettingsUpperBound; i++)
             {
-                // Handle all possible settings combinations
-                for (int i = 0; i < TestCase.TestGraphicsSettingsUpperBound; i++)
+                testCaseList.Add(new()
+                {
+                    Target = target,
+                    GraphicsSettings = ((TestGraphicsSettings)i),
+                    // Create screenshots only for "all effects"
+                    Screenshot = (i == TestCase.TestGraphicsSettingsUpperBound)
+                });
+            }
+
+            if (target.TestWater)
+            {
+                #region Water refraction only
+                for (int i = 0; i < 8; i++)
                 {
                     testCaseList.Add(new()
                     {
                         Target = target,
                         GraphicsSettings = ((TestGraphicsSettings)i),
-                        // Create screenshots only for "all effects"
-                        Screenshot = (i == TestCase.TestGraphicsSettingsUpperBound)
+                        // Create screenshots only for "no effects" and for "all effects"
+                        Screenshot = i is 0 or 7,
+                        WaterEffects = WaterEffectsType.RefractionOnly
                     });
                 }
+                #endregion
 
-                if (target.TestWater)
+                #region Water reflect all
+                for (int i = 0; i < 8; i++)
                 {
-                    #region Water refraction only
-                    for (int i = 0; i < 8; i++)
+                    testCaseList.Add(new()
                     {
-                        testCaseList.Add(new()
-                        {
-                            Target = target,
-                            GraphicsSettings = ((TestGraphicsSettings)i),
-                            // Create screenshots only for "no effects" and for "all effects"
-                            Screenshot = i is 0 or 7,
-                            WaterEffects = WaterEffectsType.RefractionOnly
-                        });
-                    }
-                    #endregion
-
-                    #region Water reflect all
-                    for (int i = 0; i < 8; i++)
-                    {
-                        testCaseList.Add(new()
-                        {
-                            Target = target,
-                            GraphicsSettings = ((TestGraphicsSettings)i),
-                            // Create screenshots only for "no effects" and for "all effects"
-                            Screenshot = i is 0 or 7,
-                            WaterEffects = WaterEffectsType.ReflectAll
-                        });
-                    }
-                    #endregion
+                        Target = target,
+                        GraphicsSettings = ((TestGraphicsSettings)i),
+                        // Create screenshots only for "no effects" and for "all effects"
+                        Screenshot = i is 0 or 7,
+                        WaterEffects = WaterEffectsType.ReflectAll
+                    });
                 }
+                #endregion
+            }
 
-                if (target.TestParticleSystem)
+            if (target.TestParticleSystem)
+            {
+                #region Particle-system high quality
+                for (int i = 0; i < 8; i++)
                 {
-                    #region Particle-system high quality
-                    for (int i = 0; i < 8; i++)
+                    testCaseList.Add(new()
                     {
-                        testCaseList.Add(new()
-                        {
-                            Target = target,
-                            GraphicsSettings = ((TestGraphicsSettings)i),
-                            // Create screenshots only for "no effects" and for "all effects"
-                            Screenshot = i is 0 or 7,
-                            ParticleSystemQuality = Quality.High
-                        });
-                    }
-                    #endregion
+                        Target = target,
+                        GraphicsSettings = ((TestGraphicsSettings)i),
+                        // Create screenshots only for "no effects" and for "all effects"
+                        Screenshot = i is 0 or 7,
+                        ParticleSystemQuality = Quality.High
+                    });
                 }
+                #endregion
             }
-            #endregion
-
-            #region Create High-res and anti-aliasing variations
-            // Copy the test-cases to an array three times
-            TestCases = new TestCase[testCaseList.Count * 3];
-            testCaseList.CopyTo(TestCases);
-            testCaseList.CopyTo(TestCases, testCaseList.Count);
-            testCaseList.CopyTo(TestCases, testCaseList.Count * 2);
-
-            // Create the test-case variations block-wise
-            for (int i = 0; i < testCaseList.Count; i++)
-            {
-                TestCases[i].HighRes = false;
-                TestCases[i].AntiAliasing = false;
-                TestCases[i].Screenshot = false;
-            }
-            for (int i = testCaseList.Count; i < testCaseList.Count * 2; i++)
-            {
-                TestCases[i].HighRes = false;
-                TestCases[i].AntiAliasing = true;
-                // Screenshot is left on if it was already on
-            }
-            for (int i = testCaseList.Count * 2; i < testCaseList.Count * 3; i++)
-            {
-                TestCases[i].HighRes = true;
-                TestCases[i].AntiAliasing = false;
-                TestCases[i].Screenshot = false;
-            }
-            #endregion
         }
+        #endregion
+
+        #region Create High-res and anti-aliasing variations
+        // Copy the test-cases to an array three times
+        TestCases = new TestCase[testCaseList.Count * 3];
+        testCaseList.CopyTo(TestCases);
+        testCaseList.CopyTo(TestCases, testCaseList.Count);
+        testCaseList.CopyTo(TestCases, testCaseList.Count * 2);
+
+        // Create the test-case variations block-wise
+        for (int i = 0; i < testCaseList.Count; i++)
+        {
+            TestCases[i].HighRes = false;
+            TestCases[i].AntiAliasing = false;
+            TestCases[i].Screenshot = false;
+        }
+        for (int i = testCaseList.Count; i < testCaseList.Count * 2; i++)
+        {
+            TestCases[i].HighRes = false;
+            TestCases[i].AntiAliasing = true;
+            // Screenshot is left on if it was already on
+        }
+        for (int i = testCaseList.Count * 2; i < testCaseList.Count * 3; i++)
+        {
+            TestCases[i].HighRes = true;
+            TestCases[i].AntiAliasing = false;
+            TestCases[i].Screenshot = false;
+        }
+        #endregion
     }
 }

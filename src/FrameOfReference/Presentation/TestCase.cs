@@ -27,86 +27,84 @@ using FrameOfReference.World.Config;
 using OmegaEngine.Values;
 using SlimDX;
 
-namespace FrameOfReference.Presentation
+namespace FrameOfReference.Presentation;
+
+#region Enumerations
+/// <summary>
+/// Boolean flags for <see cref="Settings.Graphics"/>
+/// </summary>
+/// <seealso cref="TestCase.GraphicsSettings"/>
+[Flags]
+public enum TestGraphicsSettings
 {
+    /// <summary>Activate anisotropic texture filtering.</summary>
+    Anisotropic = 1,
 
-    #region Enumerations
+    /// <summary>Activate terrain texture double sampling.</summary>
+    DoubleSampling = 2,
+
+    /// <summary>Activate post-screen effects.</summary>
+    PostScreenEffects = 4
+}
+#endregion
+
+/// <summary>
+/// A specific test-case (with target and graphics settings) to profile.
+/// </summary>
+public struct TestCase
+{
     /// <summary>
-    /// Boolean flags for <see cref="Settings.Graphics"/>
+    /// The camera settings to use.
     /// </summary>
-    /// <seealso cref="TestCase.GraphicsSettings"/>
-    [Flags]
-    public enum TestGraphicsSettings
-    {
-        /// <summary>Activate anisotropic texture filtering.</summary>
-        Anisotropic = 1,
-
-        /// <summary>Activate terrain texture double sampling.</summary>
-        DoubleSampling = 2,
-
-        /// <summary>Activate post-screen effects.</summary>
-        PostScreenEffects = 4
-    }
-    #endregion
+    public BenchmarkPoint<Vector2> Target;
 
     /// <summary>
-    /// A specific test-case (with target and graphics settings) to profile.
+    /// Boolean flags for <see cref="Settings.Graphics"/>.
     /// </summary>
-    public struct TestCase
-    {
-        /// <summary>
-        /// The camera settings to use.
-        /// </summary>
-        public BenchmarkPoint<Vector2> Target;
+    public TestGraphicsSettings GraphicsSettings;
 
-        /// <summary>
-        /// Boolean flags for <see cref="Settings.Graphics"/>.
-        /// </summary>
-        public TestGraphicsSettings GraphicsSettings;
+    /// <summary>
+    /// The exclusive upper bound for values valid for <see cref="GraphicsSettings"/>.
+    /// </summary>
+    public const int TestGraphicsSettingsUpperBound = 8;
 
-        /// <summary>
-        /// The exclusive upper bound for values valid for <see cref="GraphicsSettings"/>.
-        /// </summary>
-        public const int TestGraphicsSettingsUpperBound = 8;
+    /// <summary>
+    /// What kind of effects to display on water (e.g. reflections).
+    /// </summary>
+    public WaterEffectsType WaterEffects;
 
-        /// <summary>
-        /// What kind of effects to display on water (e.g. reflections).
-        /// </summary>
-        public WaterEffectsType WaterEffects;
+    /// <summary>
+    /// The quality of CPU-based particle systems.
+    /// </summary>
+    public Quality ParticleSystemQuality;
 
-        /// <summary>
-        /// The quality of CPU-based particle systems.
-        /// </summary>
-        public Quality ParticleSystemQuality;
+    /// <summary>
+    /// Run this test-case with twice the default benchmark resolution.
+    /// </summary>
+    [XmlAttribute("high-res")]
+    public bool HighRes;
 
-        /// <summary>
-        /// Run this test-case with twice the default benchmark resolution.
-        /// </summary>
-        [XmlAttribute("high-res")]
-        public bool HighRes;
+    /// <summary>
+    /// Run this test-case with 2x anti-aliasing.
+    /// </summary>
+    [XmlAttribute("anti-aliasing")]
+    public bool AntiAliasing;
 
-        /// <summary>
-        /// Run this test-case with 2x anti-aliasing.
-        /// </summary>
-        [XmlAttribute("anti-aliasing")]
-        public bool AntiAliasing;
+    /// <summary>
+    /// Create a screenshot of the rendering of this test-case?
+    /// </summary>
+    [XmlAttribute("screenshot")]
+    public bool Screenshot;
 
-        /// <summary>
-        /// Create a screenshot of the rendering of this test-case?
-        /// </summary>
-        [XmlAttribute("screenshot")]
-        public bool Screenshot;
+    /// <summary>
+    /// The average "frames per second".
+    /// </summary>
+    [XmlAttribute("average-fps")]
+    public float AverageFps;
 
-        /// <summary>
-        /// The average "frames per second".
-        /// </summary>
-        [XmlAttribute("average-fps")]
-        public float AverageFps;
-
-        /// <summary>
-        /// The average "milliseconds per frames".
-        /// </summary>
-        [XmlAttribute("average-frame-ms")]
-        public float AverageFrameMs;
-    }
+    /// <summary>
+    /// The average "milliseconds per frames".
+    /// </summary>
+    [XmlAttribute("average-frame-ms")]
+    public float AverageFrameMs;
 }

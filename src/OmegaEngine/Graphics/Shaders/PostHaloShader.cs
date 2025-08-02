@@ -12,45 +12,44 @@ using System.Drawing;
 using NanoByte.Common;
 using OmegaEngine.Properties;
 
-namespace OmegaEngine.Graphics.Shaders
+namespace OmegaEngine.Graphics.Shaders;
+
+/// <summary>
+/// A post-screen shader that adds shining halos around objects in the scene.
+/// </summary>
+public class PostHaloShader : PostShader
 {
+    #region Properties
     /// <summary>
-    /// A post-screen shader that adds shining halos around objects in the scene.
+    /// The minimum shader model version required to use this shader
     /// </summary>
-    public class PostHaloShader : PostShader
+    public static Version MinShaderModel => new(2, 0);
+
+    private Color _glowColor = Color.White;
+
+    /// <summary>
+    /// The color of the halo
+    /// </summary>
+    [Description("The color of the halo")]
+    public Color GlowColor { get => _glowColor; set => value.To(ref _glowColor, () => SetShaderParameter("GlowCol", value)); }
+
+    private float _glowness = 1.6f;
+
+    /// <summary>
+    /// How strong the halo shall glow - values between 0 and 3
+    /// </summary>
+    [DefaultValue(1.6f), Description("How strong the halo shall glow - values between 0 and 3")]
+    public float Glowness { get => _glowness; set => value.To(ref _glowness, () => SetShaderParameter("Glowness", value)); }
+    #endregion
+
+    #region Engine
+    /// <inheritdoc/>
+    protected override void OnEngineSet()
     {
-        #region Properties
-        /// <summary>
-        /// The minimum shader model version required to use this shader
-        /// </summary>
-        public static Version MinShaderModel => new(2, 0);
+        if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+        LoadShaderFile("Post_Halo.fxo");
 
-        private Color _glowColor = Color.White;
-
-        /// <summary>
-        /// The color of the halo
-        /// </summary>
-        [Description("The color of the halo")]
-        public Color GlowColor { get => _glowColor; set => value.To(ref _glowColor, () => SetShaderParameter("GlowCol", value)); }
-
-        private float _glowness = 1.6f;
-
-        /// <summary>
-        /// How strong the halo shall glow - values between 0 and 3
-        /// </summary>
-        [DefaultValue(1.6f), Description("How strong the halo shall glow - values between 0 and 3")]
-        public float Glowness { get => _glowness; set => value.To(ref _glowness, () => SetShaderParameter("Glowness", value)); }
-        #endregion
-
-        #region Engine
-        /// <inheritdoc/>
-        protected override void OnEngineSet()
-        {
-            if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-            LoadShaderFile("Post_Halo.fxo");
-
-            base.OnEngineSet();
-        }
-        #endregion
+        base.OnEngineSet();
     }
+    #endregion
 }

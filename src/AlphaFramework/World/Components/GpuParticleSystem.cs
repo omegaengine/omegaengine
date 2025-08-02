@@ -8,12 +8,11 @@
 
 using AlphaFramework.World.Templates;
 
-namespace AlphaFramework.World.Components
-{
-    /// <summary>
-    /// Represents a particle system whose particles are tracked by the GPU.
-    /// </summary>
-    /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-    public class GpuParticleSystem : ParticleSystem
-    {}
-}
+namespace AlphaFramework.World.Components;
+
+/// <summary>
+/// Represents a particle system whose particles are tracked by the GPU.
+/// </summary>
+/// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
+public class GpuParticleSystem : ParticleSystem
+{}

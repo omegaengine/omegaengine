@@ -8,12 +8,11 @@
 
 using AlphaFramework.World.Templates;
 
-namespace AlphaFramework.World.Components
-{
-    /// <summary>
-    /// Represents a particle system whose particles are tracked by the CPU.
-    /// </summary>
-    /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-    public class CpuParticleSystem : ParticleSystem
-    {}
-}
+namespace AlphaFramework.World.Components;
+
+/// <summary>
+/// Represents a particle system whose particles are tracked by the CPU.
+/// </summary>
+/// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
+public class CpuParticleSystem : ParticleSystem
+{}

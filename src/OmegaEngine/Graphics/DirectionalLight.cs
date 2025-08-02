@@ -9,21 +9,20 @@
 using System.ComponentModel;
 using SlimDX;
 
-namespace OmegaEngine.Graphics
-{
-    /// <summary>
-    /// A light source that has no position and shines in one direction.
-    /// </summary>
-    public sealed class DirectionalLight : LightSource
-    {
-        #region Properties
-        private Vector3 _direction;
+namespace OmegaEngine.Graphics;
 
-        /// <summary>
-        /// The direction of the light source
-        /// </summary>
-        [Description("The direction of the light source"), Category("Layout")]
-        public Vector3 Direction { get => _direction; set => _direction = Vector3.Normalize(value); }
-        #endregion
-    }
+/// <summary>
+/// A light source that has no position and shines in one direction.
+/// </summary>
+public sealed class DirectionalLight : LightSource
+{
+    #region Properties
+    private Vector3 _direction;
+
+    /// <summary>
+    /// The direction of the light source
+    /// </summary>
+    [Description("The direction of the light source"), Category("Layout")]
+    public Vector3 Direction { get => _direction; set => _direction = Vector3.Normalize(value); }
+    #endregion
 }

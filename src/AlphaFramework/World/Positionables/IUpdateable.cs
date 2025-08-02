@@ -6,17 +6,16 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace AlphaFramework.World.Positionables
+namespace AlphaFramework.World.Positionables;
+
+/// <summary>
+/// A <see cref="Positionable{TCoordinates}"/> that updates itself on each frame.
+/// </summary>
+public interface IUpdateable
 {
     /// <summary>
-    /// A <see cref="Positionable{TCoordinates}"/> that updates itself on each frame.
+    /// Perform time-dependant state updates.
     /// </summary>
-    public interface IUpdateable
-    {
-        /// <summary>
-        /// Perform time-dependant state updates.
-        /// </summary>
-        /// <param name="elapsedTime">How much game time in seconds has elapsed since this method was last called.</param>
-        void Update(double elapsedTime);
-    }
+    /// <param name="elapsedTime">How much game time in seconds has elapsed since this method was last called.</param>
+    void Update(double elapsedTime);
 }

@@ -8,16 +8,15 @@
 
 using OmegaEngine.Values;
 
-namespace OmegaEngine
+namespace OmegaEngine;
+
+/// <summary>
+/// An interface to objects that have a position.
+/// </summary>
+public interface IPositionable
 {
     /// <summary>
-    /// An interface to objects that have a position.
+    /// The object's position
     /// </summary>
-    public interface IPositionable
-    {
-        /// <summary>
-        /// The object's position
-        /// </summary>
-        DoubleVector3 Position { get; set; }
-    }
+    DoubleVector3 Position { get; set; }
 }

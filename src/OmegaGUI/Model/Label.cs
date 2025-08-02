@@ -24,76 +24,75 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using OmegaGUI.Render;
 
-namespace OmegaGUI.Model
+namespace OmegaGUI.Model;
+
+/// <summary>
+/// Label text control
+/// </summary>
+public class Label : Control
 {
+    #region Variables
     /// <summary>
-    /// Label text control
+    /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    public class Label : Control
+    private Render.Label _staticText;
+    #endregion
+
+    #region Properties
+    protected string ControlText = "";
+
+    /// <summary>
+    /// The text displayed on the control
+    /// </summary>
+    [DefaultValue(""), Description("The text displayed on the control"), Category("Appearance")]
+    [XmlAttribute]
+    public virtual string Text
     {
-        #region Variables
-        /// <summary>
-        /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
-        /// </summary>
-        private Render.Label _staticText;
-        #endregion
-
-        #region Properties
-        protected string ControlText = "";
-
-        /// <summary>
-        /// The text displayed on the control
-        /// </summary>
-        [DefaultValue(""), Description("The text displayed on the control"), Category("Appearance")]
-        [XmlAttribute]
-        public virtual string Text
+        get => ControlText;
+        set
         {
-            get => ControlText;
-            set
-            {
-                ControlText = value;
-                if (_staticText != null) _staticText.SetText(Parent.GetLocalized(ControlText));
-            }
+            ControlText = value;
+            if (_staticText != null) _staticText.SetText(Parent.GetLocalized(ControlText));
         }
-
-        private TextAlign _textAlign;
-
-        /// <summary>
-        /// How the text is to be aligned - only effective for Label
-        /// </summary>
-        [DefaultValue(TextAlign.Left), Description("How the text is to be aligned - only effective for Label"), Category("Appearance")]
-        public TextAlign TextAlign
-        {
-            get => _textAlign;
-            set
-            {
-                _textAlign = value;
-                if (_staticText != null) _staticText.TextAlign = value;
-            }
-        }
-        #endregion
-
-        #region Constructor
-        public Label()
-        {
-            Size = new(100, 20);
-        }
-        #endregion
-
-        #region Generate
-        internal override void Generate()
-        {
-            // Add control to dialog
-            UpdateLayout();
-            DXControl = _staticText =
-                Parent.DialogRender.AddStatic(0, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Default);
-            ControlModel.IsVisible = IsVisible;
-            ControlModel.IsEnabled = IsEnabled;
-            _staticText.TextAlign = _textAlign;
-
-            // Setup event hooks
-            SetupMouseEvents();
-        }
-        #endregion
     }
+
+    private TextAlign _textAlign;
+
+    /// <summary>
+    /// How the text is to be aligned - only effective for Label
+    /// </summary>
+    [DefaultValue(TextAlign.Left), Description("How the text is to be aligned - only effective for Label"), Category("Appearance")]
+    public TextAlign TextAlign
+    {
+        get => _textAlign;
+        set
+        {
+            _textAlign = value;
+            if (_staticText != null) _staticText.TextAlign = value;
+        }
+    }
+    #endregion
+
+    #region Constructor
+    public Label()
+    {
+        Size = new(100, 20);
+    }
+    #endregion
+
+    #region Generate
+    internal override void Generate()
+    {
+        // Add control to dialog
+        UpdateLayout();
+        DXControl = _staticText =
+            Parent.DialogRender.AddStatic(0, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Default);
+        ControlModel.IsVisible = IsVisible;
+        ControlModel.IsEnabled = IsEnabled;
+        _staticText.TextAlign = _textAlign;
+
+        // Setup event hooks
+        SetupMouseEvents();
+    }
+    #endregion
 }

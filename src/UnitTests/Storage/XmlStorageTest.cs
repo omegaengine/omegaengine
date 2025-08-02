@@ -10,67 +10,67 @@ using NanoByte.Common.Storage;
 using FluentAssertions;
 using Xunit;
 
-namespace OmegaEngine.Storage
+namespace OmegaEngine.Storage;
+
+/// <summary>
+/// Contains test methods for <see cref="NanoByte.Common.Storage.XmlStorage"/>.
+/// </summary>
+public class XmlStorageTest
 {
+    // ReSharper disable MemberCanBePrivate.Global
     /// <summary>
-    /// Contains test methods for <see cref="NanoByte.Common.Storage.XmlStorage"/>.
+    /// A data-structure used to test serialization.
     /// </summary>
-    public class XmlStorageTest
+    [XmlNamespace("", "")]
+    public class TestData
     {
-        // ReSharper disable MemberCanBePrivate.Global
-        /// <summary>
-        /// A data-structure used to test serialization.
-        /// </summary>
-        [XmlNamespace("", "")]
-        public class TestData
-        {
-            public string Data { get; set; }
-        }
-        // ReSharper restore MemberCanBePrivate.Global
+        public string Data { get; set; }
+    }
+    // ReSharper restore MemberCanBePrivate.Global
 
-        /// <summary>
-        /// Ensures <see cref="NanoByte.Common.Storage.XmlStorage.SaveXml{T}(T,string,string)"/> and <see cref="NanoByte.Common.Storage.XmlStorage.LoadXml{T}(string)"/> work correctly.
-        /// </summary>
-        [Fact]
-        public void TestFile()
+    /// <summary>
+    /// Ensures <see cref="NanoByte.Common.Storage.XmlStorage.SaveXml{T}(T,string,string)"/> and <see cref="NanoByte.Common.Storage.XmlStorage.LoadXml{T}(string)"/> work correctly.
+    /// </summary>
+    [Fact]
+    public void TestFile()
+    {
+        TestData testData1 = new() {Data = "Hello"}, testData2;
+        using (var tempFile = new TemporaryFile("unit-tests"))
         {
-            TestData testData1 = new() {Data = "Hello"}, testData2;
-            using (var tempFile = new TemporaryFile("unit-tests"))
-            {
-                // Write and read file
-                NanoByte.Common.Storage.XmlStorage.SaveXml(testData1, tempFile);
-                testData2 = NanoByte.Common.Storage.XmlStorage.LoadXml<TestData>(tempFile);
-            }
-
-            // Ensure data stayed the same
-            testData2.Data.Should().Be(testData1.Data);
+            // Write and read file
+            NanoByte.Common.Storage.XmlStorage.SaveXml(testData1, tempFile);
+            testData2 = NanoByte.Common.Storage.XmlStorage.LoadXml<TestData>(tempFile);
         }
 
-        /// <summary>
-        /// Ensures <see cref="NanoByte.Common.Storage.XmlStorage.SaveXml{T}(T,string,string)"/> and <see cref="NanoByte.Common.Storage.XmlStorage.LoadXml{T}(string)"/> work correctly with relative paths.
-        /// </summary>
-        [Fact]
-        public void TestFileRelative()
-        {
-            TestData testData1 = new() {Data = "Hello"}, testData2;
-            using (new TemporaryWorkingDirectory("unit-tests"))
-            {
-                // Write and read file
-                NanoByte.Common.Storage.XmlStorage.SaveXml(testData1, "file.xml");
-                testData2 = NanoByte.Common.Storage.XmlStorage.LoadXml<TestData>("file.xml");
-            }
+        // Ensure data stayed the same
+        testData2.Data.Should().Be(testData1.Data);
+    }
 
-            // Ensure data stayed the same
-            testData2.Data.Should().Be(testData1.Data);
+    /// <summary>
+    /// Ensures <see cref="NanoByte.Common.Storage.XmlStorage.SaveXml{T}(T,string,string)"/> and <see cref="NanoByte.Common.Storage.XmlStorage.LoadXml{T}(string)"/> work correctly with relative paths.
+    /// </summary>
+    [Fact]
+    public void TestFileRelative()
+    {
+        TestData testData1 = new() {Data = "Hello"}, testData2;
+        using (new TemporaryWorkingDirectory("unit-tests"))
+        {
+            // Write and read file
+            NanoByte.Common.Storage.XmlStorage.SaveXml(testData1, "file.xml");
+            testData2 = NanoByte.Common.Storage.XmlStorage.LoadXml<TestData>("file.xml");
         }
 
-        [Fact]
-        public void TestToXmlString()
-            => NanoByte.Common.Storage.XmlStorage.ToXmlString(new TestData {Data = "Hello"}).Should().Be("<?xml version=\"1.0\"?>\n<TestData>\n  <Data>Hello</Data>\n</TestData>\n");
+        // Ensure data stayed the same
+        testData2.Data.Should().Be(testData1.Data);
+    }
 
-        [Fact]
-        public void TestFromXmlString()
-            => NanoByte.Common.Storage.XmlStorage.FromXmlString<TestData>("<?xml version=\"1.0\"?><TestData><Data>Hello</Data></TestData>").Data.Should().Be("Hello");
+    [Fact]
+    public void TestToXmlString()
+        => NanoByte.Common.Storage.XmlStorage.ToXmlString(new TestData {Data = "Hello"}).Should().Be("<?xml version=\"1.0\"?>\n<TestData>\n  <Data>Hello</Data>\n</TestData>\n");
+
+    [Fact]
+    public void TestFromXmlString()
+        => NanoByte.Common.Storage.XmlStorage.FromXmlString<TestData>("<?xml version=\"1.0\"?><TestData><Data>Hello</Data></TestData>").Data.Should().Be("Hello");
 
 #if SLIMDX
         /// <summary>
@@ -120,5 +120,4 @@ namespace OmegaEngine.Storage
             Assert.Throws<ZipException>(() => XmlStorage.LoadXmlZip<TestData>(tempStream, password: "Wrong password"));
         }
 #endif
-    }
 }

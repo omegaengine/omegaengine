@@ -12,73 +12,72 @@ using System.Drawing;
 using NanoByte.Common;
 using OmegaEngine.Properties;
 
-namespace OmegaEngine.Graphics.Shaders
+namespace OmegaEngine.Graphics.Shaders;
+
+/// <summary>
+/// A post-screen shader that creates an "old paper" look.
+/// </summary>
+public class PostSepiaShader : PostShader
 {
+    #region Properties
     /// <summary>
-    /// A post-screen shader that creates an "old paper" look.
+    /// The minimum shader model version required to use this shader
     /// </summary>
-    public class PostSepiaShader : PostShader
+    public static Version MinShaderModel => new(2, 0);
+
+    private Color _paperTone = Color.FromArgb(255, 229, 127), _stainTone = Color.FromArgb(51, 12, 0);
+
+    /// <summary>
+    /// The color to give the image after turning it into grayscale
+    /// </summary>
+    [Description("The color to give the image after turning it into grayscale")]
+    public Color PaperTone { get => _paperTone; set => value.To(ref _paperTone, () => SetShaderParameter("LightColor", value)); }
+
+    /// <summary>
+    /// The color of the image stains
+    /// </summary>
+    [Description("The color of the image stains")]
+    public Color StainTone { get => _stainTone; set => value.To(ref _stainTone, () => SetShaderParameter("DarkColor", value)); }
+
+    private float _desaturation = 0.5f, _toning = 1.0f;
+
+    /// <summary>
+    /// How strongly to turn the image it into grayscale - values between 0 and 1
+    /// </summary>
+    [DefaultValue(0.5f), Description("How strongly to turn the image it into grayscale - values between 0 and 1")]
+    public float Desaturation
     {
-        #region Properties
-        /// <summary>
-        /// The minimum shader model version required to use this shader
-        /// </summary>
-        public static Version MinShaderModel => new(2, 0);
-
-        private Color _paperTone = Color.FromArgb(255, 229, 127), _stainTone = Color.FromArgb(51, 12, 0);
-
-        /// <summary>
-        /// The color to give the image after turning it into grayscale
-        /// </summary>
-        [Description("The color to give the image after turning it into grayscale")]
-        public Color PaperTone { get => _paperTone; set => value.To(ref _paperTone, () => SetShaderParameter("LightColor", value)); }
-
-        /// <summary>
-        /// The color of the image stains
-        /// </summary>
-        [Description("The color of the image stains")]
-        public Color StainTone { get => _stainTone; set => value.To(ref _stainTone, () => SetShaderParameter("DarkColor", value)); }
-
-        private float _desaturation = 0.5f, _toning = 1.0f;
-
-        /// <summary>
-        /// How strongly to turn the image it into grayscale - values between 0 and 1
-        /// </summary>
-        [DefaultValue(0.5f), Description("How strongly to turn the image it into grayscale - values between 0 and 1")]
-        public float Desaturation
+        get => _desaturation;
+        set
         {
-            get => _desaturation;
-            set
-            {
-                value = value.Clamp();
-                value.To(ref _desaturation, () => SetShaderParameter("Desat", value));
-            }
+            value = value.Clamp();
+            value.To(ref _desaturation, () => SetShaderParameter("Desat", value));
         }
-
-        /// <summary>
-        /// How strongly to apply the <see cref="PaperTone"/> color - values between 0 and 1
-        /// </summary>
-        [DefaultValue(1f), Description("How strongly to apply the PaperTone color - values between 0 and 1")]
-        public float Toning
-        {
-            get => _toning;
-            set
-            {
-                value = value.Clamp();
-                value.To(ref _toning, () => SetShaderParameter("Toned", value));
-            }
-        }
-        #endregion
-
-        #region Engine
-        /// <inheritdoc/>
-        protected override void OnEngineSet()
-        {
-            if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-            LoadShaderFile("Post_Sepia.fxo");
-
-            base.OnEngineSet();
-        }
-        #endregion
     }
+
+    /// <summary>
+    /// How strongly to apply the <see cref="PaperTone"/> color - values between 0 and 1
+    /// </summary>
+    [DefaultValue(1f), Description("How strongly to apply the PaperTone color - values between 0 and 1")]
+    public float Toning
+    {
+        get => _toning;
+        set
+        {
+            value = value.Clamp();
+            value.To(ref _toning, () => SetShaderParameter("Toned", value));
+        }
+    }
+    #endregion
+
+    #region Engine
+    /// <inheritdoc/>
+    protected override void OnEngineSet()
+    {
+        if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+        LoadShaderFile("Post_Sepia.fxo");
+
+        base.OnEngineSet();
+    }
+    #endregion
 }

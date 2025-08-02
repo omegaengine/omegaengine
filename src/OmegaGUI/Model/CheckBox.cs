@@ -26,94 +26,93 @@ using System.Xml.Serialization;
 using OmegaEngine.Values;
 using OmegaEngine.Values.Design;
 
-namespace OmegaGUI.Model
+namespace OmegaGUI.Model;
+
+/// <summary>
+/// CheckBox control
+/// </summary>
+public class CheckBox : ButtonBase
 {
+    #region Variables
     /// <summary>
-    /// CheckBox control
+    /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    public class CheckBox : ButtonBase
+    private Render.CheckBox _checkbox;
+    #endregion
+
+    #region Properties
+    /// <summary>
+    /// The text displayed on the control
+    /// </summary>
+    [DefaultValue(""), Description("The text displayed on the control"), Category("Appearance")]
+    [XmlAttribute]
+    public override string Text
     {
-        #region Variables
-        /// <summary>
-        /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
-        /// </summary>
-        private Render.CheckBox _checkbox;
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// The text displayed on the control
-        /// </summary>
-        [DefaultValue(""), Description("The text displayed on the control"), Category("Appearance")]
-        [XmlAttribute]
-        public override string Text
+        get => ControlText;
+        set
         {
-            get => ControlText;
-            set
-            {
-                ControlText = value;
-                if (_checkbox != null) _checkbox.SetText(Parent.GetLocalized(ControlText));
-            }
+            ControlText = value;
+            if (_checkbox != null) _checkbox.SetText(Parent.GetLocalized(ControlText));
         }
-
-        protected bool IsChecked;
-
-        /// <summary>
-        /// Is this control currently checked?
-        /// </summary>
-        [DefaultValue(false), Description("Is this control currently checked?"), Category("Appearance")]
-        [XmlAttribute]
-        public virtual bool Checked
-        {
-            get => IsChecked;
-            set
-            {
-                IsChecked = value;
-                if (_checkbox != null) _checkbox.IsChecked = value;
-            }
-        }
-
-        #region Events
-        /// <summary>
-        /// A Lua script to execute when the control's value has changed
-        /// </summary>
-        [DefaultValue(""), Description("A Lua script to execute when the control's value has changed"), Category("Events"), FileType("Lua")]
-        [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-        public string OnChanged { get; set; }
-        #endregion
-
-        #endregion
-
-        #region Constructor
-        public CheckBox()
-        {
-            Size = new(140, 20);
-        }
-        #endregion
-
-        #region Generate
-        internal override void Generate()
-        {
-            // Add control to dialog
-            UpdateLayout();
-            DXControl = _checkbox =
-                Parent.DialogRender.AddCheckBox(0, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Checked, Hotkey, Default);
-            ControlModel.IsVisible = IsVisible;
-            ControlModel.IsEnabled = IsEnabled;
-
-            // Setup event hooks
-            SetupMouseEvents();
-            if (!string.IsNullOrEmpty(OnClick))
-                _checkbox.Click += delegate { Parent.RaiseEvent(OnClick, Name + "_Click"); };
-            if (!string.IsNullOrEmpty(OnChanged))
-            {
-                _checkbox.Changed += delegate
-                {
-                    IsChecked = _checkbox.IsChecked;
-                    Parent.RaiseEvent(OnChanged, Name + "_Changed");
-                };
-            }
-        }
-        #endregion
     }
+
+    protected bool IsChecked;
+
+    /// <summary>
+    /// Is this control currently checked?
+    /// </summary>
+    [DefaultValue(false), Description("Is this control currently checked?"), Category("Appearance")]
+    [XmlAttribute]
+    public virtual bool Checked
+    {
+        get => IsChecked;
+        set
+        {
+            IsChecked = value;
+            if (_checkbox != null) _checkbox.IsChecked = value;
+        }
+    }
+
+    #region Events
+    /// <summary>
+    /// A Lua script to execute when the control's value has changed
+    /// </summary>
+    [DefaultValue(""), Description("A Lua script to execute when the control's value has changed"), Category("Events"), FileType("Lua")]
+    [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
+    public string OnChanged { get; set; }
+    #endregion
+
+    #endregion
+
+    #region Constructor
+    public CheckBox()
+    {
+        Size = new(140, 20);
+    }
+    #endregion
+
+    #region Generate
+    internal override void Generate()
+    {
+        // Add control to dialog
+        UpdateLayout();
+        DXControl = _checkbox =
+            Parent.DialogRender.AddCheckBox(0, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Checked, Hotkey, Default);
+        ControlModel.IsVisible = IsVisible;
+        ControlModel.IsEnabled = IsEnabled;
+
+        // Setup event hooks
+        SetupMouseEvents();
+        if (!string.IsNullOrEmpty(OnClick))
+            _checkbox.Click += delegate { Parent.RaiseEvent(OnClick, Name + "_Click"); };
+        if (!string.IsNullOrEmpty(OnChanged))
+        {
+            _checkbox.Changed += delegate
+            {
+                IsChecked = _checkbox.IsChecked;
+                Parent.RaiseEvent(OnChanged, Name + "_Changed");
+            };
+        }
+    }
+    #endregion
 }

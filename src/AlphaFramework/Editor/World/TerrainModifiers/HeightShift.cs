@@ -11,50 +11,49 @@ using System.Drawing;
 using AlphaFramework.World.Terrains;
 using OmegaEngine;
 
-namespace AlphaFramework.Editor.World.TerrainModifiers
+namespace AlphaFramework.Editor.World.TerrainModifiers;
+
+/// <summary>
+/// Interactivley raises or lowers all points of an area on a <see cref="ITerrain"/>.
+/// </summary>
+public sealed class HeightShift : Height
 {
-    /// <summary> 
-    /// Interactivley raises or lowers all points of an area on a <see cref="ITerrain"/>.
+    /// <summary>The value by which the terrain height is to be shifted.</summary>
+    private readonly short _diff;
+
+    /// <summary>
+    /// Creates a new terrain height shifter.
     /// </summary>
-    public sealed class HeightShift : Height
+    /// <param name="terrain">The <see cref="ITerrain"/> to modify.</param>
+    /// <param name="engineTerrain">The <see cref="OmegaEngine.Graphics.Renderables.Terrain"/> to live-update while modifying.</param>
+    /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
+    /// <param name="diff">The value by which the terrain height is to be shifted.</param>
+    public HeightShift(ITerrain terrain, OmegaEngine.Graphics.Renderables.Terrain engineTerrain, Action refreshHandler, short diff)
+        : base(terrain, engineTerrain, refreshHandler)
     {
-        /// <summary>The value by which the terrain height is to be shifted.</summary>
-        private readonly short _diff;
+        _diff = diff;
+    }
 
-        /// <summary>
-        /// Creates a new terrain height shifter.
-        /// </summary>
-        /// <param name="terrain">The <see cref="ITerrain"/> to modify.</param>
-        /// <param name="engineTerrain">The <see cref="OmegaEngine.Graphics.Renderables.Terrain"/> to live-update while modifying.</param>
-        /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
-        /// <param name="diff">The value by which the terrain height is to be shifted.</param>
-        public HeightShift(ITerrain terrain, OmegaEngine.Graphics.Renderables.Terrain engineTerrain, Action refreshHandler, short diff)
-            : base(terrain, engineTerrain, refreshHandler)
+    /// <inheritdoc/>
+    protected override void ModifyTerrain(Point offset, TerrainBrush brush, byte[,] oldData, byte[,] newData)
+    {
+        #region Sanity checks
+        if (oldData == null) throw new ArgumentNullException(nameof(oldData));
+        if (newData == null) throw new ArgumentNullException(nameof(newData));
+        #endregion
+
+        var heightMap = Terrain.HeightMap;
+
+        // Iterate through intersection of [0,area.Size) and [-offset,heightMap-offset)
+        for (int x = Math.Max(0, -offset.X); x < Math.Min(brush.Size, heightMap.Width - offset.X); x++)
         {
-            _diff = diff;
-        }
-
-        /// <inheritdoc/>
-        protected override void ModifyTerrain(Point offset, TerrainBrush brush, byte[,] oldData, byte[,] newData)
-        {
-            #region Sanity checks
-            if (oldData == null) throw new ArgumentNullException(nameof(oldData));
-            if (newData == null) throw new ArgumentNullException(nameof(newData));
-            #endregion
-
-            var heightMap = Terrain.HeightMap;
-
-            // Iterate through intersection of [0,area.Size) and [-offset,heightMap-offset)
-            for (int x = Math.Max(0, -offset.X); x < Math.Min(brush.Size, heightMap.Width - offset.X); x++)
+            for (int y = Math.Max(0, -offset.Y); y < Math.Min(brush.Size, heightMap.Height - offset.Y); y++)
             {
-                for (int y = Math.Max(0, -offset.Y); y < Math.Min(brush.Size, heightMap.Height - offset.Y); y++)
-                {
-                    oldData[x, y] = heightMap[offset.X + x, offset.Y + y];
+                oldData[x, y] = heightMap[offset.X + x, offset.Y + y];
 
-                    // Shift height and write back
-                    newData[x, y] = heightMap[offset.X + x, offset.Y + y] =
-                        (byte)(oldData[x, y] + (_diff * brush.Factor(x, y))).Clamp(byte.MinValue, byte.MaxValue);
-                }
+                // Shift height and write back
+                newData[x, y] = heightMap[offset.X + x, offset.Y + y] =
+                    (byte)(oldData[x, y] + (_diff * brush.Factor(x, y))).Clamp(byte.MinValue, byte.MaxValue);
             }
         }
     }

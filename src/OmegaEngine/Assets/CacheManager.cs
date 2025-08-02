@@ -13,111 +13,110 @@ using NanoByte.Common;
 using NanoByte.Common.Collections;
 using Resources = OmegaEngine.Properties.Resources;
 
-namespace OmegaEngine.Assets
+namespace OmegaEngine.Assets;
+
+/// <summary>
+/// Keeps a cache of <see cref="Asset"/>s that have been loaded and provides type-safe access to them.
+/// </summary>
+/// <seealso cref="Engine.Cache"/>
+public sealed class CacheManager : IDisposable
 {
+    #region Variables
+    private readonly NamedCollection<Asset> _assetCache = [];
+    #endregion
+
+    #region Constructor
+    internal CacheManager()
+    {}
+    #endregion
+
+    //--------------------//
+
+    #region Add asset
     /// <summary>
-    /// Keeps a cache of <see cref="Asset"/>s that have been loaded and provides type-safe access to them.
+    /// Adds an <see cref="Asset"/> to the cache.
     /// </summary>
-    /// <seealso cref="Engine.Cache"/>
-    public sealed class CacheManager : IDisposable
+    /// <param name="asset">The <see cref="Asset"/> to add.</param>
+    internal void AddAsset(Asset asset)
     {
-        #region Variables
-        private readonly NamedCollection<Asset> _assetCache = [];
-        #endregion
+        _assetCache.Add(asset);
+    }
+    #endregion
 
-        #region Constructor
-        internal CacheManager()
-        {}
-        #endregion
-
-        //--------------------//
-
-        #region Add asset
-        /// <summary>
-        /// Adds an <see cref="Asset"/> to the cache.
-        /// </summary>
-        /// <param name="asset">The <see cref="Asset"/> to add.</param>
-        internal void AddAsset(Asset asset)
+    #region Get asset
+    /// <summary>
+    /// Tries to retrieve an <see cref="Asset"/> from cache.
+    /// </summary>
+    /// <typeparam name="T">The type of <see cref="Asset"/> to get.</typeparam>
+    /// <param name="name">The name (full ID) of the <see cref="Asset"/> to get.</param>
+    /// <returns>The <see cref="Asset"/> if found, <c>null</c> otherwise.</returns>
+    /// <exception cref="InvalidOperationException">A different type of asset with this <paramref name="name"/> was found instead.</exception>
+    internal T GetAsset<T>(string name) where T : Asset
+    {
+        if (_assetCache.Contains(name))
         {
-            _assetCache.Add(asset);
+            var asset = _assetCache[name] as T;
+            if (asset == null) throw new System.IO.InvalidDataException(Resources.WrongAssetType + name); // Incorrect asset type
+            return asset; // Correct asset found
         }
-        #endregion
+        return null; // Asset not found
+    }
+    #endregion
 
-        #region Get asset
-        /// <summary>
-        /// Tries to retrieve an <see cref="Asset"/> from cache.
-        /// </summary>
-        /// <typeparam name="T">The type of <see cref="Asset"/> to get.</typeparam>
-        /// <param name="name">The name (full ID) of the <see cref="Asset"/> to get.</param>
-        /// <returns>The <see cref="Asset"/> if found, <c>null</c> otherwise.</returns>
-        /// <exception cref="InvalidOperationException">A different type of asset with this <paramref name="name"/> was found instead.</exception>
-        internal T GetAsset<T>(string name) where T : Asset
+    #region Clean cache
+    /// <summary>
+    /// Removes all <see cref="Asset"/>s from the cache that have no references any more.
+    /// </summary>
+    public void Clean()
+    {
+        using (new ProfilerEvent("Cleaning asset cache"))
         {
-            if (_assetCache.Contains(name))
-            {
-                var asset = _assetCache[name] as T;
-                if (asset == null) throw new System.IO.InvalidDataException(Resources.WrongAssetType + name); // Incorrect asset type
-                return asset; // Correct asset found
-            }
-            return null; // Asset not found
-        }
-        #endregion
-
-        #region Clean cache
-        /// <summary>
-        /// Removes all <see cref="Asset"/>s from the cache that have no references any more.
-        /// </summary>
-        public void Clean()
-        {
-            using (new ProfilerEvent("Cleaning asset cache"))
-            {
-                // Build a list of elements to remove
-                var pendingRemove = new LinkedList<Asset>();
-                foreach (var asset in _assetCache.Where(x => x.ReferenceCount == 0))
-                {
-                    asset.Dispose();
-                    pendingRemove.AddLast(asset);
-                }
-
-                // Remove the elements one-by-one
-                foreach (var asset in pendingRemove) _assetCache.Remove(asset);
-            }
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Dispose
-        /// <summary>
-        /// Calls <see cref="Clean"/> and then checks if any <see cref="Asset"/> was not released.
-        /// </summary>
-        public void Dispose()
-        {
-            Clean();
-
-            // Check if any cache asset was not released
-            foreach (var asset in _assetCache)
+            // Build a list of elements to remove
+            var pendingRemove = new LinkedList<Asset>();
+            foreach (var asset in _assetCache.Where(x => x.ReferenceCount == 0))
             {
                 asset.Dispose();
-
-                Log.Error("References were not properly released for " + asset);
-#if DEBUG
-                throw new InvalidOperationException("References were not properly released for " + asset);
-#endif
+                pendingRemove.AddLast(asset);
             }
 
-            GC.SuppressFinalize(this);
+            // Remove the elements one-by-one
+            foreach (var asset in pendingRemove) _assetCache.Remove(asset);
         }
+    }
+    #endregion
 
-        /// <inheritdoc/>
-        ~CacheManager()
+    //--------------------//
+
+    #region Dispose
+    /// <summary>
+    /// Calls <see cref="Clean"/> and then checks if any <see cref="Asset"/> was not released.
+    /// </summary>
+    public void Dispose()
+    {
+        Clean();
+
+        // Check if any cache asset was not released
+        foreach (var asset in _assetCache)
         {
-            // This block will only be executed on Garbage Collection, not by manual disposal
-            Log.Error("Forgot to call Dispose on " + this);
+            asset.Dispose();
+
+            Log.Error("References were not properly released for " + asset);
 #if DEBUG
-            throw new InvalidOperationException("Forgot to call Dispose on " + this);
+            throw new InvalidOperationException("References were not properly released for " + asset);
 #endif
         }
-        #endregion
+
+        GC.SuppressFinalize(this);
     }
+
+    /// <inheritdoc/>
+    ~CacheManager()
+    {
+        // This block will only be executed on Garbage Collection, not by manual disposal
+        Log.Error("Forgot to call Dispose on " + this);
+#if DEBUG
+        throw new InvalidOperationException("Forgot to call Dispose on " + this);
+#endif
+    }
+    #endregion
 }

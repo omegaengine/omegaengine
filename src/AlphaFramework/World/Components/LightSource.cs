@@ -13,41 +13,40 @@ using AlphaFramework.World.Templates;
 using LuaInterface;
 using OmegaEngine.Values;
 
-namespace AlphaFramework.World.Components
+namespace AlphaFramework.World.Components;
+
+/// <summary>
+/// Represents a point light source.
+/// </summary>
+/// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
+public class LightSource : Render
 {
+    private Color _color = Color.White;
+
     /// <summary>
-    /// Represents a point light source.
+    /// The color of this point light source.
     /// </summary>
-    /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-    public class LightSource : Render
-    {
-        private Color _color = Color.White;
+    /// <remarks>Is not serialized/stored, <see cref="ColorValue"/> is used for that.</remarks>
+    [XmlIgnore, LuaHide, Description("The color of this point light source.")]
+    public Color Color { get => _color; set => _color = Color.FromArgb(255, value) /* Drop alpha-channel */; }
 
-        /// <summary>
-        /// The color of this point light source.
-        /// </summary>
-        /// <remarks>Is not serialized/stored, <see cref="ColorValue"/> is used for that.</remarks>
-        [XmlIgnore, LuaHide, Description("The color of this point light source.")]
-        public Color Color { get => _color; set => _color = Color.FromArgb(255, value) /* Drop alpha-channel */; }
+    /// <summary>Used for XML serialization.</summary>
+    /// <seealso cref="Color"/>
+    [XmlElement("Color"), LuaHide, Browsable(false)]
+    public XColor ColorValue { get => Color; set => Color = Color.FromArgb(value.R, value.G, value.B); }
 
-        /// <summary>Used for XML serialization.</summary>
-        /// <seealso cref="Color"/>
-        [XmlElement("Color"), LuaHide, Browsable(false)]
-        public XColor ColorValue { get => Color; set => Color = Color.FromArgb(value.R, value.G, value.B); }
+    // Drop alpha-value
 
-        // Drop alpha-value
+    /// <summary>
+    /// The maximum distance at which the light source has an effect.
+    /// </summary>
+    [Description("The maximum distance at which the light source has an effect.")]
+    [XmlAttribute]
+    public float Range { get; set; }
 
-        /// <summary>
-        /// The maximum distance at which the light source has an effect.
-        /// </summary>
-        [Description("The maximum distance at which the light source has an effect.")]
-        [XmlAttribute]
-        public float Range { get; set; }
-
-        /// <summary>
-        /// Factors describing the attenuation of light intensity over distance.
-        /// </summary>
-        [Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation.")]
-        public Attenuation Attenuation { get; set; } = new(1, 0, 0);
-    }
+    /// <summary>
+    /// Factors describing the attenuation of light intensity over distance.
+    /// </summary>
+    [Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation.")]
+    public Attenuation Attenuation { get; set; } = new(1, 0, 0);
 }

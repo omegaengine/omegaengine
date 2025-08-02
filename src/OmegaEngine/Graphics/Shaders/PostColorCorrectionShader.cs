@@ -11,86 +11,85 @@ using System.ComponentModel;
 using NanoByte.Common;
 using Resources = OmegaEngine.Properties.Resources;
 
-namespace OmegaEngine.Graphics.Shaders
+namespace OmegaEngine.Graphics.Shaders;
+
+/// <summary>
+/// A post-screen shader for applying TV-like settings like brightness, contrast, hue, etc.
+/// </summary>
+public class PostColorCorrectionShader : PostShader
 {
+    #region Properties
     /// <summary>
-    /// A post-screen shader for applying TV-like settings like brightness, contrast, hue, etc.
+    /// The minimum shader model version required to use this shader
     /// </summary>
-    public class PostColorCorrectionShader : PostShader
+    public static Version MinShaderModel => new(2, 0);
+
+    private float _brightness = 1, _contrast = 1, _saturation = 1, _hue;
+
+    /// <summary>
+    /// How bright the picture should be - values between 0 (black) and 5 (5x normal)
+    /// </summary>
+    [DefaultValue(1f), Description("How bright the picture should be - values between 0 (black) and 5 (5x normal)")]
+    public float Brightness
     {
-        #region Properties
-        /// <summary>
-        /// The minimum shader model version required to use this shader
-        /// </summary>
-        public static Version MinShaderModel => new(2, 0);
-
-        private float _brightness = 1, _contrast = 1, _saturation = 1, _hue;
-
-        /// <summary>
-        /// How bright the picture should be - values between 0 (black) and 5 (5x normal)
-        /// </summary>
-        [DefaultValue(1f), Description("How bright the picture should be - values between 0 (black) and 5 (5x normal)")]
-        public float Brightness
+        get => _brightness;
+        set
         {
-            get => _brightness;
-            set
-            {
-                value = value.Clamp(0, 5);
-                value.To(ref _brightness, () => SetShaderParameter("Brightness", value));
-            }
+            value = value.Clamp(0, 5);
+            value.To(ref _brightness, () => SetShaderParameter("Brightness", value));
         }
-
-        /// <summary>
-        /// The contrast level of the picture - values between -5 and 5
-        /// </summary>
-        [DefaultValue(1f), Description("The contrast level of the picture - values between -5 and 5")]
-        public float Contrast
-        {
-            get => _contrast;
-            set
-            {
-                value = value.Clamp(-5, 5);
-                value.To(ref _contrast, () => SetShaderParameter("Contrast", value));
-            }
-        }
-
-        /// <summary>
-        /// The color saturation level of the picture - values between -5 and 5
-        /// </summary>
-        [DefaultValue(1f), Description("The color saturation level of the picture - values between -5 and 5")]
-        public float Saturation
-        {
-            get => _saturation;
-            set
-            {
-                value = value.Clamp(-5, 5);
-                value.To(ref _saturation, () => SetShaderParameter("Saturation", value));
-            }
-        }
-
-        /// <summary>
-        /// The color hue rotation of the picture - values between 0 and 360
-        /// </summary>
-        [DefaultValue(0f), Description("The color hue rotation of the picture - values between 0 and 360")]
-        public float Hue
-        {
-            get => _hue;
-            set
-            {
-                value = value.Clamp(0, 360);
-                value.To(ref _hue, () => SetShaderParameter("Hue", value));
-            }
-        }
-        #endregion
-
-        #region Engine
-        protected override void OnEngineSet()
-        {
-            if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-            LoadShaderFile("Post_ColorCorrection.fxo");
-
-            base.OnEngineSet();
-        }
-        #endregion
     }
+
+    /// <summary>
+    /// The contrast level of the picture - values between -5 and 5
+    /// </summary>
+    [DefaultValue(1f), Description("The contrast level of the picture - values between -5 and 5")]
+    public float Contrast
+    {
+        get => _contrast;
+        set
+        {
+            value = value.Clamp(-5, 5);
+            value.To(ref _contrast, () => SetShaderParameter("Contrast", value));
+        }
+    }
+
+    /// <summary>
+    /// The color saturation level of the picture - values between -5 and 5
+    /// </summary>
+    [DefaultValue(1f), Description("The color saturation level of the picture - values between -5 and 5")]
+    public float Saturation
+    {
+        get => _saturation;
+        set
+        {
+            value = value.Clamp(-5, 5);
+            value.To(ref _saturation, () => SetShaderParameter("Saturation", value));
+        }
+    }
+
+    /// <summary>
+    /// The color hue rotation of the picture - values between 0 and 360
+    /// </summary>
+    [DefaultValue(0f), Description("The color hue rotation of the picture - values between 0 and 360")]
+    public float Hue
+    {
+        get => _hue;
+        set
+        {
+            value = value.Clamp(0, 360);
+            value.To(ref _hue, () => SetShaderParameter("Hue", value));
+        }
+    }
+    #endregion
+
+    #region Engine
+    protected override void OnEngineSet()
+    {
+        if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+        LoadShaderFile("Post_ColorCorrection.fxo");
+
+        base.OnEngineSet();
+    }
+    #endregion
 }

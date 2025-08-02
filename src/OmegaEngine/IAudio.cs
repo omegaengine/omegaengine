@@ -6,36 +6,35 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace OmegaEngine
+namespace OmegaEngine;
+
+/// <summary>
+/// Represents an asset that can playback audio.
+/// </summary>
+public interface IAudio
 {
     /// <summary>
-    /// Represents an asset that can playback audio.
+    /// Is this sound currently being played?
     /// </summary>
-    public interface IAudio
-    {
-        /// <summary>
-        /// Is this sound currently being played?
-        /// </summary>
-        bool Playing { get; }
+    bool Playing { get; }
 
-        /// <summary>
-        /// Is this sound set to loop?
-        /// </summary>
-        bool Looping { get; }
+    /// <summary>
+    /// Is this sound set to loop?
+    /// </summary>
+    bool Looping { get; }
 
-        /// <summary>
-        /// The playback volume for the asset.
-        /// </summary>
-        int Volume { get; set; }
+    /// <summary>
+    /// The playback volume for the asset.
+    /// </summary>
+    int Volume { get; set; }
 
-        /// <summary>
-        /// Starts the asset playback.
-        /// </summary>
-        void StartPlayback(bool looping);
+    /// <summary>
+    /// Starts the asset playback.
+    /// </summary>
+    void StartPlayback(bool looping);
 
-        /// <summary>
-        /// Stops the asset playback.
-        /// </summary>
-        void StopPlayback();
-    }
+    /// <summary>
+    /// Stops the asset playback.
+    /// </summary>
+    void StopPlayback();
 }

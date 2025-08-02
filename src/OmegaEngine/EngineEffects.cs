@@ -9,86 +9,85 @@
 using System;
 using OmegaEngine.Values;
 
-namespace OmegaEngine
+namespace OmegaEngine;
+
+/// <summary>
+/// Turn specific rendering effects in the <see cref="Engine"/> on or off.
+/// </summary>
+public sealed class EngineEffects
 {
+    #region Dependencies
+    private readonly EngineCapabilities _capabilities;
+
     /// <summary>
-    /// Turn specific rendering effects in the <see cref="Engine"/> on or off.
+    /// Creates a new engine effects object.
     /// </summary>
-    public sealed class EngineEffects
+    /// <param name="capabilities">Determines which effects can be turned on.</param>
+    internal EngineEffects(EngineCapabilities capabilities)
     {
-        #region Dependencies
-        private readonly EngineCapabilities _capabilities;
-
-        /// <summary>
-        /// Creates a new engine effects object.
-        /// </summary>
-        /// <param name="capabilities">Determines which effects can be turned on.</param>
-        internal EngineEffects(EngineCapabilities capabilities)
-        {
-            _capabilities = capabilities ?? throw new ArgumentNullException(nameof(capabilities));
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Per-pixel effects
-        private bool _perPixelLighting, _normalMapping, _postScreenEffects, _shadows;
-
-        /// <summary>
-        /// Use per-pixel lighting
-        /// </summary>
-        /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
-        public bool PerPixelLighting { get => _perPixelLighting; set => _perPixelLighting = _capabilities.PerPixelEffects && value; }
-
-        /// <summary>
-        /// Use normal mapping
-        /// </summary>
-        /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
-        public bool NormalMapping { get => _normalMapping; set => _normalMapping = _capabilities.PerPixelEffects && value; }
-
-        /// <summary>
-        /// Use post-screen effects
-        /// </summary>
-        /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
-        public bool PostScreenEffects { get => _postScreenEffects; set => _postScreenEffects = _capabilities.PerPixelEffects && value; }
-
-        /// <summary>
-        /// Apply shadows
-        /// </summary>
-        /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
-        public bool Shadows { get => _shadows; set => _shadows = _capabilities.PerPixelEffects && value; }
-        #endregion
-
-        #region Double sampling
-        private bool _doubleSampling;
-
-        /// <summary>
-        /// Sample terrain textures twice with different texture coordinates for better image quality
-        /// </summary>
-        /// <seealso cref="EngineCapabilities.DoubleSampling"/>
-        public bool DoubleSampling { get => _doubleSampling; set => _doubleSampling = _capabilities.DoubleSampling && value; }
-        #endregion
-
-        #region Water effects
-        private WaterEffectsType _waterEffects = WaterEffectsType.None;
-
-        /// <summary>
-        /// The effects to be display on water (e.g. reflections)
-        /// </summary>
-        public WaterEffectsType WaterEffects
-        {
-            get => _waterEffects;
-            set =>
-                // Check if the selected effect mode is supported by the hardware
-                _waterEffects = _capabilities.PerPixelEffects ? value : WaterEffectsType.None;
-        }
-        #endregion
-
-        #region Particle system quality
-        /// <summary>
-        /// The quality of CPU-based particle systems
-        /// </summary>
-        public Quality ParticleSystemQuality { get; set; } = Quality.Medium;
-        #endregion
+        _capabilities = capabilities ?? throw new ArgumentNullException(nameof(capabilities));
     }
+    #endregion
+
+    //--------------------//
+
+    #region Per-pixel effects
+    private bool _perPixelLighting, _normalMapping, _postScreenEffects, _shadows;
+
+    /// <summary>
+    /// Use per-pixel lighting
+    /// </summary>
+    /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
+    public bool PerPixelLighting { get => _perPixelLighting; set => _perPixelLighting = _capabilities.PerPixelEffects && value; }
+
+    /// <summary>
+    /// Use normal mapping
+    /// </summary>
+    /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
+    public bool NormalMapping { get => _normalMapping; set => _normalMapping = _capabilities.PerPixelEffects && value; }
+
+    /// <summary>
+    /// Use post-screen effects
+    /// </summary>
+    /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
+    public bool PostScreenEffects { get => _postScreenEffects; set => _postScreenEffects = _capabilities.PerPixelEffects && value; }
+
+    /// <summary>
+    /// Apply shadows
+    /// </summary>
+    /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
+    public bool Shadows { get => _shadows; set => _shadows = _capabilities.PerPixelEffects && value; }
+    #endregion
+
+    #region Double sampling
+    private bool _doubleSampling;
+
+    /// <summary>
+    /// Sample terrain textures twice with different texture coordinates for better image quality
+    /// </summary>
+    /// <seealso cref="EngineCapabilities.DoubleSampling"/>
+    public bool DoubleSampling { get => _doubleSampling; set => _doubleSampling = _capabilities.DoubleSampling && value; }
+    #endregion
+
+    #region Water effects
+    private WaterEffectsType _waterEffects = WaterEffectsType.None;
+
+    /// <summary>
+    /// The effects to be display on water (e.g. reflections)
+    /// </summary>
+    public WaterEffectsType WaterEffects
+    {
+        get => _waterEffects;
+        set =>
+            // Check if the selected effect mode is supported by the hardware
+            _waterEffects = _capabilities.PerPixelEffects ? value : WaterEffectsType.None;
+    }
+    #endregion
+
+    #region Particle system quality
+    /// <summary>
+    /// The quality of CPU-based particle systems
+    /// </summary>
+    public Quality ParticleSystemQuality { get; set; } = Quality.Medium;
+    #endregion
 }

@@ -10,35 +10,34 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 
-namespace AlphaFramework.World.Components
+namespace AlphaFramework.World.Components;
+
+/// <summary>
+/// Represents a particle system (e.g. fire or steam) controlled by an XML preset.
+/// </summary>
+/// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
+public abstract class ParticleSystem : Render
 {
     /// <summary>
-    /// Represents a particle system (e.g. fire or steam) controlled by an XML preset.
+    /// The filename of the XML particle system preset containing detailed settings.
     /// </summary>
-    /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-    public abstract class ParticleSystem : Render
+    [Description("The filename of the XML particle system preset containing detailed settings.")]
+    [XmlAttribute]
+    public string Filename { get; set; }
+
+    /// <inheritdoc/>
+    public override string ToString()
     {
-        /// <summary>
-        /// The filename of the XML particle system preset containing detailed settings.
-        /// </summary>
-        [Description("The filename of the XML particle system preset containing detailed settings.")]
-        [XmlAttribute]
-        public string Filename { get; set; }
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            string value = base.ToString();
-            if (!string.IsNullOrEmpty(Filename))
-                value += ": " + Filename;
-            return value;
-        }
-
-        /// <summary>
-        /// How far this particle system should be visible.
-        /// </summary>
-        [DefaultValue(0f), Description("How far this particle system should be visible.")]
-        [XmlAttribute]
-        public float VisibilityDistance { get; set; }
+        string value = base.ToString();
+        if (!string.IsNullOrEmpty(Filename))
+            value += ": " + Filename;
+        return value;
     }
+
+    /// <summary>
+    /// How far this particle system should be visible.
+    /// </summary>
+    [DefaultValue(0f), Description("How far this particle system should be visible.")]
+    [XmlAttribute]
+    public float VisibilityDistance { get; set; }
 }

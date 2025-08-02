@@ -8,60 +8,59 @@
 
 using SlimDX.Direct3D9;
 
-namespace OmegaGUI.Render
+namespace OmegaGUI.Render;
+
+/// <summary>
+/// Label text control
+/// </summary>
+public class Label : Control
 {
+    protected string textData; // Window text
+
+    public TextAlign TextAlign { get; set; }
+
     /// <summary>
-    /// Label text control
+    /// Create a new instance of a static text control
     /// </summary>
-    public class Label : Control
+    public Label(Dialog parent) : base(parent)
     {
-        protected string textData; // Window text
+        ctrlType = ControlType.Label;
+        textData = string.Empty;
+    }
 
-        public TextAlign TextAlign { get; set; }
+    /// <summary>
+    /// Render this control
+    /// </summary>
+    public override void Render(Device device, float elapsedTime)
+    {
+        if (!IsVisible)
+            return; // Nothing to do here
 
-        /// <summary>
-        /// Create a new instance of a static text control
-        /// </summary>
-        public Label(Dialog parent) : base(parent)
-        {
-            ctrlType = ControlType.Label;
-            textData = string.Empty;
-        }
+        var state = ControlState.Normal;
+        if (!IsEnabled)
+            state = ControlState.Disabled;
 
-        /// <summary>
-        /// Render this control
-        /// </summary>
-        public override void Render(Device device, float elapsedTime)
-        {
-            if (!IsVisible)
-                return; // Nothing to do here
+        // Blend the element colors
+        Element e = elementList[(int)TextAlign];
+        e.FontColor.Blend(state, elapsedTime);
 
-            var state = ControlState.Normal;
-            if (!IsEnabled)
-                state = ControlState.Disabled;
+        // Render with a shadow
+        parentDialog.DrawText(textData, e, boundingBox, true);
+    }
 
-            // Blend the element colors
-            Element e = elementList[(int)TextAlign];
-            e.FontColor.Blend(state, elapsedTime);
+    /// <summary>
+    /// Return a copy of the string
+    /// </summary>
+    public string GetTextCopy()
+    {
+        return string.Copy(textData);
+    }
 
-            // Render with a shadow
-            parentDialog.DrawText(textData, e, boundingBox, true);
-        }
-
-        /// <summary>
-        /// Return a copy of the string
-        /// </summary>
-        public string GetTextCopy()
-        {
-            return string.Copy(textData);
-        }
-
-        /// <summary>
-        /// Sets the updated text for this control
-        /// </summary>
-        public void SetText(string newText)
-        {
-            textData = newText;
-        }
+    /// <summary>
+    /// Sets the updated text for this control
+    /// </summary>
+    public void SetText(string newText)
+    {
+        textData = newText;
     }
 }

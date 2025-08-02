@@ -8,37 +8,36 @@
 
 using SlimDX.Direct3D9;
 
-namespace OmegaGUI.Render
+namespace OmegaGUI.Render;
+
+public class PictureBox : Control
 {
-    public class PictureBox : Control
+    /// <summary>Create new picture box instance</summary>
+    public PictureBox(Dialog parent, Element fill) : base(parent)
     {
-        /// <summary>Create new picture box instance</summary>
-        public PictureBox(Dialog parent, Element fill) : base(parent)
-        {
-            ctrlType = ControlType.PictureBox;
-            this[0] = fill;
-        }
+        ctrlType = ControlType.PictureBox;
+        this[0] = fill;
+    }
 
-        /// <summary>Render the picture box</summary>
-        public override void Render(Device device, float elapsedTime)
-        {
-            var state = ControlState.Normal;
-            if (IsVisible == false)
-                state = ControlState.Hidden;
-            else if (IsEnabled == false)
-                state = ControlState.Disabled;
-            else if (isMouseOver)
-                state = ControlState.MouseOver;
-            else if (hasFocus)
-                state = ControlState.Focus;
+    /// <summary>Render the picture box</summary>
+    public override void Render(Device device, float elapsedTime)
+    {
+        var state = ControlState.Normal;
+        if (IsVisible == false)
+            state = ControlState.Hidden;
+        else if (IsEnabled == false)
+            state = ControlState.Disabled;
+        else if (isMouseOver)
+            state = ControlState.MouseOver;
+        else if (hasFocus)
+            state = ControlState.Focus;
 
-            float blendRate = (state == ControlState.Pressed) ? 0.0f : 0.8f;
+        float blendRate = (state == ControlState.Pressed) ? 0.0f : 0.8f;
 
-            Element e = elementList[0];
+        Element e = elementList[0];
 
-            // Blend current color
-            e.TextureColor.Blend(state, elapsedTime, blendRate);
-            parentDialog.DrawSprite(e, boundingBox);
-        }
+        // Blend current color
+        e.TextureColor.Blend(state, elapsedTime, blendRate);
+        parentDialog.DrawSprite(e, boundingBox);
     }
 }

@@ -11,44 +11,43 @@ using NanoByte.Common;
 using OmegaEngine.Values;
 using SlimDX;
 
-namespace OmegaEngine.Graphics.Cameras
+namespace OmegaEngine.Graphics.Cameras;
+
+/// <summary>
+/// A camera that internally uses matrixes for representing rotations.
+/// </summary>
+public abstract class MatrixCamera : Camera
 {
+    #region Properties
+    private DoubleVector3 _target;
+
     /// <summary>
-    /// A camera that internally uses matrixes for representing rotations.
+    /// The position the camera is looking at.
     /// </summary>
-    public abstract class MatrixCamera : Camera
+    [Description("The position the camera is looking at."), Category("Layout")]
+    public virtual DoubleVector3 Target { get => _target; set => value.To(ref _target, ref ViewDirty, ref ViewFrustumDirty); }
+
+    private Vector3 _upVector = new(0, 1, 0);
+
+    /// <summary>
+    /// A vector indicating the up-direction
+    /// </summary>
+    [Description("A vector indicating the up-direction"), Category("Layout")]
+    public Vector3 UpVector { get => _upVector; protected set => value.To(ref _upVector, ref ViewDirty, ref ViewFrustumDirty); }
+    #endregion
+
+    //--------------------//
+
+    #region Recalc View Matrix
+    /// <summary>
+    /// Update cached versions of <see cref="View"/> and related matrices; abstract, to be overwritten in subclass.
+    /// </summary>
+    protected override void UpdateView()
     {
-        #region Properties
-        private DoubleVector3 _target;
+        SimpleViewCached = Matrix.LookAtLH(new(), _target.ApplyOffset(PositionCached), _upVector);
+        ViewCached = Matrix.LookAtLH(PositionCached.ApplyOffset(PositionBaseCached), _target.ApplyOffset(PositionBaseCached), _upVector);
 
-        /// <summary>
-        /// The position the camera is looking at.
-        /// </summary>
-        [Description("The position the camera is looking at."), Category("Layout")]
-        public virtual DoubleVector3 Target { get => _target; set => value.To(ref _target, ref ViewDirty, ref ViewFrustumDirty); }
-
-        private Vector3 _upVector = new(0, 1, 0);
-
-        /// <summary>
-        /// A vector indicating the up-direction
-        /// </summary>
-        [Description("A vector indicating the up-direction"), Category("Layout")]
-        public Vector3 UpVector { get => _upVector; protected set => value.To(ref _upVector, ref ViewDirty, ref ViewFrustumDirty); }
-        #endregion
-
-        //--------------------//
-
-        #region Recalc View Matrix
-        /// <summary>
-        /// Update cached versions of <see cref="View"/> and related matrices; abstract, to be overwritten in subclass.
-        /// </summary>
-        protected override void UpdateView()
-        {
-            SimpleViewCached = Matrix.LookAtLH(new(), _target.ApplyOffset(PositionCached), _upVector);
-            ViewCached = Matrix.LookAtLH(PositionCached.ApplyOffset(PositionBaseCached), _target.ApplyOffset(PositionBaseCached), _upVector);
-
-            CacheSpecialMatrices();
-        }
-        #endregion
+        CacheSpecialMatrices();
     }
+    #endregion
 }

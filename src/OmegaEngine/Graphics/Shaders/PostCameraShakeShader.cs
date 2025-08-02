@@ -12,81 +12,80 @@ using NanoByte.Common;
 using SlimDX;
 using Resources = OmegaEngine.Properties.Resources;
 
-namespace OmegaEngine.Graphics.Shaders
+namespace OmegaEngine.Graphics.Shaders;
+
+/// <summary>
+/// A post-screen shader that simulates a "shaking camera" effect.
+/// </summary>
+/// <remarks>
+/// The effect is actually fake, since the perspective cannot be extended beyound the original borders of the scene.
+/// Close-up slow-motition observation would reveal the borders to be stretched or squashed.
+/// </remarks>
+public class PostCameraShakeShader : PostShader
 {
+    #region Properties
     /// <summary>
-    /// A post-screen shader that simulates a "shaking camera" effect.
+    /// The minimum shader model version required to use this shader
     /// </summary>
-    /// <remarks>
-    /// The effect is actually fake, since the perspective cannot be extended beyound the original borders of the scene.
-    /// Close-up slow-motition observation would reveal the borders to be stretched or squashed.
-    /// </remarks>
-    public class PostCameraShakeShader : PostShader
+    public static Version MinShaderModel => new(2, 0);
+
+    private float _speed = 20.0f, _shakiness = 0.25f, _sharpness = 2.2f;
+
+    /// <summary>
+    /// How fast to shake the camera - values between -1 and 100
+    /// </summary>
+    [DefaultValue(20.0f), Description("How fast to shake the camera - values between -1 and 100")]
+    public float Speed
     {
-        #region Properties
-        /// <summary>
-        /// The minimum shader model version required to use this shader
-        /// </summary>
-        public static Version MinShaderModel => new(2, 0);
-
-        private float _speed = 20.0f, _shakiness = 0.25f, _sharpness = 2.2f;
-
-        /// <summary>
-        /// How fast to shake the camera - values between -1 and 100
-        /// </summary>
-        [DefaultValue(20.0f), Description("How fast to shake the camera - values between -1 and 100")]
-        public float Speed
+        get => _speed;
+        set
         {
-            get => _speed;
-            set
-            {
-                value = value.Clamp(-1, 100);
-                value.To(ref _speed, () => SetShaderParameter("Speed", value));
-            }
+            value = value.Clamp(-1, 100);
+            value.To(ref _speed, () => SetShaderParameter("Speed", value));
         }
-
-        /// <summary>
-        /// How erratically to shake the camera - values between 0 and 1
-        /// </summary>
-        [DefaultValue(0.25f), Description("How erratically to shake the camera - values between 0 and 1")]
-        public float Shakiness
-        {
-            get => _shakiness;
-            set
-            {
-                value = value.Clamp();
-                value.To(ref _shakiness, () => SetShaderParameter("Shakiness", value));
-            }
-        }
-
-        /// <summary>
-        /// How close the the origin to keep the shaking view - values between 0 and 10
-        /// </summary>
-        [DefaultValue(2.2f), Description("How close the the origin to keep the shaking view - values between 0 and 10")]
-        public float Sharpness
-        {
-            get => _sharpness;
-            set
-            {
-                value = value.Clamp(0, 10);
-                value.To(ref _sharpness, () => SetShaderParameter("Sharpness", value));
-            }
-        }
-
-        private Vector2 _timeDelta = new(1, 0.2f);
-
-        public Vector2 TimeDelta { get => _timeDelta; set => value.To(ref _timeDelta, () => SetShaderParameter("TimeDelta", value)); }
-        #endregion
-
-        #region Engine
-        /// <inheritdoc/>
-        protected override void OnEngineSet()
-        {
-            if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-            LoadShaderFile("Post_CameraShake.fxo");
-
-            base.OnEngineSet();
-        }
-        #endregion
     }
+
+    /// <summary>
+    /// How erratically to shake the camera - values between 0 and 1
+    /// </summary>
+    [DefaultValue(0.25f), Description("How erratically to shake the camera - values between 0 and 1")]
+    public float Shakiness
+    {
+        get => _shakiness;
+        set
+        {
+            value = value.Clamp();
+            value.To(ref _shakiness, () => SetShaderParameter("Shakiness", value));
+        }
+    }
+
+    /// <summary>
+    /// How close the the origin to keep the shaking view - values between 0 and 10
+    /// </summary>
+    [DefaultValue(2.2f), Description("How close the the origin to keep the shaking view - values between 0 and 10")]
+    public float Sharpness
+    {
+        get => _sharpness;
+        set
+        {
+            value = value.Clamp(0, 10);
+            value.To(ref _sharpness, () => SetShaderParameter("Sharpness", value));
+        }
+    }
+
+    private Vector2 _timeDelta = new(1, 0.2f);
+
+    public Vector2 TimeDelta { get => _timeDelta; set => value.To(ref _timeDelta, () => SetShaderParameter("TimeDelta", value)); }
+    #endregion
+
+    #region Engine
+    /// <inheritdoc/>
+    protected override void OnEngineSet()
+    {
+        if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+        LoadShaderFile("Post_CameraShake.fxo");
+
+        base.OnEngineSet();
+    }
+    #endregion
 }

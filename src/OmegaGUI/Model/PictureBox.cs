@@ -25,110 +25,109 @@ using System.Drawing;
 using OmegaEngine.Storage;
 using OmegaGUI.Render;
 
-namespace OmegaGUI.Model
+namespace OmegaGUI.Model;
+
+public class PictureBox : Control
 {
-    public class PictureBox : Control
+    #region Properties
+    private string _textureFile;
+
+    /// <summary>
+    /// The file containing the texture for this picture box - no auto-update
+    /// </summary>
+    [Description("The file containing the texture for this picture box"), Category("Appearance")]
+    public string TextureFile
     {
-        #region Properties
-        private string _textureFile;
-
-        /// <summary>
-        /// The file containing the texture for this picture box - no auto-update
-        /// </summary>
-        [Description("The file containing the texture for this picture box"), Category("Appearance")]
-        public string TextureFile
+        get => _textureFile;
+        set
         {
-            get => _textureFile;
-            set
-            {
-                _textureFile = value;
-                NeedsUpdate();
-            }
+            _textureFile = value;
+            NeedsUpdate();
         }
-
-        [Description("Is the specified texture file name valid?"), Category("Appearance")]
-        public bool TextureFileValid => !string.IsNullOrEmpty(_textureFile) && ContentManager.FileExists("GUI/Textures", _textureFile);
-
-        private Point _textureLocation = new(0, 0);
-
-        /// <summary>
-        /// The upper left corner of the area in the texture file to use - no auto-update
-        /// </summary>
-        [Description("The upper left corner of the area in the texture file to use"), Category("Appearance")]
-        public Point TextureLocation
-        {
-            get => _textureLocation;
-            set
-            {
-                _textureLocation = value;
-                NeedsUpdate();
-            }
-        }
-
-        private Size _textureSize = new(256, 256);
-
-        /// <summary>
-        /// The distance to the lower right corner of the area in the texture file to use - no auto-update
-        /// </summary>
-        [Description("The distance to the lower right corner of the area in the texture file to use"), Category("Appearance")]
-        public Size TextureSize
-        {
-            get => _textureSize;
-            set
-            {
-                _textureSize = value;
-                NeedsUpdate();
-            }
-        }
-
-        private byte _alpha = 255;
-
-        /// <summary>
-        /// The level of transparency from 0 (invisible) to 255 (solid)
-        /// </summary>
-        [DefaultValue((byte)0), Description("The level of transparency from 0 (invisible) to 255 (solid)"), Category("Appearance")]
-        public byte Alpha
-        {
-            get => _alpha;
-            set
-            {
-                _alpha = value;
-                if (ControlModel != null)
-                    ControlModel[0].TextureColor.States[(int)ControlState.Normal].Alpha = (float)_alpha / 255;
-            }
-        }
-        #endregion
-
-        #region Constructor
-        public PictureBox()
-        {
-            Size = new(120, 60);
-        }
-        #endregion
-
-        #region Generate
-        internal override void Generate()
-        {
-            if (!TextureFileValid) return;
-
-            // Load custom texture
-            uint textureNumber = Parent.CustomTexture++;
-            Parent.DialogRender.SetTexture(textureNumber, _textureFile);
-
-            var fill = new Element();
-            fill.SetTexture(textureNumber, new(_textureLocation, _textureSize));
-            fill.TextureColor.States[(int)ControlState.Normal] = Render.Dialog.WhiteColorValue;
-            fill.TextureColor.States[(int)ControlState.Normal].Alpha = (float)_alpha / 255;
-
-            // Add control to dialog
-            UpdateLayout();
-            DXControl = Parent.DialogRender.AddPictureBox(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, fill);
-            ControlModel.IsVisible = IsVisible;
-            ControlModel.IsEnabled = IsEnabled;
-
-            // Setup event hooks
-            SetupMouseEvents();
-        }
-        #endregion
     }
+
+    [Description("Is the specified texture file name valid?"), Category("Appearance")]
+    public bool TextureFileValid => !string.IsNullOrEmpty(_textureFile) && ContentManager.FileExists("GUI/Textures", _textureFile);
+
+    private Point _textureLocation = new(0, 0);
+
+    /// <summary>
+    /// The upper left corner of the area in the texture file to use - no auto-update
+    /// </summary>
+    [Description("The upper left corner of the area in the texture file to use"), Category("Appearance")]
+    public Point TextureLocation
+    {
+        get => _textureLocation;
+        set
+        {
+            _textureLocation = value;
+            NeedsUpdate();
+        }
+    }
+
+    private Size _textureSize = new(256, 256);
+
+    /// <summary>
+    /// The distance to the lower right corner of the area in the texture file to use - no auto-update
+    /// </summary>
+    [Description("The distance to the lower right corner of the area in the texture file to use"), Category("Appearance")]
+    public Size TextureSize
+    {
+        get => _textureSize;
+        set
+        {
+            _textureSize = value;
+            NeedsUpdate();
+        }
+    }
+
+    private byte _alpha = 255;
+
+    /// <summary>
+    /// The level of transparency from 0 (invisible) to 255 (solid)
+    /// </summary>
+    [DefaultValue((byte)0), Description("The level of transparency from 0 (invisible) to 255 (solid)"), Category("Appearance")]
+    public byte Alpha
+    {
+        get => _alpha;
+        set
+        {
+            _alpha = value;
+            if (ControlModel != null)
+                ControlModel[0].TextureColor.States[(int)ControlState.Normal].Alpha = (float)_alpha / 255;
+        }
+    }
+    #endregion
+
+    #region Constructor
+    public PictureBox()
+    {
+        Size = new(120, 60);
+    }
+    #endregion
+
+    #region Generate
+    internal override void Generate()
+    {
+        if (!TextureFileValid) return;
+
+        // Load custom texture
+        uint textureNumber = Parent.CustomTexture++;
+        Parent.DialogRender.SetTexture(textureNumber, _textureFile);
+
+        var fill = new Element();
+        fill.SetTexture(textureNumber, new(_textureLocation, _textureSize));
+        fill.TextureColor.States[(int)ControlState.Normal] = Render.Dialog.WhiteColorValue;
+        fill.TextureColor.States[(int)ControlState.Normal].Alpha = (float)_alpha / 255;
+
+        // Add control to dialog
+        UpdateLayout();
+        DXControl = Parent.DialogRender.AddPictureBox(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, fill);
+        ControlModel.IsVisible = IsVisible;
+        ControlModel.IsEnabled = IsEnabled;
+
+        // Setup event hooks
+        SetupMouseEvents();
+    }
+    #endregion
 }

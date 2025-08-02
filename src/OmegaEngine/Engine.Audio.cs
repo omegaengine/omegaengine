@@ -10,46 +10,45 @@ using LuaInterface;
 using SlimDX.DirectSound;
 using OmegaEngine.Audio;
 
-namespace OmegaEngine
+namespace OmegaEngine;
+
+// This file contains code for the Audio-subsystem
+partial class Engine
 {
-    // This file contains code for the Audio-subsystem
-    partial class Engine
+    #region Variables
+    //private SoundListener3D _listener;
+    #endregion
+
+    #region Properties
+    /// <summary>
+    /// The DirectSound device
+    /// </summary>
+    [LuaHide]
+    public DirectSound AudioDevice { get; private set; }
+
+    /// <summary>
+    /// Controls the playback of music (theme-selection, cross-fading, etc.)
+    /// </summary>
+    public MusicManager Music { get; private set; }
+    #endregion
+
+    //--------------------//
+
+    #region Setup
+    /// <summary>
+    /// Helper called by the constructor to setup the audio-subsystem.
+    /// </summary>
+    /// <exception cref="SlimDX.DirectSound.DirectSoundException">internal errors occurred while intiliazing the sound card.</exception>
+    private void SetupAudio()
     {
-        #region Variables
-        //private SoundListener3D _listener;
-        #endregion
+        AudioDevice = new();
+        AudioDevice.SetCooperativeLevel(Target.Handle, CooperativeLevel.Priority);
 
-        #region Properties
-        /// <summary>
-        /// The DirectSound device
-        /// </summary>
-        [LuaHide]
-        public DirectSound AudioDevice { get; private set; }
+        // ToDo
+        //var buffer = new PrimarySoundBuffer(SoundDevice, new SoundBufferDescription {Flags = BufferFlags.Control3D | BufferFlags.PrimaryBuffer});
+        //_listener = new SoundListener3D(buffer) { RolloffFactor = 0.005f };
 
-        /// <summary>
-        /// Controls the playback of music (theme-selection, cross-fading, etc.)
-        /// </summary>
-        public MusicManager Music { get; private set; }
-        #endregion
-
-        //--------------------//
-
-        #region Setup
-        /// <summary>
-        /// Helper called by the constructor to setup the audio-subsystem.
-        /// </summary>
-        /// <exception cref="SlimDX.DirectSound.DirectSoundException">internal errors occurred while intiliazing the sound card.</exception>
-        private void SetupAudio()
-        {
-            AudioDevice = new();
-            AudioDevice.SetCooperativeLevel(Target.Handle, CooperativeLevel.Priority);
-
-            // ToDo
-            //var buffer = new PrimarySoundBuffer(SoundDevice, new SoundBufferDescription {Flags = BufferFlags.Control3D | BufferFlags.PrimaryBuffer});
-            //_listener = new SoundListener3D(buffer) { RolloffFactor = 0.005f };
-
-            Music = new(this);
-        }
-        #endregion
+        Music = new(this);
     }
+    #endregion
 }

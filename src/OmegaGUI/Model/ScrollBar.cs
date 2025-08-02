@@ -24,58 +24,57 @@ using System;
 using System.ComponentModel;
 using Resources = OmegaGUI.Properties.Resources;
 
-namespace OmegaGUI.Model
+namespace OmegaGUI.Model;
+
+/// <summary>
+/// A scroll bar control
+/// </summary>
+public class ScrollBar : Slider
 {
+    #region Variables
     /// <summary>
-    /// A scroll bar control
+    /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    public class ScrollBar : Slider
+    private Render.ScrollBar _scrollbar;
+    #endregion
+
+    #region Properties
+    /// <summary>
+    /// The current value of the control
+    /// </summary>
+    [DefaultValue(0), Description("The current value of the control"), Category("Appearance")]
+    public override int Value
     {
-        #region Variables
-        /// <summary>
-        /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
-        /// </summary>
-        private Render.ScrollBar _scrollbar;
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// The current value of the control
-        /// </summary>
-        [DefaultValue(0), Description("The current value of the control"), Category("Appearance")]
-        public override int Value
+        get => _scrollbar?.TrackPosition ?? ControlValue;
+        set
         {
-            get => _scrollbar?.TrackPosition ?? ControlValue;
-            set
-            {
-                if (value < Min || value > Max)
-                    throw new InvalidOperationException(Resources.ValueOutOfRange);
-                ControlValue = value;
-                if (_scrollbar != null) _scrollbar.ScrollTo(value);
-            }
+            if (value < Min || value > Max)
+                throw new InvalidOperationException(Resources.ValueOutOfRange);
+            ControlValue = value;
+            if (_scrollbar != null) _scrollbar.ScrollTo(value);
         }
-        #endregion
-
-        #region Constructor
-        public ScrollBar()
-        {
-            Size = new(20, 150);
-        }
-        #endregion
-
-        #region Generate
-        internal override void Generate()
-        {
-            // Add control to dialog
-            UpdateLayout();
-            DXControl = _scrollbar =
-                Parent.DialogRender.AddScrollBar(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Min, Max, ControlValue, Default);
-            ControlModel.IsVisible = IsVisible;
-            ControlModel.IsEnabled = IsEnabled;
-
-            // Setup event hooks
-            SetupMouseEvents();
-        }
-        #endregion
     }
+    #endregion
+
+    #region Constructor
+    public ScrollBar()
+    {
+        Size = new(20, 150);
+    }
+    #endregion
+
+    #region Generate
+    internal override void Generate()
+    {
+        // Add control to dialog
+        UpdateLayout();
+        DXControl = _scrollbar =
+            Parent.DialogRender.AddScrollBar(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, Min, Max, ControlValue, Default);
+        ControlModel.IsVisible = IsVisible;
+        ControlModel.IsEnabled = IsEnabled;
+
+        // Setup event hooks
+        SetupMouseEvents();
+    }
+    #endregion
 }

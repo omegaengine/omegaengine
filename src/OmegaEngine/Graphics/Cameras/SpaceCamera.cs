@@ -6,23 +6,22 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace OmegaEngine.Graphics.Cameras
+namespace OmegaEngine.Graphics.Cameras;
+
+/// <summary>
+/// A freely rotateable and moveable camera, like flying through space.
+/// </summary>
+public class SpaceCamera : QuaternionCamera
 {
-    /// <summary>
-    /// A freely rotateable and moveable camera, like flying through space.
-    /// </summary>
-    public class SpaceCamera : QuaternionCamera
+    // ToDo: Implement
+
+    //--------------------//
+
+    #region View control
+    /// <inheritdoc/>
+    public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)
     {
-        // ToDo: Implement 
-
-        //--------------------//
-
-        #region View control
-        /// <inheritdoc/>
-        public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)
-        {
-            // ToDo: Implement 
-        }
-        #endregion
+        // ToDo: Implement
     }
+    #endregion
 }

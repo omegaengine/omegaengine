@@ -27,72 +27,71 @@ using AlphaFramework.World.Components;
 using OmegaEngine.Values;
 using SlimDX;
 
-namespace FrameOfReference.World.Components
+namespace FrameOfReference.World.Components;
+
+/// <summary>
+/// Collision-detection using an axis-aligned box.
+/// </summary>
+public class Box : Collision<Vector2>
 {
     /// <summary>
-    /// Collision-detection using an axis-aligned box.
+    /// The lower left corner of the box (originating from the body's position).
     /// </summary>
-    public class Box : Collision<Vector2>
+    [Description("The lower left corner of the box (originating from the body's position).")]
+    public Vector2 Minimum { get; set; }
+
+    /// <summary>
+    /// The upper right corner of the box (originating from the body's position).
+    /// </summary>
+    [Description("The upper right corner of the box (originating from the body's position).")]
+    public Vector2 Maximum { get; set; }
+
+    /// <summary>
+    /// The area covered by this box.
+    /// </summary>
+    [Browsable(false), XmlIgnore]
+    public RectangleF Area => RectangleF.FromLTRB(Minimum.X, Minimum.Y, Maximum.X, Maximum.Y);
+
+    /// <summary>
+    /// Determines whether a certain point lies within the box.
+    /// </summary>
+    /// <param name="point">The point to check for collision in entity space.</param>
+    /// <param name="rotation">How the box shall be rotated before performing the collision test.</param>
+    /// <returns><c>true</c> if <paramref name="point"/> does collide with the box, <c>false</c> otherwise.</returns>
+    public override bool CollisionTest(Vector2 point, float rotation)
     {
-        /// <summary>
-        /// The lower left corner of the box (originating from the body's position).
-        /// </summary>
-        [Description("The lower left corner of the box (originating from the body's position).")]
-        public Vector2 Minimum { get; set; }
-
-        /// <summary>
-        /// The upper right corner of the box (originating from the body's position).
-        /// </summary>
-        [Description("The upper right corner of the box (originating from the body's position).")]
-        public Vector2 Maximum { get; set; }
-
-        /// <summary>
-        /// The area covered by this box.
-        /// </summary>
-        [Browsable(false), XmlIgnore]
-        public RectangleF Area => RectangleF.FromLTRB(Minimum.X, Minimum.Y, Maximum.X, Maximum.Y);
-
-        /// <summary>
-        /// Determines whether a certain point lies within the box.
-        /// </summary>
-        /// <param name="point">The point to check for collision in entity space.</param>
-        /// <param name="rotation">How the box shall be rotated before performing the collision test.</param>
-        /// <returns><c>true</c> if <paramref name="point"/> does collide with the box, <c>false</c> otherwise.</returns>
-        public override bool CollisionTest(Vector2 point, float rotation)
+        // ReSharper disable once CompareOfFloatsByEqualityOperator
+        if (rotation == 0)
         {
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (rotation == 0)
-            {
-                // Perform simple test if no rotation is to be performed
-                return (point.X >= Minimum.X && point.X <= Maximum.X &&
-                        point.Y >= Minimum.Y && point.Y <= Maximum.Y);
-            }
-            // Empty boxes can never intersect
-            if (Minimum == Maximum) return false;
+            // Perform simple test if no rotation is to be performed
+            return (point.X >= Minimum.X && point.X <= Maximum.X &&
+                    point.Y >= Minimum.Y && point.Y <= Maximum.Y);
+        }
+        // Empty boxes can never intersect
+        if (Minimum == Maximum) return false;
 
-            // Perform rotation before intersection test
-            var rotatedBox = new Quadrangle(Area).Rotate(rotation);
-            return rotatedBox.IntersectWith(point);
+        // Perform rotation before intersection test
+        var rotatedBox = new Quadrangle(Area).Rotate(rotation);
+        return rotatedBox.IntersectWith(point);
+    }
+
+    /// <summary>
+    /// Determines whether a certain area lies within the box.
+    /// </summary>
+    /// <param name="area">The area to check for collision in entity space.</param>
+    /// <param name="rotation">How the box shall be rotated before performing the collision test.</param>
+    /// <returns><c>true</c> if <paramref name="area"/> does collide with the box, <c>false</c>.</returns>
+    public override bool CollisionTest(Quadrangle area, float rotation)
+    {
+        // ReSharper disable once CompareOfFloatsByEqualityOperator
+        if (rotation == 0)
+        {
+            // Perform simple test if no rotation is to be performed
+            return area.IntersectWith(Area);
         }
 
-        /// <summary>
-        /// Determines whether a certain area lies within the box.
-        /// </summary>
-        /// <param name="area">The area to check for collision in entity space.</param>
-        /// <param name="rotation">How the box shall be rotated before performing the collision test.</param>
-        /// <returns><c>true</c> if <paramref name="area"/> does collide with the box, <c>false</c>.</returns>
-        public override bool CollisionTest(Quadrangle area, float rotation)
-        {
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (rotation == 0)
-            {
-                // Perform simple test if no rotation is to be performed
-                return area.IntersectWith(Area);
-            }
-
-            // Perform rotation before intersection test
-            var rotatedBox = new Quadrangle(Area).Rotate(rotation);
-            return rotatedBox.IntersectWith(area);
-        }
+        // Perform rotation before intersection test
+        var rotatedBox = new Quadrangle(Area).Rotate(rotation);
+        return rotatedBox.IntersectWith(area);
     }
 }

@@ -12,80 +12,79 @@ using AlphaFramework.Editor.Properties;
 using AlphaFramework.World.Terrains;
 using NanoByte.Common.Undo;
 
-namespace AlphaFramework.Editor.World.Commands
+namespace AlphaFramework.Editor.World.Commands;
+
+/// <summary>
+/// Modifies height-map data in a <see cref="ITerrain"/>.
+/// </summary>
+public class ModifyHeightMap : FirstExecuteCommand
 {
+    #region Variables
+    private readonly ITerrain _terrain;
+    private readonly Point _start;
+    private readonly byte[,] _oldPartialData, _newPartialData;
+    private readonly Action _refreshHandler;
+    #endregion
+
+    #region Constructor
     /// <summary>
-    /// Modifies height-map data in a <see cref="ITerrain"/>.
+    /// Creates a new command for modifying a rectangular area of the height-map in a <see cref="ITerrain"/>.
     /// </summary>
-    public class ModifyHeightMap : FirstExecuteCommand
+    /// <param name="terrain">The <see cref="ITerrain"/> to modify.</param>
+    /// <param name="offset">The top-left coordinates of the area to modify.</param>
+    /// <param name="oldPartialData">The height-map data of the area before it was modified. Do not modify this array after calling this method!</param>
+    /// <param name="newPartialData">The height-map data of the area after it was modified. Do not modify this array after calling this method!</param>
+    /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
+    public ModifyHeightMap(ITerrain terrain, Point offset, byte[,] oldPartialData, byte[,] newPartialData, Action refreshHandler)
     {
-        #region Variables
-        private readonly ITerrain _terrain;
-        private readonly Point _start;
-        private readonly byte[,] _oldPartialData, _newPartialData;
-        private readonly Action _refreshHandler;
-        #endregion
+        _terrain = terrain ?? throw new ArgumentNullException(nameof(terrain));
+        _start = offset;
+        _oldPartialData = oldPartialData ?? throw new ArgumentNullException(nameof(oldPartialData));
+        _newPartialData = newPartialData ??  throw new ArgumentNullException(nameof(newPartialData));
+        _refreshHandler = refreshHandler ?? throw new ArgumentNullException(nameof(refreshHandler));
 
-        #region Constructor
-        /// <summary>
-        /// Creates a new command for modifying a rectangular area of the height-map in a <see cref="ITerrain"/>.
-        /// </summary>
-        /// <param name="terrain">The <see cref="ITerrain"/> to modify.</param>
-        /// <param name="offset">The top-left coordinates of the area to modify.</param>
-        /// <param name="oldPartialData">The height-map data of the area before it was modified. Do not modify this array after calling this method!</param>
-        /// <param name="newPartialData">The height-map data of the area after it was modified. Do not modify this array after calling this method!</param>
-        /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
-        public ModifyHeightMap(ITerrain terrain, Point offset, byte[,] oldPartialData, byte[,] newPartialData, Action refreshHandler)
-        {
-            _terrain = terrain ?? throw new ArgumentNullException(nameof(terrain));
-            _start = offset;
-            _oldPartialData = oldPartialData ?? throw new ArgumentNullException(nameof(oldPartialData));
-            _newPartialData = newPartialData ??  throw new ArgumentNullException(nameof(newPartialData));
-            _refreshHandler = refreshHandler ?? throw new ArgumentNullException(nameof(refreshHandler));
-
-            if (oldPartialData.GetLength(0) != newPartialData.GetLength(0) || oldPartialData.GetLength(1) != newPartialData.GetLength(1)) throw new ArgumentException(Resources.PartialDataArrayDimensionsNotEqual, nameof(newPartialData));
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Undo/Redo
-        protected override void OnFirstExecute()
-        {
-            // Terrain data has already been modified but entity positions have not been updated yet
-            _refreshHandler();
-
-            // Mark the shadow maps for update
-            _terrain.OcclusionIntervalMapOutdated = true;
-        }
-
-        /// <summary>
-        /// Applies the <see cref="_newPartialData"/> to <see cref="ITerrain.HeightMap"/>.
-        /// </summary>
-        protected override void OnRedo()
-        {
-            for (int x = 0; x < _newPartialData.GetLength(0); x++)
-            {
-                for (int y = 0; y < _newPartialData.GetLength(1); y++)
-                    _terrain.HeightMap[_start.X + x, _start.Y + y] = _newPartialData[x, y];
-            }
-
-            OnFirstExecute();
-        }
-
-        /// <summary>
-        /// Applies the <see cref="_oldPartialData"/> to <see cref="ITerrain.HeightMap"/>.
-        /// </summary>
-        protected override void OnUndo()
-        {
-            for (int x = 0; x < _oldPartialData.GetLength(0); x++)
-            {
-                for (int y = 0; y < _oldPartialData.GetLength(1); y++)
-                    _terrain.HeightMap[_start.X + x, _start.Y + y] = _oldPartialData[x, y];
-            }
-
-            OnFirstExecute();
-        }
-        #endregion
+        if (oldPartialData.GetLength(0) != newPartialData.GetLength(0) || oldPartialData.GetLength(1) != newPartialData.GetLength(1)) throw new ArgumentException(Resources.PartialDataArrayDimensionsNotEqual, nameof(newPartialData));
     }
+    #endregion
+
+    //--------------------//
+
+    #region Undo/Redo
+    protected override void OnFirstExecute()
+    {
+        // Terrain data has already been modified but entity positions have not been updated yet
+        _refreshHandler();
+
+        // Mark the shadow maps for update
+        _terrain.OcclusionIntervalMapOutdated = true;
+    }
+
+    /// <summary>
+    /// Applies the <see cref="_newPartialData"/> to <see cref="ITerrain.HeightMap"/>.
+    /// </summary>
+    protected override void OnRedo()
+    {
+        for (int x = 0; x < _newPartialData.GetLength(0); x++)
+        {
+            for (int y = 0; y < _newPartialData.GetLength(1); y++)
+                _terrain.HeightMap[_start.X + x, _start.Y + y] = _newPartialData[x, y];
+        }
+
+        OnFirstExecute();
+    }
+
+    /// <summary>
+    /// Applies the <see cref="_oldPartialData"/> to <see cref="ITerrain.HeightMap"/>.
+    /// </summary>
+    protected override void OnUndo()
+    {
+        for (int x = 0; x < _oldPartialData.GetLength(0); x++)
+        {
+            for (int y = 0; y < _oldPartialData.GetLength(1); y++)
+                _terrain.HeightMap[_start.X + x, _start.Y + y] = _oldPartialData[x, y];
+        }
+
+        OnFirstExecute();
+    }
+    #endregion
 }

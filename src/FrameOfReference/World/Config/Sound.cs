@@ -24,36 +24,35 @@ using System;
 using System.ComponentModel;
 using NanoByte.Common;
 
-namespace FrameOfReference.World.Config
+namespace FrameOfReference.World.Config;
+
+/// <summary>
+/// Stores sound settings (turn music on or off, etc.).
+/// </summary>
+/// <seealso cref="Settings.Sound"/>
+public sealed class SoundSettings
 {
+    #region Events
     /// <summary>
-    /// Stores sound settings (turn music on or off, etc.).
+    /// Occurs when a setting in this group is changed.
     /// </summary>
-    /// <seealso cref="Settings.Sound"/>
-    public sealed class SoundSettings
+    [Description("Occurs when a setting in this group is changed.")]
+    public event Action Changed;
+
+    private void OnChanged()
     {
-        #region Events
-        /// <summary>
-        /// Occurs when a setting in this group is changed.
-        /// </summary>
-        [Description("Occurs when a setting in this group is changed.")]
-        public event Action Changed;
-
-        private void OnChanged()
-        {
-            Changed?.Invoke();
-            if (Settings.AutoSave && Settings.Current != null && Settings.Current.Sound == this) Settings.SaveCurrent();
-        }
-        #endregion
-
-        #region Properties
-        private bool _playMusic = true;
-
-        /// <summary>
-        /// Play in-game music
-        /// </summary>
-        [DefaultValue(true), Description("Play in-game music")]
-        public bool PlayMusic { get => _playMusic; set => value.To(ref _playMusic, OnChanged); }
-        #endregion
+        Changed?.Invoke();
+        if (Settings.AutoSave && Settings.Current != null && Settings.Current.Sound == this) Settings.SaveCurrent();
     }
+    #endregion
+
+    #region Properties
+    private bool _playMusic = true;
+
+    /// <summary>
+    /// Play in-game music
+    /// </summary>
+    [DefaultValue(true), Description("Play in-game music")]
+    public bool PlayMusic { get => _playMusic; set => value.To(ref _playMusic, OnChanged); }
+    #endregion
 }

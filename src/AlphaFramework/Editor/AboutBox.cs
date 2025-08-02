@@ -10,68 +10,67 @@ using System;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace AlphaFramework.Editor
+namespace AlphaFramework.Editor;
+
+/// <summary>
+/// A standard about box with application version information.
+/// </summary>
+public sealed partial class AboutBox : Form
 {
-    /// <summary>
-    /// A standard about box with application version information.
-    /// </summary>
-    public sealed partial class AboutBox : Form
+    /// <inheritdoc/>
+    public AboutBox()
     {
-        /// <inheritdoc/>
-        public AboutBox()
-        {
-            InitializeComponent();
-            labelTitle.Text = AssemblyTitle;
-            labelVersion.Text = @"Version " + AssemblyVersion;
-            labelCopyright.Text = AssemblyCopyright;
-            labelCompanyName.Text = AssemblyCompany;
-            textBoxDescription.Text = AssemblyDescription;
-        }
-
-        #region Assembly attributes
-        public static string AssemblyTitle
-        {
-            get
-            {
-                var assembly = Assembly.GetEntryAssembly();
-                if (assembly == null) return "";
-                object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-                if (attributes.Length == 0) return "";
-                return ((AssemblyTitleAttribute)attributes[0]).Title;
-            }
-        }
-
-        private static Version AssemblyVersion => Assembly.GetEntryAssembly().GetName().Version;
-
-        private static string AssemblyCopyright
-        {
-            get
-            {
-                object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-                if (attributes.Length == 0) return "";
-                return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
-            }
-        }
-
-        private static string AssemblyCompany
-        {
-            get
-            {
-                object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
-                if (attributes.Length == 0) return "";
-                return ((AssemblyCompanyAttribute)attributes[0]).Company;
-            }
-        }
-
-        private static string AssemblyDescription
-        {
-            get
-            {
-                object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
-                if (attributes.Length == 0) return "";
-                return ((AssemblyDescriptionAttribute)attributes[0]).Description;
-            }
-        }
-        #endregion
+        InitializeComponent();
+        labelTitle.Text = AssemblyTitle;
+        labelVersion.Text = @"Version " + AssemblyVersion;
+        labelCopyright.Text = AssemblyCopyright;
+        labelCompanyName.Text = AssemblyCompany;
+        textBoxDescription.Text = AssemblyDescription;
     }
+
+    #region Assembly attributes
+    public static string AssemblyTitle
+    {
+        get
+        {
+            var assembly = Assembly.GetEntryAssembly();
+            if (assembly == null) return "";
+            object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+            if (attributes.Length == 0) return "";
+            return ((AssemblyTitleAttribute)attributes[0]).Title;
+        }
+    }
+
+    private static Version AssemblyVersion => Assembly.GetEntryAssembly().GetName().Version;
+
+    private static string AssemblyCopyright
+    {
+        get
+        {
+            object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+            if (attributes.Length == 0) return "";
+            return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
+        }
+    }
+
+    private static string AssemblyCompany
+    {
+        get
+        {
+            object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
+            if (attributes.Length == 0) return "";
+            return ((AssemblyCompanyAttribute)attributes[0]).Company;
+        }
+    }
+
+    private static string AssemblyDescription
+    {
+        get
+        {
+            object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
+            if (attributes.Length == 0) return "";
+            return ((AssemblyDescriptionAttribute)attributes[0]).Description;
+        }
+    }
+    #endregion
 }

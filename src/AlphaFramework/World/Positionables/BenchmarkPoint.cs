@@ -8,25 +8,24 @@
 
 using System.ComponentModel;
 
-namespace AlphaFramework.World.Positionables
+namespace AlphaFramework.World.Positionables;
+
+/// <summary>
+/// A marker that controls camera positions for the benchmark mode of the game.
+/// </summary>
+/// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
+public class BenchmarkPoint<TCoordinates> : CameraState<TCoordinates>
+    where TCoordinates : struct
 {
     /// <summary>
-    /// A marker that controls camera positions for the benchmark mode of the game.
+    /// Cycle through different water quality settings here (will take 3x as long).
     /// </summary>
-    /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
-    public class BenchmarkPoint<TCoordinates> : CameraState<TCoordinates>
-        where TCoordinates : struct
-    {
-        /// <summary>
-        /// Cycle through different water quality settings here (will take 3x as long).
-        /// </summary>
-        [DefaultValue(false)]
-        public bool TestWater { get; set; }
+    [DefaultValue(false)]
+    public bool TestWater { get; set; }
 
-        /// <summary>
-        /// Cycle through particle system quality settings here (will take 2x as long).
-        /// </summary>
-        [DefaultValue(false)]
-        public bool TestParticleSystem { get; set; }
-    }
+    /// <summary>
+    /// Cycle through particle system quality settings here (will take 2x as long).
+    /// </summary>
+    [DefaultValue(false)]
+    public bool TestParticleSystem { get; set; }
 }

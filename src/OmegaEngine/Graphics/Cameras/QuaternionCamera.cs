@@ -10,36 +10,35 @@ using System.ComponentModel;
 using NanoByte.Common;
 using SlimDX;
 
-namespace OmegaEngine.Graphics.Cameras
+namespace OmegaEngine.Graphics.Cameras;
+
+/// <summary>
+/// A camera that internally uses quaternions for representing rotations.
+/// </summary>
+public abstract class QuaternionCamera : Camera
 {
+    #region Properties
+    private Quaternion _viewQuat;
+
     /// <summary>
-    /// A camera that internally uses quaternions for representing rotations.
+    /// The current camera view as a quaternion
     /// </summary>
-    public abstract class QuaternionCamera : Camera
+    [Browsable(false)]
+    public Quaternion ViewQuat { get => _viewQuat; set => value.To(ref _viewQuat, ref ViewDirty, ref ViewFrustumDirty); }
+    #endregion
+
+    //--------------------//
+
+    #region Recalc View Matrix
+    /// <summary>
+    /// Update cached versions of <see cref="View"/> and related matrices; abstract, to be overwritten in subclass.
+    /// </summary>
+    protected override void UpdateView()
     {
-        #region Properties
-        private Quaternion _viewQuat;
+        SimpleViewCached = Matrix.RotationQuaternion(_viewQuat);
+        ViewCached = Matrix.Translation(-PositionCached.ApplyOffset(PositionBaseCached)) * SimpleViewCached;
 
-        /// <summary>
-        /// The current camera view as a quaternion
-        /// </summary>
-        [Browsable(false)]
-        public Quaternion ViewQuat { get => _viewQuat; set => value.To(ref _viewQuat, ref ViewDirty, ref ViewFrustumDirty); }
-        #endregion
-
-        //--------------------//
-
-        #region Recalc View Matrix
-        /// <summary>
-        /// Update cached versions of <see cref="View"/> and related matrices; abstract, to be overwritten in subclass.
-        /// </summary>
-        protected override void UpdateView()
-        {
-            SimpleViewCached = Matrix.RotationQuaternion(_viewQuat);
-            ViewCached = Matrix.Translation(-PositionCached.ApplyOffset(PositionBaseCached)) * SimpleViewCached;
-
-            CacheSpecialMatrices();
-        }
-        #endregion
+        CacheSpecialMatrices();
     }
+    #endregion
 }

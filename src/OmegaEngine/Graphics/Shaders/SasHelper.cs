@@ -28,311 +28,310 @@ using NanoByte.Common;
 using SlimDX;
 using SlimDX.Direct3D9;
 
-namespace OmegaEngine.Graphics.Shaders
+namespace OmegaEngine.Graphics.Shaders;
+
+/// <summary>
+/// Helper class for accessing SAS-compliant annotations and reading/setting parameters
+/// </summary>
+internal static class SasHelper
 {
-    /// <summary>
-    /// Helper class for accessing SAS-compliant annotations and reading/setting parameters
-    /// </summary>
-    internal static class SasHelper
+    #region Annotation String
+    public static string FindAnnotationString(Effect effect, EffectHandle handle, string name)
     {
-        #region Annotation String
-        public static string FindAnnotationString(Effect effect, EffectHandle handle, string name)
-        {
-            if (effect == null) throw new ArgumentNullException(nameof(effect));
-            if (handle == null) throw new ArgumentNullException(nameof(handle));
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+        if (effect == null) throw new ArgumentNullException(nameof(effect));
+        if (handle == null) throw new ArgumentNullException(nameof(handle));
+        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
-            ParameterDescription paramDesc = effect.GetParameterDescription(handle);
-            for (int i = 0; i < paramDesc.Annotations; i++)
+        ParameterDescription paramDesc = effect.GetParameterDescription(handle);
+        for (int i = 0; i < paramDesc.Annotations; i++)
+        {
+            EffectHandle annotationHandle = effect.GetAnnotation(handle, i);
+            if (annotationHandle != null)
             {
-                EffectHandle annotationHandle = effect.GetAnnotation(handle, i);
-                if (annotationHandle != null)
-                {
-                    ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
-                    if (annotationDesc.Type == ParameterType.String && StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
-                        return effect.GetString(annotationHandle);
-                }
+                ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
+                if (annotationDesc.Type == ParameterType.String && StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
+                    return effect.GetString(annotationHandle);
             }
-            return null;
         }
-        #endregion
+        return null;
+    }
+    #endregion
 
-        #region Technique Annotation String
-        public static string FindTechniqueAnnotationString(Effect effect, EffectHandle handle, string name)
+    #region Technique Annotation String
+    public static string FindTechniqueAnnotationString(Effect effect, EffectHandle handle, string name)
+    {
+        if (effect == null) throw new ArgumentNullException(nameof(effect));
+        if (handle == null) throw new ArgumentNullException(nameof(handle));
+        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+
+        TechniqueDescription paramDesc = effect.GetTechniqueDescription(handle);
+        for (int i = 0; i < paramDesc.Annotations; i++)
         {
-            if (effect == null) throw new ArgumentNullException(nameof(effect));
-            if (handle == null) throw new ArgumentNullException(nameof(handle));
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-
-            TechniqueDescription paramDesc = effect.GetTechniqueDescription(handle);
-            for (int i = 0; i < paramDesc.Annotations; i++)
+            EffectHandle annotationHandle = effect.GetAnnotation(handle, i);
+            if (annotationHandle != null)
             {
-                EffectHandle annotationHandle = effect.GetAnnotation(handle, i);
-                if (annotationHandle != null)
-                {
-                    ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
-                    if (annotationDesc.Type == ParameterType.String && StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
-                        return effect.GetString(annotationHandle);
-                }
+                ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
+                if (annotationDesc.Type == ParameterType.String && StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
+                    return effect.GetString(annotationHandle);
             }
-            return null;
         }
-        #endregion
+        return null;
+    }
+    #endregion
 
-        #region Pass Annotation String
-        public static string FindPassAnnotationString(Effect effect, EffectHandle handle, string name)
+    #region Pass Annotation String
+    public static string FindPassAnnotationString(Effect effect, EffectHandle handle, string name)
+    {
+        if (effect == null) throw new ArgumentNullException(nameof(effect));
+        if (handle == null) throw new ArgumentNullException(nameof(handle));
+        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+
+        PassDescription paramDesc = effect.GetPassDescription(handle);
+        for (int i = 0; i < paramDesc.Annotations; i++)
         {
-            if (effect == null) throw new ArgumentNullException(nameof(effect));
-            if (handle == null) throw new ArgumentNullException(nameof(handle));
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-
-            PassDescription paramDesc = effect.GetPassDescription(handle);
-            for (int i = 0; i < paramDesc.Annotations; i++)
+            EffectHandle annotationHandle = effect.GetAnnotation(handle, i);
+            if (annotationHandle != null)
             {
-                EffectHandle annotationHandle = effect.GetAnnotation(handle, i);
-                if (annotationHandle != null)
-                {
-                    ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
-                    if (annotationDesc.Type == ParameterType.String && StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
-                        return effect.GetString(annotationHandle);
-                }
+                ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
+                if (annotationDesc.Type == ParameterType.String && StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
+                    return effect.GetString(annotationHandle);
             }
-            return null;
         }
-        #endregion
+        return null;
+    }
+    #endregion
 
-        #region Annotation Float
-        public static float FindAnnotationFloat(Effect effect, EffectHandle handle, string name)
+    #region Annotation Float
+    public static float FindAnnotationFloat(Effect effect, EffectHandle handle, string name)
+    {
+        if (effect == null) throw new ArgumentNullException(nameof(effect));
+        if (handle == null) throw new ArgumentNullException(nameof(handle));
+        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+
+        ParameterDescription paramDesc = effect.GetParameterDescription(handle);
+        for (int i = 0; i < paramDesc.Annotations; i++)
         {
-            if (effect == null) throw new ArgumentNullException(nameof(effect));
-            if (handle == null) throw new ArgumentNullException(nameof(handle));
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-
-            ParameterDescription paramDesc = effect.GetParameterDescription(handle);
-            for (int i = 0; i < paramDesc.Annotations; i++)
+            EffectHandle annotationHandle = effect.GetAnnotation(handle, i);
+            if (annotationHandle != null)
             {
-                EffectHandle annotationHandle = effect.GetAnnotation(handle, i);
-                if (annotationHandle != null)
+                ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
+                if (StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
                 {
-                    ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
-                    if (StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
+                    try
                     {
-                        try
+                        switch (annotationDesc.Type)
                         {
-                            switch (annotationDesc.Type)
-                            {
-                                case ParameterType.String:
-                                    return float.Parse(effect.GetString(annotationHandle), CultureInfo.InvariantCulture);
-                                case ParameterType.Int:
-                                    return effect.GetValue<int>(annotationHandle);
-                                case ParameterType.Float:
-                                    return effect.GetValue<float>(annotationHandle);
-                                case ParameterType.Bool:
-                                    return effect.GetValue<bool>(annotationHandle) ? 1.0f : 0.0f;
-                                default:
-                                    return 0.0f;
-                            }
+                            case ParameterType.String:
+                                return float.Parse(effect.GetString(annotationHandle), CultureInfo.InvariantCulture);
+                            case ParameterType.Int:
+                                return effect.GetValue<int>(annotationHandle);
+                            case ParameterType.Float:
+                                return effect.GetValue<float>(annotationHandle);
+                            case ParameterType.Bool:
+                                return effect.GetValue<bool>(annotationHandle) ? 1.0f : 0.0f;
+                            default:
+                                return 0.0f;
                         }
-                        catch (Direct3D9Exception)
-                        {
-                            return 0.0f;
-                        }
+                    }
+                    catch (Direct3D9Exception)
+                    {
+                        return 0.0f;
                     }
                 }
             }
-            return 0.0f;
         }
-        #endregion
+        return 0.0f;
+    }
+    #endregion
 
-        #region Annotation Vector4
-        public static Vector4 FindAnnotationVector4(Effect effect, EffectHandle handle, string name)
+    #region Annotation Vector4
+    public static Vector4 FindAnnotationVector4(Effect effect, EffectHandle handle, string name)
+    {
+        if (effect == null) throw new ArgumentNullException(nameof(effect));
+        if (handle == null) throw new ArgumentNullException(nameof(handle));
+        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+
+        var ret = new Vector4();
+
+        ParameterDescription paramDesc = effect.GetParameterDescription(handle);
+        for (int i = 0; i < paramDesc.Annotations; i++)
         {
-            if (effect == null) throw new ArgumentNullException(nameof(effect));
-            if (handle == null) throw new ArgumentNullException(nameof(handle));
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-
-            var ret = new Vector4();
-
-            ParameterDescription paramDesc = effect.GetParameterDescription(handle);
-            for (int i = 0; i < paramDesc.Annotations; i++)
+            EffectHandle annotationHandle = effect.GetAnnotation(handle, i);
+            if (annotationHandle != null)
             {
-                EffectHandle annotationHandle = effect.GetAnnotation(handle, i);
-                if (annotationHandle != null)
+                ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
+                if (StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
                 {
-                    ParameterDescription annotationDesc = effect.GetParameterDescription(annotationHandle);
-                    if (StringUtils.EqualsIgnoreCase(annotationDesc.Name, name))
+                    try
                     {
-                        try
+                        switch (annotationDesc.Type)
                         {
-                            switch (annotationDesc.Type)
+                            case ParameterType.Float:
                             {
-                                case ParameterType.Float:
+                                ret.W = ret.X = ret.Y = ret.Z = 0.0f;
+                                float[] value = effect.GetValue<float>(annotationHandle, annotationDesc.Columns);
+                                switch (annotationDesc.Columns)
                                 {
-                                    ret.W = ret.X = ret.Y = ret.Z = 0.0f;
-                                    float[] value = effect.GetValue<float>(annotationHandle, annotationDesc.Columns);
-                                    switch (annotationDesc.Columns)
-                                    {
-                                        case 1:
-                                            ret.X = ret.Y = ret.Z = ret.W = value[0];
-                                            break;
-                                        case 2:
-                                            ret.X = value[0];
-                                            ret.Y = value[1];
-                                            break;
-                                        case 3:
-                                            ret.X = value[0];
-                                            ret.Y = value[1];
-                                            ret.Z = value[2];
-                                            break;
-                                        case 4:
-                                            ret.X = value[0];
-                                            ret.Y = value[1];
-                                            ret.Z = value[2];
-                                            ret.W = value[3];
-                                            break;
-                                    }
-
-                                    return ret;
+                                    case 1:
+                                        ret.X = ret.Y = ret.Z = ret.W = value[0];
+                                        break;
+                                    case 2:
+                                        ret.X = value[0];
+                                        ret.Y = value[1];
+                                        break;
+                                    case 3:
+                                        ret.X = value[0];
+                                        ret.Y = value[1];
+                                        ret.Z = value[2];
+                                        break;
+                                    case 4:
+                                        ret.X = value[0];
+                                        ret.Y = value[1];
+                                        ret.Z = value[2];
+                                        ret.W = value[3];
+                                        break;
                                 }
 
-                                default:
-                                    return ret;
+                                return ret;
                             }
+
+                            default:
+                                return ret;
                         }
-                        catch (Direct3D9Exception)
-                        {
-                            return ret;
-                        }
+                    }
+                    catch (Direct3D9Exception)
+                    {
+                        return ret;
                     }
                 }
             }
-            return ret;
         }
-        #endregion
-
-        //--------------------//
-
-        #region Get Integer
-        public static int GetIntegerFromParam(Effect effect, EffectHandle handle)
-        {
-            if (effect == null) throw new ArgumentNullException(nameof(effect));
-            if (handle == null) throw new ArgumentNullException(nameof(handle));
-
-            ParameterDescription desc = effect.GetParameterDescription(handle);
-            switch (desc.Type)
-            {
-                case ParameterType.Bool:
-                    var bValue = effect.GetValue<bool>(handle);
-                    return (bValue ? 1 : 0);
-                case ParameterType.Int:
-                    return effect.GetValue<int>(handle);
-                case ParameterType.Float:
-                    return (int)effect.GetValue<float>(handle);
-                default:
-                    Log.Error("SAS: Can't convert value to integer: " + desc.Name);
-                    break;
-            }
-            return 0;
-        }
-        #endregion
-
-        #region Set Integer
-        public static void SetIntegerParam(Effect effect, EffectHandle handle, int value)
-        {
-            if (effect == null) throw new ArgumentNullException(nameof(effect));
-            if (handle == null) throw new ArgumentNullException(nameof(handle));
-
-            ParameterDescription desc = effect.GetParameterDescription(handle);
-            switch (desc.Type)
-            {
-                case ParameterType.Bool:
-                    effect.SetValue(handle, (value != 0));
-                    break;
-                case ParameterType.Int:
-                    effect.SetValue(handle, value);
-                    break;
-                case ParameterType.Float:
-                    effect.SetValue(handle, (float)value);
-                    break;
-                default:
-                    Log.Info("SAS: Can't convert value to integer: " + desc.Name);
-                    break;
-            }
-        }
-        #endregion
-
-        #region Get Float
-        public static float GetFloatFromParam(Effect effect, EffectHandle handle)
-        {
-            if (effect == null) throw new ArgumentNullException(nameof(effect));
-            if (handle == null) throw new ArgumentNullException(nameof(handle));
-
-            ParameterDescription desc = effect.GetParameterDescription(handle);
-            switch (desc.Type)
-            {
-                case ParameterType.Bool:
-                    var bValue = effect.GetValue<bool>(handle);
-                    return (bValue ? 1.0f : 0.0f);
-                case ParameterType.Int:
-                    return effect.GetValue<int>(handle);
-                case ParameterType.Float:
-                    return effect.GetValue<float>(handle);
-                default:
-                    Log.Info("SAS: Can't convert value to float: " + desc.Name);
-                    break;
-            }
-            return 0.0f;
-        }
-        #endregion
-
-        #region Get Vector4
-        public static Vector4 GetVector4FromParam(Effect effect, EffectHandle handle)
-        {
-            if (effect == null) throw new ArgumentNullException(nameof(effect));
-            if (handle == null) throw new ArgumentNullException(nameof(handle));
-
-            var ret = new Vector4(0.0f, 0.0f, 0.0f, 0.0f);
-            ParameterDescription desc = effect.GetParameterDescription(handle);
-            switch (desc.Type)
-            {
-                case ParameterType.Bool:
-                    var bValue = effect.GetValue<bool>(handle);
-                    ret.X = ret.Y = ret.Z = ret.W = (bValue ? 1.0f : 0.0f);
-                    break;
-                case ParameterType.Int:
-                    float fValue = effect.GetValue<int>(handle);
-                    ret.X = ret.Y = ret.Z = ret.W = fValue;
-                    break;
-                case ParameterType.Float:
-                    float[] value = effect.GetValue<float>(handle, desc.Columns);
-                    switch (desc.Columns)
-                    {
-                        case 1:
-                            ret.X = ret.Y = ret.Z = ret.W = value[0];
-                            break;
-                        case 2:
-                            ret.X = value[0];
-                            ret.Y = value[1];
-                            break;
-                        case 3:
-                            ret.X = value[0];
-                            ret.Y = value[1];
-                            ret.Z = value[2];
-                            break;
-                        case 4:
-                            ret.X = value[0];
-                            ret.Y = value[1];
-                            ret.Z = value[2];
-                            ret.W = value[3];
-                            break;
-                    }
-                    break;
-                default:
-                    Log.Info("SAS: Can't convert value to Vector4: " + desc.Name);
-                    break;
-            }
-            return ret;
-        }
-        #endregion
+        return ret;
     }
+    #endregion
+
+    //--------------------//
+
+    #region Get Integer
+    public static int GetIntegerFromParam(Effect effect, EffectHandle handle)
+    {
+        if (effect == null) throw new ArgumentNullException(nameof(effect));
+        if (handle == null) throw new ArgumentNullException(nameof(handle));
+
+        ParameterDescription desc = effect.GetParameterDescription(handle);
+        switch (desc.Type)
+        {
+            case ParameterType.Bool:
+                var bValue = effect.GetValue<bool>(handle);
+                return (bValue ? 1 : 0);
+            case ParameterType.Int:
+                return effect.GetValue<int>(handle);
+            case ParameterType.Float:
+                return (int)effect.GetValue<float>(handle);
+            default:
+                Log.Error("SAS: Can't convert value to integer: " + desc.Name);
+                break;
+        }
+        return 0;
+    }
+    #endregion
+
+    #region Set Integer
+    public static void SetIntegerParam(Effect effect, EffectHandle handle, int value)
+    {
+        if (effect == null) throw new ArgumentNullException(nameof(effect));
+        if (handle == null) throw new ArgumentNullException(nameof(handle));
+
+        ParameterDescription desc = effect.GetParameterDescription(handle);
+        switch (desc.Type)
+        {
+            case ParameterType.Bool:
+                effect.SetValue(handle, (value != 0));
+                break;
+            case ParameterType.Int:
+                effect.SetValue(handle, value);
+                break;
+            case ParameterType.Float:
+                effect.SetValue(handle, (float)value);
+                break;
+            default:
+                Log.Info("SAS: Can't convert value to integer: " + desc.Name);
+                break;
+        }
+    }
+    #endregion
+
+    #region Get Float
+    public static float GetFloatFromParam(Effect effect, EffectHandle handle)
+    {
+        if (effect == null) throw new ArgumentNullException(nameof(effect));
+        if (handle == null) throw new ArgumentNullException(nameof(handle));
+
+        ParameterDescription desc = effect.GetParameterDescription(handle);
+        switch (desc.Type)
+        {
+            case ParameterType.Bool:
+                var bValue = effect.GetValue<bool>(handle);
+                return (bValue ? 1.0f : 0.0f);
+            case ParameterType.Int:
+                return effect.GetValue<int>(handle);
+            case ParameterType.Float:
+                return effect.GetValue<float>(handle);
+            default:
+                Log.Info("SAS: Can't convert value to float: " + desc.Name);
+                break;
+        }
+        return 0.0f;
+    }
+    #endregion
+
+    #region Get Vector4
+    public static Vector4 GetVector4FromParam(Effect effect, EffectHandle handle)
+    {
+        if (effect == null) throw new ArgumentNullException(nameof(effect));
+        if (handle == null) throw new ArgumentNullException(nameof(handle));
+
+        var ret = new Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+        ParameterDescription desc = effect.GetParameterDescription(handle);
+        switch (desc.Type)
+        {
+            case ParameterType.Bool:
+                var bValue = effect.GetValue<bool>(handle);
+                ret.X = ret.Y = ret.Z = ret.W = (bValue ? 1.0f : 0.0f);
+                break;
+            case ParameterType.Int:
+                float fValue = effect.GetValue<int>(handle);
+                ret.X = ret.Y = ret.Z = ret.W = fValue;
+                break;
+            case ParameterType.Float:
+                float[] value = effect.GetValue<float>(handle, desc.Columns);
+                switch (desc.Columns)
+                {
+                    case 1:
+                        ret.X = ret.Y = ret.Z = ret.W = value[0];
+                        break;
+                    case 2:
+                        ret.X = value[0];
+                        ret.Y = value[1];
+                        break;
+                    case 3:
+                        ret.X = value[0];
+                        ret.Y = value[1];
+                        ret.Z = value[2];
+                        break;
+                    case 4:
+                        ret.X = value[0];
+                        ret.Y = value[1];
+                        ret.Z = value[2];
+                        ret.W = value[3];
+                        break;
+                }
+                break;
+            default:
+                Log.Info("SAS: Can't convert value to Vector4: " + desc.Name);
+                break;
+        }
+        return ret;
+    }
+    #endregion
 }
