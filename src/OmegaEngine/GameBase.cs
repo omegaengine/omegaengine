@@ -114,7 +114,7 @@ public abstract partial class GameBase : IDisposable
 
         // Setup event hooks
         Form.Shown += Form_Shown;
-        Form.KeyDown += delegate(object sender, KeyEventArgs e)
+        Form.KeyDown += delegate(object _, KeyEventArgs e)
         {
             // Ctrl + Shift + Alt + D = Debug console
             if (e.Control && e.Alt && e.Shift && e.KeyCode == Keys.D)

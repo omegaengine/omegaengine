@@ -55,7 +55,7 @@ public partial class Game : GameBase
     /// <summary>
     /// Creates a new game instance
     /// </summary>
-    public Game() : base(GeneralSettings.AppName, Resources.Icon, Resources.Loading, false)
+    public Game() : base(GeneralSettings.AppName, Resources.Icon, Resources.Loading)
     {}
     #endregion
 

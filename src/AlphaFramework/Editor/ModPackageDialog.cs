@@ -43,7 +43,7 @@ public partial class ModPackageDialog : Form
         saveFileDialog.Filter = string.Format("Mod package (*{0})|*{0}", FileExt);
 
         _fastZip = new(_fastZipEvents);
-        _fastZipEvents.Progress += ((sender, e) =>
+        _fastZipEvents.Progress += ((_, e) =>
             e.ContinueRunning = !backgroundWorker.CancellationPending);
     }
     #endregion

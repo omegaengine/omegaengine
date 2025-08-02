@@ -64,7 +64,7 @@ public sealed class BenchmarkPresenter : Presenter
         if (Directory.Exists(_resultDir)) Directory.Delete(_resultDir, true);
         Directory.CreateDirectory(_resultDir);
 
-        _statistics = new(AppInfo.Current.Version.ToString(), Engine.Version.ToString(), universe);
+        _statistics = new(AppInfo.Current.Version, Engine.Version.ToString(), universe);
 
         // Target camera on first BenchmarkPoint
         var mainCamera = CreateCamera(_statistics.TestCases.Length > 0 ? _statistics.TestCases[0].Target : null);
