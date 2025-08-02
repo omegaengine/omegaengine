@@ -101,7 +101,7 @@ partial class Presenter
     /// <param name="lightPhase">A value between 0 and 4 representing the current light source position. (0 = rising, 1 = zenith, 2 = setting, 3 = nadir)</param>
     private static Vector3 GetLightDirection(float inclination, float lightPhase)
     {
-        return MathUtils.UnitVector(inclination.DegreeToRadian(), (lightPhase + 2) * Math.PI / 2);
+        return VectorMath.UnitVector(inclination.DegreeToRadian(), (lightPhase + 2) * Math.PI / 2);
     }
 
     /// <summary>

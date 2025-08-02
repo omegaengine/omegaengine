@@ -94,7 +94,7 @@ public struct ColorCorrection : IEquatable<ColorCorrection>
             vectorValues[i] = (Vector4)values[i];
 
         // ... and then cast back
-        return (ColorCorrection)MathUtils.InterpolateTrigonometric(factor, vectorValues);
+        return (ColorCorrection)VectorMath.InterpolateTrigonometric(factor, vectorValues);
     }
 
     #region Conversion

@@ -326,6 +326,7 @@ public abstract partial class GameBase : IDisposable
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Log));
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(StringUtils));
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(MathUtils));
+        LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(VectorMath));
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(RandomUtils));
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(ColorUtils));
 
