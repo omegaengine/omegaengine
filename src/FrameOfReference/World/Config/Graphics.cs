@@ -25,106 +25,105 @@ using System.ComponentModel;
 using NanoByte.Common;
 using OmegaEngine.Values;
 
-namespace FrameOfReference.World.Config
+namespace FrameOfReference.World.Config;
+
+/// <summary>
+/// Stores graphics settings (effect details, etc.). Changes here don't require the engine to be reset.
+/// </summary>
+/// <seealso cref="Settings.Graphics"/>
+public sealed class GraphicsSettings
 {
+    #region Events
     /// <summary>
-    /// Stores graphics settings (effect details, etc.). Changes here don't require the engine to be reset.
+    /// Occurs when a setting in this group is changed.
     /// </summary>
-    /// <seealso cref="Settings.Graphics"/>
-    public sealed class GraphicsSettings
+    [Description("Occurs when a setting in this group is changed.")]
+    public event Action Changed;
+
+    private void OnChanged()
     {
-        #region Events
-        /// <summary>
-        /// Occurs when a setting in this group is changed.
-        /// </summary>
-        [Description("Occurs when a setting in this group is changed.")]
-        public event Action Changed;
-
-        private void OnChanged()
-        {
-            Changed?.Invoke();
-            if (Settings.AutoSave && Settings.Current != null && Settings.Current.Graphics == this) Settings.SaveCurrent();
-        }
-        #endregion
-
-        private string _forceShaderModel;
-
-        /// <summary>
-        /// Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective
-        /// </summary>
-        [DefaultValue(null), Description("Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective")]
-        public string ForceShaderModel { get => _forceShaderModel; set => value.To(ref _forceShaderModel, OnChanged); }
-
-        private bool _anisotropic;
-
-        /// <summary>
-        /// Use anisotropic texture filtering
-        /// </summary>
-        [DefaultValue(false), Description("Use anisotropic texture filtering")]
-        public bool Anisotropic { get => _anisotropic; set => value.To(ref _anisotropic, OnChanged); }
-
-        private bool _normalMapping = true;
-
-        /// <summary>
-        /// Apply normal mapping effects to models when available
-        /// </summary>
-        [DefaultValue(true), Description("Apply normal mapping effects to models when available")]
-        public bool NormalMapping { get => _normalMapping; set => value.To(ref _normalMapping, OnChanged); }
-
-        private bool _postScreenEffects = true;
-
-        /// <summary>
-        /// Apply post-screen effects to the scene
-        /// </summary>
-        [DefaultValue(true), Description("Apply post-screen effects to the scene")]
-        public bool PostScreenEffects { get => _postScreenEffects; set => value.To(ref _postScreenEffects, OnChanged); }
-
-        private bool _shadows = true;
-
-        /// <summary>
-        /// Cast shadows
-        /// </summary>
-        [DefaultValue(true), Description("Cast shadows")]
-        public bool Shadows { get => _shadows; set => value.To(ref _shadows, OnChanged); }
-
-        private bool _doubleSampling = true;
-
-        /// <summary>
-        /// Sample textures twice with different texture coordinates for better image quality
-        /// </summary>
-        [DefaultValue(true), Description("Sample textures twice with different texture coordinates for better image quality")]
-        public bool DoubleSampling { get => _doubleSampling; set => value.To(ref _doubleSampling, OnChanged); }
-
-        private int _terrainBlockSize = 32;
-
-        /// <summary>
-        /// The size of a terrain rendering block
-        /// </summary>
-        [DefaultValue(32), Description("The size of a terrain rendering block")]
-        public int TerrainBlockSize { get => _terrainBlockSize; set => value.To(ref _terrainBlockSize, OnChanged); }
-
-        private WaterEffectsType _waterEffects = WaterEffectsType.ReflectAll;
-
-        /// <summary>
-        /// What kind of effects to display on water (e.g. reflections)
-        /// </summary>
-        [DefaultValue(WaterEffectsType.ReflectAll), Description("What kind of effects to display on water (e.g. reflections)")]
-        public WaterEffectsType WaterEffects { get => _waterEffects; set => value.To(ref _waterEffects, OnChanged); }
-
-        private Quality _particleSystemQuality = Quality.Medium;
-
-        /// <summary>
-        /// The quality of CPU-based particle systems
-        /// </summary>
-        [DefaultValue(Quality.Medium), Description("The quality of CPU-based particle systems")]
-        public Quality ParticleSystemQuality { get => _particleSystemQuality; set => value.To(ref _particleSystemQuality, OnChanged); }
-
-        private bool _fading = true;
-
-        /// <summary>
-        /// Fade in game scenes from black
-        /// </summary>
-        [DefaultValue(true), Description("Fade in game scenes from black")]
-        public bool Fading { get => _fading; set => value.To(ref _fading, OnChanged); }
+        Changed?.Invoke();
+        if (Settings.AutoSave && Settings.Current != null && Settings.Current.Graphics == this) Settings.SaveCurrent();
     }
+    #endregion
+
+    private string _forceShaderModel;
+
+    /// <summary>
+    /// Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective
+    /// </summary>
+    [DefaultValue(null), Description("Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective")]
+    public string ForceShaderModel { get => _forceShaderModel; set => value.To(ref _forceShaderModel, OnChanged); }
+
+    private bool _anisotropic;
+
+    /// <summary>
+    /// Use anisotropic texture filtering
+    /// </summary>
+    [DefaultValue(false), Description("Use anisotropic texture filtering")]
+    public bool Anisotropic { get => _anisotropic; set => value.To(ref _anisotropic, OnChanged); }
+
+    private bool _normalMapping = true;
+
+    /// <summary>
+    /// Apply normal mapping effects to models when available
+    /// </summary>
+    [DefaultValue(true), Description("Apply normal mapping effects to models when available")]
+    public bool NormalMapping { get => _normalMapping; set => value.To(ref _normalMapping, OnChanged); }
+
+    private bool _postScreenEffects = true;
+
+    /// <summary>
+    /// Apply post-screen effects to the scene
+    /// </summary>
+    [DefaultValue(true), Description("Apply post-screen effects to the scene")]
+    public bool PostScreenEffects { get => _postScreenEffects; set => value.To(ref _postScreenEffects, OnChanged); }
+
+    private bool _shadows = true;
+
+    /// <summary>
+    /// Cast shadows
+    /// </summary>
+    [DefaultValue(true), Description("Cast shadows")]
+    public bool Shadows { get => _shadows; set => value.To(ref _shadows, OnChanged); }
+
+    private bool _doubleSampling = true;
+
+    /// <summary>
+    /// Sample textures twice with different texture coordinates for better image quality
+    /// </summary>
+    [DefaultValue(true), Description("Sample textures twice with different texture coordinates for better image quality")]
+    public bool DoubleSampling { get => _doubleSampling; set => value.To(ref _doubleSampling, OnChanged); }
+
+    private int _terrainBlockSize = 32;
+
+    /// <summary>
+    /// The size of a terrain rendering block
+    /// </summary>
+    [DefaultValue(32), Description("The size of a terrain rendering block")]
+    public int TerrainBlockSize { get => _terrainBlockSize; set => value.To(ref _terrainBlockSize, OnChanged); }
+
+    private WaterEffectsType _waterEffects = WaterEffectsType.ReflectAll;
+
+    /// <summary>
+    /// What kind of effects to display on water (e.g. reflections)
+    /// </summary>
+    [DefaultValue(WaterEffectsType.ReflectAll), Description("What kind of effects to display on water (e.g. reflections)")]
+    public WaterEffectsType WaterEffects { get => _waterEffects; set => value.To(ref _waterEffects, OnChanged); }
+
+    private Quality _particleSystemQuality = Quality.Medium;
+
+    /// <summary>
+    /// The quality of CPU-based particle systems
+    /// </summary>
+    [DefaultValue(Quality.Medium), Description("The quality of CPU-based particle systems")]
+    public Quality ParticleSystemQuality { get => _particleSystemQuality; set => value.To(ref _particleSystemQuality, OnChanged); }
+
+    private bool _fading = true;
+
+    /// <summary>
+    /// Fade in game scenes from black
+    /// </summary>
+    [DefaultValue(true), Description("Fade in game scenes from black")]
+    public bool Fading { get => _fading; set => value.To(ref _fading, OnChanged); }
 }

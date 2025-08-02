@@ -26,50 +26,49 @@ using System.Xml.Serialization;
 using AlphaFramework.World;
 using OmegaEngine;
 
-namespace FrameOfReference.World
+namespace FrameOfReference.World;
+
+partial class Session
 {
-    partial class Session
+    /// <summary>
+    /// Indicates whwther a <see cref="TimeTravel"/> request is currently being processed.
+    /// </summary>
+    [Browsable(false), XmlIgnore]
+    public bool TimeTravelInProgress { get; set; }
+
+    private double _timeTravelStart, _timeTravelTarget;
+
+    private double _timeTravelElapsed;
+
+    private const double TimeTravelSpeedFactor = 1 / 30.0;
+
+    /// <summary>
+    /// Like <see cref="UpdateTo"/>, but interpolates between the current and the target time smoothly.
+    /// </summary>
+    /// <param name="gameTime">The target value for <see cref="UniverseBase{TCoordinates}.GameTime"/>.</param>
+    public void TimeTravel(double gameTime)
     {
-        /// <summary>
-        /// Indicates whwther a <see cref="TimeTravel"/> request is currently being processed.
-        /// </summary>
-        [Browsable(false), XmlIgnore]
-        public bool TimeTravelInProgress { get; set; }
+        _timeTravelStart = Universe.GameTime;
+        _timeTravelTarget = gameTime;
+        _timeTravelElapsed = 0;
+        TimeTravelInProgress = true;
+    }
 
-        private double _timeTravelStart, _timeTravelTarget;
+    private double UpdateTimeTravel(double elapsedRealTime)
+    {
+        _timeTravelElapsed += elapsedRealTime;
+        double timeTravelDuration = Math.Abs(_timeTravelTarget - _timeTravelStart) * TimeTravelSpeedFactor;
+        double intermediateTarget = MathUtils.InterpolateTrigonometric(_timeTravelElapsed / timeTravelDuration, _timeTravelStart, _timeTravelTarget);
 
-        private double _timeTravelElapsed;
+        double gameTimeDelta = intermediateTarget - Universe.GameTime;
+        UpdateDeterministic(gameTimeDelta);
 
-        private const double TimeTravelSpeedFactor = 1 / 30.0;
-
-        /// <summary>
-        /// Like <see cref="UpdateTo"/>, but interpolates between the current and the target time smoothly.
-        /// </summary>
-        /// <param name="gameTime">The target value for <see cref="UniverseBase{TCoordinates}.GameTime"/>.</param>
-        public void TimeTravel(double gameTime)
+        if (_timeTravelElapsed > timeTravelDuration)
         {
-            _timeTravelStart = Universe.GameTime;
-            _timeTravelTarget = gameTime;
-            _timeTravelElapsed = 0;
-            TimeTravelInProgress = true;
+            TimeTravelInProgress = false;
+            _timeTravelStart = _timeTravelTarget = _timeTravelElapsed = 0;
         }
 
-        private double UpdateTimeTravel(double elapsedRealTime)
-        {
-            _timeTravelElapsed += elapsedRealTime;
-            double timeTravelDuration = Math.Abs(_timeTravelTarget - _timeTravelStart) * TimeTravelSpeedFactor;
-            double intermediateTarget = MathUtils.InterpolateTrigonometric(_timeTravelElapsed / timeTravelDuration, _timeTravelStart, _timeTravelTarget);
-
-            double gameTimeDelta = intermediateTarget - Universe.GameTime;
-            UpdateDeterministic(gameTimeDelta);
-
-            if (_timeTravelElapsed > timeTravelDuration)
-            {
-                TimeTravelInProgress = false;
-                _timeTravelStart = _timeTravelTarget = _timeTravelElapsed = 0;
-            }
-
-            return gameTimeDelta;
-        }
+        return gameTimeDelta;
     }
 }

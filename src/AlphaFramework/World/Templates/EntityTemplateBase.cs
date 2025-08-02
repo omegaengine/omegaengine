@@ -12,48 +12,47 @@ using System.Xml.Serialization;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 
-namespace AlphaFramework.World.Templates
+namespace AlphaFramework.World.Templates;
+
+/// <summary>
+/// A common base for entity templates (collection of components used as a prototype for constructing new entities). Defines the behavior and look for a certain class of <see cref="EntityBase{TCoordinates,TTemplate}"/>.
+/// </summary>
+public abstract class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : EntityTemplateBase<TSelf>
 {
+    private Collection<Render> _render = [];
+
     /// <summary>
-    /// A common base for entity templates (collection of components used as a prototype for constructing new entities). Defines the behavior and look for a certain class of <see cref="EntityBase{TCoordinates,TTemplate}"/>.
+    /// Controls how this class of entities shall be rendered.
     /// </summary>
-    public abstract class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : EntityTemplateBase<TSelf>
+    [Browsable(false)]
+    // Note: Can not use ICollection<T> interface with XML Serialization
+    [XmlElement(typeof(TestSphere)), XmlElement(typeof(StaticMesh)), XmlElement(typeof(AnimatedMesh)), XmlElement(typeof(CpuParticleSystem)), XmlElement(typeof(GpuParticleSystem)), XmlElement(typeof(LightSource))]
+    public Collection<Render> Render => _render;
+
+    /// <summary>
+    /// Controls the basic movement parameters.
+    /// </summary>
+    [Browsable(false)]
+    public Movement Movement { get; set; }
+
+    //--------------------//
+
+    #region Clone
+    /// <summary>
+    /// Creates a deep copy of this <see cref="EntityTemplateBase{TSelf}"/>.
+    /// </summary>
+    /// <returns>The cloned <see cref="EntityTemplateBase{TSelf}"/>.</returns>
+    public override TSelf Clone()
     {
-        private Collection<Render> _render = [];
+        // Perform initial shallow copy
+        var newClass = base.Clone();
 
-        /// <summary>
-        /// Controls how this class of entities shall be rendered.
-        /// </summary>
-        [Browsable(false)]
-        // Note: Can not use ICollection<T> interface with XML Serialization
-        [XmlElement(typeof(TestSphere)), XmlElement(typeof(StaticMesh)), XmlElement(typeof(AnimatedMesh)), XmlElement(typeof(CpuParticleSystem)), XmlElement(typeof(GpuParticleSystem)), XmlElement(typeof(LightSource))]
-        public Collection<Render> Render => _render;
+        // Replace contained lists with deep copies
+        newClass._render = [];
+        foreach (var render in Render)
+            newClass.Render.Add(render.Clone());
 
-        /// <summary>
-        /// Controls the basic movement parameters.
-        /// </summary>
-        [Browsable(false)]
-        public Movement Movement { get; set; }
-
-        //--------------------//
-
-        #region Clone
-        /// <summary>
-        /// Creates a deep copy of this <see cref="EntityTemplateBase{TSelf}"/>.
-        /// </summary>
-        /// <returns>The cloned <see cref="EntityTemplateBase{TSelf}"/>.</returns>
-        public override TSelf Clone()
-        {
-            // Perform initial shallow copy
-            var newClass = base.Clone();
-
-            // Replace contained lists with deep copies
-            newClass._render = [];
-            foreach (var render in Render)
-                newClass.Render.Add(render.Clone());
-
-            return newClass;
-        }
-        #endregion
+        return newClass;
     }
+    #endregion
 }

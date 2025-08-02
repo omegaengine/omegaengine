@@ -10,75 +10,74 @@ using System.ComponentModel;
 using System.Drawing;
 using OmegaEngine.Graphics.Renderables;
 
-namespace OmegaEngine.Graphics
+namespace OmegaEngine.Graphics;
+
+/// <summary>
+/// A light source that illimunates <see cref="PositionableRenderable"/>s in a <see cref="Scene"/>.
+/// </summary>
+/// <seealso cref="Scene.Lights"/>
+public abstract class LightSource
 {
+    #region Properties
+
+    #region Name
     /// <summary>
-    /// A light source that illimunates <see cref="PositionableRenderable"/>s in a <see cref="Scene"/>.
+    /// Text value to make it easier to identify a particular camera
     /// </summary>
-    /// <seealso cref="Scene.Lights"/>
-    public abstract class LightSource
+    [Description("Text value to make it easier to identify a particular light source"), Category("Design")]
+    public string Name { get; set; }
+
+    public override string ToString()
     {
-        #region Properties
-
-        #region Name
-        /// <summary>
-        /// Text value to make it easier to identify a particular camera
-        /// </summary>
-        [Description("Text value to make it easier to identify a particular light source"), Category("Design")]
-        public string Name { get; set; }
-
-        public override string ToString()
-        {
-            string value = GetType().Name;
-            if (!string.IsNullOrEmpty(Name))
-                value += ": " + Name;
-            return value;
-        }
-        #endregion
-
-        #region Flags
-        /// <summary>
-        /// Shall the light source affect its surroundings?
-        /// </summary>
-        [Description("Shall the light source affect its enabled?"), Category("Behavior")]
-        public bool Enabled { get; set; }
-        #endregion
-
-        #region Colors
-        private Color _diffuse, _specular, _ambient;
-
-        /// <summary>
-        /// The diffuse color this light source emits
-        /// </summary>
-        [Description("The diffuse color this light source emits"), Category("Appearance")]
-        public Color Diffuse { get => _diffuse; set => _diffuse = Color.FromArgb(255, value) /* Drop alpha-channel */; }
-
-        /// <summary>
-        /// The specular color this light source emits
-        /// </summary>
-        [Description("The specular color this light source emits"), Category("Appearance")]
-        public Color Specular { get => _specular; set => _specular = Color.FromArgb(255, value) /* Drop alpha-channel */; }
-
-        /// <summary>
-        /// The ambient color this light source emits
-        /// </summary>
-        [Description("The ambient color this light source emits"), Category("Appearance")]
-        public Color Ambient { get => _ambient; set => _ambient = Color.FromArgb(255, value) /* Drop alpha-channel */; }
-        #endregion
-
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Creates a new light source with a full white <see cref="Diffuse"/> component, a slight gray <see cref="Specular"/> component and no <see cref="Ambient"/> component
-        /// </summary>
-        protected LightSource()
-        {
-            Enabled = true;
-            Diffuse = Color.White;
-            Specular = Color.Gray;
-            Ambient = Color.Black;
-        }
-        #endregion
+        string value = GetType().Name;
+        if (!string.IsNullOrEmpty(Name))
+            value += ": " + Name;
+        return value;
     }
+    #endregion
+
+    #region Flags
+    /// <summary>
+    /// Shall the light source affect its surroundings?
+    /// </summary>
+    [Description("Shall the light source affect its enabled?"), Category("Behavior")]
+    public bool Enabled { get; set; }
+    #endregion
+
+    #region Colors
+    private Color _diffuse, _specular, _ambient;
+
+    /// <summary>
+    /// The diffuse color this light source emits
+    /// </summary>
+    [Description("The diffuse color this light source emits"), Category("Appearance")]
+    public Color Diffuse { get => _diffuse; set => _diffuse = Color.FromArgb(255, value) /* Drop alpha-channel */; }
+
+    /// <summary>
+    /// The specular color this light source emits
+    /// </summary>
+    [Description("The specular color this light source emits"), Category("Appearance")]
+    public Color Specular { get => _specular; set => _specular = Color.FromArgb(255, value) /* Drop alpha-channel */; }
+
+    /// <summary>
+    /// The ambient color this light source emits
+    /// </summary>
+    [Description("The ambient color this light source emits"), Category("Appearance")]
+    public Color Ambient { get => _ambient; set => _ambient = Color.FromArgb(255, value) /* Drop alpha-channel */; }
+    #endregion
+
+    #endregion
+
+    #region Constructor
+    /// <summary>
+    /// Creates a new light source with a full white <see cref="Diffuse"/> component, a slight gray <see cref="Specular"/> component and no <see cref="Ambient"/> component
+    /// </summary>
+    protected LightSource()
+    {
+        Enabled = true;
+        Diffuse = Color.White;
+        Specular = Color.Gray;
+        Ambient = Color.Black;
+    }
+    #endregion
 }

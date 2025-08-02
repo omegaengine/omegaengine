@@ -23,17 +23,16 @@
 using System.ComponentModel;
 using AlphaFramework.World.Templates;
 
-namespace FrameOfReference.World.Templates
+namespace FrameOfReference.World.Templates;
+
+/// <summary>
+/// Defines the behavior for a certain class of item.
+/// </summary>
+public sealed class ItemTemplate : Template<ItemTemplate>
 {
     /// <summary>
-    /// Defines the behavior for a certain class of item.
+    /// How much is an item of this class worth (as in money).
     /// </summary>
-    public sealed class ItemTemplate : Template<ItemTemplate>
-    {
-        /// <summary>
-        /// How much is an item of this class worth (as in money).
-        /// </summary>
-        [Description("How much is an item of this class worth (as in money).")]
-        public int Worth { get; set; }
-    }
+    [Description("How much is an item of this class worth (as in money).")]
+    public int Worth { get; set; }
 }

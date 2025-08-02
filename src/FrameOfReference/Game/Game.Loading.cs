@@ -32,184 +32,183 @@ using NanoByte.Common;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Storage;
 
-namespace FrameOfReference
+namespace FrameOfReference;
+
+partial class Game
 {
-    partial class Game
+    #region Properties
+    /// <summary>
+    /// The current game session
+    /// </summary>
+    [LuaHide]
+    public Session CurrentSession { get; private set; }
+
+    /// <summary>
+    /// The currently active presenter
+    /// </summary>
+    [LuaHide]
+    public Presenter CurrentPresenter { get; private set; }
+    #endregion
+
+    //--------------------//
+
+    #region Random Menu Map
+    /// <returns>The name of the current menu background map</returns>
+    private static string GetMenuMap()
     {
-        #region Properties
-        /// <summary>
-        /// The current game session
-        /// </summary>
-        [LuaHide]
-        public Session CurrentSession { get; private set; }
+        return "Menu";
+    }
+    #endregion
 
-        /// <summary>
-        /// The currently active presenter
-        /// </summary>
-        [LuaHide]
-        public Presenter CurrentPresenter { get; private set; }
-        #endregion
-
-        //--------------------//
-
-        #region Random Menu Map
-        /// <returns>The name of the current menu background map</returns>
-        private static string GetMenuMap()
+    #region Preload Savegame
+    /// <summary>
+    /// Loads the auto-save into <see cref="CurrentSession"/> for later usage
+    /// </summary>
+    private void PreloadPreviousSession()
+    {
+        try
         {
-            return "Menu";
+            LoadSavegame("Resume");
         }
-        #endregion
-
-        #region Preload Savegame
-        /// <summary>
-        /// Loads the auto-save into <see cref="CurrentSession"/> for later usage
-        /// </summary>
-        private void PreloadPreviousSession()
+        catch (FileNotFoundException)
         {
-            try
-            {
-                LoadSavegame("Resume");
-            }
-            catch (FileNotFoundException)
-            {
-                Log.Info("No previous game session found");
-            }
-            catch (Exception ex)
-            {
-                Log.Warn("Failed to restore previous game session: " + ex.Message);
-                return;
-            }
-            Log.Info("Previous game session restored");
+            Log.Info("No previous game session found");
         }
+        catch (Exception ex)
+        {
+            Log.Warn("Failed to restore previous game session: " + ex.Message);
+            return;
+        }
+        Log.Info("Previous game session restored");
+    }
+    #endregion
+
+    //--------------------//
+
+    #region Load Menu
+    /// <summary>
+    /// Loads a map into <see cref="_menuUniverse"/> and switches the <see cref="CurrentState"/> to <see cref="GameState.Menu"/>
+    /// </summary>
+    /// <param name="name">The name of the map to load</param>
+    public void LoadMenu(string name)
+    {
+        #region Sanity checks
+        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
         #endregion
 
-        //--------------------//
+        _menuUniverse = name.EndsWith(
+            // Does the name have file ending?
+            Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
+            // Real filename
+            Universe.Load(Path.Combine(Locations.InstallBase, name)) :
+            // Internal map name
+            Universe.FromContent(name + Universe.FileExt);
 
-        #region Load Menu
-        /// <summary>
-        /// Loads a map into <see cref="_menuUniverse"/> and switches the <see cref="CurrentState"/> to <see cref="GameState.Menu"/>
-        /// </summary>
-        /// <param name="name">The name of the map to load</param>
-        public void LoadMenu(string name)
-        {
-            #region Sanity checks
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-            #endregion
+        CleanupPresenter();
+        if (_menuPresenter != null)
+        { // Prevent the old presenter from being reused for fast switching
+            _menuPresenter.Dispose();
+            _menuPresenter = null;
+        }
+        InitializeMenuMode();
+    }
+    #endregion
 
-            _menuUniverse = name.EndsWith(
-                // Does the name have file ending?
-                Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
+    #region Load Map
+    /// <summary>
+    /// Loads a game map into <see cref="CurrentSession"/> and switches the <see cref="CurrentState"/> to <see cref="GameState.InGame"/>
+    /// </summary>
+    /// <param name="name">The name of the map to load</param>
+    public void LoadMap(string name)
+    {
+        #region Sanity checks
+        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+        #endregion
+
+        CurrentSession = new(
+            // Does the name have file ending?
+            name.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
                 // Real filename
                 Universe.Load(Path.Combine(Locations.InstallBase, name)) :
                 // Internal map name
-                Universe.FromContent(name + Universe.FileExt);
+                Universe.FromContent(name + Universe.FileExt));
 
-            CleanupPresenter();
-            if (_menuPresenter != null)
-            { // Prevent the old presenter from being reused for fast switching
-                _menuPresenter.Dispose();
-                _menuPresenter = null;
-            }
-            InitializeMenuMode();
-        }
-        #endregion
+        CleanupPresenter();
+        InitializeGameMode();
 
-        #region Load Map
-        /// <summary>
-        /// Loads a game map into <see cref="CurrentSession"/> and switches the <see cref="CurrentState"/> to <see cref="GameState.InGame"/>
-        /// </summary>
-        /// <param name="name">The name of the map to load</param>
-        public void LoadMap(string name)
-        {
-            #region Sanity checks
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-            #endregion
-
-            CurrentSession = new(
-                // Does the name have file ending?
-                name.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
-                    // Real filename
-                    Universe.Load(Path.Combine(Locations.InstallBase, name)) :
-                    // Internal map name
-                    Universe.FromContent(name + Universe.FileExt));
-
-            CleanupPresenter();
-            InitializeGameMode();
-
-            // Note: Do not call before Presenter has been initialized
-            CurrentSession.Lua = NewLua();
-        }
-
-        /// <summary>
-        /// Loads a game map into <see cref="CurrentSession"/> and switches the <see cref="CurrentState"/> to <see cref="GameState.Modify"/>
-        /// </summary>
-        /// <param name="name">The name of the map to load</param>
-        public void ModifyMap(string name)
-        {
-            #region Sanity checks
-            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-            #endregion
-
-            CurrentSession = new(
-                // Does the name have file ending?
-                name.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
-                    // Real filename
-                    Universe.Load(Path.Combine(Locations.InstallBase, name)) :
-                    // Internal map name
-                    Universe.FromContent(name + Universe.FileExt));
-
-            CleanupPresenter();
-            InitializeModifyMode();
-
-            // Note: Do not call before Presenter has been initialized
-            CurrentSession.Lua = NewLua();
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Save/Load Savegames
-        /// <summary>
-        /// Saves the <see cref="CurrentSession"/> as a savegame stored in the user's profile.
-        /// </summary>
-        /// <param name="name">The name of the savegame to write.</param>
-        public void SaveSavegame(string name)
-        {
-            if (string.IsNullOrEmpty(name)) return;
-
-            // If we are currently in-game, then the camera position must be explicitly stored/updated
-            if (CurrentState is GameState.InGame or GameState.Pause)
-                ((InGamePresenter)CurrentPresenter).PrepareSave();
-
-            // Write to disk
-            string path = Locations.GetSaveDataPath(GeneralSettings.AppName, true, name + Session.FileExt);
-            CurrentSession.Save(path);
-        }
-
-        /// <summary>
-        /// Loads a savegame from user's profile to replace the <see cref="CurrentSession"/>.
-        /// </summary>
-        /// <param name="name">The name of the savegame to load.</param>
-        public void LoadSavegame(string name)
-        {
-            if (string.IsNullOrEmpty(name)) return;
-
-            // Read from disk
-            string path = Locations.GetSaveDataPath(GeneralSettings.AppName, true, name + Session.FileExt);
-            CurrentSession = Session.Load(path);
-            CurrentSession.Lua = NewLua();
-        }
-
-        /// <summary>
-        /// Lists the names of all stored <see cref="Session"/>s.
-        /// </summary>
-        public IEnumerable<string> GetSavegameNames()
-        {
-            var savegameDir = new DirectoryInfo(Locations.GetSaveDataPath(GeneralSettings.AppName, isFile: false));
-            return savegameDir.GetFiles("*" + Session.FileExt)
-                .Select(x => x.Name.Substring(0, x.Name.Length - Session.FileExt.Length))
-                .Except("Resume");
-        }
-        #endregion
+        // Note: Do not call before Presenter has been initialized
+        CurrentSession.Lua = NewLua();
     }
+
+    /// <summary>
+    /// Loads a game map into <see cref="CurrentSession"/> and switches the <see cref="CurrentState"/> to <see cref="GameState.Modify"/>
+    /// </summary>
+    /// <param name="name">The name of the map to load</param>
+    public void ModifyMap(string name)
+    {
+        #region Sanity checks
+        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+        #endregion
+
+        CurrentSession = new(
+            // Does the name have file ending?
+            name.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
+                // Real filename
+                Universe.Load(Path.Combine(Locations.InstallBase, name)) :
+                // Internal map name
+                Universe.FromContent(name + Universe.FileExt));
+
+        CleanupPresenter();
+        InitializeModifyMode();
+
+        // Note: Do not call before Presenter has been initialized
+        CurrentSession.Lua = NewLua();
+    }
+    #endregion
+
+    //--------------------//
+
+    #region Save/Load Savegames
+    /// <summary>
+    /// Saves the <see cref="CurrentSession"/> as a savegame stored in the user's profile.
+    /// </summary>
+    /// <param name="name">The name of the savegame to write.</param>
+    public void SaveSavegame(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return;
+
+        // If we are currently in-game, then the camera position must be explicitly stored/updated
+        if (CurrentState is GameState.InGame or GameState.Pause)
+            ((InGamePresenter)CurrentPresenter).PrepareSave();
+
+        // Write to disk
+        string path = Locations.GetSaveDataPath(GeneralSettings.AppName, true, name + Session.FileExt);
+        CurrentSession.Save(path);
+    }
+
+    /// <summary>
+    /// Loads a savegame from user's profile to replace the <see cref="CurrentSession"/>.
+    /// </summary>
+    /// <param name="name">The name of the savegame to load.</param>
+    public void LoadSavegame(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return;
+
+        // Read from disk
+        string path = Locations.GetSaveDataPath(GeneralSettings.AppName, true, name + Session.FileExt);
+        CurrentSession = Session.Load(path);
+        CurrentSession.Lua = NewLua();
+    }
+
+    /// <summary>
+    /// Lists the names of all stored <see cref="Session"/>s.
+    /// </summary>
+    public IEnumerable<string> GetSavegameNames()
+    {
+        var savegameDir = new DirectoryInfo(Locations.GetSaveDataPath(GeneralSettings.AppName, isFile: false));
+        return savegameDir.GetFiles("*" + Session.FileExt)
+                          .Select(x => x.Name.Substring(0, x.Name.Length - Session.FileExt.Length))
+                          .Except("Resume");
+    }
+    #endregion
 }

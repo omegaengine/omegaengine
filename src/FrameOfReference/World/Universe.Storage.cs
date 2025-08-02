@@ -33,105 +33,104 @@ using LuaInterface;
 using NanoByte.Common;
 using OmegaEngine.Storage;
 
-namespace FrameOfReference.World
+namespace FrameOfReference.World;
+
+partial class Universe
 {
-    partial class Universe
+    /// <summary>
+    /// The file extensions when this class is stored as a file.
+    /// </summary>
+    public const string FileExt = "." + GeneralSettings.AppNameShort + "Map";
+
+    /// <summary>
+    /// Base-constructor for XML serialization. Do not call manually!
+    /// </summary>
+    public Universe()
+    {}
+
+    /// <summary>
+    /// Loads a <see cref="Universe"/> from a compressed XML file (map file).
+    /// </summary>
+    /// <param name="path">The file to load from.</param>
+    /// <returns>The loaded <see cref="Universe"/>.</returns>
+    /// <exception cref="IOException">A problem occurred while reading the file.</exception>
+    /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
+    /// <exception cref="InvalidOperationException">A problem occurred while deserializing the XML data.</exception>
+    public static Universe Load(string path)
     {
-        /// <summary>
-        /// The file extensions when this class is stored as a file.
-        /// </summary>
-        public const string FileExt = "." + GeneralSettings.AppNameShort + "Map";
+        // Load the core data but without terrain data yet (that is delay-loaded)
+        var universe = XmlStorage.LoadXmlZip<Universe>(path);
+        universe.SourceFile = path;
+        return universe;
+    }
 
-        /// <summary>
-        /// Base-constructor for XML serialization. Do not call manually!
-        /// </summary>
-        public Universe()
-        {}
+    /// <summary>
+    /// Loads a <see cref="Universe"/> from the game content source via the <see cref="ContentManager"/>.
+    /// </summary>
+    /// <param name="id">The ID of the <see cref="Universe"/> to load.</param>
+    /// <returns>The loaded <see cref="Universe"/>.</returns>
+    public static Universe FromContent(string id)
+    {
+        Log.Info("Loading map: " + id);
 
-        /// <summary>
-        /// Loads a <see cref="Universe"/> from a compressed XML file (map file).
-        /// </summary>
-        /// <param name="path">The file to load from.</param>
-        /// <returns>The loaded <see cref="Universe"/>.</returns>
-        /// <exception cref="IOException">A problem occurred while reading the file.</exception>
-        /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
-        /// <exception cref="InvalidOperationException">A problem occurred while deserializing the XML data.</exception>
-        public static Universe Load(string path)
+        using var stream = ContentManager.GetFileStream("World/Maps", id);
+        var universe = XmlStorage.LoadXmlZip<Universe>(stream);
+        universe.SourceFile = id;
+        return universe;
+    }
+
+    /// <summary>Used for XML serialization.</summary>
+    [XmlElement("Terrain"), LuaHide, Browsable(false)]
+    public Terrain<TerrainTemplate> TerrainSerialize { get; set; }
+
+    /// <summary>
+    /// Performs the deferred loading of <see cref="Terrain"/> data.
+    /// </summary>
+    private void LoadTerrainData()
+    {
+        // Load the data
+        using (var stream = ContentManager.GetFileStream("World/Maps", SourceFile))
         {
-            // Load the core data but without terrain data yet (that is delay-loaded)
-            var universe = XmlStorage.LoadXmlZip<Universe>(path);
-            universe.SourceFile = path;
-            return universe;
+            XmlStorage.LoadXmlZip<Universe>(stream, additionalFiles:
+            [
+                // Callbacks for loading terrain data
+                new EmbeddedFile("height.png", TerrainSerialize.LoadHeightMap),
+                new EmbeddedFile("texture.png", TerrainSerialize.LoadTextureMap),
+                new EmbeddedFile("occlusion.png", TerrainSerialize.LoadOcclusionIntervalMap)
+            ]);
         }
 
-        /// <summary>
-        /// Loads a <see cref="Universe"/> from the game content source via the <see cref="ContentManager"/>.
-        /// </summary>
-        /// <param name="id">The ID of the <see cref="Universe"/> to load.</param>
-        /// <returns>The loaded <see cref="Universe"/>.</returns>
-        public static Universe FromContent(string id)
+        if (!TerrainSerialize.DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
+
+        using (new TimedLogEvent("Initialize pathfinding"))
+            InitializePathfinding();
+    }
+
+    /// <inheritdoc/>
+    public override void Save(string path)
+    {
+        UnwrapWaypoints();
+        using (Entity.MaskTemplateData())
         {
-            Log.Info("Loading map: " + id);
-
-            using var stream = ContentManager.GetFileStream("World/Maps", id);
-            var universe = XmlStorage.LoadXmlZip<Universe>(stream);
-            universe.SourceFile = id;
-            return universe;
-        }
-
-        /// <summary>Used for XML serialization.</summary>
-        [XmlElement("Terrain"), LuaHide, Browsable(false)]
-        public Terrain<TerrainTemplate> TerrainSerialize { get; set; }
-
-        /// <summary>
-        /// Performs the deferred loading of <see cref="Terrain"/> data.
-        /// </summary>
-        private void LoadTerrainData()
-        {
-            // Load the data
-            using (var stream = ContentManager.GetFileStream("World/Maps", SourceFile))
+            if (Terrain.OcclusionIntervalMap == null)
             {
-                XmlStorage.LoadXmlZip<Universe>(stream, additionalFiles:
+                this.SaveXmlZip(path, additionalFiles:
                 [
-                    // Callbacks for loading terrain data
-                    new EmbeddedFile("height.png", TerrainSerialize.LoadHeightMap),
-                    new EmbeddedFile("texture.png", TerrainSerialize.LoadTextureMap),
-                    new EmbeddedFile("occlusion.png", TerrainSerialize.LoadOcclusionIntervalMap)
+                    new EmbeddedFile("height.png", 0, Terrain.HeightMap.Save),
+                    new EmbeddedFile("texture.png", 0, Terrain.TextureMap.Save)
                 ]);
             }
-
-            if (!TerrainSerialize.DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
-
-            using (new TimedLogEvent("Initialize pathfinding"))
-                InitializePathfinding();
-        }
-
-        /// <inheritdoc/>
-        public override void Save(string path)
-        {
-            UnwrapWaypoints();
-            using (Entity.MaskTemplateData())
+            else
             {
-                if (Terrain.OcclusionIntervalMap == null)
-                {
-                    this.SaveXmlZip(path, additionalFiles:
-                    [
-                        new EmbeddedFile("height.png", 0, Terrain.HeightMap.Save),
-                        new EmbeddedFile("texture.png", 0, Terrain.TextureMap.Save)
-                    ]);
-                }
-                else
-                {
-                    this.SaveXmlZip(path, additionalFiles:
-                    [
-                        new EmbeddedFile("height.png", 0, Terrain.HeightMap.Save),
-                        new EmbeddedFile("texture.png", 0, Terrain.TextureMap.Save),
-                        new EmbeddedFile("occlusion.png", 0, Terrain.OcclusionIntervalMap.Save)
-                    ]);
-                }
+                this.SaveXmlZip(path, additionalFiles:
+                [
+                    new EmbeddedFile("height.png", 0, Terrain.HeightMap.Save),
+                    new EmbeddedFile("texture.png", 0, Terrain.TextureMap.Save),
+                    new EmbeddedFile("occlusion.png", 0, Terrain.OcclusionIntervalMap.Save)
+                ]);
             }
-
-            SourceFile = path;
         }
+
+        SourceFile = path;
     }
 }

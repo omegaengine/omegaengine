@@ -38,163 +38,162 @@ using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Storage;
 
-namespace FrameOfReference.Editor
+namespace FrameOfReference.Editor;
+
+internal static class Program
 {
-    internal static class Program
+    /// <summary>
+    /// The arguments this application was launched with.
+    /// </summary>
+    public static Arguments Args { get; private set; }
+
+    /// <summary>
+    /// Shall the application start from the beginning again?
+    /// </summary>
+    public static bool Restart = true;
+
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
+    [STAThread]
+    private static void Main(string[] args)
     {
-        /// <summary>
-        /// The arguments this application was launched with.
-        /// </summary>
-        public static Arguments Args { get; private set; }
+        WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameShort + ".AlphaEditor");
+        ModInfo.FileExt = "." + GeneralSettings.AppNameShort + "Mod";
 
-        /// <summary>
-        /// Shall the application start from the beginning again?
-        /// </summary>
-        public static bool Restart = true;
+        Application.EnableVisualStyles();
+        ErrorReportForm.SetupMonitoring(new Uri("https://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameShort));
 
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        private static void Main(string[] args)
+        // Allow setup to detect running instances
+        AppMutex.Create(GeneralSettings.AppName + " Editor");
+
+        Args = new(args);
+
+        Settings.LoadCurrent();
+        UpdateLocale();
+        Settings.SaveCurrent();
+
+        if (!DetermineContentDirs()) return;
+
+        if (Settings.Current.Editor.ShowWelcomeMessage)
         {
-            WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameShort + ".AlphaEditor");
-            ModInfo.FileExt = "." + GeneralSettings.AppNameShort + "Mod";
-
-            Application.EnableVisualStyles();
-            ErrorReportForm.SetupMonitoring(new Uri("https://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameShort));
-
-            // Allow setup to detect running instances
-            AppMutex.Create(GeneralSettings.AppName + " Editor");
-
-            Args = new(args);
-
-            Settings.LoadCurrent();
-            UpdateLocale();
-            Settings.SaveCurrent();
-
-            if (!DetermineContentDirs()) return;
-
-            if (Settings.Current.Editor.ShowWelcomeMessage)
-            {
-                Restart = false; // Will be set to true again, if the user clicks "Continue"
-                Application.Run(new WelcomeForm());
-            }
-
-            // The user might want to come back here multiple times, in order to switch the mod
-            while (Restart)
-            {
-                Restart = false;
-
-                // Ask user to select mod, cancel if an exception occurred
-                Application.Run(new ModSelectorForm(Settings.Current.Editor.EditBase, Settings.Current.Editor.RecentMods));
-
-                // Exit if the user didn't select anything
-                if (ContentManager.ModDir == null && !ModInfo.MainGame) break;
-
-                // Load the archives, run the main editor, cancel if an exception occurred, always unload the archives
-                if (!LoadArchives()) break;
-                try
-                {
-                    Application.Run(new MainForm());
-                }
-                finally
-                {
-                    ContentManager.CloseArchives();
-                }
-
-                // Prepare for next selection
-                ModInfo.MainGame = false;
-                ContentManager.ModDir = null;
-
-                // After the MainForm has closed a lot of garbage will be left in Generation 2.
-                // We should run Garbage Collection now, so we don't keep on wasting a large chunk of memory.
-                GC.Collect();
-            }
+            Restart = false; // Will be set to true again, if the user clicks "Continue"
+            Application.Run(new WelcomeForm());
         }
 
-        /// <summary>
-        /// Updates the localization used by the application
-        /// </summary>
-        public static void UpdateLocale()
+        // The user might want to come back here multiple times, in order to switch the mod
+        while (Restart)
         {
-            if (string.IsNullOrEmpty(Settings.Current.General.Language))
-                Settings.Current.General.Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            Restart = false;
 
-            var language = CultureInfo.CreateSpecificCulture(Settings.Current.General.Language);
-            Languages.SetUI(language);
-            Resources.Culture = Engine.ResourceCulture = OmegaGUI.Model.Dialog.ResourceCulture = language;
-        }
+            // Ask user to select mod, cancel if an exception occurred
+            Application.Run(new ModSelectorForm(Settings.Current.Editor.EditBase, Settings.Current.Editor.RecentMods));
 
-        /// <summary>
-        /// Determines the data directories used by <see cref="ContentManager"/> and displays error messages if a directory could not be found.
-        /// </summary>
-        /// <returns><c>true</c> if all directories were located successfully; <c>false</c> if something went wrong.</returns>
-        /// <remarks>The <see cref="ContentManager.ModDir"/> is not handled yet.</remarks>
-        private static bool DetermineContentDirs()
-        {
+            // Exit if the user didn't select anything
+            if (ContentManager.ModDir == null && !ModInfo.MainGame) break;
+
+            // Load the archives, run the main editor, cancel if an exception occurred, always unload the archives
+            if (!LoadArchives()) break;
             try
             {
-                if (!string.IsNullOrEmpty(Settings.Current.General.ContentDir))
-                    ContentManager.BaseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, Settings.Current.General.ContentDir));
+                Application.Run(new MainForm());
             }
-                #region Error handling
-            catch (ArgumentException ex)
+            finally
             {
-                Msg.Inform(null, ex.Message, MsgSeverity.Error);
-                return false;
-            }
-            catch (DirectoryNotFoundException ex)
-            {
-                Msg.Inform(null, ex.Message, MsgSeverity.Error);
-                return false;
-            }
-            #endregion
-
-            return true;
-        }
-
-        /// <summary>
-        /// Calls <see cref="ContentManager.LoadArchives"/> and displays error messages if something went wrong.
-        /// </summary>
-        /// <returns><c>true</c> if all archives were loaded successfully; <c>false</c> if something went wrong.</returns>
-        private static bool LoadArchives()
-        {
-            try
-            {
-                ContentManager.LoadArchives();
-            }
-                #region Error handling
-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-            {
-                Log.Error(Resources.FailedReadArchives, ex);
                 ContentManager.CloseArchives();
-                Msg.Inform(null, Resources.FailedReadArchives + Environment.NewLine + ex.Message, MsgSeverity.Error);
-                return false;
             }
-            #endregion
 
-            return true;
+            // Prepare for next selection
+            ModInfo.MainGame = false;
+            ContentManager.ModDir = null;
+
+            // After the MainForm has closed a lot of garbage will be left in Generation 2.
+            // We should run Garbage Collection now, so we don't keep on wasting a large chunk of memory.
+            GC.Collect();
         }
+    }
 
-        /// <summary>
-        /// Launches the main game with the currently active mod (arguments automatically set).
-        /// </summary>
-        /// <param name="arguments">Additional arguments to be passed; may be <c>null</c>.</param>
-        /// <exception cref="Win32Exception">The game executable could not be launched.</exception>
-        /// <exception cref="BadImageFormatException">The game executable is damaged.</exception>
-        internal static void LaunchGame(string arguments)
+    /// <summary>
+    /// Updates the localization used by the application
+    /// </summary>
+    public static void UpdateLocale()
+    {
+        if (string.IsNullOrEmpty(Settings.Current.General.Language))
+            Settings.Current.General.Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+
+        var language = CultureInfo.CreateSpecificCulture(Settings.Current.General.Language);
+        Languages.SetUI(language);
+        Resources.Culture = Engine.ResourceCulture = OmegaGUI.Model.Dialog.ResourceCulture = language;
+    }
+
+    /// <summary>
+    /// Determines the data directories used by <see cref="ContentManager"/> and displays error messages if a directory could not be found.
+    /// </summary>
+    /// <returns><c>true</c> if all directories were located successfully; <c>false</c> if something went wrong.</returns>
+    /// <remarks>The <see cref="ContentManager.ModDir"/> is not handled yet.</remarks>
+    private static bool DetermineContentDirs()
+    {
+        try
         {
-            string param = "";
-
-            // Make sure the current mod is loaded
-            if (ContentManager.ModDir != null) param += " /mod " + "\"" + ContentManager.ModDir.FullName.TrimEnd(Path.DirectorySeparatorChar) + "\"";
-
-            // Add additional arguments
-            if (!string.IsNullOrEmpty(arguments)) param += " " + arguments;
-
-            // Launch the game
-            Process.Start(new ProcessStartInfo(Path.Combine(Locations.InstallBase, GeneralSettings.AppNameShort + ".exe"), param));
+            if (!string.IsNullOrEmpty(Settings.Current.General.ContentDir))
+                ContentManager.BaseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, Settings.Current.General.ContentDir));
         }
+        #region Error handling
+        catch (ArgumentException ex)
+        {
+            Msg.Inform(null, ex.Message, MsgSeverity.Error);
+            return false;
+        }
+        catch (DirectoryNotFoundException ex)
+        {
+            Msg.Inform(null, ex.Message, MsgSeverity.Error);
+            return false;
+        }
+        #endregion
+
+        return true;
+    }
+
+    /// <summary>
+    /// Calls <see cref="ContentManager.LoadArchives"/> and displays error messages if something went wrong.
+    /// </summary>
+    /// <returns><c>true</c> if all archives were loaded successfully; <c>false</c> if something went wrong.</returns>
+    private static bool LoadArchives()
+    {
+        try
+        {
+            ContentManager.LoadArchives();
+        }
+        #region Error handling
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            Log.Error(Resources.FailedReadArchives, ex);
+            ContentManager.CloseArchives();
+            Msg.Inform(null, Resources.FailedReadArchives + Environment.NewLine + ex.Message, MsgSeverity.Error);
+            return false;
+        }
+        #endregion
+
+        return true;
+    }
+
+    /// <summary>
+    /// Launches the main game with the currently active mod (arguments automatically set).
+    /// </summary>
+    /// <param name="arguments">Additional arguments to be passed; may be <c>null</c>.</param>
+    /// <exception cref="Win32Exception">The game executable could not be launched.</exception>
+    /// <exception cref="BadImageFormatException">The game executable is damaged.</exception>
+    internal static void LaunchGame(string arguments)
+    {
+        string param = "";
+
+        // Make sure the current mod is loaded
+        if (ContentManager.ModDir != null) param += " /mod " + "\"" + ContentManager.ModDir.FullName.TrimEnd(Path.DirectorySeparatorChar) + "\"";
+
+        // Add additional arguments
+        if (!string.IsNullOrEmpty(arguments)) param += " " + arguments;
+
+        // Launch the game
+        Process.Start(new ProcessStartInfo(Path.Combine(Locations.InstallBase, GeneralSettings.AppNameShort + ".exe"), param));
     }
 }

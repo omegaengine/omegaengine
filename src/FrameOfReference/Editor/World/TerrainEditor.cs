@@ -31,142 +31,141 @@ using FrameOfReference.World.Templates;
 using NanoByte.Common.Controls;
 using OmegaEngine.Storage;
 
-namespace FrameOfReference.Editor.World
+namespace FrameOfReference.Editor.World;
+
+/// <summary>
+/// Allows the user to edit <see cref="TerrainTemplate"/>s
+/// </summary>
+public partial class TerrainEditor : TerrainEditorDesignerShim
 {
+    #region Constructor
     /// <summary>
-    /// Allows the user to edit <see cref="TerrainTemplate"/>s
+    /// Creates a new terrain editor.
     /// </summary>
-    public partial class TerrainEditor : TerrainEditorDesignerShim
+    public TerrainEditor()
     {
-        #region Constructor
-        /// <summary>
-        /// Creates a new terrain editor.
-        /// </summary>
-        public TerrainEditor()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            // Hard-coded filename
-            FilePath = Template<TerrainTemplate>.FileName;
+        // Hard-coded filename
+        FilePath = Template<TerrainTemplate>.FileName;
+    }
+    #endregion
+
+    //--------------------//
+
+    #region Handlers
+    /// <inheritdoc/>
+    protected override void OnUpdate()
+    {
+        // Enable button only when a class is selected
+        buttonBrowse.Enabled = textPath.Enabled = (TemplateList.SelectedEntry != null);
+
+        UpdateTexturePreview();
+
+        base.OnUpdate();
+    }
+
+    /// <summary>
+    /// Called when the user wants a new <see cref="TerrainTemplate"/> to be added.
+    /// </summary>
+    protected override void OnNewTemplate()
+    {
+        string newName = InputBox.Show(this, "Terrain Template Name", Resources.EnterTemplateName);
+
+        #region Error handling
+        if (string.IsNullOrEmpty(newName)) return;
+        if (Content.Contains(newName))
+        {
+            Msg.Inform(this, Resources.NameInUse, MsgSeverity.Warn);
+            return;
         }
         #endregion
 
-        //--------------------//
+        var itemClass = new TerrainTemplate {Name = newName};
+        Content.Add(itemClass);
+        OnChange();
+        OnUpdate();
 
-        #region Handlers
-        /// <inheritdoc/>
-        protected override void OnUpdate()
+        // Select the new entry
+        TemplateList.SelectedEntry = itemClass;
+    }
+    #endregion
+
+    #region Texture preview
+    private void UpdateTexturePreview()
+    {
+        if (!string.IsNullOrEmpty(TemplateList.SelectedEntry?.Texture))
         {
-            // Enable button only when a class is selected
-            buttonBrowse.Enabled = textPath.Enabled = (TemplateList.SelectedEntry != null);
+            textPath.Text = TemplateList.SelectedEntry.Texture;
+            errorProvider.SetError(textPath, null); // Reset any previous error messages
 
-            UpdateTexturePreview();
-
-            base.OnUpdate();
-        }
-
-        /// <summary>
-        /// Called when the user wants a new <see cref="TerrainTemplate"/> to be added.
-        /// </summary>
-        protected override void OnNewTemplate()
-        {
-            string newName = InputBox.Show(this, "Terrain Template Name", Resources.EnterTemplateName);
-
+            // Preview the texture
+            try
+            {
+                pictureTexture.Image?.Dispose();
+                using Stream stream = ContentManager.GetFileStream("Textures/Terrain", TemplateList.SelectedEntry.Texture);
+                pictureTexture.Image = Image.FromStream(stream);
+            }
             #region Error handling
-            if (string.IsNullOrEmpty(newName)) return;
-            if (Content.Contains(newName))
+            catch (ArgumentException)
             {
-                Msg.Inform(this, Resources.NameInUse, MsgSeverity.Warn);
-                return;
-            }
-            #endregion
-
-            var itemClass = new TerrainTemplate {Name = newName};
-            Content.Add(itemClass);
-            OnChange();
-            OnUpdate();
-
-            // Select the new entry
-            TemplateList.SelectedEntry = itemClass;
-        }
-        #endregion
-
-        #region Texture preview
-        private void UpdateTexturePreview()
-        {
-            if (!string.IsNullOrEmpty(TemplateList.SelectedEntry?.Texture))
-            {
-                textPath.Text = TemplateList.SelectedEntry.Texture;
-                errorProvider.SetError(textPath, null); // Reset any previous error messages
-
-                // Preview the texture
-                try
-                {
-                    pictureTexture.Image?.Dispose();
-                    using Stream stream = ContentManager.GetFileStream("Textures/Terrain", TemplateList.SelectedEntry.Texture);
-                    pictureTexture.Image = Image.FromStream(stream);
-                }
-                    #region Error handling
-                catch (ArgumentException)
-                {
-                    // GDI+ unsupported file format - no reason to worry
-                    pictureTexture.Image = null;
-                }
-                catch (IOException ex)
-                {
-                    pictureTexture.Image = null;
-                    errorProvider.SetError(textPath, ex.Message);
-                }
-                catch (UnauthorizedAccessException ex)
-                {
-                    pictureTexture.Image = null;
-                    errorProvider.SetError(textPath, ex.Message);
-                }
-                #endregion
-            }
-            else
-            {
-                textPath.Text = "";
+                // GDI+ unsupported file format - no reason to worry
                 pictureTexture.Image = null;
             }
+            catch (IOException ex)
+            {
+                pictureTexture.Image = null;
+                errorProvider.SetError(textPath, ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                pictureTexture.Image = null;
+                errorProvider.SetError(textPath, ex.Message);
+            }
+            #endregion
         }
-        #endregion
-
-        //--------------------//
-
-        #region Buttons
-        private void buttonBrowse_Click(object sender, EventArgs e)
+        else
         {
-            // Get a terrain texture file path
-            if (!FileSelectorDialog.TryGetPath("Textures/Terrain", ".*", out string path)) return;
+            textPath.Text = "";
+            pictureTexture.Image = null;
+        }
+    }
+    #endregion
 
+    //--------------------//
+
+    #region Buttons
+    private void buttonBrowse_Click(object sender, EventArgs e)
+    {
+        // Get a terrain texture file path
+        if (!FileSelectorDialog.TryGetPath("Textures/Terrain", ".*", out string path)) return;
+
+        // Apply the texture file
+        TemplateList.SelectedEntry.Texture = path;
+        OnChange();
+
+        OnUpdate();
+    }
+    #endregion
+
+    #region Path TextBox
+    private void textPath_Leave(object sender, EventArgs e)
+    {
+        if (TemplateList.SelectedEntry != null && TemplateList.SelectedEntry.Texture != textPath.Text)
+        {
             // Apply the texture file
-            TemplateList.SelectedEntry.Texture = path;
+            TemplateList.SelectedEntry.Texture = textPath.Text;
             OnChange();
 
             OnUpdate();
         }
-        #endregion
-
-        #region Path TextBox
-        private void textPath_Leave(object sender, EventArgs e)
-        {
-            if (TemplateList.SelectedEntry != null && TemplateList.SelectedEntry.Texture != textPath.Text)
-            {
-                // Apply the texture file
-                TemplateList.SelectedEntry.Texture = textPath.Text;
-                OnChange();
-
-                OnUpdate();
-            }
-        }
-
-        private void textPath_KeyDown(object sender, KeyEventArgs e)
-        {
-            // Pretend we are leaving the text box when the Enter key is pressed
-            if (e.KeyCode == Keys.Enter)
-                textPath_Leave(sender, e);
-        }
-        #endregion
     }
+
+    private void textPath_KeyDown(object sender, KeyEventArgs e)
+    {
+        // Pretend we are leaving the text box when the Enter key is pressed
+        if (e.KeyCode == Keys.Enter)
+            textPath_Leave(sender, e);
+    }
+    #endregion
 }

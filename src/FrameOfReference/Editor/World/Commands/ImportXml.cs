@@ -24,33 +24,32 @@ using System;
 using AlphaFramework.Editor.World.Commands;
 using FrameOfReference.World;
 
-namespace FrameOfReference.Editor.World.Commands
+namespace FrameOfReference.Editor.World.Commands;
+
+/// <summary>
+/// Loads new XML data into a <see cref="Universe"/>.
+/// </summary>
+public class ImportXml : ImportXmlBase<Universe>
 {
     /// <summary>
-    /// Loads new XML data into a <see cref="Universe"/>.
+    /// Creates a new command for loading XML data into a <see cref="Universe"/>.
     /// </summary>
-    public class ImportXml : ImportXmlBase<Universe>
+    /// <param name="getUniverse">Called to get the current <see cref="Universe"/> in the editor.</param>
+    /// <param name="setUniverse">Called to change the current <see cref="Universe"/> in the editor.</param>
+    /// <param name="xmlData">The XML string to parse.</param>
+    /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
+    public ImportXml(Func<Universe> getUniverse, Action<Universe> setUniverse, string xmlData, Action refreshHandler)
+        : base(getUniverse, setUniverse, xmlData, refreshHandler)
+    {}
+
+    /// <inheritdoc/>
+    protected override void TransferNonXmlData(Universe oldUniverse, Universe newUniverse)
     {
-        /// <summary>
-        /// Creates a new command for loading XML data into a <see cref="Universe"/>.
-        /// </summary>
-        /// <param name="getUniverse">Called to get the current <see cref="Universe"/> in the editor.</param>
-        /// <param name="setUniverse">Called to change the current <see cref="Universe"/> in the editor.</param>
-        /// <param name="xmlData">The XML string to parse.</param>
-        /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
-        public ImportXml(Func<Universe> getUniverse, Action<Universe> setUniverse, string xmlData, Action refreshHandler)
-            : base(getUniverse, setUniverse, xmlData, refreshHandler)
-        {}
+        #region Sanity checks
+        if (oldUniverse == null) throw new ArgumentNullException(nameof(oldUniverse));
+        if (newUniverse == null) throw new ArgumentNullException(nameof(newUniverse));
+        #endregion
 
-        /// <inheritdoc/>
-        protected override void TransferNonXmlData(Universe oldUniverse, Universe newUniverse)
-        {
-            #region Sanity checks
-            if (oldUniverse == null) throw new ArgumentNullException(nameof(oldUniverse));
-            if (newUniverse == null) throw new ArgumentNullException(nameof(newUniverse));
-            #endregion
-
-            newUniverse.Terrain = oldUniverse.Terrain;
-        }
+        newUniverse.Terrain = oldUniverse.Terrain;
     }
 }

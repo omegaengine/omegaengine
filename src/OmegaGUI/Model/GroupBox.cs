@@ -25,74 +25,73 @@ using System.Drawing;
 using System.Xml.Serialization;
 using OmegaEngine.Values;
 
-namespace OmegaGUI.Model
+namespace OmegaGUI.Model;
+
+/// <summary>
+/// GroupBox control
+/// </summary>
+public class GroupBox : Control
 {
+    #region Variables
     /// <summary>
-    /// GroupBox control
+    /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    public class GroupBox : Control
+    private Render.GroupBox _groupBox;
+    #endregion
+
+    #region Properties
+    public XColor ColorBorder = Color.Black, ColorFill = Color.FromArgb(128, 128, 128, 128);
+
+    /// <summary>
+    /// The color of the border of the group box
+    /// </summary>
+    [XmlIgnore, Description("The color of the border of the group box"), Category("Appearance")]
+    public Color BorderColor
     {
-        #region Variables
-        /// <summary>
-        /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
-        /// </summary>
-        private Render.GroupBox _groupBox;
-        #endregion
-
-        #region Properties
-        public XColor ColorBorder = Color.Black, ColorFill = Color.FromArgb(128, 128, 128, 128);
-
-        /// <summary>
-        /// The color of the border of the group box
-        /// </summary>
-        [XmlIgnore, Description("The color of the border of the group box"), Category("Appearance")]
-        public Color BorderColor
+        get => (Color)ColorBorder;
+        set
         {
-            get => (Color)ColorBorder;
-            set
-            {
-                ColorBorder = value;
-                if (_groupBox != null)
-                    _groupBox.BorderColor = ColorBorder.ToColorValue();
-            }
+            ColorBorder = value;
+            if (_groupBox != null)
+                _groupBox.BorderColor = ColorBorder.ToColorValue();
         }
-
-        /// <summary>
-        /// The background color of the group box
-        /// </summary>
-        [XmlIgnore, Description("The background color of the group box"), Category("Appearance")]
-        public Color FillColor
-        {
-            get => (Color)ColorFill;
-            set
-            {
-                ColorFill = value;
-                if (_groupBox != null)
-                    _groupBox.FillColor = ColorFill.ToColorValue();
-            }
-        }
-        #endregion
-
-        #region Constructor
-        public GroupBox()
-        {
-            Size = new(200, 100);
-        }
-        #endregion
-
-        #region Generate
-        internal override void Generate()
-        {
-            // Add control to dialog
-            UpdateLayout();
-            DXControl = _groupBox =
-                Parent.DialogRender.AddGroupBox(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, ColorBorder.ToColorValue(), ColorFill.ToColorValue());
-            ControlModel.IsVisible = IsVisible;
-            ControlModel.IsEnabled = IsEnabled;
-
-            // Setup event hooks
-            SetupMouseEvents();
-        }
-        #endregion
     }
+
+    /// <summary>
+    /// The background color of the group box
+    /// </summary>
+    [XmlIgnore, Description("The background color of the group box"), Category("Appearance")]
+    public Color FillColor
+    {
+        get => (Color)ColorFill;
+        set
+        {
+            ColorFill = value;
+            if (_groupBox != null)
+                _groupBox.FillColor = ColorFill.ToColorValue();
+        }
+    }
+    #endregion
+
+    #region Constructor
+    public GroupBox()
+    {
+        Size = new(200, 100);
+    }
+    #endregion
+
+    #region Generate
+    internal override void Generate()
+    {
+        // Add control to dialog
+        UpdateLayout();
+        DXControl = _groupBox =
+            Parent.DialogRender.AddGroupBox(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, ColorBorder.ToColorValue(), ColorFill.ToColorValue());
+        ControlModel.IsVisible = IsVisible;
+        ControlModel.IsEnabled = IsEnabled;
+
+        // Setup event hooks
+        SetupMouseEvents();
+    }
+    #endregion
 }

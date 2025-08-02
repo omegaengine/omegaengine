@@ -24,21 +24,20 @@ using System;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace FrameOfReference.World.Config
+namespace FrameOfReference.World.Config;
+
+internal partial class ConfigForm : Form
 {
-    internal partial class ConfigForm : Form
+    public ConfigForm(Settings settings)
     {
-        public ConfigForm(Settings settings)
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            foreach (FieldInfo field in typeof(Settings).GetFields(BindingFlags.Public | BindingFlags.Instance))
-                listBox.Items.Add(field.GetValue(settings));
-        }
+        foreach (FieldInfo field in typeof(Settings).GetFields(BindingFlags.Public | BindingFlags.Instance))
+            listBox.Items.Add(field.GetValue(settings));
+    }
 
-        private void listBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            propertyGrid.SelectedObject = listBox.SelectedItem;
-        }
+    private void listBox_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        propertyGrid.SelectedObject = listBox.SelectedItem;
     }
 }

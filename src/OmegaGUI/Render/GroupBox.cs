@@ -9,31 +9,30 @@
 using SlimDX;
 using SlimDX.Direct3D9;
 
-namespace OmegaGUI.Render
+namespace OmegaGUI.Render;
+
+/// <summary>
+/// A filled rectangle used to optically group controls together
+/// </summary>
+public class GroupBox : Control
 {
-    /// <summary>
-    /// A filled rectangle used to optically group controls together
-    /// </summary>
-    public class GroupBox : Control
+    public Color4 BorderColor, FillColor;
+
+    /// <summary>Create new group box instance</summary>
+    public GroupBox(Dialog parent, Color4 borderColor, Color4 fillColor) : base(parent)
     {
-        public Color4 BorderColor, FillColor;
+        ctrlType = ControlType.GroupBox;
+        BorderColor = borderColor;
+        FillColor = fillColor;
+    }
 
-        /// <summary>Create new group box instance</summary>
-        public GroupBox(Dialog parent, Color4 borderColor, Color4 fillColor) : base(parent)
+    /// <summary>Render the picture box</summary>
+    public override void Render(Device device, float elapsedTime)
+    {
+        if (IsVisible)
         {
-            ctrlType = ControlType.GroupBox;
-            BorderColor = borderColor;
-            FillColor = fillColor;
-        }
-
-        /// <summary>Render the picture box</summary>
-        public override void Render(Device device, float elapsedTime)
-        {
-            if (IsVisible)
-            {
-                parentDialog.DrawRectangle(boundingBox, FillColor, true);
-                parentDialog.DrawRectangle(boundingBox, BorderColor, false);
-            }
+            parentDialog.DrawRectangle(boundingBox, FillColor, true);
+            parentDialog.DrawRectangle(boundingBox, BorderColor, false);
         }
     }
 }

@@ -14,112 +14,111 @@ using LuaInterface;
 using OmegaEngine.Values;
 using SlimDX;
 
-namespace AlphaFramework.World.Terrains
+namespace AlphaFramework.World.Terrains;
+
+/// <summary>
+/// A common base for all <see cref="ITerrain"/> types.
+/// </summary>
+public interface ITerrain
 {
     /// <summary>
-    /// A common base for all <see cref="ITerrain"/> types.
+    /// The size of the terrain.
     /// </summary>
-    public interface ITerrain
-    {
-        /// <summary>
-        /// The size of the terrain.
-        /// </summary>
-        [Description("The size of the terrain.")]
-        TerrainSize Size { get; set; }
+    [Description("The size of the terrain.")]
+    TerrainSize Size { get; set; }
 
-        /// <summary>
-        /// The world coordinates of the center of the terrain.
-        /// </summary>
-        [Browsable(false)]
-        Vector2 Center { get; }
+    /// <summary>
+    /// The world coordinates of the center of the terrain.
+    /// </summary>
+    [Browsable(false)]
+    Vector2 Center { get; }
 
-        /// <summary>
-        /// Direct access to the internal height-map array. Handle with care; clone when necessary!
-        /// </summary>
-        /// <exception cref="InvalidOperationException">The height-map size is incorrect.</exception>
-        /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadHeightMap(Stream)"/>.</remarks>
-        [XmlIgnore, Browsable(false)]
-        ByteGrid HeightMap { get; set; }
+    /// <summary>
+    /// Direct access to the internal height-map array. Handle with care; clone when necessary!
+    /// </summary>
+    /// <exception cref="InvalidOperationException">The height-map size is incorrect.</exception>
+    /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadHeightMap(Stream)"/>.</remarks>
+    [XmlIgnore, Browsable(false)]
+    ByteGrid HeightMap { get; set; }
 
-        /// <summary>
-        /// Direct access to the internal occlusion interval map array. Handle with care; clone when necessary!
-        /// </summary>
-        /// <exception cref="InvalidOperationException">The size is incorrect.</exception>
-        /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadOcclusionIntervalMap(System.IO.Stream)"/>.</remarks>
-        [XmlIgnore, Browsable(false)]
-        ByteVector4Grid OcclusionIntervalMap { get; set; }
+    /// <summary>
+    /// Direct access to the internal occlusion interval map array. Handle with care; clone when necessary!
+    /// </summary>
+    /// <exception cref="InvalidOperationException">The size is incorrect.</exception>
+    /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadOcclusionIntervalMap(System.IO.Stream)"/>.</remarks>
+    [XmlIgnore, Browsable(false)]
+    ByteVector4Grid OcclusionIntervalMap { get; set; }
 
-        /// <summary>
-        /// Indicates that the data stored in <see cref="OcclusionIntervalMap"/> is outdated and should be recalculated using <see cref="OcclusionIntervalMapGenerator"/>.
-        /// </summary>
-        [XmlAttribute, DefaultValue(false)]
-        bool OcclusionIntervalMapOutdated { get; set; }
+    /// <summary>
+    /// Indicates that the data stored in <see cref="OcclusionIntervalMap"/> is outdated and should be recalculated using <see cref="OcclusionIntervalMapGenerator"/>.
+    /// </summary>
+    [XmlAttribute, DefaultValue(false)]
+    bool OcclusionIntervalMapOutdated { get; set; }
 
-        /// <summary>
-        /// Direct access to the internal height-map array. Handle with care; clone when necessary!
-        /// </summary>
-        /// <exception cref="InvalidOperationException">The height-map size is incorrect.</exception>
-        /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadTextureMap(string)"/>.</remarks>
-        [XmlIgnore, Browsable(false)]
-        NibbleGrid TextureMap { get; set; }
+    /// <summary>
+    /// Direct access to the internal height-map array. Handle with care; clone when necessary!
+    /// </summary>
+    /// <exception cref="InvalidOperationException">The height-map size is incorrect.</exception>
+    /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadTextureMap(string)"/>.</remarks>
+    [XmlIgnore, Browsable(false)]
+    NibbleGrid TextureMap { get; set; }
 
-        /// <summary>
-        /// Was the minimum necessary data for the terrain  (<see cref="HeightMap"/> and <see cref="TextureMap"/>) loaded already?
-        /// </summary>
-        [Browsable(false), XmlIgnore]
-        bool DataLoaded { get; }
+    /// <summary>
+    /// Was the minimum necessary data for the terrain  (<see cref="HeightMap"/> and <see cref="TextureMap"/>) loaded already?
+    /// </summary>
+    [Browsable(false), XmlIgnore]
+    bool DataLoaded { get; }
 
-        /// <summary>
-        /// Marks untraversable slopes in a pathfinding "obstruction map".
-        /// </summary>
-        /// <param name="obstructionMap">The existing pathfinding "obstruction map" to mark the untraversable slopes in.</param>
-        /// <param name="maxTraversableSlope">The maximum slope to considers traversable.</param>
-        [LuaHide]
-        void MarkUntraversableSlopes(bool[,] obstructionMap, int maxTraversableSlope);
+    /// <summary>
+    /// Marks untraversable slopes in a pathfinding "obstruction map".
+    /// </summary>
+    /// <param name="obstructionMap">The existing pathfinding "obstruction map" to mark the untraversable slopes in.</param>
+    /// <param name="maxTraversableSlope">The maximum slope to considers traversable.</param>
+    [LuaHide]
+    void MarkUntraversableSlopes(bool[,] obstructionMap, int maxTraversableSlope);
 
-        /// <summary>
-        /// Loads data for <see cref="ITerrain.HeightMap"/> from a stream.
-        /// </summary>
-        /// <param name="stream">The stream to read the height-map from.</param>
-        /// <exception cref="IOException">The height-map size is incorrect.</exception>
-        [LuaHide]
-        void LoadHeightMap(Stream stream);
+    /// <summary>
+    /// Loads data for <see cref="ITerrain.HeightMap"/> from a stream.
+    /// </summary>
+    /// <param name="stream">The stream to read the height-map from.</param>
+    /// <exception cref="IOException">The height-map size is incorrect.</exception>
+    [LuaHide]
+    void LoadHeightMap(Stream stream);
 
-        /// <summary>
-        /// Loads data for <see cref="ITerrain.HeightMap"/> from a file.
-        /// </summary>
-        /// <param name="path">The path of the PNG file to load the height-map from.</param>
-        /// <exception cref="IOException">The texture-map size is incorrect.</exception>
-        void LoadHeightMap(string path);
+    /// <summary>
+    /// Loads data for <see cref="ITerrain.HeightMap"/> from a file.
+    /// </summary>
+    /// <param name="path">The path of the PNG file to load the height-map from.</param>
+    /// <exception cref="IOException">The texture-map size is incorrect.</exception>
+    void LoadHeightMap(string path);
 
-        /// <summary>
-        /// Loads data for <see cref="ITerrain.OcclusionIntervalMap"/> from a stream.
-        /// </summary>
-        /// <param name="stream">The stream to read the occlusion interval map from.</param>
-        /// <exception cref="IOException">The occlusion interval map size is incorrect.</exception>
-        [LuaHide]
-        void LoadOcclusionIntervalMap(Stream stream);
+    /// <summary>
+    /// Loads data for <see cref="ITerrain.OcclusionIntervalMap"/> from a stream.
+    /// </summary>
+    /// <param name="stream">The stream to read the occlusion interval map from.</param>
+    /// <exception cref="IOException">The occlusion interval map size is incorrect.</exception>
+    [LuaHide]
+    void LoadOcclusionIntervalMap(Stream stream);
 
-        /// <summary>
-        /// Loads data for <see cref="ITerrain.OcclusionIntervalMap"/> from a file.
-        /// </summary>
-        /// <param name="path">The path of the PNG file to load the occlusion interval map from.</param>
-        /// <exception cref="IOException">The texture-map size is incorrect.</exception>
-        void LoadOcclusionIntervalMap(string path);
+    /// <summary>
+    /// Loads data for <see cref="ITerrain.OcclusionIntervalMap"/> from a file.
+    /// </summary>
+    /// <param name="path">The path of the PNG file to load the occlusion interval map from.</param>
+    /// <exception cref="IOException">The texture-map size is incorrect.</exception>
+    void LoadOcclusionIntervalMap(string path);
 
-        /// <summary>
-        /// Loads data for <see cref="ITerrain.TextureMap"/> from a stream.
-        /// </summary>
-        /// <param name="stream">The stream to read the texture-map from.</param>
-        /// <exception cref="IOException">The texture-map size is incorrect.</exception>
-        [LuaHide]
-        void LoadTextureMap(Stream stream);
+    /// <summary>
+    /// Loads data for <see cref="ITerrain.TextureMap"/> from a stream.
+    /// </summary>
+    /// <param name="stream">The stream to read the texture-map from.</param>
+    /// <exception cref="IOException">The texture-map size is incorrect.</exception>
+    [LuaHide]
+    void LoadTextureMap(Stream stream);
 
-        /// <summary>
-        /// Loads data for <see cref="ITerrain.TextureMap"/> from a file.
-        /// </summary>
-        /// <param name="path">The path of the PNG file to load the texture-map from.</param>
-        /// <exception cref="IOException">The texture-map size is incorrect.</exception>
-        void LoadTextureMap(string path);
-    }
+    /// <summary>
+    /// Loads data for <see cref="ITerrain.TextureMap"/> from a file.
+    /// </summary>
+    /// <param name="path">The path of the PNG file to load the texture-map from.</param>
+    /// <exception cref="IOException">The texture-map size is incorrect.</exception>
+    void LoadTextureMap(string path);
 }

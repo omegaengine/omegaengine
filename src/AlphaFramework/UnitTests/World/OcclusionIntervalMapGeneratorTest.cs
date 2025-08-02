@@ -11,72 +11,71 @@ using FluentAssertions;
 using OmegaEngine.Values;
 using Xunit;
 
-namespace AlphaFramework.World
+namespace AlphaFramework.World;
+
+/// <summary>
+/// Contains test methods for <see cref="OcclusionIntervalMapGenerator"/>.
+/// </summary>
+public class OcclusionIntervalMapGeneratorTest
 {
-    /// <summary>
-    /// Contains test methods for <see cref="OcclusionIntervalMapGenerator"/>.
-    /// </summary>
-    public class OcclusionIntervalMapGeneratorTest
+    [Fact]
+    public void TestMinimal1()
     {
-        [Fact]
-        public void TestMinimal1()
-        {
-            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
-            generator.Run();
+        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
+        generator.Run();
 
-            generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
-            generator.Result[1, 0].Should().Be(new ByteVector4(64, 255, 255, 255));
-            generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
-        }
+        generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
+        generator.Result[1, 0].Should().Be(new ByteVector4(64, 255, 255, 255));
+        generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
+    }
 
-        [Fact]
-        public void TestMinimal2()
-        {
-            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{1, 0}, {1, 0}, {2, 1}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
-            generator.Run();
+    [Fact]
+    public void TestMinimal2()
+    {
+        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{1, 0}, {1, 0}, {2, 1}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
+        generator.Run();
 
-            generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
-            generator.Result[0, 1].Should().Be(new ByteVector4(38, 255, 255, 255));
-            generator.Result[1, 0].Should().Be(new ByteVector4(64, 255, 255, 255));
-            generator.Result[1, 1].Should().Be(new ByteVector4(64, 255, 255, 255));
-            generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
-            generator.Result[2, 1].Should().Be(new ByteVector4(0, 255, 255, 255));
-        }
+        generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
+        generator.Result[0, 1].Should().Be(new ByteVector4(38, 255, 255, 255));
+        generator.Result[1, 0].Should().Be(new ByteVector4(64, 255, 255, 255));
+        generator.Result[1, 1].Should().Be(new ByteVector4(64, 255, 255, 255));
+        generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
+        generator.Result[2, 1].Should().Be(new ByteVector4(0, 255, 255, 255));
+    }
 
-        [Fact]
-        public void TestMinimal3()
-        {
-            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0, 0}, {0, 0}, {1, 225}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
-            generator.Run();
+    [Fact]
+    public void TestMinimal3()
+    {
+        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0, 0}, {0, 0}, {1, 225}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
+        generator.Run();
 
-            generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
-            generator.Result[0, 1].Should().Be(new ByteVector4(127, 255, 255, 255));
-            generator.Result[1, 0].Should().Be(new ByteVector4(64, 255, 255, 255));
-            generator.Result[1, 1].Should().Be(new ByteVector4(128, 255, 255, 255));
-            generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
-            generator.Result[2, 1].Should().Be(new ByteVector4(0, 255, 255, 255));
-        }
+        generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
+        generator.Result[0, 1].Should().Be(new ByteVector4(127, 255, 255, 255));
+        generator.Result[1, 0].Should().Be(new ByteVector4(64, 255, 255, 255));
+        generator.Result[1, 1].Should().Be(new ByteVector4(128, 255, 255, 255));
+        generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
+        generator.Result[2, 1].Should().Be(new ByteVector4(0, 255, 255, 255));
+    }
 
-        [Fact]
-        public void TestStretchV()
-        {
-            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchV: 2) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
-            generator.Run();
+    [Fact]
+    public void TestStretchV()
+    {
+        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchV: 2) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
+        generator.Run();
 
-            generator.Result[0, 0].Should().Be(new ByteVector4(64, 255, 255, 255));
-            generator.Result[1, 0].Should().Be(new ByteVector4(90, 255, 255, 255));
-            generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
-        }
+        generator.Result[0, 0].Should().Be(new ByteVector4(64, 255, 255, 255));
+        generator.Result[1, 0].Should().Be(new ByteVector4(90, 255, 255, 255));
+        generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
+    }
 
-        [Fact]
-        public void TestStretchH()
-        {
-            var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchH: 2) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
-            generator.Run();
+    [Fact]
+    public void TestStretchH()
+    {
+        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchH: 2) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
+        generator.Run();
 
-            generator.Result[0, 0].Should().Be(new ByteVector4(20, 255, 255, 255));
-            generator.Result[1, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
-            generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
-        }
+        generator.Result[0, 0].Should().Be(new ByteVector4(20, 255, 255, 255));
+        generator.Result[1, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
+        generator.Result[2, 0].Should().Be(new ByteVector4(0, 255, 255, 255));
     }
 }

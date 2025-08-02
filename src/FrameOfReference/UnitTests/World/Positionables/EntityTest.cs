@@ -23,26 +23,25 @@
 using FluentAssertions;
 using Xunit;
 
-namespace FrameOfReference.World.Positionables
-{
-    public class EntityTest
-    {
-        [Fact]
-        public void TestGetCurrentWaypointIndex()
-        {
-            var entity = new Entity
-            {
-                Waypoints =
-                {
-                    new() {ActivationTime = 1},
-                    new() {ActivationTime = 2, ArrivalTime = 3}
-                }
-            };
+namespace FrameOfReference.World.Positionables;
 
-            entity.GetCurrentWaypointIndex(0).Should().Be(-1);
-            entity.GetCurrentWaypointIndex(1.5).Should().Be(0);
-            entity.GetCurrentWaypointIndex(2.5).Should().Be(1);
-            entity.GetCurrentWaypointIndex(3.5).Should().Be(-1);
-        }
+public class EntityTest
+{
+    [Fact]
+    public void TestGetCurrentWaypointIndex()
+    {
+        var entity = new Entity
+        {
+            Waypoints =
+            {
+                new() {ActivationTime = 1},
+                new() {ActivationTime = 2, ArrivalTime = 3}
+            }
+        };
+
+        entity.GetCurrentWaypointIndex(0).Should().Be(-1);
+        entity.GetCurrentWaypointIndex(1.5).Should().Be(0);
+        entity.GetCurrentWaypointIndex(2.5).Should().Be(1);
+        entity.GetCurrentWaypointIndex(3.5).Should().Be(-1);
     }
 }

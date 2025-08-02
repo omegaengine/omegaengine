@@ -13,85 +13,84 @@ using SlimDX;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Values;
 
-namespace OmegaEngine.Graphics
+namespace OmegaEngine.Graphics;
+
+/// <summary>
+/// A light source that has a fixed position and shines uniformly in all directions.
+/// </summary>
+public sealed class PointLight : LightSource, IPositionableOffset
 {
+    #region Properties
     /// <summary>
-    /// A light source that has a fixed position and shines uniformly in all directions.
+    /// Shall this light source be converted to a pseudo-directional source for each individual <see cref="PositionableRenderable"/> before passing it to shaders?
     /// </summary>
-    public sealed class PointLight : LightSource, IPositionableOffset
+    [Description("Shall this light source be converted to a pseudo-directional source for each individual PositionableRenderable before passing it to shaders?"), Category("Behavior")]
+    public bool DirectionalForShader { get; set; }
+
+    private DoubleVector3 _position;
+
+    /// <summary>
+    /// The position of the light source
+    /// </summary>
+    [Description("The position of the light source"), Category("Layout")]
+    public DoubleVector3 Position { get => _position; set => value.To(ref _position, ref _effectivePositionDirty); }
+
+    private DoubleVector3 _positionOffset;
+
+    /// <summary>
+    /// A value to be added to <see cref="Position"/> in order gain <see cref="IPositionableOffset.EffectivePosition"/> - auto-updated by <see cref="View.Render"/> to the negative <see cref="Camera.Position"/>
+    /// </summary>
+    DoubleVector3 IPositionableOffset.Offset { get => _positionOffset; set => value.To(ref _positionOffset, ref _effectivePositionDirty); }
+
+    private bool _effectivePositionDirty;
+    private Vector3 _effectivePosition;
+
+    /// <summary>
+    /// The body's position in render space, based on <see cref="Position"/>
+    /// </summary>
+    /// <remarks>Constantly changes based on the values set for <see cref="IPositionableOffset.Offset"/></remarks>
+    Vector3 IPositionableOffset.EffectivePosition
     {
-        #region Properties
-        /// <summary>
-        /// Shall this light source be converted to a pseudo-directional source for each individual <see cref="PositionableRenderable"/> before passing it to shaders?
-        /// </summary>
-        [Description("Shall this light source be converted to a pseudo-directional source for each individual PositionableRenderable before passing it to shaders?"), Category("Behavior")]
-        public bool DirectionalForShader { get; set; }
-
-        private DoubleVector3 _position;
-
-        /// <summary>
-        /// The position of the light source
-        /// </summary>
-        [Description("The position of the light source"), Category("Layout")]
-        public DoubleVector3 Position { get => _position; set => value.To(ref _position, ref _effectivePositionDirty); }
-
-        private DoubleVector3 _positionOffset;
-
-        /// <summary>
-        /// A value to be added to <see cref="Position"/> in order gain <see cref="IPositionableOffset.EffectivePosition"/> - auto-updated by <see cref="View.Render"/> to the negative <see cref="Camera.Position"/>
-        /// </summary>
-        DoubleVector3 IPositionableOffset.Offset { get => _positionOffset; set => value.To(ref _positionOffset, ref _effectivePositionDirty); }
-
-        private bool _effectivePositionDirty;
-        private Vector3 _effectivePosition;
-
-        /// <summary>
-        /// The body's position in render space, based on <see cref="Position"/>
-        /// </summary>
-        /// <remarks>Constantly changes based on the values set for <see cref="IPositionableOffset.Offset"/></remarks>
-        Vector3 IPositionableOffset.EffectivePosition
+        get
         {
-            get
+            if (_effectivePositionDirty)
             {
-                if (_effectivePositionDirty)
-                {
-                    _effectivePosition = _position.ApplyOffset(((IPositionableOffset)this).Offset);
-                    _effectivePositionDirty = false;
-                }
-                return _effectivePosition;
+                _effectivePosition = _position.ApplyOffset(((IPositionableOffset)this).Offset);
+                _effectivePositionDirty = false;
             }
+            return _effectivePosition;
         }
-
-        /// <summary>
-        /// Stores an offset used by game logic positioning code. Ignore by the engine itself!
-        /// </summary>
-        [Description("Stores an offset used by game logic positioning code. Ignore by the engine itself!"), Category("Layout")]
-        public Vector3 Shift { get; set; }
-
-        /// <summary>
-        /// The maximum distance at which the light source has an effect.
-        /// </summary>
-        [Description("The maximum distance at which the light source has an effect."), Category("Behavior")]
-        public float Range { get; set; }
-
-        /// <summary>
-        /// Factors describing the attenuation of light intensity over distance.
-        /// </summary>
-        [Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation."), Category("Behavior")]
-        public Attenuation Attenuation { get; set; }
-        #endregion
-
-        //--------------------//
-
-        #region Constructor
-        /// <summary>
-        /// Creates a new point light with a <see cref="Range"/> of 1000 and no attenuation
-        /// </summary>
-        public PointLight()
-        {
-            Range = 1000;
-            Attenuation = new(1, 0, 0);
-        }
-        #endregion
     }
+
+    /// <summary>
+    /// Stores an offset used by game logic positioning code. Ignore by the engine itself!
+    /// </summary>
+    [Description("Stores an offset used by game logic positioning code. Ignore by the engine itself!"), Category("Layout")]
+    public Vector3 Shift { get; set; }
+
+    /// <summary>
+    /// The maximum distance at which the light source has an effect.
+    /// </summary>
+    [Description("The maximum distance at which the light source has an effect."), Category("Behavior")]
+    public float Range { get; set; }
+
+    /// <summary>
+    /// Factors describing the attenuation of light intensity over distance.
+    /// </summary>
+    [Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation."), Category("Behavior")]
+    public Attenuation Attenuation { get; set; }
+    #endregion
+
+    //--------------------//
+
+    #region Constructor
+    /// <summary>
+    /// Creates a new point light with a <see cref="Range"/> of 1000 and no attenuation
+    /// </summary>
+    public PointLight()
+    {
+        Range = 1000;
+        Attenuation = new(1, 0, 0);
+    }
+    #endregion
 }

@@ -24,54 +24,53 @@ using System;
 using System.ComponentModel;
 using NanoByte.Common;
 
-namespace FrameOfReference.World.Config
+namespace FrameOfReference.World.Config;
+
+/// <summary>
+/// Stores general game settings (UI language, difficulty level, etc.).
+/// </summary>
+/// <seealso cref="Settings.General"/>
+public sealed class GeneralSettings
 {
+    #region Constants
     /// <summary>
-    /// Stores general game settings (UI language, difficulty level, etc.).
+    /// The complete name of the application
     /// </summary>
-    /// <seealso cref="Settings.General"/>
-    public sealed class GeneralSettings
+    public const string AppName = "Frame of Reference";
+
+    /// <summary>
+    /// The short version of the application name (used for EXE name, AppModel IDs, etc.)
+    /// </summary>
+    public const string AppNameShort = "FrameOfReference";
+    #endregion
+
+    #region Events
+    /// <summary>
+    /// Occurs when a setting in this group is changed.
+    /// </summary>
+    [Description("Occurs when a setting in this group is changed.")]
+    public event Action Changed;
+
+    private void OnChanged()
     {
-        #region Constants
-        /// <summary>
-        /// The complete name of the application
-        /// </summary>
-        public const string AppName = "Frame of Reference";
-
-        /// <summary>
-        /// The short version of the application name (used for EXE name, AppModel IDs, etc.)
-        /// </summary>
-        public const string AppNameShort = "FrameOfReference";
-        #endregion
-
-        #region Events
-        /// <summary>
-        /// Occurs when a setting in this group is changed.
-        /// </summary>
-        [Description("Occurs when a setting in this group is changed.")]
-        public event Action Changed;
-
-        private void OnChanged()
-        {
-            Changed?.Invoke();
-            if (Settings.AutoSave && Settings.Current != null && Settings.Current.General == this) Settings.SaveCurrent();
-        }
-        #endregion
-
-        private string _contentDir;
-
-        /// <summary>
-        /// Path to the directory to load the game content from
-        /// </summary>
-        [DefaultValue(""), Description("Path to the directory to load the game content from")]
-        public string ContentDir { get => _contentDir; set => value.To(ref _contentDir, OnChanged); }
-
-        private string _language;
-
-        /// <summary>
-        /// The current game language
-        /// </summary>
-        [DefaultValue(""), Description("The current game language")]
-        public string Language { get => _language; set => value.To(ref _language, OnChanged); }
+        Changed?.Invoke();
+        if (Settings.AutoSave && Settings.Current != null && Settings.Current.General == this) Settings.SaveCurrent();
     }
+    #endregion
+
+    private string _contentDir;
+
+    /// <summary>
+    /// Path to the directory to load the game content from
+    /// </summary>
+    [DefaultValue(""), Description("Path to the directory to load the game content from")]
+    public string ContentDir { get => _contentDir; set => value.To(ref _contentDir, OnChanged); }
+
+    private string _language;
+
+    /// <summary>
+    /// The current game language
+    /// </summary>
+    [DefaultValue(""), Description("The current game language")]
+    public string Language { get => _language; set => value.To(ref _language, OnChanged); }
 }

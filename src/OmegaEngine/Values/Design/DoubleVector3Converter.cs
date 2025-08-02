@@ -13,50 +13,49 @@ using System.Globalization;
 using System.Reflection;
 using NanoByte.Common.Values.Design;
 
-namespace OmegaEngine.Values.Design
+namespace OmegaEngine.Values.Design;
+
+internal class DoubleVector3Converter : ValueTypeConverter<DoubleVector3>
 {
-    internal class DoubleVector3Converter : ValueTypeConverter<DoubleVector3>
+    /// <inheritdoc/>
+    protected override int NoArguments => 3;
+
+    /// <inheritdoc/>
+    protected override ConstructorInfo GetConstructor() => typeof(DoubleVector3).GetConstructor([typeof(double), typeof(double), typeof(double)]);
+
+    /// <inheritdoc/>
+    protected override object[] GetArguments(DoubleVector3 value) => [value.X, value.Y];
+
+    /// <inheritdoc/>
+    protected override string[] GetValues(DoubleVector3 value, ITypeDescriptorContext context, CultureInfo culture)
     {
-        /// <inheritdoc/>
-        protected override int NoArguments => 3;
+        var doubleConverter = TypeDescriptor.GetConverter(typeof(double));
+        return
+        [
+            doubleConverter.ConvertToString(context, culture, value.X),
+            doubleConverter.ConvertToString(context, culture, value.Y),
+            doubleConverter.ConvertToString(context, culture, value.Z)
+        ];
+    }
 
-        /// <inheritdoc/>
-        protected override ConstructorInfo GetConstructor() => typeof(DoubleVector3).GetConstructor([typeof(double), typeof(double), typeof(double)]);
+    /// <inheritdoc/>
+    protected override DoubleVector3 GetObject(string[] values, CultureInfo culture)
+    {
+        #region Sanity checks
+        if (values == null) throw new ArgumentNullException(nameof(values));
+        if (culture == null) throw new ArgumentNullException(nameof(culture));
+        #endregion
 
-        /// <inheritdoc/>
-        protected override object[] GetArguments(DoubleVector3 value) => [value.X, value.Y];
+        return new(Convert.ToDouble(values[0], culture), Convert.ToDouble(values[1], culture), Convert.ToDouble(values[2], culture));
+    }
 
-        /// <inheritdoc/>
-        protected override string[] GetValues(DoubleVector3 value, ITypeDescriptorContext context, CultureInfo culture)
-        {
-            var doubleConverter = TypeDescriptor.GetConverter(typeof(double));
-            return
-            [
-                doubleConverter.ConvertToString(context, culture, value.X),
-                doubleConverter.ConvertToString(context, culture, value.Y),
-                doubleConverter.ConvertToString(context, culture, value.Z)
-            ];
-        }
+    /// <inheritdoc/>
+    protected override DoubleVector3 GetObject(IDictionary propertyValues)
+    {
+        #region Sanity checks
+        if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
+        #endregion
 
-        /// <inheritdoc/>
-        protected override DoubleVector3 GetObject(string[] values, CultureInfo culture)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException(nameof(values));
-            if (culture == null) throw new ArgumentNullException(nameof(culture));
-            #endregion
-
-            return new(Convert.ToDouble(values[0], culture), Convert.ToDouble(values[1], culture), Convert.ToDouble(values[2], culture));
-        }
-
-        /// <inheritdoc/>
-        protected override DoubleVector3 GetObject(IDictionary propertyValues)
-        {
-            #region Sanity checks
-            if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
-            #endregion
-
-            return new((double)propertyValues["X"], (double)propertyValues["Y"], (double)propertyValues["Z"]);
-        }
+        return new((double)propertyValues["X"], (double)propertyValues["Y"], (double)propertyValues["Z"]);
     }
 }

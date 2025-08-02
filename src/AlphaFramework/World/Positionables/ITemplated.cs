@@ -6,16 +6,15 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace AlphaFramework.World.Positionables
+namespace AlphaFramework.World.Positionables;
+
+/// <summary>
+/// An interface to elements that are based on a named template.
+/// </summary>
+public interface ITemplated
 {
     /// <summary>
-    /// An interface to elements that are based on a named template.
+    /// The name of the template.
     /// </summary>
-    public interface ITemplated
-    {
-        /// <summary>
-        /// The name of the template.
-        /// </summary>
-        string TemplateName { get; set; }
-    }
+    string TemplateName { get; set; }
 }

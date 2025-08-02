@@ -37,438 +37,437 @@ using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;
 using OmegaEngine.Values;
 
-namespace FrameOfReference.Editor.World
+namespace FrameOfReference.Editor.World;
+
+/// <summary>
+/// Allows the user to edit <see cref="EntityTemplate"/>s
+/// </summary>
+public partial class EntityEditor : EntityEditorDesignerShim
 {
+    #region Variables
+    private EditorPresenter _presenter;
+    private Universe _universe;
+
+    private AddRenderComponentTool _addRenderComponentTool;
+    #endregion
+
+    #region Constructor
     /// <summary>
-    /// Allows the user to edit <see cref="EntityTemplate"/>s
+    /// Creates a new entity editor.
     /// </summary>
-    public partial class EntityEditor : EntityEditorDesignerShim
+    public EntityEditor()
     {
-        #region Variables
-        private EditorPresenter _presenter;
-        private Universe _universe;
+        InitializeComponent();
 
-        private AddRenderComponentTool _addRenderComponentTool;
-        #endregion
+        // Hard-coded filename
+        FilePath = Template<EntityTemplate>.FileName;
 
-        #region Constructor
-        /// <summary>
-        /// Creates a new entity editor.
-        /// </summary>
-        public EntityEditor()
+        // Ugly hack to make mouse wheel work
+        splitRender.Panel2.MouseMove += delegate { splitRender.Panel2.Focus(); };
+
+        // Close dialogs when the owning tab closes
+        TabClosed += delegate { _addRenderComponentTool?.Close(); };
+    }
+    #endregion
+
+    //--------------------//
+
+    #region Handlers
+    /// <inheritdoc/>
+    protected override void OnInitialize()
+    {
+        EntityTemplate.LoadAll();
+        ItemTemplate.LoadAll();
+        TerrainTemplate.LoadAll();
+
+        // Create an empty testing universe with a plain terrain
+        _universe = new(new(new(27, 27, 30, 30))) {LightPhase = 1};
+
+        base.OnInitialize();
+
+        // Initialize engine
+        renderPanel.Setup();
+
+        // Activate some effects
+        renderPanel.Engine.Anisotropic = true;
+        renderPanel.Engine.Effects.PerPixelLighting = true;
+        renderPanel.Engine.Effects.NormalMapping = checkNormalMapping.Checked;
+        renderPanel.Engine.Effects.PostScreenEffects = true;
+        renderPanel.Engine.Effects.WaterEffects = WaterEffectsType.ReflectAll;
+
+        propertyGridUniverse.SelectedObject = _universe;
+    }
+
+    /// <inheritdoc/>
+    protected override void OnUpdate()
+    {
+        // Backup the previously selected class
+        var selectedClass = TemplateList.SelectedEntry;
+
+        // Setup the presentator on startup or when it was lost/reset
+        if (_presenter == null)
         {
-            InitializeComponent();
+            _presenter = new(renderPanel.Engine, _universe, true);
+            _presenter.Initialize();
+            _presenter.HookIn();
 
-            // Hard-coded filename
-            FilePath = Template<EntityTemplate>.FileName;
-
-            // Ugly hack to make mouse wheel work
-            splitRender.Panel2.MouseMove += delegate { splitRender.Panel2.Focus(); };
-
-            // Close dialogs when the owning tab closes
-            TabClosed += delegate { _addRenderComponentTool?.Close(); };
+            renderPanel.AddInputReceiver(_presenter); // Update the presenter based on user input
+            renderPanel.AddInputReceiver(new UpdateReceiver(() => renderPanel.Engine.Render())); // Force immediate redraw to give responsive feel
         }
-        #endregion
 
-        //--------------------//
+        // Remove all previous entites from rendering universe
+        _universe.Positionables.Clear();
 
-        #region Handlers
-        /// <inheritdoc/>
-        protected override void OnInitialize()
-        {
-            EntityTemplate.LoadAll();
-            ItemTemplate.LoadAll();
-            TerrainTemplate.LoadAll();
+        if (selectedClass == null)
+        { // No class selected
 
-            // Create an empty testing universe with a plain terrain
-            _universe = new(new(new(27, 27, 30, 30))) {LightPhase = 1};
+            #region Render component
+            comboRender.Items.Clear();
+            buttonAddRender.Enabled = buttonRemoveRender.Enabled = buttonBrowseRender.Enabled = false;
+            propertyGridRender.SelectedObject = null;
+            #endregion
 
-            base.OnInitialize();
+            #region Collision component
+            buttonAddCollision.Enabled = buttonRemoveCollision.Enabled = false;
+            propertyGridCollision.SelectedObject = null;
+            labelCollision.Text = "";
+            #endregion
 
-            // Initialize engine
-            renderPanel.Setup();
-
-            // Activate some effects
-            renderPanel.Engine.Anisotropic = true;
-            renderPanel.Engine.Effects.PerPixelLighting = true;
-            renderPanel.Engine.Effects.NormalMapping = checkNormalMapping.Checked;
-            renderPanel.Engine.Effects.PostScreenEffects = true;
-            renderPanel.Engine.Effects.WaterEffects = WaterEffectsType.ReflectAll;
-
-            propertyGridUniverse.SelectedObject = _universe;
+            #region Movement compnent
+            buttonAddMovement.Enabled = buttonRemoveMovement.Enabled = false;
+            propertyGridMovement.SelectedObject = null;
+            labelMovement.Text = "";
+            #endregion
         }
+        else
+        { // Class is selected
 
-        /// <inheritdoc/>
-        protected override void OnUpdate()
-        {
-            // Backup the previously selected class
-            var selectedClass = TemplateList.SelectedEntry;
+            #region Render component
+            buttonAddRender.Enabled = true;
 
-            // Setup the presentator on startup or when it was lost/reset
-            if (_presenter == null)
+            // Backup currently selected component controller before clearing list
+            var prevRender = comboRender.SelectedItem;
+            comboRender.Items.Clear();
+
+            // List render components in drop-down combo-box
+            foreach (var render in selectedClass.Render)
+                comboRender.Items.Add(render);
+
+            if (comboRender.Items.Count > 0)
             {
-                _presenter = new(renderPanel.Engine, _universe, true);
-                _presenter.Initialize();
-                _presenter.HookIn();
-
-                renderPanel.AddInputReceiver(_presenter); // Update the presenter based on user input
-                renderPanel.AddInputReceiver(new UpdateReceiver(() => renderPanel.Engine.Render())); // Force immediate redraw to give responsive feel
-            }
-
-            // Remove all previous entites from rendering universe
-            _universe.Positionables.Clear();
-
-            if (selectedClass == null)
-            { // No class selected
-
-                #region Render component
-                comboRender.Items.Clear();
-                buttonAddRender.Enabled = buttonRemoveRender.Enabled = buttonBrowseRender.Enabled = false;
-                propertyGridRender.SelectedObject = null;
-                #endregion
-
-                #region Collision component
-                buttonAddCollision.Enabled = buttonRemoveCollision.Enabled = false;
-                propertyGridCollision.SelectedObject = null;
-                labelCollision.Text = "";
-                #endregion
-
-                #region Movement compnent
-                buttonAddMovement.Enabled = buttonRemoveMovement.Enabled = false;
-                propertyGridMovement.SelectedObject = null;
-                labelMovement.Text = "";
-                #endregion
+                // Select previous render component or first one in list
+                comboRender.SelectedItem = (prevRender != null && comboRender.Items.Contains(prevRender)) ?
+                    prevRender : comboRender.Items[0];
+                buttonRemoveRender.Enabled = buttonBrowseRender.Enabled = true;
             }
             else
-            { // Class is selected
-
-                #region Render component
-                buttonAddRender.Enabled = true;
-
-                // Backup currently selected component controller before clearing list
-                var prevRender = comboRender.SelectedItem;
-                comboRender.Items.Clear();
-
-                // List render components in drop-down combo-box
-                foreach (var render in selectedClass.Render)
-                    comboRender.Items.Add(render);
-
-                if (comboRender.Items.Count > 0)
-                {
-                    // Select previous render component or first one in list
-                    comboRender.SelectedItem = (prevRender != null && comboRender.Items.Contains(prevRender)) ?
-                        prevRender : comboRender.Items[0];
-                    buttonRemoveRender.Enabled = buttonBrowseRender.Enabled = true;
-                }
-                else
-                { // No render components in the list
-                    propertyGridRender.SelectedObject = null;
-                    buttonRemoveRender.Enabled = buttonBrowseRender.Enabled = false;
-                }
-                #endregion
-
-                #region Collision Control
-                buttonAddCollision.Enabled = (selectedClass.Collision == null);
-                buttonRemoveCollision.Enabled = !buttonAddCollision.Enabled;
-                propertyGridCollision.SelectedObject = selectedClass.Collision;
-                labelCollision.Text = selectedClass.Collision?.ToString() ?? "None";
-                #endregion
-
-                #region Movement Control
-                buttonAddMovement.Enabled = (selectedClass.Movement == null);
-                buttonRemoveMovement.Enabled = !buttonAddMovement.Enabled;
-                propertyGridMovement.SelectedObject = selectedClass.Movement;
-                labelMovement.Text = selectedClass.Movement?.ToString() ?? "None";
-                #endregion
-
-                #region Setup sample rendering
-                // Make sure device is ready before trying to setup rendering
-                if (renderPanel.Engine.NeedsReset) return;
-
-                // Add new Entity to Universe (Presenter will auto-update engine)
-                try
-                {
-                    _universe.Positionables.Add(new Entity
-                    {
-                        Name = "Entity",
-                        Position = _universe.Terrain.Center,
-                        // Clone the class, so that in case it is changed the old version is still available for cleanup operations
-                        TemplateData = TemplateList.SelectedEntry.Clone()
-                    });
-                }
-                    #region Error handling
-                catch (NotSupportedException)
-                {
-                    Msg.Inform(this, Resources.InvalidFilePath, MsgSeverity.Warn);
-                }
-                catch (FileNotFoundException ex)
-                {
-                    Msg.Inform(this, Resources.FileNotFound + "\n" + ex.FileName, MsgSeverity.Warn);
-                }
-                catch (IOException ex)
-                {
-                    Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Warn);
-                }
-                catch (UnauthorizedAccessException ex)
-                {
-                    Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Warn);
-                }
-                catch (InvalidDataException ex)
-                {
-                    Msg.Inform(this, Resources.FileDamaged + "\n" + ex.Message + (ex.InnerException == null ? "" : "\n" + ex.InnerException.Message), MsgSeverity.Error);
-                }
-                #endregion
-
-                #endregion
-            }
-
-            renderPanel.Engine.Render();
-
-            base.OnUpdate();
-        }
-
-        /// <summary>
-        /// Called when the user wants a new <see cref="EntityTemplate"/> to be added.
-        /// </summary>
-        protected override void OnNewTemplate()
-        {
-            string newName = InputBox.Show(this, "Entity Type Name", Resources.EnterTemplateName);
-
-            #region Error handling
-            if (string.IsNullOrEmpty(newName)) return;
-            if (Content.Contains(newName))
-            {
-                Msg.Inform(this, Resources.NameInUse, MsgSeverity.Warn);
-                return;
+            { // No render components in the list
+                propertyGridRender.SelectedObject = null;
+                buttonRemoveRender.Enabled = buttonBrowseRender.Enabled = false;
             }
             #endregion
 
-            var template = new EntityTemplate {Name = newName};
-            Content.Add(template);
+            #region Collision Control
+            buttonAddCollision.Enabled = (selectedClass.Collision == null);
+            buttonRemoveCollision.Enabled = !buttonAddCollision.Enabled;
+            propertyGridCollision.SelectedObject = selectedClass.Collision;
+            labelCollision.Text = selectedClass.Collision?.ToString() ?? "None";
+            #endregion
+
+            #region Movement Control
+            buttonAddMovement.Enabled = (selectedClass.Movement == null);
+            buttonRemoveMovement.Enabled = !buttonAddMovement.Enabled;
+            propertyGridMovement.SelectedObject = selectedClass.Movement;
+            labelMovement.Text = selectedClass.Movement?.ToString() ?? "None";
+            #endregion
+
+            #region Setup sample rendering
+            // Make sure device is ready before trying to setup rendering
+            if (renderPanel.Engine.NeedsReset) return;
+
+            // Add new Entity to Universe (Presenter will auto-update engine)
+            try
+            {
+                _universe.Positionables.Add(new Entity
+                {
+                    Name = "Entity",
+                    Position = _universe.Terrain.Center,
+                    // Clone the class, so that in case it is changed the old version is still available for cleanup operations
+                    TemplateData = TemplateList.SelectedEntry.Clone()
+                });
+            }
+            #region Error handling
+            catch (NotSupportedException)
+            {
+                Msg.Inform(this, Resources.InvalidFilePath, MsgSeverity.Warn);
+            }
+            catch (FileNotFoundException ex)
+            {
+                Msg.Inform(this, Resources.FileNotFound + "\n" + ex.FileName, MsgSeverity.Warn);
+            }
+            catch (IOException ex)
+            {
+                Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Warn);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Warn);
+            }
+            catch (InvalidDataException ex)
+            {
+                Msg.Inform(this, Resources.FileDamaged + "\n" + ex.Message + (ex.InnerException == null ? "" : "\n" + ex.InnerException.Message), MsgSeverity.Error);
+            }
+            #endregion
+
+            #endregion
+        }
+
+        renderPanel.Engine.Render();
+
+        base.OnUpdate();
+    }
+
+    /// <summary>
+    /// Called when the user wants a new <see cref="EntityTemplate"/> to be added.
+    /// </summary>
+    protected override void OnNewTemplate()
+    {
+        string newName = InputBox.Show(this, "Entity Type Name", Resources.EnterTemplateName);
+
+        #region Error handling
+        if (string.IsNullOrEmpty(newName)) return;
+        if (Content.Contains(newName))
+        {
+            Msg.Inform(this, Resources.NameInUse, MsgSeverity.Warn);
+            return;
+        }
+        #endregion
+
+        var template = new EntityTemplate {Name = newName};
+        Content.Add(template);
+        OnChange();
+        OnUpdate();
+
+        // Select the new entry
+        TemplateList.SelectedEntry = template;
+    }
+    #endregion
+
+    //--------------------//
+
+    #region Dialogs
+    /// <summary>
+    /// Helper function for configuring the <see cref="AddRenderComponentTool"/> form with event hooks.
+    /// </summary>
+    private void SetupAddRenderComponentTool()
+    {
+        // Keep existing dialog instance
+        if (_addRenderComponentTool != null) return;
+
+        _addRenderComponentTool = new();
+        _addRenderComponentTool.NewRenderComponent += delegate(Render render)
+        { // Callback when the "Add" button is clicked
+            TemplateList.SelectedEntry.Render.Add(render);
             OnChange();
+
+            // Select the newly added render component
             OnUpdate();
+            comboRender.SelectedItem = render;
+        };
 
-            // Select the new entry
-            TemplateList.SelectedEntry = template;
+        // Clear the reference when the dialog is disposed
+        _addRenderComponentTool.Disposed += delegate { _addRenderComponentTool = null; };
+    }
+    #endregion
+
+    #region Class components
+
+    #region Render component
+    private void buttonBrowseRender_Click(object sender, EventArgs e)
+    {
+        #region Test sphere
+        var testSphere = comboRender.SelectedItem as TestSphere;
+        if (testSphere != null)
+        {
+            // Get a particle system preset file path
+            if (!FileSelectorDialog.TryGetPath("Textures", ".*", out string path)) return;
+
+            // Apply the new texture file
+            testSphere.Texture = path;
         }
         #endregion
 
-        //--------------------//
-
-        #region Dialogs
-        /// <summary>
-        /// Helper function for configuring the <see cref="AddRenderComponentTool"/> form with event hooks.
-        /// </summary>
-        private void SetupAddRenderComponentTool()
+        else
         {
-            // Keep existing dialog instance
-            if (_addRenderComponentTool != null) return;
-
-            _addRenderComponentTool = new();
-            _addRenderComponentTool.NewRenderComponent += delegate(Render render)
-            { // Callback when the "Add" button is clicked
-                TemplateList.SelectedEntry.Render.Add(render);
-                OnChange();
-
-                // Select the newly added render component
-                OnUpdate();
-                comboRender.SelectedItem = render;
-            };
-
-            // Clear the reference when the dialog is disposed
-            _addRenderComponentTool.Disposed += delegate { _addRenderComponentTool = null; };
-        }
-        #endregion
-
-        #region Class components
-
-        #region Render component
-        private void buttonBrowseRender_Click(object sender, EventArgs e)
-        {
-            #region Test sphere
-            var testSphere = comboRender.SelectedItem as TestSphere;
-            if (testSphere != null)
+            #region Mesh
+            var mesh = comboRender.SelectedItem as Mesh;
+            if (mesh != null)
             {
                 // Get a particle system preset file path
-                if (!FileSelectorDialog.TryGetPath("Textures", ".*", out string path)) return;
+                if (!FileSelectorDialog.TryGetPath("Meshes", ".x", out string path)) return;
 
-                // Apply the new texture file
-                testSphere.Texture = path;
+                // Apply the new mesh file
+                mesh.Filename = path;
             }
-                #endregion
+            #endregion
 
             else
             {
-                #region Mesh
-                var mesh = comboRender.SelectedItem as Mesh;
-                if (mesh != null)
-                {
-                    // Get a particle system preset file path
-                    if (!FileSelectorDialog.TryGetPath("Meshes", ".x", out string path)) return;
+                #region Particle system
+                var particleSystem = comboRender.SelectedItem as ParticleSystem;
+                if (particleSystem == null) return;
 
-                    // Apply the new mesh file
-                    mesh.Filename = path;
-                }
-                    #endregion
+                // Get a particle system preset file path
+                if (!FileSelectorDialog.TryGetPath("Graphics" + Path.DirectorySeparatorChar + particleSystem.GetType().Name, ".xml", out string path)) return;
 
-                else
-                {
-                    #region Particle system
-                    var particleSystem = comboRender.SelectedItem as ParticleSystem;
-                    if (particleSystem == null) return;
-
-                    // Get a particle system preset file path
-                    if (!FileSelectorDialog.TryGetPath("Graphics" + Path.DirectorySeparatorChar + particleSystem.GetType().Name, ".xml", out string path)) return;
-
-                    // Apply the new preset file
-                    particleSystem.Filename = path;
-                    #endregion
-                }
+                // Apply the new preset file
+                particleSystem.Filename = path;
+                #endregion
             }
-            OnChange();
-            OnUpdate();
         }
-
-        private void buttonAddRender_Click(object sender, EventArgs e)
-        {
-            // Setup a dialog for selecting the type of render component to add
-            SetupAddRenderComponentTool();
-
-            // Display non-modal dialog (set this tab as owner on first show)
-            if (_addRenderComponentTool.Visible) _addRenderComponentTool.Show();
-            else _addRenderComponentTool.Show(this);
-        }
-
-        private void buttonRemoveRender_Click(object sender, EventArgs e)
-        {
-            var render = comboRender.SelectedItem as Render;
-            if (render == null) return;
-
-            TemplateList.SelectedEntry.Render.Remove(render);
-            OnChange();
-
-            OnUpdate();
-        }
-
-        private void propertyGridRender_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            OnChange();
-
-            // Render-relevant properties may have changed
-            OnUpdate();
-        }
-
-        private void comboRender_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            propertyGridRender.SelectedObject = comboRender.SelectedItem;
-        }
-        #endregion
-
-        #region Collision Control
-        private void buttonAddCollision_Click(object sender, EventArgs e)
-        {
-            switch (Msg.YesNoCancel(this, "Add a circle collision body?", MsgSeverity.Info,
-                "Circle\nCreate a new circle collision body",
-                "Box\nCreate a new box collision body"))
-            {
-                case DialogResult.Yes:
-                    TemplateList.SelectedEntry.Collision = _presenter.GetCollisionCircle();
-                    break;
-                case DialogResult.No:
-                    TemplateList.SelectedEntry.Collision = _presenter.GetCollisionBox();
-                    break;
-                case DialogResult.Cancel:
-                    return;
-            }
-            OnChange();
-
-            OnUpdate();
-        }
-
-        private void buttonRemoveCollision_Click(object sender, EventArgs e)
-        {
-            TemplateList.SelectedEntry.Collision = null;
-            OnChange();
-
-            OnUpdate();
-        }
-
-        private void propertyGridCollision_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            OnChange();
-
-            // Render-relevant properties may have changed
-            OnUpdate();
-        }
-        #endregion
-
-        #region Movement Control
-        private void buttonAddMovement_Click(object sender, EventArgs e)
-        {
-            TemplateList.SelectedEntry.Movement = new();
-            OnChange();
-
-            OnUpdate();
-        }
-
-        private void buttonRemoveMovement_Click(object sender, EventArgs e)
-        {
-            TemplateList.SelectedEntry.Movement = null;
-            OnChange();
-
-            OnUpdate();
-        }
-
-        private void propertyGridMovement_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            OnChange();
-        }
-        #endregion
-
-        #endregion
-
-        #region Test settings
-        private void buttonDebug_Click(object sender, EventArgs e)
-        {
-            renderPanel.Engine.Debug();
-        }
-
-        private void checkBoxNormalMap_CheckedChanged(object sender, EventArgs e)
-        {
-            renderPanel.Engine.Effects.NormalMapping = checkNormalMapping.Checked;
-        }
-
-        private void checkWireframe_CheckedChanged(object sender, EventArgs e)
-        {
-            _presenter.WireframeEntities = checkWireframe.Checked;
-        }
-
-        private void checkBoundingSphere_Click(object sender, EventArgs e)
-        {
-            _presenter.BoundingSphereEntities = checkBoundingSphere.Checked;
-        }
-
-        private void checkBoundingBox_Click(object sender, EventArgs e)
-        {
-            _presenter.BoundingBoxEntities = checkBoundingBox.Checked;
-        }
-        #endregion
-
-        #region Camera mode
-        private void buttonNormalView_Click(object sender, EventArgs e)
-        {
-            _presenter.SwingCameraTo();
-        }
-
-        private void buttonOrthographicView_Click(object sender, EventArgs e)
-        {
-            _presenter.View.SwingCameraTo(new TrackCamera(50, 2000)
-            {
-                Name = "Orthographic",
-                Target = _universe.Terrain.ToEngineCoords(_universe.Terrain.Center) + new DoubleVector3(0, 100, 0),
-                Radius = 500
-            });
-        }
-        #endregion
+        OnChange();
+        OnUpdate();
     }
+
+    private void buttonAddRender_Click(object sender, EventArgs e)
+    {
+        // Setup a dialog for selecting the type of render component to add
+        SetupAddRenderComponentTool();
+
+        // Display non-modal dialog (set this tab as owner on first show)
+        if (_addRenderComponentTool.Visible) _addRenderComponentTool.Show();
+        else _addRenderComponentTool.Show(this);
+    }
+
+    private void buttonRemoveRender_Click(object sender, EventArgs e)
+    {
+        var render = comboRender.SelectedItem as Render;
+        if (render == null) return;
+
+        TemplateList.SelectedEntry.Render.Remove(render);
+        OnChange();
+
+        OnUpdate();
+    }
+
+    private void propertyGridRender_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+    {
+        OnChange();
+
+        // Render-relevant properties may have changed
+        OnUpdate();
+    }
+
+    private void comboRender_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        propertyGridRender.SelectedObject = comboRender.SelectedItem;
+    }
+    #endregion
+
+    #region Collision Control
+    private void buttonAddCollision_Click(object sender, EventArgs e)
+    {
+        switch (Msg.YesNoCancel(this, "Add a circle collision body?", MsgSeverity.Info,
+                    "Circle\nCreate a new circle collision body",
+                    "Box\nCreate a new box collision body"))
+        {
+            case DialogResult.Yes:
+                TemplateList.SelectedEntry.Collision = _presenter.GetCollisionCircle();
+                break;
+            case DialogResult.No:
+                TemplateList.SelectedEntry.Collision = _presenter.GetCollisionBox();
+                break;
+            case DialogResult.Cancel:
+                return;
+        }
+        OnChange();
+
+        OnUpdate();
+    }
+
+    private void buttonRemoveCollision_Click(object sender, EventArgs e)
+    {
+        TemplateList.SelectedEntry.Collision = null;
+        OnChange();
+
+        OnUpdate();
+    }
+
+    private void propertyGridCollision_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+    {
+        OnChange();
+
+        // Render-relevant properties may have changed
+        OnUpdate();
+    }
+    #endregion
+
+    #region Movement Control
+    private void buttonAddMovement_Click(object sender, EventArgs e)
+    {
+        TemplateList.SelectedEntry.Movement = new();
+        OnChange();
+
+        OnUpdate();
+    }
+
+    private void buttonRemoveMovement_Click(object sender, EventArgs e)
+    {
+        TemplateList.SelectedEntry.Movement = null;
+        OnChange();
+
+        OnUpdate();
+    }
+
+    private void propertyGridMovement_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+    {
+        OnChange();
+    }
+    #endregion
+
+    #endregion
+
+    #region Test settings
+    private void buttonDebug_Click(object sender, EventArgs e)
+    {
+        renderPanel.Engine.Debug();
+    }
+
+    private void checkBoxNormalMap_CheckedChanged(object sender, EventArgs e)
+    {
+        renderPanel.Engine.Effects.NormalMapping = checkNormalMapping.Checked;
+    }
+
+    private void checkWireframe_CheckedChanged(object sender, EventArgs e)
+    {
+        _presenter.WireframeEntities = checkWireframe.Checked;
+    }
+
+    private void checkBoundingSphere_Click(object sender, EventArgs e)
+    {
+        _presenter.BoundingSphereEntities = checkBoundingSphere.Checked;
+    }
+
+    private void checkBoundingBox_Click(object sender, EventArgs e)
+    {
+        _presenter.BoundingBoxEntities = checkBoundingBox.Checked;
+    }
+    #endregion
+
+    #region Camera mode
+    private void buttonNormalView_Click(object sender, EventArgs e)
+    {
+        _presenter.SwingCameraTo();
+    }
+
+    private void buttonOrthographicView_Click(object sender, EventArgs e)
+    {
+        _presenter.View.SwingCameraTo(new TrackCamera(50, 2000)
+        {
+            Name = "Orthographic",
+            Target = _universe.Terrain.ToEngineCoords(_universe.Terrain.Center) + new DoubleVector3(0, 100, 0),
+            Radius = 500
+        });
+    }
+    #endregion
 }

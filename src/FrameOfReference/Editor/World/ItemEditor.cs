@@ -25,53 +25,52 @@ using AlphaFramework.World.Templates;
 using FrameOfReference.World.Templates;
 using NanoByte.Common.Controls;
 
-namespace FrameOfReference.Editor.World
+namespace FrameOfReference.Editor.World;
+
+/// <summary>
+/// Allows the user to edit <see cref="ItemTemplate"/>s
+/// </summary>
+public partial class ItemEditor : ItemEditorDesignerShim
 {
+    #region Constructor
     /// <summary>
-    /// Allows the user to edit <see cref="ItemTemplate"/>s
+    /// Creates a new item editor.
     /// </summary>
-    public partial class ItemEditor : ItemEditorDesignerShim
+    public ItemEditor()
     {
-        #region Constructor
-        /// <summary>
-        /// Creates a new item editor.
-        /// </summary>
-        public ItemEditor()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            // Hard-coded filename
-            FilePath = Template<ItemTemplate>.FileName;
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Handlers
-        /// <summary>
-        /// Called when the user wants a new <see cref="ItemTemplate"/> to be added.
-        /// </summary>
-        protected override void OnNewTemplate()
-        {
-            string newName = InputBox.Show(this, "Item Template Name", Resources.EnterTemplateName);
-
-            #region Error handling
-            if (string.IsNullOrEmpty(newName)) return;
-            if (Content.Contains(newName))
-            {
-                Msg.Inform(this, Resources.NameInUse, MsgSeverity.Warn);
-                return;
-            }
-            #endregion
-
-            var itemClass = new ItemTemplate {Name = newName};
-            Content.Add(itemClass);
-            OnChange();
-            OnUpdate();
-
-            // Select the new entry
-            TemplateList.SelectedEntry = itemClass;
-        }
-        #endregion
+        // Hard-coded filename
+        FilePath = Template<ItemTemplate>.FileName;
     }
+    #endregion
+
+    //--------------------//
+
+    #region Handlers
+    /// <summary>
+    /// Called when the user wants a new <see cref="ItemTemplate"/> to be added.
+    /// </summary>
+    protected override void OnNewTemplate()
+    {
+        string newName = InputBox.Show(this, "Item Template Name", Resources.EnterTemplateName);
+
+        #region Error handling
+        if (string.IsNullOrEmpty(newName)) return;
+        if (Content.Contains(newName))
+        {
+            Msg.Inform(this, Resources.NameInUse, MsgSeverity.Warn);
+            return;
+        }
+        #endregion
+
+        var itemClass = new ItemTemplate {Name = newName};
+        Content.Add(itemClass);
+        OnChange();
+        OnUpdate();
+
+        // Select the new entry
+        TemplateList.SelectedEntry = itemClass;
+    }
+    #endregion
 }

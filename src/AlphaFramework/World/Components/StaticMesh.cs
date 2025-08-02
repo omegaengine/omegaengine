@@ -8,12 +8,11 @@
 
 using AlphaFramework.World.Templates;
 
-namespace AlphaFramework.World.Components
-{
-    /// <summary>
-    /// Represents a non-animated mesh loaded from a file.
-    /// </summary>
-    /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-    public class StaticMesh : Mesh
-    {}
-}
+namespace AlphaFramework.World.Components;
+
+/// <summary>
+/// Represents a non-animated mesh loaded from a file.
+/// </summary>
+/// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
+public class StaticMesh : Mesh
+{}

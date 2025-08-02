@@ -29,38 +29,37 @@ using FrameOfReference.World.Components;
 using FrameOfReference.World.Positionables;
 using SlimDX;
 
-namespace FrameOfReference.World.Templates
+namespace FrameOfReference.World.Templates;
+
+/// <summary>
+/// A collection of components used as a prototype for constructing new <see cref="Entity"/>s.
+/// </summary>
+public class EntityTemplate : EntityTemplateBase<EntityTemplate>
 {
     /// <summary>
-    /// A collection of components used as a prototype for constructing new <see cref="Entity"/>s.
+    /// Controls how <see cref="EntityBase{TCoordinates,TTemplate}"/>s occupy space around them.
     /// </summary>
-    public class EntityTemplate : EntityTemplateBase<EntityTemplate>
+    [Browsable(false)]
+    [XmlElement(typeof(Circle)), XmlElement(typeof(Box))]
+    public Collision<Vector2> Collision { get; set; }
+
+    //--------------------//
+
+    #region Clone
+    /// <summary>
+    /// Creates a deep copy of this <see cref="EntityTemplate"/>.
+    /// </summary>
+    /// <returns>The cloned <see cref="EntityTemplate"/>.</returns>
+    public override EntityTemplate Clone()
     {
-        /// <summary>
-        /// Controls how <see cref="EntityBase{TCoordinates,TTemplate}"/>s occupy space around them.
-        /// </summary>
-        [Browsable(false)]
-        [XmlElement(typeof(Circle)), XmlElement(typeof(Box))]
-        public Collision<Vector2> Collision { get; set; }
+        // Perform initial shallow copy
+        var newClass = base.Clone();
 
-        //--------------------//
+        // Replace contained lists with deep copies
+        if (Collision != null) newClass.Collision = Collision.Clone();
+        if (Movement != null) newClass.Movement = Movement.Clone();
 
-        #region Clone
-        /// <summary>
-        /// Creates a deep copy of this <see cref="EntityTemplate"/>.
-        /// </summary>
-        /// <returns>The cloned <see cref="EntityTemplate"/>.</returns>
-        public override EntityTemplate Clone()
-        {
-            // Perform initial shallow copy
-            var newClass = base.Clone();
-
-            // Replace contained lists with deep copies
-            if (Collision != null) newClass.Collision = Collision.Clone();
-            if (Movement != null) newClass.Movement = Movement.Clone();
-
-            return newClass;
-        }
-        #endregion
+        return newClass;
     }
+    #endregion
 }

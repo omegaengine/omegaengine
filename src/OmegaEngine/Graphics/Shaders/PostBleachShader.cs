@@ -11,45 +11,44 @@ using System.ComponentModel;
 using NanoByte.Common;
 using OmegaEngine.Properties;
 
-namespace OmegaEngine.Graphics.Shaders
+namespace OmegaEngine.Graphics.Shaders;
+
+/// <summary>
+/// A post-screen shader that bleaches out the colors.
+/// </summary>
+public class PostBleachShader : PostShader
 {
+    #region Properties
     /// <summary>
-    /// A post-screen shader that bleaches out the colors.
+    /// The minimum shader model version required to use this shader
     /// </summary>
-    public class PostBleachShader : PostShader
+    public static Version MinShaderModel => new(2, 0);
+
+    private float _opacity = 1.0f;
+
+    /// <summary>
+    /// How strong the bleaching effect should be - values between 0 and 1
+    /// </summary>
+    [DefaultValue(1f), Description("How strong the bleaching effect should be - values between 0 and 1")]
+    public float Opacity
     {
-        #region Properties
-        /// <summary>
-        /// The minimum shader model version required to use this shader
-        /// </summary>
-        public static Version MinShaderModel => new(2, 0);
-
-        private float _opacity = 1.0f;
-
-        /// <summary>
-        /// How strong the bleaching effect should be - values between 0 and 1
-        /// </summary>
-        [DefaultValue(1f), Description("How strong the bleaching effect should be - values between 0 and 1")]
-        public float Opacity
+        get => _opacity;
+        set
         {
-            get => _opacity;
-            set
-            {
-                value = value.Clamp();
-                value.To(ref _opacity, () => SetShaderParameter("Opacity", value));
-            }
+            value = value.Clamp();
+            value.To(ref _opacity, () => SetShaderParameter("Opacity", value));
         }
-        #endregion
-
-        #region Engine
-        /// <inheritdoc/>
-        protected override void OnEngineSet()
-        {
-            if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-            LoadShaderFile("Post_Bleach.fxo");
-
-            base.OnEngineSet();
-        }
-        #endregion
     }
+    #endregion
+
+    #region Engine
+    /// <inheritdoc/>
+    protected override void OnEngineSet()
+    {
+        if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
+        LoadShaderFile("Post_Bleach.fxo");
+
+        base.OnEngineSet();
+    }
+    #endregion
 }

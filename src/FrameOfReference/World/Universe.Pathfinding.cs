@@ -33,202 +33,201 @@ using FrameOfReference.World.Positionables;
 using NanoByte.Common;
 using SlimDX;
 
-namespace FrameOfReference.World
+namespace FrameOfReference.World;
+
+partial class Universe
 {
-    partial class Universe
+    private int _maxTraversableSlope = 10;
+
+    /// <summary>
+    /// The maximum slope the <see cref="IPathfinder{TCoordinates}"/> considers traversable.
+    /// </summary>
+    [DefaultValue(10), Category("Gameplay"), Description("The maximum slope the Pathfinder considers traversable.")]
+    public int MaxTraversableSlope { get => _maxTraversableSlope; set => Math.Abs(value).To(ref _maxTraversableSlope, InitializePathfinding); }
+
+    #region Initialize
+    /// <summary>
+    /// Initializes the <see cref="UniverseBase{TCoordinates}.Pathfinder"/> engine.
+    /// </summary>
+    /// <remarks>Is usually called automatically when needed.</remarks>
+    private void InitializePathfinding()
     {
-        private int _maxTraversableSlope = 10;
+        if (Terrain == null) return;
 
-        /// <summary>
-        /// The maximum slope the <see cref="IPathfinder{TCoordinates}"/> considers traversable.
-        /// </summary>
-        [DefaultValue(10), Category("Gameplay"), Description("The maximum slope the Pathfinder considers traversable.")]
-        public int MaxTraversableSlope { get => _maxTraversableSlope; set => Math.Abs(value).To(ref _maxTraversableSlope, InitializePathfinding); }
-
-        #region Initialize
-        /// <summary>
-        /// Initializes the <see cref="UniverseBase{TCoordinates}.Pathfinder"/> engine.
-        /// </summary>
-        /// <remarks>Is usually called automatically when needed.</remarks>
-        private void InitializePathfinding()
-        {
-            if (Terrain == null) return;
-
-            var obstructionMap = new bool[Terrain.Size.X, Terrain.Size.Y];
-            MarkUntraversableWaters(obstructionMap);
-            Terrain.MarkUntraversableSlopes(obstructionMap, MaxTraversableSlope);
-            MarkUnmoveableEntities(obstructionMap);
-            Pathfinder = new SimplePathfinder(obstructionMap);
-        }
-
-        /// <summary>
-        /// Marks all nodes blocked by <see cref="Entity"/>s with no <see cref="Movement"/>.
-        /// </summary>
-        private void MarkUnmoveableEntities(bool[,] obstructionMap)
-        {
-            foreach (var entity in Positionables.OfType<Entity>().Where(x => x.TemplateData.Movement == null && x.TemplateData.Collision != null))
-            {
-                for (int x = 0; x < obstructionMap.GetLength(0); x++)
-                {
-                    for (int y = 0; y < obstructionMap.GetLength(1); y++)
-                        obstructionMap[x, y] |= entity.CollisionTest(new Vector2(x, y) * Terrain.Size.StretchH);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Marks all nodes under <see cref="Water"/> deeper than <see cref="Water.TraversableDepth"/>
-        /// </summary>
-        private void MarkUntraversableWaters(bool[,] obstructionMap)
-        {
-            foreach (var water in Positionables.OfType<Water>())
-            {
-                var xStart = (int)Math.Floor(water.Position.X / Terrain.Size.StretchH);
-                var xEnd = (int)Math.Ceiling((water.Position.X + water.Size.X) / Terrain.Size.StretchH);
-                var yStart = (int)Math.Floor(water.Position.Y / Terrain.Size.StretchH);
-                var yEnd = (int)Math.Ceiling((water.Position.Y + water.Size.Y) / Terrain.Size.StretchH);
-
-                if (xEnd > Terrain.Size.X - 1) xEnd = Terrain.Size.X - 1;
-                if (yEnd > Terrain.Size.Y - 1) yEnd = Terrain.Size.Y - 1;
-
-                for (int x = xStart; x <= xEnd; x++)
-                {
-                    for (int y = yStart; y <= yEnd; y++)
-                        obstructionMap[x, y] |= (Terrain.HeightMap[x, y] * Terrain.Size.StretchV) < (water.Height - water.TraversableDepth);
-                }
-            }
-        }
-        #endregion
-
-        #region Movement
-        /// <summary>
-        /// Makes an <see cref="Entity"/> move towards a <paramref name="target"/> using pathfinding.
-        /// </summary>
-        private void StartMoving(Entity entity, Vector2 target)
-        {
-            #region Sanity checks
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            #endregion
-
-            if (Pathfinder == null)
-            {
-                Log.Warn("Pathfinder not initialized");
-                return;
-            }
-            if (entity.TemplateData.Movement == null)
-            {
-                Log.Warn(entity + " has no Movement component");
-                return;
-            }
-            if (entity.Position == target) return;
-            if (entity.CurrentPath != null && entity.CurrentPath.Target == target && entity.CurrentPath.PathNodes.Count != 0) return;
-
-            using (new TimedLogEvent("Calculating path from " + entity.Position + " to " + target))
-            {
-                // Get path and cancel if none was found
-                var pathNodes = Pathfinder.FindPath(GetScaledPosition(entity.Position), GetScaledPosition(target));
-                if (pathNodes == null)
-                {
-                    entity.CurrentPath = null;
-                    return;
-                }
-
-                // Store path data in entity
-                var pathLeader = new StoredPath<Vector2> {Target = target};
-                foreach (var node in pathNodes)
-                    pathLeader.PathNodes.Enqueue(node * Terrain.Size.StretchH);
-                entity.CurrentPath = pathLeader;
-            }
-        }
-
-        /// <summary>
-        /// Applies <see cref="TerrainSize"/> scaling to a position.
-        /// </summary>
-        private Vector2 GetScaledPosition(Vector2 position)
-        {
-            return position * (1.0f / Terrain.Size.StretchH);
-        }
-        #endregion
-
-        #region Waypoints
-        /// <summary>
-        /// Moves <see cref="Waypoint"/> from <see cref="UniverseBase{TCoordinates}.Positionables"/> to <see cref="Entity.Waypoints"/>.
-        /// Call to prepare for gameplay.
-        /// </summary>
-        private void WrapWaypoints()
-        {
-            var toRemove = new List<Waypoint>();
-            foreach (var waypoint in Positionables.OfType<Waypoint>().OrderBy(x => x.ActivationTime))
-            {
-                var entity = GetEntity(waypoint.TargetEntity);
-                if (entity != null)
-                {
-                    entity.Waypoints.Add(waypoint);
-                    toRemove.Add(waypoint);
-                }
-            }
-            foreach (var waypoint in toRemove) Positionables.Remove(waypoint);
-        }
-
-        /// <summary>
-        /// Moves <see cref="Waypoint"/> from <see cref="Entity.Waypoints"/> to <see cref="UniverseBase{TCoordinates}.Positionables"/>.
-        /// Call to prepare for editing.
-        /// </summary>
-        public void UnwrapWaypoints()
-        {
-            foreach (var entity in Positionables.OfType<Entity>().ToList())
-            {
-                Positionables.AddMany(entity.Waypoints);
-                entity.Waypoints.Clear();
-            }
-        }
-
-        /// <summary>
-        /// Handles <see cref="Entity.Waypoints"/>.
-        /// </summary>
-        private void HandleWaypoints(Entity entity, double elapsedGameTime)
-        {
-            int index = entity.GetCurrentWaypointIndex(GameTime);
-
-            if (index != - 1)
-            {
-                var waypoint = entity.Waypoints[index];
-
-                if (elapsedGameTime > 0)
-                {
-                    if (index == entity.ActiveWaypointIndex)
-                    {
-                        if (entity.CurrentPath == null)
-                        {
-                            RecordArrivalTime(entity, waypoint);
-                            entity.ActiveWaypointIndex = -1;
-                        }
-                    }
-                    else RecordOriginPosition(entity, waypoint);
-                }
-
-                StartMoving(entity,
-                    target: (elapsedGameTime >= 0) ? waypoint.Position : waypoint.OriginPosition);
-            }
-
-            entity.ActiveWaypointIndex = index;
-        }
-
-        private void RecordArrivalTime(Entity entity, Waypoint waypoint)
-        {
-            if (waypoint.ArrivalTimeSpecified) return;
-
-            waypoint.ArrivalTime = GameTime;
-            Log.Info("Recorded arrival time for " + entity.Name + " at " + waypoint.Name + ": " + GameTime);
-        }
-
-        private static void RecordOriginPosition(Entity entity, Waypoint waypoint)
-        {
-            if (waypoint.OriginPositionSpecified) return;
-
-            waypoint.OriginPosition = entity.Position;
-            Log.Info("Recorded origin position for " + entity.Name + " towards " + waypoint.Name + ": " + entity.Position);
-        }
-        #endregion
+        var obstructionMap = new bool[Terrain.Size.X, Terrain.Size.Y];
+        MarkUntraversableWaters(obstructionMap);
+        Terrain.MarkUntraversableSlopes(obstructionMap, MaxTraversableSlope);
+        MarkUnmoveableEntities(obstructionMap);
+        Pathfinder = new SimplePathfinder(obstructionMap);
     }
+
+    /// <summary>
+    /// Marks all nodes blocked by <see cref="Entity"/>s with no <see cref="Movement"/>.
+    /// </summary>
+    private void MarkUnmoveableEntities(bool[,] obstructionMap)
+    {
+        foreach (var entity in Positionables.OfType<Entity>().Where(x => x.TemplateData.Movement == null && x.TemplateData.Collision != null))
+        {
+            for (int x = 0; x < obstructionMap.GetLength(0); x++)
+            {
+                for (int y = 0; y < obstructionMap.GetLength(1); y++)
+                    obstructionMap[x, y] |= entity.CollisionTest(new Vector2(x, y) * Terrain.Size.StretchH);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Marks all nodes under <see cref="Water"/> deeper than <see cref="Water.TraversableDepth"/>
+    /// </summary>
+    private void MarkUntraversableWaters(bool[,] obstructionMap)
+    {
+        foreach (var water in Positionables.OfType<Water>())
+        {
+            var xStart = (int)Math.Floor(water.Position.X / Terrain.Size.StretchH);
+            var xEnd = (int)Math.Ceiling((water.Position.X + water.Size.X) / Terrain.Size.StretchH);
+            var yStart = (int)Math.Floor(water.Position.Y / Terrain.Size.StretchH);
+            var yEnd = (int)Math.Ceiling((water.Position.Y + water.Size.Y) / Terrain.Size.StretchH);
+
+            if (xEnd > Terrain.Size.X - 1) xEnd = Terrain.Size.X - 1;
+            if (yEnd > Terrain.Size.Y - 1) yEnd = Terrain.Size.Y - 1;
+
+            for (int x = xStart; x <= xEnd; x++)
+            {
+                for (int y = yStart; y <= yEnd; y++)
+                    obstructionMap[x, y] |= (Terrain.HeightMap[x, y] * Terrain.Size.StretchV) < (water.Height - water.TraversableDepth);
+            }
+        }
+    }
+    #endregion
+
+    #region Movement
+    /// <summary>
+    /// Makes an <see cref="Entity"/> move towards a <paramref name="target"/> using pathfinding.
+    /// </summary>
+    private void StartMoving(Entity entity, Vector2 target)
+    {
+        #region Sanity checks
+        if (entity == null) throw new ArgumentNullException(nameof(entity));
+        #endregion
+
+        if (Pathfinder == null)
+        {
+            Log.Warn("Pathfinder not initialized");
+            return;
+        }
+        if (entity.TemplateData.Movement == null)
+        {
+            Log.Warn(entity + " has no Movement component");
+            return;
+        }
+        if (entity.Position == target) return;
+        if (entity.CurrentPath != null && entity.CurrentPath.Target == target && entity.CurrentPath.PathNodes.Count != 0) return;
+
+        using (new TimedLogEvent("Calculating path from " + entity.Position + " to " + target))
+        {
+            // Get path and cancel if none was found
+            var pathNodes = Pathfinder.FindPath(GetScaledPosition(entity.Position), GetScaledPosition(target));
+            if (pathNodes == null)
+            {
+                entity.CurrentPath = null;
+                return;
+            }
+
+            // Store path data in entity
+            var pathLeader = new StoredPath<Vector2> {Target = target};
+            foreach (var node in pathNodes)
+                pathLeader.PathNodes.Enqueue(node * Terrain.Size.StretchH);
+            entity.CurrentPath = pathLeader;
+        }
+    }
+
+    /// <summary>
+    /// Applies <see cref="TerrainSize"/> scaling to a position.
+    /// </summary>
+    private Vector2 GetScaledPosition(Vector2 position)
+    {
+        return position * (1.0f / Terrain.Size.StretchH);
+    }
+    #endregion
+
+    #region Waypoints
+    /// <summary>
+    /// Moves <see cref="Waypoint"/> from <see cref="UniverseBase{TCoordinates}.Positionables"/> to <see cref="Entity.Waypoints"/>.
+    /// Call to prepare for gameplay.
+    /// </summary>
+    private void WrapWaypoints()
+    {
+        var toRemove = new List<Waypoint>();
+        foreach (var waypoint in Positionables.OfType<Waypoint>().OrderBy(x => x.ActivationTime))
+        {
+            var entity = GetEntity(waypoint.TargetEntity);
+            if (entity != null)
+            {
+                entity.Waypoints.Add(waypoint);
+                toRemove.Add(waypoint);
+            }
+        }
+        foreach (var waypoint in toRemove) Positionables.Remove(waypoint);
+    }
+
+    /// <summary>
+    /// Moves <see cref="Waypoint"/> from <see cref="Entity.Waypoints"/> to <see cref="UniverseBase{TCoordinates}.Positionables"/>.
+    /// Call to prepare for editing.
+    /// </summary>
+    public void UnwrapWaypoints()
+    {
+        foreach (var entity in Positionables.OfType<Entity>().ToList())
+        {
+            Positionables.AddMany(entity.Waypoints);
+            entity.Waypoints.Clear();
+        }
+    }
+
+    /// <summary>
+    /// Handles <see cref="Entity.Waypoints"/>.
+    /// </summary>
+    private void HandleWaypoints(Entity entity, double elapsedGameTime)
+    {
+        int index = entity.GetCurrentWaypointIndex(GameTime);
+
+        if (index != - 1)
+        {
+            var waypoint = entity.Waypoints[index];
+
+            if (elapsedGameTime > 0)
+            {
+                if (index == entity.ActiveWaypointIndex)
+                {
+                    if (entity.CurrentPath == null)
+                    {
+                        RecordArrivalTime(entity, waypoint);
+                        entity.ActiveWaypointIndex = -1;
+                    }
+                }
+                else RecordOriginPosition(entity, waypoint);
+            }
+
+            StartMoving(entity,
+                target: (elapsedGameTime >= 0) ? waypoint.Position : waypoint.OriginPosition);
+        }
+
+        entity.ActiveWaypointIndex = index;
+    }
+
+    private void RecordArrivalTime(Entity entity, Waypoint waypoint)
+    {
+        if (waypoint.ArrivalTimeSpecified) return;
+
+        waypoint.ArrivalTime = GameTime;
+        Log.Info("Recorded arrival time for " + entity.Name + " at " + waypoint.Name + ": " + GameTime);
+    }
+
+    private static void RecordOriginPosition(Entity entity, Waypoint waypoint)
+    {
+        if (waypoint.OriginPositionSpecified) return;
+
+        waypoint.OriginPosition = entity.Position;
+        Log.Info("Recorded origin position for " + entity.Name + " towards " + waypoint.Name + ": " + entity.Position);
+    }
+    #endregion
 }

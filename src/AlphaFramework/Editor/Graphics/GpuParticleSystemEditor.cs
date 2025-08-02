@@ -15,107 +15,106 @@ using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Storage;
 
-namespace AlphaFramework.Editor.Graphics
+namespace AlphaFramework.Editor.Graphics;
+
+/// <summary>
+/// Allows a user to tweak the parameters for a <see cref="GpuParticleSystem"/>
+/// </summary>
+public partial class GpuParticleSystemEditor : ParticleSystemEditor
 {
+    #region Variables
+    private GpuParticlePreset _preset;
+    private GpuParticleSystem _particleSystem;
+    private Scene _scene;
+    #endregion
+
+    #region Constructor
     /// <summary>
-    /// Allows a user to tweak the parameters for a <see cref="GpuParticleSystem"/>
+    /// Creates a new GPU particle system editor.
     /// </summary>
-    public partial class GpuParticleSystemEditor : ParticleSystemEditor
+    /// <param name="filePath">The path to the file to be edited.</param>
+    /// <param name="overwrite"><c>true</c> if an existing file supposed to be overwritten when <see cref="Tab.SaveFile"/> is called.</param>
+    public GpuParticleSystemEditor(string filePath, bool overwrite)
     {
-        #region Variables
-        private GpuParticlePreset _preset;
-        private GpuParticleSystem _particleSystem;
-        private Scene _scene;
-        #endregion
+        InitializeComponent();
 
-        #region Constructor
-        /// <summary>
-        /// Creates a new GPU particle system editor.
-        /// </summary>
-        /// <param name="filePath">The path to the file to be edited.</param>
-        /// <param name="overwrite"><c>true</c> if an existing file supposed to be overwritten when <see cref="Tab.SaveFile"/> is called.</param>
-        public GpuParticleSystemEditor(string filePath, bool overwrite)
+        FilePath = filePath;
+        _overwrite = overwrite;
+    }
+    #endregion
+
+    //--------------------//
+
+    #region Handlers
+    /// <inheritdoc/>
+    protected override void OnInitialize()
+    {
+        #region File handling
+        if (Path.IsPathRooted(FilePath))
         {
-            InitializeComponent();
-
-            FilePath = filePath;
-            _overwrite = overwrite;
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Handlers
-        /// <inheritdoc/>
-        protected override void OnInitialize()
-        {
-            #region File handling
-            if (Path.IsPathRooted(FilePath))
-            {
-                _fullPath = FilePath;
-                if (!_overwrite && File.Exists(_fullPath))
-                { // Load existing file
-                    Log.Info("Load file: " + _fullPath);
-                    _preset = XmlStorage.LoadXml<GpuParticlePreset>(_fullPath);
-                }
-                else
-                { // Create new file
-                    Log.Info("Create file: " + _fullPath);
-                    _preset = new();
-                    _preset.SaveXml(_fullPath);
-                }
+            _fullPath = FilePath;
+            if (!_overwrite && File.Exists(_fullPath))
+            { // Load existing file
+                Log.Info("Load file: " + _fullPath);
+                _preset = XmlStorage.LoadXml<GpuParticlePreset>(_fullPath);
             }
             else
-            { // File name only? Might not save to same dir loaded from!
-                Log.Info("Load file: " + FilePath);
-                _preset = GpuParticlePreset.FromContent(FilePath);
-                _fullPath = ContentManager.CreateFilePath("Graphics/GpuParticleSystem", FilePath);
+            { // Create new file
+                Log.Info("Create file: " + _fullPath);
+                _preset = new();
+                _preset.SaveXml(_fullPath);
             }
-            #endregion
-
-            // Initialize engine
-            renderPanel.Setup();
-
-            // Setup scene
-            _particleSystem = new(_preset);
-            _scene = new() {Positionables = {_particleSystem}};
-            renderPanel.Engine.Views.Add(new(_scene, Camera) {BackgroundColor = Color.Black});
-
-            base.OnInitialize();
         }
-
-        /// <inheritdoc/>
-        protected override void OnSaveFile()
-        {
-            Log.Info("Save file: " + _fullPath);
-            string directory = Path.GetDirectoryName(_fullPath);
-            if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
-            _preset.SaveXml(_fullPath);
-
-            base.OnSaveFile();
-        }
-
-        /// <inheritdoc/>
-        protected override void OnUpdate()
-        {
-            // Set up PropertyGrid
-            propertyGridSystem.SelectedObject = _preset;
-
-            // Update the engine particle system configuration
-            if (_particleSystem != null) _particleSystem.Preset = _preset;
-
-            base.OnUpdate();
+        else
+        { // File name only? Might not save to same dir loaded from!
+            Log.Info("Load file: " + FilePath);
+            _preset = GpuParticlePreset.FromContent(FilePath);
+            _fullPath = ContentManager.CreateFilePath("Graphics/GpuParticleSystem", FilePath);
         }
         #endregion
 
-        //--------------------//
+        // Initialize engine
+        renderPanel.Setup();
 
-        #region Lists
-        private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            // Add undo-entry for changed property
-            ExecuteCommandSafe(new PropertyChangedCommand(((PropertyGrid)s).SelectedObject, e));
-        }
-        #endregion
+        // Setup scene
+        _particleSystem = new(_preset);
+        _scene = new() {Positionables = {_particleSystem}};
+        renderPanel.Engine.Views.Add(new(_scene, Camera) {BackgroundColor = Color.Black});
+
+        base.OnInitialize();
     }
+
+    /// <inheritdoc/>
+    protected override void OnSaveFile()
+    {
+        Log.Info("Save file: " + _fullPath);
+        string directory = Path.GetDirectoryName(_fullPath);
+        if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
+        _preset.SaveXml(_fullPath);
+
+        base.OnSaveFile();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnUpdate()
+    {
+        // Set up PropertyGrid
+        propertyGridSystem.SelectedObject = _preset;
+
+        // Update the engine particle system configuration
+        if (_particleSystem != null) _particleSystem.Preset = _preset;
+
+        base.OnUpdate();
+    }
+    #endregion
+
+    //--------------------//
+
+    #region Lists
+    private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+    {
+        // Add undo-entry for changed property
+        ExecuteCommandSafe(new PropertyChangedCommand(((PropertyGrid)s).SelectedObject, e));
+    }
+    #endregion
 }

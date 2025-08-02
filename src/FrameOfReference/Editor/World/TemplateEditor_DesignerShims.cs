@@ -23,23 +23,22 @@
 using AlphaFramework.Editor.World;
 using FrameOfReference.World.Templates;
 
-namespace FrameOfReference.Editor.World
-{
-    /// <summary>
-    /// Intermediate dummy class for <see cref="TemplateEditor{T}"/> to prevent WinForms designer confusion with generics
-    /// </summary>
-    public class EntityEditorDesignerShim : TemplateEditor<EntityTemplate>
-    {}
+namespace FrameOfReference.Editor.World;
 
-    /// <summary>
-    /// Intermediate dummy class for <see cref="TemplateEditor{TerrainTemplate}"/> to prevent WinForms designer confusion with generics
-    /// </summary>
-    public class TerrainEditorDesignerShim : TemplateEditor<TerrainTemplate>
-    {}
+/// <summary>
+/// Intermediate dummy class for <see cref="TemplateEditor{T}"/> to prevent WinForms designer confusion with generics
+/// </summary>
+public class EntityEditorDesignerShim : TemplateEditor<EntityTemplate>
+{}
 
-    /// <summary>
-    /// Intermediate dummy class for <see cref="TemplateEditor{ItemTemplate}"/> to prevent WinForms designer confusion with generics
-    /// </summary>
-    public class ItemEditorDesignerShim : TemplateEditor<ItemTemplate>
-    {}
-}
+/// <summary>
+/// Intermediate dummy class for <see cref="TemplateEditor{TerrainTemplate}"/> to prevent WinForms designer confusion with generics
+/// </summary>
+public class TerrainEditorDesignerShim : TemplateEditor<TerrainTemplate>
+{}
+
+/// <summary>
+/// Intermediate dummy class for <see cref="TemplateEditor{ItemTemplate}"/> to prevent WinForms designer confusion with generics
+/// </summary>
+public class ItemEditorDesignerShim : TemplateEditor<ItemTemplate>
+{}

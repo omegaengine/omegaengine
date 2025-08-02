@@ -8,14 +8,13 @@
 
 using AlphaFramework.World.Templates;
 
-namespace AlphaFramework.World.Components
+namespace AlphaFramework.World.Components;
+
+/// <summary>
+/// Represents an animated mesh loaded from a file.
+/// </summary>
+/// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
+public class AnimatedMesh : Mesh
 {
-    /// <summary>
-    /// Represents an animated mesh loaded from a file.
-    /// </summary>
-    /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-    public class AnimatedMesh : Mesh
-    {
-        // ToDo: Implement
-    }
+    // ToDo: Implement
 }

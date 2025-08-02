@@ -27,114 +27,113 @@ using OmegaEngine.Values;
 using OmegaEngine.Values.Design;
 using Resources = OmegaGUI.Properties.Resources;
 
-namespace OmegaGUI.Model
+namespace OmegaGUI.Model;
+
+/// <summary>
+/// Slider control
+/// </summary>
+public class Slider : Control
 {
+    #region Variables
     /// <summary>
-    /// Slider control
+    /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    public class Slider : Control
+    private Render.Slider _slider;
+    #endregion
+
+    #region Properties
+    private int _min;
+
+    /// <summary>
+    /// Minimum value for control  - no auto-update
+    /// </summary>
+    [DefaultValue(0), Description("Minimum value for control"), Category("Behavior")]
+    public int Min
     {
-        #region Variables
-        /// <summary>
-        /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
-        /// </summary>
-        private Render.Slider _slider;
-        #endregion
-
-        #region Properties
-        private int _min;
-
-        /// <summary>
-        /// Minimum value for control  - no auto-update
-        /// </summary>
-        [DefaultValue(0), Description("Minimum value for control"), Category("Behavior")]
-        public int Min
+        get => _min;
+        set
         {
-            get => _min;
-            set
-            {
-                if (value >= Max)
-                    throw new InvalidOperationException(Resources.MinMustBeSmallerThanMax);
-                _min = value;
-                NeedsUpdate();
-            }
+            if (value >= Max)
+                throw new InvalidOperationException(Resources.MinMustBeSmallerThanMax);
+            _min = value;
+            NeedsUpdate();
         }
-
-        private int _max = 10;
-
-        /// <summary>
-        /// Maximum value for control - no auto-update
-        /// </summary>
-        [DefaultValue(10), Description("Maximum value for control"), Category("Behavior")]
-        public int Max
-        {
-            get => _max;
-            set
-            {
-                if (value <= Min)
-                    throw new InvalidOperationException(Resources.MaxMustBeLargerThanMin);
-                _max = value;
-                NeedsUpdate();
-            }
-        }
-
-        protected int ControlValue;
-
-        /// <summary>
-        /// The current value of the control
-        /// </summary>
-        [DefaultValue(0), Description("The current value of the control"), Category("Appearance")]
-        public virtual int Value
-        {
-            get => ControlValue;
-            set
-            {
-                if (value < Min || value > Max)
-                    throw new InvalidOperationException(Resources.ValueOutOfRange);
-                ControlValue = value;
-                if (_slider != null) _slider.Value = value;
-            }
-        }
-
-        #region Events
-        /// <summary>
-        /// A Lua script to execute when the control's value has changed
-        /// </summary>
-        [DefaultValue(""), Description("A Lua script to execute when the control's value has changed"), Category("Events"), FileType("Lua")]
-        [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-        public string OnChanged { get; set; }
-        #endregion
-
-        #endregion
-
-        #region Constructor
-        public Slider()
-        {
-            Size = new(150, 32);
-        }
-        #endregion
-
-        #region Generate
-        internal override void Generate()
-        {
-            // Add control to dialog
-            UpdateLayout();
-            DXControl = _slider =
-                Parent.DialogRender.AddSlider(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, _min, _max, Value, Default);
-            ControlModel.IsVisible = IsVisible;
-            ControlModel.IsEnabled = IsEnabled;
-
-            // Setup event hooks
-            SetupMouseEvents();
-            if (!string.IsNullOrEmpty(OnChanged))
-            {
-                _slider.Changed += delegate
-                {
-                    ControlValue = _slider.Value;
-                    Parent.RaiseEvent(OnChanged, Name + "_Changed");
-                };
-            }
-        }
-        #endregion
     }
+
+    private int _max = 10;
+
+    /// <summary>
+    /// Maximum value for control - no auto-update
+    /// </summary>
+    [DefaultValue(10), Description("Maximum value for control"), Category("Behavior")]
+    public int Max
+    {
+        get => _max;
+        set
+        {
+            if (value <= Min)
+                throw new InvalidOperationException(Resources.MaxMustBeLargerThanMin);
+            _max = value;
+            NeedsUpdate();
+        }
+    }
+
+    protected int ControlValue;
+
+    /// <summary>
+    /// The current value of the control
+    /// </summary>
+    [DefaultValue(0), Description("The current value of the control"), Category("Appearance")]
+    public virtual int Value
+    {
+        get => ControlValue;
+        set
+        {
+            if (value < Min || value > Max)
+                throw new InvalidOperationException(Resources.ValueOutOfRange);
+            ControlValue = value;
+            if (_slider != null) _slider.Value = value;
+        }
+    }
+
+    #region Events
+    /// <summary>
+    /// A Lua script to execute when the control's value has changed
+    /// </summary>
+    [DefaultValue(""), Description("A Lua script to execute when the control's value has changed"), Category("Events"), FileType("Lua")]
+    [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
+    public string OnChanged { get; set; }
+    #endregion
+
+    #endregion
+
+    #region Constructor
+    public Slider()
+    {
+        Size = new(150, 32);
+    }
+    #endregion
+
+    #region Generate
+    internal override void Generate()
+    {
+        // Add control to dialog
+        UpdateLayout();
+        DXControl = _slider =
+            Parent.DialogRender.AddSlider(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, _min, _max, Value, Default);
+        ControlModel.IsVisible = IsVisible;
+        ControlModel.IsEnabled = IsEnabled;
+
+        // Setup event hooks
+        SetupMouseEvents();
+        if (!string.IsNullOrEmpty(OnChanged))
+        {
+            _slider.Changed += delegate
+            {
+                ControlValue = _slider.Value;
+                Parent.RaiseEvent(OnChanged, Name + "_Changed");
+            };
+        }
+    }
+    #endregion
 }

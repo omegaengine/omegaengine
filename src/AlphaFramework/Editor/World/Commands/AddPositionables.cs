@@ -10,45 +10,44 @@ using System.Collections.Generic;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
 
-namespace AlphaFramework.Editor.World.Commands
+namespace AlphaFramework.Editor.World.Commands;
+
+/// <summary>
+/// Adds one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="UniverseBase{TCoordinates}"/>.
+/// </summary>
+public class AddPositionables<TCoordinates> : AddRemovePositionables<TCoordinates>
+    where TCoordinates : struct
 {
+    #region Constructor
     /// <summary>
-    /// Adds one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="UniverseBase{TCoordinates}"/>.
+    /// Creates a new command for adding one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="UniverseBase{TCoordinates}"/>.
     /// </summary>
-    public class AddPositionables<TCoordinates> : AddRemovePositionables<TCoordinates>
-        where TCoordinates : struct
+    /// <param name="universe">The <see cref="UniverseBase{TCoordinates}"/> to add to.</param>
+    /// <param name="entities">The <see cref="Positionable{TCoordinates}"/>ies to add.</param>
+    public AddPositionables(UniverseBase<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> entities)
+        : base(universe, entities)
+    {}
+    #endregion
+
+    //--------------------//
+
+    #region Execute
+    /// <summary>
+    /// Adds the <see cref="Positionable{TCoordinates}"/> to the <see cref="UniverseBase{TCoordinates}"/>
+    /// </summary>
+    protected override void OnExecute()
     {
-        #region Constructor
-        /// <summary>
-        /// Creates a new command for adding one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="UniverseBase{TCoordinates}"/>.
-        /// </summary>
-        /// <param name="universe">The <see cref="UniverseBase{TCoordinates}"/> to add to.</param>
-        /// <param name="entities">The <see cref="Positionable{TCoordinates}"/>ies to add.</param>
-        public AddPositionables(UniverseBase<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> entities)
-            : base(universe, entities)
-        {}
-        #endregion
-
-        //--------------------//
-
-        #region Execute
-        /// <summary>
-        /// Adds the <see cref="Positionable{TCoordinates}"/> to the <see cref="UniverseBase{TCoordinates}"/>
-        /// </summary>
-        protected override void OnExecute()
-        {
-            AddPositionables();
-        }
-        #endregion
-
-        #region Undo
-        /// <summary>
-        /// Removes the <see cref="Positionable{TCoordinates}"/> from the <see cref="UniverseBase{TCoordinates}"/> again
-        /// </summary>
-        protected override void OnUndo()
-        {
-            RemovePositionables();
-        }
-        #endregion
+        AddPositionables();
     }
+    #endregion
+
+    #region Undo
+    /// <summary>
+    /// Removes the <see cref="Positionable{TCoordinates}"/> from the <see cref="UniverseBase{TCoordinates}"/> again
+    /// </summary>
+    protected override void OnUndo()
+    {
+        RemovePositionables();
+    }
+    #endregion
 }

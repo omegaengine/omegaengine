@@ -24,34 +24,33 @@ using System;
 using System.ComponentModel;
 using NanoByte.Common;
 
-namespace FrameOfReference.World.Config
+namespace FrameOfReference.World.Config;
+
+/// <summary>
+/// Stores settings for the user controls (mouse, keyboard, etc.).
+/// </summary>
+/// <seealso cref="Settings.Controls"/>
+public sealed class ControlsSettings
 {
+    #region Events
     /// <summary>
-    /// Stores settings for the user controls (mouse, keyboard, etc.).
+    /// Occurs when a setting in this group is changed.
     /// </summary>
-    /// <seealso cref="Settings.Controls"/>
-    public sealed class ControlsSettings
+    [Description("Occurs when a setting in this group is changed.")]
+    public event Action Changed;
+
+    private void OnChanged()
     {
-        #region Events
-        /// <summary>
-        /// Occurs when a setting in this group is changed.
-        /// </summary>
-        [Description("Occurs when a setting in this group is changed.")]
-        public event Action Changed;
-
-        private void OnChanged()
-        {
-            Changed?.Invoke();
-            if (Settings.AutoSave && Settings.Current != null && Settings.Current.Controls == this) Settings.SaveCurrent();
-        }
-        #endregion
-
-        private bool _invertMouse;
-
-        /// <summary>
-        /// Invert the mouse axes
-        /// </summary>
-        [DefaultValue(false), Description("Invert the mouse axes")]
-        public bool InvertMouse { get => _invertMouse; set => value.To(ref _invertMouse, OnChanged); }
+        Changed?.Invoke();
+        if (Settings.AutoSave && Settings.Current != null && Settings.Current.Controls == this) Settings.SaveCurrent();
     }
+    #endregion
+
+    private bool _invertMouse;
+
+    /// <summary>
+    /// Invert the mouse axes
+    /// </summary>
+    [DefaultValue(false), Description("Invert the mouse axes")]
+    public bool InvertMouse { get => _invertMouse; set => value.To(ref _invertMouse, OnChanged); }
 }

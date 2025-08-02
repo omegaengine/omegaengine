@@ -31,122 +31,121 @@ using OmegaEngine;
 using OmegaEngine.Graphics.Cameras;
 using SlimDX;
 
-namespace FrameOfReference.Presentation
+namespace FrameOfReference.Presentation;
+
+/// <summary>
+/// Main in-game interaction
+/// </summary>
+public sealed class InGamePresenter : InteractivePresenter
 {
     /// <summary>
-    /// Main in-game interaction
+    /// Creates a new presenter for the actual running game
     /// </summary>
-    public sealed class InGamePresenter : InteractivePresenter
+    /// <param name="engine">The engine to use for rendering</param>
+    /// <param name="universe">The universe to display</param>
+    public InGamePresenter(Engine engine, Universe universe) : base(engine, universe)
     {
-        /// <summary>
-        /// Creates a new presenter for the actual running game
-        /// </summary>
-        /// <param name="engine">The engine to use for rendering</param>
-        /// <param name="universe">The universe to display</param>
-        public InGamePresenter(Engine engine, Universe universe) : base(engine, universe)
+        #region Sanity checks
+        if (engine == null) throw new ArgumentNullException(nameof(engine));
+        if (universe == null) throw new ArgumentNullException(nameof(universe));
+        #endregion
+
+        // Restore previous camera position (or default to center of terrain)
+        var mainCamera = CreateCamera(universe.CurrentCamera);
+
+        View = new(Scene, mainCamera) {Name = "InGame", BackgroundColor = universe.FogColor};
+    }
+
+    /// <inheritdoc/>
+    public override void HookIn()
+    {
+        base.HookIn();
+        Engine.PreRender += HandleLockedOnEntity;
+        SwitchMusicTheme("Game", immediate: true);
+    }
+
+    /// <inheritdoc/>
+    public override void HookOut()
+    {
+        Engine.PreRender -= HandleLockedOnEntity;
+        PrepareSave();
+        base.HookOut();
+    }
+
+    /// <summary>
+    /// Writes back data to <see cref="Universe"/> so that state gets stored in savegames.
+    /// </summary>
+    public void PrepareSave()
+    {
+        Universe.CurrentCamera = CameraState;
+    }
+
+    //--------------------//
+
+    /// <inheritdoc/>
+    protected override void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
+    {
+        #region Sanity checks
+        if (positionables == null) throw new ArgumentNullException(nameof(positionables));
+        #endregion
+
+        foreach (var entity in positionables.OfType<Entity>())
+            Universe.PlayerMove(entity, target);
+    }
+
+    /// <summary>
+    /// Switches from the current camera view to a new view using a cinematic effect.
+    /// </summary>
+    /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="CameraState{TCoordinates}"/> stored in the <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.</param>
+    public void SwingCameraTo(string name)
+    {
+        View.SwingCameraTo(CreateCamera(Universe.GetCamera(name)), duration: 4);
+    }
+
+    private Entity _lockedOnEntity;
+
+    /// <summary>
+    /// Sets <see cref="InteractivePresenter.SelectedPositionables"/> to a single specific <see cref="Entity"/> and forces the <see cref="Camera"/> to stay close to it.
+    /// </summary>
+    /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="Entity"/> stored in the <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.</param>
+    public void LockOn(string name)
+    {
+        _lockedOnEntity = Universe.GetEntity(name);
+
+        SelectedPositionables.Clear();
+        SelectedPositionables.Add(_lockedOnEntity);
+    }
+
+    /// <summary>
+    /// Releases a camera lock applied by <see cref="LockOn"/>.
+    /// </summary>
+    public void ReleaseLock()
+    {
+        _lockedOnEntity = null;
+
+        SelectedPositionables.Clear();
+    }
+
+    private void HandleLockedOnEntity()
+    {
+        if (_lockedOnEntity == null) return;
+
+        var camera = View.Camera as StrategyCamera;
+        if (camera != null)
         {
-            #region Sanity checks
-            if (engine == null) throw new ArgumentNullException(nameof(engine));
-            if (universe == null) throw new ArgumentNullException(nameof(universe));
-            #endregion
+            var distanceVector = camera.Target - Universe.Terrain.ToEngineCoords(_lockedOnEntity.Position);
+            double distanceLength = distanceVector.Length();
+            double lockRange = camera.Radius * camera.Radius / 4000;
 
-            // Restore previous camera position (or default to center of terrain)
-            var mainCamera = CreateCamera(universe.CurrentCamera);
-
-            View = new(Scene, mainCamera) {Name = "InGame", BackgroundColor = universe.FogColor};
+            if (distanceLength > lockRange)
+                camera.Target -= distanceVector * (1 - lockRange / distanceLength);
         }
+    }
 
-        /// <inheritdoc/>
-        public override void HookIn()
-        {
-            base.HookIn();
-            Engine.PreRender += HandleLockedOnEntity;
-            SwitchMusicTheme("Game", immediate: true);
-        }
-
-        /// <inheritdoc/>
-        public override void HookOut()
-        {
-            Engine.PreRender -= HandleLockedOnEntity;
-            PrepareSave();
-            base.HookOut();
-        }
-
-        /// <summary>
-        /// Writes back data to <see cref="Universe"/> so that state gets stored in savegames.
-        /// </summary>
-        public void PrepareSave()
-        {
-            Universe.CurrentCamera = CameraState;
-        }
-
-        //--------------------//
-
-        /// <inheritdoc/>
-        protected override void MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
-        {
-            #region Sanity checks
-            if (positionables == null) throw new ArgumentNullException(nameof(positionables));
-            #endregion
-
-            foreach (var entity in positionables.OfType<Entity>())
-                Universe.PlayerMove(entity, target);
-        }
-
-        /// <summary>
-        /// Switches from the current camera view to a new view using a cinematic effect.
-        /// </summary>
-        /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="CameraState{TCoordinates}"/> stored in the <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.</param>
-        public void SwingCameraTo(string name)
-        {
-            View.SwingCameraTo(CreateCamera(Universe.GetCamera(name)), duration: 4);
-        }
-
-        private Entity _lockedOnEntity;
-
-        /// <summary>
-        /// Sets <see cref="InteractivePresenter.SelectedPositionables"/> to a single specific <see cref="Entity"/> and forces the <see cref="Camera"/> to stay close to it.
-        /// </summary>
-        /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="Entity"/> stored in the <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.</param>
-        public void LockOn(string name)
-        {
-            _lockedOnEntity = Universe.GetEntity(name);
-
-            SelectedPositionables.Clear();
-            SelectedPositionables.Add(_lockedOnEntity);
-        }
-
-        /// <summary>
-        /// Releases a camera lock applied by <see cref="LockOn"/>.
-        /// </summary>
-        public void ReleaseLock()
-        {
-            _lockedOnEntity = null;
-
-            SelectedPositionables.Clear();
-        }
-
-        private void HandleLockedOnEntity()
-        {
-            if (_lockedOnEntity == null) return;
-
-            var camera = View.Camera as StrategyCamera;
-            if (camera != null)
-            {
-                var distanceVector = camera.Target - Universe.Terrain.ToEngineCoords(_lockedOnEntity.Position);
-                double distanceLength = distanceVector.Length();
-                double lockRange = camera.Radius * camera.Radius / 4000;
-
-                if (distanceLength > lockRange)
-                    camera.Target -= distanceVector * (1 - lockRange / distanceLength);
-            }
-        }
-
-        /// <inheritdoc/>
-        protected override void PickPositionables(IEnumerable<Positionable<Vector2>> positionables, bool accumulate)
-        {
-            if (_lockedOnEntity == null)
-                base.PickPositionables(positionables, accumulate);
-        }
+    /// <inheritdoc/>
+    protected override void PickPositionables(IEnumerable<Positionable<Vector2>> positionables, bool accumulate)
+    {
+        if (_lockedOnEntity == null)
+            base.PickPositionables(positionables, accumulate);
     }
 }

@@ -37,25 +37,25 @@ using OmegaEngine.Storage;
 using OmegaEngine.Values;
 using OmegaGUI.Model;
 
-namespace FrameOfReference
+namespace FrameOfReference;
+
+internal static class Program
 {
-    internal static class Program
+    /// <summary>
+    /// The arguments this application was launched with.
+    /// </summary>
+    public static Arguments Args { get; private set; }
+
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
+    [STAThread]
+    private static void Main(string[] args)
     {
-        /// <summary>
-        /// The arguments this application was launched with.
-        /// </summary>
-        public static Arguments Args { get; private set; }
+        WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameShort);
 
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        private static void Main(string[] args)
-        {
-            WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameShort);
-
-            Application.EnableVisualStyles();
-            ErrorReportForm.SetupMonitoring(new Uri("https://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameShort));
+        Application.EnableVisualStyles();
+        ErrorReportForm.SetupMonitoring(new Uri("https://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameShort));
 
 #if !DEBUG
             // Prevent multiple instances from running simultaneously
@@ -67,115 +67,114 @@ namespace FrameOfReference
             }
 #endif
 
-            Args = new(args);
+        Args = new(args);
 
-            Settings.LoadCurrent();
-            UpdateLocale();
-            Settings.SaveCurrent();
+        Settings.LoadCurrent();
+        UpdateLocale();
+        Settings.SaveCurrent();
 
-            // Show additional warning before actually starting the game
-            if (Args.Contains("launchWarn") && !Args.Contains("benchmark"))
-                if (!Msg.OkCancel(null, Resources.ReadyToLaunch, MsgSeverity.Info, Resources.ReadyToLaunchContinue)) return;
+        // Show additional warning before actually starting the game
+        if (Args.Contains("launchWarn") && !Args.Contains("benchmark"))
+            if (!Msg.OkCancel(null, Resources.ReadyToLaunch, MsgSeverity.Info, Resources.ReadyToLaunchContinue)) return;
 
-            // Handle benchmark mode
-            if (Args.Contains("benchmark"))
-            {
-                if (!Msg.OkCancel(null, Resources.BenchmarkInfo, MsgSeverity.Info, Resources.BenchmarkInfoContinue)) return;
-                ConfigureSettingsForBenchmark();
-            }
-
-            if (!DetermineContentDirs()) return;
-            if (!LoadArchives()) return;
-            using (var game = new Game())
-                game.Run();
-            ContentManager.CloseArchives();
+        // Handle benchmark mode
+        if (Args.Contains("benchmark"))
+        {
+            if (!Msg.OkCancel(null, Resources.BenchmarkInfo, MsgSeverity.Info, Resources.BenchmarkInfoContinue)) return;
+            ConfigureSettingsForBenchmark();
         }
 
-        /// <summary>
-        /// Updates the localization used by the application
-        /// </summary>
-        public static void UpdateLocale()
-        {
-            if (string.IsNullOrEmpty(Settings.Current.General.Language))
-                Settings.Current.General.Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+        if (!DetermineContentDirs()) return;
+        if (!LoadArchives()) return;
+        using (var game = new Game())
+            game.Run();
+        ContentManager.CloseArchives();
+    }
 
-            var language = CultureInfo.CreateSpecificCulture(Settings.Current.General.Language);
-            Languages.SetUI(language);
-            Resources.Culture = Engine.ResourceCulture = Dialog.ResourceCulture = language;
-        }
+    /// <summary>
+    /// Updates the localization used by the application
+    /// </summary>
+    public static void UpdateLocale()
+    {
+        if (string.IsNullOrEmpty(Settings.Current.General.Language))
+            Settings.Current.General.Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
-        /// <summary>
-        /// Normalizes <see cref="Settings"/> for comparable benchmark results. Original settings are preserved on-disk.
-        /// </summary>
-        private static void ConfigureSettingsForBenchmark()
-        {
-            Settings.AutoSave = false;
-            Settings.Current.Sound.PlayMusic = false;
-            Settings.Current.Graphics.Fading = false;
-            Settings.Current.Graphics.WaterEffects = WaterEffectsType.None;
-            Settings.Current.Graphics.ParticleSystemQuality = Quality.Low;
-            Settings.Current.Display.VSync = false;
-            Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize = new(800, 600);
+        var language = CultureInfo.CreateSpecificCulture(Settings.Current.General.Language);
+        Languages.SetUI(language);
+        Resources.Culture = Engine.ResourceCulture = Dialog.ResourceCulture = language;
+    }
+
+    /// <summary>
+    /// Normalizes <see cref="Settings"/> for comparable benchmark results. Original settings are preserved on-disk.
+    /// </summary>
+    private static void ConfigureSettingsForBenchmark()
+    {
+        Settings.AutoSave = false;
+        Settings.Current.Sound.PlayMusic = false;
+        Settings.Current.Graphics.Fading = false;
+        Settings.Current.Graphics.WaterEffects = WaterEffectsType.None;
+        Settings.Current.Graphics.ParticleSystemQuality = Quality.Low;
+        Settings.Current.Display.VSync = false;
+        Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize = new(800, 600);
 #if !DEBUG
             Settings.Current.Display.Fullscreen = true;
 #endif
-        }
+    }
 
-        /// <summary>
-        /// Determines the data directories used by <see cref="ContentManager"/> and displays error messages if a directory could not be found.
-        /// </summary>
-        /// <returns><c>true</c> if all directories were located successfully; <c>false</c> if something went wrong.</returns>
-        /// <remarks>The <see cref="ContentManager.ModDir"/> is also handled based on <see cref="Args"/>.</remarks>
-        private static bool DetermineContentDirs()
+    /// <summary>
+    /// Determines the data directories used by <see cref="ContentManager"/> and displays error messages if a directory could not be found.
+    /// </summary>
+    /// <returns><c>true</c> if all directories were located successfully; <c>false</c> if something went wrong.</returns>
+    /// <remarks>The <see cref="ContentManager.ModDir"/> is also handled based on <see cref="Args"/>.</remarks>
+    private static bool DetermineContentDirs()
+    {
+        try
         {
-            try
-            {
-                // Base
-                if (!string.IsNullOrEmpty(Settings.Current.General.ContentDir))
-                    ContentManager.BaseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, Settings.Current.General.ContentDir));
+            // Base
+            if (!string.IsNullOrEmpty(Settings.Current.General.ContentDir))
+                ContentManager.BaseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, Settings.Current.General.ContentDir));
 
-                // Mod
-                if (Args.Contains("mod"))
-                    ContentManager.ModDir = new DirectoryInfo(Path.Combine(Path.Combine(Locations.InstallBase, "Mods"), Args["mod"]));
-                if (ContentManager.ModDir != null) Log.Info("Load mod from: " + ContentManager.ModDir);
-            }
-                #region Error handling
-            catch (ArgumentException ex)
-            {
-                Msg.Inform(null, ex.Message, MsgSeverity.Error);
-                return false;
-            }
-            catch (DirectoryNotFoundException ex)
-            {
-                Msg.Inform(null, ex.Message, MsgSeverity.Error);
-                return false;
-            }
-            #endregion
-
-            return true;
+            // Mod
+            if (Args.Contains("mod"))
+                ContentManager.ModDir = new DirectoryInfo(Path.Combine(Path.Combine(Locations.InstallBase, "Mods"), Args["mod"]));
+            if (ContentManager.ModDir != null) Log.Info("Load mod from: " + ContentManager.ModDir);
         }
-
-        /// <summary>
-        /// Calls <see cref="ContentManager.LoadArchives"/> and displays error messages if something went wrong.
-        /// </summary>
-        /// <returns><c>true</c> if all archives were loaded successfully; <c>false</c> if something went wrong.</returns>
-        private static bool LoadArchives()
+        #region Error handling
+        catch (ArgumentException ex)
         {
-            try
-            {
-                ContentManager.LoadArchives();
-            }
-                #region Error handling
-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-            {
-                Log.Error(Resources.FailedReadArchives, ex);
-                ContentManager.CloseArchives();
-                Msg.Inform(null, Resources.FailedReadArchives + Environment.NewLine + ex.Message, MsgSeverity.Error);
-                return false;
-            }
-            #endregion
-
-            return true;
+            Msg.Inform(null, ex.Message, MsgSeverity.Error);
+            return false;
         }
+        catch (DirectoryNotFoundException ex)
+        {
+            Msg.Inform(null, ex.Message, MsgSeverity.Error);
+            return false;
+        }
+        #endregion
+
+        return true;
+    }
+
+    /// <summary>
+    /// Calls <see cref="ContentManager.LoadArchives"/> and displays error messages if something went wrong.
+    /// </summary>
+    /// <returns><c>true</c> if all archives were loaded successfully; <c>false</c> if something went wrong.</returns>
+    private static bool LoadArchives()
+    {
+        try
+        {
+            ContentManager.LoadArchives();
+        }
+        #region Error handling
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            Log.Error(Resources.FailedReadArchives, ex);
+            ContentManager.CloseArchives();
+            Msg.Inform(null, Resources.FailedReadArchives + Environment.NewLine + ex.Message, MsgSeverity.Error);
+            return false;
+        }
+        #endregion
+
+        return true;
     }
 }

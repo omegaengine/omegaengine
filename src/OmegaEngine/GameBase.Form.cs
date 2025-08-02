@@ -12,82 +12,80 @@ using System.Security.Permissions;
 using System.Windows.Forms;
 using NanoByte.Common.Controls;
 
-namespace OmegaEngine
+namespace OmegaEngine;
+
+#region Delegates
+/// <seealso cref="GameBase.GameForm.WindowMessage"/>
+/// <param name="m">The window message</param>
+public delegate bool MessageEventHandler(Message m);
+#endregion
+
+partial class GameBase
 {
-
-    #region Delegates
-    /// <seealso cref="GameBase.GameForm.WindowMessage"/>
-    /// <param name="m">The window message</param>
-    public delegate bool MessageEventHandler(Message m);
-    #endregion
-
-    partial class GameBase
+    /// <summary>
+    /// An internal Windows Form to use as <see cref="Engine"/> render target with mouse+keyboard event handling
+    /// </summary>
+    /// <seealso cref="GameBase.Form"/>
+    protected class GameForm : TouchForm
     {
+        #region Events
         /// <summary>
-        /// An internal Windows Form to use as <see cref="Engine"/> render target with mouse+keyboard event handling
+        /// Occurs when a window message is to processed
         /// </summary>
-        /// <seealso cref="GameBase.Form"/>
-        protected class GameForm : TouchForm
+        [Description("Occurs when a window message is to processed")]
+        public event MessageEventHandler WindowMessage;
+        #endregion
+
+        #region Variables
+        /// <summary>True once <see cref="GameBase.Dispose()"/> has been called</summary>
+        private bool _isDisposed;
+
+        /// <summary>
+        /// A <see cref="Label"/> for displaying loading messages during startup
+        /// </summary>
+        internal readonly Label LoadingLabel = new()
         {
-            #region Events
-            /// <summary>
-            /// Occurs when a window message is to processed
-            /// </summary>
-            [Description("Occurs when a window message is to processed")]
-            public event MessageEventHandler WindowMessage;
-            #endregion
+            Text = "Loading...",
+            TextAlign = ContentAlignment.MiddleCenter,
+            Dock = DockStyle.Bottom,
+            Size = new(0, 100),
+            Font = new("Arial", 26.25f, FontStyle.Regular, GraphicsUnit.Point, 0),
+            ForeColor = Color.White
+        };
+        #endregion
 
-            #region Variables
-            /// <summary>True once <see cref="GameBase.Dispose()"/> has been called</summary>
-            private bool _isDisposed;
-
-            /// <summary>
-            /// A <see cref="Label"/> for displaying loading messages during startup
-            /// </summary>
-            internal readonly Label LoadingLabel = new()
-            {
-                Text = "Loading...",
-                TextAlign = ContentAlignment.MiddleCenter,
-                Dock = DockStyle.Bottom,
-                Size = new(0, 100),
-                Font = new("Arial", 26.25f, FontStyle.Regular, GraphicsUnit.Point, 0),
-                ForeColor = Color.White
-            };
-            #endregion
-
-            #region Constructor
-            public GameForm()
-            {
-                SetStyle(ControlStyles.UserPaint, true);
-                SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-                Disposed += delegate { _isDisposed = true; };
-                Controls.Add(LoadingLabel);
-            }
-            #endregion
-
-            //--------------------//
-
-            #region Window messages
-            [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-            protected override void WndProc(ref Message m)
-            {
-                if (WindowMessage != null)
-                {
-                    // Allow external handling of window messages
-                    if (WindowMessage(m))
-                    {
-                        m.Result = new(1); // Indicate to Windows that the message was handled
-                        return; // Suppress any additional event handlers that might be registered further along the line
-                    }
-                }
-
-                // Previous event handler may have caused the form to dispose
-                if (_isDisposed) return;
-
-                // Invoke any registered event handlers, default actions, etc.
-                base.WndProc(ref m);
-            }
-            #endregion
+        #region Constructor
+        public GameForm()
+        {
+            SetStyle(ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            Disposed += delegate { _isDisposed = true; };
+            Controls.Add(LoadingLabel);
         }
+        #endregion
+
+        //--------------------//
+
+        #region Window messages
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
+        protected override void WndProc(ref Message m)
+        {
+            if (WindowMessage != null)
+            {
+                // Allow external handling of window messages
+                if (WindowMessage(m))
+                {
+                    m.Result = new(1); // Indicate to Windows that the message was handled
+                    return; // Suppress any additional event handlers that might be registered further along the line
+                }
+            }
+
+            // Previous event handler may have caused the form to dispose
+            if (_isDisposed) return;
+
+            // Invoke any registered event handlers, default actions, etc.
+            base.WndProc(ref m);
+        }
+        #endregion
     }
 }

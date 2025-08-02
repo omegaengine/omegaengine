@@ -8,96 +8,95 @@
 
 using NanoByte.Common;
 
-namespace AlphaFramework.Editor
+namespace AlphaFramework.Editor;
+
+/// <summary>
+/// A base class for all editor windows that have undo-functionality based on cloning their whole content
+/// </summary>
+/// <remarks>Calling <see cref="OnChange"/> will create an undo checkpoint (<see cref="_currentBackup"/>) after the fact, ready for the next change.
+/// The first checkpoint is created right at startup.</remarks>
+// Note: Cannot be abstract to prevent WinForms designer problems
+public class UndoCloneTab<T> : UndoTab<T>
+    where T : ICloneable<T>
 {
+    #region Variables
     /// <summary>
-    /// A base class for all editor windows that have undo-functionality based on cloning their whole content
+    /// The content to be handled by the undo-system
     /// </summary>
-    /// <remarks>Calling <see cref="OnChange"/> will create an undo checkpoint (<see cref="_currentBackup"/>) after the fact, ready for the next change.
-    /// The first checkpoint is created right at startup.</remarks>
-    // Note: Cannot be abstract to prevent WinForms designer problems
-    public class UndoCloneTab<T> : UndoTab<T>
-        where T : ICloneable<T>
+    protected T Content;
+
+    /// <summary>
+    /// A backup of the current state of <see cref="Content"/>
+    /// </summary>
+    /// <remarks>This is used to get the state of <see cref="Content"/> as it was before <see cref="OnChange"/> was called</remarks>
+    private T _currentBackup;
+    #endregion
+
+    #region Constructor
+    // Note: This prevents instatiation without making class abstract
+    /// <inheritdoc/>
+    protected UndoCloneTab()
+    {}
+    #endregion
+
+    //--------------------//
+
+    #region Handlers
+    /// <summary>
+    /// Called on startup to load the content for this tab from a file
+    /// </summary>
+    protected override void OnInitialize()
     {
-        #region Variables
-        /// <summary>
-        /// The content to be handled by the undo-system
-        /// </summary>
-        protected T Content;
-
-        /// <summary>
-        /// A backup of the current state of <see cref="Content"/>
-        /// </summary>
-        /// <remarks>This is used to get the state of <see cref="Content"/> as it was before <see cref="OnChange"/> was called</remarks>
-        private T _currentBackup;
-        #endregion
-
-        #region Constructor
-        // Note: This prevents instatiation without making class abstract
-        /// <inheritdoc/>
-        protected UndoCloneTab()
-        {}
-        #endregion
-
-        //--------------------//
-
-        #region Handlers
-        /// <summary>
-        /// Called on startup to load the content for this tab from a file
-        /// </summary>
-        protected override void OnInitialize()
-        {
-            // Create an initial backup after loading
-            if (Content != null) _currentBackup = Content.Clone();
-        }
-
-        /// <summary>
-        /// Mark the content of this tab as changed (needs to be saved) and create a new undo-backup
-        /// </summary>
-        protected override void OnChange()
-        {
-            // Move the last backup to the undo list and then create a new backup
-            UndoBackups.Push(_currentBackup);
-            _currentBackup = Content.Clone();
-
-            buttonUndo.Enabled = true;
-
-            base.OnChange();
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Undo
-        /// <summary>
-        /// Called to undo the last change
-        /// </summary>
-        protected override void OnUndo()
-        {
-            // Remove the last backup from the undo list, then add the current backup to the redo list
-            var toRestore = UndoBackups.Pop();
-            RedoBackups.Push(_currentBackup);
-
-            // Restore the backup and update the current backup
-            Content = toRestore.Clone();
-            _currentBackup = Content.Clone();
-        }
-        #endregion
-
-        #region Redo
-        /// <summary>
-        /// Called to redo the last undone change
-        /// </summary>
-        protected override void OnRedo()
-        {
-            // Remove the last backup from the redo list, then add the current backup to the undo list
-            var toRestore = RedoBackups.Pop();
-            UndoBackups.Push(_currentBackup);
-
-            // Restore the backup and update the current backup
-            Content = toRestore.Clone();
-            _currentBackup = Content.Clone();
-        }
-        #endregion
+        // Create an initial backup after loading
+        if (Content != null) _currentBackup = Content.Clone();
     }
+
+    /// <summary>
+    /// Mark the content of this tab as changed (needs to be saved) and create a new undo-backup
+    /// </summary>
+    protected override void OnChange()
+    {
+        // Move the last backup to the undo list and then create a new backup
+        UndoBackups.Push(_currentBackup);
+        _currentBackup = Content.Clone();
+
+        buttonUndo.Enabled = true;
+
+        base.OnChange();
+    }
+    #endregion
+
+    //--------------------//
+
+    #region Undo
+    /// <summary>
+    /// Called to undo the last change
+    /// </summary>
+    protected override void OnUndo()
+    {
+        // Remove the last backup from the undo list, then add the current backup to the redo list
+        var toRestore = UndoBackups.Pop();
+        RedoBackups.Push(_currentBackup);
+
+        // Restore the backup and update the current backup
+        Content = toRestore.Clone();
+        _currentBackup = Content.Clone();
+    }
+    #endregion
+
+    #region Redo
+    /// <summary>
+    /// Called to redo the last undone change
+    /// </summary>
+    protected override void OnRedo()
+    {
+        // Remove the last backup from the redo list, then add the current backup to the undo list
+        var toRestore = RedoBackups.Pop();
+        UndoBackups.Push(_currentBackup);
+
+        // Restore the backup and update the current backup
+        Content = toRestore.Clone();
+        _currentBackup = Content.Clone();
+    }
+    #endregion
 }

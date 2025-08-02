@@ -10,47 +10,46 @@ using System;
 using System.Collections.Generic;
 using AlphaFramework.World.Positionables;
 
-namespace AlphaFramework.World.Paths
+namespace AlphaFramework.World.Paths;
+
+/// <summary>
+/// Stores a path calculated by <see cref="UniverseBase{TCoordinates}.Pathfinder"/>.
+/// </summary>
+/// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
+/// <seealso cref="EntityBase{TCoordinates,TTemplate}.CurrentPath"/>
+public class StoredPath<TCoordinates> : ICloneable
+    where TCoordinates : struct
 {
     /// <summary>
-    /// Stores a path calculated by <see cref="UniverseBase{TCoordinates}.Pathfinder"/>.
+    /// The final target of the pathfinding.
     /// </summary>
-    /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
-    /// <seealso cref="EntityBase{TCoordinates,TTemplate}.CurrentPath"/>
-    public class StoredPath<TCoordinates> : ICloneable
-        where TCoordinates : struct
+    public TCoordinates Target { get; set; }
+
+    /// <summary>
+    /// The path to walk.
+    /// </summary>
+    public Queue<TCoordinates> PathNodes { get; } = new();
+
+    /// <inheritdoc/>
+    public override string ToString()
     {
-        /// <summary>
-        /// The final target of the pathfinding.
-        /// </summary>
-        public TCoordinates Target { get; set; }
-
-        /// <summary>
-        /// The path to walk.
-        /// </summary>
-        public Queue<TCoordinates> PathNodes { get; } = new();
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return GetType().Name;
-        }
-
-        #region Clone
-        /// <summary>
-        /// Creates a shallow copy of this <see cref="StoredPath{TCoordinates}"/>
-        /// </summary>
-        /// <returns>The cloned <see cref="StoredPath{TCoordinates}"/>.</returns>
-        public StoredPath<TCoordinates> Clone()
-        {
-            // Perform initial shallow copy
-            return (StoredPath<TCoordinates>)MemberwiseClone();
-        }
-
-        object ICloneable.Clone()
-        {
-            return Clone();
-        }
-        #endregion
+        return GetType().Name;
     }
+
+    #region Clone
+    /// <summary>
+    /// Creates a shallow copy of this <see cref="StoredPath{TCoordinates}"/>
+    /// </summary>
+    /// <returns>The cloned <see cref="StoredPath{TCoordinates}"/>.</returns>
+    public StoredPath<TCoordinates> Clone()
+    {
+        // Perform initial shallow copy
+        return (StoredPath<TCoordinates>)MemberwiseClone();
+    }
+
+    object ICloneable.Clone()
+    {
+        return Clone();
+    }
+    #endregion
 }

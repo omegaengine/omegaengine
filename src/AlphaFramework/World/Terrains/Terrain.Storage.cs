@@ -16,112 +16,111 @@ using LuaInterface;
 using NanoByte.Common;
 using OmegaEngine.Values;
 
-namespace AlphaFramework.World.Terrains
+namespace AlphaFramework.World.Terrains;
+
+partial class Terrain<TTemplate>
 {
-    partial class Terrain<TTemplate>
+    #region XML serialization
+    /// <summary>Used for XML serialization.</summary>
+    /// <seealso cref="Templates"/>
+    [XmlElement("Template"), Browsable(false)]
+    public string[] TemplateNames
     {
-        #region XML serialization
-        /// <summary>Used for XML serialization.</summary>
-        /// <seealso cref="Templates"/>
-        [XmlElement("Template"), Browsable(false)]
-        public string[] TemplateNames
+        get
         {
-            get
+            var templateNames = new string[Templates.Length];
+            for (int i = 0; i < Templates.Length; i++)
+                templateNames[i] = (Templates[i] == null) ? "" : Templates[i].Name;
+            return templateNames;
+        }
+        set
+        {
+            for (int i = 0; i < Templates.Length; i++)
             {
-                var templateNames = new string[Templates.Length];
-                for (int i = 0; i < Templates.Length; i++)
-                    templateNames[i] = (Templates[i] == null) ? "" : Templates[i].Name;
-                return templateNames;
-            }
-            set
-            {
-                for (int i = 0; i < Templates.Length; i++)
-                {
-                    Templates[i] = (value != null && i < value.Length && !string.IsNullOrEmpty(value[i]))
-                        ? Template<TTemplate>.All[value[i]]
-                        : null;
-                }
+                Templates[i] = (value != null && i < value.Length && !string.IsNullOrEmpty(value[i]))
+                    ? Template<TTemplate>.All[value[i]]
+                    : null;
             }
         }
-
-        /// <summary>
-        /// Base-constructor for XML serialization. Do not call manually!
-        /// </summary>
-        public Terrain()
-        {}
-        #endregion
-
-        //--------------------//
-
-        #region Load specific maps
-        /// <inheritdoc/>
-        [LuaHide]
-        public void LoadHeightMap(Stream stream)
-        {
-            Log.Info("Loading terrain height-map");
-
-            var heightMap = ByteGrid.Load(stream);
-            if (heightMap.Width != _size.X || heightMap.Height != _size.Y)
-                throw new IOException(Resources.HeightMapSizeEqualTerrain);
-            _heightMap = heightMap;
-        }
-
-        /// <inheritdoc/>
-        public void LoadHeightMap(string path)
-        {
-            #region Sanity checks
-            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
-            #endregion
-
-            using var stream = File.Open(path, FileMode.Open);
-            LoadHeightMap(stream);
-        }
-
-        /// <inheritdoc/>
-        [LuaHide]
-        public void LoadOcclusionIntervalMap(Stream stream)
-        {
-            Log.Info("Loading occlusion interval map");
-
-            var occlusionIntervalMap = ByteVector4Grid.Load(stream);
-            if (occlusionIntervalMap.Width != _size.X || occlusionIntervalMap.Height != _size.Y)
-                throw new IOException(Resources.OcclusionIntervalMapSizeEqualTerrain);
-            _occlusionIntervalMap = occlusionIntervalMap;
-        }
-
-        /// <inheritdoc/>
-        public void LoadOcclusionIntervalMap(string path)
-        {
-            #region Sanity checks
-            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
-            #endregion
-
-            using var stream = File.Open(path, FileMode.Open);
-            LoadOcclusionIntervalMap(stream);
-        }
-
-        /// <inheritdoc/>
-        [LuaHide]
-        public void LoadTextureMap(Stream stream)
-        {
-            Log.Info("Loading terrain texture-map");
-
-            var textureMap = NibbleGrid.Load(stream);
-            if (textureMap.Width != _size.X / 3 || textureMap.Height != _size.Y / 3)
-                throw new IOException(Resources.TextureMapSizeThirdOfTerrain);
-            _textureMap = textureMap;
-        }
-
-        /// <inheritdoc/>
-        public void LoadTextureMap(string path)
-        {
-            #region Sanity checks
-            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
-            #endregion
-
-            using var stream = File.Open(path, FileMode.Open);
-            LoadTextureMap(stream);
-        }
-        #endregion
     }
+
+    /// <summary>
+    /// Base-constructor for XML serialization. Do not call manually!
+    /// </summary>
+    public Terrain()
+    {}
+    #endregion
+
+    //--------------------//
+
+    #region Load specific maps
+    /// <inheritdoc/>
+    [LuaHide]
+    public void LoadHeightMap(Stream stream)
+    {
+        Log.Info("Loading terrain height-map");
+
+        var heightMap = ByteGrid.Load(stream);
+        if (heightMap.Width != _size.X || heightMap.Height != _size.Y)
+            throw new IOException(Resources.HeightMapSizeEqualTerrain);
+        _heightMap = heightMap;
+    }
+
+    /// <inheritdoc/>
+    public void LoadHeightMap(string path)
+    {
+        #region Sanity checks
+        if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
+        #endregion
+
+        using var stream = File.Open(path, FileMode.Open);
+        LoadHeightMap(stream);
+    }
+
+    /// <inheritdoc/>
+    [LuaHide]
+    public void LoadOcclusionIntervalMap(Stream stream)
+    {
+        Log.Info("Loading occlusion interval map");
+
+        var occlusionIntervalMap = ByteVector4Grid.Load(stream);
+        if (occlusionIntervalMap.Width != _size.X || occlusionIntervalMap.Height != _size.Y)
+            throw new IOException(Resources.OcclusionIntervalMapSizeEqualTerrain);
+        _occlusionIntervalMap = occlusionIntervalMap;
+    }
+
+    /// <inheritdoc/>
+    public void LoadOcclusionIntervalMap(string path)
+    {
+        #region Sanity checks
+        if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
+        #endregion
+
+        using var stream = File.Open(path, FileMode.Open);
+        LoadOcclusionIntervalMap(stream);
+    }
+
+    /// <inheritdoc/>
+    [LuaHide]
+    public void LoadTextureMap(Stream stream)
+    {
+        Log.Info("Loading terrain texture-map");
+
+        var textureMap = NibbleGrid.Load(stream);
+        if (textureMap.Width != _size.X / 3 || textureMap.Height != _size.Y / 3)
+            throw new IOException(Resources.TextureMapSizeThirdOfTerrain);
+        _textureMap = textureMap;
+    }
+
+    /// <inheritdoc/>
+    public void LoadTextureMap(string path)
+    {
+        #region Sanity checks
+        if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
+        #endregion
+
+        using var stream = File.Open(path, FileMode.Open);
+        LoadTextureMap(stream);
+    }
+    #endregion
 }

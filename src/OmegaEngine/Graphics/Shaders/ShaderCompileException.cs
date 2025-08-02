@@ -9,34 +9,33 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace OmegaEngine.Graphics.Shaders
+namespace OmegaEngine.Graphics.Shaders;
+
+/// <summary>
+/// Exception thrown when <see cref="DynamicShader"/> fails to compile FX code
+/// </summary>
+[Serializable]
+public class ShaderCompileException : Exception
 {
     /// <summary>
-    /// Exception thrown when <see cref="DynamicShader"/> fails to compile FX code
+    /// The FX code that failed to compile
     /// </summary>
-    [Serializable]
-    public class ShaderCompileException : Exception
+    public string FxCode { get; private set; }
+
+    public ShaderCompileException() : this("Failed to compile shader")
+    {}
+
+    public ShaderCompileException(string message) : base(message)
+    {}
+
+    public ShaderCompileException(string message, Exception innerException) : base(message, innerException)
+    {}
+
+    public ShaderCompileException(string message, Exception innerException, string fxCode) : this(message, innerException)
     {
-        /// <summary>
-        /// The FX code that failed to compile
-        /// </summary>
-        public string FxCode { get; private set; }
-
-        public ShaderCompileException() : this("Failed to compile shader")
-        {}
-
-        public ShaderCompileException(string message) : base(message)
-        {}
-
-        public ShaderCompileException(string message, Exception innerException) : base(message, innerException)
-        {}
-
-        public ShaderCompileException(string message, Exception innerException, string fxCode) : this(message, innerException)
-        {
-            FxCode = fxCode;
-        }
-
-        protected ShaderCompileException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {}
+        FxCode = fxCode;
     }
+
+    protected ShaderCompileException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {}
 }

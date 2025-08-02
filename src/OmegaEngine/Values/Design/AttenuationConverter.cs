@@ -13,50 +13,49 @@ using System.Globalization;
 using System.Reflection;
 using NanoByte.Common.Values.Design;
 
-namespace OmegaEngine.Values.Design
+namespace OmegaEngine.Values.Design;
+
+internal class AttenuationConverter : ValueTypeConverter<Attenuation>
 {
-    internal class AttenuationConverter : ValueTypeConverter<Attenuation>
+    /// <inheritdoc/>
+    protected override int NoArguments => 3;
+
+    /// <inheritdoc/>
+    protected override ConstructorInfo GetConstructor() => typeof(Attenuation).GetConstructor([typeof(float), typeof(float), typeof(float)]);
+
+    /// <inheritdoc/>
+    protected override object[] GetArguments(Attenuation value) => [value.Constant, value.Linear, value.Quadratic];
+
+    /// <inheritdoc/>
+    protected override string[] GetValues(Attenuation value, ITypeDescriptorContext context, CultureInfo culture)
     {
-        /// <inheritdoc/>
-        protected override int NoArguments => 3;
+        var floatConverter = TypeDescriptor.GetConverter(typeof(float));
+        return
+        [
+            floatConverter.ConvertToString(context, culture, value.Constant),
+            floatConverter.ConvertToString(context, culture, value.Linear),
+            floatConverter.ConvertToString(context, culture, value.Quadratic)
+        ];
+    }
 
-        /// <inheritdoc/>
-        protected override ConstructorInfo GetConstructor() => typeof(Attenuation).GetConstructor([typeof(float), typeof(float), typeof(float)]);
+    /// <inheritdoc/>
+    protected override Attenuation GetObject(string[] values, CultureInfo culture)
+    {
+        #region Sanity checks
+        if (values == null) throw new ArgumentNullException(nameof(values));
+        if (culture == null) throw new ArgumentNullException(nameof(culture));
+        #endregion
 
-        /// <inheritdoc/>
-        protected override object[] GetArguments(Attenuation value) => [value.Constant, value.Linear, value.Quadratic];
+        return new(Convert.ToSingle(values[0], culture), Convert.ToSingle(values[1], culture), Convert.ToSingle(values[2], culture));
+    }
 
-        /// <inheritdoc/>
-        protected override string[] GetValues(Attenuation value, ITypeDescriptorContext context, CultureInfo culture)
-        {
-            var floatConverter = TypeDescriptor.GetConverter(typeof(float));
-            return
-            [
-                floatConverter.ConvertToString(context, culture, value.Constant),
-                floatConverter.ConvertToString(context, culture, value.Linear),
-                floatConverter.ConvertToString(context, culture, value.Quadratic)
-            ];
-        }
+    /// <inheritdoc/>
+    protected override Attenuation GetObject(IDictionary propertyValues)
+    {
+        #region Sanity checks
+        if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
+        #endregion
 
-        /// <inheritdoc/>
-        protected override Attenuation GetObject(string[] values, CultureInfo culture)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException(nameof(values));
-            if (culture == null) throw new ArgumentNullException(nameof(culture));
-            #endregion
-
-            return new(Convert.ToSingle(values[0], culture), Convert.ToSingle(values[1], culture), Convert.ToSingle(values[2], culture));
-        }
-
-        /// <inheritdoc/>
-        protected override Attenuation GetObject(IDictionary propertyValues)
-        {
-            #region Sanity checks
-            if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
-            #endregion
-
-            return new((float)propertyValues["Constant"], (float)propertyValues["Linear"], (float)propertyValues["Quadratic"]);
-        }
+        return new((float)propertyValues["Constant"], (float)propertyValues["Linear"], (float)propertyValues["Quadratic"]);
     }
 }

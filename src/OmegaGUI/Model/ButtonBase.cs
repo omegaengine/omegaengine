@@ -27,40 +27,39 @@ using System.Xml.Serialization;
 using OmegaEngine.Values;
 using OmegaEngine.Values.Design;
 
-namespace OmegaGUI.Model
+namespace OmegaGUI.Model;
+
+/// <summary>
+/// A basis for Button-like control
+/// </summary>
+public abstract class ButtonBase : Label
 {
+    #region Properties
+    private Keys _hotkey;
+
     /// <summary>
-    /// A basis for Button-like control
+    /// A hotkey that can substitute a mouse click - no auto-update
     /// </summary>
-    public abstract class ButtonBase : Label
+    [DefaultValue(Keys.None), Description("A hotkey that can substitute a mouse click"), Category("Behavior")]
+    [XmlAttribute]
+    public Keys Hotkey
     {
-        #region Properties
-        private Keys _hotkey;
-
-        /// <summary>
-        /// A hotkey that can substitute a mouse click - no auto-update
-        /// </summary>
-        [DefaultValue(Keys.None), Description("A hotkey that can substitute a mouse click"), Category("Behavior")]
-        [XmlAttribute]
-        public Keys Hotkey
+        get => _hotkey;
+        set
         {
-            get => _hotkey;
-            set
-            {
-                _hotkey = value;
-                NeedsUpdate();
-            }
+            _hotkey = value;
+            NeedsUpdate();
         }
-
-        #region Events
-        /// <summary>
-        /// A Lua script to execute when the control is clicked
-        /// </summary>
-        [DefaultValue(""), Description("A Lua script to execute when the control is clicked"), Category("Events"), FileType("Lua")]
-        [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-        public string OnClick { get; set; }
-        #endregion
-
-        #endregion
     }
+
+    #region Events
+    /// <summary>
+    /// A Lua script to execute when the control is clicked
+    /// </summary>
+    [DefaultValue(""), Description("A Lua script to execute when the control is clicked"), Category("Events"), FileType("Lua")]
+    [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
+    public string OnClick { get; set; }
+    #endregion
+
+    #endregion
 }

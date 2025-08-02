@@ -28,39 +28,38 @@ using AlphaFramework.World.Templates;
 using LuaInterface;
 using OmegaEngine.Values;
 
-namespace FrameOfReference.World.Templates
+namespace FrameOfReference.World.Templates;
+
+/// <summary>
+/// Defines a type of terrain (texture, effects on units, etc.).
+/// </summary>
+public sealed class TerrainTemplate : Template<TerrainTemplate>
 {
     /// <summary>
-    /// Defines a type of terrain (texture, effects on units, etc.).
+    /// The filename of the ground texture.
     /// </summary>
-    public sealed class TerrainTemplate : Template<TerrainTemplate>
-    {
-        /// <summary>
-        /// The filename of the ground texture.
-        /// </summary>
-        [XmlAttribute, Browsable(false)]
-        public string Texture { get; set; }
+    [XmlAttribute, Browsable(false)]
+    public string Texture { get; set; }
 
-        private Color _color = Color.Black;
+    private Color _color = Color.Black;
 
-        /// <summary>
-        /// The mini-map color for this terrain type. Should be unique.
-        /// </summary>
-        /// <remarks>Is not serialized/stored, <see cref="ColorValue"/> is used for that.</remarks>
-        [XmlIgnore, LuaHide, Description("The mini-map color for this terrain type. Should be unique.")]
-        public Color Color { get => _color; set => _color = Color.FromArgb(255, value) /* Drop alpha-channel */; }
+    /// <summary>
+    /// The mini-map color for this terrain type. Should be unique.
+    /// </summary>
+    /// <remarks>Is not serialized/stored, <see cref="ColorValue"/> is used for that.</remarks>
+    [XmlIgnore, LuaHide, Description("The mini-map color for this terrain type. Should be unique.")]
+    public Color Color { get => _color; set => _color = Color.FromArgb(255, value) /* Drop alpha-channel */; }
 
-        /// <summary>Used for XML serialization.</summary>
-        /// <seealso cref="Color"/>
-        [XmlElement("Color"), LuaHide, Browsable(false)]
-        public XColor ColorValue { get => Color; set => Color = Color.FromArgb(value.R, value.G, value.B) /* Drop alpha-channel */; }
+    /// <summary>Used for XML serialization.</summary>
+    /// <seealso cref="Color"/>
+    [XmlElement("Color"), LuaHide, Browsable(false)]
+    public XColor ColorValue { get => Color; set => Color = Color.FromArgb(value.R, value.G, value.B) /* Drop alpha-channel */; }
 
-        private float _movementAbility = 1;
+    private float _movementAbility = 1;
 
-        /// <summary>
-        /// How good can units walk on this ground? 0=not at all; 1=with full speed
-        /// </summary>
-        [DefaultValue(1f), Description("How good can units walk on this ground? 0=not at all; 1=with full speed")]
-        public float MovementAbility { get => _movementAbility; set => _movementAbility = Math.Max(0, value); }
-    }
+    /// <summary>
+    /// How good can units walk on this ground? 0=not at all; 1=with full speed
+    /// </summary>
+    [DefaultValue(1f), Description("How good can units walk on this ground? 0=not at all; 1=with full speed")]
+    public float MovementAbility { get => _movementAbility; set => _movementAbility = Math.Max(0, value); }
 }

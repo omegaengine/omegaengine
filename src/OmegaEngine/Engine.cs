@@ -21,238 +21,236 @@ using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Properties;
 using SlimDX.Direct3D9;
 
-namespace OmegaEngine
-{
+namespace OmegaEngine;
 
-    #region Interfaces
-    internal interface IResetable
+#region Interfaces
+internal interface IResetable
+{
+    /// <summary>
+    /// Is to be called at the beginning of a frame.
+    /// </summary>
+    void Reset();
+}
+#endregion
+
+/// <summary>
+/// Provides central control for 3D rendering, sound management, asset caching, etc.
+/// </summary>
+public sealed partial class Engine : EngineElement
+{
+    #region Variables
+    private readonly Direct3D _direct3D;
+
+    /// <summary>
+    /// A list of possible <see cref="View"/>s usable for rendering <see cref="Water"/>
+    /// </summary>
+    /// <seealso cref="WaterViewSource.FromEngine"/>
+    internal readonly HashSet<WaterViewSource> WaterViewSources = [];
+    #endregion
+
+    #region Properties
+    /// <summary>
+    /// The culture used for loading the assembly resources.
+    /// </summary>
+    public static CultureInfo ResourceCulture { get => Resources.Culture; set => Resources.Culture = value; }
+
+    /// <summary>
+    /// The version number of the engine.
+    /// </summary>
+    public static Version Version => Assembly.GetExecutingAssembly().GetName().Version;
+
+    /// <summary>
+    /// The <see cref="System.Windows.Forms.Control"/> the engine draws onto.
+    /// </summary>
+    [LuaHide]
+    public Control Target { get; }
+
+    private EngineConfig _config;
+
+    /// <summary>
+    /// The settings the engine was initialized with.
+    /// </summary>
+    /// <remarks>Changing this will cause the engine to reset on the next <see cref="Render()" /> call</remarks>
+    public EngineConfig Config
     {
-        /// <summary>
-        /// Is to be called at the beginning of a frame.
-        /// </summary>
-        void Reset();
+        get => _config;
+        set =>
+            value.To(ref _config, delegate
+            {
+                // The device needs to be reset with changed presentation parameters
+                if (PresentParams != null)
+                {
+                    Log.Info("Engine.Config modified");
+                    NeedsReset = true;
+                }
+                PresentParams = BuildPresentParams(_config);
+            });
+    }
+
+    /// <summary>
+    /// Methods for determining the rendering capabilities of the graphics hardware.
+    /// </summary>
+    public EngineCapabilities Capabilities { get; }
+
+    /// <summary>
+    /// Turn specific rendering effects in the engine on or off.
+    /// </summary>
+    public EngineEffects Effects { get; private set; }
+
+    /// <summary>
+    /// Used by <see cref="Renderable"/> implementations to manipulate the graphics render state. Should not be manipulated manually.
+    /// </summary>
+    public EngineState State { get; }
+
+    /// <summary>
+    /// Tracks the performance/speed of the engine.
+    /// </summary>
+    public EnginePerformance Performance { get; }
+
+    /// <summary>
+    /// The central cache used for all graphics and sound assets.
+    /// </summary>
+    public CacheManager Cache { get; } = new();
+    #endregion
+
+    #region Constructor
+    /// <summary>
+    /// Initializes the Engine and its components.
+    /// </summary>
+    /// <param name="target">The <see cref="System.Windows.Forms.Control"/> the engine should draw onto.</param>
+    /// <param name="config">Settings for initializing the engine.</param>
+    /// <exception cref="NotSupportedException">The graphics card does not meet the engine's minimum requirements.</exception>
+    /// <exception cref="Direct3D9NotFoundException">Throw if required DirectX version is missing.</exception>
+    /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
+    /// <exception cref="Direct3D9Exception">internal errors occurred while intiliazing the graphics card.</exception>
+    /// <exception cref="SlimDX.DirectSound.DirectSoundException">internal errors occurred while intiliazing the sound card.</exception>
+    public Engine(Control target, EngineConfig config)
+    {
+        #region Sanity checks
+        if (target == null) throw new ArgumentNullException(nameof(target));
+        #endregion
+
+        Engine = this;
+        RegisterChild(_views);
+
+        _direct3D = new();
+        Target = target;
+        Config = config;
+        ShaderDir = Path.Combine(Locations.InstallBase, "Shaders");
+
+        Capabilities = new(_direct3D, config);
+        Effects = new(Capabilities) {PerPixelLighting = true};
+
+        try
+        {
+            CreateDevice();
+            State = new(Device);
+            SetupTextureFiltering();
+            Performance = new(Device, RenderPure);
+
+            if (GeneralShader.MinShaderModel <= Capabilities.MaxShaderModel)
+                RegisterChild(DefaultShader = new());
+
+            // Create simple default meshes ready
+            SimpleSphere = Mesh.CreateSphere(Device, 1, 12, 12);
+            SimpleBox = Mesh.CreateBox(Device, 1, 1, 1);
+
+            SetupAudio();
+        }
+        #region Error handling
+        catch (Direct3D9Exception ex) when (ex.ResultCode == ResultCode.NotAvailable)
+        {
+            Dispose();
+            throw new NotSupportedException(Resources.NotAvailable, ex);
+        }
+        catch (Exception)
+        {
+            Dispose();
+            throw;
+        }
+        #endregion
+    }
+
+    /// <summary>
+    /// Helper method for the constructor that creates the <see cref="Device"/>.
+    /// </summary>
+    /// <exception cref="Direct3D9Exception">internal errors occurred during creation.</exception>
+    /// <exception cref="Direct3D9NotFoundException">Throw if required DirectX version is missing.</exception>
+    /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
+    private void CreateDevice()
+    {
+        // Try to create the DirectX device (fall back step-by-step if there's trouble)
+        if (Capabilities.PureDevice)
+        {
+            Log.Info("Creating Direct3D device with Hardware Vertex Processing & Pure Device");
+            Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing | CreateFlags.PureDevice, PresentParams);
+        }
+        else if (Capabilities.HardwareVertexProcessing)
+        {
+            Log.Info("Creating Direct3D device with Hardware Vertex Processing");
+            Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing, PresentParams);
+        }
+        else
+        {
+            Log.Info("Creating Direct3D device with Software Vertex Processing");
+            Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.SoftwareVertexProcessing, PresentParams);
+        }
+
+        // Store the default Viewport and BackBuffer
+        RenderViewport = Device.Viewport;
+        BackBuffer = Device.GetBackBuffer(0, 0);
     }
     #endregion
 
+    //--------------------//
+
+    #region Reset queue
+    private readonly Queue<IResetable> _pendingReset = new();
+
     /// <summary>
-    /// Provides central control for 3D rendering, sound management, asset caching, etc.
+    /// Queues an object for resetting at the beginning of the next frame.
     /// </summary>
-    public sealed partial class Engine : EngineElement
+    /// <param name="o">The entity to be reset.</param>
+    internal void QueueReset(IResetable o)
     {
-        #region Variables
-        private readonly Direct3D _direct3D;
-
-        /// <summary>
-        /// A list of possible <see cref="View"/>s usable for rendering <see cref="Water"/>
-        /// </summary>
-        /// <seealso cref="WaterViewSource.FromEngine"/>
-        internal readonly HashSet<WaterViewSource> WaterViewSources = [];
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// The culture used for loading the assembly resources.
-        /// </summary>
-        public static CultureInfo ResourceCulture { get => Resources.Culture; set => Resources.Culture = value; }
-
-        /// <summary>
-        /// The version number of the engine.
-        /// </summary>
-        public static Version Version => Assembly.GetExecutingAssembly().GetName().Version;
-
-        /// <summary>
-        /// The <see cref="System.Windows.Forms.Control"/> the engine draws onto.
-        /// </summary>
-        [LuaHide]
-        public Control Target { get; }
-
-        private EngineConfig _config;
-
-        /// <summary>
-        /// The settings the engine was initialized with.
-        /// </summary>
-        /// <remarks>Changing this will cause the engine to reset on the next <see cref="Render()" /> call</remarks>
-        public EngineConfig Config
-        {
-            get => _config;
-            set =>
-                value.To(ref _config, delegate
-                {
-                    // The device needs to be reset with changed presentation parameters
-                    if (PresentParams != null)
-                    {
-                        Log.Info("Engine.Config modified");
-                        NeedsReset = true;
-                    }
-                    PresentParams = BuildPresentParams(_config);
-                });
-        }
-
-        /// <summary>
-        /// Methods for determining the rendering capabilities of the graphics hardware.
-        /// </summary>
-        public EngineCapabilities Capabilities { get; }
-
-        /// <summary>
-        /// Turn specific rendering effects in the engine on or off.
-        /// </summary>
-        public EngineEffects Effects { get; private set; }
-
-        /// <summary>
-        /// Used by <see cref="Renderable"/> implementations to manipulate the graphics render state. Should not be manipulated manually.
-        /// </summary>
-        public EngineState State { get; }
-
-        /// <summary>
-        /// Tracks the performance/speed of the engine.
-        /// </summary>
-        public EnginePerformance Performance { get; }
-
-        /// <summary>
-        /// The central cache used for all graphics and sound assets.
-        /// </summary>
-        public CacheManager Cache { get; } = new();
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Initializes the Engine and its components.
-        /// </summary>
-        /// <param name="target">The <see cref="System.Windows.Forms.Control"/> the engine should draw onto.</param>
-        /// <param name="config">Settings for initializing the engine.</param>
-        /// <exception cref="NotSupportedException">The graphics card does not meet the engine's minimum requirements.</exception>
-        /// <exception cref="Direct3D9NotFoundException">Throw if required DirectX version is missing.</exception>
-        /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
-        /// <exception cref="Direct3D9Exception">internal errors occurred while intiliazing the graphics card.</exception>
-        /// <exception cref="SlimDX.DirectSound.DirectSoundException">internal errors occurred while intiliazing the sound card.</exception>
-        public Engine(Control target, EngineConfig config)
-        {
-            #region Sanity checks
-            if (target == null) throw new ArgumentNullException(nameof(target));
-            #endregion
-
-            Engine = this;
-            RegisterChild(_views);
-
-            _direct3D = new();
-            Target = target;
-            Config = config;
-            ShaderDir = Path.Combine(Locations.InstallBase, "Shaders");
-
-            Capabilities = new(_direct3D, config);
-            Effects = new(Capabilities) {PerPixelLighting = true};
-
-            try
-            {
-                CreateDevice();
-                State = new(Device);
-                SetupTextureFiltering();
-                Performance = new(Device, RenderPure);
-
-                if (GeneralShader.MinShaderModel <= Capabilities.MaxShaderModel)
-                    RegisterChild(DefaultShader = new());
-
-                // Create simple default meshes ready
-                SimpleSphere = Mesh.CreateSphere(Device, 1, 12, 12);
-                SimpleBox = Mesh.CreateBox(Device, 1, 1, 1);
-
-                SetupAudio();
-            }
-                #region Error handling
-            catch (Direct3D9Exception ex) when (ex.ResultCode == ResultCode.NotAvailable)
-            {
-                Dispose();
-                throw new NotSupportedException(Resources.NotAvailable, ex);
-            }
-            catch (Exception)
-            {
-                Dispose();
-                throw;
-            }
-            #endregion
-        }
-
-        /// <summary>
-        /// Helper method for the constructor that creates the <see cref="Device"/>.
-        /// </summary>
-        /// <exception cref="Direct3D9Exception">internal errors occurred during creation.</exception>
-        /// <exception cref="Direct3D9NotFoundException">Throw if required DirectX version is missing.</exception>
-        /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
-        private void CreateDevice()
-        {
-            // Try to create the DirectX device (fall back step-by-step if there's trouble)
-            if (Capabilities.PureDevice)
-            {
-                Log.Info("Creating Direct3D device with Hardware Vertex Processing & Pure Device");
-                Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing | CreateFlags.PureDevice, PresentParams);
-            }
-            else if (Capabilities.HardwareVertexProcessing)
-            {
-                Log.Info("Creating Direct3D device with Hardware Vertex Processing");
-                Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing, PresentParams);
-            }
-            else
-            {
-                Log.Info("Creating Direct3D device with Software Vertex Processing");
-                Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.SoftwareVertexProcessing, PresentParams);
-            }
-
-            // Store the default Viewport and BackBuffer
-            RenderViewport = Device.Viewport;
-            BackBuffer = Device.GetBackBuffer(0, 0);
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Reset queue
-        private readonly Queue<IResetable> _pendingReset = new();
-
-        /// <summary>
-        /// Queues an object for resetting at the beginning of the next frame.
-        /// </summary>
-        /// <param name="o">The entity to be reset.</param>
-        internal void QueueReset(IResetable o)
-        {
-            if (!_pendingReset.Contains(o)) _pendingReset.Enqueue(o);
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Dispose
-        protected override void OnDispose()
-        {
-            Log.Info("Disposing engine\nLast framerate: " + Performance.Fps);
-
-            // Dispose scenes and views
-            ExtraRender = null;
-            foreach (var view in Views) view.Scene.Dispose();
-            base.OnDispose();
-
-            // Shutdown music
-            Music?.Dispose();
-
-            // Dispose cached assets
-            Cache?.Dispose();
-
-            // Dispose default meshes
-            SimpleSphere?.Dispose();
-            SimpleBox?.Dispose();
-
-            // Dispose Direct3D device
-            BackBuffer?.Dispose();
-            Device?.Dispose();
-
-            // Dispose DirectSound objects
-            //_listener?.Dispose();
-            AudioDevice?.Dispose();
-
-            _direct3D?.Dispose();
-
-            // Dispose debug window
-            _debugForm?.Dispose();
-        }
-        #endregion
+        if (!_pendingReset.Contains(o)) _pendingReset.Enqueue(o);
     }
+    #endregion
+
+    //--------------------//
+
+    #region Dispose
+    protected override void OnDispose()
+    {
+        Log.Info("Disposing engine\nLast framerate: " + Performance.Fps);
+
+        // Dispose scenes and views
+        ExtraRender = null;
+        foreach (var view in Views) view.Scene.Dispose();
+        base.OnDispose();
+
+        // Shutdown music
+        Music?.Dispose();
+
+        // Dispose cached assets
+        Cache?.Dispose();
+
+        // Dispose default meshes
+        SimpleSphere?.Dispose();
+        SimpleBox?.Dispose();
+
+        // Dispose Direct3D device
+        BackBuffer?.Dispose();
+        Device?.Dispose();
+
+        // Dispose DirectSound objects
+        //_listener?.Dispose();
+        AudioDevice?.Dispose();
+
+        _direct3D?.Dispose();
+
+        // Dispose debug window
+        _debugForm?.Dispose();
+    }
+    #endregion
 }

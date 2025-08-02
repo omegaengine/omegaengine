@@ -10,43 +10,42 @@ using System;
 using System.Drawing;
 using OmegaEngine.Graphics.Renderables;
 
-namespace OmegaEngine.Graphics
+namespace OmegaEngine.Graphics;
+
+/// <summary>
+/// A <see cref="SpecialView"/>  for rendering glow maps
+/// </summary>
+public sealed class GlowView : SpecialView
 {
+    #region Constructor
     /// <summary>
-    /// A <see cref="SpecialView"/>  for rendering glow maps
+    /// Creates a new view for rendering glow maps
     /// </summary>
-    public sealed class GlowView : SpecialView
+    /// <param name="baseView">The <see cref="View"/> to base this glow-view on</param>
+    internal GlowView(View baseView) : base(baseView, baseView.Camera)
     {
-        #region Constructor
-        /// <summary>
-        /// Creates a new view for rendering glow maps
-        /// </summary>
-        /// <param name="baseView">The <see cref="View"/> to base this glow-view on</param>
-        internal GlowView(View baseView) : base(baseView, baseView.Camera)
-        {
-            BackgroundColor = Color.Black;
-        }
-        #endregion
-
-        //--------------------//
-
-        #region Render body
-        /// <inheritdoc/>
-        protected override void RenderBody(PositionableRenderable body)
-        {
-            #region Sanity checks
-            if (body == null) throw new ArgumentNullException(nameof(body));
-            #endregion
-
-            // Backup the current surface effect and replace it by a special one for glow
-            var surfaceEffect = body.SurfaceEffect;
-            body.SurfaceEffect = SurfaceEffect.Glow;
-
-            base.RenderBody(body);
-
-            // Restore the original surface effect
-            body.SurfaceEffect = surfaceEffect;
-        }
-        #endregion
+        BackgroundColor = Color.Black;
     }
+    #endregion
+
+    //--------------------//
+
+    #region Render body
+    /// <inheritdoc/>
+    protected override void RenderBody(PositionableRenderable body)
+    {
+        #region Sanity checks
+        if (body == null) throw new ArgumentNullException(nameof(body));
+        #endregion
+
+        // Backup the current surface effect and replace it by a special one for glow
+        var surfaceEffect = body.SurfaceEffect;
+        body.SurfaceEffect = SurfaceEffect.Glow;
+
+        base.RenderBody(body);
+
+        // Restore the original surface effect
+        body.SurfaceEffect = surfaceEffect;
+    }
+    #endregion
 }

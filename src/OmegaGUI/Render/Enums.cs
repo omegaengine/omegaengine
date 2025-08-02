@@ -6,47 +6,46 @@
  * under the Microsoft Public License.
  */
 
-namespace OmegaGUI.Render
+namespace OmegaGUI.Render;
+
+/// <summary>
+/// How to align text within a control
+/// </summary>
+public enum TextAlign
 {
-    /// <summary>
-    /// How to align text within a control
-    /// </summary>
-    public enum TextAlign
-    {
-        Left,
-        Center,
-        Right
-    }
+    Left,
+    Center,
+    Right
+}
 
-    /// <summary>
-    /// Predefined control types
-    /// </summary>
-    public enum ControlType
-    {
-        Label,
-        GroupBox,
-        Button,
-        CheckBox,
-        RadioButton,
-        DropdownList,
-        Slider,
-        ListBox,
-        TextBox,
-        Scrollbar,
-        PictureBox,
-    }
+/// <summary>
+/// Predefined control types
+/// </summary>
+public enum ControlType
+{
+    Label,
+    GroupBox,
+    Button,
+    CheckBox,
+    RadioButton,
+    DropdownList,
+    Slider,
+    ListBox,
+    TextBox,
+    Scrollbar,
+    PictureBox,
+}
 
-    /// <summary>
-    /// Possible states of a control
-    /// </summary>
-    public enum ControlState
-    {
-        Normal,
-        Disabled,
-        Hidden,
-        Focus,
-        MouseOver,
-        Pressed,
-        LastState // Should always be last
-    }
+/// <summary>
+/// Possible states of a control
+/// </summary>
+public enum ControlState
+{
+    Normal,
+    Disabled,
+    Hidden,
+    Focus,
+    MouseOver,
+    Pressed,
+    LastState // Should always be last
 }

@@ -11,56 +11,55 @@ using System.Drawing;
 using AlphaFramework.World.Terrains;
 using OmegaEngine;
 
-namespace AlphaFramework.Editor.World.TerrainModifiers
+namespace AlphaFramework.Editor.World.TerrainModifiers;
+
+/// <summary>
+/// Interactivley adds height noise to a <see cref="ITerrain"/>.
+/// </summary>
+public sealed class HeightNoise : Height
 {
+    /// <summary>The maximum amplitude of the noise to generate.</summary>
+    private readonly double _amplitude;
+
+    /// <summary>The frequency of the noise to generate.</summary>
+    private readonly double _frequency;
+
     /// <summary>
-    /// Interactivley adds height noise to a <see cref="ITerrain"/>.
+    /// Creates a new terrain height noise generator.
     /// </summary>
-    public sealed class HeightNoise : Height
+    /// <param name="terrain">The <see cref="ITerrain"/> to modify.</param>
+    /// <param name="engineTerrain">The <see cref="OmegaEngine.Graphics.Renderables.Terrain"/> to live-update while modifying.</param>
+    /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
+    /// <param name="amplitude">The maximum amplitude of the noise to generate.</param>
+    /// <param name="frequency">The frequency of the noise to generate.</param>
+    public HeightNoise(ITerrain terrain, OmegaEngine.Graphics.Renderables.Terrain engineTerrain, Action refreshHandler, double amplitude, double frequency)
+        : base(terrain, engineTerrain, refreshHandler)
     {
-        /// <summary>The maximum amplitude of the noise to generate.</summary>
-        private readonly double _amplitude;
+        _amplitude = amplitude;
+        _frequency = frequency;
+    }
 
-        /// <summary>The frequency of the noise to generate.</summary>
-        private readonly double _frequency;
+    /// <inheritdoc/>
+    protected override void ModifyTerrain(Point offset, TerrainBrush brush, byte[,] oldData, byte[,] newData)
+    {
+        #region Sanity checks
+        if (oldData == null) throw new ArgumentNullException(nameof(oldData));
+        if (newData == null) throw new ArgumentNullException(nameof(newData));
+        #endregion
 
-        /// <summary>
-        /// Creates a new terrain height noise generator.
-        /// </summary>
-        /// <param name="terrain">The <see cref="ITerrain"/> to modify.</param>
-        /// <param name="engineTerrain">The <see cref="OmegaEngine.Graphics.Renderables.Terrain"/> to live-update while modifying.</param>
-        /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
-        /// <param name="amplitude">The maximum amplitude of the noise to generate.</param>
-        /// <param name="frequency">The frequency of the noise to generate.</param>
-        public HeightNoise(ITerrain terrain, OmegaEngine.Graphics.Renderables.Terrain engineTerrain, Action refreshHandler, double amplitude, double frequency)
-            : base(terrain, engineTerrain, refreshHandler)
+        var noise = new PerlinNoise {InitAmplitude = _amplitude, InitFrequency = _frequency};
+        var heightMap = Terrain.HeightMap;
+
+        // Iterate through intersection of [0,area.Size) and [-offset,heightMap-offset)
+        for (int x = Math.Max(0, -offset.X); x < Math.Min(brush.Size, heightMap.Width - offset.X); x++)
         {
-            _amplitude = amplitude;
-            _frequency = frequency;
-        }
-
-        /// <inheritdoc/>
-        protected override void ModifyTerrain(Point offset, TerrainBrush brush, byte[,] oldData, byte[,] newData)
-        {
-            #region Sanity checks
-            if (oldData == null) throw new ArgumentNullException(nameof(oldData));
-            if (newData == null) throw new ArgumentNullException(nameof(newData));
-            #endregion
-
-            var noise = new PerlinNoise {InitAmplitude = _amplitude, InitFrequency = _frequency};
-            var heightMap = Terrain.HeightMap;
-
-            // Iterate through intersection of [0,area.Size) and [-offset,heightMap-offset)
-            for (int x = Math.Max(0, -offset.X); x < Math.Min(brush.Size, heightMap.Width - offset.X); x++)
+            for (int y = Math.Max(0, -offset.Y); y < Math.Min(brush.Size, heightMap.Height - offset.Y); y++)
             {
-                for (int y = Math.Max(0, -offset.Y); y < Math.Min(brush.Size, heightMap.Height - offset.Y); y++)
-                {
-                    oldData[x, y] = heightMap[offset.X + x, offset.Y + y];
+                oldData[x, y] = heightMap[offset.X + x, offset.Y + y];
 
-                    // Add noise and write back
-                    newData[x, y] = heightMap[offset.X + x, offset.Y + y] =
-                        (byte)(oldData[x, y] + (noise.Function2D(x, y) * brush.Factor(x, y))).Clamp(byte.MinValue, byte.MaxValue);
-                }
+                // Add noise and write back
+                newData[x, y] = heightMap[offset.X + x, offset.Y + y] =
+                    (byte)(oldData[x, y] + (noise.Function2D(x, y) * brush.Factor(x, y))).Clamp(byte.MinValue, byte.MaxValue);
             }
         }
     }

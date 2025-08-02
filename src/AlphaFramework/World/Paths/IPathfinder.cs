@@ -8,21 +8,20 @@
 
 using System.Collections.Generic;
 
-namespace AlphaFramework.World.Paths
+namespace AlphaFramework.World.Paths;
+
+/// <summary>
+/// A strategy pattern interface for pathfinding algorithms.
+/// </summary>
+/// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
+public interface IPathfinder<TCoordinates>
+    where TCoordinates : struct
 {
     /// <summary>
-    /// A strategy pattern interface for pathfinding algorithms.
+    /// Calculates a path from source to target coordinates.
     /// </summary>
-    /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
-    public interface IPathfinder<TCoordinates>
-        where TCoordinates : struct
-    {
-        /// <summary>
-        /// Calculates a path from source to target coordinates.
-        /// </summary>
-        /// <param name="start">The starting coordinates.</param>
-        /// <param name="target">The end coordinates.</param>
-        /// <returns>A list of coordinates forming a path; <c>null</c> if no path was found.</returns>
-        IEnumerable<TCoordinates> FindPath(TCoordinates start, TCoordinates target);
-    }
+    /// <param name="start">The starting coordinates.</param>
+    /// <param name="target">The end coordinates.</param>
+    /// <returns>A list of coordinates forming a path; <c>null</c> if no path was found.</returns>
+    IEnumerable<TCoordinates> FindPath(TCoordinates start, TCoordinates target);
 }

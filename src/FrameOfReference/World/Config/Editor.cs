@@ -27,74 +27,73 @@ using System.Drawing;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 
-namespace FrameOfReference.World.Config
+namespace FrameOfReference.World.Config;
+
+/// <summary>
+/// Stores settings for the game's editor.
+/// </summary>
+/// <seealso cref="Settings.Editor"/>
+public sealed class EditorSettings
 {
+    #region Events
     /// <summary>
-    /// Stores settings for the game's editor.
+    /// Occurs when a setting in this group is changed.
     /// </summary>
-    /// <seealso cref="Settings.Editor"/>
-    public sealed class EditorSettings
+    [Description("Occurs when a setting in this group is changed.")]
+    public event Action Changed;
+
+    private void OnChanged()
     {
-        #region Events
-        /// <summary>
-        /// Occurs when a setting in this group is changed.
-        /// </summary>
-        [Description("Occurs when a setting in this group is changed.")]
-        public event Action Changed;
-
-        private void OnChanged()
-        {
-            Changed?.Invoke();
-            if (Settings.AutoSave && Settings.Current != null && Settings.Current.Editor == this) Settings.SaveCurrent();
-        }
-        #endregion
-
-        private bool _showWelcomeMessage = true;
-
-        /// <summary>
-        /// Show the welcome message on startup
-        /// </summary>
-        [DefaultValue(true), Description("Show the welcome message on startup")]
-        public bool ShowWelcomeMessage { get => _showWelcomeMessage; set => value.To(ref _showWelcomeMessage, OnChanged); }
-
-        private bool _editBase;
-
-        /// <summary>
-        /// May the user edit the base game?
-        /// </summary>
-        [DefaultValue(false), Description("May the user edit the base game?")]
-        public bool EditBase { get => _editBase; set => value.To(ref _editBase, OnChanged); }
-
-        private Size _windowSize;
-
-        /// <summary>
-        /// The size of the editor window
-        /// </summary>
-        [Description("The size of the editor window")]
-        public Size WindowSize { get => _windowSize; set => value.To(ref _windowSize, OnChanged); }
-
-        private bool _windowMaximized;
-
-        /// <summary>
-        /// Is the editor window maximized?
-        /// </summary>
-        [Description("Is the editor window maximized?")]
-        public bool WindowMaximized { get => _windowMaximized; set => value.To(ref _windowMaximized, OnChanged); }
-
-        // Note: Can not use ICollection<T> interface with XML Serialization
-        private readonly MonitoredCollection<string> _recentMods = [];
-
-        /// <summary>
-        /// A list of mod directories recently opened by the editor
-        /// </summary>
-        public Collection<string> RecentMods => _recentMods;
-
-        #region Constructor
-        /// <inheritdoc/>
-        public EditorSettings()
-        {
-            _recentMods.Changed += OnChanged;
-        }
-        #endregion
+        Changed?.Invoke();
+        if (Settings.AutoSave && Settings.Current != null && Settings.Current.Editor == this) Settings.SaveCurrent();
     }
+    #endregion
+
+    private bool _showWelcomeMessage = true;
+
+    /// <summary>
+    /// Show the welcome message on startup
+    /// </summary>
+    [DefaultValue(true), Description("Show the welcome message on startup")]
+    public bool ShowWelcomeMessage { get => _showWelcomeMessage; set => value.To(ref _showWelcomeMessage, OnChanged); }
+
+    private bool _editBase;
+
+    /// <summary>
+    /// May the user edit the base game?
+    /// </summary>
+    [DefaultValue(false), Description("May the user edit the base game?")]
+    public bool EditBase { get => _editBase; set => value.To(ref _editBase, OnChanged); }
+
+    private Size _windowSize;
+
+    /// <summary>
+    /// The size of the editor window
+    /// </summary>
+    [Description("The size of the editor window")]
+    public Size WindowSize { get => _windowSize; set => value.To(ref _windowSize, OnChanged); }
+
+    private bool _windowMaximized;
+
+    /// <summary>
+    /// Is the editor window maximized?
+    /// </summary>
+    [Description("Is the editor window maximized?")]
+    public bool WindowMaximized { get => _windowMaximized; set => value.To(ref _windowMaximized, OnChanged); }
+
+    // Note: Can not use ICollection<T> interface with XML Serialization
+    private readonly MonitoredCollection<string> _recentMods = [];
+
+    /// <summary>
+    /// A list of mod directories recently opened by the editor
+    /// </summary>
+    public Collection<string> RecentMods => _recentMods;
+
+    #region Constructor
+    /// <inheritdoc/>
+    public EditorSettings()
+    {
+        _recentMods.Changed += OnChanged;
+    }
+    #endregion
 }

@@ -23,95 +23,94 @@
 using System.ComponentModel;
 using System.Xml.Serialization;
 
-namespace OmegaGUI.Model
+namespace OmegaGUI.Model;
+
+/// <summary>
+/// Radio button control
+/// </summary>
+public class RadioButton : CheckBox
 {
+    #region Variables
     /// <summary>
-    /// Radio button control
+    /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    public class RadioButton : CheckBox
+    private Render.RadioButton _radioButton;
+    #endregion
+
+    #region Properties
+    private uint _groupID;
+
+    /// <summary>
+    /// The ID of the radio button group - no auto-update
+    /// </summary>
+    [Description("The ID of the radio button group"), Category("Design"),]
+    public uint GroupID
     {
-        #region Variables
-        /// <summary>
-        /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
-        /// </summary>
-        private Render.RadioButton _radioButton;
-        #endregion
-
-        #region Properties
-        private uint _groupID;
-
-        /// <summary>
-        /// The ID of the radio button group - no auto-update
-        /// </summary>
-        [Description("The ID of the radio button group"), Category("Design"),]
-        public uint GroupID
+        get => _groupID;
+        set
         {
-            get => _groupID;
-            set
-            {
-                _groupID = value;
-                NeedsUpdate();
-            }
+            _groupID = value;
+            NeedsUpdate();
         }
-
-        /// <summary>
-        /// The text displayed on the control
-        /// </summary>
-        [DefaultValue(""), Description("The text displayed on the control"), Category("Appearance")]
-        [XmlAttribute]
-        public override string Text
-        {
-            get => ControlText;
-            set
-            {
-                ControlText = value;
-                if (_radioButton != null) _radioButton.SetText(Parent.GetLocalized(ControlText));
-            }
-        }
-
-        /// <summary>
-        /// Is this control currently checked?
-        /// </summary>
-        [DefaultValue(false), Description("Is this control currently checked?"), Category("Appearance")]
-        [XmlAttribute]
-        public override bool Checked
-        {
-            get => _radioButton?.IsChecked ?? IsChecked;
-            set
-            {
-                IsChecked = value;
-                if (_radioButton != null) _radioButton.IsChecked = value;
-            }
-        }
-        #endregion
-
-        #region Constructor
-        public RadioButton()
-        {
-            Size = new(140, 20);
-        }
-        #endregion
-
-        #region Generate
-        internal override void Generate()
-        {
-            // Add control to dialog
-            UpdateLayout();
-            DXControl = _radioButton =
-                Parent.DialogRender.AddRadioButton(0, _groupID, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, IsChecked, Hotkey, Default);
-            ControlModel.IsVisible = IsVisible;
-            ControlModel.IsEnabled = IsEnabled;
-
-            // Setup event hooks
-            SetupMouseEvents();
-            if (!string.IsNullOrEmpty(OnClick))
-                _radioButton.Click += delegate { Parent.RaiseEvent(OnClick, Name + "_Click"); };
-            if (!string.IsNullOrEmpty(OnChanged))
-            {
-                // Note: Don't auto-update isChecked value since changing one RadioButton will effect others as well
-                _radioButton.Changed += delegate { Parent.RaiseEvent(OnChanged, Name + "_Changed"); };
-            }
-        }
-        #endregion
     }
+
+    /// <summary>
+    /// The text displayed on the control
+    /// </summary>
+    [DefaultValue(""), Description("The text displayed on the control"), Category("Appearance")]
+    [XmlAttribute]
+    public override string Text
+    {
+        get => ControlText;
+        set
+        {
+            ControlText = value;
+            if (_radioButton != null) _radioButton.SetText(Parent.GetLocalized(ControlText));
+        }
+    }
+
+    /// <summary>
+    /// Is this control currently checked?
+    /// </summary>
+    [DefaultValue(false), Description("Is this control currently checked?"), Category("Appearance")]
+    [XmlAttribute]
+    public override bool Checked
+    {
+        get => _radioButton?.IsChecked ?? IsChecked;
+        set
+        {
+            IsChecked = value;
+            if (_radioButton != null) _radioButton.IsChecked = value;
+        }
+    }
+    #endregion
+
+    #region Constructor
+    public RadioButton()
+    {
+        Size = new(140, 20);
+    }
+    #endregion
+
+    #region Generate
+    internal override void Generate()
+    {
+        // Add control to dialog
+        UpdateLayout();
+        DXControl = _radioButton =
+            Parent.DialogRender.AddRadioButton(0, _groupID, Parent.GetLocalized(ControlText), EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, IsChecked, Hotkey, Default);
+        ControlModel.IsVisible = IsVisible;
+        ControlModel.IsEnabled = IsEnabled;
+
+        // Setup event hooks
+        SetupMouseEvents();
+        if (!string.IsNullOrEmpty(OnClick))
+            _radioButton.Click += delegate { Parent.RaiseEvent(OnClick, Name + "_Click"); };
+        if (!string.IsNullOrEmpty(OnChanged))
+        {
+            // Note: Don't auto-update isChecked value since changing one RadioButton will effect others as well
+            _radioButton.Changed += delegate { Parent.RaiseEvent(OnChanged, Name + "_Changed"); };
+        }
+    }
+    #endregion
 }
