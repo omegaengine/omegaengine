@@ -133,8 +133,7 @@ partial class View
             if (!body.IsVisible(Camera)) continue;
 
             // Separate out Terrain bodies early, because they need to be sorted separately
-            var terrain = body as Terrain;
-            if (terrain != null) _sortedTerrains.Add(terrain);
+            if (body is Terrain terrain) _sortedTerrains.Add(terrain);
             else _sortedBodies.Add(body);
         }
 
@@ -147,8 +146,7 @@ partial class View
         foreach (PositionableRenderable body in _sortedBodies)
         {
             // Separate out Water bodies
-            var water = body as Water;
-            if (water != null) _sortedWaters.Add(water);
+            if (body is Water water) _sortedWaters.Add(water);
 
             // Separate out transparent bodies
             else if (body.Alpha <= EngineState.Opaque)

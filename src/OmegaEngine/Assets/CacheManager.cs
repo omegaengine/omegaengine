@@ -53,13 +53,9 @@ public sealed class CacheManager : IDisposable
     /// <exception cref="InvalidOperationException">A different type of asset with this <paramref name="name"/> was found instead.</exception>
     internal T GetAsset<T>(string name) where T : Asset
     {
-        if (_assetCache.Contains(name))
-        {
-            var asset = _assetCache[name] as T;
-            if (asset == null) throw new System.IO.InvalidDataException(Resources.WrongAssetType + name); // Incorrect asset type
-            return asset; // Correct asset found
-        }
-        return null; // Asset not found
+        if (!_assetCache.Contains(name)) return null;
+        return _assetCache[name] as T
+            ?? throw new System.IO.InvalidDataException(Resources.WrongAssetType + name);
     }
     #endregion
 

@@ -65,8 +65,7 @@ public abstract class LightingShader : SurfaceShader
                 var pass = ShaderPasses.None;
 
                 // ReSharper disable AccessToModifiedClosure
-                var dirLight = lights[i] as DirectionalLight;
-                if (dirLight != null)
+                if (lights[i] is DirectionalLight dirLight)
                 {
                     if (i == 0 && dirLight.Diffuse == Color.Black && dirLight.Specular == Color.Black)
                     {
@@ -86,8 +85,7 @@ public abstract class LightingShader : SurfaceShader
                         // Try to handle the next light at the same time
                         if (i + 1 < lights.Length)
                         {
-                            var nextDirLight = lights[i + 1] as DirectionalLight;
-                            if (nextDirLight != null)
+                            if (lights[i + 1] is DirectionalLight nextDirLight)
                             {
                                 using (new ProfilerEvent(() => "Setup light " + i + 1 + " as directional")) SetupLight(nextDirLight, 1, material);
                                 pass = (i == 0) ? ShaderPasses.TwoDirLights : ShaderPasses.TwoDirLightsAdd;
@@ -101,8 +99,7 @@ public abstract class LightingShader : SurfaceShader
                 }
                 else
                 {
-                    var pointLight = lights[i] as PointLight;
-                    if (pointLight != null)
+                    if (lights[i] is PointLight pointLight)
                     {
                         #region Point lights
                         using (new ProfilerEvent(() => "Setup light " + i + " as point"))

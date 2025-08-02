@@ -66,7 +66,7 @@ partial class Universe
     /// </summary>
     private void MarkUnmoveableEntities(bool[,] obstructionMap)
     {
-        foreach (var entity in Positionables.OfType<Entity>().Where(x => x.TemplateData.Movement == null && x.TemplateData.Collision != null))
+        foreach (var entity in Positionables.OfType<Entity>().Where(x => x.TemplateData is {Movement: null, Collision: not null}))
         {
             for (int x = 0; x < obstructionMap.GetLength(0); x++)
             {
@@ -160,8 +160,7 @@ partial class Universe
         var toRemove = new List<Waypoint>();
         foreach (var waypoint in Positionables.OfType<Waypoint>().OrderBy(x => x.ActivationTime))
         {
-            var entity = GetEntity(waypoint.TargetEntity);
-            if (entity != null)
+            if (GetEntity(waypoint.TargetEntity) is {} entity)
             {
                 entity.Waypoints.Add(waypoint);
                 toRemove.Add(waypoint);

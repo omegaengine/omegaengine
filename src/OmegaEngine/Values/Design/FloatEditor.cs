@@ -32,10 +32,7 @@ public abstract class FloatEditor : UITypeEditor
         if (value == null) throw new ArgumentNullException(nameof(value));
         #endregion
 
-        if (value.GetType() != typeof(float)) return value;
-
-        var editorService = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
-        if (editorService == null) return value;
+        if (value.GetType() != typeof(float) || provider.GetService(typeof(IWindowsFormsEditorService)) is not IWindowsFormsEditorService editorService) return value;
 
         var range = context.PropertyDescriptor?.Attributes.OfType<FloatRangeAttribute>().FirstOrDefault();
         return (range == null)
