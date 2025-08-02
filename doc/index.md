@@ -6,7 +6,7 @@ title: Overview
 
 <xref:OmegaEngine> is a general-purpose 3D graphics for .NET Framework and DirectX 9. The engine is designed to be light-weight, modular and gameplay-agnostic. It is designed to be:
 
- * light-weight (compiled binaries with external libraries < 4MB),
+ * light-weight (core engine including dependencies < 8MB),
  * modular (use only the parts you need for your project) and
  * gameplay-agnostic (also suitable for visualization projects, etc.).
 
@@ -19,25 +19,30 @@ It provides base classes for designing a game world using the Model-View-Present
 <xref:FrameOfReference> is the official sample game for OmegaEngine.  
 It is intended as a sample/reference for developers working on other games.
 
-## Code sample
-
-To render a textured sphere:
-
-```csharp
-var engine = new Engine(...);
-var scene = new Scene
-{
-    Positionables = {Model.Sphere(engine, XTexture.Get(engine, "flag.png"))}
-};
-var camera = new TrackCamera();
-engine.Views.Add(new View(scene, camera));
-```
-
 ## Prerequisites
+
+You must install these components before you can use OmegaEngine:
 
 - [Visual C++ 2010 Redistributable x86](https://www.microsoft.com/en-us/download/details.aspx?id=26999)
 - [DirectX June 2010 Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=8109)
 - [Visual Studio 2022 v17.13 or newer](https://www.visualstudio.com/downloads/)
+
+## First steps
+
+Create a WinForms project targetting .NET Framework 4.7.2 or newer with the platform set to `x86`.  
+Add a reference to the NuGet package `OmegaEngine`. Then add the following code to render a textured sphere:
+
+```csharp
+var engine = new Engine(this, new EngineConfig { TargetSize = ClientSize });
+var scene = new Scene
+{
+    Positionables = { Model.Sphere(engine, XTexture.Get(engine, "flag.png")) }
+};
+var view = new View(scene, new TrackCamera()) { BackgroundColor = Color.CornflowerBlue };
+engine.Views.Add(view);
+
+Paint += delegate { engine.Render(); };
+```
 
 ## NuGet packages
 
@@ -49,7 +54,7 @@ engine.Views.Add(new View(scene, camera));
 | [AlphaFramework.Presentation](https://www.nuget.org/packages/AlphaFramework.Presentation/) | <xref:AlphaFramework.Presentation> | Basis for presenters that visualize game worlds using the engine. |
 | [AlphaEditor](https://www.nuget.org/packages/AlphaEditor/)                                 | <xref:AlphaFramework.Editor>       | Toolkit for creating editors for games based on AlphaFramework.   |
 
-### Dependencies
+**Dependencies**
 
 ```mermaid
 flowchart TD
@@ -65,7 +70,3 @@ flowchart TD
 ## Project templates
 
 The OmegaEngine [project templates](https://www.nuget.org/packages/OmegaEngine.Templates#readme-body-tab) help you create C# projects that use OmegaEngine, OmegaGUI and AlphaFramework.
-
-## Frame of Reference
-
-[Frame of Reference](https://github.com/omegaengine/omegaengine/tree/master/src/FrameOfReference) is the official sample game for OmegaEngine. It is included in OmegaEngine source code but is not a part of the released library binaries.

@@ -6,11 +6,11 @@ An overview of the engine's features:
     * Multiple viewports
     * 64bit-precision object positioning
     * [Terrain](terrain.md) rendering (heightmap-based)
-  * [Shader](shaders.md) management
+  * [Shader management](shaders.md)
     * DXSAS support
     * Post-screen effects
     * Dynamic shader generation
-  * [Asset](assets.md) management
+  * [Asset management](assets.md)
     * Virtual filesystem
     * Mod support
   * Effects
