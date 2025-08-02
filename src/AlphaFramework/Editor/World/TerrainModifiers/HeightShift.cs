@@ -14,7 +14,7 @@ using OmegaEngine;
 namespace AlphaFramework.Editor.World.TerrainModifiers;
 
 /// <summary>
-/// Interactivley raises or lowers all points of an area on a <see cref="ITerrain"/>.
+/// Interactively raises or lowers all points of an area on a <see cref="ITerrain"/>.
 /// </summary>
 public sealed class HeightShift : Height
 {

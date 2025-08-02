@@ -15,7 +15,7 @@ using SlimDX;
 namespace AlphaFramework.Editor.World.TerrainModifiers;
 
 /// <summary>
-/// Abstract base class for interactivley modifying a <see cref="Terrain"/>.
+/// Abstract base class for interactively modifying a <see cref="Terrain"/>.
 /// </summary>
 public abstract class Base
 {

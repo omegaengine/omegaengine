@@ -9,12 +9,11 @@
 using System;
 using System.IO;
 using JetBrains.Annotations;
-using NanoByte.Common.Storage;
 
 namespace OmegaEngine.Storage;
 
 /// <summary>
-/// Information about an additional file to be stored along side an ZIP archive using <see cref="NanoByte.Common.Storage.XmlStorage"/> or <see cref="BinaryStorage"/>.
+/// Information about an additional file to be stored alongside an ZIP archive using <see cref="NanoByte.Common.Storage.XmlStorage"/>.
 /// </summary>
 public struct EmbeddedFile
 {

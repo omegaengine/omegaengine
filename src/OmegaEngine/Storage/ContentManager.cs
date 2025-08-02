@@ -42,7 +42,7 @@ public static class ContentManager
         EnvVarNameBaseDir = "CONTENTMANAGER_BASE_DIR",
         EnvVarNameBaseArchives = "CONTENTMANAGER_BASE_ARCHIVES",
         EnvVarNameModDir = "CONTENTMANAGER_MOD_DIR",
-        EnvVarNamerModArchives = "CONTENTMANAGER_MOD_ARCHIVES";
+        EnvVarNameModArchives = "CONTENTMANAGER_MOD_ARCHIVES";
     #endregion
 
     #region Variables
@@ -50,7 +50,7 @@ public static class ContentManager
         _envVarBaseDir = Environment.GetEnvironmentVariable(EnvVarNameBaseDir),
         _envVarBaseArchives = Environment.GetEnvironmentVariable(EnvVarNameBaseArchives),
         _envVarModDir = Environment.GetEnvironmentVariable(EnvVarNameModDir),
-        _envVarModArchives = Environment.GetEnvironmentVariable(EnvVarNamerModArchives);
+        _envVarModArchives = Environment.GetEnvironmentVariable(EnvVarNameModArchives);
 
     private static DirectoryInfo
         _baseDir = new(_envVarBaseDir ?? Path.Combine(Locations.InstallBase, "content")),
@@ -101,7 +101,7 @@ public static class ContentManager
 
     #region Load archives
     /// <summary>
-    /// Loads any <see cref="ArchiveFileExt"/> archives in <see cref="BaseDir"/> and <see cref="ModDir"/> or specified by <see cref="EnvVarNameBaseArchives"/> or <see cref="EnvVarNamerModArchives"/>.
+    /// Loads any <see cref="ArchiveFileExt"/> archives in <see cref="BaseDir"/> and <see cref="ModDir"/> or specified by <see cref="EnvVarNameBaseArchives"/> or <see cref="EnvVarNameModArchives"/>.
     /// </summary>
     public static void LoadArchives()
     {
@@ -327,7 +327,7 @@ public static class ContentManager
     /// </summary>
     /// <param name="type">The type of files you want (e.g. Textures, Sounds, ...)</param>
     /// <param name="extension">The file extension to so search for</param>
-    /// <returns>An collection of strings with file IDs</returns>
+    /// <returns>A collection of strings with file IDs</returns>
     public static NamedCollection<FileEntry> GetFileList([NotNull, Localizable(false)] string type, [NotNull, Localizable(false)] string extension)
     {
         #region Sanity checks

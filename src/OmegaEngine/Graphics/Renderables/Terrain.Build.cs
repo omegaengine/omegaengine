@@ -321,7 +321,7 @@ partial class Terrain
     /// <param name="engine">The <see cref="Engine"/> to load the textures into</param>
     /// <param name="textures">An array with a maximum of 16 texture names</param>
     /// <returns>The material that was created</returns>
-    /// <exception cref="FileNotFoundException">On of the specified texture files could not be found.</exception>
+    /// <exception cref="FileNotFoundException">One of the specified texture files could not be found.</exception>
     /// <exception cref="IOException">There was an error reading one of the texture files.</exception>
     /// <exception cref="UnauthorizedAccessException">Read access to one of the texture files is not permitted.</exception>
     /// <exception cref="InvalidDataException">One of the texture files does not contain a valid texture.</exception>

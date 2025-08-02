@@ -13,7 +13,7 @@ using OmegaEngine.Graphics.Renderables;
 namespace OmegaEngine.Graphics;
 
 /// <summary>
-/// A light source that illimunates <see cref="PositionableRenderable"/>s in a <see cref="Scene"/>.
+/// A light source that illuminates <see cref="PositionableRenderable"/>s in a <see cref="Scene"/>.
 /// </summary>
 /// <seealso cref="Scene.Lights"/>
 public abstract class LightSource

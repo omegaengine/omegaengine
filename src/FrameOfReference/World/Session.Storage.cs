@@ -48,7 +48,7 @@ partial class Session
     {}
 
     /// <summary>
-    /// Loads a <see cref="Session"/> from a encrypted XML file (savegame).
+    /// Loads a <see cref="Session"/> from an encrypted XML file (savegame).
     /// </summary>
     /// <param name="path">The file to load from.</param>
     /// <returns>The loaded <see cref="Session"/>.</returns>

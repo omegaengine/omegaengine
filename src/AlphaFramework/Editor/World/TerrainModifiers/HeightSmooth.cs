@@ -14,7 +14,7 @@ using OmegaEngine;
 namespace AlphaFramework.Editor.World.TerrainModifiers;
 
 /// <summary>
-/// Interactivley smoothes a <see cref="ITerrain"/> area using a Gaussian filter.
+/// Interactively smoothes a <see cref="ITerrain"/> area using a Gaussian filter.
 /// </summary>
 public sealed class HeightSmooth : Height
 {

@@ -14,7 +14,7 @@ using OmegaEngine;
 namespace AlphaFramework.Editor.World.TerrainModifiers;
 
 /// <summary>
-/// Interactivley adds height noise to a <see cref="ITerrain"/>.
+/// Interactively adds height noise to a <see cref="ITerrain"/>.
 /// </summary>
 public sealed class HeightNoise : Height
 {

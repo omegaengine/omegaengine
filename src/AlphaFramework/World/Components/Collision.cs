@@ -25,7 +25,7 @@ public abstract class Collision<TCoordinates> : ICloneable
     }
 
     /// <summary>
-    /// Determines whether a a certain point lies within the collision body.
+    /// Determines whether a certain point lies within the collision body.
     /// </summary>
     /// <param name="point">The point to check for collision in entity space.</param>
     /// <param name="rotation">How the collision body shall be rotated before performing the collision test.</param>

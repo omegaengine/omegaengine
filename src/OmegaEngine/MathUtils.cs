@@ -166,7 +166,7 @@ public static class MathUtils
     /// Calculates a unit vector using spherical coordinates.
     /// </summary>
     /// <param name="inclination">Angle away from positive Z axis in radians. Values from 0 to Pi.</param>
-    /// <param name="azimuth">Angle away from from positive X axis in radians. Values from 0 to 2*Pi.</param>
+    /// <param name="azimuth">Angle away from positive X axis in radians. Values from 0 to 2*Pi.</param>
     [Pure]
     public static Vector3 UnitVector(double inclination, double azimuth) => new(
         (float)(Math.Sin(inclination) * Math.Cos(azimuth)),

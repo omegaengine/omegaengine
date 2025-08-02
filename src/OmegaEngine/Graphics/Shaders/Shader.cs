@@ -453,8 +453,8 @@ public abstract class Shader : EngineElement
     /// <param name="render">The render delegate (is called once for every shader pass); <c>null</c> for global script</param>
     /// <param name="sceneSize">The size of the scene on the screen - leave empty for fullscreen</param>
     /// <param name="sceneMap">A texture containing the rendered scene for <see cref="PostShader"/>), <c>null</c> if the shader doesn't need it</param>
-    /// <param name="passScipt">Is this a pass script?</param>
-    protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action render, Size sceneSize, RenderTarget sceneMap, bool passScipt)
+    /// <param name="passScript">Is this a pass script?</param>
+    protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action render, Size sceneSize, RenderTarget sceneMap, bool passScript)
     {
         if (script == null) throw new ArgumentNullException(nameof(script));
 
@@ -519,7 +519,7 @@ public abstract class Shader : EngineElement
                     }
                     else
                     {
-                        if (passScipt)
+                        if (passScript)
                         {
                             using (new ProfilerEvent("SAS script: link new render target as output target"))
                             {
@@ -581,7 +581,7 @@ public abstract class Shader : EngineElement
 
                 #region Pass
                 case SasScriptCommand.CommandType.Pass:
-                    if (render != null && !passScipt)
+                    if (render != null && !passScript)
                     {
                         var pass = (SasScriptPass)commandObject;
                         using (new ProfilerEvent(() => "SAS script: pass " + pass.PassNum))

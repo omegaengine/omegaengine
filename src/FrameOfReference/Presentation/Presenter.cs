@@ -130,8 +130,8 @@ public abstract partial class Presenter : PresenterBase<Universe, Vector2>
             Universe.LightingChanged += UpdateLighting;
         }
 
-        UpdateSykbox();
-        Universe.SkyboxChanged += UpdateSykbox;
+        UpdateSkybox();
+        Universe.SkyboxChanged += UpdateSkybox;
 
         SetupTerrain();
 
@@ -148,7 +148,7 @@ public abstract partial class Presenter : PresenterBase<Universe, Vector2>
         {
             // Remove event handlers watching the universe
             Universe.LightingChanged -= UpdateLighting;
-            Universe.SkyboxChanged -= UpdateSykbox;
+            Universe.SkyboxChanged -= UpdateSkybox;
         }
         finally
         {
@@ -210,7 +210,7 @@ public abstract partial class Presenter : PresenterBase<Universe, Vector2>
     #endregion
 
     #region Skybox
-    private void UpdateSykbox()
+    private void UpdateSkybox()
     {
         // Clean up the old skybox if any
         if (Scene.Skybox != null)

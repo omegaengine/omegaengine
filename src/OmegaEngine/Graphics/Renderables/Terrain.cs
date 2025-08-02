@@ -142,7 +142,7 @@ public partial class Terrain : Model
     /// <param name="lighting">Shall this mesh be prepared for lighting? (calculate normal vectors, make shaders support lighting, ...)</param>
     /// <param name="blockSize">How many points in X and Y direction shall one block for culling be?</param>
     /// <returns>The newly created terrain</returns>
-    /// <exception cref="FileNotFoundException">On of the specified texture files could not be found.</exception>
+    /// <exception cref="FileNotFoundException">One of the specified texture files could not be found.</exception>
     /// <exception cref="IOException">There was an error reading one of the texture files.</exception>
     /// <exception cref="UnauthorizedAccessException">Read access to one of the texture files is not permitted.</exception>
     /// <exception cref="InvalidDataException">One of the texture files does not contain a valid texture.</exception>
@@ -164,7 +164,7 @@ public partial class Terrain : Model
             BuildMaterial(engine, textures),
             lighting)
         {
-            // Set properties here to keep contructor nice and simple
+            // Set properties here to keep constructor nice and simple
             Size = size, StretchH = stretchH, StretchV = stretchV,
             _blockSize = blockSize,
             _subsetBoundingBoxes = subsetBoundingBoxes,

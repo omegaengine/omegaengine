@@ -58,8 +58,8 @@ public sealed class TerrainTemplate : Template<TerrainTemplate>
     private float _movementAbility = 1;
 
     /// <summary>
-    /// How good can units walk on this ground? 0=not at all; 1=with full speed
+    /// How well can units walk on this ground? 0=not at all; 1=with full speed
     /// </summary>
-    [DefaultValue(1f), Description("How good can units walk on this ground? 0=not at all; 1=with full speed")]
+    [DefaultValue(1f), Description("How well can units walk on this ground? 0=not at all; 1=with full speed")]
     public float MovementAbility { get => _movementAbility; set => _movementAbility = Math.Max(0, value); }
 }

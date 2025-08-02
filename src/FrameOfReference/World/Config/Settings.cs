@@ -33,7 +33,7 @@ namespace FrameOfReference.World.Config;
 /// <summary>
 /// Stores settings for the application
 /// </summary>
-[XmlRoot("Settings")] // Supress XMLSchema declarations (no inheritance used for properties)
+[XmlRoot("Settings")] // Suppress XMLSchema declarations (no inheritance used for properties)
 public sealed class Settings
 {
     #region Properties

@@ -73,7 +73,7 @@ public interface ITerrain
     /// Marks untraversable slopes in a pathfinding "obstruction map".
     /// </summary>
     /// <param name="obstructionMap">The existing pathfinding "obstruction map" to mark the untraversable slopes in.</param>
-    /// <param name="maxTraversableSlope">The maximum slope to considers traversable.</param>
+    /// <param name="maxTraversableSlope">The maximum slope to consider traversable.</param>
     [LuaHide]
     void MarkUntraversableSlopes(bool[,] obstructionMap, int maxTraversableSlope);
 

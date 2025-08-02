@@ -76,11 +76,11 @@ public class Arguments
             {
                 // Is the next element of the argument another command or an option?
                 if (i + 1 < args.Length && !IsCommand(args[i + 1]))
-                { // Command with an option (remove leading slash or hypen)
+                { // Command with an option (remove leading slash or hyphen)
                     _commands[args[i].Remove(0, 1)] = args[++i];
                 }
                 else
-                { // Command without an option (remove leading slash or hypen)
+                { // Command without an option (remove leading slash or hyphen)
                     _commands[args[i].Remove(0, 1)] = null;
                 }
             }
