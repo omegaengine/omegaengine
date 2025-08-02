@@ -18,14 +18,11 @@ namespace OmegaEngine;
 /// </summary>
 public static class RandomUtils
 {
-    #region Variables
     /// <summary>
     /// Global random generator
     /// </summary>
     private static readonly Random _randomGenerator = new();
-    #endregion
 
-    #region One dimensional
     /// <summary>
     /// Get random a integer value
     /// </summary>
@@ -43,50 +40,12 @@ public static class RandomUtils
     public static float GetRandomFloat(float min, float max) => (float)_randomGenerator.NextDouble() * (max - min) + min;
 
     /// <summary>
-    /// Get a random double value between <paramref name="min"/> and <paramref name="max"/> with steps of <paramref name="step"/>
-    /// </summary>
-    /// <param name="min">The minimum value</param>
-    /// <param name="max">The maximum value</param>
-    /// <param name="step">The step size (all returned values are multiples of this)</param>
-    /// <returns>A random multiple of <paramref name="step"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
-    [Pure]
-    public static double GetRandomFloatRange(double min, double max, double step) => GetRandomInt((int)(min / step), (int)(max / step)) * step;
-
-    /// <summary>
     /// Get a random double value between <paramref name="min"/> and <paramref name="max"/>
     /// </summary>
     /// <param name="min">The minimum value</param>
     /// <param name="max">The maximum value</param>
     [Pure]
     public static double GetRandomDouble(float min, float max) => _randomGenerator.NextDouble() * (max - min) + min;
-
-    /// <summary>
-    /// Get a random double value between <paramref name="min"/> and <paramref name="max"/> with steps of <paramref name="step"/>
-    /// </summary>
-    /// <param name="min">The minimum value</param>
-    /// <param name="max">The maximum value</param>
-    /// <param name="step">The step size (all returned values are multiples of this)</param>
-    /// <returns>A random multiple of <paramref name="step"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
-    [Pure]
-    public static double GetRandomDouble(double min, double max, double step) => GetRandomInt((int)(min / step), (int)(max / step)) * step;
-
-    /// <summary>
-    /// Get a random byte value between <paramref name="min"/> and <paramref name="max"/>
-    /// </summary>
-    /// <param name="min">The minimum value</param>
-    /// <param name="max">The maximum value</param>
-    [Pure]
-    public static byte GetRandomByte(byte min, byte max) => (byte)(_randomGenerator.Next(min, max));
-    #endregion
-
-    #region Multi dimensional
-    /// <summary>
-    /// Get a random Vector2 value between <paramref name="min"/> and <paramref name="max"/>
-    /// </summary>
-    /// <param name="min">minimum for each component</param>
-    /// <param name="max">maximum for each component</param>
-    [Pure]
-    public static Vector2 GetRandomVector2(Vector2 min, Vector2 max) => new(GetRandomFloat(min.X, max.X), GetRandomFloat(min.Y, max.Y));
 
     /// <summary>
     /// Get a random Vector3 value between <paramref name="min"/> and <paramref name="max"/>
@@ -106,5 +65,4 @@ public static class RandomUtils
     /// <param name="limit2">The other limit for the color values</param>
     [Pure]
     public static Color GetRandomColor(Color limit1, Color limit2) => ColorUtils.Interpolate(GetRandomFloat(0, 1), limit1, limit2);
-    #endregion
 }
