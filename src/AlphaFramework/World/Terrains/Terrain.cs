@@ -175,9 +175,9 @@ public sealed partial class Terrain<TTemplate> : ITerrain
     public DoubleVector3 ToEngineCoords(Vector2 coordinates)
     {
         // Note: This is only required for lookups in the height-map, not for actually unstretching the coordinates to be returned
-        Vector2 unstrechedCoords = coordinates * (1 / _size.StretchH);
+        Vector2 unstretchedCoords = coordinates * (1 / _size.StretchH);
 
-        var height = HeightMap.SampledRead(unstrechedCoords.X, unstrechedCoords.Y);
+        var height = HeightMap.SampledRead(unstretchedCoords.X, unstretchedCoords.Y);
 
         return new(
             coordinates.X, // World X = Engine +X

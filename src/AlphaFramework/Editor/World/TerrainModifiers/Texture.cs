@@ -16,7 +16,7 @@ using SlimDX;
 namespace AlphaFramework.Editor.World.TerrainModifiers;
 
 /// <summary>
-/// Interactivley changes the texture ID of an area on a <see cref="ITerrain"/>.
+/// Interactively changes the texture ID of an area on a <see cref="ITerrain"/>.
 /// </summary>
 public sealed class Texture : Base
 {

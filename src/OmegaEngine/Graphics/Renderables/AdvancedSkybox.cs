@@ -58,7 +58,7 @@ public class AdvancedSkybox : Skybox
     /// <param name="ft">The ID of the "front" texture.</param>
     /// <param name="bk">The ID of the "back" texture.</param>
     /// <returns>The skybox that was created.</returns>
-    /// <exception cref="FileNotFoundException">On of the specified texture files could not be found.</exception>
+    /// <exception cref="FileNotFoundException">One of the specified texture files could not be found.</exception>
     /// <exception cref="IOException">There was an error reading one of the texture files.</exception>
     /// <exception cref="UnauthorizedAccessException">Read access to one of the texture files is not permitted.</exception>
     /// <exception cref="InvalidDataException">One of the texture files does not contain a valid texture.</exception>

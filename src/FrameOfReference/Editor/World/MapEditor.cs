@@ -239,7 +239,7 @@ public partial class MapEditor : UndoCommandTab
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
-        // Setup the presentator on startup or when it was lost/reset
+        // Setup the presenter on startup or when it was lost/reset
         if (_presenter == null)
         {
             _presenter = new(renderPanel.Engine, _universe, false)

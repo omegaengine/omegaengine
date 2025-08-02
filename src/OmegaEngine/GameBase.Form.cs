@@ -30,9 +30,9 @@ partial class GameBase
     {
         #region Events
         /// <summary>
-        /// Occurs when a window message is to processed
+        /// Occurs when a window message is to be processed
         /// </summary>
-        [Description("Occurs when a window message is to processed")]
+        [Description("Occurs when a window message is to be processed")]
         public event MessageEventHandler WindowMessage;
         #endregion
 

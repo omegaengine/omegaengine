@@ -105,7 +105,7 @@ public abstract class UniverseBase<TCoordinates> : IUniverse
     /// <inheritdoc/>
     public void Save()
     {
-        // Determine the original filename to overweite
+        // Determine the original filename to overwrite
         Save(Path.IsPathRooted(SourceFile) ? SourceFile : ContentManager.CreateFilePath("World/Maps", SourceFile));
     }
 }

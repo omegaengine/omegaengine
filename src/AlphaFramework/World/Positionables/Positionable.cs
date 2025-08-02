@@ -43,7 +43,7 @@ public abstract class Positionable<TCoordinates> : ICloneable, IChangeNotify<Pos
     public event Action<Positionable<TCoordinates>> ChangedRebuild;
 
     /// <summary>
-    /// To be called when a property has changed that requires visual representations to rebuilt from scratch (usually a template).
+    /// To be called when a property has changed, that requires visual representations to be rebuilt from scratch (usually a template).
     /// </summary>
     protected void OnChangedRebuild()
     {

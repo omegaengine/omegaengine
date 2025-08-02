@@ -17,7 +17,7 @@ using SlimDX;
 namespace AlphaFramework.Editor.World.TerrainModifiers;
 
 /// <summary>
-/// Abstract base class for interactivley changing the height of an area on a <see cref="ITerrain"/>.
+/// Abstract base class for interactively changing the height of an area on a <see cref="ITerrain"/>.
 /// </summary>
 public abstract class Height : Base
 {

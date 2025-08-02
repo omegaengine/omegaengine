@@ -87,7 +87,7 @@ public abstract class EngineElement : IDisposable
     public bool IsEngineSet => _engine != null;
 
     /// <summary>
-    /// Hook that is calld when <see cref="Engine"/> is set for the first time.
+    /// Hook that is called when <see cref="Engine"/> is set for the first time.
     /// </summary>
     protected virtual void OnEngineSet()
     {

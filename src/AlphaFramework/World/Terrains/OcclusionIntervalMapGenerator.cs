@@ -30,9 +30,9 @@ public class OcclusionIntervalMapGenerator : TaskBase
     private ByteVector4Grid _result;
 
     /// <summary>
-    /// Returns the calculated occlusion end map array once th calculation is complete.
+    /// Returns the calculated occlusion end map array once the calculation is complete.
     /// </summary>
-    /// <remarks>A light rise angles is the minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded.</remarks>
+    /// <remarks>A light rise angle is the minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded.</remarks>
     /// <exception cref="InvalidOperationException">The calculation is not complete yet.</exception>
     public ByteVector4Grid Result
     {
@@ -130,7 +130,7 @@ public class OcclusionIntervalMapGenerator : TaskBase
     #endregion
 
     #region Calculation
-    // NOTE: Recycles List<> to reduce pressue on garbage collector
+    // NOTE: Recycles List<> to reduce pressure on garbage collector
     [ThreadStatic]
     private static List<byte> _boundaries;
 

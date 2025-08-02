@@ -104,7 +104,7 @@ public partial class EntityEditor : EntityEditorDesignerShim
         // Backup the previously selected class
         var selectedClass = TemplateList.SelectedEntry;
 
-        // Setup the presentator on startup or when it was lost/reset
+        // Setup the presenter on startup or when it was lost/reset
         if (_presenter == null)
         {
             _presenter = new(renderPanel.Engine, _universe, true);
@@ -115,7 +115,7 @@ public partial class EntityEditor : EntityEditorDesignerShim
             renderPanel.AddInputReceiver(new UpdateReceiver(() => renderPanel.Engine.Render())); // Force immediate redraw to give responsive feel
         }
 
-        // Remove all previous entites from rendering universe
+        // Remove all previous entities from rendering universe
         _universe.Positionables.Clear();
 
         if (selectedClass == null)

@@ -13,7 +13,7 @@ using AlphaFramework.World.Terrains;
 namespace AlphaFramework.Editor.World.TerrainModifiers;
 
 /// <summary>
-/// Interactivley turns a <see cref="ITerrain"/> area into a plateau (all points have the same height).
+/// Interactively turns a <see cref="ITerrain"/> area into a plateau (all points have the same height).
 /// </summary>
 public sealed class HeightPlateau : Height
 {

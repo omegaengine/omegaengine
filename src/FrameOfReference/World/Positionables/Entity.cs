@@ -185,7 +185,7 @@ public sealed class Entity : EntityBase<Vector2, EntityTemplate>
             }
         } while (loop);
 
-        // Make the entity face the direction it is walking in (unless its the last step)
+        // Make the entity face the direction it is walking in (unless it's the last step)
         if (CurrentPath != null)
             Rotation = ((float)Math.Atan2(posDifference.Y, posDifference.X)).RadianToDegree() - 90;
     }

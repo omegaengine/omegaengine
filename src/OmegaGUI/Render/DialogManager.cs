@@ -69,7 +69,7 @@ public sealed class DialogManager : IDisposable
     /// <summary>
     /// Sets up the GUI system for usage with a rendering engine
     /// </summary>
-    /// <param name="engine">The rendering engine conaining the Direct3D device</param>
+    /// <param name="engine">The rendering engine containing the Direct3D device</param>
     public DialogManager(Engine engine)
     {
         Engine = engine ?? throw new ArgumentNullException(nameof(engine));
