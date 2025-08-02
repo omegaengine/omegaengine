@@ -6,4 +6,7 @@
   <Project Path="Game\Game.csproj" />
   <Project Path="Presentation\Presentation.csproj" />
   <Project Path="World\World.csproj" />
+  <Folder Name="/_Shared/">
+    <File Path="Directory.Build.props" />
+  </Folder>
 </Solution>
