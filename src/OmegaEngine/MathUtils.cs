@@ -36,27 +36,6 @@ namespace OmegaEngine
         /// <param name="max">The maximum number to return</param>
         /// <returns>The <paramref name="value"/> if it was in range, otherwise <paramref name="min"/> or <paramref name="max"/>.</returns>
         [Pure]
-        public static decimal Clamp(this decimal value, decimal min = 0, decimal max = 1)
-        {
-            #region Sanity checks
-            if (value < min) return min;
-            if (value > max) return max;
-            if (min > max) throw new ArgumentException(Properties.Resources.MinLargerMax, nameof(min));
-            #endregion
-
-            if (value < min) return min;
-            if (value > max) return max;
-            return value;
-        }
-
-        /// <summary>
-        /// Makes a value stay within a certain range
-        /// </summary>
-        /// <param name="value">The number to clamp</param>
-        /// <param name="min">The minimum number to return</param>
-        /// <param name="max">The maximum number to return</param>
-        /// <returns>The <paramref name="value"/> if it was in range, otherwise <paramref name="min"/> or <paramref name="max"/>.</returns>
-        [Pure]
         public static double Clamp(this double value, double min = 0, double max = 1)
         {
             #region Sanity checks
@@ -197,12 +176,6 @@ namespace OmegaEngine
 
         #region Byte angles
         /// <summary>
-        /// Maps a 0�-180� angle in radians to a 0-255 byte value.
-        /// </summary>
-        [Pure]
-        public static byte AngleToByte(this double angle) => (byte)(angle.Clamp(0, Math.PI) / Math.PI * 255);
-
-        /// <summary>
         /// Maps a 0-255 byte value to a 0�-180� angle in radians.
         /// </summary>
         [Pure]
@@ -257,35 +230,6 @@ namespace OmegaEngine
         /// <param name="factor">A factor between 0 and <paramref name="values"/>.Length</param>
         /// <param name="values">The value checkpoints</param>
         [Pure]
-        public static float InterpolateTrigonometric(this float factor, [NotNull] params float[] values)
-        {
-            #region Sanity checks
-            if (values == null) throw new ArgumentNullException(nameof(values));
-            if (values.Length < 2) throw new ArgumentException(Properties.Resources.AtLeast2Values);
-            #endregion
-
-            // Handle value overflows
-            if (factor <= 0) return values[0];
-            if (factor >= values.Length - 1) return values[values.Length - 1];
-
-            // Isolate index shift from factor
-            int index = (int)factor;
-
-            // Remove index shift from factor
-            factor -= index;
-
-            // Apply sinus smoothing to factor
-            factor = (float)(-0.5 * Math.Cos(factor * Math.PI) + 0.5);
-
-            return values[index] + factor * (values[index + 1] - values[index]);
-        }
-
-        /// <summary>
-        /// Performs smooth (trigonometric) interpolation between two or more values
-        /// </summary>
-        /// <param name="factor">A factor between 0 and <paramref name="values"/>.Length</param>
-        /// <param name="values">The value checkpoints</param>
-        [Pure]
         public static Vector4 InterpolateTrigonometric(float factor, [NotNull] params Vector4[] values)
         {
             #region Sanity checks
@@ -309,127 +253,6 @@ namespace OmegaEngine
                 values[index].Y + factor * (values[index + 1].Y - values[index].Y),
                 values[index].Z + factor * (values[index + 1].Z - values[index].Z),
                 values[index].W + factor * (values[index + 1].W - values[index].W));
-        }
-
-        // ToDo: InterpolateGrid()
-        #endregion
-
-        #region Factorial
-        /// <summary>Pre-calculated factorial lookup-table</summary>
-        private static readonly double[] _factorialLookup = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800, 479001600, 6227020800, 87178291200, 1307674368000, 20922789888000];
-
-        /// <summary>
-        /// Calculates the factorial of n (n!)
-        /// </summary>
-        /// <param name="n">A value between 0 and 32768</param>
-        /// <remarks>Values between n=0 and n=16 have been pre-calculated and are therefor very fast</remarks>
-        [Pure]
-        public static double Factorial(int n)
-        {
-            #region Sanity checks
-            if (n < 0) throw new ArgumentException(Properties.Resources.ArgMustNotBeNegative, nameof(n));
-            #endregion
-
-            // Use the lookup-table when possible, otherwise use recursion
-            if (n < _factorialLookup.Length) return _factorialLookup[n];
-            return n * Factorial(n - 1);
-        }
-
-        /// <summary>
-        /// Calculates the binomial coefficient (n choose k)
-        /// </summary>
-        /// <param name="n">A value between 0 and 32768</param>
-        /// <param name="k">An integer</param>
-        [Pure]
-        public static double BinomCoeff(int n, int k)
-        {
-            #region Sanity checks
-            if (n < 0) throw new ArgumentException(Properties.Resources.ArgMustNotBeNegative, nameof(n));
-            #endregion
-
-            return Factorial(n) / (Factorial(k) * Factorial(n - k));
-        }
-
-        /// <summary>
-        /// Calculates a Bernstein basis polynomial
-        /// </summary>
-        private static double Bernstein(int n, int i, double t) => BinomCoeff(n, i) * Math.Pow(t, i) * Math.Pow((1 - t), (n - i));
-        #endregion
-
-        #region Bezier
-        /// <summary>
-        /// Calculates points on a 2D bezier curve
-        /// </summary>
-        /// <param name="controlPoints">An array of control points; the curve will pass through the first and the last entry</param>
-        /// <param name="resolution">The desired number of output points</param>
-        /// <returns>An array of <paramref name="resolution"/> points on the curve</returns>
-        [Pure]
-        public static Vector2[] Bezier(int resolution, [NotNull] params Vector2[] controlPoints)
-        {
-            #region Sanity checks
-            if (controlPoints == null) throw new ArgumentNullException(nameof(controlPoints));
-            #endregion
-
-            var output = new Vector2[resolution];
-            double t = 0;
-            double step = 1.0 / (resolution - 1);
-
-            // Loop through the desired number of output points
-            for (int iOut = 0; iOut < resolution; iOut++)
-            {
-                if ((1 - t) < 5e-6) t = 1.0;
-
-                // Loop through the available control points
-                for (int iIn = 0; iIn < controlPoints.Length; iIn++)
-                {
-                    float basis = (float)Bernstein(controlPoints.Length - 1, iIn, t);
-                    output[iOut] += new Vector2(
-                        basis * controlPoints[iIn].X,
-                        basis * controlPoints[iIn].Y);
-                }
-
-                t += step;
-            }
-
-            return output;
-        }
-
-        /// <summary>
-        /// Calculates points on a 3D bezier curve
-        /// </summary>
-        /// <param name="resolution">The desired number of output points</param>
-        /// <param name="controlPoints">An array of control points; the curve will pass through the first and the last entry</param>
-        /// <returns>An array of <paramref name="resolution"/> points on the curve</returns>
-        [Pure]
-        public static DoubleVector3[] Bezier(int resolution, [NotNull] params DoubleVector3[] controlPoints)
-        {
-            #region Sanity checks
-            if (controlPoints == null) throw new ArgumentNullException(nameof(controlPoints));
-            #endregion
-
-            var output = new DoubleVector3[resolution];
-            double t = 0;
-            double step = 1.0 / (resolution - 1);
-
-            // Loop through the desired number of output points
-            for (int iOut = 0; iOut < resolution; iOut++)
-            {
-                if ((1 - t) < 5e-6) t = 1.0;
-
-                // Loop through the available control points
-                for (int iRef = 0; iRef < controlPoints.Length; iRef++)
-                {
-                    double basis = Bernstein(controlPoints.Length - 1, iRef, t);
-                    output[iOut] += new DoubleVector3(
-                        basis * controlPoints[iRef].X,
-                        basis * controlPoints[iRef].Y,
-                        basis * controlPoints[iRef].Z);
-                }
-
-                t += step;
-            }
-
-            return output;
         }
         #endregion
 
@@ -471,15 +294,6 @@ namespace OmegaEngine
         }
 
         [Pure]
-        public static short LoWord(int l)
-        {
-            unchecked
-            {
-                return (short)(l & 0xffff);
-            }
-        }
-
-        [Pure]
         public static short HiWord(uint l)
         {
             unchecked
@@ -488,34 +302,10 @@ namespace OmegaEngine
             }
         }
 
-        [Pure]
-        public static short HiWord(int l)
-        {
-            unchecked
-            {
-                return (short)(l >> 16);
-            }
-        }
-
-        [Pure] public static int HiByte(byte b) => b >> 4;
-
-        [Pure] public static int LoByte(byte b) => b & 15;
-
         [Pure] public static byte CombineHiLoByte(int high, int low) => (byte)((high << 4) + low);
         #endregion
 
         //--------------------//
-
-        #region Quaternions
-        /// <summary>
-        /// Calculates a rotation quaternion for a view vector
-        /// </summary>
-        /// <param name="view">The view vector</param>
-        /// <param name="roll">The roll value</param>
-        /// <returns>A normalized quaternion</returns>
-        [Pure]
-        public static Quaternion ViewQuaternion(this Vector3 view, float roll) => Quaternion.Normalize(new(view.X, view.Y, view.Z, roll));
-        #endregion
 
         #region Rotate
         /// <summary>
