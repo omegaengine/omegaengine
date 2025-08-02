@@ -361,14 +361,14 @@ public partial class MapEditor : UndoCommandTab
         #region Pre-launch chekcs
         if (Changed)
         { // Pending changes
-            if (!Msg.OkCancel(this, Resources.TestInGameMap + "\n" + Resources.AutoSavePendingChanges, MsgSeverity.Warn, Resources.TestInGameContinueSave, null))
+            if (!Msg.OkCancel(this, Resources.TestInGameMap + "\n" + Resources.AutoSavePendingChanges, MsgSeverity.Warn, Resources.TestInGameContinueSave))
                 return;
 
             if (!SaveFile()) return;
         }
         else
         { // All up-to-date
-            if (!Msg.OkCancel(this, Resources.TestInGameMap, MsgSeverity.Info, Resources.TestInGameContinue, null))
+            if (!Msg.OkCancel(this, Resources.TestInGameMap, MsgSeverity.Info, Resources.TestInGameContinue))
                 return;
         }
         #endregion

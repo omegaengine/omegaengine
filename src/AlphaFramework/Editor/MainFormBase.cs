@@ -290,7 +290,7 @@ public partial class MainFormBase : Form, IToastProvider
 
     private void menuFileTestInGame_Click(object sender, EventArgs e)
     {
-        if (!Msg.OkCancel(this, Resources.TestInGame, MsgSeverity.Info, Resources.TestInGameContinue, null))
+        if (!Msg.OkCancel(this, Resources.TestInGame, MsgSeverity.Info, Resources.TestInGameContinue))
             return;
 
         try

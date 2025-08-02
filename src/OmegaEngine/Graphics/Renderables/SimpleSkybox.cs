@@ -8,6 +8,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.VertexDecl;
@@ -31,7 +32,7 @@ public class SimpleSkybox : Skybox
     /// </summary>
     /// <param name="textures">An array of the 6 textures to be uses (right, left, top, bottom, front, back)</param>
     /// <exception cref="ArgumentException">There are not exactly 6 textures.</exception>
-    protected SimpleSkybox(XTexture[] textures) : base(textures)
+    protected SimpleSkybox(XTexture[] textures) : base(textures.Cast<ITextureProvider>().ToArray())
     {}
     #endregion
 

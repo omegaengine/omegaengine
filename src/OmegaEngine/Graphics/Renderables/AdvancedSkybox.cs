@@ -68,12 +68,10 @@ public class AdvancedSkybox : Skybox
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
-        var textures = new[]
-        {
+        return new([
             XTexture.Get(engine, rt), XTexture.Get(engine, lf), XTexture.Get(engine, up),
             XTexture.Get(engine, dn), XTexture.Get(engine, ft), XTexture.Get(engine, bk)
-        };
-        return new(textures);
+        ]);
     }
     #endregion
 

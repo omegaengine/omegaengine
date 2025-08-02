@@ -159,7 +159,7 @@ public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T
 
         // Set up PropertyGrid
         if (TemplateList.CheckedEntries.Count == 0) propertyGridTemplate.SelectedObject = TemplateList.SelectedEntry;
-        else propertyGridTemplate.SelectedObjects = TemplateList.CheckedEntries.ToArray();
+        else propertyGridTemplate.SelectedObjects = TemplateList.CheckedEntries.Cast<object>().ToArray();
     }
 
     /// <summary>

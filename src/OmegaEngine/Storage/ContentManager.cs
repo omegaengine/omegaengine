@@ -165,8 +165,12 @@ public static class ContentManager
             {
                 archive.Close();
             }
-            catch
-            {}
+            #region Error handling
+            catch (Exception ex)
+            {
+                Log.Warn("Error closing archive: " + archive.Name, ex);
+            }
+            #endregion
         }
         _loadedArchives.Clear();
     }

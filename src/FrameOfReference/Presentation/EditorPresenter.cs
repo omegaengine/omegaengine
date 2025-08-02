@@ -94,7 +94,7 @@ public sealed class EditorPresenter : InteractivePresenter
         base.RegisterRenderablesSync();
 
         RenderablesSync.Register(
-            (Waypoint waypoint) => new Model(XMesh.Get(Engine, "Engine/Waypoint.x")) {Scale = new(100)},
+            (Waypoint _) => new Model(XMesh.Get(Engine, "Engine/Waypoint.x")) {Scale = new(100)},
             UpdateRepresentation);
         RenderablesSync.Register(
             (Trigger trigger) =>

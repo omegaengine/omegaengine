@@ -6,7 +6,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Collections.Generic;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
@@ -140,8 +139,8 @@ partial class View
         }
 
         // Sort the bodies near-to-far (or the other way round if culling is inverted)
-        _sortedBodies.Sort(InvertCull ? (Comparison<PositionableRenderable>)CameraDistSortInv : CameraDistSort);
-        _sortedTerrains.Sort(InvertCull ? (Comparison<Terrain>)CameraDistSortInv : CameraDistSort);
+        _sortedBodies.Sort(InvertCull ? CameraDistSortInv : CameraDistSort);
+        _sortedTerrains.Sort(InvertCull ? CameraDistSortInv : CameraDistSort);
         #endregion
 
         #region Distribute bodies among specialized lists

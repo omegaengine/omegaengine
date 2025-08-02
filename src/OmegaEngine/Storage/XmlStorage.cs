@@ -80,8 +80,8 @@ public static class XmlStorage
         #endregion
 
         var serializer = new XmlSerializer(type, overrides);
-        serializer.UnknownAttribute += (sender, e) => Log.Warn("Ignored XML attribute while deserializing: " + e.Attr.Name + "=" + e.Attr.Value);
-        serializer.UnknownElement += (sender, e) => Log.Warn("Ignored XML element while deserializing: " + e.Element.Name);
+        serializer.UnknownAttribute += (_, e) => Log.Warn("Ignored XML attribute while deserializing: " + e.Attr.Name + "=" + e.Attr.Value);
+        serializer.UnknownElement += (_, e) => Log.Warn("Ignored XML element while deserializing: " + e.Element.Name);
         return serializer;
     }
 

@@ -90,7 +90,6 @@ public sealed class EditorSettings
     public Collection<string> RecentMods => _recentMods;
 
     #region Constructor
-    /// <inheritdoc/>
     public EditorSettings()
     {
         _recentMods.Changed += OnChanged;

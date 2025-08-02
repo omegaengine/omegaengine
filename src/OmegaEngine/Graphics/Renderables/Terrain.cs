@@ -320,7 +320,6 @@ public partial class Terrain : Model
         return true;
     }
 
-    /// <inheritdoc/>
     protected virtual Vector3 GetFacePosition(int faceIndex, float u, float v)
     {
         #region Sanity checks
