@@ -8,6 +8,7 @@
 
 using System;
 using JetBrains.Annotations;
+using NanoByte.Common;
 using OmegaEngine.Values;
 using SlimDX;
 

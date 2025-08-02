@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NanoByte.Common;
 using NanoByte.Common.Tasks;
 using OmegaEngine;
 using OmegaEngine.Values;

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using NanoByte.Common;
 using NanoByte.Common.Native;
 using OmegaEngine;
 using SlimDX.Direct3D9;
@@ -367,7 +368,7 @@ public class DropdownList : Button
                 }
                 case WindowMessage.MouseWheel:
                 {
-                    int zdelta = MathUtils.HiWord((uint)wParam.ToInt32()) / Dialog.WheelDelta;
+                    int zdelta = BitwiseUtils.HiWord((uint)wParam.ToInt32()) / Dialog.WheelDelta;
                     if (isComboOpen)
                         scrollbarControl.Scroll(-zdelta * SystemInformation.MouseWheelScrollLines);
                     else

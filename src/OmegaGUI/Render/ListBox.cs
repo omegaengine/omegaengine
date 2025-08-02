@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using NanoByte.Common;
 using NanoByte.Common.Native;
 using OmegaEngine;
 using SlimDX.Direct3D9;
@@ -425,7 +426,7 @@ public class ListBox : Control
             case WindowMessage.MouseWheel:
             {
                 int lines = SystemInformation.MouseWheelScrollLines;
-                int scrollAmount = MathUtils.HiWord((uint)wParam.ToInt32()) / Dialog.WheelDelta * lines;
+                int scrollAmount = BitwiseUtils.HiWord((uint)wParam.ToInt32()) / Dialog.WheelDelta * lines;
                 scrollbarControl.Scroll(-scrollAmount);
                 break;
             }

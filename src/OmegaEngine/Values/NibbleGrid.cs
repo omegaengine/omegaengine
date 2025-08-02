@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using JetBrains.Annotations;
+using NanoByte.Common;
 using OmegaEngine.Properties;
 
 namespace OmegaEngine.Values;
@@ -112,7 +113,7 @@ public class NibbleGrid : Grid<byte>
             for (int y = 0; y < Height; y++)
             {
                 for (int x = 0; x < (Width + 1) / 2; x++)
-                    *(pointer + x) = MathUtils.CombineHiLoByte(ClampedRead(x * 2, y), ClampedRead(x * 2 + 1, y));
+                    *(pointer + x) = BitwiseUtils.CombineHiLoNibble(ClampedRead(x * 2, y), ClampedRead(x * 2 + 1, y));
                 pointer += bitmapData.Stride;
             }
         }
