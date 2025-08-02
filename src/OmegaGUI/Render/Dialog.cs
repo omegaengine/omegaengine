@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using NanoByte.Common;
 using NanoByte.Common.Native;
 using OmegaEngine;
 using SlimDX;
@@ -487,8 +488,8 @@ public class Dialog
     private static Point MouseLocationHelper(IntPtr lParam)
     {
         return new(
-            MathUtils.LoWord((uint)lParam.ToInt32()),
-            MathUtils.HiWord((uint)lParam.ToInt32()));
+            BitwiseUtils.LoWord((uint)lParam.ToInt32()),
+            BitwiseUtils.HiWord((uint)lParam.ToInt32()));
     }
 
     /// <summary>
@@ -676,7 +677,7 @@ public class Dialog
             case WindowMessage.XButtonDown:
             case WindowMessage.XButtonDoubleClick:
             {
-                // If not accepting mouse input, return false to indicate the message should still 
+                // If not accepting mouse input, return false to indicate the message should still
                 // be handled by the application (usually to move the camera).
                 if (!IsUsingMouseInput)
                     return false;
@@ -686,8 +687,8 @@ public class Dialog
                 unchecked
                 {
                     mousePoint = new(
-                        MathUtils.LoWord((uint)lParam.ToInt32()),
-                        MathUtils.HiWord((uint)lParam.ToInt32()));
+                        BitwiseUtils.LoWord((uint)lParam.ToInt32()),
+                        BitwiseUtils.HiWord((uint)lParam.ToInt32()));
                 }
 
                 // Offset mouse point
@@ -821,7 +822,7 @@ public class Dialog
     /// </summary>
     private void OnCycleFocus(bool forward)
     {
-        // This should only be handled by the dialog which owns the focused control, and 
+        // This should only be handled by the dialog which owns the focused control, and
         // only if a control currently has focus
         if (controlFocus == null || controlFocus.Parent != this)
             return;

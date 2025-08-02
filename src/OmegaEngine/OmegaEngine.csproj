@@ -14,7 +14,7 @@ The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games 
     <PackageReference Include="SlimDX" Version="4.0.13.44" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
     <PackageReference Include="LuaInterface.Custom" Version="2.0.3.1" />
-    <PackageReference Include="NanoByte.Common.WinForms" Version="2.19.10" />
+    <PackageReference Include="NanoByte.Common.WinForms" Version="2.20.0" />
     <PackageReference Include="NanoByte.StructureEditor.WinForms" Version="1.0.0" />
     <Reference Include="System.Management" />
   </ItemGroup>

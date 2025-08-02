@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using JetBrains.Annotations;
+using NanoByte.Common;
 using NanoByte.Common.Streams;
 
 namespace OmegaEngine.Values;

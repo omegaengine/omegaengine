@@ -9,6 +9,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using NanoByte.Common;
 
 namespace OmegaEngine.Values.Design;
 

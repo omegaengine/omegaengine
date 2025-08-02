@@ -27,6 +27,7 @@ using System.Xml.Serialization;
 using AlphaFramework.World;
 using FrameOfReference.World.Positionables;
 using LuaInterface;
+using NanoByte.Common;
 using OmegaEngine;
 
 namespace FrameOfReference.World;

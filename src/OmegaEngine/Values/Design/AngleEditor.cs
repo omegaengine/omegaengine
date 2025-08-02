@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
+using NanoByte.Common;
 
 namespace OmegaEngine.Values.Design;
 

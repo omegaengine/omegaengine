@@ -25,6 +25,7 @@ using System.Linq;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World.Positionables;
+using NanoByte.Common;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics;
