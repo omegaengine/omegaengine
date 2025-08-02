@@ -152,8 +152,7 @@ partial class Game
                 CurrentState = GameState.Pause;
 
                 // Freeze the mouse interaction
-                var interactivePresenter = CurrentPresenter as InteractivePresenter;
-                if (interactivePresenter != null) RemoveInputReceiver(interactivePresenter);
+                if (CurrentPresenter is InteractivePresenter interactivePresenter) RemoveInputReceiver(interactivePresenter);
 
                 // Dim down the screen
                 CurrentPresenter.DimDown();
@@ -215,8 +214,7 @@ partial class Game
             // Clean up any old stuff
             if (CurrentPresenter != null)
             {
-                var interactivePresenter = CurrentPresenter as InteractivePresenter;
-                if (interactivePresenter != null) RemoveInputReceiver(interactivePresenter);
+                if (CurrentPresenter is InteractivePresenter interactivePresenter) RemoveInputReceiver(interactivePresenter);
 
                 CurrentPresenter.HookOut();
                 if (CurrentPresenter != _menuPresenter) CurrentPresenter.Dispose();
@@ -379,8 +377,7 @@ partial class Game
     {
         if (CurrentPresenter != null)
         {
-            var interactivePresenter = CurrentPresenter as InteractivePresenter;
-            if (interactivePresenter != null) RemoveInputReceiver(interactivePresenter);
+            if (CurrentPresenter is InteractivePresenter interactivePresenter) RemoveInputReceiver(interactivePresenter);
 
             CurrentPresenter.HookOut();
 

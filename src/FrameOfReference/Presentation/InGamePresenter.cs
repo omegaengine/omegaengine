@@ -130,8 +130,7 @@ public sealed class InGamePresenter : InteractivePresenter
     {
         if (_lockedOnEntity == null) return;
 
-        var camera = View.Camera as StrategyCamera;
-        if (camera != null)
+        if (View.Camera is StrategyCamera camera)
         {
             var distanceVector = camera.Target - Universe.Terrain.ToEngineCoords(_lockedOnEntity.Position);
             double distanceLength = distanceVector.Length();

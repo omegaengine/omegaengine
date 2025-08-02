@@ -86,8 +86,7 @@ public sealed partial class Universe : UniverseBase<Vector2>
     /// <inheritdoc/>
     protected override void Update(IUpdateable updateable, double elapsedGameTime)
     {
-        var entity = updateable as Entity;
-        if (entity != null) HandleWaypoints(entity, elapsedGameTime);
+        if (updateable is Entity entity) HandleWaypoints(entity, elapsedGameTime);
 
         base.Update(updateable, elapsedGameTime);
     }

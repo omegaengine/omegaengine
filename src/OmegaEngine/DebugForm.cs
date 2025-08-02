@@ -285,8 +285,7 @@ internal partial class DebugForm : Form
         try
         {
             // Copy the render target surface to the file
-            var view = CurrentView as TextureView;
-            if (view == null)
+            if (CurrentView is not TextureView view)
             {
                 Msg.Inform(this, Resources.DumpFail, MsgSeverity.Warn);
                 return;

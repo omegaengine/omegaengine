@@ -34,8 +34,7 @@ public class CodeEditor : UITypeEditor
         if (provider == null) throw new ArgumentNullException(nameof(provider));
         #endregion
 
-        var editorService = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
-        if (editorService == null) return value;
+        if (provider.GetService(typeof(IWindowsFormsEditorService)) is not IWindowsFormsEditorService editorService) return value;
 
         var editorControl = new TextEditorControl {Text = value as string, Dock = DockStyle.Fill};
         var form = new Form
@@ -45,8 +44,7 @@ public class CodeEditor : UITypeEditor
             Controls = {editorControl}
         };
 
-        var fileType = context.PropertyDescriptor?.Attributes.OfType<FileTypeAttribute>().FirstOrDefault();
-        if (fileType != null)
+        if (context.PropertyDescriptor?.Attributes.OfType<FileTypeAttribute>().FirstOrDefault() is {} fileType)
         {
             editorControl.Document.HighlightingStrategy = HighlightingStrategyFactory.CreateHighlightingStrategy(fileType.FileType);
             form.Text = fileType.FileType + " Editor";

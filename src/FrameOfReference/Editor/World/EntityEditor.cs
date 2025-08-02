@@ -286,8 +286,7 @@ public partial class EntityEditor : EntityEditorDesignerShim
     private void buttonBrowseRender_Click(object sender, EventArgs e)
     {
         #region Test sphere
-        var testSphere = comboRender.SelectedItem as TestSphere;
-        if (testSphere != null)
+        if (comboRender.SelectedItem is TestSphere testSphere)
         {
             // Get a particle system preset file path
             if (!FileSelectorDialog.TryGetPath("Textures", ".*", out string path)) return;
@@ -300,8 +299,7 @@ public partial class EntityEditor : EntityEditorDesignerShim
         else
         {
             #region Mesh
-            var mesh = comboRender.SelectedItem as Mesh;
-            if (mesh != null)
+            if (comboRender.SelectedItem is Mesh mesh)
             {
                 // Get a particle system preset file path
                 if (!FileSelectorDialog.TryGetPath("Meshes", ".x", out string path)) return;
@@ -314,8 +312,7 @@ public partial class EntityEditor : EntityEditorDesignerShim
             else
             {
                 #region Particle system
-                var particleSystem = comboRender.SelectedItem as ParticleSystem;
-                if (particleSystem == null) return;
+                if (comboRender.SelectedItem is not ParticleSystem particleSystem) return;
 
                 // Get a particle system preset file path
                 if (!FileSelectorDialog.TryGetPath("Graphics" + Path.DirectorySeparatorChar + particleSystem.GetType().Name, ".xml", out string path)) return;
@@ -341,8 +338,7 @@ public partial class EntityEditor : EntityEditorDesignerShim
 
     private void buttonRemoveRender_Click(object sender, EventArgs e)
     {
-        var render = comboRender.SelectedItem as Render;
-        if (render == null) return;
+        if (comboRender.SelectedItem is not Render render) return;
 
         TemplateList.SelectedEntry.Render.Remove(render);
         OnChange();

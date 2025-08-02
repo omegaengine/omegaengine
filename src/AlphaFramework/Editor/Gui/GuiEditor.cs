@@ -156,10 +156,8 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
             listBox.Items.Add(control);
 
             // Detect changes even where the PropertyGrid doesn't report back
-            var controlListBox = control as ListBox;
-            if (controlListBox != null) controlListBox.Items.Changed += OnChange;
-            var controlComboBox = control as DropdownList;
-            if (controlComboBox != null) controlComboBox.Items.Changed += OnChange;
+            if (control is ListBox controlListBox) controlListBox.Items.Changed += OnChange;
+            if (control is DropdownList controlComboBox) controlComboBox.Items.Changed += OnChange;
         }
 
         listBox.EndUpdate();

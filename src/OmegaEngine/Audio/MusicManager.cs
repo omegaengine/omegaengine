@@ -34,14 +34,7 @@ public sealed class MusicManager : IDisposable
     /// <summary>
     /// Is music currently being played?
     /// </summary>
-    public bool Playing
-    {
-        get
-        {
-            if (_currentSong != null) return (_currentSong.Playing);
-            return false;
-        }
-    }
+    public bool Playing => _currentSong is { Playing: true };
     #endregion
 
     #region Constructor

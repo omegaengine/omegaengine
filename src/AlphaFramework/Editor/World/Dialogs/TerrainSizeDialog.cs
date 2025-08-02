@@ -74,8 +74,7 @@ public sealed partial class TerrainSizeDialog : OKCancelDialog
     private void numericSize_Validating(object sender, CancelEventArgs e)
     {
         // Make sure this message came from a NumericUpDown control
-        var numericControl = sender as NumericUpDown;
-        if (numericControl == null) return;
+        if (sender is not NumericUpDown numericControl) return;
 
         // Round values to a multiple of 3
         int roundValue = (int)Math.Round(numericControl.Value / 3) * 3;
