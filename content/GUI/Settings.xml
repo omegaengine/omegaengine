@@ -22,14 +22,29 @@ InvertMouse.Checked = Settings.Controls.InvertMouse
 function resolution_helper(width, height)
 	if Engine.Capabilities:CheckResolution(width, height) then Resolution.Items:Add(width.."x"..height); end
 end
-resolution_helper(800, 600); resolution_helper(1024, 600); resolution_helper(1024, 768); resolution_helper(1152, 864);
-resolution_helper(1280, 720); resolution_helper(1280, 768); resolution_helper(1280, 800); resolution_helper(1280, 960); resolution_helper(1280, 1024);
-resolution_helper(1360, 768); resolution_helper(1360, 1024); resolution_helper(1366, 768); resolution_helper(1400, 1050);
-resolution_helper(1440, 900); resolution_helper(1440, 960); resolution_helper(1440, 1024); resolution_helper(1440, 1080);
-resolution_helper(1600, 768); resolution_helper(1600, 900); resolution_helper(1600, 1024); resolution_helper(1600, 1200);
-resolution_helper(1680, 1050); resolution_helper(1792, 1344); resolution_helper(1800, 1440); resolution_helper(1856, 1392);
-resolution_helper(1900, 1200); resolution_helper(1920, 1080); resolution_helper(1920, 1200); resolution_helper(1920, 1400); resolution_helper(1920, 1440);
-resolution_helper(2048, 1152); resolution_helper(2048, 1536);
+resolution_helper(1024, 768);
+resolution_helper(1152, 864);
+resolution_helper(1280, 720);
+resolution_helper(1280, 800);
+resolution_helper(1280, 1024);
+resolution_helper(1366, 768);
+resolution_helper(1440, 900);
+resolution_helper(1600, 900);
+resolution_helper(1680, 1050);
+resolution_helper(1920, 1080);
+resolution_helper(1920, 1200);
+resolution_helper(2560, 1080);
+resolution_helper(2560, 1440);
+resolution_helper(2560, 1600);
+resolution_helper(3440, 1440);
+resolution_helper(3840, 1080);
+resolution_helper(3840, 2160);
+resolution_helper(4096, 2160);
+resolution_helper(5120, 1440);
+resolution_helper(5120, 2160);
+resolution_helper(5120, 2880);
+resolution_helper(6016, 3384);
+resolution_helper(7680, 4320);
 
 -- Reselect the previously chosen resolution
 if Resolution.Items:Contains(Settings.Display.ResolutionText) then Resolution.SelectedItem = Settings.Display.ResolutionText; end;
