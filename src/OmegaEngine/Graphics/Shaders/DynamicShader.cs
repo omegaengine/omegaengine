@@ -27,14 +27,9 @@ namespace OmegaEngine.Graphics.Shaders;
 public static class DynamicShader
 {
     #region Counters
-    private abstract class Counter
+    private abstract class Counter(string id)
     {
-        public string ID { get; }
-
-        protected Counter(string id)
-        {
-            ID = id;
-        }
+        public string ID { get; } = id;
 
         public abstract string GetValue(int run);
     }

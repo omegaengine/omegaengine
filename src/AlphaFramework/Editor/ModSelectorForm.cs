@@ -24,14 +24,9 @@ namespace AlphaFramework.Editor;
 public sealed partial class ModSelectorForm : Form
 {
     #region Structs
-    private struct ModPath
+    private struct ModPath(string fullPath)
     {
-        public readonly string FullPath;
-
-        public ModPath(string fullPath)
-        {
-            FullPath = fullPath;
-        }
+        public readonly string FullPath = fullPath;
 
         public override string ToString()
         {
