@@ -8,7 +8,6 @@
 
 using System.ComponentModel;
 using System.Drawing;
-using System.Security.Permissions;
 using System.Windows.Forms;
 using NanoByte.Common.Controls;
 
@@ -67,7 +66,6 @@ partial class GameBase
         //--------------------//
 
         #region Window messages
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m)
         {
             if (WindowMessage != null)
