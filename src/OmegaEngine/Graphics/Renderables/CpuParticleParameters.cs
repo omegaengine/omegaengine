@@ -28,9 +28,6 @@ public class CpuParticleParameters
     internal const float InfiniteFlag = -32768;
     #endregion
 
-    #region Variables
-    #endregion
-
     #region Properties
     /// <summary>
     /// How many seconds this particle will exist.
