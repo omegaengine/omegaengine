@@ -13,8 +13,9 @@
  */
 
 using NanoByte.Common;
+using OmegaEngine;
 
-namespace OmegaEngine;
+namespace AlphaFramework.Editor.World.TerrainModifiers;
 
 /// <summary>
 /// Perlin noise function.
@@ -50,7 +51,7 @@ namespace OmegaEngine;
 /// }
 /// </code>
 /// </remarks>
-public class PerlinNoise
+internal class PerlinNoise
 {
     /// <summary>
     /// Initial frequency.
