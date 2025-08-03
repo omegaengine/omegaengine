@@ -3,7 +3,9 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/omegaengine-alphaframework/">
-    <Project Path="content\omegaengine-alphaframework\Editor\Editor.csproj" />
+    <Project Path="content\omegaengine-alphaframework\Editor\Editor.csproj">
+      <BuildDependency Project="content\omegaengine-alphaframework\Game\Game.csproj" />
+    </Project>
     <Project Path="content\omegaengine-alphaframework\Game\Game.csproj" />
     <Project Path="content\omegaengine-alphaframework\Presentation\Presentation.csproj" />
     <Project Path="content\omegaengine-alphaframework\World\World.csproj" />

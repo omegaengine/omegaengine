@@ -2,7 +2,9 @@
   <Configurations>
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Editor\Editor.csproj" />
+  <Project Path="Editor\Editor.csproj">
+    <BuildDependency Project="Game\Game.csproj" />
+  </Project>
   <Project Path="Game\Game.csproj" />
   <Project Path="Presentation\Presentation.csproj" />
   <Project Path="World\World.csproj" />
