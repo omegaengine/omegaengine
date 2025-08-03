@@ -17,7 +17,7 @@ namespace AlphaFramework.World.Paths;
 /// </summary>
 public class SimplePathfinder : IPathfinder<Vector2>
 {
-    private struct Node
+    private record struct Node
     {
         public int F, G, H;
         public Vector2 Position, Parent;
