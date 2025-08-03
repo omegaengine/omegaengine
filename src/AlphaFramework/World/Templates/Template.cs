@@ -34,7 +34,7 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICo
     /// The color to highlight this class with in list representations. <see cref="Color.Empty"/> for no highlighting.
     /// </summary>
     [XmlIgnore, Browsable(false)]
-    public Color HighlightColor { get; private set; }
+    public Color HighlightColor { get; protected set; }
 
     /// <summary>
     /// A short English description of this class for developers.
