@@ -7,7 +7,7 @@ using OmegaEngine.Graphics.Renderables;
 using OmegaGUI;
 using OmegaGUI.Model;
 
-namespace Template.AlphaFramework.Game
+namespace Template.AlphaFramework
 {
     class Game : GameBase
     {

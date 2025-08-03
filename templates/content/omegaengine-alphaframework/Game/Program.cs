@@ -7,7 +7,7 @@ using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
 using OmegaEngine.Storage;
 
-namespace Template.AlphaFramework.Game
+namespace Template.AlphaFramework
 {
     internal static class Program
     {

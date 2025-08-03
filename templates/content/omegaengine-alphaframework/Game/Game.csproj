@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <LangVersion>13.0</LangVersion>
-    <AssemblyName>Template.AlphaFramework.Game</AssemblyName>
-    <RootNamespace>Template.AlphaFramework.Game</RootNamespace>
+    <AssemblyName>Template.AlphaFramework</AssemblyName>
+    <RootNamespace>Template.AlphaFramework</RootNamespace>
     <OutputPath>..\artifacts\$(Configuration)\</OutputPath>
     <UseWindowsForms>true</UseWindowsForms>
     <OutputType>WinExe</OutputType>

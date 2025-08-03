@@ -131,7 +131,7 @@ namespace Template.AlphaFramework.Editor
             if (!string.IsNullOrEmpty(arguments)) param += " " + arguments;
 
             // Launch the game
-            Process.Start(new ProcessStartInfo(Path.Combine(Locations.InstallBase, "Game.exe"), param));
+            Process.Start(new ProcessStartInfo(Path.Combine(Locations.InstallBase, "Template.AlphaFramework.exe"), param));
         }
     }
 }
