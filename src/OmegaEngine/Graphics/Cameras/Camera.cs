@@ -534,7 +534,7 @@ public abstract class Camera : IPositionable
         _viewFrustum[3].D = ViewProjection.M44 + ViewProjection.M42;
 
         // Near plane
-        if (_clipPlane == default(DoublePlane))
+        if (_clipPlane == default)
         {
             _viewFrustum[4].Normal.X = ViewProjection.M13;
             _viewFrustum[4].Normal.Y = ViewProjection.M23;

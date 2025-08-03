@@ -149,7 +149,7 @@ internal static class MeshHelper
                 gotMilkErmTexCoords = true;
 
             // All normals and tangents must be valid, otherwise generate them below
-            if (vertexes[num].Normal == default(Vector3))
+            if (vertexes[num].Normal == default)
                 gotValidNormals = false;
         }
 
@@ -215,9 +215,9 @@ internal static class MeshHelper
                 gotMilkErmTexCoords = true;
 
             // All normals and tangents must be valid, otherwise generate them below
-            if (vertexes[num].Normal == default(Vector3))
+            if (vertexes[num].Normal == default)
                 gotValidNormals = false;
-            if (vertexes[num].Tangent == default(Vector3))
+            if (vertexes[num].Tangent == default)
                 gotValidTangents = false;
 
             // If we found valid texture coordinates and no normals or tangents,

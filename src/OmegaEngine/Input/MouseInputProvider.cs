@@ -104,7 +104,7 @@ public class MouseInputProvider : InputProvider
         _lastMouseLoc = _origMouseLoc = e.Location;
 
         // Clean up
-        _totalMouseDelta = default(Size);
+        _totalMouseDelta = default;
         UpdateCursorFreezing();
     }
 
@@ -208,8 +208,8 @@ public class MouseInputProvider : InputProvider
         }
 
         // Clean up
-        _origMouseLoc = default(Point);
-        _totalMouseDelta = default(Size);
+        _origMouseLoc = default;
+        _totalMouseDelta = default;
         _moving = false;
         UpdateCursorFreezing();
     }

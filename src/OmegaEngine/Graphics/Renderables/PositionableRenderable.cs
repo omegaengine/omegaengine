@@ -396,7 +396,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
                 break;
         }
 
-        Engine.State.UserClipPlane = default(Plane);
+        Engine.State.UserClipPlane = default;
     }
 
     private void SetEngineState(XMaterial material)
@@ -412,7 +412,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     private void SetEngineState(Camera camera)
     {
         // Activate user clip plane if it is set
-        if (camera.ClipPlane != default(DoublePlane))
+        if (camera.ClipPlane != default)
         {
             Engine.State.UserClipPlane = (SurfaceEffect == SurfaceEffect.Shader)
                 // Transform the user clip plane into camera space for rendering with shaders

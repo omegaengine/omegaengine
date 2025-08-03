@@ -60,7 +60,7 @@ public sealed class WaterView : SupportView
     {
         #region Sanity checks
         if (baseView == null) throw new ArgumentNullException(nameof(baseView));
-        if (refractPlane == default(DoublePlane)) throw new ArgumentNullException(nameof(refractPlane));
+        if (refractPlane == default) throw new ArgumentNullException(nameof(refractPlane));
         #endregion
 
         // Clone and modify the camera
@@ -94,7 +94,7 @@ public sealed class WaterView : SupportView
     {
         #region Sanity checks
         if (baseView == null) throw new ArgumentNullException(nameof(baseView));
-        if (reflectPlane == default(DoublePlane)) throw new ArgumentNullException(nameof(reflectPlane));
+        if (reflectPlane == default) throw new ArgumentNullException(nameof(reflectPlane));
         #endregion
 
         // Clone and modify the camera
