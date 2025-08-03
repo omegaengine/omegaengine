@@ -119,7 +119,7 @@ public class SimplePathfinder : IPathfinder<Vector2>
         {
             path.Push(target);
 
-            nextNode = _closeList[_closeList.Count - 1];
+            nextNode = _closeList[^1];
             while (!(nextNode.Parent.Equals(nextNode.Position)))
             {
                 path.Push(nextNode.Position);
