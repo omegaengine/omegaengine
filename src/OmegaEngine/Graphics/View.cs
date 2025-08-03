@@ -353,7 +353,7 @@ public partial class View : EngineElement, IResetable
             }
         }
 
-        if (closestBody == null) position = default(DoubleVector3);
+        if (closestBody == null) position = default;
         else
         {
             // Calculate position along the ray and compensate for position offset

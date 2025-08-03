@@ -37,7 +37,7 @@ public abstract class Render : ICloneable
     /// Indicates whether <see cref="Shift"/> has been set to a non-default value.
     /// </summary>
     [Browsable(false), XmlIgnore]
-    public bool ShiftSpecified { get => Shift != default(Vector3); set { if (!value) Shift = default(Vector3); } }
+    public bool ShiftSpecified { get => Shift != default; set { if (!value) Shift = default; } }
 
     //--------------------//
 

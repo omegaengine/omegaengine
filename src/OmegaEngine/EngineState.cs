@@ -319,7 +319,7 @@ public sealed class EngineState
         set =>
             value.To(ref _userClipPlane, delegate
             {
-                if (value == default(Plane))
+                if (value == default)
                 { // No plane set
                     _device.SetRenderState(RenderState.ClipPlaneEnable, 0);
                 }

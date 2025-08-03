@@ -33,8 +33,8 @@ partial class Model
         Log.Info("Generate predefined model: Quad");
         return new(MeshGenerator.Quad(engine.Device, width, height), new XMaterial(texture))
         {
-            BoundingSphere = new BoundingSphere(default(Vector3), (float)Math.Sqrt(width * width + height * height) / 2f),
-            BoundingBox = new BoundingBox(default(Vector3), new(width, height, 0))
+            BoundingSphere = new BoundingSphere(default, (float)Math.Sqrt(width * width + height * height) / 2f),
+            BoundingBox = new BoundingBox(default, new(width, height, 0))
         };
     }
     #endregion
@@ -60,7 +60,7 @@ partial class Model
 
         return new(mesh, new XMaterial(texture))
         {
-            BoundingBox = new BoundingBox(default(Vector3), new(width, height, depth))
+            BoundingBox = new BoundingBox(default, new(width, height, depth))
         };
     }
     #endregion
@@ -87,7 +87,7 @@ partial class Model
         return new(mesh, new XMaterial(texture))
         {
             Engine = engine,
-            BoundingSphere = new BoundingSphere(default(Vector3), radius)
+            BoundingSphere = new BoundingSphere(default, radius)
         };
     }
     #endregion

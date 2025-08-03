@@ -52,7 +52,7 @@ public class GpuParticleSystem : PositionableRenderable
 
         // Calculate bounding sphere
         float maxDistance = preset.SpawnRadius > preset.SystemHeight ? preset.SpawnRadius : preset.SystemHeight;
-        BoundingSphere = new BoundingSphere(default(Vector3), maxDistance);
+        BoundingSphere = new BoundingSphere(default, maxDistance);
     }
     #endregion
 

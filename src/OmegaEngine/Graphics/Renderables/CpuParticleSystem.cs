@@ -356,7 +356,7 @@ public class CpuParticleSystem : PositionableRenderable
             CpuParticle particle = _deadParticles.Pop();
             particle.Alive = true;
             particle.Position = position;
-            particle.Velocity = default(Vector3);
+            particle.Velocity = default;
             particle.Parameters1 = parameters1;
             particle.Parameters2 = parameters2;
             particle.Color = parameters1.Color;
@@ -430,7 +430,7 @@ public class CpuParticleSystem : PositionableRenderable
         // Never light a particle system
         SurfaceEffect = SurfaceEffect.Plain;
 
-        if (camera.ClipPlane != default(DoublePlane))
+        if (camera.ClipPlane != default)
         {
             // Rendering without shaders, so the clip plane is in world space
             Engine.State.UserClipPlane = camera.EffectiveClipPlane;
@@ -439,7 +439,7 @@ public class CpuParticleSystem : PositionableRenderable
         RenderParticles(camera);
 
         // Restore defaults
-        Engine.State.UserClipPlane = default(Plane);
+        Engine.State.UserClipPlane = default;
         Engine.State.ZBufferMode = ZBufferMode.Normal;
     }
 
