@@ -5,8 +5,7 @@
     <AssemblyName>Template.AlphaFramework.World</AssemblyName>
     <RootNamespace>Template.AlphaFramework.World</RootNamespace>
     <OutputPath>..\artifacts\$(Configuration)\</OutputPath>
-    <TargetFramework>net472</TargetFramework>
-    <PlatformTarget>x86</PlatformTarget>
+    <TargetFrameworks>net472;net8.0-windows</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

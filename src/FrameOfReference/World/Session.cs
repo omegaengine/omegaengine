@@ -22,13 +22,15 @@
 
 using System;
 using System.ComponentModel;
+using AlphaFramework.World;
+using NanoByte.Common;
+
+#if NETFRAMEWORK
 using System.Linq;
 using System.Xml.Serialization;
-using AlphaFramework.World;
 using FrameOfReference.World.Positionables;
 using LuaInterface;
-using NanoByte.Common;
-using OmegaEngine;
+#endif
 
 namespace FrameOfReference.World;
 
@@ -38,11 +40,13 @@ namespace FrameOfReference.World;
 /// </summary>
 public sealed partial class Session : SessionBase<Universe>
 {
+#if NETFRAMEWORK
     /// <summary>
     /// The scripting engine used to execute story scripts.
     /// </summary>
     [XmlIgnore]
     public Lua Lua { get; set; }
+#endif
 
     /// <summary>
     /// Creates a new game session based upon a given <see cref="Universe"/>.
@@ -91,13 +95,16 @@ public sealed partial class Session : SessionBase<Universe>
             double effectiveStep = Math.Sign(gameTimeDelta) * UpdateStepSize;
 
             Universe.Update(effectiveStep);
+#if NETFRAMEWORK
             if (Lua != null && !TimeTravelInProgress) HandleTriggers();
+#endif
             gameTimeDelta -= effectiveStep;
         }
 
         return gameTimeDelta;
     }
 
+#if NETFRAMEWORK
     private void HandleTriggers()
     {
         var playerEntities = Universe.Positionables.OfType<Entity>().Where(x => x.IsPlayerControlled).ToList();
@@ -124,4 +131,5 @@ public sealed partial class Session : SessionBase<Universe>
             }
         }
     }
+#endif
 }
