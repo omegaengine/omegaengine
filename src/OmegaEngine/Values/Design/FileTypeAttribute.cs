@@ -8,9 +8,8 @@
 
 using System;
 using JetBrains.Annotations;
-using OmegaEngine.Values.Design;
 
-namespace OmegaEngine.Values;
+namespace OmegaEngine.Values.Design;
 
 /// <summary>
 /// Stores the file type describing the kind of data a property stores.
