@@ -9,10 +9,9 @@
 using System;
 using JetBrains.Annotations;
 using NanoByte.Common;
-using OmegaEngine.Values;
 using SlimDX;
 
-namespace OmegaEngine;
+namespace OmegaEngine.Values;
 
 /// <summary>
 /// Math helpers related to vectors.

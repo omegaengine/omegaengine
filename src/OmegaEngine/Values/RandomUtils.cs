@@ -11,7 +11,7 @@ using System.Drawing;
 using JetBrains.Annotations;
 using SlimDX;
 
-namespace OmegaEngine;
+namespace OmegaEngine.Values;
 
 /// <summary>
 /// Provides helper methods for creating different types of variables with random content.

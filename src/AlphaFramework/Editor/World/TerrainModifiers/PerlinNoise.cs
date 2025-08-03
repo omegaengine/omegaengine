@@ -13,7 +13,7 @@
  */
 
 using NanoByte.Common;
-using OmegaEngine;
+using OmegaEngine.Values;
 
 namespace AlphaFramework.Editor.World.TerrainModifiers;
 

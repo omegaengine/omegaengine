@@ -27,7 +27,6 @@ using System.Drawing.Design;
 using System.Xml.Serialization;
 using LuaInterface;
 using NanoByte.Common;
-using OmegaEngine;
 using OmegaEngine.Values;
 using OmegaEngine.Values.Design;
 

@@ -27,7 +27,6 @@ using System.Xml.Serialization;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
 using NanoByte.Common;
-using OmegaEngine.Values;
 using OmegaEngine.Values.Design;
 using SlimDX;
 
