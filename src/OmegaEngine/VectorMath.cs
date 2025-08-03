@@ -75,7 +75,7 @@ public static class VectorMath
 
         // Handle value overflows
         if (factor <= 0) return values[0];
-        if (factor >= values.Length - 1) return values[values.Length - 1];
+        if (factor >= values.Length - 1) return values[^1];
 
         // Isolate index shift from factor
         int index = (int)factor;

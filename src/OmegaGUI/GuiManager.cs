@@ -196,8 +196,8 @@ public sealed class GuiManager : IDisposable
         // Exclusive input handling for last modal dialog
         if (_modalDialogs.Count > 0)
         {
-            return _modalDialogs[_modalDialogs.Count - 1].DialogRender.
-                                                          MessageProc(m.HWnd, (WindowMessage)m.Msg, m.WParam, m.LParam);
+            return _modalDialogs[^1].DialogRender.
+                                     MessageProc(m.HWnd, (WindowMessage)m.Msg, m.WParam, m.LParam);
         }
 
         // Copy dialog list to an array first to prevent exceptions if dialogs are removed
