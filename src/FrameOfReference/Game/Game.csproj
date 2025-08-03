@@ -2,8 +2,8 @@
 
   <!-- Build config -->
   <PropertyGroup>
-    <RootNamespace>FrameOfReference</RootNamespace>
     <AssemblyName>FrameOfReference</AssemblyName>
+    <RootNamespace>FrameOfReference</RootNamespace>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
     <OutputType>WinExe</OutputType>
     <ApplicationIcon>..\..\..\icon-omega.ico</ApplicationIcon>
@@ -20,6 +20,11 @@
   <ItemGroup>
     <None Include="_portable" CopyToOutputDirectory="Always" />
     <None Include="config\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <!-- Localization -->
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
   </ItemGroup>
 
 </Project>

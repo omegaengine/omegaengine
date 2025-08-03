@@ -1,10 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <LangVersion>13.0</LangVersion>
+    <AssemblyName>Template.AlphaFramework.Presentation</AssemblyName>
+    <RootNamespace>Template.AlphaFramework.Presentation</RootNamespace>
+    <OutputPath>..\artifacts\$(Configuration)\</OutputPath>
     <TargetFramework>net472</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
-    <OutputPath>..\artifacts\$(Configuration)\</OutputPath>
-    <RootNamespace>Template.AlphaFramework.Presentation</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

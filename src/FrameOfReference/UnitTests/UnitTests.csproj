@@ -1,6 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\UnitTests.targets" />
+  <Import Project="..\..\UnitTests.props" />
+
+  <!-- Build config -->
+  <PropertyGroup>
+    <RootNamespace>FrameOfReference</RootNamespace>
+  </PropertyGroup>
 
   <!-- Dependencies -->
   <ItemGroup>

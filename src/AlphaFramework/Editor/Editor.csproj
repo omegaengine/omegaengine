@@ -2,10 +2,10 @@
 
   <!-- Build config -->
   <PropertyGroup>
-    <description>AlphaFramework is a Model-View-Presenter framework for creating game worlds with OmegaEngine.
-AlphaEditor is a toolkit for creating IDE-like editors for games based on OmegaEngine and AlphaFramework. You can use it to create GUI dialogs, maps, particle systems, etc. for your game.</description>
-    <RootNamespace>AlphaFramework.Editor</RootNamespace>
+    <Description>AlphaFramework is a Model-View-Presenter framework for creating game worlds with OmegaEngine.
+AlphaEditor is a toolkit for creating IDE-like editors for games based on OmegaEngine and AlphaFramework. You can use it to create GUI dialogs, maps, particle systems, etc. for your game.</Description>
     <AssemblyName>AlphaFramework.Editor</AssemblyName>
+    <RootNamespace>AlphaFramework.Editor</RootNamespace>
     <PackageId>AlphaEditor</PackageId>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
     <UseWindowsForms>True</UseWindowsForms>
@@ -16,4 +16,10 @@ AlphaEditor is a toolkit for creating IDE-like editors for games based on OmegaE
     <ProjectReference Include="..\Presentation\Presentation.csproj" />
     <ProjectReference Include="..\..\OmegaGUI\OmegaGUI.csproj" />
   </ItemGroup>
+
+  <!-- Localization -->
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
+  </ItemGroup>
+
 </Project>

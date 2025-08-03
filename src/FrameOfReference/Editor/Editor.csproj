@@ -2,8 +2,8 @@
 
   <!-- Build config -->
   <PropertyGroup>
-    <RootNamespace>FrameOfReference.Editor</RootNamespace>
     <AssemblyName>FrameOfReference.Editor</AssemblyName>
+    <RootNamespace>FrameOfReference.Editor</RootNamespace>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
     <OutputType>WinExe</OutputType>
     <ApplicationIcon>..\..\..\icon-alpha.ico</ApplicationIcon>

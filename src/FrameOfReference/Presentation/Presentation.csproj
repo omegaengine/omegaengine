@@ -2,8 +2,8 @@
 
   <!-- Build config -->
   <PropertyGroup>
-    <RootNamespace>FrameOfReference.Presentation</RootNamespace>
     <AssemblyName>FrameOfReference.Presentation</AssemblyName>
+    <RootNamespace>FrameOfReference.Presentation</RootNamespace>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
   </PropertyGroup>
 
