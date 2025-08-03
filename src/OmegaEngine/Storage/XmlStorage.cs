@@ -69,14 +69,10 @@ public static class XmlStorage
         #region Augement SlimDX types
         MembersAsAttributes<Color3>(overrides, "Red", "Green", "Blue");
         MembersAsAttributes<Color4>(overrides, "Alpha", "Red", "Green", "Blue");
-        MembersAsAttributes<Half2>(overrides, "X", "Y");
-        MembersAsAttributes<Half3>(overrides, "X", "Y", "Z");
-        MembersAsAttributes<Half4>(overrides, "X", "Y", "Z", "W");
         MembersAsAttributes<Vector2>(overrides, "X", "Y");
         MembersAsAttributes<Vector3>(overrides, "X", "Y", "Z");
         MembersAsAttributes<Vector4>(overrides, "X", "Y", "Z", "W");
         MembersAsAttributes<Quaternion>(overrides, "X", "Y", "Z", "W");
-        MembersAsAttributes<Rational>(overrides, "Numerator", "Denominator");
         #endregion
 
         var serializer = new XmlSerializer(type, overrides);

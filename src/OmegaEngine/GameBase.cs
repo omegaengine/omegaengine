@@ -342,14 +342,10 @@ public abstract partial class GameBase : IDisposable
         ImportConstructor(lua, typeof(Rectangle));
         ImportConstructor(lua, typeof(Color3));
         ImportConstructor(lua, typeof(Color4));
-        ImportConstructor(lua, typeof(Half2));
-        ImportConstructor(lua, typeof(Half3));
-        ImportConstructor(lua, typeof(Half4));
         ImportConstructor(lua, typeof(Vector2));
         ImportConstructor(lua, typeof(Vector3));
         ImportConstructor(lua, typeof(Vector4));
         ImportConstructor(lua, typeof(Quaternion));
-        ImportConstructor(lua, typeof(Rational));
         ImportConstructor(lua, typeof(Vector2Ray));
         ImportConstructor(lua, typeof(DoubleVector3));
         ImportConstructor(lua, typeof(XColor));
