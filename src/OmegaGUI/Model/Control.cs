@@ -334,9 +334,6 @@ public abstract class Control : ICloneable
         return (Control)MemberwiseClone();
     }
 
-    object ICloneable.Clone()
-    {
-        return Clone();
-    }
+    object ICloneable.Clone() => Clone();
     #endregion
 }

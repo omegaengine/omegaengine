@@ -70,18 +70,7 @@ public class Button : ButtonBase
     }
 
     [Description("Is the specified style name valid?"), Category("Appearance")]
-    public bool StyleValid
-    {
-        get
-        {
-            if (Parent != null)
-            {
-                ButtonStyle style = Parent.GetButtonStyle(_customStyle);
-                return style is { TextureFileValid: true };
-            }
-            return false;
-        }
-    }
+    public bool StyleValid => Parent?.GetButtonStyle(_customStyle) is { TextureFileValid: true };
     #endregion
 
     #region Constructor

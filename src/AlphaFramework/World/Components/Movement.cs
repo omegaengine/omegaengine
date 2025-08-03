@@ -43,9 +43,6 @@ public class Movement : ICloneable
         return (Movement)MemberwiseClone();
     }
 
-    object ICloneable.Clone()
-    {
-        return Clone();
-    }
+    object ICloneable.Clone() => Clone();
     #endregion
 }

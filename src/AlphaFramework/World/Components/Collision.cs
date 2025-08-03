@@ -51,9 +51,6 @@ public abstract class Collision<TCoordinates> : ICloneable
         return (Collision<TCoordinates>)MemberwiseClone();
     }
 
-    object ICloneable.Clone()
-    {
-        return Clone();
-    }
+    object ICloneable.Clone() => Clone();
     #endregion
 }

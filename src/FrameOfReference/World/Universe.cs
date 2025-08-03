@@ -97,28 +97,19 @@ public sealed partial class Universe : UniverseBase<Vector2>
     /// Retrieves an <see cref="Entity"/> from <see cref="Positionables"/> by its name.
     /// </summary>
     /// <returns>The first matching <see cref="Entity"/>; <c>null</c> if there is no match.</returns>
-    public Entity GetEntity(string name)
-    {
-        return _positionables.OfType<Entity>().FirstOrDefault(x => x.Name == name);
-    }
+    public Entity GetEntity(string name) => _positionables.OfType<Entity>().FirstOrDefault(x => x.Name == name);
 
     /// <summary>
     /// Retrieves an <see cref="Trigger"/> from <see cref="Positionables"/> by its name.
     /// </summary>
     /// <returns>The first matching <see cref="Trigger"/>; <c>null</c> if there is no match.</returns>
-    public Trigger GetTrigger(string name)
-    {
-        return _positionables.OfType<Trigger>().FirstOrDefault(x => x.Name == name);
-    }
+    public Trigger GetTrigger(string name) => _positionables.OfType<Trigger>().FirstOrDefault(x => x.Name == name);
 
     /// <summary>
     /// Retrieves an <see cref="CameraState{TCoordinates}"/> from <see cref="Positionables"/> by its name.
     /// </summary>
     /// <returns>The first matching <see cref="CameraState{TCoordinates}"/>; <c>null</c> if there is no match.</returns>
-    public CameraState<Vector2> GetCamera(string name)
-    {
-        return _positionables.OfType<CameraState<Vector2>>().FirstOrDefault(x => x.Name == name);
-    }
+    public CameraState<Vector2> GetCamera(string name) => _positionables.OfType<CameraState<Vector2>>().FirstOrDefault(x => x.Name == name);
 
     /// <summary>
     /// Makes a player-controlled <see cref="Entity"/> move towards a <paramref name="target"/>.

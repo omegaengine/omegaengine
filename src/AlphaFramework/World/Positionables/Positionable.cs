@@ -31,10 +31,7 @@ public abstract class Positionable<TCoordinates> : ICloneable, IChangeNotify<Pos
     /// <summary>
     /// To be called when a property relevant for rendering has changed.
     /// </summary>
-    protected virtual void OnChanged()
-    {
-        Changed?.Invoke(this);
-    }
+    protected virtual void OnChanged() => Changed?.Invoke(this);
 
     /// <summary>
     /// Occurs when a property has changed that requires visual representations to rebuilt from scratch (usually a template).
@@ -45,10 +42,7 @@ public abstract class Positionable<TCoordinates> : ICloneable, IChangeNotify<Pos
     /// <summary>
     /// To be called when a property has changed, that requires visual representations to be rebuilt from scratch (usually a template).
     /// </summary>
-    protected void OnChangedRebuild()
-    {
-        ChangedRebuild?.Invoke(this);
-    }
+    protected void OnChangedRebuild() => ChangedRebuild?.Invoke(this);
     #endregion
 
     #region Properties
@@ -94,9 +88,6 @@ public abstract class Positionable<TCoordinates> : ICloneable, IChangeNotify<Pos
         return clonedPositionable;
     }
 
-    object ICloneable.Clone()
-    {
-        return Clone();
-    }
+    object ICloneable.Clone() => Clone();
     #endregion
 }

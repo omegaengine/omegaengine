@@ -169,9 +169,6 @@ public class ButtonStyle : ICloneable
         return (ButtonStyle)MemberwiseClone();
     }
 
-    object ICloneable.Clone()
-    {
-        return Clone();
-    }
+    object ICloneable.Clone() => Clone();
     #endregion
 }
