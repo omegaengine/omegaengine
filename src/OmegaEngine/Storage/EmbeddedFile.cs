@@ -18,9 +18,6 @@ namespace OmegaEngine.Storage;
 /// </summary>
 public struct EmbeddedFile
 {
-    #region Variables
-    #endregion
-
     #region Properties
     /// <summary>
     /// The filename in the archive

@@ -29,10 +29,6 @@ namespace OmegaEngine.Graphics;
 public partial class View : EngineElement, IResetable
 {
     #region Variables
-
-    #region Flags
-    #endregion
-
     #region Content
     private readonly bool _disposeScene;
 
