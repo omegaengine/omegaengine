@@ -222,9 +222,6 @@ public class CpuParticlePreset : ICloneable
         return newPreset;
     }
 
-    object ICloneable.Clone()
-    {
-        return Clone();
-    }
+    object ICloneable.Clone() => Clone();
     #endregion
 }

@@ -52,9 +52,6 @@ public abstract class Render : ICloneable
         return (Render)MemberwiseClone();
     }
 
-    object ICloneable.Clone()
-    {
-        return Clone();
-    }
+    object ICloneable.Clone() => Clone();
     #endregion
 }
