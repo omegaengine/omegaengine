@@ -5,6 +5,8 @@
     <AssemblyName>FrameOfReference.World</AssemblyName>
     <RootNamespace>FrameOfReference.World</RootNamespace>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
+    <TargetFrameworks>net472;net8.0-windows</TargetFrameworks>
+    <PlatformTarget>anycpu</PlatformTarget>
   </PropertyGroup>
 
   <!-- Dependencies -->
