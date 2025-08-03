@@ -23,12 +23,12 @@ public abstract class SessionBase<TUniverse>
     /// The current state of the game world.
     /// </summary>
     [LuaHide]
-    public TUniverse Universe { get; }
+    public TUniverse Universe { get; set; }
 
     /// <summary>
     /// The filename of the map file the <see cref="Universe"/> was loaded from.
     /// </summary>
-    public string MapSourceFile { get; }
+    public string MapSourceFile { get; set; }
 
     /// <summary>
     ///  Base-constructor for XML serialization. Do not call manually!
