@@ -26,7 +26,6 @@ using System.Drawing.Design;
 using System.Linq;
 using System.Xml.Serialization;
 using NanoByte.Common.Collections;
-using OmegaEngine.Values;
 using OmegaEngine.Values.Design;
 using OmegaGUI.Render;
 

@@ -30,7 +30,6 @@ using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
 using FrameOfReference.World.Templates;
 using NanoByte.Common;
-using OmegaEngine;
 using OmegaEngine.Values;
 using OmegaEngine.Values.Design;
 using SlimDX;

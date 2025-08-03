@@ -10,7 +10,7 @@ using System.Drawing;
 using JetBrains.Annotations;
 using NanoByte.Common;
 
-namespace OmegaEngine;
+namespace OmegaEngine.Values;
 
 /// <summary>
 /// Convert colors to different formats, interpolate, invert, ...

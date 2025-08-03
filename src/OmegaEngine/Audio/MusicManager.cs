@@ -13,6 +13,7 @@ using System.Threading;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using OmegaEngine.Storage;
+using OmegaEngine.Values;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Audio;
