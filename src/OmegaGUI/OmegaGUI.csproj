@@ -5,11 +5,16 @@
     <Description>OmegaGUI is a GUI toolkit for OmegaEngine. It has an XML file format for describing UIs (AlphaEditor provides a WYSIWYG editor). It uses Lua scripting for event handling.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <!-- Dependencies -->
   <ItemGroup>
     <ProjectReference Include="..\OmegaEngine\OmegaEngine.csproj" />
   </ItemGroup>
+
+  <!-- Localization -->
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
+  </ItemGroup>
+
 </Project>

@@ -4,8 +4,8 @@
   <PropertyGroup>
     <Description>AlphaFramework is a Model-View-Presenter framework for creating game worlds with OmegaEngine.
 AlphaFramework.World provides a basis for building engine-agnostic models of game worlds.</Description>
-    <RootNamespace>AlphaFramework.World</RootNamespace>
     <AssemblyName>AlphaFramework.World</AssemblyName>
+    <RootNamespace>AlphaFramework.World</RootNamespace>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
   </PropertyGroup>
 
@@ -13,4 +13,10 @@ AlphaFramework.World provides a basis for building engine-agnostic models of gam
   <ItemGroup>
     <ProjectReference Include="..\..\OmegaEngine\OmegaEngine.csproj" />
   </ItemGroup>
+
+  <!-- Localization -->
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
+  </ItemGroup>
+
 </Project>

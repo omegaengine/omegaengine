@@ -2,8 +2,8 @@
 
   <!-- Build config -->
   <PropertyGroup>
-    <RootNamespace>FrameOfReference.World</RootNamespace>
     <AssemblyName>FrameOfReference.World</AssemblyName>
+    <RootNamespace>FrameOfReference.World</RootNamespace>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
   </PropertyGroup>
 
@@ -11,4 +11,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\AlphaFramework\World\World.csproj" />
   </ItemGroup>
+
+  <!-- Localization -->
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
+  </ItemGroup>
+
 </Project>

@@ -4,8 +4,8 @@
   <PropertyGroup>
     <Description>AlphaFramework is a Model-View-Presenter framework for creating game worlds with OmegaEngine.
 AlphaFramework.Presentation provides a basis for building presenters that visualize AlphaFramework.World-based game worlds using OmegaEngine graphics.</Description>
-    <RootNamespace>AlphaFramework.Presentation</RootNamespace>
     <AssemblyName>AlphaFramework.Presentation</AssemblyName>
+    <RootNamespace>AlphaFramework.Presentation</RootNamespace>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
   </PropertyGroup>
 
