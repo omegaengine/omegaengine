@@ -28,7 +28,6 @@ The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games 
   <ItemGroup>
     <None Include="Shaders\*.fxo" CopyToOutputDirectory="Always" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\Shaders\" />
     <None Include="..\..\content\Graphics\**" LinkBase="content\Graphics" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\Graphics\" />
-    <None Include="..\..\content\GUI\Textures\**" LinkBase="content\GUI\Textures" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\GUI\Textures\" />
     <None Include="..\..\content\Meshes\Engine\**" LinkBase="content\Meshes\Engine" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\Meshes\Engine\" />
     <None Include="..\..\content\Textures\Particles\**" LinkBase="content\Textures\Particles" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\Textures\Particles\" />
     <None Include="..\..\content\Textures\Shaders\**" LinkBase="content\Textures\Shaders\" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\Textures\Shaders\" />

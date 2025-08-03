@@ -17,4 +17,9 @@
     <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
   </ItemGroup>
 
+  <!-- Bundled content -->
+  <ItemGroup>
+    <None Include="..\..\content\GUI\Textures\**" LinkBase="content\GUI\Textures" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\GUI\Textures\" />
+  </ItemGroup>
+
 </Project>
