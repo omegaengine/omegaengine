@@ -11,7 +11,7 @@ AlphaFramework.World provides a basis for building engine-agnostic models of gam
 
   <!-- Dependencies -->
   <ItemGroup>
-    <ProjectReference Include="..\..\OmegaEngine\OmegaEngine.csproj" />
+    <ProjectReference Include="..\..\OmegaEngine.Data\OmegaEngine.Data.csproj" />
   </ItemGroup>
 
   <!-- Localization -->
