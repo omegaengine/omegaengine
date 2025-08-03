@@ -13,7 +13,6 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Document;
 
 namespace OmegaEngine.Values.Design;
 
@@ -36,7 +35,12 @@ public class CodeEditor : UITypeEditor
 
         if (provider.GetService(typeof(IWindowsFormsEditorService)) is not IWindowsFormsEditorService editorService) return value;
 
-        var editorControl = new TextEditorControl {Text = value as string, Dock = DockStyle.Fill};
+        var editorControl = new TextEditorControlEx
+        {
+            Text = value as string,
+            Dock = DockStyle.Fill,
+            ContextMenuEnabled = true
+        };
         var form = new Form
         {
             FormBorderStyle = FormBorderStyle.SizableToolWindow,
@@ -46,8 +50,9 @@ public class CodeEditor : UITypeEditor
 
         if (context.PropertyDescriptor?.Attributes.OfType<FileTypeAttribute>().FirstOrDefault() is {} fileType)
         {
-            editorControl.Document.HighlightingStrategy = HighlightingStrategyFactory.CreateHighlightingStrategy(fileType.FileType);
             form.Text = fileType.FileType + " Editor";
+            editorControl.SyntaxHighlighting = fileType.FileType;
+            editorControl.FoldingStrategy = fileType.FileType;
         }
         else form.Text = "Editor";
 
