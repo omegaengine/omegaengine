@@ -27,6 +27,7 @@
     <File Path="UnitTests.props" />
   </Folder>
   <Project Path="OmegaEngine/OmegaEngine.csproj" />
+  <Project Path="OmegaEngine.Data/OmegaEngine.Data.csproj" />
   <Project Path="OmegaGUI/OmegaGUI.csproj" />
   <Project Path="UnitTests/UnitTests.csproj" />
 </Solution>
