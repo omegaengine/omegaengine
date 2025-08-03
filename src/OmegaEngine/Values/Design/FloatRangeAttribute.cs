@@ -8,9 +8,8 @@
 
 using System;
 using OmegaEngine.Properties;
-using OmegaEngine.Values.Design;
 
-namespace OmegaEngine.Values;
+namespace OmegaEngine.Values.Design;
 
 /// <summary>
 /// Stores the minimum and maximum values allowed for a float field or property.
