@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
-using System.Security.Permissions;
 using System.Windows.Forms.Design;
 
 namespace OmegaEngine.Values.Design;
@@ -19,7 +18,6 @@ namespace OmegaEngine.Values.Design;
 /// An editor that can be associated with <c>float</c> properties representing angles between 0 and 360 degrees. Uses <see cref="AngleControl"/>.
 /// </summary>
 /// <seealso cref="FloatRangeAttribute"/>
-[PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
 public class AngleEditor : FloatEditor
 {
     /// <inheritdoc/>

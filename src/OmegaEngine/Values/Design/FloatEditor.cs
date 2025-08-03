@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Linq;
-using System.Security.Permissions;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
@@ -19,7 +18,6 @@ namespace OmegaEngine.Values.Design;
 /// <summary>
 /// Abstract base class for drop-down <see cref="PropertyGrid"/> editors that can be associated with <c>float</c> properties.
 /// </summary>
-[PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
 public abstract class FloatEditor : UITypeEditor
 {
     /// <inheritdoc/>

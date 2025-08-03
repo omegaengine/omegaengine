@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Linq;
-using System.Security.Permissions;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using ICSharpCode.TextEditor;
@@ -22,7 +21,6 @@ namespace OmegaEngine.Values.Design;
 /// An editor that can be associated with <c>string</c> properties. Uses <see cref="TextEditorControl"/>.
 /// </summary>
 /// <seealso cref="FileTypeAttribute"/>
-[PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
 public class CodeEditor : UITypeEditor
 {
     /// <inheritdoc/>
