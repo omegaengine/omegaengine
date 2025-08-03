@@ -23,6 +23,7 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Xml.Serialization;
 using AlphaFramework.World;
 using FrameOfReference.World.Positionables;
 using LuaInterface;
@@ -39,6 +40,7 @@ public sealed partial class Session : SessionBase<Universe>
     /// <summary>
     /// The scripting engine used to execute story scripts.
     /// </summary>
+    [XmlIgnore]
     public Lua Lua { get; set; }
 
     /// <summary>
