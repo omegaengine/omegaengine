@@ -89,6 +89,7 @@ public class OcclusionIntervalMapGenerator : TaskBase
     {
         #region Sanity checks
         if (terrain == null) throw new ArgumentNullException(nameof(terrain));
+        if (!terrain.DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
         #endregion
 
         return new(terrain.HeightMap, terrain.Size.StretchH, terrain.Size.StretchV, lightSourceInclination);
