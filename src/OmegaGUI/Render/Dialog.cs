@@ -31,9 +31,9 @@ public class Dialog
     public static readonly Color4 WhiteColorValue = new(1.0f, 1.0f, 1.0f);
     public static readonly Color4 TransparentWhite = new(0.0f, 1.0f, 1.0f, 1.0f);
     public static readonly Color4 BlackColorValue = new(0.0f, 0.0f, 0.0f);
-    private static Control controlFocus; // The control which has focus
-    private static Control controlMouseOver; // The control which is hovered over
-    private static Control controlMouseDown; // The control which the mouse was pressed on
+    private static Control? controlFocus; // The control which has focus
+    private static Control? controlMouseOver; // The control which is hovered over
+    private static Control? controlMouseDown; // The control which the mouse was pressed on
 
     private static double timeRefresh;
 

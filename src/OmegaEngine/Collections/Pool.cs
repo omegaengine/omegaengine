@@ -26,7 +26,7 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
     /// <returns>The number of elements contained in the pool</returns>
     public int Count { get; private set; }
 
-    private T _firstElement;
+    private T? _firstElement;
 
     T IPoolable<T>.NextElement { get => _firstElement; set => _firstElement = value; }
 
@@ -34,7 +34,7 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
     /// Performs the specified action on each element of the pool
     /// </summary>
     /// <param name="action">A delegate to perform on each element of the pool</param>
-    public void ForEach([NotNull, InstantHandle] Action<T> action)
+    public void ForEach([InstantHandle] Action<T> action)
     {
         #region Sanity checks
         if (action == null) throw new ArgumentNullException(nameof(action));
@@ -59,7 +59,7 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
     /// </summary>
     /// <param name="item">The object to add to the pool</param>
     /// <exception cref="ArgumentException"><paramref name="item"/> is already in a pool.</exception>
-    public void Add([NotNull] T item)
+    public void Add(T item)
     {
         #region Sanity checks
         if (item == null) throw new ArgumentNullException(nameof(item));
@@ -81,7 +81,7 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
     /// <param name="item">The object to remove from the pool</param>
     /// <returns><c>true</c> if <paramref name="item" /> was successfully removed from the buffer list; otherwise, false. This method also returns <c>false</c> if <paramref name="item" /> is not found in the original pool</returns>
     /// <remarks>Not all too fast, try to avoid using this</remarks>
-    public bool Remove([NotNull] T item)
+    public bool Remove(T item)
     {
         #region Sanity checks
         if (item == null) throw new ArgumentNullException(nameof(item));
@@ -130,7 +130,7 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
     /// </summary>
     /// <param name="item">The object to locate in the pool</param>
     /// <returns><c>true</c> if <paramref name="item" /> is found in the pool; otherwise, false.</returns>
-    public bool Contains([NotNull] T item)
+    public bool Contains(T item)
     {
         #region Sanity checks
         if (item == null) throw new ArgumentNullException(nameof(item));
@@ -159,7 +159,7 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
     /// </summary>
     /// <param name="action">A delegate that is executed right after an item is removed.</param>
     /// <remarks>Ideal for moving all elements to a new data structure.</remarks>
-    public void RemoveAll([NotNull, InstantHandle] Action<T> action)
+    public void RemoveAll([InstantHandle] Action<T> action)
     {
         #region Sanity checks
         if (action == null) throw new ArgumentNullException(nameof(action));
@@ -193,7 +193,7 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
     /// </summary>
     /// <param name="predicate">A delegate that defines the condition to check for.</param>
     /// <remarks>Ideal for selectively picking all suitable elements from the pool.</remarks>
-    public void RemoveWhere([NotNull, InstantHandle] Predicate<T> predicate)
+    public void RemoveWhere([InstantHandle] Predicate<T> predicate)
     {
         #region Sanity checks
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));
@@ -238,7 +238,7 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
     /// </summary>
     /// <param name="predicate">A delegate that defines the condition to check for.</param>
     /// <remarks>Ideal for selectively picking the first suitable element from the pool.</remarks>
-    public void RemoveFirst([NotNull, InstantHandle] Predicate<T> predicate)
+    public void RemoveFirst([InstantHandle] Predicate<T> predicate)
     {
         #region Sanity checks
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));

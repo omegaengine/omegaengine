@@ -21,10 +21,10 @@ namespace OmegaEngine.Values.Design;
 public abstract class FloatEditor : UITypeEditor
 {
     /// <inheritdoc/>
-    public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) => UITypeEditorEditStyle.DropDown;
+    public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext? context) => UITypeEditorEditStyle.DropDown;
 
     /// <inheritdoc/>
-    public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+    public override object EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object? value)
     {
         #region Sanity checks
         if (context == null) throw new ArgumentNullException(nameof(context));

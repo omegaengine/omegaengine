@@ -79,7 +79,7 @@ public class AdvancedSkybox : Skybox
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights getLights = null)
+    internal override void Render(Camera camera, GetLights? getLights = null)
     {
         base.Render(camera, getLights);
 

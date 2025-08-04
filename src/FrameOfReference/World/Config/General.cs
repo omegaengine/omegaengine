@@ -49,7 +49,7 @@ public sealed class GeneralSettings
     /// Occurs when a setting in this group is changed.
     /// </summary>
     [Description("Occurs when a setting in this group is changed.")]
-    public event Action Changed;
+    public event Action? Changed;
 
     private void OnChanged()
     {
@@ -58,19 +58,19 @@ public sealed class GeneralSettings
     }
     #endregion
 
-    private string _contentDir;
+    private string? _contentDir;
 
     /// <summary>
     /// Path to the directory to load the game content from
     /// </summary>
     [DefaultValue(""), Description("Path to the directory to load the game content from")]
-    public string ContentDir { get => _contentDir; set => value.To(ref _contentDir, OnChanged); }
+    public string? ContentDir { get => _contentDir; set => value.To(ref _contentDir, OnChanged); }
 
-    private string _language;
+    private string? _language;
 
     /// <summary>
     /// The current game language
     /// </summary>
     [DefaultValue(""), Description("The current game language")]
-    public string Language { get => _language; set => value.To(ref _language, OnChanged); }
+    public string? Language { get => _language; set => value.To(ref _language, OnChanged); }
 }

@@ -65,7 +65,7 @@ public struct DoublePlane : IEquatable<DoublePlane>
     public static bool operator !=(DoublePlane left, DoublePlane right) => !left.Equals(right);
 
     /// <inheritdoc/>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         return obj is DoublePlane plane && Equals(plane);

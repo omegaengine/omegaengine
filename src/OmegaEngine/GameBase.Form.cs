@@ -32,7 +32,7 @@ partial class GameBase
         /// Occurs when a window message is to be processed
         /// </summary>
         [Description("Occurs when a window message is to be processed")]
-        public event MessageEventHandler WindowMessage;
+        public event MessageEventHandler? WindowMessage;
         #endregion
 
         #region Variables

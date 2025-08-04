@@ -161,7 +161,7 @@ public abstract partial class Presenter : PresenterBase<Universe, Vector2>
     /// <summary>
     /// The <see cref="OmegaEngine"/> representation of <see cref="World.Universe.Terrain"/>
     /// </summary>
-    public Terrain Terrain { get; private set; }
+    public Terrain? Terrain { get; private set; }
 
     /// <summary>
     /// Helper method for setting up the <see cref="OmegaEngine.Graphics.Renderables.Terrain"/>.
@@ -249,7 +249,7 @@ public abstract partial class Presenter : PresenterBase<Universe, Vector2>
     /// </summary>
     /// <param name="state">The state to place the new camera in; <c>null</c> for default (looking at the center of the terrain).</param>
     /// <returns>The newly created <see cref="Camera"/>.</returns>
-    protected Camera CreateCamera(CameraState<Vector2> state = null)
+    protected Camera CreateCamera(CameraState<Vector2>? state = null)
     {
         if (state == null)
             state = new() {Name = "Main", Position = Universe.Terrain.Center, Radius = 1500};

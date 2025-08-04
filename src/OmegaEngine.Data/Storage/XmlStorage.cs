@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -16,7 +17,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using ICSharpCode.SharpZipLib.Zip;
-using JetBrains.Annotations;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Storage;
@@ -84,7 +84,7 @@ public static class XmlStorage
     /// <summary>
     /// Configures a set of members of a type to be serialized as XML attributes.
     /// </summary>
-    private static void MembersAsAttributes<T>(XmlAttributeOverrides overrides, [NotNull, ItemNotNull] params string[] members)
+    private static void MembersAsAttributes<T>(XmlAttributeOverrides overrides, params string[] members)
     {
         var type = typeof(T);
         foreach (string memeber in members)
@@ -102,8 +102,8 @@ public static class XmlStorage
     /// <param name="stream">The stream to read the encoded XML data from.</param>
     /// <returns>The loaded object.</returns>
     /// <exception cref="InvalidDataException">A problem occurred while deserializing the XML data.</exception>
-    [NotNull]
-    public static T LoadXml<T>([NotNull] Stream stream)
+    public static T LoadXml<T>(Stream stream)
+        where T : class
     {
         #region Sanity checks
         if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -112,7 +112,7 @@ public static class XmlStorage
         if (stream.CanSeek) stream.Position = 0;
         try
         {
-            return (T)_serializers[typeof(T)].Deserialize(stream);
+            return (T?)_serializers[typeof(T)].Deserialize(stream) ?? throw new InvalidDataException();
         }
         #region Error handling
         catch (InvalidOperationException ex)
@@ -133,8 +133,8 @@ public static class XmlStorage
     /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
     /// <exception cref="InvalidDataException">A problem occurred while deserializing the XML data.</exception>
     /// <remarks>Uses <see cref="AtomicRead"/> internally.</remarks>
-    [NotNull]
-    public static T LoadXml<T>([NotNull, Localizable(false)] string path)
+    public static T LoadXml<T>([Localizable(false)] string path)
+        where T : class
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
@@ -162,8 +162,8 @@ public static class XmlStorage
     /// <param name="data">The XML string to be parsed.</param>
     /// <returns>The loaded object.</returns>
     /// <exception cref="InvalidDataException">A problem occurred while deserializing the XML data.</exception>
-    [NotNull]
-    public static T FromXmlString<T>([NotNull, Localizable(false)] string data)
+    public static T FromXmlString<T>([Localizable(false)] string data)
+        where T : class
     {
         #region Sanity checks
         if (data == null) throw new ArgumentNullException(nameof(data));
@@ -183,7 +183,7 @@ public static class XmlStorage
     /// <param name="data">The object to be stored.</param>
     /// <param name="stream">The stream to write the encoded XML data to.</param>
     /// <param name="stylesheet">The path of an XSL stylesheet for <typeparamref name="T"/>; can be <c>null</c>.</param>
-    public static void SaveXml<T>([NotNull] this T data, [NotNull] Stream stream, [CanBeNull, Localizable(false)] string stylesheet = null)
+    public static void SaveXml<T>([DisallowNull] this T data, Stream stream, [Localizable(false)] string? stylesheet = null)
     {
         #region Sanity checks
         if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -238,7 +238,7 @@ public static class XmlStorage
     /// <exception cref="IOException">A problem occurred while writing the file.</exception>
     /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
     /// <remarks>Uses <seealso cref="AtomicWrite"/> internally.</remarks>
-    public static void SaveXml<T>([NotNull] this T data, [NotNull, Localizable(false)] string path, [CanBeNull, Localizable(false)] string stylesheet = null)
+    public static void SaveXml<T>([DisallowNull] this T data, [Localizable(false)] string path, [Localizable(false)] string? stylesheet = null)
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
@@ -257,7 +257,7 @@ public static class XmlStorage
     /// <param name="data">The object to be stored.</param>
     /// <param name="stylesheet">The path of an XSL stylesheet for <typeparamref name="T"/>; can be <c>null</c>.</param>
     /// <returns>A string containing the XML code.</returns>
-    public static string ToXmlString<T>([NotNull] this T data, [CanBeNull, Localizable(false)] string stylesheet = null)
+    public static string ToXmlString<T>([DisallowNull] this T data, [Localizable(false)] string? stylesheet = null)
     {
         using var stream = new MemoryStream();
         // Write to a memory stream
@@ -284,16 +284,15 @@ public static class XmlStorage
     /// <returns>The loaded object.</returns>
     /// <exception cref="ZipException">A problem occurred while reading the ZIP data or if <paramref name="password"/> is wrong.</exception>
     /// <exception cref="InvalidDataException">A problem occurred while deserializing the XML data.</exception>
-    [NotNull]
-    public static T LoadXmlZip<T>([NotNull] Stream stream, [CanBeNull, Localizable(false)] string password = null, [NotNull] params EmbeddedFile[] additionalFiles)
+    public static T LoadXmlZip<T>(Stream stream, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
+        where T : class
     {
         #region Sanity checks
         if (stream == null) throw new ArgumentNullException(nameof(stream));
         if (additionalFiles == null) throw new ArgumentNullException(nameof(additionalFiles));
         #endregion
 
-        bool xmlFound = false;
-        T output = default(T);
+        T? output = null;
 
         using (var zipFile = new ZipFile(stream) {IsStreamOwner = false})
         {
@@ -306,7 +305,6 @@ public static class XmlStorage
                     // Read the XML file from the ZIP archive
                     var inputStream = zipFile.GetInputStream(zipEntry);
                     output = LoadXml<T>(inputStream);
-                    xmlFound = true;
                 }
                 else
                 {
@@ -323,8 +321,7 @@ public static class XmlStorage
             }
         }
 
-        if (xmlFound) return output;
-        throw new InvalidDataException(Properties.Resources.NoXmlDataInZip);
+        return output ?? throw new InvalidDataException(Properties.Resources.NoXmlDataInZip);
     }
 
     /// <summary>
@@ -340,8 +337,8 @@ public static class XmlStorage
     /// <exception cref="ZipException">A problem occurred while reading the ZIP data or if <paramref name="password"/> is wrong.</exception>
     /// <exception cref="InvalidDataException">A problem occurred while deserializing the XML data.</exception>
     /// <remarks>Uses <see cref="AtomicRead"/> internally.</remarks>
-    [NotNull]
-    public static T LoadXmlZip<T>([NotNull, Localizable(false)] string path, [CanBeNull, Localizable(false)] string password = null, [NotNull] params EmbeddedFile[] additionalFiles)
+    public static T LoadXmlZip<T>([Localizable(false)] string path, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
+        where T : class
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
@@ -363,7 +360,7 @@ public static class XmlStorage
     /// <param name="stream">The ZIP archive to be written.</param>
     /// <param name="password">The password to use for encryption; <c>null</c> for no encryption.</param>
     /// <param name="additionalFiles">Additional files to be stored alongside the XML file in the ZIP archive; can be <c>null</c>.</param>
-    public static void SaveXmlZip<T>([NotNull] this T data, [NotNull] Stream stream, [CanBeNull, Localizable(false)] string password = null, [NotNull] params EmbeddedFile[] additionalFiles)
+    public static void SaveXmlZip<T>([DisallowNull] this T data, Stream stream, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
     {
         #region Sanity checks
         if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -407,7 +404,7 @@ public static class XmlStorage
     /// <exception cref="IOException">A problem occurred while writing the file.</exception>
     /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
     /// <remarks>Uses <seealso cref="AtomicWrite"/> internally.</remarks>
-    public static void SaveXmlZip<T>([NotNull] this T data, [NotNull, Localizable(false)] string path, [CanBeNull, Localizable(false)] string password = null, [NotNull] params EmbeddedFile[] additionalFiles)
+    public static void SaveXmlZip<T>([DisallowNull] this T data, [Localizable(false)] string path, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));

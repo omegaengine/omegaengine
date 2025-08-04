@@ -7,6 +7,7 @@
     <OutputPath>..\artifacts\$(Configuration)\</OutputPath>
     <TargetFramework>net472</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
+    <Nullable>annotations</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

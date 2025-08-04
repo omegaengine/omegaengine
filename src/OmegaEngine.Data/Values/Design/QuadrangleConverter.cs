@@ -31,7 +31,7 @@ internal class QuadrangleConverter : ValueTypeConverter<Quadrangle>
         typeof(float),
         typeof(float),
         typeof(float)
-    ]);
+    ])!;
 
     /// <inheritdoc/>
     protected override object[] GetArguments(Quadrangle value) =>
@@ -47,19 +47,19 @@ internal class QuadrangleConverter : ValueTypeConverter<Quadrangle>
     ];
 
     /// <inheritdoc/>
-    protected override string[] GetValues(Quadrangle value, ITypeDescriptorContext context, CultureInfo culture)
+    protected override string[] GetValues(Quadrangle value, ITypeDescriptorContext? context, CultureInfo culture)
     {
         var floatConverter = TypeDescriptor.GetConverter(typeof(float));
         return
         [
-            floatConverter.ConvertToString(context, culture, value.P1.X),
-            floatConverter.ConvertToString(context, culture, value.P1.Y),
-            floatConverter.ConvertToString(context, culture, value.P2.X),
-            floatConverter.ConvertToString(context, culture, value.P2.Y),
-            floatConverter.ConvertToString(context, culture, value.P3.X),
-            floatConverter.ConvertToString(context, culture, value.P3.Y),
-            floatConverter.ConvertToString(context, culture, value.P4.X),
-            floatConverter.ConvertToString(context, culture, value.P4.Y)
+            floatConverter.ConvertToString(context, culture, value.P1.X) ?? "",
+            floatConverter.ConvertToString(context, culture, value.P1.Y) ?? "",
+            floatConverter.ConvertToString(context, culture, value.P2.X) ?? "",
+            floatConverter.ConvertToString(context, culture, value.P2.Y) ?? "",
+            floatConverter.ConvertToString(context, culture, value.P3.X) ?? "",
+            floatConverter.ConvertToString(context, culture, value.P3.Y) ?? "",
+            floatConverter.ConvertToString(context, culture, value.P4.X) ?? "",
+            floatConverter.ConvertToString(context, culture, value.P4.Y) ?? ""
         ];
     }
 
@@ -86,7 +86,7 @@ internal class QuadrangleConverter : ValueTypeConverter<Quadrangle>
         #endregion
 
         return new(
-            (Vector2)propertyValues["P1"], (Vector2)propertyValues["P2"],
-            (Vector2)propertyValues["P3"], (Vector2)propertyValues["P4"]);
+            (Vector2)propertyValues["P1"]!, (Vector2)propertyValues["P2"]!,
+            (Vector2)propertyValues["P3"]!, (Vector2)propertyValues["P4"]!);
     }
 }

@@ -33,7 +33,7 @@ public abstract class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : 
     /// Controls the basic movement parameters.
     /// </summary>
     [Browsable(false)]
-    public Movement Movement { get; set; }
+    public Movement? Movement { get; set; }
 
     //--------------------//
 

@@ -110,7 +110,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     /// <seealso cref="SurfaceEffect"/>
     /// <remarks>Will NOT be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
     [Description("The shader to apply to the surface of this body"), Category("Appearance")]
-    public SurfaceShader SurfaceShader
+    public SurfaceShader? SurfaceShader
     {
         get => _surfaceShader;
         set
@@ -314,7 +314,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
 
     // Order is not important, duplicate entries are not allowed
     private readonly HashSet<View> _requiredViews = [];
-    private SurfaceShader _surfaceShader;
+    private SurfaceShader? _surfaceShader;
 
     /// <summary>
     /// A list of <see cref="View"/>s that must be rendered before this <see cref="PositionableRenderable"/> can be rendered
@@ -327,7 +327,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights getLights = null)
+    internal override void Render(Camera camera, GetLights? getLights = null)
     {
         #region Sanity checks
         if (IsDisposed) throw new ObjectDisposedException(ToString());

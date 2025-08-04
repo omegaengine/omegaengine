@@ -24,13 +24,13 @@ partial class Terrain<TTemplate>
     /// <summary>Used for XML serialization.</summary>
     /// <seealso cref="Templates"/>
     [XmlElement("Template"), Browsable(false)]
-    public string[] TemplateNames
+    public string[]? TemplateNames
     {
         get
         {
             var templateNames = new string[Templates.Length];
             for (int i = 0; i < Templates.Length; i++)
-                templateNames[i] = (Templates[i] == null) ? "" : Templates[i].Name;
+                templateNames[i] = Templates[i]?.Name ?? "";
             return templateNames;
         }
         set

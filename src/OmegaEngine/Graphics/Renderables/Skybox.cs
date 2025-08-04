@@ -20,7 +20,7 @@ namespace OmegaEngine.Graphics.Renderables;
 public abstract class Skybox : Renderable
 {
     #region Variables
-    protected readonly ITextureProvider[] Textures = new ITextureProvider[6];
+    protected readonly ITextureProvider?[] Textures = new ITextureProvider?[6];
     #endregion
 
     #region Constructor
@@ -47,7 +47,7 @@ public abstract class Skybox : Renderable
     }
 
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights getLights = null)
+    internal override void Render(Camera camera, GetLights? getLights = null)
     {
         base.Render(camera, getLights);
 

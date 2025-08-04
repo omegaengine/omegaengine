@@ -27,7 +27,7 @@ public class AngleControl : UserControl
     /// <summary>
     /// An optional limit to the valid degree values. (Limits beyond 0° and 360° are ignored.)
     /// </summary>
-    public FloatRangeAttribute Range { get; set; }
+    public FloatRangeAttribute? Range { get; set; }
     #endregion
 
     #region Constructor

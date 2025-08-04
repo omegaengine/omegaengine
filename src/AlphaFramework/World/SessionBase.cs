@@ -34,7 +34,10 @@ public abstract class SessionBase<TUniverse>
     ///  Base-constructor for XML serialization. Do not call manually!
     /// </summary>
     protected SessionBase()
-    {}
+    {
+        Universe = null!;
+        MapSourceFile = null!;
+    }
 
     /// <summary>
     /// Creates a new game session based upon a given universe

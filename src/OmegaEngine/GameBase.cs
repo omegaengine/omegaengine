@@ -102,7 +102,7 @@ public abstract partial class GameBase : IDisposable
     /// <param name="icon">The icon of the application for the title bar</param>
     /// <param name="background">A background image for the window while loading</param>
     /// <param name="stretch">Stretch <paramref name="background"/> to fit the screen? (<c>false</c> will center it instead)</param>
-    protected GameBase(string name, Icon icon = null, Image background = null, bool stretch = false)
+    protected GameBase(string name, Icon? icon = null, Image? background = null, bool stretch = false)
     {
         // Setup render-target form
         Form = new()

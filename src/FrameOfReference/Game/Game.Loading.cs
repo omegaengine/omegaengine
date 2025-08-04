@@ -41,13 +41,13 @@ partial class Game
     /// The current game session
     /// </summary>
     [LuaHide]
-    public Session CurrentSession { get; private set; }
+    public Session? CurrentSession { get; private set; }
 
     /// <summary>
     /// The currently active presenter
     /// </summary>
     [LuaHide]
-    public Presenter CurrentPresenter { get; private set; }
+    public Presenter? CurrentPresenter { get; private set; }
     #endregion
 
     //--------------------//

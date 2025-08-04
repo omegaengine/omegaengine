@@ -42,7 +42,7 @@ public abstract class Camera : IPositionable
     /// Text value to make it easier to identify a particular camera
     /// </summary>
     [Description("Text value to make it easier to identify a particular camera"), Category("Design")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public override string ToString()
     {

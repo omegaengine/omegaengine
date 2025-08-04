@@ -44,7 +44,7 @@ partial class Terrain
     /// <param name="subsetShaders">Shaders for all subsets the mesh was split into</param>
     /// <param name="subsetBoundingBoxes">Bounding boxes for all subsets the mesh was split into</param>
     /// <returns>The model that was created</returns>
-    private static Mesh BuildMesh(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, ByteVector4Grid occlusionIntervalMap, bool lighting, int blockSize, out SurfaceShader[] subsetShaders, out BoundingBox[] subsetBoundingBoxes)
+    private static Mesh BuildMesh(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, ByteVector4Grid? occlusionIntervalMap, bool lighting, int blockSize, out SurfaceShader[] subsetShaders, out BoundingBox[] subsetBoundingBoxes)
     {
         #region Sanity checks
         if (heightMap.Width != size.Width || heightMap.Height != size.Height)
@@ -68,7 +68,7 @@ partial class Terrain
         }
     }
 
-    private static PositionMultiTextured[] GenerateVertexes(Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, ByteVector4Grid occlusionIntervalMap)
+    private static PositionMultiTextured[] GenerateVertexes(Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, ByteVector4Grid? occlusionIntervalMap)
     {
         var vertexes = new PositionMultiTextured[size.Width * size.Height];
 

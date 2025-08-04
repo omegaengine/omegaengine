@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
 using LuaInterface;
@@ -39,7 +40,7 @@ public interface ITerrain
     /// <exception cref="InvalidOperationException">The height-map size is incorrect.</exception>
     /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadHeightMap(Stream)"/>.</remarks>
     [XmlIgnore, Browsable(false)]
-    ByteGrid HeightMap { get; set; }
+    ByteGrid? HeightMap { get; set; }
 
     /// <summary>
     /// Direct access to the internal occlusion interval map array. Handle with care; clone when necessary!
@@ -47,7 +48,7 @@ public interface ITerrain
     /// <exception cref="InvalidOperationException">The size is incorrect.</exception>
     /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadOcclusionIntervalMap(System.IO.Stream)"/>.</remarks>
     [XmlIgnore, Browsable(false)]
-    ByteVector4Grid OcclusionIntervalMap { get; set; }
+    ByteVector4Grid? OcclusionIntervalMap { get; set; }
 
     /// <summary>
     /// Indicates that the data stored in <see cref="OcclusionIntervalMap"/> is outdated and should be recalculated using <see cref="OcclusionIntervalMapGenerator"/>.
@@ -61,12 +62,14 @@ public interface ITerrain
     /// <exception cref="InvalidOperationException">The height-map size is incorrect.</exception>
     /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadTextureMap(string)"/>.</remarks>
     [XmlIgnore, Browsable(false)]
-    NibbleGrid TextureMap { get; set; }
+    NibbleGrid? TextureMap { get; set; }
 
     /// <summary>
     /// Was the minimum necessary data for the terrain  (<see cref="HeightMap"/> and <see cref="TextureMap"/>) loaded already?
     /// </summary>
     [Browsable(false), XmlIgnore]
+    [MemberNotNullWhen(true, nameof(HeightMap))]
+    [MemberNotNullWhen(true, nameof(TextureMap))]
     bool DataLoaded { get; }
 
     /// <summary>

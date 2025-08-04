@@ -81,22 +81,22 @@ public struct XMaterial
     /// <summary>
     /// The normal map (i.e. bump map)
     /// </summary>
-    public ITextureProvider NormalMap { get; set; }
+    public ITextureProvider? NormalMap { get; set; }
 
     /// <summary>
     /// The height map (an optional addition to the normal map)
     /// </summary>
-    public ITextureProvider HeightMap { get; set; }
+    public ITextureProvider? HeightMap { get; set; }
 
     /// <summary>
     /// The specular map (which spots are "shiny")
     /// </summary>
-    public ITextureProvider SpecularMap { get; set; }
+    public ITextureProvider? SpecularMap { get; set; }
 
     /// <summary>
     /// The emissive (self-shining, without light source) - doubles as the glow map
     /// </summary>
-    public ITextureProvider EmissiveMap { get; set; }
+    public ITextureProvider? EmissiveMap { get; set; }
     #endregion
 
     #endregion
@@ -117,7 +117,7 @@ public struct XMaterial
         Emissive = Color.Black;
     }
 
-    public XMaterial(ITextureProvider diffuse) : this(Color.White)
+    public XMaterial(ITextureProvider? diffuse) : this(Color.White)
     {
         DiffuseMaps = new ITextureProvider[16];
         DiffuseMaps[0] = diffuse;

@@ -33,13 +33,13 @@ namespace FrameOfReference.World.Positionables;
 /// </summary>
 public class Waypoint : Positionable<Vector2>
 {
-    private string _targetEntity;
+    private string? _targetEntity;
 
     /// <summary>
     /// The name of the <see cref="Positionables.Entity"/> this waypoint is for.
     /// </summary>
     [XmlAttribute, Description("The name of the Entity this waypoint is for.")]
-    public string TargetEntity { get => _targetEntity; set => value.To(ref _targetEntity, OnChanged); }
+    public string? TargetEntity { get => _targetEntity; set => value.To(ref _targetEntity, OnChanged); }
 
     private double _activationTime;
 

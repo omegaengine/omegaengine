@@ -27,7 +27,7 @@ public class OcclusionIntervalMapGenerator : TaskBase
     private readonly ByteGrid _heightMap;
     private readonly Vector3[] _rayDirections = new Vector3[256];
 
-    private ByteVector4Grid _result;
+    private ByteVector4Grid? _result;
 
     /// <summary>
     /// Returns the calculated occlusion end map array once the calculation is complete.
@@ -40,7 +40,7 @@ public class OcclusionIntervalMapGenerator : TaskBase
         {
             if (State != TaskState.Complete) throw new InvalidOperationException(Resources.CalculationNotComplete);
 
-            return _result;
+            return _result ?? throw new InvalidOperationException(Resources.CalculationNotComplete);
         }
     }
     #endregion
@@ -133,29 +133,29 @@ public class OcclusionIntervalMapGenerator : TaskBase
     #region Calculation
     // NOTE: Recycles List<> to reduce pressure on garbage collector
     [ThreadStatic]
-    private static List<byte> _boundaries;
+    private static List<byte>? _boundaries;
 
     private ByteVector4 GetOcclusionVector(int x, int y)
     {
         if (_boundaries == null) _boundaries = [];
         else _boundaries.Clear();
 
-        CalculateBoundaries(x, y);
+        CalculateBoundaries(_boundaries, x, y);
         while (_boundaries.Count < 4) _boundaries.Add(255);
         if (_boundaries.Count % 2 == 1) _boundaries.Add(255);
-        while (_boundaries.Count > 4) RemoveShortestInterval();
+        while (_boundaries.Count > 4) RemoveShortestInterval(_boundaries);
 
         return new(_boundaries[0], _boundaries[1], _boundaries[2], _boundaries[3]);
     }
 
-    private void CalculateBoundaries(int x, int y)
+    private void CalculateBoundaries(List<byte> boundaries, int x, int y)
     {
         bool occluded = true;
         byte angle = 0;
         while (true)
         {
             angle = occluded ? FindNextUnoccluded(x, y, angle) : FindNextOccluded(x, y, angle);
-            _boundaries.Add(angle);
+            boundaries.Add(angle);
             if (angle >= 255) break;
 
             angle++;
@@ -163,13 +163,13 @@ public class OcclusionIntervalMapGenerator : TaskBase
         }
     }
 
-    private static void RemoveShortestInterval()
+    private static void RemoveShortestInterval(List<byte> boundaries)
     {
         int shortestIndex = 0;
-        int shortestDistance = _boundaries[1] - _boundaries[0];
-        for (int i = 1; i < _boundaries.Count - 1; i++)
+        int shortestDistance = boundaries[1] - boundaries[0];
+        for (int i = 1; i < boundaries.Count - 1; i++)
         {
-            int distance = _boundaries[i + 1] - _boundaries[i];
+            int distance = boundaries[i + 1] - boundaries[i];
             if (distance < shortestDistance)
             {
                 shortestIndex = i;
@@ -177,8 +177,8 @@ public class OcclusionIntervalMapGenerator : TaskBase
             }
         }
 
-        _boundaries.RemoveAt(shortestIndex + 1);
-        _boundaries.RemoveAt(shortestIndex);
+        boundaries.RemoveAt(shortestIndex + 1);
+        boundaries.RemoveAt(shortestIndex);
     }
 
     private byte FindNextOccluded(int x, int y, byte startAngle)

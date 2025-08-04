@@ -33,7 +33,7 @@ internal partial class ConfigForm : Form
         InitializeComponent();
 
         foreach (FieldInfo field in typeof(Settings).GetFields(BindingFlags.Public | BindingFlags.Instance))
-            listBox.Items.Add(field.GetValue(settings));
+            listBox.Items.Add(field.GetValue(settings)!);
     }
 
     private void listBox_SelectedIndexChanged(object sender, EventArgs e)

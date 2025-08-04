@@ -29,7 +29,7 @@ public class WaterShader : SurfaceShader
     private EffectHandle _reflectionMapHandle, _refractionMapHandle, _normalTextureHandle;
     private XTexture _waterTexture;
     private XTexture _normalTexture;
-    private readonly TextureView _reflectionView, _refractionView;
+    private readonly TextureView? _reflectionView, _refractionView;
     #endregion
 
     #region Properties
@@ -129,7 +129,7 @@ public class WaterShader : SurfaceShader
     /// </summary>
     /// <param name="refractionView">A render target storing the refraction of the current view; <c>null</c> for no refraction or reflection</param>
     /// <param name="reflectionView">A render target storing the reflection of the current view; <c>null</c> for no reflection</param>
-    public WaterShader(TextureView refractionView = null, TextureView reflectionView = null)
+    public WaterShader(TextureView? refractionView = null, TextureView? reflectionView = null)
     {
         _refractionView = refractionView;
         _reflectionView = reflectionView;

@@ -40,7 +40,7 @@ public sealed class Settings
     /// <summary>
     /// The currently active set of settings
     /// </summary>
-    public static Settings Current { get; private set; }
+    public static Settings Current { get; private set; } = null!;
 
     /// <summary>
     /// Automatically save any changed settings?
@@ -150,7 +150,7 @@ public sealed class Settings
 
     #region Config
     /// <summary>Contains a reference to the <see cref="ConfigForm"/> while it is open</summary>
-    private ConfigForm _configForm;
+    private ConfigForm? _configForm;
 
     /// <summary>
     /// Displays a configuration interface for the settings, allowing easy manipulation of values

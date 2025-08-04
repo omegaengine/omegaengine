@@ -23,7 +23,7 @@ public abstract class ParticleSystem : Render
     /// </summary>
     [Description("The filename of the XML particle system preset containing detailed settings.")]
     [XmlAttribute]
-    public string Filename { get; set; }
+    public string? Filename { get; set; }
 
     /// <inheritdoc/>
     public override string ToString()

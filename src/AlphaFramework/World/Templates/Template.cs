@@ -28,7 +28,7 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICo
     /// </summary>
     // Mark as read only for PropertyGrid, since direct renames would confuse NamedCollection<T>
     [XmlAttribute, ReadOnly(true), Description("The name of this class. Used in map files as a reference. Must be unique and is case-sensitive!")]
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>
     /// The color to highlight this class with in list representations. <see cref="Color.Empty"/> for no highlighting.
@@ -40,7 +40,7 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICo
     /// A short English description of this class for developers.
     /// </summary>
     [Description("A short English description of this class for developers.")]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <inheritdoc/>
     public override string ToString()
@@ -55,9 +55,9 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICo
 
     #region Comparison
     /// <inheritdoc/>
-    int IComparable<TSelf>.CompareTo(TSelf other)
+    int IComparable<TSelf>.CompareTo(TSelf? other)
     {
-        return string.Compare(Name, other.Name, StringComparison.OrdinalIgnoreCase);
+        return string.Compare(Name, other?.Name, StringComparison.OrdinalIgnoreCase);
     }
     #endregion
 
@@ -83,7 +83,7 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICo
     /// </summary>
     public static string FileName => typeof(TSelf).Name + "s.xml";
 
-    private static NamedCollection<TSelf> _all;
+    private static NamedCollection<TSelf>? _all;
 
     /// <summary>
     /// A list of all loaded <see cref="Template{TSelf}"/>s.

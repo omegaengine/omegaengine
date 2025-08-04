@@ -72,7 +72,7 @@ public struct ByteVector4 : IEquatable<ByteVector4>
     public static bool operator !=(ByteVector4 left, ByteVector4 right) => !left.Equals(right);
 
     /// <inheritdoc/>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         return obj is ByteVector4 vector4 && Equals(vector4);

@@ -864,7 +864,7 @@ public partial class MapEditor : UndoCommandTab
         else _presenter.TerrainBrush = null;
     }
 
-    private Base _mapModifier;
+    private Base? _mapModifier;
 
     /// <summary>
     /// Handles terrain painting (changing the height- or texture-map).

@@ -105,7 +105,7 @@ public sealed class Entity : EntityBase<Vector2, EntityTemplate>
     public bool CollisionTest(Vector2 point)
     {
         // With no valid collision control all collision checks always fail
-        if (TemplateData.Collision == null) return false;
+        if (TemplateData?.Collision == null) return false;
 
         // Convert position from world space to entity space and transmit rotation
         var shiftedPoint = point - Position;
@@ -120,7 +120,7 @@ public sealed class Entity : EntityBase<Vector2, EntityTemplate>
     public bool CollisionTest(Quadrangle area)
     {
         // With no valid collision control all collision checks always fail
-        if (TemplateData.Collision == null) return false;
+        if (TemplateData?.Collision == null) return false;
 
         // Convert position from world space to entity space and transmit rotation
         var shiftedArea = area.Offset(-Position);
@@ -135,10 +135,14 @@ public sealed class Entity : EntityBase<Vector2, EntityTemplate>
     /// <param name="elapsedTime">How much game time in seconds has elapsed since this method was last called. Must be positive!</param>
     private void UpdatePathfinding(double elapsedTime)
     {
+        if (TemplateData?.Movement is not {} movement) return;
+
         bool loop;
         Vector2 posDifference;
         do
         {
+            if (CurrentPath == null) return;
+
             // Get the position of the next target node
             Vector2 nextNodePos = CurrentPath.PathNodes.Peek();
 
@@ -147,7 +151,7 @@ public sealed class Entity : EntityBase<Vector2, EntityTemplate>
             float differenceLength = posDifference.Length();
 
             // Calculate how much of the distance should be walked in this interval
-            var movementFactor = (float)(elapsedTime * TemplateData.Movement.Speed / differenceLength);
+            var movementFactor = (float)(elapsedTime * movement.Speed / differenceLength);
 
             if (movementFactor >= 1)
             { // This move will skip past the current node
@@ -155,7 +159,7 @@ public sealed class Entity : EntityBase<Vector2, EntityTemplate>
                 CurrentPath.PathNodes.Dequeue();
 
                 // Subtract the amount of time the rest of the distance to the node would have taken
-                elapsedTime -= differenceLength / TemplateData.Movement.Speed;
+                elapsedTime -= differenceLength / movement.Speed;
 
                 if (CurrentPath.PathNodes.Count == 0)
                 { // No further nodes, go to final target

@@ -71,12 +71,13 @@ public class XTexture : Asset, ITextureProvider
     /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
     /// <exception cref="InvalidDataException">The file does not contain a valid texture.</exception>
     /// <remarks>Remember to call <see cref="CacheManager.Clean"/> when done, otherwise this object will never be released.</remarks>
-    public static XTexture Get(Engine engine, string id, bool meshTexture = false)
+    public static XTexture? Get(Engine engine, string? id, bool meshTexture = false)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
-        if (string.IsNullOrEmpty(id)) return null;
         #endregion
+
+        if (string.IsNullOrEmpty(id)) return null;
 
         // Try to find existing asset in cache
         string type = meshTexture ? "Meshes" : "Textures";

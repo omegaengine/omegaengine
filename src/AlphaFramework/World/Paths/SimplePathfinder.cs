@@ -42,7 +42,7 @@ public class SimplePathfinder : IPathfinder<Vector2>
     }
 
     /// <inheritdoc/>
-    public IEnumerable<Vector2> FindPath(Vector2 start, Vector2 target)
+    public IEnumerable<Vector2>? FindPath(Vector2 start, Vector2 target)
     {
         var roundedStart = new Vector2((int)start.X, (int)start.Y);
         var roundedTarget = new Vector2((int)target.X, (int)target.Y);

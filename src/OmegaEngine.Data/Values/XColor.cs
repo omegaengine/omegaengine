@@ -95,7 +95,7 @@ public struct XColor
     public static bool operator !=(Color color1, XColor color2) => color1 != (Color)color2;
 
     /// <inheritdoc/>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is XColor a) return (a == this);
         if (obj is Color b) return (b == this);

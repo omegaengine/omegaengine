@@ -27,7 +27,7 @@ public abstract class Asset : IReferenceCount, IDisposable, INamed, IComparable<
     /// </summary>
     // Mark as read only for PropertyGrid, since direct renames would confuse NamedCollection<T>
     [ReadOnly(true)]
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     public override string ToString()
     {
@@ -70,7 +70,7 @@ public abstract class Asset : IReferenceCount, IDisposable, INamed, IComparable<
     //--------------------//
 
     #region Comparison
-    int IComparable<Asset>.CompareTo(Asset other)
+    int IComparable<Asset>.CompareTo(Asset? other)
     {
         return (other == null) ? 0 : string.Compare(Name, other.Name, StringComparison.OrdinalIgnoreCase);
     }

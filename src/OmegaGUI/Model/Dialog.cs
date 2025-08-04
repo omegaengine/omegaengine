@@ -61,21 +61,21 @@ public class Dialog : ICloneable<Dialog>
     /// <summary>
     /// Occurs whenever one of the controls fires a script
     /// </summary>
-    public event ScriptExecution ScriptFired;
+    public event ScriptExecution? ScriptFired;
     #endregion
 
     #region Variables
     /// <summary>
     /// The <see cref="Render.Dialog"/> used for actual rendering
     /// </summary>
-    internal Render.Dialog DialogRender;
+    internal Render.Dialog? DialogRender;
 
     /// <summary>
     /// ToDo: Document
     /// </summary>
     internal uint CustomTexture = 1;
 
-    private IDictionary<string, string> _locale;
+    private IDictionary<string, string>? _locale;
     #endregion
 
     #region Properties
@@ -197,14 +197,14 @@ public class Dialog : ICloneable<Dialog>
     /// </summary>
     [DefaultValue(""), Description("A script to be run when the dialog is first shown"), Category("Events"), FileType("Lua")]
     [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-    public string OnShow { get; set; }
+    public string? OnShow { get; set; }
 
     /// <summary>
     /// A script to be run after the dialog was first shown and whenever it needs to update its output
     /// </summary>
     [DefaultValue(""), Description("A script to be run after the dialog was first shown and whenever it needs to update its output"), Category("Events"), FileType("Lua")]
     [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-    public string OnUpdate { get; set; }
+    public string? OnUpdate { get; set; }
     #endregion
 
     #region Texture file

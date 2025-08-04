@@ -22,10 +22,10 @@ namespace OmegaEngine.Graphics.Renderables;
 public class VertexGroup : PositionableRenderable
 {
     #region Variables
-    private VertexBuffer _vb;
+    private VertexBuffer? _vb;
     private readonly int _vertexCount;
 
-    private IndexBuffer _ib;
+    private IndexBuffer? _ib;
     private readonly XMaterial _material = XMaterial.DefaultMaterial;
     private readonly PrimitiveType _primitiveType;
     private int _primitiveCount;
@@ -40,7 +40,7 @@ public class VertexGroup : PositionableRenderable
     /// <param name="primitiveType">The type of primitives to generate from the vertexes</param>
     /// <param name="vertexes">An array for vertexes with position and color information</param>
     /// <param name="indexes">An array of indexes for the index buffer; <c>null</c> for no indexes</param>
-    public VertexGroup(PrimitiveType primitiveType, PositionColored[] vertexes, short[] indexes = null)
+    public VertexGroup(PrimitiveType primitiveType, PositionColored[] vertexes, short[]? indexes = null)
     {
         #region Sanity checks
         if (vertexes == null) throw new ArgumentNullException(nameof(vertexes));
@@ -61,7 +61,7 @@ public class VertexGroup : PositionableRenderable
     /// <param name="primitiveType">The type of primitives to generate from the vertexes</param>
     /// <param name="vertexes">An array for vertexes with position and color information</param>
     /// <param name="indexes">An array of indexes for the index buffer; <c>null</c> for no indexes</param>
-    public VertexGroup(PrimitiveType primitiveType, PositionNormalColored[] vertexes, short[] indexes = null)
+    public VertexGroup(PrimitiveType primitiveType, PositionNormalColored[] vertexes, short[]? indexes = null)
     {
         #region Sanity checks
         if (vertexes == null) throw new ArgumentNullException(nameof(vertexes));
@@ -109,7 +109,7 @@ public class VertexGroup : PositionableRenderable
     /// <param name="indexes">An array of indexes for the index buffer; <c>null</c> for no indexes</param>
     /// <param name="material">The material to use for rendering</param>
     public VertexGroup(PrimitiveType primitiveType, PositionNormalTextured[] vertexes,
-                       short[] indexes, XMaterial material)
+                       short[]? indexes, XMaterial material)
     {
         #region Sanity checks
         if (vertexes == null) throw new ArgumentNullException(nameof(vertexes));
@@ -132,7 +132,7 @@ public class VertexGroup : PositionableRenderable
     /// Is internally used by all constructors for initialization
     /// </summary>
     /// <param name="indexes">An array of indexes for the index buffer; <c>null</c> for no indexes</param>
-    private void Initialize(short[] indexes)
+    private void Initialize(short[]? indexes)
     {
         #region Index Buffer
         int effectiveVertexes;
@@ -189,7 +189,7 @@ public class VertexGroup : PositionableRenderable
     /// <param name="size">The length of a border of the quad.</param>
     /// <param name="texture">The texture to place on the vertex group; <c>null</c> for no texture.</param>
     /// <returns>The vertex group that was created.</returns>
-    public static VertexGroup Quad(float size, ITextureProvider texture = null)
+    public static VertexGroup Quad(float size, ITextureProvider? texture = null)
     {
         var normalVector = new Vector3(0, 0, 1);
         PositionNormalTextured[] vertexes =
@@ -208,7 +208,7 @@ public class VertexGroup : PositionableRenderable
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights getLights = null)
+    internal override void Render(Camera camera, GetLights? getLights = null)
     {
         base.Render(camera, getLights);
         Engine.State.WorldTransform = WorldTransform;
@@ -256,7 +256,7 @@ public class VertexGroup : PositionableRenderable
         _vb = _buildVertexBuffer();
 
         // Calculate bounding bodies
-        BoundingSphere = BufferHelper.ComputeBoundingSphere(_vb, _vertexCount);
+        BoundingSphere = BufferHelper.ComputeBoundingSphere(_vb!, _vertexCount);
         BoundingBox = BufferHelper.ComputeBoundingBox(_vb, _vertexCount);
     }
     #endregion

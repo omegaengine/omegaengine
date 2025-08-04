@@ -41,7 +41,7 @@ public class EntityTemplate : EntityTemplateBase<EntityTemplate>
     /// </summary>
     [Browsable(false)]
     [XmlElement(typeof(Circle)), XmlElement(typeof(Box))]
-    public Collision<Vector2> Collision { get; set; }
+    public Collision<Vector2>? Collision { get; set; }
 
     //--------------------//
 

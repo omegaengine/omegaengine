@@ -39,7 +39,7 @@ public sealed class TerrainTemplate : Template<TerrainTemplate>
     /// The filename of the ground texture.
     /// </summary>
     [XmlAttribute, Browsable(false)]
-    public string Texture { get; set; }
+    public string? Texture { get; set; }
 
     private Color _color = Color.Black;
 

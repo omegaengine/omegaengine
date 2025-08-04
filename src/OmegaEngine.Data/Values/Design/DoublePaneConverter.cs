@@ -29,7 +29,7 @@ internal class DoublePlaneConverter : ValueTypeConverter<DoublePlane>
         typeof(float),
         typeof(float),
         typeof(float)
-    ]);
+    ])!;
 
     /// <inheritdoc/>
     protected override object[] GetArguments(DoublePlane value) =>
@@ -43,18 +43,18 @@ internal class DoublePlaneConverter : ValueTypeConverter<DoublePlane>
     ];
 
     /// <inheritdoc/>
-    protected override string[] GetValues(DoublePlane value, ITypeDescriptorContext context, CultureInfo culture)
+    protected override string[] GetValues(DoublePlane value, ITypeDescriptorContext? context, CultureInfo culture)
     {
         var doubleConverter = TypeDescriptor.GetConverter(typeof(double));
         var floatConverter = TypeDescriptor.GetConverter(typeof(float));
         return
         [
-            doubleConverter.ConvertToString(context, culture, value.Point.X),
-            doubleConverter.ConvertToString(context, culture, value.Point.Y),
-            doubleConverter.ConvertToString(context, culture, value.Point.Z),
-            floatConverter.ConvertToString(context, culture, value.Normal.X),
-            floatConverter.ConvertToString(context, culture, value.Normal.Y),
-            floatConverter.ConvertToString(context, culture, value.Normal.Z)
+            doubleConverter.ConvertToString(context, culture, value.Point.X) ?? "",
+            doubleConverter.ConvertToString(context, culture, value.Point.Y) ?? "",
+            doubleConverter.ConvertToString(context, culture, value.Point.Z) ?? "",
+            floatConverter.ConvertToString(context, culture, value.Normal.X) ?? "",
+            floatConverter.ConvertToString(context, culture, value.Normal.Y) ?? "",
+            floatConverter.ConvertToString(context, culture, value.Normal.Z) ?? ""
         ];
     }
 
@@ -78,6 +78,6 @@ internal class DoublePlaneConverter : ValueTypeConverter<DoublePlane>
         if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
         #endregion
 
-        return new((DoubleVector3)propertyValues["Point"], (Vector3)propertyValues["Normal"]);
+        return new((DoubleVector3)propertyValues["Point"]!, (Vector3)propertyValues["Normal"]!);
     }
 }

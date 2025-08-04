@@ -30,8 +30,8 @@ public sealed class DialogManager : IDisposable
     #endregion
 
     #region Properties
-    public StateBlock StateBlock { get; private set; }
-    public Sprite Sprite { get; private set; }
+    public StateBlock? StateBlock { get; private set; }
+    public Sprite? Sprite { get; private set; }
 
     /// <summary>
     /// Gets a font node from the cache
@@ -52,7 +52,7 @@ public sealed class DialogManager : IDisposable
     /// <summary>
     /// Gets the render engine
     /// </summary>
-    public Engine Engine { get; }
+    public Engine? Engine { get; }
 
     /// <summary>
     /// Gets the DirectX device

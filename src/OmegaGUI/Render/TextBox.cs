@@ -196,10 +196,9 @@ public class TextBox : Control
     }
 
     /// <summary>Sets the text for the control</summary>
-    public void SetText(string text, bool selected)
+    public void SetText(string? text, bool selected)
     {
-        if (text == null)
-            text = string.Empty;
+        text ??= string.Empty;
 
         textData.Text = text;
         textData.SelectionStart = text.Length;

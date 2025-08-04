@@ -30,31 +30,31 @@ partial class Engine
     /// Occurs once for every frame before rendering.
     /// </summary>
     [Description("Occurs once for every frame before rendering.")]
-    public event Action PreRender;
+    public event Action? PreRender;
 
     /// <summary>
     /// Allows the integration of external render processes at the end of the <see cref="Engine"/>'s presentation scheme.
     /// </summary>
     [Description("Allows the integration of external render processes at the end of the Engine's presentation scheme.")]
-    public event Action ExtraRender;
+    public event Action? ExtraRender;
 
     /// <summary>
     /// Occurs once for every frame after rendering
     /// </summary>
     [Description("Occurs once for every frame after rendering.")]
-    public event Action PostRender;
+    public event Action? PostRender;
 
     /// <summary>
     /// Occurs after the <see cref="Device"/> was lost. This usually happens when switching to or from fullscreen mode.
     /// </summary>
     [Description("Occurs after the DirectX Device was lost. This usually happens when switching to or from fullscreen mode.")]
-    public event Action DeviceLost;
+    public event Action? DeviceLost;
 
     /// <summary>
     /// Occurs after the <see cref="Device"/> was reset. This needs to be done to continue using it after <see cref="DeviceLost"/>.
     /// </summary>
     [Description("Occurs after the DirectX Device was reset. This needs to be done to continue using it after DeviceLost.")]
-    public event Action DeviceReset;
+    public event Action? DeviceReset;
     #endregion
 
     #region Variables

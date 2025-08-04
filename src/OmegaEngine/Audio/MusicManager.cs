@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -27,14 +28,15 @@ public sealed class MusicManager : IDisposable
     private readonly Engine _engine;
     private readonly MultiDictionary<string, Song> _themes = new();
 
-    private string _currentTheme;
-    private Song _currentSong;
+    private string? _currentTheme;
+    private Song? _currentSong;
     #endregion
 
     #region Properties
     /// <summary>
     /// Is music currently being played?
     /// </summary>
+    [MemberNotNullWhen(true, nameof(_currentSong))]
     public bool Playing => _currentSong is { Playing: true };
     #endregion
 
@@ -166,7 +168,7 @@ public sealed class MusicManager : IDisposable
     /// Switches to a new theme, but doesn't interrupt the current song
     /// </summary>
     /// <param name="theme">The name of the new theme; may be <c>null</c></param>
-    public void SwitchTheme(string theme)
+    public void SwitchTheme(string? theme)
     {
         _currentTheme = theme;
     }

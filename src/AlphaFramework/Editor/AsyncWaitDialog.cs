@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using JetBrains.Annotations;
 using NanoByte.Common.Native;
 
 namespace AlphaFramework.Editor;
@@ -34,7 +33,7 @@ public sealed partial class AsyncWaitDialog : Form
     /// </summary>
     /// <param name="title">The title of th dialog to display.</param>
     /// <param name="icon">The icon for the dialog to display in the task bar; can be <c>null</c>.</param>
-    public AsyncWaitDialog([NotNull, Localizable(true)] string title, [CanBeNull] Icon icon = null)
+    public AsyncWaitDialog([Localizable(true)] string title, Icon? icon = null)
     {
         InitializeComponent();
 

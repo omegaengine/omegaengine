@@ -25,7 +25,7 @@ public abstract class Renderable : EngineElement, IResetable
     /// Occurs once per frame before rendering the entity.
     /// Will not be executed if the entity is excluded by a culling test.
     /// </summary>
-    public event Action PreRender;
+    public event Action? PreRender;
 
     protected virtual void OnPreRender()
     {
@@ -51,7 +51,7 @@ public abstract class Renderable : EngineElement, IResetable
     /// Text value to make it easier to identify a particular render entity
     /// </summary>
     [Description("Text value to make it easier to identify a particular render entity"), Category("Design")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public override string ToString()
     {
@@ -128,7 +128,7 @@ public abstract class Renderable : EngineElement, IResetable
     /// </summary>
     /// <param name="camera">Supplies information for the view transformation.</param>
     /// <param name="getLights">A delegate that will be called to get lighting information.</param>
-    internal virtual void Render(Camera camera, GetLights getLights = null)
+    internal virtual void Render(Camera camera, GetLights? getLights = null)
     {
         PrepareRender();
     }

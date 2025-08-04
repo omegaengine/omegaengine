@@ -156,7 +156,7 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     public static bool operator !=(DoubleVector3 left, DoubleVector3 right) => !left.Equals(right);
 
     /// <inheritdoc/>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         return obj is DoubleVector3 vector3 && Equals(vector3);

@@ -144,13 +144,13 @@ partial class Game
             TerrainTemplate.LoadAll();
 
             // Handle command-line arguments
-            if (Program.Args.Contains("map") && !string.IsNullOrEmpty(Program.Args["map"]))
+            if (Program.Args["map"] is {} map)
             { // Load command-line map
-                LoadMap(Program.Args["map"]);
+                LoadMap(map);
             }
-            else if (Program.Args.Contains("modify") && !string.IsNullOrEmpty(Program.Args["modify"]))
+            else if  (Program.Args["modify"] is {} modify)
             { // Load command-line map for modification
-                ModifyMap(Program.Args["modify"]);
+                ModifyMap(modify);
             }
             else if (Program.Args.Contains("benchmark"))
             { // Run automatic benchmark
@@ -159,7 +159,7 @@ partial class Game
             else
             { // Load main menu
                 PreloadPreviousSession();
-                LoadMenu(Program.Args.Contains("menu") ? Program.Args["menu"] : GetMenuMap());
+                LoadMenu(Program.Args["menu"] ?? GetMenuMap());
             }
         }
 

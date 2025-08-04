@@ -43,7 +43,7 @@ public abstract class Mesh : Render
     /// </summary>
     [DefaultValue(""), Description("The filename of the mesh-file to use for rendering.")]
     [XmlAttribute]
-    public string Filename { get; set; }
+    public string? Filename { get; set; }
 
     /// <inheritdoc/>
     public override string ToString()

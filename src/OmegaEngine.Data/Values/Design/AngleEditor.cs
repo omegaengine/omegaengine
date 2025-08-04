@@ -47,7 +47,7 @@ public class AngleEditor : FloatEditor
     }
 
     /// <inheritdoc/>
-    public override bool GetPaintValueSupported(ITypeDescriptorContext context) => true;
+    public override bool GetPaintValueSupported(ITypeDescriptorContext? context) => true;
 
     /// <inheritdoc/>
     public override void PaintValue(PaintValueEventArgs e)

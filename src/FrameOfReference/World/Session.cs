@@ -45,7 +45,7 @@ public sealed partial class Session : SessionBase<Universe>
     /// The scripting engine used to execute story scripts.
     /// </summary>
     [XmlIgnore]
-    public Lua Lua { get; set; }
+    public Lua? Lua { get; set; }
 #endif
 
     /// <summary>

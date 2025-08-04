@@ -230,7 +230,7 @@ public struct Quadrangle : IEquatable<Quadrangle>
     public static bool operator !=(Quadrangle left, Quadrangle right) => !left.Equals(right);
 
     /// <inheritdoc/>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         return obj is Quadrangle quadrangle && Equals(quadrangle);

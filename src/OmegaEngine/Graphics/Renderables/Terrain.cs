@@ -146,7 +146,7 @@ public partial class Terrain : Model
     /// <exception cref="IOException">There was an error reading one of the texture files.</exception>
     /// <exception cref="UnauthorizedAccessException">Read access to one of the texture files is not permitted.</exception>
     /// <exception cref="InvalidDataException">One of the texture files does not contain a valid texture.</exception>
-    public static Terrain Create(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, string[] textures, ByteVector4Grid occlusionIntervalMap, bool lighting, int blockSize)
+    public static Terrain Create(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, string[] textures, ByteVector4Grid? occlusionIntervalMap, bool lighting, int blockSize)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -256,7 +256,7 @@ public partial class Terrain : Model
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights getLights = null)
+    internal override void Render(Camera camera, GetLights? getLights = null)
     {
         #region Sanity checks
         if (getLights == null) throw new ArgumentNullException(nameof(getLights));
