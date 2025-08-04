@@ -21,8 +21,10 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
 using AlphaFramework.World.Terrains;
@@ -111,26 +113,18 @@ partial class Universe
     {
         UnwrapWaypoints();
         using (Entity.MaskTemplateData())
-        {
-            if (Terrain.OcclusionIntervalMap == null)
-            {
-                this.SaveXmlZip(path, additionalFiles:
-                [
-                    new("height.png", 0, Terrain.HeightMap.Save),
-                    new("texture.png", 0, Terrain.TextureMap.Save)
-                ]);
-            }
-            else
-            {
-                this.SaveXmlZip(path, additionalFiles:
-                [
-                    new("height.png", 0, Terrain.HeightMap.Save),
-                    new("texture.png", 0, Terrain.TextureMap.Save),
-                    new("occlusion.png", 0, Terrain.OcclusionIntervalMap.Save)
-                ]);
-            }
-        }
+            this.SaveXmlZip(path, additionalFiles: GetEmbeddedFiles().ToArray());
 
         SourceFile = path;
+
+        IEnumerable<EmbeddedFile> GetEmbeddedFiles()
+        {
+            if (Terrain?.HeightMap is {} heightMap)
+                yield return new("height.png", 0, heightMap.Save);
+            if (Terrain?.TextureMap is {} textureMap)
+                yield return new("texture.png", 0, textureMap.Save);
+            if (Terrain?.OcclusionIntervalMap is {} occlusionIntervalMap)
+                yield return new("occlusion.png", 0, occlusionIntervalMap.Save);
+        }
     }
 }
