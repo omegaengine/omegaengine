@@ -125,7 +125,7 @@ public abstract class Shader : EngineElement
     protected ScriptEffectType ScriptType;
 
     /// <summary>A list of commands composing the global SAS script</summary>
-    protected IList<SasScriptCommand> GlobalScript;
+    protected IList<SasScriptCommand>? GlobalScript;
 
     /// <summary>A list of techniques and their SAS scripts</summary>
     protected readonly Dictionary<EffectHandle, IList<SasScriptCommand>> Techniques = new();
@@ -134,9 +134,9 @@ public abstract class Shader : EngineElement
     protected readonly Dictionary<EffectHandle, IList<SasScriptCommand>> Passes = new();
 
     /// <summary>A list of annotated shader parameters</summary>
-    protected ParameterInfo[] ParameterInfos;
+    protected ParameterInfo[]? ParameterInfos;
 
-    private RenderTarget _activeRenderTarget;
+    private RenderTarget? _activeRenderTarget;
 
     private readonly Pool<RenderTarget>
         _availableRenderTargets = new(),
@@ -265,7 +265,7 @@ public abstract class Shader : EngineElement
     #endregion
 
     #region Parse script
-    private IList<SasScriptCommand> ParseScript(string script)
+    private IList<SasScriptCommand>? ParseScript(string? script)
     {
         if (string.IsNullOrEmpty(script)) return null;
 
@@ -454,7 +454,7 @@ public abstract class Shader : EngineElement
     /// <param name="sceneSize">The size of the scene on the screen - leave empty for fullscreen</param>
     /// <param name="sceneMap">A texture containing the rendered scene for <see cref="PostShader"/>), <c>null</c> if the shader doesn't need it</param>
     /// <param name="passScript">Is this a pass script?</param>
-    protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action render, Size sceneSize, RenderTarget sceneMap, bool passScript)
+    protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action? render, Size sceneSize, RenderTarget? sceneMap, bool passScript)
     {
         if (script == null) throw new ArgumentNullException(nameof(script));
 
@@ -607,7 +607,7 @@ public abstract class Shader : EngineElement
     /// <param name="render">The render delegate (is called once for every shader pass); <c>null</c> for global script</param>
     /// <param name="sceneSize">The size of the scene on the screen - leave empty for fullscreen</param>
     /// <param name="sceneMap">A texture containing the rendered scene for <see cref="PostShader"/>), <c>null</c> if the shader doesn't need it</param>
-    protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action render = null, Size sceneSize = new(), RenderTarget sceneMap = null)
+    protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action? render = null, Size sceneSize = new(), RenderTarget? sceneMap = null)
     {
         ExecuteScript(script, render, sceneSize, sceneMap, false);
 

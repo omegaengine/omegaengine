@@ -44,7 +44,7 @@ internal static class Program
     /// <summary>
     /// The arguments this application was launched with.
     /// </summary>
-    public static Arguments Args { get; private set; }
+    public static Arguments Args { get; private set; } = null!;
 
     /// <summary>
     /// The main entry point for the application.
@@ -135,8 +135,8 @@ internal static class Program
                 ContentManager.BaseDir = new(Path.Combine(Locations.InstallBase, Settings.Current.General.ContentDir));
 
             // Mod
-            if (Args.Contains("mod"))
-                ContentManager.ModDir = new(Path.Combine(Path.Combine(Locations.InstallBase, "Mods"), Args["mod"]));
+            if (Args["mod"] is {} mod)
+                ContentManager.ModDir = new(Path.Combine(Path.Combine(Locations.InstallBase, "Mods"), mod));
             if (ContentManager.ModDir != null) Log.Info("Load mod from: " + ContentManager.ModDir);
         }
         #region Error handling

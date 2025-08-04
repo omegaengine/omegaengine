@@ -8,6 +8,9 @@
     <TargetFrameworks>net472;net8.0-windows</TargetFrameworks>
     <PlatformTarget>anycpu</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
 
   <!-- Dependencies -->
   <ItemGroup>

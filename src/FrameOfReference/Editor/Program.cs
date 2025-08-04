@@ -45,7 +45,7 @@ internal static class Program
     /// <summary>
     /// The arguments this application was launched with.
     /// </summary>
-    public static Arguments Args { get; private set; }
+    public static Arguments Args { get; private set; } = null!;
 
     /// <summary>
     /// Shall the application start from the beginning again?

@@ -21,6 +21,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
@@ -55,7 +56,7 @@ public sealed partial class Universe : UniverseBase<Vector2>
     /// <exception cref="InvalidOperationException">The <see cref="Terrain"/> could not be properly loaded from the file.</exception>
     /// <remarks>Is not serialized/stored, <see cref="TerrainSerialize"/> is used for that.</remarks>
     [XmlIgnore, Browsable(false)]
-    public Terrain<TerrainTemplate> Terrain
+    public Terrain<TerrainTemplate>? Terrain
     {
         get
         {
@@ -97,19 +98,19 @@ public sealed partial class Universe : UniverseBase<Vector2>
     /// Retrieves an <see cref="Entity"/> from <see cref="Positionables"/> by its name.
     /// </summary>
     /// <returns>The first matching <see cref="Entity"/>; <c>null</c> if there is no match.</returns>
-    public Entity GetEntity(string name) => _positionables.OfType<Entity>().FirstOrDefault(x => x.Name == name);
+    public Entity? GetEntity(string name) => _positionables.OfType<Entity>().FirstOrDefault(x => x.Name == name);
 
     /// <summary>
     /// Retrieves an <see cref="Trigger"/> from <see cref="Positionables"/> by its name.
     /// </summary>
     /// <returns>The first matching <see cref="Trigger"/>; <c>null</c> if there is no match.</returns>
-    public Trigger GetTrigger(string name) => _positionables.OfType<Trigger>().FirstOrDefault(x => x.Name == name);
+    public Trigger? GetTrigger(string name) => _positionables.OfType<Trigger>().FirstOrDefault(x => x.Name == name);
 
     /// <summary>
     /// Retrieves an <see cref="CameraState{TCoordinates}"/> from <see cref="Positionables"/> by its name.
     /// </summary>
     /// <returns>The first matching <see cref="CameraState{TCoordinates}"/>; <c>null</c> if there is no match.</returns>
-    public CameraState<Vector2> GetCamera(string name) => _positionables.OfType<CameraState<Vector2>>().FirstOrDefault(x => x.Name == name);
+    public CameraState<Vector2>? GetCamera(string name) => _positionables.OfType<CameraState<Vector2>>().FirstOrDefault(x => x.Name == name);
 
     /// <summary>
     /// Makes a player-controlled <see cref="Entity"/> move towards a <paramref name="target"/>.
@@ -120,7 +121,7 @@ public sealed partial class Universe : UniverseBase<Vector2>
         if (entity == null) throw new ArgumentNullException(nameof(entity));
         #endregion
 
-        if (!entity.IsPlayerControlled || entity.TemplateData.Movement == null) return;
+        if (!entity.IsPlayerControlled || entity.TemplateData?.Movement == null) return;
 
         entity.Waypoints.Add(new() {TargetEntity = entity.Name, ActivationTime = GameTime, Position = target, OriginPosition = entity.Position});
         entity.ActiveWaypointIndex = entity.Waypoints.Count - 1;
@@ -131,9 +132,10 @@ public sealed partial class Universe : UniverseBase<Vector2>
     /// <summary>
     /// Turns a specific <see cref="Entity"/> into a player-controlled character.
     /// </summary>
+    /// <exception cref="KeyNotFoundException">Entity not found.</exception>
     public void MakePlayerControlled(string name)
     {
-        var entity = GetEntity(name);
+        var entity = GetEntity(name) ?? throw new KeyNotFoundException("Entity not found: " + name);
 
         // Remove any recorded paths
         entity.Waypoints.RemoveAll(x => (x.ArrivalTimeSpecified ? x.ArrivalTime : x.ActivationTime) >= GameTime);

@@ -52,7 +52,7 @@ public partial class View : EngineElement, IResetable
 
     #region Render-to-texture
     /// <summary>An alternative surface to render onto instead of the back-buffer</summary>
-    protected RenderTarget RenderTarget;
+    protected RenderTarget? RenderTarget;
 
     private RenderTarget _secondaryRenderTarget;
 

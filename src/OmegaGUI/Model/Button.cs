@@ -34,7 +34,7 @@ public class Button : ButtonBase
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    private Render.Button _button;
+    private Render.Button? _button;
     #endregion
 
     #region Properties
@@ -49,7 +49,7 @@ public class Button : ButtonBase
         set
         {
             ControlText = value;
-            if (_button != null) _button.SetText(Parent.GetLocalized(ControlText));
+            _button?.SetText(Parent.GetLocalized(ControlText));
         }
     }
 

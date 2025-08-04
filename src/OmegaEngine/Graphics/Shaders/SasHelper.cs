@@ -36,7 +36,7 @@ namespace OmegaEngine.Graphics.Shaders;
 internal static class SasHelper
 {
     #region Annotation String
-    public static string FindAnnotationString(Effect effect, EffectHandle handle, string name)
+    public static string? FindAnnotationString(Effect effect, EffectHandle handle, string name)
     {
         if (effect == null) throw new ArgumentNullException(nameof(effect));
         if (handle == null) throw new ArgumentNullException(nameof(handle));
@@ -58,7 +58,7 @@ internal static class SasHelper
     #endregion
 
     #region Technique Annotation String
-    public static string FindTechniqueAnnotationString(Effect effect, EffectHandle handle, string name)
+    public static string? FindTechniqueAnnotationString(Effect effect, EffectHandle handle, string name)
     {
         if (effect == null) throw new ArgumentNullException(nameof(effect));
         if (handle == null) throw new ArgumentNullException(nameof(handle));
@@ -80,7 +80,7 @@ internal static class SasHelper
     #endregion
 
     #region Pass Annotation String
-    public static string FindPassAnnotationString(Effect effect, EffectHandle handle, string name)
+    public static string? FindPassAnnotationString(Effect effect, EffectHandle handle, string name)
     {
         if (effect == null) throw new ArgumentNullException(nameof(effect));
         if (handle == null) throw new ArgumentNullException(nameof(handle));

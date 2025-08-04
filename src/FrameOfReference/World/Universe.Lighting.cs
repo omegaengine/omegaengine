@@ -40,7 +40,7 @@ partial class Universe
     /// <see cref="ColorCorrectionDawn"/>, <see cref="ColorCorrectionNoon"/> or <see cref="ColorCorrectionDusk"/>, <see cref="ColorCorrectionMidnight"/> was changed.
     /// </summary>
     [Description("Occurs when LightPhase, AmbientColor, SunColor or ColorCorrectionPhase* was changed.")]
-    public event Action LightingChanged;
+    public event Action? LightingChanged;
 
     private void OnLightingChanged() => LightingChanged?.Invoke();
     #endregion

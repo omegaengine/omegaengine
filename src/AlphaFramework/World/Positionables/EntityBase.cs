@@ -25,7 +25,7 @@ public abstract class EntityBase<TCoordinates, TTemplate> : Positionable<TCoordi
     where TTemplate : EntityTemplateBase<TTemplate>
 {
     #region Template
-    private string _templateName;
+    private string? _templateName;
 
     /// <summary>
     /// The name of the <typeparamref name="TTemplate"/>.
@@ -35,7 +35,7 @@ public abstract class EntityBase<TCoordinates, TTemplate> : Positionable<TCoordi
     /// This is serialized/stored in map files. It is also serialized/stored in savegames, but the value is ignored there (due to the attribute order)!
     /// </remarks>
     [XmlAttribute("Template"), Description("The name of the entity template")]
-    public string TemplateName
+    public string? TemplateName
     {
         get { return _templateName; }
         set
@@ -61,7 +61,7 @@ public abstract class EntityBase<TCoordinates, TTemplate> : Positionable<TCoordi
         }
     }
 
-    private TTemplate _template;
+    private TTemplate? _template;
 
     /// <summary>
     /// The <typeparamref name="TTemplate"/> controlling the behavior and look for this <see cref="EntityBase{TCoordinates,TTemplate}"/>.
@@ -71,7 +71,7 @@ public abstract class EntityBase<TCoordinates, TTemplate> : Positionable<TCoordi
     /// This is serialized/stored in savegames but not in map files!
     /// </remarks>
     [Browsable(false)]
-    public TTemplate TemplateData
+    public TTemplate? TemplateData
     {
         get { return _templateDataMasked ? null : _template; }
         set
@@ -127,7 +127,7 @@ public abstract class EntityBase<TCoordinates, TTemplate> : Positionable<TCoordi
     /// The path this entity is currently walking along.
     /// </summary>
     [XmlIgnore, Browsable(false)]
-    public StoredPath<TCoordinates> CurrentPath { get; set; }
+    public StoredPath<TCoordinates>? CurrentPath { get; set; }
 
     /// <inheritdoc/>
     public override string ToString()

@@ -83,7 +83,7 @@ public struct ColorCorrection : IEquatable<ColorCorrection>
     /// <param name="factor">A factor between 0 and <paramref name="values"/>.Length.</param>
     /// <param name="values">The value checkpoints.</param>
     [Pure]
-    public static ColorCorrection SinusInterpolate(float factor, [NotNull] params ColorCorrection[] values)
+    public static ColorCorrection SinusInterpolate(float factor, params ColorCorrection[] values)
     {
         #region Sanity checks
         if (values == null) throw new ArgumentNullException(nameof(values));
@@ -117,7 +117,7 @@ public struct ColorCorrection : IEquatable<ColorCorrection>
     public static bool operator !=(ColorCorrection left, ColorCorrection right) => !left.Equals(right);
 
     /// <inheritdoc/>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         return (obj.GetType() != typeof(ColorCorrection)) && Equals((ColorCorrection)obj);

@@ -40,7 +40,7 @@ public sealed partial class ModSelectorForm : Form
     /// </summary>
     /// <param name="allowEditMain"><c>true</c> to allow the user to edit the main game as well; <c>false</c> to allow only mods to be edited.</param>
     /// <param name="recentMods">An externally stored list of recently opened mods.</param>
-    public ModSelectorForm(bool allowEditMain, IList<string> recentMods = null)
+    public ModSelectorForm(bool allowEditMain, IList<string>? recentMods = null)
     {
         InitializeComponent();
         Text = AboutBox.AssemblyTitle;

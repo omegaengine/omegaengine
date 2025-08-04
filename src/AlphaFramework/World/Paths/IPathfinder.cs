@@ -23,5 +23,5 @@ public interface IPathfinder<TCoordinates>
     /// <param name="start">The starting coordinates.</param>
     /// <param name="target">The end coordinates.</param>
     /// <returns>A list of coordinates forming a path; <c>null</c> if no path was found.</returns>
-    IEnumerable<TCoordinates> FindPath(TCoordinates start, TCoordinates target);
+    IEnumerable<TCoordinates>? FindPath(TCoordinates start, TCoordinates target);
 }

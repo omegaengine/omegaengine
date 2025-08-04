@@ -40,7 +40,7 @@ public class ButtonStyle : ICloneable
     /// <summary>
     /// The dialog containing this button style
     /// </summary>
-    internal Dialog Parent;
+    internal Dialog? Parent;
 
     public XColor
         ButtonColorNormal = new(1.0f, 1.0f, 1.0f, 0.55f),
@@ -53,7 +53,7 @@ public class ButtonStyle : ICloneable
         FillColorPressed = new(0, 0, 0, 0.25f),
         FillColorFocus = new(1.0f, 1.0f, 1.0f, 0.05f);
 
-    internal Element ButtonElement, FillElement;
+    internal Element? ButtonElement, FillElement;
     #endregion
 
     #region Properties
@@ -61,7 +61,7 @@ public class ButtonStyle : ICloneable
     /// Unique name for identifying this button style
     /// </summary>
     [XmlAttribute, Description("Unique name for identifying this button style"), Category("Design")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public override string ToString()
     {

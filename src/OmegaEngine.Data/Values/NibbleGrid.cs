@@ -10,7 +10,6 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using JetBrains.Annotations;
 using NanoByte.Common;
 using OmegaEngine.Properties;
 
@@ -27,7 +26,7 @@ public class NibbleGrid : Grid<byte>
     {}
 
     /// <inheritdoc/>
-    public NibbleGrid([NotNull] byte[,] data)
+    public NibbleGrid(byte[,] data)
         : base(data)
     {}
 
@@ -50,7 +49,7 @@ public class NibbleGrid : Grid<byte>
     /// Loads a grid from a PNG stream.
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException">Any of the colors in the imag  is not part of the classic 16 colors palette.</exception>
-    public static NibbleGrid Load([NotNull] Stream stream)
+    public static NibbleGrid Load(Stream stream)
     {
         #region Sanity checks
         if (stream == null) throw new ArgumentNullException(nameof(stream));

@@ -83,7 +83,7 @@ partial class Universe
 
     /// <summary>Used for XML serialization.</summary>
     [XmlElement("Terrain"), LuaHide, Browsable(false)]
-    public Terrain<TerrainTemplate> TerrainSerialize { get; set; }
+    public Terrain<TerrainTemplate>? TerrainSerialize { get; set; }
 
     /// <summary>
     /// Performs the deferred loading of <see cref="Terrain"/> data.
@@ -96,9 +96,9 @@ partial class Universe
             XmlStorage.LoadXmlZip<Universe>(stream, additionalFiles:
             [
                 // Callbacks for loading terrain data
-                new("height.png", TerrainSerialize.LoadHeightMap),
-                new("texture.png", TerrainSerialize.LoadTextureMap),
-                new("occlusion.png", TerrainSerialize.LoadOcclusionIntervalMap)
+                new("height.png", TerrainSerialize!.LoadHeightMap),
+                new("texture.png", TerrainSerialize!.LoadTextureMap),
+                new("occlusion.png", TerrainSerialize!.LoadOcclusionIntervalMap)
             ]);
         }
 

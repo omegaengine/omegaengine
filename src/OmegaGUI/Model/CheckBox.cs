@@ -78,7 +78,7 @@ public class CheckBox : ButtonBase
     /// </summary>
     [DefaultValue(""), Description("A Lua script to execute when the control's value has changed"), Category("Events"), FileType("Lua")]
     [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-    public string OnChanged { get; set; }
+    public string? OnChanged { get; set; }
     #endregion
 
     #endregion

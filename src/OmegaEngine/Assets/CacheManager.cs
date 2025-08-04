@@ -51,7 +51,7 @@ public sealed class CacheManager : IDisposable
     /// <param name="name">The name (full ID) of the <see cref="Asset"/> to get.</param>
     /// <returns>The <see cref="Asset"/> if found, <c>null</c> otherwise.</returns>
     /// <exception cref="InvalidOperationException">A different type of asset with this <paramref name="name"/> was found instead.</exception>
-    internal T GetAsset<T>(string name) where T : Asset
+    internal T? GetAsset<T>(string name) where T : Asset
     {
         if (!_assetCache.Contains(name)) return null;
         return _assetCache[name] as T

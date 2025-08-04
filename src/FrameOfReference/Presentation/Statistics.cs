@@ -41,19 +41,19 @@ public class Statistics
     /// The version number of the game.
     /// </summary>
     [XmlAttribute("game-version")]
-    public string GameVersion { get; set; }
+    public string GameVersion { get; set; } = "";
 
     /// <summary>
     /// The version number of the engine.
     /// </summary>
     [XmlAttribute("engine-version")]
-    public string EngineVersion { get; set; }
+    public string EngineVersion { get; set; } = "";
 
     /// <summary>
     /// The set of <see cref="TestCase"/>s.
     /// </summary>
     [XmlElement("test-case")]
-    public TestCase[] TestCases;
+    public TestCase[] TestCases = [];
 
     /// <summary>
     /// Base-constructor for XML serialization. Do not call manually!

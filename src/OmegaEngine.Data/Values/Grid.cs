@@ -10,7 +10,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using JetBrains.Annotations;
 using NanoByte.Common;
 using NanoByte.Common.Streams;
 
@@ -26,7 +25,6 @@ public abstract class Grid<T>
     /// <summary>
     /// The internal array containing the values.
     /// </summary>
-    [NotNull]
     protected internal readonly T[,] Data;
 
     /// <summary>
@@ -68,7 +66,7 @@ public abstract class Grid<T>
     /// <summary>
     /// Saves the grid to a PNG file.
     /// </summary>
-    public void Save([NotNull, Localizable(false)] string path)
+    public void Save([Localizable(false)] string path)
     {
         using var bitmap = GenerateBitmap();
         bitmap.Save(path, ImageFormat.Png);
@@ -77,7 +75,7 @@ public abstract class Grid<T>
     /// <summary>
     /// Saves the grid to a PNG stream.
     /// </summary>
-    public void Save([NotNull] Stream stream)
+    public void Save(Stream stream)
     {
         // NOTE: Use intermediate RAM buffer because writing a PNG directly to a ZIP won't work
         using var bitmap = GenerateBitmap();

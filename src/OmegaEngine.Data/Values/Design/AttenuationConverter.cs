@@ -21,20 +21,20 @@ internal class AttenuationConverter : ValueTypeConverter<Attenuation>
     protected override int NoArguments => 3;
 
     /// <inheritdoc/>
-    protected override ConstructorInfo GetConstructor() => typeof(Attenuation).GetConstructor([typeof(float), typeof(float), typeof(float)]);
+    protected override ConstructorInfo GetConstructor() => typeof(Attenuation).GetConstructor([typeof(float), typeof(float), typeof(float)])!;
 
     /// <inheritdoc/>
     protected override object[] GetArguments(Attenuation value) => [value.Constant, value.Linear, value.Quadratic];
 
     /// <inheritdoc/>
-    protected override string[] GetValues(Attenuation value, ITypeDescriptorContext context, CultureInfo culture)
+    protected override string[] GetValues(Attenuation value, ITypeDescriptorContext? context, CultureInfo culture)
     {
         var floatConverter = TypeDescriptor.GetConverter(typeof(float));
         return
         [
-            floatConverter.ConvertToString(context, culture, value.Constant),
-            floatConverter.ConvertToString(context, culture, value.Linear),
-            floatConverter.ConvertToString(context, culture, value.Quadratic)
+            floatConverter.ConvertToString(context, culture, value.Constant) ?? "",
+            floatConverter.ConvertToString(context, culture, value.Linear) ?? "",
+            floatConverter.ConvertToString(context, culture, value.Quadratic) ?? ""
         ];
     }
 
@@ -56,6 +56,6 @@ internal class AttenuationConverter : ValueTypeConverter<Attenuation>
         if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
         #endregion
 
-        return new((float)propertyValues["Constant"], (float)propertyValues["Linear"], (float)propertyValues["Quadratic"]);
+        return new((float)propertyValues["Constant"]!, (float)propertyValues["Linear"]!, (float)propertyValues["Quadratic"]!);
     }
 }

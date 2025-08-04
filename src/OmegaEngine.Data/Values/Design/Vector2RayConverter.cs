@@ -27,7 +27,7 @@ internal class Vector2RayConverter : ValueTypeConverter<Vector2Ray>
         typeof(float),
         typeof(float),
         typeof(float)
-    ]);
+    ])!;
 
     /// <inheritdoc/>
     protected override object[] GetArguments(Vector2Ray value) =>
@@ -39,15 +39,15 @@ internal class Vector2RayConverter : ValueTypeConverter<Vector2Ray>
     ];
 
     /// <inheritdoc/>
-    protected override string[] GetValues(Vector2Ray value, ITypeDescriptorContext context, CultureInfo culture)
+    protected override string[] GetValues(Vector2Ray value, ITypeDescriptorContext? context, CultureInfo culture)
     {
         var floatConverter = TypeDescriptor.GetConverter(typeof(float));
         return
         [
-            floatConverter.ConvertToString(context, culture, value.Position.X),
-            floatConverter.ConvertToString(context, culture, value.Position.Y),
-            floatConverter.ConvertToString(context, culture, value.Direction.X),
-            floatConverter.ConvertToString(context, culture, value.Direction.Y)
+            floatConverter.ConvertToString(context, culture, value.Position.X) ?? "",
+            floatConverter.ConvertToString(context, culture, value.Position.Y) ?? "",
+            floatConverter.ConvertToString(context, culture, value.Direction.X) ?? "",
+            floatConverter.ConvertToString(context, culture, value.Direction.Y) ?? ""
         ];
     }
 
@@ -71,6 +71,6 @@ internal class Vector2RayConverter : ValueTypeConverter<Vector2Ray>
         if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
         #endregion
 
-        return new((Vector2)propertyValues["Point"], (Vector2)propertyValues["Direction"]);
+        return new((Vector2)propertyValues["Point"]!, (Vector2)propertyValues["Direction"]!);
     }
 }

@@ -8,7 +8,6 @@
 
 using System;
 using System.IO;
-using JetBrains.Annotations;
 
 namespace OmegaEngine.Storage;
 
@@ -21,7 +20,6 @@ public struct EmbeddedFile
     /// <summary>
     /// The filename in the archive
     /// </summary>
-    [NotNull]
     public string Filename { get; }
 
     /// <summary>
@@ -32,7 +30,6 @@ public struct EmbeddedFile
     /// <summary>
     /// The delegate to be called when the data is ready to be read/written to/form a stream
     /// </summary>
-    [NotNull]
     public Action<Stream> StreamDelegate { get; }
     #endregion
 
@@ -42,7 +39,7 @@ public struct EmbeddedFile
     /// </summary>
     /// <param name="filename">The filename in the archive</param>
     /// <param name="readDelegate">The delegate to be called when the data is ready to be read</param>
-    public EmbeddedFile([NotNull] string filename, [NotNull] Action<Stream> readDelegate)
+    public EmbeddedFile(string filename, Action<Stream> readDelegate)
     {
         Filename = filename ?? throw new ArgumentNullException(nameof(filename));
         CompressionLevel = 0;
@@ -55,7 +52,7 @@ public struct EmbeddedFile
     /// <param name="filename">The filename in the archive</param>
     /// <param name="compressionLevel">The level of compression (0-9) to apply to this entry</param>
     /// <param name="writeDelegate">The delegate to be called when the data is ready to be written</param>
-    public EmbeddedFile([NotNull] string filename, int compressionLevel, [NotNull] Action<Stream> writeDelegate)
+    public EmbeddedFile(string filename, int compressionLevel, Action<Stream> writeDelegate)
     {
         Filename = filename ?? throw new ArgumentNullException(nameof(filename));
         CompressionLevel = compressionLevel;

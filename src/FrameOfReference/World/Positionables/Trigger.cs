@@ -55,21 +55,21 @@ public sealed class Trigger : Positionable<Vector2>
     /// The name of the <see cref="Entity"/> whose proximity causes this trigger to activate.
     /// </summary>
     [XmlAttribute, Description("The name of the Entity whose proximity causes this trigger to activate.")]
-    public string TargetEntity { get; set; }
+    public string? TargetEntity { get; set; }
 
     /// <summary>
     /// A Lua script to execute when <see cref="TargetEntity"/> gets within <see cref="Range"/>.
     /// </summary>
     [DefaultValue(""), Description("A Lua script to execute when TargetEntity gets within range."), FileType("Lua")]
     [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-    public string OnActivation { get; set; }
+    public string? OnActivation { get; set; }
 
     /// <summary>
     /// A Lua script to execute if the trigger was not activated by <see cref="DueTime"/>.
     /// </summary>
     [DefaultValue(""), Description("A Lua script to execute if the trigger was not activated by DueTime."), FileType("Lua")]
     [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-    public string OnTimeout { get; set; }
+    public string? OnTimeout { get; set; }
 
     /// <summary>
     /// Indicates whether this trigger has already been triggered by <see cref="TargetEntity"/> or has timed out.
@@ -81,7 +81,7 @@ public sealed class Trigger : Positionable<Vector2>
     /// The name of another <see cref="Trigger"/> that has to be triggered before this one can be.
     /// </summary>
     [Description("The name of another Trigger that has to be triggered before this one can be.")]
-    public string DependsOn { get; set; }
+    public string? DependsOn { get; set; }
 
     /// <summary>
     /// Determines whether an entity is within range of this trigger.

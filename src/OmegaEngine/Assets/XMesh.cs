@@ -213,7 +213,7 @@ public class XMesh : Asset
     /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
     /// <exception cref="InvalidDataException">The file does not contain a valid mesh.</exception>
     /// <remarks>Remember to call <see cref="CacheManager.Clean"/> when done, otherwise this object will never be released.</remarks>
-    public static XMesh Get(Engine engine, string id)
+    public static XMesh? Get(Engine engine, string id)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -249,7 +249,7 @@ public class XMesh : Asset
     /// <param name="meshName">The name of the mesh to load a texture file for</param>
     /// <param name="textureID">The texture ID</param>
     /// <returns>The requested mesh texture</returns>
-    private static XTexture ShaderLoadHelper(Engine engine, string meshName, string textureID)
+    private static XTexture? ShaderLoadHelper(Engine engine, string meshName, string textureID)
     {
         // Determine the path the mesh was originally loaded from
         string meshPath = Path.GetDirectoryName(meshName);
@@ -270,7 +270,7 @@ public class XMesh : Asset
     /// <param name="meshName">The name of the mesh to load a texture file for</param>
     /// <param name="textureType">The type of texture to check the shader parameter for</param>
     /// <returns>The texture specified by the shader parameter or null if no texture was specified</returns>
-    private static XTexture ShaderTextureHelper(Engine engine, EffectDefault param, string meshName, string textureType)
+    private static XTexture? ShaderTextureHelper(Engine engine, EffectDefault param, string meshName, string textureType)
     {
         // Check if the parameter has the right name and contains a string
         if (StringUtils.EqualsIgnoreCase(param.ParameterName, textureType) && param.Type == EffectDefaultType.String)

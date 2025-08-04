@@ -66,12 +66,12 @@ public abstract class Control : ICloneable
     /// <summary>
     /// The dialog containing this control
     /// </summary>
-    internal Dialog Parent;
+    internal Dialog? Parent;
 
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    protected Render.Control DXControl;
+    protected Render.Control? DXControl;
 
     /// <summary>
     /// The actual location of the control on the dialog factoring in <see cref="AlignHorizontal"/> and <see cref="AlignVertical"/>
@@ -95,7 +95,7 @@ public abstract class Control : ICloneable
     /// Unique name for identifying this control
     /// </summary>
     [XmlAttribute, Description("Unique name for identifying this control"), Category("Design")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public override string ToString()
     {
@@ -234,18 +234,18 @@ public abstract class Control : ICloneable
     /// </summary>
     [DefaultValue(""), Description("A Lua script to execute when the mouse enters the area of the control"), Category("Events"), FileType("Lua")]
     [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-    public string OnMouseEnter { get; set; }
+    public string? OnMouseEnter { get; set; }
 
     /// <summary>
     /// A Lua script to execute when the mouse leaves the area of the control
     /// </summary>
     [DefaultValue(""), Description("A Lua script to execute when the mouse leaves the area of the control"), Category("Events"), FileType("Lua")]
     [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-    public string OnMouseExit { get; set; }
+    public string? OnMouseExit { get; set; }
     #endregion
 
     [Browsable(false)]
-    public Render.Control ControlModel => DXControl;
+    public Render.Control? ControlModel => DXControl;
     #endregion
 
     #region Generate

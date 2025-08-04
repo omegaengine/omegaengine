@@ -103,14 +103,14 @@ public class ListBox : Control
     /// </summary>
     [DefaultValue(""), Description("A Lua script to execute when the user selects an entry"), Category("Events"), FileType("Lua")]
     [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-    public string OnSelection { get; set; }
+    public string? OnSelection { get; set; }
 
     /// <summary>
     /// A Lua script to execute when the user double-clicks onto an entry
     /// </summary>
     [DefaultValue(""), Description("A Lua script to execute when the user double-clicks onto an entry"), Category("Events"), FileType("Lua")]
     [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-    public string OnDoubleClick { get; set; }
+    public string? OnDoubleClick { get; set; }
     #endregion
 
     #endregion

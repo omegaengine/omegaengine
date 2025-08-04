@@ -179,7 +179,7 @@ public partial class MainFormBase : Form, IToastProvider
     /// <summary>
     /// The currently visible tab
     /// </summary>
-    protected Tab CurrentTab => (from pair in Tabs where pair.Value.Checked select pair.Key).FirstOrDefault();
+    protected Tab? CurrentTab => (from pair in Tabs where pair.Value.Checked select pair.Key).FirstOrDefault();
     #endregion
 
     #endregion

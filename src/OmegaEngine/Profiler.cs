@@ -25,21 +25,21 @@ public static class Profiler
     /// <summary>
     /// The current XML node we are writing into. This controls the nesting of events.
     /// </summary>
-    internal static XmlNode CurrentXmlNode;
+    internal static XmlNode? CurrentXmlNode;
     #endregion
 
     #region Properties
     /// <summary>
     /// The current D3D device query to use for controlling the command buffer.
     /// </summary>
-    public static Query DeviceQuery { get; set; }
+    public static Query? DeviceQuery { get; set; }
 
-    private static XmlDocument _currentLogXml;
+    private static XmlDocument? _currentLogXml;
 
     /// <summary>
     /// The XML DOM to store the log data in.
     /// </summary>
-    internal static XmlDocument LogXml
+    internal static XmlDocument? LogXml
     {
         get => _currentLogXml;
         set
@@ -120,11 +120,11 @@ public static class Profiler
 ///   <code>using(new LogEvent("Message")) {}</code>
 /// </example>
 /// <remarks>Do not use these over cross!</remarks>
-public struct ProfilerEvent : IDisposable
+public readonly struct ProfilerEvent : IDisposable
 {
     #region Variables
-    private readonly Stopwatch _timer;
-    private readonly XmlNode _node;
+    private readonly Stopwatch? _timer;
+    private readonly XmlNode? _node;
     #endregion
 
     #region Helpers
@@ -134,7 +134,7 @@ public struct ProfilerEvent : IDisposable
     private static void PipelineStall()
     {
         Profiler.DeviceQuery.Issue(Issue.End);
-        while (!Profiler.DeviceQuery.CheckStatus(true))
+        while (!Profiler.DeviceQuery.CheckStatus(flush: true))
         {}
     }
     #endregion

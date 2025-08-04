@@ -52,7 +52,7 @@ public class SimpleSkybox : Skybox
     /// <exception cref="IOException">There was an error reading one of the texture files.</exception>
     /// <exception cref="UnauthorizedAccessException">Read access to one of the texture files is not permitted.</exception>
     /// <exception cref="InvalidDataException">One of the texture files does not contain a valid texture.</exception>
-    public static SimpleSkybox FromAssets(Engine engine, string rt, string lf, string up, string dn, string ft, string bk)
+    public static SimpleSkybox FromAssets(Engine engine, string rt, string lf, string? up, string? dn, string ft, string bk)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -71,7 +71,7 @@ public class SimpleSkybox : Skybox
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights getLights = null)
+    internal override void Render(Camera camera, GetLights? getLights = null)
     {
         base.Render(camera, getLights);
 

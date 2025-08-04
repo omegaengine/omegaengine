@@ -28,7 +28,7 @@ public sealed class FileTypeAttribute : Attribute
     /// Creates a new file type attribute.
     /// </summary>
     /// <param name="fileType">The name of the file type (e.g. XML, JavaScript, Lua).</param>
-    public FileTypeAttribute([NotNull] string fileType)
+    public FileTypeAttribute(string fileType)
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(fileType)) throw new ArgumentNullException(nameof(fileType));

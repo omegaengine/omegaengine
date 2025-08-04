@@ -46,13 +46,13 @@ public static class ContentManager
     #endregion
 
     #region Variables
-    private static readonly string
+    private static readonly string?
         _envVarBaseDir = Environment.GetEnvironmentVariable(EnvVarNameBaseDir),
         _envVarBaseArchives = Environment.GetEnvironmentVariable(EnvVarNameBaseArchives),
         _envVarModDir = Environment.GetEnvironmentVariable(EnvVarNameModDir),
         _envVarModArchives = Environment.GetEnvironmentVariable(EnvVarNameModArchives);
 
-    private static DirectoryInfo
+    private static DirectoryInfo?
         _baseDir = new(_envVarBaseDir ?? Path.Combine(Locations.InstallBase, "content")),
         _modDir = (_envVarModDir == null) ? null : new DirectoryInfo(_envVarModDir);
 
@@ -69,7 +69,7 @@ public static class ContentManager
     /// </summary>
     /// <remarks>Can be set externally with <see cref="EnvVarNameBaseDir"/>.</remarks>
     /// <exception cref="DirectoryNotFoundException">The specified directory could not be found.</exception>
-    public static DirectoryInfo BaseDir
+    public static DirectoryInfo? BaseDir
     {
         get => _baseDir;
         set
@@ -85,7 +85,7 @@ public static class ContentManager
     /// </summary>
     /// <remarks>Can be set externally with <see cref="EnvVarNameModDir"/>.</remarks>
     /// <exception cref="DirectoryNotFoundException">The specified directory could not be found.</exception>
-    public static DirectoryInfo ModDir
+    public static DirectoryInfo? ModDir
     {
         get => _modDir;
         set
@@ -112,7 +112,7 @@ public static class ContentManager
             foreach (string path in _envVarBaseArchives.Split(Path.PathSeparator))
                 LoadArchive(path, _baseArchiveEntries);
         }
-        foreach (string path in BaseDir.GetFiles("*" + ArchiveFileExt).Select(x => x.FullName))
+        foreach (string path in BaseDir?.GetFiles("*" + ArchiveFileExt).Select(x => x.FullName) ?? [])
             LoadArchive(path, _baseArchiveEntries);
 
         if (_envVarModArchives != null)
@@ -185,8 +185,7 @@ public static class ContentManager
     /// <param name="type">The type of file (e.g. Textures, Sounds, ...).</param>
     /// <returns>The absolute path to the requested directory.</returns>
     /// <exception cref="DirectoryNotFoundException">The specified directory could not be found.</exception>
-    [NotNull]
-    public static string CreateDirPath([NotNull, Localizable(false)] string type)
+    public static string CreateDirPath([Localizable(false)] string type)
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(type)) throw new ArgumentNullException(nameof(type));
@@ -197,7 +196,7 @@ public static class ContentManager
         // Use mod directory if available
         string pathBase;
         if (ModDir != null) pathBase = ModDir.FullName;
-        else if (BaseDir != null) pathBase = _baseDir.FullName;
+        else if (BaseDir != null) pathBase = BaseDir.FullName;
         else throw new DirectoryNotFoundException(Resources.NotFoundGameContentDir + "\n-");
 
         // Check the path before returning it
@@ -214,8 +213,7 @@ public static class ContentManager
     /// <param name="type">The type of file (e.g. Textures, Sounds, ...).</param>
     /// <param name="id">The file name of the content.</param>
     /// <returns>The absolute path to the requested content file.</returns>
-    [NotNull]
-    public static string CreateFilePath([NotNull, Localizable(false)] string type, [NotNull, Localizable(false)] string id)
+    public static string CreateFilePath([Localizable(false)] string type, [Localizable(false)] string id)
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(type)) throw new ArgumentNullException(nameof(type));
@@ -236,7 +234,7 @@ public static class ContentManager
     /// <param name="id">The file name of the content.</param>
     /// <param name="searchArchives">Whether to search for the file in archives as well.</param>
     /// <returns><c>true</c> if the requested content file exists.</returns>
-    public static bool FileExists([NotNull, Localizable(false)] string type, [NotNull, Localizable(false)] string id, bool searchArchives = true)
+    public static bool FileExists([Localizable(false)] string type, [Localizable(false)] string id, bool searchArchives = true)
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(type)) throw new ArgumentNullException(nameof(type));
@@ -332,7 +330,7 @@ public static class ContentManager
     /// <param name="type">The type of files you want (e.g. Textures, Sounds, ...)</param>
     /// <param name="extension">The file extension to so search for</param>
     /// <returns>A collection of strings with file IDs</returns>
-    public static NamedCollection<FileEntry> GetFileList([NotNull, Localizable(false)] string type, [NotNull, Localizable(false)] string extension)
+    public static NamedCollection<FileEntry> GetFileList([Localizable(false)] string type, [Localizable(false)] string extension)
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(type)) throw new ArgumentNullException(nameof(type));
@@ -346,7 +344,7 @@ public static class ContentManager
 
         #region Find all base files
         // Find real files
-        if (Directory.Exists(Path.Combine(BaseDir.FullName, type)))
+        if (BaseDir != null && Directory.Exists(Path.Combine(BaseDir.FullName, type)))
         {
             AddDirectoryToList(files, type, extension,
                 new(Path.Combine(BaseDir.FullName, type)), "", false);
@@ -383,8 +381,7 @@ public static class ContentManager
     /// <param name="id">The file name of the content.</param>
     /// <returns>The absolute path to the requested content file</returns>
     /// <exception cref="FileNotFoundException">The specified file could not be found.</exception>
-    [NotNull]
-    public static string GetFilePath([NotNull, Localizable(false)] string type, [NotNull, Localizable(false)] string id)
+    public static string GetFilePath([Localizable(false)] string type, [Localizable(false)] string id)
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(type)) throw new ArgumentNullException(nameof(type));
@@ -422,7 +419,7 @@ public static class ContentManager
     /// <exception cref="FileNotFoundException">The specified file could not be found.</exception>
     /// <exception cref="IOException">There was an error reading the file.</exception>
     /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
-    public static Stream GetFileStream([NotNull, Localizable(false)] string type, [NotNull, Localizable(false)] string id)
+    public static Stream GetFileStream([Localizable(false)] string type, [Localizable(false)] string id)
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(type)) throw new ArgumentNullException(nameof(type));
@@ -501,7 +498,7 @@ public static class ContentManager
     /// <exception cref="FileNotFoundException">The specified file could not be found.</exception>
     /// <exception cref="IOException">The specified file could not be deleted.</exception>
     /// <exception cref="UnauthorizedAccessException">You have insufficient rights to delete the file.</exception>
-    public static void DeleteModFile([NotNull, Localizable(false)] string type, [NotNull, Localizable(false)] string id)
+    public static void DeleteModFile([Localizable(false)] string type, [Localizable(false)] string id)
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(type)) throw new ArgumentNullException(nameof(type));

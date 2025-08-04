@@ -26,7 +26,7 @@ public abstract class Positionable<TCoordinates> : ICloneable, IChangeNotify<Pos
     /// Occurs when a property relevant for rendering has changed.
     /// </summary>
     [Description("Occurs when a property relevant for rendering has changed.")]
-    public event Action<Positionable<TCoordinates>> Changed;
+    public event Action<Positionable<TCoordinates>>? Changed;
 
     /// <summary>
     /// To be called when a property relevant for rendering has changed.
@@ -37,7 +37,7 @@ public abstract class Positionable<TCoordinates> : ICloneable, IChangeNotify<Pos
     /// Occurs when a property has changed that requires visual representations to rebuilt from scratch (usually a template).
     /// </summary>
     [Description("Occurs when a property changed that requires visual representations to rebuilt from scratch (usually a template).")]
-    public event Action<Positionable<TCoordinates>> ChangedRebuild;
+    public event Action<Positionable<TCoordinates>>? ChangedRebuild;
 
     /// <summary>
     /// To be called when a property has changed, that requires visual representations to be rebuilt from scratch (usually a template).
@@ -50,7 +50,7 @@ public abstract class Positionable<TCoordinates> : ICloneable, IChangeNotify<Pos
     /// Used for identification in scripts, debugging, etc.
     /// </summary>
     [XmlAttribute, Description("Used for identification in scripts, debugging, etc.")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <inheritdoc/>
     public override string ToString()

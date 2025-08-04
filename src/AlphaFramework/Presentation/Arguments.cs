@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 
 namespace AlphaFramework.Presentation;
 
@@ -44,8 +43,7 @@ public class Arguments
     /// </summary>
     /// <param name="command">The command to get the options for.</param>
     /// <returns>The options for <paramref name="command"/> if any; null otherwise.</returns>
-    [CanBeNull]
-    public string this[[NotNull] string command] => _commands[command];
+    public string? this[string command] => _commands.TryGetValue(command, out var value) ? value : null;
     #endregion
 
     #region Constructor
@@ -58,7 +56,7 @@ public class Arguments
     /// Creates a new arguments instance based on the argument array from a Main method.
     /// </summary>
     /// <param name="args">The array of arguments.</param>
-    public Arguments([NotNull] string[] args)
+    public Arguments(string[] args)
     {
         #region Sanity checks
         if (args == null) throw new ArgumentNullException(nameof(args));

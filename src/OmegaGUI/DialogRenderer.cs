@@ -41,7 +41,7 @@ public sealed class DialogRenderer : IDisposable
     #region Variables
     private readonly GuiManager _manager;
     private Point _location;
-    private readonly Lua _lua;
+    private readonly Lua? _lua;
     #endregion
 
     #region Properties
@@ -54,7 +54,7 @@ public sealed class DialogRenderer : IDisposable
     /// <summary>
     /// Text value to make it easier to identify a particular dialog
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public override string ToString()
     {
@@ -83,7 +83,7 @@ public sealed class DialogRenderer : IDisposable
     /// <param name="filename">The filename of the XML file to load</param>
     /// <param name="location">The location of the dialog on the screen</param>
     /// <param name="lua">The scripting engine to execute event handlers.</param>
-    public DialogRenderer(GuiManager manager, string filename, Point location = new(), Lua lua = null)
+    public DialogRenderer(GuiManager manager, string filename, Point location = new(), Lua? lua = null)
         : this(manager, Dialog.FromContent(filename), location: location, lua: lua)
     {
         Log.Info("Loading GUI dialog: " + filename);
@@ -97,7 +97,7 @@ public sealed class DialogRenderer : IDisposable
     /// <param name="dialog">The dialog to be displayed</param>
     /// <param name="location">The location of the dialog on the screen</param>
     /// <param name="lua">The scripting engine to execute event handlers.</param>
-    public DialogRenderer(GuiManager manager, Dialog dialog, Point location = new(), Lua lua = null)
+    public DialogRenderer(GuiManager manager, Dialog dialog, Point location = new(), Lua? lua = null)
     {
         _manager = manager;
         DialogModel = dialog;
@@ -141,7 +141,7 @@ public sealed class DialogRenderer : IDisposable
     #region Layout
     private void LayoutHelper()
     {
-        Engine engine = DialogRender.DialogManager.Engine;
+        var engine = DialogRender.DialogManager.Engine;
         if (engine == null || engine.IsDisposed) return;
         Size renderSize = engine.RenderSize;
 

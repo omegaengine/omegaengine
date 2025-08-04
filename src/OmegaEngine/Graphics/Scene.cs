@@ -86,7 +86,7 @@ public sealed class Scene : EngineElement
     /// The current <see cref="Skybox"/> for this scene
     /// </summary>
     /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
-    public Skybox Skybox
+    public Skybox? Skybox
     {
         get => _skybox;
         set
@@ -98,7 +98,7 @@ public sealed class Scene : EngineElement
 
     // Order is not important, duplicate entries are not allowed
     private readonly HashSet<LightSource> _lights = [];
-    private Skybox _skybox;
+    private Skybox? _skybox;
 
     /// <summary>
     /// All light sources affecting the entities in this scene

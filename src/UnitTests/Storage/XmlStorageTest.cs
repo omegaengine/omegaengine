@@ -24,7 +24,7 @@ public class XmlStorageTest
     [XmlNamespace("", "")]
     public class TestData
     {
-        public string Data { get; set; }
+        public string Data { get; set; } = null!;
     }
     // ReSharper restore MemberCanBePrivate.Global
 

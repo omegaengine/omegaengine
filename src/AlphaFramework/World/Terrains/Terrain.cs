@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 using LuaInterface;
@@ -65,11 +66,11 @@ public sealed partial class Terrain<TTemplate> : ITerrain
     #endregion
 
     #region Height-map
-    private ByteGrid _heightMap;
+    private ByteGrid? _heightMap;
 
     /// <inheritdoc/>
     [XmlIgnore, Browsable(false)]
-    public ByteGrid HeightMap
+    public ByteGrid? HeightMap
     {
         get => _heightMap;
         set
@@ -86,11 +87,11 @@ public sealed partial class Terrain<TTemplate> : ITerrain
     #endregion
 
     #region Occlusion interval map
-    private ByteVector4Grid _occlusionIntervalMap;
+    private ByteVector4Grid? _occlusionIntervalMap;
 
     /// <inheritdoc/>
     [XmlIgnore, Browsable(false)]
-    public ByteVector4Grid OcclusionIntervalMap
+    public ByteVector4Grid? OcclusionIntervalMap
     {
         get => _occlusionIntervalMap;
         set
@@ -115,13 +116,13 @@ public sealed partial class Terrain<TTemplate> : ITerrain
     /// The <typeparamref name="TTemplate"/>s available for usage in this <see cref="ITerrain"/>.
     /// </summary>
     [XmlIgnore]
-    public readonly TTemplate[] Templates = new TTemplate[16];
+    public readonly TTemplate?[] Templates = new TTemplate?[16];
 
-    private NibbleGrid _textureMap;
+    private NibbleGrid? _textureMap;
 
     /// <inheritdoc/>
     [XmlIgnore, Browsable(false)]
-    public NibbleGrid TextureMap
+    public NibbleGrid? TextureMap
     {
         get => _textureMap;
         set
@@ -139,6 +140,10 @@ public sealed partial class Terrain<TTemplate> : ITerrain
 
     /// <inheritdoc/>
     [Browsable(false), XmlIgnore]
+    [MemberNotNullWhen(true, nameof(HeightMap))]
+    [MemberNotNullWhen(true, nameof(TextureMap))]
+    [MemberNotNullWhen(true, nameof(_heightMap))]
+    [MemberNotNullWhen(true, nameof(_textureMap))]
     public bool DataLoaded => _heightMap != null && _textureMap != null;
     #endregion
 

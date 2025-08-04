@@ -6,6 +6,10 @@
     <RootNamespace>Template.AlphaFramework.World</RootNamespace>
     <OutputPath>..\artifacts\$(Configuration)\</OutputPath>
     <TargetFrameworks>net472;net8.0-windows</TargetFrameworks>
+    <Nullable>annotations</Nullable>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

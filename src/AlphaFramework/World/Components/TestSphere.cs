@@ -23,7 +23,7 @@ public class TestSphere : Render
     /// </summary>
     [DefaultValue(""), Description("The filename of the texture to place on the sphere.")]
     [XmlAttribute]
-    public string Texture { get; set; }
+    public string? Texture { get; set; }
 
     /// <inheritdoc/>
     public override string ToString()

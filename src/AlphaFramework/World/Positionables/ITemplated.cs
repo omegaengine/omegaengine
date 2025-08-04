@@ -16,5 +16,5 @@ public interface ITemplated
     /// <summary>
     /// The name of the template.
     /// </summary>
-    string TemplateName { get; set; }
+    string? TemplateName { get; set; }
 }

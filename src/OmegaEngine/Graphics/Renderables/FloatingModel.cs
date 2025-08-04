@@ -60,7 +60,7 @@ public class FloatingModel : Model
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights getLights = null)
+    internal override void Render(Camera camera, GetLights? getLights = null)
     {
         // Note: Doesn't call base methods
         PrepareRender();

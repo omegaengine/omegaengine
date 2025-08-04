@@ -66,7 +66,7 @@ public static class VectorMath
     /// <param name="factor">A factor between 0 and <paramref name="values"/>.Length</param>
     /// <param name="values">The value checkpoints</param>
     [Pure]
-    public static Vector4 InterpolateTrigonometric(float factor, [NotNull] params Vector4[] values)
+    public static Vector4 InterpolateTrigonometric(float factor, params Vector4[] values)
     {
         #region Sanity checks
         if (values == null) throw new ArgumentNullException(nameof(values));

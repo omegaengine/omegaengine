@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using NanoByte.Common;
 using OmegaEngine.Properties;
 
@@ -25,7 +26,7 @@ public abstract class EngineElement : IDisposable
     /// </summary>
     /// <param name="element">The <see cref="EngineElement"/> to register. Silently ignores <c>null</c>.</param>
     /// <param name="autoDispose">Controls whether the <paramref name="element"/> is automatically disposed when <see cref="Dispose"/> is called.</param>
-    protected void RegisterChild(EngineElement element, bool autoDispose = true)
+    protected void RegisterChild(EngineElement? element, bool autoDispose = true)
     {
         if (element == null) return;
 
@@ -46,7 +47,7 @@ public abstract class EngineElement : IDisposable
     /// Unregisters a child <see cref="EngineElement"/> (opposite of <see cref="RegisterChild"/>).
     /// </summary>
     /// <param name="element">The <see cref="EngineElement"/> to unregister. Silently ignores <c>null</c>.</param>
-    protected void UnregisterChild(EngineElement element)
+    protected void UnregisterChild(EngineElement? element)
     {
         if (element == null) return;
 
@@ -56,7 +57,7 @@ public abstract class EngineElement : IDisposable
     #endregion
 
     #region Engine
-    private Engine _engine;
+    private Engine? _engine;
     private readonly List<EngineElement> _toSetEngine = [];
 
     /// <summary>
@@ -92,6 +93,7 @@ public abstract class EngineElement : IDisposable
     /// <c>true</c> if the <see cref="Engine"/> has been set.
     /// </summary>
     [Browsable(false)]
+    [MemberNotNullWhen(true, nameof(_engine))]
     public bool IsEngineSet => _engine != null;
 
     /// <summary>

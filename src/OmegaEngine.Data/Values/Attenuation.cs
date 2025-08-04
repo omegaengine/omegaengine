@@ -78,7 +78,7 @@ public struct Attenuation : IEquatable<Attenuation>
     public static bool operator !=(Attenuation left, Attenuation right) => !left.Equals(right);
 
     /// <inheritdoc/>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         return obj is Attenuation attenuation && Equals(attenuation);

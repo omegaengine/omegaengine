@@ -23,10 +23,10 @@ namespace OmegaEngine.Values.Design;
 public class CodeEditor : UITypeEditor
 {
     /// <inheritdoc/>
-    public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) => UITypeEditorEditStyle.Modal;
+    public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext? context) => UITypeEditorEditStyle.Modal;
 
     /// <inheritdoc/>
-    public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+    public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object? value)
     {
         #region Sanity checks
         if (context == null) throw new ArgumentNullException(nameof(context));
@@ -37,7 +37,7 @@ public class CodeEditor : UITypeEditor
 
         var editorControl = new TextEditorControlEx
         {
-            Text = value as string,
+            Text = value as string ?? "",
             Dock = DockStyle.Fill,
             ContextMenuEnabled = true
         };

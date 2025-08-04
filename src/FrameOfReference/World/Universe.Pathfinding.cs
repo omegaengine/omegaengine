@@ -66,6 +66,10 @@ partial class Universe
     /// </summary>
     private void MarkUnmoveableEntities(bool[,] obstructionMap)
     {
+        #region Sanity checks
+        if (Terrain == null) throw new InvalidOperationException("Terrain data not loaded.");
+        #endregion
+
         foreach (var entity in Positionables.OfType<Entity>().Where(x => x.TemplateData is {Movement: null, Collision: not null}))
         {
             for (int x = 0; x < obstructionMap.GetLength(0); x++)
@@ -81,6 +85,10 @@ partial class Universe
     /// </summary>
     private void MarkUntraversableWaters(bool[,] obstructionMap)
     {
+        #region Sanity checks
+        if (Terrain is not {DataLoaded: true}) throw new InvalidOperationException("Terrain data not loaded.");
+        #endregion
+
         foreach (var water in Positionables.OfType<Water>())
         {
             var xStart = (int)Math.Floor(water.Position.X / Terrain.Size.StretchH);
@@ -108,6 +116,7 @@ partial class Universe
     {
         #region Sanity checks
         if (entity == null) throw new ArgumentNullException(nameof(entity));
+        if (Terrain == null) throw new InvalidOperationException("Terrain data not loaded.");
         #endregion
 
         if (Pathfinder == null)
@@ -115,7 +124,7 @@ partial class Universe
             Log.Warn("Pathfinder not initialized");
             return;
         }
-        if (entity.TemplateData.Movement == null)
+        if (entity.TemplateData?.Movement == null)
         {
             Log.Warn(entity + " has no Movement component");
             return;
@@ -146,6 +155,10 @@ partial class Universe
     /// </summary>
     private Vector2 GetScaledPosition(Vector2 position)
     {
+        #region Sanity checks
+        if (Terrain == null) throw new InvalidOperationException("Terrain data not loaded.");
+        #endregion
+
         return position * (1.0f / Terrain.Size.StretchH);
     }
     #endregion
@@ -160,7 +173,7 @@ partial class Universe
         var toRemove = new List<Waypoint>();
         foreach (var waypoint in Positionables.OfType<Waypoint>().OrderBy(x => x.ActivationTime))
         {
-            if (GetEntity(waypoint.TargetEntity) is {} entity)
+            if (waypoint.TargetEntity != null && GetEntity(waypoint.TargetEntity) is {} entity)
             {
                 entity.Waypoints.Add(waypoint);
                 toRemove.Add(waypoint);

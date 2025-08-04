@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using JetBrains.Annotations;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
 using OmegaEngine.Properties;
@@ -95,7 +94,7 @@ public sealed class FileEntry : INamed, IHighlightColor, IContextMenu, IEquatabl
     /// <param name="type">The type of file (e.g. Textures, Sounds, ...).</param>
     /// <param name="name">The relative file path.</param>
     /// <param name="entryType">The kind of file entry this is (in relation to its mod status).</param>
-    internal FileEntry([NotNull] string type, [NotNull, Localizable(false)] string name, FileEntryType entryType = FileEntryType.Normal)
+    internal FileEntry(string type, [Localizable(false)] string name, FileEntryType entryType = FileEntryType.Normal)
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(type)) throw new ArgumentNullException(nameof(type));
@@ -114,7 +113,7 @@ public sealed class FileEntry : INamed, IHighlightColor, IContextMenu, IEquatabl
     /// <summary>
     /// Returns the context menu for this file entry; can be <c>null</c>.
     /// </summary>
-    public ContextMenuStrip GetContextMenu()
+    public ContextMenuStrip? GetContextMenu()
     {
         if (EntryType == FileEntryType.Normal) return null;
 
@@ -155,7 +154,7 @@ public sealed class FileEntry : INamed, IHighlightColor, IContextMenu, IEquatabl
 
     #region Equality
     /// <inheritdoc/>
-    public bool Equals(FileEntry other)
+    public bool Equals(FileEntry? other)
     {
         if (ReferenceEquals(null, other)) return false;
 
@@ -163,7 +162,7 @@ public sealed class FileEntry : INamed, IHighlightColor, IContextMenu, IEquatabl
     }
 
     /// <inheritdoc/>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
@@ -175,6 +174,6 @@ public sealed class FileEntry : INamed, IHighlightColor, IContextMenu, IEquatabl
     #endregion
 
     #region Comparison
-    int IComparable<FileEntry>.CompareTo(FileEntry other) => (other == null) ? 0 : string.Compare(Name, other.Name, StringComparison.OrdinalIgnoreCase);
+    int IComparable<FileEntry>.CompareTo(FileEntry? other) => (other == null) ? 0 : string.Compare(Name, other.Name, StringComparison.OrdinalIgnoreCase);
     #endregion
 }

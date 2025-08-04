@@ -46,7 +46,7 @@ public class ExpandableRectangleArray<T>
     /// <param name="start">The top-left coordinates of the area to insert the array into.</param>
     /// <param name="array">The array to insert. Do not modify this array after calling this method!</param>
     /// <returns>Values in negative areas are clipped away.</returns>
-    public void AddFirst(Point start, [NotNull] T[,] array)
+    public void AddFirst(Point start, T[,] array)
     {
         #region Sanity checks
         if (array == null) throw new ArgumentNullException(nameof(array));
@@ -62,7 +62,7 @@ public class ExpandableRectangleArray<T>
     /// <param name="start">The top-left coordinates of the area to insert the array into.</param>
     /// <param name="array">The array to insert. Do not modify this array after calling this method!</param>
     /// <returns>Values in negative areas are clipped away.</returns>
-    public void AddLast(Point start, [NotNull] T[,] array)
+    public void AddLast(Point start, T[,] array)
     {
         #region Sanity checks
         if (array == null) throw new ArgumentNullException(nameof(array));
@@ -110,7 +110,7 @@ public class ExpandableRectangleArray<T>
     /// </summary>
     /// <param name="baseValues">An array to query for values to fill the blanks left between subsets.</param>
     /// <returns>An array containing the copyed data. Size will be trimmed if <paramref name="baseValues"/> is too small.</returns>
-    public T[,] GetArray([NotNull] T[,] baseValues)
+    public T[,] GetArray(T[,] baseValues)
     {
         #region Sanity checks
         if (baseValues == null) throw new ArgumentNullException(nameof(baseValues));
@@ -135,8 +135,8 @@ public class ExpandableRectangleArray<T>
     /// </summary>
     /// <param name="baseValues">An array to query for values to fill the blanks left between subsets.</param>
     /// <returns>An array containing the copyed data. Size will be trimmed if <paramref name="baseValues"/> is too small.</returns>
-    [Pure, NotNull]
-    public T[,] GetArray([NotNull] Grid<T> baseValues)
+    [Pure]
+    public T[,] GetArray(Grid<T> baseValues)
     {
         #region Sanity checks
         if (baseValues == null) throw new ArgumentNullException(nameof(baseValues));

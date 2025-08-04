@@ -37,7 +37,7 @@ public sealed class SoundSettings
     /// Occurs when a setting in this group is changed.
     /// </summary>
     [Description("Occurs when a setting in this group is changed.")]
-    public event Action Changed;
+    public event Action? Changed;
 
     private void OnChanged()
     {

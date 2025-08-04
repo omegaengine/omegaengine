@@ -41,7 +41,7 @@ public sealed class DisplaySettings
     /// Occurs when a setting in this group is changed.
     /// </summary>
     [Description("Occurs when a setting in this group is changed.")]
-    public event Action Changed;
+    public event Action? Changed;
 
     private void OnChanged()
     {
@@ -50,7 +50,7 @@ public sealed class DisplaySettings
     }
     #endregion
 
-    private Size _resolution = Screen.PrimaryScreen.Bounds.Size;
+    private Size _resolution = Screen.PrimaryScreen!.Bounds.Size;
 
     /// <summary>
     /// The monitor resolution for fullscreen mode
@@ -62,7 +62,7 @@ public sealed class DisplaySettings
         set
         {
             if (value == Size.Empty)
-                value = Screen.PrimaryScreen.Bounds.Size;
+                value = Screen.PrimaryScreen!.Bounds.Size;
             value.To(ref _resolution, OnChanged);
         }
     }

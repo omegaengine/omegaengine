@@ -21,12 +21,12 @@ public sealed class ModInfo
     /// <summary>
     /// Information about the currently loaded mod.
     /// </summary>
-    public static ModInfo Current { get; set; }
+    public static ModInfo? Current { get; set; }
 
     /// <summary>
     /// The path to the file containing the mod information.
     /// </summary>
-    public static string CurrentLocation { get; set; }
+    public static string? CurrentLocation { get; set; }
 
     /// <summary>
     /// Shall the application be used to edit the main game instead of a mod?
@@ -38,25 +38,25 @@ public sealed class ModInfo
     /// <summary>
     /// The name of the mod.
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The version of the mod.
     /// </summary>
-    public string Version { get; set; }
+    public string? Version { get; set; }
 
     /// <summary>
     /// The author of the mod.
     /// </summary>
-    public string Author { get; set; }
+    public string? Author { get; set; }
 
     /// <summary>
     /// The website of the author.
     /// </summary>
-    public string Website { get; set; }
+    public string? Website { get; set; }
 
     /// <summary>
     /// A short description of the mod.
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 }

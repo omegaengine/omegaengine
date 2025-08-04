@@ -21,20 +21,20 @@ internal class DoubleVector3Converter : ValueTypeConverter<DoubleVector3>
     protected override int NoArguments => 3;
 
     /// <inheritdoc/>
-    protected override ConstructorInfo GetConstructor() => typeof(DoubleVector3).GetConstructor([typeof(double), typeof(double), typeof(double)]);
+    protected override ConstructorInfo GetConstructor() => typeof(DoubleVector3).GetConstructor([typeof(double), typeof(double), typeof(double)])!;
 
     /// <inheritdoc/>
     protected override object[] GetArguments(DoubleVector3 value) => [value.X, value.Y];
 
     /// <inheritdoc/>
-    protected override string[] GetValues(DoubleVector3 value, ITypeDescriptorContext context, CultureInfo culture)
+    protected override string[] GetValues(DoubleVector3 value, ITypeDescriptorContext? context, CultureInfo culture)
     {
         var doubleConverter = TypeDescriptor.GetConverter(typeof(double));
         return
         [
-            doubleConverter.ConvertToString(context, culture, value.X),
-            doubleConverter.ConvertToString(context, culture, value.Y),
-            doubleConverter.ConvertToString(context, culture, value.Z)
+            doubleConverter.ConvertToString(context, culture, value.X) ?? "",
+            doubleConverter.ConvertToString(context, culture, value.Y) ?? "",
+            doubleConverter.ConvertToString(context, culture, value.Z) ?? ""
         ];
     }
 
@@ -56,6 +56,6 @@ internal class DoubleVector3Converter : ValueTypeConverter<DoubleVector3>
         if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
         #endregion
 
-        return new((double)propertyValues["X"], (double)propertyValues["Y"], (double)propertyValues["Z"]);
+        return new((double)propertyValues["X"]!, (double)propertyValues["Y"]!, (double)propertyValues["Z"]!);
     }
 }

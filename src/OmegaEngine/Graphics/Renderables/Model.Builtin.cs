@@ -24,7 +24,7 @@ partial class Model
     /// <param name="texture">The texture to place on the model; <c>null</c> for no texture.</param>
     /// <param name="width">The width of the quad.</param>
     /// <param name="height">The height of the quad.</param>
-    public static Model Quad(Engine engine, ITextureProvider texture = null, float width = 5, float height = 5)
+    public static Model Quad(Engine engine, ITextureProvider? texture = null, float width = 5, float height = 5)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -48,7 +48,7 @@ partial class Model
     /// <param name="width">The width of the box</param>
     /// <param name="height">The height of the box</param>
     /// <param name="depth">The depth of the box</param>
-    public static Model Box(Engine engine, ITextureProvider texture = null, float width = 5, float height = 5, float depth = 5)
+    public static Model Box(Engine engine, ITextureProvider? texture = null, float width = 5, float height = 5, float depth = 5)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -74,7 +74,7 @@ partial class Model
     /// <param name="radius">The radius of the sphere.</param>
     /// <param name="slices">The number of vertical slices to divide the sphere into.</param>
     /// <param name="stacks">The number of horizontal stacks to divide the sphere into.</param>
-    public static Model Sphere(Engine engine, ITextureProvider texture = null, float radius = 10, int slices = 20, int stacks = 20)
+    public static Model Sphere(Engine engine, ITextureProvider? texture = null, float radius = 10, int slices = 20, int stacks = 20)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -103,7 +103,7 @@ partial class Model
     /// <param name="length">The length of the cylinder.</param>
     /// <param name="slices">The number of vertical slices to divide the cylinder in.</param>
     /// <param name="stacks">The number of horizontal stacks to divide the cylinder in.</param>
-    public static Model Cylinder(Engine engine, ITextureProvider texture, float radiusBottom, float radiusTop, float length, int slices, int stacks)
+    public static Model Cylinder(Engine engine, ITextureProvider? texture, float radiusBottom, float radiusTop, float length, int slices, int stacks)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -125,7 +125,7 @@ partial class Model
     /// <param name="radiusBottom">The radius of the cylinder at the lower end (negative Z).</param>
     /// <param name="radiusTop">The radius of the cylinder at the upper end (positive Z).</param>
     /// <param name="length">The length of the cylinder.</param>
-    public static Model Cylinder(Engine engine, ITextureProvider texture = null, float radiusBottom = 1, float radiusTop = 1, float length = 10)
+    public static Model Cylinder(Engine engine, ITextureProvider? texture = null, float radiusBottom = 1, float radiusTop = 1, float length = 10)
     {
         float radiusMean = radiusBottom + (radiusTop - radiusBottom) / 2;
         float radiusDiff = Math.Abs(radiusTop - radiusBottom);
@@ -165,7 +165,7 @@ partial class Model
     /// <param name="radiusInner">The radius of the inner circle of the ring.</param>
     /// <param name="radiusOuter">The radius of the outer circle of the ring.</param>
     /// <param name="height">The height of the ring.</param>
-    public static Model Disc(Engine engine, ITextureProvider texture = null, float radiusInner = 5, float radiusOuter = 7, float height = 1)
+    public static Model Disc(Engine engine, ITextureProvider? texture = null, float radiusInner = 5, float radiusOuter = 7, float height = 1)
     {
         float radiusMean = radiusInner + (radiusOuter - radiusInner) / 2;
         return Disc(engine, texture, radiusInner, radiusOuter, height,

@@ -57,7 +57,7 @@ public abstract class ButtonBase : Label
     /// </summary>
     [DefaultValue(""), Description("A Lua script to execute when the control is clicked"), Category("Events"), FileType("Lua")]
     [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
-    public string OnClick { get; set; }
+    public string? OnClick { get; set; }
     #endregion
 
     #endregion

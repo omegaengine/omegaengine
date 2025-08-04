@@ -59,7 +59,7 @@ public struct Vector2Ray : IEquatable<Vector2Ray>
     public static bool operator !=(Vector2Ray left, Vector2Ray right) => !left.Equals(right);
 
     /// <inheritdoc/>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         return obj is Vector2Ray ray && Equals(ray);

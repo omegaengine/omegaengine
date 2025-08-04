@@ -40,8 +40,8 @@ namespace FrameOfReference;
 public partial class Game : GameBase
 {
     #region Variables
-    private Universe _menuUniverse;
-    private MenuPresenter _menuPresenter;
+    private Universe? _menuUniverse;
+    private MenuPresenter? _menuPresenter;
     #endregion
 
     #region Properties
@@ -156,7 +156,7 @@ public partial class Game : GameBase
         lua["Settings"] = Settings.Current;
         lua["State"] = CurrentState;
         lua["Session"] = CurrentSession;
-        lua["Presenter"] = CurrentPresenter;
+        lua["Presenter"] = CurrentPresenter ?? throw new InvalidOperationException($"{nameof(Presenter)} not set yet.");
         lua["Universe"] = CurrentPresenter.Universe;
 
         // Boolean flag to indicate if the game is running a mod

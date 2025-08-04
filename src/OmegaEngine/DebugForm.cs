@@ -36,7 +36,7 @@ internal partial class DebugForm : Form
 
     #region Properties
     /// <summary>The currently selected <see cref="View"/>; <c>null</c> if none.</summary>
-    private View CurrentView => viewListBox.SelectedItem as View;
+    private View? CurrentView => viewListBox.SelectedItem as View;
     #endregion
 
     #region Constructor
