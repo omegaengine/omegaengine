@@ -1320,18 +1320,18 @@ public class Dialog
     {
         dialogVertexes =
         [
-            new TransformedColoredTextured(dialogX - 1, dialogY - 1, 0.5f, 1.0f, topLeftColor.ToArgb(), 0.0f, 0.5f),
-            new TransformedColoredTextured(dialogX + Width, dialogY - 1, 0.5f, 1.0f, topRightColor.ToArgb(), 1.0f, 0.5f),
-            new TransformedColoredTextured(dialogX + Width, dialogY + Height, 0.5f, 1.0f, bottomRightColor.ToArgb(), 1.0f, 1.0f),
-            new TransformedColoredTextured(dialogX - 1, dialogY + Height, 0.5f, 1.0f, bottomLeftColor.ToArgb(), 0.0f, 1.0f)
+            new(dialogX - 1, dialogY - 1, 0.5f, 1.0f, topLeftColor.ToArgb(), 0.0f, 0.5f),
+            new(dialogX + Width, dialogY - 1, 0.5f, 1.0f, topRightColor.ToArgb(), 1.0f, 0.5f),
+            new(dialogX + Width, dialogY + Height, 0.5f, 1.0f, bottomRightColor.ToArgb(), 1.0f, 1.0f),
+            new(dialogX - 1, dialogY + Height, 0.5f, 1.0f, bottomLeftColor.ToArgb(), 0.0f, 1.0f)
         ];
 
         captionVertexes =
         [
-            new TransformedColoredTextured(dialogX + 5, dialogY + 5, 0.5f, 1.0f, captionColor.ToArgb(), 0.0f, 0.5f),
-            new TransformedColoredTextured(dialogX + Width - 5, dialogY + 5, 0.5f, 1.0f, captionColor.ToArgb(), 1.0f, 0.5f),
-            new TransformedColoredTextured(dialogX + Width - 5, dialogY + captionHeight - 5, 0.5f, 1.0f, captionColor.ToArgb(), 1.0f, 1.0f),
-            new TransformedColoredTextured(dialogX + 5, dialogY + captionHeight - 5, 0.5f, 1.0f, captionColor.ToArgb(), 0.0f, 1.0f)
+            new(dialogX + 5, dialogY + 5, 0.5f, 1.0f, captionColor.ToArgb(), 0.0f, 0.5f),
+            new(dialogX + Width - 5, dialogY + 5, 0.5f, 1.0f, captionColor.ToArgb(), 1.0f, 0.5f),
+            new(dialogX + Width - 5, dialogY + captionHeight - 5, 0.5f, 1.0f, captionColor.ToArgb(), 1.0f, 1.0f),
+            new(dialogX + 5, dialogY + captionHeight - 5, 0.5f, 1.0f, captionColor.ToArgb(), 0.0f, 1.0f)
         ];
     }
     #endregion

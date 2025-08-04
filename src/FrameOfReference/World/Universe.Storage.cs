@@ -94,9 +94,9 @@ partial class Universe
             XmlStorage.LoadXmlZip<Universe>(stream, additionalFiles:
             [
                 // Callbacks for loading terrain data
-                new EmbeddedFile("height.png", TerrainSerialize.LoadHeightMap),
-                new EmbeddedFile("texture.png", TerrainSerialize.LoadTextureMap),
-                new EmbeddedFile("occlusion.png", TerrainSerialize.LoadOcclusionIntervalMap)
+                new("height.png", TerrainSerialize.LoadHeightMap),
+                new("texture.png", TerrainSerialize.LoadTextureMap),
+                new("occlusion.png", TerrainSerialize.LoadOcclusionIntervalMap)
             ]);
         }
 
@@ -116,17 +116,17 @@ partial class Universe
             {
                 this.SaveXmlZip(path, additionalFiles:
                 [
-                    new EmbeddedFile("height.png", 0, Terrain.HeightMap.Save),
-                    new EmbeddedFile("texture.png", 0, Terrain.TextureMap.Save)
+                    new("height.png", 0, Terrain.HeightMap.Save),
+                    new("texture.png", 0, Terrain.TextureMap.Save)
                 ]);
             }
             else
             {
                 this.SaveXmlZip(path, additionalFiles:
                 [
-                    new EmbeddedFile("height.png", 0, Terrain.HeightMap.Save),
-                    new EmbeddedFile("texture.png", 0, Terrain.TextureMap.Save),
-                    new EmbeddedFile("occlusion.png", 0, Terrain.OcclusionIntervalMap.Save)
+                    new("height.png", 0, Terrain.HeightMap.Save),
+                    new("texture.png", 0, Terrain.TextureMap.Save),
+                    new("occlusion.png", 0, Terrain.OcclusionIntervalMap.Save)
                 ]);
             }
         }

@@ -124,40 +124,28 @@ public struct PositionNormalMultiTextured
     /// <summary>
     /// Returns an array describing the usage of the vertex fields
     /// </summary>
-    public static VertexElement[] GetVertexElements()
-    {
-        return
-        [
-            // Position
-            new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default,
-                DeclarationUsage.Position, 0),
-            // Normal
-            new VertexElement(0, sizeof(float) * 3, DeclarationType.Float3, DeclarationMethod.Default,
-                DeclarationUsage.Normal, 0),
-            // Tu, Tv
-            new VertexElement(0, sizeof(float) * 6, DeclarationType.Float2, DeclarationMethod.Default,
-                DeclarationUsage.TextureCoordinate, 0),
-            // OcclusionIntervals
-            new VertexElement(0, sizeof(float) * 10, DeclarationType.Float4, DeclarationMethod.Default,
-                DeclarationUsage.TextureCoordinate, 1),
-            // TexWeights1
-            new VertexElement(0, sizeof(float) * 14, DeclarationType.Float4, DeclarationMethod.Default,
-                DeclarationUsage.TextureCoordinate, 2),
-            // TexWeights2
-            new VertexElement(0, sizeof(float) * 18, DeclarationType.Float4, DeclarationMethod.Default,
-                DeclarationUsage.TextureCoordinate, 3),
-            // TexWeights3
-            new VertexElement(0, sizeof(float) * 22, DeclarationType.Float4, DeclarationMethod.Default,
-                DeclarationUsage.TextureCoordinate, 4),
-            // TexWeights4
-            new VertexElement(0, sizeof(float) * 26, DeclarationType.Float4, DeclarationMethod.Default,
-                DeclarationUsage.TextureCoordinate, 5),
-            // Color
-            new VertexElement(0, sizeof(float) * 30, DeclarationType.Float4, DeclarationMethod.Default,
-                DeclarationUsage.Color, 0),
-            // End
-            VertexElement.VertexDeclarationEnd
-        ];
-    }
+    public static VertexElement[] GetVertexElements() =>
+    [
+        // Position
+        new(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0),
+        // Normal
+        new(0, sizeof(float) * 3, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Normal, 0),
+        // Tu, Tv
+        new(0, sizeof(float) * 6, DeclarationType.Float2, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 0),
+        // OcclusionIntervals
+        new(0, sizeof(float) * 10, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 1),
+        // TexWeights1
+        new(0, sizeof(float) * 14, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 2),
+        // TexWeights2
+        new(0, sizeof(float) * 18, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 3),
+        // TexWeights3
+        new(0, sizeof(float) * 22, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 4),
+        // TexWeights4
+        new(0, sizeof(float) * 26, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 5),
+        // Color
+        new(0, sizeof(float) * 30, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.Color, 0),
+        // End
+        VertexElement.VertexDeclarationEnd
+    ];
     #endregion
 }

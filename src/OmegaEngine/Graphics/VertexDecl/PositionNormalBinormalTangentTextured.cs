@@ -109,28 +109,20 @@ public struct PositionNormalBinormalTangentTextured
     /// <summary>
     /// Returns an array describing the usage of the vertex fields
     /// </summary>
-    public static VertexElement[] GetVertexElements()
-    {
-        return
-        [
-            // Position
-            new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default,
-                DeclarationUsage.Position, 0),
-            // Normal
-            new VertexElement(0, sizeof(float) * 3, DeclarationType.Float3, DeclarationMethod.Default,
-                DeclarationUsage.Normal, 0),
-            // Tu, Tv
-            new VertexElement(0, sizeof(float) * 6, DeclarationType.Float2, DeclarationMethod.Default,
-                DeclarationUsage.TextureCoordinate, 0),
-            // Binormal
-            new VertexElement(0, sizeof(float) * 8, DeclarationType.Float3, DeclarationMethod.Default,
-                DeclarationUsage.Binormal, 0),
-            // Tangent
-            new VertexElement(0, sizeof(float) * 11, DeclarationType.Float3, DeclarationMethod.Default,
-                DeclarationUsage.Tangent, 0),
-            // End
-            VertexElement.VertexDeclarationEnd
-        ];
-    }
+    public static VertexElement[] GetVertexElements() =>
+    [
+        // Position
+        new(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0),
+        // Normal
+        new(0, sizeof(float) * 3, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Normal, 0),
+        // Tu, Tv
+        new(0, sizeof(float) * 6, DeclarationType.Float2, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 0),
+        // Binormal
+        new(0, sizeof(float) * 8, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Binormal, 0),
+        // Tangent
+        new(0, sizeof(float) * 11, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Tangent, 0),
+        // End
+        VertexElement.VertexDeclarationEnd
+    ];
     #endregion
 }

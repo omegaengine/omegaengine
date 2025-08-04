@@ -132,11 +132,11 @@ internal static class Program
         {
             // Base
             if (!string.IsNullOrEmpty(Settings.Current.General.ContentDir))
-                ContentManager.BaseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, Settings.Current.General.ContentDir));
+                ContentManager.BaseDir = new(Path.Combine(Locations.InstallBase, Settings.Current.General.ContentDir));
 
             // Mod
             if (Args.Contains("mod"))
-                ContentManager.ModDir = new DirectoryInfo(Path.Combine(Path.Combine(Locations.InstallBase, "Mods"), Args["mod"]));
+                ContentManager.ModDir = new(Path.Combine(Path.Combine(Locations.InstallBase, "Mods"), Args["mod"]));
             if (ContentManager.ModDir != null) Log.Info("Load mod from: " + ContentManager.ModDir);
         }
         #region Error handling
