@@ -174,10 +174,14 @@ public sealed partial class Terrain<TTemplate> : ITerrain
     /// <param name="coordinates">The coordinates of the point in engine world space to get information for.</param>
     public DoubleVector3 ToEngineCoords(Vector2 coordinates)
     {
+        #region Sanity checks
+        if (!DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
+        #endregion
+
         // Note: This is only required for lookups in the height-map, not for actually unstretching the coordinates to be returned
         Vector2 unstretchedCoords = coordinates * (1 / _size.StretchH);
 
-        var height = HeightMap.SampledRead(unstretchedCoords.X, unstretchedCoords.Y);
+        var height = _heightMap.SampledRead(unstretchedCoords.X, unstretchedCoords.Y);
 
         return new(
             coordinates.X, // World X = Engine +X
@@ -213,9 +217,13 @@ public sealed partial class Terrain<TTemplate> : ITerrain
 
     private int GetSlope(int x, int y, int xDiff, int yDiff)
     {
+        #region Sanity checks
+        if (!DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
+        #endregion
+
         return Math.Abs(
-            HeightMap.ClampedRead(x + xDiff, y + yDiff) -
-            HeightMap.ClampedRead(x, y));
+            _heightMap.ClampedRead(x + xDiff, y + yDiff) -
+            _heightMap.ClampedRead(x, y));
     }
     #endregion
 
@@ -224,8 +232,13 @@ public sealed partial class Terrain<TTemplate> : ITerrain
     /// Determines the <typeparamref name="TTemplate"/> effective at specific coordinates.
     /// </summary>
     /// <param name="coordinates">The world coordinates to check.</param>
+    /// <exception cref="InvalidOperationException">The terrain data was not loaded yet.</exception>
     public byte GetTerrainIndex(Vector2 coordinates)
     {
+        #region Sanity checks
+        if (!DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
+        #endregion
+
         return _textureMap[
             (int)(coordinates.X / _size.StretchV),
             (int)(coordinates.Y / _size.StretchV)];
