@@ -117,7 +117,8 @@ public class TerrainShader : LightingShader
         if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
         Effect = DynamicShader.FromContent(Engine, "Terrain.fxd", _lighting, _controllers);
 
-        base.OnEngineSet();
+        lock (Engine) // Dynamic shaders may be compiled and registered in parallel, but rest of OmegaEngine is single threaded
+            base.OnEngineSet();
     }
     #endregion
 }

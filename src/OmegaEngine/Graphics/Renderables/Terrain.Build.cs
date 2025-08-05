@@ -9,6 +9,8 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using NanoByte.Common;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -17,10 +19,6 @@ using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
 using OmegaEngine.Values;
 using Resources = OmegaEngine.Properties.Resources;
-
-#if NETFX4
-using System.Threading.Tasks;
-#endif
 
 namespace OmegaEngine.Graphics.Renderables;
 
@@ -74,11 +72,7 @@ partial class Terrain
     {
         var vertexes = new PositionMultiTextured[size.Width * size.Height];
 
-#if NETFX4
-            Parallel.For(0, size.Width, x =>
-#else
-        for (int x = 0; x < size.Width; x++)
-#endif
+        Parallel.For(0, size.Width, x =>
         {
             for (int y = 0; y < size.Height; y++)
             {
@@ -132,10 +126,7 @@ partial class Terrain
                     occlusionIntervals.ByteToAngle(),
                     texWeights, Color.White);
             }
-        }
-#if NETFX4
-            );
-#endif
+        });
         return vertexes;
     }
 
@@ -153,11 +144,7 @@ partial class Terrain
         var subsetTextureMasksOut = new ushort[blocksX * blocksY];
         var subsetBoundingBoxesOut = new BoundingBox[blocksX * blocksY];
 
-#if NETFX4
-            Parallel.For(0, blocksX, xBlock =>
-#else
-        for (int xBlock = 0; xBlock < blocksX; xBlock++)
-#endif
+        Parallel.For(0, blocksX, xBlock =>
         {
             // Calculate range of block in X direction
             int startX = xBlock * blockSize;
@@ -204,10 +191,7 @@ partial class Terrain
                     new(xBlock * blockSize * stretchH, blockMinHeight * stretchV, -yBlock * blockSize * stretchH),
                     new((xBlock + 1) * blockSize * stretchH, blockMaxHeight * stretchV, -(yBlock + 1) * blockSize * stretchH));
             }
-        }
-#if NETFX4
-            );
-#endif
+        });
 
         attributes = attributesOut;
         subsetTextureMasks = subsetTextureMasksOut;
@@ -219,16 +203,12 @@ partial class Terrain
     {
         var shaders = new SurfaceShader[textureMasks.Length];
 
-        // Load the dynamic multitexturing shader if supported
         if (TerrainShader.MinShaderModel <= engine.Capabilities.MaxShaderModel)
         {
-#if NETFX4
-                // Remove any duplicates and then generate all required shaders in parallel
-                var textureMaskSet = new HashSet<ushort>();
-                foreach (var textureMask in textureMaskSet) textureMaskSet.Add(textureMask);
-                Parallel.ForEach(textureMaskSet, textureMask => engine.GetTerrainShader(lighting, textureMask));
-#endif
+            // Generate shader for each distinct texture mask in parallel
+            Parallel.ForEach(textureMasks.Distinct(), textureMask => engine.GetTerrainShader(lighting, textureMask));
 
+            // Use engine caching to retrieve shaders by texture mask
             for (int i = 0; i < textureMasks.Length; i++)
                 shaders[i] = engine.GetTerrainShader(lighting, textureMasks[i]);
         }
