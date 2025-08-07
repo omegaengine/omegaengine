@@ -59,14 +59,6 @@ public sealed class MenuPresenter : Presenter
         View.PreRender += RotateCamera;
     }
 
-    /// <inheritdoc/>
-    public override void HookIn()
-    {
-        base.HookIn();
-
-        SwitchMusicTheme("Menu");
-    }
-
     #region Rotate camera
     private readonly Stopwatch _cameraTimer = Stopwatch.StartNew();
 

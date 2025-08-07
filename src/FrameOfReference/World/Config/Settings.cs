@@ -128,7 +128,6 @@ public sealed class Settings
         Current.Controls.Changed += SaveCurrent;
         Current.Display.Changed += SaveCurrent;
         Current.Graphics.Changed += SaveCurrent;
-        Current.Sound.Changed += SaveCurrent;
     }
     #endregion
 
@@ -147,9 +146,6 @@ public sealed class Settings
 
     /// <summary>Stores graphics settings (effect details, etc.). Changes here don't require the engine to be reset.</summary>
     public GraphicsSettings Graphics = new();
-
-    /// <summary>Stores sound settings (turn music on or off, etc.).</summary>
-    public SoundSettings Sound = new();
 
     /// <summary>Stores settings for the game's editor.</summary>
     public EditorSettings Editor = new();
