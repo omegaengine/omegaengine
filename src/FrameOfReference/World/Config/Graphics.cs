@@ -33,19 +33,11 @@ namespace FrameOfReference.World.Config;
 /// <seealso cref="Settings.Graphics"/>
 public sealed class GraphicsSettings
 {
-    #region Events
     /// <summary>
     /// Occurs when a setting in this group is changed.
     /// </summary>
     [Description("Occurs when a setting in this group is changed.")]
-    public event Action? Changed;
-
-    private void OnChanged()
-    {
-        Changed?.Invoke();
-        if (Settings.AutoSave && Settings.Current != null && Settings.Current.Graphics == this) Settings.SaveCurrent();
-    }
-    #endregion
+    public event Action Changed = () => {};
 
     private string? _forceShaderModel;
 
@@ -53,7 +45,7 @@ public sealed class GraphicsSettings
     /// Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective
     /// </summary>
     [DefaultValue(null), Description("Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective")]
-    public string? ForceShaderModel { get => _forceShaderModel; set => value.To(ref _forceShaderModel, OnChanged); }
+    public string? ForceShaderModel { get => _forceShaderModel; set => value.To(ref _forceShaderModel, Changed); }
 
     private bool _anisotropic;
 
@@ -61,7 +53,7 @@ public sealed class GraphicsSettings
     /// Use anisotropic texture filtering
     /// </summary>
     [DefaultValue(false), Description("Use anisotropic texture filtering")]
-    public bool Anisotropic { get => _anisotropic; set => value.To(ref _anisotropic, OnChanged); }
+    public bool Anisotropic { get => _anisotropic; set => value.To(ref _anisotropic, Changed); }
 
     private bool _normalMapping = true;
 
@@ -69,7 +61,7 @@ public sealed class GraphicsSettings
     /// Apply normal mapping effects to models when available
     /// </summary>
     [DefaultValue(true), Description("Apply normal mapping effects to models when available")]
-    public bool NormalMapping { get => _normalMapping; set => value.To(ref _normalMapping, OnChanged); }
+    public bool NormalMapping { get => _normalMapping; set => value.To(ref _normalMapping, Changed); }
 
     private bool _postScreenEffects = true;
 
@@ -77,7 +69,7 @@ public sealed class GraphicsSettings
     /// Apply post-screen effects to the scene
     /// </summary>
     [DefaultValue(true), Description("Apply post-screen effects to the scene")]
-    public bool PostScreenEffects { get => _postScreenEffects; set => value.To(ref _postScreenEffects, OnChanged); }
+    public bool PostScreenEffects { get => _postScreenEffects; set => value.To(ref _postScreenEffects, Changed); }
 
     private bool _shadows = true;
 
@@ -85,7 +77,7 @@ public sealed class GraphicsSettings
     /// Cast shadows
     /// </summary>
     [DefaultValue(true), Description("Cast shadows")]
-    public bool Shadows { get => _shadows; set => value.To(ref _shadows, OnChanged); }
+    public bool Shadows { get => _shadows; set => value.To(ref _shadows, Changed); }
 
     private bool _doubleSampling = true;
 
@@ -93,7 +85,7 @@ public sealed class GraphicsSettings
     /// Sample textures twice with different texture coordinates for better image quality
     /// </summary>
     [DefaultValue(true), Description("Sample textures twice with different texture coordinates for better image quality")]
-    public bool DoubleSampling { get => _doubleSampling; set => value.To(ref _doubleSampling, OnChanged); }
+    public bool DoubleSampling { get => _doubleSampling; set => value.To(ref _doubleSampling, Changed); }
 
     private int _terrainBlockSize = 32;
 
@@ -101,7 +93,7 @@ public sealed class GraphicsSettings
     /// The size of a terrain rendering block
     /// </summary>
     [DefaultValue(32), Description("The size of a terrain rendering block")]
-    public int TerrainBlockSize { get => _terrainBlockSize; set => value.To(ref _terrainBlockSize, OnChanged); }
+    public int TerrainBlockSize { get => _terrainBlockSize; set => value.To(ref _terrainBlockSize, Changed); }
 
     private WaterEffectsType _waterEffects = WaterEffectsType.ReflectAll;
 
@@ -109,7 +101,7 @@ public sealed class GraphicsSettings
     /// What kind of effects to display on water (e.g. reflections)
     /// </summary>
     [DefaultValue(WaterEffectsType.ReflectAll), Description("What kind of effects to display on water (e.g. reflections)")]
-    public WaterEffectsType WaterEffects { get => _waterEffects; set => value.To(ref _waterEffects, OnChanged); }
+    public WaterEffectsType WaterEffects { get => _waterEffects; set => value.To(ref _waterEffects, Changed); }
 
     private Quality _particleSystemQuality = Quality.Medium;
 
@@ -117,7 +109,7 @@ public sealed class GraphicsSettings
     /// The quality of CPU-based particle systems
     /// </summary>
     [DefaultValue(Quality.Medium), Description("The quality of CPU-based particle systems")]
-    public Quality ParticleSystemQuality { get => _particleSystemQuality; set => value.To(ref _particleSystemQuality, OnChanged); }
+    public Quality ParticleSystemQuality { get => _particleSystemQuality; set => value.To(ref _particleSystemQuality, Changed); }
 
     private bool _fading = true;
 
@@ -125,5 +117,5 @@ public sealed class GraphicsSettings
     /// Fade in game scenes from black
     /// </summary>
     [DefaultValue(true), Description("Fade in game scenes from black")]
-    public bool Fading { get => _fading; set => value.To(ref _fading, OnChanged); }
+    public bool Fading { get => _fading; set => value.To(ref _fading, Changed); }
 }

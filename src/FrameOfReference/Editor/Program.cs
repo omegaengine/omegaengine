@@ -72,6 +72,7 @@ internal static class Program
         Settings.LoadCurrent();
         UpdateLocale();
         Settings.SaveCurrent();
+        Settings.EnableAutoSave();
 
         if (!DetermineContentDirs()) return;
 

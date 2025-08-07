@@ -199,18 +199,6 @@ partial class Game
             // Switch mode
             CurrentState = GameState.Benchmark;
 
-            // Normalize settings for comparable results (don't save to preserve original settings)
-            Settings.AutoSave = false;
-            Settings.Current.Sound.PlayMusic = false;
-            Settings.Current.Graphics.Fading = false;
-            Settings.Current.Graphics.WaterEffects = WaterEffectsType.None;
-            Settings.Current.Graphics.ParticleSystemQuality = Quality.Low;
-            Settings.Current.Display.VSync = false;
-            Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize = new(800, 600);
-#if !DEBUG
-                Settings.Current.Display.Fullscreen = true;
-#endif
-
             // Clean up any old stuff
             if (CurrentPresenter != null)
             {

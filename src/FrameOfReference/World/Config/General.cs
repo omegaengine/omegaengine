@@ -44,19 +44,11 @@ public sealed class GeneralSettings
     public const string AppNameShort = "FrameOfReference";
     #endregion
 
-    #region Events
     /// <summary>
     /// Occurs when a setting in this group is changed.
     /// </summary>
     [Description("Occurs when a setting in this group is changed.")]
-    public event Action? Changed;
-
-    private void OnChanged()
-    {
-        Changed?.Invoke();
-        if (Settings.AutoSave && Settings.Current != null && Settings.Current.General == this) Settings.SaveCurrent();
-    }
-    #endregion
+    public event Action Changed = () => {};
 
     private string? _contentDir;
 
@@ -64,7 +56,7 @@ public sealed class GeneralSettings
     /// Path to the directory to load the game content from
     /// </summary>
     [DefaultValue(""), Description("Path to the directory to load the game content from")]
-    public string? ContentDir { get => _contentDir; set => value.To(ref _contentDir, OnChanged); }
+    public string? ContentDir { get => _contentDir; set => value.To(ref _contentDir, Changed); }
 
     private string? _language;
 
@@ -72,5 +64,5 @@ public sealed class GeneralSettings
     /// The current game language
     /// </summary>
     [DefaultValue(""), Description("The current game language")]
-    public string? Language { get => _language; set => value.To(ref _language, OnChanged); }
+    public string? Language { get => _language; set => value.To(ref _language,  Changed); }
 }
