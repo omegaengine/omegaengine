@@ -8,6 +8,7 @@
     <OutputType>WinExe</OutputType>
     <ApplicationIcon>..\..\..\icon-alpha.ico</ApplicationIcon>
     <UseWindowsForms>True</UseWindowsForms>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <!-- Dependencies -->
