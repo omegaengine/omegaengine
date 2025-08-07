@@ -15,7 +15,6 @@ WaterEffectsType = luanet.import_type("OmegaEngine.Values.WaterEffectsType")
 -- Default to English language, provide German as an option
 if Settings.General.Language == "de" then Language.SelectedItem = "Deutsch"; end;
 
-PlayMusic.Checked = Settings.Sound.PlayMusic
 InvertMouse.Checked = Settings.Controls.InvertMouse
 
 -- Check for each supported resolution if the graphics card can handle it and if so add it to the list
@@ -66,8 +65,6 @@ VSync.Checked = Settings.Display.VSync
 
 PostScreenEffects.Enabled = Engine.Capabilities.PerPixelEffects
 PostScreenEffects.Checked = Settings.Graphics.PostScreenEffects
-Shadows.Enabled = Engine.Capabilities.PerPixelEffects
-Shadows.Checked = Settings.Graphics.Shadows
 TerrainDoubleSampling.Enabled = Engine.Capabilities.DoubleSampling
 TerrainDoubleSampling.Checked = Settings.Graphics.DoubleSampling
 
@@ -116,11 +113,6 @@ end
 Me:Close()
 LoadModalDialog("Settings").DialogRender.Location = Me.DialogRender.Location</OnChanged>
   </DropdownList>
-  <CheckBox Name="PlayMusic" Text="[PlayMusic]">
-    <Location X="290" Y="55" />
-    <Size Width="280" Height="20" />
-    <OnChanged>Settings.Sound.PlayMusic = PlayMusic.Checked</OnChanged>
-  </CheckBox>
   <CheckBox Name="InvertMouse" Text="[InvertMouse]">
     <Location X="290" Y="85" />
     <Size Width="280" Height="20" />
@@ -193,11 +185,6 @@ Me.DialogRender.Location = location_backup</OnChanged>
     <Location X="20" Y="325" />
     <Size Width="220" Height="20" />
     <OnChanged>Settings.Graphics.PostScreenEffects = PostScreenEffects.Checked</OnChanged>
-  </CheckBox>
-  <CheckBox Name="Shadows" Text="[ShowUnitShadows]">
-    <Location X="255" Y="325" />
-    <Size Width="300" Height="20" />
-    <OnChanged>Settings.Graphics.Shadows = Shadows.Checked</OnChanged>
   </CheckBox>
   <CheckBox Name="TerrainDoubleSampling" Text="[TerrainDoubleSampling]">
     <Location X="460" Y="359" />

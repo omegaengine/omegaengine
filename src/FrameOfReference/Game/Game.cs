@@ -115,14 +115,6 @@ public partial class Game : GameBase
     {
         MouseInputProvider.InvertMouse = Settings.Current.Controls.InvertMouse;
     }
-
-    /// <summary>
-    /// Called when <see cref="SoundSettings.Changed"/>
-    /// </summary>
-    private void ApplySoundSettings()
-    {
-        if (!Settings.Current.Sound.PlayMusic) Engine.Music.Stop(fade: true);
-    }
     #endregion
 
     //--------------------//
@@ -231,7 +223,6 @@ public partial class Game : GameBase
                 Settings.Current.Controls.Changed -= ApplyControlsSettings;
                 Settings.Current.Display.Changed -= ResetEngine;
                 Settings.Current.Graphics.Changed -= ApplyGraphicsSettings;
-                Settings.Current.Sound.Changed -= ApplySoundSettings;
             }
         }
         finally

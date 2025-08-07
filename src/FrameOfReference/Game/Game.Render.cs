@@ -90,7 +90,6 @@ partial class Game
         Engine.Anisotropic = Settings.Current.Graphics.Anisotropic;
         Engine.Effects.NormalMapping = Settings.Current.Graphics.NormalMapping;
         Engine.Effects.PostScreenEffects = Settings.Current.Graphics.PostScreenEffects;
-        Engine.Effects.Shadows = Settings.Current.Graphics.Shadows;
         Engine.Effects.DoubleSampling = Settings.Current.Graphics.DoubleSampling;
         Engine.Effects.WaterEffects = Settings.Current.Graphics.WaterEffects;
         Engine.Effects.ParticleSystemQuality = Settings.Current.Graphics.ParticleSystemQuality;
@@ -100,7 +99,6 @@ partial class Game
         Settings.Current.Graphics.Anisotropic = Engine.Anisotropic;
         Settings.Current.Graphics.NormalMapping = Engine.Effects.NormalMapping;
         Settings.Current.Graphics.PostScreenEffects = Engine.Effects.PostScreenEffects;
-        Settings.Current.Graphics.Shadows = Engine.Effects.Shadows;
         Settings.Current.Graphics.DoubleSampling = Engine.Effects.DoubleSampling;
         Settings.Current.Graphics.WaterEffects = Engine.Effects.WaterEffects;
         #endregion
@@ -121,7 +119,6 @@ partial class Game
         Settings.Current.Controls.Changed += ApplyControlsSettings;
         Settings.Current.Display.Changed += ResetEngine;
         Settings.Current.Graphics.Changed += ApplyGraphicsSettings;
-        Settings.Current.Sound.Changed += ApplySoundSettings;
 
         UpdateStatus(Resources.LoadingGraphics);
         Form.ResizeEnd += delegate
@@ -204,9 +201,6 @@ partial class Game
                 break;
             }
         }
-
-        // Start new song after last one has stopped
-        if (Settings.Current.Sound.PlayMusic) Engine.Music.Update();
     }
     #endregion
 }

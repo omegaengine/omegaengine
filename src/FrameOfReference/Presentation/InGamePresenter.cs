@@ -61,7 +61,6 @@ public sealed class InGamePresenter : InteractivePresenter
     {
         base.HookIn();
         Engine.PreRender += HandleLockedOnEntity;
-        SwitchMusicTheme("Game", immediate: true);
     }
 
     /// <inheritdoc/>

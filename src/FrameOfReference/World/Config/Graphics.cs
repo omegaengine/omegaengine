@@ -71,14 +71,6 @@ public sealed class GraphicsSettings
     [DefaultValue(true), Description("Apply post-screen effects to the scene")]
     public bool PostScreenEffects { get => _postScreenEffects; set => value.To(ref _postScreenEffects, Changed); }
 
-    private bool _shadows = true;
-
-    /// <summary>
-    /// Cast shadows
-    /// </summary>
-    [DefaultValue(true), Description("Cast shadows")]
-    public bool Shadows { get => _shadows; set => value.To(ref _shadows, Changed); }
-
     private bool _doubleSampling = true;
 
     /// <summary>

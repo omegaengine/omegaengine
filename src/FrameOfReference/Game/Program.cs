@@ -110,7 +110,6 @@ internal static class Program
     /// </summary>
     private static void ConfigureSettingsForBenchmark()
     {
-        Settings.Current.Sound.PlayMusic = false;
         Settings.Current.Graphics.Fading = false;
         Settings.Current.Graphics.WaterEffects = WaterEffectsType.None;
         Settings.Current.Graphics.ParticleSystemQuality = Quality.High;

@@ -339,23 +339,4 @@ public abstract partial class Presenter : PresenterBase<Universe, Vector2>
         base.DimUp();
     }
     #endregion
-
-    #region Music theme
-    /// <summary>
-    /// Switches the theme of the music played
-    /// </summary>
-    /// <param name="theme">The new music theme</param>
-    /// <param name="immediate">Shall the current song be stopped and the new theme activated immediately?</param>
-    protected void SwitchMusicTheme(string theme, bool immediate = false)
-    {
-        if (Settings.Current.Sound.PlayMusic && immediate)
-        { // Change the music-playback bow
-            Engine.Music.PlayTheme(theme);
-        }
-        else
-        { // Change the next kind of music to be started by Game.Render() calling Engine.Music.Update()
-            Engine.Music.SwitchTheme(theme);
-        }
-    }
-    #endregion
 }
