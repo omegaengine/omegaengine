@@ -83,6 +83,7 @@ internal static class Program
             if (!Msg.OkCancel(null, Resources.BenchmarkInfo, MsgSeverity.Info, Resources.BenchmarkInfoContinue)) return;
             ConfigureSettingsForBenchmark();
         }
+        else Settings.EnableAutoSave();
 
         if (!DetermineContentDirs()) return;
         if (!LoadArchives()) return;
@@ -105,19 +106,18 @@ internal static class Program
     }
 
     /// <summary>
-    /// Normalizes <see cref="Settings"/> for comparable benchmark results. Original settings are preserved on-disk.
+    /// Normalizes <see cref="Settings"/> for comparable benchmark results.
     /// </summary>
     private static void ConfigureSettingsForBenchmark()
     {
-        Settings.AutoSave = false;
         Settings.Current.Sound.PlayMusic = false;
         Settings.Current.Graphics.Fading = false;
         Settings.Current.Graphics.WaterEffects = WaterEffectsType.None;
-        Settings.Current.Graphics.ParticleSystemQuality = Quality.Low;
+        Settings.Current.Graphics.ParticleSystemQuality = Quality.High;
         Settings.Current.Display.VSync = false;
-        Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize = new(800, 600);
+        Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize = new(1024, 768);
 #if !DEBUG
-            Settings.Current.Display.Fullscreen = true;
+        Settings.Current.Display.Fullscreen = true;
 #endif
     }
 

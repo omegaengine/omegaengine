@@ -35,19 +35,11 @@ namespace FrameOfReference.World.Config;
 /// <seealso cref="Settings.Editor"/>
 public sealed class EditorSettings
 {
-    #region Events
     /// <summary>
     /// Occurs when a setting in this group is changed.
     /// </summary>
     [Description("Occurs when a setting in this group is changed.")]
-    public event Action? Changed;
-
-    private void OnChanged()
-    {
-        Changed?.Invoke();
-        if (Settings.AutoSave && Settings.Current != null && Settings.Current.Editor == this) Settings.SaveCurrent();
-    }
-    #endregion
+    public event Action Changed = () => {};
 
     private bool _showWelcomeMessage = true;
 
@@ -55,7 +47,7 @@ public sealed class EditorSettings
     /// Show the welcome message on startup
     /// </summary>
     [DefaultValue(true), Description("Show the welcome message on startup")]
-    public bool ShowWelcomeMessage { get => _showWelcomeMessage; set => value.To(ref _showWelcomeMessage, OnChanged); }
+    public bool ShowWelcomeMessage { get => _showWelcomeMessage; set => value.To(ref _showWelcomeMessage, Changed); }
 
     private bool _editBase;
 
@@ -63,7 +55,7 @@ public sealed class EditorSettings
     /// May the user edit the base game?
     /// </summary>
     [DefaultValue(false), Description("May the user edit the base game?")]
-    public bool EditBase { get => _editBase; set => value.To(ref _editBase, OnChanged); }
+    public bool EditBase { get => _editBase; set => value.To(ref _editBase, Changed); }
 
     private Size _windowSize;
 
@@ -71,7 +63,7 @@ public sealed class EditorSettings
     /// The size of the editor window
     /// </summary>
     [Description("The size of the editor window")]
-    public Size WindowSize { get => _windowSize; set => value.To(ref _windowSize, OnChanged); }
+    public Size WindowSize { get => _windowSize; set => value.To(ref _windowSize, Changed); }
 
     private bool _windowMaximized;
 
@@ -79,7 +71,7 @@ public sealed class EditorSettings
     /// Is the editor window maximized?
     /// </summary>
     [Description("Is the editor window maximized?")]
-    public bool WindowMaximized { get => _windowMaximized; set => value.To(ref _windowMaximized, OnChanged); }
+    public bool WindowMaximized { get => _windowMaximized; set => value.To(ref _windowMaximized, Changed); }
 
     // Note: Can not use ICollection<T> interface with XML Serialization
     private readonly MonitoredCollection<string> _recentMods = [];
@@ -92,7 +84,7 @@ public sealed class EditorSettings
     #region Constructor
     public EditorSettings()
     {
-        _recentMods.Changed += OnChanged;
+        _recentMods.Changed += Changed;
     }
     #endregion
 }

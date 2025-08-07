@@ -32,19 +32,11 @@ namespace FrameOfReference.World.Config;
 /// <seealso cref="Settings.Controls"/>
 public sealed class ControlsSettings
 {
-    #region Events
     /// <summary>
     /// Occurs when a setting in this group is changed.
     /// </summary>
     [Description("Occurs when a setting in this group is changed.")]
-    public event Action? Changed;
-
-    private void OnChanged()
-    {
-        Changed?.Invoke();
-        if (Settings.AutoSave && Settings.Current != null && Settings.Current.Controls == this) Settings.SaveCurrent();
-    }
-    #endregion
+    public event Action Changed = () => {};
 
     private bool _invertMouse;
 
@@ -52,5 +44,5 @@ public sealed class ControlsSettings
     /// Invert the mouse axes
     /// </summary>
     [DefaultValue(false), Description("Invert the mouse axes")]
-    public bool InvertMouse { get => _invertMouse; set => value.To(ref _invertMouse, OnChanged); }
+    public bool InvertMouse { get => _invertMouse; set => value.To(ref _invertMouse, Changed); }
 }

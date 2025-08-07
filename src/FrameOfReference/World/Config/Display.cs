@@ -36,19 +36,11 @@ namespace FrameOfReference.World.Config;
 /// <seealso cref="Settings.Display"/>
 public sealed class DisplaySettings
 {
-    #region Events
     /// <summary>
     /// Occurs when a setting in this group is changed.
     /// </summary>
     [Description("Occurs when a setting in this group is changed.")]
-    public event Action? Changed;
-
-    private void OnChanged()
-    {
-        Changed?.Invoke();
-        if (Settings.AutoSave && Settings.Current != null && Settings.Current.Display == this) Settings.SaveCurrent();
-    }
-    #endregion
+    public event Action Changed = () => {};
 
     private Size _resolution = Screen.PrimaryScreen!.Bounds.Size;
 
@@ -63,7 +55,7 @@ public sealed class DisplaySettings
         {
             if (value == Size.Empty)
                 value = Screen.PrimaryScreen!.Bounds.Size;
-            value.To(ref _resolution, OnChanged);
+            value.To(ref _resolution, Changed);
         }
     }
 
@@ -101,7 +93,7 @@ public sealed class DisplaySettings
         {
             if (value == Size.Empty)
                 value = new(1024, 768);
-            value.To(ref _windowSize, OnChanged);
+            value.To(ref _windowSize, Changed);
         }
     }
 
@@ -111,7 +103,7 @@ public sealed class DisplaySettings
     /// The level of anti aliasing to use
     /// </summary>
     [Description("The level of anti aliasing to use")]
-    public int AntiAliasing { get => _antiAliasing; set => value.To(ref _antiAliasing, OnChanged); }
+    public int AntiAliasing { get => _antiAliasing; set => value.To(ref _antiAliasing, Changed); }
 
     /// <summary>
     /// The level of anti aliasing to use - as a string followed by an x
@@ -136,7 +128,7 @@ public sealed class DisplaySettings
     /// Run game in fullscreen mode
     /// </summary>
     [Description("Run game in fullscreen mode")]
-    public bool Fullscreen { get => _fullscreen; set => value.To(ref _fullscreen, OnChanged); }
+    public bool Fullscreen { get => _fullscreen; set => value.To(ref _fullscreen, Changed); }
 
     private bool _vSync;
 
@@ -144,5 +136,5 @@ public sealed class DisplaySettings
     /// Synchronize the framerate with the monitor's refresh rate
     /// </summary>
     [Description("Synchronize the framerate with the monitor's refresh rate")]
-    public bool VSync { get => _vSync; set => value.To(ref _vSync, OnChanged); }
+    public bool VSync { get => _vSync; set => value.To(ref _vSync, Changed); }
 }

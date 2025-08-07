@@ -36,17 +36,12 @@ namespace FrameOfReference.World.Config;
 [XmlRoot("Settings")] // Suppress XMLSchema declarations (no inheritance used for properties)
 public sealed class Settings
 {
-    #region Properties
+    private static Settings? _current;
+
     /// <summary>
     /// The currently active set of settings
     /// </summary>
-    public static Settings Current { get; private set; } = null!;
-
-    /// <summary>
-    /// Automatically save any changed settings?
-    /// </summary>
-    public static bool AutoSave { get; set; } = true;
-    #endregion
+    public static Settings Current => _current ?? LoadCurrent();
 
     #region Constructor
     // Dummy constructor to prevent external instancing of this class
@@ -64,16 +59,16 @@ public sealed class Settings
     /// </summary>
     /// <remarks>Any errors are logged and then ignored.</remarks>
     [LuaGlobal(Name = "LoadSettings", Description = "Loads the current settings from an automatically located XML file")]
-    public static void LoadCurrent()
+    public static Settings LoadCurrent()
     {
         try
         {
             string settingsPath = Locations.GetSaveConfigPath(GeneralSettings.AppName, true, "Settings.xml");
             if (File.Exists(settingsPath))
             {
-                Current = XmlStorage.LoadXml<Settings>(settingsPath);
+                _current = XmlStorage.LoadXml<Settings>(settingsPath);
                 Log.Info("Loaded settings from " + settingsPath);
-                return;
+                return _current;
             }
         }
         #region Error handling
@@ -92,7 +87,7 @@ public sealed class Settings
         #endregion
 
         Log.Info("Loaded default settings");
-        Current = new();
+        return _current = new();
     }
     #endregion
 
@@ -104,10 +99,12 @@ public sealed class Settings
     [LuaGlobal(Name = "SaveSettings", Description = "Saves the current settings to an automatically located XML file")]
     public static void SaveCurrent()
     {
+        if (_current == null) return;
+
         try
         {
             string settingsPath = Locations.GetSaveConfigPath(GeneralSettings.AppName, true, "Settings.xml");
-            Current.SaveXml(settingsPath);
+            _current.SaveXml(settingsPath);
             Log.Info("Saved settings to " + settingsPath);
         }
         #region Error handling
@@ -120,6 +117,18 @@ public sealed class Settings
             Log.Warn("Insufficient rights to save settings: " + ex.Message);
         }
         #endregion
+    }
+
+    /// <summary>
+    /// Configures <see cref="Current"/> settings to be automatically saved when they are changed.
+    /// </summary>
+    public static void EnableAutoSave()
+    {
+        Current.General.Changed += SaveCurrent;
+        Current.Controls.Changed += SaveCurrent;
+        Current.Display.Changed += SaveCurrent;
+        Current.Graphics.Changed += SaveCurrent;
+        Current.Sound.Changed += SaveCurrent;
     }
     #endregion
 
