@@ -121,7 +121,7 @@ public partial class Game : GameBase
     /// </summary>
     private void ApplySoundSettings()
     {
-        if (!Settings.Current.Sound.PlayMusic) Engine.Music.Stop(true);
+        if (!Settings.Current.Sound.PlayMusic) Engine.Music.Stop(fade: true);
     }
     #endregion
 

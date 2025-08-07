@@ -198,7 +198,7 @@ public static class XmlStorage
 
         var xmlWriter = XmlWriter.Create(stream, new()
         {
-            Encoding = new UTF8Encoding(false),
+            Encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false),
             Indent = true,
             IndentChars = "  ",
             NewLineChars = "\n"

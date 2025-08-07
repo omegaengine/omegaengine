@@ -144,7 +144,7 @@ public partial class MainFormBase : Form, IToastProvider
         Tabs[tab].Checked = true;
 
         // Turn on the tab-related menu commands
-        ToogleMenuCommands(true);
+        ToogleMenuCommands(enabled: true);
     }
     #endregion
 
