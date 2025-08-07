@@ -194,7 +194,7 @@ partial class Game
         using (new TimedLogEvent("Start benchmark"))
         {
             // Load map
-            CurrentSession = new(Universe.FromContent("Benchmark" + Universe.FileExt)) {Lua = NewLua()};
+            CurrentSession = new(Universe.FromContent("Benchmark" + Universe.FileExt));
 
             // Switch mode
             CurrentState = GameState.Benchmark;
@@ -233,6 +233,9 @@ partial class Game
                     Exit();
                 });
             CurrentPresenter.Initialize();
+
+            // Note: Do not call before Presenter has been initialized
+            CurrentSession.Lua = NewLua();
 
             // Activate new view
             CurrentPresenter.HookIn();
