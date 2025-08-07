@@ -130,7 +130,7 @@ public sealed class MusicManager : IDisposable
 
         _currentSong.Volume = 0;
         _currentSong.StopPlayback();
-        song.StartPlayback(false);
+        song.StartPlayback(looping: false);
     }
     #endregion
 

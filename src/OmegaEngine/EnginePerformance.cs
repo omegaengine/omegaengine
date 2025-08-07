@@ -162,7 +162,7 @@ public sealed class EnginePerformance
         _frameLogMode = FrameLog.Off;
 
         // Write to disk
-        var writer = new XmlTextWriter(_frameLogFile, new UTF8Encoding(false)) {Formatting = Formatting.Indented};
+        var writer = new XmlTextWriter(_frameLogFile, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false)) {Formatting = Formatting.Indented};
         Profiler.LogXml.Save(writer);
         writer.Close();
 
