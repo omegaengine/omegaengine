@@ -45,7 +45,6 @@ public sealed partial class MainForm : MainFormBase
 
         // Moved hotkeys out of WinForms designer / resource file to prevent problems with localized versions of Visual Studio
         toolUniverseEntityEditor.ShortcutKeys = Keys.Control | Keys.Shift | Keys.E;
-        toolUniverseItemEditor.ShortcutKeys = Keys.Control | Keys.Shift | Keys.M;
         toolUniverseTerrainEditor.ShortcutKeys = Keys.Control | Keys.Shift | Keys.T;
 
         switch (Settings.Current.General.Language)
@@ -113,11 +112,6 @@ public sealed partial class MainForm : MainFormBase
     private void toolUniverseEntityEditor_Click(object sender, EventArgs e)
     {
         ShowSingleInstanceTab<EntityEditor>();
-    }
-
-    private void toolUniverseItemEditor_Click(object sender, EventArgs e)
-    {
-        ShowSingleInstanceTab<ItemEditor>();
     }
 
     private void toolUniverseTerrainEditor_Click(object sender, EventArgs e)

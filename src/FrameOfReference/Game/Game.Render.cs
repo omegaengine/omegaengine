@@ -140,7 +140,6 @@ partial class Game
         using (new TimedLogEvent("Load graphics"))
         {
             EntityTemplate.LoadAll();
-            ItemTemplate.LoadAll();
             TerrainTemplate.LoadAll();
 
             // Handle command-line arguments

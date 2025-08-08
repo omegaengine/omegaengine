@@ -34,7 +34,6 @@ namespace FrameOfReference.Editor
             this.toolUniverseEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.toolUniverseSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.toolUniverseEntityEditor = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolUniverseItemEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.toolUniverseTerrainEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.SuspendLayout();
             // 
@@ -48,7 +47,6 @@ namespace FrameOfReference.Editor
             this.toolUniverseEditor,
             this.toolUniverseSeparator,
             this.toolUniverseEntityEditor,
-            this.toolUniverseItemEditor,
             this.toolUniverseTerrainEditor});
             resources.ApplyResources(this.toolUniverse, "toolUniverse");
             this.toolUniverse.Name = "toolUniverse";
@@ -70,12 +68,6 @@ namespace FrameOfReference.Editor
             resources.ApplyResources(this.toolUniverseEntityEditor, "toolUniverseEntityEditor");
             this.toolUniverseEntityEditor.Name = "toolUniverseEntityEditor";
             this.toolUniverseEntityEditor.Click += new System.EventHandler(this.toolUniverseEntityEditor_Click);
-            // 
-            // toolUniverseItemEditor
-            // 
-            resources.ApplyResources(this.toolUniverseItemEditor, "toolUniverseItemEditor");
-            this.toolUniverseItemEditor.Name = "toolUniverseItemEditor";
-            this.toolUniverseItemEditor.Click += new System.EventHandler(this.toolUniverseItemEditor_Click);
             // 
             // toolUniverseTerrainEditor
             // 
@@ -100,7 +92,6 @@ namespace FrameOfReference.Editor
         private System.Windows.Forms.ToolStripMenuItem toolUniverseEditor;
         private System.Windows.Forms.ToolStripMenuItem toolUniverseTerrainEditor;
         private System.Windows.Forms.ToolStripMenuItem toolUniverseEntityEditor;
-        private System.Windows.Forms.ToolStripMenuItem toolUniverseItemEditor;
         private System.Windows.Forms.ToolStripSeparator toolUniverseSeparator;
     }
 }

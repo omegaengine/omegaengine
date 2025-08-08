@@ -157,7 +157,6 @@ public partial class MapEditor : UndoCommandTab
     {
         // Load template lists before touching any map files
         EntityTemplate.LoadAll();
-        ItemTemplate.LoadAll();
         TerrainTemplate.LoadAll();
 
         #region File handling

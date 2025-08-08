@@ -72,7 +72,6 @@ public partial class MainFormBase : Form, IToastProvider
         menuEditRedo.ShortcutKeys = Keys.Control | Keys.Y;
         menuEditDelete.ShortcutKeys = Keys.Shift | Keys.Delete;
         toolGuiLanguage.ShortcutKeys = Keys.Control | Keys.Shift | Keys.L;
-        toolGuiCutscene.ShortcutKeys = Keys.Control | Keys.Shift | Keys.C;
     }
 
     private void MainFormBase_Load(object sender, EventArgs e)
@@ -383,11 +382,6 @@ public partial class MainFormBase : Form, IToastProvider
     private void toolGuiLanguage_Click(object sender, EventArgs e)
     {
         OpenFileTab("GUI/Language", ".locale", (path, overwrite) => new LanguageEditor(path, overwrite));
-    }
-
-    private void toolGuiCutscene_Click(object sender, EventArgs e)
-    {
-        OpenFileTab("GUI/Cutscenes", ".xml", (path, overwrite) => new CutsceneEditor(path, overwrite));
     }
 
     /// <summary>

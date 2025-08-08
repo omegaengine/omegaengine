@@ -35,8 +35,6 @@ namespace AlphaFramework.Editor
             this.toolGui = new System.Windows.Forms.ToolStripSplitButton();
             this.toolGuiEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.toolGuiLanguage = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolGuiSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.toolGuiCutscene = new System.Windows.Forms.ToolStripMenuItem();
             this.tabStrip = new System.Windows.Forms.ToolStrip();
             this.tabPanel = new System.Windows.Forms.Panel();
             this.labelToast = new System.Windows.Forms.Label();
@@ -86,9 +84,7 @@ namespace AlphaFramework.Editor
             // 
             this.toolGui.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolGuiEditor,
-            this.toolGuiLanguage,
-            this.toolGuiSeparator,
-            this.toolGuiCutscene});
+            this.toolGuiLanguage});
             resources.ApplyResources(this.toolGui, "toolGui");
             this.toolGui.Name = "toolGui";
             this.toolGui.ButtonClick += new System.EventHandler(this.toolGuiEditor_Click);
@@ -104,17 +100,6 @@ namespace AlphaFramework.Editor
             resources.ApplyResources(this.toolGuiLanguage, "toolGuiLanguage");
             this.toolGuiLanguage.Name = "toolGuiLanguage";
             this.toolGuiLanguage.Click += new System.EventHandler(this.toolGuiLanguage_Click);
-            // 
-            // toolGuiSeparator
-            // 
-            this.toolGuiSeparator.Name = "toolGuiSeparator";
-            resources.ApplyResources(this.toolGuiSeparator, "toolGuiSeparator");
-            // 
-            // toolGuiCutscene
-            // 
-            resources.ApplyResources(this.toolGuiCutscene, "toolGuiCutscene");
-            this.toolGuiCutscene.Name = "toolGuiCutscene";
-            this.toolGuiCutscene.Click += new System.EventHandler(this.toolGuiCutscene_Click);
             // 
             // tabStrip
             // 
@@ -344,12 +329,10 @@ namespace AlphaFramework.Editor
         protected System.Windows.Forms.ToolStripMenuItem menuLanguageGerman;
         private System.Windows.Forms.ToolStripSplitButton toolGui;
         private System.Windows.Forms.ToolStripMenuItem toolGuiLanguage;
-        private System.Windows.Forms.ToolStripMenuItem toolGuiCutscene;
         private System.Windows.Forms.ToolStripMenuItem toolParticleSystem;
         private System.Windows.Forms.ToolStripMenuItem toolGuiEditor;
         private System.Windows.Forms.Panel tabPanel;
         private System.Windows.Forms.ToolStrip tabStrip;
-        private System.Windows.Forms.ToolStripSeparator toolGuiSeparator;
         private System.Windows.Forms.ToolStripMenuItem menuFileCloseTab;
         private System.Windows.Forms.ToolStripMenuItem menuFileSwitchTab;
         private System.Windows.Forms.ToolStripMenuItem menuHelp;
