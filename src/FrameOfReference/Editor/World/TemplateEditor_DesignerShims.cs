@@ -36,9 +36,3 @@ public class EntityEditorDesignerShim : TemplateEditor<EntityTemplate>
 /// </summary>
 public class TerrainEditorDesignerShim : TemplateEditor<TerrainTemplate>
 {}
-
-/// <summary>
-/// Intermediate dummy class for <see cref="TemplateEditor{ItemTemplate}"/> to prevent WinForms designer confusion with generics
-/// </summary>
-public class ItemEditorDesignerShim : TemplateEditor<ItemTemplate>
-{}

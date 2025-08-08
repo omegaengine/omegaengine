@@ -155,26 +155,6 @@
   <data name="toolUniverseEntityEditor.Text" xml:space="preserve">
     <value>&amp;Entity Editor</value>
   </data>
-  <data name="toolUniverseItemEditor.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALAQAA
-        CwEBNnBPWwAAAj9JREFUOE99kN9PklEcxt+/gcsu2rzoonXRzOaGhAlaagohIwITUfFFEJB6wXKh0xgi
-        EK8SvzSYwyyMQkIxs9Iu2qy1ZK0xamvWRrlam900t7zrydq86sB3O1ef5/mc7zkUVWQAcD4PWHIFqxn7
-        5yNjwjujDm+0Gqyr27GqUKBYn9oXfBm24cf8PWwnE/iemMPWndv4NBPDOsMgfVZSXJDf/MopXGFy33ze
-        Pdf/kw0EMXu6sbjg584vTmGAyW2xHqJgnfUhzBeUFnyw9OU2XaNEwdqYB64KbuknvDXoc3n7NaJg2e7E
-        4OHykp948LVO+35j0EYUPBiygyk7Asq0KI+YFuQvDSlZVndfmqXjkmzXjDhLx6T5FK3YfahQYsXYhxSt
-        R1zdjeh5FQJSBWzHqqA7cAiUceHc9uWlLjhXrXCsWGBfYjCcvojBpAmTBhmiSgnSWj3mOroxrWzfKyvh
-        FclwqaIWqrJKUL3zsp34xiRxzf5YDyxRLZFNTa2hRcKC0t5t2Z19FSaGmJs0zCENkYVCT9DcNAZKc0v8
-        e+ZFkBgyBTUw+jqJLOB/hIZ6Oyh1pAnTz/3EUC+rhs7TTmS+iQxqhUOgWoP1iD7zEUM97jbQoxeIjGXT
-        OFk9AErO1qEv0oFg5jr8aTd8SRfGE0544w6IGCFExmaEw08RDDyG/8YyJsYzYL1pqNpYnOD1g5I6BRCP
-        VOPMVR7qrVzUmitRoz8OPl0OXudR8FtrIBa50djgwKm6EQgFtn83/y1XcRn8AZ0NgE3X6++0AAAAAElF
-        TkSuQmCC
-</value>
-  </data>
-  <data name="toolUniverseItemEditor.Text" xml:space="preserve">
-    <value>&amp;Item Editor</value>
-  </data>
   <data name="toolUniverseTerrainEditor.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -570,12 +550,6 @@
     <value>toolUniverseEntityEditor</value>
   </data>
   <data name="&gt;&gt;toolUniverseEntityEditor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolUniverseItemEditor.Name" xml:space="preserve">
-    <value>toolUniverseItemEditor</value>
-  </data>
-  <data name="&gt;&gt;toolUniverseItemEditor.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolUniverseTerrainEditor.Name" xml:space="preserve">

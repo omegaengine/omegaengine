@@ -197,36 +197,6 @@
   <data name="toolGuiLanguage.Text" xml:space="preserve">
     <value>&amp;Language Editor</value>
   </data>
-  <data name="toolGuiSeparator.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 6</value>
-  </data>
-  <data name="toolGuiCutscene.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALBSURBVDhPtZJ7SNNRFMedPcj+KNJA/8ggsNcf9Ve+Zg+K
-        zFzi0Ci1MAsjC9TEcqhDf6M555q6Fa60WWalbr42p605H3u6qWupmPmYos4/QgztgTZE+/ZTKjKL6I8O
-        HO495977ued+73Fy+l+m0mj2qDUaXp5AkOTj47Ppr/eUlkn9C4rEgkzWrRslJSUBHUNDn8anP8KxuIgq
-        Rd0olUrd/UeIodMa/qJVt1CteI5GrR4EQXxh17Qhsn4KR+WTsE5MIV8kGnb18vp9JV19ff0aUzvSM1mg
-        h51Gz8AgJAol3B93w1P3FpfrLTBbLIiKjuatqsJut7vq2zuQyszA3cIHOEk7hde2YbwZGcVVoQj3jUrM
-        DMvQ9VIDgVD4ngRsXAHptdk8n1VWwdePikq5Aq1tZvSPjqFB3Yw6lRrt9SzAxsKrFgHKJVJ4eHjQVgBM
-        JrtLZ0/vQnlVNZTNLWCkM0GKCX/qQdwRFUJcEIcPI1FQSOPB5/MRFBzMWPWMJq2pu1nfBlWrFk8qJJDU
-        ypcrItgccHM5KFTzkG+9h0RmAuh0OmsVQGPuyODlC5GSxkSL0USKOITGVg3M1i4UPnyEFN1NJGsvIaEo
-        AoGBgTG/AigXYmP3K1SquezbfPIbDYg4dx5qrQ6DY+N4Kq1EvJaG1D4acvpDUVp2jQ3CyflnyHoyCOLw
-        eMol5dU6I7x9/MDm8mCzT0AsEYNpOQGhJRI6Ax9zOine5cY1GK4EbP8OWUNOjlAolGIulzvTpDcim5+H
-        sqqa5X4gCMa8vpqP6doCOIpS4EgLhyM9BAPs8NnroQd+dOcGErLP2dk5PjE5WV5cIZmUyWSfiayszl3u
-        bo1jRMj8HCMUjqTjmGWHwUrGZw/vLSHPbFmlB5lYS7rLt8V15Lj5zM6tUY0XfU2yxGNGTsyhnB3b3LzJ
-        /FLl/2QUcveSr7Cv7NSSoHAzfVAAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="toolGuiCutscene.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="toolGuiCutscene.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="toolGuiCutscene.Text" xml:space="preserve">
-    <value>&amp;Cutscene Editor</value>
-  </data>
   <data name="toolGui.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -979,18 +949,6 @@
     <value>toolGuiLanguage</value>
   </data>
   <data name="&gt;&gt;toolGuiLanguage.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolGuiSeparator.Name" xml:space="preserve">
-    <value>toolGuiSeparator</value>
-  </data>
-  <data name="&gt;&gt;toolGuiSeparator.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolGuiCutscene.Name" xml:space="preserve">
-    <value>toolGuiCutscene</value>
-  </data>
-  <data name="&gt;&gt;toolGuiCutscene.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;menuFile.Name" xml:space="preserve">

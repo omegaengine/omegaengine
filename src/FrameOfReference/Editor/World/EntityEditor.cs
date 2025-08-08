@@ -77,7 +77,6 @@ public partial class EntityEditor : EntityEditorDesignerShim
     protected override void OnInitialize()
     {
         EntityTemplate.LoadAll();
-        ItemTemplate.LoadAll();
         TerrainTemplate.LoadAll();
 
         // Create an empty testing universe with a plain terrain
