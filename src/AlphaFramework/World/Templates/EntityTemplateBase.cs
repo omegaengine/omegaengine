@@ -26,7 +26,7 @@ public abstract class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : 
     /// </summary>
     [Browsable(false)]
     // Note: Can not use ICollection<T> interface with XML Serialization
-    [XmlElement(typeof(TestSphere)), XmlElement(typeof(StaticMesh)), XmlElement(typeof(AnimatedMesh)), XmlElement(typeof(CpuParticleSystem)), XmlElement(typeof(GpuParticleSystem)), XmlElement(typeof(LightSource))]
+    [XmlElement(typeof(TestSphere)), XmlElement(typeof(StaticMesh)), XmlElement(typeof(AnimatedMesh)), XmlElement(typeof(CpuParticleSystem)), XmlElement(typeof(LightSource))]
     public Collection<Render> Render => _render;
 
     /// <summary>
