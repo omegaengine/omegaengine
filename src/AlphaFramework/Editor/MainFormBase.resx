@@ -127,18 +127,6 @@
   <data name="toolUniverse.Size" type="System.Drawing.Size, System.Drawing">
     <value>97, 22</value>
   </data>
-  <data name="toolParticleSystemCpu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="toolParticleSystemCpu.Text" xml:space="preserve">
-    <value>&amp;CPU Particle System</value>
-  </data>
-  <data name="toolParticleSystemGpu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="toolParticleSystemGpu.Text" xml:space="preserve">
-    <value>&amp;GPU Particle System</value>
-  </data>
   <data name="toolParticleSystem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -974,18 +962,6 @@
   </data>
   <data name="&gt;&gt;toolParticleSystem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolParticleSystemCpu.Name" xml:space="preserve">
-    <value>toolParticleSystemCpu</value>
-  </data>
-  <data name="&gt;&gt;toolParticleSystemCpu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolParticleSystemGpu.Name" xml:space="preserve">
-    <value>toolParticleSystemGpu</value>
-  </data>
-  <data name="&gt;&gt;toolParticleSystemGpu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolGui.Name" xml:space="preserve">
     <value>toolGui</value>

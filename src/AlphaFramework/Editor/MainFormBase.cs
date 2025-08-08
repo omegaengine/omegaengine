@@ -370,14 +370,9 @@ public partial class MainFormBase : Form, IToastProvider
     #endregion
 
     #region Toolbar
-    private void toolParticleSystemCpu_Click(object sender, EventArgs e)
+    private void toolParticleSystem_Click(object sender, EventArgs e)
     {
         OpenFileTab("Graphics/CpuParticleSystem", ".xml", (path, overwrite) => new CpuParticleSystemEditor(path, overwrite));
-    }
-
-    private void toolParticleSystemGpu_Click(object sender, EventArgs e)
-    {
-        OpenFileTab("Graphics/GpuParticleSystem", ".xml", (path, overwrite) => new GpuParticleSystemEditor(path, overwrite));
     }
 
     private void toolGuiEditor_Click(object sender, EventArgs e)

@@ -31,9 +31,7 @@ namespace AlphaFramework.Editor
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFormBase));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolParticleSystem = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolParticleSystemCpu = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolParticleSystemGpu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolParticleSystem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolGui = new System.Windows.Forms.ToolStripSplitButton();
             this.toolGuiEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.toolGuiLanguage = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,23 +78,9 @@ namespace AlphaFramework.Editor
             // 
             // toolParticleSystem
             // 
-            this.toolParticleSystem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolParticleSystemCpu,
-            this.toolParticleSystemGpu});
             resources.ApplyResources(this.toolParticleSystem, "toolParticleSystem");
             this.toolParticleSystem.Name = "toolParticleSystem";
-            // 
-            // toolParticleSystemCpu
-            // 
-            this.toolParticleSystemCpu.Name = "toolParticleSystemCpu";
-            resources.ApplyResources(this.toolParticleSystemCpu, "toolParticleSystemCpu");
-            this.toolParticleSystemCpu.Click += new System.EventHandler(this.toolParticleSystemCpu_Click);
-            // 
-            // toolParticleSystemGpu
-            // 
-            this.toolParticleSystemGpu.Name = "toolParticleSystemGpu";
-            resources.ApplyResources(this.toolParticleSystemGpu, "toolParticleSystemGpu");
-            this.toolParticleSystemGpu.Click += new System.EventHandler(this.toolParticleSystemGpu_Click);
+            this.toolParticleSystem.Click += new System.EventHandler(this.toolParticleSystem_Click);
             // 
             // toolGui
             // 
@@ -361,9 +345,7 @@ namespace AlphaFramework.Editor
         private System.Windows.Forms.ToolStripSplitButton toolGui;
         private System.Windows.Forms.ToolStripMenuItem toolGuiLanguage;
         private System.Windows.Forms.ToolStripMenuItem toolGuiCutscene;
-        private System.Windows.Forms.ToolStripDropDownButton toolParticleSystem;
-        private System.Windows.Forms.ToolStripMenuItem toolParticleSystemCpu;
-        private System.Windows.Forms.ToolStripMenuItem toolParticleSystemGpu;
+        private System.Windows.Forms.ToolStripMenuItem toolParticleSystem;
         private System.Windows.Forms.ToolStripMenuItem toolGuiEditor;
         private System.Windows.Forms.Panel tabPanel;
         private System.Windows.Forms.ToolStrip tabStrip;

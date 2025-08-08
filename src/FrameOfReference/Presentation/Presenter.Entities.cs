@@ -33,7 +33,6 @@ using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Values;
 using SlimDX;
 using CpuParticleSystem = AlphaFramework.World.Components.CpuParticleSystem;
-using GpuParticleSystem = AlphaFramework.World.Components.GpuParticleSystem;
 using LightSource = AlphaFramework.World.Components.LightSource;
 using ViewType = OmegaEngine.Graphics.Renderables.ViewType;
 using Water = AlphaFramework.World.Positionables.Water;
@@ -182,14 +181,6 @@ partial class Presenter
             if (string.IsNullOrEmpty(component.Filename)) return null;
 
             var particleSystem = new OmegaEngine.Graphics.Renderables.CpuParticleSystem(CpuParticlePreset.FromContent(component.Filename));
-            ConfigureParticleSystem(entity, particleSystem, component);
-            return particleSystem;
-        });
-        RegisterRenderComponent<GpuParticleSystem>((entity, component) =>
-        {
-            if (string.IsNullOrEmpty(component.Filename)) return null;
-
-            var particleSystem = new OmegaEngine.Graphics.Renderables.GpuParticleSystem(GpuParticlePreset.FromContent(component.Filename));
             ConfigureParticleSystem(entity, particleSystem, component);
             return particleSystem;
         });
