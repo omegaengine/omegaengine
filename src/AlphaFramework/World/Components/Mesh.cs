@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
-using OmegaEngine.Values.Design;
+using OmegaEngine.Foundation.Design;
 
 namespace AlphaFramework.World.Components;
 

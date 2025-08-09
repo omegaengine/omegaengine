@@ -9,7 +9,7 @@
 using System;
 using AlphaFramework.World.Terrains;
 using NanoByte.Common.Undo;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Geometry;
 using SlimDX;
 
 namespace AlphaFramework.Editor.World.TerrainModifiers;

@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
 using LuaInterface;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Light;
 using SlimDX;
 
 namespace OmegaEngine.Graphics.Renderables;

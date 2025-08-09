@@ -8,7 +8,7 @@
 
 using System;
 using AlphaFramework.World.Terrains;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Geometry;
 
 namespace AlphaFramework.Editor.World.Commands;
 

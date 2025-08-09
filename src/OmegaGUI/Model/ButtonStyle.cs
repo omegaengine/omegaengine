@@ -24,8 +24,8 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
-using OmegaEngine.Storage;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Light;
+using OmegaEngine.Foundation.Storage;
 using SlimDX.Direct3D9;
 using OmegaGUI.Render;
 

@@ -39,14 +39,14 @@ Paint += delegate { engine.Render(); };
 
 ## NuGet packages
 
-| Package                                                                                    | Description                                                       |
-| ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
-| [OmegaEngine](https://www.nuget.org/packages/OmegaEngine/)                                 | The core engine.                                                  |
-| [OmegaEngine.Data](https://www.nuget.org/packages/OmegaEngine.Data/)                       | Storage subsystem, data structures and math helpers.              |
-| [OmegaGUI](https://www.nuget.org/packages/OmegaGUI/)                                       | GUI toolkit with XML file format und Lua scripting.               |
-| [AlphaFramework.World](https://www.nuget.org/packages/AlphaFramework.World/)               | Basis for engine-agnostic models of game worlds.                  |
-| [AlphaFramework.Presentation](https://www.nuget.org/packages/AlphaFramework.Presentation/) | Basis for presenters that visualize game worlds using the engine. |
-| [AlphaEditor](https://www.nuget.org/packages/AlphaEditor/)                                 | Toolkit for creating editors for games based on AlphaFramework.   |
+| Package                                                                                    | Description                                                          |
+| ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| [OmegaEngine](https://www.nuget.org/packages/OmegaEngine/)                                 | 3D graphics rendering based on DirectX 9.                            |
+| [OmegaEngine.Foundation](https://www.nuget.org/packages/OmegaEngine.Foundation/)           | Rendering-agnostic infrastructure like storage  and data structures. |
+| [OmegaGUI](https://www.nuget.org/packages/OmegaGUI/)                                       | GUI toolkit with XML file format und Lua scripting.                  |
+| [AlphaFramework.World](https://www.nuget.org/packages/AlphaFramework.World/)               | Basis for engine-agnostic models of game worlds.                     |
+| [AlphaFramework.Presentation](https://www.nuget.org/packages/AlphaFramework.Presentation/) | Basis for presenters that visualize game worlds using the engine.    |
+| [AlphaEditor](https://www.nuget.org/packages/AlphaEditor/)                                 | Toolkit for creating editors for games based on AlphaFramework.      |
 
 ## Project templates
 

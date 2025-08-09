@@ -33,7 +33,7 @@ using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
 using LuaInterface;
 using NanoByte.Common;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace FrameOfReference.World;
 

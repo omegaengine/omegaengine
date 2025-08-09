@@ -5,7 +5,7 @@ using AlphaFramework.Presentation;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace Template.AlphaFramework
 {

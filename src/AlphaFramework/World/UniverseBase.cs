@@ -15,7 +15,7 @@ using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace AlphaFramework.World;
 

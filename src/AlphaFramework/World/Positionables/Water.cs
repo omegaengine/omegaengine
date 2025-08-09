@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World.Terrains;
 using NanoByte.Common;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Geometry;
 using SlimDX;
 
 namespace AlphaFramework.World.Positionables;

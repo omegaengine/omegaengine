@@ -13,10 +13,11 @@ using System.IO;
 using NanoByte.Common;
 using OmegaEngine.Assets;
 using OmegaEngine.Collections;
+using OmegaEngine.Foundation;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.VertexDecl;
-using OmegaEngine.Storage;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Storage;
 using SlimDX;
 using SlimDX.Direct3D9;
 

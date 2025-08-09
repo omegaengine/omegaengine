@@ -29,7 +29,7 @@ using AlphaFramework.Editor.Properties;
 using AlphaFramework.World.Templates;
 using FrameOfReference.World.Templates;
 using NanoByte.Common.Controls;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace FrameOfReference.Editor.World;
 

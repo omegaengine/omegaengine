@@ -15,9 +15,9 @@ using NanoByte.Common;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Assets;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
-using OmegaEngine.Values;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Renderables;

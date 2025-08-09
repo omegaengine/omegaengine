@@ -23,7 +23,7 @@
 using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World.Components;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Geometry;
 using SlimDX;
 
 namespace FrameOfReference.World.Components;

@@ -13,10 +13,11 @@ using System.Drawing;
 using System.Linq;
 using NanoByte.Common;
 using NanoByte.Common.Dispatch;
+using OmegaEngine.Foundation.Geometry;
+using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
-using OmegaEngine.Values;
 using SlimDX;
 using SlimDX.Direct3D9;
 

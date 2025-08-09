@@ -13,7 +13,7 @@ using System.Linq;
 using System.Windows.Forms;
 using NanoByte.Common;
 using OmegaEngine;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 using OmegaGUI;
 using OmegaGUI.Model;
 using Control = OmegaGUI.Model.Control;

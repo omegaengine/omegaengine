@@ -33,9 +33,10 @@ using FrameOfReference.World;
 using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
 using NanoByte.Common.Controls;
+using OmegaEngine.Foundation.Geometry;
+using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;
-using OmegaEngine.Values;
 
 namespace FrameOfReference.Editor.World;
 

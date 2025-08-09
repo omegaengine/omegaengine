@@ -46,22 +46,22 @@ Paint += delegate { engine.Render(); };
 
 ## NuGet packages
 
-| Package                                                                                    | Namespace                                             | Description                                                       |
-| ------------------------------------------------------------------------------------------ | ----------------------------------------------------- | ----------------------------------------------------------------- |
-| [OmegaEngine](https://www.nuget.org/packages/OmegaEngine/)                                 | <xref:OmegaEngine>                                    | The core engine.                                                  |
-| [OmegaEngine.Data](https://www.nuget.org/packages/OmegaEngine.Data/)                       | <xref:OmegaEngine.Storage>, <xref:OmegaEngine.Values> | Storage subsystem, data structures and math helpers.              |
-| [OmegaGUI](https://www.nuget.org/packages/OmegaGUI/)                                       | <xref:OmegaGUI>                                       | GUI toolkit with XML file format und Lua scripting.               |
-| [AlphaFramework.World](https://www.nuget.org/packages/AlphaFramework.World/)               | <xref:AlphaFramework.World>                           | Basis for engine-agnostic models of game worlds.                  |
-| [AlphaFramework.Presentation](https://www.nuget.org/packages/AlphaFramework.Presentation/) | <xref:AlphaFramework.Presentation>                    | Basis for presenters that visualize game worlds using the engine. |
-| [AlphaEditor](https://www.nuget.org/packages/AlphaEditor/)                                 | <xref:AlphaFramework.Editor>                          | Toolkit for creating editors for games based on AlphaFramework.   |
+| Package                                                                                    | Namespace                          | Description                                                          |
+| ------------------------------------------------------------------------------------------ | ---------------------------------- | -------------------------------------------------------------------- |
+| [OmegaEngine](https://www.nuget.org/packages/OmegaEngine/)                                 | <xref:OmegaEngine>                 | 3D graphics rendering based on DirectX 9.                            |
+| [OmegaEngine.Foundation](https://www.nuget.org/packages/OmegaEngine.Foundation/)           | <xref:OmegaEngine.Foundation>      | Rendering-agnostic infrastructure like storage  and data structures. |
+| [OmegaGUI](https://www.nuget.org/packages/OmegaGUI/)                                       | <xref:OmegaGUI>                    | GUI toolkit with XML file format und Lua scripting.                  |
+| [AlphaFramework.World](https://www.nuget.org/packages/AlphaFramework.World/)               | <xref:AlphaFramework.World>        | Basis for engine-agnostic models of game worlds.                     |
+| [AlphaFramework.Presentation](https://www.nuget.org/packages/AlphaFramework.Presentation/) | <xref:AlphaFramework.Presentation> | Basis for presenters that visualize game worlds using the engine.    |
+| [AlphaEditor](https://www.nuget.org/packages/AlphaEditor/)                                 | <xref:AlphaFramework.Editor>       | Toolkit for creating editors for games based on AlphaFramework.      |
 
 **Dependencies**
 
 ```mermaid
 flowchart TD
-    engine[OmegaEngine] --> data[OmegaEngine.Data]
+    engine[OmegaEngine] --> foundation[OmegaEngine.Foundation]
     gui[OmegaGUI] --> engine
-    world[AlphaFramework.World] --> data
+    world[AlphaFramework.World] --> foundation
     presentation[AlphaFramework.Presentation] --> world
     presentation --> engine
     editor[AlphaEditor] --> presentation

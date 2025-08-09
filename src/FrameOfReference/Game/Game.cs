@@ -29,7 +29,7 @@ using FrameOfReference.World.Config;
 using LuaInterface;
 using NanoByte.Common;
 using OmegaEngine;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 using OmegaGUI;
 
 namespace FrameOfReference;

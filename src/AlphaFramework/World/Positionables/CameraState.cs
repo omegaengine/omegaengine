@@ -8,7 +8,7 @@
 
 using System.ComponentModel;
 using System.Drawing.Design;
-using OmegaEngine.Values.Design;
+using OmegaEngine.Foundation.Design;
 
 namespace AlphaFramework.World.Positionables;
 

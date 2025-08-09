@@ -14,7 +14,7 @@ using NanoByte.Common;
 using NanoByte.Common.Undo;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace AlphaFramework.Editor.Graphics;
 

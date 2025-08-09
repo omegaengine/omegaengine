@@ -24,8 +24,8 @@ using System;
 using System.Diagnostics;
 using FrameOfReference.World;
 using OmegaEngine;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
-using OmegaEngine.Values;
 
 namespace FrameOfReference.Presentation;
 
