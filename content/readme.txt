@@ -12,5 +12,5 @@ For release builds place these files - optionally stored in .pk5 files (structua
 \Textures\Terrain\ - Textures for the terrain
 \World\ - Glonal game files
 \World\Maps\ - Compressed map/level files
-\Music\ - Ogg Vorbis music files
-\Sounds\ - .wav and Ogg Vorbis sound files
+\Sounds\ - Sound files
+\Music\ - Music files
