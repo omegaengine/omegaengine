@@ -8,45 +8,44 @@ using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using View = OmegaEngine.Graphics.View;
 
-namespace Template.WinForms
+namespace Template.WinForms;
+
+public partial class MainForm : Form
 {
-    public partial class MainForm : Form
+    private TrackCamera _camera;
+
+    public MainForm()
     {
-        private TrackCamera _camera;
+        InitializeComponent();
+    }
 
-        public MainForm()
-        {
-            InitializeComponent();
-        }
+    private void MainForm_Load(object sender, EventArgs e)
+    {
+        Engine engine = renderPanel.Setup();
+        InitializeScene(engine);
+        timerRender.Enabled = true;
+        engine.FadeIn();
+    }
 
-        private void MainForm_Load(object sender, EventArgs e)
+    private void InitializeScene(Engine engine)
+    {
+        var scene = new Scene
         {
-            Engine engine = renderPanel.Setup();
-            InitializeScene(engine);
-            timerRender.Enabled = true;
-            engine.FadeIn();
-        }
+            Positionables = { Model.Sphere(engine, XTexture.Get(engine, "flag.png")) }
+        };
+        _camera = new TrackCamera {VerticalRotation = 20};
+        var view = new View(scene, _camera) {BackgroundColor = Color.CornflowerBlue};
+        engine.Views.Add(view);
+    }
 
-        private void InitializeScene(Engine engine)
-        {
-            var scene = new Scene
-            {
-                Positionables = { Model.Sphere(engine, XTexture.Get(engine, "flag.png")) }
-            };
-            _camera = new TrackCamera {VerticalRotation = 20};
-            var view = new View(scene, _camera) {BackgroundColor = Color.CornflowerBlue};
-            engine.Views.Add(view);
-        }
+    private void timerRender_Tick(object sender, EventArgs e)
+    {
+        _camera.HorizontalRotation += 3;
+        renderPanel.Engine.Render();
+    }
 
-        private void timerRender_Tick(object sender, EventArgs e)
-        {
-            _camera.HorizontalRotation += 3;
-            renderPanel.Engine.Render();
-        }
-
-        private void buttonExit_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+    private void buttonExit_Click(object sender, EventArgs e)
+    {
+        Close();
     }
 }
