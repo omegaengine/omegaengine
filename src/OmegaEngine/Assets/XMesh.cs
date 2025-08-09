@@ -16,7 +16,7 @@ using OmegaEngine.Graphics;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Renderables;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace OmegaEngine.Assets;
 

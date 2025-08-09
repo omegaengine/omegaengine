@@ -28,7 +28,7 @@ using System.IO;
 using LuaInterface;
 using NanoByte.Common;
 using OmegaEngine;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 using OmegaGUI.Model;
 
 namespace OmegaGUI;

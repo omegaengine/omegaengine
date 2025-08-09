@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\UnitTests.props" />
 
@@ -10,7 +10,7 @@
   <!-- Dependencies -->
   <ItemGroup>
     <ProjectReference Include="..\OmegaEngine\OmegaEngine.csproj" />
-    <ProjectReference Include="..\OmegaEngine.Data\OmegaEngine.Data.csproj" />
+    <ProjectReference Include="..\OmegaEngine.Foundation\OmegaEngine.Foundation.csproj" />
   </ItemGroup>
 
 </Project>

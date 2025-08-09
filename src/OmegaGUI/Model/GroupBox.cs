@@ -23,7 +23,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Light;
 
 namespace OmegaGUI.Model;
 

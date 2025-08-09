@@ -11,9 +11,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using NanoByte.Common;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
-using OmegaEngine.Values;
 using SlimDX;
 using SlimDX.Direct3D9;
 

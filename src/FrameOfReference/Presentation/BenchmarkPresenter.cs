@@ -30,7 +30,7 @@ using ICSharpCode.SharpZipLib.Zip;
 using NanoByte.Common;
 using NanoByte.Common.Info;
 using OmegaEngine;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 using Locations = NanoByte.Common.Storage.Locations;
 
 namespace FrameOfReference.Presentation;

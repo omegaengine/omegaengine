@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Controls;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 using OmegaGUI.Model;
 
 namespace AlphaFramework.Editor.Gui;

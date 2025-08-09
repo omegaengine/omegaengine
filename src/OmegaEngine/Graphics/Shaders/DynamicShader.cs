@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using NanoByte.Common;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
@@ -257,7 +257,7 @@ public static class DynamicShader
 
     #region From Content
     /// <summary>
-    /// Loads a dynamic shader file from a game asset source via the <see cref="ContentManager"/>. 
+    /// Loads a dynamic shader file from a game asset source via the <see cref="ContentManager"/>.
     /// </summary>
     /// <param name="engine">The <see cref="Engine"/> to compile the effect in</param>
     /// <param name="id">The ID of the shader to be loaded</param>

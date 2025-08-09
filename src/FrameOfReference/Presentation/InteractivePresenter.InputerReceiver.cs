@@ -27,9 +27,9 @@ using System.Linq;
 using System.Windows.Forms;
 using FrameOfReference.World.Positionables;
 using NanoByte.Common;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
-using OmegaEngine.Values;
 using SlimDX;
 
 namespace FrameOfReference.Presentation;

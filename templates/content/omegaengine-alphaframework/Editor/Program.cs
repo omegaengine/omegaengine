@@ -11,7 +11,7 @@ using AlphaFramework.Presentation;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
 using OmegaEngine;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace Template.AlphaFramework.Editor
 {

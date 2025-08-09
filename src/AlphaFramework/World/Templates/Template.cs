@@ -13,7 +13,7 @@ using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace AlphaFramework.World.Templates;
 

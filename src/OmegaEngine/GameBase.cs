@@ -16,8 +16,10 @@ using System.Windows.Forms;
 using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Native;
+using OmegaEngine.Foundation;
+using OmegaEngine.Foundation.Geometry;
+using OmegaEngine.Foundation.Light;
 using OmegaEngine.Input;
-using OmegaEngine.Values;
 using SlimDX;
 
 namespace OmegaEngine;

@@ -24,7 +24,7 @@ using System;
 using System.IO;
 using FrameOfReference.World.Config;
 using ICSharpCode.SharpZipLib.Zip;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace FrameOfReference.World;
 

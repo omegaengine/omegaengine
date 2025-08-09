@@ -33,8 +33,9 @@ using NanoByte.Common.Native;
 using NanoByte.Common.Storage;
 using NanoByte.Common.Values;
 using OmegaEngine;
-using OmegaEngine.Storage;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation;
+using OmegaEngine.Foundation.Light;
+using OmegaEngine.Foundation.Storage;
 using OmegaGUI.Model;
 
 namespace FrameOfReference;

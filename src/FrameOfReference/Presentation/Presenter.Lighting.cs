@@ -24,9 +24,10 @@ using System;
 using System.Drawing;
 using AlphaFramework.Presentation;
 using NanoByte.Common;
+using OmegaEngine.Foundation.Geometry;
+using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;
-using OmegaEngine.Values;
 using SlimDX;
 
 namespace FrameOfReference.Presentation;

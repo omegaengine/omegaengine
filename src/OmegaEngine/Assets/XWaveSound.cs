@@ -11,7 +11,7 @@ using System.IO;
 using NanoByte.Common;
 using NanoByte.Common.Storage;
 using NanoByte.Common.Streams;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 using SlimDX.Multimedia;
 
 namespace OmegaEngine.Assets;

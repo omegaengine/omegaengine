@@ -9,8 +9,8 @@
 using System;
 using System.Linq;
 using NanoByte.Common;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Shaders;
-using OmegaEngine.Values;
 using SlimDX;
 
 namespace OmegaEngine.Graphics.Renderables;

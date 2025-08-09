@@ -33,8 +33,8 @@ using FrameOfReference.World.Components;
 using FrameOfReference.World.Positionables;
 using OmegaEngine;
 using OmegaEngine.Assets;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Renderables;
-using OmegaEngine.Values;
 using SlimDX;
 
 namespace FrameOfReference.Presentation;

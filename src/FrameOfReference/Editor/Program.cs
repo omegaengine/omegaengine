@@ -36,7 +36,7 @@ using NanoByte.Common.Native;
 using NanoByte.Common.Storage;
 using NanoByte.Common.Values;
 using OmegaEngine;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace FrameOfReference.Editor;
 
