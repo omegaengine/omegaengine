@@ -12,7 +12,7 @@ using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
 using OmegaEngine.Graphics.Shaders;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 

@@ -2,6 +2,6 @@
 uid: OmegaEngine
 summary: *content
 ---
-OmegaEngine is a general-purpose 3D graphics for .NET Framework and DirectX 9. The engine is designed to be light-weight, modular and gameplay-agnostic.
+3D graphics rendering based on DirectX 9.
 
 **NuGet package:** [OmegaEngine](https://www.nuget.org/packages/OmegaEngine/)

@@ -6,7 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Geometry;
 
 namespace OmegaEngine;
 

@@ -11,7 +11,7 @@ using System.Drawing;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 using LuaInterface;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Light;
 
 namespace AlphaFramework.World.Components;
 

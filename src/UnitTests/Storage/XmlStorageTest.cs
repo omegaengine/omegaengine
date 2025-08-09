@@ -10,7 +10,7 @@ using NanoByte.Common.Storage;
 using FluentAssertions;
 using Xunit;
 
-namespace OmegaEngine.Storage;
+namespace OmegaEngine.Foundation.Storage;
 
 /// <summary>
 /// Contains test methods for <see cref="NanoByte.Common.Storage.XmlStorage"/>.

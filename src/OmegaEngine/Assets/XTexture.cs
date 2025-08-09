@@ -12,7 +12,7 @@ using NanoByte.Common;
 using NanoByte.Common.Storage;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace OmegaEngine.Assets;
 

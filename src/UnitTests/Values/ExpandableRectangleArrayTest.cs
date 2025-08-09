@@ -8,9 +8,10 @@
 
 using System.Drawing;
 using FluentAssertions;
+using OmegaEngine.Foundation.Geometry;
 using Xunit;
 
-namespace OmegaEngine.Values;
+namespace OmegaEngine.Foundation.Values;
 
 /// <summary>
 /// Contains test methods for <see cref="ExpandableRectangleArray{T}"/>.

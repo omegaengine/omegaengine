@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using NanoByte.Common;
 using OmegaEngine;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 using SlimDX.Direct3D9;
 using Font = SlimDX.Direct3D9.Font;
 

@@ -11,7 +11,7 @@ using System.IO;
 using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
 using NanoByte.Common.Controls;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace AlphaFramework.Editor;
 

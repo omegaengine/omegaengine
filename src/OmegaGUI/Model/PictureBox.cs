@@ -22,7 +22,7 @@
 
 using System.ComponentModel;
 using System.Drawing;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 using OmegaGUI.Render;
 
 namespace OmegaGUI.Model;

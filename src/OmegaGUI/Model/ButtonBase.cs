@@ -24,7 +24,7 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using OmegaEngine.Values.Design;
+using OmegaEngine.Foundation.Design;
 
 namespace OmegaGUI.Model;
 

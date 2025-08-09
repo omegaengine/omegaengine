@@ -44,9 +44,9 @@ using NanoByte.Common.Controls;
 using NanoByte.Common.Dispatch;
 using NanoByte.Common.Tasks;
 using NanoByte.Common.Undo;
+using OmegaEngine.Foundation;
 using OmegaEngine.Input;
-using OmegaEngine.Storage;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Storage;
 using SlimDX;
 using Resources = AlphaFramework.Editor.Properties.Resources;
 

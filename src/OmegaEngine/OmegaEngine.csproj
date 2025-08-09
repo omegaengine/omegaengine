@@ -11,7 +11,7 @@ The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games 
   <!-- Dependencies -->
   <ItemGroup>
     <Reference Include="System.Management" />
-    <ProjectReference Include="..\OmegaEngine.Data\OmegaEngine.Data.csproj" />
+    <ProjectReference Include="..\OmegaEngine.Foundation\OmegaEngine.Foundation.csproj" />
   </ItemGroup>
 
   <!-- Localization -->

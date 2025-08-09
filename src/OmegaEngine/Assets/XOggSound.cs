@@ -10,7 +10,7 @@ using System;
 using System.IO;
 using NanoByte.Common;
 using NanoByte.Common.Storage;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace OmegaEngine.Assets;
 

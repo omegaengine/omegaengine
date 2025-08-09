@@ -8,7 +8,7 @@
 
 using System;
 using AlphaFramework.World.Positionables;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Geometry;
 
 namespace AlphaFramework.World.Components;
 

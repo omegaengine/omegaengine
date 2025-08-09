@@ -9,7 +9,7 @@
 using System;
 using AlphaFramework.World;
 using NanoByte.Common.Undo;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace AlphaFramework.Editor.World.Commands;
 

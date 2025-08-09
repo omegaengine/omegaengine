@@ -14,7 +14,7 @@ using AlphaFramework.World.Properties;
 using AlphaFramework.World.Templates;
 using LuaInterface;
 using NanoByte.Common;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Geometry;
 
 namespace AlphaFramework.World.Terrains;
 

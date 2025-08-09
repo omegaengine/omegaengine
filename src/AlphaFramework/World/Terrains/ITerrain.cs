@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
 using LuaInterface;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Geometry;
 using SlimDX;
 
 namespace AlphaFramework.World.Terrains;

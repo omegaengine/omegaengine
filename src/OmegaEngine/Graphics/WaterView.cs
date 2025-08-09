@@ -8,9 +8,10 @@
 
 using System;
 using System.ComponentModel;
+using OmegaEngine.Foundation.Geometry;
+using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
-using OmegaEngine.Values;
 
 namespace OmegaEngine.Graphics;
 

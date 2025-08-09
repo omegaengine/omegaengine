@@ -11,7 +11,7 @@ using System.IO;
 using NanoByte.Common;
 using NanoByte.Common.Storage;
 using OmegaEngine.Graphics.Renderables;
-using OmegaEngine.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace OmegaEngine.Assets;
 

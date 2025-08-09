@@ -8,7 +8,7 @@
 
 using AlphaFramework.World.Terrains;
 using FluentAssertions;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Geometry;
 using Xunit;
 
 namespace AlphaFramework.World;

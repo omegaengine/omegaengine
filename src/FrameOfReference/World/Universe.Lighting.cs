@@ -27,8 +27,8 @@ using System.Drawing.Design;
 using System.Xml.Serialization;
 using LuaInterface;
 using NanoByte.Common;
-using OmegaEngine.Values;
-using OmegaEngine.Values.Design;
+using OmegaEngine.Foundation.Design;
+using OmegaEngine.Foundation.Light;
 
 namespace FrameOfReference.World;
 

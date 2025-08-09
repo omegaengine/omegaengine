@@ -7,7 +7,7 @@
   <CaptionHeight>25</CaptionHeight>
   <OnShow>-- Import .NET constructors
 luanet.load_assembly("OmegaEngine")
-NewColorCorrection = luanet.import_type("OmegaEngine.Values.ColorCorrection")
+NewColorCorrection = luanet.import_type("OmegaEngine.Foundation.Light.ColorCorrection")
 luanet.load_assembly("System.Drawing")
 NewColor = luanet.import_type("System.Drawing.Color").FromArgb
 

@@ -7,7 +7,8 @@
  */
 
 using System;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation;
+using OmegaEngine.Foundation.Light;
 
 namespace OmegaEngine;
 

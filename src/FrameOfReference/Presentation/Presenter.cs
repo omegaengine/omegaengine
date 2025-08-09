@@ -29,10 +29,10 @@ using FrameOfReference.World;
 using FrameOfReference.World.Config;
 using NanoByte.Common.Dispatch;
 using OmegaEngine;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
-using OmegaEngine.Storage;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Storage;
 using SlimDX;
 
 namespace FrameOfReference.Presentation;

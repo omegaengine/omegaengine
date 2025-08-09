@@ -30,7 +30,6 @@ using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
 using OmegaEngine;
-using OmegaEngine.Values;
 
 namespace FrameOfReference;
 

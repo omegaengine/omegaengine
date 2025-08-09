@@ -12,7 +12,7 @@ using NanoByte.Common;
 using SlimDX;
 using SlimDX.DirectSound;
 using OmegaEngine.Assets;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation.Geometry;
 
 namespace OmegaEngine.Audio;
 

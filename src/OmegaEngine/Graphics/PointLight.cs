@@ -8,10 +8,11 @@
 
 using System.ComponentModel;
 using NanoByte.Common;
+using OmegaEngine.Foundation.Geometry;
+using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 using OmegaEngine.Graphics.Cameras;
-using OmegaEngine.Values;
 
 namespace OmegaEngine.Graphics;
 

@@ -6,9 +6,9 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Cameras;
-using OmegaEngine.Values;
 using SlimDX;
 
 namespace OmegaEngine;

@@ -9,8 +9,8 @@
 using System;
 using System.ComponentModel;
 using NanoByte.Common;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Properties;
-using OmegaEngine.Values;
 using Vector3 = SlimDX.Vector3;
 
 namespace OmegaEngine.Graphics.Cameras;

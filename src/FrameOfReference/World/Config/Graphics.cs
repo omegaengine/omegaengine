@@ -23,7 +23,8 @@
 using System;
 using System.ComponentModel;
 using NanoByte.Common;
-using OmegaEngine.Values;
+using OmegaEngine.Foundation;
+using OmegaEngine.Foundation.Light;
 
 namespace FrameOfReference.World.Config;
 
