@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using AlphaFramework.World;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Paths;
@@ -79,11 +80,11 @@ partial class Universe
 
         foreach (var entity in Positionables.OfType<Entity>().Where(x => x.TemplateData is {Movement: null, Collision: not null}))
         {
-            for (int x = 0; x < obstructionMap.GetLength(dimension: 0); x++)
+            Parallel.For(0, obstructionMap.GetLength(dimension: 0), x =>
             {
                 for (int y = 0; y < obstructionMap.GetLength(dimension: 1); y++)
                     obstructionMap[x, y] |= entity.CollisionTest(new Vector2(x, y) * Terrain.Size.StretchH);
-            }
+            });
         }
     }
 
