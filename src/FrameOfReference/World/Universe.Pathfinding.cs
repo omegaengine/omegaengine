@@ -55,9 +55,16 @@ partial class Universe
         if (Terrain == null) return;
 
         var obstructionMap = new bool[Terrain.Size.X, Terrain.Size.Y];
-        MarkUntraversableWaters(obstructionMap);
-        Terrain.MarkUntraversableSlopes(obstructionMap, MaxTraversableSlope);
-        MarkUnmoveableEntities(obstructionMap);
+
+        using (new TimedLogEvent("Initialize pathfinding: Untraversable waters"))
+            MarkUntraversableWaters(obstructionMap);
+
+        using (new TimedLogEvent("Initialize pathfinding: Untraversable slops"))
+            Terrain.MarkUntraversableSlopes(obstructionMap, MaxTraversableSlope);
+
+        using (new TimedLogEvent("Initialize pathfinding: Unmovable entities"))
+            MarkUnmoveableEntities(obstructionMap);
+
         Pathfinder = new SimplePathfinder(obstructionMap);
     }
 
