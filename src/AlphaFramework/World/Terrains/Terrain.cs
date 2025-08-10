@@ -202,12 +202,12 @@ public sealed partial class Terrain<TTemplate> : ITerrain
     {
         #region Sanity checks
         if (obstructionMap == null) throw new ArgumentNullException(nameof(obstructionMap));
-        if (obstructionMap.GetLength(0) != Size.X || obstructionMap.GetLength(1) != Size.Y) throw new ArgumentException("Obstruction map size does not match terrain size.", nameof(obstructionMap));
+        if (obstructionMap.GetLength(dimension: 0) != Size.X || obstructionMap.GetLength(dimension: 1) != Size.Y) throw new ArgumentException("Obstruction map size does not match terrain size.", nameof(obstructionMap));
         #endregion
 
-        for (int x = 0; x < obstructionMap.GetLength(0); x++)
+        for (int x = 0; x < obstructionMap.GetLength(dimension: 0); x++)
         {
-            for (int y = 0; y < obstructionMap.GetLength(1); y++)
+            for (int y = 0; y < obstructionMap.GetLength(dimension: 1); y++)
             {
                 obstructionMap[x, y] |=
                     (GetSlope(x, y, 0, 1) > maxTraversableSlope) ||
