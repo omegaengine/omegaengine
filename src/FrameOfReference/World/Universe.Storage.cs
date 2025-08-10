@@ -104,8 +104,7 @@ partial class Universe
 
         if (!TerrainSerialize.DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
 
-        using (new TimedLogEvent("Initialize pathfinding"))
-            InitializePathfinding();
+        InitializePathfinding();
     }
 
     /// <inheritdoc/>
