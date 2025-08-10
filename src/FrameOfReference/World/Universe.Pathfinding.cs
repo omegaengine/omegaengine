@@ -72,9 +72,9 @@ partial class Universe
 
         foreach (var entity in Positionables.OfType<Entity>().Where(x => x.TemplateData is {Movement: null, Collision: not null}))
         {
-            for (int x = 0; x < obstructionMap.GetLength(0); x++)
+            for (int x = 0; x < obstructionMap.GetLength(dimension: 0); x++)
             {
-                for (int y = 0; y < obstructionMap.GetLength(1); y++)
+                for (int y = 0; y < obstructionMap.GetLength(dimension: 1); y++)
                     obstructionMap[x, y] |= entity.CollisionTest(new Vector2(x, y) * Terrain.Size.StretchH);
             }
         }
