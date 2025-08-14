@@ -17,6 +17,12 @@
     <NoWarn>$(NoWarn);1591;NU1901;NU1902;NU1903;NU1904</NoWarn><!-- Missing XML comments + NuGet advisories -->
   </PropertyGroup>
 
+  <!-- Publish configuration -->
+  <PropertyGroup>
+    <SatelliteResourceLanguages>de</SatelliteResourceLanguages>
+    <PublishDocumentationFiles>False</PublishDocumentationFiles>
+  </PropertyGroup>
+
   <!-- NuGet Metadata -->
   <PropertyGroup>
     <Authors>Bastian Eicher</Authors>

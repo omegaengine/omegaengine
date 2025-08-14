@@ -19,8 +19,8 @@
 
   <!-- Deploy default config for easy testing -->
   <ItemGroup>
-    <None Include="_portable" CopyToOutputDirectory="Always" />
-    <None Include="config\**" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="_portable" CopyToOutputDirectory="Always" CopyToPublishDirectory="Never" />
+    <None Include="config\**" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never" />
   </ItemGroup>
 
   <!-- Localization -->
