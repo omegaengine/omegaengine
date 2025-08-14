@@ -1,7 +1,7 @@
 ﻿<Project>
 
   <PropertyGroup>
-    <OmegaEngineVersion>1.0.0-dev</OmegaEngineVersion>
+    <OmegaEngineVersion>1.0.0-pre</OmegaEngineVersion>
   </PropertyGroup>
 
 </Project>

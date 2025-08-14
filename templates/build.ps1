@@ -1,4 +1,4 @@
-﻿Param ($Version = "1.0.0-dev")
+﻿Param ($Version = "1.0.0-pre")
 $ErrorActionPreference = "Stop"
 pushd $PSScriptRoot
 

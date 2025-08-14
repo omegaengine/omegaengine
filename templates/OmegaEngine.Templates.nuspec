@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>OmegaEngine.Templates</id>
-    <version>1.0.0-dev</version>
+    <version>1.0.0-pre</version>
     <authors>Bastian Eicher</authors>
     <license type="expression">MIT</license>
     <description>The OmegaEngine project templates help you create C# projects that use OmegaEngine, OmegaGUI and AlphaFramework.</description>
