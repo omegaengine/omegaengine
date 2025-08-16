@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<interface xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+  <name>Frame of Reference: Content</name>
+  <summary>content for the game "Frame of Reference"</summary>
+  <feed-for interface="https://omegaengine.de/feeds/frame-of-reference-content.xml" />
+  <group>
+    <environment name="OMEGAENGINE_CONTENT" insert="." />
+    <implementation version="{version}" stability="stable" local-path="../content">
+      <manifest-digest />
+      <archive href="frame-of-reference-content-{version}.tar.zst" type="application/x-zstd-compressed-tar" />
+    </implementation>
+  </group>
+</interface>

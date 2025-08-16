@@ -19,11 +19,7 @@ jobs:
         run: winget install --force --silent --accept-package-agreements --accept-source-agreements --disable-interactivity --id=Microsoft.VCRedist.2010.x86
 
       # Build
-      - name: Build (pre-release)
-        if: github.ref_type != 'tag'
-        run: .\build.ps1 ${{steps.gitversion.outputs.nuGetVersion}}-${{steps.gitversion.outputs.shortSha}}
-      - name: Build (release)
-        if: github.ref_type == 'tag'
+      - name: Build
         run: .\build.ps1 ${{steps.gitversion.outputs.nuGetVersion}}
       - name: Upload UnitTests bin artifact
         uses: actions/upload-artifact@v4
@@ -43,6 +39,14 @@ jobs:
       - name: Create GitHub Release
         if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            feeds/frame-of-reference-${{steps.gitversion.outputs.legacySemVer}}.xml
+            feeds/frame-of-reference-${{steps.gitversion.outputs.legacySemVer}}.zip
+            feeds/frame-of-reference-content-${{steps.gitversion.outputs.legacySemVer}}.xml
+            feeds/frame-of-reference-content-${{steps.gitversion.outputs.legacySemVer}}.zip
+          body: |
+            **[Documentation and download instructions](https://docs.omegaengine.de/)**
 
       # Publish
       - name: Publish packages (GitHub)

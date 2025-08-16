@@ -6,5 +6,6 @@ src\build.ps1 $Version
 src\test.ps1
 templates\build.ps1 $Version
 doc\build.ps1
+feeds\build.ps1 $Version
 
 popd
