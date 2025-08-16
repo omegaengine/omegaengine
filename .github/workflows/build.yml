@@ -43,6 +43,14 @@ jobs:
       - name: Create GitHub Release
         if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            feeds/frame-of-reference-${{steps.gitversion.outputs.legacySemVer}}.xml
+            feeds/frame-of-reference-${{steps.gitversion.outputs.legacySemVer}}.zip
+            feeds/frame-of-reference-content-${{steps.gitversion.outputs.legacySemVer}}.xml
+            feeds/frame-of-reference-content-${{steps.gitversion.outputs.legacySemVer}}.zip
+          body: |
+            **[Documentation and download instructions](https://docs.omegaengine.de/)**
 
       # Publish
       - name: Publish packages (GitHub)
