@@ -151,9 +151,6 @@ public partial class Game : GameBase
         lua["Presenter"] = CurrentPresenter ?? throw new InvalidOperationException($"{nameof(Presenter)} not set yet.");
         lua["Universe"] = CurrentPresenter.Universe;
 
-        // Boolean flag to indicate if the game is running a mod
-        lua["IsMod"] = (ContentManager.ModDir != null);
-
         return lua;
     }
     #endregion

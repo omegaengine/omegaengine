@@ -30,7 +30,6 @@ using AlphaFramework.Editor;
 using AlphaFramework.Editor.Properties;
 using AlphaFramework.Presentation;
 using FrameOfReference.World.Config;
-using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Native;
 using NanoByte.Common.Storage;
@@ -93,16 +92,7 @@ internal static class Program
             // Exit if the user didn't select anything
             if (ContentManager.ModDir == null && !ModInfo.MainGame) break;
 
-            // Load the archives, run the main editor, cancel if an exception occurred, always unload the archives
-            if (!LoadArchives()) break;
-            try
-            {
-                Application.Run(new MainForm());
-            }
-            finally
-            {
-                ContentManager.CloseArchives();
-            }
+            Application.Run(new MainForm());
 
             // Prepare for next selection
             ModInfo.MainGame = false;
@@ -148,29 +138,6 @@ internal static class Program
         catch (DirectoryNotFoundException ex)
         {
             Msg.Inform(null, ex.Message, MsgSeverity.Error);
-            return false;
-        }
-        #endregion
-
-        return true;
-    }
-
-    /// <summary>
-    /// Calls <see cref="ContentManager.LoadArchives"/> and displays error messages if something went wrong.
-    /// </summary>
-    /// <returns><c>true</c> if all archives were loaded successfully; <c>false</c> if something went wrong.</returns>
-    private static bool LoadArchives()
-    {
-        try
-        {
-            ContentManager.LoadArchives();
-        }
-        #region Error handling
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-        {
-            Log.Error(Resources.FailedReadArchives, ex);
-            ContentManager.CloseArchives();
-            Msg.Inform(null, Resources.FailedReadArchives + Environment.NewLine + ex.Message, MsgSeverity.Error);
             return false;
         }
         #endregion
