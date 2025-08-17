@@ -57,19 +57,16 @@ partial class Terrain
             throw new ArgumentException(Resources.WrongTextureMapSize, nameof(textureMap));
         #endregion
 
-        using (new TimedLogEvent("Building terrain mesh"))
-        {
-            var vertexes = GenerateVertexes(size, stretchH, stretchV, heightMap, textureMap, occlusionIntervalMap);
-
-            var indexes = GenerateIndexes(size, stretchH, stretchV, blockSize, vertexes, out int[] attributes, out ushort[] subsetTextureMasks, out subsetBoundingBoxes);
-
-            subsetShaders = LoadShaders(engine, lighting, subsetTextureMasks);
-            return CompileMesh(engine, vertexes, indexes, attributes, lighting);
-        }
+        var vertexes = GenerateVertexes(size, stretchH, stretchV, heightMap, textureMap, occlusionIntervalMap);
+        var indexes = GenerateIndexes(size, stretchH, stretchV, blockSize, vertexes, out int[] attributes, out ushort[] subsetTextureMasks, out subsetBoundingBoxes);
+        subsetShaders = CompileShaders(engine, lighting, subsetTextureMasks);
+        return CompileMesh(engine, vertexes, indexes, attributes, lighting);
     }
 
     private static PositionMultiTextured[] GenerateVertexes(Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, ByteVector4Grid? occlusionIntervalMap)
     {
+        using var _ = new TimedLogEvent("Generating terrain vertexes");
+
         var vertexes = new PositionMultiTextured[size.Width * size.Height];
 
         Parallel.For(0, size.Width, x =>
@@ -132,6 +129,8 @@ partial class Terrain
 
     private static int[] GenerateIndexes(Size size, float stretchH, float stretchV, int blockSize, PositionMultiTextured[] vertexes, out int[] attributes, out ushort[] subsetTextureMasks, out BoundingBox[] subsetBoundingBoxes)
     {
+        using var _ = new TimedLogEvent("Generating terrain indexes");
+
         // Calculate number of blocks to divide the indexes into
         int blocksX = Math.DivRem(size.Width - 1, blockSize, out int remainder);
         if (remainder > 0) blocksX++;
@@ -199,8 +198,10 @@ partial class Terrain
         return indexes;
     }
 
-    private static SurfaceShader[] LoadShaders(Engine engine, bool lighting, ushort[] textureMasks)
+    private static SurfaceShader[] CompileShaders(Engine engine, bool lighting, ushort[] textureMasks)
     {
+        using var _ = new TimedLogEvent("Compiling terrain shaders");
+
         var shaders = new SurfaceShader[textureMasks.Length];
 
         if (TerrainShader.MinShaderModel <= engine.Capabilities.MaxShaderModel)
@@ -218,6 +219,8 @@ partial class Terrain
 
     private static Mesh CompileMesh(Engine engine, PositionMultiTextured[] vertexes, int[] indexes, int[] attributes, bool lighting)
     {
+        using var _ = new TimedLogEvent("Compiling terrain mesh");
+
         var mesh = new Mesh(engine.Device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed | MeshFlags.Use32Bit, PositionMultiTextured.GetVertexElements());
         BufferHelper.WriteVertexBuffer(mesh, vertexes);
         BufferHelper.WriteIndexBuffer(mesh, indexes);

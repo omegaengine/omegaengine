@@ -56,15 +56,9 @@ partial class Universe
         if (Terrain == null) return;
 
         var obstructionMap = new bool[Terrain.Size.X, Terrain.Size.Y];
-
-        using (new TimedLogEvent("Initialize pathfinding: Untraversable waters"))
-            MarkUntraversableWaters(obstructionMap);
-
-        using (new TimedLogEvent("Initialize pathfinding: Untraversable slops"))
-            Terrain.MarkUntraversableSlopes(obstructionMap, MaxTraversableSlope);
-
-        using (new TimedLogEvent("Initialize pathfinding: Unmovable entities"))
-            MarkUnmoveableEntities(obstructionMap);
+        MarkUntraversableWaters(obstructionMap);
+        Terrain.MarkUntraversableSlopes(obstructionMap, MaxTraversableSlope);
+        MarkUnmoveableEntities(obstructionMap);
 
         Pathfinder = new SimplePathfinder(obstructionMap);
     }
@@ -77,6 +71,8 @@ partial class Universe
         #region Sanity checks
         if (Terrain == null) throw new InvalidOperationException("Terrain data not loaded.");
         #endregion
+
+        using var _ = new TimedLogEvent("Pathfinding: Marking unmovable entities");
 
         foreach (var entity in Positionables.OfType<Entity>().Where(x => x.TemplateData is {Movement: null, Collision: not null}))
         {
@@ -96,6 +92,8 @@ partial class Universe
         #region Sanity checks
         if (Terrain is not {DataLoaded: true}) throw new InvalidOperationException("Terrain data not loaded.");
         #endregion
+
+        using var _ = new TimedLogEvent("Pathfinding: marking untraversable waters");
 
         foreach (var water in Positionables.OfType<Water>())
         {
@@ -140,22 +138,21 @@ partial class Universe
         if (entity.Position == target) return;
         if (entity.CurrentPath != null && entity.CurrentPath.Target == target && entity.CurrentPath.PathNodes.Count != 0) return;
 
-        using (new TimedLogEvent("Calculating path from " + entity.Position + " to " + target))
-        {
-            // Get path and cancel if none was found
-            var pathNodes = Pathfinder.FindPath(GetScaledPosition(entity.Position), GetScaledPosition(target));
-            if (pathNodes == null)
-            {
-                entity.CurrentPath = null;
-                return;
-            }
+        using var _ = new TimedLogEvent($"Calculating path from {entity.Position} to {target}");
 
-            // Store path data in entity
-            var pathLeader = new StoredPath<Vector2> {Target = target};
-            foreach (var node in pathNodes)
-                pathLeader.PathNodes.Enqueue(node * Terrain.Size.StretchH);
-            entity.CurrentPath = pathLeader;
+        // Get path and cancel if none was found
+        var pathNodes = Pathfinder.FindPath(GetScaledPosition(entity.Position), GetScaledPosition(target));
+        if (pathNodes == null)
+        {
+            entity.CurrentPath = null;
+            return;
         }
+
+        // Store path data in entity
+        var pathLeader = new StoredPath<Vector2> {Target = target};
+        foreach (var node in pathNodes)
+            pathLeader.PathNodes.Enqueue(node * Terrain.Size.StretchH);
+        entity.CurrentPath = pathLeader;
     }
 
     /// <summary>

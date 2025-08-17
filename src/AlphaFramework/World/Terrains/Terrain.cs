@@ -205,6 +205,8 @@ public sealed partial class Terrain<TTemplate> : ITerrain
         if (obstructionMap.GetLength(dimension: 0) != Size.X || obstructionMap.GetLength(dimension: 1) != Size.Y) throw new ArgumentException("Obstruction map size does not match terrain size.", nameof(obstructionMap));
         #endregion
 
+        using var _ = new TimedLogEvent("Pathfinding: Marking untraversable slops");
+
         for (int x = 0; x < obstructionMap.GetLength(dimension: 0); x++)
         {
             for (int y = 0; y < obstructionMap.GetLength(dimension: 1); y++)

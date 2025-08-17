@@ -30,7 +30,6 @@ using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
 
 namespace FrameOfReference.Presentation;
 
@@ -87,21 +86,19 @@ partial class InteractivePresenter
     /// </summary>
     private Quadrangle GetTerrainArea(Rectangle area)
     {
-        Vector2 topLeftCoord, bottomLeftCoord, bottomRightCoord, topRightCoord;
-        using (new TimedLogEvent("Calculating terrain coordinates for picking"))
-        {
-            if (!Terrain.Intersects(View.PickingRay(new(area.Left, area.Top)), out DoubleVector3 topLeftPoint)) return new();
-            topLeftCoord = topLeftPoint.Flatten();
+        using var _ = new TimedLogEvent("Calculating terrain coordinates for picking");
 
-            if (!Terrain.Intersects(View.PickingRay(new(area.Left, area.Bottom)), out DoubleVector3 bottomLeftPoint)) return new();
-            bottomLeftCoord = bottomLeftPoint.Flatten();
+        if (!Terrain.Intersects(View.PickingRay(new(area.Left, area.Top)), out DoubleVector3 topLeftPoint)) return new();
+        var topLeftCoord = topLeftPoint.Flatten();
 
-            if (!Terrain.Intersects(View.PickingRay(new(area.Right, area.Bottom)), out DoubleVector3 bottomRightPoint)) return new();
-            bottomRightCoord = bottomRightPoint.Flatten();
+        if (!Terrain.Intersects(View.PickingRay(new(area.Left, area.Bottom)), out DoubleVector3 bottomLeftPoint)) return new();
+        var bottomLeftCoord = bottomLeftPoint.Flatten();
 
-            if (!Terrain.Intersects(View.PickingRay(new(area.Right, area.Top)), out DoubleVector3 topRightPoint)) return new();
-            topRightCoord = topRightPoint.Flatten();
-        }
+        if (!Terrain.Intersects(View.PickingRay(new(area.Right, area.Bottom)), out DoubleVector3 bottomRightPoint)) return new();
+        var bottomRightCoord = bottomRightPoint.Flatten();
+
+        if (!Terrain.Intersects(View.PickingRay(new(area.Right, area.Top)), out DoubleVector3 topRightPoint)) return new();
+        var topRightCoord = topRightPoint.Flatten();
 
         var terrainArea = new Quadrangle(topLeftCoord, bottomLeftCoord, bottomRightCoord, topRightCoord);
         return terrainArea;
