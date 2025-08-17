@@ -30,17 +30,12 @@ public abstract class EngineElement : IDisposable
     {
         if (element == null) return;
 
-        if (autoDispose)
-        {
-            lock (_toDispose) // Some elements, like dynamic shaders, may be registered in parallel
-                _toDispose.Add(element);
-        }
+        if (autoDispose) _toDispose.Add(element);
 
         if (IsEngineSet)
             element.Engine = Engine;
 
-        lock (_toSetEngine) // Some elements, like dynamic shaders, may be registered in parallel
-            _toSetEngine.Add(element);
+        _toSetEngine.Add(element);
     }
 
     /// <summary>

@@ -9,7 +9,6 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using NanoByte.Common;
 using SlimDX;
@@ -206,9 +205,6 @@ partial class Terrain
 
         if (TerrainShader.MinShaderModel <= engine.Capabilities.MaxShaderModel)
         {
-            // Generate shader for each distinct texture mask in parallel
-            Parallel.ForEach(textureMasks.Distinct(), textureMask => engine.GetTerrainShader(lighting, textureMask));
-
             // Use engine caching to retrieve shaders by texture mask
             for (int i = 0; i < textureMasks.Length; i++)
                 shaders[i] = engine.GetTerrainShader(lighting, textureMasks[i]);
