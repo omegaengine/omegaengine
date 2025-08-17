@@ -152,7 +152,7 @@ public abstract class Shader : EngineElement
     /// Loads an <see cref="Effect"/> from an <code>.fx</code> or <code>.fxo</code> file.
     /// </summary>
     /// <param name="path">The shader file path relative to the shader directory or as an absolute path</param>
-    public void LoadShaderFile(string path)
+    protected void LoadShaderFile(string path)
     {
         path = Path.Combine(Engine.ShaderDir, path);
         using (new TimedLogEvent($"Loading shader file: {path}"))
