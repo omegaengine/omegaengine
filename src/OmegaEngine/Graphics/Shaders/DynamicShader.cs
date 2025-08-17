@@ -133,7 +133,7 @@ public static partial class DynamicShader
                                 #endregion
 
                                 #region Filter
-                                case "BeginnFilter":
+                                case "BeginFilter":
                                     XmlAttribute targetValue = node.Attributes["Target"];
                                     if (targetValue != null)
                                     {
