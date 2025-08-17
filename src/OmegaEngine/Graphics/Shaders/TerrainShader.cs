@@ -10,9 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using NanoByte.Common;
+using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
-using OmegaEngine.Properties;
+using SlimDX;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Shaders;
@@ -30,7 +31,7 @@ public class TerrainShader : LightingShader
         _simpleBlack = "SimpleBlack", _lightBlack = "LightBlack";
 
     private readonly bool _lighting;
-    private readonly IDictionary<string, IEnumerable<int>> _controllers;
+    private readonly DataStream _stream;
     #endregion
 
     #region Properties
@@ -59,12 +60,25 @@ public class TerrainShader : LightingShader
     /// Creates a specialized instance of the shader
     /// </summary>
     /// <param name="lighting">Shall this shader apply lighting to the terrain?</param>
-    /// <param name="controllers">A set of int arrays that control the counters</param>
+    /// <param name="capabilities">The rendering capabilities available to the shader</param>
+    /// <param name="textureMask">A bitmask that indicates which textures are enabled</param>
     /// <exception cref="NotSupportedException">The graphics card does not support this shader.</exception>
-    public TerrainShader(bool lighting, IDictionary<string, IEnumerable<int>> controllers)
+    public TerrainShader(bool lighting, EngineCapabilities capabilities, int textureMask)
     {
         _lighting = lighting;
-        _controllers = controllers ?? throw new ArgumentNullException(nameof(controllers));
+
+        var textureIndexes = new List<int>();
+        for (int i = 0; i < 16; i++)
+        {
+            if (textureMask.HasFlag(1 << i))
+                textureIndexes.Add(i + 1);
+        }
+
+        _stream = DynamicShader.FromContent(
+            "Terrain.fxd",
+            controllers: new() {["textures"] = textureIndexes},
+            lighting,
+            capabilities);
     }
     #endregion
 
@@ -114,11 +128,9 @@ public class TerrainShader : LightingShader
     /// <inheritdoc/>
     protected override void OnEngineSet()
     {
-        if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-        Effect = DynamicShader.FromContent(Engine, "Terrain.fxd", _lighting, _controllers);
+        Effect = Effect.FromStream(Engine.Device, _stream, ShaderFlags.None);
 
-        lock (Engine) // Dynamic shaders may be compiled and registered in parallel, but rest of OmegaEngine is single threaded
-            base.OnEngineSet();
+        base.OnEngineSet();
     }
     #endregion
 }

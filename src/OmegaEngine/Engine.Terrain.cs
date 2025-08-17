@@ -6,8 +6,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
-using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Shaders;
 
 namespace OmegaEngine;
@@ -34,16 +32,7 @@ partial class Engine
     {
         var terrainShaders = lighting ? _terrainShadersLighting : _terrainShadersNoLighting;
         if (terrainShaders[textureMask] == null)
-        {
-            var texturesList = new LinkedList<int>();
-            for (int i = 0; i < 16; i++)
-            {
-                if (textureMask.HasFlag(1 << i))
-                    texturesList.AddLast(i + 1);
-            }
-            var controllers = new Dictionary<string, IEnumerable<int>>(capacity: 1) { ["textures"] = texturesList };
-            RegisterChild(terrainShaders[textureMask] = new(lighting, controllers));
-        }
+            RegisterChild(terrainShaders[textureMask] = new(lighting, Capabilities, textureMask));
         return terrainShaders[textureMask];
     }
 }

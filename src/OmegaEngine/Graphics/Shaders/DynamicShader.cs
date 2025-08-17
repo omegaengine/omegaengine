@@ -13,8 +13,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using NanoByte.Common;
+using NanoByte.Common.Streams;
 using OmegaEngine.Foundation.Storage;
+using SlimDX;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
@@ -26,35 +27,27 @@ namespace OmegaEngine.Graphics.Shaders;
 /// <remarks>Uses partial .fx files with XML control comments as input</remarks>
 public static partial class DynamicShader
 {
-    #region Code helpers
-    private static string HandleCounters(string source, IEnumerable<Counter> counters, int run)
-    {
-        return counters.Aggregate(source, (current, counter) => current.Replace($"{{{counter.ID}}}", counter.GetValue(run)));
-    }
-    #endregion
-
-    #region Parse
     /// <summary>
-    /// Parses and compiles a dynamic shader string
+    /// Loads a dynamic shader file via the <see cref="ContentManager"/> and compiles it.
     /// </summary>
-    /// <param name="engine">The <see cref="Engine"/> to compile the effect in</param>
-    /// <param name="source">The source code to be parsed and compiled</param>
-    /// <param name="lighting">Optimize the shader for lighting or no lighting</param>
+    /// <param name="id">The ID of the shader to be loaded</param>
     /// <param name="controllers">A set of int arrays that control the counters; <c>null</c> if there is no sync-code in the shader</param>
-    /// <returns>The compiled effect</returns>
-    public static Effect Parse(Engine engine, string source, bool lighting, IDictionary<string, IEnumerable<int>> controllers)
+    /// <param name="lighting">Optimize the shader for lighting or no lighting</param>
+    /// <param name="capabilities">The rendering capabilities available to the shader</param>
+    /// <returns>The compiled shader</returns>
+    public static DataStream FromContent(string id, Dictionary<string, IEnumerable<int>> controllers, bool lighting, EngineCapabilities capabilities)
     {
         #region Sanity checks
-        if (engine == null) throw new ArgumentNullException(nameof(engine));
-        if (string.IsNullOrEmpty(source)) throw new ArgumentNullException(nameof(source));
+        if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
         if (controllers == null) throw new ArgumentNullException(nameof(controllers));
+        if (capabilities == null) throw new ArgumentNullException(nameof(capabilities));
         #endregion
 
-        source += "\n";
-        var lines = source.SplitMultilineText();
+        string[] lines = File.ReadAllLines(ContentManager.GetFilePath("Graphics/Shaders", id));
+
         var xmlBuffer = new StringBuilder(); // Accumulates XML data until it is complete and ready to be parsed
         var fxBuffer = new StringBuilder(); // Accumulates the actual HLSL code until it is ready to be compiled
-        bool include = true;
+        bool filtered = false;
 
         foreach (string line in lines)
         {
@@ -62,8 +55,8 @@ public static partial class DynamicShader
             if (trimmedLine.StartsWith("///", StringComparison.Ordinal))
             {
                 // Store XML code for later parsing
-                xmlBuffer.AppendLine((trimmedLine.Substring(3, 1) == " ") ?
-                    trimmedLine.Substring(4) : trimmedLine.Substring(3));
+                xmlBuffer.AppendLine(trimmedLine.Substring(3, 1) == " " ?
+                    trimmedLine[4..] : trimmedLine[3..]);
             }
             else if (!trimmedLine.StartsWith("//", StringComparison.Ordinal))
             { // Parse XML code once it stops coming
@@ -81,99 +74,21 @@ public static partial class DynamicShader
                         {
                             switch (node.Name)
                             {
-                                #region Counter
-                                case "Counter":
-                                    if (!include) break;
-                                    switch (node.Attributes["Type"].Value)
-                                    {
-                                        case "int":
-                                            counters.AddLast(new IntCounter(node.Attributes["ID"].Value,
-                                                int.Parse(node.Attributes["Min"].Value, CultureInfo.InvariantCulture),
-                                                int.Parse(node.Attributes["Max"].Value, CultureInfo.InvariantCulture)));
-                                            break;
-
-                                        case "int-step":
-                                            counters.AddLast(new IntCounter(node.Attributes["ID"].Value,
-                                                int.Parse(node.Attributes["Min"].Value, CultureInfo.InvariantCulture),
-                                                int.Parse(node.Attributes["Max"].Value, CultureInfo.InvariantCulture),
-                                                float.Parse(node.Attributes["Step"].Value, CultureInfo.InvariantCulture)));
-                                            break;
-
-                                        case "char":
-                                            var chars = new LinkedList<char>();
-                                            foreach (XmlNode subNode in node.ChildNodes)
-                                                if (subNode.Name == "Char") chars.AddLast(subNode.InnerText[0]);
-                                            counters.AddLast(new CharCounter(node.Attributes["ID"].Value, chars));
-                                            break;
-                                    }
+                                case "Counter" when !filtered:
+                                    ProcessCounterNode(node, counters);
                                     break;
-                                #endregion
 
-                                #region Code
-                                case "Code":
-                                    if (!include) break;
-                                    switch (node.Attributes["Type"].Value)
-                                    {
-                                        case "Repeat":
-                                            int count = int.Parse(node.Attributes["Count"].Value, CultureInfo.InvariantCulture);
-                                            for (int i = 1; i <= count; i++)
-                                                fxBuffer.AppendLine(HandleCounters(node.InnerText, counters, i));
-                                            break;
-
-                                        case "Sync":
-                                            int max = int.Parse(node.Attributes["Max"].Value, CultureInfo.InvariantCulture);
-                                            foreach (int i in controllers[node.Attributes["Controller"].Value])
-                                            {
-                                                if (i <= max)
-                                                    fxBuffer.AppendLine(HandleCounters(node.InnerText, counters, i));
-                                            }
-                                            break;
-                                    }
+                                case "Code" when !filtered:
+                                    ProcessCodeNode(node, controllers, counters, fxBuffer);
                                     break;
-                                #endregion
 
-                                #region Filter
                                 case "BeginFilter":
-                                    XmlAttribute targetValue = node.Attributes["Target"];
-                                    if (targetValue != null)
-                                    {
-                                        switch (targetValue.Value)
-                                        {
-                                            case "PS14":
-                                                include = (engine.Capabilities.MaxShaderModel == new Version(1, 4));
-                                                break;
-                                            case "PS20":
-                                                include = (engine.Capabilities.MaxShaderModel == new Version(2, 0));
-                                                break;
-                                            case "PS2x":
-                                                include = (engine.Capabilities.MaxShaderModel >= new Version(2, 0));
-                                                break;
-                                            case "PS2ab":
-                                                include = (engine.Capabilities.MaxShaderModel > new Version(2, 0));
-                                                break;
-                                            case "PS2a":
-                                                include = (engine.Capabilities.MaxShaderModel == new Version(2, 0, 1));
-                                                break;
-                                            case "PS2b":
-                                                include = (engine.Capabilities.MaxShaderModel >= new Version(2, 0, 2));
-                                                break;
-                                        }
-                                    }
-
-                                    XmlAttribute lightingFlag = node.Attributes["Lighting"];
-                                    if (include && lightingFlag != null)
-                                    {
-                                        if (!lighting && lightingFlag.Value == "true")
-                                            include = false;
-                                        if (lighting && lightingFlag.Value == "false")
-                                            include = false;
-                                    }
+                                    filtered = ProcessBeginFilterNode(node, lighting, capabilities);
                                     break;
 
                                 case "EndFilter":
-                                    include = true;
+                                    filtered = false;
                                     break;
-                                #endregion
                             }
                         }
                     }
@@ -182,42 +97,101 @@ public static partial class DynamicShader
                 }
 
                 // Store normal code for later compilation
-                if (include && !string.IsNullOrEmpty(line))
+                if (!filtered && !string.IsNullOrEmpty(line))
                     fxBuffer.AppendLine(line);
             }
         }
 
-        // Compile code
-        string fxCode = fxBuffer.ToString();
+        return Compile(fxBuffer.ToString());
+    }
+
+    private static void ProcessCounterNode(XmlNode node, LinkedList<Counter> counters)
+    {
+        switch (node.Attributes["Type"].Value)
+        {
+            case "int":
+                counters.AddLast(new IntCounter(node.Attributes["ID"].Value,
+                    int.Parse(node.Attributes["Min"].Value, CultureInfo.InvariantCulture),
+                    int.Parse(node.Attributes["Max"].Value, CultureInfo.InvariantCulture)));
+                break;
+
+            case "int-step":
+                counters.AddLast(new IntCounter(node.Attributes["ID"].Value,
+                    int.Parse(node.Attributes["Min"].Value, CultureInfo.InvariantCulture),
+                    int.Parse(node.Attributes["Max"].Value, CultureInfo.InvariantCulture),
+                    float.Parse(node.Attributes["Step"].Value, CultureInfo.InvariantCulture)));
+                break;
+
+            case "char":
+                var chars = new LinkedList<char>();
+                foreach (XmlNode subNode in node.ChildNodes)
+                    if (subNode.Name == "Char") chars.AddLast(subNode.InnerText[0]);
+                counters.AddLast(new CharCounter(node.Attributes["ID"].Value, chars));
+                break;
+        }
+    }
+
+    private static void ProcessCodeNode(XmlNode node, IDictionary<string, IEnumerable<int>> controllers, LinkedList<Counter> counters, StringBuilder fxBuffer)
+    {
+        switch (node.Attributes["Type"].Value)
+        {
+            case "Repeat":
+                int count = int.Parse(node.Attributes["Count"].Value, CultureInfo.InvariantCulture);
+                for (int i = 1; i <= count; i++)
+                    fxBuffer.AppendLine(HandleCounters(node.InnerText, counters, i));
+                break;
+
+            case "Sync":
+                int max = int.Parse(node.Attributes["Max"].Value, CultureInfo.InvariantCulture);
+                foreach (int i in controllers[node.Attributes["Controller"].Value])
+                {
+                    if (i <= max)
+                        fxBuffer.AppendLine(HandleCounters(node.InnerText, counters, i));
+                }
+                break;
+        }
+    }
+
+    private static string HandleCounters(string source, IEnumerable<Counter> counters, int run)
+        => counters.Aggregate(source, (current, counter) => current.Replace($"{{{counter.ID}}}", counter.GetValue(run)));
+
+    private static bool ProcessBeginFilterNode(XmlNode node, bool lighting, EngineCapabilities capabilities)
+    {
+        if (node.Attributes["Target"] is {} targetValue)
+        {
+            if (targetValue.Value switch
+                {
+                    "PS14" => capabilities.MaxShaderModel != new Version(1, 4),
+                    "PS20" => capabilities.MaxShaderModel != new Version(2, 0),
+                    "PS2x" => capabilities.MaxShaderModel < new Version(2, 0),
+                    "PS2ab" => capabilities.MaxShaderModel <= new Version(2, 0),
+                    "PS2a" => capabilities.MaxShaderModel != new Version(2, 0, 1),
+                    "PS2b" => capabilities.MaxShaderModel < new Version(2, 0, 2),
+                    _ => false
+                }) return true;
+        }
+
+        if (node.Attributes["Lighting"] is {} lightingFlag)
+        {
+            if (!lighting && lightingFlag.Value == "true")
+                return true;
+            if (lighting && lightingFlag.Value == "false")
+                return true;
+        }
+
+        return false;
+    }
+
+    private static DataStream Compile(string fxCode)
+    {
         try
         {
-            return Effect.FromString(engine.Device, fxCode, null, null, null, ShaderFlags.None);
+            using var compiler = EffectCompiler.FromStream(fxCode.ToStream(), ShaderFlags.None);
+            return compiler.CompileEffect(ShaderFlags.None);
         }
         catch (Direct3D9Exception ex)
         {
             throw new ShaderCompileException(Resources.DynamicShaderCompileFail, ex, fxCode);
         }
     }
-    #endregion
-
-    #region From Content
-    /// <summary>
-    /// Loads a dynamic shader file from a game asset source via the <see cref="ContentManager"/>.
-    /// </summary>
-    /// <param name="engine">The <see cref="Engine"/> to compile the effect in</param>
-    /// <param name="id">The ID of the shader to be loaded</param>
-    /// <param name="lighting">Optimize the shader for lighting or no lighting</param>
-    /// <param name="controllers">A set of int arrays that control the counters; <c>null</c> if there is no sync-code in the shader</param>
-    /// <returns>The compiled effect</returns>
-    public static Effect FromContent(Engine engine, string id, bool lighting, IDictionary<string, IEnumerable<int>> controllers)
-    {
-        if (engine == null) throw new ArgumentNullException(nameof(engine));
-        if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
-
-        using var stream = ContentManager.GetFileStream("Graphics/Shaders", id);
-        var reader = new StreamReader(stream);
-        string source = reader.ReadToEnd();
-        return Parse(engine, source, lighting, controllers);
-    }
-    #endregion
 }
