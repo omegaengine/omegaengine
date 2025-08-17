@@ -27,7 +27,6 @@ namespace OmegaEngine.Foundation.Storage;
 /// </summary>
 public static class ContentManager
 {
-    #region Constants
     /// <summary>
     /// The file extensions of content archives.
     /// </summary>
@@ -43,9 +42,7 @@ public static class ContentManager
         EnvVarNameBaseArchives = "CONTENTMANAGER_BASE_ARCHIVES",
         EnvVarNameModDir = "CONTENTMANAGER_MOD_DIR",
         EnvVarNameModArchives = "CONTENTMANAGER_MOD_ARCHIVES";
-    #endregion
 
-    #region Variables
     private static readonly string?
         _envVarBaseDir = Environment.GetEnvironmentVariable(EnvVarNameBaseDir),
         _envVarBaseArchives = Environment.GetEnvironmentVariable(EnvVarNameBaseArchives),
@@ -61,9 +58,7 @@ public static class ContentManager
     private static readonly Dictionary<string, ContentArchiveEntry>
         _baseArchiveEntries = new(StringComparer.OrdinalIgnoreCase),
         _modArchiveEntries = new(StringComparer.OrdinalIgnoreCase);
-    #endregion
 
-    #region Properties
     /// <summary>
     /// The base directory where all the content files are stored; should not be <c>null</c>.
     /// </summary>
@@ -95,11 +90,7 @@ public static class ContentManager
             _modDir = value;
         }
     }
-    #endregion
 
-    //--------------------//
-
-    #region Load archives
     /// <summary>
     /// Loads any <see cref="ArchiveFileExt"/> archives in <see cref="BaseDir"/> and <see cref="ModDir"/> or specified by <see cref="EnvVarNameBaseArchives"/> or <see cref="EnvVarNameModArchives"/>.
     /// </summary>
@@ -146,9 +137,7 @@ public static class ContentManager
         if (dictionary.ContainsKey(filename)) _baseArchiveEntries.Remove(filename);
         dictionary.Add(filename, new(zipFile, zipEntry));
     }
-    #endregion
 
-    #region Close archives
     /// <summary>
     /// Closes the content archives loaded by <see cref="LoadArchives"/>.
     /// </summary>
@@ -174,11 +163,9 @@ public static class ContentManager
         }
         _loadedArchives.Clear();
     }
-    #endregion
 
     //--------------------//
 
-    #region Create directory path
     /// <summary>
     /// Creates a path for a content directory (using the <see cref="ModDir"/> if available).
     /// </summary>
@@ -204,9 +191,7 @@ public static class ContentManager
         if (!directory.Exists) directory.Create();
         return directory.FullName;
     }
-    #endregion
 
-    #region Create file path
     /// <summary>
     /// Creates a path for a content file (using <see cref="ModDir"/> if available).
     /// </summary>
@@ -224,9 +209,7 @@ public static class ContentManager
         id = id.ToNativePath();
         return Path.Combine(CreateDirPath(type), id);
     }
-    #endregion
 
-    #region File exists
     /// <summary>
     /// Checks whether a certain content file exists.
     /// </summary>
@@ -251,10 +234,7 @@ public static class ContentManager
             return true;
         return searchArchives && _baseArchiveEntries.ContainsKey(fullID);
     }
-    #endregion
 
-    #region Get file list
-    #region Helpers
     /// <summary>
     /// Adds a specific file to the <paramref name="files"/> list.
     /// </summary>
@@ -322,7 +302,6 @@ public static class ContentManager
                                                     && pair.Key.EndsWith(extension, StringComparison.OrdinalIgnoreCase)))
             AddFileToList(files, type, pair.Key.Substring(type.Length + 1), flagAsMod); // Cut away the type part of the path
     }
-    #endregion
 
     /// <summary>
     /// Gets a list of all files of a certain type
@@ -342,7 +321,6 @@ public static class ContentManager
         // Create an alphabetical list of files without duplicates
         var files = new NamedCollection<FileEntry>();
 
-        #region Find all base files
         // Find real files
         if (BaseDir != null && Directory.Exists(Path.Combine(BaseDir.FullName, type)))
         {
@@ -352,11 +330,9 @@ public static class ContentManager
 
         // Find files in archives
         AddArchivesToList(files, type, extension, _baseArchiveEntries, false);
-        #endregion
 
         if (ModDir != null)
         {
-            #region Find all mod files
             // Find real files
             if (Directory.Exists(Path.Combine(ModDir.FullName, type)))
             {
@@ -366,14 +342,11 @@ public static class ContentManager
 
             // Find files in archives
             AddArchivesToList(files, type, extension, _modArchiveEntries, true);
-            #endregion
         }
 
         return files;
     }
-    #endregion
 
-    #region Get file path
     /// <summary>
     /// Gets the file path for a content file (does not search in archives)
     /// </summary>
@@ -407,9 +380,7 @@ public static class ContentManager
 
         throw new FileNotFoundException(Resources.NotFoundGameContentFile + Environment.NewLine + Path.Combine(type, id), Path.Combine(type, id));
     }
-    #endregion
 
-    #region Get file stream
     /// <summary>
     /// Gets a reading stream for a content file (searches in archives)
     /// </summary>
@@ -436,7 +407,6 @@ public static class ContentManager
         // Then look in the archives
         string fullID = Path.Combine(type, id);
 
-        #region Mod
         if (ModDir != null)
         {
             // Real file
@@ -463,9 +433,7 @@ public static class ContentManager
                 return memoryStream;
             }
         }
-        #endregion
 
-        #region Base
         if (BaseDir != null)
         {
             // Real file
@@ -482,13 +450,10 @@ public static class ContentManager
                 return memoryStream;
             }
         }
-        #endregion
 
         throw new FileNotFoundException(Resources.NotFoundGameContentFile + Environment.NewLine + Path.Combine(type, id), Path.Combine(type, id));
     }
-    #endregion
 
-    #region Delete mod file
     /// <summary>
     /// Deletes a file in <see cref="ModDir"/>. Will not touch files in archives or in <see cref="BaseDir"/>.
     /// </summary>
@@ -511,5 +476,4 @@ public static class ContentManager
         // Try to delete a file in that mod
         File.Delete(Path.Combine(ModDir.FullName, Path.Combine(type, id)));
     }
-    #endregion
 }
