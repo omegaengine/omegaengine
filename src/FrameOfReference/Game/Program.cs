@@ -59,13 +59,13 @@ internal static class Program
         ErrorReportForm.SetupMonitoring(new Uri($"https://omegaengine.de/error-report/?app={GeneralSettings.AppNameShort}"));
 
 #if !DEBUG
-            // Prevent multiple instances from running simultaneously
-            WindowsMutex.Create(GeneralSettings.AppName, out bool alreadyRunning);
-            if (alreadyRunning)
-            {
-                Msg.Inform(null, Resources.AlreadyRunning, MsgSeverity.Warn);
-                return;
-            }
+        // Prevent multiple instances from running simultaneously
+        WindowsMutex.Create(GeneralSettings.AppName, out bool alreadyRunning);
+        if (alreadyRunning)
+        {
+            Msg.Inform(null, Resources.AlreadyRunning, MsgSeverity.Warn);
+            return;
+        }
 #endif
 
         Args = new(args);
