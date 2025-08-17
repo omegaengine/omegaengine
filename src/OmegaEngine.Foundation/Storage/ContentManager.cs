@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -23,50 +24,70 @@ namespace OmegaEngine.Foundation.Storage;
 public static class ContentManager
 {
     /// <summary>
-    /// The name of an environment variable that can be used to configure the content manager externally.
+    /// The name of an environment variable that can be used to configure the content manager.
     /// </summary>
     [PublicAPI]
-    public const string
-        EnvVarNameBaseDir = "CONTENTMANAGER_BASE_DIR",
-        EnvVarNameModDir = "CONTENTMANAGER_MOD_DIR";
-
-    private static readonly string?
-        _envVarBaseDir = Environment.GetEnvironmentVariable(EnvVarNameBaseDir),
-        _envVarModDir = Environment.GetEnvironmentVariable(EnvVarNameModDir);
-
-    private static DirectoryInfo?
-        _baseDir = new(_envVarBaseDir ?? Path.Combine(Locations.InstallBase, "content")),
-        _modDir = (_envVarModDir == null) ? null : new DirectoryInfo(_envVarModDir);
+    public const string EnvVarNameBaseDir = "OMEGAENGINE_CONTENT";
 
     /// <summary>
-    /// The base directory where all the content files are stored; should not be <c>null</c>.
+    /// The name of an environment variable that can be used to configure the content manager.
     /// </summary>
-    /// <remarks>Can be set externally with <see cref="EnvVarNameBaseDir"/>.</remarks>
+    [PublicAPI]
+    public const string EnvVarNameModDir = "OMEGAENGINE_CONTENT_MOD";
+
+    private static readonly List<DirectoryInfo>
+        _baseDirs = GetDirsFromEnv(EnvVarNameBaseDir) ?? [new(Path.Combine(Locations.InstallBase, "content"))],
+        _modDirs = GetDirsFromEnv(EnvVarNameModDir) ?? [];
+
+    private static List<DirectoryInfo>? GetDirsFromEnv(string envName)
+        => Environment.GetEnvironmentVariable(envName)
+                     ?.Split(Path.PathSeparator)
+                      .Select(dir => new DirectoryInfo(dir))
+                      .ToList();
+
+    /// <summary>
+    /// The base directory where content files are stored.
+    /// </summary>
     /// <exception cref="DirectoryNotFoundException">The specified directory could not be found.</exception>
-    public static DirectoryInfo? BaseDir
+    /// <remarks>
+    /// You can use the environment variable <see cref="EnvVarNameBaseDir"/> to set this value.
+    /// When using the environment variable, you can also specify multiple directories to be overlaid. This property will then only expose the last directory.
+    /// </remarks>
+    public static DirectoryInfo BaseDir
     {
-        get => _baseDir;
+        get => _baseDirs.First();
         set
         {
+            #region Sanity checks
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            #endregion
+
             if (value is { Exists: false })
                 throw new DirectoryNotFoundException(Resources.NotFoundGameContentDir + Environment.NewLine + value.FullName);
-            _baseDir = value;
+
+            _baseDirs.Clear();
+            _baseDirs.Add(value);
         }
     }
 
     /// <summary>
-    /// A directory overriding the base directory for creating mods; can be <c>null</c>.
+    /// A directory overriding the base directory for creating mods. <c>null</c> if there is no active mod.
     /// </summary>
-    /// <remarks>Can be set externally with <see cref="EnvVarNameModDir"/>.</remarks>
     /// <exception cref="DirectoryNotFoundException">The specified directory could not be found.</exception>
+    /// <remarks>
+    /// You can use the environment variable <see cref="EnvVarNameModDir"/> to set this value.
+    /// When using the environment variable, you can also specify multiple directories to be overlaid. This property will then only expose the last directory.
+    /// </remarks>
     public static DirectoryInfo? ModDir
     {
-        get => _modDir;
+        get => _modDirs.FirstOrDefault();
         set
         {
             if (value is { Exists: false })
                 throw new DirectoryNotFoundException(Resources.NotFoundModContentDir + Environment.NewLine + value.FullName);
-            _modDir = value;
+
+            _modDirs.Clear();
+            if (value != null) _modDirs.Add(value);
         }
     }
 
@@ -84,13 +105,7 @@ public static class ContentManager
 
         type = type.ToNativePath();
 
-        // Use mod directory if available
-        string pathBase;
-        if (ModDir != null) pathBase = ModDir.FullName;
-        else if (BaseDir != null) pathBase = BaseDir.FullName;
-        else throw new DirectoryNotFoundException(Resources.NotFoundGameContentDir + "\n-");
-
-        // Check the path before returning it
+        string pathBase = ModDir?.FullName ?? BaseDir.FullName;
         var directory = new DirectoryInfo(Path.Combine(pathBase, type));
         if (!directory.Exists) directory.Create();
         return directory.FullName;
@@ -129,13 +144,9 @@ public static class ContentManager
 
         type = type.ToNativePath();
         id = id.ToNativePath();
-        string fullID = Path.Combine(type, id);
 
-        if (ModDir != null && File.Exists(Path.Combine(ModDir.FullName, fullID)))
-            return true;
-        if (BaseDir != null && File.Exists(Path.Combine(BaseDir.FullName, fullID)))
-            return true;
-        return false;
+        return _modDirs.Any(dir => File.Exists(Path.Combine(dir.FullName, Path.Combine(type, id))))
+            || _baseDirs.Any(dir => File.Exists(Path.Combine(dir.FullName, Path.Combine(type, id))));
     }
 
     /// <summary>
@@ -205,23 +216,18 @@ public static class ContentManager
         #endregion
 
         type = type.ToNativePath();
-
-        // Create an alphabetical list of files without duplicates
         var files = new NamedCollection<FileEntry>();
 
-        if (BaseDir != null && Directory.Exists(Path.Combine(BaseDir.FullName, type)))
+        foreach (var dir in _baseDirs)
         {
-            AddDirectoryToList(files, type, extension,
-                new(Path.Combine(BaseDir.FullName, type)), "", false);
+            if (Directory.Exists(Path.Combine(dir.FullName, type)))
+                AddDirectoryToList(files, type, extension, new DirectoryInfo(Path.Combine(dir.FullName, type)), prefix: "", flagAsMod: false);
         }
 
-        if (ModDir != null)
+        foreach (var dir in _modDirs)
         {
-            if (Directory.Exists(Path.Combine(ModDir.FullName, type)))
-            {
-                AddDirectoryToList(files, type, extension,
-                    new(Path.Combine(ModDir.FullName, type)), "", true);
-            }
+            if (Directory.Exists(Path.Combine(dir.FullName, type)))
+                AddDirectoryToList(files, type, extension, new DirectoryInfo(Path.Combine(dir.FullName, type)), prefix: "", flagAsMod: true);
         }
 
         return files;
@@ -244,17 +250,15 @@ public static class ContentManager
         type = type.ToNativePath();
         id = id.ToNativePath();
 
-        string path;
-
-        if (ModDir != null)
+        foreach (var dir in _modDirs)
         {
-            path = Path.Combine(ModDir.FullName, Path.Combine(type, id));
+            string path = Path.Combine(dir.FullName, Path.Combine(type, id));
             if (File.Exists(path)) return path;
         }
 
-        if (BaseDir != null)
+        foreach (var dir in _baseDirs)
         {
-            path = Path.Combine(BaseDir.FullName, Path.Combine(type, id));
+            string path = Path.Combine(dir.FullName, Path.Combine(type, id));
             if (File.Exists(path)) return path;
         }
 

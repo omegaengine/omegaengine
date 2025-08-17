@@ -10,8 +10,18 @@ The Virtual File System (VFS) combines multiple directory structures into a sing
 
 Search order:
 
-1. Files in the active [mod](#mods) directory, if any
-1. Files in the application's base directory
+1. Mod
+   - Directory specified via the `/mod` command-line argument  
+     (only if implemented by the game)
+   - Directories specified in the `OMEGAENGINE_CONTENT_MOD` environment variable  
+     (only if the `/mod` command-line argument was not used)
+2. Base
+   - Directory specified in game settings  
+     (only if implemented by the game)
+   - Directories specified in the `OMEGAENGINE_CONTENT` environment variable  
+     (only if not overriden by game settings)
+   - The `content` directory next to the game's executable  
+     (only if not overriden by the `OMEGAENGINE_CONTENT` environment variable or game settings)
 
 ### Base directory
 
