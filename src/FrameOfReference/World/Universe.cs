@@ -135,7 +135,7 @@ public sealed partial class Universe : UniverseBase<Vector2>
     /// <exception cref="KeyNotFoundException">Entity not found.</exception>
     public void MakePlayerControlled(string name)
     {
-        var entity = GetEntity(name) ?? throw new KeyNotFoundException("Entity not found: " + name);
+        var entity = GetEntity(name) ?? throw new KeyNotFoundException($"Entity not found: {name}");
 
         // Remove any recorded paths
         entity.Waypoints.RemoveAll(x => (x.ArrivalTimeSpecified ? x.ArrivalTime : x.ActivationTime) >= GameTime);

@@ -47,7 +47,7 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICo
     {
         string value = GetType().Name;
         if (!string.IsNullOrEmpty(Name))
-            value += ": " + Name;
+            value += $": {Name}";
         return value;
     }
 
@@ -81,7 +81,7 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICo
     /// <summary>
     /// The XML file <see cref="Template{TSelf}"/> instances are stored in.
     /// </summary>
-    public static string FileName => typeof(TSelf).Name + "s.xml";
+    public static string FileName => $"{typeof(TSelf).Name}s.xml";
 
     private static NamedCollection<TSelf>? _all;
 

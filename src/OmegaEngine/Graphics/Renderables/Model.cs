@@ -157,7 +157,7 @@ public partial class Model : PositionableRenderable
 
     protected void RenderSubset(int i, Camera camera, LightSource[] lights)
     {
-        using (new ProfilerEvent(() => "Subset " + i))
+        using (new ProfilerEvent(() => $"Subset {i}"))
         {
             // Load the subset-material (default to first one, if the subset has no own)
             XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];

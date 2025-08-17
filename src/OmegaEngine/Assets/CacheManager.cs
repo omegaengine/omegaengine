@@ -96,9 +96,9 @@ public sealed class CacheManager : IDisposable
         {
             asset.Dispose();
 
-            Log.Error("References were not properly released for " + asset);
+            Log.Error($"References were not properly released for {asset}");
 #if DEBUG
-            throw new InvalidOperationException("References were not properly released for " + asset);
+            throw new InvalidOperationException($"References were not properly released for {asset}");
 #endif
         }
 
@@ -109,9 +109,9 @@ public sealed class CacheManager : IDisposable
     ~CacheManager()
     {
         // This block will only be executed on Garbage Collection, not by manual disposal
-        Log.Error("Forgot to call Dispose on " + this);
+        Log.Error($"Forgot to call Dispose on {this}");
 #if DEBUG
-        throw new InvalidOperationException("Forgot to call Dispose on " + this);
+        throw new InvalidOperationException($"Forgot to call Dispose on {this}");
 #endif
     }
     #endregion

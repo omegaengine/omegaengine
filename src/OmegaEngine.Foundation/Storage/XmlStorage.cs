@@ -76,8 +76,8 @@ public static class XmlStorage
         #endregion
 
         var serializer = new XmlSerializer(type, overrides);
-        serializer.UnknownAttribute += (_, e) => Log.Warn("Ignored XML attribute while deserializing: " + e.Attr.Name + "=" + e.Attr.Value);
-        serializer.UnknownElement += (_, e) => Log.Warn("Ignored XML element while deserializing: " + e.Element.Name);
+        serializer.UnknownAttribute += (_, e) => Log.Warn($"Ignored XML attribute while deserializing: {e.Attr.Name}={e.Attr.Value}");
+        serializer.UnknownElement += (_, e) => Log.Warn($"Ignored XML element while deserializing: {e.Element.Name}");
         return serializer;
     }
 
@@ -202,7 +202,7 @@ public static class XmlStorage
 
         // Add stylesheet processor instruction
         if (!string.IsNullOrEmpty(stylesheet))
-            xmlWriter.WriteProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"" + stylesheet + "\"");
+            xmlWriter.WriteProcessingInstruction("xml-stylesheet", $"type=\"text/xsl\" href=\"{stylesheet}\"");
 
         var qualifiedNames = GetQualifiedNames(type);
         if (qualifiedNames.Length == 0) serializer.Serialize(xmlWriter, data);

@@ -117,9 +117,9 @@ public class DropdownList : ButtonBase
         // Setup event hooks
         SetupMouseEvents();
         if (!string.IsNullOrEmpty(OnClick))
-            _dropdownList.Click += delegate { Parent.RaiseEvent(OnClick, Name + "_Click"); };
+            _dropdownList.Click += delegate { Parent.RaiseEvent(OnClick, $"{Name}_Click"); };
         if (!string.IsNullOrEmpty(OnChanged))
-            _dropdownList.Changed += delegate { Parent.RaiseEvent(OnChanged, Name + "_Changed"); };
+            _dropdownList.Changed += delegate { Parent.RaiseEvent(OnChanged, $"{Name}_Changed"); };
     }
 
     private void LoadItems()

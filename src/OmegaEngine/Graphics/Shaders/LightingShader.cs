@@ -70,7 +70,7 @@ public abstract class LightingShader : SurfaceShader
                     if (i == 0 && dirLight.Diffuse == Color.Black && dirLight.Specular == Color.Black)
                     {
                         #region Ambient light
-                        using (new ProfilerEvent(() => "Setup light " + i + " as ambient"))
+                        using (new ProfilerEvent(() => $"Setup light {i} as ambient"))
                             SetupLight(dirLight, 0, material);
                         pass = ShaderPasses.AmbientLight;
                         #endregion
@@ -78,7 +78,7 @@ public abstract class LightingShader : SurfaceShader
                     else
                     {
                         #region Directional lights
-                        using (new ProfilerEvent(() => "Setup light " + i + " as directional"))
+                        using (new ProfilerEvent(() => $"Setup light {i} as directional"))
                             SetupLight(dirLight, 0, material);
                         pass = (i == 0) ? ShaderPasses.OneDirLight : ShaderPasses.OneDirLightAdd;
 
@@ -87,7 +87,7 @@ public abstract class LightingShader : SurfaceShader
                         {
                             if (lights[i + 1] is DirectionalLight nextDirLight)
                             {
-                                using (new ProfilerEvent(() => "Setup light " + i + 1 + " as directional")) SetupLight(nextDirLight, 1, material);
+                                using (new ProfilerEvent(() => $"Setup light {i}{1} as directional")) SetupLight(nextDirLight, 1, material);
                                 pass = (i == 0) ? ShaderPasses.TwoDirLights : ShaderPasses.TwoDirLightsAdd;
 
                                 // Handled two lights at once, so bump up counter
@@ -102,7 +102,7 @@ public abstract class LightingShader : SurfaceShader
                     if (lights[i] is PointLight pointLight)
                     {
                         #region Point lights
-                        using (new ProfilerEvent(() => "Setup light " + i + " as point"))
+                        using (new ProfilerEvent(() => $"Setup light {i} as point"))
                             SetupLight(pointLight, 0, material);
                         pass = (i == 0) ? ShaderPasses.OnePointLight : ShaderPasses.OnePointLightAdd;
                         #endregion
@@ -113,7 +113,7 @@ public abstract class LightingShader : SurfaceShader
                 if (pass == ShaderPasses.None) continue;
 
                 #region Render pass
-                using (new ProfilerEvent(() => "Pass " + pass))
+                using (new ProfilerEvent(() => $"Pass {pass}"))
                 {
                     Effect.BeginPass((int)pass);
                     render();

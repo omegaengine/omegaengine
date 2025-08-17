@@ -196,7 +196,7 @@ public abstract class Tab : UserControl
         Dispose();
         TabClosed?.Invoke(this, EventArgs.Empty);
 
-        Log.Info("Tab closed: " + FilePath);
+        Log.Info($"Tab closed: {FilePath}");
     }
     #endregion
 
@@ -240,25 +240,25 @@ public abstract class Tab : UserControl
             }
             catch (FileNotFoundException ex)
             {
-                Msg.Inform(this, Resources.FileNotFound + "\n" + ex.FileName, MsgSeverity.Error);
+                Msg.Inform(this, $"{Resources.FileNotFound}\n{ex.FileName}", MsgSeverity.Error);
                 OnClose();
                 throw new OperationCanceledException();
             }
             catch (IOException ex)
             {
-                Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Error);
+                Msg.Inform(this, $"{Resources.FileNotLoadable}\n{ex.Message}", MsgSeverity.Error);
                 OnClose();
                 throw new OperationCanceledException();
             }
             catch (UnauthorizedAccessException ex)
             {
-                Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Error);
+                Msg.Inform(this, $"{Resources.FileNotLoadable}\n{ex.Message}", MsgSeverity.Error);
                 OnClose();
                 throw new OperationCanceledException();
             }
             catch (InvalidDataException ex)
             {
-                Msg.Inform(this, Resources.FileDamaged + "\n" + ex.Message + (ex.InnerException == null ? "" : "\n" + ex.InnerException.Message), MsgSeverity.Error);
+                Msg.Inform(this, $"{Resources.FileDamaged}\n{ex.Message}{(ex.InnerException == null ? "" : $"\n{ex.InnerException.Message}")}", MsgSeverity.Error);
                 OnClose();
                 throw new OperationCanceledException();
             }
@@ -303,32 +303,32 @@ public abstract class Tab : UserControl
         }
         catch (FileNotFoundException ex)
         {
-            Msg.Inform(this, Resources.FileNotFound + "\n" + ex.FileName, MsgSeverity.Error);
+            Msg.Inform(this, $"{Resources.FileNotFound}\n{ex.FileName}", MsgSeverity.Error);
             ForceClose();
             throw new OperationCanceledException();
         }
         catch (IOException ex)
         {
-            Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Error);
+            Msg.Inform(this, $"{Resources.FileNotLoadable}\n{ex.Message}", MsgSeverity.Error);
             ForceClose();
             throw new OperationCanceledException();
         }
         catch (UnauthorizedAccessException ex)
         {
-            Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Error);
+            Msg.Inform(this, $"{Resources.FileNotLoadable}\n{ex.Message}", MsgSeverity.Error);
             ForceClose();
             throw new OperationCanceledException();
         }
         catch (InvalidDataException ex)
         {
-            Msg.Inform(this, Resources.FileDamaged + "\n" + ex.Message + (ex.InnerException == null ? "" : "\n" + ex.InnerException.Message), MsgSeverity.Error);
+            Msg.Inform(this, $"{Resources.FileDamaged}\n{ex.Message}{(ex.InnerException == null ? "" : $"\n{ex.InnerException.Message}")}", MsgSeverity.Error);
             ForceClose();
             throw new OperationCanceledException();
         }
         #endregion
 
         // Replace the "Loading" message with the actual title
-        Text = NameUI + @": " + Path.GetFileName(FilePath);
+        Text = $@"{NameUI}: {Path.GetFileName(FilePath)}";
 
         _startupDone = true;
     }
@@ -416,12 +416,12 @@ public abstract class Tab : UserControl
         }
         catch (IOException ex)
         {
-            Msg.Inform(this, Resources.FileNotSavable + "\n" + ex.Message, MsgSeverity.Warn);
+            Msg.Inform(this, $"{Resources.FileNotSavable}\n{ex.Message}", MsgSeverity.Warn);
             return false;
         }
         catch (UnauthorizedAccessException ex)
         {
-            Msg.Inform(this, Resources.FileNotSavable + "\n" + ex.Message, MsgSeverity.Warn);
+            Msg.Inform(this, $"{Resources.FileNotSavable}\n{ex.Message}", MsgSeverity.Warn);
             return false;
         }
         #endregion

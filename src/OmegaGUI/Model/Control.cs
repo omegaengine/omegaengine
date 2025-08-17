@@ -101,7 +101,7 @@ public abstract class Control : ICloneable
     {
         string value = GetType().Name;
         if (!string.IsNullOrEmpty(Name))
-            value += ": " + Name;
+            value += $": {Name}";
         return value;
     }
     #endregion
@@ -257,10 +257,10 @@ public abstract class Control : ICloneable
     protected void SetupMouseEvents()
     {
         if (!string.IsNullOrEmpty(OnMouseEnter))
-            DXControl.MouseEnter += delegate { Parent.RaiseEvent(OnMouseEnter, Name + "_MouseEnter"); };
+            DXControl.MouseEnter += delegate { Parent.RaiseEvent(OnMouseEnter, $"{Name}_MouseEnter"); };
 
         if (!string.IsNullOrEmpty(OnMouseExit))
-            DXControl.MouseExit += delegate { Parent.RaiseEvent(OnMouseExit, Name + "_MousExit"); };
+            DXControl.MouseExit += delegate { Parent.RaiseEvent(OnMouseExit, $"{Name}_MousExit"); };
     }
     #endregion
 

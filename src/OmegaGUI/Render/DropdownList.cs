@@ -428,7 +428,7 @@ public class DropdownList : Button
 
         if (isComboOpen)
         {
-            using (new ProfilerEvent(() => "Render GUI control: " + scrollbarControl))
+            using (new ProfilerEvent(() => $"Render GUI control: {scrollbarControl}"))
                 scrollbarControl.Render(device, elapsedTime);
         }
 

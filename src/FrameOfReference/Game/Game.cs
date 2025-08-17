@@ -101,7 +101,7 @@ public partial class Game : GameBase
             catch (IOException ex)
             {
                 // Only log, don't warn user when auto-save fails
-                Log.Warn("Failed to save game session to user profile: " + ex.Message);
+                Log.Warn($"Failed to save game session to user profile: {ex.Message}");
             }
         }
     }
@@ -167,7 +167,7 @@ public partial class Game : GameBase
     [LuaGlobal(Description = "Loads and displays a new dialog.")]
     public DialogRenderer LoadDialog(string name)
     {
-        var dialogRenderer = new DialogRenderer(GuiManager, name + ".xml", location: new(25, 25), lua: NewLua());
+        var dialogRenderer = new DialogRenderer(GuiManager, $"{name}.xml", location: new(25, 25), lua: NewLua());
         dialogRenderer.Show();
         Engine.Render(0);
         return dialogRenderer;
@@ -181,7 +181,7 @@ public partial class Game : GameBase
     [LuaGlobal(Description = "Loads and displays a new modal (exclusivly focused) dialog.")]
     public DialogRenderer LoadModalDialog(string name)
     {
-        var dialogRenderer = new DialogRenderer(GuiManager, name + ".xml", location: new(25, 25), lua: NewLua());
+        var dialogRenderer = new DialogRenderer(GuiManager, $"{name}.xml", location: new(25, 25), lua: NewLua());
         dialogRenderer.ShowModal();
         Engine.Render(0);
         return dialogRenderer;

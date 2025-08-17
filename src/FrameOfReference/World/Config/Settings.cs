@@ -67,22 +67,22 @@ public sealed class Settings
             if (File.Exists(settingsPath))
             {
                 _current = XmlStorage.LoadXml<Settings>(settingsPath);
-                Log.Info("Loaded settings from " + settingsPath);
+                Log.Info($"Loaded settings from {settingsPath}");
                 return _current;
             }
         }
         #region Error handling
         catch (IOException ex)
         {
-            Log.Warn("Failed to load settings: " + ex.Message + "\nReverting to defaults");
+            Log.Warn($"Failed to load settings: {ex.Message}\nReverting to defaults");
         }
         catch (UnauthorizedAccessException ex)
         {
-            Log.Warn("Insufficient rights to load settings: " + ex.Message + "\nReverting to defaults");
+            Log.Warn($"Insufficient rights to load settings: {ex.Message}\nReverting to defaults");
         }
         catch (InvalidDataException ex)
         {
-            Log.Warn("Settings file damaged: " + ex.Message + "\nReverting to defaults");
+            Log.Warn($"Settings file damaged: {ex.Message}\nReverting to defaults");
         }
         #endregion
 
@@ -105,16 +105,16 @@ public sealed class Settings
         {
             string settingsPath = Locations.GetSaveConfigPath(GeneralSettings.AppName, true, "Settings.xml");
             _current.SaveXml(settingsPath);
-            Log.Info("Saved settings to " + settingsPath);
+            Log.Info($"Saved settings to {settingsPath}");
         }
         #region Error handling
         catch (IOException ex)
         {
-            Log.Warn("Failed to save settings: " + ex.Message);
+            Log.Warn($"Failed to save settings: {ex.Message}");
         }
         catch (UnauthorizedAccessException ex)
         {
-            Log.Warn("Insufficient rights to save settings: " + ex.Message);
+            Log.Warn($"Insufficient rights to save settings: {ex.Message}");
         }
         #endregion
     }

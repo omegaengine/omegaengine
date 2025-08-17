@@ -52,19 +52,19 @@ public partial class LanguageEditor : UndoCloneTab<XmlDictionary>
             _fullPath = FilePath;
             if (!_overwrite && File.Exists(_fullPath))
             { // Load existing file
-                Log.Info("Load file: " + _fullPath);
+                Log.Info($"Load file: {_fullPath}");
                 Content = LocaleFile.Load(_fullPath);
             }
             else
             { // Create new file
-                Log.Info("Create file: " + _fullPath);
+                Log.Info($"Create file: {_fullPath}");
                 Content = new() {{"Test", "A"}};
                 LocaleFile.Save(_fullPath, Content);
             }
         }
         else
         { // File name only? Might not save to same dir loaded from!
-            Log.Info("Load file: " + FilePath);
+            Log.Info($"Load file: {FilePath}");
             Content = LocaleFile.FromContent(FilePath);
             _fullPath = ContentManager.CreateFilePath("GUI/Language", FilePath);
         }
@@ -80,7 +80,7 @@ public partial class LanguageEditor : UndoCloneTab<XmlDictionary>
         Content.Sort();
         // OnUpdate() will automatically be called
 
-        Log.Info("Save file: " + _fullPath);
+        Log.Info($"Save file: {_fullPath}");
         string directory = Path.GetDirectoryName(_fullPath);
         if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
         LocaleFile.Save(_fullPath, Content);

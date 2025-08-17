@@ -83,11 +83,6 @@ public struct PositionNormalColored
     #endregion
 
     #region ToString
-    public override string ToString()
-    {
-        return "PositionNormalColored(position=" + Position + ", " +
-               "normal=" + Normal + ", " +
-               "color=" + Color + ")";
-    }
+    public override string ToString() => $"PositionNormalColored(position={Position}, normal={Normal}, color={Color})";
     #endregion
 }

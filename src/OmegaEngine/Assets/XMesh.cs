@@ -119,7 +119,7 @@ public class XMesh : Asset
                         string fileExt = Path.GetExtension(textureFilename);
 
                         // Normal map
-                        string normalFilename = baseFilename + "_normal" + fileExt;
+                        string normalFilename = $"{baseFilename}_normal{fileExt}";
                         if (ContentManager.FileExists("Meshes", normalFilename))
                         {
                             Materials[i].NormalMap = XTexture.Get(engine, normalFilename, meshTexture: true);
@@ -127,7 +127,7 @@ public class XMesh : Asset
                         }
 
                         // Height map
-                        string heightFilename = baseFilename + "_height" + fileExt;
+                        string heightFilename = $"{baseFilename}_height{fileExt}";
                         if (ContentManager.FileExists("Meshes", heightFilename))
                         {
                             Materials[i].HeightMap = XTexture.Get(engine, heightFilename, meshTexture: true);
@@ -135,12 +135,12 @@ public class XMesh : Asset
                         }
 
                         // Specular map
-                        string specularFilename = baseFilename + "_specular" + fileExt;
+                        string specularFilename = $"{baseFilename}_specular{fileExt}";
                         if (ContentManager.FileExists("Meshes", specularFilename))
                             Materials[i].SpecularMap = XTexture.Get(engine, specularFilename, meshTexture: true);
 
                         // Glow map (internally represented as emissive map)
-                        string glowFilename = baseFilename + "_glow" + fileExt;
+                        string glowFilename = $"{baseFilename}_glow{fileExt}";
                         if (ContentManager.FileExists("Meshes", glowFilename))
                         {
                             Materials[i].EmissiveMap = XTexture.Get(engine, glowFilename, meshTexture: true);
@@ -229,7 +229,7 @@ public class XMesh : Asset
         // Load from file if not in cache
         if (data == null)
         {
-            using (new TimedLogEvent("Loading mesh: " + id))
+            using (new TimedLogEvent($"Loading mesh: {id}"))
             using (var stream = ContentManager.GetFileStream(type, id))
                 data = new(engine, stream, id) {Name = fullID};
             engine.Cache.AddAsset(data);
@@ -314,7 +314,7 @@ public class XMesh : Asset
         {
             if (disposing)
             { // This block will only be executed on manual disposal, not by Garbage Collection
-                Log.Info("Disposing " + this);
+                Log.Info($"Disposing {this}");
                 Mesh?.Dispose();
             }
         }

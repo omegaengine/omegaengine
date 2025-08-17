@@ -203,19 +203,19 @@ public partial class EntityEditor : EntityEditorDesignerShim
             }
             catch (FileNotFoundException ex)
             {
-                Msg.Inform(this, Resources.FileNotFound + "\n" + ex.FileName, MsgSeverity.Warn);
+                Msg.Inform(this, $"{Resources.FileNotFound}\n{ex.FileName}", MsgSeverity.Warn);
             }
             catch (IOException ex)
             {
-                Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Warn);
+                Msg.Inform(this, $"{Resources.FileNotLoadable}\n{ex.Message}", MsgSeverity.Warn);
             }
             catch (UnauthorizedAccessException ex)
             {
-                Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Warn);
+                Msg.Inform(this, $"{Resources.FileNotLoadable}\n{ex.Message}", MsgSeverity.Warn);
             }
             catch (InvalidDataException ex)
             {
-                Msg.Inform(this, Resources.FileDamaged + "\n" + ex.Message + (ex.InnerException == null ? "" : "\n" + ex.InnerException.Message), MsgSeverity.Error);
+                Msg.Inform(this, $"{Resources.FileDamaged}\n{ex.Message}{(ex.InnerException == null ? "" : $"\n{ex.InnerException.Message}")}", MsgSeverity.Error);
             }
             #endregion
 
@@ -315,7 +315,7 @@ public partial class EntityEditor : EntityEditorDesignerShim
                 if (comboRender.SelectedItem is not ParticleSystem particleSystem) return;
 
                 // Get a particle system preset file path
-                if (!FileSelectorDialog.TryGetPath("Graphics" + Path.DirectorySeparatorChar + particleSystem.GetType().Name, ".xml", out string path)) return;
+                if (!FileSelectorDialog.TryGetPath($"Graphics{Path.DirectorySeparatorChar}{particleSystem.GetType().Name}", ".xml", out string path)) return;
 
                 // Apply the new preset file
                 particleSystem.Filename = path;

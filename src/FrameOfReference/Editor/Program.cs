@@ -57,14 +57,14 @@ internal static class Program
     [STAThread]
     private static void Main(string[] args)
     {
-        WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameShort + ".AlphaEditor");
-        ModInfo.FileExt = "." + GeneralSettings.AppNameShort + "Mod";
+        WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{GeneralSettings.AppNameShort}.AlphaEditor");
+        ModInfo.FileExt = $".{GeneralSettings.AppNameShort}Mod";
 
         Application.EnableVisualStyles();
-        ErrorReportForm.SetupMonitoring(new Uri("https://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameShort));
+        ErrorReportForm.SetupMonitoring(new Uri($"https://omegaengine.de/error-report/?app={GeneralSettings.AppNameShort}"));
 
         // Allow setup to detect running instances
-        AppMutex.Create(GeneralSettings.AppName + " Editor");
+        AppMutex.Create($"{GeneralSettings.AppName} Editor");
 
         Args = new(args);
 
@@ -156,12 +156,12 @@ internal static class Program
         string param = "";
 
         // Make sure the current mod is loaded
-        if (ContentManager.ModDir != null) param += " /mod " + "\"" + ContentManager.ModDir.FullName.TrimEnd(Path.DirectorySeparatorChar) + "\"";
+        if (ContentManager.ModDir != null) param += $" /mod \"{ContentManager.ModDir.FullName.TrimEnd(Path.DirectorySeparatorChar)}\"";
 
         // Add additional arguments
-        if (!string.IsNullOrEmpty(arguments)) param += " " + arguments;
+        if (!string.IsNullOrEmpty(arguments)) param += $" {arguments}";
 
         // Launch the game
-        Process.Start(new ProcessStartInfo(Path.Combine(Locations.InstallBase, GeneralSettings.AppNameShort + ".exe"), param));
+        Process.Start(new ProcessStartInfo(Path.Combine(Locations.InstallBase, $"{GeneralSettings.AppNameShort}.exe"), param));
     }
 }

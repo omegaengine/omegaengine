@@ -65,19 +65,19 @@ public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T
             _fullPath = FilePath;
             if (!_overwrite && File.Exists(_fullPath))
             { // Load existing file
-                Log.Info("Load file: " + _fullPath);
+                Log.Info($"Load file: {_fullPath}");
                 Content = XmlStorage.LoadXml<NamedCollection<T>>(_fullPath);
             }
             else
             { // Create new file
-                Log.Info("Create file: " + _fullPath);
+                Log.Info($"Create file: {_fullPath}");
                 Content = [];
                 Content.SaveXml(_fullPath);
             }
         }
         else
         { // File name only? Might not save to same dir loaded from!
-            Log.Info("Load file: " + FilePath);
+            Log.Info($"Load file: {FilePath}");
             _fullPath = ContentManager.CreateFilePath("World", FilePath);
             if (ContentManager.FileExists("World", FilePath))
             { // Load existing file, might be from an Archive and not fullPath
@@ -87,7 +87,7 @@ public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T
             }
             else
             { // Create new file
-                Log.Info("Create file: " + _fullPath);
+                Log.Info($"Create file: {_fullPath}");
                 Content = [];
                 Content.SaveXml(_fullPath);
             }
@@ -104,7 +104,7 @@ public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T
     /// </summary>
     protected override void OnSaveFile()
     {
-        Log.Info("Save file: " + _fullPath);
+        Log.Info($"Save file: {_fullPath}");
         string directory = Path.GetDirectoryName(_fullPath);
         if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
         Content.SaveXml(_fullPath);
@@ -210,7 +210,7 @@ public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T
 
     private void buttonCopy_Click(object sender, EventArgs e)
     {
-        string newName = InputBox.Show(this, "Template name", Resources.EnterTemplateName, TemplateList.SelectedEntry.Name + " 2");
+        string newName = InputBox.Show(this, "Template name", Resources.EnterTemplateName, $"{TemplateList.SelectedEntry.Name} 2");
         if (string.IsNullOrEmpty(newName)) return;
 
         #region Error handling

@@ -30,7 +30,7 @@ public class TestSphere : Render
     {
         string value = base.ToString();
         if (!string.IsNullOrEmpty(Texture))
-            value += ": " + Texture;
+            value += $": {Texture}";
         return value;
     }
 

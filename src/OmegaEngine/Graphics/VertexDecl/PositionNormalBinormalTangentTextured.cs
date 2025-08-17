@@ -93,14 +93,7 @@ public struct PositionNormalBinormalTangentTextured
     #endregion
 
     #region ToString
-    public override string ToString()
-    {
-        return "PositionNormalTangentTextured(position=" + Position + ", " +
-               "normal=" + Normal + ", " +
-               "tu=" + Tu + ", " + "tv=" + Tv +
-               "binormal=" + Binormal + ", " +
-               "tangent=" + Tangent + ", " + ")";
-    }
+    public override string ToString() => $"PositionNormalTangentTextured(position={Position}, normal={Normal}, tu={Tu}, tv={Tv}binormal={Binormal}, tangent={Tangent}, )";
     #endregion
 
     //--------------------//

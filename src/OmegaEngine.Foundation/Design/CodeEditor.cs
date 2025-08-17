@@ -50,7 +50,7 @@ public class CodeEditor : UITypeEditor
 
         if (context.PropertyDescriptor?.Attributes.OfType<FileTypeAttribute>().FirstOrDefault() is {} fileType)
         {
-            form.Text = fileType.FileType + " Editor";
+            form.Text = $"{fileType.FileType} Editor";
             editorControl.SyntaxHighlighting = fileType.FileType;
             editorControl.FoldingStrategy = fileType.FileType;
         }

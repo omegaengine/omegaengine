@@ -193,7 +193,7 @@ public static class ContentManager
     private static void AddDirectoryToList(NamedCollection<FileEntry> files, string type, string extension, DirectoryInfo directory, string prefix, bool flagAsMod)
     {
         // Add the files in this directory to the list
-        foreach (var file in directory.GetFiles("*" + extension))
+        foreach (var file in directory.GetFiles($"*{extension}"))
             AddFileToList(files, type, prefix + file.Name, flagAsMod);
 
         // Recursively call this method for all sub-directories

@@ -422,7 +422,7 @@ partial class Engine
 
         #region Reset
         Log.Info("Resetting Direct3D device");
-        Log.Info("Presentation parameters:\n" + PresentParams);
+        Log.Info($"Presentation parameters:\n{PresentParams}");
         Device.Reset(PresentParams);
 
         // Setup the default values for the Direct3D device and restore resources

@@ -94,7 +94,7 @@ public class XAnimatedMesh : XMesh
         // Load from file if not in cache
         if (data == null)
         {
-            using (new TimedLogEvent("Loading animated mesh: " + id))
+            using (new TimedLogEvent($"Loading animated mesh: {id}"))
             using (var stream = ContentManager.GetFileStream(type, id))
                 data = new(engine, stream, id) {Name = fullID};
             engine.Cache.AddAsset(data);
@@ -113,7 +113,7 @@ public class XAnimatedMesh : XMesh
         {
             if (disposing)
             { // This block will only be executed on manual disposal, not by Garbage Collection
-                Log.Info("Disposing " + this);
+                Log.Info($"Disposing {this}");
             }
         }
         finally

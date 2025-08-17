@@ -165,19 +165,19 @@ public partial class MapEditor : UndoCommandTab
             _fullPath = FilePath;
             if (!_overwrite && File.Exists(_fullPath))
             { // Load existing file
-                Log.Info("Load file: " + _fullPath);
+                Log.Info($"Load file: {_fullPath}");
                 _universe = Universe.Load(_fullPath);
             }
             else
             { // Create new file
-                Log.Info("Create file: " + _fullPath);
+                Log.Info($"Create file: {_fullPath}");
                 _universe = new(new(TerrainSizeDialog.Create()));
                 _universe.Save(_fullPath);
             }
         }
         else
         { // File name only? Might not save to same dir loaded from!
-            Log.Info("Load file: " + FilePath);
+            Log.Info($"Load file: {FilePath}");
             try
             {
                 _universe = Universe.FromContent(FilePath);
@@ -218,7 +218,7 @@ public partial class MapEditor : UndoCommandTab
             {}
         }
 
-        Log.Info("Save file: " + _fullPath);
+        Log.Info($"Save file: {_fullPath}");
         string directory = Path.GetDirectoryName(_fullPath);
         if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
         _universe.Save(_fullPath);
@@ -360,7 +360,7 @@ public partial class MapEditor : UndoCommandTab
         #region Pre-launch chekcs
         if (Changed)
         { // Pending changes
-            if (!Msg.OkCancel(this, Resources.TestInGameMap + "\n" + Resources.AutoSavePendingChanges, MsgSeverity.Warn, Resources.TestInGameContinueSave))
+            if (!Msg.OkCancel(this, $"{Resources.TestInGameMap}\n{Resources.AutoSavePendingChanges}", MsgSeverity.Warn, Resources.TestInGameContinueSave))
                 return;
 
             if (!SaveFile()) return;
@@ -380,7 +380,7 @@ public partial class MapEditor : UndoCommandTab
 
         try
         {
-            Program.LaunchGame("/modify \"" + mapFile + "\"");
+            Program.LaunchGame($"/modify \"{mapFile}\"");
         }
         #region Error handling
         catch (Win32Exception)
@@ -467,7 +467,7 @@ public partial class MapEditor : UndoCommandTab
             (Entity entity) =>
             {
                 newTrigger.TargetEntity = entity.Name;
-                newTrigger.Name = entity.Name + "_";
+                newTrigger.Name = $"{entity.Name}_";
             },
             (Waypoint waypoint) =>
             {
@@ -493,7 +493,7 @@ public partial class MapEditor : UndoCommandTab
             (Entity entity) =>
             {
                 newWaypoint.TargetEntity = entity.Name;
-                newWaypoint.Name = entity.Name + "_";
+                newWaypoint.Name = $"{entity.Name}_";
             },
             (Waypoint waypoint) =>
             {
@@ -628,12 +628,12 @@ public partial class MapEditor : UndoCommandTab
         #region Error handling
         catch (IOException ex)
         {
-            Msg.Inform(this, Resources.FileNotSavable + "\n" + ex.Message, MsgSeverity.Warn);
+            Msg.Inform(this, $"{Resources.FileNotSavable}\n{ex.Message}", MsgSeverity.Warn);
             return;
         }
         catch (UnauthorizedAccessException ex)
         {
-            Msg.Inform(this, Resources.FileNotSavable + "\n" + ex.Message, MsgSeverity.Warn);
+            Msg.Inform(this, $"{Resources.FileNotSavable}\n{ex.Message}", MsgSeverity.Warn);
             return;
         }
         #endregion
@@ -665,12 +665,12 @@ public partial class MapEditor : UndoCommandTab
         #region Error handling
         catch (IOException ex)
         {
-            Msg.Inform(this, Resources.FileNotSavable + "\n" + ex.Message, MsgSeverity.Warn);
+            Msg.Inform(this, $"{Resources.FileNotSavable}\n{ex.Message}", MsgSeverity.Warn);
             return;
         }
         catch (UnauthorizedAccessException ex)
         {
-            Msg.Inform(this, Resources.FileNotSavable + "\n" + ex.Message, MsgSeverity.Warn);
+            Msg.Inform(this, $"{Resources.FileNotSavable}\n{ex.Message}", MsgSeverity.Warn);
             return;
         }
         #endregion
@@ -846,8 +846,7 @@ public partial class MapEditor : UndoCommandTab
     {
         for (int i = 0; i < _textureRadios.Length; i++)
         {
-            _textureRadios[i].Text = (i < 10 ? @"&" : "") + i + @" " +
-                                     ((_universe.Terrain.Templates[i] == null) ? "(empty)" : _universe.Terrain.Templates[i].Name);
+            _textureRadios[i].Text = $@"{(i < 10 ? @"&" : "")}{i} {((_universe.Terrain.Templates[i] == null) ? "(empty)" : _universe.Terrain.Templates[i].Name)}";
         }
     }
 

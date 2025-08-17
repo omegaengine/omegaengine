@@ -79,14 +79,14 @@ public partial class FileSelectorDialog : Form
         #region Error handling
         catch (IOException ex)
         {
-            Msg.Inform(selector, Resources.InvalidDirectoryPath + "\n" + ex.Message, MsgSeverity.Warn);
+            Msg.Inform(selector, $"{Resources.InvalidDirectoryPath}\n{ex.Message}", MsgSeverity.Warn);
             path = null;
             overwrite = false;
             return false;
         }
         catch (UnauthorizedAccessException ex)
         {
-            Msg.Inform(selector, Resources.InvalidDirectoryPath + "\n" + ex.Message, MsgSeverity.Warn);
+            Msg.Inform(selector, $"{Resources.InvalidDirectoryPath}\n{ex.Message}", MsgSeverity.Warn);
             path = null;
             overwrite = false;
             return false;

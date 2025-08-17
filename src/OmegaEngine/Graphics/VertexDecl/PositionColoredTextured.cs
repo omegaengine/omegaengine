@@ -61,11 +61,6 @@ public struct PositionColoredTextured
     #endregion
 
     #region ToString
-    public override string ToString()
-    {
-        return "PositionColoredTextured(position=" + Position + ", " +
-               "color=" + Color + ", " +
-               "tu=" + Tu + ", " + "tv=" + Tv + ")";
-    }
+    public override string ToString() => $"PositionColoredTextured(position={Position}, color={Color}, tu={Tu}, tv={Tv})";
     #endregion
 }

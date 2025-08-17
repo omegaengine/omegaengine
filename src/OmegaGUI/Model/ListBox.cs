@@ -140,9 +140,9 @@ public class ListBox : Control
         // Setup event hooks
         SetupMouseEvents();
         if (!string.IsNullOrEmpty(OnSelection))
-            _listBox.Selection += delegate { Parent.RaiseEvent(OnSelection, Name + "_Selection"); };
+            _listBox.Selection += delegate { Parent.RaiseEvent(OnSelection, $"{Name}_Selection"); };
         if (!string.IsNullOrEmpty(OnDoubleClick))
-            _listBox.DoubleClick += delegate { Parent.RaiseEvent(OnDoubleClick, Name + "_DoubleClick"); };
+            _listBox.DoubleClick += delegate { Parent.RaiseEvent(OnDoubleClick, $"{Name}_DoubleClick"); };
     }
 
     private void LoadItems()

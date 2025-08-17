@@ -42,7 +42,7 @@ public partial class MainFormBase : Form, IToastProvider
             { // Show a "Loading..." dialog in a separate thread
                 if (value)
                 {
-                    _waitDialog = new("AlphEditor - " + Resources.Loading, Icon);
+                    _waitDialog = new($"AlphEditor - {Resources.Loading}", Icon);
                     _waitDialog.Start();
                 }
                 else
@@ -81,7 +81,7 @@ public partial class MainFormBase : Form, IToastProvider
             Text += " - Main game";
         else
         {
-            Text += " - Mod: " + ModInfo.Current.Name;
+            Text += $" - Mod: {ModInfo.Current.Name}";
             menuFileModProperties.Enabled = menuFilePackageMod.Enabled = true;
         }
     }
@@ -98,8 +98,8 @@ public partial class MainFormBase : Form, IToastProvider
         tab.Dock = DockStyle.Fill;
 
         // Create a new button for the tab in the TabStrip
-        var tabButton = (ToolStripButton)tabStrip.Items.Add(Resources.Loading + @"     ");
-        tab.TextChanged += delegate { tabButton.Text = tab.Text + @"   "; };
+        var tabButton = (ToolStripButton)tabStrip.Items.Add($@"{Resources.Loading}     ");
+        tab.TextChanged += delegate { tabButton.Text = $@"{tab.Text}   "; };
         tabButton.BackColor = Color.DarkGray;
         tabButton.Click += delegate { ShowTab(tab); };
 

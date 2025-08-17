@@ -84,7 +84,7 @@ public static class DynamicShader
     #region Code helpers
     private static string HandleCounters(string source, IEnumerable<Counter> counters, int run)
     {
-        return counters.Aggregate(source, (current, counter) => current.Replace("{" + counter.ID + "}", counter.GetValue(run)));
+        return counters.Aggregate(source, (current, counter) => current.Replace($"{{{counter.ID}}}", counter.GetValue(run)));
     }
     #endregion
 
@@ -126,7 +126,7 @@ public static class DynamicShader
                 if (!string.IsNullOrEmpty(xmlData))
                 {
                     var xmlDoc = new XmlDocument();
-                    xmlDoc.LoadXml("<Data>" + xmlData + "</Data>");
+                    xmlDoc.LoadXml($"<Data>{xmlData}</Data>");
 
                     var counters = new LinkedList<Counter>();
                     XmlElement element = xmlDoc["Data"];

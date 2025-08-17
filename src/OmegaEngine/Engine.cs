@@ -222,7 +222,7 @@ public sealed partial class Engine : EngineElement
     #region Dispose
     protected override void OnDispose()
     {
-        Log.Info("Disposing engine\nLast framerate: " + Performance.Fps);
+        Log.Info($"Disposing engine\nLast framerate: {Performance.Fps}");
 
         // Dispose scenes and views
         ExtraRender = null;

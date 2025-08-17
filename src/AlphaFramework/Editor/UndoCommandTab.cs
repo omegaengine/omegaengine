@@ -61,19 +61,19 @@ public class UndoCommandTab : UndoTab<IUndoCommand>
         #region Error handling
         catch (FileNotFoundException ex)
         {
-            Msg.Inform(this, Resources.FileNotFound + "\n" + ex.FileName, MsgSeverity.Warn);
+            Msg.Inform(this, $"{Resources.FileNotFound}\n{ex.FileName}", MsgSeverity.Warn);
         }
         catch (IOException ex)
         {
-            Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Warn);
+            Msg.Inform(this, $"{Resources.FileNotLoadable}\n{ex.Message}", MsgSeverity.Warn);
         }
         catch (UnauthorizedAccessException ex)
         {
-            Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Warn);
+            Msg.Inform(this, $"{Resources.FileNotLoadable}\n{ex.Message}", MsgSeverity.Warn);
         }
         catch (InvalidDataException ex)
         {
-            Msg.Inform(this, Resources.FileDamaged + "\n" + ex.Message + (ex.InnerException == null ? "" : "\n" + ex.InnerException.Message), MsgSeverity.Error);
+            Msg.Inform(this, $"{Resources.FileDamaged}\n{ex.Message}{(ex.InnerException == null ? "" : $"\n{ex.InnerException.Message}")}", MsgSeverity.Error);
         }
         #endregion
     }

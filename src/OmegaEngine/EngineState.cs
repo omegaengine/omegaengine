@@ -257,7 +257,7 @@ public sealed class EngineState
 
                     default:
                         value = value.Clamp(Opaque, Invisible);
-                        using (new ProfilerEvent(() => "Alpha blending to constant: " + value))
+                        using (new ProfilerEvent(() => $"Alpha blending to constant: {value}"))
                         {
                             // Blend using constant factor
                             _device.SetRenderState(RenderState.AlphaBlendEnable, true);

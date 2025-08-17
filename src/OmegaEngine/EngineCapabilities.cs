@@ -153,13 +153,7 @@ public sealed class EngineCapabilities
         #endregion
 
         // Log GPU capabilities
-        Log.Info("GPU capabilities:\n" +
-                 "HW Transform And Light: " + _capabilities.DeviceCaps.HasFlag(DeviceCaps.HWTransformAndLight) + "\n" +
-                 "Pure Device: " + _capabilities.DeviceCaps.HasFlag(DeviceCaps.PureDevice) + "\n" +
-                 "Anisotropic: " + Anisotropic + "\n" +
-                 "Vertex Shader Version: " + _capabilities.VertexShaderVersion + "\n" +
-                 "Pixel Shader Version: " + MaxShaderModel + "\n" +
-                 "Supported AA: " + SupportedAA + "\n");
+        Log.Info($"GPU capabilities:\nHW Transform And Light: {_capabilities.DeviceCaps.HasFlag(DeviceCaps.HWTransformAndLight)}\nPure Device: {_capabilities.DeviceCaps.HasFlag(DeviceCaps.PureDevice)}\nAnisotropic: {Anisotropic}\nVertex Shader Version: {_capabilities.VertexShaderVersion}\nPixel Shader Version: {MaxShaderModel}\nSupported AA: {SupportedAA}\n");
 
         // Ensure support for linear texture filtering
         if (!(_capabilities.TextureFilterCaps).HasFlag(FilterCaps.MinLinear | FilterCaps.MagLinear | FilterCaps.MipLinear))
@@ -309,7 +303,7 @@ public sealed class EngineCapabilities
             var result = new StringBuilder();
             for (byte i = 2; i <= 16; i += 2) // From 2 up to 16 in steps of 2
             {
-                if (CheckAA(i)) result.Append(i + ","); // Append supported levels to result string
+                if (CheckAA(i)) result.Append($"{i},"); // Append supported levels to result string
                 else break; // Stop as soon as a non-supported level is found
             }
 

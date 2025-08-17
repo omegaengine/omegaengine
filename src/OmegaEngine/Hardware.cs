@@ -43,14 +43,7 @@ public struct Hardware
     [XmlElement("gpu")]
     public HardwareGpu Gpu;
 
-    public override string ToString()
-    {
-        return "Hardware:\n" +
-               "OS: " + OS + "\n" +
-               "CPU: " + Cpu + "\n" +
-               "RAM: " + string.Format(CultureInfo.InvariantCulture, "{0} MB", Ram) + "\n" +
-               "GPU: " + Gpu;
-    }
+    public override string ToString() => $"Hardware:\nOS: {OS}\nCPU: {Cpu}\nRAM: {string.Format(CultureInfo.InvariantCulture, "{0} MB", Ram)}\nGPU: {Gpu}";
 }
 
 /// <seealso cref="Hardware.Cpu"/>
@@ -86,10 +79,7 @@ public struct HardwareCpu
     [XmlAttribute("logical")]
     public int Logical;
 
-    public override string ToString()
-    {
-        return Name + " (" + Cores + "x" + Speed + "MHz, " + Logical + " logical threads)";
-    }
+    public override string ToString() => $"{Name} ({Cores}x{Speed}MHz, {Logical} logical threads)";
 }
 
 /// <seealso cref="Hardware.Ram"/>
@@ -101,10 +91,7 @@ public struct HardwareRam
     [XmlAttribute("size")]
     public int Size;
 
-    public override string ToString()
-    {
-        return Size.ToString(CultureInfo.InvariantCulture);
-    }
+    public override string ToString() => Size.ToString(CultureInfo.InvariantCulture);
 }
 
 /// <seealso cref="Hardware.Gpu"/>
@@ -134,8 +121,5 @@ public struct HardwareGpu
     [XmlAttribute("max-aa")]
     public byte MaxAA;
 
-    public override string ToString()
-    {
-        return Name + " (" + Ram + "MB RAM, " + MaxAA + "x AA)";
-    }
+    public override string ToString() => $"{Name} ({Ram}MB RAM, {MaxAA}x AA)";
 }

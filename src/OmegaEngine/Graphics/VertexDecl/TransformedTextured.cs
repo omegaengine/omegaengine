@@ -91,10 +91,6 @@ public struct TransformedTextured
     #endregion
 
     #region ToString
-    public override string ToString()
-    {
-        return "TransformedTextured(position=" + Position + ", rhw=" + Rhw + ", " +
-               "tu=" + Tu + ", " + "tv=" + Tv + ")";
-    }
+    public override string ToString() => $"TransformedTextured(position={Position}, rhw={Rhw}, tu={Tu}, tv={Tv})";
     #endregion
 }

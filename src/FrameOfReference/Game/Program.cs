@@ -53,10 +53,10 @@ internal static class Program
     [STAThread]
     private static void Main(string[] args)
     {
-        WindowsUtils.SetCurrentProcessAppID(Application.CompanyName + "." + GeneralSettings.AppNameShort);
+        WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{GeneralSettings.AppNameShort}");
 
         Application.EnableVisualStyles();
-        ErrorReportForm.SetupMonitoring(new Uri("https://omegaengine.de/error-report/?app=" + GeneralSettings.AppNameShort));
+        ErrorReportForm.SetupMonitoring(new Uri($"https://omegaengine.de/error-report/?app={GeneralSettings.AppNameShort}"));
 
 #if !DEBUG
             // Prevent multiple instances from running simultaneously
@@ -135,7 +135,7 @@ internal static class Program
             // Mod
             if (Args["mod"] is {} mod)
                 ContentManager.ModDir = new(Path.Combine(Path.Combine(Locations.InstallBase, "Mods"), mod));
-            if (ContentManager.ModDir != null) Log.Info("Load mod from: " + ContentManager.ModDir);
+            if (ContentManager.ModDir != null) Log.Info($"Load mod from: {ContentManager.ModDir}");
         }
         #region Error handling
         catch (ArgumentException ex)

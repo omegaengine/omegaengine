@@ -99,10 +99,10 @@ public sealed class LocaleFile
     {
         if (ContentManager.FileExists("GUI/Language", language + FileExt))
             return FromContent(language + FileExt);
-        if (ContentManager.FileExists("GUI/Language", "English" + FileExt))
-            return FromContent("English" + FileExt);
-        if (ContentManager.FileExists("GUI/Language", "German" + FileExt))
-            return FromContent("German" + FileExt);
+        if (ContentManager.FileExists("GUI/Language", $"English{FileExt}"))
+            return FromContent($"English{FileExt}");
+        if (ContentManager.FileExists("GUI/Language", $"German{FileExt}"))
+            return FromContent($"German{FileExt}");
         return [];
     }
 

@@ -130,7 +130,7 @@ public class Slider : Control
             _slider.Changed += delegate
             {
                 ControlValue = _slider.Value;
-                Parent.RaiseEvent(OnChanged, Name + "_Changed");
+                Parent.RaiseEvent(OnChanged, $"{Name}_Changed");
             };
         }
     }

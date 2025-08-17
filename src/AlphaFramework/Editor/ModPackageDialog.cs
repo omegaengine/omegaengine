@@ -25,7 +25,7 @@ public partial class ModPackageDialog : Form
     /// <summary>
     /// The file extensions when a mod is stored in a package
     /// </summary>
-    public static string FileExt => ModInfo.FileExt + "Package";
+    public static string FileExt => $"{ModInfo.FileExt}Package";
     #endregion
 
     #region Variables
@@ -135,20 +135,20 @@ public partial class ModPackageDialog : Form
             #region Error handling
             catch (ZipException ex)
             {
-                Msg.Inform(this, Resources.FileNotSavable + "\n" + "ZIP: " + ex.Message, MsgSeverity.Error);
+                Msg.Inform(this, $"{Resources.FileNotSavable}\nZIP: {ex.Message}", MsgSeverity.Error);
                 e.Cancel = true;
             }
             catch (IOException ex)
             {
                 if (ex.Source.StartsWith("ICSharpCode.SharpZipLib", StringComparison.Ordinal))
-                    Msg.Inform(this, Resources.FileNotSavable + "\n" + "ZIP: " + ex.Message, MsgSeverity.Error);
+                    Msg.Inform(this, $"{Resources.FileNotSavable}\nZIP: {ex.Message}", MsgSeverity.Error);
                 else
-                    Msg.Inform(this, Resources.FileNotSavable + "\n" + ex.Message, MsgSeverity.Error);
+                    Msg.Inform(this, $"{Resources.FileNotSavable}\n{ex.Message}", MsgSeverity.Error);
                 e.Cancel = true;
             }
             catch (UnauthorizedAccessException ex)
             {
-                Msg.Inform(this, Resources.FileNotSavable + "\n" + ex.Message, MsgSeverity.Error);
+                Msg.Inform(this, $"{Resources.FileNotSavable}\n{ex.Message}", MsgSeverity.Error);
                 e.Cancel = true;
             }
             #endregion
@@ -158,12 +158,12 @@ public partial class ModPackageDialog : Form
         #region Error handling
         catch (IOException ex)
         {
-            Msg.Inform(this, Resources.FileNotSavable + "\n" + ex.Message, MsgSeverity.Warn);
+            Msg.Inform(this, $"{Resources.FileNotSavable}\n{ex.Message}", MsgSeverity.Warn);
             e.Cancel = true;
         }
         catch (UnauthorizedAccessException ex)
         {
-            Msg.Inform(this, Resources.FileNotSavable + "\n" + ex.Message, MsgSeverity.Warn);
+            Msg.Inform(this, $"{Resources.FileNotSavable}\n{ex.Message}", MsgSeverity.Warn);
             e.Cancel = true;
         }
         #endregion

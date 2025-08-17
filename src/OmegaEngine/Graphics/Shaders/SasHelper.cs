@@ -229,7 +229,7 @@ internal static class SasHelper
             case ParameterType.Float:
                 return (int)effect.GetValue<float>(handle);
             default:
-                Log.Error("SAS: Can't convert value to integer: " + desc.Name);
+                Log.Error($"SAS: Can't convert value to integer: {desc.Name}");
                 break;
         }
         return 0;
@@ -255,7 +255,7 @@ internal static class SasHelper
                 effect.SetValue(handle, (float)value);
                 break;
             default:
-                Log.Info("SAS: Can't convert value to integer: " + desc.Name);
+                Log.Info($"SAS: Can't convert value to integer: {desc.Name}");
                 break;
         }
     }
@@ -278,7 +278,7 @@ internal static class SasHelper
             case ParameterType.Float:
                 return effect.GetValue<float>(handle);
             default:
-                Log.Info("SAS: Can't convert value to float: " + desc.Name);
+                Log.Info($"SAS: Can't convert value to float: {desc.Name}");
                 break;
         }
         return 0.0f;
@@ -328,7 +328,7 @@ internal static class SasHelper
                 }
                 break;
             default:
-                Log.Info("SAS: Can't convert value to Vector4: " + desc.Name);
+                Log.Info($"SAS: Can't convert value to Vector4: {desc.Name}");
                 break;
         }
         return ret;

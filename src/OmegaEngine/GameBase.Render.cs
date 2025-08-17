@@ -75,7 +75,7 @@ partial class GameBase
             #region Error handling
             catch (NotSupportedException ex)
             {
-                Log.Error(ex + "\n" + ex.InnerException);
+                Log.Error($"{ex}\n{ex.InnerException}");
                 Msg.Inform(Form, Resources.BadGraphics, MsgSeverity.Error);
                 Exit();
                 return false;
@@ -108,9 +108,8 @@ partial class GameBase
 
             if (Engine.Capabilities.MaxShaderModel < TerrainShader.MinShaderModel)
             {
-                Log.Error("No support for Pixel Shader " + TerrainShader.MinShaderModel);
-                Msg.Inform(Form, Resources.BadGraphics + "\n" +
-                                 string.Format(Resources.MinimumShaderModel, TerrainShader.MinShaderModel),
+                Log.Error($"No support for Pixel Shader {TerrainShader.MinShaderModel}");
+                Msg.Inform(Form, $"{Resources.BadGraphics}\n{string.Format(Resources.MinimumShaderModel, TerrainShader.MinShaderModel)}",
                     MsgSeverity.Warn);
                 Exit();
                 return false;

@@ -1401,7 +1401,7 @@ public class Dialog
                     DrawSprite(captionElement, rect);
                     rect.Offset(5, 0); // Make a left margin
                     DrawText(
-                        caption + ((IsMinimized) ? " (" + Resources.Minimized + ")" : null),
+                        caption + ((IsMinimized) ? $" ({Resources.Minimized})" : null),
                         captionElement, rect, true);
                 }
             }
@@ -1418,7 +1418,7 @@ public class Dialog
                             continue;
 
                         // ReSharper disable AccessToModifiedClosure
-                        using (new ProfilerEvent(() => "Render " + control))
+                        using (new ProfilerEvent(() => $"Render {control}"))
                             control.Render(device, elapsedTime);
                         // ReSharper restore AccessToModifiedClosure
                     }
@@ -1426,7 +1426,7 @@ public class Dialog
                     // Render the focus control if necessary
                     if (controlFocus != null && controlFocus.Parent == this)
                     {
-                        using (new ProfilerEvent(() => "Render " + controlFocus))
+                        using (new ProfilerEvent(() => $"Render {controlFocus}"))
                             controlFocus.Render(device, elapsedTime);
                     }
                 }

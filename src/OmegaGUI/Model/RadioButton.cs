@@ -105,11 +105,11 @@ public class RadioButton : CheckBox
         // Setup event hooks
         SetupMouseEvents();
         if (!string.IsNullOrEmpty(OnClick))
-            _radioButton.Click += delegate { Parent.RaiseEvent(OnClick, Name + "_Click"); };
+            _radioButton.Click += delegate { Parent.RaiseEvent(OnClick, $"{Name}_Click"); };
         if (!string.IsNullOrEmpty(OnChanged))
         {
             // Note: Don't auto-update isChecked value since changing one RadioButton will effect others as well
-            _radioButton.Changed += delegate { Parent.RaiseEvent(OnChanged, Name + "_Changed"); };
+            _radioButton.Changed += delegate { Parent.RaiseEvent(OnChanged, $"{Name}_Changed"); };
         }
     }
     #endregion

@@ -216,9 +216,9 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
         }
         else
         { // This block will only be executed on Garbage Collection, not by manual disposal
-            Log.Error("Forgot to call Dispose on " + this);
+            Log.Error($"Forgot to call Dispose on {this}");
 #if DEBUG
-            throw new InvalidOperationException("Forgot to call Dispose on " + this);
+            throw new InvalidOperationException($"Forgot to call Dispose on {this}");
 #endif
         }
     }

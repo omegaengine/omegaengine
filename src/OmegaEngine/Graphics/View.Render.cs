@@ -140,7 +140,7 @@ partial class View
                 foreach (FloatingModel model in FloatingModels.Where(model => model.Visible))
                 {
                     // ReSharper disable once AccessToForEachVariableInClosure
-                    using (new ProfilerEvent(() => "Render " + model))
+                    using (new ProfilerEvent(() => $"Render {model}"))
                         model.Render(Camera);
                 }
             }
@@ -187,7 +187,7 @@ partial class View
         if (Scene.Skybox is { Visible: true } && !Fog)
         {
             // Render first, before all other entities using simplified transformations
-            using (new ProfilerEvent(() => "Render " + Scene.Skybox))
+            using (new ProfilerEvent(() => $"Render {Scene.Skybox}"))
             {
                 // Render Skybox with no ZBuffer and no positioning information
                 Engine.State.ZBufferMode = ZBufferMode.Off;
@@ -215,7 +215,7 @@ partial class View
         // Apply the camera offset to make sure positioning is right
         ApplyCameraBase(body);
 
-        using (new ProfilerEvent(() => "Render " + body))
+        using (new ProfilerEvent(() => $"Render {body}"))
             body.Render(Camera, Scene.GetEffectiveLights);
     }
     #endregion
@@ -248,18 +248,18 @@ partial class View
         Camera.Size = new(_viewport.Width, _viewport.Height);
         #endregion
 
-        using (new ProfilerEvent(() => "Sort bodies for " + this))
+        using (new ProfilerEvent(() => $"Sort bodies for {this}"))
             SortBodies();
 
         #region Child views
         if (_childViews.Count > 0)
         {
-            using (new ProfilerEvent(() => "Child views of " + this))
+            using (new ProfilerEvent(() => $"Child views of {this}"))
                 HandleChildViews();
         }
         #endregion
 
-        using (new ProfilerEvent(() => "Render " + this))
+        using (new ProfilerEvent(() => $"Render {this}"))
         {
             PreRender?.Invoke(Camera);
 

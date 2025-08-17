@@ -75,19 +75,19 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
             _fullPath = FilePath;
             if (!_overwrite && File.Exists(_fullPath))
             { // Load existing file
-                Log.Info("Load file: " + _fullPath);
+                Log.Info($"Load file: {_fullPath}");
                 Content = XmlStorage.LoadXml<Dialog>(_fullPath);
             }
             else
             { // Create new file
-                Log.Info("Create file: " + _fullPath);
+                Log.Info($"Create file: {_fullPath}");
                 Content = new();
                 Content.SaveXml(_fullPath);
             }
         }
         else
         { // File name only? Might not save to same dir loaded from!
-            Log.Info("Load file: " + FilePath);
+            Log.Info($"Load file: {FilePath}");
             Content = Dialog.FromContent(FilePath);
             _fullPath = ContentManager.CreateFilePath("GUI", FilePath);
         }
@@ -109,7 +109,7 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
     /// <inheritdoc/>
     protected override void OnSaveFile()
     {
-        Log.Info("Save file: " + _fullPath);
+        Log.Info($"Save file: {_fullPath}");
         string directory = Path.GetDirectoryName(_fullPath);
         if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
         Content.SaveXml(_fullPath);

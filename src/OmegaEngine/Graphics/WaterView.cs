@@ -67,14 +67,14 @@ public sealed class WaterView : SupportView
         // Clone and modify the camera
         var newCamera = new CloneCamera(baseView.Camera)
         {
-            Name = baseView.Camera.Name + " Refraction",
+            Name = $"{baseView.Camera.Name} Refraction",
             ClipPlane = new(refractPlane.Point - refractPlane.Normal * clipTolerance, refractPlane.Normal)
         };
 
         // Create the new view, make sure the camera stays in sync, copy default properties
         var newView = new WaterView(baseView, newCamera, reflection: false)
         {
-            Name = baseView.Name + " Refraction",
+            Name = $"{baseView.Name} Refraction",
             BackgroundColor = baseView.BackgroundColor
         };
 
@@ -101,14 +101,14 @@ public sealed class WaterView : SupportView
         // Clone and modify the camera
         var newCamera = new ReflectCamera(baseView.Camera, reflectPlane)
         {
-            Name = baseView.Camera.Name + " Reflection",
+            Name = $"{baseView.Camera.Name} Reflection",
             ClipPlane = new(reflectPlane.Point - reflectPlane.Normal * clipTolerance, reflectPlane.Normal)
         };
 
         // Create the new view, make sure the camera stays in sync, copy default properties
         var newView = new WaterView(baseView, newCamera, reflection: true)
         {
-            Name = baseView.Name + " Reflection",
+            Name = $"{baseView.Name} Reflection",
             InvertCull = true,
             BackgroundColor = baseView.BackgroundColor
         };

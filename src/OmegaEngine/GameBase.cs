@@ -303,7 +303,7 @@ public abstract partial class GameBase : IDisposable
         if (_debugConsole == null)
         {
             _debugConsole = new(NewLua());
-            _debugConsole.Text = Application.ProductName + @" " + _debugConsole.Text;
+            _debugConsole.Text = $@"{Application.ProductName} {_debugConsole.Text}";
 
             // Remove the reference as soon the form is closed
             _debugConsole.FormClosed += delegate
@@ -360,8 +360,8 @@ public abstract partial class GameBase : IDisposable
 
     private static void ImportConstructor(Lua lua, Type type)
     {
-        lua.DoString("luanet.load_assembly(\"" + type.Assembly.GetName() + "\")");
-        lua.DoString(type.Name + " = luanet.import_type(\"" + type.FullName + "\")");
+        lua.DoString($"luanet.load_assembly(\"{type.Assembly.GetName()}\")");
+        lua.DoString($"{type.Name} = luanet.import_type(\"{type.FullName}\")");
     }
     #endregion
 
@@ -417,9 +417,9 @@ public abstract partial class GameBase : IDisposable
         }
         else
         { // This block will only be executed on Garbage Collection, not by manual disposal
-            Log.Error("Forgot to call Dispose on " + this);
+            Log.Error($"Forgot to call Dispose on {this}");
 #if DEBUG
-            throw new InvalidOperationException("Forgot to call Dispose on " + this);
+            throw new InvalidOperationException($"Forgot to call Dispose on {this}");
 #endif
         }
     }

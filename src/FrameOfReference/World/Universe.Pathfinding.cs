@@ -134,7 +134,7 @@ partial class Universe
         }
         if (entity.TemplateData?.Movement == null)
         {
-            Log.Warn(entity + " has no Movement component");
+            Log.Warn($"{entity} has no Movement component");
             return;
         }
         if (entity.Position == target) return;
@@ -239,7 +239,7 @@ partial class Universe
         if (waypoint.ArrivalTimeSpecified) return;
 
         waypoint.ArrivalTime = GameTime;
-        Log.Info("Recorded arrival time for " + entity.Name + " at " + waypoint.Name + ": " + GameTime);
+        Log.Info($"Recorded arrival time for {entity.Name} at {waypoint.Name}: {GameTime}");
     }
 
     private static void RecordOriginPosition(Entity entity, Waypoint waypoint)
@@ -247,7 +247,7 @@ partial class Universe
         if (waypoint.OriginPositionSpecified) return;
 
         waypoint.OriginPosition = entity.Position;
-        Log.Info("Recorded origin position for " + entity.Name + " towards " + waypoint.Name + ": " + entity.Position);
+        Log.Info($"Recorded origin position for {entity.Name} towards {waypoint.Name}: {entity.Position}");
     }
     #endregion
 }

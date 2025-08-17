@@ -103,13 +103,13 @@ public class CheckBox : ButtonBase
         // Setup event hooks
         SetupMouseEvents();
         if (!string.IsNullOrEmpty(OnClick))
-            _checkbox.Click += delegate { Parent.RaiseEvent(OnClick, Name + "_Click"); };
+            _checkbox.Click += delegate { Parent.RaiseEvent(OnClick, $"{Name}_Click"); };
         if (!string.IsNullOrEmpty(OnChanged))
         {
             _checkbox.Changed += delegate
             {
                 IsChecked = _checkbox.IsChecked;
-                Parent.RaiseEvent(OnChanged, Name + "_Changed");
+                Parent.RaiseEvent(OnChanged, $"{Name}_Changed");
             };
         }
     }

@@ -193,7 +193,7 @@ partial class Game
         using (new TimedLogEvent("Start benchmark"))
         {
             // Load map
-            CurrentSession = new(Universe.FromContent("Benchmark" + Universe.FileExt));
+            CurrentSession = new(Universe.FromContent($"Benchmark{Universe.FileExt}"));
 
             // Switch mode
             CurrentState = GameState.Benchmark;
@@ -209,7 +209,7 @@ partial class Game
 
             // Load benchmark universe
             CurrentPresenter = new BenchmarkPresenter(Engine,
-                Universe.FromContent("Benchmark" + Universe.FileExt), path =>
+                Universe.FromContent($"Benchmark{Universe.FileExt}"), path =>
                 { // Callback for sumbitting the benchmark results
                     Form.Visible = false;
                     //if (Msg.Ask(Form, Resources.BenchmarkReady, MsgSeverity.Info, Resources.BenchmarkReadyContinue, Resources.BenchmarkReadyCancel))

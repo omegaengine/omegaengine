@@ -69,7 +69,7 @@ public class XWaveSound : XSound
         // Load from file if not in cache
         if (data == null)
         {
-            using (new TimedLogEvent("Loading WAVE sound: " + id))
+            using (new TimedLogEvent($"Loading WAVE sound: {id}"))
             using (var stream = ContentManager.GetFileStream("Sounds", id))
                 data = new(stream) {Name = fullID};
             engine.Cache.AddAsset(data);

@@ -475,7 +475,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
 
             if (SurfaceShader != null)
             {
-                using (new ProfilerEvent(() => "Apply " + SurfaceShader))
+                using (new ProfilerEvent(() => $"Apply {SurfaceShader}"))
                     SurfaceShader.Apply(render, material, camera, lights);
             }
         }

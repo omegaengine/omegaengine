@@ -76,7 +76,7 @@ partial class Game
         }
         catch (Exception ex)
         {
-            Log.Warn("Failed to restore previous game session: " + ex.Message);
+            Log.Warn($"Failed to restore previous game session: {ex.Message}");
             return;
         }
         Log.Info("Previous game session restored");
@@ -206,7 +206,7 @@ partial class Game
     public IEnumerable<string> GetSavegameNames()
     {
         var savegameDir = new DirectoryInfo(Locations.GetSaveDataPath(GeneralSettings.AppName, isFile: false));
-        return savegameDir.GetFiles("*" + Session.FileExt)
+        return savegameDir.GetFiles($"*{Session.FileExt}")
                           .Select(x => x.Name.Substring(0, x.Name.Length - Session.FileExt.Length))
                           .Except("Resume");
     }

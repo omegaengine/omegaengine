@@ -22,7 +22,7 @@ public sealed partial class AboutBox : Form
     {
         InitializeComponent();
         labelTitle.Text = AssemblyTitle;
-        labelVersion.Text = @"Version " + AssemblyVersion;
+        labelVersion.Text = $@"Version {AssemblyVersion}";
         labelCopyright.Text = AssemblyCopyright;
         labelCompanyName.Text = AssemblyCompany;
         textBoxDescription.Text = AssemblyDescription;

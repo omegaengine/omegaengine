@@ -75,7 +75,7 @@ public sealed class BenchmarkPresenter : Presenter
     #region Variables
     private readonly string
         _resultDir = Locations.GetSaveDataPath(GeneralSettings.AppName, false, "Benchmark"),
-        _resultFile = Locations.GetSaveDataPath(GeneralSettings.AppName, true, GeneralSettings.AppName + " Benchmark.zip");
+        _resultFile = Locations.GetSaveDataPath(GeneralSettings.AppName, true, $"{GeneralSettings.AppName} Benchmark.zip");
 
     private readonly Action<string> _callback;
 
@@ -150,7 +150,7 @@ public sealed class BenchmarkPresenter : Presenter
         // Set camera to new test-case target
         View.Camera = CreateCamera(testCase.Target);
 
-        Log.Info("Start test-case #" + _testCaseCounter);
+        Log.Info($"Start test-case #{_testCaseCounter}");
 
         // Start the timer
         _lastTotalFrames = Engine.Performance.TotalFrames;
@@ -171,10 +171,10 @@ public sealed class BenchmarkPresenter : Presenter
         _statistics.TestCases[_testCaseCounter].AverageFrameMs = (float)(elapsedTime / frames);
 
         // Log a frame with all details
-        Engine.Performance.LogFrame(Path.Combine(_resultDir, "test-case" + _testCaseCounter + ".xml"));
+        Engine.Performance.LogFrame(Path.Combine(_resultDir, $"test-case{_testCaseCounter}.xml"));
 
         if (_statistics.TestCases[_testCaseCounter].Screenshot)
-            Engine.Screenshot(Path.Combine(_resultDir, "test-case" + _testCaseCounter + ".jpg"), new(640, 480));
+            Engine.Screenshot(Path.Combine(_resultDir, $"test-case{_testCaseCounter}.jpg"), new(640, 480));
 
         // Prepare next test-case
         _testCaseCounter++;

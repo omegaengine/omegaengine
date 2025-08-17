@@ -50,7 +50,7 @@ public abstract class Mesh : Render
     {
         string value = base.ToString();
         if (!string.IsNullOrEmpty(Filename))
-            value += ": " + Filename;
+            value += $": {Filename}";
         return value;
     }
 

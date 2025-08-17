@@ -408,7 +408,7 @@ public class Dialog : ICloneable<Dialog>
     internal string GetLocalized(string value)
     {
         if (string.IsNullOrEmpty(value)) return "";
-        if (value == "[Version]") return "v" + Assembly.GetEntryAssembly().GetName().Version;
+        if (value == "[Version]") return $"v{Assembly.GetEntryAssembly().GetName().Version}";
         if (_locale != null && value.StartsWith("[", StringComparison.Ordinal) && value.EndsWith("]", StringComparison.Ordinal))
         {
             string localeKey = value.Substring(1, value.Length - 2);

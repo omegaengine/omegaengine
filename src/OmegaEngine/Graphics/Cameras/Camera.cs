@@ -48,7 +48,7 @@ public abstract class Camera : IPositionable
     {
         string value = GetType().Name;
         if (!string.IsNullOrEmpty(Name))
-            value += ": " + Name;
+            value += $": {Name}";
         return value;
     }
     #endregion

@@ -42,7 +42,7 @@ partial class Universe
     /// <summary>
     /// The file extensions when this class is stored as a file.
     /// </summary>
-    public const string FileExt = "." + GeneralSettings.AppNameShort + "Map";
+    public const string FileExt = $".{GeneralSettings.AppNameShort}Map";
 
     /// <summary>
     /// Base-constructor for XML serialization. Do not call manually!
@@ -73,7 +73,7 @@ partial class Universe
     /// <returns>The loaded <see cref="Universe"/>.</returns>
     public static Universe FromContent(string id)
     {
-        Log.Info("Loading map: " + id);
+        Log.Info($"Loading map: {id}");
 
         using var stream = ContentManager.GetFileStream("World/Maps", id);
         var universe = XmlStorage.LoadXmlZip<Universe>(stream);

@@ -104,19 +104,19 @@ public partial class DebugConsole : Form
         if (!inputBox.AutoCompleteCustomSource.Contains(command))
             inputBox.AutoCompleteCustomSource.Add(command);
         _lastCommand = command;
-        Log.Debug("> " + command);
+        Log.Debug($"> {command}");
 
         try
         {
             // Execute the command and capture its result
             if (command.Contains("=")) _lua.DoString(command);
-            else _lua.DoString("DebugResult = " + command);
+            else _lua.DoString($"DebugResult = {command}");
             if (_lua["DebugResult"] != null)
             {
                 // Output the result as a string if possible
                 string result = _lua["DebugResult"].ToString();
                 if (!string.IsNullOrEmpty(result))
-                    Log.Debug("==> " + result);
+                    Log.Debug($"==> {result}");
                 _lua["DebugResult"] = null;
             }
         }
@@ -126,7 +126,7 @@ public partial class DebugConsole : Form
             string message = ex.IsNetException ? ex.InnerException.Message : ex.Message;
 
             // Output exception message
-            Log.Debug("==> " + message);
+            Log.Debug($"==> {message}");
         }
 
         inputBox.Text = "";

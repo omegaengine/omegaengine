@@ -49,7 +49,7 @@ public sealed partial class ModSelectorForm : Form
         _recentMods = recentMods ?? new List<string>();
 
         openFileDialog.DefaultExt = ModInfo.FileExt;
-        openFileDialog.Filter = "Mod info (*" + ModInfo.FileExt + ")|*" + ModInfo.FileExt;
+        openFileDialog.Filter = $"Mod info (*{ModInfo.FileExt})|*{ModInfo.FileExt}";
     }
     #endregion
 
@@ -92,11 +92,11 @@ public sealed partial class ModSelectorForm : Form
             _recentMods.Remove(path);
             listBoxRecent.Items.Remove(new ModPath(path));
 
-            Msg.Inform(this, Resources.FileNotFound + "\n" + path, MsgSeverity.Warn);
+            Msg.Inform(this, $"{Resources.FileNotFound}\n{path}", MsgSeverity.Warn);
             return;
         }
 
-        Log.Info("Open mod: " + path);
+        Log.Info($"Open mod: {path}");
 
         try
         {
@@ -115,12 +115,12 @@ public sealed partial class ModSelectorForm : Form
         }
         catch (IOException ex)
         {
-            Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Warn);
+            Msg.Inform(this, $"{Resources.FileNotLoadable}\n{ex.Message}", MsgSeverity.Warn);
             return;
         }
         catch (UnauthorizedAccessException ex)
         {
-            Msg.Inform(this, Resources.FileNotLoadable + "\n" + ex.Message, MsgSeverity.Warn);
+            Msg.Inform(this, $"{Resources.FileNotLoadable}\n{ex.Message}", MsgSeverity.Warn);
             return;
         }
         #endregion

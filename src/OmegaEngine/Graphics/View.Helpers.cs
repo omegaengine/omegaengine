@@ -229,7 +229,7 @@ partial class View
     private void ShaderToBackBuffer(PostShader shader, int alpha)
     {
         Engine.State.AlphaBlend = alpha;
-        using (new ProfilerEvent(() => "Apply " + shader))
+        using (new ProfilerEvent(() => $"Apply {shader}"))
         {
             shader.Apply(delegate
             {
@@ -255,7 +255,7 @@ partial class View
         if (!shader.OverlayRendering) SwapRenderTarget();
 
         // Apply the shader and move data from one texture to the other
-        using (new ProfilerEvent(() => "Apply " + shader))
+        using (new ProfilerEvent(() => $"Apply {shader}"))
             shader.Apply(() => RenderTarget.RenderTo(Engine.DrawQuadShader), sceneMap.Size, shader.OverlayRendering ? null : sceneMap);
     }
 

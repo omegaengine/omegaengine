@@ -60,7 +60,7 @@ public sealed class DialogRenderer : IDisposable
     {
         string value = GetType().Name;
         if (!string.IsNullOrEmpty(Name))
-            value += ": " + Name;
+            value += $": {Name}";
         return value;
     }
 
@@ -86,7 +86,7 @@ public sealed class DialogRenderer : IDisposable
     public DialogRenderer(GuiManager manager, string filename, Point location = new(), Lua? lua = null)
         : this(manager, Dialog.FromContent(filename), location: location, lua: lua)
     {
-        Log.Info("Loading GUI dialog: " + filename);
+        Log.Info($"Loading GUI dialog: {filename}");
         Name = filename;
     }
 
@@ -241,7 +241,7 @@ public sealed class DialogRenderer : IDisposable
         catch (LuaScriptException ex)
         {
             // Prepend additional source information and then rethrow the exception
-            ex.Source = Name + ":" + source + ":" + ex.Source;
+            ex.Source = $"{Name}:{source}:{ex.Source}";
             throw;
         }
     }
@@ -327,9 +327,9 @@ public sealed class DialogRenderer : IDisposable
     ~DialogRenderer()
     {
         // This block will only be executed on Garbage Collection, not by manual disposal
-        Log.Error("Forgot to call Dispose on " + this);
+        Log.Error($"Forgot to call Dispose on {this}");
 #if DEBUG
-        throw new InvalidOperationException("Forgot to call Dispose on " + this);
+        throw new InvalidOperationException($"Forgot to call Dispose on {this}");
 #endif
     }
     #endregion

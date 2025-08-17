@@ -79,9 +79,6 @@ public struct TerrainSize
     }
 
     /// <inheritdoc/>
-    public override string ToString()
-    {
-        return "X: " + X + "\nY: " + Y + "\nStretchH: " + StretchH + "\nStretchV: " + StretchV;
-    }
+    public override string ToString() => $"X: {X}\nY: {Y}\nStretchH: {StretchH}\nStretchV: {StretchV}";
     #endregion
 }

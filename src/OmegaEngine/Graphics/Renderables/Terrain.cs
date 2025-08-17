@@ -280,14 +280,14 @@ public partial class Terrain : Model
         // Frustum culling with the bouding box
         if (_subsetWorldBoundingBoxes != null && !camera.InFrustum(_subsetWorldBoundingBoxes[i])) return;
 
-        using (new ProfilerEvent(() => "Subset " + i))
+        using (new ProfilerEvent(() => $"Subset {i}"))
         {
             Action renderSubset = () => Mesh.DrawSubset(i);
 
             if (SurfaceEffect >= SurfaceEffect.Glow)
             {
                 // The terrain will always appear completely black on the glow/shadow map
-                using (new ProfilerEvent(() => "Apply black " + _subsetShaders[i]))
+                using (new ProfilerEvent(() => $"Apply black {_subsetShaders[i]}"))
                     _subsetShaders[i].Apply(renderSubset, XMaterial.DefaultMaterial, camera);
             }
             else

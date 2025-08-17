@@ -134,7 +134,7 @@ public abstract class EntityBase<TCoordinates, TTemplate> : Positionable<TCoordi
     {
         string value = base.ToString();
         if (!string.IsNullOrEmpty(_templateName))
-            value += " (" + _templateName + ")";
+            value += $" ({_templateName})";
         return value;
     }
 

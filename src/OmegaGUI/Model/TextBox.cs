@@ -93,13 +93,13 @@ public class TextBox : Label
         // Setup event hooks
         SetupMouseEvents();
         if (!string.IsNullOrEmpty(OnEnter))
-            _editBox.Enter += delegate { Parent.RaiseEvent(OnEnter, Name + "_Enter"); };
+            _editBox.Enter += delegate { Parent.RaiseEvent(OnEnter, $"{Name}_Enter"); };
         if (!string.IsNullOrEmpty(OnChanged))
         {
             _editBox.Changed += delegate
             {
                 ControlText = _editBox.Text;
-                Parent.RaiseEvent(OnChanged, Name + "_Changed");
+                Parent.RaiseEvent(OnChanged, $"{Name}_Changed");
             };
         }
     }

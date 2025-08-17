@@ -180,7 +180,7 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
         try
         {
             var selectionHighlight = dispatcher.Dispatch(entity.TemplateData.Collision);
-            selectionHighlight.Name = entity.Name + " Selection";
+            selectionHighlight.Name = $"{entity.Name} Selection";
             return selectionHighlight;
         }
         catch (KeyNotFoundException)

@@ -553,7 +553,7 @@ public class ListBox : Control
         }
 
         // Render the scrollbar finally
-        using (new ProfilerEvent(() => "Render GUI control: " + scrollbarControl))
+        using (new ProfilerEvent(() => $"Render GUI control: {scrollbarControl}"))
             scrollbarControl.Render(device, elapsedTime);
     }
 

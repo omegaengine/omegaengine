@@ -81,7 +81,7 @@ public partial class View : EngineElement, IResetable
     {
         string value = GetType().Name;
         if (!string.IsNullOrEmpty(Name))
-            value += ": " + Name;
+            value += $": {Name}";
         return value;
     }
     #endregion
@@ -413,7 +413,7 @@ public partial class View : EngineElement, IResetable
         _glowSetup = true;
 
         // Create the new view, make sure the camera stays in sync, copy default properties
-        var newView = new GlowView(this) {Name = Name + " Glow"};
+        var newView = new GlowView(this) {Name = $"{Name} Glow" };
 
         // Apply PostScreen shader to current scene (hooked with output from new scene)
         PostShaders.Add(new PostGlowShader(newView) {BlurStrength = blurStrength, GlowStrength = glowStrength});
@@ -434,7 +434,7 @@ public partial class View : EngineElement, IResetable
         // Create the new view, make sure the camera stays in sync, copy default properties
         var newView = new ShadowView(this)
         {
-            Name = Name + " Shadow"
+            Name = $"{Name} Shadow"
         };
 
         _childViews.Add(newView);

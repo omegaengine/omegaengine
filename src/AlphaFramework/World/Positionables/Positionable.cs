@@ -57,7 +57,7 @@ public abstract class Positionable<TCoordinates> : ICloneable, IChangeNotify<Pos
     {
         string value = GetType().Name;
         if (!string.IsNullOrEmpty(Name))
-            value += ": " + Name;
+            value += $": {Name}";
         return value;
     }
 

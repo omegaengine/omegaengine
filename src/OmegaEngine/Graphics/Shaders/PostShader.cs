@@ -54,7 +54,7 @@ public abstract class PostShader : Shader
             for (int i = 0; i < passCount; i++)
             {
                 // ReSharper disable AccessToModifiedClosure
-                using (new ProfilerEvent(() => "Pass " + i))
+                using (new ProfilerEvent(() => $"Pass {i}"))
                 {
                     Effect.BeginPass(i);
                     render();

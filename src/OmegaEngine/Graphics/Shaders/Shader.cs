@@ -155,9 +155,9 @@ public abstract class Shader : EngineElement
     public void LoadShaderFile(string path)
     {
         path = Path.Combine(Engine.ShaderDir, path);
-        using (new TimedLogEvent("Loading shader file: " + path))
+        using (new TimedLogEvent($"Loading shader file: {path}"))
         {
-            if (!File.Exists(path)) throw new FileNotFoundException(Resources.NotFoundShaderFile + "\n" + path, path);
+            if (!File.Exists(path)) throw new FileNotFoundException($"{Resources.NotFoundShaderFile}\n{path}", path);
             Effect = Effect.FromFile(Engine.Device, path, null, null, null, ShaderFlags.None);
         }
     }
@@ -584,7 +584,7 @@ public abstract class Shader : EngineElement
                     if (render != null && !passScript)
                     {
                         var pass = (SasScriptPass)commandObject;
-                        using (new ProfilerEvent(() => "SAS script: pass " + pass.PassNum))
+                        using (new ProfilerEvent(() => $"SAS script: pass {pass.PassNum}"))
                         {
                             ExecuteScript(Passes[Effect.GetPass(Effect.Technique, pass.PassNum)], render, sceneSize, sceneMap, true);
                             Effect.BeginPass(pass.PassNum);

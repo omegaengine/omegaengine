@@ -30,7 +30,7 @@ public abstract class ParticleSystem : Render
     {
         string value = base.ToString();
         if (!string.IsNullOrEmpty(Filename))
-            value += ": " + Filename;
+            value += $": {Filename}";
         return value;
     }
 

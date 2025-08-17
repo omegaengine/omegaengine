@@ -101,7 +101,7 @@ public class Button : ButtonBase
         // Setup event hooks
         SetupMouseEvents();
         if (!string.IsNullOrEmpty(OnClick))
-            _button.Click += delegate { Parent.RaiseEvent(OnClick, Name + "_Click"); };
+            _button.Click += delegate { Parent.RaiseEvent(OnClick, $"{Name}_Click"); };
     }
     #endregion
 }

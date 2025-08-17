@@ -29,10 +29,7 @@ public abstract class Asset : IReferenceCount, IDisposable, INamed, IComparable<
     [ReadOnly(true)]
     public string Name { get; set; } = null!;
 
-    public override string ToString()
-    {
-        return GetType().Name + ": " + Name;
-    }
+    public override string ToString() => $"{GetType().Name}: {Name}";
 
     /// <summary>
     /// How many <see cref="Renderable"/>s use this asset
@@ -109,9 +106,9 @@ public abstract class Asset : IReferenceCount, IDisposable, INamed, IComparable<
     {
         if (!disposing)
         { // This block will only be executed on Garbage Collection, not by manual disposal
-            Log.Error("Forgot to call Dispose on " + this);
+            Log.Error($"Forgot to call Dispose on {this}");
 #if DEBUG
-            throw new InvalidOperationException("Forgot to call Dispose on " + this);
+            throw new InvalidOperationException($"Forgot to call Dispose on {this}");
 #endif
         }
     }

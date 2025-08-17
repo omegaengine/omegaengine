@@ -56,19 +56,19 @@ public partial class CpuParticleSystemEditor : ParticleSystemEditor
             _fullPath = FilePath;
             if (!_overwrite && File.Exists(_fullPath))
             { // Load existing file
-                Log.Info("Load file: " + _fullPath);
+                Log.Info($"Load file: {_fullPath}");
                 _preset = XmlStorage.LoadXml<CpuParticlePreset>(_fullPath);
             }
             else
             { // Create new file
-                Log.Info("Create file: " + _fullPath);
+                Log.Info($"Create file: {_fullPath}");
                 _preset = new();
                 _preset.SaveXml(_fullPath);
             }
         }
         else
         { // File name only? Might not save to same dir loaded from!
-            Log.Info("Load file: " + FilePath);
+            Log.Info($"Load file: {FilePath}");
             _preset = CpuParticlePreset.FromContent(FilePath);
             _fullPath = ContentManager.CreateFilePath("Graphics/CpuParticleSystem", FilePath);
         }
@@ -88,7 +88,7 @@ public partial class CpuParticleSystemEditor : ParticleSystemEditor
     /// <inheritdoc/>
     protected override void OnSaveFile()
     {
-        Log.Info("Save file: " + _fullPath);
+        Log.Info($"Save file: {_fullPath}");
         string directory = Path.GetDirectoryName(_fullPath);
         if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
         _preset.SaveXml(_fullPath);
