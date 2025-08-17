@@ -27,8 +27,8 @@ namespace OmegaEngine.Graphics.Renderables;
 public partial class Terrain : Model
 {
     #region Variables
-    private SurfaceShader[] _subsetShaders;
-    private BoundingBox[] _subsetBoundingBoxes, _subsetWorldBoundingBoxes;
+    private TerrainShader[]? _subsetShaders;
+    private BoundingBox[]? _subsetBoundingBoxes, _subsetWorldBoundingBoxes;
     private float _blockSize;
 
     private readonly int[] _indexBuffer;
@@ -288,12 +288,12 @@ public partial class Terrain : Model
             {
                 // The terrain will always appear completely black on the glow/shadow map
                 using (new ProfilerEvent(() => $"Apply black {_subsetShaders[i]}"))
-                    _subsetShaders[i].Apply(renderSubset, XMaterial.DefaultMaterial, camera);
+                    _subsetShaders?[i].Apply(renderSubset, XMaterial.DefaultMaterial, camera);
             }
             else
             {
                 // Apply the normal terrain shader
-                if (_subsetShaders[i] != null) SurfaceShader = _subsetShaders[i];
+                if (_subsetShaders?[i] != null) SurfaceShader = _subsetShaders[i];
                 XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
                 // Handle lights for fixed-function or shader rendering

@@ -43,7 +43,7 @@ partial class Terrain
     /// <param name="subsetShaders">Shaders for all subsets the mesh was split into</param>
     /// <param name="subsetBoundingBoxes">Bounding boxes for all subsets the mesh was split into</param>
     /// <returns>The model that was created</returns>
-    private static Mesh BuildMesh(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, ByteVector4Grid? occlusionIntervalMap, bool lighting, int blockSize, out SurfaceShader[] subsetShaders, out BoundingBox[] subsetBoundingBoxes)
+    private static Mesh BuildMesh(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, ByteVector4Grid? occlusionIntervalMap, bool lighting, int blockSize, out TerrainShader[]? subsetShaders, out BoundingBox[] subsetBoundingBoxes)
     {
         #region Sanity checks
         if (heightMap.Width != size.Width || heightMap.Height != size.Height)
@@ -58,7 +58,7 @@ partial class Terrain
 
         var vertexes = GenerateVertexes(size, stretchH, stretchV, heightMap, textureMap, occlusionIntervalMap);
         var indexes = GenerateIndexes(size, stretchH, stretchV, blockSize, vertexes, out int[] attributes, out ushort[] subsetTextureMasks, out subsetBoundingBoxes);
-        subsetShaders = CompileShaders(engine, lighting, subsetTextureMasks);
+        subsetShaders = GetSubsetShaders(engine, lighting, subsetTextureMasks);
         return CompileMesh(engine, vertexes, indexes, attributes, lighting);
     }
 
@@ -197,18 +197,15 @@ partial class Terrain
         return indexes;
     }
 
-    private static SurfaceShader[] CompileShaders(Engine engine, bool lighting, ushort[] textureMasks)
+    private static TerrainShader[]? GetSubsetShaders(Engine engine, bool lighting, ushort[] textureMasks)
     {
+        if (TerrainShader.MinShaderModel > engine.Capabilities.MaxShaderModel) return null;
+
         using var _ = new TimedLogEvent("Compiling terrain shaders");
 
-        var shaders = new SurfaceShader[textureMasks.Length];
-
-        if (TerrainShader.MinShaderModel <= engine.Capabilities.MaxShaderModel)
-        {
-            // Use engine caching to retrieve shaders by texture mask
-            for (int i = 0; i < textureMasks.Length; i++)
-                shaders[i] = engine.GetTerrainShader(lighting, textureMasks[i]);
-        }
+        var shaders = new TerrainShader[textureMasks.Length];
+        for (int i = 0; i < textureMasks.Length; i++)
+            shaders[i] = engine.GetTerrainShader(lighting, textureMasks[i]);
 
         return shaders;
     }
