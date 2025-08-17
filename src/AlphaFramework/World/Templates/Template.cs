@@ -55,10 +55,7 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICo
 
     #region Comparison
     /// <inheritdoc/>
-    int IComparable<TSelf>.CompareTo(TSelf? other)
-    {
-        return string.Compare(Name, other?.Name, StringComparison.OrdinalIgnoreCase);
-    }
+    int IComparable<TSelf>.CompareTo(TSelf? other) => string.Compare(Name, other?.Name, StringComparison.OrdinalIgnoreCase);
     #endregion
 
     #region Clone

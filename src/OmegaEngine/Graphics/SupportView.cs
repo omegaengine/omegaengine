@@ -46,10 +46,7 @@ public abstract class SupportView : TextureView
     /// </summary>
     /// <param name="size"></param>
     /// <returns>.</returns>
-    private static Size SupportSize(Size size)
-    {
-        return new(size.Width * 2 / 3, size.Height * 2 / 3);
-    }
+    private static Size SupportSize(Size size) => new(size.Width * 2 / 3, size.Height * 2 / 3);
     #endregion
 
     #region Visibility check

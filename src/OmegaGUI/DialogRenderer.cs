@@ -267,19 +267,13 @@ public sealed class DialogRenderer : IDisposable
     /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
     /// <exception cref="KeyNotFoundException">An element with the specified key does not exist in the dictionary.</exception>
     // Note: Keep this in addition to the DialogRender index accessor for Lua access
-    public Control GetControl(string name)
-    {
-        return DialogModel[name];
-    }
+    public Control GetControl(string name) => DialogModel[name];
 
     /// <summary>
     /// Changes the dialog's on-screen position.
     /// </summary>
     // Note: Keep this in addition to the DialogModel property for Lua access
-    public void SetLocation(int x, int y)
-    {
-        DialogRender.Location = new(x, y);
-    }
+    public void SetLocation(int x, int y) => DialogRender.Location = new(x, y);
     #endregion
 
     #region MsgBox

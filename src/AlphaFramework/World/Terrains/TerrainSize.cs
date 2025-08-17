@@ -65,18 +65,12 @@ public struct TerrainSize
     /// <summary>
     /// Convert <see cref="Size"/> into <see cref="TerrainSize"/>.
     /// </summary>
-    public static implicit operator TerrainSize(Size size)
-    {
-        return new(size.Width, size.Height);
-    }
+    public static implicit operator TerrainSize(Size size) => new(size.Width, size.Height);
 
     /// <summary>
     /// Convert <see cref="TerrainSize"/> into <see cref="Size"/>.
     /// </summary>
-    public static implicit operator Size(TerrainSize size)
-    {
-        return new(size.X, size.Y);
-    }
+    public static implicit operator Size(TerrainSize size) => new(size.X, size.Y);
 
     /// <inheritdoc/>
     public override string ToString() => $"X: {X}\nY: {Y}\nStretchH: {StretchH}\nStretchV: {StretchV}";

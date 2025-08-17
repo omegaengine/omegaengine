@@ -31,10 +31,7 @@ public class StoredPath<TCoordinates> : ICloneable
     public Queue<TCoordinates> PathNodes { get; } = new();
 
     /// <inheritdoc/>
-    public override string ToString()
-    {
-        return GetType().Name;
-    }
+    public override string ToString() => GetType().Name;
 
     #region Clone
     /// <summary>

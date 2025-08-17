@@ -208,9 +208,6 @@ public class OcclusionIntervalMapGenerator : TaskBase
         return false;
     }
 
-    private float SampleHeightMap(float x, float y)
-    {
-        return _heightMap.SampledRead(x, y);
-    }
+    private float SampleHeightMap(float x, float y) => _heightMap.SampledRead(x, y);
     #endregion
 }

@@ -19,10 +19,7 @@ public abstract class Collision<TCoordinates> : ICloneable
     where TCoordinates : struct
 {
     /// <inheritdoc/>
-    public override string ToString()
-    {
-        return GetType().Name;
-    }
+    public override string ToString() => GetType().Name;
 
     /// <summary>
     /// Determines whether a certain point lies within the collision body.

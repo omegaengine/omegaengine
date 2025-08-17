@@ -65,10 +65,7 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
     /// <summary>
     /// Convert a <see cref="RenderTarget"/> into its contained <see cref="SlimDX.Direct3D9.Texture"/>.
     /// </summary>
-    public static implicit operator Texture(RenderTarget renderTarget)
-    {
-        return renderTarget?.Texture;
-    }
+    public static implicit operator Texture(RenderTarget renderTarget) => renderTarget?.Texture;
     #endregion
 
     #region Constructor

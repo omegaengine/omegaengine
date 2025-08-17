@@ -318,19 +318,13 @@ internal static class BufferHelper
     /// </summary>
     /// <param name="vb">The <see cref="VertexBuffer"/> to be contained within the <see cref="BoundingBox"/>.</param>
     /// <param name="vertexCount">The total number of vertex contained within <paramref name="vb"/>.</param>
-    public static BoundingBox ComputeBoundingBox(VertexBuffer vb, int vertexCount)
-    {
-        return BoundingBox.FromPoints(GetPoints(vb, vertexCount));
-    }
+    public static BoundingBox ComputeBoundingBox(VertexBuffer vb, int vertexCount) => BoundingBox.FromPoints(GetPoints(vb, vertexCount));
 
     /// <summary>
     /// Generates a <see cref="BoundingBox"/> that completely contains all points within a <see cref="Mesh"/>.
     /// </summary>
     /// <param name="mesh">The <see cref="Mesh"/> to be contained within the <see cref="BoundingBox"/>.</param>
-    public static BoundingBox ComputeBoundingBox(Mesh mesh)
-    {
-        return BoundingBox.FromPoints(GetPoints(mesh));
-    }
+    public static BoundingBox ComputeBoundingBox(Mesh mesh) => BoundingBox.FromPoints(GetPoints(mesh));
     #endregion
 
     #region Bounding sphere
@@ -338,20 +332,14 @@ internal static class BufferHelper
     /// Generates a <see cref="BoundingSphere"/> that completely contains all points within a <see cref="VertexBuffer"/>.
     /// </summary>
     /// <param name="vb">The <see cref="VertexBuffer"/> to be contained within the <see cref="BoundingSphere"/>.</param>
-    /// <param name="vertexCount">The total number of vertex contained within <paramref name="vb"/>.</param>
-    public static BoundingSphere ComputeBoundingSphere(VertexBuffer vb, int vertexCount)
-    {
-        return BoundingSphere.FromPoints(GetPoints(vb, vertexCount));
-    }
+    /// <param name="vertexCount">The total number of vertexes contained within <paramref name="vb"/>.</param>
+    public static BoundingSphere ComputeBoundingSphere(VertexBuffer vb, int vertexCount) => BoundingSphere.FromPoints(GetPoints(vb, vertexCount));
 
     /// <summary>
     /// Generates a <see cref="BoundingSphere"/> that completely contains all points within a <see cref="Mesh"/>.
     /// </summary>
     /// <param name="mesh">The <see cref="Mesh"/> to be contained within the <see cref="BoundingSphere"/>.</param>
-    public static BoundingSphere ComputeBoundingSphere(Mesh mesh)
-    {
-        return BoundingSphere.FromPoints(GetPoints(mesh));
-    }
+    public static BoundingSphere ComputeBoundingSphere(Mesh mesh) => BoundingSphere.FromPoints(GetPoints(mesh));
     #endregion
 
     #region Bounding body helpers

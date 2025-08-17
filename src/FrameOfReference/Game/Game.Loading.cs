@@ -54,10 +54,7 @@ partial class Game
 
     #region Random Menu Map
     /// <returns>The name of the current menu background map</returns>
-    private static string GetMenuMap()
-    {
-        return "Menu";
-    }
+    private static string GetMenuMap() => "Menu";
     #endregion
 
     #region Preload Savegame

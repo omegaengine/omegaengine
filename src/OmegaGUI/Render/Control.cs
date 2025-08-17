@@ -20,10 +20,7 @@ namespace OmegaGUI.Render;
 /// </summary>
 public abstract class Control
 {
-    public override string ToString()
-    {
-        return GetType().Name;
-    }
+    public override string ToString() => GetType().Name;
 
     #region Instance data
     protected Dialog parentDialog; // Parent container

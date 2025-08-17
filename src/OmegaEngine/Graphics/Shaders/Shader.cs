@@ -667,10 +667,7 @@ public abstract class Shader : EngineElement
     //--------------------//
 
     #region Conversion
-    public override string ToString()
-    {
-        return GetType().Name;
-    }
+    public override string ToString() => GetType().Name;
     #endregion
 
     #region Device event callbacks

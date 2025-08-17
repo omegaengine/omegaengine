@@ -33,15 +33,9 @@ internal sealed class EngineElementCollection<T> : EngineElement, ICollection<T>
         }
     }
 
-    public IEnumerator<T> GetEnumerator()
-    {
-        return _innerList.GetEnumerator();
-    }
+    public IEnumerator<T> GetEnumerator() => _innerList.GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     public void Add(T item)
     {
@@ -49,25 +43,13 @@ internal sealed class EngineElementCollection<T> : EngineElement, ICollection<T>
         _innerList.Add(item);
     }
 
-    public void Clear()
-    {
-        _innerList.Clear();
-    }
+    public void Clear() => _innerList.Clear();
 
-    public bool Contains(T item)
-    {
-        return _innerList.Contains(item);
-    }
+    public bool Contains(T item) => _innerList.Contains(item);
 
-    public void CopyTo(T[] array, int arrayIndex)
-    {
-        _innerList.CopyTo(array, arrayIndex);
-    }
+    public void CopyTo(T[] array, int arrayIndex) => _innerList.CopyTo(array, arrayIndex);
 
-    public bool Remove(T item)
-    {
-        return _innerList.Remove(item);
-    }
+    public bool Remove(T item) => _innerList.Remove(item);
 
     public int Count => _innerList.Count;
 

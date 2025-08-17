@@ -67,10 +67,7 @@ public abstract class Asset : IReferenceCount, IDisposable, INamed, IComparable<
     //--------------------//
 
     #region Comparison
-    int IComparable<Asset>.CompareTo(Asset? other)
-    {
-        return (other == null) ? 0 : string.Compare(Name, other.Name, StringComparison.OrdinalIgnoreCase);
-    }
+    int IComparable<Asset>.CompareTo(Asset? other) => (other == null) ? 0 : string.Compare(Name, other.Name, StringComparison.OrdinalIgnoreCase);
     #endregion
 
     #region Dispose

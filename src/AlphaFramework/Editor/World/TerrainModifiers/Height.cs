@@ -68,9 +68,7 @@ public abstract class Height : Base
 
     /// <inheritdoc/>
     public override IUndoCommand GetCommand()
-    {
-        return new ModifyHeightMap(Terrain,
+        => new ModifyHeightMap(Terrain,
             NewData.TotalArea.Location, OldData.GetArray(Terrain.HeightMap), NewData.GetArray(Terrain.HeightMap),
             _refreshHandler);
-    }
 }

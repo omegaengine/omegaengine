@@ -37,14 +37,11 @@ partial class GameBase
     /// Called to generate an <see cref="EngineConfig"/> based on external settings
     /// </summary>
     /// <param name="fullscreen">Shall the configuration be generated for fullscreen mode?</param>
-    protected virtual EngineConfig BuildEngineConfig(bool fullscreen)
+    protected virtual EngineConfig BuildEngineConfig(bool fullscreen) => new()
     {
-        return new()
-        {
-            Fullscreen = fullscreen,
-            TargetSize = fullscreen ? Screen.PrimaryScreen.Bounds.Size : Form.ClientSize
-        };
-    }
+        Fullscreen = fullscreen,
+        TargetSize = fullscreen ? Screen.PrimaryScreen.Bounds.Size : Form.ClientSize
+    };
     #endregion
 
     #region Apply graphics settings

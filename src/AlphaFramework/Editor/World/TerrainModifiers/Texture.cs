@@ -95,9 +95,7 @@ public sealed class Texture : Base
 
     /// <inheritdoc/>
     public override IUndoCommand GetCommand()
-    {
-        return new ModifyTextureMap(Terrain,
+        => new ModifyTextureMap(Terrain,
             NewData.TotalArea.Location, OldData.GetArray(Terrain.TextureMap), NewData.GetArray(Terrain.TextureMap),
             _refreshHandler);
-    }
 }

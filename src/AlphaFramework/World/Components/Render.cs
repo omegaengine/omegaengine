@@ -22,10 +22,7 @@ namespace AlphaFramework.World.Components;
 public abstract class Render : ICloneable
 {
     /// <inheritdoc/>
-    public override string ToString()
-    {
-        return GetType().Name;
-    }
+    public override string ToString() => GetType().Name;
 
     /// <summary>
     /// How this component is to be shifted before rendering.

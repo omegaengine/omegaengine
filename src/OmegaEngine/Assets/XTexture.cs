@@ -102,10 +102,7 @@ public class XTexture : Asset, ITextureProvider
     /// <summary>
     /// Convert a <see cref="XTexture"/> into its contained <see cref="SlimDX.Direct3D9.Texture"/>.
     /// </summary>
-    public static implicit operator Texture(XTexture xTexture)
-    {
-        return xTexture?.Texture;
-    }
+    public static implicit operator Texture(XTexture xTexture) => xTexture?.Texture;
     #endregion
 
     //--------------------//

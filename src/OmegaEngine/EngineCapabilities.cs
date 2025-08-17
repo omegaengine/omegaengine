@@ -237,9 +237,7 @@ public sealed class EngineCapabilities
     /// <param name="height">The resolution height</param>
     /// <returns><c>true</c> if the level is supported</returns>
     public bool CheckResolution(int width, int height)
-    {
-        return DisplayModes.Any(mode => mode.Width == width && mode.Height == height);
-    }
+        => DisplayModes.Any(mode => mode.Width == width && mode.Height == height);
 
     /// <summary>
     /// Checks whether a certain depth stencil format is supported by the <see cref="SlimDX.Direct3D9.Device"/>
@@ -272,10 +270,12 @@ public sealed class EngineCapabilities
     /// <param name="sample">The sample level to check</param>
     /// <returns><c>true</c> if the level is supported</returns>
     public bool CheckAA(int sample)
-    {
-        return (_direct3D.CheckDeviceMultisampleType(_engineConfig.Adapter, DeviceType.Hardware,
-            _direct3D.Adapters[_engineConfig.Adapter].CurrentDisplayMode.Format, true, (MultisampleType)sample));
-    }
+        => _direct3D.CheckDeviceMultisampleType(
+            _engineConfig.Adapter,
+            DeviceType.Hardware,
+            _direct3D.Adapters[_engineConfig.Adapter].CurrentDisplayMode.Format,
+            windowed: true,
+            (MultisampleType)sample);
 
     /// <summary>
     /// The highest supported anti aliasing level

@@ -19,10 +19,7 @@ namespace AlphaFramework.World.Components;
 public class Movement : ICloneable
 {
     /// <inheritdoc/>
-    public override string ToString()
-    {
-        return GetType().Name;
-    }
+    public override string ToString() => GetType().Name;
 
     /// <summary>
     /// How many units the <see cref="EntityBase{TCoordinates,TTemplate}"/> can walk per second.

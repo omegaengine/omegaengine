@@ -84,10 +84,7 @@ public class Dialog : ICloneable<Dialog>
     /// </summary>
     public static CultureInfo ResourceCulture { get => Resources.Culture; set => Resources.Culture = value; }
 
-    public override string ToString()
-    {
-        return "Dialog";
-    }
+    public override string ToString() => "Dialog";
 
     /// <summary>
     /// A flag to determine whether the model counterpart to this dialog vuew needs to be recreated to reflect changes made to properties

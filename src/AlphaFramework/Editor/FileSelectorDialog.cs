@@ -124,9 +124,7 @@ public partial class FileSelectorDialog : Form
     /// <returns><c>true</c> if a file was selected, <c>false</c> if none was selected</returns>
     /// <exception cref="InvalidOperationException">The user didn't select a file.</exception>
     public static bool TryGetPath(string type, string extension, out string path, out bool overwrite)
-    {
-        return TryGetPath(type, extension, out path, out overwrite, true);
-    }
+        => TryGetPath(type, extension, out path, out overwrite, allowNew: true);
 
     /// <summary>
     /// Gets the file path for a game-content file (not allowing the user to create a new file)
@@ -137,9 +135,7 @@ public partial class FileSelectorDialog : Form
     /// <returns><c>true</c> if a file was selected, <c>false</c> if none was selected</returns>
     /// <exception cref="InvalidOperationException">The user didn't select a file.</exception>
     public static bool TryGetPath(string type, string extension, out string path)
-    {
-        return TryGetPath(type, extension, out path, out bool _, false);
-    }
+        => TryGetPath(type, extension, out path, out bool _, allowNew: false);
     #endregion
 
     //--------------------//
