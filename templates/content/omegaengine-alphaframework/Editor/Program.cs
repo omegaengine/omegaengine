@@ -7,8 +7,6 @@ using System.Threading;
 using System.Windows.Forms;
 using AlphaFramework.Editor;
 using AlphaFramework.Editor.Properties;
-using AlphaFramework.Presentation;
-using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
 using OmegaEngine;
 using OmegaEngine.Foundation.Storage;
@@ -18,11 +16,6 @@ namespace Template.AlphaFramework.Editor;
 internal static class Program
 {
     /// <summary>
-    /// The arguments this application was launched with.
-    /// </summary>
-    public static Arguments Args { get; private set; }
-
-    /// <summary>
     /// Shall the application start from the beginning again?
     /// </summary>
     public static bool Restart = true;
@@ -31,11 +24,9 @@ internal static class Program
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-    private static void Main(string[] args)
+    private static void Main()
     {
         Application.EnableVisualStyles();
-
-        Args = new Arguments(args);
 
         UpdateLocale();
 
@@ -50,16 +41,7 @@ internal static class Program
             // Exit if the user didn't select anything
             if (ContentManager.ModDir == null && !ModInfo.MainGame) break;
 
-            // Load the archives, run the main editor, cancel if an exception occurred, always unload the archives
-            if (!LoadArchives()) break;
-            try
-            {
-                Application.Run(new MainForm());
-            }
-            finally
-            {
-                ContentManager.CloseArchives();
-            }
+            Application.Run(new MainForm());
 
             // Prepare for next selection
             ModInfo.MainGame = false;
@@ -86,32 +68,6 @@ internal static class Program
 
         // Create specific culture for thread
         Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(Resources.Culture.Name);
-    }
-
-    /// <summary>
-    /// Calls <see cref="ContentManager.LoadArchives"/> and displays error messages if something went wrong.
-    /// </summary>
-    /// <returns><see langword="true"/> if all archives were loaded successfully; <see langword="false"/> if something went wrong.</returns>
-    private static bool LoadArchives()
-    {
-        try
-        {
-            ContentManager.LoadArchives();
-        }
-        catch (IOException)
-        {
-            ContentManager.CloseArchives();
-            Msg.Inform(null, Resources.FailedReadArchives, MsgSeverity.Error);
-            return false;
-        }
-        catch (UnauthorizedAccessException)
-        {
-            ContentManager.CloseArchives();
-            Msg.Inform(null, Resources.FailedReadArchives, MsgSeverity.Error);
-            return false;
-        }
-
-        return true;
     }
 
     /// <summary>
