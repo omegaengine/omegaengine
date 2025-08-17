@@ -1,4 +1,4 @@
-![OmegaEngine](logo.png)
+![OmegaEngine](https://github.com/omegaengine/omegaengine/raw/master/logo.png)
 
 [![Build](https://github.com/omegaengine/omegaengine/actions/workflows/build.yml/badge.svg)](https://github.com/omegaengine/omegaengine/actions/workflows/build.yml)
 
@@ -10,7 +10,7 @@ OmegaEngine is a general-purpose 3D graphics for .NET Framework and DirectX 9. T
 
 The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games using OmegaEngine.
 
-**[Documentation](https://omegaengine.de/)**
+**[Documentation](https://docs.omegaengine.de/)**
 
 ## Prerequisites
 
