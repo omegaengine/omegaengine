@@ -42,9 +42,9 @@ jobs:
         with:
           files: |
             feeds/frame-of-reference-${{steps.gitversion.outputs.legacySemVer}}.xml
-            feeds/frame-of-reference-${{steps.gitversion.outputs.legacySemVer}}.zip
+            feeds/frame-of-reference-${{steps.gitversion.outputs.legacySemVer}}.zst
             feeds/frame-of-reference-content-${{steps.gitversion.outputs.legacySemVer}}.xml
-            feeds/frame-of-reference-content-${{steps.gitversion.outputs.legacySemVer}}.zip
+            feeds/frame-of-reference-content-${{steps.gitversion.outputs.legacySemVer}}.zst
           body: |
             **[Documentation and download instructions](https://docs.omegaengine.de/)**
 
