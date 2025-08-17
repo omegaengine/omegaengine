@@ -24,63 +24,8 @@ namespace OmegaEngine.Graphics.Shaders;
 /// Helper class for dynamically generating <see cref="Shader"/> code
 /// </summary>
 /// <remarks>Uses partial .fx files with XML control comments as input</remarks>
-public static class DynamicShader
+public static partial class DynamicShader
 {
-    #region Counters
-    private abstract class Counter(string id)
-    {
-        public string ID { get; } = id;
-
-        public abstract string GetValue(int run);
-    }
-
-    private sealed class IntCounter : Counter
-    {
-        private readonly int _min, _max;
-        private readonly float _step = 1;
-
-        public IntCounter(string id, int min, int max) : base(id)
-        {
-            _min = min;
-            _max = max;
-        }
-
-        public IntCounter(string id, int min, int max, float step) : base(id)
-        {
-            _min = min;
-            _max = max;
-            _step = step;
-        }
-
-        public override string GetValue(int run)
-        {
-            var num = (int)Math.Ceiling(run * _step);
-            return num.Clamp(_min, _max).ToString(CultureInfo.InvariantCulture);
-        }
-    }
-
-    private sealed class CharCounter : Counter
-    {
-        private readonly char[] _chars;
-
-        public CharCounter(string id, ICollection<char> chars) : base(id)
-        {
-            _chars = new char[chars.Count];
-            chars.CopyTo(_chars, 0);
-        }
-
-        public override string GetValue(int run)
-        {
-            run--;
-            while (run >= _chars.Length)
-                run -= _chars.Length;
-            return _chars[run].ToString(CultureInfo.InvariantCulture);
-        }
-    }
-    #endregion
-
-    //--------------------//
-
     #region Code helpers
     private static string HandleCounters(string source, IEnumerable<Counter> counters, int run)
     {
