@@ -26,16 +26,22 @@ public abstract class EngineElement : IDisposable
     /// </summary>
     /// <param name="element">The <see cref="EngineElement"/> to register. Silently ignores <c>null</c>.</param>
     /// <param name="autoDispose">Controls whether the <paramref name="element"/> is automatically disposed when <see cref="Dispose"/> is called.</param>
+    /// <remarks>This method is thread-safe.</remarks>
     protected void RegisterChild(EngineElement? element, bool autoDispose = true)
     {
         if (element == null) return;
 
-        if (autoDispose) _toDispose.Add(element);
+        if (autoDispose)
+        {
+            lock (_toDispose) // Some elements, like dynamic shaders, may be registered in parallel
+                _toDispose.Add(element);
+        }
 
         if (IsEngineSet)
             element.Engine = Engine;
 
-        _toSetEngine.Add(element);
+        lock (_toSetEngine) // Some elements, like dynamic shaders, may be registered in parallel
+            _toSetEngine.Add(element);
     }
 
     /// <summary>

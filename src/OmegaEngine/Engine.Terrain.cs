@@ -24,10 +24,12 @@ partial class Engine
     private readonly TerrainShader?[] _terrainShadersNoLighting = new TerrainShader?[65536];
 
     /// <summary>
-    /// Generates a shader for a specific set of enabled textures. Results are cached internally.
+    /// Generates a shader for a specific set of enabled textures. Results are cached.
     /// </summary>
     /// <param name="lighting">Get a shader with lighting enabled?</param>
     /// <param name="textureMask">A bitmask that indicates which textures are enabled.</param>
+    /// <returns>The newly generated or previously cached shader.</returns>
+    /// <remarks>This method is thread-safe.</remarks>
     internal TerrainShader GetTerrainShader(bool lighting, int textureMask)
     {
         var terrainShaders = lighting ? _terrainShadersLighting : _terrainShadersNoLighting;
