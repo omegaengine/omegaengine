@@ -99,7 +99,10 @@ public class OcclusionIntervalMapGenerator : TaskBase
     //--------------------//
 
     #region Thread code
-    public ParallelOptions ParallelOptions { get; } = new();
+    /// <summary>
+    /// Maximum number of threads to use for the computation. <c>-1</c> to use <see cref="Environment.ProcessorCount"/>.
+    /// </summary>
+    public int MaxDegreeOfParallelism { get; set; } = -1;
 
     /// <inheritdoc/>
     public override string Name => Resources.CalculatingShadows;
@@ -118,13 +121,13 @@ public class OcclusionIntervalMapGenerator : TaskBase
         State = TaskState.Data;
 
         var progressLock = new object();
-        Parallel.For(0, _heightMap.Width, ParallelOptions, x =>
+        Parallel.For(0, _heightMap.Width, new() {MaxDegreeOfParallelism = MaxDegreeOfParallelism, CancellationToken = CancellationToken}, x =>
         {
             for (int y = 0; y < _heightMap.Height; y++)
                 _result[x, y] = GetOcclusionVector(x, y);
 
             lock (progressLock) UnitsProcessed += _heightMap.Height;
-        }/*, CancellationToken*/);
+        });
 
         State = TaskState.Complete;
     }

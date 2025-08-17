@@ -21,7 +21,7 @@ public class OcclusionIntervalMapGeneratorTest
     [Fact]
     public void TestMinimal1()
     {
-        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
+        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}})) { MaxDegreeOfParallelism = 1 };
         generator.Run();
 
         generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
@@ -32,7 +32,7 @@ public class OcclusionIntervalMapGeneratorTest
     [Fact]
     public void TestMinimal2()
     {
-        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{1, 0}, {1, 0}, {2, 1}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
+        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{1, 0}, {1, 0}, {2, 1}})) { MaxDegreeOfParallelism = 1 };
         generator.Run();
 
         generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
@@ -46,7 +46,7 @@ public class OcclusionIntervalMapGeneratorTest
     [Fact]
     public void TestMinimal3()
     {
-        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0, 0}, {0, 0}, {1, 225}})) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
+        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0, 0}, {0, 0}, {1, 225}})) { MaxDegreeOfParallelism = 1 };
         generator.Run();
 
         generator.Result[0, 0].Should().Be(new ByteVector4(38, 255, 255, 255));
@@ -60,7 +60,7 @@ public class OcclusionIntervalMapGeneratorTest
     [Fact]
     public void TestStretchV()
     {
-        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchV: 2) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
+        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchV: 2) { MaxDegreeOfParallelism = 1 };
         generator.Run();
 
         generator.Result[0, 0].Should().Be(new ByteVector4(64, 255, 255, 255));
@@ -71,7 +71,7 @@ public class OcclusionIntervalMapGeneratorTest
     [Fact]
     public void TestStretchH()
     {
-        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchH: 2) { ParallelOptions = { MaxDegreeOfParallelism = 1 } };
+        var generator = new OcclusionIntervalMapGenerator(new ByteGrid(new byte[,] {{0}, {0}, {1}}), stretchH: 2) { MaxDegreeOfParallelism = 1 };
         generator.Run();
 
         generator.Result[0, 0].Should().Be(new ByteVector4(20, 255, 255, 255));
