@@ -15,8 +15,6 @@ static class Program
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
 
-        ContentManager.LoadArchives();
         Application.Run(new MainForm());
-        ContentManager.CloseArchives();
     }
 }

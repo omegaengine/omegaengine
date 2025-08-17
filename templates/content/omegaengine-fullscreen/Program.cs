@@ -15,8 +15,7 @@ static class Program
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
 
-        ContentManager.LoadArchives();
-        using (var game = new Game()) game.Run();
-        ContentManager.CloseArchives();
+        using var game = new Game();
+        game.Run();
     }
 }

@@ -87,10 +87,8 @@ internal static class Program
         else Settings.EnableAutoSave();
 
         if (!DetermineContentDirs()) return;
-        if (!LoadArchives()) return;
         using (var game = new Game())
             game.Run();
-        ContentManager.CloseArchives();
     }
 
     /// <summary>
@@ -148,29 +146,6 @@ internal static class Program
         catch (DirectoryNotFoundException ex)
         {
             Msg.Inform(null, ex.Message, MsgSeverity.Error);
-            return false;
-        }
-        #endregion
-
-        return true;
-    }
-
-    /// <summary>
-    /// Calls <see cref="ContentManager.LoadArchives"/> and displays error messages if something went wrong.
-    /// </summary>
-    /// <returns><c>true</c> if all archives were loaded successfully; <c>false</c> if something went wrong.</returns>
-    private static bool LoadArchives()
-    {
-        try
-        {
-            ContentManager.LoadArchives();
-        }
-        #region Error handling
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-        {
-            Log.Error(Resources.FailedReadArchives, ex);
-            ContentManager.CloseArchives();
-            Msg.Inform(null, Resources.FailedReadArchives + Environment.NewLine + ex.Message, MsgSeverity.Error);
             return false;
         }
         #endregion
