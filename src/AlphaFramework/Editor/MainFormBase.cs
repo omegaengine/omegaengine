@@ -389,7 +389,7 @@ public partial class MainFormBase : Form, IToastProvider
     /// </summary>
     /// <typeparam name="T">The tab type to display.</typeparam>
     /// <param name="type">The type of file the tab edits (e.g. Textures, Sounds, ...).</param>
-    /// <param name="extension">The file extension of the file type with a dot, but without a asterisk (e.g. .xml, .png, ...).</param>
+    /// <param name="extension">The file extension of the file type with a dot, but without an asterisk (e.g. .xml, .png, ...).</param>
     /// <param name="getInstance">A callback for creating an instance of the tab.</param>
     protected void OpenFileTab<T>(string type, string extension, Func<string, bool, T> getInstance) where T : Tab
     {

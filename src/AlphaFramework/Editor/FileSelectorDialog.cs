@@ -54,7 +54,7 @@ public partial class FileSelectorDialog : Form
     /// Gets the file path for a game-content file
     /// </summary>
     /// <param name="type">The type of file you want (e.g. Textures, Sounds, ...)</param>
-    /// <param name="extension">The file extension of the file type with a dot, but without a asterisk (e.g. .xml, .png, ...)</param>
+    /// <param name="extension">The file extension of the file type with a dot, but without an asterisk (e.g. .xml, .png, ...)</param>
     /// <param name="path">The absolute path to the requested content file</param>
     /// <param name="overwrite">Returns whether the user wants an existing file to be overwritten</param>
     /// <param name="allowNew">Allow the user to create a new file instead of opening an existing one?</param>
@@ -118,7 +118,7 @@ public partial class FileSelectorDialog : Form
     /// Gets the file path for a game-content file (allowing the user to create a new file)
     /// </summary>
     /// <param name="type">The type of file you want (e.g. Textures, Sounds, ...)</param>
-    /// <param name="extension">The file extension of the file type with a dot, but without a asterisk (e.g. .xml, .png, ...)</param>
+    /// <param name="extension">The file extension of the file type with a dot, but without an asterisk (e.g. .xml, .png, ...)</param>
     /// <param name="path">The absolute path to the requested content file</param>
     /// <param name="overwrite">Returns whether the user wants an existing file to be overwritten</param>
     /// <returns><c>true</c> if a file was selected, <c>false</c> if none was selected</returns>
@@ -132,7 +132,7 @@ public partial class FileSelectorDialog : Form
     /// Gets the file path for a game-content file (not allowing the user to create a new file)
     /// </summary>
     /// <param name="type">The type of file you want (e.g. Textures, Sounds, ...)</param>
-    /// <param name="extension">The file extension of the file type with a dot, but without a asterisk (e.g. .xml, .png, ...)</param>
+    /// <param name="extension">The file extension of the file type with a dot, but without an asterisk (e.g. .xml, .png, ...)</param>
     /// <param name="path">The absolute path to the requested content file</param>
     /// <returns><c>true</c> if a file was selected, <c>false</c> if none was selected</returns>
     /// <exception cref="InvalidOperationException">The user didn't select a file.</exception>
