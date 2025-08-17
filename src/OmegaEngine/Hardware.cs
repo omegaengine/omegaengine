@@ -43,7 +43,14 @@ public struct Hardware
     [XmlElement("gpu")]
     public HardwareGpu Gpu;
 
-    public override string ToString() => $"Hardware:\nOS: {OS}\nCPU: {Cpu}\nRAM: {string.Format(CultureInfo.InvariantCulture, "{0} MB", Ram)}\nGPU: {Gpu}";
+    public override string ToString()
+        => $"""
+            Hardware:
+            OS: {OS}
+            CPU: {Cpu}
+            RAM: {string.Format(CultureInfo.InvariantCulture, "{0} MB", Ram)}
+            GPU: {Gpu}
+            """;
 }
 
 /// <seealso cref="Hardware.Cpu"/>

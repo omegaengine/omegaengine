@@ -153,7 +153,15 @@ public sealed class EngineCapabilities
         #endregion
 
         // Log GPU capabilities
-        Log.Info($"GPU capabilities:\nHW Transform And Light: {_capabilities.DeviceCaps.HasFlag(DeviceCaps.HWTransformAndLight)}\nPure Device: {_capabilities.DeviceCaps.HasFlag(DeviceCaps.PureDevice)}\nAnisotropic: {Anisotropic}\nVertex Shader Version: {_capabilities.VertexShaderVersion}\nPixel Shader Version: {MaxShaderModel}\nSupported AA: {SupportedAA}\n");
+        Log.Info($"""
+                  GPU capabilities:
+                  HW Transform And Light: {_capabilities.DeviceCaps.HasFlag(DeviceCaps.HWTransformAndLight)}
+                  Pure Device: {_capabilities.DeviceCaps.HasFlag(DeviceCaps.PureDevice)}
+                  Anisotropic: {Anisotropic}
+                  Vertex Shader Version: {_capabilities.VertexShaderVersion}
+                  Pixel Shader Version: {MaxShaderModel}
+                  Supported AA: {SupportedAA}
+                  """);
 
         // Ensure support for linear texture filtering
         if (!(_capabilities.TextureFilterCaps).HasFlag(FilterCaps.MinLinear | FilterCaps.MagLinear | FilterCaps.MipLinear))
