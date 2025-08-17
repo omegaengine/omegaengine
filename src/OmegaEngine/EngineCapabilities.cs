@@ -10,9 +10,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Management;
-using System.Text;
 using NanoByte.Common;
-using NanoByte.Common.Info;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine;
@@ -49,8 +47,6 @@ public sealed class EngineCapabilities
     /// </summary>
     private void DetermineHardwareInformation()
     {
-        _hardware.OS = OSInfo.Current;
-
         #region CPU
         try
         {
@@ -102,7 +98,6 @@ public sealed class EngineCapabilities
         var adapter = _direct3D.Adapters[_engineConfig.Adapter].Details;
         _hardware.Gpu.Manufacturer = adapter.VendorId;
         _hardware.Gpu.Name = adapter.Description;
-        _hardware.Gpu.MaxAA = MaxAA;
 
         try
         {

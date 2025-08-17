@@ -20,12 +20,6 @@ namespace OmegaEngine;
 public struct Hardware
 {
     /// <summary>
-    /// The current operating system.
-    /// </summary>
-    [XmlElement("os")]
-    public OSInfo OS;
-
-    /// <summary>
     /// Details about the CPU.
     /// </summary>
     [XmlElement("cpu")]
@@ -46,7 +40,6 @@ public struct Hardware
     public override string ToString()
         => $"""
             Hardware:
-            OS: {OS}
             CPU: {Cpu}
             RAM: {string.Format(CultureInfo.InvariantCulture, "{0} MB", Ram)}
             GPU: {Gpu}
@@ -122,11 +115,5 @@ public struct HardwareGpu
     [XmlAttribute("ram")]
     public int Ram;
 
-    /// <summary>
-    /// The maximum level of anti-aliasing support by the graphics card.
-    /// </summary>
-    [XmlAttribute("max-aa")]
-    public int MaxAA;
-
-    public override string ToString() => $"{Name} ({Ram}MB RAM, {MaxAA}x AA)";
+    public override string ToString() => $"{Name} ({Ram}MB RAM)";
 }
