@@ -207,17 +207,17 @@ public sealed partial class Terrain<TTemplate> : ITerrain
 
         using var _ = new TimedLogEvent("Pathfinding: Marking untraversable slopes");
 
-        for (int x = 0; x < obstructionMap.GetLength(dimension: 0); x++)
+        for (int x = 0; x < Size.X; x++)
         {
-            for (int y = 0; y < obstructionMap.GetLength(dimension: 1); y++)
+            for (int y = 0; y < Size.Y; y++)
             {
                 obstructionMap[x, y] |=
-                    (GetSlope(x, y, 0, 1) > maxTraversableSlope) ||
-                    (GetSlope(x, y, 1, 0) > maxTraversableSlope) ||
-                    (GetSlope(x, y, 1, 1) > maxTraversableSlope) ||
-                    (GetSlope(x, y, 0, -1) > maxTraversableSlope) ||
-                    (GetSlope(x, y, -1, 0) > maxTraversableSlope) ||
-                    (GetSlope(x, y, -1, -1) > maxTraversableSlope);
+                    GetSlope(x, y, 0, 1) > maxTraversableSlope
+                 || GetSlope(x, y, 1, 0) > maxTraversableSlope
+                 || GetSlope(x, y, 1, 1) > maxTraversableSlope
+                 || GetSlope(x, y, 0, -1) > maxTraversableSlope
+                 || GetSlope(x, y, -1, 0) > maxTraversableSlope
+                 || GetSlope(x, y, -1, -1) > maxTraversableSlope;
             }
         }
     }

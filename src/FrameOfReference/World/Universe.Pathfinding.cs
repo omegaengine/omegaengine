@@ -24,7 +24,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using AlphaFramework.World;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Paths;
@@ -74,14 +73,18 @@ partial class Universe
 
         using var _ = new TimedLogEvent("Pathfinding: Marking unmovable entities");
 
-        foreach (var entity in Positionables.OfType<Entity>().Where(x => x.TemplateData is {Movement: null, Collision: not null}))
+        int lengthX = obstructionMap.GetLength(0);
+        int lengthY = obstructionMap.GetLength(1);
+
+        Positionables.OfType<Entity>().Where(x => x.TemplateData is {Movement: null, Collision: not null}).AsParallel().ForAll(entity =>
         {
-            Parallel.For(0, obstructionMap.GetLength(dimension: 0), x =>
+            for (int x = 0; x < lengthX; x++)
+            for (int y = 0; y < lengthY; y++)
             {
-                for (int y = 0; y < obstructionMap.GetLength(dimension: 1); y++)
-                    obstructionMap[x, y] |= entity.CollisionTest(new Vector2(x, y) * Terrain.Size.StretchH);
-            });
-        }
+                if (entity.CollisionTest(new Vector2(x, y) * Terrain.Size.StretchH))
+                    obstructionMap[x, y] = true;
+            }
+        });
     }
 
     /// <summary>
@@ -95,22 +98,23 @@ partial class Universe
 
         using var _ = new TimedLogEvent("Pathfinding: Marking untraversable waters");
 
-        foreach (var water in Positionables.OfType<Water>())
+        Positionables.OfType<Water>().AsParallel().ForAll(water =>
         {
-            var xStart = (int)Math.Floor(water.Position.X / Terrain.Size.StretchH);
-            var xEnd = (int)Math.Ceiling((water.Position.X + water.Size.X) / Terrain.Size.StretchH);
-            var yStart = (int)Math.Floor(water.Position.Y / Terrain.Size.StretchH);
-            var yEnd = (int)Math.Ceiling((water.Position.Y + water.Size.Y) / Terrain.Size.StretchH);
+            int xStart = (int)Math.Floor(water.Position.X / Terrain.Size.StretchH);
+            int xEnd = (int)Math.Ceiling((water.Position.X + water.Size.X) / Terrain.Size.StretchH);
+            int yStart = (int)Math.Floor(water.Position.Y / Terrain.Size.StretchH);
+            int yEnd = (int)Math.Ceiling((water.Position.Y + water.Size.Y) / Terrain.Size.StretchH);
 
             if (xEnd > Terrain.Size.X - 1) xEnd = Terrain.Size.X - 1;
             if (yEnd > Terrain.Size.Y - 1) yEnd = Terrain.Size.Y - 1;
 
             for (int x = xStart; x <= xEnd; x++)
+            for (int y = yStart; y <= yEnd; y++)
             {
-                for (int y = yStart; y <= yEnd; y++)
-                    obstructionMap[x, y] |= (Terrain.HeightMap[x, y] * Terrain.Size.StretchV) < (water.Height - water.TraversableDepth);
+                if (Terrain.HeightMap[x, y] * Terrain.Size.StretchV < water.Height - water.TraversableDepth)
+                    obstructionMap[x, y] = true;
             }
-        }
+        });
     }
     #endregion
 
