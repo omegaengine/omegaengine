@@ -126,7 +126,7 @@ public struct HardwareGpu
     /// The maximum level of anti-aliasing support by the graphics card.
     /// </summary>
     [XmlAttribute("max-aa")]
-    public byte MaxAA;
+    public int MaxAA;
 
     public override string ToString() => $"{Name} ({Ram}MB RAM, {MaxAA}x AA)";
 }

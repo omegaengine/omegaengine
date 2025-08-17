@@ -258,9 +258,9 @@ public sealed class EngineCapabilities
     }
     #endregion
 
-    #region Anti aliasing check
+    #region Anti-aliasing check
     /// <summary>
-    /// Checks whether the graphics card supports a certain level of anti aliasing
+    /// Checks whether the graphics card supports a certain level of anti-aliasing
     /// </summary>
     /// <param name="adapter">The adapter to check</param>
     /// <param name="sample">The sample level to check</param>
@@ -273,7 +273,7 @@ public sealed class EngineCapabilities
     }
 
     /// <summary>
-    /// Checks whether the graphics card supports a certain level of anti aliasing
+    /// Checks whether the graphics card supports a certain level of anti-aliasing
     /// </summary>
     /// <param name="sample">The sample level to check</param>
     /// <returns><c>true</c> if the level is supported</returns>
@@ -285,39 +285,16 @@ public sealed class EngineCapabilities
             windowed: true,
             (MultisampleType)sample);
 
-    /// <summary>
-    /// The highest supported anti aliasing level
-    /// </summary>
-    public byte MaxAA
-    {
-        get
-        {
-            for (byte i = 16; i >= 2; i -= 2) // From 16 down to 2 in steps of 2
-            {
-                // Stop as soon as a supported level is found
-                if (CheckAA(i)) return i;
-            }
-            return 0;
-        }
-    }
+    private static readonly int[] KnownAALevels = [2, 4, 8, 16];
 
     /// <summary>
-    /// A comma-separated list of all supported anti aliasing levels
+    /// The highest supported anti-aliasing level
     /// </summary>
-    public string SupportedAA
-    {
-        get
-        {
-            var result = new StringBuilder();
-            for (byte i = 2; i <= 16; i += 2) // From 2 up to 16 in steps of 2
-            {
-                if (CheckAA(i)) result.Append($"{i},"); // Append supported levels to result string
-                else break; // Stop as soon as a non-supported level is found
-            }
+    public int MaxAA => KnownAALevels.LastOrDefault(CheckAA);
 
-            // Trim away last comma
-            return result.ToString().TrimEnd(',');
-        }
-    }
+    /// <summary>
+    /// A comma-separated list of all supported anti-aliasing levels
+    /// </summary>
+    public string SupportedAA => string.Join(",", KnownAALevels.Where(x => CheckAA(x)).Select(x => x.ToString()));
     #endregion
 }
