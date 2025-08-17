@@ -93,7 +93,7 @@ partial class Universe
         if (Terrain is not {DataLoaded: true}) throw new InvalidOperationException("Terrain data not loaded.");
         #endregion
 
-        using var _ = new TimedLogEvent("Pathfinding: marking untraversable waters");
+        using var _ = new TimedLogEvent("Pathfinding: Marking untraversable waters");
 
         foreach (var water in Positionables.OfType<Water>())
         {

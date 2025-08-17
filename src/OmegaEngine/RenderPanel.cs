@@ -98,8 +98,8 @@ public class RenderPanel : TouchPanel
     /// <exception cref="NotSupportedException">The graphics card does not meet the engine's minimum requirements.</exception>
     /// <exception cref="Direct3D9NotFoundException">Throw if required DirectX version is missing.</exception>
     /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
-    /// <exception cref="Direct3D9Exception">internal errors occurred while intiliazing the graphics card.</exception>
-    /// <exception cref="SlimDX.DirectSound.DirectSoundException">internal errors occurred while intiliazing the sound card.</exception>
+    /// <exception cref="Direct3D9Exception">Internal errors occurred while initializing the graphics card.</exception>
+    /// <exception cref="SlimDX.DirectSound.DirectSoundException">Internal errors occurred while initializing the sound card.</exception>
     /// <remarks>Calling this multiple times will always return the same <see cref="OmegaEngine.Engine"/> instance.</remarks>
     public Engine Setup()
     {

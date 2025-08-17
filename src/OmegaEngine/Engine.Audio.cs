@@ -38,7 +38,7 @@ partial class Engine
     /// <summary>
     /// Helper called by the constructor to setup the audio-subsystem.
     /// </summary>
-    /// <exception cref="SlimDX.DirectSound.DirectSoundException">internal errors occurred while intiliazing the sound card.</exception>
+    /// <exception cref="SlimDX.DirectSound.DirectSoundException">Internal errors occurred while initializing the sound card.</exception>
     private void SetupAudio()
     {
         AudioDevice = new();

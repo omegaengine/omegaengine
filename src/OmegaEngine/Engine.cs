@@ -122,8 +122,8 @@ public sealed partial class Engine : EngineElement
     /// <exception cref="NotSupportedException">The graphics card does not meet the engine's minimum requirements.</exception>
     /// <exception cref="Direct3D9NotFoundException">Throw if required DirectX version is missing.</exception>
     /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
-    /// <exception cref="Direct3D9Exception">internal errors occurred while intiliazing the graphics card.</exception>
-    /// <exception cref="SlimDX.DirectSound.DirectSoundException">internal errors occurred while intiliazing the sound card.</exception>
+    /// <exception cref="Direct3D9Exception">Internal errors occurred while initializing the graphics card.</exception>
+    /// <exception cref="SlimDX.DirectSound.DirectSoundException">Internal errors occurred while initializing the sound card.</exception>
     public Engine(Control target, EngineConfig config)
     {
         #region Sanity checks
@@ -174,7 +174,7 @@ public sealed partial class Engine : EngineElement
     /// <summary>
     /// Helper method for the constructor that creates the <see cref="Device"/>.
     /// </summary>
-    /// <exception cref="Direct3D9Exception">internal errors occurred during creation.</exception>
+    /// <exception cref="Direct3D9Exception">Internal errors occurred during creation.</exception>
     /// <exception cref="Direct3D9NotFoundException">Throw if required DirectX version is missing.</exception>
     /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
     private void CreateDevice()

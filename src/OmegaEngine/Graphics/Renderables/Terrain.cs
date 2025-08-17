@@ -277,7 +277,7 @@ public partial class Terrain : Model
 
     private void RenderSubset(int i, Camera camera, GetLights lights)
     {
-        // Frustum culling with the bouding box
+        // Frustum culling with the bounding box
         if (_subsetWorldBoundingBoxes != null && !camera.InFrustum(_subsetWorldBoundingBoxes[i])) return;
 
         using (new ProfilerEvent(() => $"Subset {i}"))
