@@ -9,6 +9,7 @@
 using System;
 using System.Drawing;
 using JetBrains.Annotations;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using SlimDX;
 
@@ -58,6 +59,15 @@ public static class RandomUtils
         GetRandomFloat(min.X, max.X),
         GetRandomFloat(min.Y, max.Y),
         GetRandomFloat(min.Z, max.Z));
+
+    /// <summary>
+    /// Get a random Vector3 value that lies within a sphere with the given radius
+    /// </summary>
+    public static Vector3 GetRandomPointInsideSphere(float radius) =>
+        VectorMath.UnitVector(
+            inclination: GetRandomFloat(0, 2 * (float)Math.PI),
+            azimuth: GetRandomFloat(0, 2 * (float)Math.PI))
+      * GetRandomFloat(0, radius);
 
     /// <summary>
     /// Get a random color value between <paramref name="limit1"/> and <paramref name="limit2"/>
