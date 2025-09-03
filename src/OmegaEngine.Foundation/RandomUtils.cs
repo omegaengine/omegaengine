@@ -46,7 +46,7 @@ public static class RandomUtils
     /// <param name="min">The minimum value</param>
     /// <param name="max">The maximum value</param>
     [Pure]
-    public static double GetRandomDouble(float min, float max) => _randomGenerator.NextDouble() * (max - min) + min;
+    public static double GetRandomDouble(double min, double max) => _randomGenerator.NextDouble() * (max - min) + min;
 
     /// <summary>
     /// Get a random Vector3 value between <paramref name="min"/> and <paramref name="max"/>
