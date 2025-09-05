@@ -83,6 +83,12 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     /// <summary>Multiply <see cref="DoubleVector3"/> with <see cref="float"/></summary>
     public static DoubleVector3 operator *(DoubleVector3 vector, float scalar) => new(vector.X * scalar, vector.Y * scalar, vector.Z * scalar);
 
+    /// <summary>Divide <see cref="DoubleVector3"/> with <see cref="double"/></summary>
+    public static DoubleVector3 operator /(DoubleVector3 vector, double scalar) => new(vector.X / scalar, vector.Y / scalar, vector.Z / scalar);
+
+    /// <summary>Divide <see cref="DoubleVector3"/> with <see cref="float"/></summary>
+    public static DoubleVector3 operator /(DoubleVector3 vector, float scalar) => new(vector.X / scalar, vector.Y / scalar, vector.Z / scalar);
+
     /// <summary>
     /// Returns a single-precision standard Vector3 after subtracting an offset value
     /// </summary>
@@ -94,16 +100,34 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
         (float)(Z - offset.Z));
 
     /// <summary>
-    /// Calculates the dot product of this vector and <paramref name="vector"/>.
+    /// Calculates the dot product of this vector and <paramref name="other"/>.
     /// </summary>
-    /// <param name="vector">The second vector to calculate the dot product with.</param>
-    /// <returns>this x <paramref name="vector"/></returns>
-    public double DotProduct(DoubleVector3 vector) => X * vector.X + Y * vector.Y + Z * vector.Z;
+    /// <param name="other">The second vector to calculate the dot product with.</param>
+    public double DotProduct(DoubleVector3 other) => X * other.X + Y * other.Y + Z * other.Z;
+
+    /// <summary>
+    /// Calculates the cross product of this vector and <paramref name="other"/>.
+    /// </summary>
+    /// <param name="other">The second vector to calculate the cross product with.</param>
+    public DoubleVector3 CrossProduct(DoubleVector3 other)
+        => new(
+            Y * other.Z - Z * other.Y,
+            Z * other.X - X * other.Z,
+            X * other.Y - Y * other.X);
 
     /// <summary>
     /// Calculates the length of the vector.
     /// </summary>
     public double Length() => Math.Sqrt(X * X + Y * Y + Z * Z);
+
+    /// <summary>
+    /// Returns a copy of the vector scaled to a length of 1.
+    /// </summary>
+    public DoubleVector3 Normalize()
+    {
+        var length = Length();
+        return length == 0 ? this : new(X / length, Y / length, Z / length);
+    }
 
     /// <summary>
     /// Maps X to X and Z to -Y. Drops Y.
