@@ -94,7 +94,9 @@ public static class VectorMath
         // Remove index shift from factor
         factor -= index;
 
-        // Apply sinus smoothing to factor component-wise
+        // Apply sinus smoothing to factor
+        factor = -0.5f * (float)Math.Cos(factor * Math.PI) + 0.5f;
+
         return new(
             values[index].X + factor * (values[index + 1].X - values[index].X),
             values[index].Y + factor * (values[index + 1].Y - values[index].Y),
