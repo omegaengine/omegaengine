@@ -61,6 +61,23 @@ public static class VectorMath
     }
 
     /// <summary>
+    /// Rotates a <see cref="DoubleVector3"/> around an arbitrary axis.
+    /// </summary>
+    /// <param name="value">The original vector.</param>
+    /// <param name="axis">The axis to rotate around.</param>
+    /// <param name="rotation">The angle to rotate by in degrees.</param>
+    /// <returns>The rotated <see cref="DoubleVector3"/>.</returns>
+    public static DoubleVector3 RotateAroundAxis(this DoubleVector3 value, DoubleVector3 axis, double rotation)
+    {
+        double phi = rotation.DegreeToRadian();
+        double cosA = Math.Cos(phi);
+        double sinA = Math.Sin(phi);
+        return (float)cosA * value +
+               (float)sinA * axis.CrossProduct(value) +
+               (float)(1 - cosA) * axis.DotProduct(value) * axis;
+    }
+
+    /// <summary>
     /// Performs linear interpolation between two vectors.
     /// </summary>
     /// <param name="vector1">The starting vector.</param>
