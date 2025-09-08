@@ -36,20 +36,30 @@ jobs:
           path: src/UnitTests/TestResults/*.trx
 
       # Release
+      - name: Get tag message
+        if: github.ref_type == 'tag'
+        id: tag_message
+        run: |
+          "message<<EOF" >> $env:GITHUB_OUTPUT
+          git fetch -f origin tag ${{github.ref_name}}
+          git tag --format="%(contents)" -l ${{github.ref_name}} >> $env:GITHUB_OUTPUT
+          "EOF" >> $env:GITHUB_OUTPUT
       - name: Create GitHub Release
         if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v2
         with:
           body: |
             **[Documentation and download instructions](https://docs.omegaengine.de/)**
+            ## Changes
+            ${{steps.tag_message.outputs.message}}
+
+      # Publish
       - name: Upload feeds
         if: github.ref_type == 'tag'
         uses: actions/upload-artifact@v4
         with:
           path: feeds/*-${{steps.gitversion.outputs.nuGetVersion}}.*
           compression-level: 0
-
-      # Publish
       - name: Publish packages (GitHub)
         if: github.event_name == 'push' && !startsWith(github.ref_name, 'renovate/')
         run: dotnet nuget push artifacts\Release\*.nupkg --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json --api-key ${{github.token}} --no-symbols --skip-duplicate
