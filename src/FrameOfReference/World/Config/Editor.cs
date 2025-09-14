@@ -57,22 +57,6 @@ public sealed class EditorSettings
     [DefaultValue(false), Description("May the user edit the base game?")]
     public bool EditBase { get => _editBase; set => value.To(ref _editBase, Changed); }
 
-    private Size _windowSize;
-
-    /// <summary>
-    /// The size of the editor window
-    /// </summary>
-    [Description("The size of the editor window")]
-    public Size WindowSize { get => _windowSize; set => value.To(ref _windowSize, Changed); }
-
-    private bool _windowMaximized;
-
-    /// <summary>
-    /// Is the editor window maximized?
-    /// </summary>
-    [Description("Is the editor window maximized?")]
-    public bool WindowMaximized { get => _windowMaximized; set => value.To(ref _windowMaximized, Changed); }
-
     // Note: Can not use ICollection<T> interface with XML Serialization
     private readonly MonitoredCollection<string> _recentMods = [];
 

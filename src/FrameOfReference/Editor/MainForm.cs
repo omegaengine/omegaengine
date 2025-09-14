@@ -21,7 +21,6 @@
  */
 
 using System;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using AlphaFramework.Editor;
@@ -60,20 +59,9 @@ public sealed partial class MainForm : MainFormBase
 
     private void MainForm_Load(object sender, EventArgs e)
     {
-        // Restore previous window layout
-        if (Settings.Current.Editor.WindowSize != Size.Empty) Size = Settings.Current.Editor.WindowSize;
-        if (Settings.Current.Editor.WindowMaximized) WindowState = FormWindowState.Maximized;
-
         // Open files passed as command-line arguments
         foreach (string file in Program.Args.Files.Where(file => file.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase)))
             AddTab(new MapEditor(file, false));
-    }
-
-    private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-    {
-        // Store window layout
-        Settings.Current.Editor.WindowMaximized = (WindowState == FormWindowState.Maximized);
-        if (WindowState == FormWindowState.Normal) Settings.Current.Editor.WindowSize = Size;
     }
 
     /// <inheritdoc/>
