@@ -28,9 +28,7 @@ public sealed partial class MapPropertiesTool : Form
     public event Action<IUndoCommand> ExecuteCommand;
 
     private void OnExecuteCommand(IUndoCommand command)
-    {
-        ExecuteCommand?.Invoke(command);
-    }
+        => ExecuteCommand?.Invoke(command);
     #endregion
 
     #region Variables

@@ -27,9 +27,7 @@ public sealed partial class AddRenderComponentTool : System.Windows.Forms.Form
     public event Action<Render> NewRenderComponent;
 
     private void OnNewRenderComponent(Render component)
-    {
-        NewRenderComponent?.Invoke(component);
-    }
+        => NewRenderComponent?.Invoke(component);
     #endregion
 
     #region Constructor

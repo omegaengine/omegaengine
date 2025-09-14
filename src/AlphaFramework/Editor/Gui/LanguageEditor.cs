@@ -124,18 +124,12 @@ public partial class LanguageEditor : UndoCloneTab<XmlDictionary>
 
     #region DataGrid events
     private void OnDataGridViewRowEvent(object sender, DataGridViewRowEventArgs e)
-    {
-        OnChange();
-    }
+        => OnChange();
 
     private void OnDataGridViewCellEvent(object sender, DataGridViewCellEventArgs e)
-    {
-        OnChange();
-    }
+        => OnChange();
 
     private void OnDataGridDataError(object sender, DataGridViewDataErrorEventArgs e)
-    {
-        Msg.Inform(this, e.Exception.Message, MsgSeverity.Warn);
-    }
+        => Msg.Inform(this, e.Exception.Message, MsgSeverity.Warn);
     #endregion
 }

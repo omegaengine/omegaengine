@@ -119,26 +119,17 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
     /// <summary>
     /// Hooks the <see cref="View"/> out of <see cref="OmegaEngine.Engine.Views"/>
     /// </summary>
-    public virtual void HookOut()
-    {
-        Engine.Views.Remove(View);
-    }
+    public virtual void HookOut() => Engine.Views.Remove(View);
 
     /// <summary>
     /// Dims in the screen down.
     /// </summary>
-    public virtual void DimDown()
-    {
-        Engine.DimDown();
-    }
+    public virtual void DimDown() => Engine.DimDown();
 
     /// <summary>
     /// Dims in the screen back up.
     /// </summary>
-    public virtual void DimUp()
-    {
-        Engine.DimUp();
-    }
+    public virtual void DimUp() => Engine.DimUp();
 
     /// <summary>
     /// Was this presenter already disposed?

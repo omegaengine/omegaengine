@@ -24,9 +24,7 @@ partial class Engine
     /// </summary>
     /// <param name="filename">The file name to save the screenshot too</param>
     public void Screenshot(string filename)
-    {
-        Screenshot(filename, RenderSize);
-    }
+        => Screenshot(filename, RenderSize);
 
     /// <summary>
     /// Saves the current screen at a scaled resolution as JPG
@@ -35,9 +33,7 @@ partial class Engine
     /// <param name="width">The width to scale the resolution down too</param>
     /// <param name="height">The height to scale the resolution down too</param>
     public void Screenshot(string filename, int width, int height)
-    {
-        Screenshot(filename, new(width, height));
-    }
+        => Screenshot(filename, new(width, height));
 
     /// <summary>
     /// Saves the current screen at a scaled resolution
@@ -121,9 +117,6 @@ partial class Engine
     /// <summary>
     /// Closes the windows displayed by <see cref="Debug"/>
     /// </summary>
-    public void DebugClose()
-    {
-        _debugForm?.Close();
-    }
+    public void DebugClose() => _debugForm?.Close();
     #endregion
 }
