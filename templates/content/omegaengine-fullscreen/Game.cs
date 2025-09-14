@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using OmegaEngine;
+﻿using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Cameras;

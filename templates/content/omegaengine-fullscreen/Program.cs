@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-using OmegaEngine.Foundation.Storage;
+﻿using System.Windows.Forms;
 
 namespace Template.Fullscreen;
 

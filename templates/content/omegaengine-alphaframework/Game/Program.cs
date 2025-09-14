@@ -1,9 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using AlphaFramework.Presentation;
-using NanoByte.Common;
-using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Storage;
 

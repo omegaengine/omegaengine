@@ -1,8 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-using OmegaEngine.Foundation.Storage;
-
-namespace Template.WinForms;
+﻿namespace Template.WinForms;
 
 static class Program
 {
