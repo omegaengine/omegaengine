@@ -9,7 +9,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <TargetFramework>net472</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
-    <Nullable>annotations</Nullable>
+    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
