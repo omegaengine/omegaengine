@@ -112,8 +112,7 @@ partial class InteractivePresenter
         #endregion
 
         // Determine the Engine object the user clicked on
-        var pickedObject = View.Pick(e.Location, out var intersectPosition);
-        if (pickedObject == null) return;
+        if (View.Pick(e.Location, out var intersectPosition) is not {} pickedObject) return;
 
         switch (e.Button)
         {
@@ -152,11 +151,13 @@ partial class InteractivePresenter
         if (e == null) throw new ArgumentNullException(nameof(e));
         #endregion
 
-        // Determine the Engine object the user double-clicked on
-        var pickedObject = View.Pick(e.Location, out _);
+        // Each swing must complete before the next one can start
+        if (View.Camera is CinematicCamera) return;
 
-        // Action: Double-click on entity to select and focus camera
-        if (pickedObject != null && !(pickedObject is Terrain) && !(View.Camera is CinematicCamera)) /* Each swing must complete before the next one can start */
+        // Determine the Engine object the user clicked on
+        if (View.Pick(e.Location, out _) is not {} pickedObject) return;
+
+        if (pickedObject is not OmegaEngine.Graphics.Renderables.Terrain)
             SwingCameraTo(pickedObject);
     }
 }
