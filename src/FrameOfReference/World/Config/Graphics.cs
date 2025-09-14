@@ -47,12 +47,12 @@ public sealed class GraphicsSettings
     [DefaultValue(null), Description("Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective")]
     public string? ForceShaderModel { get => _forceShaderModel; set => value.To(ref _forceShaderModel, Changed); }
 
-    private bool _anisotropic;
+    private bool _anisotropic = true;
 
     /// <summary>
     /// Use anisotropic texture filtering
     /// </summary>
-    [DefaultValue(false), Description("Use anisotropic texture filtering")]
+    [DefaultValue(true), Description("Use anisotropic texture filtering")]
     public bool Anisotropic { get => _anisotropic; set => value.To(ref _anisotropic, Changed); }
 
     private bool _normalMapping = true;
