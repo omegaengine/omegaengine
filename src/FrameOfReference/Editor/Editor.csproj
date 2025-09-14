@@ -6,8 +6,8 @@
     <RootNamespace>FrameOfReference.Editor</RootNamespace>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
     <OutputType>WinExe</OutputType>
-    <ApplicationIcon>..\..\..\icon-alpha.ico</ApplicationIcon>
     <UseWindowsForms>True</UseWindowsForms>
+    <ApplicationIcon>..\..\..\icon-alpha.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 

@@ -5,8 +5,8 @@
     <AssemblyName>Template.AlphaFramework.Editor</AssemblyName>
     <RootNamespace>Template.AlphaFramework.Editor</RootNamespace>
     <OutputPath>..\artifacts\$(Configuration)\</OutputPath>
-    <UseWindowsForms>true</UseWindowsForms>
     <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
     <TargetFramework>net472</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
     <Nullable>annotations</Nullable>
