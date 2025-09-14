@@ -10,8 +10,8 @@ namespace Template.Fullscreen;
 
 class Game : GameBase
 {
-    private TrackCamera _camera;
-    private GuiManager _guiManager;
+    private TrackCamera? _camera;
+    private GuiManager? _guiManager;
 
     public Game() : base("Template.Fullscreen")
     {
@@ -55,7 +55,7 @@ class Game : GameBase
 
     protected override void Render(double elapsedTime)
     {
-        _camera.HorizontalRotation += elapsedTime * 100;
+        if (_camera != null) _camera.HorizontalRotation += elapsedTime * 100;
         base.Render(elapsedTime);
     }
 

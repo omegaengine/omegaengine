@@ -9,7 +9,7 @@ namespace Template.WinForms;
 
 public partial class MainForm : Form
 {
-    private TrackCamera _camera;
+    private TrackCamera? _camera;
 
     public MainForm()
     {
@@ -37,7 +37,7 @@ public partial class MainForm : Form
 
     private void timerRender_Tick(object sender, EventArgs e)
     {
-        _camera.HorizontalRotation += 3;
+        if (_camera != null) _camera.HorizontalRotation += 3;
         renderPanel.Engine.Render();
     }
 
