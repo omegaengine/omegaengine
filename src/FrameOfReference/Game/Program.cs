@@ -40,7 +40,7 @@ using OmegaGUI.Model;
 
 namespace FrameOfReference;
 
-internal static class Program
+public static class Program
 {
     /// <summary>
     /// The arguments this application was launched with.

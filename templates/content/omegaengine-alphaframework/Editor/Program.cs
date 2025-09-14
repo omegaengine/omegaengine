@@ -9,7 +9,7 @@ using OmegaEngine.Foundation.Storage;
 
 namespace Template.AlphaFramework.Editor;
 
-internal static class Program
+static class Program
 {
     /// <summary>
     /// Shall the application start from the beginning again?

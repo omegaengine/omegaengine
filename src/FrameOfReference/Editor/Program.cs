@@ -39,7 +39,7 @@ using OmegaEngine.Foundation.Storage;
 
 namespace FrameOfReference.Editor;
 
-internal static class Program
+public static class Program
 {
     /// <summary>
     /// The arguments this application was launched with.

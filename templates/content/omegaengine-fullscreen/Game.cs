@@ -8,7 +8,7 @@ using OmegaGUI.Model;
 
 namespace Template.Fullscreen;
 
-class Game : GameBase
+public class Game : GameBase
 {
     private TrackCamera? _camera;
     private GuiManager? _guiManager;

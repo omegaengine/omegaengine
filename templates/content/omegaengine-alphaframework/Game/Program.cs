@@ -5,7 +5,7 @@ using OmegaEngine.Foundation.Storage;
 
 namespace Template.AlphaFramework;
 
-internal static class Program
+static class Program
 {
     /// <summary>
     /// The main entry point for the application.

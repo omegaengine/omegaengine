@@ -8,7 +8,7 @@ using OmegaGUI.Model;
 
 namespace Template.AlphaFramework;
 
-class Game : GameBase
+public class Game : GameBase
 {
     private TrackCamera? _camera;
     private GuiManager? _guiManager;
