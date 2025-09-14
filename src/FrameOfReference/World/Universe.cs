@@ -40,15 +40,13 @@ namespace FrameOfReference.World;
 /// </summary>
 public sealed partial class Universe : UniverseBase<Vector2>
 {
-    private readonly MonitoredCollection<Positionable<Vector2>> _positionables = [];
-
     /// <inheritdoc/>
     [Browsable(false)]
     // Note: Can not use ICollection<T> interface with XML Serialization
     [XmlElement(typeof(Entity)), XmlElement(typeof(Water)),
      XmlElement(typeof(Waypoint)), XmlElement(typeof(Trigger)),
      XmlElement(typeof(CameraState<Vector2>), ElementName = "CameraState"), XmlElement(typeof(BenchmarkPoint<Vector2>), ElementName = "BenchmarkPoint")]
-    public override MonitoredCollection<Positionable<Vector2>> Positionables => _positionables;
+    public override MonitoredCollection<Positionable<Vector2>> Positionables { get; } = [];
 
     /// <summary>
     /// The <see cref="Terrain"/> on which <see cref="Entity"/>s are placed.
@@ -98,19 +96,19 @@ public sealed partial class Universe : UniverseBase<Vector2>
     /// Retrieves an <see cref="Entity"/> from <see cref="Positionables"/> by its name.
     /// </summary>
     /// <returns>The first matching <see cref="Entity"/>; <c>null</c> if there is no match.</returns>
-    public Entity? GetEntity(string name) => _positionables.OfType<Entity>().FirstOrDefault(x => x.Name == name);
+    public Entity? GetEntity(string name) => Positionables.OfType<Entity>().FirstOrDefault(x => x.Name == name);
 
     /// <summary>
     /// Retrieves an <see cref="Trigger"/> from <see cref="Positionables"/> by its name.
     /// </summary>
     /// <returns>The first matching <see cref="Trigger"/>; <c>null</c> if there is no match.</returns>
-    public Trigger? GetTrigger(string name) => _positionables.OfType<Trigger>().FirstOrDefault(x => x.Name == name);
+    public Trigger? GetTrigger(string name) => Positionables.OfType<Trigger>().FirstOrDefault(x => x.Name == name);
 
     /// <summary>
     /// Retrieves an <see cref="CameraState{TCoordinates}"/> from <see cref="Positionables"/> by its name.
     /// </summary>
     /// <returns>The first matching <see cref="CameraState{TCoordinates}"/>; <c>null</c> if there is no match.</returns>
-    public CameraState<Vector2>? GetCamera(string name) => _positionables.OfType<CameraState<Vector2>>().FirstOrDefault(x => x.Name == name);
+    public CameraState<Vector2>? GetCamera(string name) => Positionables.OfType<CameraState<Vector2>>().FirstOrDefault(x => x.Name == name);
 
     /// <summary>
     /// Makes a player-controlled <see cref="Entity"/> move towards a <paramref name="target"/>.

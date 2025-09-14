@@ -367,17 +367,13 @@ public class Dialog : ICloneable<Dialog>
     public bool Visible { get; set; } = true;
 
     #region Controls
-    private Collection<ButtonStyle> _buttonStyles = [];
-
     // Note: Can not use ICollection<T> interface with XML Serialization
     /// <summary>
     /// A list of all custom button styles available in the dialog
     /// </summary>
     [Category("Design"), Description("A list of all custom button styles available in the dialog")]
     [XmlElement(typeof(ButtonStyle))]
-    public Collection<ButtonStyle> ButtonStyles => _buttonStyles;
-
-    private BindingList<Control> _controls = [];
+    public Collection<ButtonStyle> ButtonStyles { get; private set; } = [];
 
     // Note: Can not use IBindingList<T> interface with XML Serialization
 
@@ -391,7 +387,7 @@ public class Dialog : ICloneable<Dialog>
      XmlElement(typeof(PictureBox)), XmlElement(typeof(RadioButton)),
      XmlElement(typeof(ScrollBar)), XmlElement(typeof(Slider)),
      XmlElement(typeof(Label))]
-    public BindingList<Control> Controls => _controls;
+    public BindingList<Control> Controls { get; private set; } = [];
     #endregion
 
     #endregion
@@ -557,11 +553,11 @@ public class Dialog : ICloneable<Dialog>
     {
         var newDialog = (Dialog)MemberwiseClone();
 
-        newDialog._controls = [];
+        newDialog.Controls = [];
         foreach (Control control in Controls)
             newDialog.Controls.Add(control.Clone());
 
-        newDialog._buttonStyles = [];
+        newDialog.ButtonStyles = [];
         foreach (ButtonStyle style in ButtonStyles)
             newDialog.ButtonStyles.Add(style.Clone());
 
