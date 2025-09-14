@@ -33,43 +33,14 @@ using OmegaEngine;
 
 namespace FrameOfReference;
 
-#region Game state
-/// <seealso cref="Game.CurrentState"/>
-public enum GameState
-{
-    /// <summary>The game is starting up</summary>
-    Init,
-
-    /// <summary>The game is in the main menu</summary>
-    Menu,
-
-    /// <summary>The game is paused</summary>
-    Pause,
-
-    /// <summary>The game is running an automatic benchmark</summary>
-    Benchmark,
-
-    /// <summary>The game is normal playing mode</summary>
-    InGame,
-
-    /// <summary>The game is in a special live editing mode</summary>
-    Modify
-}
-#endregion
-
 partial class Game
 {
-    #region Properties
     /// <summary>
     /// The current state of the game
     /// </summary>
     [LuaHide]
     public GameState CurrentState { get; private set; }
-    #endregion
 
-    //--------------------//
-
-    #region Switch to Menu
     /// <summary>
     /// Switches to the main menu
     /// </summary>
@@ -90,9 +61,7 @@ partial class Game
         CleanupPresenter();
         InitializeMenuMode();
     }
-    #endregion
 
-    #region Switch to Game
     /// <summary>
     /// Switches the game to in-game mode
     /// </summary>
@@ -100,9 +69,7 @@ partial class Game
     /// Loading may take a while, subsequent calls will be a bit faster because the <see cref="Engine"/> cache will still be hot</remarks>
     public void SwitchToGame()
     {
-        #region Sanity checks
         if (CurrentSession == null) throw new InvalidOperationException(Resources.NoSessionLoaded);
-        #endregion
 
         // Prevent unnecessary loading
         if (CurrentState == GameState.InGame) return;
@@ -110,9 +77,7 @@ partial class Game
         CleanupPresenter();
         InitializeGameMode();
     }
-    #endregion
 
-    #region Switch to Modify
     /// <summary>
     /// Switches the game to map modification mode
     /// </summary>
@@ -120,9 +85,7 @@ partial class Game
     /// Loading may take a while, subsequent calls will be a bit faster because the <see cref="Engine"/> cache will still be hot</remarks>
     public void SwitchToModify()
     {
-        #region Sanity checks
         if (CurrentSession == null) throw new InvalidOperationException(Resources.NoSessionLoaded);
-        #endregion
 
         // Prevent unnecessary loading
         if (CurrentState == GameState.Modify) return;
@@ -130,9 +93,7 @@ partial class Game
         CleanupPresenter();
         InitializeModifyMode();
     }
-    #endregion
 
-    #region Toggle Pause
     private GameState _beforePause;
 
     /// <summary>
@@ -178,9 +139,7 @@ partial class Game
                 break;
         }
     }
-    #endregion
 
-    #region Start Benchmark
     /// <summary>
     /// Loads the benchmark map into <see cref="CurrentSession"/> and switches the <see cref="CurrentState"/> to <see cref="GameState.Benchmark"/>
     /// </summary>
@@ -239,11 +198,7 @@ partial class Game
             GC.Collect();
         }
     }
-    #endregion
 
-    //--------------------//
-
-    #region Initialize Menu
     /// <summary>
     /// Creates the <see cref="_menuPresenter"/> if necessary, sets it as the <see cref="CurrentPresenter"/> and configures the GUI for the main menu
     /// </summary>
@@ -275,9 +230,7 @@ partial class Game
 
         Loading = false;
     }
-    #endregion
 
-    #region Initialize Game
     /// <summary>
     /// Creates the <see cref="CurrentPresenter"/> and configures the GUI for in-game mode
     /// </summary>
@@ -315,9 +268,7 @@ partial class Game
 
         Loading = false;
     }
-    #endregion
 
-    #region Initialize Modify
     /// <summary>
     /// Creates the <see cref="CurrentPresenter"/> and configures the GUI for live modification mode
     /// </summary>
@@ -355,11 +306,7 @@ partial class Game
 
         Loading = false;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Cleanup
     /// <summary>
     /// <see cref="PresenterBase{TUniverse,TCoordinates}.HookOut"/> and disposes the <see cref="CurrentPresenter"/> (unless it is the <see cref="_menuPresenter"/>)
     /// </summary>
@@ -375,5 +322,4 @@ partial class Game
             if (CurrentPresenter != _menuPresenter) CurrentPresenter.Dispose();
         }
     }
-    #endregion
 }

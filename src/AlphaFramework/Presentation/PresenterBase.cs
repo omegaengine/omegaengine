@@ -46,7 +46,6 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
         LightsSync = new(Universe.Positionables, Scene.Lights);
     }
 
-    #region Model-View
     /// <summary>
     /// Maps between <see cref="UniverseBase{TCoordinates}.Positionables"/> and <see cref="OmegaEngine.Graphics.Scene.Positionables"/>.
     /// </summary>
@@ -77,9 +76,7 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
     /// </summary>
     [LuaHide]
     public TUniverse Universe { get; }
-    #endregion
 
-    #region Initialize
     /// <summary>
     /// Was <see cref="Initialize"/> already called?
     /// </summary>
@@ -106,9 +103,7 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
     /// </summary>
     protected virtual void RegisterRenderablesSync()
     {}
-    #endregion
 
-    #region Engine hook-in
     /// <summary>
     /// Hooks the <see cref="View"/> into <see cref="OmegaEngine.Engine.Views"/>
     /// </summary>
@@ -128,9 +123,7 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
     {
         Engine.Views.Remove(View);
     }
-    #endregion
 
-    #region Dimming
     /// <summary>
     /// Dims in the screen down.
     /// </summary>
@@ -146,11 +139,7 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
     {
         Engine.DimUp();
     }
-    #endregion
 
-    //--------------------//
-
-    #region Dispose
     /// <summary>
     /// Was this presenter already disposed?
     /// </summary>
@@ -198,5 +187,4 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
 #endif
         }
     }
-    #endregion
 }

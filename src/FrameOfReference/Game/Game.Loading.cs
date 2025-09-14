@@ -36,7 +36,6 @@ namespace FrameOfReference;
 
 partial class Game
 {
-    #region Properties
     /// <summary>
     /// The current game session
     /// </summary>
@@ -48,16 +47,10 @@ partial class Game
     /// </summary>
     [LuaHide]
     public Presenter? CurrentPresenter { get; private set; }
-    #endregion
 
-    //--------------------//
-
-    #region Random Menu Map
     /// <returns>The name of the current menu background map</returns>
     private static string GetMenuMap() => "Menu";
-    #endregion
 
-    #region Preload Savegame
     /// <summary>
     /// Loads the auto-save into <see cref="CurrentSession"/> for later usage
     /// </summary>
@@ -78,20 +71,14 @@ partial class Game
         }
         Log.Info("Previous game session restored");
     }
-    #endregion
 
-    //--------------------//
-
-    #region Load Menu
     /// <summary>
     /// Loads a map into <see cref="_menuUniverse"/> and switches the <see cref="CurrentState"/> to <see cref="GameState.Menu"/>
     /// </summary>
     /// <param name="name">The name of the map to load</param>
     public void LoadMenu(string name)
     {
-        #region Sanity checks
         if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-        #endregion
 
         _menuUniverse = name.EndsWith(
             // Does the name have file ending?
@@ -109,18 +96,14 @@ partial class Game
         }
         InitializeMenuMode();
     }
-    #endregion
 
-    #region Load Map
     /// <summary>
     /// Loads a game map into <see cref="CurrentSession"/> and switches the <see cref="CurrentState"/> to <see cref="GameState.InGame"/>
     /// </summary>
     /// <param name="name">The name of the map to load</param>
     public void LoadMap(string name)
     {
-        #region Sanity checks
         if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-        #endregion
 
         CurrentSession = new(
             // Does the name have file ending?
@@ -143,9 +126,7 @@ partial class Game
     /// <param name="name">The name of the map to load</param>
     public void ModifyMap(string name)
     {
-        #region Sanity checks
         if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-        #endregion
 
         CurrentSession = new(
             // Does the name have file ending?
@@ -161,11 +142,7 @@ partial class Game
         // Note: Do not call before Presenter has been initialized
         CurrentSession.Lua = NewLua();
     }
-    #endregion
 
-    //--------------------//
-
-    #region Save/Load Savegames
     /// <summary>
     /// Saves the <see cref="CurrentSession"/> as a savegame stored in the user's profile.
     /// </summary>
@@ -207,5 +184,4 @@ partial class Game
                           .Select(x => x.Name.Substring(0, x.Name.Length - Session.FileExt.Length))
                           .Except("Resume");
     }
-    #endregion
 }

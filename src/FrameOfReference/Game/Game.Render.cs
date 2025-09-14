@@ -31,7 +31,6 @@ namespace FrameOfReference;
 
 partial class Game
 {
-    #region Reset engine
     /// <inheritdoc/>
     protected override void ResetEngine()
     {
@@ -53,20 +52,16 @@ partial class Game
 
         base.ResetEngine();
     }
-    #endregion
 
-    #region Engine configuration
     /// <inheritdoc/>
     protected override EngineConfig BuildEngineConfig(bool fullscreen)
     {
         // Note: Doesn't call base methods
 
-        #region Safety checks
         if (!EngineCapabilities.CheckResolution(0, Settings.Current.Display.Resolution.Width, Settings.Current.Display.Resolution.Height))
             Settings.Current.Display.Resolution = Screen.PrimaryScreen.Bounds.Size;
         if (!EngineCapabilities.CheckAA(0, Settings.Current.Display.AntiAliasing))
             Settings.Current.Display.AntiAliasing = 0;
-        #endregion
 
         var engineConfig = new EngineConfig
         {
@@ -80,34 +75,24 @@ partial class Game
 
         return engineConfig;
     }
-    #endregion
 
-    #region Apply graphics settings
     /// <inheritdoc/>
     protected override void ApplyGraphicsSettings()
     {
-        #region Apply settings
         Engine.Anisotropic = Settings.Current.Graphics.Anisotropic;
         Engine.Effects.NormalMapping = Settings.Current.Graphics.NormalMapping;
         Engine.Effects.PostScreenEffects = Settings.Current.Graphics.PostScreenEffects;
         Engine.Effects.DoubleSampling = Settings.Current.Graphics.DoubleSampling;
         Engine.Effects.WaterEffects = Settings.Current.Graphics.WaterEffects;
         Engine.Effects.ParticleSystemQuality = Settings.Current.Graphics.ParticleSystemQuality;
-        #endregion
 
-        #region Read settings back to repair any invalid stuff
         Settings.Current.Graphics.Anisotropic = Engine.Anisotropic;
         Settings.Current.Graphics.NormalMapping = Engine.Effects.NormalMapping;
         Settings.Current.Graphics.PostScreenEffects = Engine.Effects.PostScreenEffects;
         Settings.Current.Graphics.DoubleSampling = Engine.Effects.DoubleSampling;
         Settings.Current.Graphics.WaterEffects = Engine.Effects.WaterEffects;
-        #endregion
     }
-    #endregion
 
-    //--------------------//
-
-    #region Initialize
     /// <inheritdoc/>
     protected override bool Initialize()
     {
@@ -161,9 +146,7 @@ partial class Game
 
         return true;
     }
-    #endregion
 
-    #region Render
     /// <inheritdoc/>
     protected override void Render(double elapsedTime)
     {
@@ -202,5 +185,4 @@ partial class Game
             }
         }
     }
-    #endregion
 }

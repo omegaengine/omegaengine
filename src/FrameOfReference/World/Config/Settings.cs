@@ -43,17 +43,10 @@ public sealed class Settings
     /// </summary>
     public static Settings Current => _current ?? LoadCurrent();
 
-    #region Constructor
     // Dummy constructor to prevent external instancing of this class
     private Settings()
     {}
-    #endregion
 
-    //--------------------//
-
-    #region Storage
-
-    #region Load
     /// <summary>
     /// Loads the current settings from an automatically located XML file
     /// </summary>
@@ -89,9 +82,7 @@ public sealed class Settings
         Log.Info("Loaded default settings");
         return _current = new();
     }
-    #endregion
 
-    #region Save
     /// <summary>
     /// Saves the current settings to an automatically located XML file
     /// </summary>
@@ -129,11 +120,7 @@ public sealed class Settings
         Current.Display.Changed += SaveCurrent;
         Current.Graphics.Changed += SaveCurrent;
     }
-    #endregion
 
-    #endregion
-
-    #region Values
     // ReSharper disable FieldCanBeMadeReadOnly.Global
     /// <summary>Stores general game settings (UI language, difficulty level, etc.).</summary>
     public GeneralSettings General = new();
@@ -151,9 +138,7 @@ public sealed class Settings
     public EditorSettings Editor = new();
 
     // ReSharper restore FieldCanBeMadeReadOnly.Global
-    #endregion
 
-    #region Config
     /// <summary>Contains a reference to the <see cref="ConfigForm"/> while it is open</summary>
     private ConfigForm? _configForm;
 
@@ -173,5 +158,4 @@ public sealed class Settings
 
         _configForm.Show();
     }
-    #endregion
 }

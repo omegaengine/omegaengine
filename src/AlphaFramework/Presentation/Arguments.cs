@@ -16,7 +16,6 @@ namespace AlphaFramework.Presentation;
 /// </summary>
 public class Arguments
 {
-    #region Properties
     private readonly string _args;
 
     /// <summary>
@@ -44,13 +43,9 @@ public class Arguments
     /// <param name="command">The command to get the options for.</param>
     /// <returns>The options for <paramref name="command"/> if any; null otherwise.</returns>
     public string? this[string command] => _commands.TryGetValue(command, out var value) ? value : null;
-    #endregion
 
-    #region Constructor
-    #region Helper
     /// <returns><c>true</c> if <paramref name="value"/> starts with a slash or a hyphen.</returns>
     private static bool IsCommand(string value) => value.StartsWith("/", StringComparison.Ordinal) || value.StartsWith("-", StringComparison.Ordinal);
-    #endregion
 
     /// <summary>
     /// Creates a new arguments instance based on the argument array from a Main method.
@@ -58,9 +53,7 @@ public class Arguments
     /// <param name="args">The array of arguments.</param>
     public Arguments(string[] args)
     {
-        #region Sanity checks
         if (args == null) throw new ArgumentNullException(nameof(args));
-        #endregion
 
         _args = string.Concat(args);
 
@@ -85,7 +78,6 @@ public class Arguments
             else _files.Add(args[i]);
         }
     }
-    #endregion
 
     /// <summary>
     /// Determines whether a specific command is contained in the arguments.

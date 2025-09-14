@@ -39,38 +39,26 @@ namespace FrameOfReference;
 /// </summary>
 public partial class Game : GameBase
 {
-    #region Variables
     private Universe? _menuUniverse;
     private MenuPresenter? _menuPresenter;
-    #endregion
 
-    #region Properties
     /// <summary>
     /// Manages all GUI dialogs displayed in the game
     /// </summary>
     public GuiManager GuiManager { get; private set; }
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new game instance
     /// </summary>
     public Game() : base(GeneralSettings.AppName, Resources.Icon, Resources.Loading)
     {}
-    #endregion
 
-    //--------------------//
-
-    #region Start
     /// <inheritdoc/>
     [LuaHide]
     public override void Run()
     {
-        #region Sanity checks
         if (Disposed) throw new ObjectDisposedException(ToString());
-        #endregion
 
-        #region Initialize
         Log.Info("Start game...");
 
         if (Settings.Current.Display.Fullscreen)
@@ -86,7 +74,6 @@ public partial class Game : GameBase
             // Validate window size before continuing
             Settings.Current.Display.WindowSize = Form.ClientSize;
         }
-        #endregion
 
         // Will return after the game has finished (is exiting)
         base.Run();
@@ -105,9 +92,7 @@ public partial class Game : GameBase
             }
         }
     }
-    #endregion
 
-    #region Apply changed settings
     /// <summary>
     /// Called when <see cref="ControlsSettings.Changed"/>
     /// </summary>
@@ -115,11 +100,7 @@ public partial class Game : GameBase
     {
         MouseInputProvider.InvertMouse = Settings.Current.Controls.InvertMouse;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Debug
     /// <inheritdoc/>
     [LuaHide]
     public override void Debug()
@@ -129,9 +110,7 @@ public partial class Game : GameBase
 
         base.Debug();
     }
-    #endregion
 
-    #region Lua references
     /// <inheritdoc/>
     [LuaHide]
     public override Lua NewLua()
@@ -156,9 +135,7 @@ public partial class Game : GameBase
 
         return lua;
     }
-    #endregion
 
-    #region Dialog-control helper methods for Lua
     /// <summary>
     /// Loads and displays a new dialog.
     /// </summary>
@@ -199,11 +176,7 @@ public partial class Game : GameBase
         GuiManager.CloseAll();
         return LoadDialog(name);
     }
-    #endregion
 
-    //--------------------//
-
-    #region Dispose
     /// <inheritdoc/>
     protected override void Dispose(bool disposing)
     {
@@ -230,5 +203,4 @@ public partial class Game : GameBase
             base.Dispose(disposing);
         }
     }
-    #endregion
 }
