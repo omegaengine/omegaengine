@@ -173,7 +173,7 @@ partial class Game
                     Form.Visible = false;
                     //if (Msg.Ask(Form, Resources.BenchmarkReady, MsgSeverity.Info, Resources.BenchmarkReadyContinue, Resources.BenchmarkReadyCancel))
                     //{
-                    //    // ToDo: new Uri("https://omegaengine.de/benchmark-upload/?app=" + GeneralSettings.AppNameGrid)
+                    //    // ToDo: new Uri("https://omegaengine.de/benchmark-upload/?app=" + Universe.AppNameGrid)
                     //}
                     Msg.Inform(null, $"Please upload the file '{path}'.", MsgSeverity.Info);
                     Exit();

@@ -32,18 +32,6 @@ namespace FrameOfReference.World.Config;
 /// <seealso cref="Settings.General"/>
 public sealed class GeneralSettings
 {
-    #region Constants
-    /// <summary>
-    /// The complete name of the application
-    /// </summary>
-    public const string AppName = "Frame of Reference";
-
-    /// <summary>
-    /// The short version of the application name (used for EXE name, AppModel IDs, etc.)
-    /// </summary>
-    public const string AppNameShort = "FrameOfReference";
-    #endregion
-
     /// <summary>
     /// Occurs when a setting in this group is changed.
     /// </summary>

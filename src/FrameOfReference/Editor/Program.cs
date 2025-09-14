@@ -29,6 +29,7 @@ using System.Windows.Forms;
 using AlphaFramework.Editor;
 using AlphaFramework.Editor.Properties;
 using AlphaFramework.Presentation;
+using FrameOfReference.World;
 using FrameOfReference.World.Config;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Native;
@@ -57,14 +58,14 @@ public static class Program
     [STAThread]
     private static void Main(string[] args)
     {
-        WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{GeneralSettings.AppNameShort}.AlphaEditor");
-        ModInfo.FileExt = $".{GeneralSettings.AppNameShort}Mod";
+        WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{Universe.AppNameShort}.AlphaEditor");
+        ModInfo.FileExt = $".{Universe.AppNameShort}Mod";
 
         Application.EnableVisualStyles();
-        ErrorReportForm.SetupMonitoring(new Uri($"https://omegaengine.de/error-report/?app={GeneralSettings.AppNameShort}"));
+        ErrorReportForm.SetupMonitoring(new Uri($"https://omegaengine.de/error-report/?app={Universe.AppNameShort}"));
 
         // Allow setup to detect running instances
-        AppMutex.Create($"{GeneralSettings.AppName} Editor");
+        AppMutex.Create($"{Universe.AppName} Editor");
 
         Args = new(args);
 
@@ -161,6 +162,6 @@ public static class Program
         if (!string.IsNullOrEmpty(arguments)) param += $" {arguments}";
 
         // Launch the game
-        Process.Start(new ProcessStartInfo(Path.Combine(Locations.InstallBase, $"{GeneralSettings.AppNameShort}.exe"), param));
+        Process.Start(new ProcessStartInfo(Path.Combine(Locations.InstallBase, $"{Universe.AppNameShort}.exe"), param));
     }
 }

@@ -156,7 +156,7 @@ partial class Game
             ((InGamePresenter)CurrentPresenter!).PrepareSave();
 
         // Write to disk
-        string path = Locations.GetSaveDataPath(GeneralSettings.AppName, true, name + Session.FileExt);
+        string path = Locations.GetSaveDataPath(Universe.AppName, true, name + Session.FileExt);
         CurrentSession.Save(path);
     }
 
@@ -169,7 +169,7 @@ partial class Game
         if (string.IsNullOrEmpty(name)) return;
 
         // Read from disk
-        string path = Locations.GetSaveDataPath(GeneralSettings.AppName, true, name + Session.FileExt);
+        string path = Locations.GetSaveDataPath(Universe.AppName, true, name + Session.FileExt);
         CurrentSession = Session.Load(path);
         CurrentSession.Lua = NewLua();
     }
@@ -179,7 +179,7 @@ partial class Game
     /// </summary>
     public IEnumerable<string> GetSavegameNames()
     {
-        var savegameDir = new DirectoryInfo(Locations.GetSaveDataPath(GeneralSettings.AppName, isFile: false));
+        var savegameDir = new DirectoryInfo(Locations.GetSaveDataPath(Universe.AppName, isFile: false));
         return savegameDir.GetFiles($"*{Session.FileExt}")
                           .Select(x => x.Name.Substring(0, x.Name.Length - Session.FileExt.Length))
                           .Except("Resume");

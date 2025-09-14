@@ -22,7 +22,6 @@
 
 using System;
 using System.IO;
-using FrameOfReference.World.Config;
 using ICSharpCode.SharpZipLib.Zip;
 using OmegaEngine.Foundation.Storage;
 
@@ -33,7 +32,7 @@ partial class Session
     /// <summary>
     /// The file extensions when this class is stored as a file.
     /// </summary>
-    public const string FileExt = $".{GeneralSettings.AppNameShort}Save";
+    public const string FileExt = $".{Universe.AppNameShort}Save";
 
     /// <summary>
     /// Used for encrypting serialized versions of this class.

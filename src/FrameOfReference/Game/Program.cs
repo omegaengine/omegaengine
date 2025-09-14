@@ -26,6 +26,7 @@ using System.IO;
 using System.Windows.Forms;
 using AlphaFramework.Presentation;
 using FrameOfReference.Properties;
+using FrameOfReference.World;
 using FrameOfReference.World.Config;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
@@ -52,14 +53,14 @@ public static class Program
     [STAThread]
     private static void Main(string[] args)
     {
-        WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{GeneralSettings.AppNameShort}");
+        WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{Universe.AppNameShort}");
 
         Application.EnableVisualStyles();
-        ErrorReportForm.SetupMonitoring(new Uri($"https://omegaengine.de/error-report/?app={GeneralSettings.AppNameShort}"));
+        ErrorReportForm.SetupMonitoring(new Uri($"https://omegaengine.de/error-report/?app={Universe.AppNameShort}"));
 
 #if !DEBUG
         // Prevent multiple instances from running simultaneously
-        WindowsMutex.Create(GeneralSettings.AppName, out bool alreadyRunning);
+        WindowsMutex.Create(Universe.AppName, out bool alreadyRunning);
         if (alreadyRunning)
         {
             Msg.Inform(null, Resources.AlreadyRunning, MsgSeverity.Warn);

@@ -50,7 +50,7 @@ public partial class Game : GameBase
     /// <summary>
     /// Creates a new game instance
     /// </summary>
-    public Game() : base(GeneralSettings.AppName, Resources.Icon, Resources.Loading)
+    public Game() : base(Universe.AppName, Resources.Icon, Resources.Loading)
     {}
 
     /// <inheritdoc/>
