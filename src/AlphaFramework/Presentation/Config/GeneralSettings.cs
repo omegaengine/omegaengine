@@ -24,12 +24,12 @@ using System;
 using System.ComponentModel;
 using NanoByte.Common;
 
-namespace FrameOfReference.World.Config;
+namespace AlphaFramework.Presentation.Config;
 
 /// <summary>
 /// Stores general game settings (UI language, difficulty level, etc.).
 /// </summary>
-/// <seealso cref="Settings.General"/>
+/// <seealso cref="SettingsBase.General"/>
 public sealed class GeneralSettings
 {
     /// <summary>

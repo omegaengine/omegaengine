@@ -28,12 +28,12 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using NanoByte.Common;
 
-namespace FrameOfReference.World.Config;
+namespace AlphaFramework.Presentation.Config;
 
 /// <summary>
 /// Stores display settings (resolution, etc.). Changes here require the engine to be reset.
 /// </summary>
-/// <seealso cref="Settings.Display"/>
+/// <seealso cref="SettingsBase.Display"/>
 public sealed class DisplaySettings
 {
     /// <summary>

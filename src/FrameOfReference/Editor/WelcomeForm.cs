@@ -22,7 +22,7 @@
 
 using System.Windows.Forms;
 using AlphaFramework.Editor;
-using FrameOfReference.World.Config;
+using FrameOfReference.Presentation.Config;
 
 namespace FrameOfReference.Editor;
 

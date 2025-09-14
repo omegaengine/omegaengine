@@ -21,23 +21,28 @@
  */
 
 using System;
-using System.Reflection;
-using System.Windows.Forms;
+using System.ComponentModel;
+using NanoByte.Common;
 
-namespace FrameOfReference.World.Config;
+namespace FrameOfReference.Presentation.Config;
 
-internal partial class ConfigForm : Form
+/// <summary>
+/// Stores settings for the user controls (mouse, keyboard, etc.).
+/// </summary>
+/// <seealso cref="Settings.Controls"/>
+public sealed class ControlsSettings
 {
-    public ConfigForm(Settings settings)
-    {
-        InitializeComponent();
+    /// <summary>
+    /// Occurs when a setting in this group is changed.
+    /// </summary>
+    [Description("Occurs when a setting in this group is changed.")]
+    public event Action Changed = () => {};
 
-        foreach (FieldInfo field in typeof(Settings).GetFields(BindingFlags.Public | BindingFlags.Instance))
-            listBox.Items.Add(field.GetValue(settings)!);
-    }
+    private bool _invertMouse;
 
-    private void listBox_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        propertyGrid.SelectedObject = listBox.SelectedItem;
-    }
+    /// <summary>
+    /// Invert the mouse axes
+    /// </summary>
+    [DefaultValue(false), Description("Invert the mouse axes")]
+    public bool InvertMouse { get => _invertMouse; set => value.To(ref _invertMouse, Changed); }
 }

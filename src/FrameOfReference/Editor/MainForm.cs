@@ -26,8 +26,8 @@ using System.Windows.Forms;
 using AlphaFramework.Editor;
 using AlphaFramework.Editor.Properties;
 using FrameOfReference.Editor.World;
+using FrameOfReference.Presentation.Config;
 using FrameOfReference.World;
-using FrameOfReference.World.Config;
 using NanoByte.Common.Controls;
 
 namespace FrameOfReference.Editor;

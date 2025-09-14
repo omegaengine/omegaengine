@@ -26,7 +26,6 @@ using System.IO;
 using System.Linq;
 using FrameOfReference.Presentation;
 using FrameOfReference.World;
-using FrameOfReference.World.Config;
 using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Collections;

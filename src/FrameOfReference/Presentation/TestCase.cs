@@ -22,8 +22,8 @@
 
 using System;
 using System.Xml.Serialization;
+using AlphaFramework.Presentation.Config;
 using AlphaFramework.World.Positionables;
-using FrameOfReference.World.Config;
 using OmegaEngine.Foundation.Light;
 using SlimDX;
 
@@ -31,7 +31,7 @@ namespace FrameOfReference.Presentation;
 
 #region Enumerations
 /// <summary>
-/// Boolean flags for <see cref="Settings.Graphics"/>
+/// Boolean flags for <see cref="SettingsBase.Graphics"/>
 /// </summary>
 /// <seealso cref="TestCase.GraphicsSettings"/>
 [Flags]
@@ -59,7 +59,7 @@ public struct TestCase
     public BenchmarkPoint<Vector2> Target;
 
     /// <summary>
-    /// Boolean flags for <see cref="Settings.Graphics"/>.
+    /// Boolean flags for <see cref="SettingsBase.Graphics"/>.
     /// </summary>
     public TestGraphicsSettings GraphicsSettings;
 

@@ -23,9 +23,9 @@
 using System;
 using AlphaFramework.Presentation;
 using FrameOfReference.Presentation;
+using FrameOfReference.Presentation.Config;
 using FrameOfReference.Properties;
 using FrameOfReference.World;
-using FrameOfReference.World.Config;
 using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Controls;

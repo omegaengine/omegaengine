@@ -1,4 +1,4 @@
-namespace FrameOfReference.World.Config
+namespace FrameOfReference.Presentation.Config
 {
     partial class ConfigForm
     {

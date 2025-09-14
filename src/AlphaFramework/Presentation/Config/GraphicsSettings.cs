@@ -25,12 +25,12 @@ using System.ComponentModel;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Light;
 
-namespace FrameOfReference.World.Config;
+namespace AlphaFramework.Presentation.Config;
 
 /// <summary>
 /// Stores graphics settings (effect details, etc.). Changes here don't require the engine to be reset.
 /// </summary>
-/// <seealso cref="Settings.Graphics"/>
+/// <seealso cref="SettingsBase.Graphics"/>
 public sealed class GraphicsSettings
 {
     /// <summary>

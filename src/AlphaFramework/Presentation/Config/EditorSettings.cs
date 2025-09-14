@@ -23,16 +23,15 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Drawing;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 
-namespace FrameOfReference.World.Config;
+namespace AlphaFramework.Presentation.Config;
 
 /// <summary>
 /// Stores settings for the game's editor.
 /// </summary>
-/// <seealso cref="Settings.Editor"/>
+/// <seealso cref="SettingsBase.Editor"/>
 public sealed class EditorSettings
 {
     /// <summary>
@@ -65,10 +64,8 @@ public sealed class EditorSettings
     /// </summary>
     public Collection<string> RecentMods => _recentMods;
 
-    #region Constructor
     public EditorSettings()
     {
-        _recentMods.Changed += Changed;
+        _recentMods.Changed += () => { Changed(); };
     }
-    #endregion
 }

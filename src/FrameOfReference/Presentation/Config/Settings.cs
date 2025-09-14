@@ -23,19 +23,31 @@
 using System;
 using System.IO;
 using System.Xml.Serialization;
+using AlphaFramework.Presentation.Config;
+using FrameOfReference.World;
 using LuaInterface;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Storage;
 using Locations = NanoByte.Common.Storage.Locations;
 
-namespace FrameOfReference.World.Config;
+namespace FrameOfReference.Presentation.Config;
 
 /// <summary>
 /// Stores settings for the application
 /// </summary>
 [XmlRoot("Settings")] // Suppress XMLSchema declarations (no inheritance used for properties)
-public sealed class Settings
+public sealed class Settings : SettingsBase
 {
+    /// <summary>Stores settings for the user controls (mouse, keyboard, etc.).</summary>
+    public ControlsSettings Controls { get; set; } = new();
+
+    /// <inheritdoc/>
+    protected override void AddChangeHandler(Action handler)
+    {
+        base.AddChangeHandler(handler);
+        Controls.Changed += handler;
+    }
+
     private static Settings? _current;
 
     /// <summary>
@@ -114,30 +126,7 @@ public sealed class Settings
     /// Configures <see cref="Current"/> settings to be automatically saved when they are changed.
     /// </summary>
     public static void EnableAutoSave()
-    {
-        Current.General.Changed += SaveCurrent;
-        Current.Controls.Changed += SaveCurrent;
-        Current.Display.Changed += SaveCurrent;
-        Current.Graphics.Changed += SaveCurrent;
-    }
-
-    // ReSharper disable FieldCanBeMadeReadOnly.Global
-    /// <summary>Stores general game settings (UI language, difficulty level, etc.).</summary>
-    public GeneralSettings General = new();
-
-    /// <summary>Stores settings for the user controls (mouse, keyboard, etc.).</summary>
-    public ControlsSettings Controls = new();
-
-    /// <summary>Stores display settings (resolution, etc.). Changes here require the engine to be reset.</summary>
-    public DisplaySettings Display = new();
-
-    /// <summary>Stores graphics settings (effect details, etc.). Changes here don't require the engine to be reset.</summary>
-    public GraphicsSettings Graphics = new();
-
-    /// <summary>Stores settings for the game's editor.</summary>
-    public EditorSettings Editor = new();
-
-    // ReSharper restore FieldCanBeMadeReadOnly.Global
+        => Current.AddChangeHandler(SaveCurrent);
 
     /// <summary>Contains a reference to the <see cref="ConfigForm"/> while it is open</summary>
     private ConfigForm? _configForm;

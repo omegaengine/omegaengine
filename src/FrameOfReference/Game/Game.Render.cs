@@ -21,8 +21,8 @@
  */
 
 using System.Windows.Forms;
+using FrameOfReference.Presentation.Config;
 using FrameOfReference.Properties;
-using FrameOfReference.World.Config;
 using FrameOfReference.World.Templates;
 using NanoByte.Common;
 using OmegaEngine;
