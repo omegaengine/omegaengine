@@ -135,7 +135,7 @@ public sealed class EditorPresenter : InteractivePresenter
     private TerrainBrush? _terrainBrush;
 
     /// <summary>
-    /// Controls the shape and size of the area that is visuallly highlighted for <see cref="TerrainPaint"/>ing.
+    /// Controls the shape and size of the area that is visually highlighted for <see cref="TerrainPaint"/>ing.
     /// </summary>
     /// <remarks>Raise the <see cref="TerrainPaint"/> event instead of selecting <see cref="Positionable{TCoordinates}"/>s when set to a value other than <c>null</c>.</remarks>
     public TerrainBrush? TerrainBrush

@@ -102,9 +102,9 @@ public sealed class HeightSmooth : Height
 
     #region Helpers
     /// <summary>
-    /// Retreives a single filtered value.
+    /// Retrieves a single filtered value.
     /// </summary>
-    /// <param name="getValue">Called to retreive surrounding base values with relative indexes.</param>
+    /// <param name="getValue">Called to retrieve surrounding base values with relative indexes.</param>
     private double GetFiltered(Func<int, byte> getValue)
     {
         double result = 0;

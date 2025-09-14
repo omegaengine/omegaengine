@@ -20,7 +20,7 @@ partial class Engine
 {
     #region Screenshot
     /// <summary>
-    /// Saves the current screen at it's current resolution
+    /// Saves the current screen at its current resolution
     /// </summary>
     /// <param name="filename">The file name to save the screenshot too</param>
     public void Screenshot(string filename)
@@ -53,7 +53,7 @@ partial class Engine
         if (size.Width > RenderSize.Width || size.Height > RenderSize.Height)
             throw new ArgumentException(Resources.InvalidScreenshotSize, nameof(size));
 
-        // Backup PostRender delegate and deactiavte it
+        // Backup PostRender delegate and deactivate it
         Action postRender = PreRender;
         PreRender = null;
 

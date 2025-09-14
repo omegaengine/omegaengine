@@ -283,7 +283,7 @@ public abstract partial class Presenter : PresenterBase<Universe, Vector2>
     }
 
     /// <summary>
-    /// Retreives the current state of the <see cref="Camera"/> for storage in the <see cref="Universe"/>.
+    /// Retrieves the current state of the <see cref="Camera"/> for storage in the <see cref="Universe"/>.
     /// </summary>
     /// <returns>The current state of  the <see cref="Camera"/> or <c>null</c> if it can not be determined at this time (e.g. cinematic animation in progress).</returns>
     public CameraState<Vector2> CameraState

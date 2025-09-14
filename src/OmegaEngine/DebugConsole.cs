@@ -133,7 +133,7 @@ public partial class DebugConsole : Form
     }
     #endregion
 
-    #region Retreive last command
+    #region Retrieve last command
     private void inputBox_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.KeyCode == Keys.Up && string.IsNullOrEmpty(inputBox.Text))

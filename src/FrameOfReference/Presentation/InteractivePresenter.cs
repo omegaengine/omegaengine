@@ -111,7 +111,7 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
 
                 _selectionsSync.Dispose();
 
-                // Allow the cache management system to clean thes up later
+                // Allow the cache management system to clean these up later
                 if (_preCachedAssets != null)
                 {
                     foreach (var asset in _preCachedAssets)
@@ -153,17 +153,17 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
             (Circle circle) =>
             {
                 // Create a circle around the entity based on the radius
-                var hightlight = new Model(XMesh.Get(Engine, "Engine/Circle.x"));
+                var highlight = new Model(XMesh.Get(Engine, "Engine/Circle.x"));
                 float scale = circle.Radius / 20 + 1;
-                hightlight.PreTransform = Matrix.Scaling(scale, 1, scale);
-                return hightlight;
+                highlight.PreTransform = Matrix.Scaling(scale, 1, scale);
+                return highlight;
             },
             (Box box) =>
             {
                 // Create a rectangle around the entity based on the box corners
                 var highlight = new Model(XMesh.Get(Engine, "Engine/Rectangle.x"));
 
-                // Determine the component-wise minimums and maxmimums and the absolute difference
+                // Determine the component-wise minimums and maximums and the absolute difference
                 var min = new Vector2(
                     Math.Min(box.Minimum.X, box.Maximum.X),
                     Math.Min(box.Minimum.Y, box.Maximum.Y));
@@ -242,7 +242,7 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
     }
 
     /// <summary>
-    /// Swings the camera to look at a specifc set of 2D coordinates.
+    /// Swings the camera to look at a specific set of 2D coordinates.
     /// </summary>
     public void SwingCameraTo(Vector2 target)
     {
@@ -255,7 +255,7 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
     }
 
     /// <summary>
-    /// Swings the camera to look at a specifc <see cref="PositionableRenderable"/>.
+    /// Swings the camera to look at a specific <see cref="PositionableRenderable"/>.
     /// </summary>
     public void SwingCameraTo(PositionableRenderable target)
     {

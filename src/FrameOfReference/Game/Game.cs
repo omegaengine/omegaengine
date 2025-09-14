@@ -174,7 +174,7 @@ public partial class Game : GameBase
     }
 
     /// <summary>
-    /// Loads and displays a new modal (exclusivly focused) dialog.
+    /// Loads and displays a new modal (exclusively focused) dialog.
     /// </summary>
     /// <param name="name">The XML file to load from.</param>
     /// <returns>The newly created dialog.</returns>
@@ -188,7 +188,7 @@ public partial class Game : GameBase
     }
 
     /// <summary>
-    /// Loads a new exclusive displayed splash-screen dialog.
+    /// Loads a new exclusively displayed splash-screen dialog.
     /// </summary>
     /// <param name="name">The XML file to load from</param>
     /// <returns>The newly created dialog.</returns>
