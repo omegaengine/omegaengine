@@ -9,6 +9,7 @@ namespace Template.AlphaFramework.Editor;
 /// </summary>
 public sealed partial class MainForm : MainFormBase
 {
+    /// <inheritdoc/>
     public MainForm()
     {
         InitializeComponent();
@@ -24,15 +25,18 @@ public sealed partial class MainForm : MainFormBase
         }
     }
 
+    /// <inheritdoc/>
     protected override void Restart()
     {
         Program.Restart = true;
         Close();
     }
 
+    /// <inheritdoc/>
     protected override void LaunchGame(params string[] arguments)
         => Program.LaunchGame(arguments);
 
+    /// <inheritdoc/>
     protected override void ChangeLanguage(string language)
     {
         // Set language and propagate change
