@@ -86,9 +86,28 @@ public static class Program
         }
         else Settings.EnableAutoSave();
 
-        if (!DetermineContentDirs()) return;
-        using (var game = new Game())
-            game.Run();
+        // Setup content sources
+        try
+        {
+            // Base
+            if (Settings.Current.General.ContentDir is {} contentDir)
+                ContentManager.BaseDir = new(Path.Combine(Locations.InstallBase, contentDir));
+
+            // Mod
+            if (Args["mod"] is {} mod)
+                ContentManager.ModDir = new(Path.Combine(Path.Combine(Locations.InstallBase, "Mods"), mod));
+            if (ContentManager.ModDir != null) Log.Info($"Load mod from: {ContentManager.ModDir}");
+        }
+        #region Error handling
+        catch (Exception ex) when (ex is ArgumentException or DirectoryNotFoundException)
+        {
+            Msg.Inform(null, ex.Message, MsgSeverity.Error);
+            return;
+        }
+        #endregion
+
+        using var game = new Game();
+        game.Run();
     }
 
     /// <summary>
@@ -115,39 +134,5 @@ public static class Program
 #if !DEBUG
         Settings.Current.Display.Fullscreen = true;
 #endif
-    }
-
-    /// <summary>
-    /// Determines the data directories used by <see cref="ContentManager"/> and displays error messages if a directory could not be found.
-    /// </summary>
-    /// <returns><c>true</c> if all directories were located successfully; <c>false</c> if something went wrong.</returns>
-    /// <remarks>The <see cref="ContentManager.ModDir"/> is also handled based on <see cref="Args"/>.</remarks>
-    private static bool DetermineContentDirs()
-    {
-        try
-        {
-            // Base
-            if (!string.IsNullOrEmpty(Settings.Current.General.ContentDir))
-                ContentManager.BaseDir = new(Path.Combine(Locations.InstallBase, Settings.Current.General.ContentDir));
-
-            // Mod
-            if (Args["mod"] is {} mod)
-                ContentManager.ModDir = new(Path.Combine(Path.Combine(Locations.InstallBase, "Mods"), mod));
-            if (ContentManager.ModDir != null) Log.Info($"Load mod from: {ContentManager.ModDir}");
-        }
-        #region Error handling
-        catch (ArgumentException ex)
-        {
-            Msg.Inform(null, ex.Message, MsgSeverity.Error);
-            return false;
-        }
-        catch (DirectoryNotFoundException ex)
-        {
-            Msg.Inform(null, ex.Message, MsgSeverity.Error);
-            return false;
-        }
-        #endregion
-
-        return true;
     }
 }

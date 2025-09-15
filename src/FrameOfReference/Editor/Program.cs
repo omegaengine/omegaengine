@@ -66,7 +66,19 @@ public static class Program
         Settings.SaveCurrent();
         Settings.EnableAutoSave();
 
-        if (!DetermineContentDirs()) return;
+        // Setup content sources
+        try
+        {
+            if (Settings.Current.General.ContentDir is {} contentDir)
+                ContentManager.BaseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, contentDir));
+        }
+        #region Error handling
+        catch (Exception ex) when (ex is ArgumentException or DirectoryNotFoundException)
+        {
+            Msg.Inform(null, ex.Message, MsgSeverity.Error);
+            return;
+        }
+        #endregion
 
         if (Settings.Current.Editor.ShowWelcomeMessage)
         {
@@ -107,34 +119,6 @@ public static class Program
         var language = CultureInfo.CreateSpecificCulture(Settings.Current.General.Language);
         Languages.SetUI(language);
         Resources.Culture = Engine.ResourceCulture = OmegaGUI.Model.Dialog.ResourceCulture = language;
-    }
-
-    /// <summary>
-    /// Determines the data directories used by <see cref="ContentManager"/> and displays error messages if a directory could not be found.
-    /// </summary>
-    /// <returns><c>true</c> if all directories were located successfully; <c>false</c> if something went wrong.</returns>
-    /// <remarks>The <see cref="ContentManager.ModDir"/> is not handled yet.</remarks>
-    private static bool DetermineContentDirs()
-    {
-        try
-        {
-            if (!string.IsNullOrEmpty(Settings.Current.General.ContentDir))
-                ContentManager.BaseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, Settings.Current.General.ContentDir));
-        }
-        #region Error handling
-        catch (ArgumentException ex)
-        {
-            Msg.Inform(null, ex.Message, MsgSeverity.Error);
-            return false;
-        }
-        catch (DirectoryNotFoundException ex)
-        {
-            Msg.Inform(null, ex.Message, MsgSeverity.Error);
-            return false;
-        }
-        #endregion
-
-        return true;
     }
 
     /// <summary>
