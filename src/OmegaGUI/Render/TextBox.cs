@@ -274,7 +274,7 @@ public class TextBox : Control
             // find any new lines, remove everything after that
             int i;
             if ((i = clipString.IndexOf("\n", StringComparison.Ordinal)) > 0)
-                clipString = clipString.Substring(0, i - 1);
+                clipString = clipString[..(i - 1)];
 
             // Insert that into the text data
             textData.Text = textData.Text.Insert(caretPosition, clipString);
@@ -648,7 +648,7 @@ public class TextBox : Control
         // Render the text
         Element textElement = elementList[TextLayer];
         textElement.FontColor.Current = textColor;
-        parentDialog.DrawText(textData.Text.Substring(firstVisible), textElement, textRect);
+        parentDialog.DrawText(textData.Text[firstVisible..], textElement, textRect);
 
         // Render the selected text
         if (caretPosition != textData.SelectionStart)

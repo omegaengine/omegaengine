@@ -296,7 +296,7 @@ public abstract class Shader : EngineElement
             if (match.Success)
             {
                 if (int.TryParse(testCommand.Substring(match.Index, testCommand.Length - match.Index), out commandIndex))
-                    testCommand = testCommand.Substring(0, match.Index);
+                    testCommand = testCommand[..match.Index];
                 else
                 {
                     Log.Error("Problem loading SAS script: Error parsing script commands");

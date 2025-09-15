@@ -180,7 +180,7 @@ partial class Game
     {
         var savegameDir = new DirectoryInfo(Locations.GetSaveDataPath(Universe.AppName, isFile: false));
         return savegameDir.GetFiles($"*{Session.FileExt}")
-                          .Select(x => x.Name.Substring(0, x.Name.Length - Session.FileExt.Length))
+                          .Select(x => x.Name[..^Session.FileExt.Length])
                           .Except("Resume");
     }
 }

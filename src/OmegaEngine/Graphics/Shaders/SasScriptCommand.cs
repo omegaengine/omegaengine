@@ -168,7 +168,7 @@ public class SasScriptCommand
                 if (match.Success)
                 {
                     index = Int32.Parse(ret.Substring(match.Index, ret.Length - match.Index), CultureInfo.InvariantCulture);
-                    ret = ret.Substring(0, match.Index);
+                    ret = ret[..match.Index];
                 }
                 else
                     index = 0;
