@@ -27,7 +27,6 @@ using System.IO;
 using System.Windows.Forms;
 using AlphaFramework.Editor;
 using AlphaFramework.Editor.Properties;
-using AlphaFramework.Presentation;
 using FrameOfReference.Presentation.Config;
 using FrameOfReference.World;
 using NanoByte.Common;
@@ -43,11 +42,6 @@ namespace FrameOfReference.Editor;
 public static class Program
 {
     /// <summary>
-    /// The arguments this application was launched with.
-    /// </summary>
-    public static Arguments Args { get; private set; } = null!;
-
-    /// <summary>
     /// Shall the application start from the beginning again?
     /// </summary>
     public static bool Restart = true;
@@ -56,7 +50,7 @@ public static class Program
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-    private static void Main(string[] args)
+    private static void Main()
     {
         WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{Universe.AppNameShort}.AlphaEditor");
         ModInfo.FileExt = $".{Universe.AppNameShort}Mod";
@@ -66,8 +60,6 @@ public static class Program
 
         // Allow setup to detect running instances
         AppMutex.Create($"{Universe.AppName} Editor");
-
-        Args = new(args);
 
         Settings.LoadCurrent();
         UpdateLocale();

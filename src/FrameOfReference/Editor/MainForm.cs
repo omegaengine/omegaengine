@@ -60,7 +60,7 @@ public sealed partial class MainForm : MainFormBase
     private void MainForm_Load(object sender, EventArgs e)
     {
         // Open files passed as command-line arguments
-        foreach (string file in Program.Args.Files.Where(file => file.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase)))
+        foreach (string file in Environment.GetCommandLineArgs().Where(file => file.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase)))
             AddTab(new MapEditor(file, false));
     }
 
