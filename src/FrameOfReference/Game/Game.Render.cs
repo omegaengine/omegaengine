@@ -58,19 +58,7 @@ partial class Game
 
     /// <inheritdoc/>
     protected override void ApplyGraphicsSettings()
-    {
-        Engine.Anisotropic = Settings.Current.Graphics.Anisotropic;
-        Engine.Effects.NormalMapping = Settings.Current.Graphics.NormalMapping;
-        Engine.Effects.PostScreenEffects = Settings.Current.Graphics.PostScreenEffects;
-        Engine.Effects.DoubleSampling = Settings.Current.Graphics.DoubleSampling;
-        Engine.Effects.WaterEffects = Settings.Current.Graphics.WaterEffects;
-
-        Settings.Current.Graphics.Anisotropic = Engine.Anisotropic;
-        Settings.Current.Graphics.NormalMapping = Engine.Effects.NormalMapping;
-        Settings.Current.Graphics.PostScreenEffects = Engine.Effects.PostScreenEffects;
-        Settings.Current.Graphics.DoubleSampling = Engine.Effects.DoubleSampling;
-        Settings.Current.Graphics.WaterEffects = Engine.Effects.WaterEffects;
-    }
+        => Settings.Current.Graphics.ApplyTo(Engine);
 
     /// <inheritdoc/>
     protected override bool Initialize()
@@ -108,7 +96,7 @@ partial class Game
             { // Load command-line map
                 LoadMap(map);
             }
-            else if  (Program.Args["modify"] is {} modify)
+            else if (Program.Args["modify"] is {} modify)
             { // Load command-line map for modification
                 ModifyMap(modify);
             }

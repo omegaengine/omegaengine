@@ -23,6 +23,7 @@
 using System;
 using System.ComponentModel;
 using NanoByte.Common;
+using OmegaEngine;
 using OmegaEngine.Foundation.Light;
 
 namespace AlphaFramework.Presentation.Config;
@@ -94,4 +95,23 @@ public sealed class GraphicsSettings
     /// </summary>
     [DefaultValue(true), Description("Fade in game scenes from black")]
     public bool Fading { get => _fading; set => value.To(ref _fading, Changed); }
+
+    /// <summary>
+    /// Applies the settings to the engine.
+    /// </summary>
+    public void ApplyTo(Engine engine)
+    {
+        engine.Anisotropic = Anisotropic;
+        engine.Effects.NormalMapping = NormalMapping;
+        engine.Effects.PostScreenEffects = PostScreenEffects;
+        engine.Effects.DoubleSampling = DoubleSampling;
+        engine.Effects.WaterEffects = WaterEffects;
+
+        // Read back in case any of the values were invalid or unsupported
+        Anisotropic = engine.Anisotropic;
+        NormalMapping = engine.Effects.NormalMapping;
+        PostScreenEffects = engine.Effects.PostScreenEffects;
+        DoubleSampling = engine.Effects.DoubleSampling;
+        WaterEffects = engine.Effects.WaterEffects;
+    }
 }
