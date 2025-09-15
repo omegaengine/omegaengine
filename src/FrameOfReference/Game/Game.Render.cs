@@ -70,8 +70,8 @@ partial class Game
             TargetSize = fullscreen ? Settings.Current.Display.Resolution : Form.ClientSize,
             AntiAliasing = Settings.Current.Display.AntiAliasing
         };
-        if (!string.IsNullOrEmpty(Settings.Current.Graphics.ForceShaderModel))
-            engineConfig.ForceShaderModel = new(Settings.Current.Graphics.ForceShaderModel);
+        if (Settings.Current.Display.ForceShaderModel is {} forceShaderModel)
+            engineConfig.ForceShaderModel = new(forceShaderModel);
 
         return engineConfig;
     }

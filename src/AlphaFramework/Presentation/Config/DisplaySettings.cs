@@ -137,4 +137,12 @@ public sealed class DisplaySettings
     /// </summary>
     [Description("Synchronize the framerate with the monitor's refresh rate")]
     public bool VSync { get => _vSync; set => value.To(ref _vSync, Changed); }
+
+    private string? _forceShaderModel;
+
+    /// <summary>
+    /// Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective
+    /// </summary>
+    [DefaultValue(""), Description("Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective")]
+    public string? ForceShaderModel { get => _forceShaderModel; set => value.To(ref _forceShaderModel, Changed); }
 }

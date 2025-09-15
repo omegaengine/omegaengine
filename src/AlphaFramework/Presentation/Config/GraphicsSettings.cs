@@ -39,14 +39,6 @@ public sealed class GraphicsSettings
     [Description("Occurs when a setting in this group is changed.")]
     public event Action Changed = () => {};
 
-    private string? _forceShaderModel;
-
-    /// <summary>
-    /// Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective
-    /// </summary>
-    [DefaultValue(null), Description("Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective")]
-    public string? ForceShaderModel { get => _forceShaderModel; set => value.To(ref _forceShaderModel, Changed); }
-
     private bool _anisotropic = true;
 
     /// <summary>
