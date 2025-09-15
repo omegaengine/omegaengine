@@ -96,8 +96,7 @@ public static class Program
     /// </summary>
     public static void UpdateLocale()
     {
-        if (string.IsNullOrEmpty(Settings.Current.General.Language))
-            Settings.Current.General.Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+        Settings.Current.General.Language ??= CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
         var language = CultureInfo.CreateSpecificCulture(Settings.Current.General.Language);
         Languages.SetUI(language);

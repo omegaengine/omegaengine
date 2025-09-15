@@ -25,7 +25,7 @@ public sealed partial class MapPropertiesTool : Form
     /// Occurs when a command is to be executed by the owning tab.
     /// </summary>
     [Description("Occurs when a command is to be executed by the owning tab.")]
-    public event Action<IUndoCommand> ExecuteCommand;
+    public event Action<IUndoCommand>? ExecuteCommand;
 
     private void OnExecuteCommand(IUndoCommand command)
         => ExecuteCommand?.Invoke(command);
@@ -44,7 +44,8 @@ public sealed partial class MapPropertiesTool : Form
     {
         InitializeComponent();
 
-        UpdateUniverse(universe);
+        _universe = universe;
+        propertyGridUniverse.SelectedObject = universe;
     }
     #endregion
 

@@ -24,7 +24,7 @@ public interface IUniverse
     /// </summary>
     /// <remarks>Is not serialized/stored, is set by whatever method loads the universe.</remarks>
     [XmlIgnore, Browsable(false)]
-    string SourceFile { get; set; }
+    string? SourceFile { get; set; }
 
     /// <summary>
     /// Updates the <see cref="UniverseBase{TCoordinates}"/> and all <see cref="Positionable{TCoordinates}"/>s in it.

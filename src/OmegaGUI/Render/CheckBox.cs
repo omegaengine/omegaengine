@@ -23,7 +23,7 @@ public class CheckBox : Button
     public const int CheckLayer = 1;
 
     #region Event code
-    public event EventHandler Changed;
+    public event EventHandler? Changed;
 
     /// <summary>Create new button instance</summary>
     protected void RaiseChangedEvent(CheckBox sender, bool wasTriggeredByUser)

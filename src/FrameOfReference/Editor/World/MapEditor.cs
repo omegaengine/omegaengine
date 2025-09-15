@@ -58,10 +58,10 @@ namespace FrameOfReference.Editor.World;
 public partial class MapEditor : UndoCommandTab
 {
     #region Variables
-    private EditorPresenter _presenter;
-    private UpdateReceiver _updateReceiver;
-    private Universe _universe;
-    private MapPropertiesTool _mapPropertiesTool;
+    private EditorPresenter? _presenter;
+    private UpdateReceiver? _updateReceiver;
+    private Universe _universe = null!;
+    private MapPropertiesTool? _mapPropertiesTool;
 
     /// <summary>Don't handle <see cref="FilteredTreeView{T}.SelectedEntryChanged"/> event when <c>true</c>.</summary>
     private bool _dontSetEntityTemplate;
@@ -853,7 +853,7 @@ public partial class MapEditor : UndoCommandTab
     /// <summary>
     /// Updates the <see cref="EditorPresenter.TerrainBrush"/> based on the current UI selections.
     /// </summary>
-    private void UpdatePaintingStatus(object sender, EventArgs e)
+    private void UpdatePaintingStatus(object? sender, EventArgs e)
     {
         if (tabControl.SelectedTab == tabPageHeight)
             _presenter.TerrainBrush = new TerrainBrush((int)upDownHeightSize.Value, radioHeightShapeCircle.Checked);

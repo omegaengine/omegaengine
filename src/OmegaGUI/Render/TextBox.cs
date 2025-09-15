@@ -34,8 +34,8 @@ public class TextBox : Control
     #endregion
 
     #region Event code
-    public event EventHandler Changed;
-    public event EventHandler Enter;
+    public event EventHandler? Changed;
+    public event EventHandler? Enter;
 
     /// <summary>Raises the changed event</summary>
     protected void RaiseChangedEvent(TextBox sender, bool wasTriggeredByUser)

@@ -28,7 +28,7 @@ public class DropdownList : Button
     public const int SelectionLayer = 3;
 
     #region Event code
-    public event EventHandler Changed;
+    public event EventHandler? Changed;
 
     /// <summary>Create new button instance</summary>
     protected void RaiseChangedEvent(DropdownList sender, bool wasTriggeredByUser)

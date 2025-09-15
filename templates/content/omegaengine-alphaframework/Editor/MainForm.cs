@@ -42,7 +42,7 @@ public sealed partial class MainForm : MainFormBase
         Program.UpdateLocale();
 
         // Refresh tab to update language-related stuff
-        if (CurrentTab != null) CurrentTab.Open(this);
+        CurrentTab?.Open(this);
 
         // Inform user he/she needs to close the Main Form to refresh all locales
         if (Msg.YesNo(this, Resources.CloseModForLangChange, MsgSeverity.Info, Resources.CloseModForLangChangeYes, Resources.CloseModForLangChangeNo))

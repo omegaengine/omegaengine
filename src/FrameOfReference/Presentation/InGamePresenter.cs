@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using AlphaFramework.Presentation;
 using AlphaFramework.World.Positionables;
@@ -43,6 +44,7 @@ public sealed class InGamePresenter : InteractivePresenter
     /// </summary>
     /// <param name="engine">The engine to use for rendering</param>
     /// <param name="universe">The universe to display</param>
+    [SetsRequiredMembers]
     public InGamePresenter(Engine engine, Universe universe) : base(engine, universe)
     {
         #region Sanity checks
@@ -101,7 +103,7 @@ public sealed class InGamePresenter : InteractivePresenter
         View.SwingCameraTo(CreateCamera(Universe.GetCamera(name)), duration: 4);
     }
 
-    private Entity _lockedOnEntity;
+    private Entity? _lockedOnEntity;
 
     /// <summary>
     /// Sets <see cref="InteractivePresenter.SelectedPositionables"/> to a single specific <see cref="Entity"/> and forces the <see cref="Camera"/> to stay close to it.

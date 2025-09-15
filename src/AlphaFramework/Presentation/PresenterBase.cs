@@ -64,7 +64,7 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
     /// <summary>
     /// The engine view used to display the <see cref="Scene"/>
     /// </summary>
-    public View View { get; protected set; }
+    public required View View { get; init; }
 
     /// <summary>
     /// The engine scene containing the graphical representations of <see cref="Positionable{TCoordinates}"/>s
@@ -167,8 +167,8 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
             RenderablesSync.Dispose();
             LightsSync.Dispose();
 
-            Scene?.Dispose();
-            View?.Dispose();
+            Scene.Dispose();
+            View.Dispose();
         }
         else
         { // This block will only be executed on Garbage Collection, not by manual disposal

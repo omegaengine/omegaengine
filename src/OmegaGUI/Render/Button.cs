@@ -24,7 +24,7 @@ public class Button : Label
     protected bool isPressed;
 
     #region Event code
-    public event EventHandler Click;
+    public event EventHandler? Click;
 
     /// <summary>Create new button instance</summary>
     protected void RaiseClickEvent(Button sender, bool wasTriggeredByUser)

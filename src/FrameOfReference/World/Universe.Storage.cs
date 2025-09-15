@@ -83,22 +83,24 @@ partial class Universe
 
     /// <summary>Used for XML serialization.</summary>
     [XmlElement("Terrain"), LuaHide, Browsable(false)]
-    public Terrain<TerrainTemplate>? TerrainSerialize { get; set; }
+    public Terrain<TerrainTemplate> TerrainSerialize { get; set; } = null!;
 
     /// <summary>
     /// Performs the deferred loading of <see cref="Terrain"/> data.
     /// </summary>
     private void LoadTerrainData()
     {
+        if (SourceFile == null) return;
+
         // Load the data
         using (var stream = ContentManager.GetFileStream("World/Maps", SourceFile))
         {
             XmlStorage.LoadXmlZip<Universe>(stream, additionalFiles:
             [
                 // Callbacks for loading terrain data
-                new("height.png", TerrainSerialize!.LoadHeightMap),
-                new("texture.png", TerrainSerialize!.LoadTextureMap),
-                new("occlusion.png", TerrainSerialize!.LoadOcclusionIntervalMap)
+                new("height.png", TerrainSerialize.LoadHeightMap),
+                new("texture.png", TerrainSerialize.LoadTextureMap),
+                new("occlusion.png", TerrainSerialize.LoadOcclusionIntervalMap)
             ]);
         }
 
@@ -118,11 +120,11 @@ partial class Universe
 
         IEnumerable<EmbeddedFile> GetEmbeddedFiles()
         {
-            if (Terrain?.HeightMap is {} heightMap)
+            if (Terrain.HeightMap is {} heightMap)
                 yield return new("height.png", 0, heightMap.Save);
-            if (Terrain?.TextureMap is {} textureMap)
+            if (Terrain.TextureMap is {} textureMap)
                 yield return new("texture.png", 0, textureMap.Save);
-            if (Terrain?.OcclusionIntervalMap is {} occlusionIntervalMap)
+            if (Terrain.OcclusionIntervalMap is {} occlusionIntervalMap)
                 yield return new("occlusion.png", 0, occlusionIntervalMap.Save);
         }
     }

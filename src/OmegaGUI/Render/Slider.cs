@@ -23,7 +23,7 @@ public class Slider : Control
     public const int ButtonLayer = 1;
 
     #region Instance Data
-    public event EventHandler Changed;
+    public event EventHandler? Changed;
     protected int currentValue;
     protected int maxValue;
     protected int minValue;

@@ -26,8 +26,8 @@ public class ListBox : Control
     public const int SelectionLayer = 1;
 
     #region Event code
-    public event EventHandler DoubleClick;
-    public event EventHandler Selection;
+    public event EventHandler? DoubleClick;
+    public event EventHandler? Selection;
 
     /// <summary>Raises the double click event</summary>
     protected void RaiseDoubleClickEvent(ListBox sender, bool wasTriggeredByUser)

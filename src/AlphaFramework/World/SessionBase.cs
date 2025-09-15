@@ -28,7 +28,7 @@ public abstract class SessionBase<TUniverse>
     /// <summary>
     /// The filename of the map file the <see cref="Universe"/> was loaded from.
     /// </summary>
-    public string MapSourceFile { get; set; }
+    public string? MapSourceFile { get; set; }
 
     /// <summary>
     ///  Base-constructor for XML serialization. Do not call manually!
@@ -36,7 +36,6 @@ public abstract class SessionBase<TUniverse>
     protected SessionBase()
     {
         Universe = null!;
-        MapSourceFile = null!;
     }
 
     /// <summary>

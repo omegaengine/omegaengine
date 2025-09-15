@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using NanoByte.Common;
 using NanoByte.Common.Storage;
@@ -78,7 +79,8 @@ public class XAnimatedMesh : XMesh
     /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
     /// <exception cref="InvalidDataException">The file does not contain a valid animated mesh.</exception>
     /// <remarks>Remember to call <see cref="CacheManager.Clean"/> when done, otherwise this object will never be released.</remarks>
-    public new static XAnimatedMesh Get(Engine engine, string id)
+    [return: NotNullIfNotNull(nameof(id))]
+    public new static XAnimatedMesh? Get(Engine engine, string? id)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));

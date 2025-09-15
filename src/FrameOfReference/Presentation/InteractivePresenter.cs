@@ -67,7 +67,7 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
     }
 
     #region Initialize
-    private Asset[] _preCachedAssets;
+    private Asset[]? _preCachedAssets;
 
     /// <inheritdoc/>
     public override void Initialize()
@@ -144,9 +144,9 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
     /// Adds the selection highlighting for a <see cref="EntityBase{TCoordinates,TTemplate}"/>
     /// </summary>
     /// <param name="entity">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to add the selection highlighting for</param>
-    private Model GetSelectionHighlighting(Entity entity)
+    private Model? GetSelectionHighlighting(Entity entity)
     {
-        if (entity.TemplateData.Collision == null) return null;
+        if (entity.TemplateData?.Collision == null) return null;
 
         var dispatcher = new PerTypeDispatcher<Collision<Vector2>, Model>
         {

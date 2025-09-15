@@ -37,7 +37,7 @@ public class CpuParticleSystem : PositionableRenderable
     private readonly Stack<CpuParticle> _deadParticles = new();
 
     /// <summary>The last <see cref="Camera"/> <see cref="Render"/> was called with</summary>
-    private Camera _lastCamera;
+    private Camera? _lastCamera;
 
     private VertexBuffer _vb;
     private XMaterial _material1, _material2;

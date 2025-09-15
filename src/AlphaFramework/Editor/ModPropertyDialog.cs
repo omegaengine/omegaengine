@@ -21,8 +21,8 @@ namespace AlphaFramework.Editor;
 public partial class ModPropertyDialog : Form
 {
     #region Variables
-    private ModInfo _info;
-    private string _location;
+    private ModInfo? _info;
+    private string? _location;
     #endregion
 
     #region Startup
@@ -58,7 +58,7 @@ public partial class ModPropertyDialog : Form
     /// Creates a new mod. Information is automatically saved to the XML info file.
     /// </summary>
     /// <returns>The path of the newly created mod info file, <c>null</c> if none was created</returns>
-    public static string CreateMod()
+    public static string? CreateMod()
     {
         var dialog = new ModPropertyDialog();
         if (dialog.ShowDialog() == DialogResult.OK)

@@ -48,9 +48,9 @@ partial class Presenter
     /// </summary>
     private const float DiffuseToSpecularRatio = 0.5f;
 
-    private PostSepiaShader _sepiaShader;
-    private PostColorCorrectionShader _colorCorrectionShader;
-    private PostBleachShader _bleachShader;
+    private PostSepiaShader? _sepiaShader;
+    private PostColorCorrectionShader? _colorCorrectionShader;
+    private PostBleachShader? _bleachShader;
 
     /// <summary>
     /// Helper method for setting up the lighting and post-screen effects
@@ -85,8 +85,7 @@ partial class Presenter
 
         UpdateLightingColorSun();
         UpdateLightingColorMoon();
-
-        if (_colorCorrectionShader != null) UpdateColorCorrection();
+        UpdateColorCorrection();
 
         View.Fog = Universe.Fog;
         View.BackgroundColor = Universe.FogColor;
@@ -136,6 +135,8 @@ partial class Presenter
     /// </summary>
     private void UpdateColorCorrection()
     {
+        if (_colorCorrectionShader == null) return;
+
         // Interpolate between the color correction settings for the different sun phases
         var correction = ColorCorrection.SinusInterpolate(Universe.LightPhase,
             Universe.ColorCorrectionDawn, Universe.ColorCorrectionNoon, Universe.ColorCorrectionDusk, Universe.ColorCorrectionMidnight, Universe.ColorCorrectionDawn);

@@ -215,7 +215,7 @@ partial class Game
             //CleanupPresenter();
 
             // Load menu scene
-            if (_menuPresenter == null) _menuPresenter = new(Engine, _menuUniverse);
+            _menuPresenter ??= new(Engine, _menuUniverse);
             _menuPresenter.Initialize();
             CurrentPresenter = _menuPresenter;
 

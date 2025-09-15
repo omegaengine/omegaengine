@@ -92,7 +92,7 @@ partial class Engine
 
     #region Debug interface
     /// <summary>Contains a reference to the <see cref="DebugForm"/> while it is open</summary>
-    private DebugForm _debugForm;
+    private DebugForm? _debugForm;
 
     /// <summary>
     /// Displays a debug interface for the engine, allowing easy manipulation of <see cref="Views"/>, <see cref="Renderable"/>, etc.
@@ -111,7 +111,7 @@ partial class Engine
             _debugForm.FormClosed += delegate { _debugForm = null; };
         }
 
-        _debugForm.Show();
+        _debugForm?.Show();
     }
 
     /// <summary>

@@ -153,7 +153,7 @@ partial class Game
 
         // If we are currently in-game, then the camera position must be explicitly stored/updated
         if (CurrentState is GameState.InGame or GameState.Pause)
-            ((InGamePresenter)CurrentPresenter).PrepareSave();
+            ((InGamePresenter)CurrentPresenter!).PrepareSave();
 
         // Write to disk
         string path = Locations.GetSaveDataPath(GeneralSettings.AppName, true, name + Session.FileExt);

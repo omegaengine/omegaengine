@@ -45,7 +45,7 @@ public partial class Game : GameBase
     /// <summary>
     /// Manages all GUI dialogs displayed in the game
     /// </summary>
-    public GuiManager GuiManager { get; private set; }
+    public GuiManager GuiManager { get; private set; } = null!;
 
     /// <summary>
     /// Creates a new game instance
@@ -189,7 +189,7 @@ public partial class Game : GameBase
                 CurrentPresenter?.Dispose();
 
                 // Shutdown GUI system
-                GuiManager?.Dispose();
+                GuiManager.Dispose();
 
                 // Remove settings update hooks
                 Settings.Current.General.Changed -= Program.UpdateLocale;

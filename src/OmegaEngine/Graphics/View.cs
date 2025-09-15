@@ -37,13 +37,13 @@ public partial class View : EngineElement, IResetable
     /// A <see cref="CinematicCamera"/> for smooth transitioning to <see cref="_targetCamera"/>
     /// </summary>
     /// <remarks>Must be <c>null</c> or equal to <see cref="Camera"/></remarks>
-    private CinematicCamera _cinematicCamera;
+    private CinematicCamera? _cinematicCamera;
 
     /// <summary>
     /// A new <see cref="Camera"/> to use after a transition is done
     /// </summary>
     /// <remarks>Must be <c>null</c> if <see cref="_cinematicCamera"/> is <c>null</c>, will replace <see cref="Camera"/></remarks>
-    private Camera _targetCamera;
+    private Camera? _targetCamera;
     #endregion
 
     #region Background
@@ -55,7 +55,7 @@ public partial class View : EngineElement, IResetable
     /// <summary>An alternative surface to render onto instead of the back-buffer</summary>
     protected RenderTarget? RenderTarget;
 
-    private RenderTarget _secondaryRenderTarget;
+    private RenderTarget? _secondaryRenderTarget;
 
     private Viewport _viewport;
     #endregion
@@ -75,7 +75,7 @@ public partial class View : EngineElement, IResetable
     /// Text value to make it easier to identify a particular view
     /// </summary>
     [Description("Text value to make it easier to identify a particular view"), Category("Design")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public override string ToString()
     {
@@ -334,11 +334,11 @@ public partial class View : EngineElement, IResetable
     /// <param name="location">The screen space location to start the ray from (usually mouse coordinates)</param>
     /// <param name="position">Returns the position of the vertex closest to the intersection in entity space</param>
     /// <returns>The picked <see cref="PositionableRenderable"/> or <c>null</c>.</returns>
-    public PositionableRenderable Pick(Point location, out DoubleVector3 position)
+    public PositionableRenderable? Pick(Point location, out DoubleVector3 position)
     {
         Ray pickingRay = PickingRay(location);
 
-        PositionableRenderable closestBody = null;
+        PositionableRenderable? closestBody = null;
         float closestDistance = float.MaxValue;
         foreach (PositionableRenderable body in _sortedBodies)
         {

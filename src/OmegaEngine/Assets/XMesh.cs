@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -213,7 +214,8 @@ public class XMesh : Asset
     /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
     /// <exception cref="InvalidDataException">The file does not contain a valid mesh.</exception>
     /// <remarks>Remember to call <see cref="CacheManager.Clean"/> when done, otherwise this object will never be released.</remarks>
-    public static XMesh? Get(Engine engine, string id)
+    [return: NotNullIfNotNull(nameof(id))]
+    public static XMesh? Get(Engine engine, string? id)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));

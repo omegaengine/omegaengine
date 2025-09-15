@@ -54,11 +54,11 @@ public sealed partial class Universe : UniverseBase<Vector2>
     /// <exception cref="InvalidOperationException">The <see cref="Terrain"/> could not be properly loaded from the file.</exception>
     /// <remarks>Is not serialized/stored, <see cref="TerrainSerialize"/> is used for that.</remarks>
     [XmlIgnore, Browsable(false)]
-    public Terrain<TerrainTemplate>? Terrain
+    public Terrain<TerrainTemplate> Terrain
     {
         get
         {
-            if (TerrainSerialize != null && SourceFile != null && !TerrainSerialize.DataLoaded) LoadTerrainData();
+            if (TerrainSerialize is {DataLoaded: false}) LoadTerrainData();
             return TerrainSerialize;
         }
         set => TerrainSerialize = value;

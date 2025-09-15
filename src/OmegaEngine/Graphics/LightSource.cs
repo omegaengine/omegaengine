@@ -25,7 +25,7 @@ public abstract class LightSource
     /// Text value to make it easier to identify a particular camera
     /// </summary>
     [Description("Text value to make it easier to identify a particular light source"), Category("Design")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public override string ToString()
     {

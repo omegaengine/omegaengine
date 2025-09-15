@@ -43,7 +43,7 @@ public abstract class Control
     protected List<Element> elementList = []; // All display elements
     #endregion
 
-    public event EventHandler MouseEnter , MouseExit;
+    public event EventHandler? MouseEnter , MouseExit;
 
     /// <summary>Initialize the control</summary>
     public virtual void OnInitialize()

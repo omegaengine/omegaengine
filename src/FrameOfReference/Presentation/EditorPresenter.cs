@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -62,6 +63,7 @@ public sealed class EditorPresenter : InteractivePresenter
     /// <param name="engine">The engine to use for rendering</param>
     /// <param name="universe">The universe to display</param>
     /// <param name="lighting">Shall lighting be used for rendering?</param>
+    [SetsRequiredMembers]
     public EditorPresenter(Engine engine, Universe universe, bool lighting) : base(engine, universe)
     {
         #region Sanity checks
@@ -115,7 +117,7 @@ public sealed class EditorPresenter : InteractivePresenter
     /// Occurs when an <see cref="Positionable{TCoordinates}"/> is to be moved.
     /// </summary>
     [Description("Occurs when an entity is to be moved")]
-    public event PostionableMoveHandler PostionableMove;
+    public event PostionableMoveHandler? PostionableMove;
 
     /// <summary>
     /// Informs observers that one or more <see cref="Positionable{TCoordinates}"/>s are to be moved to a new position.
@@ -130,7 +132,9 @@ public sealed class EditorPresenter : InteractivePresenter
     #endregion
 
     #region Terrain painting
-    private Model _terrainPaintingBrushCircle, _terrainPaintingBrushSquare;
+    private Model
+        _terrainPaintingBrushCircle = null!,
+        _terrainPaintingBrushSquare = null!;
 
     private TerrainBrush? _terrainBrush;
 
@@ -191,7 +195,7 @@ public sealed class EditorPresenter : InteractivePresenter
     /// Occurs when the user selects an area while <see cref="TerrainBrush"/> is set to a value other than <c>null</c>. Passes the coordinates in world space.
     /// </summary>
     [Description("Occurs when the user selects an area while PaintingMode is set to true.")]
-    public event TerrainPaint TerrainPaint;
+    public event TerrainPaint? TerrainPaint;
 
     /// <inheritdoc/>
     public override void AreaSelection(Rectangle area, bool accumulate, bool done)

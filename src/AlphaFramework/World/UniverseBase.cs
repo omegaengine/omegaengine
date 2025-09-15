@@ -76,7 +76,7 @@ public abstract class UniverseBase<TCoordinates> : IUniverse
 
     /// <inheritdoc/>
     [XmlIgnore, Browsable(false)]
-    public string SourceFile { get; set; } = null!;
+    public string? SourceFile { get; set; }
 
     /// <inheritdoc/>
     public virtual void Update(double elapsedGameTime)
@@ -105,6 +105,8 @@ public abstract class UniverseBase<TCoordinates> : IUniverse
     /// <inheritdoc/>
     public void Save()
     {
+        if (SourceFile == null) return;
+
         // Determine the original filename to overwrite
         Save(Path.IsPathRooted(SourceFile) ? SourceFile : ContentManager.CreateFilePath("World/Maps", SourceFile));
     }

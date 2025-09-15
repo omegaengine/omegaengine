@@ -44,7 +44,7 @@ public sealed class GuiManager : IDisposable
     private readonly List<DialogRenderer> _modalDialogs = [];
     private readonly List<Lua> _pendingLuaDisposes = [];
 
-    private Stopwatch _timer;
+    private Stopwatch? _timer;
     private float _timeSinceLastUpdate;
 
     /// <summary>
@@ -241,11 +241,8 @@ public sealed class GuiManager : IDisposable
         // Unhook engine events
         _engine.ExtraRender -= Render;
 
-        if (DialogManager != null)
-        {
-            CloseAll();
-            DialogManager.Dispose();
-        }
+        CloseAll();
+        DialogManager.Dispose();
 
         GC.SuppressFinalize(this);
     }

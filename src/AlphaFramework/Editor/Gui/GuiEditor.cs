@@ -28,8 +28,8 @@ namespace AlphaFramework.Editor.Gui;
 public partial class GuiEditor : UndoCloneTab<Dialog>
 {
     #region Variables
-    private GuiManager _guiManager;
-    private DialogRenderer _dialogRenderer;
+    private GuiManager? _guiManager;
+    private DialogRenderer? _dialogRenderer;
     private Dialogs.AddControlTool _addControlTool;
 
     /// <summary>The mouse coordinates where the picking started (i.e. where the mouse was first pressed)</summary>
@@ -42,7 +42,7 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
     private Rectangle _pickRectangle;
 
     /// <summary>The control currently being dragged/moved with the mouse</summary>
-    private Control _dragControl;
+    private Control? _dragControl;
     #endregion
 
     #region Constructor

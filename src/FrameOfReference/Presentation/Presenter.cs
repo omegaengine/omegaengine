@@ -168,8 +168,6 @@ public abstract partial class Presenter : PresenterBase<Universe, Vector2>
     /// </summary>
     private void SetupTerrain()
     {
-        if (Universe.Terrain == null) return;
-
         // Build texture array
         var textures = new string[Universe.Terrain.Templates.Length];
         for (int i = 0; i < textures.Length; i++)
@@ -185,8 +183,9 @@ public abstract partial class Presenter : PresenterBase<Universe, Vector2>
         Terrain = Terrain.Create(
             Engine, Universe.Terrain.Size,
             Universe.Terrain.Size.StretchH, Universe.Terrain.Size.StretchV,
-            Universe.Terrain.HeightMap,
-            Universe.Terrain.TextureMap, textures,
+            Universe.Terrain.HeightMap ?? throw new InvalidOperationException("Terrain height map missing"),
+            Universe.Terrain.TextureMap ?? throw new InvalidOperationException("Terrain texture map missing"),
+            textures,
             Universe.Terrain.OcclusionIntervalMap,
             Lighting,
             Settings.Current.Graphics.TerrainBlockSize);
@@ -251,8 +250,7 @@ public abstract partial class Presenter : PresenterBase<Universe, Vector2>
     /// <returns>The newly created <see cref="Camera"/>.</returns>
     protected Camera CreateCamera(CameraState<Vector2>? state = null)
     {
-        if (state == null)
-            state = new() {Name = "Main", Position = Universe.Terrain.Center, Radius = 1500};
+        state ??= new() {Name = "Main", Position = Universe.Terrain.Center, Radius = 1500};
 
         return new StrategyCamera(
             minRadius: 200, maxRadius: MaxCameraRadius,
@@ -286,7 +284,7 @@ public abstract partial class Presenter : PresenterBase<Universe, Vector2>
     /// Retrieves the current state of the <see cref="Camera"/> for storage in the <see cref="Universe"/>.
     /// </summary>
     /// <returns>The current state of  the <see cref="Camera"/> or <c>null</c> if it can not be determined at this time (e.g. cinematic animation in progress).</returns>
-    public CameraState<Vector2> CameraState
+    public CameraState<Vector2>? CameraState
     {
         get
         {
@@ -334,7 +332,8 @@ public abstract partial class Presenter : PresenterBase<Universe, Vector2>
     /// <inheritdoc/>
     public override void DimUp()
     {
-        _sepiaShader.Enabled = false;
+        if (_sepiaShader != null)
+            _sepiaShader.Enabled = false;
 
         base.DimUp();
     }

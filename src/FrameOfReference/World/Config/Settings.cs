@@ -156,6 +156,6 @@ public sealed class Settings
             _configForm.FormClosed += delegate { _configForm = null; };
         }
 
-        _configForm.Show();
+        _configForm?.Show();
     }
 }

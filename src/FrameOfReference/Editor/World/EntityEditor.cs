@@ -21,6 +21,7 @@
  */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Windows.Forms;
 using AlphaFramework.Editor;
@@ -46,10 +47,10 @@ namespace FrameOfReference.Editor.World;
 public partial class EntityEditor : EntityEditorDesignerShim
 {
     #region Variables
-    private EditorPresenter _presenter;
-    private Universe _universe;
+    private EditorPresenter? _presenter;
+    private Universe _universe = null!;
 
-    private AddRenderComponentTool _addRenderComponentTool;
+    private AddRenderComponentTool? _addRenderComponentTool;
     #endregion
 
     #region Constructor
@@ -259,6 +260,7 @@ public partial class EntityEditor : EntityEditorDesignerShim
     /// <summary>
     /// Helper function for configuring the <see cref="AddRenderComponentTool"/> form with event hooks.
     /// </summary>
+    [MemberNotNull(nameof(_addRenderComponentTool))]
     private void SetupAddRenderComponentTool()
     {
         // Keep existing dialog instance

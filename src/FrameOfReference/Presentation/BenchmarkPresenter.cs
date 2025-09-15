@@ -22,6 +22,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using FrameOfReference.World;
@@ -51,6 +52,7 @@ public sealed class BenchmarkPresenter : Presenter
     /// <param name="engine">The engine to use for rendering</param>
     /// <param name="universe">The universe to display</param>
     /// <param name="callback">A delegate to execute after the benchmark is complete with the path of the result file</param>
+    [SetsRequiredMembers]
     public BenchmarkPresenter(Engine engine, Universe universe, Action<string> callback) : base(engine, universe)
     {
         #region Sanity checks
@@ -64,7 +66,7 @@ public sealed class BenchmarkPresenter : Presenter
         if (Directory.Exists(_resultDir)) Directory.Delete(_resultDir, true);
         Directory.CreateDirectory(_resultDir);
 
-        _statistics = new(AppInfo.Current.Version, Engine.Version.ToString(), universe);
+        _statistics = new(AppInfo.Current.Version ?? "", Engine.Version.ToString(), universe);
 
         // Target camera on first BenchmarkPoint
         var mainCamera = CreateCamera(_statistics.TestCases.Length > 0 ? _statistics.TestCases[0].Target : null);
@@ -81,7 +83,7 @@ public sealed class BenchmarkPresenter : Presenter
 
     private readonly Statistics _statistics;
     private int _testCaseCounter;
-    private Stopwatch _testCaseTimer;
+    private Stopwatch? _testCaseTimer;
     private long _lastTotalFrames;
     #endregion
 

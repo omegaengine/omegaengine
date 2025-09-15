@@ -28,7 +28,7 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICo
     /// </summary>
     // Mark as read only for PropertyGrid, since direct renames would confuse NamedCollection<T>
     [XmlAttribute, ReadOnly(true), Description("The name of this class. Used in map files as a reference. Must be unique and is case-sensitive!")]
-    public string Name { get; set; } = null!;
+    public required string Name { get; set; }
 
     /// <summary>
     /// The color to highlight this class with in list representations. <see cref="Color.Empty"/> for no highlighting.

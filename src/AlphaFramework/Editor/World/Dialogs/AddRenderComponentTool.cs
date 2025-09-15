@@ -24,7 +24,7 @@ public sealed partial class AddRenderComponentTool : System.Windows.Forms.Form
     /// Occurs when a new render component is to be added
     /// </summary>
     [Description("Occurs when a new render component is to be added")]
-    public event Action<Render> NewRenderComponent;
+    public event Action<Render>? NewRenderComponent;
 
     private void OnNewRenderComponent(Render component)
         => NewRenderComponent?.Invoke(component);

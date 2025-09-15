@@ -29,7 +29,7 @@ public abstract class Tab : UserControl
     /// Occurs after the tab was closed
     /// </summary>
     [Description("Occurs after the tab was closed")]
-    public event EventHandler TabClosed;
+    public event EventHandler? TabClosed;
     #endregion
 
     #region Variables

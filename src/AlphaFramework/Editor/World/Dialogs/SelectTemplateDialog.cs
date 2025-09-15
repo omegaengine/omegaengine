@@ -36,7 +36,7 @@ public sealed class SelectTemplateDialog<T> : OKCancelDialog where T : Template<
     /// <summary>
     /// The name of the <see cref="Template{T}"/> the user selected; <c>null</c> if none.
     /// </summary>
-    public string SelectedTemplate => _templateList.SelectedEntry?.Name;
+    public string? SelectedTemplate => _templateList.SelectedEntry?.Name;
     #endregion
 
     #region Constructor

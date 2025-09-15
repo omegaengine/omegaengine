@@ -24,9 +24,9 @@ namespace AlphaFramework.Editor.Graphics;
 public partial class CpuParticleSystemEditor : ParticleSystemEditor
 {
     #region Variables
-    private CpuParticlePreset _preset;
-    private CpuParticleSystem _particleSystem;
-    private Scene _scene;
+    private CpuParticlePreset _preset = null!;
+    private CpuParticleSystem _particleSystem = null!;
+    private Scene _scene = null!;
     #endregion
 
     #region Constructor

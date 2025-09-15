@@ -91,7 +91,7 @@ partial class Presenter
     private void RegisterRenderComponentLight()
     {
         LightsSync.RegisterMultiple<Entity, PointLight>(
-            entity => entity.TemplateData.Render.OfType<LightSource>().Select(component => new PointLight
+            entity => entity.TemplateData?.Render.OfType<LightSource>().Select(component => new PointLight
             {
                 Name = entity.Name,
                 Range = component.Range,

@@ -27,7 +27,7 @@ public abstract class Asset : IReferenceCount, IDisposable, INamed, IComparable<
     /// </summary>
     // Mark as read only for PropertyGrid, since direct renames would confuse NamedCollection<T>
     [ReadOnly(true)]
-    public string Name { get; set; } = null!;
+    public required string Name { get; set; }
 
     public override string ToString() => $"{GetType().Name}: {Name}";
 

@@ -29,7 +29,7 @@ public partial class ModPackageDialog : Form
     #endregion
 
     #region Variables
-    private string _modProjectFile, _modDirPath;
+    private string _modProjectFile = null!, _modDirPath = null!;
     private readonly FastZipEvents _fastZipEvents = new();
     private readonly FastZip _fastZip;
     #endregion
@@ -64,7 +64,7 @@ public partial class ModPackageDialog : Form
         var dialog = new ModPackageDialog
         {
             _modProjectFile = path,
-            _modDirPath = Path.GetDirectoryName(path),
+            _modDirPath = Path.GetDirectoryName(path) ?? "",
             saveFileDialog = {FileName = info.Name + FileExt}
         };
         dialog.ShowDialog();

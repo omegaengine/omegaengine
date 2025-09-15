@@ -111,7 +111,7 @@ public class Dialog
         }
     }
 
-    public event EventHandler Resize;
+    public event EventHandler? Resize;
 
     /// <summary>Called to set dialog's size</summary>
     public void SetSize(int w, int h)

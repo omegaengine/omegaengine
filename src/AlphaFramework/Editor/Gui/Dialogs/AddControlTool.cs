@@ -23,7 +23,7 @@ public sealed partial class AddControlTool : System.Windows.Forms.Form
     /// Occurs when a new control is to be added.
     /// </summary>
     [Description("Occurs when a new control is to be added.")]
-    public event Action<Control> NewControl;
+    public event Action<Control>? NewControl;
 
     private void OnNewControl(Control control) => NewControl?.Invoke(control);
     #endregion
