@@ -37,7 +37,7 @@ namespace FrameOfReference;
 /// <summary>
 /// Represents a running instance of the game
 /// </summary>
-public partial class Game : GameBase
+public partial class Game() : GameBase(Universe.AppName, Resources.Icon, Resources.Loading)
 {
     private Universe? _menuUniverse;
     private MenuPresenter? _menuPresenter;
@@ -46,12 +46,6 @@ public partial class Game : GameBase
     /// Manages all GUI dialogs displayed in the game
     /// </summary>
     public GuiManager GuiManager { get; private set; } = null!;
-
-    /// <summary>
-    /// Creates a new game instance
-    /// </summary>
-    public Game() : base(Universe.AppName, Resources.Icon, Resources.Loading)
-    {}
 
     /// <inheritdoc/>
     [LuaHide]
