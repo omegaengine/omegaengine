@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
+using AlphaFramework.Presentation.Config;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
 using OmegaEngine.Foundation.Storage;
@@ -38,15 +39,13 @@ public sealed partial class ModSelectorForm : Form
     /// <summary>
     /// Creates a new mod selection form.
     /// </summary>
-    /// <param name="allowEditMain"><c>true</c> to allow the user to edit the main game as well; <c>false</c> to allow only mods to be edited.</param>
-    /// <param name="recentMods">An externally stored list of recently opened mods.</param>
-    public ModSelectorForm(bool allowEditMain, IList<string>? recentMods = null)
+    public ModSelectorForm(EditorSettings settings)
     {
         InitializeComponent();
         Text = AboutBox.AssemblyTitle;
 
-        buttonMainGame.Visible = allowEditMain;
-        _recentMods = recentMods ?? new List<string>();
+        buttonMainGame.Visible = settings.EditBase;
+        _recentMods = settings.RecentMods;
 
         openFileDialog.DefaultExt = ModInfo.FileExt;
         openFileDialog.Filter = $"Mod info (*{ModInfo.FileExt})|*{ModInfo.FileExt}";

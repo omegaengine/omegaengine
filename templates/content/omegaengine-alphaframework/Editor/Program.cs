@@ -52,7 +52,7 @@ static class Program
             Restart = false;
 
             // Ask user to select mod, cancel if an exception occurred
-            Application.Run(new ModSelectorForm(Settings.Current.Editor.EditBase, Settings.Current.Editor.RecentMods));
+            Application.Run(new ModSelectorForm(Settings.Current.Editor));
 
             // Exit if the user didn't select anything
             if (ContentManager.ModDir == null && !ModInfo.MainGame) break;
