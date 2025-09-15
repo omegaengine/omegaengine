@@ -20,7 +20,6 @@
  * THE SOFTWARE.
  */
 
-using FrameOfReference.Presentation.Config;
 using FrameOfReference.Properties;
 using FrameOfReference.World.Templates;
 using NanoByte.Common;
@@ -33,18 +32,18 @@ partial class Game
     /// <inheritdoc/>
     protected override void ResetEngine()
     {
-        if (Settings.Current.Display.Fullscreen)
+        if (settings.Display.Fullscreen)
         { // Fullscreen
             ToFullscreen();
         }
         else
         { // Windowed
-            ToWindowed(Settings.Current.Display.WindowSize);
+            ToWindowed(settings.Display.WindowSize);
 
             // Validate window size before continuing
-            if (Form.ClientSize != Settings.Current.Display.WindowSize)
+            if (Form.ClientSize != settings.Display.WindowSize)
             {
-                Settings.Current.Display.WindowSize = Form.ClientSize;
+                settings.Display.WindowSize = Form.ClientSize;
                 return;
             }
         }
@@ -54,11 +53,11 @@ partial class Game
 
     /// <inheritdoc/>
     protected override EngineConfig BuildEngineConfig(bool fullscreen)
-        => Settings.Current.Display.ToEngineConfig(fullscreen ? null : Form.ClientSize);
+        => settings.Display.ToEngineConfig(fullscreen ? null : Form.ClientSize);
 
     /// <inheritdoc/>
     protected override void ApplyGraphicsSettings()
-        => Settings.Current.Graphics.ApplyTo(Engine);
+        => settings.Graphics.ApplyTo(Engine);
 
     /// <inheritdoc/>
     protected override bool Initialize()
@@ -67,16 +66,16 @@ partial class Game
         if (!base.Initialize()) return false;
 
         // Settings update hooks
-        Settings.Current.General.Changed += Program.UpdateLocale;
-        Settings.Current.Controls.Changed += ApplyControlsSettings;
-        Settings.Current.Display.Changed += ResetEngine;
-        Settings.Current.Graphics.Changed += ApplyGraphicsSettings;
+        settings.General.Changed += Program.UpdateLocale;
+        settings.Controls.Changed += ApplyControlsSettings;
+        settings.Display.Changed += ResetEngine;
+        settings.Graphics.Changed += ApplyGraphicsSettings;
 
         UpdateStatus(Resources.LoadingGraphics);
         Form.ResizeEnd += delegate
         {
-            if (!Settings.Current.Display.Fullscreen)
-                Settings.Current.Display.WindowSize = Form.ClientSize;
+            if (!settings.Display.Fullscreen)
+                settings.Display.WindowSize = Form.ClientSize;
         };
 
         using (new TimedLogEvent("Initialize GUI"))

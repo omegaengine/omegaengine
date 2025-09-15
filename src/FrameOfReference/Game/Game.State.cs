@@ -23,7 +23,6 @@
 using System;
 using AlphaFramework.Presentation;
 using FrameOfReference.Presentation;
-using FrameOfReference.Presentation.Config;
 using FrameOfReference.Properties;
 using FrameOfReference.World;
 using LuaInterface;
@@ -185,7 +184,7 @@ partial class Game
 
             // Activate new view
             CurrentPresenter.HookIn();
-            if (Settings.Current.Graphics.Fading) Engine.FadeIn();
+            if (settings.Graphics.Fading) Engine.FadeIn();
 
             // Show benchmark GUI
             GuiManager.Reset();
@@ -221,7 +220,7 @@ partial class Game
 
             // Activate new view
             CurrentPresenter.HookIn();
-            if (Settings.Current.Graphics.Fading) Engine.FadeIn();
+            if (settings.Graphics.Fading) Engine.FadeIn();
 
             // Show game GUI
             GuiManager.CloseAll();
@@ -253,7 +252,7 @@ partial class Game
             // Activate new view
             AddInputReceiver((InteractivePresenter)CurrentPresenter);
             CurrentPresenter.HookIn();
-            if (Settings.Current.Graphics.Fading) Engine.FadeIn();
+            if (settings.Graphics.Fading) Engine.FadeIn();
 
             // Show game GUI
             GuiManager.Reset();
@@ -291,7 +290,7 @@ partial class Game
             // Activate new view
             AddInputReceiver((InteractivePresenter)CurrentPresenter);
             CurrentPresenter.HookIn();
-            if (Settings.Current.Graphics.Fading) Engine.FadeIn();
+            if (settings.Graphics.Fading) Engine.FadeIn();
 
             // Show game GUI
             GuiManager.Reset();

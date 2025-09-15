@@ -37,7 +37,8 @@ namespace FrameOfReference;
 /// <summary>
 /// Represents a running instance of the game
 /// </summary>
-public partial class Game() : GameBase(Universe.AppName, Resources.Icon, Resources.Loading)
+public partial class Game(Settings settings)
+    : GameBase(Universe.AppName, Resources.Icon, Resources.Loading)
 {
     private Universe? _menuUniverse;
     private MenuPresenter? _menuPresenter;
@@ -55,7 +56,7 @@ public partial class Game() : GameBase(Universe.AppName, Resources.Icon, Resourc
 
         Log.Info("Start game...");
 
-        if (Settings.Current.Display.Fullscreen)
+        if (settings.Display.Fullscreen)
         { // Fullscreen mode (initially fake, will switch after loading is complete)
             Log.Info("... in fake fullscreen mode");
             ToFullscreen();
@@ -63,10 +64,10 @@ public partial class Game() : GameBase(Universe.AppName, Resources.Icon, Resourc
         else
         { // Windowed mode
             Log.Info("... in windowed mode");
-            ToWindowed(Settings.Current.Display.WindowSize);
+            ToWindowed(settings.Display.WindowSize);
 
             // Validate window size before continuing
-            Settings.Current.Display.WindowSize = Form.ClientSize;
+            settings.Display.WindowSize = Form.ClientSize;
         }
 
         // Will return after the game has finished (is exiting)
@@ -92,7 +93,7 @@ public partial class Game() : GameBase(Universe.AppName, Resources.Icon, Resourc
     /// </summary>
     private void ApplyControlsSettings()
     {
-        MouseInputProvider.InvertMouse = Settings.Current.Controls.InvertMouse;
+        MouseInputProvider.InvertMouse = settings.Controls.InvertMouse;
     }
 
     /// <inheritdoc/>
@@ -100,7 +101,7 @@ public partial class Game() : GameBase(Universe.AppName, Resources.Icon, Resourc
     public override void Debug()
     {
         // Exit fullscreen mode gracefully
-        Settings.Current.Display.Fullscreen = false;
+        settings.Display.Fullscreen = false;
 
         base.Debug();
     }
@@ -118,7 +119,7 @@ public partial class Game() : GameBase(Universe.AppName, Resources.Icon, Resourc
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Settings));
         LuaRegistrationHelper.TaggedInstanceMethods(lua, GuiManager);
 
-        lua["Settings"] = Settings.Current;
+        lua["Settings"] = settings;
         lua["State"] = CurrentState;
         lua["Session"] = CurrentSession;
         lua["Presenter"] = CurrentPresenter ?? throw new InvalidOperationException($"{nameof(Presenter)} not set yet.");
@@ -186,10 +187,10 @@ public partial class Game() : GameBase(Universe.AppName, Resources.Icon, Resourc
                 GuiManager.Dispose();
 
                 // Remove settings update hooks
-                Settings.Current.General.Changed -= Program.UpdateLocale;
-                Settings.Current.Controls.Changed -= ApplyControlsSettings;
-                Settings.Current.Display.Changed -= ResetEngine;
-                Settings.Current.Graphics.Changed -= ApplyGraphicsSettings;
+                settings.General.Changed -= Program.UpdateLocale;
+                settings.Controls.Changed -= ApplyControlsSettings;
+                settings.Display.Changed -= ResetEngine;
+                settings.Graphics.Changed -= ApplyGraphicsSettings;
             }
         }
         finally
