@@ -319,7 +319,7 @@ partial class Engine
     {
         Action postRender = PreRender;
         PreRender = null;
-        Render(0, noPresent: true);
+        Render(elapsedGameTime: 0, noPresent: true);
         PreRender = postRender;
     }
 

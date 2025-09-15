@@ -155,7 +155,7 @@ partial class Game
             ((InGamePresenter)CurrentPresenter!).PrepareSave();
 
         // Write to disk
-        string path = Locations.GetSaveDataPath(Universe.AppName, true, name + Session.FileExt);
+        string path = Locations.GetSaveDataPath(Universe.AppName, isFile: true, name + Session.FileExt);
         CurrentSession.Save(path);
     }
 
@@ -168,7 +168,7 @@ partial class Game
         if (string.IsNullOrEmpty(name)) return;
 
         // Read from disk
-        string path = Locations.GetSaveDataPath(Universe.AppName, true, name + Session.FileExt);
+        string path = Locations.GetSaveDataPath(Universe.AppName, isFile: true, name + Session.FileExt);
         CurrentSession = Session.Load(path);
         CurrentSession.Lua = NewLua();
     }
