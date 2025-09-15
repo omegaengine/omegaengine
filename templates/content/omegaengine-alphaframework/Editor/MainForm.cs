@@ -30,10 +30,8 @@ public sealed partial class MainForm : MainFormBase
         Close();
     }
 
-    protected override void LaunchGame(string arguments)
-    {
-        Program.LaunchGame(arguments);
-    }
+    protected override void LaunchGame(params string[] arguments)
+        => Program.LaunchGame(arguments);
 
     protected override void ChangeLanguage(string language)
     {

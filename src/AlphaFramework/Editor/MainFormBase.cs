@@ -236,10 +236,10 @@ public partial class MainFormBase : Form, IToastProvider
     /// <summary>
     /// Launches the main game with the currently active mod.
     /// </summary>
-    /// <param name="arguments">Additional arguments to be passed; may be <c>null</c>.</param>
+    /// <param name="arguments">Additional arguments to be passed.</param>
     /// <exception cref="Win32Exception">The game executable could not be launched.</exception>
     /// <exception cref="BadImageFormatException">The game executable is damaged.</exception>
-    protected virtual void LaunchGame(string arguments)
+    protected virtual void LaunchGame(params string[] arguments)
     {}
     #endregion
 
@@ -294,7 +294,7 @@ public partial class MainFormBase : Form, IToastProvider
 
         try
         {
-            LaunchGame(null);
+            LaunchGame();
         }
         #region Error handling
         catch (Win32Exception)

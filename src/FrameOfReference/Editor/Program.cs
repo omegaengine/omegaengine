@@ -22,7 +22,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
@@ -31,6 +30,7 @@ using AlphaFramework.Editor.Properties;
 using AlphaFramework.Presentation;
 using FrameOfReference.Presentation.Config;
 using FrameOfReference.World;
+using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Native;
 using NanoByte.Common.Storage;
@@ -148,20 +148,15 @@ public static class Program
     /// <summary>
     /// Launches the main game with the currently active mod (arguments automatically set).
     /// </summary>
-    /// <param name="arguments">Additional arguments to be passed; may be <c>null</c>.</param>
+    /// <param name="arguments">Additional arguments to be passed.</param>
     /// <exception cref="Win32Exception">The game executable could not be launched.</exception>
     /// <exception cref="BadImageFormatException">The game executable is damaged.</exception>
-    internal static void LaunchGame(string arguments)
+    internal static void LaunchGame(params string[] arguments)
     {
-        string param = "";
-
         // Make sure the current mod is loaded
-        if (ContentManager.ModDir != null) param += $" /mod \"{ContentManager.ModDir.FullName.TrimEnd(Path.DirectorySeparatorChar)}\"";
-
-        // Add additional arguments
-        if (!string.IsNullOrEmpty(arguments)) param += $" {arguments}";
+        if (ContentManager.ModDir != null) arguments = ["/mod", ContentManager.ModDir.FullName.TrimEnd(Path.DirectorySeparatorChar), ..arguments];
 
         // Launch the game
-        Process.Start(new ProcessStartInfo(Path.Combine(Locations.InstallBase, $"{Universe.AppNameShort}.exe"), param));
+        ProcessUtils.Start(Path.Combine(Locations.InstallBase, $"{Universe.AppNameShort}.exe"), arguments);
     }
 }

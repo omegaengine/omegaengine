@@ -380,7 +380,7 @@ public partial class MapEditor : UndoCommandTab
 
         try
         {
-            Program.LaunchGame($"/modify \"{mapFile}\"");
+            Program.LaunchGame("/modify", mapFile);
         }
         #region Error handling
         catch (Win32Exception)

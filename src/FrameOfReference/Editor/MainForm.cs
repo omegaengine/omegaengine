@@ -72,10 +72,8 @@ public sealed partial class MainForm : MainFormBase
     }
 
     /// <inheritdoc/>
-    protected override void LaunchGame(string arguments)
-    {
-        Program.LaunchGame(arguments);
-    }
+    protected override void LaunchGame(params string[] arguments)
+        => Program.LaunchGame(arguments);
 
     /// <inheritdoc/>
     protected override void ChangeLanguage(string language)
