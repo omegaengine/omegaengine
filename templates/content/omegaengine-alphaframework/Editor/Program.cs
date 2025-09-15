@@ -3,9 +3,12 @@ using System.Globalization;
 using AlphaFramework.Editor;
 using AlphaFramework.Editor.Properties;
 using NanoByte.Common;
+using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
+using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Foundation.Storage;
+using Template.AlphaFramework.Presentation.Config;
 
 namespace Template.AlphaFramework.Editor;
 
@@ -24,7 +27,24 @@ static class Program
     {
         Application.EnableVisualStyles();
 
+        Settings.LoadCurrent();
         UpdateLocale();
+        Settings.SaveCurrent();
+        Settings.EnableAutoSave();
+
+        // Setup content sources
+        try
+        {
+            if (Settings.Current.General.ContentDir is {} contentDir)
+                ContentManager.BaseDir = new DirectoryInfo(Path.Combine(Locations.InstallBase, contentDir));
+        }
+        #region Error handling
+        catch (Exception ex) when (ex is ArgumentException or DirectoryNotFoundException)
+        {
+            Msg.Inform(null, ex.Message, MsgSeverity.Error);
+            return;
+        }
+        #endregion
 
         // The user might want to come back here multiple times, in order to switch the mod
         while (Restart)
@@ -32,7 +52,7 @@ static class Program
             Restart = false;
 
             // Ask user to select mod, cancel if an exception occurred
-            Application.Run(new ModSelectorForm(allowEditMain: true));
+            Application.Run(new ModSelectorForm(Settings.Current.Editor.EditBase, Settings.Current.Editor.RecentMods));
 
             // Exit if the user didn't select anything
             if (ContentManager.ModDir == null && !ModInfo.MainGame) break;
@@ -50,20 +70,15 @@ static class Program
     }
 
     /// <summary>
-    /// The language currently used by the application.
-    /// </summary>
-    public static string Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-
-    /// <summary>
-    /// Updates the localization used by the application.
+    /// Updates the localization used by the application
     /// </summary>
     public static void UpdateLocale()
     {
-        // Propagate selected language to other assemblies
-        Resources.Culture = Engine.ResourceCulture = OmegaGUI.Model.Dialog.ResourceCulture = new CultureInfo(Language);
+        Settings.Current.General.Language ??= CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 
-        // Create specific culture for thread
-        Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(Resources.Culture.Name);
+        var language = CultureInfo.CreateSpecificCulture(Settings.Current.General.Language);
+        Languages.SetUI(language);
+        Resources.Culture = Engine.ResourceCulture = OmegaGUI.Model.Dialog.ResourceCulture = language;
     }
 
     /// <summary>

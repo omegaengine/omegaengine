@@ -1,5 +1,6 @@
 ﻿using AlphaFramework.Editor;
 using NanoByte.Common.Controls;
+using Template.AlphaFramework.Presentation.Config;
 using Resources = AlphaFramework.Editor.Properties.Resources;
 
 namespace Template.AlphaFramework.Editor;
@@ -14,7 +15,7 @@ public sealed partial class MainForm : MainFormBase
     {
         InitializeComponent();
 
-        switch (Program.Language)
+        switch (Settings.Current.General.Language)
         {
             case "de":
                 menuLanguageGerman.Checked = true;
@@ -40,7 +41,7 @@ public sealed partial class MainForm : MainFormBase
     protected override void ChangeLanguage(string language)
     {
         // Set language and propagate change
-        Program.Language = language;
+        Settings.Current.General.Language = language;
         Program.UpdateLocale();
 
         // Refresh tab to update language-related stuff

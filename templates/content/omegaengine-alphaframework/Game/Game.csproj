@@ -28,6 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="_portable" CopyToOutputDirectory="Always" CopyToPublishDirectory="Never" />
+    <None Include="config\**" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never" />
     <None Include="content\**" CopyToOutputDirectory="Always" />
   </ItemGroup>
 

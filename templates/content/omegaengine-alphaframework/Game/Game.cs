@@ -5,6 +5,7 @@ using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using OmegaGUI;
 using OmegaGUI.Model;
+using Template.AlphaFramework.Presentation.Config;
 
 namespace Template.AlphaFramework;
 
@@ -15,7 +16,8 @@ public class Game : GameBase
 
     public Game() : base("Template.AlphaFramework")
     {
-        ToFullscreen(); // Fake fullscreen while loading
+        if (Settings.Current.Display.Fullscreen)
+            ToFullscreen(); // Fake fullscreen while loading
     }
 
     protected override bool Initialize()
@@ -23,7 +25,7 @@ public class Game : GameBase
         if (!base.Initialize()) return false;
         InitializeGui();
         InitializeScene();
-        Engine.Config = BuildEngineConfig(fullscreen: true); // Real fullscreen
+        Engine.Config = BuildEngineConfig(fullscreen: Settings.Current.Display.Fullscreen); // Real fullscreen
         Engine.FadeIn();
         return true;
     }
