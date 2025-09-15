@@ -23,7 +23,6 @@
 using System;
 using System.ComponentModel;
 using NanoByte.Common;
-using OmegaEngine.Foundation;
 using OmegaEngine.Foundation.Light;
 
 namespace FrameOfReference.World.Config;
@@ -95,14 +94,6 @@ public sealed class GraphicsSettings
     /// </summary>
     [DefaultValue(WaterEffectsType.ReflectAll), Description("What kind of effects to display on water (e.g. reflections)")]
     public WaterEffectsType WaterEffects { get => _waterEffects; set => value.To(ref _waterEffects, Changed); }
-
-    private Quality _particleSystemQuality = Quality.Medium;
-
-    /// <summary>
-    /// The quality of CPU-based particle systems
-    /// </summary>
-    [DefaultValue(Quality.Medium), Description("The quality of CPU-based particle systems")]
-    public Quality ParticleSystemQuality { get => _particleSystemQuality; set => value.To(ref _particleSystemQuality, Changed); }
 
     private bool _fading = true;
 

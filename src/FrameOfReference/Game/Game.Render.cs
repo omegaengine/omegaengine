@@ -84,7 +84,6 @@ partial class Game
         Engine.Effects.PostScreenEffects = Settings.Current.Graphics.PostScreenEffects;
         Engine.Effects.DoubleSampling = Settings.Current.Graphics.DoubleSampling;
         Engine.Effects.WaterEffects = Settings.Current.Graphics.WaterEffects;
-        Engine.Effects.ParticleSystemQuality = Settings.Current.Graphics.ParticleSystemQuality;
 
         Settings.Current.Graphics.Anisotropic = Engine.Anisotropic;
         Settings.Current.Graphics.NormalMapping = Engine.Effects.NormalMapping;

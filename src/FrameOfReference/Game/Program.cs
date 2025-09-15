@@ -33,7 +33,6 @@ using NanoByte.Common.Native;
 using NanoByte.Common.Storage;
 using NanoByte.Common.Values;
 using OmegaEngine;
-using OmegaEngine.Foundation;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Foundation.Storage;
 using OmegaGUI.Model;
@@ -110,7 +109,6 @@ public static class Program
     {
         Settings.Current.Graphics.Fading = false;
         Settings.Current.Graphics.WaterEffects = WaterEffectsType.None;
-        Settings.Current.Graphics.ParticleSystemQuality = Quality.High;
         Settings.Current.Display.VSync = false;
         Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize = new(1024, 768);
 #if !DEBUG

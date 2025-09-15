@@ -7,7 +7,6 @@
  */
 
 using System;
-using OmegaEngine.Foundation;
 using OmegaEngine.Foundation.Light;
 
 namespace OmegaEngine;
@@ -83,12 +82,5 @@ public sealed class EngineEffects
             // Check if the selected effect mode is supported by the hardware
             _waterEffects = _capabilities.PerPixelEffects ? value : WaterEffectsType.None;
     }
-    #endregion
-
-    #region Particle system quality
-    /// <summary>
-    /// The quality of CPU-based particle systems
-    /// </summary>
-    public Quality ParticleSystemQuality { get; set; } = Quality.Medium;
     #endregion
 }

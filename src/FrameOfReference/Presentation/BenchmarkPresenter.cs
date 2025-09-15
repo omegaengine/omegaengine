@@ -147,7 +147,6 @@ public sealed class BenchmarkPresenter : Presenter
         Settings.Current.Graphics.DoubleSampling = testCase.GraphicsSettings.HasFlag(TestGraphicsSettings.DoubleSampling);
         Settings.Current.Graphics.PostScreenEffects = testCase.GraphicsSettings.HasFlag(TestGraphicsSettings.PostScreenEffects);
         Settings.Current.Graphics.WaterEffects = testCase.WaterEffects;
-        Settings.Current.Graphics.ParticleSystemQuality = testCase.ParticleSystemQuality;
 
         // Set camera to new test-case target
         View.Camera = CreateCamera(testCase.Target);

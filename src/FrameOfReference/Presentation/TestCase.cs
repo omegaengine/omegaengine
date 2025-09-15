@@ -24,7 +24,6 @@ using System;
 using System.Xml.Serialization;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World.Config;
-using OmegaEngine.Foundation;
 using OmegaEngine.Foundation.Light;
 using SlimDX;
 
@@ -73,11 +72,6 @@ public struct TestCase
     /// What kind of effects to display on water (e.g. reflections).
     /// </summary>
     public WaterEffectsType WaterEffects;
-
-    /// <summary>
-    /// The quality of CPU-based particle systems.
-    /// </summary>
-    public Quality ParticleSystemQuality;
 
     /// <summary>
     /// Run this test-case with twice the default benchmark resolution.

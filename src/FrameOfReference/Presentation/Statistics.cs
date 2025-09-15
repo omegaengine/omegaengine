@@ -26,7 +26,6 @@ using System.Linq;
 using System.Xml.Serialization;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World;
-using OmegaEngine.Foundation;
 using OmegaEngine.Foundation.Light;
 using SlimDX;
 
@@ -129,7 +128,7 @@ public class Statistics
 
             if (target.TestParticleSystem)
             {
-                #region Particle-system high quality
+                #region Particle-system
                 for (int i = 0; i < 8; i++)
                 {
                     testCaseList.Add(new()
@@ -137,8 +136,7 @@ public class Statistics
                         Target = target,
                         GraphicsSettings = ((TestGraphicsSettings)i),
                         // Create screenshots only for "no effects" and for "all effects"
-                        Screenshot = i is 0 or 7,
-                        ParticleSystemQuality = Quality.High
+                        Screenshot = i is 0 or 7
                     });
                 }
                 #endregion

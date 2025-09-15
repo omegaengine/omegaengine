@@ -145,27 +145,12 @@ public class CpuParticleSystem : PositionableRenderable
 
     private float GetLodFactor()
     {
-        float lodFactor;
         if (VisibilityDistance > 0 && _lastCamera != null)
         {
             float distanceToFade = VisibilityDistance - (float)(PreTransformedPosition - _lastCamera.Position).Length();
-            lodFactor = (distanceToFade * distanceToFade) / (VisibilityDistance * VisibilityDistance);
+            return (distanceToFade * distanceToFade) / (VisibilityDistance * VisibilityDistance);
         }
-        else lodFactor = 1;
-
-        switch (Engine.Effects.ParticleSystemQuality)
-        {
-            case Quality.Low:
-                lodFactor *= 0.2f;
-                break;
-            case Quality.Medium:
-                lodFactor *= 0.6f;
-                break;
-            case Quality.High:
-                lodFactor *= 1.0f;
-                break;
-        }
-        return lodFactor;
+        else return 1;
     }
     #endregion
 

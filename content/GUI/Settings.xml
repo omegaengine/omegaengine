@@ -9,7 +9,6 @@
 
 -- Import .NET enumerations
 luanet.load_assembly("OmegaEngine")
-Quality = luanet.import_type("OmegaEngine.Foundation.Quality")
 WaterEffectsType = luanet.import_type("OmegaEngine.Foundation.Light.WaterEffectsType")
 
 -- Default to English language, provide German as an option
@@ -71,7 +70,6 @@ TerrainDoubleSampling.Checked = Settings.Graphics.DoubleSampling
 WaterEffectsLabel.Enabled = Engine.Capabilities.PerPixelEffects
 WaterEffects.Enabled = WaterEffectsLabel.Enabled
 WaterEffects.SelectedItem = "["..Settings.Graphics.WaterEffects:ToString().."]"
-ParticleSystemQuality.SelectedItem = "["..Settings.Graphics.ParticleSystemQuality:ToString().."]"
 
 -- Only allow the user to change the language in the main menu
 if State ~= GameState.Menu then
@@ -207,22 +205,6 @@ Me.DialogRender.Location = location_backup</OnChanged>
 elseif WaterEffects.SelectedItem == "[RefractionOnly]" then Settings.Graphics.WaterEffects = WaterEffectsType.RefractionOnly
 elseif WaterEffects.SelectedItem == "[ReflectTerrain]" then Settings.Graphics.WaterEffects = WaterEffectsType.ReflectTerrain
 elseif WaterEffects.SelectedItem == "[ReflectAll]" then Settings.Graphics.WaterEffects = WaterEffectsType.ReflectAll
-end</OnChanged>
-  </DropdownList>
-  <Label Name="ParticleSystemQualityLabel" Text="[ParticleSystemQuality]">
-    <Location X="20" Y="400" />
-    <Size Width="200" Height="30" />
-  </Label>
-  <DropdownList Name="ParticleSystemQuality">
-    <Location X="220" Y="400" />
-    <Size Width="120" Height="30" />
-    <Item>[Low]</Item>
-    <Item>[Medium]</Item>
-    <Item>[High]</Item>
-    <SelectedItem>[Medium]</SelectedItem>
-    <OnChanged>if ParticleSystemQuality.SelectedItem == "[Low]" then Settings.Graphics.ParticleSystemQuality = Quality.Low
-elseif ParticleSystemQuality.SelectedItem == "[Medium]" then Settings.Graphics.ParticleSystemQuality = Quality.Medium
-elseif ParticleSystemQuality.SelectedItem == "[High]" then Settings.Graphics.ParticleSystemQuality = Quality.High
 end</OnChanged>
   </DropdownList>
   <Button Name="Exit" Text="OK">
