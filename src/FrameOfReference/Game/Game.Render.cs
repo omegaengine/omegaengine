@@ -20,7 +20,6 @@
  * THE SOFTWARE.
  */
 
-using System.Windows.Forms;
 using FrameOfReference.Presentation.Config;
 using FrameOfReference.Properties;
 using FrameOfReference.World.Templates;
@@ -55,26 +54,7 @@ partial class Game
 
     /// <inheritdoc/>
     protected override EngineConfig BuildEngineConfig(bool fullscreen)
-    {
-        // Note: Doesn't call base methods
-
-        if (!EngineCapabilities.CheckResolution(0, Settings.Current.Display.Resolution.Width, Settings.Current.Display.Resolution.Height))
-            Settings.Current.Display.Resolution = Screen.PrimaryScreen.Bounds.Size;
-        if (!EngineCapabilities.CheckAA(0, Settings.Current.Display.AntiAliasing))
-            Settings.Current.Display.AntiAliasing = 0;
-
-        var engineConfig = new EngineConfig
-        {
-            Fullscreen = fullscreen,
-            VSync = Settings.Current.Display.VSync,
-            TargetSize = fullscreen ? Settings.Current.Display.Resolution : Form.ClientSize,
-            AntiAliasing = Settings.Current.Display.AntiAliasing
-        };
-        if (Settings.Current.Display.ForceShaderModel is {} forceShaderModel)
-            engineConfig.ForceShaderModel = new(forceShaderModel);
-
-        return engineConfig;
-    }
+        => Settings.Current.Display.ToEngineConfig(fullscreen ? null : Form.ClientSize);
 
     /// <inheritdoc/>
     protected override void ApplyGraphicsSettings()

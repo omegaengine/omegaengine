@@ -27,6 +27,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using NanoByte.Common;
+using OmegaEngine;
 
 namespace AlphaFramework.Presentation.Config;
 
@@ -145,4 +146,27 @@ public sealed class DisplaySettings
     /// </summary>
     [DefaultValue(""), Description("Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective")]
     public string? ForceShaderModel { get => _forceShaderModel; set => value.To(ref _forceShaderModel, Changed); }
+
+    /// <summary>
+    /// Generates <see cref="EngineConfig"/> from the settings.
+    /// </summary>
+    /// <param name="windowClientSize">The client size if running in windowed mode; <c>null</c> if running in fullscreen mode.</param>
+    public EngineConfig ToEngineConfig(Size? windowClientSize)
+    {
+        if (!EngineCapabilities.CheckResolution(0, Resolution.Width, Resolution.Height))
+            Resolution = Screen.PrimaryScreen.Bounds.Size;
+        if (!EngineCapabilities.CheckAA(0, AntiAliasing))
+            AntiAliasing = 0;
+
+        var engineConfig = new EngineConfig
+        {
+            Fullscreen = windowClientSize == null,
+            VSync = VSync,
+            TargetSize = windowClientSize ?? Resolution,
+            AntiAliasing = AntiAliasing
+        };
+        if (ForceShaderModel != null)
+            engineConfig.ForceShaderModel = new(ForceShaderModel);
+        return engineConfig;
+    }
 }
