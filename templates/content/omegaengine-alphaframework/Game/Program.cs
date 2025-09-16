@@ -55,7 +55,7 @@ static class Program
         }
         #endregion
 
-        using var game = new Game();
+        using var game = new Game(Settings.Current);
         game.Run();
     }
 
