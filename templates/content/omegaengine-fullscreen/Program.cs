@@ -13,7 +13,7 @@ static class Program
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
 
-        using var game = new Game();
-        game.Run();
+        using var renderHost = new MyRenderHost();
+        renderHost.Run();
     }
 }

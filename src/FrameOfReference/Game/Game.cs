@@ -38,7 +38,7 @@ namespace FrameOfReference;
 /// Represents a running instance of the game
 /// </summary>
 public partial class Game(Settings settings)
-    : GameBase(Universe.AppName, Resources.Icon, Resources.Loading)
+    : RenderHost(Universe.AppName, Resources.Icon, Resources.Loading)
 {
     private Universe? _menuUniverse;
     private MenuPresenter? _menuPresenter;

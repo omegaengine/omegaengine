@@ -8,12 +8,12 @@ using OmegaGUI.Model;
 
 namespace Template.Fullscreen;
 
-public class Game : GameBase
+public class MyRenderHost : RenderHost
 {
     private TrackCamera? _camera;
     private GuiManager? _guiManager;
 
-    public Game() : base("Template.Fullscreen")
+    public MyRenderHost() : base("Template.Fullscreen")
     {
         ToFullscreen(); // Fake fullscreen while loading
     }
@@ -21,10 +21,12 @@ public class Game : GameBase
     protected override bool Initialize()
     {
         if (!base.Initialize()) return false;
+
         InitializeGui();
         InitializeScene();
         Engine.Config = BuildEngineConfig(fullscreen: true); // Real fullscreen
         Engine.FadeIn();
+
         return true;
     }
 
@@ -65,7 +67,7 @@ public class Game : GameBase
         {
             if (disposing)
             {
-                if (_guiManager != null) _guiManager.Dispose();
+                _guiManager?.Dispose();
             }
         }
         finally

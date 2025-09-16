@@ -9,7 +9,7 @@ using Template.AlphaFramework.Presentation.Config;
 
 namespace Template.AlphaFramework;
 
-public class Game : GameBase
+public class Game : RenderHost
 {
     private TrackCamera? _camera;
     private GuiManager? _guiManager;
