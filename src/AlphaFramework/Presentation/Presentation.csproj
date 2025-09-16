@@ -13,5 +13,6 @@ AlphaFramework.Presentation provides a basis for building presenters that visual
   <ItemGroup>
     <ProjectReference Include="..\World\World.csproj" />
     <ProjectReference Include="..\..\OmegaEngine\OmegaEngine.csproj" />
+    <ProjectReference Include="..\..\OmegaGUI\OmegaGUI.csproj" />
   </ItemGroup>
 </Project>

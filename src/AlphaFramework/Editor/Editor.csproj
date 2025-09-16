@@ -15,7 +15,6 @@ AlphaEditor is a toolkit for creating IDE-like editors for games based on OmegaE
   <ItemGroup>
     <PackageReference Include="NanoByte.StructureEditor.WinForms" Version="1.0.2" />
     <ProjectReference Include="..\Presentation\Presentation.csproj" />
-    <ProjectReference Include="..\..\OmegaGUI\OmegaGUI.csproj" />
   </ItemGroup>
 
   <!-- Localization -->

@@ -14,7 +14,6 @@
   <!-- Dependencies -->
   <ItemGroup>
     <ProjectReference Include="..\Presentation\Presentation.csproj" />
-    <ProjectReference Include="..\..\OmegaGUI\OmegaGUI.csproj" />
   </ItemGroup>
 
   <!-- Deploy default config for easy testing -->
