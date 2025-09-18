@@ -65,6 +65,13 @@ public sealed partial class Universe : UniverseBase<Vector2>
     }
 
     /// <summary>
+    /// The current position and direction of the camera in the game.
+    /// </summary>
+    /// <remarks>This is updated only when leaving the game, not continuously.</remarks>
+    [Browsable(false)]
+    public CameraState<Vector2>? CurrentCamera { get; set; }
+
+    /// <summary>
     /// Creates a new <see cref="Universe"/> with a terrain.
     /// </summary>
     /// <param name="terrain">The terrain for the new <see cref="Universe"/>.</param>

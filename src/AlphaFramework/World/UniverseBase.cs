@@ -65,13 +65,6 @@ public abstract class UniverseBase<TCoordinates> : IUniverse
     [DefaultValue(""), Category("Effects"), Description("The name of the skybox to use for this map; may be null or empty.")]
     public string? Skybox { get => _skybox; set => value.To(ref _skybox, OnSkyboxChanged); }
 
-    /// <summary>
-    /// The current position and direction of the camera in the game.
-    /// </summary>
-    /// <remarks>This is updated only when leaving the game, not continuously.</remarks>
-    [Browsable(false)]
-    public CameraState<TCoordinates>? CurrentCamera { get; set; }
-
     /// <inheritdoc/>
     [XmlIgnore, Browsable(false)]
     public string? SourceFile { get; set; }

@@ -8,7 +8,7 @@
 
 using System.ComponentModel;
 
-namespace AlphaFramework.World.Positionables;
+namespace FrameOfReference.World.Positionables;
 
 /// <summary>
 /// A marker that controls camera positions for the benchmark mode of the game.

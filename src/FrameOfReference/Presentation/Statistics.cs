@@ -26,6 +26,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World;
+using FrameOfReference.World.Positionables;
 using OmegaEngine.Foundation.Light;
 using SlimDX;
 
