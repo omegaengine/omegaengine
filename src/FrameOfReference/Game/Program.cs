@@ -53,14 +53,14 @@ public static class Program
     [STAThread]
     private static void Main(string[] args)
     {
-        WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{Universe.AppNameShort}");
+        WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{Constants.AppNameShort}");
 
         Application.EnableVisualStyles();
-        ErrorReportForm.SetupMonitoring(new Uri($"https://omegaengine.de/error-report/?app={Universe.AppNameShort}"));
+        ErrorReportForm.SetupMonitoring(new Uri($"https://omegaengine.de/error-report/?app={Constants.AppNameShort}"));
 
 #if !DEBUG
         // Prevent multiple instances from running simultaneously
-        WindowsMutex.Create(Universe.AppName, out bool alreadyRunning);
+        WindowsMutex.Create(Constants.AppName, out bool alreadyRunning);
         if (alreadyRunning)
         {
             Msg.Inform(null, Resources.AlreadyRunning, MsgSeverity.Warn);

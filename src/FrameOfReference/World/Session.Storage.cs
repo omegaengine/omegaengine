@@ -32,7 +32,7 @@ partial class Session
     /// <summary>
     /// The file extensions when this class is stored as a file.
     /// </summary>
-    public const string FileExt = $".{Universe.AppNameShort}Save";
+    public const string FileExt = $".{Constants.AppNameShort}Save";
 
     /// <summary>
     /// Used for encrypting serialized versions of this class.

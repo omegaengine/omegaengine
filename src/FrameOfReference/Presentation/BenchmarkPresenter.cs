@@ -76,8 +76,8 @@ public sealed class BenchmarkPresenter : Presenter
 
     #region Variables
     private readonly string
-        _resultDir = Locations.GetSaveDataPath(Universe.AppName, isFile: false, "Benchmark"),
-        _resultFile = Locations.GetSaveDataPath(Universe.AppName, isFile: true, $"{Universe.AppName} Benchmark.zip");
+        _resultDir = Locations.GetSaveDataPath(Constants.AppName, isFile: false, "Benchmark"),
+        _resultFile = Locations.GetSaveDataPath(Constants.AppName, isFile: true, $"{Constants.AppName} Benchmark.zip");
 
     private readonly Action<string> _callback;
 

@@ -68,7 +68,7 @@ public sealed class Settings : SettingsBase
     {
         try
         {
-            string settingsPath = Locations.GetSaveConfigPath(Universe.AppName, true, "Settings.xml");
+            string settingsPath = Locations.GetSaveConfigPath(Constants.AppName, true, "Settings.xml");
             if (File.Exists(settingsPath))
             {
                 _current = XmlStorage.LoadXml<Settings>(settingsPath);
@@ -106,7 +106,7 @@ public sealed class Settings : SettingsBase
 
         try
         {
-            string settingsPath = Locations.GetSaveConfigPath(Universe.AppName, true, "Settings.xml");
+            string settingsPath = Locations.GetSaveConfigPath(Constants.AppName, true, "Settings.xml");
             _current.SaveXml(settingsPath);
             Log.Info($"Saved settings to {settingsPath}");
         }

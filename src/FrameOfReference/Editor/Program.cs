@@ -52,14 +52,14 @@ public static class Program
     [STAThread]
     private static void Main()
     {
-        WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{Universe.AppNameShort}.AlphaEditor");
-        ModInfo.FileExt = $".{Universe.AppNameShort}Mod";
+        WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{Constants.AppNameShort}.AlphaEditor");
+        ModInfo.FileExt = $".{Constants.AppNameShort}Mod";
 
         Application.EnableVisualStyles();
-        ErrorReportForm.SetupMonitoring(new Uri($"https://omegaengine.de/error-report/?app={Universe.AppNameShort}"));
+        ErrorReportForm.SetupMonitoring(new Uri($"https://omegaengine.de/error-report/?app={Constants.AppNameShort}"));
 
         // Allow setup to detect running instances
-        AppMutex.Create($"{Universe.AppName} Editor");
+        AppMutex.Create($"{Constants.AppName} Editor");
 
         Settings.LoadCurrent();
         UpdateLocale();
@@ -133,6 +133,6 @@ public static class Program
         if (ContentManager.ModDir != null) arguments = ["/mod", ContentManager.ModDir.FullName.TrimEnd(Path.DirectorySeparatorChar), ..arguments];
 
         // Launch the game
-        ProcessUtils.Start(Path.Combine(Locations.InstallBase, $"{Universe.AppNameShort}.exe"), arguments);
+        ProcessUtils.Start(Path.Combine(Locations.InstallBase, $"{Constants.AppNameShort}.exe"), arguments);
     }
 }

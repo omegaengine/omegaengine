@@ -43,7 +43,7 @@ namespace FrameOfReference;
 /// Represents a running instance of the game
 /// </summary>
 public class Game(Settings settings)
-    : GameBase(settings, Universe.AppName, Resources.Icon, Resources.Loading)
+    : GameBase(settings, Constants.AppName, Resources.Icon, Resources.Loading)
 {
     /// <summary>
     /// The current state of the game
@@ -323,7 +323,7 @@ public class Game(Settings settings)
                     Form.Visible = false;
                     //if (Msg.Ask(Form, Resources.BenchmarkReady, MsgSeverity.Info, Resources.BenchmarkReadyContinue, Resources.BenchmarkReadyCancel))
                     //{
-                    //    // ToDo: new Uri("https://omegaengine.de/benchmark-upload/?app=" + Universe.AppNameGrid)
+                    //    // ToDo: new Uri("https://omegaengine.de/benchmark-upload/?app=" + Constants.AppNameGrid)
                     //}
                     Msg.Inform(null, $"Please upload the file '{path}'.", MsgSeverity.Info);
                     Exit();
@@ -581,7 +581,7 @@ public class Game(Settings settings)
             ((InGamePresenter)CurrentPresenter!).PrepareSave();
 
         // Write to disk
-        string path = Locations.GetSaveDataPath(Universe.AppName, isFile: true, name + Session.FileExt);
+        string path = Locations.GetSaveDataPath(Constants.AppName, isFile: true, name + Session.FileExt);
         CurrentSession?.Save(path);
     }
 
@@ -594,7 +594,7 @@ public class Game(Settings settings)
         if (string.IsNullOrEmpty(name)) return;
 
         // Read from disk
-        string path = Locations.GetSaveDataPath(Universe.AppName, isFile: true, name + Session.FileExt);
+        string path = Locations.GetSaveDataPath(Constants.AppName, isFile: true, name + Session.FileExt);
         CurrentSession = Session.Load(path);
         CurrentSession.Lua = NewLua();
     }
@@ -604,7 +604,7 @@ public class Game(Settings settings)
     /// </summary>
     public IEnumerable<string> GetSavegameNames()
     {
-        var savegameDir = new DirectoryInfo(Locations.GetSaveDataPath(Universe.AppName, isFile: false));
+        var savegameDir = new DirectoryInfo(Locations.GetSaveDataPath(Constants.AppName, isFile: false));
         return savegameDir.GetFiles($"*{Session.FileExt}")
                           .Select(x => x.Name[..^Session.FileExt.Length])
                           .Except("Resume");

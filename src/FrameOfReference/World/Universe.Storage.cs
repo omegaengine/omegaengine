@@ -38,22 +38,10 @@ namespace FrameOfReference.World;
 
 partial class Universe
 {
-    #region Constants
-    /// <summary>
-    /// The complete name of the application
-    /// </summary>
-    public const string AppName = "Frame of Reference";
-
-    /// <summary>
-    /// The short version of the application name (used for EXE name, AppModel IDs, etc.)
-    /// </summary>
-    public const string AppNameShort = "FrameOfReference";
-    #endregion
-
     /// <summary>
     /// The file extensions when this class is stored as a file.
     /// </summary>
-    public const string FileExt = $".{AppNameShort}Map";
+    public const string FileExt = $".{Constants.AppNameShort}Map";
 
     /// <summary>
     /// Base-constructor for XML serialization. Do not call manually!
