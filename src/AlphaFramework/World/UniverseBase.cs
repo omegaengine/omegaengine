@@ -8,14 +8,12 @@
 
 using System;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
-using OmegaEngine.Foundation.Storage;
 
 namespace AlphaFramework.World;
 
@@ -101,13 +99,4 @@ public abstract class UniverseBase<TCoordinates> : IUniverse
 
     /// <inheritdoc/>
     public abstract void Save(string path);
-
-    /// <inheritdoc/>
-    public void Save()
-    {
-        if (SourceFile == null) return;
-
-        // Determine the original filename to overwrite
-        Save(Path.IsPathRooted(SourceFile) ? SourceFile : ContentManager.CreateFilePath("World/Maps", SourceFile));
-    }
 }
