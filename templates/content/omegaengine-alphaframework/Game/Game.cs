@@ -5,11 +5,12 @@ using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using Template.AlphaFramework.Presentation.Config;
+using Template.AlphaFramework.World;
 
 namespace Template.AlphaFramework;
 
 public class Game(Settings settings)
-    : GameBase(settings, "Template.AlphaFramework")
+    : GameBase(settings, Constants.AppName)
 {
 	private readonly TrackCamera _camera = new() {VerticalRotation = 20};
 

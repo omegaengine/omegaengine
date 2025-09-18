@@ -4,12 +4,14 @@ using AlphaFramework.Presentation;
 using AlphaFramework.World.Properties;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
+using NanoByte.Common.Native;
 using NanoByte.Common.Storage;
 using NanoByte.Common.Values;
 using OmegaEngine;
 using OmegaEngine.Foundation.Storage;
 using OmegaGUI.Model;
 using Template.AlphaFramework.Presentation.Config;
+using Template.AlphaFramework.World;
 
 namespace Template.AlphaFramework;
 
@@ -26,7 +28,19 @@ static class Program
     [STAThread]
     private static void Main(string[] args)
     {
+        WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{Constants.AppNameShort}");
+
         Application.EnableVisualStyles();
+
+#if !DEBUG
+        // Prevent multiple instances from running simultaneously
+        WindowsMutex.Create(Constants.AppName, out bool alreadyRunning);
+        if (alreadyRunning)
+        {
+            Msg.Inform(null, Resources.AlreadyRunning, MsgSeverity.Warn);
+            return;
+        }
+#endif
 
         Args = new(args);
 
