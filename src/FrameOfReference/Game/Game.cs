@@ -161,7 +161,7 @@ public class Game(Settings settings)
         => CurrentState switch
         {
             // Time passes as defined by the session
-            GameState.InGame or GameState.Modify => CurrentSession.Update(elapsedTime),
+            GameState.InGame or GameState.Modify => CurrentSession?.Update(elapsedTime) ?? elapsedTime,
 
             // Time passes very slowly and does not affect session
             GameState.Pause => elapsedTime / 10,
@@ -251,20 +251,21 @@ public class Game(Settings settings)
     /// <remarks>When called while <see cref="CurrentState"/> is neither <see cref="GameState.InGame"/> nor <see cref="GameState.Pause"/> nothing happens</remarks>
     public void TogglePause()
     {
+        var interactivePresenter = CurrentPresenter as InteractivePresenter;
+
         switch (CurrentState)
         {
-            case GameState.InGame:
-            case GameState.Modify:
+            case GameState.InGame or GameState.Modify:
                 // Backup previous state
                 _stateBeforePause = CurrentState;
 
                 CurrentState = GameState.Pause;
 
                 // Freeze the mouse interaction
-                if (CurrentPresenter is InteractivePresenter interactivePresenter) RemoveInputReceiver(interactivePresenter);
+                if (interactivePresenter != null) RemoveInputReceiver(interactivePresenter);
 
                 // Dim down the screen
-                CurrentPresenter.DimDown();
+                CurrentPresenter?.DimDown();
 
                 // Show pause menu
                 GuiManager.Reset();
@@ -276,10 +277,10 @@ public class Game(Settings settings)
                 CurrentState = _stateBeforePause;
 
                 // Dim screen back up
-                CurrentPresenter.DimUp();
+                CurrentPresenter?.DimUp();
 
                 // Restore the mouse interaction
-                AddInputReceiver((InteractivePresenter)CurrentPresenter);
+                if (interactivePresenter != null) AddInputReceiver(interactivePresenter);
 
                 // Restore the correct HUD
                 GuiManager.Reset();
@@ -364,7 +365,7 @@ public class Game(Settings settings)
             //CleanupPresenter();
 
             // Load menu scene
-            _menuPresenter ??= new(Engine, _menuUniverse);
+            _menuPresenter ??= new(Engine, _menuUniverse!);
             _menuPresenter.Initialize();
             CurrentPresenter = _menuPresenter;
 
@@ -396,7 +397,7 @@ public class Game(Settings settings)
             CleanupPresenter();
 
             // Load game scene
-            CurrentPresenter = new InGamePresenter(Engine, CurrentSession.Universe);
+            CurrentPresenter = new InGamePresenter(Engine, CurrentSession!.Universe);
             CurrentPresenter.Initialize();
 
             // Activate new view
@@ -581,7 +582,7 @@ public class Game(Settings settings)
 
         // Write to disk
         string path = Locations.GetSaveDataPath(Universe.AppName, isFile: true, name + Session.FileExt);
-        CurrentSession.Save(path);
+        CurrentSession?.Save(path);
     }
 
     /// <summary>
