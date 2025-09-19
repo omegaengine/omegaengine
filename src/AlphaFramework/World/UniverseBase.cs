@@ -10,6 +10,7 @@ using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using NanoByte.Common;
+using OmegaEngine.Foundation.Storage;
 
 namespace AlphaFramework.World;
 
@@ -48,5 +49,9 @@ public abstract class UniverseBase : IUniverse
     public string? SourceFile { get; set; }
 
     /// <inheritdoc/>
-    public abstract void Save(string path);
+    public virtual void Save(string path)
+    {
+        this.SaveXmlZip(path);
+        SourceFile = path;
+    }
 }
