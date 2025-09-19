@@ -22,6 +22,7 @@
 
 using System.ComponentModel;
 using System.Xml.Serialization;
+using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
 using NanoByte.Common;
 using SlimDX;
@@ -44,7 +45,7 @@ public class Waypoint : Positionable<Vector2>
     private double _activationTime;
 
     /// <summary>
-    /// The <see cref="AlphaFramework.World.UniverseBase{T}.GameTime"/> when <see cref="Positionables.Entity"/>s start walking towards this waypoint.
+    /// The <see cref="IUniverse.GameTime"/> when <see cref="Positionables.Entity"/>s start walking towards this waypoint.
     /// </summary>
     [DefaultValue(0.0), Description("The GameTime when Entities start walking towards this waypoint.")]
     public double ActivationTime { get => _activationTime; set => value.To(ref _activationTime, OnChanged); }
@@ -60,7 +61,7 @@ public class Waypoint : Positionable<Vector2>
     private double _arrivalTime;
 
     /// <summary>
-    /// The <see cref="AlphaFramework.World.UniverseBase{T}.GameTime"/> when <see cref="Positionables.Entity"/>s reach this waypoint.
+    /// The <see cref="IUniverse.GameTime"/> when <see cref="Positionables.Entity"/>s reach this waypoint.
     /// Set automatically by <see cref="Universe.HandleWaypoints"/>.
     /// </summary>
     [ReadOnly(true)]

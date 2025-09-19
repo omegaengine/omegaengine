@@ -87,7 +87,7 @@ public sealed class Entity : EntityBase<Vector2, EntityTemplate>
     /// <summary>
     /// Determines the currently active <see cref="Waypoints"/> entry.
     /// </summary>
-    /// <param name="gameTime">The current <see cref="UniverseBase{TCoordinates}.GameTime"/> value.</param>
+    /// <param name="gameTime">The current <see cref="IUniverse.GameTime"/> value.</param>
     /// <returns>The currently active <see cref="Waypoint"/>; <c>null</c> if none is active.</returns>
     public int GetCurrentWaypointIndex(double gameTime)
     {

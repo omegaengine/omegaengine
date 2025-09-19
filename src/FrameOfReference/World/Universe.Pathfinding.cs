@@ -47,7 +47,7 @@ partial class Universe
 
     #region Initialize
     /// <summary>
-    /// Initializes the <see cref="UniverseBase{TCoordinates}.Pathfinder"/> engine.
+    /// Initializes the <see cref="CoordinateUniverse{TCoordinates}.Pathfinder"/> engine.
     /// </summary>
     /// <remarks>Is usually called automatically when needed.</remarks>
     private void InitializePathfinding()
@@ -174,7 +174,7 @@ partial class Universe
 
     #region Waypoints
     /// <summary>
-    /// Moves <see cref="Waypoint"/> from <see cref="UniverseBase{TCoordinates}.Positionables"/> to <see cref="Entity.Waypoints"/>.
+    /// Moves <see cref="Waypoint"/> from <see cref="CoordinateUniverse{TCoordinates}.Positionables"/> to <see cref="Entity.Waypoints"/>.
     /// Call to prepare for gameplay.
     /// </summary>
     private void WrapWaypoints()
@@ -192,7 +192,7 @@ partial class Universe
     }
 
     /// <summary>
-    /// Moves <see cref="Waypoint"/> from <see cref="Entity.Waypoints"/> to <see cref="UniverseBase{TCoordinates}.Positionables"/>.
+    /// Moves <see cref="Waypoint"/> from <see cref="Entity.Waypoints"/> to <see cref="CoordinateUniverse{TCoordinates}.Positionables"/>.
     /// Call to prepare for editing.
     /// </summary>
     public void UnwrapWaypoints()

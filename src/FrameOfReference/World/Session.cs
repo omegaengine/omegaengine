@@ -59,7 +59,7 @@ public sealed partial class Session : SessionBase<Universe>
     private const double MaximumUpdate = 0.75;
 
     /// <summary>
-    /// <see cref="UniverseBase{T}.GameTime"/> time left over from the last <see cref="Update"/> call due to the fixed update step size.
+    /// <see cref="IUniverse.GameTime"/> time left over from the last <see cref="Update"/> call due to the fixed update step size.
     /// </summary>
     [DefaultValue(0.0)]
     public double LeftoverGameTime { get; set; }
@@ -78,7 +78,7 @@ public sealed partial class Session : SessionBase<Universe>
     /// <summary>
     /// Updates the world to a specific point in game time.
     /// </summary>
-    /// <param name="gameTime">The target value for <see cref="UniverseBase{TCoordinates}.GameTime"/>.</param>
+    /// <param name="gameTime">The target value for <see cref="IUniverse.GameTime"/>.</param>
     public void UpdateTo(double gameTime)
     {
         UpdateDeterministic(gameTime - Universe.GameTime);

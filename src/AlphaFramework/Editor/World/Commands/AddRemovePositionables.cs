@@ -15,13 +15,13 @@ using NanoByte.Common.Undo;
 namespace AlphaFramework.Editor.World.Commands;
 
 /// <summary>
-/// Adds/removes one or more <see cref="Positionable{TCoordinates}"/>ies to/from a <see cref="UniverseBase{TCoordinates}"/>.
+/// Adds/removes one or more <see cref="Positionable{TCoordinates}"/>ies to/from a <see cref="CoordinateUniverse{TCoordinates}"/>.
 /// </summary>
 public abstract class AddRemovePositionables<TCoordinates> : SimpleCommand
     where TCoordinates : struct
 {
     #region Variables
-    private readonly UniverseBase<TCoordinates> _universe;
+    private readonly CoordinateUniverse<TCoordinates> _universe;
 
     // Note: Use List<> instead of Array, because the size of the incoming IEnumerable<> will be unkown
     private readonly List<Positionable<TCoordinates>> _positionables;
@@ -29,11 +29,11 @@ public abstract class AddRemovePositionables<TCoordinates> : SimpleCommand
 
     #region Constructor
     /// <summary>
-    /// Creates a new command for adding/removing one or more <see cref="Positionable{TCoordinates}"/>ies to/from a <see cref="UniverseBase{TCoordinates}"/>.
+    /// Creates a new command for adding/removing one or more <see cref="Positionable{TCoordinates}"/>ies to/from a <see cref="CoordinateUniverse{TCoordinates}"/>.
     /// </summary>
-    /// <param name="universe">The <see cref="UniverseBase{TCoordinates}"/> to add to / remove from.</param>
+    /// <param name="universe">The <see cref="CoordinateUniverse{TCoordinates}"/> to add to / remove from.</param>
     /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to add/remove.</param>
-    protected AddRemovePositionables(UniverseBase<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> positionables)
+    protected AddRemovePositionables(CoordinateUniverse<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> positionables)
     {
         _universe = universe ?? throw new ArgumentNullException(nameof(universe));
 

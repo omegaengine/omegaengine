@@ -38,7 +38,7 @@ namespace FrameOfReference.World;
 /// <summary>
 /// Represents a world with a height-map based <see cref="Terrain"/>.
 /// </summary>
-public sealed partial class Universe : UniverseBase<Vector2>
+public sealed partial class Universe : CoordinateUniverse<Vector2>
 {
     /// <inheritdoc/>
     [Browsable(false)]

@@ -22,9 +22,9 @@ public class RemovePositionables<TCoordinates> : AddRemovePositionables<TCoordin
     /// <summary>
     /// Creates a new command for removing one or more <see cref="Positionable{TCoordinates}"/>s from a <see cref="IUniverse"/>.
     /// </summary>
-    /// <param name="universe">The <see cref="UniverseBase{TCoordinates}"/> to remove from.</param>
+    /// <param name="universe">The <see cref="CoordinateUniverse{TCoordinates}"/> to remove from.</param>
     /// <param name="entities">The <see cref="Positionable{TCoordinates}"/>s to remove.</param>
-    public RemovePositionables(UniverseBase<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> entities)
+    public RemovePositionables(CoordinateUniverse<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> entities)
         : base(universe, entities)
     {}
     #endregion

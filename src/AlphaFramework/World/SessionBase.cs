@@ -52,7 +52,7 @@ public abstract class SessionBase<TUniverse>
 
     #region Update
     /// <summary>
-    /// The factor by which <see cref="UniverseBase{TCoordinates}.GameTime"/> progression should be multiplied in relation to real time.
+    /// The factor by which <see cref="IUniverse.GameTime"/> progression should be multiplied in relation to real time.
     /// </summary>
     [DefaultValue(1.0)]
     public double TimeWarpFactor { get; set; } = 1;

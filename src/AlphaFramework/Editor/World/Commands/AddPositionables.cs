@@ -13,18 +13,18 @@ using AlphaFramework.World.Positionables;
 namespace AlphaFramework.Editor.World.Commands;
 
 /// <summary>
-/// Adds one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="UniverseBase{TCoordinates}"/>.
+/// Adds one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="CoordinateUniverse{TCoordinates}"/>.
 /// </summary>
 public class AddPositionables<TCoordinates> : AddRemovePositionables<TCoordinates>
     where TCoordinates : struct
 {
     #region Constructor
     /// <summary>
-    /// Creates a new command for adding one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="UniverseBase{TCoordinates}"/>.
+    /// Creates a new command for adding one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="CoordinateUniverse{TCoordinates}"/>.
     /// </summary>
-    /// <param name="universe">The <see cref="UniverseBase{TCoordinates}"/> to add to.</param>
+    /// <param name="universe">The <see cref="CoordinateUniverse{TCoordinates}"/> to add to.</param>
     /// <param name="entities">The <see cref="Positionable{TCoordinates}"/>ies to add.</param>
-    public AddPositionables(UniverseBase<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> entities)
+    public AddPositionables(CoordinateUniverse<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> entities)
         : base(universe, entities)
     {}
     #endregion
@@ -33,7 +33,7 @@ public class AddPositionables<TCoordinates> : AddRemovePositionables<TCoordinate
 
     #region Execute
     /// <summary>
-    /// Adds the <see cref="Positionable{TCoordinates}"/> to the <see cref="UniverseBase{TCoordinates}"/>
+    /// Adds the <see cref="Positionable{TCoordinates}"/> to the <see cref="CoordinateUniverse{TCoordinates}"/>
     /// </summary>
     protected override void OnExecute()
     {
@@ -43,7 +43,7 @@ public class AddPositionables<TCoordinates> : AddRemovePositionables<TCoordinate
 
     #region Undo
     /// <summary>
-    /// Removes the <see cref="Positionable{TCoordinates}"/> from the <see cref="UniverseBase{TCoordinates}"/> again
+    /// Removes the <see cref="Positionable{TCoordinates}"/> from the <see cref="CoordinateUniverse{TCoordinates}"/> again
     /// </summary>
     protected override void OnUndo()
     {

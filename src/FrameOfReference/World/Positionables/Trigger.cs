@@ -46,7 +46,7 @@ public sealed class Trigger : Positionable<Vector2>
     public float Range { get => _range; set => value.To(ref _range, OnChangedRebuild); }
 
     /// <summary>
-    /// The <see cref="UniverseBase{T}.GameTime"/> by which this trigger should have been activated.
+    /// The <see cref="IUniverse.GameTime"/> by which this trigger should have been activated.
     /// </summary>
     [XmlAttribute, DefaultValue(0.0), Description("The GameTime by which this trigger should have been activated.")]
     public double DueTime { get; set; }

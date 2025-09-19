@@ -7,33 +7,34 @@
  */
 
 using System;
-using System.ComponentModel;
 using System.IO;
-using System.Xml.Serialization;
-using AlphaFramework.World.Positionables;
 
 namespace AlphaFramework.World;
 
 /// <summary>
-/// A common base for all <see cref="UniverseBase{TCoordinates}"/> types.
+/// A game world (but not a running game). Equivalent to the content of a map file.
 /// </summary>
 public interface IUniverse
 {
     /// <summary>
-    /// The map file this world was loaded from.
+    /// Total elapsed game time in seconds.
     /// </summary>
-    /// <remarks>Is not serialized/stored, is set by whatever method loads the universe.</remarks>
-    [XmlIgnore, Browsable(false)]
-    string? SourceFile { get; set; }
+    public double GameTime { get; set; }
 
     /// <summary>
-    /// Updates the <see cref="UniverseBase{TCoordinates}"/> and all <see cref="Positionable{TCoordinates}"/>s in it.
+    /// Updates the universe.
     /// </summary>
     /// <param name="elapsedGameTime">How much game time in seconds has elapsed since this method was last called.</param>
     void Update(double elapsedGameTime);
 
     /// <summary>
-    /// Saves this <see cref="UniverseBase{TCoordinates}"/> in a compressed XML file (map file).
+    /// The map file this world was loaded from.
+    /// </summary>
+    /// <remarks>Is not serialized/stored, is set by whatever method loads the universe.</remarks>
+    string? SourceFile { get; set; }
+
+    /// <summary>
+    /// Saves this <see cref="CoordinateUniverse{TCoordinates}"/> in a compressed XML file (map file).
     /// </summary>
     /// <param name="path">The file to save in.</param>
     /// <exception cref="IOException">A problem occurred while writing the file.</exception>

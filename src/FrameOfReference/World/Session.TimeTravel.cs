@@ -45,7 +45,7 @@ partial class Session
     /// <summary>
     /// Like <see cref="UpdateTo"/>, but interpolates between the current and the target time smoothly.
     /// </summary>
-    /// <param name="gameTime">The target value for <see cref="UniverseBase{TCoordinates}.GameTime"/>.</param>
+    /// <param name="gameTime">The target value for <see cref="IUniverse.GameTime"/>.</param>
     public void TimeTravel(double gameTime)
     {
         _timeTravelStart = Universe.GameTime;

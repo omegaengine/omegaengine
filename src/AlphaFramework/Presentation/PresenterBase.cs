@@ -27,7 +27,7 @@ namespace AlphaFramework.Presentation;
 /// <typeparam name="TUniverse">The type of <see cref="IUniverse"/> to present.</typeparam>
 /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
 public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
-    where TUniverse : UniverseBase<TCoordinates>
+    where TUniverse : CoordinateUniverse<TCoordinates>
     where TCoordinates : struct
 {
     /// <summary>
@@ -46,12 +46,12 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
     }
 
     /// <summary>
-    /// Maps between <see cref="UniverseBase{TCoordinates}.Positionables"/> and <see cref="OmegaEngine.Graphics.Scene.Positionables"/>.
+    /// Maps between <see cref="CoordinateUniverse{TCoordinates}.Positionables"/> and <see cref="OmegaEngine.Graphics.Scene.Positionables"/>.
     /// </summary>
     protected readonly ModelViewSync<Positionable<TCoordinates>, PositionableRenderable> RenderablesSync;
 
     /// <summary>
-    /// Maps between <see cref="UniverseBase{TCoordinates}.Positionables"/> and <see cref="OmegaEngine.Graphics.Scene.Lights"/>.
+    /// Maps between <see cref="CoordinateUniverse{TCoordinates}.Positionables"/> and <see cref="OmegaEngine.Graphics.Scene.Lights"/>.
     /// </summary>
     protected readonly ModelViewSync<Positionable<TCoordinates>, LightSource> LightsSync;
 
@@ -82,7 +82,7 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
     protected bool Initialized { get; private set; }
 
     /// <summary>
-    /// Generate <see cref="Terrain"/> and <see cref="Renderable"/>s from <see cref="UniverseBase{TCoordinates}.Positionables"/> and keeps everything in sync using events
+    /// Generate <see cref="Terrain"/> and <see cref="Renderable"/>s from <see cref="CoordinateUniverse{TCoordinates}.Positionables"/> and keeps everything in sync using events
     /// </summary>
     /// <exception cref="FileNotFoundException">A required <see cref="Asset"/> file could not be found.</exception>
     /// <exception cref="IOException">There was an error reading an <see cref="Asset"/> file.</exception>
