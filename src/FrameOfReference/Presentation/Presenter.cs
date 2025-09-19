@@ -79,10 +79,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
         base.Initialize();
     }
 
-    /// <summary>
-    /// To be called by <see cref="IDisposable.Dispose"/> and the object destructor.
-    /// </summary>
-    /// <param name="disposing"><c>true</c> if called manually and not by the garbage collector.</param>
+    /// <inheritdoc/>
     protected override void Dispose(bool disposing)
     {
         try
@@ -184,7 +181,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
     /// <summary>
     /// Retrieves the current state of the <see cref="Camera"/> for storage in the <see cref="Universe"/>.
     /// </summary>
-    /// <returns>The current state of  the <see cref="Camera"/> or <c>null</c> if it can not be determined at this time (e.g. cinematic animation in progress).</returns>
+    /// <returns>The current state of the <see cref="Camera"/> or <c>null</c> if it can not be determined at this time (e.g. cinematic animation in progress).</returns>
     public CameraState<Vector2>? CameraState
     {
         get
