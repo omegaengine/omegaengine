@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.ComponentModel;
 using System.IO;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
@@ -110,7 +109,7 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
     /// <remarks>Will internally call <see cref="Initialize"/> first, if you didn't</remarks>
     public virtual void HookIn()
     {
-        if (Disposed) throw new ObjectDisposedException(ToString());
+        if (_disposed) throw new ObjectDisposedException(ToString());
         if (!Initialized) Initialize();
 
         Engine.Views.Add(View);
@@ -131,21 +130,17 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
     /// </summary>
     public virtual void DimUp() => Engine.DimUp();
 
-    /// <summary>
-    /// Was this presenter already disposed?
-    /// </summary>
-    [Browsable(false)]
-    public bool Disposed { get; private set; }
+    private bool _disposed;
 
     /// <summary>
     /// Removes the <see cref="Universe"/> hooks setup by <see cref="Initialize"/> and disposes all created <see cref="View"/>s, <see cref="Scene"/>s, <see cref="PositionableRenderable"/>s, etc.
     /// </summary>
     public void Dispose()
     {
-        if (Disposed) return;
+        if (_disposed) return;
         Dispose(true);
         GC.SuppressFinalize(this);
-        Disposed = true;
+        _disposed = true;
     }
 
     /// <inheritdoc/>
