@@ -8,28 +8,29 @@ insert_final_newline = true
 keep_existing_linebreaks = true
 max_line_length = off
 
-[CNAME]
-insert_final_newline = false
+[*.md]
+trim_trailing_whitespace = false
 
-[*.{json,xml,yml,htm,html,js,ts,css,scss,less}]
+[*.{json,xml,yml,yaml}]
 indent_size = 2
-
-[*.{*proj,resx,config,ruleset,cd,props,targets,nuspec}]
-end_of_line = crlf
-indent_size = 2
-
-[*.{txt,cs,ps1,psd1,manifest}]
-end_of_line = crlf
 
 [*.{bat,cmd}]
 charset = latin1
 end_of_line = crlf
 
-[*.sln]
+[*.{ps1,psd1}]
 end_of_line = crlf
-indent_style = tab
 
-[*.{md,resx,Designer.*}]
+[*.{*proj,slnx,config,manifest,props,targets,nuspec}]
+end_of_line = crlf
+indent_size = 2
+
+[*.resx]
+indent_size = 2
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+[*.Designer.cs]
 trim_trailing_whitespace = false
 
 [*.cs]
