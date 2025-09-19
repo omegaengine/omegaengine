@@ -97,7 +97,7 @@ public sealed class InGamePresenter : InteractivePresenter
     /// <summary>
     /// Switches from the current camera view to a new view using a cinematic effect.
     /// </summary>
-    /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="CameraState{TCoordinates}"/> stored in the <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.</param>
+    /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="CameraState{TCoordinates}"/> stored in the <see cref="PresenterBase{TUniverse}.Universe"/>.</param>
     public void SwingCameraTo(string name)
     {
         View.SwingCameraTo(CreateCamera(Universe.GetCamera(name)), duration: 4);
@@ -108,7 +108,7 @@ public sealed class InGamePresenter : InteractivePresenter
     /// <summary>
     /// Sets <see cref="InteractivePresenter.SelectedPositionables"/> to a single specific <see cref="Entity"/> and forces the <see cref="Camera"/> to stay close to it.
     /// </summary>
-    /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="Entity"/> stored in the <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.</param>
+    /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="Entity"/> stored in the <see cref="PresenterBase{TUniverse}.Universe"/>.</param>
     public void LockOn(string name)
     {
         _lockedOnEntity = Universe.GetEntity(name);

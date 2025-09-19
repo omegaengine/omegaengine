@@ -40,7 +40,7 @@ namespace FrameOfReference.Presentation;
 /// <summary>
 /// Handles the visual representation of <see cref="World"/> content in the <see cref="OmegaEngine"/>
 /// </summary>
-public abstract partial class Presenter : PresenterBase<Universe, Vector2>
+public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
 {
     #region Properties
     private bool _wireframeTerrain;

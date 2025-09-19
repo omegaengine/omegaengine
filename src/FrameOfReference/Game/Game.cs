@@ -458,7 +458,7 @@ public class Game(Settings settings)
     }
 
     /// <summary>
-    /// <see cref="PresenterBase{TUniverse,TCoordinates}.HookOut"/> and disposes the <see cref="CurrentPresenter"/> (unless it is the <see cref="_menuPresenter"/>)
+    /// <see cref="PresenterBase{TUniverse}.HookOut"/> and disposes the <see cref="CurrentPresenter"/> (unless it is the <see cref="_menuPresenter"/>)
     /// </summary>
     private void CleanupPresenter()
     {

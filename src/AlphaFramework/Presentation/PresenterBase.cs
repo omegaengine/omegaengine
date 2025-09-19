@@ -1,64 +1,32 @@
-﻿/*
- * Copyright 2006-2014 Bastian Eicher
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/.
- */
-
 using System;
 using System.IO;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
 using LuaInterface;
 using NanoByte.Common;
-using NanoByte.Common.Dispatch;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
-using LightSource = OmegaEngine.Graphics.LightSource;
 
 namespace AlphaFramework.Presentation;
 
 /// <summary>
 /// Uses the <see cref="Engine"/> to present an <see cref="IUniverse"/> game world.
 /// </summary>
-/// <typeparam name="TUniverse">The type of <see cref="IUniverse"/> to present.</typeparam>
-/// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
-public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
-    where TUniverse : CoordinateUniverse<TCoordinates>
-    where TCoordinates : struct
+/// <typeparam name="TUniverse">The type of universe to present.</typeparam>
+public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe) : IDisposable
+    where TUniverse : class, IUniverse
 {
-    /// <summary>
-    /// Creates a new presenter.
-    /// </summary>
-    /// <param name="engine">The engine to use for rendering.</param>
-    /// <param name="universe">The game world to present.</param>
-    protected PresenterBase(Engine engine, TUniverse universe)
-    {
-        Engine = engine ?? throw new ArgumentNullException(nameof(engine));
-        Universe = universe ?? throw new ArgumentNullException(nameof(universe));
-
-        Scene = new();
-        RenderablesSync = new(Universe.Positionables, Scene.Positionables);
-        LightsSync = new(Universe.Positionables, Scene.Lights);
-    }
-
-    /// <summary>
-    /// Maps between <see cref="CoordinateUniverse{TCoordinates}.Positionables"/> and <see cref="OmegaEngine.Graphics.Scene.Positionables"/>.
-    /// </summary>
-    protected readonly ModelViewSync<Positionable<TCoordinates>, PositionableRenderable> RenderablesSync;
-
-    /// <summary>
-    /// Maps between <see cref="CoordinateUniverse{TCoordinates}.Positionables"/> and <see cref="OmegaEngine.Graphics.Scene.Lights"/>.
-    /// </summary>
-    protected readonly ModelViewSync<Positionable<TCoordinates>, LightSource> LightsSync;
-
     /// <summary>
     /// The <see cref="Engine"/> reference to use for rendering operations
     /// </summary>
-    protected readonly Engine Engine;
+    protected readonly Engine Engine = engine;
+
+    /// <summary>
+    /// The engine scene containing the graphical representations of <see cref="Positionable{TCoordinates}"/>s
+    /// </summary>
+    protected readonly Scene Scene = new();
 
     /// <summary>
     /// The engine view used to display the <see cref="Scene"/>
@@ -66,15 +34,10 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
     public required View View { get; init; }
 
     /// <summary>
-    /// The engine scene containing the graphical representations of <see cref="Positionable{TCoordinates}"/>s
-    /// </summary>
-    protected readonly Scene Scene;
-
-    /// <summary>
     /// The game world to present.
     /// </summary>
     [LuaHide]
-    public TUniverse Universe { get; }
+    public TUniverse Universe { get; } = universe;
 
     /// <summary>
     /// Was <see cref="Initialize"/> already called?
@@ -82,7 +45,7 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
     protected bool Initialized { get; private set; }
 
     /// <summary>
-    /// Generate <see cref="Terrain"/> and <see cref="Renderable"/>s from <see cref="CoordinateUniverse{TCoordinates}.Positionables"/> and keeps everything in sync using events
+    /// Generate <see cref="Renderable"/>s from the <see cref="Universe"/> and keeps everything in sync using events
     /// </summary>
     /// <exception cref="FileNotFoundException">A required <see cref="Asset"/> file could not be found.</exception>
     /// <exception cref="IOException">There was an error reading an <see cref="Asset"/> file.</exception>
@@ -90,18 +53,8 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
     /// <remarks>Should be called before <see cref="HookIn"/> is used</remarks>
     public virtual void Initialize()
     {
-        RegisterRenderablesSync();
-        RenderablesSync.Initialize();
-        LightsSync.Initialize();
-
         Initialized = true;
     }
-
-    /// <summary>
-    /// Hook to configure <see cref="RenderablesSync"/> and <see cref="LightsSync"/>.
-    /// </summary>
-    protected virtual void RegisterRenderablesSync()
-    {}
 
     /// <summary>
     /// Hooks the <see cref="View"/> into <see cref="OmegaEngine.Engine.Views"/>
@@ -158,9 +111,6 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
         if (disposing)
         { // This block will only be executed on manual disposal, not by Garbage Collection
             Log.Info("Disposing presenter");
-
-            RenderablesSync.Dispose();
-            LightsSync.Dispose();
 
             Scene.Dispose();
             View.Dispose();

@@ -75,7 +75,7 @@ partial class Presenter
     }
 
     /// <summary>
-    /// Updates <see cref="_lightSun"/> and <see cref="_lightMoon"/> based on the light phase in <see cref="PresenterBase{TUniverse,TCoordinates}.Universe"/>.
+    /// Updates <see cref="_lightSun"/> and <see cref="_lightMoon"/> based on the light phase in <see cref="PresenterBase{TUniverse}.Universe"/>.
     /// </summary>
     protected void UpdateLighting()
     {
