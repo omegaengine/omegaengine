@@ -38,7 +38,7 @@ namespace FrameOfReference.World;
 /// Represents a game session (i.e. a game actually being played).
 /// It is equivalent to the content of a savegame.
 /// </summary>
-public sealed partial class Session : SessionBase<Universe>
+public sealed partial class Session : Session<Universe>
 {
 #if NETFRAMEWORK
     /// <summary>

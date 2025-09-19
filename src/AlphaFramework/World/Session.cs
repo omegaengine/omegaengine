@@ -16,7 +16,7 @@ namespace AlphaFramework.World;
 /// A common base for game sessions (i.e. a game actually being played).
 /// </summary>
 /// <typeparam name="TUniverse">The specific type of <see cref="IUniverse"/> stored in the session.</typeparam>
-public abstract class SessionBase<TUniverse>
+public class Session<TUniverse>
     where TUniverse : class, IUniverse
 {
     /// <summary>
@@ -31,9 +31,9 @@ public abstract class SessionBase<TUniverse>
     public string? MapSourceFile { get; set; }
 
     /// <summary>
-    ///  Base-constructor for XML serialization. Do not call manually!
+    /// Base-constructor for XML serialization. Do not call manually!
     /// </summary>
-    protected SessionBase()
+    protected Session()
     {
         Universe = null!;
     }
@@ -42,7 +42,7 @@ public abstract class SessionBase<TUniverse>
     /// Creates a new game session based upon a given universe
     /// </summary>
     /// <param name="baseUniverse">The universe to base the new game session on.</param>
-    protected SessionBase(TUniverse baseUniverse)
+    protected Session(TUniverse baseUniverse)
     {
         Universe = baseUniverse ?? throw new ArgumentNullException(nameof(baseUniverse));
 
@@ -50,7 +50,6 @@ public abstract class SessionBase<TUniverse>
         MapSourceFile = baseUniverse.SourceFile;
     }
 
-    #region Update
     /// <summary>
     /// The factor by which <see cref="IUniverse.GameTime"/> progression should be multiplied in relation to real time.
     /// </summary>
@@ -71,5 +70,4 @@ public abstract class SessionBase<TUniverse>
 
         return elapsedGameTime;
     }
-    #endregion
 }
