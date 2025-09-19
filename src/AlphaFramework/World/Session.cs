@@ -8,7 +8,9 @@
 
 using System;
 using System.ComponentModel;
+using System.IO;
 using LuaInterface;
+using OmegaEngine.Foundation.Storage;
 
 namespace AlphaFramework.World;
 
@@ -70,4 +72,13 @@ public class Session<TUniverse>
 
         return elapsedGameTime;
     }
+
+    /// <summary>
+    /// Saves this session in an XML file (savegame).
+    /// </summary>
+    /// <param name="path">The file to save in.</param>
+    /// <exception cref="IOException">A problem occurred while writing the file.</exception>
+    /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
+    public virtual void Save(string path)
+        => this.SaveXmlZip(path);
 }

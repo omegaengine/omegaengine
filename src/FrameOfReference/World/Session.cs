@@ -105,12 +105,12 @@ public sealed partial class Session : Session<Universe>
     }
 
     /// <summary>
-    /// Saves this <see cref="Session"/> in an encrypted XML file (savegame).
+    /// Saves this session in an encrypted XML file (savegame).
     /// </summary>
     /// <param name="path">The file to save in.</param>
     /// <exception cref="IOException">A problem occurred while writing the file.</exception>
     /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
-    public void Save(string path)
+    public override void Save(string path)
         => this.SaveXmlZip(path, EncryptionKey);
 
     /// <summary>The maximum number of seconds to handle in one call to <see cref="Update"/>. Additional time is simply dropped.</summary>
