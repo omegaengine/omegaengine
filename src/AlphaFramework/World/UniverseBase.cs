@@ -51,7 +51,7 @@ public abstract class UniverseBase : IUniverse
     /// <inheritdoc/>
     public virtual void Save(string path)
     {
-        this.SaveXmlZip(path);
+        this.SaveXml(path);
         SourceFile = path;
     }
 }

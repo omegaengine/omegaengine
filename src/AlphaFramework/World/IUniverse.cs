@@ -34,7 +34,7 @@ public interface IUniverse
     string? SourceFile { get; set; }
 
     /// <summary>
-    /// Saves this <see cref="CoordinateUniverse{TCoordinates}"/> in a compressed XML file (map file).
+    /// Saves this <see cref="CoordinateUniverse{TCoordinates}"/> in a map file.
     /// </summary>
     /// <param name="path">The file to save in.</param>
     /// <exception cref="IOException">A problem occurred while writing the file.</exception>
