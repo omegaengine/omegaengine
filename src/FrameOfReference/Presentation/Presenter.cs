@@ -24,7 +24,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using AlphaFramework.Presentation;
-using AlphaFramework.World.Positionables;
 using FrameOfReference.Presentation.Config;
 using FrameOfReference.World;
 using NanoByte.Common.Dispatch;
@@ -32,7 +31,6 @@ using OmegaEngine;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
-using OmegaEngine.Foundation.Storage;
 using SlimDX;
 
 namespace FrameOfReference.Presentation;
@@ -42,7 +40,6 @@ namespace FrameOfReference.Presentation;
 /// </summary>
 public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
 {
-    #region Properties
     private bool _wireframeTerrain;
 
     /// <summary>
@@ -105,7 +102,6 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
                 positionable.DrawBoundingBox = value;
         }
     }
-    #endregion
 
     /// <summary>
     /// Creates a new presenter.
@@ -115,9 +111,6 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
     protected Presenter(Engine engine, Universe universe) : base(engine, universe)
     {}
 
-    //--------------------//
-
-    #region Initialize
     /// <inheritdoc/>
     public override void Initialize()
     {
@@ -129,10 +122,6 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
             UpdateLighting();
             Universe.LightingChanged += UpdateLighting;
         }
-
-        UpdateSkybox();
-        Universe.SkyboxChanged += UpdateSkybox;
-
         SetupTerrain();
 
         base.Initialize();
@@ -146,18 +135,14 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
     {
         try
         {
-            // Remove event handlers watching the universe
             Universe.LightingChanged -= UpdateLighting;
-            Universe.SkyboxChanged -= UpdateSkybox;
         }
         finally
         {
             base.Dispose(disposing);
         }
     }
-    #endregion
 
-    #region Terrain
     /// <summary>
     /// The <see cref="OmegaEngine"/> representation of <see cref="World.Universe.Terrain"/>
     /// </summary>
@@ -206,43 +191,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
         }
         SetupTerrain();
     }
-    #endregion
 
-    #region Skybox
-    private void UpdateSkybox()
-    {
-        // Clean up the old skybox if any
-        if (Scene.Skybox != null)
-        {
-            Scene.Skybox.Dispose();
-            Scene.Skybox = null;
-        }
-
-        // Allow for no skybox at all
-        if (string.IsNullOrEmpty(Universe.Skybox)) return;
-
-        // Right, Left, Up, Down, Front, Back texture filenames
-        string rt = $"Skybox/{Universe.Skybox}/rt.jpg";
-        string lf = $"Skybox/{Universe.Skybox}/lf.jpg";
-        string up = $"Skybox/{Universe.Skybox}/up.jpg";
-        string dn = $"Skybox/{Universe.Skybox}/dn.jpg";
-        string ft = $"Skybox/{Universe.Skybox}/ft.jpg";
-        string bk = $"Skybox/{Universe.Skybox}/bk.jpg";
-
-        if (ContentManager.FileExists("Textures", up) && ContentManager.FileExists("Textures", dn))
-        { // Full skybox
-            Scene.Skybox = SimpleSkybox.FromAssets(Engine, rt, lf, up, dn, ft, bk);
-        }
-        else
-        { // Cardboard-style skybox (missing top and bottom)
-            Scene.Skybox = SimpleSkybox.FromAssets(Engine, rt, lf, null, null, ft, bk);
-        }
-    }
-    #endregion
-
-    //--------------------//
-
-    #region Camera
     /// <summary>
     /// Creates a new camera based on a state usually loaded from the <see cref="Universe"/>.
     /// </summary>
@@ -309,9 +258,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
             }
         }
     }
-    #endregion
 
-    #region Dimming
     /// <inheritdoc/>
     public override void DimDown()
     {
@@ -337,5 +284,4 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
 
         base.DimUp();
     }
-    #endregion
 }
