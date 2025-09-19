@@ -97,7 +97,7 @@ public class Game(Settings settings)
             else
             { // Load main menu
                 PreloadPreviousSession();
-                LoadMenu(Program.Args["menu"] ?? GetMenuMap());
+                LoadMenu(GetMenuMap());
             }
         }
 
@@ -473,8 +473,9 @@ public class Game(Settings settings)
         }
     }
 
-    /// <returns>The name of the current menu background map</returns>
-    private static string GetMenuMap() => "Menu";
+    /// <returns>The name of the menu background map</returns>
+    private static string GetMenuMap()
+        => Program.Args["menu"] ?? "Menu";
 
     /// <summary>
     /// Loads the auto-save into <see cref="CurrentSession"/> for later usage
