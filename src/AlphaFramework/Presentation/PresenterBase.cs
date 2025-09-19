@@ -79,7 +79,7 @@ public abstract class PresenterBase<TUniverse, TCoordinates> : IDisposable
     /// <summary>
     /// Was <see cref="Initialize"/> already called?
     /// </summary>
-    public bool Initialized { get; protected set; }
+    protected bool Initialized { get; private set; }
 
     /// <summary>
     /// Generate <see cref="Terrain"/> and <see cref="Renderable"/>s from <see cref="UniverseBase{TCoordinates}.Positionables"/> and keeps everything in sync using events
