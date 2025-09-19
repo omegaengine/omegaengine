@@ -22,8 +22,11 @@
 
 using System;
 using System.ComponentModel;
+using System.IO;
 using AlphaFramework.World;
+using ICSharpCode.SharpZipLib.Zip;
 using NanoByte.Common;
+using OmegaEngine.Foundation.Storage;
 
 #if NETFRAMEWORK
 using System.Linq;
@@ -54,6 +57,61 @@ public sealed partial class Session : Session<Universe>
     /// <param name="baseUniverse">The universe to base the new game session on.</param>
     public Session(Universe baseUniverse) : base(baseUniverse)
     {}
+
+    /// <summary>
+    /// The file extensions when this class is stored as a file.
+    /// </summary>
+    public const string FileExt = $".{Constants.AppNameShort}Save";
+
+    /// <summary>
+    /// Used for encrypting serialized versions of this class.
+    /// </summary>
+    /// <remarks>This provides only very basic protection against savegame tampering.</remarks>
+    private const string EncryptionKey = "Session";
+
+    /// <summary>
+    /// Base-constructor for XML serialization. Do not call manually!
+    /// </summary>
+    public Session()
+    {}
+
+    /// <summary>
+    /// Loads a <see cref="Session"/> from an encrypted XML file (savegame).
+    /// </summary>
+    /// <param name="path">The file to load from.</param>
+    /// <returns>The loaded <see cref="Session"/>.</returns>
+    /// <exception cref="IOException">A problem occurred while reading the file.</exception>
+    /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
+    /// <exception cref="InvalidOperationException">A problem occurred while deserializing the XML data.</exception>
+    public static Session Load(string path)
+    {
+        // Load the file
+        Session session;
+        try
+        {
+            session = XmlStorage.LoadXmlZip<Session>(path, EncryptionKey);
+        }
+        #region Error handling
+        catch (ZipException ex)
+        {
+            throw new IOException(ex.Message, ex);
+        }
+        #endregion
+
+        // Restore the original map filename
+        session.Universe.SourceFile = session.MapSourceFile;
+
+        return session;
+    }
+
+    /// <summary>
+    /// Saves this <see cref="Session"/> in an encrypted XML file (savegame).
+    /// </summary>
+    /// <param name="path">The file to save in.</param>
+    /// <exception cref="IOException">A problem occurred while writing the file.</exception>
+    /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
+    public void Save(string path)
+        => this.SaveXmlZip(path, EncryptionKey);
 
     /// <summary>The maximum number of seconds to handle in one call to <see cref="Update"/>. Additional time is simply dropped.</summary>
     private const double MaximumUpdate = 0.75;
