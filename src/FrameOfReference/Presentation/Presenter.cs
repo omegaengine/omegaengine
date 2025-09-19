@@ -55,54 +55,6 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
         }
     }
 
-    private bool _wireframeEntities;
-
-    /// <summary>
-    /// Render all entities in wireframe-mode
-    /// </summary>
-    public bool WireframeEntities
-    {
-        get => _wireframeEntities;
-        set
-        {
-            _wireframeEntities = value;
-            foreach (var positionable in RenderablesSync.Representations)
-                positionable.Wireframe = value;
-        }
-    }
-
-    private bool _boundingSpheresEntities;
-
-    /// <summary>
-    /// Visualize the bounding spheres of all entities
-    /// </summary>
-    public bool BoundingSphereEntities
-    {
-        get => _boundingSpheresEntities;
-        set
-        {
-            _boundingSpheresEntities = value;
-            foreach (var positionable in RenderablesSync.Representations)
-                positionable.DrawBoundingSphere = value;
-        }
-    }
-
-    private bool _boundingBoxEntities;
-
-    /// <summary>
-    /// Visualize the bounding boxes of all entities
-    /// </summary>
-    public bool BoundingBoxEntities
-    {
-        get => _boundingBoxEntities;
-        set
-        {
-            _boundingBoxEntities = value;
-            foreach (var positionable in RenderablesSync.Representations)
-                positionable.DrawBoundingBox = value;
-        }
-    }
-
     /// <summary>
     /// Creates a new presenter.
     /// </summary>
