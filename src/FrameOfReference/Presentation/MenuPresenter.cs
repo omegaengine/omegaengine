@@ -22,7 +22,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using FrameOfReference.World;
 using OmegaEngine;
 using OmegaEngine.Foundation.Geometry;
@@ -40,7 +39,6 @@ public sealed class MenuPresenter : Presenter
     /// </summary>
     /// <param name="engine">The engine to use for rendering</param>
     /// <param name="universe">The universe to display</param>
-    [SetsRequiredMembers]
     public MenuPresenter(Engine engine, Universe universe) : base(engine, universe)
     {
         #region Sanity checks
@@ -77,7 +75,7 @@ public sealed class MenuPresenter : Presenter
         try
         {
             if (disposing)
-                if (View != null) View.PreRender -= RotateCamera;
+                View.PreRender -= RotateCamera;
         }
         finally
         {

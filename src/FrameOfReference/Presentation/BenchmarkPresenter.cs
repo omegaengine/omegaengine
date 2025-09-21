@@ -22,7 +22,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using FrameOfReference.Presentation.Config;
@@ -52,7 +51,6 @@ public sealed class BenchmarkPresenter : Presenter
     /// <param name="engine">The engine to use for rendering</param>
     /// <param name="universe">The universe to display</param>
     /// <param name="callback">A delegate to execute after the benchmark is complete with the path of the result file</param>
-    [SetsRequiredMembers]
     public BenchmarkPresenter(Engine engine, Universe universe, Action<string> callback) : base(engine, universe)
     {
         #region Sanity checks

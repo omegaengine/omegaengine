@@ -23,7 +23,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -63,7 +62,6 @@ public sealed class EditorPresenter : InteractivePresenter
     /// <param name="engine">The engine to use for rendering</param>
     /// <param name="universe">The universe to display</param>
     /// <param name="lighting">Shall lighting be used for rendering?</param>
-    [SetsRequiredMembers]
     public EditorPresenter(Engine engine, Universe universe, bool lighting) : base(engine, universe)
     {
         #region Sanity checks

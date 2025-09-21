@@ -17,7 +17,7 @@ public interface IPresenter<out TUniverse> : IDisposable
     /// <summary>
     /// The engine view used to display the <see cref="Scene"/>
     /// </summary>
-    View View { get; init; }
+    View View { get; }
 
     /// <summary>
     /// The game world to present.

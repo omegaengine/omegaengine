@@ -22,7 +22,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using AlphaFramework.Presentation;
 using AlphaFramework.World.Positionables;
@@ -44,7 +43,6 @@ public sealed class InGamePresenter : InteractivePresenter
     /// </summary>
     /// <param name="engine">The engine to use for rendering</param>
     /// <param name="universe">The universe to display</param>
-    [SetsRequiredMembers]
     public InGamePresenter(Engine engine, Universe universe) : base(engine, universe)
     {
         #region Sanity checks

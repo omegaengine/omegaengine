@@ -30,7 +30,7 @@ public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe
     /// <summary>
     /// The engine view used to display the <see cref="Scene"/>
     /// </summary>
-    public required View View { get; init; }
+    public View View { get; protected init; }
 
     /// <inheritdoc/>
     [LuaHide]
