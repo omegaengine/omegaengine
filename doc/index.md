@@ -64,8 +64,8 @@ flowchart TD
     world[AlphaFramework.World] --> foundation
     presentation[AlphaFramework.Presentation] --> world
     presentation --> engine
+    presentation --> gui
     editor[AlphaEditor] --> presentation
-    editor --> gui
 ```
 
 ## Project templates
