@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class Camera | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class Camera | OmegaEngine ">
+      
+      <meta name="description" content="Determines the perspective from which a  is displayed.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.3.0/apiSpec/new?filename=OmegaEngine_Graphics_Cameras_Camera.md&amp;value=---%0Auid%3A%20OmegaEngine.Graphics.Cameras.Camera%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Graphics.Cameras.Camera">
+
+
+
+  <h1 id="OmegaEngine_Graphics_Cameras_Camera" data-uid="OmegaEngine.Graphics.Cameras.Camera" class="text-break">
+Class Camera  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L23"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Graphics.html">Graphics</a>.<a class="xref" href="OmegaEngine.Graphics.Cameras.html">Cameras</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Determines the perspective from which a <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a> is displayed.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class Camera : IPositionable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">Camera</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="OmegaEngine.IPositionable.html">IPositionable</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="OmegaEngine.Graphics.Cameras.CloneCamera.html">CloneCamera</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Cameras.MatrixCamera.html">MatrixCamera</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Cameras.QuaternionCamera.html">QuaternionCamera</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="OmegaEngine.Foundation.Storage.XmlStorage.html#OmegaEngine_Foundation_Storage_XmlStorage_SaveXmlZip__1___0_System_IO_Stream_System_String_OmegaEngine_Foundation_Storage_EmbeddedFile___">XmlStorage.SaveXmlZip&lt;T&gt;(T, Stream, string?, params EmbeddedFile[])</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.Foundation.Storage.XmlStorage.html#OmegaEngine_Foundation_Storage_XmlStorage_SaveXmlZip__1___0_System_String_System_String_OmegaEngine_Foundation_Storage_EmbeddedFile___">XmlStorage.SaveXmlZip&lt;T&gt;(T, string, string?, params EmbeddedFile[])</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.Foundation.Storage.XmlStorage.html#OmegaEngine_Foundation_Storage_XmlStorage_SaveXml__1___0_System_IO_Stream_System_String_">XmlStorage.SaveXml&lt;T&gt;(T, Stream, string?)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.Foundation.Storage.XmlStorage.html#OmegaEngine_Foundation_Storage_XmlStorage_SaveXml__1___0_System_String_System_String_">XmlStorage.SaveXml&lt;T&gt;(T, string, string?)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.Foundation.Storage.XmlStorage.html#OmegaEngine_Foundation_Storage_XmlStorage_ToXmlString__1___0_System_String_">XmlStorage.ToXmlString&lt;T&gt;(T, string?)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_PositionBaseCached" data-uid="OmegaEngine.Graphics.Cameras.Camera.PositionBaseCached">
+  PositionBaseCached
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L73"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected DoubleVector3 PositionBaseCached</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_PositionCached" data-uid="OmegaEngine.Graphics.Cameras.Camera.PositionCached">
+  PositionCached
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected DoubleVector3 PositionCached</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_ProjectionDirty" data-uid="OmegaEngine.Graphics.Cameras.Camera.ProjectionDirty">
+  ProjectionDirty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L30"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Does <span class="xref">OmegaEngine.Graphics.Cameras.Camera._projection</span> need to be recalculated?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool ProjectionDirty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_SimpleViewCached" data-uid="OmegaEngine.Graphics.Cameras.Camera.SimpleViewCached">
+  SimpleViewCached
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L105"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Matrix SimpleViewCached</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Matrix</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_ViewCached" data-uid="OmegaEngine.Graphics.Cameras.Camera.ViewCached">
+  ViewCached
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L91"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Matrix ViewCached</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Matrix</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_ViewDirty" data-uid="OmegaEngine.Graphics.Cameras.Camera.ViewDirty">
+  ViewDirty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L27"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Does <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_ViewCached">ViewCached</a> need to be recalculated?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool ViewDirty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_ViewFrustumDirty" data-uid="OmegaEngine.Graphics.Cameras.Camera.ViewFrustumDirty">
+  ViewFrustumDirty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L33"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Does the view frustum need to be recalculated?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool ViewFrustumDirty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_ClipPlane_" data-uid="OmegaEngine.Graphics.Cameras.Camera.ClipPlane*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_ClipPlane" data-uid="OmegaEngine.Graphics.Cameras.Camera.ClipPlane">
+  ClipPlane
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L227"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A custom clip plane behind which all objects are culled</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DoublePlane ClipPlane { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoublePlane.html">DoublePlane</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_CylindricalBillboard_" data-uid="OmegaEngine.Graphics.Cameras.Camera.CylindricalBillboard*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_CylindricalBillboard" data-uid="OmegaEngine.Graphics.Cameras.Camera.CylindricalBillboard">
+  CylindricalBillboard
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L180"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A rotation matrix for a faked cylindrical billboard effect</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Matrix CylindricalBillboard { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Matrix</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_FarClip_" data-uid="OmegaEngine.Graphics.Cameras.Camera.FarClip*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_FarClip" data-uid="OmegaEngine.Graphics.Cameras.Camera.FarClip">
+  FarClip
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L219"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Maximum distance of objects to the camera</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float FarClip { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_FieldOfView_" data-uid="OmegaEngine.Graphics.Cameras.Camera.FieldOfView*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_FieldOfView" data-uid="OmegaEngine.Graphics.Cameras.Camera.FieldOfView">
+  FieldOfView
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L203"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The view angle in degrees</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float FieldOfView { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_FrustumCulling_" data-uid="OmegaEngine.Graphics.Cameras.Camera.FrustumCulling*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_FrustumCulling" data-uid="OmegaEngine.Graphics.Cameras.Camera.FrustumCulling">
+  FrustumCulling
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L380"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shall the engine use view frustum culling to optimize the rendering performance?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool FrustumCulling { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_Name_" data-uid="OmegaEngine.Graphics.Cameras.Camera.Name*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_Name" data-uid="OmegaEngine.Graphics.Cameras.Camera.Name">
+  Name
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L44"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Text value to make it easier to identify a particular camera</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? Name { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_NearClip_" data-uid="OmegaEngine.Graphics.Cameras.Camera.NearClip*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_NearClip" data-uid="OmegaEngine.Graphics.Cameras.Camera.NearClip">
+  NearClip
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L211"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Minimum distance of objects to the camera</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float NearClip { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_Position_" data-uid="OmegaEngine.Graphics.Cameras.Camera.Position*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_Position" data-uid="OmegaEngine.Graphics.Cameras.Camera.Position">
+  Position
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L62"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The camera's position in 3D-space</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DoubleVector3 Position { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_PositionBase_" data-uid="OmegaEngine.Graphics.Cameras.Camera.PositionBase*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_PositionBase" data-uid="OmegaEngine.Graphics.Cameras.Camera.PositionBase">
+  PositionBase
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L80"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A value that is subtracted from all positions (including the <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Camera</a>'s) before handing them to the graphics hardware</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DoubleVector3 PositionBase { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Graphics_Cameras_Camera_PositionBase_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Used to improve floating-point precision by keeping effective values small</p>
+</div>
+
+
+  <dl class="typelist seealso">
+    <dt>See Also</dt>
+    <dd>
+    <div><span class="xref">IPositionableOffset</span></div>
+    </dd>
+  </dl>
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_SimpleView_" data-uid="OmegaEngine.Graphics.Cameras.Camera.SimpleView*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_SimpleView" data-uid="OmegaEngine.Graphics.Cameras.Camera.SimpleView">
+  SimpleView
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L110"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A left-handed view matrix with absolutely no translation information</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Matrix SimpleView { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Matrix</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_SphericalBillboard_" data-uid="OmegaEngine.Graphics.Cameras.Camera.SphericalBillboard*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_SphericalBillboard" data-uid="OmegaEngine.Graphics.Cameras.Camera.SphericalBillboard">
+  SphericalBillboard
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L166"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A rotation matrix for a faked spherical billboard effect</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Matrix SphericalBillboard { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Matrix</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_View_" data-uid="OmegaEngine.Graphics.Cameras.Camera.View*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_View" data-uid="OmegaEngine.Graphics.Cameras.Camera.View">
+  View
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L96"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A left-handed view matrix for the current camera setting</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Matrix View { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Matrix</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_ViewInverse_" data-uid="OmegaEngine.Graphics.Cameras.Camera.ViewInverse*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_ViewInverse" data-uid="OmegaEngine.Graphics.Cameras.Camera.ViewInverse">
+  ViewInverse
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L124"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>An inverted view matrix for the current camera setting</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Matrix ViewInverse { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Matrix</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_ViewInverseTranspose_" data-uid="OmegaEngine.Graphics.Cameras.Camera.ViewInverseTranspose*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_ViewInverseTranspose" data-uid="OmegaEngine.Graphics.Cameras.Camera.ViewInverseTranspose">
+  ViewInverseTranspose
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L152"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>An inverted and transposed view matrix for the current camera setting</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Matrix ViewInverseTranspose { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Matrix</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_ViewTranspose_" data-uid="OmegaEngine.Graphics.Cameras.Camera.ViewTranspose*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_ViewTranspose" data-uid="OmegaEngine.Graphics.Cameras.Camera.ViewTranspose">
+  ViewTranspose
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L138"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A transposed view matrix for the current camera setting</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Matrix ViewTranspose { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Matrix</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_CacheSpecialMatrices_" data-uid="OmegaEngine.Graphics.Cameras.Camera.CacheSpecialMatrices*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_CacheSpecialMatrices" data-uid="OmegaEngine.Graphics.Cameras.Camera.CacheSpecialMatrices">
+  CacheSpecialMatrices()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L406"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calculate cached versions of special matrices (e.g. <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_ViewInverse">ViewInverse</a> calculated from <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_View">View</a>)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void CacheSpecialMatrices()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_PerspectiveChange_" data-uid="OmegaEngine.Graphics.Cameras.Camera.PerspectiveChange*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_PerspectiveChange_System_Single_System_Single_System_Single_System_Single_" data-uid="OmegaEngine.Graphics.Cameras.Camera.PerspectiveChange(System.Single,System.Single,System.Single,System.Single)">
+  PerspectiveChange(float, float, float, float)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L394"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the user changes the view perspective.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract void PerspectiveChange(float panX, float panY, float rotation, float zoom)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>panX</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>The number of pixels panned along the X-axis divided by the number of pixels of the longest side of the viewport.</p>
+</dd>
+    <dt><code>panY</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>The number of pixels panned along the Y-axis divided by the number of pixels of the longest side of the viewport.</p>
+</dd>
+    <dt><code>rotation</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>Horizontal rotation in degrees.</p>
+</dd>
+    <dt><code>zoom</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>Scaling factor; 1 for no change, must not be 0.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_ToString_" data-uid="OmegaEngine.Graphics.Cameras.Camera.ToString*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_ToString" data-uid="OmegaEngine.Graphics.Cameras.Camera.ToString">
+  ToString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L47"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a string that represents the current object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>A string that represents the current object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_UpdateProjection_" data-uid="OmegaEngine.Graphics.Cameras.Camera.UpdateProjection*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_UpdateProjection" data-uid="OmegaEngine.Graphics.Cameras.Camera.UpdateProjection">
+  UpdateProjection()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L426"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Update <span class="xref">OmegaEngine.Graphics.Cameras.Camera.Projection</span> if necessary</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void UpdateProjection()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_Camera_UpdateView_" data-uid="OmegaEngine.Graphics.Cameras.Camera.UpdateView*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_Camera_UpdateView" data-uid="OmegaEngine.Graphics.Cameras.Camera.UpdateView">
+  UpdateView()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L401"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Update cached versions of <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_View">View</a> and related matrices if necessary</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract void UpdateView()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 id="seealso">See Also</h2>
+  <div class="seealso">
+      <div><a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_Camera">Camera</a></div>
+  </div>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.3.0/src/OmegaEngine/Graphics/Cameras/Camera.cs/#L23" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
