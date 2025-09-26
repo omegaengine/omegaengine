@@ -62,6 +62,11 @@ public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe
     /// <inheritdoc/>
     public virtual void HookOut() => Engine.Views.Remove(View);
 
+    /// <summary>
+    /// The file format (file ending without a dot) used to store skybox textures.
+    /// </summary>
+    protected string SkyboxFileFormat => "jpg";
+
     private void UpdateSkybox()
     {
         // Clean up the old skybox if any
@@ -75,12 +80,12 @@ public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe
         if (string.IsNullOrEmpty(Universe.Skybox)) return;
 
         // Right, Left, Up, Down, Front, Back texture filenames
-        string rt = $"Skybox/{Universe.Skybox}/rt.jpg";
-        string lf = $"Skybox/{Universe.Skybox}/lf.jpg";
-        string up = $"Skybox/{Universe.Skybox}/up.jpg";
-        string dn = $"Skybox/{Universe.Skybox}/dn.jpg";
-        string ft = $"Skybox/{Universe.Skybox}/ft.jpg";
-        string bk = $"Skybox/{Universe.Skybox}/bk.jpg";
+        string rt = $"Skybox/{Universe.Skybox}/rt.{SkyboxFileFormat}";
+        string lf = $"Skybox/{Universe.Skybox}/lf.{SkyboxFileFormat}";
+        string up = $"Skybox/{Universe.Skybox}/up.{SkyboxFileFormat}";
+        string dn = $"Skybox/{Universe.Skybox}/dn.{SkyboxFileFormat}";
+        string ft = $"Skybox/{Universe.Skybox}/ft.{SkyboxFileFormat}";
+        string bk = $"Skybox/{Universe.Skybox}/bk.{SkyboxFileFormat}";
 
         if (ContentManager.FileExists("Textures", up) && ContentManager.FileExists("Textures", dn))
         { // Full skybox
