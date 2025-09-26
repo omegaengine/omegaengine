@@ -247,7 +247,7 @@ outLight2x VS_Light2x(inLight IN)
     OUT.texCoord = IN.texCoord;
     OUT.color = IN.color;
     OUT.occlusionIntervals = IN.occlusionIntervals;
-    return OUT;    
+    return OUT;
 }
 /// <EndFilter />
 
@@ -265,7 +265,7 @@ outSimple2x VS_Simple20(inSimple IN)
     OUT.texWeights3 = IN.texWeights3;
 
     OUT.texCoord = IN.texCoord;
-    return OUT;    
+    return OUT;
 }
 /// <EndFilter />
 
@@ -284,7 +284,7 @@ outLight14 VS_Light14(inLight IN,  // Overload for ambient-only light
     OUT.texCoord = IN.texCoord;
     OUT.diffAmbColor = ambCol;
     OUT.color = IN.color;
-    return OUT;    
+    return OUT;
 }
 
 outLight14 VS_Light14(inLight IN,  // Overload for two directional lights
@@ -304,7 +304,7 @@ outLight14 VS_Light14(inLight IN,  // Overload for two directional lights
     OUT.diffAmbColor = CalcTwoDirLights(OUT.pos, transNorm(IN.normal),
       lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.occlusionIntervals, IN.occlusionIntervals);
     OUT.color = IN.color;
-    return OUT;    
+    return OUT;
 }
 
 outLight14 VS_Light14(inLight IN,  // Overload for one directional light
@@ -321,7 +321,7 @@ outLight14 VS_Light14(inLight IN,  // Overload for one directional light
     OUT.texCoord = IN.texCoord;
     OUT.diffAmbColor = calcDirLight(OUT.pos, transNorm(IN.normal), lightDir, diffCol, ambCol);
     OUT.color = IN.color;
-    return OUT;    
+    return OUT;
 }
 
 outLight14 VS_Light14(inLight IN,  // Overload for one point light
@@ -338,7 +338,7 @@ outLight14 VS_Light14(inLight IN,  // Overload for one point light
     OUT.texCoord = IN.texCoord;
     OUT.diffAmbColor = CalcPointLight(transWorld(IN.entityPos), OUT.pos, transNorm(IN.normal), lightPos, diffCol, ambCol, att);
     OUT.color = IN.color;
-    return OUT;    
+    return OUT;
 }
 /// <EndFilter />
 
@@ -354,7 +354,7 @@ outSimple14 VS_Simple14(inSimple IN)
     OUT.texWeights2 = IN.texWeights1.zw;
 
     OUT.texCoord = IN.texCoord;
-    return OUT;    
+    return OUT;
 }
 /// <EndFilter />
 
@@ -363,7 +363,7 @@ outBlack VS_LightBlack(inLight IN)
     // Transform data into world space
     outBlack OUT;
     OUT.pos = transProj(IN.entityPos);
-    
+
     OUT.color = 0;
     return OUT;
 }
@@ -373,7 +373,7 @@ outBlack VS_SimpleBlack(inSimple IN)
     // Transform data into world space
     outBlack OUT;
     OUT.pos = transProj(IN.entityPos);
-    
+
     OUT.color = 0;
     return OUT;
 }
@@ -397,7 +397,7 @@ float4 PS_Helper2ab(float3 position, float2 texCoord, float4 texWeights1, float4
     /// </Counter>
     /// <Code Type="Sync" Controller="textures" Max="16"><![CDATA[    farColor += tex2D(texture{main}Sampler, farTextureCoords) * texWeights{group}.{component};]]></Code>
 
-    // Calculate color values for low camera distance 
+    // Calculate color values for low camera distance
     float2 nearTextureCoords = texCoord * 3.9;
     float4 nearColor = 0;
     /// <Counter ID="main" Type="int" Min="1" Max="16" />

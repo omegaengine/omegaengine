@@ -34,7 +34,7 @@ public struct XMaterial
     public static XMaterial DefaultMaterial => new(Color.White);
 
     /// <summary>
-    /// A DirectX material with the color information form this <see cref="XMaterial"/>
+    /// A DirectX material with the color information from this <see cref="XMaterial"/>
     /// </summary>
     public Material D3DMaterial
     {

@@ -66,7 +66,7 @@ pass TwoDirLights { \
 	PixelShader = compile ps_2_0 PS_ColoredPerPixel(/*firstPass*/true, -lightDirection1, -lightDirection2, TwoLightColors); \
 } \
 \
-pass TwoDirLightsDir { \
+pass TwoDirLightsAdd { \
 	VertexShader = compile vs_1_1 VS_ColoredPerPixel(); \
 	AdditiveBlending; \
 	PixelShader = compile ps_2_0 PS_ColoredPerPixel(/*firstPass*/false, -lightDirection1, -lightDirection2, TwoLightColors); \
