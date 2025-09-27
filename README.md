@@ -62,6 +62,7 @@ The **[project templates](https://www.nuget.org/packages/OmegaEngine.Templates#r
 | --------------------------- | -------------------------------------------------------------------- |
 | `\build.ps1`                | A script that compiles the entire project                            |
 | `\src\`                     | The actual source code in a Visual Studio project                    |
+| `\shaders\`                 | Source code for HLSL shaders                                         |
 | `\templates\`               | Source code for project templates                                    |
 | `\doc\`                     | Files for creating source code documentation                         |
 | `\content\`                 | Game content files (.X files, PNGs, ...)                             |
