@@ -24,7 +24,7 @@ public struct XMaterial
     /// <summary>
     /// The diffuse textures maps
     /// </summary>
-    public readonly ITextureProvider[] DiffuseMaps;
+    public readonly ITextureProvider?[] DiffuseMaps;
     #endregion
 
     #region Properties

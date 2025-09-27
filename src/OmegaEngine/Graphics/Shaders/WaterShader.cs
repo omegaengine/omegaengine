@@ -26,9 +26,9 @@ namespace OmegaEngine.Graphics.Shaders;
 public class WaterShader : SurfaceShader
 {
     #region Variables
-    private EffectHandle _reflectionMapHandle, _refractionMapHandle, _normalTextureHandle;
-    private XTexture _waterTexture;
-    private XTexture _normalTexture;
+    private EffectHandle? _reflectionMapHandle, _refractionMapHandle, _normalTextureHandle;
+    private XTexture? _waterTexture;
+    private XTexture? _normalTexture;
     private readonly TextureView? _reflectionView, _refractionView;
     #endregion
 

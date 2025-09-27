@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using NanoByte.Common;
 using NanoByte.Common.Storage;
@@ -71,6 +72,7 @@ public class XTexture : Asset, ITextureProvider
     /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
     /// <exception cref="InvalidDataException">The file does not contain a valid texture.</exception>
     /// <remarks>Remember to call <see cref="CacheManager.Clean"/> when done, otherwise this object will never be released.</remarks>
+    [return: NotNullIfNotNull(nameof(id))]
     public static XTexture? Get(Engine engine, string? id, bool meshTexture = false)
     {
         #region Sanity checks
