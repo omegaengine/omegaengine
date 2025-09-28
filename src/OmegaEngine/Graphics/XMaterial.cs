@@ -36,14 +36,7 @@ public struct XMaterial
     /// <summary>
     /// A DirectX material with the color information from this <see cref="XMaterial"/>
     /// </summary>
-    public Material D3DMaterial
-    {
-        get
-        {
-            var material = new Material {Ambient = Ambient, Diffuse = Diffuse, Specular = Specular, Power = SpecularPower, Emissive = Emissive};
-            return material;
-        }
-    }
+    public Material D3DMaterial => new() {Ambient = Ambient, Diffuse = Diffuse, Specular = Specular, Power = SpecularPower, Emissive = Emissive};
 
     #region Colors
     /// <summary>
