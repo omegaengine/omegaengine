@@ -2,16 +2,16 @@
 //
 // Techniques:
 // - ColoredPerVertex (ps_1_1, plain color, per-vertex lighting)
-// - ColoredPerPixel (ps_2_0, plain color, per-pixel lighting)
+// - Colored (ps_2_0, plain color, per-pixel lighting)
 // - ColoredEmissiveOnly (ps_1_1, plain color, plain emissive lighting only)
 // - TexturedPerVertex (ps_1_1, textured, per-vertex lighting)
-// - TexturedPerPixel (ps_2_0, textured, per-pixel lighting)
-// - TexturedPerPixelNormalMap (ps_2_0, textured, per-pixel lighting, normal map)
-// - TexturedPerPixelSpecularMap (ps_2_0, textured, per-pixel lighting, specular map)
-// - TexturedPerPixelNormalSpecularMap (ps_2_0, textured, per-pixel lighting, normal map + specular map)
-// - TexturedPerPixelEmissiveMap (ps_2_0, textured, per-pixel lighting, emissive map)
-// - TexturedPerPixelNormalEmissiveMap (ps_2_0, textured, per-pixel lighting, normal map + emissive map)
-// - TexturedPerPixelNormalSpecularEmissiveMap (ps_2_0, textured, per-pixel lighting, normal map + specular map + emissive map)
+// - Textured (ps_2_0, textured, per-pixel lighting)
+// - TexturedNormalMap (ps_2_0, textured, per-pixel lighting, normal map)
+// - TexturedSpecularMap (ps_2_0, textured, per-pixel lighting, specular map)
+// - TexturedNormalSpecularMap (ps_2_0, textured, per-pixel lighting, normal map + specular map)
+// - TexturedEmissiveMap (ps_2_0, textured, per-pixel lighting, emissive map)
+// - TexturedNormalEmissiveMap (ps_2_0, textured, per-pixel lighting, normal map + emissive map)
+// - TexturedNormalSpecularEmissiveMap (ps_2_0, textured, per-pixel lighting, normal map + specular map + emissive map)
 // - TexturedEmissiveOnly (ps_1_1, textured, plain emissive lighting only)
 // - TexturedEmissiveMapOnly (ps_2_0, textured, emissive map lighting only)
 //
@@ -113,7 +113,7 @@ struct inColored {
   float3 tangent   : TANGENT;
 };
 
-struct outTexturedPerPixel {
+struct outTextured {
   float4 pos      : POSITION;
   float3 position : texCoord0;
   float3 worldPos : texCoord1;
@@ -136,7 +136,7 @@ struct outTexturedPerVertex {
   float4 specCol      : COLOR1;
 };
 
-struct outColoredPerPixel {
+struct outColored {
   float4 pos      : POSITION;
   float3 position : texCoord0;
   float3 worldPos : texCoord1;
@@ -238,10 +238,10 @@ lightComponents calcPointLight(float3 worldPos, float3 transPos, float3 normal, 
 
 //---------------- Vertex shaders ----------------
 
-outTexturedPerPixel VS_TexturedPerPixel(inTextured IN)
+outTextured VS_Textured(inTextured IN)
 {
     // Transform data into world space
-    outTexturedPerPixel OUT;
+    outTextured OUT;
     OUT.pos = transProj(IN.entityPos); OUT.position = OUT.pos.xyz;
     OUT.worldPos = transWorld(IN.entityPos);
     OUT.normal = transNorm(IN.normal);
@@ -321,10 +321,10 @@ outTexturedPerVertex VS_TexturedPerVertex(inTextured IN,  // Overload for one po
     return OUT;
 }
 
-outColoredPerPixel VS_ColoredPerPixel(inTextured IN)
+outColored VS_Colored(inTextured IN)
 {
     // Transform data into world space
-    outColoredPerPixel OUT;
+    outColored OUT;
     OUT.pos = transProj(IN.entityPos); OUT.position = OUT.pos.xyz;
     OUT.worldPos = transWorld(IN.entityPos);
     OUT.normal = transNorm(IN.normal);
@@ -411,7 +411,7 @@ float4 PS_TexturedPerVertex(outTexturedPerVertex IN, uniform bool useEmissiveMap
     else return float4(diffCol * diffuseMap.a + IN.specCol.rgb, 1); // ... and bake in the alpha map for all additional passes since they use additive blending
 }
 
-float4 PS_TexturedPerPixel(outTexturedPerPixel IN,  // Overload for two directional lights
+float4 PS_Textured(outTextured IN,  // Overload for two directional lights
   uniform bool useNormalMap, uniform bool useSpecularMap, uniform bool useEmissiveMap, uniform bool firstPass,
   uniform float3 lightDir1, uniform float3 lightDir2,
   uniform float4 diffCol1, uniform float4 diffCol2, uniform float4 specCol1, uniform float4 specCol2,
@@ -439,7 +439,7 @@ float4 PS_TexturedPerPixel(outTexturedPerPixel IN,  // Overload for two directio
     else return float4(diffAmbCol * diffuseMap.a + components.specular.rgb, 1); // ... and bake in the alpha map for all additional passes since they use additive blending
 }
 
-float4 PS_TexturedPerPixel(outTexturedPerPixel IN,  // Overload for one directional or point light
+float4 PS_Textured(outTextured IN,  // Overload for one directional or point light
   uniform bool useNormalMap, uniform bool useSpecularMap, uniform bool useEmissiveMap, uniform bool firstPass, uniform bool pointLight,
   uniform float3 lightDirPos, uniform float4 diffCol, uniform float4 specCol, uniform float4 ambCol, uniform float3 att) : COLOR
 {
@@ -466,7 +466,7 @@ float4 PS_TexturedPerPixel(outTexturedPerPixel IN,  // Overload for one directio
     else return float4(diffAmbCol * diffuseMap.a + components.specular.rgb, 1); // ... and bake in the alpha map for all additional passes since they use additive blending
 }
 
-float4 PS_ColoredPerPixel(outColoredPerPixel IN,  // Overload for two directional lights
+float4 PS_Colored(outColored IN,  // Overload for two directional lights
   uniform bool firstPass,
   uniform float3 lightDir1, uniform float3 lightDir2,
   uniform float4 diffCol1, uniform float4 diffCol2, uniform float4 specCol1, uniform float4 specCol2,
@@ -480,7 +480,7 @@ float4 PS_ColoredPerPixel(outColoredPerPixel IN,  // Overload for two directiona
     return components.diffuseAmbient + components.specular;
 }
 
-float4 PS_ColoredPerPixel(outColoredPerPixel IN,  // Overload for one directional light
+float4 PS_Colored(outColored IN,  // Overload for one directional light
   uniform bool firstPass, uniform float3 lightDir, uniform float4 diffCol, uniform float4 specCol, uniform float4 ambCol) : COLOR
 {
     // Calculate diffuse-ambient & specular colors
@@ -490,7 +490,7 @@ float4 PS_ColoredPerPixel(outColoredPerPixel IN,  // Overload for one directiona
     return components.diffuseAmbient + components.specular;
 }
 
-float4 PS_ColoredPerPixel(outColoredPerPixel IN,  // Overload for one point light
+float4 PS_Colored(outColored IN,  // Overload for one point light
   uniform bool firstPass, uniform float3 lightPos, uniform float4 diffCol, uniform float4 specCol, uniform float4 ambCol, uniform float3 att) : COLOR
 {
     // Calculate diffuse-ambient & specular colors
@@ -507,8 +507,8 @@ float4 PS_ColoredPerPixel(outColoredPerPixel IN,  // Overload for one point ligh
 
 technique FXComposerTest {
   pass OneDirLight {
-    VertexShader = compile vs_1_1 VS_TexturedPerPixel();
-    PixelShader = compile ps_2_0 PS_TexturedPerPixel(true/*useNormalMap*/, false/*useSpecularMap*/, false/*useGlowMap*/, /*firstPass*/true,
+    VertexShader = compile vs_1_1 VS_Textured();
+    PixelShader = compile ps_2_0 PS_Textured(true/*useNormalMap*/, false/*useSpecularMap*/, false/*useGlowMap*/, /*firstPass*/true,
     false/*pointLight*/, -lightDirection1, OneLightColor, attenuation1);
   }
 }
@@ -517,8 +517,8 @@ technique ColoredPerVertex {
   ColoredPerVertexMacro
 }
 
-technique ColoredPerPixel {
-  ColoredPerPixelMacro
+technique Colored {
+  ColoredMacro
 }
 
 technique ColoredEmissiveOnly {
@@ -532,32 +532,32 @@ technique TexturedPerVertex {
   TexturedPerVertexMacro
 }
 
-technique TexturedPerPixel < string Script = " Pass=OnePointLight;"; > {
-  TexturedPerPixelMacro(false, false, false)
+technique Textured < string Script = " Pass=OnePointLight;"; > {
+  TexturedMacro(false, false, false)
 }
 
-technique TexturedPerPixelNormalMap < string Script = " Pass=OnePointLight;"; > {
-  TexturedPerPixelMacro(true, false, false)
+technique TexturedNormalMap < string Script = " Pass=OnePointLight;"; > {
+  TexturedMacro(true, false, false)
 }
 
-technique TexturedPerPixelSpecularMap < string Script = " Pass=OnePointLight;"; > {
-  TexturedPerPixelMacro(false, true, false)
+technique TexturedSpecularMap < string Script = " Pass=OnePointLight;"; > {
+  TexturedMacro(false, true, false)
 }
 
-technique TexturedPerPixelNormalSpecularMap < string Script = " Pass=OnePointLight;"; > {
-  TexturedPerPixelMacro(true, true, false)
+technique TexturedNormalSpecularMap < string Script = " Pass=OnePointLight;"; > {
+  TexturedMacro(true, true, false)
 }
 
-technique TexturedPerPixelEmissiveMap < string Script = " Pass=OnePointLight;"; > {
-  TexturedPerPixelMacro(false, false, true)
+technique TexturedEmissiveMap < string Script = " Pass=OnePointLight;"; > {
+  TexturedMacro(false, false, true)
 }
 
-technique TexturedPerPixelNormalEmissiveMap < string Script = " Pass=OnePointLight;"; > {
-  TexturedPerPixelMacro(true, false, true)
+technique TexturedNormalEmissiveMap < string Script = " Pass=OnePointLight;"; > {
+  TexturedMacro(true, false, true)
 }
 
-technique TexturedPerPixelNormalSpecularEmissiveMap < string Script = " Pass=OnePointLight;"; > {
-  TexturedPerPixelMacro(true, true, true)
+technique TexturedNormalSpecularEmissiveMap < string Script = " Pass=OnePointLight;"; > {
+  TexturedMacro(true, true, true)
 }
 
 technique TexturedEmissiveOnly {

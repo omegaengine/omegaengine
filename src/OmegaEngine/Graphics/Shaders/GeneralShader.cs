@@ -21,11 +21,11 @@ public class GeneralShader : LightingShader
 {
     #region Variables
     private readonly EffectHandle
-        _coloredPerVertex = "ColoredPerVertex", _coloredPerPixel = "ColoredPerPixel", _coloredEmissiveOnly = "ColoredEmissiveOnly",
-        _texturedPerVertex = "TexturedPerVertex", _texturedPerPixel = "TexturedPerPixel", _texturedPerPixelNormalMap = "TexturedPerPixelNormalMap",
-        _texturedPerPixelSpecularMap = "TexturedPerPixelSpecularMap", _texturedPerPixelNormalSpecularMap = "TexturedPerPixelNormalSpecularMap",
-        _texturedPerPixelEmissiveMap = "TexturedPerPixelEmissiveMap", _texturedPerPixelNormalEmissiveMap = "TexturedPerPixelNormalEmissiveMap",
-        _texturedPerPixelNormalSpecularEmissiveMap = "TexturedPerPixelNormalSpecularEmissiveMap", _texturedEmissiveOnly = "TexturedEmissiveOnly", _texturedEmissiveMapOnly = "TexturedEmissiveMapOnly";
+        _coloredPerVertex = "ColoredPerVertex", _colored = "Colored", _coloredEmissiveOnly = "ColoredEmissiveOnly",
+        _texturedPerVertex = "TexturedPerVertex", _textured = "Textured", _texturedNormalMap = "TexturedNormalMap",
+        _texturedSpecularMap = "TexturedSpecularMap", _texturedNormalSpecularMap = "TexturedNormalSpecularMap",
+        _texturedEmissiveMap = "TexturedEmissiveMap", _texturedNormalEmissiveMap = "TexturedNormalEmissiveMap",
+        _texturedNormalSpecularEmissiveMap = "TexturedNormalSpecularEmissiveMap", _texturedEmissiveOnly = "TexturedEmissiveOnly", _texturedEmissiveMapOnly = "TexturedEmissiveMapOnly";
     #endregion
 
     #region Properties
@@ -60,7 +60,7 @@ public class GeneralShader : LightingShader
             if (Engine.Effects.PerPixelLighting)
             { // Normal per-pixel lighting
                 if (material.DiffuseMaps[0] == null)
-                    Effect.Technique = _coloredPerPixel;
+                    Effect.Technique = _colored;
                 else
                 {
                     #region Flags
@@ -69,13 +69,13 @@ public class GeneralShader : LightingShader
                     bool emissive = material.EmissiveMap != null;
                     #endregion
 
-                    if (normal && specular && emissive) Effect.Technique = _texturedPerPixelNormalSpecularEmissiveMap;
-                    else if (normal && emissive) Effect.Technique = _texturedPerPixelNormalEmissiveMap;
-                    else if (emissive) Effect.Technique = _texturedPerPixelEmissiveMap;
-                    else if (normal && specular) Effect.Technique = _texturedPerPixelNormalSpecularMap;
-                    else if (specular) Effect.Technique = _texturedPerPixelSpecularMap;
-                    else if (normal) Effect.Technique = _texturedPerPixelNormalMap;
-                    else Effect.Technique = _texturedPerPixel;
+                    if (normal && specular && emissive) Effect.Technique = _texturedNormalSpecularEmissiveMap;
+                    else if (normal && emissive) Effect.Technique = _texturedNormalEmissiveMap;
+                    else if (emissive) Effect.Technique = _texturedEmissiveMap;
+                    else if (normal && specular) Effect.Technique = _texturedNormalSpecularMap;
+                    else if (specular) Effect.Technique = _texturedSpecularMap;
+                    else if (normal) Effect.Technique = _texturedNormalMap;
+                    else Effect.Technique = _textured;
                 }
             }
             else
