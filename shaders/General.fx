@@ -1,9 +1,9 @@
-// Description: A general surface shader with optional normal and specular maps
+// Description: A general-purpose surface shader.
 //
 // Techniques:
 // - ColoredPerVertex (ps_1_1, plain color, per-vertex lighting)
 // - ColoredPerPixel (ps_2_0, plain color, per-pixel lighting)
-// - ColoredEmissiveOnly (ps_1_1, plain color, no lighting)
+// - ColoredEmissiveOnly (ps_1_1, plain color, plain emissive lighting only)
 // - TexturedPerVertex (ps_1_1, textured, per-vertex lighting)
 // - TexturedPerPixel (ps_2_0, textured, per-pixel lighting)
 // - TexturedPerPixelNormalMap (ps_2_0, textured, per-pixel lighting, normal map)
@@ -12,17 +12,17 @@
 // - TexturedPerPixelEmissiveMap (ps_2_0, textured, per-pixel lighting, emissive map)
 // - TexturedPerPixelNormalEmissiveMap (ps_2_0, textured, per-pixel lighting, normal map + emissive map)
 // - TexturedPerPixelNormalSpecularEmissiveMap (ps_2_0, textured, per-pixel lighting, normal map + specular map + emissive map)
-// - TexturedEmissiveOnly (ps_1_1, textured, no lighting)
-// - TexturedEmissiveMapOnly (ps_2_0, textured, no lighting, emissive map)
+// - TexturedEmissiveOnly (ps_1_1, textured, plain emissive lighting only)
+// - TexturedEmissiveMapOnly (ps_2_0, textured, emissive map lighting only)
 //
 // Passes:
 // - AmbientLight (Light1 must be an ambient-only light, must be called as first pass)
 // - TwoDirLights (Light1 and Light2 must be directional lights, must be called as first pass)
-// - TwoDirLightsAdd (Light1 and Light2 must be directional lights, must not be called as first pass)
+// - TwoDirLightsAdd (Light1 and Light2 must be directional lights, additive, must not be called as first pass)
 // - OneDirLight (Light1 must be a directional light, must be called as first pass)
-// - OneDirLightAdd (Light1 must be a directional light, must not be called as first pass)
+// - OneDirLightAdd (Light1 must be a directional light, additive, must not be called as first pass)
 // - OnePointLight (Light1 must be a point light, must be called as first pass)
-// - OnePointLightAdd (Light1 must be a point light, must not be called as first pass)
+// - OnePointLightAdd (Light1 must be a point light, additive, must not be called as first pass)
 
 //---------------- Parameters ----------------
 
@@ -39,7 +39,7 @@ float4x4 worldViewProjection   : WorldViewProjection;
 float4x4 worldInverseTranspose : WorldInverseTranspose;
 float4x4 viewInverse           : ViewInverse;
 
-// Lights
+// General lighting
 float specularPower    : SpecularPower < string UIWidget = "slider"; float UIMin = 1.0; float UIMax = 128.0; float UIStep = 1.0; > = 30.0f;
 float4 emissiveColor   : Emissive = {0.0f, 0.0f, 0.0f, 1.0f};
 
@@ -53,14 +53,13 @@ float4 ambientColor1   : Ambient = {0.1f, 0.1f, 0.1f, 1.0f};
 
 // Light 2
 float4 lightDirection2 : Direction < string Object = "Light2"; string Space = "World"; >;
-//float4 lightPosition2  : Position < string Object = "Light2"; string Space = "World"; >;
 float3 attenuation2    : Attenuation < string Object = "Light2"; > = {1.0f, 0.0f, 0.0f};
 float4 diffuseColor2   : Diffuse < string Object = "Light2"; > = {0.0f, 0.0f, 0.0f, 1.0f};
 float4 specularColor2  : Specular < string Object = "Light2"; > = {0.0f, 0.0f, 0.0f, 1.0f};
 float4 ambientColor2   : Ambient = {0.0f, 0.0f, 0.0f, 1.0f};
 
 
-//---------------- Texture samplers ----------------
+//---------------- Textures ----------------
 
 int FilterMode : FILTERMODE = 2; // 2 = Linear, 3 = Anisotropic
 
@@ -91,7 +90,6 @@ sampler2D emissiveSampler : register(s3) = sampler_state
   texture = <EmissiveTexture>;
   MinFilter = <FilterMode>; MagFilter = <FilterMode>; MipFilter = linear;
 };
-
 
 //---------------- Structs ----------------
 
