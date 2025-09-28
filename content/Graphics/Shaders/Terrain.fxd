@@ -1,6 +1,5 @@
 // Description: A shader that blends multiple textures together
 // no specular lighting
-// optional normal map
 // optional occlusion interval map for shadows
 //
 // Techniques:
@@ -14,13 +13,13 @@
 // - LightBlack (vs_1_1, all black)
 //
 // Passes:
-// - AmbientLight (Light1 must be an ambient-only light, must be calld as first pass)
-// - TwoDirLights (Light1 and Light2 must be directional lights, must be calld as first pass)
-// - TwoDirLightsAdd (Light1 and Light2 must be directional lights, must not be calld as first pass)
-// - OneDirLight (Light1 must be a directional light, must be calld as first pass)
-// - OneDirLightAdd (Light1 must be a directional light, must not be calld as first pass)
-// - OnePointLight (Light1 must be a point light, must be calld as first pass)
-// - OnePointLightAdd (Light1 must be a point light, must not be calld as first pass)
+// - AmbientLight (Light1 must be an ambient-only light, must be called as first pass)
+// - TwoDirLights (Light1 and Light2 must be directional lights, must be called as first pass)
+// - TwoDirLightsAdd (Light1 and Light2 must be directional lights, additive, must not be called as first pass)
+// - OneDirLight (Light1 must be a directional light, must be called as first pass)
+// - OneDirLightAdd (Light1 must be a directional light, additive, must not be called as first pass)
+// - OnePointLight (Light1 must be a point light, must be called as first pass)
+// - OnePointLightAdd (Light1 must be a point light, additive, must not be called as first pass)
 
 static const float PI = 3.14159265;
 
@@ -43,7 +42,6 @@ float4 ambientColor1   : Ambient = {0.1f, 0.1f, 0.1f, 1.0f};
 
 // Light 2
 float4 lightDirection2 : Direction < string Object = "Light2"; string Space = "World"; >;
-//float4 lightPosition2  : Position < string Object = "Light2"; string Space = "World"; >;
 float3 attenuation2    : Attenuation < string Object = "Light2"; > = {1.0f, 0.0f, 0.0f};
 float4 diffuseColor2   : Diffuse < string Object = "Light2"; > = {0.0f, 0.0f, 0.0f, 1.0f};
 float4 ambientColor2   : Ambient = {0.0f, 0.0f, 0.0f, 1.0f};
@@ -55,7 +53,7 @@ float BlendDistance = 400;
 float BlendWidth = 700;
 
 
-//---------------- Texture samplers ----------------
+//---------------- Textures ----------------
 
 int FilterMode : FILTERMODE = 2; // 2 = Linear, 3 = Anisotropic
 
@@ -73,10 +71,10 @@ int FilterMode : FILTERMODE = 2; // 2 = Linear, 3 = Anisotropic
 
 struct inLight
 {
-    float3 entityPos          : POSITION;
-    float3 normal             : NORMAL;
-    float2 texCoord           : TEXCOORD0;
-    float4 occlusionIntervals : TEXCOORD1;
+    float3 entityPos          : POSITION;  // Position in object space
+    float3 normal             : NORMAL;    // Normal vector in object space
+    float2 texCoord           : TEXCOORD0; // Texture coordinates
+    float4 occlusionIntervals : TEXCOORD1; // Angles when light 1 and 2 fist become visible and first become covered again
     float4 texWeights1        : TEXCOORD2;
     float4 texWeights2        : TEXCOORD3;
     float4 texWeights3        : TEXCOORD4;
@@ -86,9 +84,9 @@ struct inLight
 
 struct inSimple
 {
-    float3 entityPos          : POSITION;
-    float2 texCoord           : TEXCOORD0;
-    float4 occlusionIntervals : TEXCOORD1;
+    float3 entityPos          : POSITION;  // Position in object space
+    float2 texCoord           : TEXCOORD0; // Texture coordinates
+    float4 occlusionIntervals : TEXCOORD1; // Angles when light 1 and 2 fist become visible and first become covered again
     float4 texWeights1        : TEXCOORD2;
     float4 texWeights2        : TEXCOORD3;
     float4 texWeights3        : TEXCOORD4;
@@ -99,12 +97,12 @@ struct inSimple
 /// <BeginFilter Target="PS2x" Lighting="true" />
 struct outLight2x
 {
-    float4 pos                : POSITION;
-    float3 position           : TEXCOORD1;
-    float3 worldPos           : TEXCOORD2;
-    float3 normal             : TEXCOORD3;
-    float2 texCoord           : TEXCOORD0;
-    float4 occlusionIntervals : TEXCOORD4;
+    float4 pos                : POSITION;  // Position in clip space
+    float3 position           : TEXCOORD1; // Position in clip space without superfluous fourth dimension
+    float3 worldPos           : TEXCOORD2; // Position in world space
+    float3 normal             : TEXCOORD3; // Normal vector in world space
+    float2 texCoord           : TEXCOORD0; // Texture coordinates
+    float4 occlusionIntervals : TEXCOORD4; // Angles when light 1 and 2 fist become visible and first become covered again
     float4 texWeights1        : TEXCOORD5;
     float4 texWeights2        : TEXCOORD6;
     float4 texWeights3        : TEXCOORD7;
@@ -115,10 +113,10 @@ struct outLight2x
 /// <BeginFilter Target="PS2x" Lighting="false" />
 struct outSimple2x
 {
-    float4 pos         : POSITION;
-    float3 position    : TEXCOORD1;
-    float3 worldPos    : TEXCOORD2;
-    float2 texCoord    : TEXCOORD0;
+    float4 pos         : POSITION;  // Position in clip space
+    float3 position    : TEXCOORD1; // Position in clip space without superfluous fourth dimension
+    float3 worldPos    : TEXCOORD2; // Position in world space
+    float2 texCoord    : TEXCOORD0; // Texture coordinates
     float4 texWeights1 : TEXCOORD3;
     float4 texWeights2 : TEXCOORD4;
     float4 texWeights3 : TEXCOORD5;
@@ -128,8 +126,8 @@ struct outSimple2x
 /// <BeginFilter Target="PS14" Lighting="false" />
 struct outLight14
 {
-    float4 pos          : POSITION;
-    float2 texCoord     : TEXCOORD0;
+    float4 pos          : POSITION;  // Position in clip space
+    float2 texCoord     : TEXCOORD0; // Texture coordinates
     float2 texWeights1  : TEXCOORD1;
     float2 texWeights2  : TEXCOORD2;
     float4 diffAmbColor : COLOR0;
@@ -138,32 +136,32 @@ struct outLight14
 
 struct outSimple14
 {
-    float4 pos         : POSITION;
-    float2 texCoord    : TEXCOORD0;
+    float4 pos         : POSITION;  // Position in clip space
+    float2 texCoord    : TEXCOORD0; // Texture coordinates
     float2 texWeights1 : TEXCOORD1;
     float2 texWeights2 : TEXCOORD2;
 };
 /// <EndFilter />
 
 struct outBlack {
-  float4 pos   : POSITION;
-  float4 color : COLOR0;
+  float4 pos   : POSITION; // Position in clip space
+  float4 color : COLOR0;   // The effective color including lighting
 };
 
 
 //---------------- Helper functions ----------------
 
-// Translate to world space
+// Translate position vector to world space
 float3 transWorld(float3 position)
 { return mul(float4(position, 1.0), world).xyz; }
 
-// Translate to projection space
+// Translate position vector to projection/clip space
 float4 transProj(float3 position)
 { return mul(float4(position, 1.0), worldViewProjection); }
 
-// Translate to world space and normalize
+// Translate normal vector to world space and normalize
 float3 transNorm(float3 normal)
-{ normal = mul(float4(normal, 0), worldInverseTranspose).xyz; return normalize(normal); }
+{ return normalize(mul(float4(normal, 0.0), worldInverseTranspose).xyz); }
 
 /// <BeginFilter Lighting="true" />
 
@@ -200,13 +198,13 @@ float4 calcDirLight(float3 transPos, float3 normal, float3 lightDir,
     return calcDirLight(transPos, normal, lightDir, diffuseColor * shadowFactor, ambientColor);
 }
 
-float4 CalcTwoDirLights(float3 transPos, float3 normal,
+float4 calcTwoDirLights(float3 transPos, float3 normal,
   float3 lightDir1, float3 lightDir2,
   float4 diffCol1, float4 diffCol2,
   float4 ambCol1, float4 ambCol2,
   float4 occlusionIntervals1, float4 occlusionIntervals2)
 {
-    // Calculate seperate light values
+    // Calculate separate light values
     float4 light1 = calcDirLight(transPos, normal, lightDir1, diffCol1, ambCol1, occlusionIntervals1);
     float4 light2 = calcDirLight(transPos, normal, lightDir2, diffCol2, ambCol2, occlusionIntervals2);
 
@@ -214,7 +212,7 @@ float4 CalcTwoDirLights(float3 transPos, float3 normal,
     return light1 + light2;
 }
 
-float4 CalcPointLight(float3 worldPos, float3 transPos, float3 normal, float3 lightPos,
+float4 calcPointLight(float3 worldPos, float3 transPos, float3 normal, float3 lightPos,
   float4 diffuseColor, float4 ambientColor, float3 att)
 {
     // Convert point to directional
@@ -233,9 +231,11 @@ float4 CalcPointLight(float3 worldPos, float3 transPos, float3 normal, float3 li
 /// <BeginFilter Target="PS2x" Lighting="true" />
 outLight2x VS_Light2x(inLight IN)
 {
-    // Transform data into world space
     outLight2x OUT;
-    OUT.pos = transProj(IN.entityPos); OUT.position = OUT.pos.xyz;
+
+    // Apply transforms
+    OUT.pos = transProj(IN.entityPos);
+    OUT.position = OUT.pos.xyz;
     OUT.worldPos = transWorld(IN.entityPos);
     OUT.normal = transNorm(IN.normal);
 
@@ -247,6 +247,7 @@ outLight2x VS_Light2x(inLight IN)
     OUT.texCoord = IN.texCoord;
     OUT.color = IN.color;
     OUT.occlusionIntervals = IN.occlusionIntervals;
+
     return OUT;
 }
 /// <EndFilter />
@@ -254,9 +255,11 @@ outLight2x VS_Light2x(inLight IN)
 /// <BeginFilter Target="PS2x" Lighting="false" />
 outSimple2x VS_Simple20(inSimple IN)
 {
-    // Transform data into world space
     outSimple2x OUT;
-    OUT.pos = transProj(IN.entityPos); OUT.position = OUT.pos.xyz;
+
+    // Apply transforms
+    OUT.pos = transProj(IN.entityPos);
+    OUT.position = OUT.pos.xyz;
     OUT.worldPos = transWorld(IN.entityPos);
 
     // ToDo: Compact the weights using the DynamicShader system
@@ -265,6 +268,7 @@ outSimple2x VS_Simple20(inSimple IN)
     OUT.texWeights3 = IN.texWeights3;
 
     OUT.texCoord = IN.texCoord;
+
     return OUT;
 }
 /// <EndFilter />
@@ -273,8 +277,9 @@ outSimple2x VS_Simple20(inSimple IN)
 outLight14 VS_Light14(inLight IN,  // Overload for ambient-only light
   uniform float4 ambCol)
 {
-    // Transform data into world space
     outLight14 OUT;
+
+    // Apply transforms
     OUT.pos = transProj(IN.entityPos);
 
     // ToDo: Compact the weights using the DynamicShader system
@@ -284,6 +289,7 @@ outLight14 VS_Light14(inLight IN,  // Overload for ambient-only light
     OUT.texCoord = IN.texCoord;
     OUT.diffAmbColor = ambCol;
     OUT.color = IN.color;
+
     return OUT;
 }
 
@@ -292,8 +298,9 @@ outLight14 VS_Light14(inLight IN,  // Overload for two directional lights
   uniform float4 diffCol1, uniform float4 diffCol2,
   uniform float4 ambCol1, uniform float4 ambCol2)
 {
-    // Transform data into world space
     outLight14 OUT;
+
+    // Apply transforms
     OUT.pos = transProj(IN.entityPos);
 
     // ToDo: Compact the weights using the DynamicShader system
@@ -301,17 +308,19 @@ outLight14 VS_Light14(inLight IN,  // Overload for two directional lights
     OUT.texWeights2 = IN.texWeights1.zw;
 
     OUT.texCoord = IN.texCoord;
-    OUT.diffAmbColor = CalcTwoDirLights(OUT.pos, transNorm(IN.normal),
+    OUT.diffAmbColor = calcTwoDirLights(OUT.pos, transNorm(IN.normal),
       lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.occlusionIntervals, IN.occlusionIntervals);
     OUT.color = IN.color;
+
     return OUT;
 }
 
 outLight14 VS_Light14(inLight IN,  // Overload for one directional light
   uniform float3 lightDir, uniform float4 diffCol, uniform float4 ambCol)
 {
-    // Transform data into world space
     outLight14 OUT;
+
+    // Apply transforms
     OUT.pos = transProj(IN.entityPos);
 
     // ToDo: Compact the weights using the DynamicShader system
@@ -321,14 +330,16 @@ outLight14 VS_Light14(inLight IN,  // Overload for one directional light
     OUT.texCoord = IN.texCoord;
     OUT.diffAmbColor = calcDirLight(OUT.pos, transNorm(IN.normal), lightDir, diffCol, ambCol);
     OUT.color = IN.color;
+
     return OUT;
 }
 
 outLight14 VS_Light14(inLight IN,  // Overload for one point light
   uniform float3 lightPos, uniform float4 diffCol, uniform float4 ambCol, uniform float3 att)
 {
-    // Transform data into world space
     outLight14 OUT;
+
+    // Apply transforms
     OUT.pos = transProj(IN.entityPos);
 
     // ToDo: Compact the weights using the DynamicShader system
@@ -336,8 +347,9 @@ outLight14 VS_Light14(inLight IN,  // Overload for one point light
     OUT.texWeights2 = IN.texWeights1.zw;
 
     OUT.texCoord = IN.texCoord;
-    OUT.diffAmbColor = CalcPointLight(transWorld(IN.entityPos), OUT.pos, transNorm(IN.normal), lightPos, diffCol, ambCol, att);
+    OUT.diffAmbColor = calcPointLight(transWorld(IN.entityPos), OUT.pos, transNorm(IN.normal), lightPos, diffCol, ambCol, att);
     OUT.color = IN.color;
+
     return OUT;
 }
 /// <EndFilter />
@@ -345,8 +357,9 @@ outLight14 VS_Light14(inLight IN,  // Overload for one point light
 /// <BeginFilter Target="PS14" Lighting="false" />
 outSimple14 VS_Simple14(inSimple IN)
 {
-    // Transform data into world space
     outSimple14 OUT;
+
+    // Apply transforms
     OUT.pos = transProj(IN.entityPos);
 
     // ToDo: Compact the weights using the DynamicShader system
@@ -354,27 +367,32 @@ outSimple14 VS_Simple14(inSimple IN)
     OUT.texWeights2 = IN.texWeights1.zw;
 
     OUT.texCoord = IN.texCoord;
+
     return OUT;
 }
 /// <EndFilter />
 
 outBlack VS_LightBlack(inLight IN)
 {
-    // Transform data into world space
     outBlack OUT;
+
+    // Apply transforms
     OUT.pos = transProj(IN.entityPos);
 
     OUT.color = 0;
+
     return OUT;
 }
 
 outBlack VS_SimpleBlack(inSimple IN)
 {
-    // Transform data into world space
     outBlack OUT;
+
+    // Apply transforms
     OUT.pos = transProj(IN.entityPos);
 
     OUT.color = 0;
+
     return OUT;
 }
 
@@ -426,7 +444,7 @@ float4 PS_Light2ab(outLight2x IN,  // Overload for two directional lights
   uniform float4 diffCol1, uniform float4 diffCol2,
   uniform float4 ambCol1, uniform float4 ambCol2) : COLOR
 {
-    float4 diffAmbColor = CalcTwoDirLights(IN.worldPos, IN.normal,
+    float4 diffAmbColor = calcTwoDirLights(IN.worldPos, IN.normal,
       lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.occlusionIntervals, IN.occlusionIntervals);
     return PS_Helper2ab(IN.position, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
 }
@@ -441,7 +459,7 @@ float4 PS_Light2ab(outLight2x IN,  // Overload for one directional light
 float4 PS_Light2ab(outLight2x IN,  // Overload for one point light
   uniform float3 lightPos, uniform float4 diffCol, uniform float4 ambCol, uniform float3 att) : COLOR
 {
-    float4 diffAmbColor = CalcPointLight(IN.worldPos, IN.position, IN.normal, lightPos, diffCol, ambCol, att);
+    float4 diffAmbColor = calcPointLight(IN.worldPos, IN.position, IN.normal, lightPos, diffCol, ambCol, att);
     return PS_Helper2ab(IN.position, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
 }
 /// <EndFilter />
@@ -477,7 +495,7 @@ float4 PS_Light20(outLight2x IN,  // Overload for two directional lights
   uniform float4 diffCol1, uniform float4 diffCol2,
   uniform float4 ambCol1, uniform float4 ambCol2) : COLOR
 {
-    float4 diffAmbColor = CalcTwoDirLights(IN.worldPos, IN.normal,
+    float4 diffAmbColor = calcTwoDirLights(IN.worldPos, IN.normal,
       lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.occlusionIntervals, IN.occlusionIntervals);
     return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
 }
@@ -492,7 +510,7 @@ float4 PS_Light20(outLight2x IN,  // Overload for one directional light
 float4 PS_Light20(outLight2x IN,  // Overload for one point light
   uniform float3 lightPos, uniform float4 diffCol, uniform float4 ambCol, uniform float3 att) : COLOR
 {
-    float4 diffAmbColor = CalcPointLight(IN.worldPos, IN.position, IN.normal, lightPos, diffCol, ambCol, att);
+    float4 diffAmbColor = calcPointLight(IN.worldPos, IN.position, IN.normal, lightPos, diffCol, ambCol, att);
     return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
 }
 /// <EndFilter />
@@ -577,7 +595,7 @@ technique Light14
     VertexShader = compile vs_1_1 VS_Light14(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
     PixelShader = compile ps_1_4 PS_Light14();
   }
- 
+
   pass TwoDirLights
   {
     VertexShader = compile vs_1_1 VS_Light14(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
