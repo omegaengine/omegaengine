@@ -522,7 +522,7 @@ technique ColoredPerVertex {
   }
   pass OneDirLightAdd {
     ADDITIVE_STATES
-    VertexShader = compile vs_1_1 VS_ColoredPerVertex(/*firstPass*/false, -lightDirection1, diffuseColor1, specularColor1, ambientColor1, attenuation1);
+    VertexShader = compile vs_1_1 VS_ColoredPerVertex(/*firstPass*/false, -lightDirection1, diffuseColor1, specularColor1, ambientColor1);
     PixelShader = null;
   }
   pass OnePointLight {
