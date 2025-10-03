@@ -174,8 +174,8 @@ float3 applyNormalMap(float2 texCoord, float3 normal, float3 binormal, float3 ta
 }
 
 // Read the specular map
-float4 readSpecMap(float2 texCoord)
-{ return tex2D(specularSampler, texCoord); }
+float readSpecMap(float2 texCoord)
+{ return tex2D(specularSampler, texCoord).r; }
 
 // Read the emissive map
 float4 readEmissiveMap(float2 texCoord)
@@ -432,10 +432,10 @@ float4 PS_TexturedTwoDirLights(outTextured IN,
 {
     float4 diffuseMap = tex2D(diffuseSampler, IN.texCoord);
     float3 normal = useNormalMap ? applyNormalMap(IN.texCoord, IN.normal, IN.binormal, IN.tangent) : IN.normal;
-    float4 specMap = useSpecularMap ? readSpecMap(IN.texCoord) : 1;
+    float specFactor = useSpecularMap ? readSpecMap(IN.texCoord) : 1;
 
     // Apply lighting
-    lightComponents components = calcTwoDirLights(IN.worldPos, normal, lightDir1, lightDir2, diffCol1, diffCol2, specCol1 * specMap, specCol2 * specMap, ambCol1, ambCol2);
+    lightComponents components = calcTwoDirLights(IN.worldPos, normal, lightDir1, lightDir2, diffCol1, diffCol2, specCol1 * specFactor, specCol2 * specFactor, ambCol1, ambCol2);
     if (firstPass) // Add emissive light only once (since it's technically not related to a specific light source)
         components.diffuseAmbient += useEmissiveMap ? (emissiveColor * readEmissiveMap(IN.texCoord)) : emissiveColor;
     float3 diffAmbCol = components.diffuseAmbient.rgb * diffuseMap.rgb;
@@ -451,12 +451,12 @@ float4 PS_TexturedOneDirOrPointLight(outTextured IN,
 {
     float4 diffuseMap = tex2D(diffuseSampler, IN.texCoord);
     float3 normal = useNormalMap ? applyNormalMap(IN.texCoord, IN.normal, IN.binormal, IN.tangent) : IN.normal;
-    float4 specMap = useSpecularMap ? readSpecMap(IN.texCoord) : 1;
+    float specFactor = useSpecularMap ? readSpecMap(IN.texCoord) : 1;
 
     // Apply lighting
     lightComponents components;
-    if (pointLight) components = calcPointLight(IN.worldPos, IN.position, normal, lightDirPos, diffCol, specCol * specMap, ambCol, att);
-    else components = calcDirLight(IN.worldPos, normal, lightDirPos, diffCol, specCol * specMap, ambCol);
+    if (pointLight) components = calcPointLight(IN.worldPos, IN.position, normal, lightDirPos, diffCol, specCol * specFactor, ambCol, att);
+    else components = calcDirLight(IN.worldPos, normal, lightDirPos, diffCol, specCol * specFactor, ambCol);
     if (firstPass) // Add emissive light only once (since it's technically not related to a specific light source)
         components.diffuseAmbient += useEmissiveMap ? (emissiveColor * readEmissiveMap(IN.texCoord)) : emissiveColor;
     float3 diffAmbCol = components.diffuseAmbient.rgb * diffuseMap.rgb;
