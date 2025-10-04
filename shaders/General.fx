@@ -123,12 +123,6 @@ struct outTextured {
   float2 texCoord : TEXCOORD5; // Texture coordinates
 };
 
-struct outTexturedAmbient {
-  float4 pos      : POSITION;  // Position in clip space
-  float2 texCoord : TEXCOORD0; // Texture coordinates
-  float4 ambColor : COLOR0;    // Ambient color
-};
-
 struct outTexturedPerVertex {
   float4 pos          : POSITION;  // Position in clip space
   float2 texCoord     : TEXCOORD0; // Texture coordinates
@@ -255,16 +249,17 @@ outTextured VS_Textured(inTextured IN)
     return OUT;
 }
 
-outTexturedAmbient VS_TexturedAmbient(inTextured IN, uniform float4 ambCol)
+outTexturedPerVertex VS_TexturedAmbient(inTextured IN, uniform float4 ambCol)
 {
-    outTexturedAmbient OUT;
+    outTexturedPerVertex OUT;
 
     // Apply transforms
     OUT.pos = transProj(IN.entityPos);
     OUT.texCoord = IN.texCoord;
 
     // Apply lighting
-    OUT.ambColor = ambCol + emissiveColor;
+    OUT.diffAmbColor = ambCol + emissiveColor;
+    OUT.specCol = 0;
 
     return OUT;
 }
@@ -327,7 +322,7 @@ outTexturedPerVertex VS_TexturedPerVertexOnePointLight(inTextured IN,
     return OUT;
 }
 
-outColored VS_Colored(inTextured IN)
+outColored VS_Colored(inColored IN)
 {
     outColored OUT;
 
