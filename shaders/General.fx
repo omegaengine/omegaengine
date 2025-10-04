@@ -108,6 +108,7 @@ struct inTextured {
 
 struct inColored {
   float3 entityPos : POSITION; // Position in object space
+  float4 color     : COLOR0;   // Vertex color
   float3 normal    : NORMAL;   // Normal vector in object space
 };
 
@@ -129,6 +130,7 @@ struct outTexturedPerVertex {
 
 struct outColored {
   float4 pos      : POSITION;  // Position in clip space
+  float4 color    : COLOR0;    // Interpolated vertex color
   float3 worldPos : TEXCOORD0; // Position in world space
   float3 normal   : TEXCOORD1; // Normal vector in world space
 };
@@ -327,6 +329,8 @@ outColored VS_Colored(inColored IN)
     OUT.worldPos = transWorld(IN.entityPos);
     OUT.normal = transNorm(IN.normal);
 
+    OUT.color = IN.color;
+
     return OUT;
 }
 
@@ -337,7 +341,7 @@ outColoredPerVertex VS_ColoredAmbient(inColored IN, uniform float4 ambCol)
     // Apply transforms
     OUT.pos = transProj(IN.entityPos);
 
-    OUT.finalColor = ambCol + emissiveColor;
+    OUT.finalColor = IN.color * ambCol + emissiveColor;
 
     return OUT;
 }
@@ -354,7 +358,7 @@ outColoredPerVertex VS_ColoredPerVertexTwoDirLights(inColored IN,
 
     // Apply lighting
     lightComponents components = calcTwoDirLights(transWorld(IN.entityPos), transNorm(IN.normal), lightDir1, lightDir2, diffCol1, diffCol2, specCol1, specCol2, ambCol1, ambCol2);
-    OUT.finalColor = components.diffuseAmbient + components.specular;
+    OUT.finalColor = IN.color * components.diffuseAmbient + components.specular;
     if (firstPass) OUT.finalColor += emissiveColor; // Add emissive light only once (since it's technically not related to a specific light source)
 
     return OUT;
@@ -370,7 +374,7 @@ outColoredPerVertex VS_ColoredPerVertexOneDirLight(inColored IN,
 
     // Apply lighting
     lightComponents components = calcDirLight(transWorld(IN.entityPos), transNorm(IN.normal), lightDir, diffCol, specCol, ambCol);
-    OUT.finalColor = components.diffuseAmbient + components.specular;
+    OUT.finalColor = IN.color * components.diffuseAmbient + components.specular;
     if (firstPass) OUT.finalColor += emissiveColor; // Add emissive light only once (since it's technically not related to a specific light source)
 
     return OUT;
@@ -386,7 +390,7 @@ outColoredPerVertex VS_ColoredPerVertexOnePointLight(inColored IN,
 
     // Apply lighting
     lightComponents components = calcPointLight(transWorld(IN.entityPos), transNorm(IN.normal), lightPos, diffCol, specCol, ambCol, att);
-    OUT.finalColor = components.diffuseAmbient + components.specular;
+    OUT.finalColor = IN.color * components.diffuseAmbient + components.specular;
     if (firstPass) OUT.finalColor += emissiveColor; // Add emissive light only once (since it's technically not related to a specific light source)
 
     return OUT;
@@ -454,21 +458,21 @@ float4 PS_ColoredTwoDirLights(outColored IN,
   uniform float4 ambCol1, uniform float4 ambCol2) : COLOR
 {
     lightComponents components = calcTwoDirLights(IN.worldPos, IN.normal, lightDir1, lightDir2, diffCol1, diffCol2, specCol1, specCol2, ambCol1, ambCol2);
-    return components.diffuseAmbient + components.specular;
+    return IN.color * components.diffuseAmbient + components.specular;
 }
 
 float4 PS_ColoredOneDirLight(outColored IN,
   uniform bool firstPass, uniform float3 lightDir, uniform float4 diffCol, uniform float4 specCol, uniform float4 ambCol) : COLOR
 {
     lightComponents components = calcDirLight(IN.worldPos, IN.normal, lightDir, diffCol, specCol, ambCol);
-    return components.diffuseAmbient + components.specular;
+    return IN.color * components.diffuseAmbient + components.specular;
 }
 
 float4 PS_ColoredOnePointLight(outColored IN,
   uniform bool firstPass, uniform float3 lightPos, uniform float4 diffCol, uniform float4 specCol, uniform float4 ambCol, uniform float3 att) : COLOR
 {
     lightComponents components = calcPointLight(IN.worldPos, IN.normal, lightPos, diffCol, specCol, ambCol, att);
-    return components.diffuseAmbient + components.specular;
+    return IN.color * components.diffuseAmbient + components.specular;
 }
 
 
