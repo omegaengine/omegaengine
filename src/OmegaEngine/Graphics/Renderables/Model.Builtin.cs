@@ -130,9 +130,9 @@ partial class Model
         float radiusMean = radiusBottom + (radiusTop - radiusBottom) / 2;
         float radiusDiff = Math.Abs(radiusTop - radiusBottom);
         return Cylinder(engine, texture, radiusBottom, radiusTop, length,
-            // Auto-detmerine the number of slices for the cylinder
+            // Auto-determine the number of slices for the cylinder
             (int)(radiusMean * radiusMean).Clamp(8, 1024),
-            // Auto-detmerine the number of stacks for the cylinder
+            // Auto-determine the number of stacks for the cylinder
             (int)(radiusDiff * radiusDiff).Clamp(4, 512));
     }
     #endregion
@@ -169,7 +169,7 @@ partial class Model
     {
         float radiusMean = radiusInner + (radiusOuter - radiusInner) / 2;
         return Disc(engine, texture, radiusInner, radiusOuter, height,
-            // Auto-detmerine the number of segments for the disc
+            // Auto-determine the number of segments for the disc
             (int)(radiusMean * radiusMean).Clamp(8, 1024));
     }
     #endregion

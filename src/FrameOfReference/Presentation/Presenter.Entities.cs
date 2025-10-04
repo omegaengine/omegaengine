@@ -69,7 +69,7 @@ partial class Presenter
     /// <param name="entity">The entity containing the <see cref="Render"/> component.</param>
     /// <param name="component">The <see cref="Render"/> component to visualize using the <see cref="Engine"/>.</param>
     /// <returns>The generated <see cref="Engine"/> representation.</returns>
-    protected delegate PositionableRenderable RenderCompononentToEngine<TComponent>(Entity entity, TComponent component)
+    protected delegate PositionableRenderable RenderComponentToEngine<TComponent>(Entity entity, TComponent component)
         where TComponent : Render;
 
     /// <summary>
@@ -77,7 +77,7 @@ partial class Presenter
     /// </summary>
     /// <typeparam name="TComponent">The specific type of <see cref="Render"/> component to handle.</typeparam>
     /// <param name="create">The callback for mapping a <see cref="Render"/> component to an <see cref="Engine"/> representation.</param>
-    protected void RegisterRenderComponent<TComponent>(RenderCompononentToEngine<TComponent> create)
+    protected void RegisterRenderComponent<TComponent>(RenderComponentToEngine<TComponent> create)
         where TComponent : Render
     {
         RenderablesSync.RegisterMultiple<Entity, PositionableRenderable>(

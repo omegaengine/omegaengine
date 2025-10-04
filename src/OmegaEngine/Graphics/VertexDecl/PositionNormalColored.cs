@@ -13,7 +13,7 @@ using SlimDX.Direct3D9;
 namespace OmegaEngine.Graphics.VertexDecl;
 
 /// <summary>
-/// A fixed-function vertex format that stores position, normals and texture coordinates.
+/// A fixed-function vertex format that stores position, normals and color.
 /// Using this format hints the engine that that lighting is to be used.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
