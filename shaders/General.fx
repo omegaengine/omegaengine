@@ -162,9 +162,8 @@ float3 transNorm(float3 normal)
 // Apply the normal map to the normal vector
 float3 applyNormalMap(float2 texCoord, float3 normal, float3 binormal, float3 tangent)
 {
-    // Map 0 to -2, 0.5 to 0 and 1 to 2
-    float3 mapNormal = 4 * (tex2D(normalSampler, texCoord).rgb - 0.5);
-    return normalize(normal + mapNormal.x*tangent + mapNormal.y*binormal);
+    float3 mapNormal = tex2D(normalSampler, texCoord).rgb * 2.0f - 1.0f;
+    return normalize(mapNormal.x * tangent + mapNormal.y * binormal + mapNormal.z * normal);
 }
 
 // Read the diffuse map
