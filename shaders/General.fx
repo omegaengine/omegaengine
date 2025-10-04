@@ -167,6 +167,10 @@ float3 applyNormalMap(float2 texCoord, float3 normal, float3 binormal, float3 ta
     return normalize(normal + mapNormal.x*tangent + mapNormal.y*binormal);
 }
 
+// Read the diffuse map
+float4 readDiffuseMap(float2 texCoord)
+{ return tex2D(diffuseSampler, texCoord); }
+
 // Read the specular map
 float4 readSpecMap(float2 texCoord)
 { return tex2D(specularSampler, texCoord); }
@@ -404,15 +408,12 @@ outColoredPerVertex VS_ColoredPerVertexOnePointLight(inColored IN,
 
 float4 PS_TexturedPerVertex(outTexturedPerVertex IN, uniform bool useEmissiveMap, uniform bool firstPass) : COLOR
 {
-    float4 diffuseMap;
-    diffuseMap = tex2D(diffuseSampler, IN.texCoord);
-    diffuseMap.rgb += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
-
-    float3 diffCol = IN.diffAmbColor.rgb * diffuseMap.rgb;
+    float4 diffuse = readDiffuseMap(IN.texCoord);
+    diffuse.rgb += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
 
     // Bake in the specular color...
-    if (firstPass) return float4(diffCol + IN.specCol.rgb, diffuseMap.a); // ... and pass the alpha-channel through on the first pass
-    else return float4(diffCol * diffuseMap.a + IN.specCol.rgb, 1); // ... and bake in the alpha-channel for all additional passes since they use additive blending
+    if (firstPass) return float4(diffuse.rgb + IN.specCol.rgb, diffuse.a); // ... and pass the alpha-channel through on the first pass
+    else return float4(IN.diffAmbColor.rgb * diffuse.rgb * diffuse.a + IN.specCol.rgb, 1); // ... and bake in the alpha-channel for all additional passes since they use additive blending
 }
 
 float4 PS_TexturedTwoDirLights(outTextured IN,
@@ -421,7 +422,7 @@ float4 PS_TexturedTwoDirLights(outTextured IN,
   uniform float4 diffCol1, uniform float4 diffCol2, uniform float4 specCol1, uniform float4 specCol2,
   uniform float4 ambCol1, uniform float4 ambCol2) : COLOR
 {
-    float4 diffuseMap = tex2D(diffuseSampler, IN.texCoord);
+    float4 diffuse = readDiffuseMap(IN.texCoord);
     float3 normal = useNormalMap ? applyNormalMap(IN.texCoord, IN.normal, IN.binormal, IN.tangent) : IN.normal;
     float4 specMap = useSpecularMap ? readSpecMap(IN.texCoord) : 1;
 
@@ -429,18 +430,18 @@ float4 PS_TexturedTwoDirLights(outTextured IN,
     lightComponents components = calcTwoDirLights(IN.worldPos, normal, lightDir1, lightDir2, diffCol1, diffCol2, specCol1 * specMap, specCol2 * specMap, ambCol1, ambCol2);
     if (firstPass) // Add emissive light only once (since it's technically not related to a specific light source)
         components.diffuseAmbient.rgb += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
-    float3 diffAmbCol = components.diffuseAmbient.rgb * diffuseMap.rgb;
+    float3 diffAmbCol = components.diffuseAmbient.rgb * diffuse.rgb;
 
     // Bake in the specular color...
-    if (firstPass) return float4(diffAmbCol + components.specular.rgb, diffuseMap.a); // ... and pass the alpha-channel through on the first pass
-    else return float4(diffAmbCol * diffuseMap.a + components.specular.rgb, 1); // ... and bake in the alpha-channel for all additional passes since they use additive blending
+    if (firstPass) return float4(diffAmbCol + components.specular.rgb, diffuse.a); // ... and pass the alpha-channel through on the first pass
+    else return float4(diffAmbCol * diffuse.a + components.specular.rgb, 1); // ... and bake in the alpha-channel for all additional passes since they use additive blending
 }
 
 float4 PS_TexturedOneDirOrPointLight(outTextured IN,
   uniform bool useNormalMap, uniform bool useSpecularMap, uniform bool useEmissiveMap, uniform bool firstPass, uniform bool pointLight,
   uniform float3 lightDirPos, uniform float4 diffCol, uniform float4 specCol, uniform float4 ambCol, uniform float3 att) : COLOR
 {
-    float4 diffuseMap = tex2D(diffuseSampler, IN.texCoord);
+    float4 diffuse = readDiffuseMap(IN.texCoord);
     float3 normal = useNormalMap ? applyNormalMap(IN.texCoord, IN.normal, IN.binormal, IN.tangent) : IN.normal;
     float4 specMap = useSpecularMap ? readSpecMap(IN.texCoord) : 1;
 
@@ -450,11 +451,11 @@ float4 PS_TexturedOneDirOrPointLight(outTextured IN,
     else components = calcDirLight(IN.worldPos, normal, lightDirPos, diffCol, specCol * specMap, ambCol);
     if (firstPass) // Add emissive light only once (since it's technically not related to a specific light source)
         components.diffuseAmbient.rgb += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
-    float3 diffAmbCol = components.diffuseAmbient.rgb * diffuseMap.rgb;
+    float3 diffAmbCol = components.diffuseAmbient.rgb * diffuse.rgb;
 
     // Bake in the specular color...
-    if (firstPass) return float4(diffAmbCol + components.specular.rgb, diffuseMap.a); // ... and pass the alpha-channel through on the first pass
-    else return float4(diffAmbCol * diffuseMap.a + components.specular.rgb, 1); // ... and bake in the alpha-channel for all additional passes since they use additive blending
+    if (firstPass) return float4(diffAmbCol + components.specular.rgb, diffuse.a); // ... and pass the alpha-channel through on the first pass
+    else return float4(diffAmbCol * diffuse.a + components.specular.rgb, 1); // ... and bake in the alpha-channel for all additional passes since they use additive blending
 }
 
 float4 PS_ColoredTwoDirLights(outColored IN,
