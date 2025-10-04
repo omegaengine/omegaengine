@@ -109,18 +109,15 @@ struct inTextured {
 struct inColored {
   float3 entityPos : POSITION; // Position in object space
   float3 normal    : NORMAL;   // Normal vector in object space
-  float3 binormal  : BINORMAL; // Binormal vector in object space
-  float3 tangent   : TANGENT;  // Tangent vector in object space
 };
 
 struct outTextured {
   float4 pos      : POSITION;  // Position in clip space
-  float3 position : TEXCOORD0; // Position in clip space without superfluous fourth dimension
-  float3 worldPos : TEXCOORD1; // Position in world space
-  float3 normal   : TEXCOORD2; // Normal vector in world space
-  float3 binormal : TEXCOORD3; // Binormal vector in world space
-  float3 tangent  : TEXCOORD4; // Tangent vector in world space
-  float2 texCoord : TEXCOORD5; // Texture coordinates
+  float3 worldPos : TEXCOORD0; // Position in world space
+  float3 normal   : TEXCOORD1; // Normal vector in world space
+  float3 binormal : TEXCOORD2; // Binormal vector in world space
+  float3 tangent  : TEXCOORD3; // Tangent vector in world space
+  float2 texCoord : TEXCOORD4; // Texture coordinates
 };
 
 struct outTexturedPerVertex {
@@ -132,11 +129,8 @@ struct outTexturedPerVertex {
 
 struct outColored {
   float4 pos      : POSITION;  // Position in clip space
-  float3 position : TEXCOORD0; // Position in clip space without superfluous fourth dimension
-  float3 worldPos : TEXCOORD1; // Position in world space
-  float3 normal   : TEXCOORD2; // Normal vector in world space
-  float3 binormal : TEXCOORD3; // Binormal vector in world space
-  float3 tangent  : TEXCOORD4; // Tangent vector in world space
+  float3 worldPos : TEXCOORD0; // Position in world space
+  float3 normal   : TEXCOORD1; // Normal vector in world space
 };
 
 struct outColoredPerVertex {
@@ -179,34 +173,34 @@ float3 readEmissiveMap(float2 texCoord)
 { return tex2D(emissiveSampler, texCoord).rgb; }
 
 // Calculate the lighting components for one directional light
-lightComponents calcDirLight(float3 transPos, float3 normal, float3 lightDir,
+lightComponents calcDirLight(float3 worldPos, float3 normal, float3 lightDir,
   float4 diffuseColor, float4 specularColor, float4 ambientColor)
 {
     // Renormalize to prevent anti-aliasing causing glitches
     normal = normalize(normal);
 
-    // Calculate additional vectors
-    float3 eye = normalize(viewInverse[3].xyz - transPos);
+    float diffuseFactor = saturate(dot(normal, lightDir));
+
+    float3 cameraPos = mul(float4(0.0, 0.0, 0.0, 1.0), viewInverse).xyz;
+    float3 eye = normalize(cameraPos - worldPos);
     float3 halfAngle = normalize(eye + lightDir);
+    float specularFactor = saturate(dot(normal, halfAngle));
 
-    // Calculate the diffuse and specular contributions
     lightComponents OUT;
-    float4 litV = lit(dot(normal, lightDir), dot(halfAngle, normal), specularPower);
-    OUT.diffuseAmbient = litV.x * ambientColor + litV.y * diffuseColor;
-    OUT.specular = litV.z * specularColor;
-
+    OUT.diffuseAmbient = ambientColor + diffuseFactor * diffuseColor;
+    OUT.specular = pow(specularFactor, specularPower) * specularColor;
     return OUT;
 }
 
 // Calculate the lighting components for two directional lights
-lightComponents calcTwoDirLights(float3 transPos, float3 normal,
+lightComponents calcTwoDirLights(float3 worldPos, float3 normal,
   float3 lightDir1, float3 lightDir2,
   float4 diffCol1, float4 diffCol2, float4 specCol1, float4 specCol2,
   float4 ambCol1, float4 ambCol2)
 {
     // Calculate separate light values
-    lightComponents light1 = calcDirLight(transPos, normal, lightDir1, diffCol1, specCol1, ambCol1);
-    lightComponents light2 = calcDirLight(transPos, normal, lightDir2, diffCol2, specCol2, ambCol2);
+    lightComponents light1 = calcDirLight(worldPos, normal, lightDir1, diffCol1, specCol1, ambCol1);
+    lightComponents light2 = calcDirLight(worldPos, normal, lightDir2, diffCol2, specCol2, ambCol2);
 
     // Add lights together
     lightComponents OUT;
@@ -216,7 +210,7 @@ lightComponents calcTwoDirLights(float3 transPos, float3 normal,
 }
 
 // Calculate the lighting components for one point light
-lightComponents calcPointLight(float3 worldPos, float3 transPos, float3 normal, float3 lightPos,
+lightComponents calcPointLight(float3 worldPos, float3 normal, float3 lightPos,
   float4 diffuseColor, float4 specularColor, float4 ambientColor, float3 att)
 {
     // Convert point to directional
@@ -225,7 +219,7 @@ lightComponents calcPointLight(float3 worldPos, float3 transPos, float3 normal, 
     float attenuation = 1 / (att.x + att.y * lightDist + att.z * lightDist * lightDist);
 
     // Simulate point-lighting by using pixel-wise directional-lighting
-    lightComponents OUT = calcDirLight(transPos, normal, normalize(lightDir), diffuseColor, specularColor, ambientColor);
+    lightComponents OUT = calcDirLight(worldPos, normal, normalize(lightDir), diffuseColor, specularColor, ambientColor);
     OUT.diffuseAmbient *= attenuation;
     OUT.specular *= attenuation;
 
@@ -241,7 +235,6 @@ outTextured VS_Textured(inTextured IN)
 
     // Apply transforms
     OUT.pos = transProj(IN.entityPos);
-    OUT.position = OUT.pos.xyz;
     OUT.worldPos = transWorld(IN.entityPos);
     OUT.normal = transNorm(IN.normal);
     OUT.binormal = transNorm(IN.binormal);
@@ -280,7 +273,7 @@ outTexturedPerVertex VS_TexturedPerVertexTwoDirLights(inTextured IN,
     OUT.texCoord = IN.texCoord;
 
     // Apply lighting
-    lightComponents components = calcTwoDirLights(OUT.pos, transNorm(IN.normal),
+    lightComponents components = calcTwoDirLights(transWorld(IN.entityPos), transNorm(IN.normal),
       lightDir1, lightDir2, diffCol1, diffCol2, specCol1, specCol2, ambCol1, ambCol2);
     OUT.diffAmbColor = components.diffuseAmbient;
     if (firstPass) OUT.diffAmbColor += emissiveColor; // Add emissive light only once (since it's technically not related to a specific light source)
@@ -299,7 +292,7 @@ outTexturedPerVertex VS_TexturedPerVertexOneDirLight(inTextured IN,
     OUT.texCoord = IN.texCoord;
 
     // Apply lighting
-    lightComponents components = calcDirLight(OUT.pos, transNorm(IN.normal), lightDir, diffCol, specCol, ambCol);
+    lightComponents components = calcDirLight(transWorld(IN.entityPos), transNorm(IN.normal), lightDir, diffCol, specCol, ambCol);
     OUT.diffAmbColor = components.diffuseAmbient;
     if (firstPass) OUT.diffAmbColor += emissiveColor; // Add emissive light only once (since it's technically not related to a specific light source)
     OUT.specCol = components.specular;
@@ -317,7 +310,7 @@ outTexturedPerVertex VS_TexturedPerVertexOnePointLight(inTextured IN,
     OUT.texCoord = IN.texCoord;
 
     // Apply lighting
-    lightComponents components = calcPointLight(transWorld(IN.entityPos), OUT.pos, transNorm(IN.normal), lightPos, diffCol, specCol, ambCol, att);
+    lightComponents components = calcPointLight(transWorld(IN.entityPos), transNorm(IN.normal), lightPos, diffCol, specCol, ambCol, att);
     OUT.diffAmbColor = components.diffuseAmbient;
     if (firstPass) OUT.diffAmbColor += emissiveColor; // Add emissive light only once (since it's technically not related to a specific light source)
     OUT.specCol = components.specular;
@@ -331,11 +324,8 @@ outColored VS_Colored(inColored IN)
 
     // Apply transforms
     OUT.pos = transProj(IN.entityPos);
-    OUT.position = OUT.pos.xyz;
     OUT.worldPos = transWorld(IN.entityPos);
     OUT.normal = transNorm(IN.normal);
-    OUT.binormal = transNorm(IN.binormal);
-    OUT.tangent = transNorm(IN.tangent);
 
     return OUT;
 }
@@ -363,7 +353,7 @@ outColoredPerVertex VS_ColoredPerVertexTwoDirLights(inColored IN,
     OUT.pos = transProj(IN.entityPos);
 
     // Apply lighting
-    lightComponents components = calcTwoDirLights(OUT.pos, transNorm(IN.normal), lightDir1, lightDir2, diffCol1, diffCol2, specCol1, specCol2, ambCol1, ambCol2);
+    lightComponents components = calcTwoDirLights(transWorld(IN.entityPos), transNorm(IN.normal), lightDir1, lightDir2, diffCol1, diffCol2, specCol1, specCol2, ambCol1, ambCol2);
     OUT.finalColor = components.diffuseAmbient + components.specular;
     if (firstPass) OUT.finalColor += emissiveColor; // Add emissive light only once (since it's technically not related to a specific light source)
 
@@ -379,7 +369,7 @@ outColoredPerVertex VS_ColoredPerVertexOneDirLight(inColored IN,
     OUT.pos = transProj(IN.entityPos);
 
     // Apply lighting
-    lightComponents components = calcDirLight(OUT.pos, transNorm(IN.normal), lightDir, diffCol, specCol, ambCol);
+    lightComponents components = calcDirLight(transWorld(IN.entityPos), transNorm(IN.normal), lightDir, diffCol, specCol, ambCol);
     OUT.finalColor = components.diffuseAmbient + components.specular;
     if (firstPass) OUT.finalColor += emissiveColor; // Add emissive light only once (since it's technically not related to a specific light source)
 
@@ -395,7 +385,7 @@ outColoredPerVertex VS_ColoredPerVertexOnePointLight(inColored IN,
     OUT.pos = transProj(IN.entityPos);
 
     // Apply lighting
-    lightComponents components = calcPointLight(transWorld(IN.entityPos), OUT.pos, transNorm(IN.normal), lightPos, diffCol, specCol, ambCol, att);
+    lightComponents components = calcPointLight(transWorld(IN.entityPos), transNorm(IN.normal), lightPos, diffCol, specCol, ambCol, att);
     OUT.finalColor = components.diffuseAmbient + components.specular;
     if (firstPass) OUT.finalColor += emissiveColor; // Add emissive light only once (since it's technically not related to a specific light source)
 
@@ -446,7 +436,7 @@ float4 PS_TexturedOneDirOrPointLight(outTextured IN,
 
     // Apply lighting
     lightComponents components;
-    if (pointLight) components = calcPointLight(IN.worldPos, IN.position, normal, lightDirPos, diffCol, specCol * specMap, ambCol, att);
+    if (pointLight) components = calcPointLight(IN.worldPos, normal, lightDirPos, diffCol, specCol * specMap, ambCol, att);
     else components = calcDirLight(IN.worldPos, normal, lightDirPos, diffCol, specCol * specMap, ambCol);
     if (firstPass) // Add emissive light only once (since it's technically not related to a specific light source)
         components.diffuseAmbient.rgb += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
@@ -477,7 +467,7 @@ float4 PS_ColoredOneDirLight(outColored IN,
 float4 PS_ColoredOnePointLight(outColored IN,
   uniform bool firstPass, uniform float3 lightPos, uniform float4 diffCol, uniform float4 specCol, uniform float4 ambCol, uniform float3 att) : COLOR
 {
-    lightComponents components = calcPointLight(IN.worldPos, IN.position, IN.normal, lightPos, diffCol, specCol, ambCol, att);
+    lightComponents components = calcPointLight(IN.worldPos, IN.normal, lightPos, diffCol, specCol, ambCol, att);
     return components.diffuseAmbient + components.specular;
 }
 
