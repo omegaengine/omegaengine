@@ -552,6 +552,8 @@ float4 PS_Simple14(outSimple14 IN) : COLOR
 
 //---------------- Techniques ----------------
 
+#define ADDITIVE_STATES ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One;
+
 /// <BeginFilter Target="PS14" Lighting="false" />
 technique Simple14
 {
@@ -591,8 +593,8 @@ technique Light14
 
   pass TwoDirLights
   {
+    ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light14(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
-    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
     PixelShader = compile ps_1_4 PS_Light14();
   }
 
@@ -604,8 +606,8 @@ technique Light14
 
   pass OneDirLight
   {
+    ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light14(-lightDirection1.xyz, diffuseColor1, ambientColor1);
-    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
     PixelShader = compile ps_1_4 PS_Light14();
   }
 
@@ -617,8 +619,8 @@ technique Light14
 
   pass OnePointLightAdd
   {
+    ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light14(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
-    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
     PixelShader = compile ps_1_4 PS_Light14();
   }
 }
@@ -641,8 +643,8 @@ technique Light20
 
   pass TwoDirLightsAdd
   {
+    ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light2x();
-    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
     PixelShader = compile ps_2_0 PS_Light20(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
   }
 
@@ -654,8 +656,8 @@ technique Light20
 
   pass OneDirLightAdd
   {
+    ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light2x();
-    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
     PixelShader = compile ps_2_0 PS_Light20(-lightDirection1.xyz, diffuseColor1, ambientColor1);
   }
 
@@ -667,8 +669,8 @@ technique Light20
 
   pass OnePointLightAdd
   {
+    ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light2x();
-    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
     PixelShader = compile ps_2_0 PS_Light20(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
   }
 }
@@ -692,8 +694,8 @@ technique Light2a
 
   pass TwoDirLightsAdd
   {
+    ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light2x();
-    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
     PixelShader = compile ps_2_a PS_Light2ab(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
   }
 
@@ -705,8 +707,8 @@ technique Light2a
 
   pass OneDirLightAdd
   {
+    ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light2x();
-    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
     PixelShader = compile ps_2_a PS_Light2ab(-lightDirection1.xyz, diffuseColor1, ambientColor1);
   }
 
@@ -718,8 +720,8 @@ technique Light2a
 
   pass OnePointLightAdd
   {
+    ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light2x();
-    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
     PixelShader = compile ps_2_a PS_Light2ab(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
   }
 }
@@ -742,8 +744,8 @@ technique Light2b
 
   pass TwoDirLightsAdd
   {
+    ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light2x();
-    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
     PixelShader = compile ps_2_b PS_Light2ab(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
   }
 
@@ -755,8 +757,8 @@ technique Light2b
 
   pass OneDirLightAdd
   {
+    ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light2x();
-    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
     PixelShader = compile ps_2_b PS_Light2ab(-lightDirection1.xyz, diffuseColor1, ambientColor1);
   }
 
@@ -768,8 +770,8 @@ technique Light2b
 
   pass OnePointLightAdd
   {
+    ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light2x();
-    ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One; // Additative blending
     PixelShader = compile ps_2_b PS_Light2ab(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
   }
 }
