@@ -337,7 +337,7 @@ outColoredPerVertex VS_ColoredAmbient(inColored IN, uniform float4 ambCol)
     // Apply transforms
     OUT.pos = transProj(IN.entityPos);
 
-    OUT.finalColor = ambCol;
+    OUT.finalColor = ambCol + emissiveColor;
 
     return OUT;
 }
