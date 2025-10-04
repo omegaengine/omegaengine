@@ -172,8 +172,8 @@ float4 readSpecMap(float2 texCoord)
 { return tex2D(specularSampler, texCoord); }
 
 // Read the emissive map
-float4 readEmissiveMap(float2 texCoord)
-{ return tex2D(emissiveSampler, texCoord); }
+float3 readEmissiveMap(float2 texCoord)
+{ return tex2D(emissiveSampler, texCoord).rgb; }
 
 // Calculate the lighting components for one directional light
 lightComponents calcDirLight(float3 transPos, float3 normal, float3 lightDir,
@@ -406,11 +406,7 @@ float4 PS_TexturedPerVertex(outTexturedPerVertex IN, uniform bool useEmissiveMap
 {
     float4 diffuseMap;
     diffuseMap = tex2D(diffuseSampler, IN.texCoord);
-
-    if (useEmissiveMap)
-    {
-        diffuseMap.rgb = readEmissiveMap(IN.texCoord).rgb; // Keep original alpha-channel
-    }
+    diffuseMap.rgb += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
 
     float3 diffCol = IN.diffAmbColor.rgb * diffuseMap.rgb;
 
@@ -432,7 +428,7 @@ float4 PS_TexturedTwoDirLights(outTextured IN,
     // Apply lighting
     lightComponents components = calcTwoDirLights(IN.worldPos, normal, lightDir1, lightDir2, diffCol1, diffCol2, specCol1 * specMap, specCol2 * specMap, ambCol1, ambCol2);
     if (firstPass) // Add emissive light only once (since it's technically not related to a specific light source)
-        components.diffuseAmbient += useEmissiveMap ? (emissiveColor * readEmissiveMap(IN.texCoord)) : emissiveColor;
+        components.diffuseAmbient.rgb += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
     float3 diffAmbCol = components.diffuseAmbient.rgb * diffuseMap.rgb;
 
     // Bake in the specular color...
@@ -453,7 +449,7 @@ float4 PS_TexturedOneDirOrPointLight(outTextured IN,
     if (pointLight) components = calcPointLight(IN.worldPos, IN.position, normal, lightDirPos, diffCol, specCol * specMap, ambCol, att);
     else components = calcDirLight(IN.worldPos, normal, lightDirPos, diffCol, specCol * specMap, ambCol);
     if (firstPass) // Add emissive light only once (since it's technically not related to a specific light source)
-        components.diffuseAmbient += useEmissiveMap ? (emissiveColor * readEmissiveMap(IN.texCoord)) : emissiveColor;
+        components.diffuseAmbient.rgb += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
     float3 diffAmbCol = components.diffuseAmbient.rgb * diffuseMap.rgb;
 
     // Bake in the specular color...
