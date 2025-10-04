@@ -168,16 +168,12 @@ float3 transNorm(float3 normal)
 float4 calcDirLight(float3 transPos, float3 normal, float3 lightDir,
   float4 diffuseColor, float4 ambientColor) // Overload without shadows
 {
-    // Calculate additional vectors
     float3 eye = normalize(viewInverse[3].xyz - transPos);
     float3 halfAngle = normalize(eye + lightDir);
+    float NdotL = max(0.0, dot(normal, lightDir));
+    float NdotH = max(0.0, dot(normal, halfAngle));
 
-    // Calculate the diffuse contribution
-    // ToDo: Try to make clamp() unnecessary
-    float diffuseFactor = clamp(dot(normal, lightDir), 0, 1);
-
-    // Calculate the final colors
-    return diffuseColor * diffuseFactor + ambientColor;
+    return ambientColor + NdotL * diffuseColor;
 }
 
 float shadowSmoothstep(float focus, float angle)

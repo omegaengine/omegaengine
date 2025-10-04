@@ -191,16 +191,14 @@ lightComponents calcDirLight(float3 transPos, float3 normal, float3 lightDir,
     // Renormalize to prevent anti-aliasing causing glitches
     normal = normalize(normal);
 
-    // Calculate additional vectors
-    float3 eye = normalize(viewInverse[3].xyz - transPos);
+    float3 eye  = normalize(viewInverse[3].xyz - transPos);
     float3 halfAngle = normalize(eye + lightDir);
+    float NdotL = max(0.0, dot(normal, lightDir));
+    float NdotH = max(0.0, dot(normal, halfAngle));
 
-    // Calculate the diffuse and specular contributions
     lightComponents OUT;
-    float4 litV = lit(dot(normal, lightDir), dot(halfAngle, normal), specularPower);
-    OUT.diffuseAmbient = litV.x * ambientColor + litV.y * diffuseColor;
-    OUT.specular = litV.z * specularColor;
-
+    OUT.diffuseAmbient = ambientColor + NdotL * diffuseColor;
+    OUT.specular = pow(NdotH, specularPower) * specularColor;
     return OUT;
 }
 
