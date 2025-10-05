@@ -228,8 +228,7 @@ partial class Terrain
         mesh.LockAttributeBuffer(LockFlags.None).WriteRange(attributes);
         mesh.UnlockAttributeBuffer();
 
-        if (lighting) MeshHelper.GenerateNormals(engine.Device, ref mesh);
-        //else MeshHelper.Optimize(mesh);
+        if (lighting) TexturedMeshUtils.GenerateNormals(engine.Device, ref mesh);
 
         return mesh;
     }

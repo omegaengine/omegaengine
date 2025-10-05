@@ -15,11 +15,10 @@ using OmegaEngine.Graphics.VertexDecl;
 namespace OmegaEngine.Graphics;
 
 /// <summary>
-/// Provides helper methods for optimizing <see cref="Mesh"/>es, calculating normal vectors, adding textures, etc.
+/// Utility method for textured <see cref="Mesh"/>es.
 /// </summary>
-internal static class MeshHelper
+public static class TexturedMeshUtils
 {
-    #region Vertex declaration helpers
     /// <summary>
     /// Compares to vertex declaration arrays to determine whether they are equivalent
     /// </summary>
@@ -52,10 +51,8 @@ internal static class MeshHelper
     /// <returns><c>true</c> if the mesh declaration was expanded, <c>false</c> if the declaration didn't need to be changed</returns>
     private static bool ExpandDeclaration(Device device, ref Mesh mesh, out bool hadNormals, out bool hadTangents)
     {
-        #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
-        #endregion
 
         // Check if vertex declaration of mesh already is already ok
         var decl = mesh.GetDeclaration();
@@ -67,7 +64,6 @@ internal static class MeshHelper
             return false;
         }
 
-        #region Find existing info
         hadNormals = false;
         hadTangents = false;
 
@@ -84,7 +80,6 @@ internal static class MeshHelper
                 break;
             }
         }
-        #endregion
 
         // Select the appropriate new vertex format
         decl = CompareDecl(PositionMultiTextured.GetVertexElements(), decl) ?
@@ -97,16 +92,12 @@ internal static class MeshHelper
 
         return true;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Optimize
     /// <summary>
     /// Performs an in-place optimization of a <see cref="Mesh"/>.
     /// </summary>
     /// <param name="mesh">The <see cref="Mesh"/> to be optimized.</param>
-    public static void Optimize(Mesh mesh)
+    private static void Optimize(Mesh mesh)
     {
         using (new TimedLogEvent("Optimized mesh"))
         {
@@ -116,9 +107,7 @@ internal static class MeshHelper
             mesh.OptimizeInPlace(flags);
         }
     }
-    #endregion
 
-    #region Generate normals
     /// <summary>
     /// Generate normals if not present and convert into TangentVertex format for shaders.
     /// Tangent data is left empty
@@ -127,14 +116,11 @@ internal static class MeshHelper
     /// <param name="mesh">The mesh to be manipulated</param>
     public static void GenerateNormals(Device device, ref Mesh mesh)
     {
-        #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
-        #endregion
 
         if (!ExpandDeclaration(device, ref mesh, out bool hadNormals, out _)) return;
 
-        #region Check existing info
         bool gotMilkErmTexCoords = false;
         bool gotValidNormals = true;
         var vertexes = BufferHelper.ReadVertexBuffer<PositionNormalBinormalTangentTextured>(mesh);
@@ -167,7 +153,6 @@ internal static class MeshHelper
             }
         }
         BufferHelper.WriteVertexBuffer(mesh, vertexes);
-        #endregion
 
         // Assume meshes with propper normal data also have been optimized for rendering
         if (!hadNormals)
@@ -178,9 +163,7 @@ internal static class MeshHelper
             Optimize(mesh);
         }
     }
-    #endregion
 
-    #region Generate normals and tangents
     /// <summary>
     /// Generate normals and tangents if not present and convert into TangentVertex format for shaders.
     /// </summary>
@@ -199,7 +182,6 @@ internal static class MeshHelper
         if (!ExpandDeclaration(device, ref mesh, out bool hadNormals, out bool hadTangents)) return;
         var decl = mesh.GetDeclaration();
 
-        #region Check existing info
         bool gotMilkErmTexCoords = false;
         bool gotValidNormals = true;
         bool gotValidTangents = true;
@@ -243,7 +225,6 @@ internal static class MeshHelper
             }
         }
         BufferHelper.WriteVertexBuffer(mesh, vertexes);
-        #endregion
 
         if (!hadNormals)
         {
@@ -259,7 +240,6 @@ internal static class MeshHelper
 
             if (!hadTangents)
             {
-                #region Compute tangents
                 using (new TimedLogEvent("Computed tangents"))
                 {
                     // If the vertexes for a smoothend point exist several times the
@@ -310,7 +290,6 @@ internal static class MeshHelper
                     }
                     BufferHelper.WriteVertexBuffer(mesh, vertexes);
                 }
-                #endregion
             }
         }
         else
@@ -324,5 +303,4 @@ internal static class MeshHelper
 
         Optimize(mesh);
     }
-    #endregion
 }
