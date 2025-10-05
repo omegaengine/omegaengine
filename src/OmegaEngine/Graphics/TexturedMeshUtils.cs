@@ -109,11 +109,12 @@ public static class TexturedMeshUtils
     }
 
     /// <summary>
-    /// Generate normals if not present and convert into TangentVertex format for shaders.
-    /// Tangent data is left empty
+    /// Generate normal vectors if not present and convert into <see cref="PositionNormalBinormalTangentTextured"/> format for shaders.
+    /// Tangent and binormal data is left empty.
     /// </summary>
     /// <param name="device">The <see cref="Device"/> containing the mesh</param>
     /// <param name="mesh">The mesh to be manipulated</param>
+    /// <remarks>Normal vectors are required for lighting.</remarks>
     public static void GenerateNormals(Device device, ref Mesh mesh)
     {
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -165,14 +166,15 @@ public static class TexturedMeshUtils
     }
 
     /// <summary>
-    /// Generate normals and tangents if not present and convert into TangentVertex format for shaders.
+    /// Generate TBN (tangent, binormal and normal) vectors if not present and convert into <see cref="PositionNormalBinormalTangentTextured"/> format for shaders.
     /// </summary>
     /// <param name="device">The <see cref="Device"/> containing the mesh</param>
     /// <param name="mesh">The mesh to be manipulated</param>
     /// <param name="weldVertexes">Weld vertexes before generating tangents.
     /// Useful for organic objects, stones, trees, etc. (anything with a lot of round surfaces).
     /// If a lot of single faces are not connected on the texture (e.g. rockets, buildings, etc.) do not use.</param>
-    public static void GenerateNormalsAndTangents(Device device, ref Mesh mesh, bool weldVertexes = false)
+    /// <remarks>TBN vectors are required for normal mapping.</remarks>
+    public static void GenerateTBN(Device device, ref Mesh mesh, bool weldVertexes = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));

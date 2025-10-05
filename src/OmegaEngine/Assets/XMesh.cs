@@ -185,7 +185,7 @@ public class XMesh : Asset
 
                 // Generate normals (plus tagents if normal/height maps are available)
                 if (needsTangents && engine.Capabilities.PerPixelEffects)
-                    TexturedMeshUtils.GenerateNormalsAndTangents(engine.Device, ref _mesh, weldVertexes: true);
+                    TexturedMeshUtils.GenerateTBN(engine.Device, ref _mesh, weldVertexes: true);
                 else
                     TexturedMeshUtils.GenerateNormals(engine.Device, ref _mesh);
             }

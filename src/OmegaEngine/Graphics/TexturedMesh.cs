@@ -168,7 +168,7 @@ public static class TexturedMesh
         var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
         BufferHelper.WriteVertexBuffer(mesh, vertexes);
         BufferHelper.WriteIndexBuffer(mesh, indexes);
-        TexturedMeshUtils.GenerateNormalsAndTangents(device, ref mesh);
+        TexturedMeshUtils.GenerateTBN(device, ref mesh);
 
         return mesh;
     }
@@ -386,7 +386,7 @@ public static class TexturedMesh
         var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
         BufferHelper.WriteVertexBuffer(mesh, vertexes);
         BufferHelper.WriteIndexBuffer(mesh, indexes);
-        TexturedMeshUtils.GenerateNormalsAndTangents(device, ref mesh);
+        TexturedMeshUtils.GenerateTBN(device, ref mesh);
 
         return mesh;
     }
