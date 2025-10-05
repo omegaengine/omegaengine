@@ -30,7 +30,7 @@ partial class Model
         #endregion
 
         Log.Info("Generate predefined model: Quad");
-        return new(MeshGenerator.Quad(engine.Device, width, height), new XMaterial(texture))
+        return new(TexturedMesh.Quad(engine.Device, width, height), new XMaterial(texture))
         {
             BoundingSphere = new(center: new(), radius:(float)Math.Sqrt(width * width + height * height) / 2f),
             BoundingBox = new(minimum: new(), maximum: new(width, height, 0))
@@ -54,7 +54,7 @@ partial class Model
         #endregion
 
         Log.Info("Generate predefined model: Box");
-        Mesh mesh = MeshGenerator.Box(engine.Device, width, height, depth);
+        Mesh mesh = TexturedMesh.Box(engine.Device, width, height, depth);
         TexturedMeshUtils.GenerateNormals(engine.Device, ref mesh);
 
         return new(mesh, new XMaterial(texture))
@@ -80,7 +80,7 @@ partial class Model
         #endregion
 
         Log.Info("Generate predefined model: Sphere");
-        Mesh mesh = MeshGenerator.Sphere(engine.Device, radius, slices, stacks);
+        Mesh mesh = TexturedMesh.Sphere(engine.Device, radius, slices, stacks);
         TexturedMeshUtils.GenerateNormals(engine.Device, ref mesh);
 
         return new(mesh, new XMaterial(texture))
@@ -109,7 +109,7 @@ partial class Model
         #endregion
 
         Log.Info("Generate predefined model: Cylinder");
-        Mesh mesh = MeshGenerator.Cylinder(engine.Device, radiusBottom, radiusTop, length, slices, stacks);
+        Mesh mesh = TexturedMesh.Cylinder(engine.Device, radiusBottom, radiusTop, length, slices, stacks);
         TexturedMeshUtils.GenerateNormals(engine.Device, ref mesh);
 
         // ToDo: Calculate bounding box
@@ -153,7 +153,7 @@ partial class Model
         #endregion
 
         // ToDo: Calculate bounding box
-        return new(MeshGenerator.Disc(engine.Device, radiusInner, radiusOuter, height, segments), new XMaterial(texture));
+        return new(TexturedMesh.Disc(engine.Device, radiusInner, radiusOuter, height, segments), new XMaterial(texture));
     }
 
     /// <summary>

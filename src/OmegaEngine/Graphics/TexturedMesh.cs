@@ -15,11 +15,10 @@ using OmegaEngine.Graphics.VertexDecl;
 namespace OmegaEngine.Graphics;
 
 /// <summary>
-/// Provides methods for creating meshes of simple geometric shapes (box, sphere, etc.) with texture coordinates.
+/// Methods for creating meshes of simple geometric shapes (box, sphere, etc.) with texture coordinates.
 /// </summary>
-internal static class MeshGenerator
+public static class TexturedMesh
 {
-    #region Add texture
     /// <summary>
     /// Clones the mesh, adding texture coordinates
     /// </summary>
@@ -33,9 +32,7 @@ internal static class MeshGenerator
         mesh.Dispose();
         mesh = newMesh;
     }
-    #endregion
 
-    #region Box texture coordinates
     /// <summary>
     /// Sets box texture coordinates where a 3x2 grid of face textures is split one per face
     /// </summary>
@@ -52,7 +49,6 @@ internal static class MeshGenerator
         // Copy the vertex buffer content to an array
         var vertexes = BufferHelper.ReadVertexBuffer<PositionNormalTextured>(mesh);
 
-        #region Set texture coordinates
         // Bottom
         vertexes[13].Tu = 0f;
         vertexes[13].Tv = 0f;
@@ -112,14 +108,11 @@ internal static class MeshGenerator
         vertexes[10].Tv = 1f;
         vertexes[11].Tu = 2f / 3f;
         vertexes[11].Tv = 1f;
-        #endregion
 
         // Copy the array back into the vertex buffer
         BufferHelper.WriteVertexBuffer(mesh, vertexes);
     }
-    #endregion
 
-    #region Spherical texture coordinates
     /// <summary>
     /// Fills in a set of spherically mapped texture coordinates to the passed in mesh
     /// </summary>
@@ -150,11 +143,7 @@ internal static class MeshGenerator
             return (vertexRay.X > 0f) ? u : 1 - u;
         }
     }
-    #endregion
 
-    //--------------------//
-
-    #region Quad
     /// <summary>
     /// Creates a new <see cref="Mesh"/> representing a textured 2D quad.
     /// </summary>
@@ -183,9 +172,7 @@ internal static class MeshGenerator
 
         return mesh;
     }
-    #endregion
 
-    #region Box
     /// <summary>
     /// Creates a new <see cref="Mesh"/> representing a textured box.
     /// </summary>
@@ -209,9 +196,7 @@ internal static class MeshGenerator
 
         return mesh;
     }
-    #endregion
 
-    #region Sphere
     /// <summary>
     /// Creates a new <see cref="Mesh"/> representing a textured sphere with spherical mapping.
     /// </summary>
@@ -234,7 +219,6 @@ internal static class MeshGenerator
 
         var mesh = new Mesh(device, numFaces, numVertexes, MeshFlags.Managed, PositionNormalTextured.Format);
 
-        #region Build sphere vertexes
         var vertexes = new PositionNormalTextured[mesh.VertexCount];
         int vertIndex = 0;
         for (int slice = 0; slice <= slices; slice++)
@@ -260,11 +244,9 @@ internal static class MeshGenerator
                 vertexes[vertIndex++].Tu = (float)slice / slices;
             }
         }
-        #endregion
 
         BufferHelper.WriteVertexBuffer(mesh, vertexes);
 
-        #region Build index buffer
         var indexes = new short[indexCount];
         int i = 0;
         for (short x = 0; x < slices; x++)
@@ -283,15 +265,12 @@ internal static class MeshGenerator
                 rightVertex++;
             }
         }
-        #endregion
 
         BufferHelper.WriteIndexBuffer(mesh, indexes);
 
         return mesh;
     }
-    #endregion
 
-    #region Cylinder
     /// <summary>
     /// Creates a new <see cref="Mesh"/> representing a textured cylinder with spherical mapping.
     /// </summary>
@@ -319,9 +298,7 @@ internal static class MeshGenerator
 
         return mesh;
     }
-    #endregion
 
-    #region Disc
     /// <summary>
     /// Creates a model of a textured round disc with a hole in the middle.
     /// </summary>
@@ -342,7 +319,6 @@ internal static class MeshGenerator
         var posInner = new Vector3(radiusInner, 0, 0);
         var posOuter = new Vector3(radiusOuter, 0, 0);
 
-        #region Generate vertexes
         int vertCount = 0;
         var step = (float)(Math.PI * 2 / segments);
         var vertexes = new PositionTextured[segments * 4];
@@ -358,9 +334,7 @@ internal static class MeshGenerator
             posInner = Vector3.TransformCoordinate(posInner, Matrix.RotationY(step));
             posOuter = Vector3.TransformCoordinate(posOuter, Matrix.RotationY(step));
         }
-        #endregion
 
-        #region Generate indexes
         int indexCount = 0;
         var indexes = new short[segments * 24];
 
@@ -408,7 +382,6 @@ internal static class MeshGenerator
             indexes[indexCount++] = outerTop2;
             indexes[indexCount++] = outerTop1;
         }
-        #endregion
 
         var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
         BufferHelper.WriteVertexBuffer(mesh, vertexes);
@@ -417,5 +390,4 @@ internal static class MeshGenerator
 
         return mesh;
     }
-    #endregion
 }
