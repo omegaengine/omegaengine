@@ -189,7 +189,7 @@ internal static class MeshHelper
     /// <param name="weldVertexes">Weld vertexes before generating tangents.
     /// Useful for organic objects, stones, trees, etc. (anything with a lot of round surfaces).
     /// If a lot of single faces are not connected on the texture (e.g. rockets, buildings, etc.) do not use.</param>
-    public static void GenerateNormalsAndTangents(Device device, ref Mesh mesh, bool weldVertexes)
+    public static void GenerateNormalsAndTangents(Device device, ref Mesh mesh, bool weldVertexes = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));

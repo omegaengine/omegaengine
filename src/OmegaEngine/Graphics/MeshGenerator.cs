@@ -179,7 +179,7 @@ internal static class MeshGenerator
         var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
         BufferHelper.WriteVertexBuffer(mesh, vertexes);
         BufferHelper.WriteIndexBuffer(mesh, indexes);
-        MeshHelper.GenerateNormalsAndTangents(device, ref mesh, false);
+        MeshHelper.GenerateNormalsAndTangents(device, ref mesh);
 
         return mesh;
     }
@@ -413,7 +413,7 @@ internal static class MeshGenerator
         var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
         BufferHelper.WriteVertexBuffer(mesh, vertexes);
         BufferHelper.WriteIndexBuffer(mesh, indexes);
-        MeshHelper.GenerateNormalsAndTangents(device, ref mesh, false);
+        MeshHelper.GenerateNormalsAndTangents(device, ref mesh);
 
         return mesh;
     }
