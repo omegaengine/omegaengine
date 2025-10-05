@@ -46,17 +46,6 @@ public struct TransformedColored
     // ReSharper restore MemberCanBePrivate.Global
     #endregion
 
-    #region Properties
-    /// <summary>The X-component of the position of the vertex in screen-space</summary>
-    public float X { get => Position.X; set => Position.X = value; }
-
-    /// <summary>The Y-component of the position of the vertex in screen-space</summary>
-    public float Y { get => Position.Y; set => Position.Y = value; }
-
-    /// <summary>The Z-component of the position of the vertex in screen-space</summary>
-    public float Z { get => Position.Z; set => Position.Z = value; }
-    #endregion
-
     #region Constructor
     /// <summary>
     /// Creates a new transformed, colored vertex

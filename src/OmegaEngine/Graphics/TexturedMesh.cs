@@ -230,16 +230,19 @@ public static class TexturedMesh
                     vertexes[vertIndex] = vertexes[stack];
                 else
                 {
-                    var pnt = new PositionNormalTextured();
-                    float alphaZ = ((stack - stacks * 0.5f) / stacks) * (float)Math.PI * 1.0f; // Angle around Z-axis
-                    pnt.X = (float)(Math.Cos(alphaY) * radius) * (float)Math.Cos(alphaZ);
-                    pnt.Z = (float)(Math.Sin(alphaY) * radius) * (float)Math.Cos(alphaZ);
-                    pnt.Y = (float)(Math.Sin(alphaZ) * radius);
-                    pnt.Nx = pnt.X / radius;
-                    pnt.Ny = pnt.Y / radius;
-                    pnt.Nz = pnt.Z / radius;
-                    pnt.Tv = 0.5f - (float)(Math.Asin(pnt.Y / radius) / Math.PI);
-                    vertexes.SetValue(pnt, vertIndex);
+                    float alphaZ = (stack - stacks * 0.5f) / stacks * (float)Math.PI;
+                    var position = new Vector3(
+                        (float)(Math.Cos(alphaY) * radius) * (float)Math.Cos(alphaZ),
+                        (float)(Math.Sin(alphaZ) * radius),
+                        (float)(Math.Sin(alphaY) * radius) * (float)Math.Cos(alphaZ));
+                    var normal = position * (1 / radius);
+                    vertexes.SetValue(
+                        new PositionNormalTextured(
+                            position,
+                            normal,
+                            tu: 0,
+                            tv: 0.5f - (float)(Math.Asin(normal.Y) / Math.PI)),
+                        vertIndex);
                 }
                 vertexes[vertIndex++].Tu = (float)slice / slices;
             }

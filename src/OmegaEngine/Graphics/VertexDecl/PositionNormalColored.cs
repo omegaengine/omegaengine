@@ -47,26 +47,6 @@ public struct PositionNormalColored
     // ReSharper restore MemberCanBePrivate.Global
     #endregion
 
-    #region Properties
-    /// <summary>The X-component of the position of the vertex in entity-space</summary>
-    public float X { get => Position.X; set => Position.X = value; }
-
-    /// <summary>The Y-component of the position of the vertex in entity-space</summary>
-    public float Y { get => Position.Y; set => Position.Y = value; }
-
-    /// <summary>The Z-component of the position of the vertex in entity-space</summary>
-    public float Z { get => Position.Z; set => Position.Z = value; }
-
-    /// <summary>The X-component of the normal of the vertex in entity-space</summary>
-    public float Nx { get => Normal.X; set => Normal.X = value; }
-
-    /// <summary>The X-component of the normal of the vertex in entity-space</summary>
-    public float Ny { get => Normal.Y; set => Normal.Y = value; }
-
-    /// <summary>The X-component of the normal of the vertex in entity-space</summary>
-    public float Nz { get => Normal.Z; set => Normal.Z = value; }
-    #endregion
-
     #region Constructor
     /// <summary>
     /// Creates a new positioned, colored vertex with normal information
