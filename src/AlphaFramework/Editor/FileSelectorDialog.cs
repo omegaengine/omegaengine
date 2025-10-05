@@ -135,7 +135,7 @@ public partial class FileSelectorDialog : Form
     /// <returns><c>true</c> if a file was selected, <c>false</c> if none was selected</returns>
     /// <exception cref="InvalidOperationException">The user didn't select a file.</exception>
     public static bool TryGetPath(string type, string extension, out string path)
-        => TryGetPath(type, extension, out path, out bool _, allowNew: false);
+        => TryGetPath(type, extension, out path, out _, allowNew: false);
     #endregion
 
     //--------------------//

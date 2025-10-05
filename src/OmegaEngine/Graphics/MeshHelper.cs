@@ -132,7 +132,7 @@ internal static class MeshHelper
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
         #endregion
 
-        if (!ExpandDeclaration(device, ref mesh, out bool hadNormals, out bool _)) return;
+        if (!ExpandDeclaration(device, ref mesh, out bool hadNormals, out _)) return;
 
         #region Check existing info
         bool gotMilkErmTexCoords = false;
