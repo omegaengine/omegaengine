@@ -54,7 +54,7 @@ public class XAnimatedMesh : XMesh
             // Replace bounding bodies from static mesh with data considering the animation hierarchy
             // ToDo: Calculate bounding sphere
             //BoundingSphere = BufferHelper.ComputeBoundingSphere(MeshFrame.FrameHierarchy);
-            //BoundingBox = new BoundingBox(); // No bounding box available for animation hierarchies
+            //BoundingBox = new(); // No bounding box available for animation hierarchies
         }
         #region Error handling
         catch (Exception)

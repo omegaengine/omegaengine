@@ -84,7 +84,7 @@ public class CpuParticleSystem : PositionableRenderable
         { // ... use rather wild approximation
             float maxDistance = preset.RandomAcceleration * preset.EmitterRepelRange * preset.EmitterRepelSpeed / 10;
 
-            BoundingSphere = new BoundingSphere(new(), maxDistance / 2);
+            BoundingSphere = new(center: new(), radius: maxDistance / 2);
         }
         // ReSharper restore CompareOfFloatsByEqualityOperator
 
@@ -94,11 +94,11 @@ public class CpuParticleSystem : PositionableRenderable
             float minFriction = preset.LowerParameters1.Friction + preset.LowerParameters2.Friction;
             float maxDistance = preset.SpawnRadius + (preset.Gravity.Length() - minFriction) * maxLifeTime * maxLifeTime / 2f;
 
-            BoundingSphere = new BoundingSphere(
+            BoundingSphere = new(
                 // Move half the way in gravity direction, handle first half of replling force
-                Vector3.Normalize(preset.Gravity) * (maxDistance / 2f - preset.EmitterRepelRange),
+                center: Vector3.Normalize(preset.Gravity) * (maxDistance / 2f - preset.EmitterRepelRange),
                 // Encapsulate the entire gravity area, handle secibd half of replling force
-                maxDistance / 2 + preset.EmitterRepelRange);
+                radius: maxDistance / 2 + preset.EmitterRepelRange);
         }
 
         // Make the update function execute once per frame

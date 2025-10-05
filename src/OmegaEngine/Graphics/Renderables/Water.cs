@@ -53,7 +53,7 @@ public class Water : Model
         SurfaceEffect = SurfaceEffect.Shader;
         Materials[0].Emissive = Color.LightBlue;
 
-        BoundingBox = new BoundingBox(new Vector3(0, 0, 0), new Vector3(size.Width, 0, -size.Height));
+        BoundingBox = new(minimum: new(), maximum: new(size.Width, 0, -size.Height));
         _waterTexture = XTexture.Get(Engine, @"Water\surface.png");
         _waterTexture.HoldReference();
     }

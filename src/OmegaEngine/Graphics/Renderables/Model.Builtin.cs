@@ -8,7 +8,6 @@
 
 using System;
 using NanoByte.Common;
-using SlimDX;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Renderables;
@@ -33,8 +32,8 @@ partial class Model
         Log.Info("Generate predefined model: Quad");
         return new(MeshGenerator.Quad(engine.Device, width, height), new XMaterial(texture))
         {
-            BoundingSphere = new BoundingSphere(default, (float)Math.Sqrt(width * width + height * height) / 2f),
-            BoundingBox = new BoundingBox(default, new(width, height, 0))
+            BoundingSphere = new(center: new(), radius:(float)Math.Sqrt(width * width + height * height) / 2f),
+            BoundingBox = new(minimum: new(), maximum: new(width, height, 0))
         };
     }
     #endregion
@@ -60,7 +59,7 @@ partial class Model
 
         return new(mesh, new XMaterial(texture))
         {
-            BoundingBox = new BoundingBox(default, new(width, height, depth))
+            BoundingBox = new(minimum: new(), maximum: new(width, height, depth))
         };
     }
     #endregion
@@ -87,7 +86,7 @@ partial class Model
         return new(mesh, new XMaterial(texture))
         {
             Engine = engine,
-            BoundingSphere = new BoundingSphere(default, radius)
+            BoundingSphere = new(center: new(), radius)
         };
     }
     #endregion
