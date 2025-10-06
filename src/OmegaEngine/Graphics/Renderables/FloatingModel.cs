@@ -83,10 +83,7 @@ public class FloatingModel : Model
         // Never light a floating model
         SurfaceEffect = SurfaceEffect.Plain;
 
-        var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getLights == null)
-            ? []
-            : getLights(Position, BoundingSphere?.Radius ?? 0);
-        for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, effectiveLights);
+        for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, lights: []);
     }
     #endregion
 }
