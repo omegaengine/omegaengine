@@ -402,11 +402,15 @@ outColoredPerVertex VS_ColoredPerVertexOnePointLight(inColored IN,
 float4 PS_Textured(outTexturedPerVertex IN, uniform bool useEmissiveMap, uniform bool firstPass) : COLOR
 {
     float4 diffuse = readDiffuseMap(IN.texCoord);
-    diffuse.rgb += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
 
-    // Bake in the specular color...
-    if (firstPass) return float4(diffuse.rgb + IN.specCol.rgb, diffuse.a); // ... and pass the alpha-channel through on the first pass
-    else return float4(IN.diffAmbColor.rgb * diffuse.rgb * diffuse.a + IN.specCol.rgb, 1); // ... and bake in the alpha-channel for all additional passes since they use additive blending
+    // Apply lighting
+    float3 color = IN.diffAmbColor.rgb * diffuse.rgb + IN.specCol.rgb;
+    if (firstPass) // Add emissive light only once (since it's technically not related to a specific light source)
+        color += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
+
+    // Bake in alpha channel on passes that use additive blending
+    float alpha = IN.diffAmbColor.a * diffuse.a;
+    return firstPass ? float4(color, alpha) : float4(color * alpha, 1);
 }
 
 float4 PS_TexturedTwoDirLights(outTextured IN,
@@ -421,13 +425,12 @@ float4 PS_TexturedTwoDirLights(outTextured IN,
 
     // Apply lighting
     lightComponents components = calcTwoDirLights(IN.worldPos, normal, lightDir1, lightDir2, diffCol1, diffCol2, specCol1 * specMap, specCol2 * specMap, ambCol1, ambCol2);
+    float3 color = components.diffuseAmbient.rgb * diffuse.rgb + components.specular.rgb;
     if (firstPass) // Add emissive light only once (since it's technically not related to a specific light source)
-        components.diffuseAmbient.rgb += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
-    float3 diffAmbCol = components.diffuseAmbient.rgb * diffuse.rgb;
+        color += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
 
-    // Bake in the specular color...
-    if (firstPass) return float4(diffAmbCol + components.specular.rgb, diffuse.a); // ... and pass the alpha-channel through on the first pass
-    else return float4(diffAmbCol * diffuse.a + components.specular.rgb, 1); // ... and bake in the alpha-channel for all additional passes since they use additive blending
+    // Bake in alpha channel on passes that use additive blending
+    return firstPass ? float4(color, diffuse.a) : float4(color * diffuse.a, 1);
 }
 
 float4 PS_TexturedOneDirOrPointLight(outTextured IN,
@@ -442,13 +445,12 @@ float4 PS_TexturedOneDirOrPointLight(outTextured IN,
     lightComponents components;
     if (pointLight) components = calcPointLight(IN.worldPos, normal, lightDirPos, diffCol, specCol * specMap, ambCol, att);
     else components = calcDirLight(IN.worldPos, normal, lightDirPos, diffCol, specCol * specMap, ambCol);
+    float3 color = components.diffuseAmbient.rgb * diffuse.rgb + components.specular.rgb;
     if (firstPass) // Add emissive light only once (since it's technically not related to a specific light source)
-        components.diffuseAmbient.rgb += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
-    float3 diffAmbCol = components.diffuseAmbient.rgb * diffuse.rgb;
+        color += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
 
-    // Bake in the specular color...
-    if (firstPass) return float4(diffAmbCol + components.specular.rgb, diffuse.a); // ... and pass the alpha-channel through on the first pass
-    else return float4(diffAmbCol * diffuse.a + components.specular.rgb, 1); // ... and bake in the alpha-channel for all additional passes since they use additive blending
+    // Bake in alpha channel on passes that use additive blending
+    return firstPass ? float4(color, diffuse.a) : float4(color * diffuse.a, 1);
 }
 
 float4 PS_ColoredTwoDirLights(outColored IN,
@@ -457,22 +459,34 @@ float4 PS_ColoredTwoDirLights(outColored IN,
   uniform float4 diffCol1, uniform float4 diffCol2, uniform float4 specCol1, uniform float4 specCol2,
   uniform float4 ambCol1, uniform float4 ambCol2) : COLOR
 {
+    // Apply lighting
     lightComponents components = calcTwoDirLights(IN.worldPos, IN.normal, lightDir1, lightDir2, diffCol1, diffCol2, specCol1, specCol2, ambCol1, ambCol2);
-    return IN.color * components.diffuseAmbient + components.specular;
+    float3 color = IN.color.rgb * components.diffuseAmbient.rgb + components.specular.rgb;
+
+    // Bake in alpha channel on passes that use additive blending
+    return firstPass ? float4(color, IN.color.a) : float4(color * IN.color.a, 1);
 }
 
 float4 PS_ColoredOneDirLight(outColored IN,
   uniform bool firstPass, uniform float3 lightDir, uniform float4 diffCol, uniform float4 specCol, uniform float4 ambCol) : COLOR
 {
+    // Apply lighting
     lightComponents components = calcDirLight(IN.worldPos, IN.normal, lightDir, diffCol, specCol, ambCol);
-    return IN.color * components.diffuseAmbient + components.specular;
+    float3 color = IN.color.rgb * components.diffuseAmbient.rgb + components.specular.rgb;
+
+    // Bake in alpha channel on passes that use additive blending
+    return firstPass ? float4(color, IN.color.a) : float4(color * IN.color.a, 1);
 }
 
 float4 PS_ColoredOnePointLight(outColored IN,
   uniform bool firstPass, uniform float3 lightPos, uniform float4 diffCol, uniform float4 specCol, uniform float4 ambCol, uniform float3 att) : COLOR
 {
+    // Apply lighting
     lightComponents components = calcPointLight(IN.worldPos, IN.normal, lightPos, diffCol, specCol, ambCol, att);
-    return IN.color * components.diffuseAmbient + components.specular;
+    float3 color = IN.color.rgb * components.diffuseAmbient.rgb + components.specular.rgb;
+
+    // Bake in alpha channel on passes that use additive blending
+    return firstPass ? float4(color, IN.color.a) : float4(color * IN.color.a, 1);
 }
 
 
