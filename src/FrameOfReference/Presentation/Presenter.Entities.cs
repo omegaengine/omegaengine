@@ -157,7 +157,7 @@ partial class Presenter
         {
             if (string.IsNullOrEmpty(component.Filename)) return null;
 
-            var model = new Model(XMesh.Get(Engine, component.Filename)) {Name = entity.Name};
+            var model = new Model(XMesh.Get(Engine, component.Filename)) {Name = entity.Name, SurfaceEffect = SurfaceEffect.Shader};
             ConfigureModel(model, component);
             return model;
         });
@@ -197,7 +197,7 @@ partial class Presenter
         model.Alpha = component.Alpha;
         model.Pickable = component.Pickable;
         model.RenderIn = (ViewType)component.RenderIn;
-        if (Lighting) model.SurfaceEffect = SurfaceEffect.Shader;
+        if (!Lighting) model.SurfaceEffect = SurfaceEffect.Plain;
         model.Wireframe = WireframeEntities;
         model.DrawBoundingSphere = BoundingSphereEntities;
         model.DrawBoundingBox = BoundingBoxEntities;
@@ -207,7 +207,7 @@ partial class Presenter
     {
         model.PreTransform = Matrix.Translation(component.Shift);
         model.Alpha = component.Alpha;
-        if (Lighting) model.SurfaceEffect = SurfaceEffect.Shader;
+        if (!Lighting) model.SurfaceEffect = SurfaceEffect.Plain;
         model.Wireframe = WireframeEntities;
         model.DrawBoundingSphere = BoundingSphereEntities;
         model.DrawBoundingBox = BoundingBoxEntities;
