@@ -41,7 +41,6 @@ using FrameOfReference.World.Templates;
 using ICSharpCode.SharpZipLib.Zip;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
-using NanoByte.Common.Dispatch;
 using NanoByte.Common.Tasks;
 using NanoByte.Common.Undo;
 using OmegaEngine.Foundation;
@@ -462,21 +461,24 @@ public partial class MapEditor : UndoCommandTab
             Position = GetScreenTerrainCenter(),
             DueTime = Math.Round(_universe.GameTime)
         };
-        new PerTypeDispatcher<Positionable<Vector2>>(ignoreMissing: true)
+
+        foreach (var positionable in _presenter?.SelectedPositionables ?? [])
         {
-            (Entity entity) =>
+            switch (positionable)
             {
-                newTrigger.TargetEntity = entity.Name;
-                newTrigger.Name = $"{entity.Name}_";
-            },
-            (Waypoint waypoint) =>
-            {
-                newTrigger.Position = waypoint.Position;
-                newTrigger.DueTime = Math.Round(waypoint.ArrivalTimeSpecified ? waypoint.ArrivalTime : _universe.GameTime);
-                newTrigger.TargetEntity = waypoint.TargetEntity;
-                newTrigger.Name = waypoint.Name;
+                case Entity entity:
+                    newTrigger.TargetEntity = entity.Name;
+                    newTrigger.Name = $"{entity.Name}_";
+                    break;
+
+                case Waypoint waypoint:
+                    newTrigger.Position = waypoint.Position;
+                    newTrigger.DueTime = Math.Round(waypoint.ArrivalTimeSpecified ? waypoint.ArrivalTime : _universe.GameTime);
+                    newTrigger.TargetEntity = waypoint.TargetEntity;
+                    newTrigger.Name = waypoint.Name;
+                    break;
             }
-        }.Dispatch(_presenter.SelectedPositionables);
+        }
 
         AddNewPositionable(newTrigger);
     }
@@ -488,19 +490,22 @@ public partial class MapEditor : UndoCommandTab
             Position = GetScreenTerrainCenter(),
             ActivationTime = Math.Round(_universe.GameTime)
         };
-        new PerTypeDispatcher<Positionable<Vector2>>(ignoreMissing: true)
+
+        foreach (var positionable in _presenter?.SelectedPositionables ?? [])
         {
-            (Entity entity) =>
+            switch (positionable)
             {
-                newWaypoint.TargetEntity = entity.Name;
-                newWaypoint.Name = $"{entity.Name}_";
-            },
-            (Waypoint waypoint) =>
-            {
-                newWaypoint.TargetEntity = waypoint.TargetEntity;
-                newWaypoint.Name = waypoint.Name;
+                case Entity entity:
+                    newWaypoint.TargetEntity = entity.Name;
+                    newWaypoint.Name = $"{entity.Name}_";
+                    break;
+
+                case Waypoint waypoint:
+                    newWaypoint.TargetEntity = waypoint.TargetEntity;
+                    newWaypoint.Name = waypoint.Name;
+                    break;
             }
-        }.Dispatch(_presenter.SelectedPositionables);
+        }
 
         AddNewPositionable(newWaypoint);
     }

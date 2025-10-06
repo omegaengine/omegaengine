@@ -21,12 +21,10 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using AlphaFramework.Presentation;
 using FrameOfReference.Presentation.Config;
 using FrameOfReference.World;
-using NanoByte.Common.Dispatch;
 using OmegaEngine;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
@@ -183,30 +181,17 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
     /// </summary>
     /// <returns>The current state of the <see cref="Camera"/> or <c>null</c> if it can not be determined at this time (e.g. cinematic animation in progress).</returns>
     public CameraState<Vector2>? CameraState
-    {
-        get
+        => View.Camera switch
         {
-            var dispatcher = new PerTypeDispatcher<Camera, CameraState<Vector2>>()
+            StrategyCamera camera => new()
             {
-                (StrategyCamera camera) => new()
-                {
-                    Name = camera.Name,
-                    Position = camera.Target.Flatten(),
-                    Radius = (float)camera.Radius,
-                    Rotation = camera.HorizontalRotation
-                }
-            };
-
-            try
-            {
-                return dispatcher.Dispatch(View.Camera);
-            }
-            catch (KeyNotFoundException)
-            {
-                return null;
-            }
-        }
-    }
+                Name = camera.Name,
+                Position = camera.Target.Flatten(),
+                Radius = (float)camera.Radius,
+                Rotation = camera.HorizontalRotation
+            },
+            _ => null
+        };
 
     /// <inheritdoc/>
     public override void DimDown()

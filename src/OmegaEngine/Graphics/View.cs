@@ -10,9 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using NanoByte.Common;
-using NanoByte.Common.Dispatch;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
@@ -265,28 +263,37 @@ public partial class View : EngineElement, IResetable
     /// </summary>
     private void HandleChildViews()
     {
-        new PerTypeDispatcher<TextureView>(ignoreMissing: false)
+        foreach (var view in _childViews)
         {
-            (GlowView glowView) => { if (Engine.Effects.PostScreenEffects) glowView.Render(); },
-            (ShadowView shadowView) => { if (Engine.Effects.Shadows) shadowView.Render(); },
-            (WaterView waterView) =>
+            if (!view.Visible || view.IsDisposed) continue;
+            switch (view)
             {
-                var effectLevel = waterView.Reflection ? WaterEffectsType.ReflectTerrain : WaterEffectsType.RefractionOnly;
-                if (Engine.Effects.WaterEffects >= effectLevel &&
-                    _sortedWaters.Exists(water => water.RequiredViews.Contains(waterView)))
-                {
-                    waterView.Fog = Fog;
-                    waterView.Render();
-                }
-            },
-            (LazyView lazyView) =>
-            {
-                lazyView.Fog = Fog;
-                if (_sortedOpaqueBodies.Exists(body => body.RequiredViews.Contains(lazyView)) ||
-                    _sortedTransparentBodies.Exists(body => body.RequiredViews.Contains(lazyView)))
-                    lazyView.Render();
+                case GlowView glowView when Engine.Effects.PostScreenEffects:
+                    glowView.Render();
+                    break;
+
+                case ShadowView shadowView when Engine.Effects.Shadows:
+                    shadowView.Render();
+                    break;
+
+                case WaterView waterView:
+                    var effectLevel = waterView.Reflection ? WaterEffectsType.ReflectTerrain : WaterEffectsType.RefractionOnly;
+                    if (Engine.Effects.WaterEffects >= effectLevel &&
+                        _sortedWaters.Exists(water => water.RequiredViews.Contains(waterView)))
+                    {
+                        waterView.Fog = Fog;
+                        waterView.Render();
+                    }
+                    break;
+
+                case LazyView lazyView:
+                    lazyView.Fog = Fog;
+                    if (_sortedOpaqueBodies.Exists(body => body.RequiredViews.Contains(lazyView)) ||
+                        _sortedTransparentBodies.Exists(body => body.RequiredViews.Contains(lazyView)))
+                        lazyView.Render();
+                    break;
             }
-        }.Dispatch(_childViews.Where(childView => childView.Visible && !childView.IsDisposed));
+        }
     }
     #endregion
 

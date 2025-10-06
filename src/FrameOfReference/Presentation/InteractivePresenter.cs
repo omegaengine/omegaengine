@@ -24,7 +24,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World;
 using FrameOfReference.World.Components;
@@ -146,22 +145,21 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
     /// <param name="entity">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to add the selection highlighting for</param>
     private Model? GetSelectionHighlighting(Entity entity)
     {
-        if (entity.TemplateData?.Collision == null) return null;
-
-        var dispatcher = new PerTypeDispatcher<Collision<Vector2>, Model>
+        switch (entity.TemplateData?.Collision)
         {
-            (Circle circle) =>
+            case Circle circle:
             {
                 // Create a circle around the entity based on the radius
-                var highlight = new Model(XMesh.Get(Engine, "Engine/Circle.x"));
+                var highlight = new Model(XMesh.Get(Engine, "Engine/Circle.x")) { Name = $"{entity.Name} Selection" };
                 float scale = circle.Radius / 20 + 1;
                 highlight.PreTransform = Matrix.Scaling(scale, 1, scale);
                 return highlight;
-            },
-            (Box box) =>
+            }
+
+            case Box box:
             {
                 // Create a rectangle around the entity based on the box corners
-                var highlight = new Model(XMesh.Get(Engine, "Engine/Rectangle.x"));
+                var highlight = new Model(XMesh.Get(Engine, "Engine/Rectangle.x")) { Name = $"{entity.Name} Selection" };
 
                 // Determine the component-wise minimums and maximums and the absolute difference
                 var min = new Vector2(
@@ -175,17 +173,9 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
                 highlight.PreTransform = Matrix.Scaling(diff.X, 1, diff.Y) * Matrix.Translation(min.X, 0, -min.Y);
                 return highlight;
             }
-        };
 
-        try
-        {
-            var selectionHighlight = dispatcher.Dispatch(entity.TemplateData.Collision);
-            selectionHighlight.Name = $"{entity.Name} Selection";
-            return selectionHighlight;
-        }
-        catch (KeyNotFoundException)
-        {
-            return null;
+            default:
+                return null;
         }
     }
 

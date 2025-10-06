@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NanoByte.Common.Dispatch;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
@@ -126,44 +125,47 @@ public sealed class Scene : EngineElement
         if (_dxLightCounter != 0) throw new InvalidOperationException(Resources.LightsNotDeactivated);
         #endregion
 
-        var dispatcher = new PerTypeDispatcher<LightSource, Light>()
-        {
-            (DirectionalLight light) =>
-            {
-                // Shader lighting
-                _directionalLights.Add(light);
-
-                // Fixed-function lighting
-                return new()
-                {
-                    Type = LightType.Directional, Direction = light.Direction,
-                    Diffuse = light.Diffuse, Specular = light.Specular, Ambient = light.Ambient
-                };
-            },
-            (PointLight light) =>
-            {
-                // Shader lighting
-                if (light.DirectionalForShader) _pseudoDirectionalLights.Add(light);
-                else _pointLights.Add(light);
-
-                // Fixed-function lighting
-                return new()
-                {
-                    Type = LightType.Point, Position = ((IPositionableOffset)light).EffectivePosition, Range = light.Range,
-                    Attenuation0 = light.Attenuation.Constant, Attenuation1 = light.Attenuation.Linear, Attenuation2 = light.Attenuation.Quadratic,
-                    Diffuse = light.Diffuse, Specular = light.Specular, Ambient = light.Ambient
-                };
-            },
-        };
-
-        foreach (var dxLight in _lights.Where(light => light.Enabled).Select(dispatcher.Dispatch))
+        foreach (var lightSource in _lights.Where(x => x.Enabled))
         {
             if (_dxLightCounter < Engine.Device.Capabilities.MaxActiveLights)
             {
-                Engine.Device.SetLight(_dxLightCounter, dxLight);
+                Engine.Device.SetLight(_dxLightCounter, BuildLight(lightSource));
                 Engine.Device.EnableLight(_dxLightCounter, true);
                 _dxLightCounter++;
             }
+        }
+    }
+
+    private Light BuildLight(LightSource source)
+    {
+        switch (source)
+        {
+            case DirectionalLight directional:
+                // Shader lighting
+                _directionalLights.Add(directional);
+
+                // Fixed-function lighting
+                return new()
+                {
+                    Type = LightType.Directional, Direction = directional.Direction,
+                    Diffuse = directional.Diffuse, Specular = directional.Specular, Ambient = directional.Ambient
+                };
+
+            case PointLight point:
+                // Shader lighting
+                if (point.DirectionalForShader) _pseudoDirectionalLights.Add(point);
+                else _pointLights.Add(point);
+
+                // Fixed-function lighting
+                return new()
+                {
+                    Type = LightType.Point, Position = ((IPositionableOffset)point).EffectivePosition, Range = point.Range,
+                    Attenuation0 = point.Attenuation.Constant, Attenuation1 = point.Attenuation.Linear, Attenuation2 = point.Attenuation.Quadratic,
+                    Diffuse = point.Diffuse, Specular = point.Specular, Ambient = point.Ambient
+                };
+
+            default:
+                throw new NotSupportedException($"Unknown light source type {source.GetType().Name}.");
         }
     }
     #endregion
