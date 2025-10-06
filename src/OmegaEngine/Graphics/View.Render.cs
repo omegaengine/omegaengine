@@ -79,7 +79,7 @@ partial class View
             if (Lighting && Scene.Lights.Count > 0)
             {
                 using (new ProfilerEvent("Setup lights"))
-                    Scene.ActivateLights(this);
+                    Scene.ActivateLights();
             }
             #endregion
 

@@ -119,12 +119,10 @@ public sealed class Scene : EngineElement
     /// <summary>
     /// Must be called before rendering this scene or calling <see cref="GetEffectiveLights"/>
     /// </summary>
-    /// <param name="view">The <see cref="View"/> used to render this <see cref="Scene"/></param>
     /// <remarks>Remember to call <see cref="DeactivateLights"/> when done</remarks>
-    internal void ActivateLights(View view)
+    internal void ActivateLights()
     {
         #region Sanity checks
-        if (view == null) throw new ArgumentNullException(nameof(view));
         if (_dxLightCounter != 0) throw new InvalidOperationException(Resources.LightsNotDeactivated);
         #endregion
 
