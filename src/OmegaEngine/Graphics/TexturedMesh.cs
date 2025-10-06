@@ -150,7 +150,8 @@ public static class TexturedMesh
     /// <param name="device">The <see cref="Device"/> to create the <see cref="Mesh"/> in.</param>
     /// <param name="width">The width of the quad.</param>
     /// <param name="height">The height of the quad.</param>
-    public static Mesh Quad(Device device, float width, float height)
+    /// <param name="tbn">Generate TBN (tangent, binormal, normal) vectors instead of just normal vectors.</param>
+    public static Mesh Quad(Device device, float width, float height, bool tbn = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -168,7 +169,9 @@ public static class TexturedMesh
         var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
         BufferHelper.WriteVertexBuffer(mesh, vertexes);
         BufferHelper.WriteIndexBuffer(mesh, indexes);
-        TexturedMeshUtils.GenerateTBN(device, ref mesh);
+
+        if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
+        else TexturedMeshUtils.GenerateNormals(device, ref mesh);
 
         return mesh;
     }
@@ -180,8 +183,9 @@ public static class TexturedMesh
     /// <param name="width">The width of the box.</param>
     /// <param name="height">The height of the box.</param>
     /// <param name="depth">The depth of the box.</param>
+    /// <param name="tbn">Generate TBN (tangent, binormal, normal) vectors instead of just normal vectors.</param>
     /// <remarks>The box is formed like the one created by <see cref="Mesh.CreateBox"/>.</remarks>
-    public static Mesh Box(Device device, float width, float height, float depth)
+    public static Mesh Box(Device device, float width, float height, float depth, bool tbn = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -194,6 +198,8 @@ public static class TexturedMesh
         CloneAddTexture(ref mesh);
         SetBoxTextureCoordinates(mesh);
 
+        if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
+
         return mesh;
     }
 
@@ -204,8 +210,9 @@ public static class TexturedMesh
     /// <param name="radius">The radius of the sphere.</param>
     /// <param name="slices">The number of vertical slices to divide the sphere into.</param>
     /// <param name="stacks">The number of horizontal stacks to divide the sphere into.</param>
+    /// <param name="tbn">Generate TBN (tangent, binormal, normal) vectors instead of just normal vectors.</param>
     /// <remarks>The sphere is formed like the one created by <see cref="Mesh.CreateSphere"/>.</remarks>
-    public static Mesh Sphere(Device device, float radius, int slices, int stacks)
+    public static Mesh Sphere(Device device, float radius, int slices, int stacks, bool tbn = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -271,6 +278,8 @@ public static class TexturedMesh
 
         BufferHelper.WriteIndexBuffer(mesh, indexes);
 
+        if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
+
         return mesh;
     }
 
@@ -283,8 +292,9 @@ public static class TexturedMesh
     /// <param name="length">The length of the cylinder.</param>
     /// <param name="slices">The number of vertical slices to divide the cylinder in.</param>
     /// <param name="stacks">The number of horizontal stacks to divide the cylinder in.</param>
+    /// <param name="tbn">Generate TBN (tangent, binormal, normal) vectors instead of just normal vectors.</param>
     /// <remarks>The cylinder is formed like the one created by <see cref="Mesh.CreateCylinder"/>.</remarks>
-    public static Mesh Cylinder(Device device, float radius1, float radius2, float length, int slices, int stacks)
+    public static Mesh Cylinder(Device device, float radius1, float radius2, float length, int slices, int stacks, bool tbn = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -299,6 +309,8 @@ public static class TexturedMesh
         CloneAddTexture(ref mesh);
         SetSphericalTextureCoordinates(mesh);
 
+        if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
+
         return mesh;
     }
 
@@ -310,7 +322,8 @@ public static class TexturedMesh
     /// <param name="radiusOuter">The radius of the outer circle of the ring.</param>
     /// <param name="height">The height of the ring.</param>
     /// <param name="segments">The number of segments the ring shall consist of.</param>
-    public static Mesh Disc(Device device, float radiusInner, float radiusOuter, float height, int segments)
+    /// <param name="tbn">Generate TBN (tangent, binormal, normal) vectors instead of just normal vectors.</param>
+    public static Mesh Disc(Device device, float radiusInner, float radiusOuter, float height, int segments, bool tbn = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -389,7 +402,9 @@ public static class TexturedMesh
         var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
         BufferHelper.WriteVertexBuffer(mesh, vertexes);
         BufferHelper.WriteIndexBuffer(mesh, indexes);
-        TexturedMeshUtils.GenerateTBN(device, ref mesh);
+
+        if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
+        else TexturedMeshUtils.GenerateNormals(device, ref mesh);
 
         return mesh;
     }

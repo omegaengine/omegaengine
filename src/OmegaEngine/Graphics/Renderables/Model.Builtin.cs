@@ -55,7 +55,6 @@ partial class Model
 
         Log.Info("Generate predefined model: Box");
         Mesh mesh = TexturedMesh.Box(engine.Device, width, height, depth);
-        TexturedMeshUtils.GenerateNormals(engine.Device, ref mesh);
 
         return new(mesh, new XMaterial(texture))
         {
@@ -81,7 +80,6 @@ partial class Model
 
         Log.Info("Generate predefined model: Sphere");
         Mesh mesh = TexturedMesh.Sphere(engine.Device, radius, slices, stacks);
-        TexturedMeshUtils.GenerateNormals(engine.Device, ref mesh);
 
         return new(mesh, new XMaterial(texture))
         {
@@ -110,7 +108,6 @@ partial class Model
 
         Log.Info("Generate predefined model: Cylinder");
         Mesh mesh = TexturedMesh.Cylinder(engine.Device, radiusBottom, radiusTop, length, slices, stacks);
-        TexturedMeshUtils.GenerateNormals(engine.Device, ref mesh);
 
         // ToDo: Calculate bounding box
         return new(mesh, new XMaterial(texture));
