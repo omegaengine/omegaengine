@@ -115,6 +115,8 @@ public struct XMaterial
         DiffuseMaps = new ITextureProvider[16];
         DiffuseMaps[0] = diffuse;
     }
+
+    public static implicit operator XMaterial(XTexture texture) => new(texture);
     #endregion
 
     //--------------------//

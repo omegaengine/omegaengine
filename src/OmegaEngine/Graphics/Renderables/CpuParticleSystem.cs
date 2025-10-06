@@ -377,7 +377,7 @@ public class CpuParticleSystem : PositionableRenderable
             // Check if texture path is valid
             if (ContentManager.FileExists("Textures", texture))
             {
-                _material1 = new(XTexture.Get(Engine, texture));
+                _material1 = XTexture.Get(Engine, texture);
                 _material1.HoldReference();
             }
         }
@@ -393,7 +393,7 @@ public class CpuParticleSystem : PositionableRenderable
             // Check if texture path is valid
             if (ContentManager.FileExists("Textures", texture))
             {
-                _material2 = new(XTexture.Get(Engine, texture));
+                _material2 = XTexture.Get(Engine, texture);
                 _material2.HoldReference();
             }
         }
