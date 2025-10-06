@@ -20,14 +20,16 @@ namespace OmegaEngine.Graphics;
 /// <remarks><see cref="XMaterial"/> instances are auto-generated when <see cref="XMesh"/>es are loaded.</remarks>
 public struct XMaterial
 {
-    #region Variables
     /// <summary>
     /// The diffuse textures maps
     /// </summary>
     public readonly ITextureProvider?[] DiffuseMaps;
-    #endregion
 
-    #region Properties
+    /// <summary>
+    /// Indicates whether this material uses textures
+    /// </summary>
+    public bool IsTextured => DiffuseMaps is [not null, ..];
+
     /// <summary>
     /// A plain white untextured material
     /// </summary>
@@ -38,7 +40,6 @@ public struct XMaterial
     /// </summary>
     public Material D3DMaterial => new() {Ambient = Ambient, Diffuse = Diffuse, Specular = Specular, Power = SpecularPower, Emissive = Emissive};
 
-    #region Colors
     /// <summary>
     /// The color of the material when lit by ambient/background light (always active)
     /// </summary>
@@ -68,9 +69,7 @@ public struct XMaterial
     /// </summary>
     [DefaultValue(typeof(Color), "Black")]
     public Color Emissive { get; set; }
-    #endregion
 
-    #region Textures
     /// <summary>
     /// The normal map (i.e. bump map)
     /// </summary>
@@ -82,6 +81,11 @@ public struct XMaterial
     public ITextureProvider? HeightMap { get; set; }
 
     /// <summary>
+    /// Indicates whether this material requires TBN (tangent, bitangent, normal) vectors
+    /// </summary>
+    public bool NeedsTBN => NormalMap != null || HeightMap != null;
+
+    /// <summary>
     /// The specular map (which spots are "shiny")
     /// </summary>
     public ITextureProvider? SpecularMap { get; set; }
@@ -90,11 +94,7 @@ public struct XMaterial
     /// The emissive (self-shining, without light source) - doubles as the glow map
     /// </summary>
     public ITextureProvider? EmissiveMap { get; set; }
-    #endregion
 
-    #endregion
-
-    #region Constructor
     public XMaterial(Color color) : this()
     {
         DiffuseMaps = new ITextureProvider[16];
@@ -117,11 +117,7 @@ public struct XMaterial
     }
 
     public static implicit operator XMaterial(XTexture texture) => new(texture);
-    #endregion
 
-    //--------------------//
-
-    #region Reference control
     /// <summary>
     /// Calls <see cref="Asset.HoldReference"/> for all contained <see cref="XTexture"/>s.
     /// </summary>
@@ -157,5 +153,4 @@ public struct XMaterial
         SpecularMap?.ReleaseReference();
         EmissiveMap?.ReleaseReference();
     }
-    #endregion
 }
