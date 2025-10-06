@@ -125,8 +125,13 @@ public struct XMaterial
     /// </summary>
     public void HoldReference()
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
         if (DiffuseMaps != null)
-            foreach (var texture in DiffuseMaps.WhereNotNull()) texture.HoldReference();
+        {
+            foreach (var texture in DiffuseMaps)
+                texture?.HoldReference();
+        }
+
         NormalMap?.HoldReference();
         HeightMap?.HoldReference();
         SpecularMap?.HoldReference();
@@ -138,8 +143,13 @@ public struct XMaterial
     /// </summary>
     public void ReleaseReference()
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
         if (DiffuseMaps != null)
-            foreach (var texture in DiffuseMaps.WhereNotNull()) texture.ReleaseReference();
+        {
+            foreach (var texture in DiffuseMaps)
+                texture?.ReleaseReference();
+        }
+
         NormalMap?.ReleaseReference();
         HeightMap?.ReleaseReference();
         SpecularMap?.ReleaseReference();
