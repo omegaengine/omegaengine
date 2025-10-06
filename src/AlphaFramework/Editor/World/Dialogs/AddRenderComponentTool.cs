@@ -37,7 +37,7 @@ public sealed partial class AddRenderComponentTool : System.Windows.Forms.Form
         InitializeComponent();
 
         typeBoxType.Items.AddRange([
-            "TestSphere", "StaticMesh", "AnimatedMesh", "CpuParticleSystem", "LightSource"
+            nameof(TestSphere), nameof(StaticMesh), nameof(AnimatedMesh), nameof(CpuParticleSystem), nameof(LightSource)
         ]);
     }
     #endregion
@@ -49,19 +49,19 @@ public sealed partial class AddRenderComponentTool : System.Windows.Forms.Form
     {
         switch (typeBoxType.Text)
         {
-            case "TestSphere":
+            case nameof(TestSphere):
                 OnNewRenderComponent(new TestSphere());
                 break;
-            case "StaticMesh":
+            case nameof(StaticMesh):
                 OnNewRenderComponent(new StaticMesh());
                 break;
-            case "AnimatedMesh":
+            case nameof(AnimatedMesh):
                 OnNewRenderComponent(new AnimatedMesh());
                 break;
-            case "CpuParticleSystem":
+            case nameof(CpuParticleSystem):
                 OnNewRenderComponent(new CpuParticleSystem());
                 break;
-            case "LightSource":
+            case nameof(LightSource):
                 OnNewRenderComponent(new LightSource());
                 break;
         }
