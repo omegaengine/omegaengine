@@ -98,7 +98,7 @@ struct inSimple
 struct outLight2x
 {
     float4 pos                : POSITION;  // Position in clip space
-    float3 position           : TEXCOORD1; // Position in clip space without superfluous fourth dimension
+    float zDepth              : TEXCOORD1; // Distance from the camera in clip space
     float3 worldPos           : TEXCOORD2; // Position in world space
     float3 normal             : TEXCOORD3; // Normal vector in world space
     float2 texCoord           : TEXCOORD0; // Texture coordinates
@@ -114,7 +114,7 @@ struct outLight2x
 struct outSimple2x
 {
     float4 pos         : POSITION;  // Position in clip space
-    float3 position    : TEXCOORD1; // Position in clip space without superfluous fourth dimension
+    float zDepth       : TEXCOORD1; // Distance from the camera in clip space
     float3 worldPos    : TEXCOORD2; // Position in world space
     float2 texCoord    : TEXCOORD0; // Texture coordinates
     float4 texWeights1 : TEXCOORD3;
@@ -228,7 +228,7 @@ outLight2x VS_Light2x(inLight IN)
 
     // Apply transforms
     OUT.pos = transProj(IN.entityPos);
-    OUT.position = OUT.pos.xyz;
+    OUT.zDepth = OUT.pos.z;
     OUT.worldPos = transWorld(IN.entityPos);
     OUT.normal = transNorm(IN.normal);
 
@@ -252,7 +252,7 @@ outSimple2x VS_Simple20(inSimple IN)
 
     // Apply transforms
     OUT.pos = transProj(IN.entityPos);
-    OUT.position = OUT.pos.xyz;
+    OUT.zDepth = OUT.pos.z;
     OUT.worldPos = transWorld(IN.entityPos);
 
     // ToDo: Compact the weights using the DynamicShader system
@@ -393,7 +393,7 @@ outBlack VS_SimpleBlack(inSimple IN)
 //---------------- Pixel shaders ----------------
 
 /// <BeginFilter Target="PS2ab" Lighting="true" />
-float4 PS_Helper2ab(float3 position, float2 texCoord, float4 texWeights1, float4 texWeights2, float4 texWeights3)
+float4 PS_Helper2ab(float zDepth, float2 texCoord, float4 texWeights1, float4 texWeights2, float4 texWeights3)
 {
     // Calculate color values for high camera distance
     float2 farTextureCoords = texCoord * 0.8;
@@ -422,14 +422,14 @@ float4 PS_Helper2ab(float3 position, float2 texCoord, float4 texWeights1, float4
     /// <Code Type="Sync" Controller="textures" Max="16"><![CDATA[    nearColor += tex2D(texture{main}Sampler, nearTextureCoords) * texWeights{group}.{component};]]></Code>
 
     // Calculate distance blend factor
-    float blendFactor = clamp((position.z-BlendDistance)/BlendWidth, 0.05, 0.95);
+    float blendFactor = clamp((zDepth-BlendDistance)/BlendWidth, 0.05, 0.95);
     return farColor*blendFactor + nearColor*(1-blendFactor);
 }
 
 float4 PS_Light2ab(outLight2x IN,  // Overload for ambient-only light
   uniform float4 ambCol) : COLOR
 {
-    return PS_Helper2ab(IN.position, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * ambCol * IN.color;
+    return PS_Helper2ab(IN.zDepth, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * ambCol * IN.color;
 }
 
 float4 PS_Light2ab(outLight2x IN,  // Overload for two directional lights
@@ -439,21 +439,21 @@ float4 PS_Light2ab(outLight2x IN,  // Overload for two directional lights
 {
     float4 diffAmbColor = calcTwoDirLights(IN.normal,
       lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.occlusionIntervals, IN.occlusionIntervals);
-    return PS_Helper2ab(IN.position, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+    return PS_Helper2ab(IN.zDepth, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
 }
 
 float4 PS_Light2ab(outLight2x IN,  // Overload for one directional light
   uniform float3 lightDir, uniform float4 diffCol, uniform float4 ambCol) : COLOR
 {
     float4 diffAmbColor = calcDirLight(IN.normal, lightDir, diffCol, ambCol, IN.occlusionIntervals);
-    return PS_Helper2ab(IN.position, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+    return PS_Helper2ab(IN.zDepth, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
 }
 
 float4 PS_Light2ab(outLight2x IN,  // Overload for one point light
   uniform float3 lightPos, uniform float4 diffCol, uniform float4 ambCol, uniform float3 att) : COLOR
 {
     float4 diffAmbColor = calcPointLight(IN.worldPos, IN.normal, lightPos, diffCol, ambCol, att);
-    return PS_Helper2ab(IN.position, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+    return PS_Helper2ab(IN.zDepth, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
 }
 /// <EndFilter />
 
