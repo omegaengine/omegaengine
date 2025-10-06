@@ -32,7 +32,7 @@ public sealed class EngineEffects
     //--------------------//
 
     #region Per-pixel effects
-    private bool _perPixelLighting, _normalMapping, _postScreenEffects, _shadows;
+    private bool _perPixelLighting, _normalMapping, _postScreenEffects;
 
     /// <summary>
     /// Use per-pixel lighting
@@ -51,12 +51,6 @@ public sealed class EngineEffects
     /// </summary>
     /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
     public bool PostScreenEffects { get => _postScreenEffects; set => _postScreenEffects = _capabilities.PerPixelEffects && value; }
-
-    /// <summary>
-    /// Apply shadows
-    /// </summary>
-    /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
-    public bool Shadows { get => _shadows; set => _shadows = _capabilities.PerPixelEffects && value; }
     #endregion
 
     #region Double sampling

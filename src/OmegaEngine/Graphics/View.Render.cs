@@ -183,7 +183,6 @@ partial class View
         #endregion
 
         #region Skybox
-        // Don't render Skybox in shadow/glow maps
         if (Scene.Skybox is { Visible: true } && !Fog)
         {
             // Render first, before all other entities using simplified transformations

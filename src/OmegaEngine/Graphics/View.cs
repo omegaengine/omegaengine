@@ -272,10 +272,6 @@ public partial class View : EngineElement, IResetable
                     glowView.Render();
                     break;
 
-                case ShadowView shadowView when Engine.Effects.Shadows:
-                    shadowView.Render();
-                    break;
-
                 case WaterView waterView:
                     var effectLevel = waterView.Reflection ? WaterEffectsType.ReflectTerrain : WaterEffectsType.RefractionOnly;
                     if (Engine.Effects.WaterEffects >= effectLevel &&
@@ -402,8 +398,6 @@ public partial class View : EngineElement, IResetable
     }
     #endregion
 
-    #region Generate special support views
-
     #region Glow
     private bool _glowSetup;
 
@@ -427,27 +421,6 @@ public partial class View : EngineElement, IResetable
 
         _childViews.Add(newView);
     }
-    #endregion
-
-    #region Shadow
-    /// <summary>
-    /// Creates a shadow-map for a <see cref="LightSource"/> in the <see cref="Scene"/>
-    /// </summary>
-    /// <param name="light">The <see cref="LightSource"/> to create the shadow-map for</param>
-    public void SetupShadow(LightSource light)
-    {
-        // ToDo: Finish implementation
-
-        // Create the new view, make sure the camera stays in sync, copy default properties
-        var newView = new ShadowView(this)
-        {
-            Name = $"{Name} Shadow"
-        };
-
-        _childViews.Add(newView);
-    }
-    #endregion
-
     #endregion
 
     //--------------------//

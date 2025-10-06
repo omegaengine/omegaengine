@@ -16,7 +16,7 @@ namespace OmegaEngine.Graphics;
 /// <summary>
 /// A special kind of <see cref="View"/> that directs its output into a texture <see cref="RenderTarget"/> instead of printing straight to the screen.
 /// </summary>
-/// <remarks>These <see cref="View"/>s usually provide helper data (shadows, reflections) for the main <see cref="View"/>s.
+/// <remarks>These <see cref="View"/>s usually provide helper data (e.g. reflections) for the main <see cref="View"/>s.
 /// They are then referenced in <see cref="View.ChildViews"/>.</remarks>
 public abstract class TextureView : View
 {

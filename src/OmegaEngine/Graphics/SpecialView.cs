@@ -14,7 +14,7 @@ using OmegaEngine.Graphics.Cameras;
 namespace OmegaEngine.Graphics;
 
 /// <summary>
-/// A common base class for <see cref="GlowView"/> and <see cref="ShadowView"/>
+/// A common base class for views that use non-standard rendering modes.
 /// </summary>
 public abstract class SpecialView : SupportView
 {
@@ -49,7 +49,6 @@ public abstract class SpecialView : SupportView
     /// <inheritdoc/>
     protected override void RenderBackground()
     {
-        // Views such as glow and shadow maps have a strict black background requirement
         using (new ProfilerEvent("Clear ZBuffer and BackBuffer"))
             Engine.Device.Clear(ClearFlags.ZBuffer | ClearFlags.Target, Color.Black, 1.0f, 0);
     }

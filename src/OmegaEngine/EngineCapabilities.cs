@@ -209,7 +209,6 @@ public sealed class EngineCapabilities
     /// <seealso cref="EngineEffects.PerPixelLighting"/>
     /// <seealso cref="EngineEffects.NormalMapping"/>
     /// <seealso cref="EngineEffects.PostScreenEffects"/>
-    /// <seealso cref="EngineEffects.Shadows"/>
     public bool PerPixelEffects => MaxShaderModel >= new Version(2, 0);
 
     /// <summary>
