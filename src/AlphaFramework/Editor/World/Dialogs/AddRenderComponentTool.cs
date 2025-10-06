@@ -47,24 +47,16 @@ public sealed partial class AddRenderComponentTool : System.Windows.Forms.Form
     #region Buttons
     private void buttonOK_Click(object sender, EventArgs e)
     {
-        switch (typeBoxType.Text)
+        Render? component = typeBoxType.Text switch
         {
-            case nameof(TestSphere):
-                OnNewRenderComponent(new TestSphere());
-                break;
-            case nameof(StaticMesh):
-                OnNewRenderComponent(new StaticMesh());
-                break;
-            case nameof(AnimatedMesh):
-                OnNewRenderComponent(new AnimatedMesh());
-                break;
-            case nameof(CpuParticleSystem):
-                OnNewRenderComponent(new CpuParticleSystem());
-                break;
-            case nameof(LightSource):
-                OnNewRenderComponent(new LightSource());
-                break;
-        }
+            nameof(TestSphere) => new TestSphere(),
+            nameof(StaticMesh) => new StaticMesh(),
+            nameof(AnimatedMesh) => new AnimatedMesh(),
+            nameof(CpuParticleSystem) => new CpuParticleSystem(),
+            nameof(LightSource) => new LightSource(),
+            _ => null
+        };
+        if (component != null) OnNewRenderComponent(component);
 
         Close();
     }
