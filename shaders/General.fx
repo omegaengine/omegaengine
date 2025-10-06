@@ -395,7 +395,7 @@ outColoredPerVertex VS_ColoredPerVertexOnePointLight(inColored IN,
 
 //---------------- Pixel shaders ----------------
 
-float4 PS_TexturedPerVertex(outTexturedPerVertex IN, uniform bool useEmissiveMap, uniform bool firstPass) : COLOR
+float4 PS_Textured(outTexturedPerVertex IN, uniform bool useEmissiveMap, uniform bool firstPass) : COLOR
 {
     float4 diffuse = readDiffuseMap(IN.texCoord);
     diffuse.rgb += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor.rgb;
@@ -561,41 +561,41 @@ technique ColoredEmissiveOnly {
 technique TexturedPerVertex {
   pass AmbientLight {
     VertexShader = compile vs_1_1 VS_TexturedAmbient(ambientColor1);
-    PixelShader = compile ps_1_1 PS_TexturedPerVertex(/*useEmissive*/false, /*firstPass*/true);
+    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
   }
   pass TwoDirLights {
     VertexShader = compile vs_1_1 VS_TexturedPerVertexTwoDirLights(/*firstPass*/true, -lightDirection1, -lightDirection2, diffuseColor1, diffuseColor2, specularColor1, specularColor2, ambientColor1, ambientColor2);
-    PixelShader = compile ps_1_1 PS_TexturedPerVertex(/*useEmissive*/false, /*firstPass*/true);
+    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
   }
   pass TwoDirLightsAdd {
     ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_TexturedPerVertexTwoDirLights(/*firstPass*/false, -lightDirection1, -lightDirection2, diffuseColor1, diffuseColor2, specularColor1, specularColor2, ambientColor1, ambientColor2);
-    PixelShader = compile ps_1_1 PS_TexturedPerVertex(/*useEmissive*/false, /*firstPass*/false);
+    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/false);
   }
   pass OneDirLight {
     VertexShader = compile vs_1_1 VS_TexturedPerVertexOneDirLight(/*firstPass*/true, -lightDirection1, diffuseColor1, specularColor1, ambientColor1);
-    PixelShader = compile ps_1_1 PS_TexturedPerVertex(/*useEmissive*/false, /*firstPass*/true);
+    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
   }
   pass OneDirLightAdd {
     ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_TexturedPerVertexOneDirLight(/*firstPass*/false, -lightDirection1, diffuseColor1, specularColor1, ambientColor1);
-    PixelShader = compile ps_1_1 PS_TexturedPerVertex(/*useEmissive*/false, /*firstPass*/false);
+    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/false);
   }
   pass OnePointLight {
     VertexShader = compile vs_1_1 VS_TexturedPerVertexOnePointLight(/*firstPass*/true, lightPosition1, diffuseColor1, specularColor1, ambientColor1, attenuation1);
-    PixelShader = compile ps_1_1 PS_TexturedPerVertex(/*useEmissive*/false, /*firstPass*/true);
+    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
   }
   pass OnePointLightAdd {
     ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_TexturedPerVertexOnePointLight(/*firstPass*/false, lightPosition1, diffuseColor1, specularColor1, ambientColor1, attenuation1);
-    PixelShader = compile ps_1_1 PS_TexturedPerVertex(/*useEmissive*/false, /*firstPass*/false);
+    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/false);
   }
 }
 
 #define TEXTURED(useNormalMap, useSpecularMap, useEmissiveMap) \
 pass AmbientLight { \
     VertexShader = compile vs_1_1 VS_TexturedAmbient(ambientColor1); \
-    PixelShader = compile ps_2_0 PS_TexturedPerVertex(useEmissiveMap, /*firstPass*/true); \
+    PixelShader = compile ps_2_0 PS_Textured(useEmissiveMap, /*firstPass*/true); \
 } \
 pass TwoDirLights { \
     VertexShader = compile vs_1_1 VS_Textured(); \
@@ -657,13 +657,13 @@ technique TexturedNormalSpecularEmissiveMap < string Script = " Pass=OnePointLig
 technique TexturedEmissiveOnly {
   pass Emissive {
     VertexShader = compile vs_1_1 VS_TexturedAmbient(/*ambCol*/0);
-    PixelShader = compile ps_1_1 PS_TexturedPerVertex(/*useEmissive*/false, /*firstPass*/true);
+    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
   }
 }
 
 technique TexturedEmissiveMapOnly {
   pass Emissive {
     VertexShader = compile vs_1_1 VS_TexturedAmbient(/*ambCol*/0);
-    PixelShader = compile ps_2_0 PS_TexturedPerVertex(/*useEmissive*/true, /*firstPass*/true);
+    PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/true, /*firstPass*/true);
   }
 }
