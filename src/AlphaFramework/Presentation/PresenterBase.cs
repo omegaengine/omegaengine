@@ -65,7 +65,7 @@ public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe
     /// <summary>
     /// The file format (file ending without a dot) used to store skybox textures.
     /// </summary>
-    protected string SkyboxFileFormat => "jpg";
+    protected virtual string SkyboxFileFormat => "jpg";
 
     private void UpdateSkybox()
     {
