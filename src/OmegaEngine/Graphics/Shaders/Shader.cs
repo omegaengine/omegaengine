@@ -620,7 +620,7 @@ public abstract class Shader : EngineElement
 
     #region Shader parameters
     private Effect _effect;
-    private readonly Queue<Action> _defferedActions = new();
+    private readonly Queue<Action> _deferredActions = new();
 
     /// <summary>
     /// The Direct3D effect for this shader
@@ -633,7 +633,7 @@ public abstract class Shader : EngineElement
         {
             _effect = value;
             _effectHandles = new(name => value.GetParameter(null, name));
-            while (_defferedActions.Count != 0) _defferedActions.Dequeue()();
+            while (_deferredActions.Count != 0) _deferredActions.Dequeue()();
         }
     }
 
@@ -649,7 +649,7 @@ public abstract class Shader : EngineElement
     {
         if (IsDisposed) return;
 
-        if (Effect == null) _defferedActions.Enqueue(() => Effect.SetValue(_effectHandles[name], value));
+        if (Effect == null) _deferredActions.Enqueue(() => Effect.SetValue(_effectHandles[name], value));
         else Effect.SetValue(_effectHandles[name], value);
     }
 

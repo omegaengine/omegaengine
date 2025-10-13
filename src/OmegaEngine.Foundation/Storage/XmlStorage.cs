@@ -87,8 +87,8 @@ public static class XmlStorage
     private static void MembersAsAttributes<T>(XmlAttributeOverrides overrides, params string[] members)
     {
         var type = typeof(T);
-        foreach (string memeber in members)
-            overrides.Add(type, memeber, _asAttribute);
+        foreach (string member in members)
+            overrides.Add(type, member, _asAttribute);
     }
     #endregion
 
