@@ -8,7 +8,6 @@
 
 using System.Globalization;
 using System.Xml.Serialization;
-using NanoByte.Common.Info;
 
 namespace OmegaEngine;
 

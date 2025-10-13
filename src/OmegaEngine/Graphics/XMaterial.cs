@@ -8,7 +8,6 @@
 
 using System.ComponentModel;
 using System.Drawing;
-using NanoByte.Common.Collections;
 using OmegaEngine.Assets;
 using SlimDX.Direct3D9;
 
