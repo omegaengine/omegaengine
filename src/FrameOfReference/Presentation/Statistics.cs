@@ -84,7 +84,7 @@ public class Statistics
         foreach (var target in universe.Positionables.OfType<BenchmarkPoint<Vector2>>())
         {
             // Handle all possible settings combinations
-            for (int i = 0; i < TestCase.TestGraphicsSettingsUpperBound; i++)
+            for (int i = 0; i <= TestCase.TestGraphicsSettingsUpperBound; i++)
             {
                 testCaseList.Add(new()
                 {
