@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
 using NanoByte.Common;
+using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Storage;
 using SlimDX;
 

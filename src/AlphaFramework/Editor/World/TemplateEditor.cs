@@ -15,6 +15,7 @@ using AlphaFramework.World.Templates;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Controls;
+using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Storage;
 
 namespace AlphaFramework.Editor.World;

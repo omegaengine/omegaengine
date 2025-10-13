@@ -2,8 +2,7 @@ using System.Xml.Serialization;
 using AlphaFramework.Presentation.Config;
 using LuaInterface;
 using NanoByte.Common;
-using OmegaEngine.Foundation.Storage;
-using Locations = NanoByte.Common.Storage.Locations;
+using NanoByte.Common.Storage;
 
 namespace Template.AlphaFramework.Presentation.Config;
 

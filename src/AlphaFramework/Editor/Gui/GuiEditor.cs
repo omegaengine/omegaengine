@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NanoByte.Common;
+using NanoByte.Common.Storage;
 using OmegaEngine;
 using OmegaEngine.Foundation.Storage;
 using OmegaGUI;

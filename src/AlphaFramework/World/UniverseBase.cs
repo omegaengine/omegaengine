@@ -10,7 +10,7 @@ using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using NanoByte.Common;
-using OmegaEngine.Foundation.Storage;
+using NanoByte.Common.Storage;
 
 namespace AlphaFramework.World;
 

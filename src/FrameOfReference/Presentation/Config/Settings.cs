@@ -27,7 +27,7 @@ using AlphaFramework.Presentation.Config;
 using FrameOfReference.World;
 using LuaInterface;
 using NanoByte.Common;
-using OmegaEngine.Foundation.Storage;
+using NanoByte.Common.Storage;
 using Locations = NanoByte.Common.Storage.Locations;
 
 namespace FrameOfReference.Presentation.Config;

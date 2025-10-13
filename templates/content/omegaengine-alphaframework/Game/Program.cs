@@ -31,6 +31,7 @@ static class Program
         WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{Constants.AppNameShort}");
 
         Application.EnableVisualStyles();
+        XmlStorageConfig.Apply();
 
 #if !DEBUG
         // Prevent multiple instances from running simultaneously

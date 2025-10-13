@@ -11,6 +11,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using NanoByte.Common;
+using NanoByte.Common.Storage;
 using NanoByte.Common.Undo;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;

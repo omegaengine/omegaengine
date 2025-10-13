@@ -26,6 +26,7 @@ static class Program
     private static void Main()
     {
         Application.EnableVisualStyles();
+        XmlStorageConfig.Apply();
 
         Settings.LoadCurrent();
         UpdateLocale();

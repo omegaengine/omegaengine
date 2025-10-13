@@ -8,8 +8,8 @@
 
 using System;
 using AlphaFramework.World;
+using NanoByte.Common.Storage;
 using NanoByte.Common.Undo;
-using OmegaEngine.Foundation.Storage;
 
 namespace AlphaFramework.Editor.World.Commands;
 

@@ -15,6 +15,7 @@ using AlphaFramework.Editor.Properties;
 using AlphaFramework.Presentation.Config;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
+using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Storage;
 
 namespace AlphaFramework.Editor;
