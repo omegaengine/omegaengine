@@ -40,7 +40,7 @@ public sealed class DialogRenderer : IDisposable
 {
     #region Variables
     private readonly GuiManager _manager;
-    private Point _location;
+    private readonly Point _location;
     private readonly Lua? _lua;
     #endregion
 
@@ -143,30 +143,24 @@ public sealed class DialogRenderer : IDisposable
     {
         var engine = DialogRender.DialogManager.Engine;
         if (engine == null || engine.IsDisposed) return;
-        Size renderSize = engine.RenderSize;
+        var renderSize = engine.RenderSize;
 
         if (DialogModel.Fullscreen && DialogModel.Size != Size.Empty)
         {
+            DialogModel.AutoScale = Math.Min(
+                (float)renderSize.Width / DialogModel.Size.Width,
+                (float)renderSize.Height / DialogModel.Size.Height);
+
             DialogRender.Location = new();
-
-            // Setup fullscreen layout
             DialogRender.SetSize(renderSize.Width, renderSize.Height);
-
-            // Automatically scale the dialog to fit the current monitor resolution
-            float width = (float)renderSize.Width / DialogModel.Size.Width;
-            float height = (float)renderSize.Height / DialogModel.Size.Height;
-            DialogModel.AutoScale = width < height ? width : height;
         }
         else
         {
-            DialogRender.Location = new(_location.X, _location.Y);
-
-            if (DialogModel.Size == Size.Empty)
-                DialogRender.SetSize(renderSize.Width, renderSize.Height);
-            else
-                DialogRender.SetSize(DialogModel.Size.Width, DialogModel.Size.Height);
-
             DialogModel.AutoScale = 1;
+
+            DialogRender.Location = _location;
+            var targetSize = DialogModel.Size == Size.Empty ? renderSize : DialogModel.Size;
+            DialogRender.SetSize(targetSize.Width, targetSize.Height);
         }
     }
     #endregion
