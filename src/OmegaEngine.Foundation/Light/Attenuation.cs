@@ -85,16 +85,6 @@ public struct Attenuation : IEquatable<Attenuation>
     }
 
     /// <inheritdoc/>
-    public override int GetHashCode()
-    {
-        unchecked
-        {
-            int hash = 7;
-            hash = 97 * hash + ((int)Constant ^ ((int)Constant >> 32));
-            hash = 97 * hash + ((int)Linear ^ ((int)Linear >> 32));
-            hash = 97 * hash + ((int)Quadratic ^ ((int)Quadratic >> 32));
-            return hash;
-        }
-    }
+    public override int GetHashCode() => HashCode.Combine(Constant, Linear, Quadratic);
     #endregion
 }

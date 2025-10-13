@@ -66,12 +66,6 @@ public struct Vector2Ray : IEquatable<Vector2Ray>
     }
 
     /// <inheritdoc/>
-    public override int GetHashCode()
-    {
-        unchecked
-        {
-            return (Direction.GetHashCode() * 397) ^ Position.GetHashCode();
-        }
-    }
+    public override int GetHashCode() => HashCode.Combine(Direction, Position);
     #endregion
 }

@@ -157,15 +157,5 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     }
 
     /// <inheritdoc/>
-    public override int GetHashCode()
-    {
-        unchecked
-        {
-            int hash = 7;
-            hash = 97 * hash + ((int)X ^ ((int)X >> 32));
-            hash = 97 * hash + ((int)Y ^ ((int)Y >> 32));
-            hash = 97 * hash + ((int)Z ^ ((int)Z >> 32));
-            return hash;
-        }
-    }
+    public override int GetHashCode() => HashCode.Combine(X, Y, Z);
 }

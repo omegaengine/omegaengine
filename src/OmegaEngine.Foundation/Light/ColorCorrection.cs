@@ -125,16 +125,6 @@ public struct ColorCorrection : IEquatable<ColorCorrection>
     }
 
     /// <inheritdoc/>
-    public override int GetHashCode()
-    {
-        unchecked
-        {
-            int result = _brightness.GetHashCode();
-            result = (result * 397) ^ _contrast.GetHashCode();
-            result = (result * 397) ^ _saturation.GetHashCode();
-            result = (result * 397) ^ _hue.GetHashCode();
-            return result;
-        }
-    }
+    public override int GetHashCode() => HashCode.Combine(_brightness, _contrast, _saturation, _hue);
     #endregion
 }

@@ -237,16 +237,6 @@ public struct Quadrangle : IEquatable<Quadrangle>
     }
 
     /// <inheritdoc/>
-    public override int GetHashCode()
-    {
-        unchecked
-        {
-            int result = P1.GetHashCode();
-            result = (result * 397) ^ P2.GetHashCode();
-            result = (result * 397) ^ P3.GetHashCode();
-            result = (result * 397) ^ P4.GetHashCode();
-            return result;
-        }
-    }
+    public override int GetHashCode() => HashCode.Combine(P1, P2, P3, P4);
     #endregion
 }

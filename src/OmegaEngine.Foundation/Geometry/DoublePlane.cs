@@ -72,12 +72,6 @@ public struct DoublePlane : IEquatable<DoublePlane>
     }
 
     /// <inheritdoc/>
-    public override int GetHashCode()
-    {
-        unchecked
-        {
-            return (Point.GetHashCode() * 397) ^ Normal.GetHashCode();
-        }
-    }
+    public override int GetHashCode() => HashCode.Combine(Point, Normal);
     #endregion
 }
