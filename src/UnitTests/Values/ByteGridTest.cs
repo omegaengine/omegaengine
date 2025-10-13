@@ -12,7 +12,7 @@ using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Geometry;
 using Xunit;
 
-namespace OmegaEngine.Foundation.Values;
+namespace OmegaEngine.Values;
 
 /// <summary>
 /// Contains test methods for <see cref="ByteGrid"/>.

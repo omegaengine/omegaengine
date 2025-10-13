@@ -6,11 +6,11 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using NanoByte.Common.Storage;
 using FluentAssertions;
+using NanoByte.Common.Storage;
 using Xunit;
 
-namespace OmegaEngine.Foundation.Storage;
+namespace OmegaEngine.Storage;
 
 /// <summary>
 /// Contains test methods for <see cref="NanoByte.Common.Storage.XmlStorage"/>.
