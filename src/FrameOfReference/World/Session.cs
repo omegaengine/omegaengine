@@ -89,7 +89,7 @@ public sealed partial class Session : Session<Universe>
         Session session;
         try
         {
-            session = XmlStorage.LoadXmlZip<Session>(path, EncryptionKey);
+            session = XmlZipStorage.LoadXmlZip<Session>(path, EncryptionKey);
         }
         #region Error handling
         catch (ZipException ex)

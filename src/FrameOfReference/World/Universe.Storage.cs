@@ -60,7 +60,7 @@ partial class Universe
     public static Universe Load(string path)
     {
         // Load the core data but without terrain data yet (that is delay-loaded)
-        var universe = XmlStorage.LoadXmlZip<Universe>(path);
+        var universe = XmlZipStorage.LoadXmlZip<Universe>(path);
         universe.SourceFile = path;
         return universe;
     }
@@ -75,7 +75,7 @@ partial class Universe
         Log.Info($"Loading map: {id}");
 
         using var stream = ContentManager.GetFileStream("World/Maps", id);
-        var universe = XmlStorage.LoadXmlZip<Universe>(stream);
+        var universe = XmlZipStorage.LoadXmlZip<Universe>(stream);
         universe.SourceFile = id;
         return universe;
     }
@@ -94,7 +94,7 @@ partial class Universe
         // Load the data
         using (var stream = ContentManager.GetFileStream("World/Maps", SourceFile))
         {
-            XmlStorage.LoadXmlZip<Universe>(stream, additionalFiles:
+            XmlZipStorage.LoadXmlZip<Universe>(stream, additionalFiles:
             [
                 // Callbacks for loading terrain data
                 new("height.png", TerrainSerialize.LoadHeightMap),

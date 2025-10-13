@@ -16,7 +16,6 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using ICSharpCode.SharpZipLib.Zip;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Storage;
@@ -26,18 +25,10 @@ using SlimDX;
 namespace OmegaEngine.Foundation.Storage;
 
 /// <summary>
-/// Provides easy serialization to XML files (optionally wrapped in ZIP archives).
+/// Provides easy serialization to XML files.
 /// </summary>
 public static class XmlStorage
 {
-    #region Constants
-    /// <summary>
-    /// The XML namespace used for XML Schema instance.
-    /// </summary>
-    public const string XsiNamespace = "http://www.w3.org/2001/XMLSchema-instance";
-    #endregion
-
-    #region Serializer generation
     /// <summary>An internal cache of XML serializers identified by the target type and ignored sub-types.</summary>
     private static readonly TransparentCache<Type, XmlSerializer> _serializers = new(CreateSerializer);
 
@@ -57,23 +48,21 @@ public static class XmlStorage
     {
         var overrides = new XmlAttributeOverrides();
 
-        #region Augment .NET BCL types
+        // Augment .NET BCL types
         MembersAsAttributes<Point>(overrides, "X", "Y");
         MembersAsAttributes<Size>(overrides, "Width", "Height");
         MembersAsAttributes<Rectangle>(overrides, "X", "Y", "Width", "Height");
         overrides.Add(typeof(Rectangle), "Location", _ignore);
         overrides.Add(typeof(Rectangle), "Size", _ignore);
         overrides.Add(typeof(Exception), "Data", _ignore);
-        #endregion
 
-        #region Augement SlimDX types
+        // Augment SlimDX types
         MembersAsAttributes<Color3>(overrides, "Red", "Green", "Blue");
         MembersAsAttributes<Color4>(overrides, "Alpha", "Red", "Green", "Blue");
         MembersAsAttributes<Vector2>(overrides, "X", "Y");
         MembersAsAttributes<Vector3>(overrides, "X", "Y", "Z");
         MembersAsAttributes<Vector4>(overrides, "X", "Y", "Z", "W");
         MembersAsAttributes<Quaternion>(overrides, "X", "Y", "Z", "W");
-        #endregion
 
         var serializer = new XmlSerializer(type, overrides);
         serializer.UnknownAttribute += (_, e) => Log.Warn($"Ignored XML attribute while deserializing: {e.Attr.Name}={e.Attr.Value}");
@@ -90,11 +79,7 @@ public static class XmlStorage
         foreach (string member in members)
             overrides.Add(type, member, _asAttribute);
     }
-    #endregion
 
-    //--------------------//
-
-    #region Load plain
     /// <summary>
     /// Loads an object from an XML file.
     /// </summary>
@@ -173,9 +158,7 @@ public static class XmlStorage
         using var stream = data.ToStream();
         return LoadXml<T>(stream);
     }
-    #endregion
 
-    #region Save plain
     /// <summary>
     /// Saves an object in an XML stream ending with a line break.
     /// </summary>
@@ -271,150 +254,4 @@ public static class XmlStorage
         const string prefixWithoutEncoding = "<?xml version=\"1.0\"?>";
         return prefixWithoutEncoding + result[prefixWithEncoding.Length..];
     }
-    #endregion
-
-    #region Load ZIP
-    /// <summary>
-    /// Loads an object from an XML file embedded in a ZIP archive.
-    /// </summary>
-    /// <typeparam name="T">The type of object the XML stream shall be converted into.</typeparam>
-    /// <param name="stream">The ZIP archive to load.</param>
-    /// <param name="password">The password to use for decryption; <c>null</c> for no encryption.</param>
-    /// <param name="additionalFiles">Additional files stored alongside the XML file in the ZIP archive to be read.</param>
-    /// <returns>The loaded object.</returns>
-    /// <exception cref="ZipException">A problem occurred while reading the ZIP data or if <paramref name="password"/> is wrong.</exception>
-    /// <exception cref="InvalidDataException">A problem occurred while deserializing the XML data.</exception>
-    public static T LoadXmlZip<T>(Stream stream, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
-        where T : class
-    {
-        #region Sanity checks
-        if (stream == null) throw new ArgumentNullException(nameof(stream));
-        if (additionalFiles == null) throw new ArgumentNullException(nameof(additionalFiles));
-        #endregion
-
-        T? output = null;
-
-        using (var zipFile = new ZipFile(stream) {IsStreamOwner = false})
-        {
-            zipFile.Password = password;
-
-            foreach (ZipEntry zipEntry in zipFile)
-            {
-                if (StringUtils.EqualsIgnoreCase(zipEntry.Name, "data.xml"))
-                {
-                    // Read the XML file from the ZIP archive
-                    var inputStream = zipFile.GetInputStream(zipEntry);
-                    output = LoadXml<T>(inputStream);
-                }
-                else
-                {
-                    // Read additional files from the ZIP archive
-                    foreach (var file in additionalFiles)
-                    {
-                        if (StringUtils.EqualsIgnoreCase(zipEntry.Name, file.Filename))
-                        {
-                            var inputStream = zipFile.GetInputStream(zipEntry);
-                            file.StreamDelegate(inputStream);
-                        }
-                    }
-                }
-            }
-        }
-
-        return output ?? throw new InvalidDataException(Properties.Resources.NoXmlDataInZip);
-    }
-
-    /// <summary>
-    /// Loads an object from an XML file embedded in a ZIP archive.
-    /// </summary>
-    /// <typeparam name="T">The type of object the XML stream shall be converted into.</typeparam>
-    /// <param name="path">The ZIP archive to load.</param>
-    /// <param name="password">The password to use for decryption; <c>null</c> for no encryption.</param>
-    /// <param name="additionalFiles">Additional files stored alongside the XML file in the ZIP archive to be read.</param>
-    /// <returns>The loaded object.</returns>
-    /// <exception cref="IOException">A problem occurred while reading the file.</exception>
-    /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
-    /// <exception cref="ZipException">A problem occurred while reading the ZIP data or if <paramref name="password"/> is wrong.</exception>
-    /// <exception cref="InvalidDataException">A problem occurred while deserializing the XML data.</exception>
-    /// <remarks>Uses <see cref="AtomicRead"/> internally.</remarks>
-    public static T LoadXmlZip<T>([Localizable(false)] string path, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
-        where T : class
-    {
-        #region Sanity checks
-        if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
-        if (additionalFiles == null) throw new ArgumentNullException(nameof(additionalFiles));
-        #endregion
-
-        using (new AtomicRead(path))
-        using (var fileStream = File.OpenRead(path))
-            return LoadXmlZip<T>(fileStream, password, additionalFiles);
-    }
-    #endregion
-
-    #region Save ZIP
-    /// <summary>
-    /// Saves an object in an XML file embedded in a ZIP archive.
-    /// </summary>
-    /// <typeparam name="T">The type of object to be saved in an XML stream.</typeparam>
-    /// <param name="data">The object to be stored.</param>
-    /// <param name="stream">The ZIP archive to be written.</param>
-    /// <param name="password">The password to use for encryption; <c>null</c> for no encryption.</param>
-    /// <param name="additionalFiles">Additional files to be stored alongside the XML file in the ZIP archive; can be <c>null</c>.</param>
-    public static void SaveXmlZip<T>([DisallowNull] this T data, Stream stream, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
-    {
-        #region Sanity checks
-        if (stream == null) throw new ArgumentNullException(nameof(stream));
-        if (additionalFiles == null) throw new ArgumentNullException(nameof(additionalFiles));
-        #endregion
-
-        if (stream.CanSeek) stream.Position = 0;
-        using var zipStream = new ZipOutputStream(stream) {IsStreamOwner = false};
-        if (!string.IsNullOrEmpty(password)) zipStream.Password = password;
-
-        // Write the XML file to the ZIP archive
-        {
-            var entry = new ZipEntry("data.xml") {DateTime = DateTime.Now};
-            if (!string.IsNullOrEmpty(password)) entry.AESKeySize = 128;
-            zipStream.SetLevel(9);
-            zipStream.PutNextEntry(entry);
-            SaveXml(data, zipStream);
-            zipStream.CloseEntry();
-        }
-
-        // Write additional files to the ZIP archive
-        foreach (var file in additionalFiles)
-        {
-            var entry = new ZipEntry(file.Filename) {DateTime = DateTime.Now};
-            if (!string.IsNullOrEmpty(password)) entry.AESKeySize = 128;
-            zipStream.SetLevel(file.CompressionLevel);
-            zipStream.PutNextEntry(entry);
-            file.StreamDelegate(zipStream);
-            zipStream.CloseEntry();
-        }
-    }
-
-    /// <summary>
-    /// Saves an object in an XML file embedded in a ZIP archive.
-    /// </summary>
-    /// <typeparam name="T">The type of object to be saved in an XML stream.</typeparam>
-    /// <param name="data">The object to be stored.</param>
-    /// <param name="path">The ZIP archive to be written.</param>
-    /// <param name="password">The password to use for encryption; <c>null</c> for no encryption.</param>
-    /// <param name="additionalFiles">Additional files to be stored alongside the XML file in the ZIP archive; can be <c>null</c>.</param>
-    /// <exception cref="IOException">A problem occurred while writing the file.</exception>
-    /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
-    /// <remarks>Uses <seealso cref="AtomicWrite"/> internally.</remarks>
-    public static void SaveXmlZip<T>([DisallowNull] this T data, [Localizable(false)] string path, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
-    {
-        #region Sanity checks
-        if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
-        if (additionalFiles == null) throw new ArgumentNullException(nameof(additionalFiles));
-        #endregion
-
-        using var atomic = new AtomicWrite(path);
-        using (var fileStream = File.Create(atomic.WritePath))
-            SaveXmlZip(data, fileStream, password, additionalFiles);
-        atomic.Commit();
-    }
-    #endregion
 }
