@@ -141,8 +141,8 @@ public class Dialog : ICloneable<Dialog>
     {
         if (DialogRender != null)
         {
-            DialogRender.SetBackgroundColors(ColorBackground.ToColorValue());
-            DialogRender.SetCaptionColor(ColorCaption.ToColorValue());
+            DialogRender.SetBackgroundColors(ColorBackground.ToColor4());
+            DialogRender.SetCaptionColor(ColorCaption.ToColor4());
         }
     }
 
@@ -428,8 +428,8 @@ public class Dialog : ICloneable<Dialog>
 
         // Generate dialog model object
         DialogRender = TextureFileValid
-            ? new(manager, ColorText.ToColorValue(), _textureFile, _fontName, (uint)(_fontSize * EffectiveScale))
-            : new Render.Dialog(manager, ColorText.ToColorValue());
+            ? new(manager, ColorText.ToColor4(), _textureFile, _fontName, (uint)(_fontSize * EffectiveScale))
+            : new Render.Dialog(manager, ColorText.ToColor4());
 
         // Set dialog properites
         DialogRender.SetCaptionText(GetLocalized(_captionText));

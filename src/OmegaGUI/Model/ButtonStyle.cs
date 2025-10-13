@@ -144,17 +144,17 @@ public class ButtonStyle : ICloneable
 
         ButtonElement = new();
         ButtonElement.SetTexture(textureNumber, new(ButtonTextureLocation, ButtonTextureSize));
-        ButtonElement.SetFont(0, TextColorNormal.ToColorValue(), DrawTextFormat.Center | DrawTextFormat.VerticalCenter);
-        ButtonElement.TextureColor.States[(int)ControlState.Normal] = ButtonColorNormal.ToColorValue();
-        ButtonElement.TextureColor.States[(int)ControlState.Pressed] = ButtonColorPressed.ToColorValue();
-        ButtonElement.FontColor.States[(int)ControlState.Normal] = TextColorNormal.ToColorValue();
-        ButtonElement.FontColor.States[(int)ControlState.MouseOver] = TextColorMouseOver.ToColorValue();
+        ButtonElement.SetFont(0, TextColorNormal.ToColor4(), DrawTextFormat.Center | DrawTextFormat.VerticalCenter);
+        ButtonElement.TextureColor.States[(int)ControlState.Normal] = ButtonColorNormal.ToColor4();
+        ButtonElement.TextureColor.States[(int)ControlState.Pressed] = ButtonColorPressed.ToColor4();
+        ButtonElement.FontColor.States[(int)ControlState.Normal] = TextColorNormal.ToColor4();
+        ButtonElement.FontColor.States[(int)ControlState.MouseOver] = TextColorMouseOver.ToColor4();
 
         FillElement = new();
         FillElement.SetTexture(textureNumber, new(FillTextureLocation, FillTextureSize), Render.Dialog.TransparentWhite);
-        FillElement.TextureColor.States[(int)ControlState.MouseOver] = FillColorMouseOver.ToColorValue();
-        FillElement.TextureColor.States[(int)ControlState.Pressed] = FillColorPressed.ToColorValue();
-        FillElement.TextureColor.States[(int)ControlState.Focus] = FillColorFocus.ToColorValue();
+        FillElement.TextureColor.States[(int)ControlState.MouseOver] = FillColorMouseOver.ToColor4();
+        FillElement.TextureColor.States[(int)ControlState.Pressed] = FillColorPressed.ToColor4();
+        FillElement.TextureColor.States[(int)ControlState.Focus] = FillColorFocus.ToColor4();
     }
     #endregion
 

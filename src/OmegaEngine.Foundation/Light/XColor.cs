@@ -61,7 +61,7 @@ public struct XColor(byte a, byte r, byte g, byte b) : IEquatable<XColor>
     public XColor DropAlpha() => new(255, R, G, B);
 
     [Pure]
-    public Color4 ToColorValue() => new(Alpha, Red, Green, Blue);
+    public Color4 ToColor4() => new(Alpha, Red, Green, Blue);
 
     /// <inheritdoc/>
     public override string ToString() => ((Color)this).ToString();

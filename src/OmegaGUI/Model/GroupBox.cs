@@ -53,7 +53,7 @@ public class GroupBox : Control
         {
             ColorBorder = value;
             if (_groupBox != null)
-                _groupBox.BorderColor = ColorBorder.ToColorValue();
+                _groupBox.BorderColor = ColorBorder.ToColor4();
         }
     }
 
@@ -68,7 +68,7 @@ public class GroupBox : Control
         {
             ColorFill = value;
             if (_groupBox != null)
-                _groupBox.FillColor = ColorFill.ToColorValue();
+                _groupBox.FillColor = ColorFill.ToColor4();
         }
     }
     #endregion
@@ -86,7 +86,7 @@ public class GroupBox : Control
         // Add control to dialog
         UpdateLayout();
         DXControl = _groupBox =
-            Parent.DialogRender.AddGroupBox(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, ColorBorder.ToColorValue(), ColorFill.ToColorValue());
+            Parent.DialogRender.AddGroupBox(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, ColorBorder.ToColor4(), ColorFill.ToColor4());
         ControlModel.IsVisible = IsVisible;
         ControlModel.IsEnabled = IsEnabled;
 
