@@ -28,14 +28,12 @@ public class LightSource : Render
     /// </summary>
     /// <remarks>Is not serialized/stored, <see cref="ColorValue"/> is used for that.</remarks>
     [XmlIgnore, LuaHide, Description("The color of this point light source.")]
-    public Color Color { get => _color; set => _color = Color.FromArgb(255, value) /* Drop alpha-channel */; }
+    public Color Color { get => _color; set => _color = value.DropAlpha(); }
 
     /// <summary>Used for XML serialization.</summary>
     /// <seealso cref="Color"/>
     [XmlElement("Color"), LuaHide, Browsable(false)]
-    public XColor ColorValue { get => Color; set => Color = Color.FromArgb(value.R, value.G, value.B); }
-
-    // Drop alpha-value
+    public XColor ColorValue { get => Color; set => Color = value.DropAlpha(); }
 
     /// <summary>
     /// The maximum distance at which the light source has an effect.

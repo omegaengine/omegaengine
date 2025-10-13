@@ -18,8 +18,15 @@ namespace OmegaEngine.Foundation.Light;
 public static class ColorUtils
 {
     /// <summary>
+    /// Removes the alpha channel from the color (setting it to full opacity).
+    /// </summary>
+    [Pure]
+    public static Color DropAlpha(this Color color) => Color.FromArgb(255, color);
+
+    /// <summary>
     /// Compares two colors ignoring the alpha channel and the name
     /// </summary>
+    [Pure]
     public static bool EqualsIgnoreAlpha(this Color color1, Color color2) => color1.R == color2.R && color1.G == color2.G && color1.B == color2.B;
 
     /// <summary>

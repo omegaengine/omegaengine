@@ -70,12 +70,12 @@ partial class Universe
     /// </summary>
     /// <remarks>Is not serialized/stored, <see cref="AmbientColorValue"/> is used for that.</remarks>
     [XmlIgnore, Category("Lighting"), Description("The color of the ambient light (background light that is always visible and has no direction).")]
-    public Color AmbientColor { get => _ambientColor; set => Color.FromArgb(255, value).To(ref _ambientColor, OnLightingChanged) /* Drop alpha-channel */; }
+    public Color AmbientColor { get => _ambientColor; set => value.DropAlpha().To(ref _ambientColor, OnLightingChanged); }
 
     /// <summary>Used for XML serialization.</summary>
     /// <seealso cref="AmbientColor"/>
     [XmlElement("AmbientColor"), LuaHide, Browsable(false)]
-    public XColor AmbientColorValue { get => AmbientColor; set => AmbientColor = Color.FromArgb(value.R, value.G, value.B); }
+    public XColor AmbientColorValue { get => AmbientColor; set => AmbientColor = value.DropAlpha(); }
 
     private Color _sunColor = Color.FromArgb(180, 180, 180);
 
@@ -84,12 +84,12 @@ partial class Universe
     /// </summary>
     /// <remarks>Is not serialized/stored, <see cref="SunColorValue"/> is used for that.</remarks>
     [XmlIgnore, Category("Lighting"), Description("The color of the diffuse light (normal directional light) of the sun.")]
-    public Color SunColor { get => _sunColor; set => Color.FromArgb(255, value).To(ref _sunColor, OnLightingChanged) /* Drop alpha-channel */; }
+    public Color SunColor { get => _sunColor; set => value.DropAlpha().To(ref _sunColor, OnLightingChanged); }
 
     /// <summary>Used for XML serialization.</summary>
     /// <seealso cref="SunColor"/>
     [XmlElement("SunColor"), LuaHide, Browsable(false)]
-    public XColor SunColorValue { get => SunColor; set => SunColor = Color.FromArgb(value.R, value.G, value.B) /* Drop alpha-channel */; }
+    public XColor SunColorValue { get => SunColor; set => SunColor = value.DropAlpha(); }
 
     private float _sunInclination = 70;
 
@@ -116,12 +116,12 @@ partial class Universe
     /// </summary>
     /// <remarks>Is not serialized/stored, <see cref="MoonColorValue"/> is used for that.</remarks>
     [XmlIgnore, Category("Lighting"), Description("The color of the diffuse light (normal directional light) of the second moon.")]
-    public Color MoonColor { get => _moonColor; set => Color.FromArgb(255, value).To(ref _moonColor, OnLightingChanged) /* Drop alpha-channel */; }
+    public Color MoonColor { get => _moonColor; set => value.DropAlpha().To(ref _moonColor, OnLightingChanged); }
 
     /// <summary>Used for XML serialization.</summary>
     /// <seealso cref="MoonColor"/>
     [XmlElement("MoonColor"), LuaHide, Browsable(false)]
-    public XColor MoonColorValue { get => MoonColor; set => MoonColor = Color.FromArgb(value.R, value.G, value.B); }
+    public XColor MoonColorValue { get => MoonColor; set => MoonColor = value.DropAlpha(); }
 
     private float _moonInclination = 70;
 
