@@ -622,7 +622,7 @@ public class DropdownList : Button
     }
 
     /// <summary>Gets the data for an item</summary>
-    public object GetItemData(string text)
+    public object? GetItemData(string text)
     {
         int i = FindItem(text);
         if (i == -1)

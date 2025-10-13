@@ -70,7 +70,7 @@ public class SasScriptCommand
     #region Properties
     public CommandType Command { get; }
 
-    public string Selector { get; set; }
+    public string? Selector { get; set; }
     #endregion
 
     #region Constructor

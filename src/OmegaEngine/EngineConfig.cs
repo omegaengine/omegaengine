@@ -45,5 +45,5 @@ public struct EngineConfig
     /// <summary>
     /// Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective
     /// </summary>
-    public Version ForceShaderModel { get; set; }
+    public Version? ForceShaderModel { get; set; }
 }

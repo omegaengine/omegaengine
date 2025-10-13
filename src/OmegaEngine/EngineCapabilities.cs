@@ -36,17 +36,6 @@ public sealed class EngineCapabilities
         _capabilities = _direct3D.GetDeviceCaps(0, DeviceType.Hardware);
         _engineConfig = config;
 
-        DetermineHardwareInformation();
-        DetermineDeviceCapabilities();
-    }
-    #endregion
-
-    #region Determine information
-    /// <summary>
-    /// Helper method for the constructor that fills <see cref="Hardware"/> with information.
-    /// </summary>
-    private void DetermineHardwareInformation()
-    {
         #region CPU
         try
         {
@@ -118,13 +107,7 @@ public sealed class EngineCapabilities
         // Write hardware in log-file
         Log.Info(_hardware.ToString());
         #endregion
-    }
 
-    /// <summary>
-    /// Helper method for the constructor that fills <see cref="_capabilities"/> and <see cref="MaxShaderModel"/> with information and checks certain conditions are met.
-    /// </summary>
-    private void DetermineDeviceCapabilities()
-    {
         #region Pixel shader
         if (_engineConfig.ForceShaderModel == null)
         {
@@ -159,7 +142,7 @@ public sealed class EngineCapabilities
                   """);
 
         // Ensure support for linear texture filtering
-        if (!(_capabilities.TextureFilterCaps).HasFlag(FilterCaps.MinLinear | FilterCaps.MagLinear | FilterCaps.MipLinear))
+        if (!_capabilities.TextureFilterCaps.HasFlag(FilterCaps.MinLinear | FilterCaps.MagLinear | FilterCaps.MipLinear))
         {
             //throw new NotAvailableException(Properties.Resources.NoLinearTextureFiltering);
             Log.Warn("Missing support for linear texture filtering");
@@ -170,7 +153,7 @@ public sealed class EngineCapabilities
     //--------------------//
 
     #region Properties
-    private Hardware _hardware;
+    private readonly Hardware _hardware;
 
     /// <summary>
     /// Information about the hardware of this computer.
@@ -180,7 +163,7 @@ public sealed class EngineCapabilities
     /// <summary>
     /// A list of all supported monitor resolutions.
     /// </summary>
-    public DisplayModeCollection DisplayModes { get; private set; }
+    public DisplayModeCollection DisplayModes { get; }
 
     /// <summary>
     /// Does the graphics support rasterization, transform, lighting, and shading in hardware?

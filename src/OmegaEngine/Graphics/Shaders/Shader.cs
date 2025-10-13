@@ -573,8 +573,7 @@ public abstract class Shader : EngineElement
                 case SasScriptCommand.CommandType.Technique:
                     using (new ProfilerEvent("SAS script: set technique"))
                     {
-                        var tech = (SasScriptTechnique)commandObject;
-                        if (tech.Handle != null) Effect.Technique = tech.Handle;
+                        if (commandObject is SasScriptTechnique { Handle: {} handle }) Effect.Technique = handle;
                     }
                     break;
                 #endregion

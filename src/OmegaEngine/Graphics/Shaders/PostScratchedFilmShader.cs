@@ -20,7 +20,7 @@ namespace OmegaEngine.Graphics.Shaders;
 public class PostScratchedFilmShader : PostShader
 {
     #region Variables
-    private XTexture _noiseTexture;
+    private XTexture? _noiseTexture;
     #endregion
 
     #region Properties
@@ -78,7 +78,7 @@ public class PostScratchedFilmShader : PostShader
     {
         try
         {
-            _noiseTexture.ReleaseReference();
+            _noiseTexture?.ReleaseReference();
         }
         finally
         {
