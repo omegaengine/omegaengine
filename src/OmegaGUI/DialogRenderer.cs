@@ -156,11 +156,14 @@ public sealed class DialogRenderer : IDisposable
         }
         else
         {
-            DialogModel.AutoScale = 1;
+            // Auto-scale at resolutions higher than Full HD
+            DialogModel.AutoScale = Math.Max(1, renderSize.Height / 1080f);
 
             DialogRender.Location = _location;
-            var targetSize = DialogModel.Size == Size.Empty ? renderSize : DialogModel.Size;
-            DialogRender.SetSize(targetSize.Width, targetSize.Height);
+            if (DialogModel.Size == Size.Empty)
+                DialogRender.SetSize(renderSize.Width, renderSize.Height);
+            else
+                DialogRender.SetSize((int)(DialogModel.Size.Width * DialogModel.AutoScale), (int)(DialogModel.Size.Height * DialogModel.AutoScale));
         }
     }
     #endregion
