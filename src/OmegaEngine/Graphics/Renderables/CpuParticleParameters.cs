@@ -68,7 +68,7 @@ public class CpuParticleParameters
     public XColor Color4
     {
         get => Color;
-        set => Color = (Color)value;
+        set => Color = value;
     }
 
     // ReSharper restore UnusedMember.Global

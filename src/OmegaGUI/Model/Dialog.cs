@@ -152,7 +152,7 @@ public class Dialog : ICloneable<Dialog>
     [XmlIgnore, Description("The dialog's background color"), Category("Appearance")]
     public Color BackgroundColor
     {
-        get => (Color)ColorBackground;
+        get => ColorBackground;
         set
         {
             ColorBackground = value;
@@ -166,7 +166,7 @@ public class Dialog : ICloneable<Dialog>
     [XmlIgnore, Description("The dialog's caption bar color"), Category("Appearance")]
     public Color CaptionColor
     {
-        get => (Color)ColorCaption;
+        get => ColorCaption;
         set
         {
             ColorCaption = value;
@@ -180,7 +180,7 @@ public class Dialog : ICloneable<Dialog>
     [XmlIgnore, Description("The color of text on the dialog"), Category("Appearance")]
     public Color TextColor
     {
-        get => (Color)ColorText;
+        get => ColorText;
         set
         {
             ColorText = value;

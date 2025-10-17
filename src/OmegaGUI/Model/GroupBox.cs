@@ -48,7 +48,7 @@ public class GroupBox : Control
     [XmlIgnore, Description("The color of the border of the group box"), Category("Appearance")]
     public Color BorderColor
     {
-        get => (Color)ColorBorder;
+        get => ColorBorder;
         set
         {
             ColorBorder = value;
@@ -63,7 +63,7 @@ public class GroupBox : Control
     [XmlIgnore, Description("The background color of the group box"), Category("Appearance")]
     public Color FillColor
     {
-        get => (Color)ColorFill;
+        get => ColorFill;
         set
         {
             ColorFill = value;

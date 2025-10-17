@@ -305,6 +305,7 @@ public partial class MapEditor : UndoCommandTab
     /// <summary>
     /// Helper function for configuring the <see cref="MapPropertiesTool"/> form with event hooks.
     /// </summary>
+    [MemberNotNull(nameof(_mapPropertiesTool))]
     private void SetupMapPropertiesTool()
     {
         // Keep existing dialog instance
