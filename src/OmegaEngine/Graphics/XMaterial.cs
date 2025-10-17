@@ -120,7 +120,7 @@ public struct XMaterial
     /// <summary>
     /// Calls <see cref="Asset.HoldReference"/> for all contained <see cref="XTexture"/>s.
     /// </summary>
-    public void HoldReference()
+    public readonly void HoldReference()
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalse
         if (DiffuseMaps != null)
