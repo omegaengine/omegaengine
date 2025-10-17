@@ -38,7 +38,7 @@ public partial class MainForm : Form
     private void timerRender_Tick(object sender, EventArgs e)
     {
         if (_camera != null) _camera.HorizontalRotation += 3;
-        renderPanel.Engine.Render();
+        renderPanel.Engine?.Render();
     }
 
     private void buttonExit_Click(object sender, EventArgs e)

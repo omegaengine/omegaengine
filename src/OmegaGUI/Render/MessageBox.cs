@@ -38,7 +38,7 @@ public class MessageBox : Dialog
 
     private string _text = "";
     private MsgBoxType _type;
-    private Action<MsgBoxResult> _callback;
+    private Action<MsgBoxResult>? _callback;
     // ReSharper disable InconsistentNaming
     private Button OKButton, CancelButton, YesButton, NoButton;
     // ReSharper restore InconsistentNaming
@@ -50,7 +50,7 @@ public class MessageBox : Dialog
     public MessageBox(DialogManager manager) : base(manager)
     {}
 
-    public void Show(string text, MsgBoxType type, Action<MsgBoxResult> callback)
+    public void Show(string text, MsgBoxType type, Action<MsgBoxResult>? callback)
     {
         _callback = callback;
         _text = text;
@@ -115,7 +115,7 @@ public class MessageBox : Dialog
     {
         Refresh();
         Visible = false;
-        if (_callback != null) _callback(res);
+        _callback?.Invoke(res);
     }
     #endregion
 }

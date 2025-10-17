@@ -275,19 +275,13 @@ public sealed class DialogRenderer : IDisposable
 
     #region MsgBox
     public void MsgBox(string text)
-    {
-        MsgBox(text, null);
-    }
+        => MsgBox(text, null);
 
-    public void MsgBox(string text, Action<Render.MsgBoxResult> callback)
-    {
-        MsgBox(text, Render.MsgBoxType.OK, callback);
-    }
+    public void MsgBox(string text, Action<Render.MsgBoxResult>? callback)
+        => MsgBox(text, Render.MsgBoxType.OK, callback);
 
-    public void MsgBox(string text, Render.MsgBoxType type, Action<Render.MsgBoxResult> callback)
-    {
-        DialogModel.MsgBox(text, type, callback);
-    }
+    public void MsgBox(string text, Render.MsgBoxType type, Action<Render.MsgBoxResult>? callback)
+        => DialogModel.MsgBox(text, type, callback);
     #endregion
 
     //--------------------//

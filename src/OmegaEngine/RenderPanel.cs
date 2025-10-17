@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
 using NanoByte.Common.Controls;
 using OmegaEngine.Input;
@@ -30,25 +31,25 @@ public class RenderPanel : TouchPanel
     /// The <see cref="OmegaEngine.Engine"/> used to render graphics onto this panel.
     /// </summary>
     [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Engine Engine { get; private set; }
+    public Engine? Engine { get; private set; }
 
     /// <summary>
     /// A default <see cref="Input.KeyboardInputProvider"/> hooked up to the <see cref="Panel"/>.
     /// </summary>
     [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public KeyboardInputProvider KeyboardInputProvider { get; private set; }
+    public KeyboardInputProvider? KeyboardInputProvider { get; private set; }
 
     /// <summary>
     /// A default <see cref="Input.MouseInputProvider"/> hooked up to the <see cref="Panel"/>.
     /// </summary>
     [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public MouseInputProvider MouseInputProvider { get; private set; }
+    public MouseInputProvider? MouseInputProvider { get; private set; }
 
     /// <summary>
     /// A default <see cref="Input.TouchInputProvider"/> hooked up to the <see cref="Panel"/>.
     /// </summary>
     [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public TouchInputProvider TouchInputProvider { get; private set; }
+    public TouchInputProvider? TouchInputProvider { get; private set; }
 
     /// <summary>
     /// When set to <c>true</c> <see cref="OmegaEngine.Engine.Render()"/> is automatically called in regular intervals.
@@ -101,6 +102,10 @@ public class RenderPanel : TouchPanel
     /// <exception cref="Direct3D9Exception">Internal errors occurred while initializing the graphics card.</exception>
     /// <exception cref="SlimDX.DirectSound.DirectSoundException">Internal errors occurred while initializing the sound card.</exception>
     /// <remarks>Calling this multiple times will always return the same <see cref="OmegaEngine.Engine"/> instance.</remarks>
+    [MemberNotNull(nameof(Engine))]
+    [MemberNotNull(nameof(KeyboardInputProvider))]
+    [MemberNotNull(nameof(MouseInputProvider))]
+    [MemberNotNull(nameof(TouchInputProvider))]
     public Engine Setup()
     {
         if (Engine == null)
@@ -122,9 +127,9 @@ public class RenderPanel : TouchPanel
     /// <param name="receiver">The object to receive the commands.</param>
     public void AddInputReceiver(IInputReceiver receiver)
     {
-        KeyboardInputProvider.AddReceiver(receiver);
-        MouseInputProvider.AddReceiver(receiver);
-        TouchInputProvider.AddReceiver(receiver);
+        KeyboardInputProvider?.AddReceiver(receiver);
+        MouseInputProvider?.AddReceiver(receiver);
+        TouchInputProvider?.AddReceiver(receiver);
     }
 
     /// <summary>
@@ -133,9 +138,9 @@ public class RenderPanel : TouchPanel
     /// <param name="receiver">The object to no longer receive the commands.</param>
     public void RemoveInputReceiver(IInputReceiver receiver)
     {
-        KeyboardInputProvider.RemoveReceiver(receiver);
-        MouseInputProvider.RemoveReceiver(receiver);
-        TouchInputProvider.RemoveReceiver(receiver);
+        KeyboardInputProvider?.RemoveReceiver(receiver);
+        MouseInputProvider?.RemoveReceiver(receiver);
+        TouchInputProvider?.RemoveReceiver(receiver);
     }
     #endregion
 

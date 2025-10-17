@@ -521,7 +521,7 @@ public class Dialog : ICloneable<Dialog>
     #endregion
 
     #region MsgBoxes
-    public void MsgBox(string text, MsgBoxType type, Action<MsgBoxResult> callback)
+    public void MsgBox(string text, MsgBoxType type, Action<MsgBoxResult>? callback)
     {
         DialogRender.Refresh();
         DialogRender.DialogManager.MessageBox.SetFont(0, _fontName, _fontSize, FontWeight.Normal);
