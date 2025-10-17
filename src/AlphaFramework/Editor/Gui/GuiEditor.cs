@@ -7,6 +7,8 @@
  */
 
 using System;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -29,9 +31,9 @@ namespace AlphaFramework.Editor.Gui;
 public partial class GuiEditor : UndoCloneTab<Dialog>
 {
     #region Variables
-    private GuiManager? _guiManager;
+    private GuiManager _guiManager = null!;
     private DialogRenderer? _dialogRenderer;
-    private Dialogs.AddControlTool _addControlTool;
+    private Dialogs.AddControlTool? _addControlTool;
 
     /// <summary>The mouse coordinates where the picking started (i.e. where the mouse was first pressed)</summary>
     private Point _pickStart;
@@ -136,6 +138,8 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
+        Debug.Assert(renderPanel.Engine != null);
+
         // After an update nothing is selected, so disable all buttons
         buttonRemove.Enabled = buttonCopy.Enabled = buttonMoveUp.Enabled = buttonMoveDown.Enabled = false;
 
@@ -181,7 +185,7 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
     {
         // Shutdown GUI system
         _dialogRenderer?.Dispose();
-        _guiManager?.Dispose();
+        _guiManager.Dispose();
 
         base.OnClose();
     }
@@ -193,6 +197,8 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
     /// </summary>
     private void DialogRender()
     {
+        Debug.Assert(renderPanel.Engine != null);
+
         // Call the GUI render handler
         _dialogRenderer?.DialogRender.OnRender(1);
 
@@ -212,6 +218,7 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
     /// <summary>
     /// Helper function for configuring the <see cref="Dialogs.AddControlTool"/> form with event hooks.
     /// </summary>
+    [MemberNotNull(nameof(_addControlTool))]
     private void SetupAddControlTool()
     {
         // Keep existing dialog instance
@@ -300,7 +307,7 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
         listBox.SelectedItems.CopyTo(selectedControls, 0);
         propertyGrid.SelectedObjects = selectedControls;
 
-        renderPanel.Engine.Render();
+        renderPanel.Engine?.Render();
     }
 
     private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -308,7 +315,7 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
         OnChange();
 
         if (Content.NeedsUpdate || e.ChangedItem.Label == "Name") OnUpdate();
-        else renderPanel.Engine.Render();
+        else renderPanel.Engine?.Render();
 
         propertyGrid.Refresh();
     }

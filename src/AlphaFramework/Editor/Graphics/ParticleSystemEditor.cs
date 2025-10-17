@@ -40,7 +40,7 @@ public partial class ParticleSystemEditor : UndoCommandTab, IInputReceiver
     private void timerRender_Tick(object sender, EventArgs e)
     {
         timerRender.Enabled = false; // Prevent multiple ticks from accumulating
-        if (Visible) renderPanel.Engine.Render();
+        if (Visible) renderPanel.Engine?.Render();
         timerRender.Enabled = true;
     }
     #endregion
@@ -54,7 +54,7 @@ public partial class ParticleSystemEditor : UndoCommandTab, IInputReceiver
         Camera.VerticalRotation += pan.Y;
         Camera.HorizontalRotation += (pan.X + rotation) / 2.0f;
 
-        renderPanel.Engine.Render();
+        renderPanel.Engine?.Render();
     }
 
     void IInputReceiver.Hover(Point target)

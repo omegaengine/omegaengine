@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -58,7 +59,7 @@ namespace FrameOfReference.Editor.World;
 public partial class MapEditor : UndoCommandTab
 {
     #region Variables
-    private EditorPresenter? _presenter;
+    private EditorPresenter _presenter = null!;
     private UpdateReceiver? _updateReceiver;
     private Universe _universe = null!;
     private MapPropertiesTool? _mapPropertiesTool;
@@ -235,11 +236,13 @@ public partial class MapEditor : UndoCommandTab
         ExecuteCommand(new RemovePositionables<Vector2>(_universe, _presenter.SelectedPositionables));
     }
 
+    private bool _initialized;
+
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
         // Setup the presenter on startup or when it was lost/reset
-        if (_presenter == null)
+        if (!_initialized)
         {
             _presenter = new(renderPanel.Engine, _universe, false)
             {
@@ -260,6 +263,8 @@ public partial class MapEditor : UndoCommandTab
             _presenter.PostionableMove += presenter_PositionableMove;
             _presenter.TerrainPaint += presenter_TerrainPaint;
             #endregion
+
+            _initialized = true;
         }
 
         UpdatePositionablesListBox();
@@ -493,7 +498,7 @@ public partial class MapEditor : UndoCommandTab
             ActivationTime = Math.Round(_universe.GameTime)
         };
 
-        foreach (var positionable in _presenter?.SelectedPositionables ?? [])
+        foreach (var positionable in _presenter.SelectedPositionables)
         {
             switch (positionable)
             {

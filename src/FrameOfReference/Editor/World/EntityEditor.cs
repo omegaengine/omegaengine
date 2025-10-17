@@ -21,6 +21,7 @@
  */
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Windows.Forms;
@@ -47,7 +48,7 @@ namespace FrameOfReference.Editor.World;
 public partial class EntityEditor : EntityEditorDesignerShim
 {
     #region Variables
-    private EditorPresenter? _presenter;
+    private EditorPresenter _presenter = null!;
     private Universe _universe = null!;
 
     private AddRenderComponentTool? _addRenderComponentTool;
@@ -102,6 +103,8 @@ public partial class EntityEditor : EntityEditorDesignerShim
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
+        Debug.Assert(renderPanel.Engine != null);
+
         // Backup the previously selected class
         var selectedClass = TemplateList.SelectedEntry;
 
@@ -194,7 +197,7 @@ public partial class EntityEditor : EntityEditorDesignerShim
                     Name = "Entity",
                     Position = _universe.Terrain.Center,
                     // Clone the class, so that in case it is changed the old version is still available for cleanup operations
-                    TemplateData = TemplateList.SelectedEntry.Clone()
+                    TemplateData = TemplateList.SelectedEntry!.Clone()
                 });
             }
             #region Error handling
@@ -269,7 +272,7 @@ public partial class EntityEditor : EntityEditorDesignerShim
         _addRenderComponentTool = new();
         _addRenderComponentTool.NewRenderComponent += delegate(Render render)
         { // Callback when the "Add" button is clicked
-            TemplateList.SelectedEntry.Render.Add(render);
+            TemplateList.SelectedEntry!.Render.Add(render);
             OnChange();
 
             // Select the newly added render component
@@ -370,10 +373,10 @@ public partial class EntityEditor : EntityEditorDesignerShim
                     "Box\nCreate a new box collision body"))
         {
             case DialogResult.Yes:
-                TemplateList.SelectedEntry.Collision = _presenter.GetCollisionCircle();
+                TemplateList.SelectedEntry!.Collision = _presenter.GetCollisionCircle();
                 break;
             case DialogResult.No:
-                TemplateList.SelectedEntry.Collision = _presenter.GetCollisionBox();
+                TemplateList.SelectedEntry!.Collision = _presenter.GetCollisionBox();
                 break;
             case DialogResult.Cancel:
                 return;
@@ -428,11 +431,13 @@ public partial class EntityEditor : EntityEditorDesignerShim
     #region Test settings
     private void buttonDebug_Click(object sender, EventArgs e)
     {
+        Debug.Assert(renderPanel.Engine != null);
         renderPanel.Engine.Debug();
     }
 
     private void checkBoxNormalMap_CheckedChanged(object sender, EventArgs e)
     {
+        Debug.Assert(renderPanel.Engine != null);
         renderPanel.Engine.Effects.NormalMapping = checkNormalMapping.Checked;
     }
 
