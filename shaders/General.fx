@@ -167,8 +167,8 @@ float4 readDiffuseMap(float2 texCoord)
 { return tex2D(diffuseSampler, texCoord); }
 
 // Read the specular map
-float4 readSpecMap(float2 texCoord)
-{ return tex2D(specularSampler, texCoord); }
+float3 readSpecMap(float2 texCoord)
+{ return tex2D(specularSampler, texCoord).rgb; }
 
 // Read the emissive map
 float3 readEmissiveMap(float2 texCoord)
@@ -435,7 +435,7 @@ float4 PS_TexturedTwoDirLights(outTextured IN,
 {
     float4 diffuse = readDiffuseMap(IN.texCoord);
     float3 normal = useNormalMap ? applyNormalMap(IN.texCoord, IN.normal, IN.binormal, IN.tangent) : IN.normal;
-    float4 specMap = useSpecularMap ? readSpecMap(IN.texCoord) : 1;
+    float3 specMap = useSpecularMap ? readSpecMap(IN.texCoord) : 1;
 
     // Lighting
     lightComponents components = calcTwoDirLights(IN.worldPos, normal, lightDir1, lightDir2, diffCol1, diffCol2, specCol1 * specMap, specCol2 * specMap, ambCol1, ambCol2);
@@ -451,7 +451,7 @@ float4 PS_TexturedOneDirOrPointLight(outTextured IN,
 {
     float4 diffuse = readDiffuseMap(IN.texCoord);
     float3 normal = useNormalMap ? applyNormalMap(IN.texCoord, IN.normal, IN.binormal, IN.tangent) : IN.normal;
-    float4 specMap = useSpecularMap ? readSpecMap(IN.texCoord) : 1;
+    float3 specMap = useSpecularMap ? readSpecMap(IN.texCoord) : 1;
 
     // Lighting
     lightComponents components;
