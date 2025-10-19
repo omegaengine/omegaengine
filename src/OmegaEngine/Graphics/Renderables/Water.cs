@@ -50,7 +50,6 @@ public class Water : Model
 
         RenderIn = ViewType.NormalOnly;
         Pickable = false;
-        SurfaceEffect = SurfaceEffect.Shader;
         Materials[0].Emissive = Color.LightBlue;
 
         BoundingBox = new(minimum: new(), maximum: new(size.Width, 0, -size.Height));
@@ -124,7 +123,6 @@ public class Water : Model
 
     private void SelectShader()
     {
-        SurfaceEffect = SurfaceEffect.Shader;
         switch (Engine.Effects.WaterEffects)
         {
             case WaterEffectsType.None:

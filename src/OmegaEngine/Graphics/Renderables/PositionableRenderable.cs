@@ -102,7 +102,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     /// What kinds of surface effects (e.g. lighting) to apply to this <see cref="PositionableRenderable"/>
     /// </summary>
     [DefaultValue(SurfaceEffect.Shader), Description("Apply surface shading effects (e.g. lighting) to this body? - Affects both fixed-function pipeline and shaders"), Category("Appearance")]
-    public SurfaceEffect SurfaceEffect { get; set; }
+    public SurfaceEffect SurfaceEffect { get; set; } = SurfaceEffect.Shader;
 
     /// <summary>
     /// The <see cref="SurfaceShader"/> to apply to the surface of this <see cref="PositionableRenderable"/>

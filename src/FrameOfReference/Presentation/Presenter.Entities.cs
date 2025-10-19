@@ -157,7 +157,7 @@ partial class Presenter
         {
             if (string.IsNullOrEmpty(component.Filename)) return null;
 
-            var model = new Model(XMesh.Get(Engine, component.Filename)) {Name = entity.Name, SurfaceEffect = SurfaceEffect.Shader};
+            var model = new Model(XMesh.Get(Engine, component.Filename)) {Name = entity.Name};
             ConfigureModel(model, component);
             return model;
         });

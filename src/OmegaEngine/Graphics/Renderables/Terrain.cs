@@ -94,8 +94,6 @@ public partial class Terrain : Model
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
         #endregion
 
-        SurfaceEffect = SurfaceEffect.Shader;
-
         Lighting = lighting;
 
         #region Copy index and vertex buffer content

@@ -35,7 +35,6 @@ partial class Model
         return new(mesh, material)
         {
             Engine = engine,
-            SurfaceEffect = SurfaceEffect.Shader,
             BoundingSphere = new(center: new(), radius:(float)Math.Sqrt(width * width + height * height) / 2f),
             BoundingBox = new(minimum: new(), maximum: new(width, height, 0))
         };
@@ -162,7 +161,6 @@ partial class Model
         return new(mesh, material)
         {
             Engine = engine,
-            SurfaceEffect = SurfaceEffect.Shader
             // TODO: BoundingBox = new()
         };
     }

@@ -159,7 +159,11 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
             case Box box:
             {
                 // Create a rectangle around the entity based on the box corners
-                var highlight = new Model(XMesh.Get(Engine, "Engine/Rectangle.x")) { Name = $"{entity.Name} Selection" };
+                var highlight = new Model(XMesh.Get(Engine, "Engine/Rectangle.x"))
+                {
+                    Name = $"{entity.Name} Selection",
+                    SurfaceEffect = SurfaceEffect.Plain
+                };
 
                 // Determine the component-wise minimums and maximums and the absolute difference
                 var min = new Vector2(

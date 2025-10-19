@@ -50,6 +50,7 @@ public class VertexGroup : PositionableRenderable
         _vertexCount = vertexes.Length;
 
         _material = XMaterial.DefaultMaterial;
+        SurfaceEffect = SurfaceEffect.FixedFunction;
 
         _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionColored.Format);
         Initialize(indexes);
@@ -69,6 +70,9 @@ public class VertexGroup : PositionableRenderable
 
         _primitiveType = primitiveType;
         _vertexCount = vertexes.Length;
+
+        _material = XMaterial.DefaultMaterial;
+        SurfaceEffect = SurfaceEffect.FixedFunction;
 
         _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionNormalColored.Format);
         Initialize(indexes);
