@@ -357,6 +357,10 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
             if (DrawBoundingBox && WorldBoundingBox.HasValue) Engine.DrawBoundingBox(WorldBoundingBox.Value);
         }
 
+        // Fall back to plain rendering if lighting is disabled
+        if (getLights == null && SurfaceEffect is SurfaceEffect.FixedFunction or SurfaceEffect.Shader)
+            SurfaceEffect = SurfaceEffect.Plain;
+
         base.Render(camera, getLights);
     }
     #endregion

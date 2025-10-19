@@ -215,7 +215,7 @@ partial class View
         ApplyCameraBase(body);
 
         using (new ProfilerEvent(() => $"Render {body}"))
-            body.Render(Camera, Scene.GetEffectiveLights);
+            body.Render(Camera, Lighting ? Scene.GetEffectiveLights : null);
     }
     #endregion
 

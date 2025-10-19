@@ -256,10 +256,6 @@ public partial class Terrain : Model
     /// <inheritdoc/>
     internal override void Render(Camera camera, GetLights? getLights = null)
     {
-        #region Sanity checks
-        if (getLights == null) throw new ArgumentNullException(nameof(getLights));
-        #endregion
-
         // Rendering this without a shader isn't possible (non-standard FVF)
         if (SurfaceEffect < SurfaceEffect.Shader) SurfaceEffect = SurfaceEffect.Shader;
 
@@ -273,7 +269,7 @@ public partial class Terrain : Model
         for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, getLights);
     }
 
-    private void RenderSubset(int i, Camera camera, GetLights lights)
+    private void RenderSubset(int i, Camera camera, GetLights? lights)
     {
         // Frustum culling with the bounding box
         if (_subsetWorldBoundingBoxes != null && !camera.InFrustum(_subsetWorldBoundingBoxes[i])) return;
@@ -297,9 +293,7 @@ public partial class Terrain : Model
                 // Handle lights for fixed-function or shader rendering
                 Vector3 boxCenter = (_subsetBoundingBoxes == null ? new() : _subsetBoundingBoxes[i].Minimum + (_subsetBoundingBoxes[i].Maximum - _subsetBoundingBoxes[i].Minimum) * 0.5f);
 
-                var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain)
-                    ? []
-                    : lights(Position + boxCenter, _blockSize * StretchH * (float)(Math.Sqrt(2) / 2));
+                var effectiveLights = lights?.Invoke(Position + boxCenter, _blockSize * StretchH * (float)(Math.Sqrt(2) / 2)) ?? [];
                 RenderHelper(renderSubset, currentMaterial, camera, effectiveLights);
             }
         }
