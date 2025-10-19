@@ -186,11 +186,14 @@ lightComponents calcDirLight(float3 worldPos, float3 normal, float3 lightDir,
     float3 cameraPos = mul(float4(0.0, 0.0, 0.0, 1.0), viewInverse).xyz;
     float3 eye = normalize(cameraPos - worldPos);
     float3 halfAngle = normalize(eye + lightDir);
-    float specularFactor = saturate(dot(normal, halfAngle));
+
+    // Scale specular with diffuse to avoid highlights on sides facing away from light source
+    float specularFactor = pow(saturate(dot(normal, halfAngle)), 100);
+    specularFactor *= saturate(diffuseFactor * 2.0f);
 
     lightComponents OUT;
     OUT.diffuseAmbient = ambientColor + diffuseFactor * diffuseColor;
-    OUT.specular = pow(specularFactor, specularPower) * specularColor;
+    OUT.specular = specularFactor * specularColor;
     return OUT;
 }
 
