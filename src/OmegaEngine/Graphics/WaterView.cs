@@ -42,6 +42,7 @@ public sealed class WaterView : SupportView
     private WaterView(View baseView, CloneCamera camera, bool reflection) :
         base(baseView, camera)
     {
+        Lighting = baseView.Lighting;
         _cloneCamera = camera;
         Reflection = reflection;
     }

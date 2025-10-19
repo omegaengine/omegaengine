@@ -158,7 +158,7 @@ public partial class View : EngineElement, IResetable
     /// Is lighting used in <see cref="RenderScene"/>?
     /// </summary>
     [Description("Is lighting used in rendering?"), Category("Appearance")]
-    public virtual bool Lighting { get; set; } = true;
+    public virtual bool Lighting { get; set; }
 
     /// <summary>
     /// Does this <see cref="View"/> render to a texture <see cref="RenderTarget"/>? Only <c>true</c> for <see cref="TextureView"/>s.
