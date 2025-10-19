@@ -111,7 +111,7 @@ public partial class EntityEditor : EntityEditorDesignerShim
         // Setup the presenter on startup or when it was lost/reset
         if (_presenter == null)
         {
-            _presenter = new(renderPanel.Engine, _universe, true);
+            _presenter = new(renderPanel.Engine, _universe, lighting: true);
             _presenter.Initialize();
             _presenter.HookIn();
 

@@ -244,7 +244,7 @@ public partial class MapEditor : UndoCommandTab
         // Setup the presenter on startup or when it was lost/reset
         if (!_initialized)
         {
-            _presenter = new(renderPanel.Engine, _universe, false)
+            _presenter = new(renderPanel.Engine, _universe, lighting: false)
             {
                 WireframeTerrain = checkWireframe.Checked
             };
