@@ -210,7 +210,7 @@ public class CpuParticlePreset : ICloneable
 
     #region Clone
     /// <summary>
-    /// Creates a deep copy of the this particle system preset
+    /// Creates a deep copy of the particle system preset
     /// </summary>
     /// <returns>The cloned preset</returns>
     public CpuParticlePreset Clone()

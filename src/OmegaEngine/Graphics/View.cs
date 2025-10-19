@@ -62,10 +62,10 @@ public partial class View : EngineElement, IResetable
 
     #region Properties
     /// <summary>
-    /// Was this view rendered in the this frame?
+    /// Was this view rendered in this frame?
     /// </summary>
     /// <remarks>Used to debug culling methods</remarks>
-    [Description("Was this view rendered in the this frame?"), Category("Appearance")]
+    [Description("Was this view rendered in this frame?"), Category("Appearance")]
     public bool RenderedInLastFrame { get; private set; }
 
     #region Name

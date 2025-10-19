@@ -22,7 +22,7 @@ You must install these components before you can use OmegaEngine:
 
 ## First steps
 
-Create a WinForms project targetting .NET Framework 4.7.2 or newer with the platform set to `x86`.  
+Create a WinForms project targeting .NET Framework 4.7.2 or newer with the platform set to `x86`.  
 Add a reference to the NuGet package `OmegaEngine`. Then add the following code to render a textured sphere:
 
 ```csharp

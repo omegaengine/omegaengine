@@ -82,7 +82,7 @@ public class CpuParticleParameters
 
     #region Clone
     /// <summary>
-    /// Creates a plain copy of the this particle system parameter set
+    /// Creates a plain copy of the particle system parameter set
     /// </summary>
     internal CpuParticleParameters CloneParameters()
     {
