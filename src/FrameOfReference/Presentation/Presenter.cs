@@ -66,7 +66,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
     {
         if (Initialized) return;
 
-        if (Lighting)
+        if (View.Lighting)
         {
             SetupLighting();
             UpdateLighting();
@@ -119,7 +119,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
             Universe.Terrain.TextureMap ?? throw new InvalidOperationException("Terrain texture map missing"),
             textures,
             Universe.Terrain.OcclusionIntervalMap,
-            Lighting,
+            View.Lighting,
             Settings.Current.Graphics.TerrainBlockSize);
         Terrain.Wireframe = WireframeTerrain;
         Scene.Positionables.Add(Terrain);

@@ -55,7 +55,12 @@ public sealed class MenuPresenter : Presenter
             Universe.Terrain.Center.X, rotationHeight, -Universe.Terrain.Center.Y);
         var mainCamera = new TrackCamera(rotationRadius, rotationRadius) {Target = cameraTarget, HorizontalRotation = 0, VerticalRotation = 15, Name = "Menu"};
 
-        View = new(Scene, mainCamera) {Name = "Menu", BackgroundColor = universe.FogColor};
+        View = new(Scene, mainCamera)
+        {
+            Name = "Menu",
+            BackgroundColor = universe.FogColor,
+            Lighting = true
+        };
         View.PreRender += RotateCamera;
     }
 

@@ -34,11 +34,6 @@ namespace FrameOfReference.Presentation;
 
 partial class Presenter
 {
-    /// <summary>
-    /// Use lighting in this presentation?
-    /// </summary>
-    protected bool Lighting = true;
-
     private readonly DirectionalLight
         _lightSun = new() {Name = "Sun", Enabled = false},
         _lightMoon = new() {Name = "Moon", Enabled = false};

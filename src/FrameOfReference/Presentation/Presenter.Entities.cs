@@ -197,7 +197,6 @@ partial class Presenter
         model.Alpha = component.Alpha;
         model.Pickable = component.Pickable;
         model.RenderIn = (ViewType)component.RenderIn;
-        if (!Lighting) model.SurfaceEffect = SurfaceEffect.Plain;
         model.Wireframe = WireframeEntities;
         model.DrawBoundingSphere = BoundingSphereEntities;
         model.DrawBoundingBox = BoundingBoxEntities;
@@ -207,7 +206,6 @@ partial class Presenter
     {
         model.PreTransform = Matrix.Translation(component.Shift);
         model.Alpha = component.Alpha;
-        if (!Lighting) model.SurfaceEffect = SurfaceEffect.Plain;
         model.Wireframe = WireframeEntities;
         model.DrawBoundingSphere = BoundingSphereEntities;
         model.DrawBoundingBox = BoundingBoxEntities;

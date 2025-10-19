@@ -69,12 +69,15 @@ public sealed class EditorPresenter : InteractivePresenter
         if (universe == null) throw new ArgumentNullException(nameof(universe));
         #endregion
 
-        Lighting = lighting;
-
         // Restore previous camera position (or default to center of terrain)
         var mainCamera = CreateCamera(universe.CurrentCamera);
 
-        View = new(Scene, mainCamera) {Name = "Editor", BackgroundColor = universe.FogColor};
+        View = new(Scene, mainCamera)
+        {
+            Name = "Editor",
+            BackgroundColor = universe.FogColor,
+            Lighting = lighting
+        };
 
         // Floating axis-arrows for easier orientation
         var axisArrows = new FloatingModel(XMesh.Get(engine, "Engine/AxisArrows.x"))

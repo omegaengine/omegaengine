@@ -150,7 +150,11 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
             case Circle circle:
             {
                 // Create a circle around the entity based on the radius
-                var highlight = new Model(XMesh.Get(Engine, "Engine/Circle.x")) { Name = $"{entity.Name} Selection" };
+                var highlight = new Model(XMesh.Get(Engine, "Engine/Circle.x"))
+                {
+                    Name = $"{entity.Name} Selection",
+                    SurfaceEffect = SurfaceEffect.Plain
+                };
                 float scale = circle.Radius / 20 + 1;
                 highlight.PreTransform = Matrix.Scaling(scale, 1, scale);
                 return highlight;
