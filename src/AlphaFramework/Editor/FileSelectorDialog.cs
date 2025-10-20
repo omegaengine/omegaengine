@@ -42,10 +42,10 @@ public partial class FileSelectorDialog : Form
     /// <inheritdoc/>
     public FileSelectorDialog()
     {
-        InitializeComponent();
-
         _fileList.SelectionConfirmed += fileList_SelectionConfirmed;
         Controls.Add(_fileList);
+
+        InitializeComponent();
     }
     #endregion
 
