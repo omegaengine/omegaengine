@@ -6,6 +6,7 @@
 The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games using the OmegaEngine.</Description>
     <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
     <UseWindowsForms>True</UseWindowsForms>
+    <UseWinFormsOutOfProcDesigner>True</UseWinFormsOutOfProcDesigner>
   </PropertyGroup>
 
   <!-- Dependencies -->
