@@ -10,12 +10,14 @@
     <PlatformTarget>x86</PlatformTarget>
     <Nullable>annotations</Nullable>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
-    <GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <NoWarn>$(NoWarn);1591;NU1900;NU1901;NU1902;NU1903;NU1904</NoWarn><!-- Missing XML comments + NuGet advisories -->
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(MSBuildRuntimeType)'=='Core'">
+    <GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
 
   <!-- Publish configuration -->
@@ -41,8 +43,10 @@
 
   <!-- Build-time dependencies -->
   <ItemGroup>
-    <PackageReference Include="System.Resources.Extensions" Version="9.0.7" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(MSBuildRuntimeType)'=='Core'">
+    <PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
   </ItemGroup>
 
 </Project>
