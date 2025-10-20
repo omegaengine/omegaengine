@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class MessageBox | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class MessageBox | OmegaEngine ">
+      
+      <meta name="description" content="A message-box dialog">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.4.2/apiSpec/new?filename=OmegaGUI_Render_MessageBox.md&amp;value=---%0Auid%3A%20OmegaGUI.Render.MessageBox%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaGUI.Render.MessageBox">
+
+
+
+  <h1 id="OmegaGUI_Render_MessageBox" data-uid="OmegaGUI.Render.MessageBox" class="text-break">
+Class MessageBox  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.4.2/src/OmegaGUI/Render/MessageBox.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaGUI.html">OmegaGUI</a>.<a class="xref" href="OmegaGUI.Render.html">Render</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaGUI.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A message-box dialog</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class MessageBox : Dialog</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="OmegaGUI.Render.Dialog.html">Dialog</a></div>
+      <div><span class="xref">MessageBox</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_WheelDelta">Dialog.WheelDelta</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_WhiteColorValue">Dialog.WhiteColorValue</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_TransparentWhite">Dialog.TransparentWhite</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_BlackColorValue">Dialog.BlackColorValue</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_SetRefreshTime_System_Single_">Dialog.SetRefreshTime(float)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_IsMinimized">Dialog.IsMinimized</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_IsUsingNonUserEvents">Dialog.IsUsingNonUserEvents</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_IsUsingKeyboardInput">Dialog.IsUsingKeyboardInput</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_IsUsingMouseInput">Dialog.IsUsingMouseInput</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_DefaultFontSize">Dialog.DefaultFontSize</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_Location">Dialog.Location</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_Resize">Dialog.Resize</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_SetSize_System_Int32_System_Int32_">Dialog.SetSize(int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_Width">Dialog.Width</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_Height">Dialog.Height</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_SetCaptionText_System_String_">Dialog.SetCaptionText(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_CaptionHeight">Dialog.CaptionHeight</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_SetBackgroundColors_SlimDX_Color4_SlimDX_Color4_SlimDX_Color4_SlimDX_Color4_">Dialog.SetBackgroundColors(Color4, Color4, Color4, Color4)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_SetBackgroundColors_SlimDX_Color4_">Dialog.SetBackgroundColors(Color4)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_SetCaptionColor_SlimDX_Color4_">Dialog.SetCaptionColor(Color4)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_RemoveAllControls">Dialog.RemoveAllControls()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_ClearRadioButtonGroup_System_UInt32_">Dialog.ClearRadioButtonGroup(uint)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_MessageProc_System_IntPtr_NanoByte_Common_Native_WindowMessage_System_IntPtr_System_IntPtr_">Dialog.MessageProc(IntPtr, WindowMessage, IntPtr, IntPtr)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_RequestFocus_OmegaGUI_Render_Control_">Dialog.RequestFocus(Control)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_ClearFocus">Dialog.ClearFocus()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_GetControlAtPoint_System_Drawing_Point_">Dialog.GetControlAtPoint(Point)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_SetDefaultElement_OmegaGUI_Render_ControlType_System_UInt32_OmegaGUI_Render_Element_">Dialog.SetDefaultElement(ControlType, uint, Element)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_GetDefaultElement_OmegaGUI_Render_ControlType_System_UInt32_">Dialog.GetDefaultElement(ControlType, uint)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_SetFont_System_UInt32_System_String_System_UInt32_SlimDX_Direct3D9_FontWeight_">Dialog.SetFont(uint, string, uint, FontWeight)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_GetFont_System_UInt32_">Dialog.GetFont(uint)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_SetTexture_System_UInt32_System_String_">Dialog.SetTexture(uint, string)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_GetTexture_System_UInt32_">Dialog.GetTexture(uint)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_InitializeControl_OmegaGUI_Render_Control_">Dialog.InitializeControl(Control)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddControl_OmegaGUI_Render_Control_">Dialog.AddControl(Control)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddStatic_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_">Dialog.AddStatic(int, string, int, int, int, int, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddStatic_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_">Dialog.AddStatic(int, string, int, int, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddPictureBox_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_OmegaGUI_Render_Element_">Dialog.AddPictureBox(int, int, int, int, int, Element)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddGroupBox_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_SlimDX_Color4_SlimDX_Color4_">Dialog.AddGroupBox(int, int, int, int, int, Color4, Color4)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddButton_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_System_Windows_Forms_Keys_System_Boolean_">Dialog.AddButton(int, string, int, int, int, int, Keys, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddButton_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_">Dialog.AddButton(int, string, int, int, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddCheckBox_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Windows_Forms_Keys_System_Boolean_">Dialog.AddCheckBox(int, string, int, int, int, int, bool, Keys, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddCheckBox_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_">Dialog.AddCheckBox(int, string, int, int, int, int, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddRadioButton_System_Int32_System_UInt32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Windows_Forms_Keys_System_Boolean_">Dialog.AddRadioButton(int, uint, string, int, int, int, int, bool, Keys, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddRadioButton_System_Int32_System_UInt32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_">Dialog.AddRadioButton(int, uint, string, int, int, int, int, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddDropdownList_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Windows_Forms_Keys_System_Boolean_">Dialog.AddDropdownList(int, int, int, int, int, Keys, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddDropdownList_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_">Dialog.AddDropdownList(int, int, int, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddSlider_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_">Dialog.AddSlider(int, int, int, int, int, int, int, int, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddSlider_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_">Dialog.AddSlider(int, int, int, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddScrollBar_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_">Dialog.AddScrollBar(int, int, int, int, int, int, int, int, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddScrollBar_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_">Dialog.AddScrollBar(int, int, int, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddListBox_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_OmegaGUI_Render_ListBoxStyle_">Dialog.AddListBox(int, int, int, int, int, ListBoxStyle)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddListBox_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_">Dialog.AddListBox(int, int, int, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddTextBox_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_">Dialog.AddTextBox(int, string, int, int, int, int, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_AddTextBox_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_">Dialog.AddTextBox(int, string, int, int, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_OnRender_System_Single_">Dialog.OnRender(float)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_Refresh">Dialog.Refresh()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_DrawText_System_String_OmegaGUI_Render_Element_System_Drawing_Rectangle_System_Boolean_">Dialog.DrawText(string, Element, Rectangle, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_DrawSprite_OmegaGUI_Render_Element_System_Drawing_Rectangle_">Dialog.DrawSprite(Element, Rectangle)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_DrawText_System_String_OmegaGUI_Render_Element_System_Drawing_Rectangle_">Dialog.DrawText(string, Element, Rectangle)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Dialog.html#OmegaGUI_Render_Dialog_DrawRectangle_System_Drawing_Rectangle_SlimDX_Color4_System_Boolean_">Dialog.DrawRectangle(Rectangle, Color4, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="OmegaEngine.Foundation.Storage.XmlZipStorage.html#OmegaEngine_Foundation_Storage_XmlZipStorage_SaveXmlZip__1___0_System_IO_Stream_System_String_OmegaEngine_Foundation_Storage_EmbeddedFile___">XmlZipStorage.SaveXmlZip&lt;T&gt;(T, Stream, string?, params EmbeddedFile[])</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.Foundation.Storage.XmlZipStorage.html#OmegaEngine_Foundation_Storage_XmlZipStorage_SaveXmlZip__1___0_System_String_System_String_OmegaEngine_Foundation_Storage_EmbeddedFile___">XmlZipStorage.SaveXmlZip&lt;T&gt;(T, string, string?, params EmbeddedFile[])</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaGUI_Render_MessageBox__ctor_" data-uid="OmegaGUI.Render.MessageBox.#ctor*"></a>
+
+  <h3 id="OmegaGUI_Render_MessageBox__ctor_OmegaGUI_Render_DialogManager_" data-uid="OmegaGUI.Render.MessageBox.#ctor(OmegaGUI.Render.DialogManager)">
+  MessageBox(DialogManager)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.4.2/src/OmegaGUI/Render/MessageBox.cs/#L50"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Create a new message-box dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MessageBox(DialogManager manager)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>manager</code> <a class="xref" href="OmegaGUI.Render.DialogManager.html">DialogManager</a></dt>
+    <dd><p>The <a class="xref" href="OmegaGUI.Render.DialogManager.html">DialogManager</a> instance that provides the resources for rendering of this dialog</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaGUI_Render_MessageBox_Visible_" data-uid="OmegaGUI.Render.MessageBox.Visible*"></a>
+
+  <h3 id="OmegaGUI_Render_MessageBox_Visible" data-uid="OmegaGUI.Render.MessageBox.Visible">
+  Visible
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.4.2/src/OmegaGUI/Render/MessageBox.cs/#L37"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Visible { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaGUI_Render_MessageBox_Reset_" data-uid="OmegaGUI.Render.MessageBox.Reset*"></a>
+
+  <h3 id="OmegaGUI_Render_MessageBox_Reset" data-uid="OmegaGUI.Render.MessageBox.Reset">
+  Reset()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.4.2/src/OmegaGUI/Render/MessageBox.cs/#L63"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Reset()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_MessageBox_Show_" data-uid="OmegaGUI.Render.MessageBox.Show*"></a>
+
+  <h3 id="OmegaGUI_Render_MessageBox_Show_System_String_OmegaGUI_Render_MsgBoxType_System_Action_OmegaGUI_Render_MsgBoxResult__" data-uid="OmegaGUI.Render.MessageBox.Show(System.String,OmegaGUI.Render.MsgBoxType,System.Action{OmegaGUI.Render.MsgBoxResult})">
+  Show(string, MsgBoxType, Action&lt;MsgBoxResult&gt;?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.4.2/src/OmegaGUI/Render/MessageBox.cs/#L53"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Show(string text, MsgBoxType type, Action&lt;MsgBoxResult&gt;? callback)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>type</code> <a class="xref" href="OmegaGUI.Render.MsgBoxType.html">MsgBoxType</a></dt>
+    <dd></dd>
+    <dt><code>callback</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="OmegaGUI.Render.MsgBoxResult.html">MsgBoxResult</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.4.2/src/OmegaGUI/Render/MessageBox.cs/#L35" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
