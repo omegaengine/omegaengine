@@ -206,7 +206,7 @@ public struct Quadrangle : IEquatable<Quadrangle>
         // Check if the quadrangle has the size 0
         if (P1 == P2 && P2 == P3 && P3 == P4) return false;
 
-        // Check if the circle lies within the quadrangle completley
+        // Check if the circle lies within the quadrangle completely
         if (IntersectWith(new Vector2())) return true;
 
         // If neither, it must be outside of the quadrangle

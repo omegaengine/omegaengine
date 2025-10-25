@@ -15,7 +15,7 @@ using System.Xml.Serialization;
 namespace OmegaEngine.Foundation.Geometry;
 
 /// <summary>
-/// Defines a four component vector with <see cref="byte"/> accuracy.
+/// Defines a four-component vector with <see cref="byte"/> accuracy.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct ByteVector4 : IEquatable<ByteVector4>

@@ -184,7 +184,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         _effectivePosition = Position.ApplyOffset(((IPositionableOffset)this).Offset);
         _currentCameraDistance = _effectivePosition.Length();
 
-        // Calculate transformtion matrices
+        // Calculate transformation matrices
         _worldTransform = _preTransform * Matrix.Scaling(_scale) * _internalRotation * Matrix.RotationQuaternion(Rotation) * Matrix.Translation(_effectivePosition);
         _inverseWorldTransform = Matrix.Invert(_worldTransform);
 

@@ -473,7 +473,7 @@ public abstract class Camera : IPositionable
 
         UpdateViewFrustum();
 
-        // Check if the sphere lies completley behind one of the frustum planes
+        // Check if the sphere lies completely behind one of the frustum planes
         return _viewFrustum.All(t => BoundingSphere.Intersects(boundingSphere, t) != PlaneIntersectionType.Back);
 
         // Otherwise the object is at least partially visible
@@ -492,7 +492,7 @@ public abstract class Camera : IPositionable
 
         UpdateViewFrustum();
 
-        // Check if the box lies completley behind one of the frustum planes
+        // Check if the box lies completely behind one of the frustum planes
         return _viewFrustum.All(plane => BoundingBox.Intersects(boundingBox, plane) != PlaneIntersectionType.Back);
 
         // Otherwise the object is at least partially visible

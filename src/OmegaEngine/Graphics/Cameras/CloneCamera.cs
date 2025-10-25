@@ -12,7 +12,7 @@ using NanoByte.Common;
 namespace OmegaEngine.Graphics.Cameras;
 
 /// <summary>
-/// A camera that immitates the perspective of another <see cref="Camera"/>.
+/// A camera that imitates the perspective of another <see cref="Camera"/>.
 /// </summary>
 public class CloneCamera : Camera
 {

@@ -17,7 +17,7 @@ using OmegaEngine.Properties;
 namespace OmegaEngine.Graphics.Cameras;
 
 /// <summary>
-/// A RTS-style camera with a rotateable horizontal view and an automatic vertical angle.
+/// A RTS-style camera with a rotatable horizontal view and an automatic vertical angle.
 /// </summary>
 public class StrategyCamera : MatrixCamera
 {
@@ -46,10 +46,10 @@ public class StrategyCamera : MatrixCamera
     private double _radius;
 
     /// <summary>
-    /// The distance between the camera and the center of the focues object.
+    /// The distance between the camera and the center of the focuses object.
     /// </summary>
-    /// <remarks>Must be a positiv real number.</remarks>
-    [Description("The distance between the camera and the center of the focues object."), Category("Layout")]
+    /// <remarks>Must be a positive real number.</remarks>
+    [Description("The distance between the camera and the center of the focuses object."), Category("Layout")]
     public double Radius
     {
         get { return _radius; }

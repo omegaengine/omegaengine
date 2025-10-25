@@ -174,7 +174,7 @@ public sealed class EngineState
     public const int Opaque = 0;
 
     /// <summary>
-    /// Value for <see cref="AlphaBlend"/> to make something completley transparent (i.e., invisible)
+    /// Value for <see cref="AlphaBlend"/> to make something completely transparent (i.e., invisible)
     /// </summary>
     public const int Invisible = 255;
 

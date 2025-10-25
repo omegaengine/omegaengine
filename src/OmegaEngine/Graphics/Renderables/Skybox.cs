@@ -14,7 +14,7 @@ using Resources = OmegaEngine.Properties.Resources;
 namespace OmegaEngine.Graphics.Renderables;
 
 /// <summary>
-/// Provides a backgound for a <see cref="Scene"/> that "follows" the <see cref="Camera.Position"/>, creating the illusion of infinite distance.
+/// Provides a background for a <see cref="Scene"/> that "follows" the <see cref="Camera.Position"/>, creating the illusion of infinite distance.
 /// </summary>
 /// <seealso cref="Scene.Skybox"/>
 public abstract class Skybox : Renderable
