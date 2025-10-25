@@ -34,6 +34,9 @@ public class CloneCamera(Camera parentCamera) : Camera
     /// </summary>
     protected override void UpdateView()
     {
+        // Keep in sync with parent camera
+        PositionBase = ParentCamera.PositionBase;
+
         // Note: External update check, clone and conditionally recalc
         bool update = false;
         ParentCamera.View.To(ref ViewCached, ref update);

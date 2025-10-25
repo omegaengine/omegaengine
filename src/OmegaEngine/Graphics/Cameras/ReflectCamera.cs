@@ -33,6 +33,9 @@ public class ReflectCamera(Camera parentCamera, DoublePlane reflectPlane) : Clon
     /// </summary>
     protected override void UpdateView()
     {
+        // Keep in sync with parent camera
+        PositionBase = ParentCamera.PositionBase;
+
         // Note: External update check, clone and conditionally recalc, doesn't call base methods
         ParentCamera.View.To(ref _parentView, delegate
         {
