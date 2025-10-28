@@ -67,7 +67,7 @@ public sealed class DisplaySettings
     public string ResolutionText
     {
         #region Scripting-friendly interface
-        get { return $"{Resolution.Width}x{_resolution.Height}"; }
+        get => $"{Resolution.Width}x{_resolution.Height}";
         set
         {
             if (!string.IsNullOrEmpty(value))
@@ -113,7 +113,7 @@ public sealed class DisplaySettings
     public string AntiAliasingText
     {
         #region Scripting-friendly interface
-        get { return $"{AntiAliasing}x"; }
+        get => $"{AntiAliasing}x";
         set
         {
             if (string.IsNullOrEmpty(value)) return;

@@ -31,7 +31,7 @@ public sealed class TrackCamera(double minRadius = 50, double maxRadius = 100) :
     [Description("The distance between the camera and the center of the focuses object."), Category("Layout")]
     public double Radius
     {
-        get { return _radius; }
+        get => _radius;
         set
         {
             #region Sanity checks
@@ -55,7 +55,7 @@ public sealed class TrackCamera(double minRadius = 50, double maxRadius = 100) :
     [Description("The horizontal rotation in degrees."), Category("Layout")]
     public double HorizontalRotation
     {
-        get { return _horizontalRotation.RadianToDegree(); }
+        get => _horizontalRotation.RadianToDegree();
         set
         {
             #region Sanity checks
@@ -74,7 +74,7 @@ public sealed class TrackCamera(double minRadius = 50, double maxRadius = 100) :
     [Description("The vertical rotation in degrees."), Category("Layout")]
     public double VerticalRotation
     {
-        get { return _verticalRotation.RadianToDegree(); }
+        get => _verticalRotation.RadianToDegree();
         set
         {
             #region Sanity checks
@@ -99,7 +99,7 @@ public sealed class TrackCamera(double minRadius = 50, double maxRadius = 100) :
     [Description("The minimum radius allowed."), Category("Behavior")]
     public double MinRadius
     {
-        get { return _minRadius; }
+        get => _minRadius;
         set
         {
             #region Sanity checks
@@ -120,7 +120,7 @@ public sealed class TrackCamera(double minRadius = 50, double maxRadius = 100) :
     [Description("The maximum radius allowed."), Category("Behavior")]
     public double MaxRadius
     {
-        get { return _maxRadius; }
+        get => _maxRadius;
         set
         {
             #region Sanity checks

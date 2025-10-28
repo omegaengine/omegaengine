@@ -93,7 +93,7 @@ public partial class View : EngineElement, IResetable
     [Description("The screen area this view should fill (all zero for fullscreen)"), Category("Layout")]
     public Rectangle Area
     {
-        get { return _area; }
+        get => _area;
         set
         {
             #region Sanity checks

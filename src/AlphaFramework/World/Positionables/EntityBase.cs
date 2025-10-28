@@ -37,7 +37,7 @@ public abstract class EntityBase<TCoordinates, TTemplate> : Positionable<TCoordi
     [XmlAttribute("Template"), Description("The name of the entity template")]
     public string? TemplateName
     {
-        get { return _templateName; }
+        get => _templateName;
         set
         {
             #region Sanity check
@@ -73,7 +73,7 @@ public abstract class EntityBase<TCoordinates, TTemplate> : Positionable<TCoordi
     [Browsable(false)]
     public TTemplate? TemplateData
     {
-        get { return _templateDataMasked ? null : _template; }
+        get => _templateDataMasked ? null : _template;
         set
         {
             // Backup the original value (might be needed for restore on exception) and then set the new value

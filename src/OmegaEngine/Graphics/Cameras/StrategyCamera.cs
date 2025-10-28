@@ -49,7 +49,7 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     [Description("The distance between the camera and the center of the focuses object."), Category("Layout")]
     public double Radius
     {
-        get { return _radius; }
+        get => _radius;
         set
         {
             #region Sanity checks
@@ -74,7 +74,7 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public float HorizontalRotation
     {
-        get { return _horizontalRotation.RadianToDegree(); }
+        get => _horizontalRotation.RadianToDegree();
         set
         {
             #region Sanity checks
@@ -94,7 +94,7 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     [Description("The minimum radius allowed."), Category("Behavior")]
     public double MinRadius
     {
-        get { return _minRadius; }
+        get => _minRadius;
         set
         {
             #region Sanity checks
@@ -115,7 +115,7 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     [Description("The maximum radius allowed."), Category("Behavior")]
     public double MaxRadius
     {
-        get { return _maxRadius; }
+        get => _maxRadius;
         set
         {
             #region Sanity checks
@@ -137,7 +137,7 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public float MinAngle
     {
-        get { return _minAngle.RadianToDegree(); }
+        get => _minAngle.RadianToDegree();
         set
         {
             #region Sanity checks
@@ -160,7 +160,7 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public float MaxAngle
     {
-        get { return _maxAngle.RadianToDegree(); }
+        get => _maxAngle.RadianToDegree();
         set
         {
             #region Sanity checks

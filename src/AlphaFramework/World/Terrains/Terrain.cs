@@ -42,7 +42,7 @@ public sealed partial class Terrain<TTemplate> : ITerrain
     [Description("The size of the terrain.")]
     public TerrainSize Size
     {
-        get { return _size; }
+        get => _size;
         set
         {
             #region Sanity checks
