@@ -18,19 +18,14 @@ namespace OmegaEngine.Graphics.Cameras;
 /// </summary>
 public class ReflectCamera : CloneCamera
 {
-    #region Variables
     private Matrix _parentView;
-    #endregion
 
-    #region Properties
     /// <summary>
     /// A plane alongside which to reflect the camera view
     /// </summary>
     [Description("A plane alongside which to reflect the camera view"), Category("Behavior")]
     public DoublePlane ReflectPlane { get; set; }
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new reflect camera
     /// </summary>
@@ -40,11 +35,7 @@ public class ReflectCamera : CloneCamera
     {
         ReflectPlane = reflectPlane;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Recalc View Matrix
     /// <summary>
     /// Update cached versions of <see cref="View"/> and related matrices
     /// </summary>
@@ -62,5 +53,4 @@ public class ReflectCamera : CloneCamera
             ViewFrustumDirty = true;
         });
     }
-    #endregion
 }

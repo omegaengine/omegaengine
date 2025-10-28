@@ -46,12 +46,9 @@ public struct Vector2Ray : IEquatable<Vector2Ray>
         Direction = direction;
     }
 
-    #region Conversion
     /// <inheritdoc/>
     public override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0} => {1})", Position, Direction);
-    #endregion
 
-    #region Equality
     /// <inheritdoc/>
     public bool Equals(Vector2Ray other) => other.Direction == Direction && other.Position == Position;
 
@@ -67,5 +64,4 @@ public struct Vector2Ray : IEquatable<Vector2Ray>
 
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Direction, Position);
-    #endregion
 }

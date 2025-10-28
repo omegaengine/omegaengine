@@ -21,7 +21,6 @@ namespace OmegaEngine.Graphics.Cameras;
 /// </summary>
 public class StrategyCamera : MatrixCamera
 {
-    #region Properties
     /// <summary>
     /// The position the camera is looking at.
     /// </summary>
@@ -177,9 +176,7 @@ public class StrategyCamera : MatrixCamera
     }
 
     private readonly Func<DoubleVector3, double> _heightController;
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new strategy camera.
     /// </summary>
@@ -198,11 +195,7 @@ public class StrategyCamera : MatrixCamera
 
         _heightController = heightController;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Perspective change
     /// <inheritdoc/>
     public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)
     {
@@ -216,9 +209,7 @@ public class StrategyCamera : MatrixCamera
         Radius *= zoom;
         HorizontalRotation += rotation;
     }
-    #endregion
 
-    #region Recalc View Matrix
     /// <summary>
     /// Update cached versions of <see cref="View"/> and related matrices.
     /// </summary>
@@ -253,5 +244,4 @@ public class StrategyCamera : MatrixCamera
 
         ViewDirty = false;
     }
-    #endregion
 }

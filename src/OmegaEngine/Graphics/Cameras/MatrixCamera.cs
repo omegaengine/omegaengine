@@ -18,7 +18,6 @@ namespace OmegaEngine.Graphics.Cameras;
 /// </summary>
 public abstract class MatrixCamera : Camera
 {
-    #region Properties
     private DoubleVector3 _target;
 
     /// <summary>
@@ -34,11 +33,7 @@ public abstract class MatrixCamera : Camera
     /// </summary>
     [Description("A vector indicating the up-direction"), Category("Layout")]
     public Vector3 UpVector { get => _upVector; protected set => value.To(ref _upVector, ref ViewDirty, ref ViewFrustumDirty); }
-    #endregion
 
-    //--------------------//
-
-    #region Recalc View Matrix
     /// <summary>
     /// Update cached versions of <see cref="View"/> and related matrices; abstract, to be overwritten in subclass.
     /// </summary>
@@ -49,5 +44,4 @@ public abstract class MatrixCamera : Camera
 
         CacheSpecialMatrices();
     }
-    #endregion
 }

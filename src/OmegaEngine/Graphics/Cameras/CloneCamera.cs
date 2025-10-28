@@ -16,15 +16,12 @@ namespace OmegaEngine.Graphics.Cameras;
 /// </summary>
 public class CloneCamera : Camera
 {
-    #region Properties
     /// <summary>
     /// The parent camera to track
     /// </summary>
     [Description("The parent camera to track"), Category("Behavior")]
     public Camera ParentCamera { get; set; }
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new clone camera
     /// </summary>
@@ -33,19 +30,13 @@ public class CloneCamera : Camera
     {
         ParentCamera = parentCamera;
     }
-    #endregion
 
-    //--------------------//
-
-    #region View control
     /// <inheritdoc/>
     public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)
     {
         // User input should never be routed here
     }
-    #endregion
 
-    #region Recalc View Matrix
     /// <summary>
     /// Update cached versions of <see cref="View"/> and related matrices
     /// </summary>
@@ -59,9 +50,7 @@ public class CloneCamera : Camera
         CacheSpecialMatrices();
         ViewFrustumDirty = true;
     }
-    #endregion
 
-    #region Recalc Projection Matrix
     /// <summary>
     /// Update cached versions of <see cref="Camera.Projection"/> and related matrices
     /// </summary>
@@ -72,5 +61,4 @@ public class CloneCamera : Camera
 
         base.UpdateProjection();
     }
-    #endregion
 }

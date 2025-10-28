@@ -21,7 +21,6 @@ namespace OmegaEngine.Foundation.Geometry;
 [TypeConverter(typeof(QuadrangleConverter))]
 public struct Quadrangle : IEquatable<Quadrangle>
 {
-    #region Properties
     /// <summary>
     /// The coordinates of the first point; counter-clockwise ordering recommended.
     /// </summary>
@@ -65,9 +64,7 @@ public struct Quadrangle : IEquatable<Quadrangle>
     /// The edge from <see cref="P4"/> to <see cref="P1"/>.
     /// </summary>
     public Vector2Ray Edge4 => new(P4, P1 - P4);
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new quadrangle. Counter-clockwise ordering is recommended.
     /// </summary>
@@ -103,11 +100,7 @@ public struct Quadrangle : IEquatable<Quadrangle>
         P3 = new(rectangle.Right, rectangle.Bottom);
         P4 = new(rectangle.Right, rectangle.Top);
     }
-    #endregion
 
-    //--------------------//
-
-    #region Offeset
     /// <summary>
     /// Returns a new <see cref="Quadrangle"/> shifted by <paramref name="distance"/>.
     /// </summary>
@@ -116,9 +109,7 @@ public struct Quadrangle : IEquatable<Quadrangle>
     public Quadrangle Offset(Vector2 distance) => new(
         P1 + distance, P2 + distance,
         P3 + distance, P4 + distance);
-    #endregion
 
-    #region Rotation
     /// <summary>
     /// Returns a new <see cref="Quadrangle"/> rotated by <paramref name="rotation"/> around the origin.
     /// </summary>
@@ -127,7 +118,6 @@ public struct Quadrangle : IEquatable<Quadrangle>
     public Quadrangle Rotate(float rotation) => new(
         P1.Rotate(rotation), P2.Rotate(rotation),
         P3.Rotate(rotation), P4.Rotate(rotation));
-    #endregion
 
     #region Intersect
     #region Point
@@ -215,14 +205,9 @@ public struct Quadrangle : IEquatable<Quadrangle>
     #endregion
     #endregion
 
-    //--------------------//
-
-    #region Conversion
     /// <inheritdoc/>
     public override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0}, {1}, {2}, {3})", P1, P2, P3, P4);
-    #endregion
 
-    #region Equality
     /// <inheritdoc/>
     public bool Equals(Quadrangle other) => other.P1 == P1 && other.P2 == P2 && other.P3 == P3 && other.P4 == P4;
 
@@ -238,5 +223,4 @@ public struct Quadrangle : IEquatable<Quadrangle>
 
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(P1, P2, P3, P4);
-    #endregion
 }

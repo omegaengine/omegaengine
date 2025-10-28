@@ -52,12 +52,9 @@ public struct DoublePlane : IEquatable<DoublePlane>
     /// <returns>The newly positioned <see cref="Plane"/>.</returns>
     public Plane ApplyOffset(DoubleVector3 offset) => new(Point.ApplyOffset(offset), _normal);
 
-    #region Conversion
     /// <inheritdoc/>
     public override string ToString() => $"({Point} => {Normal})";
-    #endregion
 
-    #region Equality
     /// <inheritdoc/>
     public bool Equals(DoublePlane other) => other.Point == Point && other.Normal == Normal;
 
@@ -73,5 +70,4 @@ public struct DoublePlane : IEquatable<DoublePlane>
 
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Point, Normal);
-    #endregion
 }

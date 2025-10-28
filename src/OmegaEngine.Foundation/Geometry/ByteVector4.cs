@@ -59,12 +59,9 @@ public struct ByteVector4 : IEquatable<ByteVector4>
         W = w;
     }
 
-    #region Conversion
     /// <inheritdoc/>
     public override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0}, {1}, {2}, {3})", X, Y, Z, W);
-    #endregion
 
-    #region Equality
     /// <inheritdoc/>
     public bool Equals(ByteVector4 other) => other.X == X && other.Y == Y && other.Z == Z && other.W == W;
 
@@ -80,5 +77,4 @@ public struct ByteVector4 : IEquatable<ByteVector4>
 
     /// <inheritdoc/>
     public override int GetHashCode() => X | (Y << 8) | (Z << 16) | (W << 24);
-    #endregion
 }

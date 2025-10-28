@@ -21,12 +21,9 @@ namespace OmegaEngine.Graphics.Renderables;
 /// </summary>
 public class SimpleSkybox : Skybox
 {
-    #region Variables
     private VertexBuffer _vb;
     private IndexBuffer _ib;
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new skybox using texture-files
     /// </summary>
@@ -34,9 +31,7 @@ public class SimpleSkybox : Skybox
     /// <exception cref="ArgumentException">There are not exactly 6 textures.</exception>
     protected SimpleSkybox(XTexture[] textures) : base(textures.Cast<ITextureProvider>().ToArray())
     {}
-    #endregion
 
-    #region Static access
     /// <summary>
     /// Creates a new skybox using a cached <see cref="XTexture"/>s (loading new ones if they aren't cached).
     /// </summary>
@@ -65,11 +60,7 @@ public class SimpleSkybox : Skybox
         };
         return new(textures);
     }
-    #endregion
 
-    //--------------------//
-
-    #region Render
     /// <inheritdoc/>
     internal override void Render(Camera camera, GetLights? getLights = null)
     {
@@ -96,11 +87,7 @@ public class SimpleSkybox : Skybox
         Engine.Device.SetSamplerState(0, SamplerState.AddressU, TextureAddress.Wrap);
         Engine.Device.SetSamplerState(0, SamplerState.AddressV, TextureAddress.Wrap);
     }
-    #endregion
 
-    //--------------------//
-
-    #region Engine
     /// <inheritdoc/>
     protected override void OnEngineSet()
     {
@@ -156,9 +143,7 @@ public class SimpleSkybox : Skybox
         });
         #endregion
     }
-    #endregion
 
-    #region Dispose
     /// <inheritdoc/>
     protected override void OnDispose()
     {
@@ -172,5 +157,4 @@ public class SimpleSkybox : Skybox
             base.OnDispose();
         }
     }
-    #endregion
 }

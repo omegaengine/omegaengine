@@ -19,23 +19,18 @@ namespace OmegaEngine.Graphics.Cameras;
 /// <remarks>"Cinematic" means that the movement starts slowly, speeds up dramatically and then slows down again before reaching the target.</remarks>
 public class CinematicCamera : QuaternionCamera
 {
-    #region Variables
     private readonly DoubleVector3 _sourcePosition, _targetPosition;
     private readonly Quaternion _sourceQuat, _targetQuat;
 
     private double _factor;
     private bool _needsRecalc = true;
-    #endregion
 
-    #region Properties
     /// <summary>
     /// Is this <see cref="CinematicCamera"/> currently moving?
     /// </summary>
     [Description("Is this cinematic camera currently moving?"), Category("Behavior")]
     public bool Moving { get; private set; }
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new cinematic camera for the engine
     /// </summary>
@@ -70,19 +65,13 @@ public class CinematicCamera : QuaternionCamera
         Position = sourcePosition;
         ViewQuat = sourceQuat;
     }
-    #endregion
 
-    //--------------------//
-
-    #region View control
     /// <inheritdoc/>
     public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)
     {
         // Ignore input while the animation is running
     }
-    #endregion
 
-    #region Recalc View Matrix
     /// <summary>
     /// Update cached versions of <see cref="View"/> and related matrices
     /// </summary>
@@ -103,5 +92,4 @@ public class CinematicCamera : QuaternionCamera
 
         base.UpdateView();
     }
-    #endregion
 }

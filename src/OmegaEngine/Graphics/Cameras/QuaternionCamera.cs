@@ -17,7 +17,6 @@ namespace OmegaEngine.Graphics.Cameras;
 /// </summary>
 public abstract class QuaternionCamera : Camera
 {
-    #region Properties
     private Quaternion _viewQuat;
 
     /// <summary>
@@ -25,11 +24,7 @@ public abstract class QuaternionCamera : Camera
     /// </summary>
     [Browsable(false)]
     public Quaternion ViewQuat { get => _viewQuat; set => value.To(ref _viewQuat, ref ViewDirty, ref ViewFrustumDirty); }
-    #endregion
 
-    //--------------------//
-
-    #region Recalc View Matrix
     /// <summary>
     /// Update cached versions of <see cref="View"/> and related matrices; abstract, to be overwritten in subclass.
     /// </summary>
@@ -40,5 +35,4 @@ public abstract class QuaternionCamera : Camera
 
         CacheSpecialMatrices();
     }
-    #endregion
 }

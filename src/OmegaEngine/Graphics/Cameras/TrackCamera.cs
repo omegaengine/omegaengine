@@ -20,7 +20,6 @@ namespace OmegaEngine.Graphics.Cameras;
 /// </summary>
 public sealed class TrackCamera : MatrixCamera
 {
-    #region Properties
     private double _radius;
 
     /// <summary>
@@ -130,9 +129,7 @@ public sealed class TrackCamera : MatrixCamera
             value.To(ref _maxRadius, ref ViewDirty, ref ViewFrustumDirty);
         }
     }
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new tracking camera.
     /// </summary>
@@ -143,11 +140,7 @@ public sealed class TrackCamera : MatrixCamera
         Radius = MinRadius = minRadius;
         MaxRadius = maxRadius;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Perspective change
     /// <inheritdoc/>
     public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)
     {
@@ -159,9 +152,7 @@ public sealed class TrackCamera : MatrixCamera
         Radius *= zoom;
         HorizontalRotation += rotation;
     }
-    #endregion
 
-    #region Recalc View Matrix
     /// <summary>
     /// Update cached versions of <see cref="View"/> and related matrices.
     /// </summary>
@@ -183,5 +174,4 @@ public sealed class TrackCamera : MatrixCamera
 
         ViewDirty = false;
     }
-    #endregion
 }

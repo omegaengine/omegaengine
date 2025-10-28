@@ -19,11 +19,8 @@ namespace OmegaEngine.Graphics.Renderables;
 /// <seealso cref="Scene.Skybox"/>
 public abstract class Skybox : Renderable
 {
-    #region Variables
     protected readonly ITextureProvider?[] Textures = new ITextureProvider?[6];
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new skybox using texture-files
     /// </summary>
@@ -57,11 +54,7 @@ public abstract class Skybox : Renderable
         // Deactivate lighting
         Engine.State.FfpLighting = false;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Dispose
     /// <inheritdoc/>
     protected override void OnDispose()
     {
@@ -81,5 +74,4 @@ public abstract class Skybox : Renderable
             base.OnDispose();
         }
     }
-    #endregion
 }
