@@ -19,13 +19,14 @@ namespace OmegaEngine.Foundation.Geometry;
 /// A 2D grid of values that can be stored in PNG files.
 /// </summary>
 /// <typeparam name="T">The type of values stored in the grid.</typeparam>
-public abstract class Grid<T>
+/// <param name="data">Used as the internal array (no defensive copy). Do not modify once passing in!</param>
+public abstract class Grid<T>(T[,] data)
     where T : struct
 {
     /// <summary>
     /// The internal array containing the values.
     /// </summary>
-    protected internal readonly T[,] Data;
+    protected internal readonly T[,] Data = data;
 
     /// <summary>
     /// The width of the grid (number of values along the X axis).
@@ -42,19 +43,8 @@ public abstract class Grid<T>
     /// </summary>
     /// <param name="width">The width of the grid (number of values along the X axis).</param>
     /// <param name="height">The height of the grid (number of values along the Y axis).</param>
-    protected Grid(int width, int height)
-    {
-        Data = new T[width, height];
-    }
-
-    /// <summary>
-    /// Creates a new grid based on an existing array.
-    /// </summary>
-    /// <param name="data">Used as the internal array (no defensive copy). Do not modify once passing in!</param>
-    protected Grid(T[,] data)
-    {
-        Data = data;
-    }
+    protected Grid(int width, int height) : this(new T[width, height])
+    {}
 
     public virtual T this[int x, int y] { get => Data[x, y]; set => Data[x, y] = value; }
 

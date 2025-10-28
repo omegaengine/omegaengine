@@ -14,22 +14,14 @@ namespace OmegaEngine.Graphics.Cameras;
 /// <summary>
 /// A camera that imitates the perspective of another <see cref="Camera"/>.
 /// </summary>
-public class CloneCamera : Camera
+/// <param name="parentCamera">The parent camera to track</param>
+public class CloneCamera(Camera parentCamera) : Camera
 {
     /// <summary>
     /// The parent camera to track
     /// </summary>
     [Description("The parent camera to track"), Category("Behavior")]
-    public Camera ParentCamera { get; set; }
-
-    /// <summary>
-    /// Creates a new clone camera
-    /// </summary>
-    /// <param name="parentCamera">The parent camera to track</param>
-    public CloneCamera(Camera parentCamera)
-    {
-        ParentCamera = parentCamera;
-    }
+    public Camera ParentCamera { get; set; } = parentCamera;
 
     /// <inheritdoc/>
     public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)

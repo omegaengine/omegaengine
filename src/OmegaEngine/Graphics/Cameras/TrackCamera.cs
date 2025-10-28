@@ -18,9 +18,11 @@ namespace OmegaEngine.Graphics.Cameras;
 /// <summary>
 /// A camera that can be rotated around a specific point in space.
 /// </summary>
-public sealed class TrackCamera : MatrixCamera
+/// <param name="minRadius">The minimum radius allowed. Also used as the initial radius.</param>
+/// <param name="maxRadius">The maximum radius allowed.</param>
+public sealed class TrackCamera(double minRadius = 50, double maxRadius = 100) : MatrixCamera
 {
-    private double _radius;
+    private double _radius = minRadius;
 
     /// <summary>
     /// The distance between the camera and the center of the focuses object.
@@ -88,7 +90,7 @@ public sealed class TrackCamera : MatrixCamera
         }
     }
 
-    private double _minRadius;
+    private double _minRadius = minRadius;
 
     /// <summary>
     /// The minimum radius allowed.
@@ -109,7 +111,7 @@ public sealed class TrackCamera : MatrixCamera
         }
     }
 
-    private double _maxRadius;
+    private double _maxRadius = maxRadius;
 
     /// <summary>
     /// The maximum radius allowed.
@@ -128,17 +130,6 @@ public sealed class TrackCamera : MatrixCamera
 
             value.To(ref _maxRadius, ref ViewDirty, ref ViewFrustumDirty);
         }
-    }
-
-    /// <summary>
-    /// Creates a new tracking camera.
-    /// </summary>
-    /// <param name="minRadius">The minimum radius allowed. Also used as the initial radius</param>
-    /// <param name="maxRadius">The maximum radius allowed.</param>
-    public TrackCamera(double minRadius = 50, double maxRadius = 100)
-    {
-        Radius = MinRadius = minRadius;
-        MaxRadius = maxRadius;
     }
 
     /// <inheritdoc/>

@@ -16,7 +16,9 @@ namespace OmegaEngine.Graphics.Cameras;
 /// <summary>
 /// A camera that reflects the perspective of another <see cref="Camera"/> along a plane.
 /// </summary>
-public class ReflectCamera : CloneCamera
+/// <param name="parentCamera">The parent camera to track</param>
+/// <param name="reflectPlane">The plane along which to reflect the world</param>
+public class ReflectCamera(Camera parentCamera, DoublePlane reflectPlane) : CloneCamera(parentCamera)
 {
     private Matrix _parentView;
 
@@ -24,17 +26,7 @@ public class ReflectCamera : CloneCamera
     /// A plane alongside which to reflect the camera view
     /// </summary>
     [Description("A plane alongside which to reflect the camera view"), Category("Behavior")]
-    public DoublePlane ReflectPlane { get; set; }
-
-    /// <summary>
-    /// Creates a new reflect camera
-    /// </summary>
-    /// <param name="parentCamera">The parent camera to track</param>
-    /// <param name="reflectPlane">The plane along which to reflect the world</param>
-    public ReflectCamera(Camera parentCamera, DoublePlane reflectPlane) : base(parentCamera)
-    {
-        ReflectPlane = reflectPlane;
-    }
+    public DoublePlane ReflectPlane { get; set; } = reflectPlane;
 
     /// <summary>
     /// Update cached versions of <see cref="View"/> and related matrices

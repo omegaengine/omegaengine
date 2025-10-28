@@ -16,34 +16,24 @@ namespace OmegaEngine.Foundation.Geometry;
 /// <summary>
 /// Defines a plane in three dimensions with <see cref="double"/> distance accuracy.
 /// </summary>
+/// <param name="point">A point that lies along the plane.</param>
+/// <param name="normal">The normal vector of the plane.</param>
 [TypeConverter(typeof(DoublePlaneConverter))]
-public struct DoublePlane : IEquatable<DoublePlane>
+public struct DoublePlane(DoubleVector3 point, Vector3 normal) : IEquatable<DoublePlane>
 {
     /// <summary>
     /// A point that lies along the plane.
     /// </summary>
     [Description("A point that lies along the plane.")]
-    public DoubleVector3 Point { get; }
+    public DoubleVector3 Point { get; } = point;
 
-    private Vector3 _normal;
+    private Vector3 _normal = normal;
 
     /// <summary>
     /// The normal vector of the plane.
     /// </summary>
     [Description("The normal vector of the plane.")]
     public Vector3 Normal { get => _normal; set => _normal = Vector3.Normalize(value); }
-
-    /// <summary>
-    /// Creates a new plane.
-    /// </summary>
-    /// <param name="point">A point that lies along the plane.</param>
-    /// <param name="normal">The normal vector of the plane.</param>
-    public DoublePlane(DoubleVector3 point, Vector3 normal)
-        : this()
-    {
-        Point = point;
-        Normal = normal;
-    }
 
     /// <summary>
     /// Returns a single-precision standard <see cref="Plane"/> after subtracting an offset value.

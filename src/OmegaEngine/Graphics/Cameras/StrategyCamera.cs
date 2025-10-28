@@ -19,7 +19,12 @@ namespace OmegaEngine.Graphics.Cameras;
 /// <summary>
 /// A RTS-style camera with a rotatable horizontal view and an automatic vertical angle.
 /// </summary>
-public class StrategyCamera : MatrixCamera
+/// <param name="minRadius">The minimum radius allowed. Also used as the initial radius.</param>
+/// <param name="maxRadius">The maximum radius allowed.</param>
+/// <param name="minAngle">The minimum vertical angle in degrees. Effective when <see cref="Radius"/> is equal to <see cref="MinRadius"/>.</param>
+/// <param name="maxAngle">The maximum vertical angle in degrees. Effective when <see cref="Radius"/> is equal to <see cref="MaxRadius"/>.</param>
+/// <param name="heightController">This delegate is called to control the minimum height of the strategy camera based on its 2D coordinates.</param>
+public class StrategyCamera(double minRadius, double maxRadius, float minAngle, float maxAngle, Func<DoubleVector3, double> heightController) : MatrixCamera
 {
     /// <summary>
     /// The position the camera is looking at.
@@ -29,20 +34,13 @@ public class StrategyCamera : MatrixCamera
     public override DoubleVector3 Target
     {
         get => base.Target;
-        set
-        {
-            if (_heightController == null) base.Target = value;
-            else
-            {
-                base.Target = new(
-                    value.X,
-                    _heightController(value), // Target object on the terrain's surface
-                    value.Z);
-            }
-        }
+        set => base.Target = new(
+            value.X,
+            heightController(value), // Target object on the terrain's surface
+            value.Z);
     }
 
-    private double _radius;
+    private double _radius = minRadius;
 
     /// <summary>
     /// The distance between the camera and the center of the focuses object.
@@ -87,7 +85,7 @@ public class StrategyCamera : MatrixCamera
         }
     }
 
-    private double _minRadius;
+    private double _minRadius = minRadius;
 
     /// <summary>
     /// The minimum radius allowed.
@@ -108,7 +106,7 @@ public class StrategyCamera : MatrixCamera
         }
     }
 
-    private double _maxRadius;
+    private double _maxRadius = maxRadius;
 
     /// <summary>
     /// The maximum radius allowed.
@@ -129,7 +127,7 @@ public class StrategyCamera : MatrixCamera
         }
     }
 
-    private float _minAngle;
+    private float _minAngle = minAngle.DegreeToRadian();
 
     /// <summary>
     /// The minimum vertical angle in degrees. Effective when <see cref="Radius"/> is equal to <see cref="MinRadius"/>.
@@ -152,7 +150,7 @@ public class StrategyCamera : MatrixCamera
         }
     }
 
-    private float _maxAngle;
+    private float _maxAngle = maxAngle.DegreeToRadian();
 
     /// <summary>
     /// The maximum vertical angle in degrees. Effective when <see cref="Radius"/> is equal to <see cref="MaxRadius"/>.
@@ -173,27 +171,6 @@ public class StrategyCamera : MatrixCamera
 
             value.DegreeToRadian().To(ref _maxAngle, ref ViewDirty, ref ViewFrustumDirty);
         }
-    }
-
-    private readonly Func<DoubleVector3, double> _heightController;
-
-    /// <summary>
-    /// Creates a new strategy camera.
-    /// </summary>
-    /// <param name="minRadius">The minimum radius allowed. Also used as the initial radius</param>
-    /// <param name="maxRadius">The maximum radius allowed.</param>
-    /// <param name="minAngle">The minimum vertical angle in degrees. Effective when <see cref="Radius"/> is equal to <see cref="MinRadius"/>.</param>
-    /// <param name="maxAngle">The maximum vertical angle in degrees. Effective when <see cref="Radius"/> is equal to <see cref="MaxRadius"/>.</param>
-    /// <param name="heightController">This delegate is called to control the minimum height of the strategy camera based on its 2D coordinates.</param>
-    public StrategyCamera(double minRadius, double maxRadius, float minAngle, float maxAngle, Func<DoubleVector3, double> heightController)
-    {
-        Radius = MinRadius = minRadius;
-        MaxRadius = maxRadius;
-
-        MinAngle = minAngle;
-        MaxAngle = maxAngle;
-
-        _heightController = heightController;
     }
 
     /// <inheritdoc/>
@@ -238,7 +215,7 @@ public class StrategyCamera : MatrixCamera
         PositionCached = newPosition + Target;
 
         // Prevent camera from going under terrain
-        PositionCached.Y = Math.Max(PositionCached.Y, _heightController(PositionCached));
+        PositionCached.Y = Math.Max(PositionCached.Y, heightController(PositionCached));
 
         base.UpdateView();
 

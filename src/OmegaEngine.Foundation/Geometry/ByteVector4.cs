@@ -17,47 +17,36 @@ namespace OmegaEngine.Foundation.Geometry;
 /// <summary>
 /// Defines a four-component vector with <see cref="byte"/> accuracy.
 /// </summary>
+/// <param name="x">The X component.</param>
+/// <param name="y">The Y component.</param>
+/// <param name="z">The Z component.</param>
+/// <param name="w">The W component.</param>
 [StructLayout(LayoutKind.Sequential)]
-public struct ByteVector4 : IEquatable<ByteVector4>
+public struct ByteVector4(byte x, byte y, byte z, byte w) : IEquatable<ByteVector4>
 {
     /// <summary>
     /// Gets or sets the X component of the vector.
     /// </summary>
     [XmlAttribute, Description("Gets or sets the X component of the vector.")]
-    public byte X { get; set; }
+    public byte X { get; set; } = x;
 
     /// <summary>
     /// Gets or sets the Y component of the vector.
     /// </summary>
     [XmlAttribute, Description("Gets or sets the Y component of the vector.")]
-    public byte Y { get; set; }
+    public byte Y { get; set; } = y;
 
     /// <summary>
     /// Gets or sets the Z component of the vector.
     /// </summary>
     [XmlAttribute, Description("Gets or sets the Z component of the vector.")]
-    public byte Z { get; set; }
+    public byte Z { get; set; } = z;
 
     /// <summary>
     /// Gets or sets the W component of the vector.
     /// </summary>
     [XmlAttribute, Description("Gets or sets the W component of the vector.")]
-    public byte W { get; set; }
-
-    /// <summary>
-    /// Creates a new vector.
-    /// </summary>
-    /// <param name="x">The X component.</param>
-    /// <param name="y">The Y component.</param>
-    /// <param name="z">The Z component.</param>
-    /// <param name="w">The W component.</param>
-    public ByteVector4(byte x, byte y, byte z, byte w)
-    {
-        X = x;
-        Y = y;
-        Z = z;
-        W = w;
-    }
+    public byte W { get; set; } = w;
 
     /// <inheritdoc/>
     public override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0}, {1}, {2}, {3})", X, Y, Z, W);

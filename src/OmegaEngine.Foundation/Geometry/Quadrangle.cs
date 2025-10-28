@@ -19,31 +19,31 @@ namespace OmegaEngine.Foundation.Geometry;
 /// A 2D polygon consisting of four points.
 /// </summary>
 [TypeConverter(typeof(QuadrangleConverter))]
-public readonly struct Quadrangle : IEquatable<Quadrangle>
+public readonly struct Quadrangle(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4) : IEquatable<Quadrangle>
 {
     /// <summary>
     /// The coordinates of the first point; counter-clockwise ordering recommended.
     /// </summary>
     [Description("The coordinates of the first point; counter-clockwise ordering recommended.")]
-    public Vector2 P1 { get; }
+    public Vector2 P1 { get; } = p1;
 
     /// <summary>
     /// The coordinates of the second point; counter-clockwise ordering recommended.
     /// </summary>
     [Description("The coordinates of the second point; counter-clockwise ordering recommended.")]
-    public Vector2 P2 { get; }
+    public Vector2 P2 { get; } = p2;
 
     /// <summary>
     /// The coordinates of the third point; counter-clockwise ordering recommended.
     /// </summary>
     [Description("The coordinates of the third point; counter-clockwise ordering recommended.")]
-    public Vector2 P3 { get; }
+    public Vector2 P3 { get; } = p3;
 
     /// <summary>
     /// The coordinates of the fourth point; counter-clockwise ordering recommended.
     /// </summary>
     [Description("The coordinates of the fourth point; counter-clockwise ordering recommended.")]
-    public Vector2 P4 { get; }
+    public Vector2 P4 { get; } = p4;
 
     /// <summary>
     /// The edge from <see cref="P1"/> to <see cref="P2"/>.
@@ -68,38 +68,24 @@ public readonly struct Quadrangle : IEquatable<Quadrangle>
     /// <summary>
     /// Creates a new quadrangle. Counter-clockwise ordering is recommended.
     /// </summary>
-    public Quadrangle(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)
-        : this()
-    {
-        P1 = p1;
-        P2 = p2;
-        P3 = p3;
-        P4 = p4;
-    }
-
-    /// <summary>
-    /// Creates a new quadrangle. Counter-clockwise ordering is recommended.
-    /// </summary>
     public Quadrangle(float p1X, float p1Y, float p2X, float p2Y, float p3X, float p3Y, float p4X, float p4Y)
-        : this()
-    {
-        P1 = new(p1X, p1Y);
-        P2 = new(p2X, p2Y);
-        P3 = new(p3X, p3Y);
-        P4 = new(p4X, p4Y);
-    }
+        : this(
+            new(p1X, p1Y),
+            new(p2X, p2Y),
+            new(p3X, p3Y),
+            new(p4X, p4Y))
+    {}
 
     /// <summary>
     /// Creates a new quadrangle from a simple rectangle.
     /// </summary>
     public Quadrangle(RectangleF rectangle)
-        : this()
-    {
-        P1 = new(rectangle.Left, rectangle.Top);
-        P2 = new(rectangle.Left, rectangle.Bottom);
-        P3 = new(rectangle.Right, rectangle.Bottom);
-        P4 = new(rectangle.Right, rectangle.Top);
-    }
+        : this(
+            new(rectangle.Left, rectangle.Top),
+            new(rectangle.Left, rectangle.Bottom),
+            new(rectangle.Right, rectangle.Bottom),
+            new(rectangle.Right, rectangle.Top))
+    {}
 
     /// <summary>
     /// Returns a new <see cref="Quadrangle"/> shifted by <paramref name="distance"/>.

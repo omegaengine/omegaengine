@@ -17,34 +17,24 @@ namespace OmegaEngine.Foundation.Geometry;
 /// <summary>
 /// Defines a ray in two dimensions, specified by a starting position and a direction.
 /// </summary>
+/// <param name="position">A point along the ray.</param>
+/// <param name="direction">A unit vector specifying the direction in which the ray is pointing (automatically normalized).</param>
 [TypeConverter(typeof(Vector2RayConverter))]
-public struct Vector2Ray : IEquatable<Vector2Ray>
+public struct Vector2Ray(Vector2 position, Vector2 direction) : IEquatable<Vector2Ray>
 {
     /// <summary>
-    /// Specifies the location of the ray's origin.
+    /// A point along the ray.
     /// </summary>
-    [Description("Specifies the location of the ray's origin.")]
-    public Vector2 Position { get; }
+    [Description("A point along the ray.")]
+    public Vector2 Position { get; } = position;
 
-    private Vector2 _direction;
+    private Vector2 _direction = Vector2.Normalize(direction);
 
     /// <summary>
-    /// A vector pointing along the ray - automatically normalized when set
+    /// A unit vector specifying the direction in which the ray is pointing (automatically normalized).
     /// </summary>
-    [Description("A unit vector specifying the direction in which the ray is pointing.")]
+    [Description("A unit vector specifying the direction in which the ray is pointing (automatically normalized).")]
     public Vector2 Direction { get => _direction; set => _direction = Vector2.Normalize(value); }
-
-    /// <summary>
-    /// Creates a new ray
-    /// </summary>
-    /// <param name="point">A point along the ray</param>
-    /// <param name="direction">A vector pointing along the ray - automatically normalized when set</param>
-    public Vector2Ray(Vector2 point, Vector2 direction)
-        : this()
-    {
-        Position = point;
-        Direction = direction;
-    }
 
     /// <inheritdoc/>
     public override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0} => {1})", Position, Direction);
