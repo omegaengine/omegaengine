@@ -11,7 +11,6 @@ using System.ComponentModel;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Properties;
-using Vector3 = SlimDX.Vector3;
 
 namespace OmegaEngine.Graphics.Cameras;
 
@@ -161,10 +160,12 @@ public sealed class TrackCamera(double minRadius = 50, double maxRadius = 100) :
             _radius * Math.Cos(_verticalRotation) * -Math.Sin(_horizontalRotation),
             _radius * Math.Sin(_verticalRotation),
             _radius * Math.Cos(_verticalRotation) * -Math.Cos(_horizontalRotation));
-        Position = relativePosition + Target;
+        PositionCached = relativePosition + Target;
 
         // Switch up-vector based on vertical rotation
-        UpVector = _verticalRotation is > Math.PI / 2 and < Math.PI / 2 * 3 ? new(0, -1, 0) : new Vector3(0, 1, 0);
+        UpVector = _verticalRotation is > Math.PI / 2 and < Math.PI / 2 * 3
+            ? new(0, -1, 0)
+            : new(0, +1, 0);
 
         base.UpdateView();
 
