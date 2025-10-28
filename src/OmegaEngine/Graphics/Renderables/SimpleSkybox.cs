@@ -19,17 +19,17 @@ namespace OmegaEngine.Graphics.Renderables;
 /// <summary>
 /// A cubic skybox existing of 4 or 6 non-animated planes.
 /// </summary>
-public class SimpleSkybox : Skybox
+public sealed class SimpleSkybox : Skybox
 {
-    private VertexBuffer _vb;
-    private IndexBuffer _ib;
+    private VertexBuffer? _vb;
+    private IndexBuffer? _ib;
 
     /// <summary>
     /// Creates a new skybox using texture-files
     /// </summary>
     /// <param name="textures">An array of the 6 textures to be uses (right, left, top, bottom, front, back)</param>
     /// <exception cref="ArgumentException">There are not exactly 6 textures.</exception>
-    protected SimpleSkybox(XTexture[] textures) : base(textures.Cast<ITextureProvider>().ToArray())
+    private SimpleSkybox(XTexture[] textures) : base(textures.Cast<ITextureProvider>().ToArray())
     {}
 
     /// <summary>
@@ -48,18 +48,10 @@ public class SimpleSkybox : Skybox
     /// <exception cref="UnauthorizedAccessException">Read access to one of the texture files is not permitted.</exception>
     /// <exception cref="InvalidDataException">One of the texture files does not contain a valid texture.</exception>
     public static SimpleSkybox FromAssets(Engine engine, string rt, string lf, string? up, string? dn, string ft, string bk)
-    {
-        #region Sanity checks
-        if (engine == null) throw new ArgumentNullException(nameof(engine));
-        #endregion
-
-        var textures = new[]
-        {
+        => new([
             XTexture.Get(engine, rt), XTexture.Get(engine, lf), XTexture.Get(engine, up),
             XTexture.Get(engine, dn), XTexture.Get(engine, ft), XTexture.Get(engine, bk)
-        };
-        return new(textures);
-    }
+        ]);
 
     /// <inheritdoc/>
     internal override void Render(Camera camera, GetLights? getLights = null)
@@ -94,41 +86,39 @@ public class SimpleSkybox : Skybox
         base.OnEngineSet();
 
         #region Vertexes
-        var vertexes = new[]
+        _vb = BufferHelper.CreateVertexBuffer(Engine.Device, new PositionTextured[]
         {
             // Right
-            new PositionTextured(1.0f, -1.0f, 1.0f, 0.0f, 1.0f),
-            new PositionTextured(1.0f, 1.0f, 1.0f, 0.0f, 0.0f),
-            new PositionTextured(1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
-            new PositionTextured(1.0f, -1.0f, -1.0f, 1.0f, 1.0f),
+            new(1.0f, -1.0f, 1.0f, 0.0f, 1.0f),
+            new(1.0f, 1.0f, 1.0f, 0.0f, 0.0f),
+            new(1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
+            new(1.0f, -1.0f, -1.0f, 1.0f, 1.0f),
             // Left
-            new PositionTextured(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
-            new PositionTextured(-1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
-            new PositionTextured(-1.0f, 1.0f, 1.0f, 1.0f, 0.0f),
-            new PositionTextured(-1.0f, -1.0f, 1.0f, 1.0f, 1.0f),
+            new(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
+            new(-1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
+            new(-1.0f, 1.0f, 1.0f, 1.0f, 0.0f),
+            new(-1.0f, -1.0f, 1.0f, 1.0f, 1.0f),
             // Top
-            new PositionTextured(-1.0f, 1.0f, 1.0f, 0.0f, 1.0f),
-            new PositionTextured(-1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
-            new PositionTextured(1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
-            new PositionTextured(1.0f, 1.0f, 1.0f, 1.0f, 1.0f),
+            new(-1.0f, 1.0f, 1.0f, 0.0f, 1.0f),
+            new(-1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
+            new(1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
+            new(1.0f, 1.0f, 1.0f, 1.0f, 1.0f),
             // Bottom
-            new PositionTextured(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
-            new PositionTextured(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f),
-            new PositionTextured(1.0f, -1.0f, 1.0f, 1.0f, 0.0f),
-            new PositionTextured(1.0f, -1.0f, -1.0f, 1.0f, 1.0f),
+            new(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
+            new(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f),
+            new(1.0f, -1.0f, 1.0f, 1.0f, 0.0f),
+            new(1.0f, -1.0f, -1.0f, 1.0f, 1.0f),
             // Front
-            new PositionTextured(-1.0f, -1.0f, 1.0f, 0.0f, 1.0f),
-            new PositionTextured(-1.0f, 1.0f, 1.0f, 0.0f, 0.0f),
-            new PositionTextured(1.0f, 1.0f, 1.0f, 1.0f, 0.0f),
-            new PositionTextured(1.0f, -1.0f, 1.0f, 1.0f, 1.0f),
+            new(-1.0f, -1.0f, 1.0f, 0.0f, 1.0f),
+            new(-1.0f, 1.0f, 1.0f, 0.0f, 0.0f),
+            new(1.0f, 1.0f, 1.0f, 1.0f, 0.0f),
+            new(1.0f, -1.0f, 1.0f, 1.0f, 1.0f),
             // Back
-            new PositionTextured(1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
-            new PositionTextured(1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
-            new PositionTextured(-1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
-            new PositionTextured(-1.0f, -1.0f, -1.0f, 1.0f, 1.0f)
-        };
-
-        _vb = BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionTextured.Format);
+            new(1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
+            new(1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
+            new(-1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
+            new(-1.0f, -1.0f, -1.0f, 1.0f, 1.0f)
+        }, PositionTextured.Format);
         #endregion
 
         #region Indexes

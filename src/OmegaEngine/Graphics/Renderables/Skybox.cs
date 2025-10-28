@@ -26,7 +26,7 @@ public abstract class Skybox : Renderable
     /// </summary>
     /// <param name="textures">An array of the 6 textures to be uses (right, left, top, bottom, front, back)</param>
     /// <exception cref="ArgumentException">There are not exactly 6 textures.</exception>
-    protected Skybox(ITextureProvider[] textures)
+    protected Skybox(ITextureProvider?[] textures)
     {
         #region Sanity checks
         if (textures == null) throw new ArgumentNullException(nameof(textures));
