@@ -62,7 +62,8 @@ public sealed class TrackCamera(double minRadius = 50, double maxRadius = 100) :
             if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
             #endregion
 
-            value.DegreeToRadian().To(ref _horizontalRotation, ref ViewDirty, ref ViewFrustumDirty);
+            RadianWrapAround(value.DegreeToRadian())
+               .To(ref _horizontalRotation, ref ViewDirty, ref ViewFrustumDirty);
         }
     }
 
@@ -81,14 +82,18 @@ public sealed class TrackCamera(double minRadius = 50, double maxRadius = 100) :
             if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
             #endregion
 
-            // Keep rotations between 0 and 2PI
-            value = value.DegreeToRadian();
-            while (value > 2 * Math.PI) value -= 2 * Math.PI;
-            while (value < 0) value += 2 * Math.PI;
-
-            value.To(ref _verticalRotation, ref ViewDirty, ref ViewFrustumDirty);
+            RadianWrapAround(value.DegreeToRadian())
+               .To(ref _verticalRotation, ref ViewDirty, ref ViewFrustumDirty);
         }
     }
+
+    /// <summary>
+    /// Keep rotations between 0 and 2PI.
+    /// </summary>
+    private static double RadianWrapAround(double value)
+        => value is < 0 or > 2 * Math.PI
+            ? (value % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI)
+            : value;
 
     private double _minRadius = minRadius;
 
