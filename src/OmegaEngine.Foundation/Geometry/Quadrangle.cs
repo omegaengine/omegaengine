@@ -19,7 +19,7 @@ namespace OmegaEngine.Foundation.Geometry;
 /// A 2D polygon consisting of four points.
 /// </summary>
 [TypeConverter(typeof(QuadrangleConverter))]
-public struct Quadrangle : IEquatable<Quadrangle>
+public readonly struct Quadrangle : IEquatable<Quadrangle>
 {
     /// <summary>
     /// The coordinates of the first point; counter-clockwise ordering recommended.

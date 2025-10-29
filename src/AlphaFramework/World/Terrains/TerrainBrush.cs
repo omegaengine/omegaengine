@@ -14,7 +14,7 @@ namespace AlphaFramework.World.Terrains;
 /// <summary>
 /// Describes a square or circle terrain area that is to be modified.
 /// </summary>
-public struct TerrainBrush
+public readonly struct TerrainBrush
 {
     /// <summary>
     /// The length of the sqaure or the diameter of the circle.
