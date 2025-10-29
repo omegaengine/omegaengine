@@ -179,26 +179,27 @@ public sealed partial class Engine : EngineElement
     /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
     private void CreateDevice()
     {
-        // Try to create the DirectX device (fall back step-by-step if there's trouble)
-        if (Capabilities.PureDevice)
-        {
-            Log.Info("Creating Direct3D device with Hardware Vertex Processing & Pure Device");
-            Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing | CreateFlags.PureDevice, PresentParams);
-        }
-        else if (Capabilities.HardwareVertexProcessing)
-        {
-            Log.Info("Creating Direct3D device with Hardware Vertex Processing");
-            Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.HardwareVertexProcessing, PresentParams);
-        }
-        else
-        {
-            Log.Info("Creating Direct3D device with Software Vertex Processing");
-            Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, CreateFlags.SoftwareVertexProcessing, PresentParams);
-        }
-
-        // Store the default Viewport and BackBuffer
+        Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, GetFlags(), PresentParams);
         RenderViewport = Device.Viewport;
         BackBuffer = Device.GetBackBuffer(0, 0);
+
+        CreateFlags GetFlags()
+        {
+            switch (Capabilities)
+            {
+                case {PureDevice: true}:
+                    Log.Info("Creating Direct3D device with Hardware Vertex Processing & Pure Device");
+                    return CreateFlags.FpuPreserve | CreateFlags.HardwareVertexProcessing | CreateFlags.PureDevice;
+
+                case {HardwareVertexProcessing: true}:
+                    Log.Info("Creating Direct3D device with Hardware Vertex Processing");
+                    return CreateFlags.FpuPreserve | CreateFlags.HardwareVertexProcessing;
+
+                default:
+                    Log.Info("Creating Direct3D device with Software Vertex Processing");
+                    return CreateFlags.FpuPreserve | CreateFlags.SoftwareVertexProcessing;
+            }
+        }
     }
     #endregion
 
