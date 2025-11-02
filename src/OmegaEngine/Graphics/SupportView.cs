@@ -48,18 +48,13 @@ public abstract class SupportView : TextureView
         if (body == null) throw new ArgumentNullException(nameof(body));
         #endregion
 
-        switch (body.RenderIn)
+        return body.RenderIn switch
         {
-            case ViewType.All:
-            case ViewType.SupportOnly:
-                return true;
-            case ViewType.GlowOnly:
-                return Name.EndsWith(" Glow", StringComparison.OrdinalIgnoreCase);
-            case ViewType.NormalOnly:
-                return false;
-            default:
-                throw new ArgumentException("Invalid ViewType!", nameof(body));
-        }
+            ViewType.All or ViewType.SupportOnly => true,
+            ViewType.GlowOnly => Name?.EndsWith(" Glow", StringComparison.OrdinalIgnoreCase) ?? false,
+            ViewType.NormalOnly => false,
+            _ => throw new ArgumentException("Invalid ViewType!", nameof(body))
+        };
     }
 
     /// <inheritdoc/>

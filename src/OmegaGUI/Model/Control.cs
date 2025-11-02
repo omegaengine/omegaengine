@@ -283,31 +283,21 @@ public abstract class Control : ICloneable
 
             if (Parent.DialogRender != null)
             {
-                switch (_alignHorizontal)
+                EffectiveLocation.X = _alignHorizontal switch
                 {
-                    case HorizontalMode.FromLeft:
-                        EffectiveLocation.X = scaledLocation.X;
-                        break;
-                    case HorizontalMode.FromRight:
-                        EffectiveLocation.X = Parent.DialogRender.Width - EffectiveSize.Width - scaledLocation.X;
-                        break;
-                    case HorizontalMode.Center:
-                        EffectiveLocation.X = (Parent.DialogRender.Width - EffectiveSize.Width) / 2 + scaledLocation.X;
-                        break;
-                }
+                    HorizontalMode.FromLeft => scaledLocation.X,
+                    HorizontalMode.FromRight => Parent.DialogRender.Width - EffectiveSize.Width - scaledLocation.X,
+                    HorizontalMode.Center => (Parent.DialogRender.Width - EffectiveSize.Width) / 2 + scaledLocation.X,
+                    _ => EffectiveLocation.X
+                };
 
-                switch (_alignVertical)
+                EffectiveLocation.Y = _alignVertical switch
                 {
-                    case VerticalMode.FromTop:
-                        EffectiveLocation.Y = scaledLocation.Y;
-                        break;
-                    case VerticalMode.FromBottom:
-                        EffectiveLocation.Y = Parent.DialogRender.Height - EffectiveSize.Height - scaledLocation.Y;
-                        break;
-                    case VerticalMode.Center:
-                        EffectiveLocation.Y = (Parent.DialogRender.Height - EffectiveSize.Height) / 2 + scaledLocation.Y;
-                        break;
-                }
+                    VerticalMode.FromTop => scaledLocation.Y,
+                    VerticalMode.FromBottom => Parent.DialogRender.Height - EffectiveSize.Height - scaledLocation.Y,
+                    VerticalMode.Center => (Parent.DialogRender.Height - EffectiveSize.Height) / 2 + scaledLocation.Y,
+                    _ => EffectiveLocation.Y
+                };
             }
 
             EffectiveLocation.X += (int)(Parent.Shift.X * Parent.EffectiveScale);

@@ -67,24 +67,14 @@ public sealed class FileEntry : INamed, IHighlightColor, IContextMenu, IEquatabl
     /// <see cref="Color.Red"/> for <see cref="FileEntryType.Deleted"/>.
     /// </summary>
     public Color HighlightColor
-    {
-        get
+        => EntryType switch
         {
-            switch (EntryType)
-            {
-                case FileEntryType.Normal:
-                    return Color.Empty;
-                case FileEntryType.Modified:
-                    return Color.Blue;
-                case FileEntryType.Added:
-                    return Color.Green;
-                case FileEntryType.Deleted:
-                    return Color.Red;
-                default:
-                    throw new InvalidOperationException(); // Can never be reached
-            }
-        }
-    }
+            FileEntryType.Normal => Color.Empty,
+            FileEntryType.Modified => Color.Blue,
+            FileEntryType.Added => Color.Green,
+            FileEntryType.Deleted => Color.Red,
+            _ => throw new InvalidOperationException()
+        };
     #endregion
 
     #region Constructor

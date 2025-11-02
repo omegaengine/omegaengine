@@ -67,18 +67,12 @@ public class FloatingModel : Model
 
         // Set floating view transformation
         Matrix transform = Matrix.Scaling(Scale) * Matrix.RotationQuaternion(Rotation);
-        switch (Billboard)
+        Engine.State.WorldTransform = Billboard switch
         {
-            case BillboardMode.Spherical:
-                Engine.State.WorldTransform = transform * Matrix.Translation((Vector3)Position);
-                break;
-            case BillboardMode.Cylindrical:
-                Engine.State.WorldTransform = transform * camera.CylindricalBillboard * camera.SimpleView * Matrix.Translation((Vector3)Position);
-                break;
-            default:
-                Engine.State.WorldTransform = transform * camera.SimpleView * Matrix.Translation((Vector3)Position);
-                break;
-        }
+            BillboardMode.Spherical => transform * Matrix.Translation((Vector3)Position),
+            BillboardMode.Cylindrical => transform * camera.CylindricalBillboard * camera.SimpleView * Matrix.Translation((Vector3)Position),
+            _ => transform * camera.SimpleView * Matrix.Translation((Vector3)Position)
+        };
 
         // Never light a floating model
         SurfaceEffect = SurfaceEffect.Plain;

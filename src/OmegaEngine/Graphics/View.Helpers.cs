@@ -31,17 +31,12 @@ partial class View
         if (body == null) throw new ArgumentNullException(nameof(body));
         #endregion
 
-        switch (body.RenderIn)
+        return body.RenderIn switch
         {
-            case ViewType.All:
-            case ViewType.NormalOnly:
-                return true;
-            case ViewType.SupportOnly:
-            case ViewType.GlowOnly:
-                return false;
-            default:
-                throw new ArgumentException("Invalid ViewType!", nameof(body));
-        }
+            ViewType.All or ViewType.NormalOnly => true,
+            ViewType.SupportOnly or ViewType.GlowOnly => false,
+            _ => throw new ArgumentException("Invalid ViewType!", nameof(body))
+        };
     }
     #endregion
 
