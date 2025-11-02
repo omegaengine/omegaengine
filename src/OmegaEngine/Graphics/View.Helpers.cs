@@ -8,6 +8,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using NanoByte.Common;
 using SlimDX.Direct3D9;
@@ -174,6 +175,7 @@ partial class View
     /// <summary>
     /// Prepares a <see cref="OmegaEngine.Graphics.RenderTarget"/> texture if there is none yet - call as often as you want
     /// </summary>
+    [MemberNotNull(nameof(RenderTarget))]
     protected void PrepareRenderTarget()
     {
         if (RenderTarget != null) return;
@@ -185,6 +187,7 @@ partial class View
     /// <summary>
     /// Swaps the <see cref="OmegaEngine.Graphics.RenderTarget"/> texture with a secondary one - used for multiple <see cref="PostShaders"/> entries
     /// </summary>
+    [MemberNotNull(nameof(RenderTarget))]
     private void SwapRenderTarget()
     {
         // Make sure all fields are ready for use

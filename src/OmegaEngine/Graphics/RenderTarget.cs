@@ -25,7 +25,7 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
 {
     #region Variables
     private readonly Engine _engine;
-    private RenderToSurface _rtsHelper;
+    private RenderToSurface? _rtsHelper;
     private Size _rtsHelperSize;
     #endregion
 
@@ -144,11 +144,8 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
         #endregion
 
         // Don't initialise this earlier, would cause trouble with resetting the device
-        if (_rtsHelper == null)
-        {
-            _rtsHelper = new(_engine.Device, _rtsHelperSize.Width, _rtsHelperSize.Height,
-                _engine.PresentParams.BackBufferFormat, _engine.PresentParams.AutoDepthStencilFormat);
-        }
+        _rtsHelper ??= new(_engine.Device, _rtsHelperSize.Width, _rtsHelperSize.Height,
+            _engine.PresentParams.BackBufferFormat, _engine.PresentParams.AutoDepthStencilFormat);
 
         using (new ProfilerEvent("Rendering to texture"))
         {

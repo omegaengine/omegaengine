@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -165,6 +166,7 @@ public abstract class Shader : EngineElement
     #endregion
 
     #region Parameters
+    [MemberNotNull(nameof(ParameterInfos))]
     private void LoadParameters()
     {
         var parameterInfos = new List<ParameterInfo>();
@@ -619,7 +621,7 @@ public abstract class Shader : EngineElement
     #endregion
 
     #region Shader parameters
-    private Effect _effect;
+    private Effect? _effect;
     private readonly Queue<Action> _deferredActions = new();
 
     /// <summary>
@@ -628,7 +630,7 @@ public abstract class Shader : EngineElement
     [Browsable(false)]
     protected Effect Effect
     {
-        get => _effect;
+        get => _effect ?? throw new InvalidOperationException();
         set
         {
             _effect = value;
@@ -637,7 +639,7 @@ public abstract class Shader : EngineElement
         }
     }
 
-    private TransparentCache<string, EffectHandle> _effectHandles;
+    private TransparentCache<string, EffectHandle>? _effectHandles;
 
     /// <summary>
     /// Sets a specific shader parameter. Automatically defers the action if <see cref="Effect"/> has not been set yet.
@@ -649,8 +651,10 @@ public abstract class Shader : EngineElement
     {
         if (IsDisposed) return;
 
-        if (Effect == null) _deferredActions.Enqueue(() => Effect.SetValue(_effectHandles[name], value));
-        else Effect.SetValue(_effectHandles[name], value);
+        if (_effect == null || _effectHandles == null)
+            _deferredActions.Enqueue(() => Effect.SetValue(_effectHandles![name], value));
+        else
+            _effect.SetValue(_effectHandles[name], value);
     }
 
     /// <summary>
@@ -714,7 +718,7 @@ public abstract class Shader : EngineElement
                 _availableRenderTargets.ForEach(target => target.Dispose());
                 _usedRenderTargets.ForEach(target => target.Dispose());
 
-                Effect?.Dispose();
+                _effect?.Dispose();
             }
         }
         finally
