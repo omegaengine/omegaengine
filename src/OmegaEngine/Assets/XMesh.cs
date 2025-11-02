@@ -140,10 +140,15 @@ public class XMesh : Asset
                         if (ContentManager.FileExists("Meshes", specularFilename))
                             Materials[i].SpecularMap = XTexture.Get(engine, specularFilename, meshTexture: true);
 
-                        // Glow map (internally represented as emissive map)
+                        // Emissive map
+                        string emissiveFilename = $"{baseFilename}_emissive{fileExt}";
+                        if (ContentManager.FileExists("Meshes", emissiveFilename))
+                            Materials[i].EmissiveMap = XTexture.Get(engine, emissiveFilename, meshTexture: true);
+
+                        // Glow map
                         string glowFilename = $"{baseFilename}_glow{fileExt}";
                         if (ContentManager.FileExists("Meshes", glowFilename))
-                            Materials[i].EmissiveMap = XTexture.Get(engine, glowFilename, meshTexture: true);
+                            Materials[i].GlowMap = XTexture.Get(engine, glowFilename, meshTexture: true);
                         #endregion
                     }
 

@@ -449,8 +449,8 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         using (new ProfilerEvent("Surface effect: Glow"))
         {
             Engine.State.FfpLighting = true;
-            Engine.State.SetTexture(material.EmissiveMap);
-            Engine.Device.Material = new() {Emissive = material.Emissive};
+            Engine.State.SetTexture(material.GlowMap);
+            Engine.Device.Material = new() {Emissive = material.Glow};
 
             render();
         }

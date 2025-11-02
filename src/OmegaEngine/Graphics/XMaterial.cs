@@ -29,7 +29,7 @@ public struct XMaterial(Color color)
     /// <summary>
     /// Indicates whether this material uses textures
     /// </summary>
-    public bool IsTextured => DiffuseMaps is [not null, ..];
+    public bool IsTextured => DiffuseMaps is [not null, ..] || EmissiveMap != null;
 
     /// <summary>
     /// A plain white untextured material
@@ -66,10 +66,16 @@ public struct XMaterial(Color color)
     public float SpecularPower { get; set; } = 1;
 
     /// <summary>
-    /// The color of the light this material emits by itself - doubles as glow color
+    /// The color of the light this material emits by itself
     /// </summary>
     [DefaultValue(typeof(Color), "Black")]
     public Color Emissive { get; set; } = Color.Black;
+
+    /// <summary>
+    /// The color of this material glows in, bleeding over edges
+    /// </summary>
+    [DefaultValue(typeof(Color), "Black")]
+    public Color Glow { get; set; } = Color.Black;
 
     /// <summary>
     /// The normal map (i.e. bump map)
@@ -94,7 +100,7 @@ public struct XMaterial(Color color)
     private ITextureProvider? _emissiveMap;
 
     /// <summary>
-    /// The emissive (self-shining, without light source) - doubles as the glow map
+    /// The emissive (which spots are self-shining without an external light source)
     /// </summary>
     public ITextureProvider? EmissiveMap
     {
@@ -106,6 +112,24 @@ public struct XMaterial(Color color)
             // Default color to white when texture is set, as a convenience
             if (Emissive.EqualsIgnoreAlpha(Color.Black) && value != null)
                 Emissive = Color.White;
+        }
+    }
+
+    private ITextureProvider? _glowMap;
+
+    /// <summary>
+    /// The glow map (which spots glow, bleeding over edges)
+    /// </summary>
+    public ITextureProvider? GlowMap
+    {
+        readonly get => _glowMap;
+        set
+        {
+            _glowMap = value;
+
+            // Default color to white when texture is set, as a convenience
+            if (Glow.EqualsIgnoreAlpha(Color.Black) && value != null)
+                Glow = Color.White;
         }
     }
 
