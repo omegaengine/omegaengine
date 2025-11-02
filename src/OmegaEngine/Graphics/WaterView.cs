@@ -20,19 +20,14 @@ namespace OmegaEngine.Graphics;
 /// </summary>
 public sealed class WaterView : SupportView
 {
-    #region Variables
     private readonly CloneCamera _cloneCamera;
-    #endregion
 
-    #region Properties
     /// <summary>
     /// True if this is a <see cref="WaterViewSource.ReflectedView"/>, <c>false</c> if this is a <see cref="WaterViewSource.RefractedView"/>
     /// </summary>
     [Description("True if this is a reflection view, false if it is a refraction view"), Category("Behavior")]
     public bool Reflection { get; }
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new view for rendering <see cref="Water"/> refractions or reflections
     /// </summary>
@@ -46,11 +41,7 @@ public sealed class WaterView : SupportView
         _cloneCamera = camera;
         Reflection = reflection;
     }
-    #endregion
 
-    #region Static access
-
-    #region Refraction
     /// <summary>
     /// Creates a refraction of a <see cref="View"/> and adds it to <see cref="View.ChildViews"/>
     /// </summary>
@@ -82,9 +73,7 @@ public sealed class WaterView : SupportView
         baseView.ChildViews.Add(newView);
         return newView;
     }
-    #endregion
 
-    #region Reflection
     /// <summary>
     /// Creates a reflection of a <see cref="View"/> and adds it to <see cref="View.ChildViews"/>
     /// </summary>
@@ -117,13 +106,7 @@ public sealed class WaterView : SupportView
         baseView.ChildViews.Add(newView);
         return newView;
     }
-    #endregion
 
-    #endregion
-
-    //--------------------//
-
-    #region Visibility check
     /// <inheritdoc/>
     protected override bool IsToRender(PositionableRenderable body)
     {
@@ -138,11 +121,7 @@ public sealed class WaterView : SupportView
         // Perform the more generic tests
         return base.IsToRender(body);
     }
-    #endregion
 
-    //--------------------//
-
-    #region Render
     /// <inheritdoc/>
     internal override void Render()
     {
@@ -152,5 +131,4 @@ public sealed class WaterView : SupportView
 
         base.Render();
     }
-    #endregion
 }

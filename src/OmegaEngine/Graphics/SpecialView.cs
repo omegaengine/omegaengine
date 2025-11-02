@@ -18,7 +18,6 @@ namespace OmegaEngine.Graphics;
 /// </summary>
 public abstract class SpecialView : SupportView
 {
-    #region Properties
     /// <summary>
     /// Not applicable to <see cref="SpecialView"/>.
     /// </summary>
@@ -30,9 +29,7 @@ public abstract class SpecialView : SupportView
     /// </summary>
     [Browsable(false)]
     public sealed override bool Lighting { get => false; set { } }
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new special-view
     /// </summary>
@@ -41,22 +38,14 @@ public abstract class SpecialView : SupportView
     protected SpecialView(View baseView, Camera camera) :
         base(baseView, camera)
     {}
-    #endregion
 
-    //--------------------//
-
-    #region Render background
     /// <inheritdoc/>
     protected override void RenderBackground()
     {
         using (new ProfilerEvent("Clear ZBuffer and BackBuffer"))
             Engine.Device.Clear(ClearFlags.ZBuffer | ClearFlags.Target, Color.Black, 1.0f, 0);
     }
-    #endregion
 
-    //--------------------//
-
-    #region Render
     /// <inheritdoc/>
     internal override void Render()
     {
@@ -65,5 +54,4 @@ public abstract class SpecialView : SupportView
 
         base.Render();
     }
-    #endregion
 }

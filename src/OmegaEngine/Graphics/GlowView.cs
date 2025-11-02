@@ -17,7 +17,6 @@ namespace OmegaEngine.Graphics;
 /// </summary>
 public sealed class GlowView : SpecialView
 {
-    #region Constructor
     /// <summary>
     /// Creates a new view for rendering glow maps
     /// </summary>
@@ -26,11 +25,7 @@ public sealed class GlowView : SpecialView
     {
         BackgroundColor = Color.Black;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Render body
     /// <inheritdoc/>
     protected override void RenderBody(PositionableRenderable body)
     {
@@ -47,5 +42,4 @@ public sealed class GlowView : SpecialView
         // Restore the original surface effect
         body.SurfaceEffect = surfaceEffect;
     }
-    #endregion
 }

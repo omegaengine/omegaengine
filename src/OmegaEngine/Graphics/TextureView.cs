@@ -20,7 +20,6 @@ namespace OmegaEngine.Graphics;
 /// They are then referenced in <see cref="View.ChildViews"/>.</remarks>
 public abstract class TextureView : View
 {
-    #region Properties
     /// <summary>
     /// Not applicable to <see cref="TextureView"/>
     /// </summary>
@@ -31,9 +30,7 @@ public abstract class TextureView : View
     /// Does this <see cref="View"/> render to a texture <see cref="RenderTarget"/>? <c>true</c> since this is a <see cref="TextureView"/>.
     /// </summary>
     protected override bool TextureRenderTarget => true;
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new view for rendering to a texture
     /// </summary>
@@ -43,11 +40,7 @@ public abstract class TextureView : View
     protected TextureView(Scene scene, Camera camera, Size size) :
         base(scene, camera, new(new(), size))
     {}
-    #endregion
 
-    //--------------------//
-
-    #region Render-to-texture
     /// <summary>
     /// The texture this view renders to. May change, do not store externally!
     /// </summary>
@@ -56,17 +49,13 @@ public abstract class TextureView : View
         PrepareRenderTarget();
         return RenderTarget;
     }
-    #endregion
 
-    #region Apply post-screen shaders
     /// <inheritdoc/>
     protected override void ApplyPostShaders(bool sceneOnBackBuffer)
     {
         // Note: Doesn't call base methods
 
-        #region Sanity checks
         Debug.Assert(!sceneOnBackBuffer, "Scene should never be on back-buffer with external render target");
-        #endregion
 
         foreach (var shader in PostShaders)
         {
@@ -74,16 +63,11 @@ public abstract class TextureView : View
             if (shader.Enabled) ShaderToRenderTarget(shader);
         }
     }
-    #endregion
 
-    //--------------------//
-
-    #region Engine
     /// <inheritdoc/>
     protected override void OnEngineSet()
     {
         base.OnEngineSet();
         PrepareRenderTarget();
     }
-    #endregion
 }

@@ -18,14 +18,11 @@ namespace OmegaEngine.Graphics;
 /// </summary>
 public abstract class SupportView : TextureView
 {
-    #region Variables
     /// <summary>
     /// The <see cref="View"/> this one is based upon
     /// </summary>
     protected readonly View BaseView;
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new support-view
     /// </summary>
@@ -36,20 +33,14 @@ public abstract class SupportView : TextureView
     {
         BaseView = baseView;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Size
     /// <summary>
     /// Calculates the size for a <see cref="SupportView"/> based on the base <see cref="View"/>'s size
     /// </summary>
     /// <param name="size"></param>
     /// <returns>.</returns>
     private static Size SupportSize(Size size) => new(size.Width * 2 / 3, size.Height * 2 / 3);
-    #endregion
 
-    #region Visibility check
     /// <inheritdoc/>
     protected override bool IsToRender(PositionableRenderable body)
     {
@@ -70,11 +61,7 @@ public abstract class SupportView : TextureView
                 throw new ArgumentException("Invalid ViewType!", nameof(body));
         }
     }
-    #endregion
 
-    //--------------------//
-
-    #region Render
     /// <inheritdoc/>
     internal override void Render()
     {
@@ -83,5 +70,4 @@ public abstract class SupportView : TextureView
 
         base.Render();
     }
-    #endregion
 }
