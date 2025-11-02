@@ -68,6 +68,21 @@ public abstract partial class Camera : IPositionable
         set => value.To(ref PositionBaseCached, ref ViewDirty, ref ViewFrustumDirty);
     }
 
+    /// <summary>
+    /// The maximum distance between <see cref="Position"/> and <see cref="PositionBase"/> before <see cref="PositionBase"/> is automatically adjusted, to avoid floating point errors.
+    /// </summary>
+    [DefaultValue(10000f), Description("The maximum distance between Position and PositionBase before PositionBase is automatically adjusted, to avoid floating point errors"), Category("Behavior")]
+    public float MaxPositionOffset { get; set; } = 10000f;
+
+    /// <summary>
+    /// Adjusts <see cref="PositionBase"/> if <see cref="Position"/> is too far away, to avoid floating point errors.
+    /// </summary>
+    protected void AdjustPositionBase()
+    {
+        if (PositionCached.ApplyOffset(PositionBaseCached).Length() > MaxPositionOffset)
+            PositionBase = PositionCached;
+    }
+
     private Size _size;
 
     /// <summary>
