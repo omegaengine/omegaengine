@@ -16,7 +16,6 @@ using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;
-using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Renderables;
 
@@ -438,8 +437,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
             else
             { // Simulate a plain colored surface by using emissive lighting
                 Engine.State.FfpLighting = true;
-                var emissiveMaterial = new Material {Emissive = material.Diffuse};
-                Engine.Device.Material = emissiveMaterial;
+                Engine.Device.Material = new() {Emissive = material.Diffuse};
             }
 
             render();
@@ -450,12 +448,9 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     {
         using (new ProfilerEvent("Surface effect: Glow"))
         {
-            Engine.State.SetTexture(material.EmissiveMap);
-            var emissiveMaterial = new Material {Emissive = material.Emissive};
-
-            // Use simple DirectX lighting
-            Engine.Device.Material = emissiveMaterial;
             Engine.State.FfpLighting = true;
+            Engine.State.SetTexture(material.EmissiveMap);
+            Engine.Device.Material = new() {Emissive = material.Emissive};
 
             render();
         }
@@ -465,8 +460,8 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     {
         using (new ProfilerEvent("Surface effect: Fixed-function"))
         {
-            Engine.Device.Material = material.D3DMaterial;
             Engine.State.FfpLighting = true;
+            Engine.Device.Material = material.D3DMaterial;
 
             render();
         }
