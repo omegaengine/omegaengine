@@ -49,10 +49,10 @@ partial class View
     /// <summary>
     /// Applies the <see cref="Cameras.Camera.PositionBase"/> as the <see cref="IPositionableOffset.Offset"/>.
     /// </summary>
-    /// <param name="offsetable">The positionable object to be shifted</param>
-    internal void ApplyCameraBase(IPositionableOffset offsetable)
+    /// <param name="offsettable">The positionable object to be shifted</param>
+    internal void ApplyCameraBase(IPositionableOffset offsettable)
     {
-        offsetable.Offset = Camera.PositionBase;
+        offsettable.Offset = Camera.PositionBase;
     }
 
     /// <summary>
@@ -168,7 +168,7 @@ partial class View
             }
             else
             {
-                // Apply the shader while outputing to a transparent quad
+                // Apply the shader while outputting to a transparent quad
                 ShaderToBackBuffer(shader, FullAlpha);
             }
         }

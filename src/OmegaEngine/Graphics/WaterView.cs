@@ -135,7 +135,7 @@ public sealed class WaterView : SupportView
         if (Reflection && Engine.Effects.WaterEffects <= WaterEffectsType.ReflectTerrain && body is not Terrain)
             return false;
 
-        // Perform the the more generic tests
+        // Perform the more generic tests
         return base.IsToRender(body);
     }
     #endregion

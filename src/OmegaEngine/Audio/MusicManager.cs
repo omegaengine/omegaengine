@@ -159,7 +159,7 @@ public sealed class MusicManager : IDisposable
 
         if (possibleSongs.Length > 0)
         {
-            // Plays a randomly selected song from the theme
+            // Plays a randomly selected song from theme
             PlaySong(possibleSongs[RandomUtils.GetRandomInt(0, possibleSongs.Length - 1)]);
         }
     }

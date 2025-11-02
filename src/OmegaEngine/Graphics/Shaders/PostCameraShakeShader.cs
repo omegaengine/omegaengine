@@ -60,9 +60,9 @@ public class PostCameraShakeShader : PostShader
     }
 
     /// <summary>
-    /// How close the the origin to keep the shaking view - values between 0 and 10
+    /// How close the origin to keep the shaking view - values between 0 and 10
     /// </summary>
-    [DefaultValue(2.2f), Description("How close the the origin to keep the shaking view - values between 0 and 10")]
+    [DefaultValue(2.2f), Description("How close the origin to keep the shaking view - values between 0 and 10")]
     public float Sharpness
     {
         get => _sharpness;
