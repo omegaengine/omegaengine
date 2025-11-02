@@ -9,6 +9,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using OmegaEngine.Assets;
+using OmegaEngine.Foundation.Light;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics;
@@ -90,10 +91,23 @@ public struct XMaterial(Color color)
     /// </summary>
     public ITextureProvider? SpecularMap { get; set; }
 
+    private ITextureProvider? _emissiveMap;
+
     /// <summary>
     /// The emissive (self-shining, without light source) - doubles as the glow map
     /// </summary>
-    public ITextureProvider? EmissiveMap { get; set; }
+    public ITextureProvider? EmissiveMap
+    {
+        readonly get => _emissiveMap;
+        set
+        {
+            _emissiveMap = value;
+
+            // Default color to white when texture is set, as a convenience
+            if (Emissive.EqualsIgnoreAlpha(Color.Black) && value != null)
+                Emissive = Color.White;
+        }
+    }
 
     public XMaterial(ITextureProvider? diffuse) : this(Color.White)
     {

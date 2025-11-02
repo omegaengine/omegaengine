@@ -143,12 +143,7 @@ public class XMesh : Asset
                         // Glow map (internally represented as emissive map)
                         string glowFilename = $"{baseFilename}_glow{fileExt}";
                         if (ContentManager.FileExists("Meshes", glowFilename))
-                        {
                             Materials[i].EmissiveMap = XTexture.Get(engine, glowFilename, meshTexture: true);
-
-                            // Automatically set emissive color if a glow map is used (since this color usually defaults to black)
-                            if (Materials[i].Emissive == Color.FromArgb(255, 0, 0, 0)) Materials[i].Emissive = Color.White;
-                        }
                         #endregion
                     }
 
