@@ -16,23 +16,15 @@ namespace OmegaEngine.Graphics;
 /// <summary>
 /// A common base class for all <see cref="View.ChildViews"/> that provide support functionality like water refraction/reflection, glow maps, etc.
 /// </summary>
-public abstract class SupportView : TextureView
+/// <param name="baseView">The <see cref="View"/> to base this support-view on</param>
+/// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
+public abstract class SupportView(View baseView, Camera camera)
+    : TextureView(baseView.Scene, camera, SupportSize(baseView.Area.Size))
 {
     /// <summary>
     /// The <see cref="View"/> this one is based upon
     /// </summary>
-    protected readonly View BaseView;
-
-    /// <summary>
-    /// Creates a new support-view
-    /// </summary>
-    /// <param name="baseView">The <see cref="View"/> to base this support-view on</param>
-    /// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
-    protected SupportView(View baseView, Camera camera) :
-        base(baseView.Scene, camera, SupportSize(baseView.Area.Size))
-    {
-        BaseView = baseView;
-    }
+    protected readonly View BaseView = baseView;
 
     /// <summary>
     /// Calculates the size for a <see cref="SupportView"/> based on the base <see cref="View"/>'s size

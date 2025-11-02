@@ -16,9 +16,12 @@ namespace OmegaEngine.Graphics;
 /// <summary>
 /// A special kind of <see cref="View"/> that directs its output into a texture <see cref="RenderTarget"/> instead of printing straight to the screen.
 /// </summary>
+/// <param name="scene">The <see cref="Scene"/> to render</param>
+/// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
+/// <param name="size">The size of screen area this view should fill (leave empty for fullscreen)</param>
 /// <remarks>These <see cref="View"/>s usually provide helper data (e.g. reflections) for the main <see cref="View"/>s.
 /// They are then referenced in <see cref="View.ChildViews"/>.</remarks>
-public abstract class TextureView : View
+public abstract class TextureView(Scene scene, Camera camera, Size size) : View(scene, camera, new(new(), size))
 {
     /// <summary>
     /// Not applicable to <see cref="TextureView"/>
@@ -30,16 +33,6 @@ public abstract class TextureView : View
     /// Does this <see cref="View"/> render to a texture <see cref="RenderTarget"/>? <c>true</c> since this is a <see cref="TextureView"/>.
     /// </summary>
     protected override bool TextureRenderTarget => true;
-
-    /// <summary>
-    /// Creates a new view for rendering to a texture
-    /// </summary>
-    /// <param name="scene">The <see cref="Scene"/> to render</param>
-    /// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
-    /// <param name="size">The size of screen area this view should fill (leave empty for fullscreen)</param>
-    protected TextureView(Scene scene, Camera camera, Size size) :
-        base(scene, camera, new(new(), size))
-    {}
 
     /// <summary>
     /// The texture this view renders to. May change, do not store externally!

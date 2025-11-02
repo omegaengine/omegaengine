@@ -16,13 +16,14 @@ namespace OmegaEngine.Graphics;
 /// <summary>
 /// A combination of textures and lighting parameters.
 /// </summary>
+/// <param name="color">The color of the material when hit by diffuse light (normal lighting).</param>
 /// <remarks><see cref="XMaterial"/> instances are auto-generated when <see cref="XMesh"/>es are loaded.</remarks>
-public struct XMaterial
+public struct XMaterial(Color color)
 {
     /// <summary>
     /// The diffuse textures maps
     /// </summary>
-    public readonly ITextureProvider?[] DiffuseMaps;
+    public readonly ITextureProvider?[] DiffuseMaps = new ITextureProvider[16];
 
     /// <summary>
     /// Indicates whether this material uses textures
@@ -43,31 +44,31 @@ public struct XMaterial
     /// The color of the material when lit by ambient/background light (always active)
     /// </summary>
     [DefaultValue(typeof(Color), "White")]
-    public Color Ambient { get; set; }
+    public Color Ambient { get; set; } = Color.White;
 
     /// <summary>
     /// The color of the material when hit by diffuse light (normal lighting)
     /// </summary>
     [DefaultValue(typeof(Color), "White")]
-    public Color Diffuse { get; set; }
+    public Color Diffuse { get; set; } = color;
 
     /// <summary>
     /// The color of specular (shiny) highlights on the material surface
     /// </summary>
     [DefaultValue(typeof(Color), "Gray")]
-    public Color Specular { get; set; }
+    public Color Specular { get; set; } = Color.Gray;
 
     /// <summary>
     /// The sharpness of specular highlights (lower value = sharper)
     /// </summary>
     [DefaultValue(1f)]
-    public float SpecularPower { get; set; }
+    public float SpecularPower { get; set; } = 1;
 
     /// <summary>
     /// The color of the light this material emits by itself - doubles as glow color
     /// </summary>
     [DefaultValue(typeof(Color), "Black")]
-    public Color Emissive { get; set; }
+    public Color Emissive { get; set; } = Color.Black;
 
     /// <summary>
     /// The normal map (i.e. bump map)
@@ -93,21 +94,6 @@ public struct XMaterial
     /// The emissive (self-shining, without light source) - doubles as the glow map
     /// </summary>
     public ITextureProvider? EmissiveMap { get; set; }
-
-    public XMaterial(Color color) : this()
-    {
-        DiffuseMaps = new ITextureProvider[16];
-        NormalMap = null;
-        HeightMap = null;
-        SpecularMap = null;
-        EmissiveMap = null;
-
-        Diffuse = color;
-        Ambient = Color.White;
-        Specular = Color.Gray;
-        SpecularPower = 1;
-        Emissive = Color.Black;
-    }
 
     public XMaterial(ITextureProvider? diffuse) : this(Color.White)
     {

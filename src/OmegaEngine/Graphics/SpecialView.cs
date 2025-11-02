@@ -16,7 +16,10 @@ namespace OmegaEngine.Graphics;
 /// <summary>
 /// A common base class for views that use non-standard rendering modes.
 /// </summary>
-public abstract class SpecialView : SupportView
+/// <param name="baseView">The <see cref="View"/> to base this support-view on</param>
+/// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
+public abstract class SpecialView(View baseView, Camera camera)
+    : SupportView(baseView, camera)
 {
     /// <summary>
     /// Not applicable to <see cref="SpecialView"/>.
@@ -29,15 +32,6 @@ public abstract class SpecialView : SupportView
     /// </summary>
     [Browsable(false)]
     public sealed override bool Lighting { get => false; set { } }
-
-    /// <summary>
-    /// Creates a new special-view
-    /// </summary>
-    /// <param name="baseView">The <see cref="View"/> to base this support-view on</param>
-    /// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
-    protected SpecialView(View baseView, Camera camera) :
-        base(baseView, camera)
-    {}
 
     /// <inheritdoc/>
     protected override void RenderBackground()
