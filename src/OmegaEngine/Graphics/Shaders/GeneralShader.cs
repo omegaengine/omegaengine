@@ -7,6 +7,7 @@
  */
 
 using System;
+using JetBrains.Annotations;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
 using Resources = OmegaEngine.Properties.Resources;
@@ -39,7 +40,7 @@ public class GeneralShader : LightingShader
 
     #region Apply
     /// <inheritdoc/>
-    public override void Apply(Action render, XMaterial material, Camera camera, params LightSource[] lights)
+    public override void Apply([InstantHandle] Action render, XMaterial material, Camera camera, params LightSource[] lights)
     {
         #region Sanity checks
         if (render == null) throw new ArgumentNullException(nameof(render));

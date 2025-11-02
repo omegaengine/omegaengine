@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using JetBrains.Annotations;
 using NanoByte.Common;
 using OmegaEngine.Collections;
 using SlimDX.Direct3D9;
@@ -135,7 +136,7 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
     /// Renders the content of a delegate to this texture
     /// </summary>
     /// <param name="render">The content to be rendered</param>
-    internal void RenderTo(Action render)
+    internal void RenderTo([InstantHandle] Action render)
     {
         #region Sanity checks
         if (Disposed) throw new ObjectDisposedException(ToString());

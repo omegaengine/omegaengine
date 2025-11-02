@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using JetBrains.Annotations;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
@@ -373,7 +374,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     /// <param name="material">The material to apply to everything rendered.</param>
     /// <param name="camera">The currently effective <see cref="Camera"/>.</param>
     /// <param name="lights">The currently effective <see cref="LightSource"/>s.</param>
-    protected void RenderHelper(Action render, XMaterial material, Camera camera, params LightSource[] lights)
+    protected void RenderHelper([InstantHandle] Action render, XMaterial material, Camera camera, params LightSource[] lights)
     {
         #region Sanity checks
         if (render == null) throw new ArgumentNullException(nameof(render));
@@ -426,7 +427,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         }
     }
 
-    private void RenderPlain(Action render, XMaterial material)
+    private void RenderPlain([InstantHandle] Action render, XMaterial material)
     {
         using (new ProfilerEvent("Surface effect: None"))
         {
@@ -445,7 +446,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         }
     }
 
-    private void RenderGlow(Action render, XMaterial material)
+    private void RenderGlow([InstantHandle] Action render, XMaterial material)
     {
         using (new ProfilerEvent("Surface effect: Glow"))
         {
@@ -460,7 +461,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         }
     }
 
-    private void RenderFixedFunction(Action render, XMaterial material)
+    private void RenderFixedFunction([InstantHandle] Action render, XMaterial material)
     {
         using (new ProfilerEvent("Surface effect: Fixed-function"))
         {
@@ -471,7 +472,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         }
     }
 
-    private void RenderShader(Action render, XMaterial material, Camera camera, LightSource[] lights)
+    private void RenderShader([InstantHandle] Action render, XMaterial material, Camera camera, LightSource[] lights)
     {
         using (new ProfilerEvent("Surface effect: Shader"))
         {

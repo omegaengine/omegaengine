@@ -28,6 +28,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
+using JetBrains.Annotations;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using OmegaEngine.Collections;
@@ -454,7 +455,7 @@ public abstract class Shader : EngineElement
     /// <param name="sceneSize">The size of the scene on the screen - leave empty for fullscreen</param>
     /// <param name="sceneMap">A texture containing the rendered scene for <see cref="PostShader"/>), <c>null</c> if the shader doesn't need it</param>
     /// <param name="passScript">Is this a pass script?</param>
-    protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action? render, Size sceneSize, RenderTarget? sceneMap, bool passScript)
+    protected void ExecuteScript(IEnumerable<SasScriptCommand> script, [InstantHandle] Action? render, Size sceneSize, RenderTarget? sceneMap, bool passScript)
     {
         if (script == null) throw new ArgumentNullException(nameof(script));
 
@@ -606,7 +607,7 @@ public abstract class Shader : EngineElement
     /// <param name="render">The render delegate (is called once for every shader pass); <c>null</c> for global script</param>
     /// <param name="sceneSize">The size of the scene on the screen - leave empty for fullscreen</param>
     /// <param name="sceneMap">A texture containing the rendered scene for <see cref="PostShader"/>), <c>null</c> if the shader doesn't need it</param>
-    protected void ExecuteScript(IEnumerable<SasScriptCommand> script, Action? render = null, Size sceneSize = new(), RenderTarget? sceneMap = null)
+    protected void ExecuteScript(IEnumerable<SasScriptCommand> script, [InstantHandle] Action? render = null, Size sceneSize = new(), RenderTarget? sceneMap = null)
     {
         ExecuteScript(script, render, sceneSize, sceneMap, false);
 

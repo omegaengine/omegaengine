@@ -8,6 +8,7 @@
 
 using System;
 using System.Drawing;
+using JetBrains.Annotations;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Shaders;
@@ -35,7 +36,7 @@ public abstract class LightingShader : SurfaceShader
 
     #region Passes
     /// <inheritdoc/>
-    protected override void RunPasses(Action render, XMaterial material, params LightSource[] lights)
+    protected override void RunPasses([InstantHandle] Action render, XMaterial material, params LightSource[] lights)
     {
         #region Sanity checks
         if (render == null) throw new ArgumentNullException(nameof(render));

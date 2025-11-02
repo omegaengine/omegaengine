@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using JetBrains.Annotations;
 using NanoByte.Common;
 
 namespace OmegaEngine.Graphics.Shaders;
@@ -70,7 +71,7 @@ public class PostGlowShader : PostBlurShader
     /// <param name="render">The render delegate (is called once for every shader pass)</param>
     /// <param name="sceneSize">The size of the scene on the screen - leave empty for fullscreen</param>
     /// <param name="sceneMap">Should be <c>null</c> because a glow map is used instead</param>
-    protected override void RunPasses(Action render, Size sceneSize, RenderTarget sceneMap)
+    protected override void RunPasses([InstantHandle] Action render, Size sceneSize, RenderTarget sceneMap)
     {
         // Pass the glow map instead of the scene map to the blurring filter
         base.RunPasses(render, sceneSize, _glowView.GetRenderTarget());
