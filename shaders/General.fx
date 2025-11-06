@@ -233,15 +233,11 @@ lightComponents calcPointLight(float3 worldPos, float3 normal, float3 lightPos,
 
 // Apply the lighting copmonents to a diffuse color
 float3 applyLight(float3 diffuse, lightComponents components)
-{
-    return diffuse * components.diffuseAmbient + components.specular;
-}
+{ return diffuse * components.diffuseAmbient + components.specular; }
 
 // Pass through alpha channel on first pass, bake in on all others (for additive blending)
-float4 bakeAlpha(float3 color, float alpha, bool firstPass)
-{
-    return firstPass ? float4(color, alpha) : float4(color * alpha, 1);
-}
+float4 bakeAlpha(float3 color, float alpha, uniform bool firstPass)
+{ return firstPass ? float4(color, alpha) : float4(color * alpha, 1); }
 
 //---------------- Vertex shaders ----------------
 
