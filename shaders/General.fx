@@ -688,13 +688,13 @@ technique TexturedNormalSpecularEmissiveMap < string Script = " Pass=OnePointLig
 technique TexturedEmissiveOnly {
   pass Emissive {
     VertexShader = compile vs_1_1 VS_TexturedAmbient(/*ambCol*/0);
-    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
+    PixelShader = compile ps_1_1 PS_Textured(/*useEmissiveMap*/false, /*firstPass*/true);
   }
 }
 
 technique TexturedEmissiveMapOnly {
   pass Emissive {
     VertexShader = compile vs_1_1 VS_TexturedAmbient(/*ambCol*/0);
-    PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/true, /*firstPass*/true);
+    PixelShader = compile ps_2_0 PS_Textured(/*useEmissiveMap*/true, /*firstPass*/true);
   }
 }
