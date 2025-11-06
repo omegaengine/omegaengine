@@ -48,14 +48,10 @@ public abstract class SurfaceShader : Shader
     /// <param name="material">The currently active material</param>
     private void SetupLightHelper(LightSource light, int index, XMaterial material)
     {
-        if (index < _lightDiffuseHandles.Count)
-            Effect.SetValue(_lightDiffuseHandles[index], Color4.Modulate(light.Diffuse, material.Diffuse));
-        if (index < _lightAmbientHandles.Count)
-            Effect.SetValue(_lightAmbientHandles[index], Color4.Modulate(light.Ambient, material.Ambient));
-        if (index < _lightSpecularHandles.Count)
-            Effect.SetValue(_lightSpecularHandles[index], Color4.Modulate(light.Specular, material.Specular));
-        if (index < _lightSpecularPowerHandles.Count)
-            Effect.SetValue(_lightSpecularPowerHandles[index], material.SpecularPower);
+        TrySetValue(_lightDiffuseHandles, index, Color4.Modulate(light.Diffuse, material.Diffuse));
+        TrySetValue(_lightAmbientHandles, index, Color4.Modulate(light.Ambient, material.Ambient));
+        TrySetValue(_lightSpecularHandles, index, Color4.Modulate(light.Specular, material.Specular));
+        TrySetValue(_lightSpecularPowerHandles, index, material.SpecularPower);
     }
 
     /// <summary>
@@ -72,13 +68,8 @@ public abstract class SurfaceShader : Shader
 
         SetupLightHelper(light, index, material);
 
-        if (index < _lightPositionHandles.Count)
-        {
-            Effect.SetValue(_lightPositionHandles[index],
-                new Vector4(((IPositionableOffset)light).EffectivePosition, 1));
-        }
-        if (index < _lightAttenuationHandles.Count)
-            Effect.SetValue(_lightAttenuationHandles[index], (Vector4)light.Attenuation);
+        TrySetValue(_lightPositionHandles, index, new Vector4(((IPositionableOffset)light).EffectivePosition, 1));
+        TrySetValue(_lightAttenuationHandles, index, (Vector4)light.Attenuation);
     }
 
     /// <summary>
@@ -94,7 +85,13 @@ public abstract class SurfaceShader : Shader
         #endregion
 
         SetupLightHelper(light, index, material);
-        Effect.SetValue(_lightDirectionHandles[index], new Vector4(light.Direction, 0));
+        TrySetValue(_lightDirectionHandles, index, new Vector4(light.Direction, 0));
+    }
+
+    void TrySetValue<T>(List<EffectHandle> list, int index, T value) where T : struct
+    {
+        if (index < list.Count)
+            Effect.SetValue(list[index], value);
     }
     #endregion
 
