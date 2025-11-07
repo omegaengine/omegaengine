@@ -158,6 +158,7 @@ public abstract class SurfaceShader : Shader
                         ParameterClass.Scalar => info.SemanticID switch
                         {
                             SemanticID.SpecularPower => SetValue(material.SpecularPower),
+                            SemanticID.Emissive => SetValue(material.EmissiveFactor),
                             SemanticID.Time => SetValue((float)Engine.TotalGameTime),
                             SemanticID.ElapsedTime => SetValue((float)Engine.LastFrameGameTime),
                             _ => null

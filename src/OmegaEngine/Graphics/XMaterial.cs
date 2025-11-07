@@ -72,6 +72,12 @@ public struct XMaterial(Color color)
     public Color Emissive { get; set; } = Color.Black;
 
     /// <summary>
+    /// A shader-specific parameter controlling the application of emissive lighting (usually how much emissive light is muted by diffuse and specular light)
+    /// </summary>
+    [DefaultValue(0f)]
+    public float EmissiveFactor { get; set; } = 0;
+
+    /// <summary>
     /// The color of this material glows in, bleeding over edges
     /// </summary>
     [DefaultValue(typeof(Color), "Black")]

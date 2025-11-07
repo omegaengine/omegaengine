@@ -12,7 +12,7 @@
 // - TexturedEmissiveMap (ps_2_0, textured, per-pixel lighting, emissive map)
 // - TexturedNormalEmissiveMap (ps_2_0, textured, per-pixel lighting, normal map + emissive map)
 // - TexturedNormalSpecularEmissiveMap (ps_2_0, textured, per-pixel lighting, normal map + specular map + emissive map)
-// - TexturedEmissiveOnly (ps_1_1, textured, plain emissive lighting only)
+// - TexturedEmissiveOnly (ps_2_0, textured, plain emissive lighting only)
 // - TexturedEmissiveMapOnly (ps_2_0, textured, emissive map lighting only)
 //
 // Passes:
@@ -42,6 +42,7 @@ float4x4 viewInverse           : ViewInverse;
 // General lighting
 float specularPower    : SpecularPower < string UIWidget = "slider"; float UIMin = 1.0; float UIMax = 128.0; float UIStep = 1.0; > = 30.0f;
 float3 emissiveColor   : Emissive = {0.0f, 0.0f, 0.0f};
+float emissiveFactor   : Emissive < string UIWidget = "slider"; float UIMin = 0.0; float UIMax = 10.0; float UIStep = 0.01; > = 0.0f;
 
 // Light 1
 float4 lightDirection1 : Direction < string Object = "Light1"; string Space = "World"; >;
@@ -235,6 +236,14 @@ lightComponents calcPointLight(float3 worldPos, float3 normal, float3 lightPos,
 float3 applyLight(float3 diffuse, lightComponents components)
 { return diffuse * components.diffuseAmbient + components.specular; }
 
+// Apply emissive component, scaling it down based on existing color intensity
+float3 applyEmissive(float3 color, float3 emissive)
+{
+    float lightIntensity = dot(color, float3(0.299, 0.587, 0.114));
+    float emissiveScale = 1.0 / (1.0 + emissiveFactor * lightIntensity);
+    return color + emissive * emissiveScale;
+}
+
 // Pass through alpha channel on first pass, bake in on all others (for additive blending)
 float4 bakeAlpha(float3 color, float alpha, uniform bool firstPass)
 { return firstPass ? float4(color, alpha) : float4(color * alpha, 1); }
@@ -265,7 +274,7 @@ outTexturedPerVertex VS_TexturedAmbient(inTextured IN, uniform float3 ambCol)
     OUT.pos = transProj(IN.entityPos);
 
     // Lighting
-    OUT.diffAmbColor = float4(ambCol + emissiveColor, /*alpha*/1);
+    OUT.diffAmbColor = float4(applyEmissive(ambCol, emissiveColor), /*alpha*/1);
     OUT.specCol = 0;
 
     return OUT;
@@ -286,7 +295,7 @@ outTexturedPerVertex VS_TexturedPerVertexTwoDirLights(inTextured IN,
     // Lighting
     lightComponents components = calcTwoDirLights(transWorld(IN.entityPos), transNorm(IN.normal), lightDir1, lightDir2, diffCol1.rgb, diffCol2, specCol1, specCol2, ambCol1, ambCol2);
     OUT.diffAmbColor = float4(components.diffuseAmbient, diffCol1.a);
-    if (firstPass) OUT.diffAmbColor.rgb += emissiveColor;
+    if (firstPass) OUT.diffAmbColor.rgb = applyEmissive(OUT.diffAmbColor.rgb, emissiveColor);
     OUT.specCol = components.specular;
 
     return OUT;
@@ -304,7 +313,7 @@ outTexturedPerVertex VS_TexturedPerVertexOneDirLight(inTextured IN,
     // Lighting
     lightComponents components = calcDirLight(transWorld(IN.entityPos), transNorm(IN.normal), lightDir, diffCol.rgb, specCol, ambCol);
     OUT.diffAmbColor = float4(components.diffuseAmbient, diffCol.a);
-    if (firstPass) OUT.diffAmbColor.rgb += emissiveColor;
+    if (firstPass) OUT.diffAmbColor.rgb = applyEmissive(OUT.diffAmbColor.rgb, emissiveColor);
     OUT.specCol = components.specular;
 
     return OUT;
@@ -322,7 +331,7 @@ outTexturedPerVertex VS_TexturedPerVertexOnePointLight(inTextured IN,
     // Lighting
     lightComponents components = calcPointLight(transWorld(IN.entityPos), transNorm(IN.normal), lightPos, diffCol.rgb, specCol, ambCol, att);
     OUT.diffAmbColor = float4(components.diffuseAmbient, diffCol.a);
-    if (firstPass) OUT.diffAmbColor.rgb += emissiveColor;
+    if (firstPass) OUT.diffAmbColor.rgb = applyEmissive(OUT.diffAmbColor.rgb, emissiveColor);
     OUT.specCol = components.specular;
 
     return OUT;
@@ -350,7 +359,7 @@ outColoredPerVertex VS_ColoredAmbient(inColored IN, uniform float3 ambCol)
     OUT.pos = transProj(IN.entityPos);
 
     // Lighting
-    float3 color = IN.color.rgb * ambCol + emissiveColor;
+    float3 color = applyEmissive(IN.color.rgb * ambCol, emissiveColor);
 
     OUT.finalColor = float4(color, IN.color.a);
     return OUT;
@@ -369,7 +378,7 @@ outColoredPerVertex VS_ColoredPerVertexTwoDirLights(inColored IN,
     // Lighting
     lightComponents components = calcTwoDirLights(transWorld(IN.entityPos), transNorm(IN.normal), lightDir1, lightDir2, diffCol1.rgb, diffCol2, specCol1, specCol2, ambCol1, ambCol2);
     float3 color = applyLight(IN.color.rgb, components);
-    if (firstPass) color += emissiveColor;
+    if (firstPass) color = applyEmissive(color, emissiveColor);
 
     OUT.finalColor = float4(color, IN.color.a * diffCol1.a);
     return OUT;
@@ -386,7 +395,7 @@ outColoredPerVertex VS_ColoredPerVertexOneDirLight(inColored IN,
     // Lighting
     lightComponents components = calcDirLight(transWorld(IN.entityPos), transNorm(IN.normal), lightDir, diffCol.rgb, specCol, ambCol);
     float3 color = applyLight(IN.color.rgb, components);
-    if (firstPass) color += emissiveColor;
+    if (firstPass) color = applyEmissive(color, emissiveColor);
 
     OUT.finalColor = float4(color, IN.color.a * diffCol.a);
     return OUT;
@@ -403,7 +412,7 @@ outColoredPerVertex VS_ColoredPerVertexOnePointLight(inColored IN,
     // Lighting
     lightComponents components = calcPointLight(transWorld(IN.entityPos), transNorm(IN.normal), lightPos, diffCol.rgb, specCol, ambCol, att);
     float3 color = applyLight(IN.color.rgb, components);
-    if (firstPass) color += emissiveColor;
+    if (firstPass) color = applyEmissive(color, emissiveColor);
 
     OUT.finalColor = float4(color, IN.color.a * diffCol.a);
     return OUT;
@@ -421,7 +430,7 @@ float4 PS_Textured(outTexturedPerVertex IN, uniform bool useEmissiveMap, uniform
     components.diffuseAmbient = IN.diffAmbColor;
     components.specular = IN.specCol;
     float3 color = applyLight(diffuse.rgb, components);
-    if (firstPass) color += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor;
+    if (firstPass) color = applyEmissive(color, useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor);
 
     return bakeAlpha(color, IN.diffAmbColor.a * diffuse.a, firstPass);
 }
@@ -439,7 +448,7 @@ float4 PS_TexturedTwoDirLights(outTextured IN,
     // Lighting
     lightComponents components = calcTwoDirLights(IN.worldPos, normal, lightDir1, lightDir2, diffCol1.rgb, diffCol2, specCol1 * specMap, specCol2 * specMap, ambCol1, ambCol2);
     float3 color = applyLight(diffuse.rgb, components);
-    if (firstPass) color += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor;
+    if (firstPass) color = applyEmissive(color, useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor);
 
     return bakeAlpha(color, diffCol1.a * diffuse.a, firstPass);
 }
@@ -457,7 +466,7 @@ float4 PS_TexturedOneDirOrPointLight(outTextured IN,
     if (pointLight) components = calcPointLight(IN.worldPos, normal, lightDirPos, diffCol.rgb, specCol * specMap, ambCol, att);
     else components = calcDirLight(IN.worldPos, normal, lightDirPos, diffCol.rgb, specCol * specMap, ambCol);
     float3 color = applyLight(diffuse.rgb, components);
-    if (firstPass) color += useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor;
+    if (firstPass) color = applyEmissive(color, useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor);
 
     return bakeAlpha(color, diffCol.a * diffuse.a, firstPass);
 }
@@ -471,7 +480,7 @@ float4 PS_ColoredTwoDirLights(outColored IN,
     // Lighting
     lightComponents components = calcTwoDirLights(IN.worldPos, IN.normal, lightDir1, lightDir2, diffCol1.rgb, diffCol2, specCol1, specCol2, ambCol1, ambCol2);
     float3 color = applyLight(IN.color.rgb, components);
-    if (firstPass) color += emissiveColor;
+    if (firstPass) color = applyEmissive(color, emissiveColor);
 
     return bakeAlpha(color, diffCol1.a * IN.color.a, firstPass);
 }
@@ -482,7 +491,7 @@ float4 PS_ColoredOneDirLight(outColored IN,
     // Lighting
     lightComponents components = calcDirLight(IN.worldPos, IN.normal, lightDir, diffCol.rgb, specCol, ambCol);
     float3 color = applyLight(IN.color.rgb, components);
-    if (firstPass) color += emissiveColor;
+    if (firstPass) color = applyEmissive(color, emissiveColor);
 
     return bakeAlpha(color, diffCol.a * IN.color.a, firstPass);
 }
@@ -493,7 +502,7 @@ float4 PS_ColoredOnePointLight(outColored IN,
     // Lighting
     lightComponents components = calcPointLight(IN.worldPos, IN.normal, lightPos, diffCol.rgb, specCol, ambCol, att);
     float3 color = applyLight(IN.color.rgb, components);
-    if (firstPass) color += emissiveColor;
+    if (firstPass) color = applyEmissive(color, emissiveColor);
 
     return bakeAlpha(color, diffCol.a * IN.color.a, firstPass);
 }
@@ -588,34 +597,34 @@ technique ColoredEmissiveOnly {
 technique TexturedPerVertex {
   pass AmbientLight {
     VertexShader = compile vs_1_1 VS_TexturedAmbient(ambientColor1);
-    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
+    PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
   }
   pass TwoDirLights {
     VertexShader = compile vs_1_1 VS_TexturedPerVertexTwoDirLights(/*firstPass*/true, -lightDirection1, -lightDirection2, diffuseColor1, diffuseColor2, specularColor1, specularColor2, ambientColor1, ambientColor2);
-    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
+    PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
   }
   pass TwoDirLightsAdd {
     ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_TexturedPerVertexTwoDirLights(/*firstPass*/false, -lightDirection1, -lightDirection2, diffuseColor1, diffuseColor2, specularColor1, specularColor2, ambientColor1, ambientColor2);
-    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/false);
+    PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/false);
   }
   pass OneDirLight {
     VertexShader = compile vs_1_1 VS_TexturedPerVertexOneDirLight(/*firstPass*/true, -lightDirection1, diffuseColor1, specularColor1, ambientColor1);
-    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
+    PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
   }
   pass OneDirLightAdd {
     ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_TexturedPerVertexOneDirLight(/*firstPass*/false, -lightDirection1, diffuseColor1, specularColor1, ambientColor1);
-    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/false);
+    PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/false);
   }
   pass OnePointLight {
     VertexShader = compile vs_1_1 VS_TexturedPerVertexOnePointLight(/*firstPass*/true, lightPosition1, diffuseColor1, specularColor1, ambientColor1, attenuation1);
-    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
+    PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
   }
   pass OnePointLightAdd {
     ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_TexturedPerVertexOnePointLight(/*firstPass*/false, lightPosition1, diffuseColor1, specularColor1, ambientColor1, attenuation1);
-    PixelShader = compile ps_1_1 PS_Textured(/*useEmissive*/false, /*firstPass*/false);
+    PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/false);
   }
 }
 
@@ -684,7 +693,7 @@ technique TexturedNormalSpecularEmissiveMap < string Script = " Pass=OnePointLig
 technique TexturedEmissiveOnly {
   pass Emissive {
     VertexShader = compile vs_1_1 VS_TexturedAmbient(/*ambCol*/0);
-    PixelShader = compile ps_1_1 PS_Textured(/*useEmissiveMap*/false, /*firstPass*/true);
+    PixelShader = compile ps_2_0 PS_Textured(/*useEmissiveMap*/false, /*firstPass*/true);
   }
 }
 
