@@ -17,8 +17,11 @@ namespace OmegaEngine.Foundation.Light;
 /// <summary>
 /// Factors describing the attenuation of light intensity over distance.
 /// </summary>
+/// <param name="constant">A constant factor multiplied with the color.</param>
+/// <param name="linear">A constant factor multiplied with the color and the inverse distance.</param>
+/// <param name="quadratic">A constant factor multiplied with the color and the inverse distance squared.</param>
 [TypeConverter(typeof(AttenuationConverter))]
-public struct Attenuation : IEquatable<Attenuation>
+public struct Attenuation(float constant, float linear, float quadratic) : IEquatable<Attenuation>
 {
     /// <summary>
     /// Value for no attenuation over distance.
@@ -29,33 +32,19 @@ public struct Attenuation : IEquatable<Attenuation>
     /// A constant factor multiplied with the color.
     /// </summary>
     [XmlAttribute, Description("A constant factor multiplied with the color.")]
-    public float Constant { get; set; }
+    public float Constant { get; set; } = constant;
 
     /// <summary>
     /// A constant factor multiplied with the color and the inverse distance.
     /// </summary>
     [XmlAttribute, Description("A constant factor multiplied with the color and the inverse distance.")]
-    public float Linear { get; set; }
+    public float Linear { get; set; } = linear;
 
     /// <summary>
     /// A constant factor multiplied with the color and the inverse distance squared.
     /// </summary>
     [XmlAttribute, Description("A constant factor multiplied with the color and the inverse distance squared.")]
-    public float Quadratic { get; set; }
-
-    /// <summary>
-    /// Creates a new attenuation structure
-    /// </summary>
-    /// <param name="constant">A constant factor multiplied with the color.</param>
-    /// <param name="linear">A constant factor multiplied with the color and the inverse distance.</param>
-    /// <param name="quadratic">A constant factor multiplied with the color and the inverse distance squared.</param>
-    public Attenuation(float constant, float linear, float quadratic)
-        : this()
-    {
-        Constant = constant;
-        Linear = linear;
-        Quadratic = quadratic;
-    }
+    public float Quadratic { get; set; } = quadratic;
 
     /// <inheritdoc/>
     public override string ToString() => $"(Constant: {Constant}, Linear: {Linear}, Quadratic: {Quadratic})";

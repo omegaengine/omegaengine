@@ -37,9 +37,9 @@ public abstract class LightSource
     /// Shall the light source affect its surroundings?
     /// </summary>
     [Description("Shall the light source affect its enabled?"), Category("Behavior")]
-    public bool Enabled { get; set; }
+    public bool Enabled { get; set; } = true;
 
-    private Color _diffuse, _specular, _ambient;
+    private Color _diffuse = Color.White.DropAlpha();
 
     /// <summary>
     /// The diffuse color this light source emits
@@ -47,26 +47,19 @@ public abstract class LightSource
     [Description("The diffuse color this light source emits"), Category("Appearance")]
     public Color Diffuse { get => _diffuse; set => _diffuse = value.DropAlpha(); }
 
+    private Color _specular = Color.Gray.DropAlpha();
+
     /// <summary>
     /// The specular color this light source emits
     /// </summary>
     [Description("The specular color this light source emits"), Category("Appearance")]
     public Color Specular { get => _specular; set => _specular = value.DropAlpha(); }
 
+    private Color _ambient = Color.Black.DropAlpha();
+
     /// <summary>
     /// The ambient color this light source emits
     /// </summary>
     [Description("The ambient color this light source emits"), Category("Appearance")]
     public Color Ambient { get => _ambient; set => _ambient = value.DropAlpha(); }
-
-    /// <summary>
-    /// Creates a new light source with a full white <see cref="Diffuse"/> component, a slight gray <see cref="Specular"/> component and no <see cref="Ambient"/> component
-    /// </summary>
-    protected LightSource()
-    {
-        Enabled = true;
-        Diffuse = Color.White;
-        Specular = Color.Gray;
-        Ambient = Color.Black;
-    }
 }

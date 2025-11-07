@@ -72,20 +72,11 @@ public sealed class PointLight : LightSource, IPositionableOffset
     /// The maximum distance at which the light source has an effect.
     /// </summary>
     [Description("The maximum distance at which the light source has an effect."), Category("Behavior")]
-    public float Range { get; set; }
+    public float Range { get; set; } = 1000;
 
     /// <summary>
     /// Factors describing the attenuation of light intensity over distance.
     /// </summary>
     [Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation."), Category("Behavior")]
-    public Attenuation Attenuation { get; set; }
-
-    /// <summary>
-    /// Creates a new point light with a <see cref="Range"/> of 1000 and no attenuation
-    /// </summary>
-    public PointLight()
-    {
-        Range = 1000;
-        Attenuation = new(1, 0, 0);
-    }
+    public Attenuation Attenuation { get; set; } = Attenuation.None;
 }
