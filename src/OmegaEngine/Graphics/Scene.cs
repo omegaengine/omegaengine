@@ -178,6 +178,7 @@ public sealed class Scene : EngineElement
     {
         _pointLights.Clear();
         _directionalLights.Clear();
+        _pseudoDirectionalLights.Clear();
 
         #region Fixed-function lighting
         for (int i = 0; i < _dxLightCounter; i++)
