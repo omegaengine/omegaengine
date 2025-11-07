@@ -102,9 +102,11 @@ public sealed class PointLight : LightSource, IPositionableOffset
 
         var delta = target - Position;
         _directional.Direction = (Vector3)delta.Normalize();
-        _directional.Diffuse = Diffuse;
-        _directional.Specular = Specular;
-        _directional.Ambient = Ambient;
+
+        float attenuation = Attenuation.Apply((float)delta.Length());
+        _directional.Diffuse = Diffuse.Multiply(attenuation);
+        _directional.Specular = Specular.Multiply(attenuation);
+        _directional.Ambient = Ambient.Multiply(attenuation);
 
         return _directional;
     }
