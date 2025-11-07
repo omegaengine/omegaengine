@@ -143,7 +143,6 @@ public abstract class SurfaceShader : Shader
         if (lights == null) throw new ArgumentNullException(nameof(lights));
         #endregion
 
-        #region Values
         using (new ProfilerEvent("Set shader parameters"))
         {
             byte diffuseMapCount = 0;
@@ -154,25 +153,20 @@ public abstract class SurfaceShader : Shader
                     case ParameterType.Int:
                         switch (info.SemanticID)
                         {
-                            #region Texture filtering
                             case SemanticID.FilterMode:
                                 const int linearFiltering = 2, anisotropicFiltering = 3;
                                 Effect.SetValue(info.Handle, Engine.Anisotropic ? anisotropicFiltering : linearFiltering);
                                 break;
-                            #endregion
                         }
                         break;
 
                     case ParameterType.Float:
                         switch (info.SemanticID)
                         {
-                            #region Camera
                             case SemanticID.CameraPosition:
                                 Effect.SetValue(info.Handle, camera.Position.ApplyOffset(camera.PositionBase));
                                 break;
-                            #endregion
 
-                            #region Normal transformations
                             case SemanticID.World:
                                 Effect.SetValue(info.Handle, Engine.State.WorldTransform);
                                 break;
@@ -211,9 +205,7 @@ public abstract class SurfaceShader : Shader
                             case SemanticID.ProjectionInverseTranspose:
                                 Effect.SetValue(info.Handle, camera.ProjectionInverseTranspose);
                                 break;
-                            #endregion
 
-                            #region Composite transformations
                             case SemanticID.WorldView:
                                 Effect.SetValue(info.Handle, Engine.State.WorldTransform * camera.View);
                                 break;
@@ -252,9 +244,7 @@ public abstract class SurfaceShader : Shader
                             case SemanticID.WorldViewProjectionInverseTranspose:
                                 Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform * camera.ViewProjection)));
                                 break;
-                            #endregion
 
-                            #region Lighting
                             case SemanticID.Emissive:
                                 Effect.SetValue(info.Handle, new Color4(material.Emissive));
                                 break;
@@ -281,23 +271,19 @@ public abstract class SurfaceShader : Shader
                             case SemanticID.SpecularPower:
                                 if (!_lightParametersHandled) _lightSpecularPowerHandles.Add(info.Handle);
                                 break;
-                            #endregion
 
-                            #region Timer
                             case SemanticID.Time:
                                 Effect.SetValue(info.Handle, (float)Engine.TotalGameTime);
                                 break;
                             case SemanticID.ElapsedTime:
                                 Effect.SetValue(info.Handle, (float)Engine.LastFrameGameTime);
                                 break;
-                            #endregion
                         }
                         break;
 
                     case ParameterType.Texture:
                         switch (info.SemanticID)
                         {
-                            #region Texture maps
                             case SemanticID.Diffuse:
                             case SemanticID.DiffuseMap:
                                 if (diffuseMapCount < material.DiffuseMaps.Length && material.DiffuseMaps[diffuseMapCount] != null)
@@ -322,13 +308,11 @@ public abstract class SurfaceShader : Shader
                             case SemanticID.Emissive:
                                 Effect.SetTexture(info.Handle, material.EmissiveMap?.Texture);
                                 break;
-                            #endregion
                         }
                         break;
                 }
             }
         }
-        #endregion
 
         _lightParametersHandled = true;
 

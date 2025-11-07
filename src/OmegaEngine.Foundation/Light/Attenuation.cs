@@ -20,12 +20,10 @@ namespace OmegaEngine.Foundation.Light;
 [TypeConverter(typeof(AttenuationConverter))]
 public struct Attenuation : IEquatable<Attenuation>
 {
-    #region Constants
     /// <summary>
     /// Value for no attenuation over distance.
     /// </summary>
     public static readonly Attenuation None = new(1, 0, 0);
-    #endregion
 
     /// <summary>
     /// A constant factor multiplied with the color.
@@ -59,7 +57,6 @@ public struct Attenuation : IEquatable<Attenuation>
         Quadratic = quadratic;
     }
 
-    #region Conversion
     /// <inheritdoc/>
     public override string ToString() => $"(Constant: {Constant}, Linear: {Linear}, Quadratic: {Quadratic})";
 
@@ -68,9 +65,7 @@ public struct Attenuation : IEquatable<Attenuation>
 
     /// <summary>Convert <see cref="Vector4"/> into <see cref="Attenuation"/></summary>
     public static explicit operator Attenuation(Vector4 vector) => new(vector.X, vector.Y, vector.Z);
-    #endregion
 
-    #region Equality
     /// <inheritdoc/>
     public bool Equals(Attenuation other) => other.Constant == Constant && other.Linear == Linear && other.Quadratic == Quadratic;
 
@@ -86,5 +81,4 @@ public struct Attenuation : IEquatable<Attenuation>
 
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Constant, Linear, Quadratic);
-    #endregion
 }

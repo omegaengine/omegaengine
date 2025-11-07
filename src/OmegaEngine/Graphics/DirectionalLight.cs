@@ -16,7 +16,6 @@ namespace OmegaEngine.Graphics;
 /// </summary>
 public sealed class DirectionalLight : LightSource
 {
-    #region Properties
     private Vector3 _direction;
 
     /// <summary>
@@ -24,5 +23,4 @@ public sealed class DirectionalLight : LightSource
     /// </summary>
     [Description("The direction of the light source"), Category("Layout")]
     public Vector3 Direction { get => _direction; set => _direction = Vector3.Normalize(value); }
-    #endregion
 }

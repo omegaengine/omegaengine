@@ -21,7 +21,6 @@ namespace OmegaEngine.Graphics;
 /// </summary>
 public sealed class PointLight : LightSource, IPositionableOffset
 {
-    #region Properties
     /// <summary>
     /// Shall this light source be converted to a pseudo-directional source for each individual <see cref="PositionableRenderable"/> before passing it to shaders?
     /// </summary>
@@ -80,11 +79,7 @@ public sealed class PointLight : LightSource, IPositionableOffset
     /// </summary>
     [Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation."), Category("Behavior")]
     public Attenuation Attenuation { get; set; }
-    #endregion
 
-    //--------------------//
-
-    #region Constructor
     /// <summary>
     /// Creates a new point light with a <see cref="Range"/> of 1000 and no attenuation
     /// </summary>
@@ -93,5 +88,4 @@ public sealed class PointLight : LightSource, IPositionableOffset
         Range = 1000;
         Attenuation = new(1, 0, 0);
     }
-    #endregion
 }

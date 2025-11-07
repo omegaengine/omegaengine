@@ -19,9 +19,6 @@ namespace OmegaEngine.Graphics;
 /// <seealso cref="Scene.Lights"/>
 public abstract class LightSource
 {
-    #region Properties
-
-    #region Name
     /// <summary>
     /// Text value to make it easier to identify a particular camera
     /// </summary>
@@ -35,17 +32,13 @@ public abstract class LightSource
             value += $": {Name}";
         return value;
     }
-    #endregion
 
-    #region Flags
     /// <summary>
     /// Shall the light source affect its surroundings?
     /// </summary>
     [Description("Shall the light source affect its enabled?"), Category("Behavior")]
     public bool Enabled { get; set; }
-    #endregion
 
-    #region Colors
     private Color _diffuse, _specular, _ambient;
 
     /// <summary>
@@ -65,11 +58,7 @@ public abstract class LightSource
     /// </summary>
     [Description("The ambient color this light source emits"), Category("Appearance")]
     public Color Ambient { get => _ambient; set => _ambient = value.DropAlpha(); }
-    #endregion
 
-    #endregion
-
-    #region Constructor
     /// <summary>
     /// Creates a new light source with a full white <see cref="Diffuse"/> component, a slight gray <see cref="Specular"/> component and no <see cref="Ambient"/> component
     /// </summary>
@@ -80,5 +69,4 @@ public abstract class LightSource
         Specular = Color.Gray;
         Ambient = Color.Black;
     }
-    #endregion
 }
