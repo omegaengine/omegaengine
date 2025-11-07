@@ -8,7 +8,9 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.Contracts;
 using System.Xml.Serialization;
+using NanoByte.Common;
 using OmegaEngine.Foundation.Design;
 using SlimDX;
 
@@ -45,6 +47,14 @@ public struct Attenuation(float constant, float linear, float quadratic) : IEqua
     /// </summary>
     [XmlAttribute, Description("A constant factor multiplied with the color and the inverse distance squared.")]
     public float Quadratic { get; set; } = quadratic;
+
+    /// <summary>
+    /// Calculates the effective attenuation factor (between 0 and 1) based on the distance from the light source.
+    /// </summary>
+    /// <param name="distance">The distance from the light source.</param>
+    [Pure]
+    public float Apply(float distance)
+        => (1 / (Constant + Linear * distance + Quadratic * distance * distance)).Clamp();
 
     /// <inheritdoc/>
     public override string ToString() => $"(Constant: {Constant}, Linear: {Linear}, Quadratic: {Quadratic})";
