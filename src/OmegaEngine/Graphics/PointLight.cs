@@ -6,13 +6,13 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.ComponentModel;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
+using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
-using OmegaEngine.Graphics.Cameras;
+using System.ComponentModel;
 
 namespace OmegaEngine.Graphics;
 
@@ -79,4 +79,33 @@ public sealed class PointLight : LightSource, IPositionableOffset
     /// </summary>
     [Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation."), Category("Behavior")]
     public Attenuation Attenuation { get; set; } = Attenuation.None;
+
+    /// <summary>
+    /// Checks whether the light source is within effective range of a given <paramref name="position"/> with a specified <paramref name="tolerance"/>.
+    /// </summary>
+    internal bool IsInRange(DoubleVector3 position, float tolerance)
+        => (Position - position).Length() <= Range + tolerance;
+
+    private DirectionalLight? _directional;
+
+    /// <summary>
+    /// Converts the point light source to a directional light source.
+    /// </summary>
+    /// <param name="target">The target location being lit.</param>
+    /// <returns>A re-used light source. Updates and returns the same instance on subsequent calls.</returns>
+    internal DirectionalLight AsDirectional(DoubleVector3 target)
+    {
+        _directional ??= new();
+
+        _directional.Name = Name;
+        _directional.Enabled = Enabled;
+
+        var delta = target - Position;
+        _directional.Direction = (Vector3)delta.Normalize();
+        _directional.Diffuse = Diffuse;
+        _directional.Specular = Specular;
+        _directional.Ambient = Ambient;
+
+        return _directional;
+    }
 }

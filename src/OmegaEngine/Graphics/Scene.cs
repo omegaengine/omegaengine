@@ -13,7 +13,6 @@ using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
-using SlimDX;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
@@ -204,14 +203,9 @@ public sealed class Scene : EngineElement
         // Copy all directional lights
         _directionalLights.ForEach(effectiveLights.Add);
 
-        effectiveLights.AddRange(from light in _pseudoDirectionalLights
-                                 // Filter out lights that are too far away
-                                 where (light.Position - position).Length() <= light.Range + radius
-                                 // Convert pseudo-directional point lights to real directional lights
-                                 select new DirectionalLight
-                                 {
-                                     Name = light.Name, Direction = (Vector3)(position - light.Position), Diffuse = light.Diffuse, Specular = light.Specular, Ambient = light.Ambient,
-                                 });
+        effectiveLights.AddRange(_pseudoDirectionalLights
+            .Where(light => light.IsInRange(position, radius))
+            .Select(light => light.AsDirectional(position)));
 
         _pointLights.ForEach(light =>
         {
