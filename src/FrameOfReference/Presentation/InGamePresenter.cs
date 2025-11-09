@@ -56,8 +56,8 @@ public sealed class InGamePresenter : InteractivePresenter
         View = new(Scene, mainCamera)
         {
             Name = "InGame",
-            BackgroundColor = universe.FogColor,
-            Lighting = true
+            Lighting = true,
+            BackgroundColor = universe.FogColor
         };
     }
 

@@ -58,8 +58,8 @@ public sealed class MenuPresenter : Presenter
         View = new(Scene, _camera)
         {
             Name = "Menu",
-            BackgroundColor = universe.FogColor,
-            Lighting = true
+            Lighting = true,
+            BackgroundColor = universe.FogColor
         };
     }
 

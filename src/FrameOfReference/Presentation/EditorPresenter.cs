@@ -75,8 +75,8 @@ public sealed class EditorPresenter : InteractivePresenter
         View = new(Scene, mainCamera)
         {
             Name = "Editor",
-            BackgroundColor = universe.FogColor,
-            Lighting = lighting
+            Lighting = lighting,
+            BackgroundColor = universe.FogColor
         };
 
         // Floating axis-arrows for easier orientation

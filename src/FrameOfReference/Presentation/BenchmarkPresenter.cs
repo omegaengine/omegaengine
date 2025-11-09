@@ -69,7 +69,12 @@ public sealed class BenchmarkPresenter : Presenter
         // Target camera on first BenchmarkPoint
         var mainCamera = CreateCamera(_statistics.TestCases.Length > 0 ? _statistics.TestCases[0].Target : null);
 
-        View = new(Scene, mainCamera) {Name = "Benchmark", BackgroundColor = universe.FogColor};
+        View = new(Scene, mainCamera)
+        {
+            Name = "Benchmark",
+            Lighting = true,
+            BackgroundColor = universe.FogColor
+        };
     }
 
     #region Variables
