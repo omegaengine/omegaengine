@@ -9,7 +9,7 @@ namespace Template.WinForms;
 
 public partial class MainForm : Form
 {
-    private TrackCamera? _camera;
+    private ArcballCamera? _camera;
 
     public MainForm()
     {
@@ -30,7 +30,7 @@ public partial class MainForm : Form
         {
             Positionables = { Model.Sphere(engine, XTexture.Get(engine, "flag.png")) }
         };
-        _camera = new TrackCamera {VerticalRotation = 20};
+        _camera = new ArcballCamera {VerticalRotation = 20};
         var view = new View(scene, _camera) {BackgroundColor = Color.CornflowerBlue};
         engine.Views.Add(view);
     }

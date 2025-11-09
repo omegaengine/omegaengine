@@ -10,7 +10,7 @@ namespace Template.Fullscreen;
 
 public class MyRenderHost : RenderHost
 {
-    private TrackCamera? _camera;
+    private ArcballCamera? _camera;
     private GuiManager? _guiManager;
 
     public MyRenderHost() : base("Template.Fullscreen")
@@ -36,7 +36,7 @@ public class MyRenderHost : RenderHost
         {
             Positionables = {Model.Sphere(Engine, XTexture.Get(Engine, "flag.png"), slices: 50, stacks: 50)}
         };
-        _camera = new TrackCamera {VerticalRotation = 20};
+        _camera = new ArcballCamera {VerticalRotation = 20};
         var view = new View(scene, _camera) {BackgroundColor = Color.CornflowerBlue};
         Engine.Views.Add(view);
     }

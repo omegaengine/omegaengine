@@ -12,7 +12,7 @@ namespace Template.AlphaFramework;
 public class Game(Settings settings)
     : GameBase(settings, Constants.AppName)
 {
-	private readonly TrackCamera _camera = new() {VerticalRotation = 20};
+	private readonly ArcballCamera _camera = new() {VerticalRotation = 20};
 
     /// <inheritdoc/>
     protected override bool Initialize()

@@ -248,7 +248,8 @@ public partial class View : EngineElement, IResetable
     /// Creates a new view for rendering a plain color fullscreen
     /// </summary>
     /// <param name="color">The plain color to render</param>
-    public View(Color color) : this(new(), new TrackCamera(1, 10))
+    public View(Color color)
+        : this(new Scene(), new ArcballCamera(minRadius: 1, maxRadius: 10))
     {
         _backgroundColor = color;
         _disposeScene = true;

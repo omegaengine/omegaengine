@@ -19,7 +19,7 @@ namespace OmegaEngine.Graphics.Cameras;
 /// </summary>
 /// <param name="minRadius">The minimum radius allowed. Also used as the initial radius.</param>
 /// <param name="maxRadius">The maximum radius allowed.</param>
-public sealed class TrackCamera(double minRadius = 50, double maxRadius = 100) : MatrixCamera
+public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100) : MatrixCamera
 {
     private double _radius = minRadius;
 

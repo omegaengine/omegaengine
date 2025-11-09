@@ -23,7 +23,7 @@ public partial class ParticleSystemEditor : UndoCommandTab, IInputReceiver
     /// <summary>
     /// The camera used by the presenter
     /// </summary>
-    protected readonly TrackCamera Camera = new(50, 2000) {Radius = 400};
+    protected readonly ArcballCamera Camera = new(50, 2000) {Radius = 400};
     #endregion
 
     #region Constructor

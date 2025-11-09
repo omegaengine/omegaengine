@@ -33,7 +33,7 @@ namespace FrameOfReference.Presentation;
 /// </summary>
 public sealed class MenuPresenter : Presenter
 {
-    private readonly TrackCamera _camera;
+    private readonly ArcballCamera _camera;
 
     /// <summary>
     /// Creates a new background presenter for the main menu
