@@ -58,7 +58,7 @@ public sealed class Scene : EngineElement
     /// Subset of <see cref="Lights"/>.
     /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLights"/>
     /// </remarks>
-    /// <seealso cref="PointLight.DirectionalForShader"/>
+    /// <seealso cref="PointLight.RenderAsDirectional"/>
     private readonly List<PointLight> _pseudoDirectionalLights = [];
 
     /// <summary>
@@ -152,7 +152,7 @@ public sealed class Scene : EngineElement
 
             case PointLight point:
                 // Shader lighting
-                if (point.DirectionalForShader) _pseudoDirectionalLights.Add(point);
+                if (point.RenderAsDirectional) _pseudoDirectionalLights.Add(point);
                 else _pointLights.Add(point);
 
                 // Fixed-function lighting

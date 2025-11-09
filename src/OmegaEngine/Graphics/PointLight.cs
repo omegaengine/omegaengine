@@ -22,10 +22,10 @@ namespace OmegaEngine.Graphics;
 public sealed class PointLight : LightSource, IPositionableOffset
 {
     /// <summary>
-    /// Shall this light source be converted to a pseudo-directional source for each individual <see cref="PositionableRenderable"/> before passing it to shaders?
+    /// Shall this light source be converted to a pseudo-directional source for each individual <see cref="PositionableRenderable"/> before rendering?
     /// </summary>
-    [Description("Shall this light source be converted to a pseudo-directional source for each individual PositionableRenderable before passing it to shaders?"), Category("Behavior")]
-    public bool DirectionalForShader { get; set; }
+    [Description("Shall this light source be converted to a pseudo-directional source for each individual PositionableRenderable before rendering?"), Category("Behavior")]
+    public bool RenderAsDirectional { get; set; }
 
     private DoubleVector3 _position;
 
