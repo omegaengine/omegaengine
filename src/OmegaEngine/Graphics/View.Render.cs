@@ -78,6 +78,9 @@ partial class View
             #region Activate lights
             if (Lighting && Scene.Lights.Count > 0)
             {
+                foreach (var light in Scene.Lights.OfType<IPositionableOffset>())
+                    ApplyCameraBase(light);
+
                 using (new ProfilerEvent("Setup lights"))
                     Scene.ActivateLights();
             }
