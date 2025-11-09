@@ -148,177 +148,98 @@ public abstract class SurfaceShader : Shader
             byte diffuseMapCount = 0;
             foreach (ParameterInfo info in ParameterInfos)
             {
-                switch (info.Type)
+                _ = info.Type switch
                 {
-                    case ParameterType.Int:
-                        switch (info.SemanticID)
+                    ParameterType.Int => info.SemanticID switch
+                    {
+                        SemanticID.FilterMode => SetValue(Engine.Anisotropic ? 3 : 2),
+                        _ => null
+                    },
+                    ParameterType.Float => info.Class switch
+                    {
+                        ParameterClass.Scalar => info.SemanticID switch
                         {
-                            case SemanticID.FilterMode:
-                                const int linearFiltering = 2, anisotropicFiltering = 3;
-                                Effect.SetValue(info.Handle, Engine.Anisotropic ? anisotropicFiltering : linearFiltering);
-                                break;
-                        }
-                        break;
-
-                    case ParameterType.Float:
-                        switch (info.Class)
+                            SemanticID.SpecularPower when !_lightParametersHandled => StoreHandle(_lightSpecularPowerHandles),
+                            SemanticID.Time => SetValue((float)Engine.TotalGameTime),
+                            SemanticID.ElapsedTime => SetValue((float)Engine.LastFrameGameTime),
+                            _ => null
+                        },
+                        ParameterClass.Vector => info.SemanticID switch
                         {
-                            case ParameterClass.Scalar:
-                                switch (info.SemanticID)
-                                {
-                                    case SemanticID.SpecularPower when !_lightParametersHandled:
-                                        _lightSpecularPowerHandles.Add(info.Handle);
-                                        break;
-                                    case SemanticID.Time:
-                                        Effect.SetValue(info.Handle, (float)Engine.TotalGameTime);
-                                        break;
-                                    case SemanticID.ElapsedTime:
-                                        Effect.SetValue(info.Handle, (float)Engine.LastFrameGameTime);
-                                        break;
-                                }
-                                break;
-
-                            case ParameterClass.Vector:
-                                switch (info.SemanticID)
-                                {
-                                    case SemanticID.CameraPosition:
-                                        Effect.SetValue(info.Handle, camera.Position.ApplyOffset(camera.PositionBase));
-                                        break;
-
-                                    case SemanticID.Position when !_lightParametersHandled:
-                                        _lightPositionHandles.Add(info.Handle);
-                                        break;
-                                    case SemanticID.Direction when !_lightParametersHandled:
-                                        _lightDirectionHandles.Add(info.Handle);
-                                        break;
-                                    case SemanticID.Attenuation when !_lightParametersHandled:
-                                        _lightAttenuationHandles.Add(info.Handle);
-                                        break;
-                                    case SemanticID.Color or SemanticID.Diffuse when !_lightParametersHandled:
-                                        _lightDiffuseHandles.Add(info.Handle);
-                                        break;
-                                    case SemanticID.Ambient when !_lightParametersHandled:
-                                        _lightAmbientHandles.Add(info.Handle);
-                                        break;
-                                    case SemanticID.Specular when !_lightParametersHandled:
-                                        _lightSpecularHandles.Add(info.Handle);
-                                        break;
-                                    case SemanticID.Emissive:
-                                        Effect.SetValue(info.Handle, new Color4(material.Emissive));
-                                        break;
-                                }
-                                break;
-
-                            case ParameterClass.MatrixRows or ParameterClass.MatrixColumns:
-                                switch (info.SemanticID)
-                                {
-                                    case SemanticID.World:
-                                        Effect.SetValue(info.Handle, Engine.State.WorldTransform);
-                                        break;
-                                    case SemanticID.WorldInverse:
-                                        Effect.SetValue(info.Handle, Matrix.Invert(Engine.State.WorldTransform));
-                                        break;
-                                    case SemanticID.WorldTranspose:
-                                        Effect.SetValue(info.Handle, Matrix.Transpose(Engine.State.WorldTransform));
-                                        break;
-                                    case SemanticID.WorldInverseTranspose:
-                                        Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform)));
-                                        break;
-
-                                    case SemanticID.View:
-                                        Effect.SetValue(info.Handle, camera.View);
-                                        break;
-                                    case SemanticID.ViewInverse:
-                                        Effect.SetValue(info.Handle, camera.ViewInverse);
-                                        break;
-                                    case SemanticID.ViewTranspose:
-                                        Effect.SetValue(info.Handle, camera.ViewTranspose);
-                                        break;
-                                    case SemanticID.ViewInverseTranspose:
-                                        Effect.SetValue(info.Handle, camera.ViewInverseTranspose);
-                                        break;
-
-                                    case SemanticID.Projection:
-                                        Effect.SetValue(info.Handle, camera.Projection);
-                                        break;
-                                    case SemanticID.ProjectionInverse:
-                                        Effect.SetValue(info.Handle, camera.ProjectionInverse);
-                                        break;
-                                    case SemanticID.ProjectionTranspose:
-                                        Effect.SetValue(info.Handle, camera.ProjectionTranspose);
-                                        break;
-                                    case SemanticID.ProjectionInverseTranspose:
-                                        Effect.SetValue(info.Handle, camera.ProjectionInverseTranspose);
-                                        break;
-
-                                    case SemanticID.WorldView:
-                                        Effect.SetValue(info.Handle, Engine.State.WorldTransform * camera.View);
-                                        break;
-                                    case SemanticID.WorldViewInverse:
-                                        Effect.SetValue(info.Handle, Matrix.Invert(Engine.State.WorldTransform * camera.View));
-                                        break;
-                                    case SemanticID.WorldViewTranspose:
-                                        Effect.SetValue(info.Handle, Matrix.Transpose(Engine.State.WorldTransform * camera.View));
-                                        break;
-                                    case SemanticID.WorldViewInverseTranspose:
-                                        Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform * camera.View)));
-                                        break;
-
-                                    case SemanticID.ViewProjection:
-                                        Effect.SetValue(info.Handle, camera.ViewProjection);
-                                        break;
-                                    case SemanticID.ViewProjectionInverse:
-                                        Effect.SetValue(info.Handle, camera.ViewProjectionInverse);
-                                        break;
-                                    case SemanticID.ViewProjectionTranspose:
-                                        Effect.SetValue(info.Handle, camera.ViewProjectionTranspose);
-                                        break;
-                                    case SemanticID.ViewProjectionInverseTranspose:
-                                        Effect.SetValue(info.Handle, camera.ViewProjectionInverseTranspose);
-                                        break;
-
-                                    case SemanticID.WorldViewProjection:
-                                        Effect.SetValue(info.Handle, Engine.State.WorldTransform * camera.ViewProjection);
-                                        break;
-                                    case SemanticID.WorldViewProjectionInverse:
-                                        Effect.SetValue(info.Handle, Matrix.Invert(Engine.State.WorldTransform * camera.ViewProjection));
-                                        break;
-                                    case SemanticID.WorldViewProjectionTranspose:
-                                        Effect.SetValue(info.Handle, Matrix.Transpose(Engine.State.WorldTransform * camera.ViewProjection));
-                                        break;
-                                    case SemanticID.WorldViewProjectionInverseTranspose:
-                                        Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform * camera.ViewProjection)));
-                                        break;
-                                }
-                                break;
-                        }
-                        break;
-
-                    case ParameterType.Texture:
-                        switch (info.SemanticID)
+                            SemanticID.CameraPosition => SetValue(camera.Position.ApplyOffset(camera.PositionBase)),
+                            SemanticID.Position when !_lightParametersHandled => StoreHandle(_lightPositionHandles),
+                            SemanticID.Direction when !_lightParametersHandled => StoreHandle(_lightDirectionHandles),
+                            SemanticID.Attenuation when !_lightParametersHandled => StoreHandle(_lightAttenuationHandles),
+                            SemanticID.Color or SemanticID.Diffuse when !_lightParametersHandled => StoreHandle(_lightDiffuseHandles),
+                            SemanticID.Ambient when !_lightParametersHandled => StoreHandle(_lightAmbientHandles),
+                            SemanticID.Specular when !_lightParametersHandled => StoreHandle(_lightSpecularHandles),
+                            SemanticID.Emissive => SetValue(new Color4(material.Emissive)),
+                            _ => null
+                        },
+                        ParameterClass.MatrixRows or ParameterClass.MatrixColumns => info.SemanticID switch
                         {
-                            case SemanticID.Diffuse or SemanticID.DiffuseMap:
-                                if (diffuseMapCount < material.DiffuseMaps.Length && material.DiffuseMaps[diffuseMapCount] != null)
-                                    Effect.SetTexture(info.Handle, material.DiffuseMaps[diffuseMapCount].Texture);
-                                else Effect.SetTexture(info.Handle, null);
+                            SemanticID.World => SetValue(Engine.State.WorldTransform),
+                            SemanticID.WorldInverse => SetValue(Matrix.Invert(Engine.State.WorldTransform)),
+                            SemanticID.WorldTranspose => SetValue(Matrix.Transpose(Engine.State.WorldTransform)),
+                            SemanticID.WorldInverseTranspose => SetValue(Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform))),
+                            SemanticID.View => SetValue(camera.View),
+                            SemanticID.ViewInverse => SetValue(camera.ViewInverse),
+                            SemanticID.ViewTranspose => SetValue(camera.ViewTranspose),
+                            SemanticID.ViewInverseTranspose => SetValue(camera.ViewInverseTranspose),
+                            SemanticID.Projection => SetValue(camera.Projection),
+                            SemanticID.ProjectionInverse => SetValue(camera.ProjectionInverse),
+                            SemanticID.ProjectionTranspose => SetValue(camera.ProjectionTranspose),
+                            SemanticID.ProjectionInverseTranspose => SetValue(camera.ProjectionInverseTranspose),
+                            SemanticID.WorldView => SetValue(Engine.State.WorldTransform * camera.View),
+                            SemanticID.WorldViewInverse => SetValue(Matrix.Invert(Engine.State.WorldTransform * camera.View)),
+                            SemanticID.WorldViewTranspose => SetValue(Matrix.Transpose(Engine.State.WorldTransform * camera.View)),
+                            SemanticID.WorldViewInverseTranspose => SetValue(Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform * camera.View))),
+                            SemanticID.ViewProjection => SetValue(camera.ViewProjection),
+                            SemanticID.ViewProjectionInverse => SetValue(camera.ViewProjectionInverse),
+                            SemanticID.ViewProjectionTranspose => SetValue(camera.ViewProjectionTranspose),
+                            SemanticID.ViewProjectionInverseTranspose => SetValue(camera.ViewProjectionInverseTranspose),
+                            SemanticID.WorldViewProjection => SetValue(Engine.State.WorldTransform * camera.ViewProjection),
+                            SemanticID.WorldViewProjectionInverse => SetValue(Matrix.Invert(Engine.State.WorldTransform * camera.ViewProjection)),
+                            SemanticID.WorldViewProjectionTranspose => SetValue(Matrix.Transpose(Engine.State.WorldTransform * camera.ViewProjection)),
+                            SemanticID.WorldViewProjectionInverseTranspose => SetValue(Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform * camera.ViewProjection))),
+                            _ => null
+                        },
+                        _ => null
+                    },
+                    ParameterType.Texture => info.SemanticID switch
+                    {
+                        SemanticID.Diffuse or SemanticID.DiffuseMap => SetDiffuseTexture(),
+                        SemanticID.Normal or SemanticID.NormalMap => SetTexture(material.NormalMap?.Texture),
+                        SemanticID.Height or SemanticID.HeightMap => SetTexture(material.HeightMap?.Texture),
+                        SemanticID.Specular or SemanticID.SpecularMap => SetTexture(material.SpecularMap?.Texture),
+                        SemanticID.Emissive => SetTexture(material.EmissiveMap?.Texture),
+                        _ => null
+                    },
+                    _ => null
+                };
 
-                                // Increment counter for possible next reference in this shader to a (different) diffuse map
-                                diffuseMapCount++;
-                                break;
-                            case SemanticID.Normal or SemanticID.NormalMap:
-                                Effect.SetTexture(info.Handle, material.NormalMap?.Texture);
-                                break;
-                            case SemanticID.Height or SemanticID.HeightMap:
-                                Effect.SetTexture(info.Handle, material.HeightMap?.Texture);
-                                break;
-                            case SemanticID.Specular or SemanticID.SpecularMap:
-                                Effect.SetTexture(info.Handle, material.SpecularMap?.Texture);
-                                break;
-                            case SemanticID.Emissive:
-                                Effect.SetTexture(info.Handle, material.EmissiveMap?.Texture);
-                                break;
-                        }
-                        break;
+                Result SetValue<T>(T value) where T : struct
+                    => Effect.SetValue(info.Handle, value);
+
+                Result SetTexture(BaseTexture? texture)
+                    => Effect.SetTexture(info.Handle, texture);
+
+                Result SetDiffuseTexture()
+                {
+                    var ret = diffuseMapCount < material.DiffuseMaps.Length && material.DiffuseMaps[diffuseMapCount] != null
+                        ? SetTexture(material.DiffuseMaps[diffuseMapCount].Texture)
+                        : SetTexture(null);
+
+                    // Increment counter for possible next reference in this shader to a (different) diffuse map
+                    diffuseMapCount++;
+
+                    return ret;
+                }
+
+                Result? StoreHandle(List<EffectHandle> list)
+                {
+                    list.Add(info.Handle);
+                    return null;
                 }
             }
         }
