@@ -33,8 +33,7 @@ public abstract class SurfaceShader : Shader
         _lightAttenuationHandles = [],
         _lightDiffuseHandles = [],
         _lightAmbientHandles = [],
-        _lightSpecularHandles = [],
-        _lightSpecularPowerHandles = [];
+        _lightSpecularHandles = [];
     #endregion
 
     //--------------------//
@@ -51,7 +50,6 @@ public abstract class SurfaceShader : Shader
         TrySetValue(_lightDiffuseHandles, index, Color4.Modulate(light.Diffuse, material.Diffuse));
         TrySetValue(_lightAmbientHandles, index, Color4.Modulate(light.Ambient, material.Ambient));
         TrySetValue(_lightSpecularHandles, index, Color4.Modulate(light.Specular, material.Specular));
-        TrySetValue(_lightSpecularPowerHandles, index, material.SpecularPower);
     }
 
     /// <summary>
@@ -159,7 +157,7 @@ public abstract class SurfaceShader : Shader
                     {
                         ParameterClass.Scalar => info.SemanticID switch
                         {
-                            SemanticID.SpecularPower when !_lightParametersHandled => StoreHandle(_lightSpecularPowerHandles),
+                            SemanticID.SpecularPower => SetValue(material.SpecularPower),
                             SemanticID.Time => SetValue((float)Engine.TotalGameTime),
                             SemanticID.ElapsedTime => SetValue((float)Engine.LastFrameGameTime),
                             _ => null
