@@ -17,7 +17,7 @@ using OmegaEngine.Properties;
 namespace OmegaEngine.Graphics.Cameras;
 
 /// <summary>
-/// A RTS-style camera with a rotatable horizontal view and an automatic vertical angle.
+/// An RTS-style camera with a rotatable horizontal view and an automatic vertical angle.
 /// </summary>
 /// <param name="minRadius">The minimum radius allowed. Also used as the initial radius.</param>
 /// <param name="maxRadius">The maximum radius allowed.</param>

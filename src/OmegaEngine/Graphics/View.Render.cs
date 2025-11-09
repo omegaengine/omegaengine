@@ -71,7 +71,7 @@ partial class View
         {
             RenderBackground();
 
-            // Set up normal transfromations for bodies
+            // Set up normal transformations for bodies
             Engine.State.ViewTransform = Camera.View;
             Engine.State.ProjectionTransform = Camera.Projection;
 
