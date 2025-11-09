@@ -249,27 +249,26 @@ public abstract class SurfaceShader : Shader
                                 Effect.SetValue(info.Handle, new Color4(material.Emissive));
                                 break;
 
-                            case SemanticID.Position:
-                                if (!_lightParametersHandled) _lightPositionHandles.Add(info.Handle);
+                            case SemanticID.Position when !_lightParametersHandled:
+                                _lightPositionHandles.Add(info.Handle);
                                 break;
-                            case SemanticID.Direction:
-                                if (!_lightParametersHandled) _lightDirectionHandles.Add(info.Handle);
+                            case SemanticID.Direction when !_lightParametersHandled:
+                                _lightDirectionHandles.Add(info.Handle);
                                 break;
-                            case SemanticID.Attenuation:
-                                if (!_lightParametersHandled) _lightAttenuationHandles.Add(info.Handle);
+                            case SemanticID.Attenuation when !_lightParametersHandled:
+                                _lightAttenuationHandles.Add(info.Handle);
                                 break;
-                            case SemanticID.Color:
-                            case SemanticID.Diffuse:
-                                if (!_lightParametersHandled) _lightDiffuseHandles.Add(info.Handle);
+                            case SemanticID.Color or SemanticID.Diffuse when !_lightParametersHandled:
+                                _lightDiffuseHandles.Add(info.Handle);
                                 break;
-                            case SemanticID.Ambient:
-                                if (!_lightParametersHandled) _lightAmbientHandles.Add(info.Handle);
+                            case SemanticID.Ambient when !_lightParametersHandled:
+                                _lightAmbientHandles.Add(info.Handle);
                                 break;
-                            case SemanticID.Specular:
-                                if (!_lightParametersHandled) _lightSpecularHandles.Add(info.Handle);
+                            case SemanticID.Specular when !_lightParametersHandled:
+                                _lightSpecularHandles.Add(info.Handle);
                                 break;
-                            case SemanticID.SpecularPower:
-                                if (!_lightParametersHandled) _lightSpecularPowerHandles.Add(info.Handle);
+                            case SemanticID.SpecularPower when !_lightParametersHandled:
+                                _lightSpecularPowerHandles.Add(info.Handle);
                                 break;
 
                             case SemanticID.Time:
@@ -284,8 +283,7 @@ public abstract class SurfaceShader : Shader
                     case ParameterType.Texture:
                         switch (info.SemanticID)
                         {
-                            case SemanticID.Diffuse:
-                            case SemanticID.DiffuseMap:
+                            case SemanticID.Diffuse or SemanticID.DiffuseMap:
                                 if (diffuseMapCount < material.DiffuseMaps.Length && material.DiffuseMaps[diffuseMapCount] != null)
                                     Effect.SetTexture(info.Handle, material.DiffuseMaps[diffuseMapCount].Texture);
                                 else Effect.SetTexture(info.Handle, null);
@@ -293,16 +291,13 @@ public abstract class SurfaceShader : Shader
                                 // Increment counter for possible next reference in this shader to a (different) diffuse map
                                 diffuseMapCount++;
                                 break;
-                            case SemanticID.Normal:
-                            case SemanticID.NormalMap:
+                            case SemanticID.Normal or SemanticID.NormalMap:
                                 Effect.SetTexture(info.Handle, material.NormalMap?.Texture);
                                 break;
-                            case SemanticID.Height:
-                            case SemanticID.HeightMap:
+                            case SemanticID.Height or SemanticID.HeightMap:
                                 Effect.SetTexture(info.Handle, material.HeightMap?.Texture);
                                 break;
-                            case SemanticID.Specular:
-                            case SemanticID.SpecularMap:
+                            case SemanticID.Specular or SemanticID.SpecularMap:
                                 Effect.SetTexture(info.Handle, material.SpecularMap?.Texture);
                                 break;
                             case SemanticID.Emissive:
