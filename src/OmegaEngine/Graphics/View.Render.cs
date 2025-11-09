@@ -12,7 +12,6 @@ using System.Drawing;
 using System.Linq;
 using SlimDX;
 using SlimDX.Direct3D9;
-using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 
 namespace OmegaEngine.Graphics;
@@ -26,7 +25,7 @@ partial class View
     /// <see cref="ChildViews"/> will have been rendered already.
     /// </summary>
     [Description("Occurs immediately before the Scene begins rendering. Child views will have been rendered already.")]
-    public event Action<Camera>? PreRender;
+    public event Action? PreRender;
     #endregion
 
     //--------------------//
@@ -263,7 +262,7 @@ partial class View
 
         using (new ProfilerEvent(() => $"Render {this}"))
         {
-            PreRender?.Invoke(Camera);
+            PreRender?.Invoke();
 
             Engine.Device.Viewport = _viewport;
             Engine.State.CullMode = InvertCull ? Cull.Clockwise : Cull.Counterclockwise;

@@ -24,7 +24,6 @@ using System;
 using System.Diagnostics;
 using FrameOfReference.World;
 using OmegaEngine;
-using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 
 namespace FrameOfReference.Presentation;
@@ -34,6 +33,8 @@ namespace FrameOfReference.Presentation;
 /// </summary>
 public sealed class MenuPresenter : Presenter
 {
+    private readonly TrackCamera _camera;
+
     /// <summary>
     /// Creates a new background presenter for the main menu
     /// </summary>
@@ -46,46 +47,42 @@ public sealed class MenuPresenter : Presenter
         if (universe == null) throw new ArgumentNullException(nameof(universe));
         #endregion
 
-        // Target a point slightly above the center of the map and then rotate
-        const float rotationHeight = 150, rotationRadius = 750;
+        _camera = new(minRadius: 750, maxRadius: 750)
+        {
+            Name = "Menu",
+            Target = new (universe.Terrain.Center.X, 150, -universe.Terrain.Center.Y), // Map X = Engine +X, Map Y = Engine -Z
+            HorizontalRotation = 0,
+            VerticalRotation = 15
+        };
 
-        // Map X = Engine +X
-        // Map Y = Engine -Z
-        var cameraTarget = new DoubleVector3(
-            Universe.Terrain.Center.X, rotationHeight, -Universe.Terrain.Center.Y);
-        var mainCamera = new TrackCamera(rotationRadius, rotationRadius) {Target = cameraTarget, HorizontalRotation = 0, VerticalRotation = 15, Name = "Menu"};
-
-        View = new(Scene, mainCamera)
+        View = new(Scene, _camera)
         {
             Name = "Menu",
             BackgroundColor = universe.FogColor,
             Lighting = true
         };
-        View.PreRender += RotateCamera;
-    }
-
-    #region Rotate camera
-    private readonly Stopwatch _cameraTimer = Stopwatch.StartNew();
-
-    private void RotateCamera(Camera camera)
-    {
-        ((TrackCamera)camera).HorizontalRotation += _cameraTimer.Elapsed.TotalSeconds * -5;
-        _cameraTimer.Reset();
-        _cameraTimer.Start();
     }
 
     /// <inheritdoc/>
-    protected override void Dispose(bool disposing)
+    public override void HookIn()
     {
-        try
-        {
-            if (disposing)
-                View.PreRender -= RotateCamera;
-        }
-        finally
-        {
-            base.Dispose(disposing);
-        }
+        base.HookIn();
+        View.PreRender += RotateCamera;
     }
-    #endregion
+
+    /// <inheritdoc/>
+    public override void HookOut()
+    {
+        View.PreRender -= RotateCamera;
+        base.HookOut();
+    }
+
+    private readonly Stopwatch _cameraTimer = Stopwatch.StartNew();
+
+    private void RotateCamera()
+    {
+        _camera.HorizontalRotation += _cameraTimer.Elapsed.TotalSeconds * -5;
+        _cameraTimer.Reset();
+        _cameraTimer.Start();
+    }
 }
