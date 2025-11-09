@@ -114,6 +114,7 @@ public struct ParameterInfo
     public SemanticID SemanticID;
     public EffectHandle Handle;
     public ParameterType Type;
+    public ParameterClass Class;
 };
 #endregion
 
@@ -189,6 +190,7 @@ public abstract class Shader : EngineElement
             else info.SemanticID = SemanticID.Unknown;
             info.Handle = handleParam;
             info.Type = desc.Type;
+            info.Class = desc.Class;
             parameterInfos.Add(info);
         }
 

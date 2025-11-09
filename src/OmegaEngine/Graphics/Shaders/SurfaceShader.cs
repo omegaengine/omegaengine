@@ -161,121 +161,135 @@ public abstract class SurfaceShader : Shader
                         break;
 
                     case ParameterType.Float:
-                        switch (info.SemanticID)
+                        switch (info.Class)
                         {
-                            case SemanticID.CameraPosition:
-                                Effect.SetValue(info.Handle, camera.Position.ApplyOffset(camera.PositionBase));
+                            case ParameterClass.Scalar:
+                                switch (info.SemanticID)
+                                {
+                                    case SemanticID.SpecularPower when !_lightParametersHandled:
+                                        _lightSpecularPowerHandles.Add(info.Handle);
+                                        break;
+                                    case SemanticID.Time:
+                                        Effect.SetValue(info.Handle, (float)Engine.TotalGameTime);
+                                        break;
+                                    case SemanticID.ElapsedTime:
+                                        Effect.SetValue(info.Handle, (float)Engine.LastFrameGameTime);
+                                        break;
+                                }
                                 break;
 
-                            case SemanticID.World:
-                                Effect.SetValue(info.Handle, Engine.State.WorldTransform);
-                                break;
-                            case SemanticID.WorldInverse:
-                                Effect.SetValue(info.Handle, Matrix.Invert(Engine.State.WorldTransform));
-                                break;
-                            case SemanticID.WorldTranspose:
-                                Effect.SetValue(info.Handle, Matrix.Transpose(Engine.State.WorldTransform));
-                                break;
-                            case SemanticID.WorldInverseTranspose:
-                                Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform)));
+                            case ParameterClass.Vector:
+                                switch (info.SemanticID)
+                                {
+                                    case SemanticID.CameraPosition:
+                                        Effect.SetValue(info.Handle, camera.Position.ApplyOffset(camera.PositionBase));
+                                        break;
+
+                                    case SemanticID.Position when !_lightParametersHandled:
+                                        _lightPositionHandles.Add(info.Handle);
+                                        break;
+                                    case SemanticID.Direction when !_lightParametersHandled:
+                                        _lightDirectionHandles.Add(info.Handle);
+                                        break;
+                                    case SemanticID.Attenuation when !_lightParametersHandled:
+                                        _lightAttenuationHandles.Add(info.Handle);
+                                        break;
+                                    case SemanticID.Color or SemanticID.Diffuse when !_lightParametersHandled:
+                                        _lightDiffuseHandles.Add(info.Handle);
+                                        break;
+                                    case SemanticID.Ambient when !_lightParametersHandled:
+                                        _lightAmbientHandles.Add(info.Handle);
+                                        break;
+                                    case SemanticID.Specular when !_lightParametersHandled:
+                                        _lightSpecularHandles.Add(info.Handle);
+                                        break;
+                                    case SemanticID.Emissive:
+                                        Effect.SetValue(info.Handle, new Color4(material.Emissive));
+                                        break;
+                                }
                                 break;
 
-                            case SemanticID.View:
-                                Effect.SetValue(info.Handle, camera.View);
-                                break;
-                            case SemanticID.ViewInverse:
-                                Effect.SetValue(info.Handle, camera.ViewInverse);
-                                break;
-                            case SemanticID.ViewTranspose:
-                                Effect.SetValue(info.Handle, camera.ViewTranspose);
-                                break;
-                            case SemanticID.ViewInverseTranspose:
-                                Effect.SetValue(info.Handle, camera.ViewInverseTranspose);
-                                break;
+                            case ParameterClass.MatrixRows or ParameterClass.MatrixColumns:
+                                switch (info.SemanticID)
+                                {
+                                    case SemanticID.World:
+                                        Effect.SetValue(info.Handle, Engine.State.WorldTransform);
+                                        break;
+                                    case SemanticID.WorldInverse:
+                                        Effect.SetValue(info.Handle, Matrix.Invert(Engine.State.WorldTransform));
+                                        break;
+                                    case SemanticID.WorldTranspose:
+                                        Effect.SetValue(info.Handle, Matrix.Transpose(Engine.State.WorldTransform));
+                                        break;
+                                    case SemanticID.WorldInverseTranspose:
+                                        Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform)));
+                                        break;
 
-                            case SemanticID.Projection:
-                                Effect.SetValue(info.Handle, camera.Projection);
-                                break;
-                            case SemanticID.ProjectionInverse:
-                                Effect.SetValue(info.Handle, camera.ProjectionInverse);
-                                break;
-                            case SemanticID.ProjectionTranspose:
-                                Effect.SetValue(info.Handle, camera.ProjectionTranspose);
-                                break;
-                            case SemanticID.ProjectionInverseTranspose:
-                                Effect.SetValue(info.Handle, camera.ProjectionInverseTranspose);
-                                break;
+                                    case SemanticID.View:
+                                        Effect.SetValue(info.Handle, camera.View);
+                                        break;
+                                    case SemanticID.ViewInverse:
+                                        Effect.SetValue(info.Handle, camera.ViewInverse);
+                                        break;
+                                    case SemanticID.ViewTranspose:
+                                        Effect.SetValue(info.Handle, camera.ViewTranspose);
+                                        break;
+                                    case SemanticID.ViewInverseTranspose:
+                                        Effect.SetValue(info.Handle, camera.ViewInverseTranspose);
+                                        break;
 
-                            case SemanticID.WorldView:
-                                Effect.SetValue(info.Handle, Engine.State.WorldTransform * camera.View);
-                                break;
-                            case SemanticID.WorldViewInverse:
-                                Effect.SetValue(info.Handle, Matrix.Invert(Engine.State.WorldTransform * camera.View));
-                                break;
-                            case SemanticID.WorldViewTranspose:
-                                Effect.SetValue(info.Handle, Matrix.Transpose(Engine.State.WorldTransform * camera.View));
-                                break;
-                            case SemanticID.WorldViewInverseTranspose:
-                                Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform * camera.View)));
-                                break;
+                                    case SemanticID.Projection:
+                                        Effect.SetValue(info.Handle, camera.Projection);
+                                        break;
+                                    case SemanticID.ProjectionInverse:
+                                        Effect.SetValue(info.Handle, camera.ProjectionInverse);
+                                        break;
+                                    case SemanticID.ProjectionTranspose:
+                                        Effect.SetValue(info.Handle, camera.ProjectionTranspose);
+                                        break;
+                                    case SemanticID.ProjectionInverseTranspose:
+                                        Effect.SetValue(info.Handle, camera.ProjectionInverseTranspose);
+                                        break;
 
-                            case SemanticID.ViewProjection:
-                                Effect.SetValue(info.Handle, camera.ViewProjection);
-                                break;
-                            case SemanticID.ViewProjectionInverse:
-                                Effect.SetValue(info.Handle, camera.ViewProjectionInverse);
-                                break;
-                            case SemanticID.ViewProjectionTranspose:
-                                Effect.SetValue(info.Handle, camera.ViewProjectionTranspose);
-                                break;
-                            case SemanticID.ViewProjectionInverseTranspose:
-                                Effect.SetValue(info.Handle, camera.ViewProjectionInverseTranspose);
-                                break;
+                                    case SemanticID.WorldView:
+                                        Effect.SetValue(info.Handle, Engine.State.WorldTransform * camera.View);
+                                        break;
+                                    case SemanticID.WorldViewInverse:
+                                        Effect.SetValue(info.Handle, Matrix.Invert(Engine.State.WorldTransform * camera.View));
+                                        break;
+                                    case SemanticID.WorldViewTranspose:
+                                        Effect.SetValue(info.Handle, Matrix.Transpose(Engine.State.WorldTransform * camera.View));
+                                        break;
+                                    case SemanticID.WorldViewInverseTranspose:
+                                        Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform * camera.View)));
+                                        break;
 
-                            case SemanticID.WorldViewProjection:
-                                Effect.SetValue(info.Handle, Engine.State.WorldTransform * camera.ViewProjection);
-                                break;
-                            case SemanticID.WorldViewProjectionInverse:
-                                Effect.SetValue(info.Handle, Matrix.Invert(Engine.State.WorldTransform * camera.ViewProjection));
-                                break;
-                            case SemanticID.WorldViewProjectionTranspose:
-                                Effect.SetValue(info.Handle, Matrix.Transpose(Engine.State.WorldTransform * camera.ViewProjection));
-                                break;
-                            case SemanticID.WorldViewProjectionInverseTranspose:
-                                Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform * camera.ViewProjection)));
-                                break;
+                                    case SemanticID.ViewProjection:
+                                        Effect.SetValue(info.Handle, camera.ViewProjection);
+                                        break;
+                                    case SemanticID.ViewProjectionInverse:
+                                        Effect.SetValue(info.Handle, camera.ViewProjectionInverse);
+                                        break;
+                                    case SemanticID.ViewProjectionTranspose:
+                                        Effect.SetValue(info.Handle, camera.ViewProjectionTranspose);
+                                        break;
+                                    case SemanticID.ViewProjectionInverseTranspose:
+                                        Effect.SetValue(info.Handle, camera.ViewProjectionInverseTranspose);
+                                        break;
 
-                            case SemanticID.Emissive:
-                                Effect.SetValue(info.Handle, new Color4(material.Emissive));
-                                break;
-
-                            case SemanticID.Position when !_lightParametersHandled:
-                                _lightPositionHandles.Add(info.Handle);
-                                break;
-                            case SemanticID.Direction when !_lightParametersHandled:
-                                _lightDirectionHandles.Add(info.Handle);
-                                break;
-                            case SemanticID.Attenuation when !_lightParametersHandled:
-                                _lightAttenuationHandles.Add(info.Handle);
-                                break;
-                            case SemanticID.Color or SemanticID.Diffuse when !_lightParametersHandled:
-                                _lightDiffuseHandles.Add(info.Handle);
-                                break;
-                            case SemanticID.Ambient when !_lightParametersHandled:
-                                _lightAmbientHandles.Add(info.Handle);
-                                break;
-                            case SemanticID.Specular when !_lightParametersHandled:
-                                _lightSpecularHandles.Add(info.Handle);
-                                break;
-                            case SemanticID.SpecularPower when !_lightParametersHandled:
-                                _lightSpecularPowerHandles.Add(info.Handle);
-                                break;
-
-                            case SemanticID.Time:
-                                Effect.SetValue(info.Handle, (float)Engine.TotalGameTime);
-                                break;
-                            case SemanticID.ElapsedTime:
-                                Effect.SetValue(info.Handle, (float)Engine.LastFrameGameTime);
+                                    case SemanticID.WorldViewProjection:
+                                        Effect.SetValue(info.Handle, Engine.State.WorldTransform * camera.ViewProjection);
+                                        break;
+                                    case SemanticID.WorldViewProjectionInverse:
+                                        Effect.SetValue(info.Handle, Matrix.Invert(Engine.State.WorldTransform * camera.ViewProjection));
+                                        break;
+                                    case SemanticID.WorldViewProjectionTranspose:
+                                        Effect.SetValue(info.Handle, Matrix.Transpose(Engine.State.WorldTransform * camera.ViewProjection));
+                                        break;
+                                    case SemanticID.WorldViewProjectionInverseTranspose:
+                                        Effect.SetValue(info.Handle, Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform * camera.ViewProjection)));
+                                        break;
+                                }
                                 break;
                         }
                         break;
