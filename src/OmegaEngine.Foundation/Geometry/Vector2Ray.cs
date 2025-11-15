@@ -34,10 +34,10 @@ public struct Vector2Ray(Vector2 position, Vector2 direction) : IEquatable<Vecto
     /// A unit vector specifying the direction in which the ray is pointing (automatically normalized).
     /// </summary>
     [Description("A unit vector specifying the direction in which the ray is pointing (automatically normalized).")]
-    public Vector2 Direction { get => _direction; set => _direction = Vector2.Normalize(value); }
+    public Vector2 Direction { readonly get => _direction; set => _direction = Vector2.Normalize(value); }
 
     /// <inheritdoc/>
-    public override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0} => {1})", Position, Direction);
+    public readonly override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0} => {1})", Position, Direction);
 
     /// <inheritdoc/>
     public bool Equals(Vector2Ray other) => other.Direction == Direction && other.Position == Position;
@@ -53,5 +53,5 @@ public struct Vector2Ray(Vector2 position, Vector2 direction) : IEquatable<Vecto
     }
 
     /// <inheritdoc/>
-    public override int GetHashCode() => HashCode.Combine(Direction, Position);
+    public readonly override int GetHashCode() => HashCode.Combine(Direction, Position);
 }

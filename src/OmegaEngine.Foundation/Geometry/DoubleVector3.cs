@@ -96,7 +96,7 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     /// <param name="offset">This value is subtracting from the double-precision data before it is casted to single-precision</param>
     /// <returns>The relative value</returns>
     [Pure]
-    public Vector3 ApplyOffset(DoubleVector3 offset) => new(
+    public readonly Vector3 ApplyOffset(DoubleVector3 offset) => new(
         (float)(X - offset.X),
         (float)(Y - offset.Y),
         (float)(Z - offset.Z));
@@ -106,14 +106,14 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     /// </summary>
     /// <param name="other">The second vector to calculate the dot product with.</param>
     [Pure]
-    public double DotProduct(DoubleVector3 other) => X * other.X + Y * other.Y + Z * other.Z;
+    public readonly double DotProduct(DoubleVector3 other) => X * other.X + Y * other.Y + Z * other.Z;
 
     /// <summary>
     /// Calculates the cross product of this vector and <paramref name="other"/>.
     /// </summary>
     /// <param name="other">The second vector to calculate the cross product with.</param>
     [Pure]
-    public DoubleVector3 CrossProduct(DoubleVector3 other)
+    public readonly DoubleVector3 CrossProduct(DoubleVector3 other)
         => new(
             Y * other.Z - Z * other.Y,
             Z * other.X - X * other.Z,
@@ -123,13 +123,13 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     /// Calculates the length of the vector.
     /// </summary>
     [Pure]
-    public double Length() => Math.Sqrt(X * X + Y * Y + Z * Z);
+    public readonly double Length() => Math.Sqrt(X * X + Y * Y + Z * Z);
 
     /// <summary>
     /// Returns a copy of the vector scaled to a length of 1.
     /// </summary>
     [Pure]
-    public DoubleVector3 Normalize()
+    public readonly DoubleVector3 Normalize()
     {
         var length = Length();
         return length == 0 ? this : new(X / length, Y / length, Z / length);
@@ -139,10 +139,10 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     /// Maps X to X and Z to -Y. Drops Y.
     /// </summary>
     [Pure]
-    public Vector2 Flatten() => new((float)X, (float)-Z);
+    public readonly Vector2 Flatten() => new((float)X, (float)-Z);
 
     /// <inheritdoc/>
-    public override string ToString() => $"({X}, {Y}, {Z})";
+    public readonly override string ToString() => $"({X}, {Y}, {Z})";
 
     /// <summary>Convert <see cref="Vector3"/> into <see cref="DoubleVector3"/></summary>
     public static explicit operator DoubleVector3(Vector3 vector) => new(vector.X, vector.Y, vector.Z);
@@ -164,5 +164,5 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     }
 
     /// <inheritdoc/>
-    public override int GetHashCode() => HashCode.Combine(X, Y, Z);
+    public readonly override int GetHashCode() => HashCode.Combine(X, Y, Z);
 }

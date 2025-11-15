@@ -39,16 +39,16 @@ public struct XColor(byte a, byte r, byte g, byte b) : IEquatable<XColor>
     public byte B { get; set; } = b;
 
     [XmlIgnore]
-    public float Red { get => (float)R / 255; set => R = (byte)(value * 255); }
+    public float Red { readonly get => (float)R / 255; set => R = (byte)(value * 255); }
 
     [XmlIgnore]
-    public float Green { get => (float)G / 255; set => G = (byte)(value * 255); }
+    public float Green { readonly get => (float)G / 255; set => G = (byte)(value * 255); }
 
     [XmlIgnore]
-    public float Blue { get => (float)B / 255; set => B = (byte)(value * 255); }
+    public float Blue { readonly get => (float)B / 255; set => B = (byte)(value * 255); }
 
     [XmlIgnore]
-    public float Alpha { get => (float)A / 255; set => A = (byte)(value * 255); }
+    public float Alpha { readonly get => (float)A / 255; set => A = (byte)(value * 255); }
 
     public XColor(float red, float green, float blue, float alpha)
         : this((byte)(alpha * 255), (byte)(red * 255), (byte)(green * 255), (byte)(blue * 255))
@@ -58,13 +58,13 @@ public struct XColor(byte a, byte r, byte g, byte b) : IEquatable<XColor>
     /// Removes the alpha channel from the color (setting it to full opacity).
     /// </summary>
     [Pure]
-    public XColor DropAlpha() => new(255, R, G, B);
+    public readonly XColor DropAlpha() => new(255, R, G, B);
 
     [Pure]
-    public Color4 ToColor4() => new(Alpha, Red, Green, Blue);
+    public readonly Color4 ToColor4() => new(Alpha, Red, Green, Blue);
 
     /// <inheritdoc/>
-    public override string ToString() => ((Color)this).ToString();
+    public readonly override string ToString() => ((Color)this).ToString();
 
     public static implicit operator XColor(Color color) => new(color.A, color.R, color.G, color.B);
     public static implicit operator Color(XColor color) => Color.FromArgb(color.A, color.R, color.G, color.B);
@@ -91,5 +91,5 @@ public struct XColor(byte a, byte r, byte g, byte b) : IEquatable<XColor>
         };
 
     /// <inheritdoc/>
-    public override int GetHashCode() => HashCode.Combine(A, R, G, B);
+    public readonly override int GetHashCode() => HashCode.Combine(A, R, G, B);
 }

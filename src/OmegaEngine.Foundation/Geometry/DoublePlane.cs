@@ -34,7 +34,7 @@ public struct DoublePlane(DoubleVector3 point, Vector3 normal) : IEquatable<Doub
     /// The normal vector of the plane.
     /// </summary>
     [Description("The normal vector of the plane.")]
-    public Vector3 Normal { get => _normal; set => _normal = Vector3.Normalize(value); }
+    public Vector3 Normal { readonly get => _normal; set => _normal = Vector3.Normalize(value); }
 
     /// <summary>
     /// Returns a single-precision standard <see cref="Plane"/> after subtracting an offset value.
@@ -45,7 +45,7 @@ public struct DoublePlane(DoubleVector3 point, Vector3 normal) : IEquatable<Doub
     public Plane ApplyOffset(DoubleVector3 offset) => new(Point.ApplyOffset(offset), _normal);
 
     /// <inheritdoc/>
-    public override string ToString() => $"({Point} => {Normal})";
+    public readonly override string ToString() => $"({Point} => {Normal})";
 
     /// <inheritdoc/>
     public bool Equals(DoublePlane other) => other.Point == Point && other.Normal == Normal;
@@ -61,5 +61,5 @@ public struct DoublePlane(DoubleVector3 point, Vector3 normal) : IEquatable<Doub
     }
 
     /// <inheritdoc/>
-    public override int GetHashCode() => HashCode.Combine(Point, Normal);
+    public readonly override int GetHashCode() => HashCode.Combine(Point, Normal);
 }

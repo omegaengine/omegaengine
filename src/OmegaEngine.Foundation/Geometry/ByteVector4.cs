@@ -49,7 +49,7 @@ public struct ByteVector4(byte x, byte y, byte z, byte w) : IEquatable<ByteVecto
     public byte W { get; set; } = w;
 
     /// <inheritdoc/>
-    public override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0}, {1}, {2}, {3})", X, Y, Z, W);
+    public readonly override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0}, {1}, {2}, {3})", X, Y, Z, W);
 
     /// <inheritdoc/>
     public bool Equals(ByteVector4 other) => other.X == X && other.Y == Y && other.Z == Z && other.W == W;
@@ -65,5 +65,5 @@ public struct ByteVector4(byte x, byte y, byte z, byte w) : IEquatable<ByteVecto
     }
 
     /// <inheritdoc/>
-    public override int GetHashCode() => X | (Y << 8) | (Z << 16) | (W << 24);
+    public readonly override int GetHashCode() => X | (Y << 8) | (Z << 16) | (W << 24);
 }

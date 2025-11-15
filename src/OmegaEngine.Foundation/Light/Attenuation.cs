@@ -53,11 +53,11 @@ public struct Attenuation(float constant, float linear, float quadratic) : IEqua
     /// </summary>
     /// <param name="distance">The distance from the light source.</param>
     [Pure]
-    public float Apply(float distance)
+    public readonly float Apply(float distance)
         => (1 / (Constant + Linear * distance + Quadratic * distance * distance)).Clamp();
 
     /// <inheritdoc/>
-    public override string ToString() => $"(Constant: {Constant}, Linear: {Linear}, Quadratic: {Quadratic})";
+    public readonly override string ToString() => $"(Constant: {Constant}, Linear: {Linear}, Quadratic: {Quadratic})";
 
     /// <summary>Convert <see cref="Attenuation"/> into <see cref="Vector4"/></summary>
     public static explicit operator Vector4(Attenuation attenuation) => new(attenuation.Constant, attenuation.Linear, attenuation.Quadratic, 0);
@@ -79,5 +79,5 @@ public struct Attenuation(float constant, float linear, float quadratic) : IEqua
     }
 
     /// <inheritdoc/>
-    public override int GetHashCode() => HashCode.Combine(Constant, Linear, Quadratic);
+    public readonly override int GetHashCode() => HashCode.Combine(Constant, Linear, Quadratic);
 }
