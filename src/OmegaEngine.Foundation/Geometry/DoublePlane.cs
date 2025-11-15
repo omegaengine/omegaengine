@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.Contracts;
 using OmegaEngine.Foundation.Design;
 using SlimDX;
 
@@ -40,6 +41,7 @@ public struct DoublePlane(DoubleVector3 point, Vector3 normal) : IEquatable<Doub
     /// </summary>
     /// <param name="offset">This value is subtracted from the double-precision data before it is casted to single-precision.</param>
     /// <returns>The newly positioned <see cref="Plane"/>.</returns>
+    [Pure]
     public Plane ApplyOffset(DoubleVector3 offset) => new(Point.ApplyOffset(offset), _normal);
 
     /// <inheritdoc/>

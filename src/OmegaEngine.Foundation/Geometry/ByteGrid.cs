@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -32,6 +33,7 @@ public class ByteGrid : Grid<byte>
     /// <summary>
     /// Performs bilinear interpolation to get values lying between discrete grid points.
     /// </summary>
+    [Pure]
     public float SampledRead(float x, float y)
     {
         int xFloor = (int)Math.Floor(x);
@@ -51,6 +53,7 @@ public class ByteGrid : Grid<byte>
     /// <summary>
     /// Returns <c>true</c> if the specified coordinates are within the bounds of the grid.
     /// </summary>
+    [Pure]
     public bool IsInRange(float x, float y) => x >= 0 && x < Width && y >= 0 && y < Height;
 
     /// <summary>

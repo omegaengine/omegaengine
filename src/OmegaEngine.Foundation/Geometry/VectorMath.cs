@@ -67,6 +67,7 @@ public static class VectorMath
     /// <param name="axis">The axis to rotate around.</param>
     /// <param name="rotation">The angle to rotate by in degrees.</param>
     /// <returns>The rotated <see cref="DoubleVector3"/>.</returns>
+    [Pure]
     public static DoubleVector3 RotateAroundAxis(this DoubleVector3 value, DoubleVector3 axis, double rotation)
     {
         double phi = rotation.DegreeToRadian();

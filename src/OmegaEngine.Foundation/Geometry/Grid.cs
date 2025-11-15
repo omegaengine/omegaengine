@@ -7,6 +7,7 @@
  */
 
 using System.ComponentModel;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -51,6 +52,7 @@ public abstract class Grid<T>(T[,] data)
     /// <summary>
     /// Reads a value in the grid and automatically clamps out of bound values of <paramref name="x"/> or <paramref name="y"/>.
     /// </summary>
+    [Pure]
     public T ClampedRead(int x, int y) => Data[x.Clamp(0, Data.GetUpperBound(0)), y.Clamp(0, Data.GetUpperBound(1))];
 
     /// <summary>

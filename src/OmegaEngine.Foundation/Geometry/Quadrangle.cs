@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Globalization;
 using OmegaEngine.Foundation.Design;
@@ -92,6 +93,7 @@ public readonly struct Quadrangle(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4
     /// </summary>
     /// <param name="distance">This value is added to each corner position.</param>
     /// <returns>The shifted <see cref="Quadrangle"/>.</returns>
+    [Pure]
     public Quadrangle Offset(Vector2 distance) => new(
         P1 + distance, P2 + distance,
         P3 + distance, P4 + distance);
@@ -101,6 +103,7 @@ public readonly struct Quadrangle(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4
     /// </summary>
     /// <param name="rotation">The angle to rotate by in degrees.</param>
     /// <returns>The rotated <see cref="Quadrangle"/>.</returns>
+    [Pure]
     public Quadrangle Rotate(float rotation) => new(
         P1.Rotate(rotation), P2.Rotate(rotation),
         P3.Rotate(rotation), P4.Rotate(rotation));
