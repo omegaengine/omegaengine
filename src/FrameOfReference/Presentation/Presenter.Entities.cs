@@ -215,7 +215,6 @@ partial class Presenter
     {
         particleSystem.Name = entity.Name;
         particleSystem.PreTransform = Matrix.Translation(component.Shift);
-        particleSystem.VisibilityDistance = component.VisibilityDistance;
         particleSystem.Wireframe = WireframeEntities;
         particleSystem.DrawBoundingSphere = BoundingSphereEntities;
         particleSystem.DrawBoundingBox = BoundingBoxEntities;

@@ -33,11 +33,4 @@ public abstract class ParticleSystem : Render
             value += $": {Filename}";
         return value;
     }
-
-    /// <summary>
-    /// How far this particle system should be visible.
-    /// </summary>
-    [DefaultValue(0f), Description("How far this particle system should be visible.")]
-    [XmlAttribute]
-    public float VisibilityDistance { get; set; }
 }

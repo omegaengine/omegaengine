@@ -36,9 +36,6 @@ public class CpuParticleSystem : PositionableRenderable
     /// <summary>A free-list of <see cref="CpuParticle"/>s to be reused</summary>
     private readonly Stack<CpuParticle> _deadParticles = new();
 
-    /// <summary>The last <see cref="Camera"/> <see cref="Render"/> was called with</summary>
-    private Camera? _lastCamera;
-
     private VertexBuffer _vb;
     private XMaterial _material1, _material2;
     #endregion
@@ -116,7 +113,6 @@ public class CpuParticleSystem : PositionableRenderable
     /// </summary>
     private void Update()
     {
-        float lodFactor = GetLodFactor();
         double elapsedTime = GetElapsedTime();
 
         using (new ProfilerEvent("Update particles"))
@@ -124,10 +120,10 @@ public class CpuParticleSystem : PositionableRenderable
             // Update in intervals to increase accuracy
             while (elapsedTime > 0.06f)
             {
-                UpdateParticles(0.06f, lodFactor);
+                UpdateParticles(0.06f);
                 elapsedTime -= 0.06f;
             }
-            UpdateParticles((float)elapsedTime, lodFactor);
+            UpdateParticles((float)elapsedTime);
         }
     }
 
@@ -142,16 +138,6 @@ public class CpuParticleSystem : PositionableRenderable
         float maxStep = Preset.WarmupTime.Clamp(0, 0.2f);
         return (Math.Abs(Engine.LastFrameGameTime) * Preset.Speed).Clamp(0, maxStep);
     }
-
-    private float GetLodFactor()
-    {
-        if (VisibilityDistance > 0 && _lastCamera != null)
-        {
-            float distanceToFade = VisibilityDistance - (float)(PreTransformedPosition - _lastCamera.Position).Length();
-            return (distanceToFade * distanceToFade) / (VisibilityDistance * VisibilityDistance);
-        }
-        else return 1;
-    }
     #endregion
 
     #region Update particles
@@ -161,16 +147,15 @@ public class CpuParticleSystem : PositionableRenderable
     /// Updates all particles in the system
     /// </summary>
     /// <param name="elapsedTime">How many seconds have passed since the last call of this function</param>
-    /// <param name="lodFactor">A factor by which sizes and spawn-rates are multiplied for level-of-detail purposes</param>
-    private void UpdateParticles(float elapsedTime, float lodFactor)
+    private void UpdateParticles(float elapsedTime)
     {
         UpdateFirstLifeParticles(elapsedTime);
         UpdateSecondLifeParticles(elapsedTime);
 
         // Don't add new particles if the maximum amount has been reached
-        if (_firstLifeParticles.Count + _secondLifeParticles.Count >= Preset.MaxParticles * lodFactor) return;
+        if (_firstLifeParticles.Count + _secondLifeParticles.Count >= Preset.MaxParticles) return;
 
-        SpawnNewParticles(elapsedTime, lodFactor);
+        SpawnNewParticles(elapsedTime);
     }
 
     private void UpdateFirstLifeParticles(float elapsedTime)
@@ -217,14 +202,14 @@ public class CpuParticleSystem : PositionableRenderable
         });
     }
 
-    private void SpawnNewParticles(float elapsedTime, float lodFactor)
+    private void SpawnNewParticles(float elapsedTime)
     {
         // Use a float buffer so that decimals don't get lost
-        _newParticlesBuffer += elapsedTime * Preset.SpawnRate * lodFactor;
+        _newParticlesBuffer += elapsedTime * Preset.SpawnRate;
         while (_newParticlesBuffer >= 1)
         {
             _newParticlesBuffer--;
-            AddParticle(1 / (float)Math.Sqrt(lodFactor - 0.05f));
+            AddParticle(1 / (float)Math.Sqrt(0.975f));
         }
     }
     #endregion
@@ -408,8 +393,6 @@ public class CpuParticleSystem : PositionableRenderable
     internal override void Render(Camera camera, GetLights? getLights = null)
     {
         base.Render(camera, getLights);
-
-        _lastCamera = camera;
 
         // Reload textures when they change
         if (Preset.TexturesDirty) UpdateSpriteTextures();
