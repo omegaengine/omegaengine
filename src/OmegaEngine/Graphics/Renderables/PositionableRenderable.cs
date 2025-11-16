@@ -335,20 +335,12 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         #endregion
 
         // Auto-adapt the rotation for billboarding
-        switch (Billboard)
+        (Billboard switch
         {
-            case BillboardMode.Spherical:
-                _internalRotation = camera.SphericalBillboard;
-                WorldTransformDirty = true;
-                break;
-            case BillboardMode.Cylindrical:
-                _internalRotation = camera.CylindricalBillboard;
-                WorldTransformDirty = true;
-                break;
-            default:
-                Matrix.Identity.To(ref _internalRotation, ref WorldTransformDirty);
-                break;
-        }
+            BillboardMode.Spherical => camera.SphericalBillboard,
+            BillboardMode.Cylindrical => camera.CylindricalBillboard,
+            _ => Matrix.Identity
+        }).To(ref _internalRotation, ref WorldTransformDirty);
 
         // Only allow the visualization of bounding bodies in normal view
         if (SurfaceEffect < SurfaceEffect.Glow)
