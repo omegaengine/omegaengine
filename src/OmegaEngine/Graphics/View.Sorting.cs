@@ -73,34 +73,6 @@ partial class View
     private readonly List<PositionableRenderable> _sortedOpaqueBodies = new(30); // Use educated guess for list capacity
     #endregion
 
-    #region Sorting algorithms
-    /// <summary>
-    /// The difference between the distance of <paramref name="body1"/> and <paramref name="body2"/> to the camera
-    /// </summary>
-    /// <returns>The inverted difference value usable for sorting</returns>
-    private static int CameraDistSort(PositionableRenderable body1, PositionableRenderable body2)
-    {
-        double distance = body1.CurrentCameraDistance - body2.CurrentCameraDistance;
-
-        if (distance > int.MaxValue - 1) return int.MaxValue;
-        if (distance < int.MinValue + 2) return int.MinValue + 1;
-        return (int)distance;
-    }
-
-    /// <summary>
-    /// The difference between the distance of <paramref name="body2"/> and <paramref name="body1"/> to the camera
-    /// </summary>
-    /// <returns>The difference value usable for sorting</returns>
-    private static int CameraDistSortInv(PositionableRenderable body1, PositionableRenderable body2)
-    {
-        double distance = body2.CurrentCameraDistance - body1.CurrentCameraDistance;
-
-        if (distance > int.MaxValue - 1) return int.MaxValue;
-        if (distance < int.MinValue + 2) return int.MinValue + 1;
-        return (int)distance;
-    }
-    #endregion
-
     /// <summary>
     /// Sort the content of <see cref="OmegaEngine.Graphics.Scene.Positionables"/> into multiple cache lists
     /// </summary>
@@ -138,8 +110,9 @@ partial class View
         }
 
         // Sort the bodies near-to-far (or the other way round if culling is inverted)
-        _sortedBodies.Sort(InvertCull ? CameraDistSortInv : CameraDistSort);
-        _sortedTerrains.Sort(InvertCull ? CameraDistSortInv : CameraDistSort);
+        var comparer = new DistanceComparer(Camera, InvertCull);
+        _sortedBodies.Sort(comparer);
+        _sortedTerrains.Sort(comparer);
         #endregion
 
         #region Distribute bodies among specialized lists
@@ -155,7 +128,7 @@ partial class View
         }
 
         // Terrains need to be part of the normal bodies list, just placed at the end, due to special sorting
-        _sortedTerrains.ForEach(terrain => _sortedBodies.Add(terrain));
+        _sortedBodies.AddRange(_sortedTerrains);
         #endregion
     }
 }

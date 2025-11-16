@@ -182,7 +182,6 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     protected virtual void RecalcWorldTransform()
     {
         _effectivePosition = Position.ApplyOffset(((IPositionableOffset)this).Offset);
-        _currentCameraDistance = _effectivePosition.Length();
 
         // Calculate transformation matrices
         _worldTransform = _preTransform * Matrix.Scaling(_scale) * _internalRotation * Matrix.RotationQuaternion(Rotation) * Matrix.Translation(_effectivePosition);
@@ -237,21 +236,6 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         {
             if (WorldTransformDirty) RecalcWorldTransform();
             return _inverseWorldTransform;
-        }
-    }
-
-    private double _currentCameraDistance;
-
-    /// <summary>
-    /// The body's current distance to <see cref="View.Camera"/> calculated from <see cref="IPositionableOffset.EffectivePosition"/>
-    /// </summary>
-    /// <remarks>Constantly changes based on the values set for <see cref="IPositionableOffset.EffectivePosition"/></remarks>
-    internal double CurrentCameraDistance
-    {
-        get
-        {
-            if (WorldTransformDirty) RecalcWorldTransform();
-            return _currentCameraDistance;
         }
     }
     #endregion
