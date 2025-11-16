@@ -76,12 +76,6 @@ public abstract class Renderable : EngineElement, IResetable
     public bool Wireframe { get; set; }
 
     /// <summary>
-    /// The maximum distance from which the entity is visible - 0 for infinite
-    /// </summary>
-    [DefaultValue(0f), Description("The maximum distance from which the entity is visible - 0 for infinite"), Category("Behavior")]
-    public float VisibilityDistance { get; set; }
-
-    /// <summary>
     /// The level of transparency from 0 (solid) to 255 (invisible),
     /// <see cref="OmegaEngine.EngineState.AlphaChannel"/>, <see cref="OmegaEngine.EngineState.BinaryAlphaChannel"/> or <see cref="OmegaEngine.EngineState.AdditivBlending"/>
     /// </summary>

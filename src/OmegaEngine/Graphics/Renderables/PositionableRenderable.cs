@@ -482,14 +482,6 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         if (WorldBoundingBox.HasValue && !camera.InFrustum(WorldBoundingBox.Value))
             return false;
 
-        // Filter bodies that are too far away
-        if (VisibilityDistance > 0)
-        {
-            double distance = (Position - camera.Position).Length();
-            if (distance > VisibilityDistance)
-                return false;
-        }
-
         // All tests passed
         return true;
     }
