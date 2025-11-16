@@ -466,23 +466,20 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     /// <returns><c>true</c> if the object is visible.</returns>
     /// <seealso cref="Cameras.Camera.InFrustum(SlimDX.BoundingSphere)"/>
     /// <seealso cref="Cameras.Camera.InFrustum(SlimDX.BoundingBox)"/>
-    public bool IsVisible(Camera camera)
+    internal bool IsVisible(Camera camera)
     {
         #region Sanity checks
         if (camera == null) throw new ArgumentNullException(nameof(camera));
         #endregion
 
-        // Filter invisible bodies
         if (!Visible || Alpha == EngineState.Invisible)
             return false;
 
-        // Frustum-culling
-        if (WorldBoundingSphere.HasValue && !camera.InFrustum(WorldBoundingSphere.Value))
+        if (WorldBoundingSphere is {} sphere && !camera.InFrustum(sphere))
             return false;
-        if (WorldBoundingBox.HasValue && !camera.InFrustum(WorldBoundingBox.Value))
+        if (WorldBoundingBox is {} box && !camera.InFrustum(box))
             return false;
 
-        // All tests passed
         return true;
     }
     #endregion
