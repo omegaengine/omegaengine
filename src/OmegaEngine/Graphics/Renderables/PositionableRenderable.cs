@@ -64,7 +64,7 @@ public enum BillboardMode
     /// <summary>Apply a spherical billboarding effect (object will always face the camera)</summary>
     Spherical,
 
-    /// <summary>Apply a spherical cylindrical effect (object's X axis will always face the camera)</summary>
+    /// <summary>Apply a cylindrical billboarding effect (object's X axis will always face the camera)</summary>
     Cylindrical
 };
 #endregion
