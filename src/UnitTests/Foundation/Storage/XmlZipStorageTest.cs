@@ -10,10 +10,9 @@ using System.IO;
 using FluentAssertions;
 using ICSharpCode.SharpZipLib.Zip;
 using NanoByte.Common.Storage;
-using OmegaEngine.Foundation.Storage;
 using Xunit;
 
-namespace OmegaEngine.Storage;
+namespace OmegaEngine.Foundation.Storage;
 
 /// <summary>
 /// Contains test methods for <see cref="XmlZipStorage"/>.
