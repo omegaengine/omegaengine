@@ -6,6 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Linq;
 using SlimDX;
 
@@ -109,5 +110,18 @@ partial class Camera
         return _viewFrustum.All(plane => BoundingBox.Intersects(boundingBox, plane) != PlaneIntersectionType.Back);
 
         // Otherwise the object is at least partially visible
+    }
+
+    /// <summary>
+    /// Checks whether a <see cref="BoundingSphere"/> would appear at least 1 pixel in diameter
+    /// </summary>
+    internal bool AtLeastOnePixelWide(BoundingSphere boundingSphere)
+    {
+        double distanceToCamera = (boundingSphere.Center - PositionCached.ApplyOffset(PositionBaseCached)).Length();
+        if (distanceToCamera <= boundingSphere.Radius) return true;
+
+        double angularDiameter = 2 * Math.Asin(boundingSphere.Radius / distanceToCamera);
+        double pixelDiameter = angularDiameter * _size.Width / _fieldOfView;
+        return pixelDiameter >= 1.0;
     }
 }
