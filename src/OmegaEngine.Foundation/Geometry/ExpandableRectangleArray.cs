@@ -25,17 +25,7 @@ public class ExpandableRectangleArray<T>
     /// </summary>
     public Rectangle TotalArea { get; private set; }
 
-    private struct Subset
-    {
-        public readonly Point Start;
-        public readonly T[,] Array;
-
-        public Subset(Point start, T[,] array)
-        {
-            Start = start;
-            Array = array;
-        }
-    }
+    private readonly record struct Subset(Point Start, T[,] Array);
 
     /// <summary>Maintains a list of all <see cref="Subset"/>s inserted so far.</summary>
     private readonly LinkedList<Subset> _subsets = [];
