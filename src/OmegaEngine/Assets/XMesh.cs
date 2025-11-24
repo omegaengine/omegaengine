@@ -45,12 +45,12 @@ public class XMesh : Asset
     /// <summary>
     /// A bounding sphere surrounding this mesh
     /// </summary>
-    public BoundingSphere BoundingSphere { get; }
+    public BoundingSphere? BoundingSphere { get; }
 
     /// <summary>
     /// A bounding box surrounding this mesh
     /// </summary>
-    public BoundingBox BoundingBox { get; }
+    public BoundingBox? BoundingBox { get; }
     #endregion
 
     #region Constructor
@@ -88,6 +88,10 @@ public class XMesh : Asset
         // Calculate bounding bodies before manipulating the mesh
         BoundingSphere = BufferHelper.ComputeBoundingSphere(Mesh);
         BoundingBox = BufferHelper.ComputeBoundingBox(Mesh);
+
+        // Heuristic for discarding invalid bounding bodies
+        if (BoundingSphere.Value.Radius < 0.01) BoundingSphere = null;
+        if ((BoundingBox.Value.Maximum - BoundingBox.Value.Minimum).Length() < 0.01) BoundingBox = null;
 
         try
         {
