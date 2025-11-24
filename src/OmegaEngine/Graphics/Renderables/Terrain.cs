@@ -54,13 +54,13 @@ public partial class Terrain : Model
     /// A factor by which the terrain is horizontally stretched
     /// </summary>
     [Description("A factor by which the terrain is horizontally stretched"), Category("Layout")]
-    public float StretchH { get; private set; }
+    public float StretchH { get; private init; }
 
     /// <summary>
     /// A factor by which the terrain is vertically stretched
     /// </summary>
     [Description(" A factor by which the terrain is vertically stretched"), Category("Layout")]
-    public float StretchV { get; private set; }
+    public float StretchV { get; private init; }
     #endregion
 
     #region Transform results

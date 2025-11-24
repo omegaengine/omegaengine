@@ -45,12 +45,12 @@ public class XMesh : Asset
     /// <summary>
     /// A bounding sphere surrounding this mesh
     /// </summary>
-    public BoundingSphere BoundingSphere { get; protected set; }
+    public BoundingSphere BoundingSphere { get; }
 
     /// <summary>
     /// A bounding box surrounding this mesh
     /// </summary>
-    public BoundingBox BoundingBox { get; protected set; }
+    public BoundingBox BoundingBox { get; }
     #endregion
 
     #region Constructor

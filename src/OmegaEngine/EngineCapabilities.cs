@@ -184,7 +184,7 @@ public sealed class EngineCapabilities
     /// <summary>
     /// The maximum shader model version to be used (2.a is replaced by 2.0.1, 2.b is replaced by 2.0.2)
     /// </summary>
-    public Version MaxShaderModel { get; private set; }
+    public Version MaxShaderModel { get; }
 
     /// <summary>
     /// Does the hardware the engine is running on support per-pixel effects?
