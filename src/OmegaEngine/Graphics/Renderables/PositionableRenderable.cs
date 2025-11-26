@@ -318,26 +318,34 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         if (camera == null) throw new ArgumentNullException(nameof(camera));
         #endregion
 
-        // Auto-adapt the rotation for billboarding
-        (Billboard switch
-        {
-            BillboardMode.Spherical => camera.SphericalBillboard,
-            BillboardMode.Cylindrical => camera.CylindricalBillboard,
-            _ => Matrix.Identity
-        }).To(ref _internalRotation, ref WorldTransformDirty);
+        UpdateInternalTransformations(camera);
 
-        // Only allow the visualization of bounding bodies in normal view
         if (SurfaceEffect < SurfaceEffect.Glow)
-        {
-            if (DrawBoundingSphere && WorldBoundingSphere.HasValue) Engine.DrawBoundingSphere(WorldBoundingSphere.Value);
-            if (DrawBoundingBox && WorldBoundingBox.HasValue) Engine.DrawBoundingBox(WorldBoundingBox.Value);
-        }
+            DrawBoundingBodies();
 
         // Fall back to plain rendering if lighting is disabled
         if (getLights == null && SurfaceEffect is SurfaceEffect.FixedFunction or SurfaceEffect.Shader)
             SurfaceEffect = SurfaceEffect.Plain;
 
         base.Render(camera, getLights);
+    }
+
+    private void UpdateInternalTransformations(Camera camera)
+    {
+        var internalRotation = Matrix.Identity;
+
+        if (Billboard == BillboardMode.Spherical)
+            internalRotation *= camera.SphericalBillboard;
+        if (Billboard == BillboardMode.Cylindrical)
+            internalRotation *= camera.CylindricalBillboard;
+
+        internalRotation.To(ref _internalRotation, ref WorldTransformDirty);
+    }
+
+    private void DrawBoundingBodies()
+    {
+        if (DrawBoundingSphere && WorldBoundingSphere is {} sphere) Engine.DrawBoundingSphere(sphere);
+        if (DrawBoundingBox && WorldBoundingBox is {} box) Engine.DrawBoundingBox(box);
     }
     #endregion
 
