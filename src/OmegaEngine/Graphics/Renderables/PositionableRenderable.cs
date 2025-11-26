@@ -76,8 +76,9 @@ public enum BillboardMode
 public abstract class PositionableRenderable : Renderable, IPositionableOffset
 {
     #region Variables
-    /// <summary>Used for billboarding and alignment-correction</summary>
-    private Matrix _internalRotation = Matrix.Identity;
+    private Matrix
+        _internalScalingAndRotation = Matrix.Identity,
+        _internalTranslation = Matrix.Identity;
 
     /// <summary>Does the world transform need to be recalculated?</summary>
     protected bool WorldTransformDirty = true;
@@ -125,6 +126,12 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     /// </summary>
     [DefaultValue(BillboardMode.None), Description("How this body shall be rotated towards the camera"), Category("Layout")]
     public BillboardMode Billboard { get; set; }
+
+    /// <summary>
+    /// Shall this object still be rendered, even if it is beyond the <see cref="Camera.FarClip"/> plane? (at the cost of incorrect Z-ordering)
+    /// </summary>
+    [DefaultValue(false), Description("Shall this object still be rendered, even if it is beyond the camera's far clip plane? (at the cost of incorrect Z-ordering)"), Category("Layout")]
+    public bool PreventFarClipping { get; set; }
     #endregion
 
     #region Transform factors
@@ -184,7 +191,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         _effectivePosition = Position.ApplyOffset(((IPositionableOffset)this).Offset);
 
         // Calculate transformation matrices
-        _worldTransform = _preTransform * Matrix.Scaling(_scale) * _internalRotation * Matrix.RotationQuaternion(Rotation) * Matrix.Translation(_effectivePosition);
+        _worldTransform = _preTransform * Matrix.Scaling(_scale) * _internalScalingAndRotation * Matrix.RotationQuaternion(Rotation) * Matrix.Translation(_effectivePosition) * _internalTranslation;
         _inverseWorldTransform = Matrix.Invert(_worldTransform);
 
         // Transform bounding bodies into world space
@@ -332,14 +339,30 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
 
     private void UpdateInternalTransformations(Camera camera)
     {
-        var internalRotation = Matrix.Identity;
+        var internalScalingAndRotation = Matrix.Identity;
+        var internalTranslation = Matrix.Identity;
+
+        if (PreventFarClipping)
+        {
+            float maxDistance = camera.FarClip - WorldBoundingSphere?.Radius ?? camera.FarClip * 0.1f;
+            var relativePosition = camera.Position.ApplyOffset(Position);
+
+            float distanceFromCamera = relativePosition.Length();
+            if (distanceFromCamera > maxDistance)
+            {
+                float ratio = maxDistance / distanceFromCamera;
+                internalTranslation *= Matrix.Translation(relativePosition * (1.0f - ratio));
+                internalScalingAndRotation *= Matrix.Scaling(new(ratio));
+            }
+        }
 
         if (Billboard == BillboardMode.Spherical)
-            internalRotation *= camera.SphericalBillboard;
+            internalScalingAndRotation *= camera.SphericalBillboard;
         if (Billboard == BillboardMode.Cylindrical)
-            internalRotation *= camera.CylindricalBillboard;
+            internalScalingAndRotation *= camera.CylindricalBillboard;
 
-        internalRotation.To(ref _internalRotation, ref WorldTransformDirty);
+        internalScalingAndRotation.To(ref _internalScalingAndRotation, ref WorldTransformDirty);
+        internalTranslation.To(ref _internalTranslation, ref WorldTransformDirty);
     }
 
     private void DrawBoundingBodies()
@@ -486,10 +509,12 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         if (WorldBoundingSphere is {} sphere)
         {
             if (!camera.AtLeastOnePixelWide(sphere)) return false;
-            if (!camera.InFrustum(sphere)) return false;
+            if (!PreventFarClipping && !camera.InFrustum(sphere)) return false;
         }
-        if (WorldBoundingBox is {} box && !camera.InFrustum(box))
-            return false;
+        if (WorldBoundingBox is {} box)
+        {
+            if (!PreventFarClipping && !camera.InFrustum(box)) return false;
+        }
 
         return true;
     }
