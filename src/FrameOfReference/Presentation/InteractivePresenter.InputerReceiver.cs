@@ -107,10 +107,6 @@ partial class InteractivePresenter
     /// <inheritdoc/>
     public virtual void Click(MouseEventArgs e, bool accumulate)
     {
-        #region Sanity checks
-        if (e == null) throw new ArgumentNullException(nameof(e));
-        #endregion
-
         // Determine the Engine object the user clicked on
         if (View.Pick(e.Location, out var intersectPosition) is not {} pickedObject) return;
 
@@ -147,17 +143,8 @@ partial class InteractivePresenter
     /// <inheritdoc/>
     public virtual void DoubleClick(MouseEventArgs e)
     {
-        #region Sanity checks
-        if (e == null) throw new ArgumentNullException(nameof(e));
-        #endregion
-
-        // Each swing must complete before the next one can start
-        if (View.Camera is CinematicCamera) return;
-
-        // Determine the Engine object the user clicked on
-        if (View.Pick(e.Location, out _) is not {} pickedObject) return;
-
-        if (pickedObject is not OmegaEngine.Graphics.Renderables.Terrain)
+        if (View.Camera is CinematicCamera
+         && View.Pick(e.Location, out _) is {} pickedObject and not OmegaEngine.Graphics.Renderables.Terrain)
             SwingCameraTo(pickedObject);
     }
 }
