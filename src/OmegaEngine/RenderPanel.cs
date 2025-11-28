@@ -71,7 +71,7 @@ public class RenderPanel : TouchPanel
     {
         _renderTimer.Tick += delegate { Engine?.Render(); };
 
-        // Constantly steal focus so the scrool wheel will work
+        // Constantly steal focus so the scroll wheel will work
         MouseMove += delegate { Focus(); };
     }
     #endregion

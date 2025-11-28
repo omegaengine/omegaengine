@@ -92,7 +92,7 @@ public class MouseInputProvider : InputProvider
 
         _pressed = true;
 
-        // Cancle active selections when additional become pressed
+        // Cancel active selections when additional become pressed
         if (_moving)
         {
             bool accumulate = Control.ModifierKeys.HasFlag(Keys.Control);
@@ -160,10 +160,10 @@ public class MouseInputProvider : InputProvider
         }
         #endregion
 
-        #region Infinte panning
+        #region Infinite panning
         if (_cursorFrozen)
         {
-            // Prevent infinte recursion
+            // Prevent infinite recursion
             _ignoreMouseMove = true;
 
             // Snap back to original position

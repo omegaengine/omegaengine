@@ -12,7 +12,7 @@ using System.Windows.Forms;
 namespace OmegaEngine.Input;
 
 /// <summary>
-/// An object that receives input procesed into navigational commands from an <see cref="InputProvider"/>.
+/// An object that receives input processed into navigational commands from an <see cref="InputProvider"/>.
 /// </summary>
 public interface IInputReceiver
 {
