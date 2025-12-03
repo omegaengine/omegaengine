@@ -64,7 +64,7 @@ public class Waypoint : Positionable<Vector2>
     /// The <see cref="IUniverse.GameTime"/> when <see cref="Positionables.Entity"/>s reach this waypoint.
     /// Set automatically by <see cref="Universe.HandleWaypoints"/>.
     /// </summary>
-    [ReadOnly(true)]
+    [ReadOnly(true), Description("The game time when entities reach this waypoint.")]
     public double ArrivalTime
     {
         get => _arrivalTime;
@@ -87,7 +87,7 @@ public class Waypoint : Positionable<Vector2>
     /// The position where an <see cref="Positionables.Entity"/> walking towards this waypoint started off.
     /// Set automatically by <see cref="Universe.HandleWaypoints"/>.
     /// </summary>
-    [ReadOnly(true)]
+    [ReadOnly(true), Description("The position where an entity walking towards this waypoint started off.")]
     public Vector2 OriginPosition
     {
         get => _originPosition;
