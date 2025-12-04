@@ -80,7 +80,7 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
             foreach (var asset in _preCachedAssets) asset.HoldReference();
         }
 
-        _selectionsSync.Register<Entity, PositionableRenderable>(GetSelectionHighlighting, UpdateRepresentationShifted);
+        _selectionsSync.RegisterMultiple<Entity, PositionableRenderable>(GetSelectionHighlighting, UpdateRepresentationShifted);
         _selectionsSync.Initialize();
     }
 
@@ -143,7 +143,7 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
     /// Adds the selection highlighting for a <see cref="EntityBase{TCoordinates,TTemplate}"/>
     /// </summary>
     /// <param name="entity">The <see cref="EntityBase{TCoordinates,TTemplate}"/> to add the selection highlighting for</param>
-    private Model? GetSelectionHighlighting(Entity entity)
+    private IEnumerable<Model> GetSelectionHighlighting(Entity entity)
     {
         switch (entity.TemplateData?.Collision)
         {
@@ -157,7 +157,7 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
                 };
                 float scale = circle.Radius / 20 + 1;
                 highlight.PreTransform = Matrix.Scaling(scale, 1, scale);
-                return highlight;
+                return [highlight];
             }
 
             case Box box:
@@ -179,11 +179,11 @@ public abstract partial class InteractivePresenter : Presenter, IInputReceiver
                 var diff = max - min;
 
                 highlight.PreTransform = Matrix.Scaling(diff.X, 1, diff.Y) * Matrix.Translation(min.X, 0, -min.Y);
-                return highlight;
+                return [highlight];
             }
 
             default:
-                return null;
+                return [];
         }
     }
 
