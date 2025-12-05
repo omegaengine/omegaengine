@@ -151,7 +151,7 @@ public class XMesh : Asset
                         // Glow map
                         string glowFilename = $"{baseFilename}_glow{fileExt}";
                         if (ContentManager.FileExists("Meshes", glowFilename))
-                            Materials[i].GlowMap = XTexture.Get(engine, glowFilename, meshTexture: true);
+                            Materials[i].EmissiveMap ??= Materials[i].GlowMap = XTexture.Get(engine, glowFilename, meshTexture: true);
                         #endregion
                     }
 
