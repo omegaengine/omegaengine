@@ -139,10 +139,15 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     /// <inheritdoc/>
     public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)
     {
+        // Adapt panning speed based on view frustum size
+        double panFactor = 1.0f / Math.Max(Size.Width, Size.Height);
+        double x = panX * panFactor;
+        double y = panY * panFactor;
+
         Target += new DoubleVector3(
-            panX * -Math.Cos(_horizontalRotation),
-            panY,
-            panX * Math.Sin(_horizontalRotation)) * Radius;
+            x * -Math.Cos(_horizontalRotation),
+            y,
+            x * Math.Sin(_horizontalRotation)) * Radius;
 
         Radius *= zoom;
         HorizontalRotation += rotation;

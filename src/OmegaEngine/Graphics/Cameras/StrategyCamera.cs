@@ -176,8 +176,11 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     /// <inheritdoc/>
     public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)
     {
-        double x = panX * Radius;
-        double y = panY * Radius;
+        // Adapt panning speed based on view frustum size
+        double panFactor = 1.0f / Math.Max(Size.Width, Size.Height);
+        double x = panX * panFactor * Radius;
+        double y = panY * panFactor * Radius;
+
         Target += new DoubleVector3(
             Math.Sin(_horizontalRotation) * y - Math.Cos(_horizontalRotation) * x,
             0,
