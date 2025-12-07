@@ -20,7 +20,6 @@ namespace OmegaEngine.Input;
 /// </remarks>
 public class KeyboardInputProvider : InputProvider
 {
-    #region Variables
     /// <summary>The key on the keyboard that is currently pressed.</summary>
     private Keys _pressedKey = Keys.None;
 
@@ -29,9 +28,7 @@ public class KeyboardInputProvider : InputProvider
 
     /// <summary>A timer that continuously raises events while a key is kept pressed.</summary>
     private readonly Timer _timerKeyboard = new() {Interval = 10};
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Starts monitoring and processing keyboard events received by a specific control.
     /// </summary>
@@ -46,11 +43,7 @@ public class KeyboardInputProvider : InputProvider
 
         _timerKeyboard.Tick += Tick;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Event handlers
     private void KeyDown(object sender, KeyEventArgs e)
     {
         // Only process one key at a time
@@ -93,11 +86,7 @@ public class KeyboardInputProvider : InputProvider
             _pressedKey = Keys.None;
         }
     }
-    #endregion
 
-    //--------------------//
-
-    #region Dispose
     /// <inheritdoc/>
     protected override void Dispose(bool disposing)
     {
@@ -110,5 +99,4 @@ public class KeyboardInputProvider : InputProvider
             _timerKeyboard.Tick -= Tick;
         }
     }
-    #endregion
 }

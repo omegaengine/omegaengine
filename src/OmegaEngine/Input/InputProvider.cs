@@ -18,20 +18,13 @@ namespace OmegaEngine.Input;
 /// </summary>
 public abstract class InputProvider : IDisposable
 {
-    #region Variables
     private readonly ICollection<IInputReceiver> _receivers = new LinkedList<IInputReceiver>();
-    #endregion
 
-    #region Properties
     /// <summary>
     /// Indicates whether this handler currently has <see cref="IInputReceiver"/> attached to it.
     /// </summary>
     public bool HasReceivers => _receivers.Count != 0;
-    #endregion
 
-    //--------------------//
-
-    #region Receiver registration
     /// <summary>
     /// Adds an object that wishes to be notified about navigational commands that are triggered by input.
     /// </summary>
@@ -57,9 +50,7 @@ public abstract class InputProvider : IDisposable
 
         _receivers.Remove(receiver);
     }
-    #endregion
 
-    #region Event invokers
     /// <summary>
     /// Raises all registered <see cref="IInputReceiver.PerspectiveChange"/>s.
     /// </summary>
@@ -114,11 +105,7 @@ public abstract class InputProvider : IDisposable
         foreach (var receiver in _receivers)
             receiver.DoubleClick(e);
     }
-    #endregion
 
-    //--------------------//
-
-    #region Dispose
     /// <inheritdoc/>
     public void Dispose()
     {
@@ -137,5 +124,4 @@ public abstract class InputProvider : IDisposable
     /// </summary>
     /// <param name="disposing"><c>true</c> if called manually and not by the garbage collector.</param>
     protected abstract void Dispose(bool disposing);
-    #endregion
 }

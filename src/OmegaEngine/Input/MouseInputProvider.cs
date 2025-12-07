@@ -23,14 +23,11 @@ namespace OmegaEngine.Input;
 /// </remarks>
 public class MouseInputProvider : InputProvider
 {
-    #region Constants
     /// <summary>
     /// The number of pixels the mouse may move while pressed to still be considered a click.
     /// </summary>
     public const int ClickAccuracy = 10;
-    #endregion
 
-    #region Variables
     /// <summary>The control receiving the mouse events.</summary>
     private readonly Control _control;
 
@@ -55,16 +52,12 @@ public class MouseInputProvider : InputProvider
 
     /// <summary>Don't execute <see cref="MouseMove"/>.</summary>
     private bool _ignoreMouseMove;
-    #endregion
 
-    #region Properties
     /// <summary>
     /// Invert the mouse axes.
     /// </summary>
     public bool InvertMouse { get; set; }
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Starts monitoring and processing mouse events received by a specific control.
     /// </summary>
@@ -81,11 +74,7 @@ public class MouseInputProvider : InputProvider
         _control.MouseDoubleClick += MouseDoubleClick;
         // Note: _control.MouseClick is useless since on a render target without any child controls even drags would be considered clicks
     }
-    #endregion
 
-    //--------------------//
-
-    #region Event handlers
     private void MouseDown(object sender, MouseEventArgs e)
     {
         if (!HasReceivers) return;
@@ -114,7 +103,6 @@ public class MouseInputProvider : InputProvider
         OnHover(e.Location);
         if (!_pressed) return;
 
-        #region Delta
         // Calculate movement delta
         var delta = new Point(e.X - _lastMouseLoc.X, e.Y - _lastMouseLoc.Y);
 
@@ -130,11 +118,9 @@ public class MouseInputProvider : InputProvider
                 UpdateCursorFreezing();
             }
         }
-        #endregion
 
         bool accumulate = Control.ModifierKeys.HasFlag(Keys.Control);
 
-        #region Events
         switch (Control.MouseButtons)
         {
             case MouseButtons.Left:
@@ -158,9 +144,7 @@ public class MouseInputProvider : InputProvider
                 OnPerspectiveChange(new(), InvertMouse ? -delta.X : delta.X, delta.Y);
                 break;
         }
-        #endregion
 
-        #region Infinite panning
         if (_cursorFrozen)
         {
             // Prevent infinite recursion
@@ -173,7 +157,6 @@ public class MouseInputProvider : InputProvider
             _ignoreMouseMove = false;
         }
         else _lastMouseLoc = e.Location;
-        #endregion
 
         Application.DoEvents();
     }
@@ -226,9 +209,7 @@ public class MouseInputProvider : InputProvider
     {
         OnDoubleClick(e);
     }
-    #endregion
 
-    #region Cursor hiding
     /// <summary>Freeze/unfreeze and Hide/show and the cursor as appropriate</summary>
     private void UpdateCursorFreezing()
     {
@@ -252,11 +233,7 @@ public class MouseInputProvider : InputProvider
             }
         }
     }
-    #endregion
 
-    //--------------------//
-
-    #region Dispose
     /// <inheritdoc/>
     protected override void Dispose(bool disposing)
     {
@@ -270,5 +247,4 @@ public class MouseInputProvider : InputProvider
             _control.MouseDoubleClick -= MouseDoubleClick;
         }
     }
-    #endregion
 }
