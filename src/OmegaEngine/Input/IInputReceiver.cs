@@ -8,6 +8,7 @@
 
 using System.Drawing;
 using System.Windows.Forms;
+using OmegaEngine.Foundation.Geometry;
 
 namespace OmegaEngine.Input;
 
@@ -19,10 +20,9 @@ public interface IInputReceiver
     /// <summary>
     /// Called when the user changes the view perspective.
     /// </summary>
-    /// <param name="pan">Horizontal XY-panning in pixels.</param>
-    /// <param name="rotation">Horizontal rotation in pixels.</param>
-    /// <param name="zoom">Vertical zooming in pixels. Greater than 0 to zoom in; less than 0 to zoom out.</param>
-    void PerspectiveChange(Point pan, int rotation, int zoom);
+    /// <param name="translation">Movement in pixels. X = pan left-to-right, Y = pan top-to-bottom, Z = zoom / into screen</param>
+    /// <param name="rotation">Rotation in degrees. X = yaw clockwise, Y = pitch clockwise, Z = roll clockwise</param>
+    void PerspectiveChange(DoubleVector3 translation = default, DoubleVector3 rotation = default);
 
     /// <summary>
     /// Called when the user is hovering above a point on the screen.

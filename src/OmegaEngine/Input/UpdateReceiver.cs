@@ -9,6 +9,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using OmegaEngine.Foundation.Geometry;
 
 namespace OmegaEngine.Input;
 
@@ -29,7 +30,7 @@ public class UpdateReceiver : IInputReceiver
     }
 
     /// <inheritdoc/>
-    public void PerspectiveChange(Point pan, int rotation, int zoom)
+    public void PerspectiveChange(DoubleVector3 translation = default, DoubleVector3 rotation = default)
     {
         _update();
     }

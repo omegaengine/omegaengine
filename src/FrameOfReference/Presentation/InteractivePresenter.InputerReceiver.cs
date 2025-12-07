@@ -36,14 +36,8 @@ namespace FrameOfReference.Presentation;
 partial class InteractivePresenter
 {
     /// <inheritdoc/>
-    public void PerspectiveChange(Point pan, int rotation, int zoom)
-    {
-        View.Camera.PerspectiveChange(
-            panX: pan.X,
-            panY: pan.Y,
-            rotation: rotation / 2.0f,
-            zoom: (float)Math.Pow(1.1, zoom / 15.0));
-    }
+    public void PerspectiveChange(DoubleVector3 translation = default, DoubleVector3 rotation = default)
+        => View.Camera.PerspectiveChange(translation, rotation);
 
     /// <inheritdoc/>
     public virtual void Hover(Point target)

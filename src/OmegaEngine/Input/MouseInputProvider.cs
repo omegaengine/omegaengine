@@ -134,14 +134,14 @@ public class MouseInputProvider : InputProvider
                 if (_moving)
                 { // The mouse moved more than a click, so this is an active pan
                     // Linear panning (possibly inverted), no rotation, no zoom
-                    OnPerspectiveChange(InvertMouse ? new(-delta.X, -delta.Y) : delta, 0, 0);
+                    OnPerspectiveChange(translation: InvertMouse ? new(-delta.X, -delta.Y, 0) : new(delta.X, delta.Y, 0));
                 }
                 break;
 
             case MouseButtons.Middle:
             case MouseButtons.Left | MouseButtons.Right:
                 // No panning, linear rotation (possibly inverted), exponential zoom
-                OnPerspectiveChange(new(), InvertMouse ? -delta.X : delta.X, delta.Y);
+                OnPerspectiveChange(translation: new(0, 0, delta.Y), rotation: new(InvertMouse ? -delta.X : delta.X, 0, 0));
                 break;
         }
 
@@ -202,7 +202,7 @@ public class MouseInputProvider : InputProvider
         if (!HasReceivers) return;
 
         // No panning, no rotation, exponential zoom
-        OnPerspectiveChange(new(), 0, e.Delta / -4);
+        OnPerspectiveChange(translation: new(0, 0, e.Delta / -4.0), rotation: new());
     }
 
     private void MouseDoubleClick(object sender, MouseEventArgs e)

@@ -9,6 +9,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;
 
@@ -48,12 +49,9 @@ public partial class ParticleSystemEditor : UndoCommandTab, IInputReceiver
     #region View control
     protected override void OnInitialize() => renderPanel.AddInputReceiver(this);
 
-    void IInputReceiver.PerspectiveChange(Point pan, int rotation, int zoom)
+    void IInputReceiver.PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation)
     {
-        Camera.Radius *= (float)Math.Pow(1.1, zoom / 15.0);
-        Camera.VerticalRotation += pan.Y;
-        Camera.HorizontalRotation += (pan.X + rotation) / 2.0f;
-
+        Camera.PerspectiveChange(translation, rotation);
         renderPanel.Engine?.Render();
     }
 

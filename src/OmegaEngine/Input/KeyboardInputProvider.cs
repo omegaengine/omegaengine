@@ -71,16 +71,16 @@ public class KeyboardInputProvider : InputProvider
         switch (_pressedKey)
         {
             case Keys.Up:
-                OnPerspectiveChange(new(), 0, 7);
+                OnPerspectiveChange(translation: new(0, 0, 7));
                 break;
             case Keys.Down:
-                OnPerspectiveChange(new(), 0, -7);
+                OnPerspectiveChange(translation: new(0, 0, -7));
                 break;
             case Keys.Right:
-                OnPerspectiveChange(new(), 7, 0);
+                OnPerspectiveChange(rotation: new(7, 0, 0));
                 break;
             case Keys.Left:
-                OnPerspectiveChange(new(), -7, 0);
+                OnPerspectiveChange(rotation: new(-7, 0, 0));
                 break;
         }
     }
