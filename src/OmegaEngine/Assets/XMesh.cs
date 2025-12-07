@@ -320,7 +320,7 @@ public class XMesh : Asset
             if (disposing)
             { // This block will only be executed on manual disposal, not by Garbage Collection
                 Log.Info($"Disposing {this}");
-                Mesh?.Dispose();
+                Mesh.Dispose();
             }
         }
         finally
