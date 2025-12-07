@@ -66,12 +66,6 @@ public class CinematicCamera : QuaternionCamera
         ViewQuat = sourceQuat;
     }
 
-    /// <inheritdoc/>
-    public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)
-    {
-        // Ignore input while the animation is running
-    }
-
     /// <summary>
     /// Update cached versions of <see cref="View"/> and related matrices
     /// </summary>

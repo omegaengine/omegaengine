@@ -135,5 +135,6 @@ public abstract partial class Camera : IPositionable
     /// <param name="panY">The number of pixels panned along the Y-axis divided by the number of pixels of the longest side of the viewport.</param>
     /// <param name="rotation">Horizontal rotation in degrees.</param>
     /// <param name="zoom">Scaling factor; 1 for no change, must not be 0.</param>
-    public abstract void PerspectiveChange(float panX, float panY, float rotation, float zoom);
+    public virtual void PerspectiveChange(float panX, float panY, float rotation, float zoom)
+    {}
 }

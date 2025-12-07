@@ -23,12 +23,6 @@ public class CloneCamera(Camera parentCamera) : Camera
     [Description("The parent camera to track"), Category("Behavior")]
     public Camera ParentCamera { get; set; } = parentCamera;
 
-    /// <inheritdoc/>
-    public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)
-    {
-        // User input should never be routed here
-    }
-
     /// <summary>
     /// Update cached versions of <see cref="View"/> and related matrices
     /// </summary>
