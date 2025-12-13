@@ -21,37 +21,15 @@ public class MouseInputProvider : InputProvider
     /// <summary>
     /// The number of pixels the mouse may move while pressed to still be considered a click.
     /// </summary>
-    public const int ClickAccuracy = 10;
-
-    /// <summary>The control receiving the mouse events.</summary>
-    private readonly Control _control;
-
-    /// <summary>The original location of the mouse when the button was pressed.</summary>
-    private Point _origMouseLoc;
-
-    /// <summary>The location of the mouse the last time <see cref="Control.MouseMove"/> was raised.</summary>
-    private Point _lastMouseLoc;
-
-    /// <summary>The distance the mouse cursor has traveled since the button was pressed.</summary>
-    private Size _totalMouseDelta;
-
-    /// <summary>Was a <see cref="MouseDown"/> event received? If not, other mouse input should be ignored, since the event most likely was suppressed on purpose (handled by somebody else).</summary>
-    private bool _pressed;
-
-    /// <summary>Has the mouse been moved enough to decide this is no longer a click, but dragging?</summary>
-    /// <remarks>This is required since <see cref="Control.Click"/> cannot be used to reliably detect clicks on render targets.</remarks>
-    private bool _moving;
-
-    /// <summary>Freeze (and hide) the mouse cursor for infinite panning.</summary>
-    private bool _cursorFrozen;
-
-    /// <summary>Don't execute <see cref="MouseMove"/>.</summary>
-    private bool _ignoreMouseMove;
+    public int ClickAccuracy { get; set; } = 10;
 
     /// <summary>
     /// Invert the mouse axes.
     /// </summary>
     public bool InvertMouse { get; set; }
+
+    /// <summary>The control receiving the mouse events.</summary>
+    private readonly Control _control;
 
     /// <summary>
     /// Starts monitoring and processing mouse events received by a specific control.
@@ -69,6 +47,22 @@ public class MouseInputProvider : InputProvider
         _control.MouseDoubleClick += MouseDoubleClick;
         // Note: _control.MouseClick is useless since on a render target without any child controls even drags would be considered clicks
     }
+
+    /// <summary>The original location of the mouse when the button was pressed.</summary>
+    private Point _origMouseLoc;
+
+    /// <summary>The location of the mouse the last time <see cref="Control.MouseMove"/> was raised.</summary>
+    private Point _lastMouseLoc;
+
+    /// <summary>The distance the mouse cursor has traveled since the button was pressed.</summary>
+    private Size _totalMouseDelta;
+
+    /// <summary>Was a <see cref="MouseDown"/> event received? If not, other mouse input should be ignored, since the event most likely was suppressed on purpose (handled by somebody else).</summary>
+    private bool _pressed;
+
+    /// <summary>Has the mouse been moved enough to decide this is no longer a click, but dragging?</summary>
+    /// <remarks>This is required since <see cref="Control.Click"/> cannot be used to reliably detect clicks on render targets.</remarks>
+    private bool _moving;
 
     private void MouseDown(object sender, MouseEventArgs e)
     {
@@ -91,6 +85,9 @@ public class MouseInputProvider : InputProvider
         _totalMouseDelta = default;
         UpdateCursorFreezing();
     }
+
+    /// <summary>Don't execute <see cref="MouseMove"/>.</summary>
+    private bool _ignoreMouseMove;
 
     private void MouseMove(object sender, MouseEventArgs e)
     {
@@ -207,6 +204,9 @@ public class MouseInputProvider : InputProvider
     {
         OnDoubleClick(e);
     }
+
+    /// <summary>Freeze (and hide) the mouse cursor for infinite panning.</summary>
+    private bool _cursorFrozen;
 
     /// <summary>Freeze/unfreeze and Hide/show and the cursor as appropriate</summary>
     private void UpdateCursorFreezing()

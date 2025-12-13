@@ -17,9 +17,6 @@ namespace OmegaEngine.Input;
 /// </summary>
 public class KeyboardInputProvider : InputProvider
 {
-    /// <summary>The key on the keyboard that is currently pressed.</summary>
-    private Keys _pressedKey = Keys.None;
-
     /// <summary>The control receiving the keyboard events.</summary>
     private readonly Control _control;
 
@@ -40,6 +37,9 @@ public class KeyboardInputProvider : InputProvider
 
         _timerKeyboard.Tick += Tick;
     }
+
+    /// <summary>The key on the keyboard that is currently pressed.</summary>
+    private Keys _pressedKey = Keys.None;
 
     private void KeyDown(object sender, KeyEventArgs e)
     {
