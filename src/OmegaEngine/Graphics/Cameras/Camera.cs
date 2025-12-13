@@ -131,9 +131,7 @@ public abstract partial class Camera : IPositionable
     /// <summary>
     /// Called when the user changes the view perspective.
     /// </summary>
-    /// <param name="panX">The number of pixels panned along the X-axis divided by the number of pixels of the longest side of the viewport.</param>
-    /// <param name="panY">The number of pixels panned along the Y-axis divided by the number of pixels of the longest side of the viewport.</param>
-    /// <param name="rotation">Horizontal rotation in degrees.</param>
-    /// <param name="zoom">Scaling factor; 1 for no change, must not be 0.</param>
-    public abstract void PerspectiveChange(float panX, float panY, float rotation, float zoom);
+    /// <param name="translation">Movement in pixels. X = pan left-to-right, Y = pan top-to-bottom, Z = zoom / into screen</param>
+    /// <param name="rotation">Rotation in degrees. X = yaw clockwise, Y = pitch clockwise, Z = roll clockwise</param>
+    public abstract void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation);
 }

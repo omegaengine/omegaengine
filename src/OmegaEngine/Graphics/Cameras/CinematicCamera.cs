@@ -67,7 +67,7 @@ public class CinematicCamera : QuaternionCamera
     }
 
     /// <inheritdoc/>
-    public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)
+    public override void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation)
     {
         // Ignore input while the animation is running
     }

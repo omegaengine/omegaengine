@@ -9,18 +9,13 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using OmegaEngine.Foundation.Geometry;
 
 namespace OmegaEngine.Input;
 
 /// <summary>
 /// Processes mouse events into higher-level navigational commands.
 /// </summary>
-/// <remarks>
-///   <para>Dragging with the left mouse button allows <see cref="IInputReceiver.AreaSelection"/>.</para>
-///   <para>Dragging with the right mouse button allows panning.</para>
-///   <para>Dragging with the middle mouse button allows rotating and zooming.</para>
-///   <para>Clicks and double-clicks are passed through.</para>
-/// </remarks>
 public class MouseInputProvider : InputProvider
 {
     /// <summary>
@@ -134,14 +129,17 @@ public class MouseInputProvider : InputProvider
                 if (_moving)
                 { // The mouse moved more than a click, so this is an active pan
                     // Linear panning (possibly inverted), no rotation, no zoom
-                    OnPerspectiveChange(InvertMouse ? new(-delta.X, -delta.Y) : delta, 0, 0);
+                    double scalingFactor = 1.0 / Math.Max(_control.ClientSize.Width, _control.ClientSize.Height);
+                    OnPerspectiveChange(translation: scalingFactor * new DoubleVector3(InvertMouse ? delta.X : -delta.X, InvertMouse ? -delta.Y : delta.Y, 0));
                 }
                 break;
 
             case MouseButtons.Middle:
             case MouseButtons.Left | MouseButtons.Right:
-                // No panning, linear rotation (possibly inverted), exponential zoom
-                OnPerspectiveChange(new(), InvertMouse ? -delta.X : delta.X, delta.Y);
+                // No panning, linear rotation (possibly inverted), zoom
+                OnPerspectiveChange(
+                    translation: new DoubleVector3(0, 0, -delta.Y / 1000.0),
+                    rotation: new DoubleVector3(InvertMouse ? -delta.X : delta.X, 0, 0));
                 break;
         }
 
@@ -202,7 +200,7 @@ public class MouseInputProvider : InputProvider
         if (!HasReceivers) return;
 
         // No panning, no rotation, exponential zoom
-        OnPerspectiveChange(new(), 0, e.Delta / -4);
+        OnPerspectiveChange(translation: new(0, 0, e.Delta / 1000.0), rotation: new());
     }
 
     private void MouseDoubleClick(object sender, MouseEventArgs e)

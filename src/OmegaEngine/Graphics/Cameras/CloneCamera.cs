@@ -8,6 +8,7 @@
 
 using System.ComponentModel;
 using NanoByte.Common;
+using OmegaEngine.Foundation.Geometry;
 
 namespace OmegaEngine.Graphics.Cameras;
 
@@ -24,7 +25,7 @@ public class CloneCamera(Camera parentCamera) : Camera
     public Camera ParentCamera { get; set; } = parentCamera;
 
     /// <inheritdoc/>
-    public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)
+    public override void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation)
     {
         // User input should never be routed here
     }

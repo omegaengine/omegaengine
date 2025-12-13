@@ -174,17 +174,15 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     }
 
     /// <inheritdoc/>
-    public override void PerspectiveChange(float panX, float panY, float rotation, float zoom)
+    public override void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation)
     {
-        double x = panX * Radius;
-        double y = panY * Radius;
         Target += new DoubleVector3(
-            Math.Sin(_horizontalRotation) * y - Math.Cos(_horizontalRotation) * x,
+            Math.Cos(_horizontalRotation) * translation.X * Radius + Math.Sin(_horizontalRotation) * translation.Y * Radius,
             0,
-            Math.Sin(_horizontalRotation) * x + Math.Cos(_horizontalRotation) * y);
+            Math.Cos(_horizontalRotation) * translation.Y * Radius - Math.Sin(_horizontalRotation) * translation.X * Radius);
+        Radius *= Math.Pow(1.1, -16 * translation.Z);
 
-        Radius *= zoom;
-        HorizontalRotation += rotation;
+        HorizontalRotation += (float)rotation.X;
     }
 
     /// <summary>

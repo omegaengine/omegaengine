@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using OmegaEngine.Foundation.Geometry;
 
 namespace OmegaEngine.Input;
 
@@ -54,13 +55,12 @@ public abstract class InputProvider : IDisposable
     /// <summary>
     /// Raises all registered <see cref="IInputReceiver.PerspectiveChange"/>s.
     /// </summary>
-    /// <param name="pan">Horizontal XY-panning in pixels.</param>
-    /// <param name="rotation">Horizontal rotation in pixels.</param>
-    /// <param name="zoom">Vertical zooming in pixels. Greater than 0 to zoom in; less than 0 to zoom out.</param>
-    protected virtual void OnPerspectiveChange(Point pan, int rotation, int zoom)
+    /// <param name="translation">Movement in pixels. X = pan left-to-right, Y = pan top-to-bottom, Z = zoom / into screen</param>
+    /// <param name="rotation">Rotation in degrees. X = yaw clockwise, Y = pitch clockwise, Z = roll clockwise</param>
+    protected virtual void OnPerspectiveChange(DoubleVector3 translation = default, DoubleVector3 rotation = default)
     {
         foreach (var receiver in _receivers)
-            receiver.PerspectiveChange(pan, rotation, zoom);
+            receiver.PerspectiveChange(translation, rotation);
     }
 
     /// <summary>

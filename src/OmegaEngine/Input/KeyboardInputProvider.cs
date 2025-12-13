@@ -8,16 +8,13 @@
 
 using System;
 using System.Windows.Forms;
+using OmegaEngine.Foundation.Geometry;
 
 namespace OmegaEngine.Input;
 
 /// <summary>
 /// Processes keyboard events into higher-level navigational commands.
 /// </summary>
-/// <remarks>
-///   <para>Pressing the left and right arrow keys allows rotating.</para>
-///   <para>Pressing the up and down arrow keys allows zooming.</para>
-/// </remarks>
 public class KeyboardInputProvider : InputProvider
 {
     /// <summary>The key on the keyboard that is currently pressed.</summary>
@@ -61,21 +58,25 @@ public class KeyboardInputProvider : InputProvider
 
     private void Tick(object sender, EventArgs e)
     {
-        switch (_pressedKey)
-        {
-            case Keys.Up:
-                OnPerspectiveChange(new(), 0, 7);
-                break;
-            case Keys.Down:
-                OnPerspectiveChange(new(), 0, -7);
-                break;
-            case Keys.Right:
-                OnPerspectiveChange(new(), 7, 0);
-                break;
-            case Keys.Left:
-                OnPerspectiveChange(new(), -7, 0);
-                break;
-        }
+        OnPerspectiveChange(
+            translation: 0.01 * _pressedKey switch
+            {
+                Keys.W => new DoubleVector3(0, 0, 1),
+                Keys.S => new DoubleVector3(0, 0, -1),
+                Keys.A => new DoubleVector3(-1, 0, 0),
+                Keys.D => new DoubleVector3(1, 0, 0),
+                _ => new()
+            },
+            rotation: _pressedKey switch
+            {
+                Keys.Q => new DoubleVector3(0, 0, -1),
+                Keys.E => new DoubleVector3(0, 0, 1),
+                Keys.Up => new DoubleVector3(0, 1, 0),
+                Keys.Down => new DoubleVector3(0, -1, 0),
+                Keys.Right => new DoubleVector3(-1, 0, 0),
+                Keys.Left => new DoubleVector3(1, 0, 0),
+                _ => new()
+            });
     }
 
     private void KeyUp(object sender, KeyEventArgs e)

@@ -36,17 +36,8 @@ namespace FrameOfReference.Presentation;
 partial class InteractivePresenter
 {
     /// <inheritdoc/>
-    public void PerspectiveChange(Point pan, int rotation, int zoom)
-    {
-        // Adapt panning speed based on view frustum size
-        float panFactor = 1.0f / Math.Max(Engine.RenderSize.Width, Engine.RenderSize.Height);
-
-        View.Camera.PerspectiveChange(
-            panX: pan.X * panFactor,
-            panY: pan.Y * panFactor,
-            rotation: rotation / 2.0f,
-            zoom: (float)Math.Pow(1.1, zoom / 15.0));
-    }
+    public void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation)
+        => View.Camera.PerspectiveChange(translation, rotation);
 
     /// <inheritdoc/>
     public virtual void Hover(Point target)
