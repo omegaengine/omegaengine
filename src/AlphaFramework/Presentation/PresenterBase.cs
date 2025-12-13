@@ -4,9 +4,11 @@ using AlphaFramework.World.Positionables;
 using LuaInterface;
 using NanoByte.Common;
 using OmegaEngine;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Storage;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
+using OmegaEngine.Input;
 
 namespace AlphaFramework.Presentation;
 
@@ -14,7 +16,7 @@ namespace AlphaFramework.Presentation;
 /// Uses the <see cref="Engine"/> to present an <see cref="IUniverse"/> game world.
 /// </summary>
 /// <typeparam name="TUniverse">The type of universe to present.</typeparam>
-public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe) : IPresenter<TUniverse>
+public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe) : InputReceiverBase, IPresenter<TUniverse>
     where TUniverse : UniverseBase
 {
     /// <summary>
@@ -61,6 +63,10 @@ public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe
 
     /// <inheritdoc/>
     public virtual void HookOut() => Engine.Views.Remove(View);
+
+    /// <inheritdoc/>
+    public override void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation)
+        => View.Camera.PerspectiveChange(translation, rotation);
 
     /// <summary>
     /// The file format (file ending without a dot) used to store skybox textures.

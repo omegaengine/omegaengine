@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Drawing;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
+using OmegaEngine.Input;
 
 namespace OmegaEngine.Graphics.Cameras;
 
@@ -18,7 +19,7 @@ namespace OmegaEngine.Graphics.Cameras;
 /// Determines the perspective from which a <see cref="Scene"/> is displayed.
 /// </summary>
 /// <seealso cref="OmegaEngine.Graphics.View.Camera"/>
-public abstract partial class Camera : IPositionable
+public abstract partial class Camera : InputReceiverBase, IPositionable
 {
     /// <summary>
     /// Text value to make it easier to identify a particular camera
@@ -127,11 +128,4 @@ public abstract partial class Camera : IPositionable
     /// </summary>
     [DefaultValue(true), Description("Shall the engine use view frustum culling to optimize the rendering performance?"), Category("Behavior")]
     public bool FrustumCulling { get; set; } = true;
-
-    /// <summary>
-    /// Called when the user changes the view perspective.
-    /// </summary>
-    /// <param name="translation">Movement in pixels. X = pan left-to-right, Y = pan top-to-bottom, Z = zoom / into screen</param>
-    /// <param name="rotation">Rotation in degrees. X = yaw clockwise, Y = pitch clockwise, Z = roll clockwise</param>
-    public abstract void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation);
 }

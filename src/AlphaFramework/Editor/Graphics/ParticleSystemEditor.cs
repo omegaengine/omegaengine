@@ -7,9 +7,6 @@
  */
 
 using System;
-using System.Drawing;
-using System.Windows.Forms;
-using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;
 
@@ -18,7 +15,7 @@ namespace AlphaFramework.Editor.Graphics;
 /// <summary>
 /// Abstract base class for editing particle system presets
 /// </summary>
-public partial class ParticleSystemEditor : UndoCommandTab, IInputReceiver
+public partial class ParticleSystemEditor : UndoCommandTab
 {
     #region Variables
     /// <summary>
@@ -47,24 +44,10 @@ public partial class ParticleSystemEditor : UndoCommandTab, IInputReceiver
     #endregion
 
     #region View control
-    protected override void OnInitialize() => renderPanel.AddInputReceiver(this);
-
-    void IInputReceiver.PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation)
+    protected override void OnInitialize()
     {
-        Camera.PerspectiveChange(translation, rotation);
-        renderPanel.Engine?.Render();
+        renderPanel.AddInputReceiver(Camera);
+        renderPanel.AddInputReceiver(new UpdateReceiver(() => renderPanel.Engine?.Render()));
     }
-
-    void IInputReceiver.Hover(Point target)
-    {}
-
-    void IInputReceiver.AreaSelection(Rectangle area, bool accumulate, bool done)
-    {}
-
-    void IInputReceiver.Click(MouseEventArgs e, bool accumulate)
-    {}
-
-    void IInputReceiver.DoubleClick(MouseEventArgs e)
-    {}
     #endregion
 }

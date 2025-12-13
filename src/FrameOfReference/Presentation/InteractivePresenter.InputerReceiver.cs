@@ -20,7 +20,6 @@
  * THE SOFTWARE.
  */
 
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -35,19 +34,11 @@ namespace FrameOfReference.Presentation;
 
 partial class InteractivePresenter
 {
-    /// <inheritdoc/>
-    public void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation)
-        => View.Camera.PerspectiveChange(translation, rotation);
-
-    /// <inheritdoc/>
-    public virtual void Hover(Point target)
-    {}
-
     /// <summary>An outline to show on the screen</summary>
     private Rectangle? _selectionRectangle;
 
     /// <inheritdoc/>
-    public virtual void AreaSelection(Rectangle area, bool accumulate, bool done)
+    public override void AreaSelection(Rectangle area, bool accumulate, bool done)
     {
         if (done)
         {
@@ -96,7 +87,7 @@ partial class InteractivePresenter
     }
 
     /// <inheritdoc/>
-    public virtual void Click(MouseEventArgs e, bool accumulate)
+    public override void Click(MouseEventArgs e, bool accumulate)
     {
         // Determine the Engine object the user clicked on
         if (View.Pick(e.Location, out var intersectPosition) is not {} pickedObject) return;
@@ -132,7 +123,7 @@ partial class InteractivePresenter
     }
 
     /// <inheritdoc/>
-    public virtual void DoubleClick(MouseEventArgs e)
+    public override void DoubleClick(MouseEventArgs e)
     {
         if (View.Camera is CinematicCamera
          && View.Pick(e.Location, out _) is {} pickedObject and not OmegaEngine.Graphics.Renderables.Terrain)
