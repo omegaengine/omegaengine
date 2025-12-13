@@ -15,46 +15,21 @@ namespace OmegaEngine.Input;
 /// <summary>
 /// Calls a callback delegate whenever any kind of input is received.
 /// </summary>
-public class UpdateReceiver : IInputReceiver
+/// <param name="update">The callback delegate to be called when any kind of input is received.</param>
+public class UpdateReceiver(Action update) : IInputReceiver
 {
-    private readonly Action _update;
-
-    /// <summary>
-    /// Creates a new update receiver.
-    /// </summary>
-    /// <param name="update">The callback delegate to be called when any kind of input is received.</param>
-    public UpdateReceiver(Action update)
-    {
-        _update = update ?? throw new ArgumentNullException(nameof(update));
-    }
+    /// <inheritdoc/>
+    public void PerspectiveChange(Point pan, int rotation, int zoom) => update();
 
     /// <inheritdoc/>
-    public void PerspectiveChange(Point pan, int rotation, int zoom)
-    {
-        _update();
-    }
+    public void Hover(Point target) => update();
 
     /// <inheritdoc/>
-    public void Hover(Point target)
-    {
-        _update();
-    }
+    public void AreaSelection(Rectangle area, bool accumulate, bool done) => update();
 
     /// <inheritdoc/>
-    public void AreaSelection(Rectangle area, bool accumulate, bool done)
-    {
-        _update();
-    }
+    public void Click(MouseEventArgs e, bool accumulate) => update();
 
     /// <inheritdoc/>
-    public void Click(MouseEventArgs e, bool accumulate)
-    {
-        _update();
-    }
-
-    /// <inheritdoc/>
-    public void DoubleClick(MouseEventArgs e)
-    {
-        _update();
-    }
+    public void DoubleClick(MouseEventArgs e) => update();
 }
