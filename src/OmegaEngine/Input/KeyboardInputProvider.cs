@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using OmegaEngine.Foundation.Geometry;
 
@@ -39,7 +40,7 @@ public class KeyboardInputProvider : InputProvider
     /// <summary>The control receiving the keyboard events.</summary>
     private readonly Control _control;
 
-    /// <summary>A timer that continuously raises events while a key is kept pressed.</summary>
+    /// <summary>A timer that continuously raises events while keys are kept pressed.</summary>
     private readonly Timer _timerKeyboard = new() {Interval = 10};
 
     /// <summary>
@@ -57,54 +58,58 @@ public class KeyboardInputProvider : InputProvider
         _timerKeyboard.Tick += Tick;
     }
 
-    /// <summary>The key on the keyboard that is currently pressed.</summary>
-    private Keys _pressedKey = Keys.None;
+    /// <summary>All keys that are currently pressed.</summary>
+    private readonly HashSet<Keys> _pressedKeys = [];
 
     private void KeyDown(object sender, KeyEventArgs e)
     {
-        // Only process one key at a time
-        if (_pressedKey != Keys.None) return;
-
-        // Otherwise only trigger for alpha-numeric and arrow keys
+        // Only trigger for alpha-numeric and arrow keys
         if (e.KeyCode is >= Keys.A and <= Keys.Z
             or >= Keys.D0 and <= Keys.D9
             or >= Keys.Left and <= Keys.Down)
         {
-            _pressedKey = e.KeyCode;
+            _pressedKeys.Add(e.KeyCode);
             _timerKeyboard.Enabled = true;
         }
     }
 
     private void Tick(object sender, EventArgs e)
     {
+        var translation = new DoubleVector3();
+        var rotation = new DoubleVector3();
+
+        foreach (var key in _pressedKeys)
+        {
+            translation += key switch
+            {
+                Keys.W => new(0, 0, 1),
+                Keys.S => new(0, 0, -1),
+                Keys.A => new(-1, 0, 0),
+                Keys.D => new(1, 0, 0),
+                _ => new DoubleVector3()
+            };
+
+            rotation += key switch
+            {
+                Keys.Q => new(0, 0, -1),
+                Keys.E => new(0, 0, 1),
+                Keys.Up => new (0, 1, 0),
+                Keys.Down => new(0, -1, 0),
+                Keys.Right => new(-1, 0, 0),
+                Keys.Left => new (1, 0, 0),
+                _ => new DoubleVector3()
+            };
+        }
+
         OnPerspectiveChange(
-            translation: TranslationFactor * _pressedKey switch
-            {
-                Keys.W => new DoubleVector3(0, 0, 1),
-                Keys.S => new DoubleVector3(0, 0, -1),
-                Keys.A => new DoubleVector3(-1, 0, 0),
-                Keys.D => new DoubleVector3(1, 0, 0),
-                _ => new()
-            },
-            rotation: RotationFactor * _pressedKey switch
-            {
-                Keys.Q => new DoubleVector3(0, 0, -1),
-                Keys.E => new DoubleVector3(0, 0, 1),
-                Keys.Up => new DoubleVector3(0, 1, 0),
-                Keys.Down => new DoubleVector3(0, -1, 0),
-                Keys.Right => new DoubleVector3(-1, 0, 0),
-                Keys.Left => new DoubleVector3(1, 0, 0),
-                _ => new()
-            });
+            translation: TranslationFactor * translation,
+            rotation: RotationFactor * rotation);
     }
 
     private void KeyUp(object sender, KeyEventArgs e)
     {
-        if (_pressedKey == e.KeyCode)
-        {
-            _timerKeyboard.Enabled = false;
-            _pressedKey = Keys.None;
-        }
+        _pressedKeys.Remove(e.KeyCode);
+        _timerKeyboard.Enabled = _pressedKeys.Count > 0;
     }
 
     /// <inheritdoc/>
