@@ -67,10 +67,9 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     private float _horizontalRotation;
 
     /// <summary>
-    /// The horizontal rotation in degrees.
+    /// The clockwise horizontal rotation around the target in degrees.
     /// </summary>
-    /// <remarks>Must be a real number.</remarks>
-    [Description("The horizontal rotation in degrees."), Category("Layout")]
+    [Description("The clockwise horizontal rotation around the target in degrees."), Category("Layout")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public float HorizontalRotation
     {
@@ -132,7 +131,6 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     /// <summary>
     /// The minimum vertical angle in degrees. Effective when <see cref="Radius"/> is equal to <see cref="MinRadius"/>.
     /// </summary>
-    /// <remarks>Must be a real number.</remarks>
     [Description("The minimum vertical angle in degrees. Effective when Radius is equal to MinRadius."), Category("Behavior")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public float MinAngle
@@ -155,7 +153,6 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     /// <summary>
     /// The maximum vertical angle in degrees. Effective when <see cref="Radius"/> is equal to <see cref="MaxRadius"/>.
     /// </summary>
-    /// <remarks>Must be a real number.</remarks>
     [Description("The maximum vertical angle in degrees. Effective when Radius is equal to MaxRadius."), Category("Behavior")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public float MaxAngle

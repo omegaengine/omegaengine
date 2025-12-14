@@ -48,10 +48,9 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     private double _horizontalRotation;
 
     /// <summary>
-    /// The horizontal rotation in degrees.
+    /// The clockwise horizontal rotation around the target in degrees.
     /// </summary>
-    /// <remarks>Must be a real number.</remarks>
-    [Description("The horizontal rotation in degrees."), Category("Layout")]
+    [Description("The clockwise horizontal rotation around the target in degrees."), Category("Layout")]
     public double HorizontalRotation
     {
         get => _horizontalRotation.RadianToDegree();
@@ -69,9 +68,9 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     private double _verticalRotation;
 
     /// <summary>
-    /// The vertical rotation in degrees.
+    /// The clockwise vertical rotation around the target in degrees.
     /// </summary>
-    [Description("The vertical rotation in degrees."), Category("Layout")]
+    [Description("The clockwise vertical rotation around the target in degrees."), Category("Layout")]
     public double VerticalRotation
     {
         get => _verticalRotation.RadianToDegree();
