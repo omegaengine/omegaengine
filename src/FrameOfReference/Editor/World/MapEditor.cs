@@ -197,6 +197,7 @@ public partial class MapEditor : UndoCommandTab
 
         // Initialize engine
         renderPanel.Setup();
+        renderPanel.MouseInputProvider.Scheme = MouseInputScheme.Planar;
 
         base.OnInitialize();
     }

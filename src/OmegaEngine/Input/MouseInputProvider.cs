@@ -10,6 +10,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using OmegaEngine.Foundation.Geometry;
+using static OmegaEngine.Input.MouseNavigationAxis;
 
 namespace OmegaEngine.Input;
 
@@ -18,6 +19,11 @@ namespace OmegaEngine.Input;
 /// </summary>
 public class MouseInputProvider : InputProvider
 {
+    /// <summary>
+    /// Controls which mouse button does what.
+    /// </summary>
+    public MouseInputScheme Scheme { get; set; } = MouseInputScheme.Scene;
+
     /// <summary>
     /// The number of pixels the mouse may move while pressed to still be considered a click.
     /// </summary>
@@ -74,14 +80,23 @@ public class MouseInputProvider : InputProvider
     /// <remarks>This is required since <see cref="Control.Click"/> cannot be used to reliably detect clicks on render targets.</remarks>
     private bool _moving;
 
+    /// <summary>The action currently active due to mouse dragging.</summary>
+    private MouseAction? _activeAction;
+
     private void MouseDown(object sender, MouseEventArgs e)
     {
         if (!HasReceivers) return;
 
         _pressed = true;
+        _activeAction = Control.MouseButtons switch
+        {
+            MouseButtons.Left => Scheme.LeftDrag,
+            MouseButtons.Right => Scheme.RightDrag,
+            MouseButtons.Middle or MouseButtons.Left | MouseButtons.Right => Scheme.MiddleDrag,
+            _ => null
+        };
 
-        // Cancel active selections when additional become pressed
-        if (_moving)
+        if (_moving && _activeAction is not MouseAreaSelection)
         {
             bool accumulate = Control.ModifierKeys.HasFlag(Keys.Control);
             OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), accumulate, done: true);
@@ -98,6 +113,9 @@ public class MouseInputProvider : InputProvider
 
     /// <summary>Don't execute <see cref="MouseMove"/>.</summary>
     private bool _ignoreMouseMove;
+
+    /// <summary>Is the cursor currently captured?</summary>
+    private bool _cursorCaptured;
 
     private void MouseMove(object sender, MouseEventArgs e)
     {
@@ -121,7 +139,16 @@ public class MouseInputProvider : InputProvider
             }
         }
 
-        HandleMovement(delta);
+        switch (_activeAction)
+        {
+            case MouseAreaSelection when _moving:
+                OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), accumulate: Control.ModifierKeys.HasFlag(Keys.Control));
+                break;
+
+            case MouseNavigation nav:
+                ApplyNavigation(nav, delta);
+                break;
+        }
 
         if (_cursorCaptured)
         {
@@ -159,76 +186,79 @@ public class MouseInputProvider : InputProvider
             }
         }
 
-        // Check if only the right mouse-button was pressed and now released
-        if (e.Button == MouseButtons.Right && Control.MouseButtons == MouseButtons.None)
+        if (e.Button == MouseButtons.Right && Control.MouseButtons == MouseButtons.None && !_moving)
         {
-            if (!_moving)
-            { // The mouse moved more than a click, so this is a click
-                OnClick(e, accumulate: true);
-            }
+            OnClick(e, accumulate: true);
         }
 
         // Clean up
         _origMouseLoc = default;
         _totalMouseDelta = default;
         _moving = false;
+        _activeAction = null;
         UpdateCursorCapture();
     }
 
-    private void HandleMovement(Point delta)
+    private void ApplyNavigation(MouseNavigation nav, Point delta)
     {
-        switch (Control.MouseButtons)
+        double screenScale = 1.0 / Math.Max(_control.ClientSize.Width, _control.ClientSize.Height);
+
+        var translation = new DoubleVector3();
+        var rotation = new DoubleVector3();
+
+        ApplyAxis(nav.X, delta.X);
+        ApplyAxis(nav.Y, delta.Y);
+
+        OnNavigate(translation, rotation);
+
+        void ApplyAxis(MouseNavigationAxis axis, int value)
         {
-            case MouseButtons.Left:
-                if (_moving)
-                { // The mouse moved more than a click, so this is an active selection
-                    OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), accumulate: Control.ModifierKeys.HasFlag(Keys.Control));
-                }
-                break;
-
-            case MouseButtons.Right:
-                if (_moving)
-                { // The mouse moved more than a click, so this is an active pan
-                    // Linear panning (possibly inverted), no rotation, no zoom
-                    double scalingFactor = 1.0 / Math.Max(_control.ClientSize.Width, _control.ClientSize.Height);
-                    OnNavigate(translation: CursorSensitivity * scalingFactor * new DoubleVector3(InvertMouse ? delta.X : -delta.X, InvertMouse ? -delta.Y : delta.Y, 0));
-                }
-                break;
-
-            case MouseButtons.Middle or MouseButtons.Left | MouseButtons.Right:
-                // No panning, linear rotation (possibly inverted), zoom
-                OnNavigate(
-                    translation: WheelSensitivity * new DoubleVector3(0, 0, -delta.Y),
-                    rotation: CursorSensitivity * new DoubleVector3(InvertMouse ? -delta.X : delta.X, 0, 0));
-                break;
+            int v = InvertMouse ? -value : value;
+            switch (axis)
+            {
+                case TranslationX:
+                    translation.X += CursorSensitivity * screenScale * -v;
+                    break;
+                case TranslationY:
+                    translation.Y += CursorSensitivity * screenScale * +v;
+                    break;
+                case TranslationZ:
+                    translation.Z += WheelSensitivity * +v;
+                    break;
+                case RotationX:
+                    rotation.X += CursorSensitivity * +v;
+                    break;
+                case RotationY:
+                    rotation.Y += CursorSensitivity * -v;
+                    break;
+                case RotationZ:
+                    rotation.Z += CursorSensitivity * +v;
+                    break;
+            }
         }
     }
 
     private void MouseWheel(object sender, MouseEventArgs e)
-        => OnNavigate(translation: new(0, 0, WheelSensitivity * e.Delta), rotation: new());
+        => OnNavigate(
+            translation: new DoubleVector3(0, 0, WheelSensitivity * e.Delta),
+            rotation: new DoubleVector3());
 
-    private void MouseDoubleClick(object sender, MouseEventArgs e) => OnDoubleClick(e);
-
-    private bool _cursorCaptured;
+    private void MouseDoubleClick(object sender, MouseEventArgs e)
+        => OnDoubleClick(e);
 
     private void UpdateCursorCapture()
     {
-        if ((Control.MouseButtons == MouseButtons.Right && _moving) || // Right button pressed and moving
-            (Control.MouseButtons == MouseButtons.Middle || Control.MouseButtons == (MouseButtons.Left | MouseButtons.Right))) // Middle button or left and right button pressed
+        bool shouldCapture = _moving && _activeAction is MouseNavigation {CaptureCursor: true};
+
+        if (shouldCapture && !_cursorCaptured)
         {
-            if (!_cursorCaptured)
-            {
-                Cursor.Hide();
-                _cursorCaptured = true;
-            }
+            Cursor.Hide();
+            _cursorCaptured = true;
         }
-        else
+        else if (!shouldCapture && _cursorCaptured)
         {
-            if (_cursorCaptured)
-            {
-                Cursor.Show();
-                _cursorCaptured = false;
-            }
+            Cursor.Show();
+            _cursorCaptured = false;
         }
     }
 

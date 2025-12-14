@@ -89,6 +89,7 @@ public partial class EntityEditor : EntityEditorDesignerShim
 
         // Initialize engine
         renderPanel.Setup();
+        renderPanel.MouseInputProvider.Scheme = MouseInputScheme.Planar;
 
         // Activate some effects
         renderPanel.Engine.Anisotropic = true;

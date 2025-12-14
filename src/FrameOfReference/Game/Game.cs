@@ -36,6 +36,7 @@ using NanoByte.Common.Collections;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
 using OmegaEngine;
+using OmegaEngine.Input;
 
 namespace FrameOfReference;
 
@@ -138,6 +139,8 @@ public class Game(Settings settings)
     [LuaHide]
     public override void Run()
     {
+        MouseInputProvider.Scheme = MouseInputScheme.Planar;
+
         // Will return after the game has finished (is exiting)
         base.Run();
 
