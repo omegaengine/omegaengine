@@ -19,38 +19,24 @@ namespace OmegaEngine.Input;
 /// </summary>
 public abstract class InputProvider : IDisposable
 {
-    private readonly ICollection<IInputReceiver> _receivers = new LinkedList<IInputReceiver>();
+    private readonly List<IInputReceiver> _receivers = new();
 
     /// <summary>
     /// Indicates whether this handler currently has <see cref="IInputReceiver"/> attached to it.
     /// </summary>
-    public bool HasReceivers => _receivers.Count != 0;
+    protected bool HasReceivers => _receivers.Count != 0;
 
     /// <summary>
     /// Adds an object that wishes to be notified about navigational commands that are triggered by input.
     /// </summary>
     /// <param name="receiver">The object to receive the commands.</param>
-    public void AddReceiver(IInputReceiver receiver)
-    {
-        #region Sanity checks
-        if (receiver == null) throw new ArgumentNullException(nameof(receiver));
-        #endregion
-
-        _receivers.Add(receiver);
-    }
+    public void AddReceiver(IInputReceiver receiver) => _receivers.Add(receiver);
 
     /// <summary>
     /// Removes an object that no longer wishes to be notified about navigational commands.
     /// </summary>
     /// <param name="receiver">The object to no longer receive the commands.</param>
-    public void RemoveReceiver(IInputReceiver receiver)
-    {
-        #region Sanity checks
-        if (receiver == null) throw new ArgumentNullException(nameof(receiver));
-        #endregion
-
-        _receivers.Remove(receiver);
-    }
+    public void RemoveReceiver(IInputReceiver receiver) => _receivers.Remove(receiver);
 
     /// <summary>
     /// Raises all registered <see cref="IInputReceiver.PerspectiveChange"/>s.

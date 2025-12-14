@@ -93,7 +93,7 @@ public class MouseInputProvider : InputProvider
 
         // Clean up
         _totalMouseDelta = default;
-        UpdateCursorFreezing();
+        UpdateCursorCapture();
     }
 
     /// <summary>Don't execute <see cref="MouseMove"/>.</summary>
@@ -117,40 +117,13 @@ public class MouseInputProvider : InputProvider
             if (Math.Abs(_totalMouseDelta.Width) > ClickAccuracy || Math.Abs(_totalMouseDelta.Height) > ClickAccuracy)
             {
                 _moving = true;
-                UpdateCursorFreezing();
+                UpdateCursorCapture();
             }
         }
 
-        bool accumulate = Control.ModifierKeys.HasFlag(Keys.Control);
+        HandleMovement(delta);
 
-        switch (Control.MouseButtons)
-        {
-            case MouseButtons.Left:
-                if (_moving)
-                { // The mouse moved more than a click, so this is an active selection
-                    OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), accumulate);
-                }
-                break;
-
-            case MouseButtons.Right:
-                if (_moving)
-                { // The mouse moved more than a click, so this is an active pan
-                    // Linear panning (possibly inverted), no rotation, no zoom
-                    double scalingFactor = 1.0 / Math.Max(_control.ClientSize.Width, _control.ClientSize.Height);
-                    OnPerspectiveChange(translation: CursorSensitivity * scalingFactor * new DoubleVector3(InvertMouse ? delta.X : -delta.X, InvertMouse ? -delta.Y : delta.Y, 0));
-                }
-                break;
-
-            case MouseButtons.Middle:
-            case MouseButtons.Left | MouseButtons.Right:
-                // No panning, linear rotation (possibly inverted), zoom
-                OnPerspectiveChange(
-                    translation: WheelSensitivity * new DoubleVector3(0, 0, -delta.Y),
-                    rotation: CursorSensitivity * new DoubleVector3(InvertMouse ? -delta.X : delta.X, 0, 0));
-                break;
-        }
-
-        if (_cursorFrozen)
+        if (_cursorCaptured)
         {
             // Prevent infinite recursion
             _ignoreMouseMove = true;
@@ -191,7 +164,7 @@ public class MouseInputProvider : InputProvider
         {
             if (!_moving)
             { // The mouse moved more than a click, so this is a click
-                OnClick(e, /*ToDo*/true);
+                OnClick(e, accumulate: true);
             }
         }
 
@@ -199,45 +172,62 @@ public class MouseInputProvider : InputProvider
         _origMouseLoc = default;
         _totalMouseDelta = default;
         _moving = false;
-        UpdateCursorFreezing();
+        UpdateCursorCapture();
+    }
+
+    private void HandleMovement(Point delta)
+    {
+        switch (Control.MouseButtons)
+        {
+            case MouseButtons.Left:
+                if (_moving)
+                { // The mouse moved more than a click, so this is an active selection
+                    OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), accumulate: Control.ModifierKeys.HasFlag(Keys.Control));
+                }
+                break;
+
+            case MouseButtons.Right:
+                if (_moving)
+                { // The mouse moved more than a click, so this is an active pan
+                    // Linear panning (possibly inverted), no rotation, no zoom
+                    double scalingFactor = 1.0 / Math.Max(_control.ClientSize.Width, _control.ClientSize.Height);
+                    OnPerspectiveChange(translation: CursorSensitivity * scalingFactor * new DoubleVector3(InvertMouse ? delta.X : -delta.X, InvertMouse ? -delta.Y : delta.Y, 0));
+                }
+                break;
+
+            case MouseButtons.Middle or MouseButtons.Left | MouseButtons.Right:
+                // No panning, linear rotation (possibly inverted), zoom
+                OnPerspectiveChange(
+                    translation: WheelSensitivity * new DoubleVector3(0, 0, -delta.Y),
+                    rotation: CursorSensitivity * new DoubleVector3(InvertMouse ? -delta.X : delta.X, 0, 0));
+                break;
+        }
     }
 
     private void MouseWheel(object sender, MouseEventArgs e)
-    {
-        if (!HasReceivers) return;
+        => OnPerspectiveChange(translation: new(0, 0, WheelSensitivity * e.Delta), rotation: new());
 
-        // No panning, no rotation, exponential zoom
-        OnPerspectiveChange(translation: new(0, 0, WheelSensitivity * e.Delta), rotation: new());
-    }
+    private void MouseDoubleClick(object sender, MouseEventArgs e) => OnDoubleClick(e);
 
-    private void MouseDoubleClick(object sender, MouseEventArgs e)
-    {
-        OnDoubleClick(e);
-    }
+    private bool _cursorCaptured;
 
-    /// <summary>Freeze (and hide) the mouse cursor for infinite panning.</summary>
-    private bool _cursorFrozen;
-
-    /// <summary>Freeze/unfreeze and Hide/show and the cursor as appropriate</summary>
-    private void UpdateCursorFreezing()
+    private void UpdateCursorCapture()
     {
         if ((Control.MouseButtons == MouseButtons.Right && _moving) || // Right button pressed and moving
             (Control.MouseButtons == MouseButtons.Middle || Control.MouseButtons == (MouseButtons.Left | MouseButtons.Right))) // Middle button or left and right button pressed
         {
-            // Hide and freeze the cursor if it isn't already frozen
-            if (!_cursorFrozen)
+            if (!_cursorCaptured)
             {
                 Cursor.Hide();
-                _cursorFrozen = true;
+                _cursorCaptured = true;
             }
         }
         else
         {
-            // Show and unfreeze the cursor if it is currently frozen
-            if (_cursorFrozen)
+            if (_cursorCaptured)
             {
                 Cursor.Show();
-                _cursorFrozen = false;
+                _cursorCaptured = false;
             }
         }
     }
