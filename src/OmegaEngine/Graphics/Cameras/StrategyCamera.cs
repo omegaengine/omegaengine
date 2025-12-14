@@ -171,7 +171,7 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     }
 
     /// <inheritdoc/>
-    public override void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation)
+    public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
     {
         Target += new DoubleVector3(
             Math.Cos(_horizontalRotation) * translation.X * Radius + Math.Sin(_horizontalRotation) * translation.Y * Radius,

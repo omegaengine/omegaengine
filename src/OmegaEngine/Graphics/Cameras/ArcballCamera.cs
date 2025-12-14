@@ -136,7 +136,7 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     }
 
     /// <inheritdoc/>
-    public override void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation)
+    public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
     {
         Target += new DoubleVector3(
             translation.X * Math.Cos(_horizontalRotation),

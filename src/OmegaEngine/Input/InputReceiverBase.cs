@@ -10,7 +10,7 @@ namespace OmegaEngine.Input;
 public abstract class InputReceiverBase : IInputReceiver
 {
     /// <inheritdoc />
-    public abstract void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation);
+    public abstract void Navigate(DoubleVector3 translation, DoubleVector3 rotation);
 
     /// <inheritdoc />
     public virtual void Hover(Point target)

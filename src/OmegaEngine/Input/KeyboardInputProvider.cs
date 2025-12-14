@@ -101,7 +101,7 @@ public class KeyboardInputProvider : InputProvider
             };
         }
 
-        OnPerspectiveChange(
+        OnNavigate(
             translation: TranslationFactor * translation,
             rotation: RotationFactor * rotation);
     }

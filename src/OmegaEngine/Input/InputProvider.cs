@@ -39,14 +39,14 @@ public abstract class InputProvider : IDisposable
     public void RemoveReceiver(IInputReceiver receiver) => _receivers.Remove(receiver);
 
     /// <summary>
-    /// Raises all registered <see cref="IInputReceiver.PerspectiveChange"/>s.
+    /// Raises all registered <see cref="IInputReceiver.Navigate"/>s.
     /// </summary>
     /// <param name="translation">Movement in pixels. X = pan left-to-right, Y = pan top-to-bottom, Z = zoom / into screen</param>
     /// <param name="rotation">Rotation in degrees. X = yaw clockwise, Y = pitch clockwise, Z = roll clockwise</param>
-    protected virtual void OnPerspectiveChange(DoubleVector3 translation = default, DoubleVector3 rotation = default)
+    protected virtual void OnNavigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)
     {
         foreach (var receiver in _receivers)
-            receiver.PerspectiveChange(translation, rotation);
+            receiver.Navigate(translation, rotation);
     }
 
     /// <summary>

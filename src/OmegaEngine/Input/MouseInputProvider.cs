@@ -191,13 +191,13 @@ public class MouseInputProvider : InputProvider
                 { // The mouse moved more than a click, so this is an active pan
                     // Linear panning (possibly inverted), no rotation, no zoom
                     double scalingFactor = 1.0 / Math.Max(_control.ClientSize.Width, _control.ClientSize.Height);
-                    OnPerspectiveChange(translation: CursorSensitivity * scalingFactor * new DoubleVector3(InvertMouse ? delta.X : -delta.X, InvertMouse ? -delta.Y : delta.Y, 0));
+                    OnNavigate(translation: CursorSensitivity * scalingFactor * new DoubleVector3(InvertMouse ? delta.X : -delta.X, InvertMouse ? -delta.Y : delta.Y, 0));
                 }
                 break;
 
             case MouseButtons.Middle or MouseButtons.Left | MouseButtons.Right:
                 // No panning, linear rotation (possibly inverted), zoom
-                OnPerspectiveChange(
+                OnNavigate(
                     translation: WheelSensitivity * new DoubleVector3(0, 0, -delta.Y),
                     rotation: CursorSensitivity * new DoubleVector3(InvertMouse ? -delta.X : delta.X, 0, 0));
                 break;
@@ -205,7 +205,7 @@ public class MouseInputProvider : InputProvider
     }
 
     private void MouseWheel(object sender, MouseEventArgs e)
-        => OnPerspectiveChange(translation: new(0, 0, WheelSensitivity * e.Delta), rotation: new());
+        => OnNavigate(translation: new(0, 0, WheelSensitivity * e.Delta), rotation: new());
 
     private void MouseDoubleClick(object sender, MouseEventArgs e) => OnDoubleClick(e);
 

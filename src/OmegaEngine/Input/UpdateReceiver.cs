@@ -20,7 +20,7 @@ namespace OmegaEngine.Input;
 public class UpdateReceiver(Action update) : IInputReceiver
 {
     /// <inheritdoc/>
-    public void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation) => update();
+    public void Navigate(DoubleVector3 translation, DoubleVector3 rotation) => update();
 
     /// <inheritdoc/>
     public void Hover(Point target) => update();

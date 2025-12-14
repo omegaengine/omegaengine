@@ -22,7 +22,7 @@ public interface IInputReceiver
     /// </summary>
     /// <param name="translation">Movement in screen units. X = pan right, Y = pan upwards, Z = zoom into screen</param>
     /// <param name="rotation">Rotation in degrees. X = yaw clockwise, Y = pitch clockwise, Z = roll clockwise</param>
-    void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation);
+    void Navigate(DoubleVector3 translation, DoubleVector3 rotation);
 
     /// <summary>
     /// Called when the user is hovering above a point on the screen.

@@ -65,8 +65,8 @@ public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe
     public virtual void HookOut() => Engine.Views.Remove(View);
 
     /// <inheritdoc/>
-    public override void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation)
-        => View.Camera.PerspectiveChange(translation, rotation);
+    public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
+        => View.Camera.Navigate(translation, rotation);
 
     /// <summary>
     /// The file format (file ending without a dot) used to store skybox textures.

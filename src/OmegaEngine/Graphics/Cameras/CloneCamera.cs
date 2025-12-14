@@ -25,7 +25,7 @@ public class CloneCamera(Camera parentCamera) : Camera
     public Camera ParentCamera { get; set; } = parentCamera;
 
     /// <inheritdoc/>
-    public override void PerspectiveChange(DoubleVector3 translation, DoubleVector3 rotation)
+    public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
     {
         // User input should never be routed here
     }
