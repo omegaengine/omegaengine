@@ -28,6 +28,16 @@ public class MouseInputProvider : InputProvider
     /// </summary>
     public bool InvertMouse { get; set; }
 
+    /// <summary>
+    /// The sensitivity of the mouse cursor. The higher the value, the faster the movement.
+    /// </summary>
+    public double CursorSensitivity { get; set; } = 1;
+
+    /// <summary>
+    /// The sensitivity of the mouse wheel. The higher the value, the faster the movement.
+    /// </summary>
+    public double WheelSensitivity { get; set; } = 0.001;
+
     /// <summary>The control receiving the mouse events.</summary>
     private readonly Control _control;
 
@@ -127,7 +137,7 @@ public class MouseInputProvider : InputProvider
                 { // The mouse moved more than a click, so this is an active pan
                     // Linear panning (possibly inverted), no rotation, no zoom
                     double scalingFactor = 1.0 / Math.Max(_control.ClientSize.Width, _control.ClientSize.Height);
-                    OnPerspectiveChange(translation: scalingFactor * new DoubleVector3(InvertMouse ? delta.X : -delta.X, InvertMouse ? -delta.Y : delta.Y, 0));
+                    OnPerspectiveChange(translation: CursorSensitivity * scalingFactor * new DoubleVector3(InvertMouse ? delta.X : -delta.X, InvertMouse ? -delta.Y : delta.Y, 0));
                 }
                 break;
 
@@ -135,8 +145,8 @@ public class MouseInputProvider : InputProvider
             case MouseButtons.Left | MouseButtons.Right:
                 // No panning, linear rotation (possibly inverted), zoom
                 OnPerspectiveChange(
-                    translation: new DoubleVector3(0, 0, -delta.Y / 1000.0),
-                    rotation: new DoubleVector3(InvertMouse ? -delta.X : delta.X, 0, 0));
+                    translation: WheelSensitivity * new DoubleVector3(0, 0, -delta.Y),
+                    rotation: CursorSensitivity * new DoubleVector3(InvertMouse ? -delta.X : delta.X, 0, 0));
                 break;
         }
 
@@ -197,7 +207,7 @@ public class MouseInputProvider : InputProvider
         if (!HasReceivers) return;
 
         // No panning, no rotation, exponential zoom
-        OnPerspectiveChange(translation: new(0, 0, e.Delta / 1000.0), rotation: new());
+        OnPerspectiveChange(translation: new(0, 0, WheelSensitivity * e.Delta), rotation: new());
     }
 
     private void MouseDoubleClick(object sender, MouseEventArgs e)

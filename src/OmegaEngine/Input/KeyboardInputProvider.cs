@@ -17,6 +17,25 @@ namespace OmegaEngine.Input;
 /// </summary>
 public class KeyboardInputProvider : InputProvider
 {
+    /// <summary>
+    /// The rate at which the keyboard events are repeated when a button is held down.
+    /// </summary>
+    public TimeSpan KeyRepetitionRate
+    {
+        get => TimeSpan.FromMilliseconds(_timerKeyboard.Interval);
+        set => _timerKeyboard.Interval = (int)value.TotalMilliseconds;
+    }
+
+    /// <summary>
+    /// The number of translation units to apply per key press event.
+    /// </summary>
+    public double TranslationFactor { get; set; } = 0.01;
+
+    /// <summary>
+    /// The number of rotation degrees to apply per key press event.
+    /// </summary>
+    public double RotationFactor { get; set; } = 1;
+
     /// <summary>The control receiving the keyboard events.</summary>
     private readonly Control _control;
 
@@ -59,7 +78,7 @@ public class KeyboardInputProvider : InputProvider
     private void Tick(object sender, EventArgs e)
     {
         OnPerspectiveChange(
-            translation: 0.01 * _pressedKey switch
+            translation: TranslationFactor * _pressedKey switch
             {
                 Keys.W => new DoubleVector3(0, 0, 1),
                 Keys.S => new DoubleVector3(0, 0, -1),
@@ -67,7 +86,7 @@ public class KeyboardInputProvider : InputProvider
                 Keys.D => new DoubleVector3(1, 0, 0),
                 _ => new()
             },
-            rotation: _pressedKey switch
+            rotation: RotationFactor * _pressedKey switch
             {
                 Keys.Q => new DoubleVector3(0, 0, -1),
                 Keys.E => new DoubleVector3(0, 0, 1),
