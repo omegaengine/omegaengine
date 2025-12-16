@@ -19,6 +19,23 @@ namespace OmegaEngine.Input;
 public class KeyboardInputProvider : InputProvider
 {
     /// <summary>
+    /// Mapping from key to navigation action.
+    /// </summary>
+    public Dictionary<Keys, (DoubleVector3 Translation, DoubleVector3 Rotation)> KeyMap { get; } = new()
+    {
+        [Keys.W] = (new(0, 0, 0.01), new()),
+        [Keys.S] = (new(0, 0, -0.01), new()),
+        [Keys.A] = (new(-0.01, 0, 0), new()),
+        [Keys.D] = (new(0.01, 0, 0), new()),
+        [Keys.Q] = (new(), new(0, 0, -1)),
+        [Keys.E] = (new(), new(0, 0, 1)),
+        [Keys.Up] = (new(), new(0, 1, 0)),
+        [Keys.Down] = (new(), new(0, -1, 0)),
+        [Keys.Right] = (new(), new(-1, 0, 0)),
+        [Keys.Left] = (new(), new(1, 0, 0))
+    };
+
+    /// <summary>
     /// The rate at which the keyboard events are repeated when a button is held down.
     /// </summary>
     public TimeSpan KeyRepetitionRate
@@ -26,16 +43,6 @@ public class KeyboardInputProvider : InputProvider
         get => TimeSpan.FromMilliseconds(_timerKeyboard.Interval);
         set => _timerKeyboard.Interval = (int)value.TotalMilliseconds;
     }
-
-    /// <summary>
-    /// The number of translation units to apply per key press event.
-    /// </summary>
-    public double TranslationFactor { get; set; } = 0.01;
-
-    /// <summary>
-    /// The number of rotation degrees to apply per key press event.
-    /// </summary>
-    public double RotationFactor { get; set; } = 1;
 
     /// <summary>The control receiving the keyboard events.</summary>
     private readonly Control _control;
@@ -63,10 +70,7 @@ public class KeyboardInputProvider : InputProvider
 
     private void KeyDown(object sender, KeyEventArgs e)
     {
-        // Only trigger for alpha-numeric and arrow keys
-        if (e.KeyCode is >= Keys.A and <= Keys.Z
-            or >= Keys.D0 and <= Keys.D9
-            or >= Keys.Left and <= Keys.Down)
+        if (KeyMap.ContainsKey(e.KeyCode))
         {
             _pressedKeys.Add(e.KeyCode);
             _timerKeyboard.Enabled = true;
@@ -80,30 +84,14 @@ public class KeyboardInputProvider : InputProvider
 
         foreach (var key in _pressedKeys)
         {
-            translation += key switch
+            if (KeyMap.TryGetValue(key, out var mapping))
             {
-                Keys.W => new(0, 0, 1),
-                Keys.S => new(0, 0, -1),
-                Keys.A => new(-1, 0, 0),
-                Keys.D => new(1, 0, 0),
-                _ => new DoubleVector3()
-            };
-
-            rotation += key switch
-            {
-                Keys.Q => new(0, 0, -1),
-                Keys.E => new(0, 0, 1),
-                Keys.Up => new (0, 1, 0),
-                Keys.Down => new(0, -1, 0),
-                Keys.Right => new(-1, 0, 0),
-                Keys.Left => new (1, 0, 0),
-                _ => new DoubleVector3()
-            };
+                translation += mapping.Translation;
+                rotation += mapping.Rotation;
+            }
         }
 
-        OnNavigate(
-            translation: TranslationFactor * translation,
-            rotation: RotationFactor * rotation);
+        OnNavigate(translation, rotation);
     }
 
     private void KeyUp(object sender, KeyEventArgs e)
