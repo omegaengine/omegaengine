@@ -206,7 +206,7 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
         PositionCached = Target - _radius * viewDirection;
 
         bool upsideDown = _verticalRotation is > Math.PI / 2 and < Math.PI / 2 * 3;
-        UpVector = (Vector3)(upsideDown ? -1 * _worldUp : _worldUp).RotateAroundAxis(viewDirection, _roll);
+        Up = (Vector3)(upsideDown ? -1 * _worldUp : _worldUp).RotateAroundAxis(viewDirection, _roll);
 
         base.UpdateView();
 
