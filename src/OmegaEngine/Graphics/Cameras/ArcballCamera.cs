@@ -10,7 +10,8 @@ using System;
 using System.ComponentModel;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
-using OmegaEngine.Properties;
+using SlimDX;
+using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Cameras;
 
@@ -85,6 +86,26 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
         }
     }
 
+    private double _roll;
+
+    /// <summary>
+    /// The clockwise roll along the view direction in degrees.
+    /// </summary>
+    [Description("The clockwise roll along the view direction in degrees."), Category("Layout")]
+    public double Roll
+    {
+        get => _roll.RadianToDegree();
+        set
+        {
+            #region Sanity checks
+            if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
+            #endregion
+
+            RadianWrapAround(value.DegreeToRadian())
+               .To(ref _roll, ref ViewDirty, ref ViewFrustumDirty);
+        }
+    }
+
     /// <summary>
     /// Keep rotations between 0 and 2PI.
     /// </summary>
@@ -138,6 +159,9 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     /// <inheritdoc/>
     public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
     {
+        var viewDir = (Target - PositionCached).Normalize();
+        translation = translation.RotateAroundAxis(viewDir, _roll);
+
         Target += new DoubleVector3(
             translation.X * Math.Cos(_horizontalRotation),
             translation.Y,
@@ -146,6 +170,7 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
 
         HorizontalRotation += rotation.X;
         VerticalRotation += rotation.Y;
+        Roll += rotation.Z;
     }
 
     /// <summary>
@@ -156,16 +181,16 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
         // Only execute this if the view has changed
         if (!ViewDirty) return;
 
-        var relativePosition = new DoubleVector3(
-            _radius * Math.Cos(_verticalRotation) * -Math.Sin(_horizontalRotation),
-            _radius * Math.Sin(_verticalRotation),
-            _radius * Math.Cos(_verticalRotation) * -Math.Cos(_horizontalRotation));
-        PositionCached = relativePosition + Target;
+        var viewDirection = new DoubleVector3(
+            -Math.Cos(_verticalRotation) * Math.Sin(_horizontalRotation),
+            -Math.Sin(_verticalRotation),
+            -Math.Cos(_verticalRotation) * Math.Cos(_horizontalRotation));
+        PositionCached = Target - _radius * viewDirection;
 
-        // Switch up-vector based on vertical rotation
-        UpVector = _verticalRotation is > Math.PI / 2 and < Math.PI / 2 * 3
-            ? new(0, -1, 0)
-            : new(0, +1, 0);
+        var baseUp = _verticalRotation is > Math.PI / 2 and < Math.PI / 2 * 3
+            ? new DoubleVector3(0, -1, 0)
+            : new DoubleVector3(0, +1, 0);
+        UpVector = (Vector3)baseUp.RotateAroundAxis(viewDirection, _roll);
 
         base.UpdateView();
 
