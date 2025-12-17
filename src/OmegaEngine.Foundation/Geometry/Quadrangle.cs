@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Globalization;
+using NanoByte.Common;
 using OmegaEngine.Foundation.Design;
 using SlimDX;
 
@@ -104,9 +105,13 @@ public readonly struct Quadrangle(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4
     /// <param name="rotation">The angle to rotate by in degrees.</param>
     /// <returns>The rotated <see cref="Quadrangle"/>.</returns>
     [Pure]
-    public Quadrangle Rotate(float rotation) => new(
-        P1.Rotate(rotation), P2.Rotate(rotation),
-        P3.Rotate(rotation), P4.Rotate(rotation));
+    public Quadrangle Rotate(float rotation)
+    {
+        var radians = rotation.DegreeToRadian();
+        return new (
+            P1.Rotate(radians), P2.Rotate(radians),
+            P3.Rotate(radians), P4.Rotate(radians));
+    }
 
     #region Intersect
     #region Point

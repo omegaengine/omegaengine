@@ -49,34 +49,26 @@ public static class VectorMath
     /// Rotates a <see cref="Vector2"/> by <paramref name="rotation"/> around the origin.
     /// </summary>
     /// <param name="value">The original vector.</param>
-    /// <param name="rotation">The angle to rotate by in degrees.</param>
+    /// <param name="rotation">The angle to rotate by in radians.</param>
     /// <returns>The rotated <see cref="Vector2"/>.</returns>
     [Pure]
     public static Vector2 Rotate(this Vector2 value, float rotation)
-    {
-        double phi = rotation.DegreeToRadian();
-        return new(
-            (float)(value.X * Math.Cos(phi) - value.Y * Math.Sin(phi)),
-            (float)(value.X * Math.Sin(phi) + value.Y * Math.Cos(phi)));
-    }
+        => new(
+            (float)(value.X * Math.Cos(rotation) - value.Y * Math.Sin(rotation)),
+            (float)(value.X * Math.Sin(rotation) + value.Y * Math.Cos(rotation)));
 
     /// <summary>
     /// Rotates a <see cref="DoubleVector3"/> around an arbitrary axis.
     /// </summary>
     /// <param name="value">The original vector.</param>
     /// <param name="axis">The axis to rotate around.</param>
-    /// <param name="rotation">The angle to rotate by in degrees.</param>
+    /// <param name="rotation">The angle to rotate by in radians.</param>
     /// <returns>The rotated <see cref="DoubleVector3"/>.</returns>
     [Pure]
     public static DoubleVector3 RotateAroundAxis(this DoubleVector3 value, DoubleVector3 axis, double rotation)
-    {
-        double phi = rotation.DegreeToRadian();
-        double cosA = Math.Cos(phi);
-        double sinA = Math.Sin(phi);
-        return (float)cosA * value +
-               (float)sinA * axis.CrossProduct(value) +
-               (float)(1 - cosA) * axis.DotProduct(value) * axis;
-    }
+        => Math.Cos(rotation) * value +
+           Math.Sin(rotation) * axis.CrossProduct(value) +
+           (1 - Math.Cos(rotation)) * axis.DotProduct(value) * axis;
 
     /// <summary>
     /// Performs linear interpolation between two vectors.
