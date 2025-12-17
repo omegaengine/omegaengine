@@ -26,13 +26,7 @@ public abstract class MatrixCamera : Camera
     [Description("The position the camera is looking at."), Category("Layout")]
     public virtual DoubleVector3 Target { get => _target; set => value.To(ref _target, ref ViewDirty, ref ViewFrustumDirty); }
 
-    private Vector3 _upVector = new(0, 1, 0);
-
-    /// <summary>
-    /// A vector indicating the up-direction
-    /// </summary>
-    [Description("A vector indicating the up-direction"), Category("Layout")]
-    public Vector3 UpVector { get => _upVector; protected set => value.To(ref _upVector, ref ViewDirty, ref ViewFrustumDirty); }
+    protected Vector3 UpVector = new(0, 1, 0);
 
     /// <summary>
     /// Update cached versions of <see cref="View"/> and related matrices; abstract, to be overwritten in subclass.
@@ -41,8 +35,8 @@ public abstract class MatrixCamera : Camera
     {
         AdjustPositionBase();
 
-        SimpleViewCached = Matrix.LookAtLH(new(), _target.ApplyOffset(PositionCached), _upVector);
-        ViewCached = Matrix.LookAtLH(PositionCached.ApplyOffset(PositionBaseCached), _target.ApplyOffset(PositionBaseCached), _upVector);
+        SimpleViewCached = Matrix.LookAtLH(new(), _target.ApplyOffset(PositionCached), UpVector);
+        ViewCached = Matrix.LookAtLH(PositionCached.ApplyOffset(PositionBaseCached), _target.ApplyOffset(PositionBaseCached), UpVector);
 
         CacheSpecialMatrices();
     }
