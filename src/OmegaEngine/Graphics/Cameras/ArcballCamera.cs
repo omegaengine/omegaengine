@@ -114,6 +114,24 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
             ? (value % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI)
             : value;
 
+    private static readonly DoubleVector3 _defaultWorldUp = new(0, 1, 0);
+    private DoubleVector3 _worldUp = _defaultWorldUp;
+
+    /// <summary>
+    /// A unit vector describing the direction considered up in the world.
+    /// </summary>
+    [Description("A unit vector describing the direction considered up in the world."), Category("Layout")]
+    public DoubleVector3 WorldUp
+    {
+        get => _worldUp;
+        set => value.Normalize().To(ref _worldUp, ref ViewDirty, ref ViewFrustumDirty);
+    }
+
+    private DoubleVector3 ApplyWorldUp(DoubleVector3 vector)
+        => vector.RotateAroundAxis(
+            _defaultWorldUp.CrossProduct(_worldUp).Normalize(),
+            Math.Acos(_defaultWorldUp.DotProduct(_worldUp)));
+
     private double _minRadius = minRadius;
 
     /// <summary>
@@ -162,10 +180,10 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
         var viewDir = (Target - PositionCached).Normalize();
         translation = translation.RotateAroundAxis(viewDir, _roll);
 
-        Target += new DoubleVector3(
+        Target += ApplyWorldUp(new DoubleVector3(
             translation.X * Math.Cos(_horizontalRotation),
             translation.Y,
-            translation.X * -Math.Sin(_horizontalRotation)) * Radius;
+            translation.X * -Math.Sin(_horizontalRotation)) * Radius);
         Radius *= Math.Pow(1.1, -16 * translation.Z);
 
         HorizontalRotation += rotation.X;
@@ -181,16 +199,14 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
         // Only execute this if the view has changed
         if (!ViewDirty) return;
 
-        var viewDirection = new DoubleVector3(
+        var viewDirection = ApplyWorldUp(new DoubleVector3(
             -Math.Cos(_verticalRotation) * Math.Sin(_horizontalRotation),
             -Math.Sin(_verticalRotation),
-            -Math.Cos(_verticalRotation) * Math.Cos(_horizontalRotation));
+            -Math.Cos(_verticalRotation) * Math.Cos(_horizontalRotation)));
         PositionCached = Target - _radius * viewDirection;
 
-        var baseUp = _verticalRotation is > Math.PI / 2 and < Math.PI / 2 * 3
-            ? new DoubleVector3(0, -1, 0)
-            : new DoubleVector3(0, +1, 0);
-        UpVector = (Vector3)baseUp.RotateAroundAxis(viewDirection, _roll);
+        bool upsideDown = _verticalRotation is > Math.PI / 2 and < Math.PI / 2 * 3;
+        UpVector = (Vector3)(upsideDown ? -1 * _worldUp : _worldUp).RotateAroundAxis(viewDirection, _roll);
 
         base.UpdateView();
 
