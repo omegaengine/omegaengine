@@ -70,6 +70,8 @@ public class KeyboardInputProvider : InputProvider
 
     private void KeyDown(object sender, KeyEventArgs e)
     {
+        if (e.Modifiers.HasFlag(Keys.Control)) return;
+
         if (KeyMap.ContainsKey(e.KeyCode))
         {
             _pressedKeys.Add(e.KeyCode);
