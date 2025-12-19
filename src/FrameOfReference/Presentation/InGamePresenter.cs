@@ -103,7 +103,7 @@ public sealed class InGamePresenter : InteractivePresenter
     /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="CameraState{TCoordinates}"/> stored in the <see cref="PresenterBase{TUniverse}.Universe"/>.</param>
     public void SwingCameraTo(string name)
     {
-        View.SwingCameraTo(CreateCamera(Universe.GetCamera(name)), duration: 4);
+        View.TransitionCameraTo(CreateCamera(Universe.GetCamera(name)), duration: 4);
     }
 
     private Entity? _lockedOnEntity;

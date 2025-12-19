@@ -466,7 +466,7 @@ public partial class EntityEditor : EntityEditorDesignerShim
 
     private void buttonOrthographicView_Click(object sender, EventArgs e)
     {
-        _presenter.View.SwingCameraTo(new ArcballCamera(50, 2000)
+        _presenter.View.TransitionCameraTo(new ArcballCamera(50, 2000)
         {
             Name = "Orthographic",
             Target = _universe.Terrain.ToEngineCoords(_universe.Terrain.Center) + new DoubleVector3(0, 100, 0),

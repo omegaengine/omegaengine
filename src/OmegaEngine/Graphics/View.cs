@@ -372,11 +372,11 @@ public partial class View : EngineElement, IResetable
 
     #region Camera effects
     /// <summary>
-    /// Switches from the current camera view to a new view using a transition effect
+    /// Switches from the current camera to a new camera using a transition effect
     /// </summary>
     /// <param name="target">The new camera</param>
     /// <param name="duration">The complete transition time in seconds</param>
-    public void SwingCameraTo(Camera target, float duration = 1)
+    public void TransitionCameraTo(Camera target, float duration = 1)
     {
         #region Sanity checks
         if (target == null) throw new ArgumentNullException(nameof(target));
@@ -391,7 +391,7 @@ public partial class View : EngineElement, IResetable
             duration,
             Engine)
         {
-            Name = "Swing to: " + target.Name,
+            Name = "Transition to: " + target.Name,
             NearClip = Camera.NearClip,
             FarClip = Camera.FarClip
         };
