@@ -43,5 +43,7 @@ public abstract class MatrixCamera : Camera
         ViewCached = Matrix.LookAtLH(PositionCached.ApplyOffset(PositionBaseCached), _target.ApplyOffset(PositionBaseCached), Up);
 
         CacheSpecialMatrices();
+
+        base.UpdateView();
     }
 }

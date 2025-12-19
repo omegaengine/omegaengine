@@ -187,7 +187,6 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     /// </summary>
     protected override void UpdateView()
     {
-        // Only execute this if the view has changed
         if (!ViewDirty) return;
 
         // Keep radius within boundaries
@@ -213,7 +212,5 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
         PositionCached.Y = Math.Max(PositionCached.Y, heightController(PositionCached));
 
         base.UpdateView();
-
-        ViewDirty = false;
     }
 }

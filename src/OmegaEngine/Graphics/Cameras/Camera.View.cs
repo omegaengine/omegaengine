@@ -131,7 +131,10 @@ partial class Camera
     /// <summary>
     /// Update cached versions of <see cref="View"/> and related matrices if necessary
     /// </summary>
-    protected abstract void UpdateView();
+    protected virtual void UpdateView()
+    {
+        ViewDirty = false;
+    }
 
     /// <summary>
     /// Calculate cached versions of special matrices (e.g. <see cref="ViewInverse"/> calculated from <see cref="View"/>)

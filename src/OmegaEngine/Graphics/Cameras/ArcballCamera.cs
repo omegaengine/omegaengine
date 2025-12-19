@@ -196,7 +196,6 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     /// </summary>
     protected override void UpdateView()
     {
-        // Only execute this if the view has changed
         if (!ViewDirty) return;
 
         var viewDirection = ApplyWorldUp(new DoubleVector3(
@@ -209,7 +208,5 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
         Up = (Vector3)(upsideDown ? -1 * _worldUp : _worldUp).RotateAroundAxis(viewDirection, _roll);
 
         base.UpdateView();
-
-        ViewDirty = false;
     }
 }

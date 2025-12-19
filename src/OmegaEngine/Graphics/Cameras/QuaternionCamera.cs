@@ -36,5 +36,7 @@ public abstract class QuaternionCamera : Camera
         ViewCached = Matrix.Translation(-PositionCached.ApplyOffset(PositionBaseCached)) * SimpleViewCached;
 
         CacheSpecialMatrices();
+
+        base.UpdateView();
     }
 }
