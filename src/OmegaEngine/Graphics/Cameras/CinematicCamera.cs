@@ -14,17 +14,11 @@ using SlimDX;
 namespace OmegaEngine.Graphics.Cameras;
 
 /// <summary>
-/// A camera that cinematically swings from one view to another.
+/// A camera that cinematically swings from one position and rotation to another.
 /// </summary>
-/// <remarks>"Cinematic" means that the movement starts slowly, speeds up dramatically and then slows down again before reaching the target.</remarks>
+/// <remarks>"Cinematic" means that the movement starts slowly, speeds up and then slows down again before reaching the target.</remarks>
 public class CinematicCamera : QuaternionCamera
 {
-    private readonly DoubleVector3 _sourcePosition, _targetPosition;
-    private readonly Quaternion _sourceQuat, _targetQuat;
-
-    private double _factor;
-    private bool _needsRecalc = true;
-
     /// <summary>
     /// Is this <see cref="CinematicCamera"/> currently moving?
     /// </summary>
@@ -35,61 +29,36 @@ public class CinematicCamera : QuaternionCamera
     /// Creates a new cinematic camera for the engine
     /// </summary>
     /// <param name="sourcePosition">The initial camera position</param>
+    /// <param name="sourceRotation">The initial camera rotation</param>
     /// <param name="targetPosition">The target camera position</param>
-    /// <param name="sourceQuat">The initial view as a quaternion</param>
-    /// <param name="targetQuat">The target view as a quaternion</param>
+    /// <param name="targetRotation">The target camera rotation</param>
     /// <param name="duration">The complete transition time in seconds</param>
     /// <param name="engine">The <see cref="Engine"/> containing this camera</param>
-    public CinematicCamera(DoubleVector3 sourcePosition, DoubleVector3 targetPosition, Quaternion sourceQuat, Quaternion targetQuat, float duration, Engine engine)
+    public CinematicCamera(DoubleVector3 sourcePosition, Quaternion sourceRotation, DoubleVector3 targetPosition, Quaternion targetRotation, float duration, Engine engine)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
-        _sourcePosition = sourcePosition;
-        _targetPosition = targetPosition;
-
-        _sourceQuat = sourceQuat;
-        _targetQuat = targetQuat;
-
         engine.Interpolate(
             start: 0, target: 1,
             callback: value =>
             {
-                _factor = value;
-                _needsRecalc = true;
+                Position = sourcePosition + (targetPosition - sourcePosition) * value;
+                Quaternion = Quaternion.Slerp(sourceRotation, targetRotation, (float)value);
+
+                if (value == 1) Moving = false;
             },
             duration: duration);
         Moving = true;
 
         Position = sourcePosition;
-        Quaternion = sourceQuat;
+        Quaternion = sourceRotation;
     }
 
     /// <inheritdoc/>
     public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
     {
         // Ignore input while the animation is running
-    }
-
-    /// <summary>
-    /// Update cached versions of <see cref="View"/> and related matrices
-    /// </summary>
-    protected override void UpdateView()
-    {
-        // Note: No updateView check, instead recalc once per frame
-        if (_needsRecalc)
-        {
-            Position = _sourcePosition + (_targetPosition - _sourcePosition) * _factor;
-            Quaternion = Quaternion.Slerp(_sourceQuat, _targetQuat, (float)_factor);
-
-            _needsRecalc = false;
-        }
-
-        // ReSharper disable CompareOfFloatsByEqualityOperator
-        if (_factor == 1) Moving = false;
-        // ReSharper restore CompareOfFloatsByEqualityOperator
-
-        base.UpdateView();
     }
 }

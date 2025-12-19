@@ -385,13 +385,13 @@ public partial class View : EngineElement, IResetable
         // Create the transitional camera and make it active
         Camera = _cinematicCamera = new(
             sourcePosition: Camera.Position,
+            sourceRotation: Quaternion.RotationMatrix(Camera.View),
             targetPosition: target.Position,
-            sourceQuat: Quaternion.RotationMatrix(Camera.View),
-            targetQuat: Quaternion.RotationMatrix(target.View),
-            duration: duration,
-            engine: Engine)
+            targetRotation: Quaternion.RotationMatrix(target.View),
+            duration,
+            Engine)
         {
-            Name = ("Swing to: " + target.Name),
+            Name = "Swing to: " + target.Name,
             NearClip = Camera.NearClip,
             FarClip = Camera.FarClip
         };
