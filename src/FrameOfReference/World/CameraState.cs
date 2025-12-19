@@ -39,12 +39,12 @@ public class CameraState<TCoordinates> : Positionable<TCoordinates>
     /// The camera's distance from the focused position.
     /// </summary>
     [Description("The camera's distance from the focused position.")]
-    public float Radius { get; set; }
+    public double Radius { get; set; }
 
     /// <summary>
     /// The horizontal rotation of the view direction in degrees.
     /// </summary>
     [DefaultValue(0f), Description("The horizontal rotation of the view direction in degrees.")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-    public float Rotation { get; set; }
+    public double Rotation { get; set; }
 }

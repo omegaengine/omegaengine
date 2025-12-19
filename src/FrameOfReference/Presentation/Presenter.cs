@@ -187,7 +187,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
             {
                 Name = camera.Name,
                 Position = camera.Target.Flatten(),
-                Radius = (float)camera.Radius,
+                Radius = camera.Radius,
                 Rotation = camera.HorizontalRotation
             },
             _ => null

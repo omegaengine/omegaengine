@@ -64,20 +64,20 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
         }
     }
 
-    private float _horizontalRotation;
+    private double _horizontalRotation;
 
     /// <summary>
     /// The clockwise horizontal rotation around the target in degrees.
     /// </summary>
     [Description("The clockwise horizontal rotation around the target in degrees."), Category("Layout")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-    public float HorizontalRotation
+    public double HorizontalRotation
     {
         get => _horizontalRotation.RadianToDegree();
         set
         {
             #region Sanity checks
-            if (float.IsInfinity(value) || float.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
+            if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
             #endregion
 
             value.DegreeToRadian().To(ref _horizontalRotation, ref ViewDirty, ref ViewFrustumDirty);
@@ -179,7 +179,7 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
             Math.Cos(_horizontalRotation) * translation.Y * Radius - Math.Sin(_horizontalRotation) * translation.X * Radius);
         Radius *= Math.Pow(1.1, -16 * translation.Z);
 
-        HorizontalRotation += (float)rotation.X;
+        HorizontalRotation += rotation.X;
     }
 
     /// <summary>
