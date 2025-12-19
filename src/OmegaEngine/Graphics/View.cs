@@ -32,15 +32,15 @@ public partial class View : EngineElement, IResetable
     private readonly bool _disposeScene;
 
     /// <summary>
-    /// A <see cref="CinematicCamera"/> for smooth transitioning to <see cref="_targetCamera"/>
+    /// A camera for smooth transitioning to <see cref="_targetCamera"/>
     /// </summary>
     /// <remarks>Must be <c>null</c> or equal to <see cref="Camera"/></remarks>
-    private CinematicCamera? _cinematicCamera;
+    private TransitionCamera? _transitionCamera;
 
     /// <summary>
     /// A new <see cref="Camera"/> to use after a transition is done
     /// </summary>
-    /// <remarks>Must be <c>null</c> if <see cref="_cinematicCamera"/> is <c>null</c>, will replace <see cref="Camera"/></remarks>
+    /// <remarks>Must be <c>null</c> if <see cref="_transitionCamera"/> is <c>null</c>, will replace <see cref="Camera"/></remarks>
     private Camera? _targetCamera;
     #endregion
 
@@ -372,7 +372,7 @@ public partial class View : EngineElement, IResetable
 
     #region Camera effects
     /// <summary>
-    /// Switches from the current camera view to a new view using a cinematic effect
+    /// Switches from the current camera view to a new view using a transition effect
     /// </summary>
     /// <param name="target">The new camera</param>
     /// <param name="duration">The complete transition time in seconds</param>
@@ -383,7 +383,7 @@ public partial class View : EngineElement, IResetable
         #endregion
 
         // Create the transitional camera and make it active
-        Camera = _cinematicCamera = new(
+        Camera = _transitionCamera = new(
             sourcePosition: Camera.Position,
             sourceRotation: Quaternion.RotationMatrix(Camera.View),
             targetPosition: target.Position,

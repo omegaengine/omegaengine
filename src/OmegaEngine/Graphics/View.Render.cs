@@ -237,11 +237,11 @@ partial class View
         Engine.QueueReset(this);
 
         #region Camera
-        // If a cinematic camera has stopped moving, replace it with the final target
-        if (_cinematicCamera != null && _targetCamera != null && !_cinematicCamera.Moving)
+        // If a transition camera has finished, replace it with the final target
+        if (_transitionCamera is { IsComplete: true } && _targetCamera != null)
         {
             Camera = _targetCamera;
-            _cinematicCamera = null;
+            _transitionCamera = null;
             _targetCamera = null;
         }
 

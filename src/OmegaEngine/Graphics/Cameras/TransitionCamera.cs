@@ -14,19 +14,19 @@ using SlimDX;
 namespace OmegaEngine.Graphics.Cameras;
 
 /// <summary>
-/// A camera that cinematically swings from one position and rotation to another.
+/// A camera that smoothly transitions from one position and rotation to another.
 /// </summary>
-/// <remarks>"Cinematic" means that the movement starts slowly, speeds up and then slows down again before reaching the target.</remarks>
-public class CinematicCamera : QuaternionCamera
+/// <remarks>The movement starts slowly, speeds up, and then slows down again before reaching the target.</remarks>
+public class TransitionCamera : QuaternionCamera
 {
     /// <summary>
-    /// Is this <see cref="CinematicCamera"/> currently moving?
+    /// Is the transition finished?
     /// </summary>
-    [Description("Is this cinematic camera currently moving?"), Category("Behavior")]
-    public bool Moving { get; private set; }
+    [Browsable(false)]
+    public bool IsComplete { get; private set; }
 
     /// <summary>
-    /// Creates a new cinematic camera for the engine
+    /// Creates a new transition camera.
     /// </summary>
     /// <param name="sourcePosition">The initial camera position</param>
     /// <param name="sourceRotation">The initial camera rotation</param>
@@ -34,7 +34,7 @@ public class CinematicCamera : QuaternionCamera
     /// <param name="targetRotation">The target camera rotation</param>
     /// <param name="duration">The complete transition time in seconds</param>
     /// <param name="engine">The <see cref="Engine"/> containing this camera</param>
-    public CinematicCamera(DoubleVector3 sourcePosition, Quaternion sourceRotation, DoubleVector3 targetPosition, Quaternion targetRotation, float duration, Engine engine)
+    public TransitionCamera(DoubleVector3 sourcePosition, Quaternion sourceRotation, DoubleVector3 targetPosition, Quaternion targetRotation, float duration, Engine engine)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -47,10 +47,9 @@ public class CinematicCamera : QuaternionCamera
                 Position = sourcePosition + (targetPosition - sourcePosition) * value;
                 Quaternion = Quaternion.Slerp(sourceRotation, targetRotation, (float)value);
 
-                if (value == 1) Moving = false;
+                if (value == 1) IsComplete = true;
             },
             duration: duration);
-        Moving = true;
 
         Position = sourcePosition;
         Quaternion = sourceRotation;
@@ -59,6 +58,6 @@ public class CinematicCamera : QuaternionCamera
     /// <inheritdoc/>
     public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
     {
-        // Ignore input while the animation is running
+        // Ignore input while the transition is running
     }
 }

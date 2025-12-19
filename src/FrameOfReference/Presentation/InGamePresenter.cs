@@ -98,7 +98,7 @@ public sealed class InGamePresenter : InteractivePresenter
     }
 
     /// <summary>
-    /// Switches from the current camera view to a new view using a cinematic effect.
+    /// Switches from the current camera view to a new view using a transition effect.
     /// </summary>
     /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="CameraState{TCoordinates}"/> stored in the <see cref="PresenterBase{TUniverse}.Universe"/>.</param>
     public void SwingCameraTo(string name)

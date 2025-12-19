@@ -230,7 +230,7 @@ public abstract partial class InteractivePresenter : Presenter
     }
 
     /// <summary>
-    /// Switches from the current camera view to a new view using a cinematic effect.
+    /// Switches from the current camera view to a new view using a transition effect.
     /// </summary>
     /// <param name="cameraState">The destination state of the camera; <c>null</c> for default (looking at the center of the terrain).</param>
     public void SwingCameraTo(CameraState<Vector2>? cameraState = null)
