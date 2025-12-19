@@ -35,7 +35,6 @@ using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Renderables;
-using OmegaEngine.Input;
 using SlimDX;
 
 namespace FrameOfReference.Presentation;
@@ -43,7 +42,7 @@ namespace FrameOfReference.Presentation;
 /// <summary>
 /// Handles the visual representation of <see cref="World"/> content where the user can manually control the perspective
 /// </summary>
-public abstract partial class InteractivePresenter : Presenter, IInputReceiver
+public abstract partial class InteractivePresenter : Presenter
 {
     /// <summary>
     /// Creates a new interactive presenter
