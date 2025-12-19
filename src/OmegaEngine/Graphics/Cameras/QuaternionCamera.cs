@@ -6,7 +6,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.ComponentModel;
 using NanoByte.Common;
 using SlimDX;
 
@@ -17,13 +16,12 @@ namespace OmegaEngine.Graphics.Cameras;
 /// </summary>
 public abstract class QuaternionCamera : Camera
 {
-    private Quaternion _viewQuat;
+    private Quaternion _quaternion = Quaternion.Identity;
 
     /// <summary>
-    /// The current camera view as a quaternion
+    /// Quaternion representing the rotation of the camera.
     /// </summary>
-    [Browsable(false)]
-    public Quaternion ViewQuat { get => _viewQuat; set => value.To(ref _viewQuat, ref ViewDirty, ref ViewFrustumDirty); }
+    protected Quaternion Quaternion { get => _quaternion; set => value.To(ref _quaternion, ref ViewDirty, ref ViewFrustumDirty); }
 
     /// <summary>
     /// Update cached versions of <see cref="View"/> and related matrices; abstract, to be overwritten in subclass.
@@ -32,7 +30,7 @@ public abstract class QuaternionCamera : Camera
     {
         AdjustPositionBase();
 
-        SimpleViewCached = Matrix.RotationQuaternion(_viewQuat);
+        SimpleViewCached = Matrix.RotationQuaternion(_quaternion);
         ViewCached = Matrix.Translation(-PositionCached.ApplyOffset(PositionBaseCached)) * SimpleViewCached;
 
         CacheSpecialMatrices();

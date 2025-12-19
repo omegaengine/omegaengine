@@ -63,7 +63,7 @@ public class CinematicCamera : QuaternionCamera
         Moving = true;
 
         Position = sourcePosition;
-        ViewQuat = sourceQuat;
+        Quaternion = sourceQuat;
     }
 
     /// <inheritdoc/>
@@ -81,7 +81,7 @@ public class CinematicCamera : QuaternionCamera
         if (_needsRecalc)
         {
             Position = _sourcePosition + (_targetPosition - _sourcePosition) * _factor;
-            ViewQuat = Quaternion.Slerp(_sourceQuat, _targetQuat, (float)_factor);
+            Quaternion = Quaternion.Slerp(_sourceQuat, _targetQuat, (float)_factor);
 
             _needsRecalc = false;
         }
