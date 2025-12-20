@@ -23,10 +23,10 @@ public class KeyboardInputProvider : InputProvider
     /// </summary>
     public Dictionary<Keys, (DoubleVector3 Translation, DoubleVector3 Rotation)> KeyMap { get; } = new()
     {
-        [Keys.W] = (new(0, 0, 0.01), new()),
-        [Keys.S] = (new(0, 0, -0.01), new()),
-        [Keys.A] = (new(-0.01, 0, 0), new()),
-        [Keys.D] = (new(0.01, 0, 0), new()),
+        [Keys.W] = (new(0, 0, 1), new()),
+        [Keys.S] = (new(0, 0, -1), new()),
+        [Keys.A] = (new(-1, 0, 0), new()),
+        [Keys.D] = (new(1, 0, 0), new()),
         [Keys.Q] = (new(), new(0, 0, -1)),
         [Keys.E] = (new(), new(0, 0, 1)),
         [Keys.Up] = (new(), new(0, 1, 0)),

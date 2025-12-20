@@ -42,7 +42,7 @@ public class MouseInputProvider : InputProvider
     /// <summary>
     /// The sensitivity of the mouse wheel. The higher the value, the faster the movement.
     /// </summary>
-    public double WheelSensitivity { get; set; } = 0.001;
+    public double WheelSensitivity { get; set; } = 0.1;
 
     /// <summary>The control receiving the mouse events.</summary>
     private readonly Control _control;
@@ -201,7 +201,7 @@ public class MouseInputProvider : InputProvider
 
     private void ApplyNavigation(MouseNavigation nav, Point delta)
     {
-        double screenScale = 1.0 / Math.Max(_control.ClientSize.Width, _control.ClientSize.Height);
+        double screenScale = 100.0 / Math.Max(_control.ClientSize.Width, _control.ClientSize.Height);
 
         var translation = new DoubleVector3();
         var rotation = new DoubleVector3();
