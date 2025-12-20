@@ -21,7 +21,7 @@ public class KeyboardInputProvider : InputProvider
     /// <summary>
     /// Mapping from key to navigation action.
     /// </summary>
-    public Dictionary<Keys, (DoubleVector3 Translation, DoubleVector3 Rotation)> KeyMap { get; } = new()
+    public Dictionary<Keys, (DoubleVector3 Translation, DoubleVector3 Rotation)> KeyBindings { get; } = new()
     {
         [Keys.W] = (new(0, 0, 1), new()),
         [Keys.S] = (new(0, 0, -1), new()),
@@ -72,7 +72,7 @@ public class KeyboardInputProvider : InputProvider
     {
         if (e.Modifiers.HasFlag(Keys.Control)) return;
 
-        if (KeyMap.ContainsKey(e.KeyCode))
+        if (KeyBindings.ContainsKey(e.KeyCode))
         {
             _pressedKeys.Add(e.KeyCode);
             _timerKeyboard.Enabled = true;
@@ -86,7 +86,7 @@ public class KeyboardInputProvider : InputProvider
 
         foreach (var key in _pressedKeys)
         {
-            if (KeyMap.TryGetValue(key, out var mapping))
+            if (KeyBindings.TryGetValue(key, out var mapping))
             {
                 translation += mapping.Translation;
                 rotation += mapping.Rotation;
