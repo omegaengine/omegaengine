@@ -20,32 +20,9 @@ namespace OmegaEngine.Graphics.Cameras;
 /// </summary>
 /// <param name="minRadius">The minimum radius allowed. Also used as the initial radius.</param>
 /// <param name="maxRadius">The maximum radius allowed.</param>
-public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100) : MatrixCamera
+public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
+    : ZoomCamera(minRadius, maxRadius)
 {
-    private double _radius = minRadius;
-
-    /// <summary>
-    /// The distance between the camera and the center of the focused object.
-    /// </summary>
-    /// <remarks>Must be a positive real number.</remarks>
-    [Description("The distance between the camera and the center of the focused object."), Category("Layout")]
-    public double Radius
-    {
-        get => _radius;
-        set
-        {
-            #region Sanity checks
-            if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
-            if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value), Resources.ValueNotPositive);
-            #endregion
-
-            // Apply limits (in case of conflict minimum is more important than maximum)
-            value = Math.Max(Math.Min(value, MaxRadius), MinRadius);
-
-            value.To(ref _radius, ref ViewDirty, ref ViewFrustumDirty);
-        }
-    }
-
     private double _horizontalRotation;
 
     /// <summary>
@@ -138,66 +115,30 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
         set => value.Normalize().To(ref _worldUp, ref ViewDirty, ref ViewFrustumDirty);
     }
 
-    private double _minRadius = minRadius;
-
     /// <summary>
-    /// The minimum radius allowed.
+    /// Controls the sensitivity of movement.
     /// </summary>
-    /// <remarks>Must be a positive real number.</remarks>
-    [Description("The minimum radius allowed."), Category("Behavior")]
-    public double MinRadius
-    {
-        get => _minRadius;
-        set
-        {
-            #region Sanity checks
-            if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
-            if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value), Resources.ValueNotPositive);
-            #endregion
-
-            value.To(ref _minRadius, ref ViewDirty, ref ViewFrustumDirty);
-        }
-    }
-
-    private double _maxRadius = maxRadius;
-
-    /// <summary>
-    /// The maximum radius allowed.
-    /// </summary>
-    /// <remarks>Must be a positive real number.</remarks>
-    [Description("The maximum radius allowed."), Category("Behavior")]
-    public double MaxRadius
-    {
-        get => _maxRadius;
-        set
-        {
-            #region Sanity checks
-            if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
-            if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value), Resources.ValueNotPositive);
-            #endregion
-
-            value.To(ref _maxRadius, ref ViewDirty, ref ViewFrustumDirty);
-        }
-    }
+    [Description("Controls the sensitivity of movement."), Category("Behavior")]
+    public double MovementSensitivity { get; set; } = 0.01;
 
     /// <inheritdoc/>
     public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
     {
         var viewDir = (Target - PositionCached).Normalize();
 
-        Target += Radius
-                * new DoubleVector3(
-                      translation.X * -Math.Cos(_horizontalRotation),
-                      IsUpsideDown ? -translation.Y : translation.Y,
-                      translation.X * Math.Sin(_horizontalRotation))
-                 .AdjustReference(from: _defaultWorldUp, to: _worldUp)
-                 .RotateAroundAxis(viewDir, -_roll);
-
-        Radius *= Math.Pow(1.1, -16 * translation.Z);
+        Target += Radius * MovementSensitivity *
+                  new DoubleVector3(
+                          translation.X * -Math.Cos(_horizontalRotation),
+                          IsUpsideDown ? -translation.Y : translation.Y,
+                          translation.X * Math.Sin(_horizontalRotation))
+                     .AdjustReference(from: _defaultWorldUp, to: _worldUp)
+                     .RotateAroundAxis(viewDir, -_roll);
 
         HorizontalRotation += rotation.X;
         VerticalRotation += rotation.Y;
         Roll += rotation.Z;
+
+        base.Navigate(translation, rotation);
     }
 
     /// <inheritdoc/>
@@ -210,7 +151,7 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
                 -Math.Sin(_verticalRotation),
                 -Math.Cos(_verticalRotation) * Math.Cos(_horizontalRotation))
            .AdjustReference(from: _defaultWorldUp, to: _worldUp);
-        PositionCached = Target - _radius * viewDirection;
+        PositionCached = Target - Radius * viewDirection;
 
         Up = (Vector3)(IsUpsideDown ? -1 * _worldUp : _worldUp).RotateAroundAxis(viewDirection, -_roll);
 

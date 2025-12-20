@@ -21,10 +21,11 @@ namespace OmegaEngine.Graphics.Cameras;
 /// </summary>
 /// <param name="minRadius">The minimum radius allowed. Also used as the initial radius.</param>
 /// <param name="maxRadius">The maximum radius allowed.</param>
-/// <param name="minAngle">The minimum vertical angle in degrees. Effective when <see cref="Radius"/> is equal to <see cref="MinRadius"/>.</param>
-/// <param name="maxAngle">The maximum vertical angle in degrees. Effective when <see cref="Radius"/> is equal to <see cref="MaxRadius"/>.</param>
+/// <param name="minAngle">The minimum vertical angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MinRadius"/>.</param>
+/// <param name="maxAngle">The maximum vertical angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MaxRadius"/>.</param>
 /// <param name="heightController">This delegate is called to control the minimum height of the strategy camera based on its 2D coordinates.</param>
-public class StrategyCamera(double minRadius, double maxRadius, float minAngle, float maxAngle, Func<DoubleVector3, double> heightController) : MatrixCamera
+public class StrategyCamera(double minRadius, double maxRadius, float minAngle, float maxAngle, Func<DoubleVector3, double> heightController)
+    : ZoomCamera(minRadius, maxRadius)
 {
     /// <summary>
     /// The position the camera is looking at.
@@ -38,30 +39,6 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
             value.X,
             heightController(value), // Target object on the terrain's surface
             value.Z);
-    }
-
-    private double _radius = minRadius;
-
-    /// <summary>
-    /// The distance between the camera and the center of the focuses object.
-    /// </summary>
-    /// <remarks>Must be a positive real number.</remarks>
-    [Description("The distance between the camera and the center of the focuses object."), Category("Layout")]
-    public double Radius
-    {
-        get => _radius;
-        set
-        {
-            #region Sanity checks
-            if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
-            if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value), Resources.ValueNotPositive);
-            #endregion
-
-            // Apply limits (in case of conflict minimum is more important than maximum)
-            value = Math.Max(Math.Min(value, MaxRadius), MinRadius);
-
-            value.To(ref _radius, ref ViewDirty, ref ViewFrustumDirty);
-        }
     }
 
     private double _horizontalRotation;
@@ -86,52 +63,10 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
         }
     }
 
-    private double _minRadius = minRadius;
-
-    /// <summary>
-    /// The minimum radius allowed.
-    /// </summary>
-    /// <remarks>Must be a positive real number.</remarks>
-    [Description("The minimum radius allowed."), Category("Behavior")]
-    public double MinRadius
-    {
-        get => _minRadius;
-        set
-        {
-            #region Sanity checks
-            if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
-            if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value), Resources.ValueNotPositive);
-            #endregion
-
-            value.To(ref _minRadius, ref ViewDirty, ref ViewFrustumDirty);
-        }
-    }
-
-    private double _maxRadius = maxRadius;
-
-    /// <summary>
-    /// The maximum radius allowed.
-    /// </summary>
-    /// <remarks>Must be a positive real number.</remarks>
-    [Description("The maximum radius allowed."), Category("Behavior")]
-    public double MaxRadius
-    {
-        get => _maxRadius;
-        set
-        {
-            #region Sanity checks
-            if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
-            if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value), Resources.ValueNotPositive);
-            #endregion
-
-            value.To(ref _maxRadius, ref ViewDirty, ref ViewFrustumDirty);
-        }
-    }
-
     private float _minAngle = minAngle.DegreeToRadian();
 
     /// <summary>
-    /// The minimum vertical angle in degrees. Effective when <see cref="Radius"/> is equal to <see cref="MinRadius"/>.
+    /// The minimum vertical angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MinRadius"/>.
     /// </summary>
     [Description("The minimum vertical angle in degrees. Effective when Radius is equal to MinRadius."), Category("Behavior")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
@@ -153,7 +88,7 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     private float _maxAngle = maxAngle.DegreeToRadian();
 
     /// <summary>
-    /// The maximum vertical angle in degrees. Effective when <see cref="Radius"/> is equal to <see cref="MaxRadius"/>.
+    /// The maximum vertical angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MaxRadius"/>.
     /// </summary>
     [Description("The maximum vertical angle in degrees. Effective when Radius is equal to MaxRadius."), Category("Behavior")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
@@ -172,17 +107,24 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
         }
     }
 
+    /// <summary>
+    /// Controls the sensitivity of movement.
+    /// </summary>
+    [Description("Controls the sensitivity of movement."), Category("Behavior")]
+    public double MovementSensitivity { get; set; } = 0.01;
+
     /// <inheritdoc/>
     public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
     {
-        Target += Radius
-                * new DoubleVector3(
+        Target += Radius * MovementSensitivity *
+                  new DoubleVector3(
                       Math.Cos(_horizontalRotation) * translation.X + Math.Sin(_horizontalRotation) * translation.Y,
                       0,
                       Math.Cos(_horizontalRotation) * translation.Y - Math.Sin(_horizontalRotation) * translation.X);
-        Radius *= Math.Pow(1.1, -16 * translation.Z);
 
         HorizontalRotation += rotation.X;
+
+        base.Navigate(translation, rotation);
     }
 
     /// <inheritdoc/>
@@ -190,21 +132,16 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     {
         if (!ViewDirty) return;
 
-        // Keep radius within boundaries
-        if (_radius < _minRadius) _radius = _minRadius;
-        if (_radius > _maxRadius) _radius = _maxRadius;
-
         // Calculate variable vertical rotation based on current radius
-        double vRotation = (_minAngle - _maxAngle) / (_minRadius - _maxRadius) * _radius +
-            _minAngle - (_minAngle - _maxAngle) / (_minRadius - _maxRadius) * _minRadius;
+        double vRotation = (_minAngle - _maxAngle) / (MinRadius - MaxRadius) * Radius +
+            _minAngle - (_minAngle - _maxAngle) / (MinRadius - MaxRadius) * MinRadius;
         while (vRotation > 2 * Math.PI) vRotation -= 2 * Math.PI;
         while (vRotation < 0) vRotation += 2 * Math.PI;
 
-        // (radius * Math.Cos(vRotation)) is the temporary radius after the y component shift
-        var newPosition = new DoubleVector3(
-            _radius * Math.Cos(vRotation) * -Math.Sin(_horizontalRotation),
-            _radius * Math.Sin(vRotation),
-            _radius * Math.Cos(vRotation) * -Math.Cos(_horizontalRotation));
+        var newPosition = Radius * new DoubleVector3(
+            Math.Cos(vRotation) * -Math.Sin(_horizontalRotation),
+            Math.Sin(vRotation),
+            Math.Cos(vRotation) * -Math.Cos(_horizontalRotation));
 
         // Translate these coordinates by the target object's spacial location
         PositionCached = newPosition + Target;

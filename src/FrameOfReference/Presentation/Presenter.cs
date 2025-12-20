@@ -162,7 +162,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
     }
 
     /// <summary>
-    /// The value for <see cref="StrategyCamera.MaxRadius"/>.
+    /// The value for <see cref="ZoomCamera.MaxRadius"/>.
     /// </summary>
     protected virtual double MaxCameraRadius => 2250;
 
