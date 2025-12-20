@@ -112,6 +112,7 @@ public class KeyboardInputProvider : InputProvider
             _control.KeyUp -= KeyUp;
 
             _timerKeyboard.Tick -= Tick;
+            _timerKeyboard.Dispose();
         }
     }
 }
