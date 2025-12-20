@@ -8,7 +8,6 @@
 
 using System;
 using JetBrains.Annotations;
-using NanoByte.Common;
 using SlimDX;
 
 namespace OmegaEngine.Foundation.Geometry;
@@ -69,6 +68,46 @@ public static class VectorMath
         => Math.Cos(rotation) * value +
            Math.Sin(rotation) * axis.CrossProduct(value) +
            (1 - Math.Cos(rotation)) * axis.DotProduct(value) * axis;
+
+    /// <summary>
+    /// Gets the minimal rotation required to rotate one direction vector into another.
+    /// </summary>
+    /// <param name="from">The starting direction vector.</param>
+    /// <param name="to">The target direction vector.</param>
+    /// <returns>A tuple containing the unit rotation axis and the rotation angle in radians.</returns>
+    [Pure]
+    public static (DoubleVector3 axis, double rotation) GetRotationTo(this DoubleVector3 from, DoubleVector3 to)
+    {
+        from = from.Normalize();
+        to = to.Normalize();
+        double dot = from.DotProduct(to);
+
+        if (Math.Abs(dot + 1.0) < 1e-9)
+        {
+            var arbitrary = Math.Abs(from.X) < 0.9
+                ? new DoubleVector3(1, 0, 0)
+                : new DoubleVector3(0, 1, 0);
+            var perpendicularAxis = from.CrossProduct(arbitrary).Normalize();
+            return (perpendicularAxis, Math.PI);
+        }
+        else
+        {
+            var axisNormal = from.CrossProduct(to).Normalize();
+            return (axisNormal, Math.Acos(dot));
+        }
+    }
+
+    /// <summary>
+    /// Rotates a vector from an old to a new reference frame.
+    /// </summary>
+    /// <param name="vector">The vector to be adjusted.</param>
+    /// <param name="from">A vector describing the old reference frame.</param>
+    /// <param name="to">A vector describing the new reference frame.</param>
+    public static DoubleVector3 AdjustReference(this DoubleVector3 vector, DoubleVector3 from, DoubleVector3 to)
+    {
+        (var axis, double rotation) = from.GetRotationTo(to);
+        return vector.RotateAroundAxis(axis, rotation);
+    }
 
     /// <summary>
     /// Performs linear interpolation between two vectors.
