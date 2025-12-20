@@ -25,10 +25,10 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     private double _radius = minRadius;
 
     /// <summary>
-    /// The distance between the camera and the center of the focuses object.
+    /// The distance between the camera and the center of the focused object.
     /// </summary>
     /// <remarks>Must be a positive real number.</remarks>
-    [Description("The distance between the camera and the center of the focuses object."), Category("Layout")]
+    [Description("The distance between the camera and the center of the focused object."), Category("Layout")]
     public double Radius
     {
         get => _radius;
@@ -61,8 +61,9 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
             if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
             #endregion
 
-            RadianWrapAround(value.DegreeToRadian())
-               .To(ref _horizontalRotation, ref ViewDirty, ref ViewFrustumDirty);
+            value.DegreeToRadian()
+                 .Modulo(2 * Math.PI)
+                 .To(ref _horizontalRotation, ref ViewDirty, ref ViewFrustumDirty);
         }
     }
 
@@ -81,10 +82,27 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
             if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
             #endregion
 
-            RadianWrapAround(value.DegreeToRadian())
+            PreventGimbalLock(value.DegreeToRadian().Modulo(2 * Math.PI))
                .To(ref _verticalRotation, ref ViewDirty, ref ViewFrustumDirty);
         }
     }
+
+    private const double
+        QuarterCircle = Math.PI / 2,
+        ThreeQuarterCircle = Math.PI * 3 / 2,
+        Epsilon = 0.000001;
+
+    private static double PreventGimbalLock(double value)
+        => value switch
+        {
+            > QuarterCircle - Epsilon and < QuarterCircle => QuarterCircle + Epsilon,
+            > QuarterCircle and < QuarterCircle + Epsilon => QuarterCircle - Epsilon,
+            > ThreeQuarterCircle - Epsilon and < ThreeQuarterCircle => ThreeQuarterCircle + Epsilon,
+            > ThreeQuarterCircle and < ThreeQuarterCircle + Epsilon => ThreeQuarterCircle - Epsilon,
+            _ => value
+        };
+
+    private bool IsUpsideDown => _verticalRotation is > QuarterCircle and < ThreeQuarterCircle;
 
     private double _roll;
 
@@ -101,18 +119,11 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
             if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
             #endregion
 
-            RadianWrapAround(value.DegreeToRadian())
-               .To(ref _roll, ref ViewDirty, ref ViewFrustumDirty);
+            value.DegreeToRadian()
+                 .Modulo(2 * Math.PI)
+                 .To(ref _roll, ref ViewDirty, ref ViewFrustumDirty);
         }
     }
-
-    /// <summary>
-    /// Keep rotations between 0 and 2PI.
-    /// </summary>
-    private static double RadianWrapAround(double value)
-        => value is < 0 or > 2 * Math.PI
-            ? (value % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI)
-            : value;
 
     private static readonly DoubleVector3 _defaultWorldUp = new(0, 1, 0);
     private DoubleVector3 _worldUp = _defaultWorldUp;
@@ -126,11 +137,6 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
         get => _worldUp;
         set => value.Normalize().To(ref _worldUp, ref ViewDirty, ref ViewFrustumDirty);
     }
-
-    private DoubleVector3 ApplyWorldUp(DoubleVector3 vector)
-        => vector.RotateAroundAxis(
-            _defaultWorldUp.CrossProduct(_worldUp).Normalize(),
-            Math.Acos(_defaultWorldUp.DotProduct(_worldUp)));
 
     private double _minRadius = minRadius;
 
@@ -178,12 +184,15 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
     {
         var viewDir = (Target - PositionCached).Normalize();
-        translation = translation.RotateAroundAxis(viewDir, _roll);
 
-        Target += ApplyWorldUp(new DoubleVector3(
-            translation.X * Math.Cos(_horizontalRotation),
-            translation.Y,
-            translation.X * -Math.Sin(_horizontalRotation)) * Radius);
+        Target += Radius
+                * new DoubleVector3(
+                      translation.X * -Math.Cos(_horizontalRotation),
+                      IsUpsideDown ? -translation.Y : translation.Y,
+                      translation.X * Math.Sin(_horizontalRotation))
+                 .AdjustReference(from: _defaultWorldUp, to: _worldUp)
+                 .RotateAroundAxis(viewDir, -_roll);
+
         Radius *= Math.Pow(1.1, -16 * translation.Z);
 
         HorizontalRotation += rotation.X;
@@ -191,21 +200,19 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
         Roll += rotation.Z;
     }
 
-    /// <summary>
-    /// Update cached versions of <see cref="View"/> and related matrices.
-    /// </summary>
+    /// <inheritdoc/>
     protected override void UpdateView()
     {
         if (!ViewDirty) return;
 
-        var viewDirection = ApplyWorldUp(new DoubleVector3(
-            -Math.Cos(_verticalRotation) * Math.Sin(_horizontalRotation),
-            -Math.Sin(_verticalRotation),
-            -Math.Cos(_verticalRotation) * Math.Cos(_horizontalRotation)));
+        var viewDirection = new DoubleVector3(
+                -Math.Cos(_verticalRotation) * Math.Sin(_horizontalRotation),
+                -Math.Sin(_verticalRotation),
+                -Math.Cos(_verticalRotation) * Math.Cos(_horizontalRotation))
+           .AdjustReference(from: _defaultWorldUp, to: _worldUp);
         PositionCached = Target - _radius * viewDirection;
 
-        bool upsideDown = _verticalRotation is > Math.PI / 2 and < Math.PI / 2 * 3;
-        Up = (Vector3)(upsideDown ? -1 * _worldUp : _worldUp).RotateAroundAxis(viewDirection, _roll);
+        Up = (Vector3)(IsUpsideDown ? -1 * _worldUp : _worldUp).RotateAroundAxis(viewDirection, -_roll);
 
         base.UpdateView();
     }
