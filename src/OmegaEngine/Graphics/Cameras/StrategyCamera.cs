@@ -80,7 +80,9 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
             if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
             #endregion
 
-            value.DegreeToRadian().To(ref _horizontalRotation, ref ViewDirty, ref ViewFrustumDirty);
+            value.DegreeToRadian()
+                 .Modulo(2 * Math.PI)
+                 .To(ref _horizontalRotation, ref ViewDirty, ref ViewFrustumDirty);
         }
     }
 
@@ -173,18 +175,17 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     /// <inheritdoc/>
     public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
     {
-        Target += new DoubleVector3(
-            Math.Cos(_horizontalRotation) * translation.X * Radius + Math.Sin(_horizontalRotation) * translation.Y * Radius,
-            0,
-            Math.Cos(_horizontalRotation) * translation.Y * Radius - Math.Sin(_horizontalRotation) * translation.X * Radius);
+        Target += Radius
+                * new DoubleVector3(
+                      Math.Cos(_horizontalRotation) * translation.X + Math.Sin(_horizontalRotation) * translation.Y,
+                      0,
+                      Math.Cos(_horizontalRotation) * translation.Y - Math.Sin(_horizontalRotation) * translation.X);
         Radius *= Math.Pow(1.1, -16 * translation.Z);
 
         HorizontalRotation += rotation.X;
     }
 
-    /// <summary>
-    /// Update cached versions of <see cref="View"/> and related matrices.
-    /// </summary>
+    /// <inheritdoc/>
     protected override void UpdateView()
     {
         if (!ViewDirty) return;
