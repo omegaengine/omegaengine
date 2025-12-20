@@ -61,6 +61,7 @@ public class MouseInputProvider : InputProvider
         _control.MouseUp += MouseUp;
         _control.MouseWheel += MouseWheel;
         _control.MouseDoubleClick += MouseDoubleClick;
+        _control.LostFocus += (_, _) => ForceReleaseCursor();
         // Note: _control.MouseClick is useless since on a render target without any child controls even drags would be considered clicks
     }
 
@@ -73,22 +74,46 @@ public class MouseInputProvider : InputProvider
     /// <summary>The distance the mouse cursor has traveled since the button was pressed.</summary>
     private Size _totalMouseDelta;
 
-    /// <summary>Was a <see cref="MouseDown"/> event received? If not, other mouse input should be ignored, since the event most likely was suppressed on purpose (handled by somebody else).</summary>
-    private bool _pressed;
-
-    /// <summary>Has the mouse been moved enough to decide this is no longer a click, but dragging?</summary>
-    /// <remarks>This is required since <see cref="Control.Click"/> cannot be used to reliably detect clicks on render targets.</remarks>
-    private bool _moving;
-
-    /// <summary>The action currently active due to mouse dragging.</summary>
+    private MouseButtons _pressedButtons;
+    private bool _isDragging;
     private MouseAction? _activeAction;
+
+    private bool _cursorCaptured;
+    private Point _cursorCapturePos;
+    private bool _ignoreMouseMove;
+
+    private void CaptureCursor()
+    {
+        if (_cursorCaptured) return;
+
+        _cursorCapturePos = Cursor.Position;
+        Cursor.Hide();
+        _cursorCaptured = true;
+    }
+
+    private void ReleaseCursor()
+    {
+        if (!_cursorCaptured) return;
+
+        Cursor.Position = _cursorCapturePos;
+        Cursor.Show();
+        _cursorCaptured = false;
+    }
+
+    private void ForceReleaseCursor()
+    {
+        _isDragging = false;
+        _activeAction = null;
+        _pressedButtons = MouseButtons.None;
+        ReleaseCursor();
+    }
 
     private void MouseDown(object sender, MouseEventArgs e)
     {
         if (!HasReceivers) return;
 
-        _pressed = true;
-        _activeAction = Control.MouseButtons switch
+        _pressedButtons |= e.Button;
+        _activeAction = _pressedButtons switch
         {
             MouseButtons.Left => Scheme.LeftDrag,
             MouseButtons.Right => Scheme.RightDrag,
@@ -96,56 +121,42 @@ public class MouseInputProvider : InputProvider
             _ => null
         };
 
-        if (_moving && _activeAction is not MouseAreaSelection)
-        {
-            bool accumulate = Control.ModifierKeys.HasFlag(Keys.Control);
-            OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), accumulate, done: true);
-            _moving = false;
-        }
-
-        // Remember the mouse cursor position when the button was pressed
-        _lastMouseLoc = _origMouseLoc = e.Location;
-
-        // Clean up
+        _origMouseLoc = _lastMouseLoc = e.Location;
         _totalMouseDelta = default;
-        UpdateCursorCapture();
+        _isDragging = false;
     }
-
-    /// <summary>Don't execute <see cref="MouseMove"/>.</summary>
-    private bool _ignoreMouseMove;
-
-    /// <summary>Is the cursor currently captured?</summary>
-    private bool _cursorCaptured;
 
     private void MouseMove(object sender, MouseEventArgs e)
     {
         if (_ignoreMouseMove || !HasReceivers) return;
         OnHover(e.Location);
-        if (!_pressed) return;
 
-        // Calculate movement delta
-        var delta = new Point(e.X - _lastMouseLoc.X, e.Y - _lastMouseLoc.Y);
-
-        if (Control.MouseButtons != MouseButtons.None)
+        if (_pressedButtons == MouseButtons.None)
         {
-            // Track total mouse movement while buttons are pressed
-            _totalMouseDelta += (Size)delta;
+            _lastMouseLoc = e.Location;
+            return;
+        }
 
-            // Once the cursor has been moved far enough away from the origin, a click interpretation is longer possible, only selection or panning
-            if (Math.Abs(_totalMouseDelta.Width) > ClickAccuracy || Math.Abs(_totalMouseDelta.Height) > ClickAccuracy)
-            {
-                _moving = true;
-                UpdateCursorCapture();
-            }
+        var delta = new Point(e.X - _lastMouseLoc.X, e.Y - _lastMouseLoc.Y);
+        _totalMouseDelta += (Size)delta;
+
+        if (!_isDragging &&
+            (Math.Abs(_totalMouseDelta.Width) > ClickAccuracy ||
+             Math.Abs(_totalMouseDelta.Height) > ClickAccuracy))
+        {
+            _isDragging = true;
+
+            if (_activeAction is MouseNavigation { CaptureCursor: true })
+                CaptureCursor();
         }
 
         switch (_activeAction)
         {
-            case MouseAreaSelection when _moving:
+            case MouseAreaSelection when _isDragging:
                 OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), accumulate: Control.ModifierKeys.HasFlag(Keys.Control));
                 break;
 
-            case MouseNavigation nav:
+            case MouseNavigation nav when _isDragging:
                 ApplyNavigation(nav, delta);
                 break;
         }
@@ -157,27 +168,23 @@ public class MouseInputProvider : InputProvider
 
             // Snap back to original position
             Cursor.Position -= new Size(delta);
-            Application.DoEvents();
 
             _ignoreMouseMove = false;
         }
         else _lastMouseLoc = e.Location;
-
-        Application.DoEvents();
     }
 
     private void MouseUp(object sender, MouseEventArgs e)
     {
-        if (!_pressed || !HasReceivers) return;
-        _pressed = false;
+        if (!HasReceivers) return;
 
+        _pressedButtons &= ~e.Button;
         bool accumulate = Control.ModifierKeys.HasFlag(Keys.Control);
 
-        // Check if only the left mouse-button was pressed and now released
-        if (e.Button == MouseButtons.Left && Control.MouseButtons == MouseButtons.None)
+        if (e.Button == MouseButtons.Left && _pressedButtons == MouseButtons.None)
         {
-            if (_moving)
-            { // The mouse moved more than a click, so this is a completed selection
+            if (_isDragging)
+            {
                 OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), accumulate, done: true);
             }
             else
@@ -186,17 +193,15 @@ public class MouseInputProvider : InputProvider
             }
         }
 
-        if (e.Button == MouseButtons.Right && Control.MouseButtons == MouseButtons.None && !_moving)
-        {
-            OnClick(e, accumulate: true);
-        }
+        if (e.Button == MouseButtons.Right && _pressedButtons == MouseButtons.None && !_isDragging) OnClick(e, accumulate: true);
 
-        // Clean up
-        _origMouseLoc = default;
-        _totalMouseDelta = default;
-        _moving = false;
-        _activeAction = null;
-        UpdateCursorCapture();
+        if (_pressedButtons == MouseButtons.None)
+        {
+            _isDragging = false;
+            _activeAction = null;
+            _totalMouseDelta = default;
+            ReleaseCursor();
+        }
     }
 
     private void ApplyNavigation(MouseNavigation nav, Point delta)
@@ -240,33 +245,18 @@ public class MouseInputProvider : InputProvider
 
     private void MouseWheel(object sender, MouseEventArgs e)
         => OnNavigate(
-            translation: new DoubleVector3(0, 0, WheelSensitivity * e.Delta),
-            rotation: new DoubleVector3());
+            translation: new(0, 0, WheelSensitivity * e.Delta),
+            rotation: new());
 
     private void MouseDoubleClick(object sender, MouseEventArgs e)
         => OnDoubleClick(e);
-
-    private void UpdateCursorCapture()
-    {
-        bool shouldCapture = _moving && _activeAction is MouseNavigation {CaptureCursor: true};
-
-        if (shouldCapture && !_cursorCaptured)
-        {
-            Cursor.Hide();
-            _cursorCaptured = true;
-        }
-        else if (!shouldCapture && _cursorCaptured)
-        {
-            Cursor.Show();
-            _cursorCaptured = false;
-        }
-    }
-
     /// <inheritdoc/>
     protected override void Dispose(bool disposing)
     {
         if (disposing)
         { // This block will only be executed on manual disposal, not by Garbage Collection
+            ForceReleaseCursor();
+
             // Stop tracking input events
             _control.MouseDown -= MouseDown;
             _control.MouseMove -= MouseMove;
