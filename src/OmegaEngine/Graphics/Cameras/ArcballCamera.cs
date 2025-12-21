@@ -20,10 +20,7 @@ namespace OmegaEngine.Graphics.Cameras;
 /// <summary>
 /// A camera that can be rotated around a specific point in space.
 /// </summary>
-/// <param name="minRadius">The minimum radius allowed. Also used as the initial radius.</param>
-/// <param name="maxRadius">The maximum radius allowed.</param>
-public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
-    : ZoomCamera(minRadius, maxRadius)
+public sealed class ArcballCamera : ZoomCamera
 {
     private double _yaw;
 

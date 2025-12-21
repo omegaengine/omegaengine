@@ -19,13 +19,8 @@ namespace OmegaEngine.Graphics.Cameras;
 /// <summary>
 /// An RTS-style camera with an adjustable horizontal rotation and an automatic pitch angle.
 /// </summary>
-/// <param name="minRadius">The minimum radius allowed. Also used as the initial radius.</param>
-/// <param name="maxRadius">The maximum radius allowed.</param>
-/// <param name="pinPitch">The minimum pitch angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MinRadius"/>.</param>
-/// <param name="maxPitch">The maximum pitch angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MaxRadius"/>.</param>
 /// <param name="heightController">This delegate is called to control the minimum height of the strategy camera based on its 2D coordinates.</param>
-public class StrategyCamera(double minRadius, double maxRadius, float pinPitch, float maxPitch, Func<DoubleVector3, double> heightController)
-    : ZoomCamera(minRadius, maxRadius)
+public class StrategyCamera(Func<DoubleVector3, double> heightController) : ZoomCamera
 {
     /// <summary>
     /// The position the camera is looking at.
@@ -63,7 +58,7 @@ public class StrategyCamera(double minRadius, double maxRadius, float pinPitch, 
         }
     }
 
-    private float _minPitch = pinPitch.DegreeToRadian();
+    private float _minPitch = 25f.DegreeToRadian();
 
     /// <summary>
     /// The minimum pitch angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MinRadius"/>.
@@ -85,7 +80,7 @@ public class StrategyCamera(double minRadius, double maxRadius, float pinPitch, 
         }
     }
 
-    private float _maxPitch = maxPitch.DegreeToRadian();
+    private float _maxPitch = 60f.DegreeToRadian();
 
     /// <summary>
     /// The maximum pitch angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MaxRadius"/>.

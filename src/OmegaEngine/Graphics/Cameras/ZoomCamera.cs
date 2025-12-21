@@ -11,11 +11,9 @@ namespace OmegaEngine.Graphics.Cameras;
 /// <summary>
 /// Common base class for cameras that support zooming.
 /// </summary>
-/// <param name="minRadius">The minimum radius allowed. Also used as the initial radius.</param>
-/// <param name="maxRadius">The maximum radius allowed.</param>
-public abstract class ZoomCamera(double minRadius = 50, double maxRadius = 100) : MatrixCamera
+public abstract class ZoomCamera : MatrixCamera
 {
-    private double _radius = minRadius;
+    private double _radius = 2;
 
     /// <summary>
     /// The distance between the camera and the center of the target.
@@ -40,13 +38,13 @@ public abstract class ZoomCamera(double minRadius = 50, double maxRadius = 100) 
     }
 
 
-    private double _minRadius = minRadius;
+    private double _minRadius = 2;
 
     /// <summary>
     /// The minimum radius allowed.
     /// </summary>
     /// <remarks>Must be a positive real number.</remarks>
-    [Description("The minimum radius allowed."), Category("Behavior")]
+    [DefaultValue(2.0), Description("The minimum radius allowed."), Category("Behavior")]
     public double MinRadius
     {
         get => _minRadius;
@@ -61,13 +59,13 @@ public abstract class ZoomCamera(double minRadius = 50, double maxRadius = 100) 
         }
     }
 
-    private double _maxRadius = maxRadius;
+    private double _maxRadius = 10000;
 
     /// <summary>
     /// The maximum radius allowed.
     /// </summary>
     /// <remarks>Must be a positive real number.</remarks>
-    [Description("The maximum radius allowed."), Category("Behavior")]
+    [DefaultValue(10000.0), Description("The maximum radius allowed."), Category("Behavior")]
     public double MaxRadius
     {
         get => _maxRadius;

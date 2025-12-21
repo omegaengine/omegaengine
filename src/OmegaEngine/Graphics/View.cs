@@ -249,7 +249,7 @@ public partial class View : EngineElement, IResetable
     /// </summary>
     /// <param name="color">The plain color to render</param>
     public View(Color color)
-        : this(new Scene(), new ArcballCamera(minRadius: 1, maxRadius: 10))
+        : this(new Scene(), new ArcballCamera())
     {
         _backgroundColor = color;
         _disposeScene = true;

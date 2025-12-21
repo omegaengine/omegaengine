@@ -47,10 +47,11 @@ public sealed class MenuPresenter : Presenter
         if (universe == null) throw new ArgumentNullException(nameof(universe));
         #endregion
 
-        _camera = new(minRadius: 750, maxRadius: 750)
+        _camera = new()
         {
             Name = "Menu",
             Target = new (universe.Terrain.Center.X, 150, -universe.Terrain.Center.Y), // Map X = Engine +X, Map Y = Engine -Z
+            Radius = 750,
             Yaw = 0,
             Pitch = 15
         };

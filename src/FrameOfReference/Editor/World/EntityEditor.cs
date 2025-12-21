@@ -468,10 +468,12 @@ public partial class EntityEditor : EntityEditorDesignerShim
     private void buttonOrthographicView_Click(object sender, EventArgs e)
     {
         renderPanel.MouseInputProvider.Scheme = MouseInputScheme.Scene;
-        _presenter.View.TransitionCameraTo(new ArcballCamera(minRadius: 50, maxRadius: 2000)
+        _presenter.View.TransitionCameraTo(new ArcballCamera()
         {
             Name = "Orthographic",
             Target = _universe.Terrain.ToEngineCoords(_universe.Terrain.Center) + new DoubleVector3(0, 100, 0),
+            MinRadius = 50,
+            MaxRadius = 2000,
             Radius = 500
         });
     }
