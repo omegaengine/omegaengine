@@ -141,7 +141,7 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
                      .RotateAroundAxis(viewDir, -_roll);
 
         Yaw += rotation.X;
-        Pitch += rotation.Y;
+        Pitch -= rotation.Y;
         Roll += rotation.Z;
 
         base.Navigate(translation, rotation);
