@@ -25,9 +25,9 @@ public sealed class FirstPersonCamera : QuaternionCamera
     private double _yaw;
 
     /// <summary>
-    /// The clockwise horizontal rotation in degrees.
+    /// The horizontal rotation to the right in degrees.
     /// </summary>
-    [Description("The clockwise horizontal rotation in degrees."), Category("Layout")]
+    [Description("The horizontal rotation to the right in degrees."), Category("Layout")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public double Yaw
     {
@@ -47,9 +47,9 @@ public sealed class FirstPersonCamera : QuaternionCamera
     private double _pitch;
 
     /// <summary>
-    /// The clockwise vertical rotation in degrees.
+    /// The vertical rotation upwards in degrees.
     /// </summary>
-    [Description("The clockwise vertical rotation in degrees."), Category("Layout")]
+    [Description("The vertical rotation upwards in degrees."), Category("Layout")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public double Pitch
     {
@@ -83,7 +83,7 @@ public sealed class FirstPersonCamera : QuaternionCamera
     public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
     {
         Position += translation
-                   .RotateAroundAxis(new(0, 1, 0), -_yaw)
+                   .RotateAroundAxis(new(0, 1, 0), _yaw)
                    .AdjustReference(from: _defaultWorldUp, to: _worldUp);
 
         Yaw += rotation.X;
@@ -96,8 +96,8 @@ public sealed class FirstPersonCamera : QuaternionCamera
         if (!ViewDirty) return;
 
         (var axis, double rotation) = _defaultWorldUp.GetRotationTo(_worldUp);
-        Quaternion = Quaternion.RotationAxis((Vector3)axis, (float)-rotation)
-                   * Quaternion.RotationYawPitchRoll((float)_yaw, pitch: 0, roll: 0)
+        Quaternion = Quaternion.RotationAxis((Vector3)axis, (float)rotation)
+                   * Quaternion.RotationYawPitchRoll((float)-_yaw, pitch: 0, roll: 0)
                    * Quaternion.RotationYawPitchRoll(yaw: 0, (float)_pitch, roll: 0);
 
         base.UpdateView();
