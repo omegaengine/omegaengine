@@ -68,7 +68,7 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     /// <summary>
     /// The minimum vertical angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MinRadius"/>.
     /// </summary>
-    [Description("The minimum vertical angle in degrees. Effective when Radius is equal to MinRadius."), Category("Behavior")]
+    [FloatRange(0, 90), Description("The minimum vertical angle in degrees. Effective when Radius is equal to MinRadius."), Category("Behavior")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public float MinAngle
     {
@@ -90,7 +90,7 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     /// <summary>
     /// The maximum vertical angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MaxRadius"/>.
     /// </summary>
-    [Description("The maximum vertical angle in degrees. Effective when Radius is equal to MaxRadius."), Category("Behavior")]
+    [FloatRange(0, 90), Description("The maximum vertical angle in degrees. Effective when Radius is equal to MaxRadius."), Category("Behavior")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public float MaxAngle
     {
@@ -110,7 +110,8 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     /// <summary>
     /// Controls the sensitivity of movement.
     /// </summary>
-    [Description("Controls the sensitivity of movement."), Category("Behavior")]
+    [FloatRange(0, 100), Description("Controls the sensitivity of movement."), Category("Behavior")]
+    [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
     public double MovementSensitivity { get; set; } = 0.01;
 
     /// <inheritdoc/>

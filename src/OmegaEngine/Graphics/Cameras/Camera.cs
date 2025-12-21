@@ -9,7 +9,9 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Design;
 using NanoByte.Common;
+using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Input;
 
@@ -97,6 +99,7 @@ public abstract partial class Camera : InputReceiverBase, IPositionable
     /// The view angle in degrees
     /// </summary>
     [DefaultValue(45f), Description("The view angle in degrees"), Category("Layout")]
+    [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public float FieldOfView { get => _fieldOfView.RadianToDegree(); set => value.DegreeToRadian().To(ref _fieldOfView, ref ProjectionDirty, ref ViewFrustumDirty); }
 
     private float _nearClip = 20.0f;

@@ -8,7 +8,9 @@
 
 using System;
 using System.ComponentModel;
+using System.Drawing.Design;
 using NanoByte.Common;
+using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Geometry;
 using SlimDX;
 using Resources = OmegaEngine.Properties.Resources;
@@ -26,6 +28,7 @@ public sealed class FirstPersonCamera : QuaternionCamera
     /// The clockwise horizontal rotation in degrees.
     /// </summary>
     [Description("The clockwise horizontal rotation in degrees."), Category("Layout")]
+    [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public double Yaw
     {
         get => _yaw.RadianToDegree();
@@ -47,6 +50,7 @@ public sealed class FirstPersonCamera : QuaternionCamera
     /// The clockwise vertical rotation in degrees.
     /// </summary>
     [Description("The clockwise vertical rotation in degrees."), Category("Layout")]
+    [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public double Pitch
     {
         get => _pitch.RadianToDegree();

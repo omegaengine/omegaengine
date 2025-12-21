@@ -8,7 +8,9 @@
 
 using System;
 using System.ComponentModel;
+using System.Drawing.Design;
 using NanoByte.Common;
+using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Geometry;
 using SlimDX;
 using Resources = OmegaEngine.Properties.Resources;
@@ -29,6 +31,7 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     /// The clockwise horizontal rotation around the target in degrees.
     /// </summary>
     [Description("The clockwise horizontal rotation around the target in degrees."), Category("Layout")]
+    [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public double HorizontalRotation
     {
         get => _horizontalRotation.RadianToDegree();
@@ -50,6 +53,7 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     /// The clockwise vertical rotation around the target in degrees.
     /// </summary>
     [Description("The clockwise vertical rotation around the target in degrees."), Category("Layout")]
+    [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public double VerticalRotation
     {
         get => _verticalRotation.RadianToDegree();
@@ -87,6 +91,7 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     /// The clockwise roll along the view direction in degrees.
     /// </summary>
     [Description("The clockwise roll along the view direction in degrees."), Category("Layout")]
+    [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public double Roll
     {
         get => _roll.RadianToDegree();
@@ -118,7 +123,8 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     /// <summary>
     /// Controls the sensitivity of movement.
     /// </summary>
-    [Description("Controls the sensitivity of movement."), Category("Behavior")]
+    [FloatRange(0, 100), Description("Controls the sensitivity of movement."), Category("Behavior")]
+    [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
     public double MovementSensitivity { get; set; } = 0.01;
 
     /// <inheritdoc/>
