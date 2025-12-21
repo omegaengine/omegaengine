@@ -461,12 +461,14 @@ public partial class EntityEditor : EntityEditorDesignerShim
     #region Camera mode
     private void buttonNormalView_Click(object sender, EventArgs e)
     {
+        renderPanel.MouseInputProvider.Scheme = MouseInputScheme.Planar;
         _presenter.SwingCameraTo();
     }
 
     private void buttonOrthographicView_Click(object sender, EventArgs e)
     {
-        _presenter.View.TransitionCameraTo(new ArcballCamera(50, 2000)
+        renderPanel.MouseInputProvider.Scheme = MouseInputScheme.Scene;
+        _presenter.View.TransitionCameraTo(new ArcballCamera(minRadius: 50, maxRadius: 2000)
         {
             Name = "Orthographic",
             Target = _universe.Terrain.ToEngineCoords(_universe.Terrain.Center) + new DoubleVector3(0, 100, 0),
