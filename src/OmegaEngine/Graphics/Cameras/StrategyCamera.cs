@@ -17,14 +17,14 @@ using OmegaEngine.Properties;
 namespace OmegaEngine.Graphics.Cameras;
 
 /// <summary>
-/// An RTS-style camera with a rotatable horizontal view and an automatic vertical angle.
+/// An RTS-style camera with an adjustable horizontal rotation and an automatic pitch angle.
 /// </summary>
 /// <param name="minRadius">The minimum radius allowed. Also used as the initial radius.</param>
 /// <param name="maxRadius">The maximum radius allowed.</param>
-/// <param name="minAngle">The minimum vertical angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MinRadius"/>.</param>
-/// <param name="maxAngle">The maximum vertical angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MaxRadius"/>.</param>
+/// <param name="pinPitch">The minimum pitch angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MinRadius"/>.</param>
+/// <param name="maxPitch">The maximum pitch angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MaxRadius"/>.</param>
 /// <param name="heightController">This delegate is called to control the minimum height of the strategy camera based on its 2D coordinates.</param>
-public class StrategyCamera(double minRadius, double maxRadius, float minAngle, float maxAngle, Func<DoubleVector3, double> heightController)
+public class StrategyCamera(double minRadius, double maxRadius, float pinPitch, float maxPitch, Func<DoubleVector3, double> heightController)
     : ZoomCamera(minRadius, maxRadius)
 {
     /// <summary>
@@ -41,16 +41,16 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
             value.Z);
     }
 
-    private double _horizontalRotation;
+    private double _rotation;
 
     /// <summary>
     /// The clockwise horizontal rotation around the target in degrees.
     /// </summary>
     [Description("The clockwise horizontal rotation around the target in degrees."), Category("Layout")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-    public double HorizontalRotation
+    public double Rotation
     {
-        get => _horizontalRotation.RadianToDegree();
+        get => _rotation.RadianToDegree();
         set
         {
             #region Sanity checks
@@ -59,20 +59,20 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
 
             value.DegreeToRadian()
                  .Modulo(2 * Math.PI)
-                 .To(ref _horizontalRotation, ref ViewDirty, ref ViewFrustumDirty);
+                 .To(ref _rotation, ref ViewDirty, ref ViewFrustumDirty);
         }
     }
 
-    private float _minAngle = minAngle.DegreeToRadian();
+    private float _minPitch = pinPitch.DegreeToRadian();
 
     /// <summary>
-    /// The minimum vertical angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MinRadius"/>.
+    /// The minimum pitch angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MinRadius"/>.
     /// </summary>
-    [FloatRange(0, 90), Description("The minimum vertical angle in degrees. Effective when Radius is equal to MinRadius."), Category("Behavior")]
+    [FloatRange(0, 90), Description("The minimum pitch angle in degrees. Effective when Radius is equal to MinRadius."), Category("Behavior")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-    public float MinAngle
+    public float MinPitch
     {
-        get => _minAngle.RadianToDegree();
+        get => _minPitch.RadianToDegree();
         set
         {
             #region Sanity checks
@@ -81,20 +81,20 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
             if (value >= 90) throw new ArgumentOutOfRangeException(nameof(value), Resources.AngleNotBelow90);
             #endregion
 
-            value.DegreeToRadian().To(ref _minAngle, ref ViewDirty, ref ViewFrustumDirty);
+            value.DegreeToRadian().To(ref _minPitch, ref ViewDirty, ref ViewFrustumDirty);
         }
     }
 
-    private float _maxAngle = maxAngle.DegreeToRadian();
+    private float _maxPitch = maxPitch.DegreeToRadian();
 
     /// <summary>
-    /// The maximum vertical angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MaxRadius"/>.
+    /// The maximum pitch angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MaxRadius"/>.
     /// </summary>
-    [FloatRange(0, 90), Description("The maximum vertical angle in degrees. Effective when Radius is equal to MaxRadius."), Category("Behavior")]
+    [FloatRange(0, 90), Description("The maximum pitch angle in degrees. Effective when Radius is equal to MaxRadius."), Category("Behavior")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-    public float MaxAngle
+    public float MaxPitch
     {
-        get => _maxAngle.RadianToDegree();
+        get => _maxPitch.RadianToDegree();
         set
         {
             #region Sanity checks
@@ -103,7 +103,7 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
             if (value >= 90) throw new ArgumentOutOfRangeException(nameof(value), Resources.AngleNotBelow90);
             #endregion
 
-            value.DegreeToRadian().To(ref _maxAngle, ref ViewDirty, ref ViewFrustumDirty);
+            value.DegreeToRadian().To(ref _maxPitch, ref ViewDirty, ref ViewFrustumDirty);
         }
     }
 
@@ -119,11 +119,11 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     {
         Target += Radius * MovementSensitivity *
                   new DoubleVector3(
-                      Math.Cos(_horizontalRotation) * translation.X + Math.Sin(_horizontalRotation) * translation.Y,
+                      Math.Cos(_rotation) * translation.X + Math.Sin(_rotation) * translation.Y,
                       0,
-                      Math.Cos(_horizontalRotation) * translation.Y - Math.Sin(_horizontalRotation) * translation.X);
+                      Math.Cos(_rotation) * translation.Y - Math.Sin(_rotation) * translation.X);
 
-        HorizontalRotation += rotation.X;
+        Rotation += rotation.X;
 
         base.Navigate(translation, rotation);
     }
@@ -133,16 +133,16 @@ public class StrategyCamera(double minRadius, double maxRadius, float minAngle, 
     {
         if (!ViewDirty) return;
 
-        // Calculate variable vertical rotation based on current radius
-        double vRotation = (_minAngle - _maxAngle) / (MinRadius - MaxRadius) * Radius +
-            _minAngle - (_minAngle - _maxAngle) / (MinRadius - MaxRadius) * MinRadius;
-        while (vRotation > 2 * Math.PI) vRotation -= 2 * Math.PI;
-        while (vRotation < 0) vRotation += 2 * Math.PI;
+        // Calculate variable pitch based on current radius
+        double pitch = (_minPitch - _maxPitch) / (MinRadius - MaxRadius) * Radius +
+            _minPitch - (_minPitch - _maxPitch) / (MinRadius - MaxRadius) * MinRadius;
+        while (pitch > 2 * Math.PI) pitch -= 2 * Math.PI;
+        while (pitch < 0) pitch += 2 * Math.PI;
 
         var newPosition = Radius * new DoubleVector3(
-            Math.Cos(vRotation) * -Math.Sin(_horizontalRotation),
-            Math.Sin(vRotation),
-            Math.Cos(vRotation) * -Math.Cos(_horizontalRotation));
+            Math.Cos(pitch) * -Math.Sin(_rotation),
+            Math.Sin(pitch),
+            Math.Cos(pitch) * -Math.Cos(_rotation));
 
         // Translate these coordinates by the target object's spacial location
         PositionCached = newPosition + Target;

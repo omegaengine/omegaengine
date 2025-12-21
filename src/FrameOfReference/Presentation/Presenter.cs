@@ -150,13 +150,13 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
 
         return new StrategyCamera(
             minRadius: 200, maxRadius: MaxCameraRadius,
-            minAngle: 25, maxAngle: 60,
+            pinPitch: 25, maxPitch: 60,
             heightController: CameraController)
         {
             Name = state.Name,
             Target = Universe.Terrain.ToEngineCoords(state.Position),
             Radius = state.Radius,
-            HorizontalRotation = state.Rotation,
+            Rotation = state.Rotation,
             FarClip = Universe.Fog ? Universe.FogDistance : 1e+6f
         };
     }
@@ -188,7 +188,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
                 Name = camera.Name,
                 Position = camera.Target.Flatten(),
                 Radius = camera.Radius,
-                Rotation = camera.HorizontalRotation
+                Rotation = camera.Rotation
             },
             _ => null
         };

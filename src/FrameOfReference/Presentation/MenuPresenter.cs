@@ -51,8 +51,8 @@ public sealed class MenuPresenter : Presenter
         {
             Name = "Menu",
             Target = new (universe.Terrain.Center.X, 150, -universe.Terrain.Center.Y), // Map X = Engine +X, Map Y = Engine -Z
-            HorizontalRotation = 0,
-            VerticalRotation = 15
+            Yaw = 0,
+            Pitch = 15
         };
 
         View = new(Scene, _camera)
@@ -81,7 +81,7 @@ public sealed class MenuPresenter : Presenter
 
     private void RotateCamera()
     {
-        _camera.HorizontalRotation += _cameraTimer.Elapsed.TotalSeconds * -5;
+        _camera.Yaw += _cameraTimer.Elapsed.TotalSeconds * -5;
         _cameraTimer.Reset();
         _cameraTimer.Start();
     }
