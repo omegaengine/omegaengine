@@ -16,7 +16,7 @@ using System.Windows.Forms.Design;
 namespace OmegaEngine.Foundation.Design;
 
 /// <summary>
-/// Abstract base class for drop-down <see cref="PropertyGrid"/> editors that can be associated with <c>float</c> properties.
+/// Abstract base class for drop-down <see cref="PropertyGrid"/> editors that can be associated with <c>float</c> or <c>double</c> properties.
 /// </summary>
 public abstract class FloatEditor : UITypeEditor
 {
@@ -32,12 +32,16 @@ public abstract class FloatEditor : UITypeEditor
         if (value == null) throw new ArgumentNullException(nameof(value));
         #endregion
 
-        if (value.GetType() != typeof(float) || provider.GetService(typeof(IWindowsFormsEditorService)) is not IWindowsFormsEditorService editorService) return value;
+        if (!TryGetDouble(value, out double doubleValue) || provider.GetService(typeof(IWindowsFormsEditorService)) is not IWindowsFormsEditorService editorService) return value;
 
         var range = context.PropertyDescriptor?.Attributes.OfType<FloatRangeAttribute>().FirstOrDefault();
-        return (range == null)
-            ? EditValue((float)value, editorService)
-            : EditValue((float)value, range, editorService);
+        double newValue = (range == null)
+            ? EditValue(doubleValue, editorService)
+            : EditValue(doubleValue, range, editorService);
+        if (value is float)
+            return (float)newValue;
+        else
+            return newValue;
     }
 
     /// <summary>
@@ -46,7 +50,7 @@ public abstract class FloatEditor : UITypeEditor
     /// <param name="value">The current value.</param>
     /// <param name="editorService">The editor service used to display the dropdown control.</param>
     /// <returns>The value set by the user.</returns>
-    protected abstract float EditValue(float value, IWindowsFormsEditorService editorService);
+    protected abstract double EditValue(double value, IWindowsFormsEditorService editorService);
 
     /// <summary>
     /// Displays the UI to edit the <c>float</c> value.
@@ -55,5 +59,24 @@ public abstract class FloatEditor : UITypeEditor
     /// <param name="range">The range of valid values the user can select.</param>
     /// <param name="editorService">The editor service used to display the dropdown control.</param>
     /// <returns>The value set by the user.</returns>
-    protected abstract float EditValue(float value, FloatRangeAttribute range, IWindowsFormsEditorService editorService);
+    protected abstract double EditValue(double value, FloatRangeAttribute range, IWindowsFormsEditorService editorService);
+
+    /// <summary>
+    /// Interprets <paramref name="value"/> as a <c>double</c> if it is a <c>float</c> or <c>double</c>.
+    /// </summary>
+    protected bool TryGetDouble(object? value, out double doubleValue)
+    {
+        switch (value)
+        {
+            case double d:
+                doubleValue = d;
+                return true;
+            case float f:
+                doubleValue = f;
+                return true;
+            default:
+                doubleValue = 0;
+                return false;
+        }
+    }
 }

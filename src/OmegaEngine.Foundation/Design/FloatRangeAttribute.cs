@@ -21,19 +21,19 @@ public sealed class FloatRangeAttribute : Attribute
     /// <summary>
     /// The minimum value the field or property may have.
     /// </summary>
-    public float Minimum { get; }
+    public double Minimum { get; }
 
     /// <summary>
     /// The maximum value the field or property may have.
     /// </summary>
-    public float Maximum { get; }
+    public double Maximum { get; }
 
     /// <summary>
     /// Creates a new float range attribute.
     /// </summary>
     /// <param name="minimum">The minimum value the field or property may have.</param>
     /// <param name="maximum">The maximum value the field or property may have.</param>
-    public FloatRangeAttribute(float minimum, float maximum)
+    public FloatRangeAttribute(double minimum, double maximum)
     {
         #region Sanity checks
         if (minimum > maximum) throw new ArgumentException(Resources.MinLargerMax, nameof(minimum));

@@ -22,7 +22,7 @@ namespace OmegaEngine.Foundation.Design;
 public class AngleEditor : FloatEditor
 {
     /// <inheritdoc/>
-    protected override float EditValue(float value, IWindowsFormsEditorService editorService)
+    protected override double EditValue(double value, IWindowsFormsEditorService editorService)
     {
         #region Sanity checks
         if (editorService == null) throw new ArgumentNullException(nameof(editorService));
@@ -34,7 +34,7 @@ public class AngleEditor : FloatEditor
     }
 
     /// <inheritdoc/>
-    protected override float EditValue(float value, FloatRangeAttribute range, IWindowsFormsEditorService editorService)
+    protected override double EditValue(double value, FloatRangeAttribute range, IWindowsFormsEditorService editorService)
     {
         #region Sanity checks
         if (editorService == null) throw new ArgumentNullException(nameof(editorService));
@@ -62,11 +62,11 @@ public class AngleEditor : FloatEditor
         // Draw circle
         e.Graphics.FillEllipse(new SolidBrush(Color.White), e.Bounds.X + 3, e.Bounds.Y + 1, e.Bounds.Width - 6, e.Bounds.Height - 2);
 
-        if (!(e.Value is float)) return;
+        if (!TryGetDouble(e.Value, out double value)) return;
 
         // Draw angle line
         var center = new Point(e.Bounds.Width / 2 + e.Bounds.X, e.Bounds.Height / 2 + e.Bounds.Y);
-        float angle = ((float)e.Value).DegreeToRadian();
+        double angle = value.DegreeToRadian();
         var endPoint = new Point(
             center.X + (int)(center.X * Math.Sin(angle)),
             center.Y + (int)(center.Y * -Math.Cos(angle)));

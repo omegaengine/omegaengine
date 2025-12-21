@@ -14,16 +14,16 @@ using NanoByte.Common;
 namespace OmegaEngine.Foundation.Design;
 
 /// <summary>
-/// An editor that can be associated with <c>float</c> properties with values between 0 and 3 to provide a <see cref="TrackBar"/> interface.
+/// An editor that can be associated with <c>float</c> or <c>double</c> properties with values between 0 and 3 to provide a <see cref="TrackBar"/> interface.
 /// </summary>
 public class SliderEditor : FloatEditor
 {
     /// <inheritdoc/>
-    protected override float EditValue(float value, IWindowsFormsEditorService editorService)
+    protected override double EditValue(double value, IWindowsFormsEditorService editorService)
         => EditValue(value, new(0, 10), editorService);
 
     /// <inheritdoc/>
-    protected override float EditValue(float value, FloatRangeAttribute range, IWindowsFormsEditorService editorService)
+    protected override double EditValue(double value, FloatRangeAttribute range, IWindowsFormsEditorService editorService)
     {
         #region Sanity checks
         if (editorService == null) throw new ArgumentNullException(nameof(editorService));

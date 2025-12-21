@@ -22,7 +22,7 @@ public class AngleControl : UserControl
     /// <summary>
     /// The angle between 0 and 360 degrees.
     /// </summary>
-    public float Angle { get; set; }
+    public double Angle { get; set; }
 
     /// <summary>
     /// An optional limit to the valid degree values. (Limits beyond 0° and 360° are ignored.)
@@ -62,7 +62,7 @@ public class AngleControl : UserControl
 
         // Draw angle line
         var center = new Point(Width / 2, Height / 2);
-        float angle = Angle.DegreeToRadian();
+        double angle = Angle.DegreeToRadian();
         var endPoint = new Point(
             center.X + (int)(center.X * Math.Sin(angle)),
             center.Y + (int)(center.Y * -Math.Cos(angle)));
@@ -92,11 +92,11 @@ public class AngleControl : UserControl
     private void UpdateAngle(Point location)
     {
         // Correct ellipsoid distortion
-        float widthToHeightRatio = Width / (float)Height;
+        double widthToHeightRatio = Width / (double)Height;
         int distortedY;
         if (location.Y == 0) distortedY = location.Y;
-        else if (location.Y < Height / 2) distortedY = (Height / 2) - (int)(((Height / 2) - location.Y) * widthToHeightRatio);
-        else distortedY = (Height / 2) + (int)((location.Y - (Height / 2)) * widthToHeightRatio);
+        else if (location.Y < Height / 2) distortedY = (Height / 2) - (int)(((Height / 2.0) - location.Y) * widthToHeightRatio);
+        else distortedY = (Height / 2) + (int)((location.Y - (Height / 2.0)) * widthToHeightRatio);
 
         var center = new Point(Width / 2, Height / 2);
         Angle = GetAngle(center, new(location.X, distortedY));
@@ -108,7 +108,7 @@ public class AngleControl : UserControl
     /// <summary>
     /// Calculates the angle of a vector pointing from <paramref name="p1"/> to <paramref name="p2"/>.
     /// </summary>
-    private static float GetAngle(Point p1, Point p2)
+    private static double GetAngle(Point p1, Point p2)
     {
         if (p2.X - p1.X == 0) return (p2.Y > p1.Y ? 180 : 0);
         else
