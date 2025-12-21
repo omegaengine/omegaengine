@@ -25,16 +25,16 @@ namespace OmegaEngine.Graphics.Cameras;
 public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     : ZoomCamera(minRadius, maxRadius)
 {
-    private double _horizontalRotation;
+    private double _yaw;
 
     /// <summary>
     /// The clockwise horizontal rotation around the target in degrees.
     /// </summary>
     [Description("The clockwise horizontal rotation around the target in degrees."), Category("Layout")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-    public double HorizontalRotation
+    public double Yaw
     {
-        get => _horizontalRotation.RadianToDegree();
+        get => _yaw.RadianToDegree();
         set
         {
             #region Sanity checks
@@ -43,20 +43,20 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
 
             value.DegreeToRadian()
                  .Modulo(2 * Math.PI)
-                 .To(ref _horizontalRotation, ref ViewDirty, ref ViewFrustumDirty);
+                 .To(ref _yaw, ref ViewDirty, ref ViewFrustumDirty);
         }
     }
 
-    private double _verticalRotation;
+    private double _pitch;
 
     /// <summary>
     /// The clockwise vertical rotation around the target in degrees.
     /// </summary>
     [Description("The clockwise vertical rotation around the target in degrees."), Category("Layout")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-    public double VerticalRotation
+    public double Pitch
     {
-        get => _verticalRotation.RadianToDegree();
+        get => _pitch.RadianToDegree();
         set
         {
             #region Sanity checks
@@ -64,7 +64,7 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
             #endregion
 
             PreventGimbalLock(value.DegreeToRadian().Modulo(2 * Math.PI))
-               .To(ref _verticalRotation, ref ViewDirty, ref ViewFrustumDirty);
+               .To(ref _pitch, ref ViewDirty, ref ViewFrustumDirty);
         }
     }
 
@@ -83,7 +83,7 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
             _ => value
         };
 
-    private bool IsUpsideDown => _verticalRotation is > QuarterCircle and < ThreeQuarterCircle;
+    private bool IsUpsideDown => _pitch is > QuarterCircle and < ThreeQuarterCircle;
 
     private double _roll;
 
@@ -134,14 +134,14 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
 
         Target += Radius * MovementSensitivity *
                   new DoubleVector3(
-                          translation.X * -Math.Cos(_horizontalRotation),
+                          translation.X * -Math.Cos(_yaw),
                           IsUpsideDown ? -translation.Y : translation.Y,
-                          translation.X * Math.Sin(_horizontalRotation))
+                          translation.X * Math.Sin(_yaw))
                      .AdjustReference(from: _defaultWorldUp, to: _worldUp)
                      .RotateAroundAxis(viewDir, -_roll);
 
-        HorizontalRotation += rotation.X;
-        VerticalRotation += rotation.Y;
+        Yaw += rotation.X;
+        Pitch += rotation.Y;
         Roll += rotation.Z;
 
         base.Navigate(translation, rotation);
@@ -153,9 +153,9 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
         if (!ViewDirty) return;
 
         var viewDirection = new DoubleVector3(
-                -Math.Cos(_verticalRotation) * Math.Sin(_horizontalRotation),
-                -Math.Sin(_verticalRotation),
-                -Math.Cos(_verticalRotation) * Math.Cos(_horizontalRotation))
+                -Math.Cos(_pitch) * Math.Sin(_yaw),
+                -Math.Sin(_pitch),
+                -Math.Cos(_pitch) * Math.Cos(_yaw))
            .AdjustReference(from: _defaultWorldUp, to: _worldUp);
         PositionCached = Target - Radius * viewDirection;
 

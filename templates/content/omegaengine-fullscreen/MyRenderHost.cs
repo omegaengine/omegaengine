@@ -36,7 +36,7 @@ public class MyRenderHost : RenderHost
         {
             Positionables = {Model.Sphere(Engine, XTexture.Get(Engine, "flag.png"), slices: 50, stacks: 50)}
         };
-        _camera = new ArcballCamera {VerticalRotation = 20};
+        _camera = new ArcballCamera {Pitch = 20};
         var view = new View(scene, _camera) {BackgroundColor = Color.CornflowerBlue};
         Engine.Views.Add(view);
     }
@@ -57,7 +57,7 @@ public class MyRenderHost : RenderHost
 
     protected override void Render(double elapsedTime)
     {
-        if (_camera != null) _camera.HorizontalRotation += elapsedTime * 100;
+        if (_camera != null) _camera.Yaw += elapsedTime * 100;
         base.Render(elapsedTime);
     }
 

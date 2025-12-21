@@ -30,14 +30,14 @@ public partial class MainForm : Form
         {
             Positionables = { Model.Sphere(engine, XTexture.Get(engine, "flag.png")) }
         };
-        _camera = new ArcballCamera {VerticalRotation = 20};
+        _camera = new ArcballCamera {Pitch = 20};
         var view = new View(scene, _camera) {BackgroundColor = Color.CornflowerBlue};
         engine.Views.Add(view);
     }
 
     private void timerRender_Tick(object sender, EventArgs e)
     {
-        if (_camera != null) _camera.HorizontalRotation += 3;
+        if (_camera != null) _camera.Yaw += 3;
         renderPanel.Engine?.Render();
     }
 

@@ -12,7 +12,7 @@ namespace Template.AlphaFramework;
 public class Game(Settings settings)
     : GameBase(settings, Constants.AppName)
 {
-	private readonly ArcballCamera _camera = new() {VerticalRotation = 20};
+	private readonly ArcballCamera _camera = new() {Pitch = 20};
 
     /// <inheritdoc/>
     protected override bool Initialize()
@@ -56,7 +56,7 @@ public class Game(Settings settings)
     /// <inheritdoc/>
     protected override double GetElapsedGameTime(double elapsedTime)
     {
-    	_camera.HorizontalRotation += elapsedTime * 100;
+    	_camera.Yaw += elapsedTime * 100;
     	return elapsedTime;
     }
 }
