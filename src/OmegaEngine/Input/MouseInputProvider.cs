@@ -228,7 +228,7 @@ public class MouseInputProvider : InputProvider
                     translation.Y += CursorSensitivity * screenScale * +v;
                     break;
                 case TranslationZ:
-                    translation.Z += WheelSensitivity * +v;
+                    translation.Z += WheelSensitivity * -v;
                     break;
                 case RotationX:
                     rotation.X += CursorSensitivity * +v;
