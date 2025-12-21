@@ -28,9 +28,9 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     private double _yaw;
 
     /// <summary>
-    /// The clockwise horizontal rotation around the target in degrees.
+    /// The clockwise horizontal rotation of the camera around the target in degrees.
     /// </summary>
-    [Description("The clockwise horizontal rotation around the target in degrees."), Category("Layout")]
+    [Description("The clockwise horizontal rotation of the camera around the target in degrees.."), Category("Layout")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public double Yaw
     {
@@ -50,9 +50,9 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     private double _pitch;
 
     /// <summary>
-    /// The clockwise vertical rotation around the target in degrees.
+    /// The vertical rotation upwards of the camera around the target in degrees.
     /// </summary>
-    [Description("The clockwise vertical rotation around the target in degrees."), Category("Layout")]
+    [Description("The vertical rotation upwards of the camera around the target in degrees."), Category("Layout")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public double Pitch
     {
@@ -88,9 +88,9 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     private double _roll;
 
     /// <summary>
-    /// The clockwise roll along the view direction in degrees.
+    /// The counter-clockwise roll along the view direction in degrees.
     /// </summary>
-    [Description("The clockwise roll along the view direction in degrees."), Category("Layout")]
+    [Description("The counter-clockwise roll along the view direction in degrees."), Category("Layout")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public double Roll
     {
