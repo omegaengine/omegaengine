@@ -20,8 +20,8 @@ public interface IInputReceiver
     /// <summary>
     /// Called when the user changes the view perspective.
     /// </summary>
-    /// <param name="translation">Movement in screen units. X = pan right, Y = pan upwards, Z = zoom into screen</param>
-    /// <param name="rotation">Rotation in degrees. X = yaw clockwise, Y = pitch clockwise, Z = roll clockwise</param>
+    /// <param name="translation">Movement in screen units. X = pan right, Y = pan up, Z = move forward</param>
+    /// <param name="rotation">Rotation in degrees. X = yaw right, Y = pitch up, Z = roll clockwise</param>
     void Navigate(DoubleVector3 translation, DoubleVector3 rotation);
 
     /// <summary>
