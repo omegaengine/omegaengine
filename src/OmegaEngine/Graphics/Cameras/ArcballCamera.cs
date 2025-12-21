@@ -76,9 +76,9 @@ public sealed class ArcballCamera(double minRadius = 50, double maxRadius = 100)
     private static double PreventGimbalLock(double value)
         => value switch
         {
-            > QuarterCircle - Epsilon and < QuarterCircle => QuarterCircle + Epsilon,
+            > QuarterCircle - Epsilon and <= QuarterCircle => QuarterCircle + Epsilon,
             > QuarterCircle and < QuarterCircle + Epsilon => QuarterCircle - Epsilon,
-            > ThreeQuarterCircle - Epsilon and < ThreeQuarterCircle => ThreeQuarterCircle + Epsilon,
+            > ThreeQuarterCircle - Epsilon and <= ThreeQuarterCircle => ThreeQuarterCircle + Epsilon,
             > ThreeQuarterCircle and < ThreeQuarterCircle + Epsilon => ThreeQuarterCircle - Epsilon,
             _ => value
         };
