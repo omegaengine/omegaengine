@@ -61,6 +61,7 @@ public class KeyboardInputProvider : InputProvider
         // Start tracking input events
         _control.KeyDown += KeyDown;
         _control.KeyUp += KeyUp;
+        _control.LostFocus += LostFocus;
 
         _timerKeyboard.Tick += Tick;
     }
@@ -102,6 +103,12 @@ public class KeyboardInputProvider : InputProvider
         _timerKeyboard.Enabled = _pressedKeys.Count > 0;
     }
 
+    private void LostFocus(object sender, EventArgs e)
+    {
+        _pressedKeys.Clear();
+        _timerKeyboard.Enabled = false;
+    }
+
     /// <inheritdoc/>
     protected override void Dispose(bool disposing)
     {
@@ -110,6 +117,7 @@ public class KeyboardInputProvider : InputProvider
             // Stop tracking input events
             _control.KeyDown -= KeyDown;
             _control.KeyUp -= KeyUp;
+            _control.LostFocus -= LostFocus;
 
             _timerKeyboard.Tick -= Tick;
             _timerKeyboard.Dispose();
