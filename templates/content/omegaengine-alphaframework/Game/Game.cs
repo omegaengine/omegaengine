@@ -19,9 +19,6 @@ public class Game(Settings settings)
     {
         if (!base.Initialize()) return false;
 
-        // Settings update hooks
-        settings.General.Changed += Program.UpdateLocale;
-
         UpdateStatus("Loading graphics");
         var scene = new Scene
         {
@@ -34,23 +31,6 @@ public class Game(Settings settings)
         LoadDialog("MainMenu");
 
         return true;
-    }
-
-    /// <inheritdoc/>
-    protected override void Dispose(bool disposing)
-    {
-        try
-        {
-            if (disposing)
-            {
-                // Remove settings update hooks
-                settings.General.Changed -= Program.UpdateLocale;
-            }
-        }
-        finally
-        {
-            base.Dispose(disposing);
-        }
     }
 
     /// <inheritdoc/>
