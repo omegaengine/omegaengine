@@ -308,6 +308,7 @@ public partial class RenderHost : IDisposable
         lua["temp"] = Path.GetTempPath() + Path.DirectorySeparatorChar;
         lua["Pi"] = Math.PI;
         lua["Engine"] = Engine;
+        lua["Host"] = this;
 
         // Import .NET constructors
         ImportConstructor(typeof(Point));
