@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.renderPanel = new OmegaEngine.RenderPanel();
-            this.timerRender = new System.Windows.Forms.Timer(this.components);
             this.buttonExit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -43,11 +42,6 @@
             this.renderPanel.Name = "renderPanel";
             this.renderPanel.Size = new System.Drawing.Size(260, 209);
             this.renderPanel.TabIndex = 0;
-            // 
-            // timerRender
-            // 
-            this.timerRender.Interval = 33;
-            this.timerRender.Tick += new System.EventHandler(this.timerRender_Tick);
             // 
             // buttonExit
             // 
@@ -77,7 +71,6 @@
         #endregion
 
         private OmegaEngine.RenderPanel renderPanel;
-        private System.Windows.Forms.Timer timerRender;
         private System.Windows.Forms.Button buttonExit;
     }
 }

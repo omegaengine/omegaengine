@@ -3,14 +3,13 @@ using OmegaEngine.Assets;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
+using OmegaEngine.Input;
 using View = OmegaEngine.Graphics.View;
 
 namespace Template.WinForms;
 
 public partial class MainForm : Form
 {
-    private ArcballCamera? _camera;
-
     public MainForm()
     {
         InitializeComponent();
@@ -20,25 +19,23 @@ public partial class MainForm : Form
     {
         Engine engine = renderPanel.Setup();
         InitializeScene(engine);
-        timerRender.Enabled = true;
-        engine.FadeIn();
     }
 
     private void InitializeScene(Engine engine)
     {
         var scene = new Scene
         {
-            Positionables = { Model.Sphere(engine, XTexture.Get(engine, "flag.png")) }
+            Positionables = { Model.Sphere(engine, XTexture.Get(engine, "flag.png"), slices: 50, stacks: 50) }
         };
-        _camera = new ArcballCamera {Pitch = 20};
-        var view = new View(scene, _camera) {BackgroundColor = Color.CornflowerBlue};
-        engine.Views.Add(view);
-    }
+        var camera = new ArcballCamera { Pitch = 20 };
+        var view = new View(scene, camera)
+        {
+            BackgroundColor = Color.CornflowerBlue
+        };
 
-    private void timerRender_Tick(object sender, EventArgs e)
-    {
-        if (_camera != null) _camera.Yaw += 3;
-        renderPanel.Engine?.Render();
+        engine.Views.Add(view);
+        renderPanel.AddInputReceiver(camera);
+        renderPanel.AddInputReceiver(new UpdateReceiver(engine.Render)); // Draw new frame after input is processed
     }
 
     private void buttonExit_Click(object sender, EventArgs e)

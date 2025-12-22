@@ -12,8 +12,6 @@ namespace Template.AlphaFramework;
 public class Game(Settings settings)
     : GameBase(settings, Constants.AppName)
 {
-	private readonly ArcballCamera _camera = new() {Pitch = 20};
-
     /// <inheritdoc/>
     protected override bool Initialize()
     {
@@ -22,21 +20,20 @@ public class Game(Settings settings)
         UpdateStatus("Loading graphics");
         var scene = new Scene
         {
-            Positionables = {Model.Sphere(Engine, XTexture.Get(Engine, "flag.png"), slices: 50, stacks: 50)}
+            Positionables = { Model.Sphere(Engine, XTexture.Get(Engine, "flag.png"), slices: 50, stacks: 50) }
         };
-        var view = new View(scene, _camera) {BackgroundColor = Color.CornflowerBlue};
-        Engine.Views.Add(view);
-        Engine.FadeIn();
+        var camera = new ArcballCamera { Pitch = 20 };
+        var view = new View(scene, camera)
+        {
+            BackgroundColor = Color.CornflowerBlue
+        };
 
+        Engine.Views.Add(view);
+        AddInputReceiver(camera);
+
+        Engine.FadeIn();
         LoadDialog("MainMenu");
 
         return true;
-    }
-
-    /// <inheritdoc/>
-    protected override double GetElapsedGameTime(double elapsedTime)
-    {
-    	_camera.Yaw += elapsedTime * 100;
-    	return elapsedTime;
     }
 }

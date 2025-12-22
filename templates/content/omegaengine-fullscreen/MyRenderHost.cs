@@ -10,7 +10,6 @@ namespace Template.Fullscreen;
 
 public class MyRenderHost : RenderHost
 {
-    private ArcballCamera? _camera;
     private GuiManager? _guiManager;
 
     public MyRenderHost() : base("Template.Fullscreen")
@@ -34,11 +33,16 @@ public class MyRenderHost : RenderHost
     {
         var scene = new Scene
         {
-            Positionables = {Model.Sphere(Engine, XTexture.Get(Engine, "flag.png"), slices: 50, stacks: 50)}
+            Positionables = { Model.Sphere(Engine, XTexture.Get(Engine, "flag.png"), slices: 50, stacks: 50) }
         };
-        _camera = new ArcballCamera {Pitch = 20};
-        var view = new View(scene, _camera) {BackgroundColor = Color.CornflowerBlue};
+        var camera = new ArcballCamera { Pitch = 20 };
+        var view = new View(scene, camera)
+        {
+            BackgroundColor = Color.CornflowerBlue
+        };
+
         Engine.Views.Add(view);
+        AddInputReceiver(camera);
     }
 
     private void InitializeGui()
@@ -53,12 +57,6 @@ public class MyRenderHost : RenderHost
 
         var dialogRenderer = new DialogRenderer(_guiManager, dialog, lua: NewLua());
         dialogRenderer.Show();
-    }
-
-    protected override void Render(double elapsedTime)
-    {
-        if (_camera != null) _camera.Yaw += elapsedTime * 100;
-        base.Render(elapsedTime);
     }
 
     protected override void Dispose(bool disposing)
