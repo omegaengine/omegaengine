@@ -117,7 +117,7 @@ public partial class EntityEditor : EntityEditorDesignerShim
             _presenter.HookIn();
 
             renderPanel.AddInputReceiver(_presenter); // Update the presenter based on user input
-            renderPanel.AddInputReceiver(new UpdateReceiver(() => renderPanel.Engine.Render())); // Force immediate redraw to give responsive feel
+            renderPanel.AddInputReceiver(new ActionReceiver(() => renderPanel.Engine.Render())); // Force immediate redraw to give responsive feel
         }
 
         // Remove all previous entities from rendering universe

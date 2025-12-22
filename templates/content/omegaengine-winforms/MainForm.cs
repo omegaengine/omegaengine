@@ -35,7 +35,7 @@ public partial class MainForm : Form
 
         engine.Views.Add(view);
         renderPanel.AddInputReceiver(camera);
-        renderPanel.AddInputReceiver(new UpdateReceiver(engine.Render)); // Draw new frame after input is processed
+        renderPanel.AddInputReceiver(new ActionReceiver(engine.Render)); // Draw new frame after input is processed
     }
 
     private void buttonExit_Click(object sender, EventArgs e)

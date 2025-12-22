@@ -60,7 +60,7 @@ public partial class MapEditor : UndoCommandTab
 {
     #region Variables
     private EditorPresenter _presenter = null!;
-    private UpdateReceiver? _updateReceiver;
+    private ActionReceiver? _renderTrigger;
     private Universe _universe = null!;
     private MapPropertiesTool? _mapPropertiesTool;
 
@@ -253,7 +253,7 @@ public partial class MapEditor : UndoCommandTab
             _presenter.HookIn();
 
             renderPanel.AddInputReceiver(_presenter); // Update the presenter based on user input
-            renderPanel.AddInputReceiver(_updateReceiver = new(() => renderPanel.Engine.Render())); // Force immediate redraw to give responsive feel
+            renderPanel.AddInputReceiver(_renderTrigger = new(() => renderPanel.Engine.Render())); // Force immediate redraw to give responsive feel
 
             UpdatePaintingStatus(null, EventArgs.Empty);
 
@@ -288,7 +288,7 @@ public partial class MapEditor : UndoCommandTab
         var cameraBackup = _presenter.View.Camera;
 
         // Stop input handling (needs to be reinitiliazed later)
-        renderPanel.RemoveInputReceiver(_updateReceiver);
+        renderPanel.RemoveInputReceiver(_renderTrigger);
         renderPanel.RemoveInputReceiver(_presenter);
 
         // Clear everything

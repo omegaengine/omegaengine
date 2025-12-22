@@ -47,7 +47,7 @@ public partial class ParticleSystemEditor : UndoCommandTab
     protected override void OnInitialize()
     {
         renderPanel.AddInputReceiver(Camera);
-        renderPanel.AddInputReceiver(new UpdateReceiver(() => renderPanel.Engine?.Render()));
+        renderPanel.AddInputReceiver(new ActionReceiver(() => renderPanel.Engine?.Render()));
     }
     #endregion
 }

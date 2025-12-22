@@ -17,7 +17,7 @@ namespace OmegaEngine.Input;
 /// Calls a callback delegate whenever any kind of input is received.
 /// </summary>
 /// <param name="update">The callback delegate to be called when any kind of input is received.</param>
-public class UpdateReceiver(Action update) : IInputReceiver
+public class ActionReceiver(Action update) : IInputReceiver
 {
     /// <inheritdoc/>
     public void Navigate(DoubleVector3 translation, DoubleVector3 rotation) => update();
