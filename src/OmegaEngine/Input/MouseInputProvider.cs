@@ -137,8 +137,8 @@ public class MouseInputProvider : InputProvider
             return;
         }
 
-        var delta = new Point(e.X - _lastMouseLoc.X, e.Y - _lastMouseLoc.Y);
-        _totalMouseDelta += (Size)delta;
+        var delta = new Size(e.X - _lastMouseLoc.X, e.Y - _lastMouseLoc.Y);
+        _totalMouseDelta += delta;
 
         if (!_isDragging &&
             (Math.Abs(_totalMouseDelta.Width) > ClickAccuracy ||
@@ -167,7 +167,7 @@ public class MouseInputProvider : InputProvider
             _ignoreMouseMove = true;
 
             // Snap back to original position
-            Cursor.Position -= new Size(delta);
+            Cursor.Position -= delta;
 
             _ignoreMouseMove = false;
         }
@@ -204,15 +204,15 @@ public class MouseInputProvider : InputProvider
         }
     }
 
-    private void ApplyNavigation(MouseNavigation nav, Point delta)
+    private void ApplyNavigation(MouseNavigation nav, Size delta)
     {
         double screenScale = 100.0 / Math.Max(_control.ClientSize.Width, _control.ClientSize.Height);
 
         var translation = new DoubleVector3();
         var rotation = new DoubleVector3();
 
-        ApplyAxis(nav.X, delta.X);
-        ApplyAxis(nav.Y, delta.Y);
+        ApplyAxis(nav.X, delta.Width);
+        ApplyAxis(nav.Y, delta.Height);
 
         OnNavigate(translation, rotation);
 
