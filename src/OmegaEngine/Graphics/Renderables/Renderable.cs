@@ -100,7 +100,7 @@ public abstract class Renderable : EngineElement, IResetable
 
     #region Render
     /// <summary>
-    /// Should be called before rendering anything - usually called by base constructor
+    /// Should be called before rendering anything.
     /// </summary>
     protected void PrepareRender()
     {
