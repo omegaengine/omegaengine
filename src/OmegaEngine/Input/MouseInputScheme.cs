@@ -27,7 +27,7 @@ public record MouseInputScheme(MouseAction? LeftDrag = null, MouseAction? RightD
     /// </summary>
     public static MouseInputScheme Planar => new(
         LeftDrag: new MouseAreaSelection(),
-        RightDrag: new MouseNavigation(X: TranslationX, Y: TranslationY),
+        RightDrag: new MouseNavigation(X: TranslationX, Y: TranslationY, ViewportScaling: true),
         MiddleDrag: new MouseNavigation(X: RotationX, Y: TranslationZ));
 
     /// <summary>

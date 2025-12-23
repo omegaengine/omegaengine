@@ -206,8 +206,6 @@ public class MouseInputProvider : InputProvider
 
     private void ApplyNavigation(MouseNavigation nav, Size delta)
     {
-        double screenScale = 100.0 / Math.Max(_control.ClientSize.Width, _control.ClientSize.Height);
-
         var translation = new DoubleVector3();
         var rotation = new DoubleVector3();
 
@@ -218,14 +216,17 @@ public class MouseInputProvider : InputProvider
 
         void ApplyAxis(MouseNavigationAxis axis, int value)
         {
-            int v = InvertMouse ? -value : value;
+            double v = InvertMouse ? -value : value;
+            if (nav.ViewportScaling)
+                v *= 100f / Math.Max(_control.ClientSize.Width, _control.ClientSize.Height);
+
             switch (axis)
             {
                 case TranslationX:
-                    translation.X += CursorSensitivity * screenScale * -v;
+                    translation.X += CursorSensitivity * -v;
                     break;
                 case TranslationY:
-                    translation.Y += CursorSensitivity * screenScale * +v;
+                    translation.Y += CursorSensitivity * +v;
                     break;
                 case TranslationZ:
                     translation.Z += WheelSensitivity * -v;
