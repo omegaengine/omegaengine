@@ -146,7 +146,7 @@ public sealed class InGamePresenter : InteractivePresenter
     }
 
     /// <inheritdoc/>
-    protected override void PickPositionables(IEnumerable<Positionable<Vector2>> positionables, bool accumulate)
+    protected override void PickPositionables(IEnumerable<Positionable<Vector2>> positionables, bool accumulate = false)
     {
         if (_lockedOnEntity == null)
             base.PickPositionables(positionables, accumulate);

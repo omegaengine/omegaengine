@@ -65,7 +65,7 @@ public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe
     public virtual void HookOut() => Engine.Views.Remove(View);
 
     /// <inheritdoc/>
-    public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
+    public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)
         => View.Camera.Navigate(translation, rotation);
 
     /// <summary>

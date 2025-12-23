@@ -22,7 +22,7 @@ public interface IInputReceiver
     /// </summary>
     /// <param name="translation">Movement in screen units. X = pan right, Y = pan up, Z = move forward</param>
     /// <param name="rotation">Rotation in degrees. X = yaw right, Y = pitch up, Z = roll clockwise</param>
-    void Navigate(DoubleVector3 translation, DoubleVector3 rotation);
+    void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default);
 
     /// <summary>
     /// Called when the user is hovering above a point on the screen.
@@ -34,16 +34,16 @@ public interface IInputReceiver
     /// Called when the user is selecting an area on the screen.
     /// </summary>
     /// <param name="area">The selected area in pixels. The bottom-right corner is always the last point selected by the user, therefore the box may be inverted.</param>
-    /// <param name="accumulate"><c>true</c> when the user wants the new selection to be added to the old one.</param>
     /// <param name="done">True when the user has finished his selection (e.g. released the mouse).</param>
-    void AreaSelection(Rectangle area, bool accumulate, bool done);
+    /// <param name="accumulate"><c>true</c> when the user wants the new selection to be added to the old one.</param>
+    void AreaSelection(Rectangle area, bool done, bool accumulate = false);
 
     /// <summary>
     /// Called when the user clicked something (not dragged!).
     /// </summary>
     /// <param name="e">The original event arguments from the click.</param>
     /// <param name="accumulate"><c>true</c> when the user wants the action to have an accumulative effect (usually for selections).</param>
-    void Click(MouseEventArgs e, bool accumulate);
+    void Click(MouseEventArgs e, bool accumulate = false);
 
     /// <summary>
     /// Called when the user double-clicked something.

@@ -153,7 +153,7 @@ public class MouseInputProvider : InputProvider
         switch (_activeAction)
         {
             case MouseAreaSelection when _isDragging:
-                OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), accumulate: Control.ModifierKeys.HasFlag(Keys.Control));
+                OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), done: false, accumulate: Control.ModifierKeys.HasFlag(Keys.Control));
                 break;
 
             case MouseNavigation nav when _isDragging:
@@ -185,7 +185,7 @@ public class MouseInputProvider : InputProvider
         {
             if (_isDragging)
             {
-                OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), accumulate, done: true);
+                OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), done: true, accumulate);
             }
             else
             { // The mouse didn't move more than a click, so this is a click

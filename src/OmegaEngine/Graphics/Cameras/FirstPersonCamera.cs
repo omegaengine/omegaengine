@@ -80,7 +80,7 @@ public sealed class FirstPersonCamera : QuaternionCamera
     }
 
     /// <inheritdoc/>
-    public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
+    public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)
     {
         Position += translation
                    .RotateAroundAxis(new(0, 1, 0), _yaw)

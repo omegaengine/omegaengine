@@ -199,7 +199,7 @@ public sealed class EditorPresenter : InteractivePresenter
     public event TerrainPaint? TerrainPaint;
 
     /// <inheritdoc/>
-    public override void AreaSelection(Rectangle area, bool accumulate, bool done)
+    public override void AreaSelection(Rectangle area, bool done, bool accumulate = false)
     {
         if (TerrainBrush != null)
         {
@@ -215,11 +215,11 @@ public sealed class EditorPresenter : InteractivePresenter
                 }
             }
         }
-        else base.AreaSelection(area, accumulate, done);
+        else base.AreaSelection(area, done, accumulate);
     }
 
     /// <inheritdoc/>
-    public override void Click(MouseEventArgs e, bool accumulate)
+    public override void Click(MouseEventArgs e, bool accumulate = false)
     {
         #region Sanity checks
         if (e == null) throw new ArgumentNullException(nameof(e));

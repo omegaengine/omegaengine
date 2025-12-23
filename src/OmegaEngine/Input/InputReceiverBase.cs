@@ -10,18 +10,18 @@ namespace OmegaEngine.Input;
 public abstract class InputReceiverBase : IInputReceiver
 {
     /// <inheritdoc />
-    public abstract void Navigate(DoubleVector3 translation, DoubleVector3 rotation);
+    public abstract void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default);
 
     /// <inheritdoc />
     public virtual void Hover(Point target)
     {}
 
     /// <inheritdoc />
-    public virtual void AreaSelection(Rectangle area, bool accumulate, bool done)
+    public virtual void AreaSelection(Rectangle area, bool done, bool accumulate = false)
     {}
 
     /// <inheritdoc />
-    public virtual void Click(MouseEventArgs e, bool accumulate)
+    public virtual void Click(MouseEventArgs e, bool accumulate = false)
     {}
 
     /// <inheritdoc />

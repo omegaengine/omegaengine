@@ -125,7 +125,7 @@ public sealed class ArcballCamera : ZoomCamera
     public double MovementSensitivity { get; set; } = 0.01;
 
     /// <inheritdoc/>
-    public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
+    public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)
     {
         var viewDir = (Target - PositionCached).Normalize();
 

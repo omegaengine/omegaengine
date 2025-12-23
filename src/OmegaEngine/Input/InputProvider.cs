@@ -53,12 +53,12 @@ public abstract class InputProvider : IDisposable
     /// Raises all registered <see cref="IInputReceiver.AreaSelection"/>s.
     /// </summary>
     /// <param name="area">The selected area in pixels.</param>
-    /// <param name="accumulate"><c>true</c> when the user wants the new selection to be added to the old one.</param>
     /// <param name="done">True when the user has finished his selection (e.g. released the mouse).</param>
-    protected virtual void OnAreaSelection(Rectangle area, bool accumulate, bool done = false)
+    /// <param name="accumulate"><c>true</c> when the user wants the new selection to be added to the old one.</param>
+    protected virtual void OnAreaSelection(Rectangle area, bool done, bool accumulate = false)
     {
         foreach (var receiver in _receivers)
-            receiver.AreaSelection(area, accumulate, done);
+            receiver.AreaSelection(area, done, accumulate);
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public abstract class InputProvider : IDisposable
     /// </summary>
     /// <param name="e">The original event arguments from the click.</param>
     /// <param name="accumulate"><c>true</c> when the user wants the action to have an accumulative effect (usually for selections).</param>
-    protected virtual void OnClick(MouseEventArgs e, bool accumulate)
+    protected virtual void OnClick(MouseEventArgs e, bool accumulate = false)
     {
         foreach (var receiver in _receivers)
             receiver.Click(e, accumulate);

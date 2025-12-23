@@ -95,7 +95,7 @@ public abstract class ZoomCamera : MatrixCamera
     public double ZoomSensitivity { get; set; } = 0.15;
 
     /// <inheritdoc />
-    public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
+    public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)
     {
         Radius *= Math.Pow(ZoomBase, -ZoomSensitivity * translation.Z);
     }

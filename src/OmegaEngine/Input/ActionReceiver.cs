@@ -20,16 +20,16 @@ namespace OmegaEngine.Input;
 public class ActionReceiver(Action update) : IInputReceiver
 {
     /// <inheritdoc/>
-    public void Navigate(DoubleVector3 translation, DoubleVector3 rotation) => update();
+    public void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default) => update();
 
     /// <inheritdoc/>
     public void Hover(Point target) => update();
 
     /// <inheritdoc/>
-    public void AreaSelection(Rectangle area, bool accumulate, bool done) => update();
+    public void AreaSelection(Rectangle area, bool done, bool accumulate = false) => update();
 
     /// <inheritdoc/>
-    public void Click(MouseEventArgs e, bool accumulate) => update();
+    public void Click(MouseEventArgs e, bool accumulate = false) => update();
 
     /// <inheritdoc/>
     public void DoubleClick(MouseEventArgs e) => update();

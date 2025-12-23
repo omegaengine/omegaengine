@@ -38,7 +38,7 @@ partial class InteractivePresenter
     private Rectangle? _selectionRectangle;
 
     /// <inheritdoc/>
-    public override void AreaSelection(Rectangle area, bool accumulate, bool done)
+    public override void AreaSelection(Rectangle area, bool done, bool accumulate = false)
     {
         if (done)
         {
@@ -87,7 +87,7 @@ partial class InteractivePresenter
     }
 
     /// <inheritdoc/>
-    public override void Click(MouseEventArgs e, bool accumulate)
+    public override void Click(MouseEventArgs e, bool accumulate = false)
     {
         // Determine the Engine object the user clicked on
         if (View.Pick(e.Location, out var intersectPosition) is not {} pickedObject) return;

@@ -212,7 +212,7 @@ public abstract partial class InteractivePresenter : Presenter
     /// </summary>
     /// <param name="positionables">The selected <see cref="Positionable{TCoordinates}"/>s.</param>
     /// <param name="accumulate"><c>true</c> when the user wants the new selection to be added to the old one.</param>
-    protected virtual void PickPositionables(IEnumerable<Positionable<Vector2>> positionables, bool accumulate)
+    protected virtual void PickPositionables(IEnumerable<Positionable<Vector2>> positionables, bool accumulate = false)
     {
         #region Sanity checks
         if (positionables == null) throw new ArgumentNullException(nameof(positionables));

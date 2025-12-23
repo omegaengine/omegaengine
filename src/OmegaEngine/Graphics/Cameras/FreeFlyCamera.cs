@@ -43,7 +43,7 @@ public class FreeFlyCamera : QuaternionCamera
     }
 
     /// <inheritdoc/>
-    public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
+    public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)
     {
         Position += translation.RotateAroundAxis((DoubleVector3)Quaternion.Axis, -Quaternion.Angle);
         Quaternion *= Quaternion.RotationYawPitchRoll(

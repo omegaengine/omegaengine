@@ -56,7 +56,7 @@ public class TransitionCamera : QuaternionCamera
     }
 
     /// <inheritdoc/>
-    public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
+    public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)
     {
         // Ignore input while the transition is running
     }
