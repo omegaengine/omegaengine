@@ -40,6 +40,10 @@ public class TransitionCamera : QuaternionCamera
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
+        // Make sure both quaternions are in the same hemisphere, to avoid going the long way round
+        if (Quaternion.Dot(sourceRotation, targetRotation) < 0)
+            targetRotation = -targetRotation;
+
         engine.Interpolate(
             start: 0, target: 1,
             callback: value =>
