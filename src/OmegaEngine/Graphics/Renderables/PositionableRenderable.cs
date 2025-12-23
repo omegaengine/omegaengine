@@ -459,6 +459,11 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
             Engine.State.SetTexture(material.GlowMap);
             Engine.Device.Material = new() {Emissive = material.Glow};
 
+            // Alpha setting applies both to regular and glow rendering pass.
+            // However, if there is no glow texture, alpha-channel blending does not work.
+            if (material.GlowMap == null && Alpha is EngineState.AlphaChannel or EngineState.BinaryAlphaChannel)
+                Engine.State.AlphaBlend = 0;
+
             render();
         }
     }
