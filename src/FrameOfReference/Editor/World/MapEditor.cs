@@ -279,50 +279,21 @@ public partial class MapEditor : UndoCommandTab
         UpdateTextureControls();
         _mapPropertiesTool?.UpdateUniverse(_universe);
 
+        // Check if terrain size has changed and update camera if necessary
+        if (_initialized)
+        {
+            var currentTerrainSize = _universe.Terrain.Size;
+            if (!currentTerrainSize.Equals(_lastTerrainSize))
+            {
+                _lastTerrainSize = currentTerrainSize;
+                _presenter.UpdateCameraHeightController();
+            }
+        }
+
         UpdateXml();
         UpdateGameTimeSlider();
 
         base.OnUpdate();
-    }
-    #endregion
-
-    #region Command execution
-    /// <summary>
-    /// Checks if the terrain size has changed after command execution and updates the camera if necessary.
-    /// </summary>
-    private void CheckAndHandleTerrainSizeChange()
-    {
-        var currentTerrainSize = _universe.Terrain.Size;
-        
-        // Check if the terrain size has changed (comparing the struct values)
-        if (!currentTerrainSize.Equals(_lastTerrainSize))
-        {
-            _lastTerrainSize = currentTerrainSize;
-            
-            // Update the camera's height controller to reflect the new terrain size
-            if (_initialized && _presenter != null)
-            {
-                _presenter.UpdateCameraHeightController();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Executes a command and checks for terrain size changes.
-    /// </summary>
-    protected new void ExecuteCommand(IUndoCommand command)
-    {
-        base.ExecuteCommand(command);
-        CheckAndHandleTerrainSizeChange();
-    }
-
-    /// <summary>
-    /// Executes a command safely and checks for terrain size changes.
-    /// </summary>
-    protected new void ExecuteCommandSafe(IUndoCommand command)
-    {
-        base.ExecuteCommandSafe(command);
-        CheckAndHandleTerrainSizeChange();
     }
     #endregion
 
