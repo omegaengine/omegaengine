@@ -430,24 +430,6 @@ public abstract class Shader : EngineElement
     }
     #endregion
 
-    #region Inject
-    /// <summary>
-    /// Replaces the loaded shader with a new one loaded from a file at run time.
-    /// </summary>
-    /// <param name="path">The shader file path relative to the shader directory or as an absolute path</param>
-    /// <remarks>This should only be used for debugging!</remarks>
-    public void Inject(string path)
-    {
-        LoadShaderFile(path);
-
-        LoadParameters();
-
-        GlobalScript = null;
-        LoadScript();
-        if (GlobalScript != null) ExecuteScript(GlobalScript);
-    }
-    #endregion
-
     #endregion
 
     #region Execute script
