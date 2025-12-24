@@ -524,7 +524,12 @@ public class Dialog : ICloneable<Dialog>
     public void MsgBox(string text, MsgBoxType type, Action<MsgBoxResult>? callback)
     {
         DialogRender.Refresh();
-        DialogRender.DialogManager.MessageBox.SetFont(0, _fontName, _fontSize, FontWeight.Normal);
+        
+        // Auto-scale font size at resolutions higher than Full HD (matching MessageBox auto-scaling)
+        float autoScale = DialogRender.DialogManager.GetAutoScaleFactor();
+        uint scaledFontSize = (uint)(_fontSize * autoScale);
+        
+        DialogRender.DialogManager.MessageBox.SetFont(0, _fontName, scaledFontSize, FontWeight.Normal);
         DialogRender.DialogManager.MessageBox.Show(GetLocalized(text), type, callback);
     }
     #endregion
