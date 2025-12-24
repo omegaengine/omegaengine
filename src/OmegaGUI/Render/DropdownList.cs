@@ -27,6 +27,12 @@ public class DropdownList : Button
     public const int DropdownLayer = 2;
     public const int SelectionLayer = 3;
 
+    /// <summary>Vertical padding added to each dropdown item for proper spacing</summary>
+    private const int ItemVerticalPadding = 4;
+
+    /// <summary>Border size for selection highlight around focused item (in pixels)</summary>
+    private const int SelectionBorder = 2;
+
     #region Event code
     public event EventHandler? Changed;
 
@@ -113,7 +119,8 @@ public class DropdownList : Button
             (int)(elementList[2]).FontIndex);
         if (fNode is { Height: > 0 })
         {
-            scrollbarControl.PageSize = (int)(dropDownTextRect.Height / fNode.Height);
+            int itemHeight = (int)fNode.Height + ItemVerticalPadding;
+            scrollbarControl.PageSize = (int)(dropDownTextRect.Height / itemHeight);
 
             // The selected item may have been scrolled off the page.
             // Ensure that it is in page again.
@@ -413,13 +420,16 @@ public class DropdownList : Button
         // Dropdown box
         Element e = elementList[DropdownLayer];
 
+        // Calculate item height with padding for proper spacing
+        FontNode font = parentDialog.DialogManager.GetFontNode((int)e.FontIndex);
+        int itemHeight = (int)font.Height + ItemVerticalPadding;
+
         // If we have not initialized the scroll bar page size,
         // do that now.
         if (!isScrollBarInit)
         {
-            FontNode fNode = parentDialog.DialogManager.GetFontNode((int)e.FontIndex);
-            if (fNode is { Height: > 0 })
-                scrollbarControl.PageSize = (int)(dropDownTextRect.Height / fNode.Height);
+            if (font is { Height: > 0 })
+                scrollbarControl.PageSize = (int)(dropDownTextRect.Height / itemHeight);
             else
                 scrollbarControl.PageSize = dropDownTextRect.Height;
 
@@ -442,7 +452,6 @@ public class DropdownList : Button
         selectionElement.TextureColor.Current = e.TextureColor.Current;
         selectionElement.FontColor.Current = selectionElement.FontColor.States[(int)ControlState.Normal];
 
-        FontNode font = parentDialog.DialogManager.GetFontNode((int)e.FontIndex);
         int currentY = dropDownTextRect.Top;
         int remainingHeight = dropDownTextRect.Height;
 
@@ -451,7 +460,7 @@ public class DropdownList : Button
             ListItem cbi = itemList[i];
 
             // Make sure there's room left in the dropdown
-            remainingHeight -= (int)font.Height;
+            remainingHeight -= itemHeight;
             if (remainingHeight < 0)
             {
                 // Not visible, store that item
@@ -461,18 +470,19 @@ public class DropdownList : Button
             }
 
             cbi.ItemRect = new(dropDownTextRect.Left, currentY,
-                dropDownTextRect.Width, (int)font.Height);
+                dropDownTextRect.Width, itemHeight);
             cbi.IsItemVisible = true;
-            currentY += (int)font.Height;
+            currentY += itemHeight;
             itemList[i] = cbi; // Store this back in list
 
             if (isComboOpen)
             {
                 if (focusedIndex == i)
                 {
+                    // Selection highlight extends beyond item rect to create a visual border
                     var rect = new Rectangle(
-                        dropDownRect.Left, cbi.ItemRect.Top - 2, dropDownRect.Width,
-                        cbi.ItemRect.Height + 4);
+                        dropDownRect.Left, cbi.ItemRect.Top - SelectionBorder, dropDownRect.Width,
+                        cbi.ItemRect.Height + (SelectionBorder * 2));
                     parentDialog.DrawSprite(selectionElement, rect);
                     parentDialog.DrawText(cbi.ItemText, selectionElement, cbi.ItemRect);
                 }
