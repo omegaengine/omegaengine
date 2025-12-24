@@ -192,6 +192,15 @@ public sealed partial class ModSelectorForm : Form
             OpenMod(((ModPath)listBoxRecent.SelectedItem).FullPath);
     }
 
+    private void listBoxRecent_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.Enter && !string.IsNullOrEmpty(listBoxRecent.Text))
+        {
+            OpenMod(((ModPath)listBoxRecent.SelectedItem).FullPath);
+            e.Handled = true;
+        }
+    }
+
     private void buttonClear_Click(object sender, EventArgs e)
     {
         listBoxRecent.Items.Clear();
