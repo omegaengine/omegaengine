@@ -297,6 +297,9 @@ public partial class MapEditor : UndoCommandTab
         _presenter = null;
         propertyGridPositionable.SelectedObjects = null;
 
+        // Reset initialization flag so OnUpdate() will recreate the presenter
+        _initialized = false;
+
         // And recreate it
         OnUpdate();
 
