@@ -390,9 +390,9 @@ public class CpuParticleSystem : PositionableRenderable
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights? getLights = null)
+    internal override void Render(Camera camera, GetLights? getLights = null, GetShadowCasters? getShadowCasters = null)
     {
-        base.Render(camera, getLights);
+        base.Render(camera, getLights, getShadowCasters);
 
         // Reload textures when they change
         if (Preset.TexturesDirty) UpdateSpriteTextures();
