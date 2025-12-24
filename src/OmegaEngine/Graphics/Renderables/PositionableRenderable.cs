@@ -513,6 +513,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         if (!Visible || Alpha == EngineState.Invisible)
             return false;
 
+        RecalcWorldTransform();
         if (WorldBoundingSphere is {} sphere)
         {
             if (!camera.AtLeastOnePixelWide(sphere)) return false;
