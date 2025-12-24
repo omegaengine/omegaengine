@@ -6,6 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
@@ -24,8 +25,9 @@ public class AddPositionables<TCoordinates> : AddRemovePositionables<TCoordinate
     /// </summary>
     /// <param name="universe">The <see cref="CoordinateUniverse{TCoordinates}"/> to add to.</param>
     /// <param name="entities">The <see cref="Positionable{TCoordinates}"/>ies to add.</param>
-    public AddPositionables(CoordinateUniverse<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> entities)
-        : base(universe, entities)
+    /// <param name="callback">Optional callback to be invoked after adding entities (e.g., to update pathfinding).</param>
+    public AddPositionables(CoordinateUniverse<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> entities, Action? callback = null)
+        : base(universe, entities, callback)
     {}
     #endregion
 
