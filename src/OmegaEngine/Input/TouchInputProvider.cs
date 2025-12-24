@@ -17,12 +17,9 @@ namespace OmegaEngine.Input;
 /// <remarks>Complex manipulations with combined panning, rotating and zooming are possible.</remarks>
 public class TouchInputProvider : InputProvider
 {
-    #region Variables
     /// <summary>The control receiving the keyboard events.</summary>
     private readonly ITouchControl _control;
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Starts monitoring and processing Touch events received by a specific control.
     /// </summary>
@@ -36,11 +33,7 @@ public class TouchInputProvider : InputProvider
         _control.TouchMove += TouchMove;
         _control.TouchUp += TouchUp;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Event handlers
     private void TouchDown(object sender, TouchEventArgs e)
     {
         // ToDo: Implement
@@ -55,11 +48,7 @@ public class TouchInputProvider : InputProvider
     {
         // ToDo: Implement
     }
-    #endregion
 
-    //--------------------//
-
-    #region Dispose
     /// <inheritdoc/>
     protected override void Dispose(bool disposing)
     {
@@ -71,5 +60,4 @@ public class TouchInputProvider : InputProvider
             _control.TouchUp -= TouchUp;
         }
     }
-    #endregion
 }
