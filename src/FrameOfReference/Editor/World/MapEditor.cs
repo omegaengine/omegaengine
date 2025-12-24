@@ -234,7 +234,7 @@ public partial class MapEditor : UndoCommandTab
         // Since this might be triggered by a hotkey instead of the actual button, we must check
         if (!buttonRemove.Enabled) return;
 
-        ExecuteCommand(new RemovePositionables<Vector2>(_universe, _presenter.SelectedPositionables));
+        ExecuteCommand(new RemovePositionables<Vector2>(_universe, _presenter.SelectedPositionables, _universe.InitializePathfinding));
     }
 
     /// <inheritdoc/>
@@ -541,7 +541,7 @@ public partial class MapEditor : UndoCommandTab
 
     private void AddNewPositionable(Positionable<Vector2> positionable)
     {
-        ExecuteCommandSafe(new AddPositionables<Vector2>(_universe, [positionable]));
+        ExecuteCommandSafe(new AddPositionables<Vector2>(_universe, [positionable], _universe.InitializePathfinding));
 
         _presenter.SelectedPositionables.Clear();
         _presenter.SelectedPositionables.Add(positionable);
@@ -565,7 +565,7 @@ public partial class MapEditor : UndoCommandTab
         }
 
         // Add the new entities to the Universe
-        ExecuteCommandSafe(new AddPositionables<Vector2>(_universe, clonedEntities));
+        ExecuteCommandSafe(new AddPositionables<Vector2>(_universe, clonedEntities, _universe.InitializePathfinding));
 
         // Select the newly added entities
         _presenter.SelectedPositionables.Clear();
@@ -828,7 +828,7 @@ public partial class MapEditor : UndoCommandTab
     /// <param name="target">The terrain position to move the <paramref name="positionables"/> to</param>
     private void presenter_PositionableMove(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
     {
-        ExecuteCommand(new MovePositionables(positionables, target));
+        ExecuteCommand(new MovePositionables(positionables, target, _universe.InitializePathfinding));
     }
 
     private void propertyGridPositionable_PropertyValueChanged(object sender, PropertyValueChangedEventArgs e)
