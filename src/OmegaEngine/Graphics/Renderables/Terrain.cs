@@ -74,7 +74,7 @@ public partial class Terrain : Model
         {
             _subsetWorldBoundingBoxes = new BoundingBox[_subsetBoundingBoxes.Length];
             for (int i = 0; i < NumberSubsets; i++)
-                _subsetWorldBoundingBoxes[i] = _subsetBoundingBoxes[i].Transform(WorldTransform);
+                _subsetWorldBoundingBoxes[i] = _subsetBoundingBoxes[i].Transform(WorldTransformCached);
         }
     }
     #endregion

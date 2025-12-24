@@ -193,12 +193,12 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         _effectivePosition = Position.ApplyOffset(((IPositionableOffset)this).Offset);
 
         // Calculate transformation matrices
-        _worldTransform = _preTransform * Matrix.Scaling(_scale) * _internalScalingAndRotation * Matrix.RotationQuaternion(Rotation) * Matrix.Translation(_effectivePosition) * _internalTranslation;
-        _inverseWorldTransform = Matrix.Invert(_worldTransform);
+        WorldTransformCached = _preTransform * Matrix.Scaling(_scale) * _internalScalingAndRotation * Matrix.RotationQuaternion(Rotation) * Matrix.Translation(_effectivePosition) * _internalTranslation;
+        _inverseWorldTransform = Matrix.Invert(WorldTransformCached);
 
         // Transform bounding bodies into world space
-        _worldBoundingSphere = BoundingSphere?.Transform(_worldTransform);
-        _worldBoundingBox = BoundingBox?.Transform(_worldTransform);
+        _worldBoundingSphere = BoundingSphere?.Transform(WorldTransformCached);
+        _worldBoundingBox = BoundingBox?.Transform(WorldTransformCached);
 
         WorldTransformDirty = false;
     }
@@ -218,7 +218,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         }
     }
 
-    private Matrix _worldTransform;
+    protected Matrix WorldTransformCached { get; private set; }
 
     /// <summary>
     /// The world transformation matrix for this entity
@@ -229,7 +229,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         get
         {
             RecalcWorldTransform();
-            return _worldTransform;
+            return WorldTransformCached;
         }
     }
 
