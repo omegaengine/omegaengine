@@ -264,7 +264,7 @@ public partial class Terrain : Model
         Engine.State.WorldTransform = WorldTransform;
 
         // Update bounding bodies
-        if (WorldTransformDirty) RecalcWorldTransform();
+        RecalcWorldTransform();
 
         for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, getLights);
     }

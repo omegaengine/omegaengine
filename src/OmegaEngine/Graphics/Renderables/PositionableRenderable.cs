@@ -188,6 +188,8 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     /// <summary>Called to generate/update transformation matrices and related values</summary>
     protected virtual void RecalcWorldTransform()
     {
+        if (!WorldTransformDirty) return;
+
         _effectivePosition = Position.ApplyOffset(((IPositionableOffset)this).Offset);
 
         // Calculate transformation matrices
@@ -211,7 +213,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     {
         get
         {
-            if (WorldTransformDirty) RecalcWorldTransform();
+            RecalcWorldTransform();
             return _effectivePosition;
         }
     }
@@ -226,7 +228,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     {
         get
         {
-            if (WorldTransformDirty) RecalcWorldTransform();
+            RecalcWorldTransform();
             return _worldTransform;
         }
     }
@@ -241,7 +243,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     {
         get
         {
-            if (WorldTransformDirty) RecalcWorldTransform();
+            RecalcWorldTransform();
             return _inverseWorldTransform;
         }
     }
@@ -264,7 +266,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     {
         get
         {
-            if (WorldTransformDirty) RecalcWorldTransform();
+            RecalcWorldTransform();
             return _worldBoundingSphere;
         }
     }
@@ -291,7 +293,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     {
         get
         {
-            if (WorldTransformDirty) RecalcWorldTransform();
+            RecalcWorldTransform();
             return _worldBoundingBox;
         }
     }
