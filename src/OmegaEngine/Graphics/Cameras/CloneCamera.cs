@@ -9,6 +9,7 @@
 using System.ComponentModel;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
+using SlimDX;
 
 namespace OmegaEngine.Graphics.Cameras;
 
@@ -30,26 +31,33 @@ public class CloneCamera(Camera parentCamera) : Camera
         // User input should never be routed here
     }
 
-    /// <summary>
-    /// Update cached versions of <see cref="View"/> and related matrices
-    /// </summary>
+    /// <inheritdoc/>
     protected override void UpdateView()
     {
-        // Keep in sync with parent camera
         PositionBase = ParentCamera.PositionBase;
 
-        // Note: External update check, clone and conditionally recalc
-        bool update = false;
-        ParentCamera.View.To(ref ViewCached, ref update);
-        if (!update) return;
-
-        CacheSpecialMatrices();
-        ViewFrustumDirty = true;
+        GetView().To(ref ViewCached, () =>
+        {
+            CacheSpecialMatrices();
+            ViewFrustumDirty = true;
+        });
     }
 
     /// <summary>
-    /// Update cached versions of <see cref="Camera.Projection"/> and related matrices
+    /// Gets the current view matrix.
     /// </summary>
+    protected virtual Matrix GetView() => ParentCamera.View;
+
+    /// <inheritdoc/>
+    protected override void CacheSpecialMatrices()
+    {
+        SimpleViewCached = ViewCached;
+        SimpleViewCached.M41 = SimpleViewCached.M42 = SimpleViewCached.M43 = 0;
+
+        base.CacheSpecialMatrices();
+    }
+
+    /// <inheritdoc/>
     protected override void UpdateProjection()
     {
         NearClip = ParentCamera.NearClip;

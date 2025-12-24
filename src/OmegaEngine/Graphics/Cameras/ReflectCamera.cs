@@ -7,7 +7,6 @@
  */
 
 using System.ComponentModel;
-using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using SlimDX;
 
@@ -20,32 +19,13 @@ namespace OmegaEngine.Graphics.Cameras;
 /// <param name="reflectPlane">The plane along which to reflect the world</param>
 public class ReflectCamera(Camera parentCamera, DoublePlane reflectPlane) : CloneCamera(parentCamera)
 {
-    private Matrix _parentView;
-
     /// <summary>
     /// A plane alongside which to reflect the camera view
     /// </summary>
     [Description("A plane alongside which to reflect the camera view"), Category("Behavior")]
     public DoublePlane ReflectPlane { get; set; } = reflectPlane;
 
-    /// <summary>
-    /// Update cached versions of <see cref="View"/> and related matrices
-    /// </summary>
-    protected override void UpdateView()
-    {
-        // Keep in sync with parent camera
-        PositionBase = ParentCamera.PositionBase;
-
-        // Note: External update check, clone and conditionally recalc, doesn't call base methods
-        ParentCamera.View.To(ref _parentView, delegate
-        {
-            // Reflect the view matrix
-            var reflectMatrix = Matrix.Reflection(ReflectPlane.ApplyOffset(PositionBase));
-            SimpleViewCached = ViewCached = reflectMatrix * _parentView;
-            SimpleViewCached.M41 = SimpleViewCached.M42 = SimpleViewCached.M43 = 0;
-
-            CacheSpecialMatrices();
-            ViewFrustumDirty = true;
-        });
-    }
+    /// <inheritdoc/>
+    protected override Matrix GetView()
+        => Matrix.Reflection(ReflectPlane.ApplyOffset(PositionBaseCached)) * base.GetView();
 }

@@ -139,7 +139,7 @@ partial class Camera
     /// <summary>
     /// Calculate cached versions of special matrices (e.g. <see cref="ViewInverse"/> calculated from <see cref="View"/>)
     /// </summary>
-    protected void CacheSpecialMatrices()
+    protected virtual void CacheSpecialMatrices()
     {
         _viewInverse = Matrix.Invert(ViewCached);
         _viewTranspose = Matrix.Transpose(ViewCached);
