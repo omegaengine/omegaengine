@@ -28,6 +28,12 @@ namespace OmegaEngine.Graphics;
 /// <returns>An array of light sources, first all <see cref="DirectionalLight"/>s, then all <see cref="PointLight"/>s</returns>
 /// <seealso cref="Scene.GetEffectiveLights"/>
 internal delegate LightSource[] GetLights(DoubleVector3 position, float radius);
+
+/// <summary>
+/// Returns an array of <see cref="PositionableRenderable"/>s that can cast shadows
+/// </summary>
+/// <returns>An array of shadow casters</returns>
+internal delegate PositionableRenderable[] GetShadowCasters();
 #endregion
 
 /// <summary>
@@ -216,6 +222,17 @@ public sealed class Scene : EngineElement
         });
 
         return effectiveLights.ToArray();
+    }
+    #endregion
+
+    #region Get shadow casters
+    /// <summary>
+    /// Returns an array of <see cref="PositionableRenderable"/>s that can cast shadows
+    /// </summary>
+    /// <returns>An array of shadow casters</returns>
+    internal PositionableRenderable[] GetShadowCasters()
+    {
+        return _positionables.Where(p => p.ShadowCaster).ToArray();
     }
     #endregion
 }
