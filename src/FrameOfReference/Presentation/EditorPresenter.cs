@@ -113,6 +113,23 @@ public sealed class EditorPresenter : InteractivePresenter
     /// <inheritdoc/>
     protected override double MaxCameraRadius => 10000;
 
+    /// <summary>
+    /// Updates the camera to use a new height controller.
+    /// This should be called after the terrain is rescaled.
+    /// </summary>
+    public void UpdateCameraHeightController()
+    {
+        // Preserve current camera state
+        var currentState = CameraState;
+        if (currentState == null) return;
+
+        // Create a new camera with the updated height controller
+        var newCamera = CreateCamera(currentState);
+        
+        // Replace the camera in the view
+        View.Camera = newCamera;
+    }
+
     #region Movement
     /// <summary>
     /// Occurs when an <see cref="Positionable{TCoordinates}"/> is to be moved.

@@ -73,6 +73,9 @@ public partial class MapEditor : UndoCommandTab
     /// <summary>Contains backups of <see cref="Positionable{TCoordinates}"/> property values for the undo system.</summary>
     private readonly MultiPropertyTracker _propertyGridPositionableTracker;
 
+    /// <summary>Tracks the terrain size to detect changes that require camera updates.</summary>
+    private TerrainSize _lastTerrainSize;
+
     // Don't use WinForms designer for this, since it doesn't understand generics
     private readonly FilteredTreeView<EntityTemplate> _entityTemplateList = new()
     {
@@ -265,6 +268,9 @@ public partial class MapEditor : UndoCommandTab
             _presenter.TerrainPaint += presenter_TerrainPaint;
             #endregion
 
+            // Initialize terrain size tracking
+            _lastTerrainSize = _universe.Terrain.Size;
+
             _initialized = true;
         }
 
@@ -277,6 +283,46 @@ public partial class MapEditor : UndoCommandTab
         UpdateGameTimeSlider();
 
         base.OnUpdate();
+    }
+    #endregion
+
+    #region Command execution
+    /// <summary>
+    /// Checks if the terrain size has changed after command execution and updates the camera if necessary.
+    /// </summary>
+    private void CheckAndHandleTerrainSizeChange()
+    {
+        var currentTerrainSize = _universe.Terrain.Size;
+        
+        // Check if the terrain size has changed (comparing the struct values)
+        if (!currentTerrainSize.Equals(_lastTerrainSize))
+        {
+            _lastTerrainSize = currentTerrainSize;
+            
+            // Update the camera's height controller to reflect the new terrain size
+            if (_initialized && _presenter != null)
+            {
+                _presenter.UpdateCameraHeightController();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Executes a command and checks for terrain size changes.
+    /// </summary>
+    protected new void ExecuteCommand(IUndoCommand command)
+    {
+        base.ExecuteCommand(command);
+        CheckAndHandleTerrainSizeChange();
+    }
+
+    /// <summary>
+    /// Executes a command safely and checks for terrain size changes.
+    /// </summary>
+    protected new void ExecuteCommandSafe(IUndoCommand command)
+    {
+        base.ExecuteCommandSafe(command);
+        CheckAndHandleTerrainSizeChange();
     }
     #endregion
 
