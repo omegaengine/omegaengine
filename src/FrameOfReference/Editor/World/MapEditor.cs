@@ -280,14 +280,11 @@ public partial class MapEditor : UndoCommandTab
         _mapPropertiesTool?.UpdateUniverse(_universe);
 
         // Check if terrain size has changed and update camera if necessary
-        if (_initialized)
+        var currentTerrainSize = _universe.Terrain.Size;
+        if (_initialized && !currentTerrainSize.Equals(_lastTerrainSize))
         {
-            var currentTerrainSize = _universe.Terrain.Size;
-            if (!currentTerrainSize.Equals(_lastTerrainSize))
-            {
-                _lastTerrainSize = currentTerrainSize;
-                _presenter.UpdateCameraHeightController();
-            }
+            _lastTerrainSize = currentTerrainSize;
+            _presenter.UpdateCameraHeightController();
         }
 
         UpdateXml();
