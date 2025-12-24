@@ -36,11 +36,11 @@ public class CloneCamera(Camera parentCamera) : Camera
     {
         PositionBase = ParentCamera.PositionBase;
 
-        GetView().To(ref ViewCached, () =>
-        {
-            CacheSpecialMatrices();
-            ViewFrustumDirty = true;
-        });
+        ViewCached = GetView();
+        CacheSpecialMatrices();
+        ViewFrustumDirty = true;
+
+        base.UpdateView();
     }
 
     /// <summary>
