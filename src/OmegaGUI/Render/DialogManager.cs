@@ -27,6 +27,13 @@ public sealed class DialogManager : IDisposable
     // Lists of textures/fonts
     private readonly List<TextureNode> _textureCache = [];
     private readonly List<FontNode> _fontCache = [];
+    
+    // MessageBox base size for auto-scaling
+    private const int MessageBoxBaseWidth = 400;
+    private const int MessageBoxBaseHeight = 150;
+    
+    // Base resolution height for auto-scaling (Full HD)
+    private const float BaseResolutionHeight = 1080f;
     #endregion
 
     #region Properties
@@ -63,6 +70,11 @@ public sealed class DialogManager : IDisposable
     /// Gets the render target control
     /// </summary>
     public System.Windows.Forms.Control Target => Engine.Target;
+    
+    /// <summary>
+    /// Calculates the auto-scale factor for high resolutions (>Full HD)
+    /// </summary>
+    public float GetAutoScaleFactor() => Engine != null ? Math.Max(1, Engine.RenderSize.Height / BaseResolutionHeight) : 1;
     #endregion
 
     #region Constructor
@@ -81,7 +93,7 @@ public sealed class DialogManager : IDisposable
 
         // Create the default MessageBox dialog
         MessageBox = new(this);
-        MessageBox.SetSize(400, 150);
+        MessageBox.SetSize(MessageBoxBaseWidth, MessageBoxBaseHeight);
 
         OnResetDevice();
     }
@@ -253,10 +265,17 @@ public sealed class DialogManager : IDisposable
         // Create new state block
         StateBlock = new(Engine.Device, StateBlockType.All);
 
+        // Auto-scale MessageBox at resolutions higher than Full HD
+        float autoScale = GetAutoScaleFactor();
+        int scaledWidth = (int)(MessageBoxBaseWidth * autoScale);
+        int scaledHeight = (int)(MessageBoxBaseHeight * autoScale);
+        
+        MessageBox.SetSize(scaledWidth, scaledHeight);
+
         // Reposition the message box according to the new Viewport
         MessageBox.Location = new(
-            (Engine.RenderSize.Width - MessageBox.Width) / 2,
-            (Engine.RenderSize.Height - MessageBox.Height) / 2);
+            (Engine.RenderSize.Width - scaledWidth) / 2,
+            (Engine.RenderSize.Height - scaledHeight) / 2);
     }
     #endregion
 
