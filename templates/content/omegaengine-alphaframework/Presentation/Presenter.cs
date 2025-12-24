@@ -50,10 +50,11 @@ public abstract class Presenter : CoordinatePresenter<Universe, Vector2>
         var textures = new string[Universe.Terrain.Templates.Length];
         for (int i = 0; i < textures.Length; i++)
         {
-            if (Universe.Terrain.Templates[i] != null && !string.IsNullOrEmpty(Universe.Terrain.Templates[i].Texture))
+            var template = Universe.Terrain.Templates[i];
+            if (template != null && !string.IsNullOrEmpty(template.Texture))
             {
                 // Prefix directory name
-                textures[i] = Path.Combine("Terrain", Universe.Terrain.Templates[i].Texture);
+                textures[i] = Path.Combine("Terrain", template.Texture);
             }
         }
 
