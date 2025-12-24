@@ -194,7 +194,7 @@ public sealed partial class ModSelectorForm : Form
 
     private void listBoxRecent_KeyDown(object sender, KeyEventArgs e)
     {
-        if (e.KeyCode == Keys.Enter && !string.IsNullOrEmpty(listBoxRecent.Text))
+        if (e.KeyCode == Keys.Enter && listBoxRecent.SelectedItem != null)
         {
             OpenMod(((ModPath)listBoxRecent.SelectedItem).FullPath);
             e.Handled = true;
