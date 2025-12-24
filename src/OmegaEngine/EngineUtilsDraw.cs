@@ -64,12 +64,17 @@ public static class EngineUtilsDraw
             engine.State.FfpLighting = false;
             engine.State.Fog = false;
 
+            // Calculate half-pixel offset to fix Direct3D9 pixel/texel alignment
+            var viewport = engine.Device.Viewport;
+            float halfPixelX = 0.5f / viewport.Width;
+            float halfPixelY = 0.5f / viewport.Height;
+
             PositionTextured[] vertexes =
             [
-                new(-1, 1, 0, 0, 0),
-                new(-1, -1, 0, 0, 1),
-                new(1, 1, 0, 1, 0),
-                new(1, -1, 0, 1, 1)
+                new(-1, 1, 0, halfPixelX, halfPixelY),
+                new(-1, -1, 0, halfPixelX, 1 - halfPixelY),
+                new(1, 1, 0, 1 - halfPixelX, halfPixelY),
+                new(1, -1, 0, 1 - halfPixelX, 1 - halfPixelY)
             ];
 
             engine.Device.VertexFormat = PositionTextured.Format;
