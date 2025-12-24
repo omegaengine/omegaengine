@@ -140,6 +140,7 @@ namespace AlphaFramework.Editor
             this.listBoxRecent.FormattingEnabled = true;
             this.listBoxRecent.Name = "listBoxRecent";
             this.listBoxRecent.DoubleClick += new System.EventHandler(this.listBoxRecent_DoubleClick);
+            this.listBoxRecent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listBoxRecent_KeyDown);
             // 
             // pictureLogo
             // 
