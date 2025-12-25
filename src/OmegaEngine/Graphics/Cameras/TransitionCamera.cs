@@ -44,8 +44,8 @@ public class TransitionCamera : QuaternionCamera
         if (Quaternion.Dot(sourceRotation, targetRotation) < 0)
             targetRotation = -targetRotation;
 
-        engine.Interpolate(
-            start: 0, target: 1,
+        engine.Animate(
+            start: 0, end: 1,
             callback: value =>
             {
                 Position = sourcePosition + (targetPosition - sourcePosition) * value;

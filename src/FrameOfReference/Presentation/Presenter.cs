@@ -200,8 +200,8 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
         {
             // Gradually apply sepia effect
             _sepiaShader.Enabled = true;
-            Engine.Interpolate(
-                start: 0, target: 0.6,
+            Engine.Animate(
+                start: 0, end: 0.6,
                 callback: value => _sepiaShader.Desaturation = _sepiaShader.Toning = (float)value,
                 duration: 4);
         }

@@ -22,18 +22,18 @@ public static class EngineUtilsAnimation
     /// </summary>
     /// <param name="engine">The engine to use for rendering</param>
     /// <param name="start">The value to start off with</param>
-    /// <param name="target">The value to end up at</param>
+    /// <param name="end">The value to end up at</param>
     /// <param name="callback">The delegate to call for with the updated interpolated value each frame</param>
     /// <param name="duration">The time for complete transition in seconds</param>
     /// <param name="trigonometric"><c>true</c> smooth (trigonometric) and <c>false</c> for linear interpolation</param>
-    public static void Interpolate(this Engine engine, double start, double target, Action<double> callback, double duration = 1, bool trigonometric = true)
+    public static void Animate(this Engine engine, double start, double end, Action<double> callback, double duration = 1, bool trigonometric = true)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         if (callback == null) throw new ArgumentNullException(nameof(callback));
         #endregion
 
-        bool negative = start > target;
+        bool negative = start > end;
 
         Stopwatch interpolationTimer = null;
         Action interpolate = null;
@@ -51,11 +51,11 @@ public static class EngineUtilsAnimation
             {
                 // Calc the interpolated value based on the elapsed time
                 double interpolationTime = interpolationTimer.Elapsed.TotalSeconds;
-                if (trigonometric) value = MathUtils.InterpolateTrigonometric(interpolationTime / duration, start, target);
-                else value = interpolationTime / duration * (target - start) + start;
+                if (trigonometric) value = MathUtils.InterpolateTrigonometric(interpolationTime / duration, start, end);
+                else value = interpolationTime / duration * (end - start) + start;
 
                 // Don't shoot past the target
-                if ((negative && value < target) || (!negative && value > target)) value = target;
+                if ((negative && value < end) || (!negative && value > end)) value = end;
             }
 
             // Return the value to the delegate
@@ -63,7 +63,7 @@ public static class EngineUtilsAnimation
 
             // Delegate removes itself from PostRender once Max value has been reached
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (value == target) engine.PreRender -= interpolate;
+            if (value == end) engine.PreRender -= interpolate;
         };
 
         // Hook interpolation delegate into PostRender sequence
@@ -79,8 +79,8 @@ public static class EngineUtilsAnimation
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
-        engine.Interpolate(
-            start: 255, target: 0,
+        engine.Animate(
+            start: 255, end: 0,
             callback: value => engine.FadeLevel = (int)value);
         engine.FadeExtra = true;
     }
@@ -94,8 +94,8 @@ public static class EngineUtilsAnimation
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
-        engine.Interpolate(
-            start: engine.FadeLevel, target: 80,
+        engine.Animate(
+            start: engine.FadeLevel, end: 80,
             callback: value => engine.FadeLevel = (int)value);
         engine.FadeExtra = false;
     }
@@ -109,8 +109,8 @@ public static class EngineUtilsAnimation
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
-        engine.Interpolate(
-            start: engine.FadeLevel, target: 0,
+        engine.Animate(
+            start: engine.FadeLevel, end: 0,
             callback: value => engine.FadeLevel = (int)value);
         engine.FadeExtra = false;
     }
