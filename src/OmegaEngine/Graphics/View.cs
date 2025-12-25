@@ -383,17 +383,9 @@ public partial class View : EngineElement, IResetable
         #endregion
 
         // Create the transitional camera and make it active
-        Camera = _transitionCamera = new(
-            sourcePosition: Camera.Position,
-            sourceRotation: Quaternion.RotationMatrix(Camera.View),
-            targetPosition: target.Position,
-            targetRotation: Quaternion.RotationMatrix(target.View),
-            duration,
-            Engine)
+        Camera = _transitionCamera = new(start: Camera, end: target, duration, Engine)
         {
             Name = "Transition to: " + target.Name,
-            NearClip = Camera.NearClip,
-            FarClip = Camera.FarClip
         };
         _targetCamera = target;
     }

@@ -14,9 +14,8 @@ using SlimDX;
 namespace OmegaEngine.Graphics.Cameras;
 
 /// <summary>
-/// A camera that smoothly transitions from one position and rotation to another.
+/// A camera that smoothly transitions between two <see cref="Camera"/> states.
 /// </summary>
-/// <remarks>The movement starts slowly, speeds up, and then slows down again before reaching the target.</remarks>
 public class TransitionCamera : QuaternionCamera
 {
     /// <summary>
@@ -28,35 +27,42 @@ public class TransitionCamera : QuaternionCamera
     /// <summary>
     /// Creates a new transition camera.
     /// </summary>
-    /// <param name="sourcePosition">The initial camera position</param>
-    /// <param name="sourceRotation">The initial camera rotation</param>
-    /// <param name="targetPosition">The target camera position</param>
-    /// <param name="targetRotation">The target camera rotation</param>
-    /// <param name="duration">The complete transition time in seconds</param>
-    /// <param name="engine">The <see cref="Engine"/> containing this camera</param>
-    public TransitionCamera(DoubleVector3 sourcePosition, Quaternion sourceRotation, DoubleVector3 targetPosition, Quaternion targetRotation, float duration, Engine engine)
+    /// <param name="start">The camera state at the beginning of the transition.</param>
+    /// <param name="end">The camera state at the end of the transition.</param>
+    /// <param name="duration">The complete transition time in seconds.</param>
+    /// <param name="engine">The <see cref="Engine"/> used for update callbacks.</param>
+    public TransitionCamera(Camera start, Camera end, float duration, Engine engine)
     {
         #region Sanity checks
+        if (start == null) throw new ArgumentNullException(nameof(start));
+        if (end == null) throw new ArgumentNullException(nameof(end));
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
+        FieldOfView = end.FieldOfView;
+        NearClip = end.NearClip;
+        FarClip = end.FarClip;
+
+        var startRotation = Quaternion.RotationMatrix(start.View);
+        var endRotation = Quaternion.RotationMatrix(end.View);
+
         // Make sure both quaternions are in the same hemisphere, to avoid going the long way round
-        if (Quaternion.Dot(sourceRotation, targetRotation) < 0)
-            targetRotation = -targetRotation;
+        if (Quaternion.Dot(startRotation, endRotation) < 0)
+            endRotation = -endRotation;
 
         engine.Animate(
             start: 0, end: 1,
             callback: value =>
             {
-                Position = sourcePosition + (targetPosition - sourcePosition) * value;
-                Quaternion = Quaternion.Slerp(sourceRotation, targetRotation, (float)value);
+                Position = start.Position + (end.Position - start.Position) * value;
+                Quaternion = Quaternion.Slerp(startRotation, endRotation, (float)value);
 
                 if (value == 1) IsComplete = true;
             },
-            duration: duration);
+            duration);
 
-        Position = sourcePosition;
-        Quaternion = sourceRotation;
+        Position = start.Position;
+        Quaternion = startRotation;
     }
 
     /// <inheritdoc/>
