@@ -30,13 +30,14 @@ public class TransitionCamera : QuaternionCamera
     /// </summary>
     /// <param name="start">The camera state at the beginning of the transition.</param>
     /// <param name="end">The camera state at the end of the transition.</param>
-    /// <param name="duration">The complete transition time in seconds.</param>
+    /// <param name="options">Options controlling the transition.</param>
     /// <param name="engine">The <see cref="Engine"/> used for update callbacks.</param>
-    public TransitionCamera(Camera start, Camera end, float duration, Engine engine)
+    public TransitionCamera(Camera start, Camera end, AnimationOptions options, Engine engine)
     {
         #region Sanity checks
         if (start == null) throw new ArgumentNullException(nameof(start));
         if (end == null) throw new ArgumentNullException(nameof(end));
+        if (options == null) throw new ArgumentNullException(nameof(options));
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
@@ -64,7 +65,7 @@ public class TransitionCamera : QuaternionCamera
 
                 if (value == 1) IsComplete = true;
             },
-            new AnimationOptions(Duration: TimeSpan.FromSeconds(duration)));
+            options);
     }
 
     /// <inheritdoc/>

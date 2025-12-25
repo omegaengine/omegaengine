@@ -375,15 +375,19 @@ public partial class View : EngineElement, IResetable
     /// Switches from the current camera to a new camera using a transition effect
     /// </summary>
     /// <param name="target">The new camera</param>
-    /// <param name="duration">The complete transition time in seconds</param>
-    public void TransitionCameraTo(Camera target, float duration = 1)
+    /// <param name="options">Options controlling the transition</param>
+    public void TransitionCameraTo(Camera target, AnimationOptions? options = null)
     {
         #region Sanity checks
         if (target == null) throw new ArgumentNullException(nameof(target));
         #endregion
 
         // Create the transitional camera and make it active
-        Camera = _transitionCamera = new(start: Camera, end: target, duration, Engine)
+        Camera = _transitionCamera = new(
+            start: Camera,
+            end: target,
+            options ?? new(Duration: TimeSpan.FromSeconds(1)),
+            Engine)
         {
             Name = "Transition to: " + target.Name,
         };

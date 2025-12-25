@@ -235,7 +235,7 @@ public abstract partial class InteractivePresenter : Presenter
     /// <param name="cameraState">The destination state of the camera; <c>null</c> for default (looking at the center of the terrain).</param>
     public void SwingCameraTo(CameraState<Vector2>? cameraState = null)
     {
-        View.TransitionCameraTo(CreateCamera(cameraState), duration: 1.5f);
+        View.TransitionCameraTo(CreateCamera(cameraState));
     }
 
     /// <summary>
