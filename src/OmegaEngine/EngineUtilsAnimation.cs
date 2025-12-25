@@ -24,12 +24,12 @@ public static class EngineUtilsAnimation
     /// <param name="start">The value to start off with</param>
     /// <param name="end">The value to end up at</param>
     /// <param name="callback">The delegate to call for with the updated interpolated value each frame</param>
-    /// <param name="duration">The time for complete transition in seconds</param>
-    /// <param name="trigonometric"><c>true</c> smooth (trigonometric) and <c>false</c> for linear interpolation</param>
-    public static void Animate(this Engine engine, double start, double end, Action<double> callback, double duration = 1, bool trigonometric = true)
+    /// <param name="options">Options controlling the animation</param>
+    public static void Animate(this Engine engine, double start, double end, Action<double> callback, AnimationOptions options)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
+        if (options == null) throw new ArgumentNullException(nameof(options));
         if (callback == null) throw new ArgumentNullException(nameof(callback));
         #endregion
 
@@ -49,10 +49,15 @@ public static class EngineUtilsAnimation
             }
             else
             {
-                // Calc the interpolated value based on the elapsed time
-                double interpolationTime = interpolationTimer.Elapsed.TotalSeconds;
-                if (trigonometric) value = MathUtils.InterpolateTrigonometric(interpolationTime / duration, start, end);
-                else value = interpolationTime / duration * (end - start) + start;
+                double fraction = interpolationTimer.Elapsed.Divide(options.Duration);
+                double factor = options switch
+                {
+                    { EaseIn: true, EaseOut: true } => MathUtils.EaseInOut(fraction, options.EasingFunction),
+                    { EaseIn: true } => MathUtils.EaseIn(fraction, options.EasingFunction),
+                    { EaseOut: true } => MathUtils.EaseOut(fraction, options.EasingFunction),
+                    _ => fraction
+                };
+                value = MathUtils.Lerp(start, end, factor);
 
                 // Don't shoot past the target
                 if ((negative && value < end) || (!negative && value > end)) value = end;
@@ -76,7 +81,9 @@ public static class EngineUtilsAnimation
     /// <summary>
     /// Fades in the screen from total black in one second
     /// </summary>
-    public static void FadeIn(this Engine engine)
+    /// <param name="engine">The engine to use for rendering</param>
+    /// <param name="options">Options controlling the animation</param>
+    public static void FadeIn(this Engine engine, AnimationOptions? options = null)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -84,14 +91,17 @@ public static class EngineUtilsAnimation
 
         engine.Animate(
             start: 255, end: 0,
-            callback: value => engine.FadeLevel = (int)value);
+            callback: value => engine.FadeLevel = (int)value,
+            options ?? new(Duration: TimeSpan.FromSeconds(1)));
         engine.FadeExtra = true;
     }
 
     /// <summary>
     /// Dims in the screen down
     /// </summary>
-    public static void DimDown(this Engine engine)
+    /// <param name="engine">The engine to use for rendering</param>
+    /// <param name="options">Options controlling the animation</param>
+    public static void DimDown(this Engine engine, AnimationOptions? options = null)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -99,14 +109,17 @@ public static class EngineUtilsAnimation
 
         engine.Animate(
             start: engine.FadeLevel, end: 80,
-            callback: value => engine.FadeLevel = (int)value);
+            callback: value => engine.FadeLevel = (int)value,
+            options ?? new(Duration: TimeSpan.FromSeconds(1)));
         engine.FadeExtra = false;
     }
 
     /// <summary>
     /// Dims in the screen back up
     /// </summary>
-    public static void DimUp(this Engine engine)
+    /// <param name="engine">The engine to use for rendering</param>
+    /// <param name="options">Options controlling the animation</param>
+    public static void DimUp(this Engine engine, AnimationOptions? options = null)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -114,7 +127,8 @@ public static class EngineUtilsAnimation
 
         engine.Animate(
             start: engine.FadeLevel, end: 0,
-            callback: value => engine.FadeLevel = (int)value);
+            callback: value => engine.FadeLevel = (int)value,
+            options ?? new(Duration: TimeSpan.FromSeconds(1)));
         engine.FadeExtra = false;
     }
 }

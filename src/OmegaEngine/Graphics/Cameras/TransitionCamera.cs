@@ -64,7 +64,7 @@ public class TransitionCamera : QuaternionCamera
 
                 if (value == 1) IsComplete = true;
             },
-            duration);
+            new AnimationOptions(Duration: TimeSpan.FromSeconds(duration)));
     }
 
     /// <inheritdoc/>

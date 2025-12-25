@@ -203,7 +203,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
             Engine.Animate(
                 start: 0, end: 0.6,
                 callback: value => _sepiaShader.Desaturation = _sepiaShader.Toning = (float)value,
-                duration: 4);
+                options: new(Duration: TimeSpan.FromSeconds(4)));
         }
 
         base.DimDown();
