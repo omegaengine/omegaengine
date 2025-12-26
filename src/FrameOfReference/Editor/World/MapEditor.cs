@@ -59,7 +59,7 @@ namespace FrameOfReference.Editor.World;
 public partial class MapEditor : UndoCommandTab
 {
     #region Variables
-    private EditorPresenter _presenter = null!;
+    private EditorPresenter? _presenter;
     private ActionReceiver? _renderTrigger;
     private Universe _universe = null!;
     private MapPropertiesTool? _mapPropertiesTool;
@@ -237,13 +237,11 @@ public partial class MapEditor : UndoCommandTab
         ExecuteCommand(new RemovePositionables<Vector2>(_universe, _presenter.SelectedPositionables));
     }
 
-    private bool _initialized;
-
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
         // Setup the presenter on startup or when it was lost/reset
-        if (!_initialized)
+        if (_presenter == null)
         {
             _presenter = new(renderPanel.Engine, _universe, lighting: false)
             {
@@ -264,8 +262,6 @@ public partial class MapEditor : UndoCommandTab
             _presenter.PostionableMove += presenter_PositionableMove;
             _presenter.TerrainPaint += presenter_TerrainPaint;
             #endregion
-
-            _initialized = true;
         }
 
         UpdatePositionablesListBox();
