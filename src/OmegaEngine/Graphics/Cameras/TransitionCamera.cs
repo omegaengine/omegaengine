@@ -32,7 +32,7 @@ public class TransitionCamera : QuaternionCamera
     /// <param name="end">The camera state at the end of the transition.</param>
     /// <param name="options">Options controlling the transition.</param>
     /// <param name="engine">The <see cref="Engine"/> used for update callbacks.</param>
-    public TransitionCamera(Camera start, Camera end, AnimationOptions options, Engine engine)
+    public TransitionCamera(Camera start, Camera end, TransitionCameraOptions options, Engine engine)
     {
         #region Sanity checks
         if (start == null) throw new ArgumentNullException(nameof(start));
@@ -48,6 +48,12 @@ public class TransitionCamera : QuaternionCamera
         if (Quaternion.Dot(startRotation, endRotation) < 0)
             endRotation = -endRotation;
 
+        AnimatePosition(start, end, options, engine);
+        AnimateRotation(startRotation, endRotation, options with {Duration = options.Duration.Multiply(options.RotationBias.Clamp())}, engine);
+    }
+
+    private void AnimatePosition(Camera start, Camera end, AnimationOptions options, Engine engine)
+    {
         MaxPositionOffset = end.MaxPositionOffset;
 
         engine.Animate(
@@ -61,10 +67,16 @@ public class TransitionCamera : QuaternionCamera
                 Position = DoubleVector3.Lerp(start.Position, end.Position, value);
                 AdjustPositionBase();
 
-                Quaternion = Quaternion.Slerp(startRotation, endRotation, (float)value);
-
                 if (value == 1) IsComplete = true;
             },
+            options);
+    }
+
+    private void AnimateRotation(Quaternion start, Quaternion end, AnimationOptions options, Engine engine)
+    {
+        engine.Animate(
+            start: 0, end: 1,
+            callback: value => Quaternion = Quaternion.Slerp(start, end, (float)value),
             options);
     }
 

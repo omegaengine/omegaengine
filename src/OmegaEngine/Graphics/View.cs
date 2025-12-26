@@ -376,7 +376,7 @@ public partial class View : EngineElement, IResetable
     /// </summary>
     /// <param name="target">The new camera</param>
     /// <param name="options">Options controlling the transition</param>
-    public void TransitionCameraTo(Camera target, AnimationOptions? options = null)
+    public void TransitionCameraTo(Camera target, TransitionCameraOptions? options = null)
     {
         #region Sanity checks
         if (target == null) throw new ArgumentNullException(nameof(target));
