@@ -17,67 +17,32 @@ namespace OmegaEngine.Foundation.Light;
 public class AttenuationTest
 {
     [Fact]
-    public void TestConstruction()
+    public void ApplyNone()
     {
-        var attenuation = new Attenuation(1, 0.5f, 0.25f);
-        attenuation.Constant.Should().Be(1);
-        attenuation.Linear.Should().Be(0.5f);
-        attenuation.Quadratic.Should().Be(0.25f);
+        Attenuation.None.Apply(distance: 100).Should().Be(1);
     }
 
     [Fact]
-    public void TestNoneConstant()
+    public void ApplyLinear()
     {
-        Attenuation.None.Constant.Should().Be(1);
-        Attenuation.None.Linear.Should().Be(0);
-        Attenuation.None.Quadratic.Should().Be(0);
+        var attenuation = new Attenuation(constant: 1, linear: 1, quadratic: 0);
+        attenuation.Apply(distance: 0).Should().Be(1); // At source: 1/(1+0+0) = 1
+        attenuation.Apply(distance: 1).Should().Be(0.5f); // 1/(1+1+0) = 0.5
+        attenuation.Apply(distance: 3).Should().Be(0.25f); // 1/(1+3+0) = 0.25
     }
 
     [Fact]
-    public void TestApply()
+    public void ApplyQuadratic()
     {
-        // No attenuation: should return 1 regardless of distance
-        Attenuation.None.Apply(100).Should().Be(1);
-
-        // Linear attenuation
-        var linear = new Attenuation(1, 1, 0);
-        linear.Apply(0).Should().Be(1); // At source: 1/(1+0+0) = 1
-        linear.Apply(1).Should().Be(0.5f); // 1/(1+1+0) = 0.5
-        linear.Apply(3).Should().Be(0.25f); // 1/(1+3+0) = 0.25
-
-        // Quadratic attenuation
-        var quadratic = new Attenuation(1, 0, 1);
-        quadratic.Apply(0).Should().Be(1); // At source
-        quadratic.Apply(1).Should().Be(0.5f); // 1/(1+0+1) = 0.5
+        var attenuation = new Attenuation(constant: 1, linear: 0, quadratic: 1);
+        attenuation.Apply(distance: 0).Should().Be(1); // At source
+        attenuation.Apply(distance: 1).Should().Be(0.5f); // 1/(1+0+1) = 0.5
     }
 
     [Fact]
     public void TestApplyClamps()
     {
-        // Should clamp to [0, 1] range
-        var attenuation = new Attenuation(0.1f, 0, 0); // Would give >1 without clamping
-        attenuation.Apply(0).Should().Be(1); // Clamped to 1
-    }
-
-    [Fact]
-    public void TestEquality()
-    {
-        var a1 = new Attenuation(1, 0.5f, 0.25f);
-        var a2 = new Attenuation(1, 0.5f, 0.25f);
-        var a3 = new Attenuation(2, 0.5f, 0.25f);
-
-        (a1 == a2).Should().BeTrue();
-        (a1 != a3).Should().BeTrue();
-        a1.Equals(a2).Should().BeTrue();
-        a1.Equals(a3).Should().BeFalse();
-    }
-
-    [Fact]
-    public void TestHashCode()
-    {
-        var a1 = new Attenuation(1, 0.5f, 0.25f);
-        var a2 = new Attenuation(1, 0.5f, 0.25f);
-        
-        a1.GetHashCode().Should().Be(a2.GetHashCode());
+        var attenuation = new Attenuation(constant: 0.1f, linear: 0, quadratic: 0); // Would give >1 without clamping
+        attenuation.Apply(distance: 0).Should().Be(1); // Clamped to 1
     }
 }

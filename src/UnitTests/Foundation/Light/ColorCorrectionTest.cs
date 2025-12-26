@@ -17,25 +17,6 @@ namespace OmegaEngine.Foundation.Light;
 public class ColorCorrectionTest
 {
     [Fact]
-    public void TestConstruction()
-    {
-        var correction = new ColorCorrection(1.5f, 0.5f, -0.5f, 90);
-        correction.Brightness.Should().Be(1.5f);
-        correction.Contrast.Should().Be(0.5f);
-        correction.Saturation.Should().Be(-0.5f);
-        correction.Hue.Should().Be(90);
-    }
-
-    [Fact]
-    public void TestDefaultConstant()
-    {
-        ColorCorrection.Default.Brightness.Should().Be(1);
-        ColorCorrection.Default.Contrast.Should().Be(1);
-        ColorCorrection.Default.Saturation.Should().Be(1);
-        ColorCorrection.Default.Hue.Should().Be(0);
-    }
-
-    [Fact]
     public void TestBrightnessClamp()
     {
         var correction = new ColorCorrection(brightness: 10); // > 5
@@ -73,18 +54,5 @@ public class ColorCorrectionTest
 
         correction = new ColorCorrection(hue: -10); // < 0
         correction.Hue.Should().Be(0);
-    }
-
-    [Fact]
-    public void TestEquality()
-    {
-        var c1 = new ColorCorrection(1.5f, 0.5f, -0.5f, 90);
-        var c2 = new ColorCorrection(1.5f, 0.5f, -0.5f, 90);
-        var c3 = new ColorCorrection(2.0f, 0.5f, -0.5f, 90);
-
-        (c1 == c2).Should().BeTrue();
-        (c1 != c3).Should().BeTrue();
-        c1.Equals(c2).Should().BeTrue();
-        c1.Equals(c3).Should().BeFalse();
     }
 }

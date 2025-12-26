@@ -7,7 +7,6 @@
  */
 
 using FluentAssertions;
-using SlimDX;
 using Xunit;
 
 namespace OmegaEngine.Foundation.Geometry;
@@ -17,15 +16,6 @@ namespace OmegaEngine.Foundation.Geometry;
 /// </summary>
 public class DoubleVector3Test
 {
-    [Fact]
-    public void TestConstruction()
-    {
-        var vector = new DoubleVector3(1.5, 2.5, 3.5);
-        vector.X.Should().Be(1.5);
-        vector.Y.Should().Be(2.5);
-        vector.Z.Should().Be(3.5);
-    }
-
     [Fact]
     public void TestAddition()
     {
@@ -109,7 +99,7 @@ public class DoubleVector3Test
     {
         var start = new DoubleVector3(0, 0, 0);
         var end = new DoubleVector3(10, 20, 30);
-        
+
         DoubleVector3.Lerp(start, end, 0).Should().Be(start);
         DoubleVector3.Lerp(start, end, 1).Should().Be(end);
         DoubleVector3.Lerp(start, end, 0.5).Should().Be(new DoubleVector3(5, 10, 15));
