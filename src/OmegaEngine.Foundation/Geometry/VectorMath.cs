@@ -103,6 +103,7 @@ public static class VectorMath
     /// <param name="vector">The vector to be adjusted.</param>
     /// <param name="from">A vector describing the old reference frame.</param>
     /// <param name="to">A vector describing the new reference frame.</param>
+    [Pure]
     public static DoubleVector3 AdjustReference(this DoubleVector3 vector, DoubleVector3 from, DoubleVector3 to)
     {
         (var axis, double rotation) = from.GetRotationTo(to);
