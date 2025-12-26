@@ -32,7 +32,7 @@ using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
-using OmegaEngine.Collections;
+using OmegaEngine.Foundation.Collections;
 using SlimDX;
 using SlimDX.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;

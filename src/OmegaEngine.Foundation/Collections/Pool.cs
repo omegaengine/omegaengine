@@ -9,9 +9,9 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using OmegaEngine.Properties;
+using OmegaEngine.Foundation.Properties;
 
-namespace OmegaEngine.Collections;
+namespace OmegaEngine.Foundation.Collections;
 
 /// <summary>
 /// A very fast pseudo-collection (it does not implement <see cref="IEnumerable{T}"/>) that supports fast adding at the beginning.
@@ -55,7 +55,7 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
 
     #region Add
     /// <summary>
-    /// Adds an item to the beginning pool
+    /// Adds an item to the beginning of the pool
     /// </summary>
     /// <param name="item">The object to add to the pool</param>
     /// <exception cref="ArgumentException"><paramref name="item"/> is already in a pool.</exception>

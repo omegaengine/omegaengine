@@ -126,6 +126,9 @@
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="ItemAlreadyInPool" xml:space="preserve">
+    <value>The item is already in a pool. It can not be added to more than one pool.</value>
+  </data>
   <data name="LoseChangesAsk" xml:space="preserve">
     <value>Warning! All your changes to this file will be lost. Do you wish to continue?</value>
   </data>
