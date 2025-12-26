@@ -109,37 +109,4 @@ public static class VectorMath
         (var axis, double rotation) = from.GetRotationTo(to);
         return vector.RotateAroundAxis(axis, rotation);
     }
-
-    /// <summary>
-    /// Performs smooth (trigonometric) interpolation between two or more values
-    /// </summary>
-    /// <param name="factor">A factor between 0 and <paramref name="values"/>.Length</param>
-    /// <param name="values">The value checkpoints</param>
-    [Pure]
-    public static Vector4 InterpolateTrigonometric(float factor, params Vector4[] values)
-    {
-        #region Sanity checks
-        if (values == null) throw new ArgumentNullException(nameof(values));
-        if (values.Length < 2) throw new ArgumentException(Properties.Resources.AtLeast2Values);
-        #endregion
-
-        // Handle value overflows
-        if (factor <= 0) return values[0];
-        if (factor >= values.Length - 1) return values[^1];
-
-        // Isolate index shift from factor
-        int index = (int)factor;
-
-        // Remove index shift from factor
-        factor -= index;
-
-        // Apply sinus smoothing to factor
-        factor = -0.5f * (float)Math.Cos(factor * Math.PI) + 0.5f;
-
-        return new(
-            values[index].X + factor * (values[index + 1].X - values[index].X),
-            values[index].Y + factor * (values[index + 1].Y - values[index].Y),
-            values[index].Z + factor * (values[index + 1].Z - values[index].Z),
-            values[index].W + factor * (values[index + 1].W - values[index].W));
-    }
 }

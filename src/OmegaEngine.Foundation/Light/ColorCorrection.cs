@@ -12,7 +12,6 @@ using System.Xml.Serialization;
 using JetBrains.Annotations;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Design;
-using OmegaEngine.Foundation.Geometry;
 using SlimDX;
 
 namespace OmegaEngine.Foundation.Light;
@@ -79,24 +78,29 @@ public struct ColorCorrection : IEquatable<ColorCorrection>
     }
 
     /// <summary>
-    /// Performs smooth (sinus-based) interpolation between two or more value sets.
+    /// Performs interpolation between two or more value sets with easing.
     /// </summary>
     /// <param name="factor">A factor between 0 and <paramref name="values"/>.Length.</param>
     /// <param name="values">The value checkpoints.</param>
     [Pure]
-    public static ColorCorrection SinusInterpolate(float factor, params ColorCorrection[] values)
+    public static ColorCorrection InterpolateEased(float factor, params ColorCorrection[] values)
     {
         #region Sanity checks
         if (values == null) throw new ArgumentNullException(nameof(values));
         #endregion
 
-        // Cast to Vector4 for interpolating...
-        var vectorValues = new Vector4[values.Length];
-        for (int i = 0; i < values.Length; i++)
-            vectorValues[i] = (Vector4)values[i];
+        if (factor <= 0) return values[0];
+        if (factor >= values.Length - 1) return values[^1];
 
-        // ... and then cast back
-        return (ColorCorrection)VectorMath.InterpolateTrigonometric(factor, vectorValues);
+        int index = (int)factor;
+        factor -= index;
+        factor = (float)MathUtils.EaseInOut(factor);
+
+        return new(
+            MathUtils.Lerp(values[index].Brightness, values[index + 1].Brightness, factor),
+            MathUtils.Lerp(values[index].Contrast, values[index + 1].Contrast, factor),
+            MathUtils.Lerp(values[index].Saturation, values[index + 1].Saturation, factor),
+            MathUtils.Lerp(values[index].Hue, values[index + 1].Hue, factor));
     }
 
     #region Conversion

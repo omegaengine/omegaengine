@@ -133,7 +133,7 @@ partial class Presenter
         if (_colorCorrectionShader == null) return;
 
         // Interpolate between the color correction settings for the different sun phases
-        var correction = ColorCorrection.SinusInterpolate(Universe.LightPhase,
+        var correction = ColorCorrection.InterpolateEased(Universe.LightPhase,
             Universe.ColorCorrectionDawn, Universe.ColorCorrectionNoon, Universe.ColorCorrectionDusk, Universe.ColorCorrectionMidnight, Universe.ColorCorrectionDawn);
 
         // If the color correction values aren't all at default, activate the shader and transfer the values
