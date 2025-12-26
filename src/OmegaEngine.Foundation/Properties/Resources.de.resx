@@ -126,6 +126,9 @@
   <data name="Delete" xml:space="preserve">
     <value>Löschen</value>
   </data>
+  <data name="ItemAlreadyInPool" xml:space="preserve">
+    <value>Dieses Element befindet sich bereits in einem Pool. Es kann maximal einem Pool hinzugefügt werden.</value>
+  </data>
   <data name="LoseChangesAsk" xml:space="preserve">
     <value>Warnung! Sämtliche Ihrer Änderungen an dieser Datei gehen hierbei verloren. Möchten Sie fortfahren?</value>
   </data>

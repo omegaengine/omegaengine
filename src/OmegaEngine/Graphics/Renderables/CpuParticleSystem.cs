@@ -12,7 +12,7 @@ using System.ComponentModel;
 using System.IO;
 using NanoByte.Common;
 using OmegaEngine.Assets;
-using OmegaEngine.Collections;
+using OmegaEngine.Foundation.Collections;
 using OmegaEngine.Foundation;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;

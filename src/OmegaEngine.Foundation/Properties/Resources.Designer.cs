@@ -87,6 +87,15 @@ namespace OmegaEngine.Foundation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The item is already in a pool. It can not be added to more than one pool..
+        /// </summary>
+        internal static string ItemAlreadyInPool {
+            get {
+                return ResourceManager.GetString("ItemAlreadyInPool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning! All your changes to this file will be lost. Do you wish to continue?.
         /// </summary>
         public static string LoseChangesAsk {

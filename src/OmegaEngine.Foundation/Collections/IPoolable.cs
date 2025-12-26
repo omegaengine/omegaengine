@@ -6,7 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace OmegaEngine.Collections;
+namespace OmegaEngine.Foundation.Collections;
 
 /// <summary>
 /// An interface items must implement to be addable to <see cref="Pool{T}"/>. Poolable items directly store a reference to their successor.

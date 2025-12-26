@@ -147,9 +147,6 @@
   <data name="InvalidScreenshotSize" xml:space="preserve">
     <value>Die Screenshot-Auflösung darf die aktuelle Render-Auflösung nicht überschreiten.</value>
   </data>
-  <data name="ItemAlreadyInPool" xml:space="preserve">
-    <value>Dieses Element befindet sich bereits in einem Pool. Es kann maxmimal einem Pool hinzugefügt werden.</value>
-  </data>
   <data name="LightsNotDeactivated" xml:space="preserve">
     <value>DeactivateLights wurde nach dem letzten Renderdurchlauf nicht aufgerufen.</value>
   </data>
