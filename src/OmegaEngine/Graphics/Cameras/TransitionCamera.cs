@@ -46,11 +46,15 @@ public class TransitionCamera : QuaternionCamera
         if (Quaternion.Dot(startRotation, endRotation) < 0)
             endRotation = -endRotation;
 
+        MaxPositionOffset = end.MaxPositionOffset;
+
         engine.Animate(
             start: 0, end: 1,
             callback: value =>
             {
                 Position = DoubleVector3.Lerp(start.Position, end.Position, value);
+                AdjustPositionBase();
+
                 Quaternion = Quaternion.Slerp(startRotation, endRotation, (float)value);
 
                 if (value == 1) IsComplete = true;
