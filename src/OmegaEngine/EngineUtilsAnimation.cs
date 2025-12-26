@@ -68,6 +68,9 @@ public static class EngineUtilsAnimation
 
         // Hook interpolation delegate into PostRender sequence
         engine.PreRender += interpolate;
+
+        // Run callback for t=0 immediately
+        callback(start);
     }
 
     /// <summary>

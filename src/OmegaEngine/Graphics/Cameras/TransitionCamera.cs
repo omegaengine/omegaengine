@@ -39,10 +39,6 @@ public class TransitionCamera : QuaternionCamera
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
-        FieldOfView = end.FieldOfView;
-        NearClip = end.NearClip;
-        FarClip = end.FarClip;
-
         var startRotation = Quaternion.RotationMatrix(start.View);
         var endRotation = Quaternion.RotationMatrix(end.View);
 
@@ -60,9 +56,6 @@ public class TransitionCamera : QuaternionCamera
                 if (value == 1) IsComplete = true;
             },
             duration);
-
-        Position = start.Position;
-        Quaternion = startRotation;
     }
 
     /// <inheritdoc/>
