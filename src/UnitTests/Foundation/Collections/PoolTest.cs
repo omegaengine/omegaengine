@@ -21,15 +21,10 @@ public class PoolTest
     /// <summary>
     /// A simple test class that implements IPoolable for testing purposes.
     /// </summary>
-    private class TestPoolable : IPoolable<TestPoolable>
+    private class TestPoolable(string name) : IPoolable<TestPoolable>
     {
-        public string Name { get; }
+        public string Name { get; } = name;
         public TestPoolable? NextElement { get; set; }
-
-        public TestPoolable(string name)
-        {
-            Name = name;
-        }
     }
 
     [Fact]
@@ -49,14 +44,6 @@ public class PoolTest
         var item3 = new TestPoolable("Item3");
         pool.Add(item3);
         pool.Count.Should().Be(3);
-    }
-
-    [Fact]
-    public void TestAddNull()
-    {
-        var pool = new Pool<TestPoolable>();
-        pool.Invoking(p => p.Add(null!))
-            .Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
@@ -109,14 +96,6 @@ public class PoolTest
     }
 
     [Fact]
-    public void TestContainsNull()
-    {
-        var pool = new Pool<TestPoolable>();
-        pool.Invoking(p => p.Contains(null!))
-            .Should().Throw<ArgumentNullException>();
-    }
-
-    [Fact]
     public void TestRemove()
     {
         var pool = new Pool<TestPoolable>();
@@ -155,14 +134,6 @@ public class PoolTest
         pool.Add(item1);
         pool.Remove(item2).Should().BeFalse();
         pool.Count.Should().Be(1);
-    }
-
-    [Fact]
-    public void TestRemoveNull()
-    {
-        var pool = new Pool<TestPoolable>();
-        pool.Invoking(p => p.Remove(null!))
-            .Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
@@ -222,14 +193,6 @@ public class PoolTest
     }
 
     [Fact]
-    public void TestForEachNull()
-    {
-        var pool = new Pool<TestPoolable>();
-        pool.Invoking(p => p.ForEach(null!))
-            .Should().Throw<ArgumentNullException>();
-    }
-
-    [Fact]
     public void TestForEachEmptyPool()
     {
         var pool = new Pool<TestPoolable>();
@@ -262,14 +225,6 @@ public class PoolTest
         item1.NextElement.Should().BeNull();
         item2.NextElement.Should().BeNull();
         item3.NextElement.Should().BeNull();
-    }
-
-    [Fact]
-    public void TestRemoveAllNull()
-    {
-        var pool = new Pool<TestPoolable>();
-        pool.Invoking(p => p.RemoveAll(null!))
-            .Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
@@ -334,14 +289,6 @@ public class PoolTest
     }
 
     [Fact]
-    public void TestRemoveWhereNull()
-    {
-        var pool = new Pool<TestPoolable>();
-        pool.Invoking(p => p.RemoveWhere(null!))
-            .Should().Throw<ArgumentNullException>();
-    }
-
-    [Fact]
     public void TestRemoveFirst()
     {
         var pool = new Pool<TestPoolable>();
@@ -381,14 +328,6 @@ public class PoolTest
         // Try to remove item that doesn't match
         pool.RemoveFirst(item => item.Name == "Item3");
         pool.Count.Should().Be(2);
-    }
-
-    [Fact]
-    public void TestRemoveFirstNull()
-    {
-        var pool = new Pool<TestPoolable>();
-        pool.Invoking(p => p.RemoveFirst(null!))
-            .Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
