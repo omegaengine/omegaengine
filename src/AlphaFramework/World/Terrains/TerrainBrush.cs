@@ -63,12 +63,12 @@ public readonly struct TerrainBrush
         if (Circle)
         {
             double distance = Math.Sqrt(distanceX * distanceX + distanceY * distanceY); // Euclidian norm
-            return MathUtils.InterpolateTrigonometric(distance / radius, 1, 0); // Smooth bell shape
+            return MathUtils.InterpolateEased(start: 1, end: 0, factor: distance / radius); // Smooth bell shape
         }
         else
         {
             double distance = Math.Max(Math.Abs(distanceX), Math.Abs(distanceY)); // Maximum norm
-            return MathUtils.InterpolateTrigonometric(distance / radius * 2, 1, 1, 0); // Flat top with smooth slopes
+            return MathUtils.InterpolateEased(start: 1, end: 0, factor: distance / radius * 2 - 1); // Flat top with smooth slopes
         }
     }
 }

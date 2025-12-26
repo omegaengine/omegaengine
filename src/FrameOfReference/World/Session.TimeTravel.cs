@@ -58,7 +58,7 @@ partial class Session
     {
         _timeTravelElapsed += elapsedRealTime;
         double timeTravelDuration = Math.Abs(_timeTravelTarget - _timeTravelStart) * TimeTravelSpeedFactor;
-        double intermediateTarget = MathUtils.InterpolateTrigonometric(_timeTravelElapsed / timeTravelDuration, _timeTravelStart, _timeTravelTarget);
+        double intermediateTarget = MathUtils.InterpolateEased(_timeTravelStart, _timeTravelTarget, factor: _timeTravelElapsed / timeTravelDuration);
 
         double gameTimeDelta = intermediateTarget - Universe.GameTime;
         UpdateDeterministic(gameTimeDelta);

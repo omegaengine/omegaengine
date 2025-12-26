@@ -204,7 +204,7 @@ internal class PerlinNoise
         var xInt = (int)x;
         double xFrac = x - xInt;
 
-        return MathUtils.InterpolateTrigonometric(xFrac, Noise(xInt), Noise(xInt + 1));
+        return MathUtils.InterpolateEased(Noise(xInt), Noise(xInt + 1), xFrac);
     }
 
     private double SmoothedNoise(double x, double y)
@@ -223,9 +223,9 @@ internal class PerlinNoise
         // ReSharper restore InconsistentNaming
 
         // x interpolation
-        double v1 = MathUtils.InterpolateTrigonometric(xFrac, x0y0, x1y0);
-        double v2 = MathUtils.InterpolateTrigonometric(xFrac, x0y1, x1y1);
+        double v1 = MathUtils.InterpolateEased(x0y0, x1y0, xFrac);
+        double v2 = MathUtils.InterpolateEased(x0y1, x1y1, xFrac);
         // y interpolation
-        return MathUtils.InterpolateTrigonometric(yFrac, v1, v2);
+        return MathUtils.InterpolateEased(v1, v2, yFrac);
     }
 }
