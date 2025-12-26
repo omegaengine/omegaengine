@@ -20,7 +20,7 @@ public class FreeFlyCamera : QuaternionCamera
     [Description("A unit vector describing the axis around which the camera is rotated."), Category("Layout")]
     public DoubleVector3 Axis
     {
-        get => (DoubleVector3)Quaternion.Axis;
+        get => ((DoubleVector3)Quaternion.Axis).Normalize();
         set => Quaternion = Quaternion.RotationAxis((Vector3)value, Quaternion.Angle);
     }
 
@@ -45,7 +45,7 @@ public class FreeFlyCamera : QuaternionCamera
     /// <inheritdoc/>
     public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)
     {
-        Position += translation.RotateAroundAxis((DoubleVector3)Quaternion.Axis, -Quaternion.Angle);
+        Position += translation.RotateAroundAxis(Axis, Quaternion.Angle);
         Quaternion *= Quaternion.RotationYawPitchRoll(
             (float)-rotation.X.DegreeToRadian(),
             (float)rotation.Y.DegreeToRadian(),
