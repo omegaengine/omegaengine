@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using SlimDX;
 
@@ -52,6 +53,10 @@ public class TransitionCamera : QuaternionCamera
             start: 0, end: 1,
             callback: value =>
             {
+                FieldOfView = MathUtils.Lerp(start.FieldOfView, end.FieldOfView, (float)value);
+                NearClip = MathUtils.Lerp(start.NearClip, end.NearClip, (float)value);
+                FarClip = MathUtils.Lerp(start.FarClip, end.FarClip, (float)value);
+
                 Position = DoubleVector3.Lerp(start.Position, end.Position, value);
                 AdjustPositionBase();
 
