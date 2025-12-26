@@ -147,9 +147,6 @@
   <data name="InvalidScreenshotSize" xml:space="preserve">
     <value>The screenshot resolution must not exceed the current render resolution.</value>
   </data>
-  <data name="ItemAlreadyInPool" xml:space="preserve">
-    <value>The item is already in a pool. It can not be added to more than one pool.</value>
-  </data>
   <data name="LightsNotDeactivated" xml:space="preserve">
     <value>DeactivateLights was not called after the last render pass.</value>
   </data>

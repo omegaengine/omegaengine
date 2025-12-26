@@ -11,7 +11,7 @@ using System.ComponentModel;
 using System.Drawing;
 using JetBrains.Annotations;
 using NanoByte.Common;
-using OmegaEngine.Collections;
+using OmegaEngine.Foundation.Collections;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics;

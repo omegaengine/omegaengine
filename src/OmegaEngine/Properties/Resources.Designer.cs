@@ -150,15 +150,6 @@ namespace OmegaEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The item is already in a pool. It can not be added to more than one pool..
-        /// </summary>
-        internal static string ItemAlreadyInPool {
-            get {
-                return ResourceManager.GetString("ItemAlreadyInPool", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to DeactivateLights was not called after the last render pass..
         /// </summary>
         internal static string LightsNotDeactivated {
