@@ -283,7 +283,7 @@ public partial class MapEditor : UndoCommandTab
         // Keep the current Camera angle
         var cameraBackup = _presenter.View.Camera;
 
-        // Stop input handling (needs to be reinitiliazed later)
+        // Stop input handling (needs to be re-initialized later)
         renderPanel.RemoveInputReceiver(_renderTrigger);
         renderPanel.RemoveInputReceiver(_presenter);
 
