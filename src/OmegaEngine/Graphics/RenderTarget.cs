@@ -49,7 +49,7 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
     /// <summary>
     /// A reference to the next element in the <see cref="Pool{T}"/> chain.
     /// </summary>
-    RenderTarget IPoolable<RenderTarget>.NextElement { get; set; }
+    RenderTarget? IPoolable<RenderTarget>.NextElement { get; set; }
 
     /// <summary>
     /// The size for this render target (is empty for fullscreen)

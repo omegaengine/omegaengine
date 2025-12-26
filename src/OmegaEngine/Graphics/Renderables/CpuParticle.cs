@@ -25,7 +25,7 @@ internal class CpuParticle : IPoolable<CpuParticle>, IPositionable
     /// <summary>
     /// A reference to the next element in the <see cref="Pool{T}"/> chain.
     /// </summary>
-    CpuParticle IPoolable<CpuParticle>.NextElement { get; set; }
+    CpuParticle? IPoolable<CpuParticle>.NextElement { get; set; }
 
     #region Flags
     /// <summary>

@@ -28,7 +28,7 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
 
     private T? _firstElement;
 
-    T IPoolable<T>.NextElement { get => _firstElement; set => _firstElement = value; }
+    T? IPoolable<T>.NextElement { get => _firstElement; set => _firstElement = value; }
 
     /// <summary>
     /// Performs the specified action on each element of the pool
