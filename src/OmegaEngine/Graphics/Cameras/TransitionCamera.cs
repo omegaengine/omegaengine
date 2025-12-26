@@ -54,7 +54,7 @@ public class TransitionCamera : QuaternionCamera
             start: 0, end: 1,
             callback: value =>
             {
-                Position = start.Position + (end.Position - start.Position) * value;
+                Position = DoubleVector3.Lerp(start.Position, end.Position, value);
                 Quaternion = Quaternion.Slerp(startRotation, endRotation, (float)value);
 
                 if (value == 1) IsComplete = true;

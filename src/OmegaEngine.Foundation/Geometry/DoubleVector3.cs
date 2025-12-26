@@ -91,6 +91,15 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     public static DoubleVector3 operator /(DoubleVector3 vector, float scalar) => new(vector.X / scalar, vector.Y / scalar, vector.Z / scalar);
 
     /// <summary>
+    /// Linearly interpolates between two vectors.
+    /// </summary>
+    /// <param name="start">The start vector.</param>
+    /// <param name="end">The end vector.</param>
+    /// <param name="factor">The interpolation factor. Typically in the range 0-1. Values outside this range will extrapolate.</param>
+    public static DoubleVector3 Lerp(DoubleVector3 start, DoubleVector3 end, double factor)
+        => start + (end - start) * factor;
+
+    /// <summary>
     /// Returns a single-precision standard Vector3 after subtracting an offset value
     /// </summary>
     /// <param name="offset">This value is subtracting from the double-precision data before it is casted to single-precision</param>

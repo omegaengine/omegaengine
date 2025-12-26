@@ -110,17 +110,6 @@ public static class VectorMath
     }
 
     /// <summary>
-    /// Performs linear interpolation between two vectors.
-    /// </summary>
-    /// <param name="vector1">The starting vector.</param>
-    /// <param name="vector2">The ending vector.</param>
-    /// <param name="factor">Interpolation factor between 0 and 1.</param>
-    /// <returns>The interpolated vector.</returns>
-    [Pure]
-    public static DoubleVector3 Lerp(DoubleVector3 vector1, DoubleVector3 vector2, double factor)
-        => vector1 * (1 - factor) + vector2 * factor;
-
-    /// <summary>
     /// Performs smooth (trigonometric) interpolation between two or more values
     /// </summary>
     /// <param name="factor">A factor between 0 and <paramref name="values"/>.Length</param>
