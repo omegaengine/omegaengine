@@ -55,7 +55,7 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
 
     #region Add
     /// <summary>
-    /// Adds an item to the beginning pool
+    /// Adds an item to the beginning of the pool
     /// </summary>
     /// <param name="item">The object to add to the pool</param>
     /// <exception cref="ArgumentException"><paramref name="item"/> is already in a pool.</exception>
