@@ -6,12 +6,10 @@
   href: ../screenshots.md
 - name: Scenes
   href: ../scenes.md
-- name: Terrain
-  href: ../terrain.md
-- name: Shaders
-  href: ../shaders.md
-- name: Assets
-  href: ../assets.md
+- name: Coordinates
+  href: ../coordinates.md
+- name: Hosting
+  href: ../hosting.md
 - name: Dispose
   href: ../dispose.md
 - name: License
