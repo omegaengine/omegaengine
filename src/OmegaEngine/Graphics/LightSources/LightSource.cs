@@ -11,7 +11,7 @@ using System.Drawing;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Renderables;
 
-namespace OmegaEngine.Graphics;
+namespace OmegaEngine.Graphics.LightSources;
 
 /// <summary>
 /// A light source that illuminates <see cref="PositionableRenderable"/>s in a <see cref="Scene"/>.

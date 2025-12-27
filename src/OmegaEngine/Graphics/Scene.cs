@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX.Direct3D9;

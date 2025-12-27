@@ -14,6 +14,7 @@ using NanoByte.Common.Collections;
 using NanoByte.Common.Controls;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics;
+using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
 using View = OmegaEngine.Graphics.View;

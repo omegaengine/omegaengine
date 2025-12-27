@@ -9,6 +9,7 @@
 using System;
 using System.Drawing;
 using JetBrains.Annotations;
+using OmegaEngine.Graphics.LightSources;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Shaders;

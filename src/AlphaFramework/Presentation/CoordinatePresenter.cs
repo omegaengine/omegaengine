@@ -11,7 +11,7 @@ using AlphaFramework.World.Positionables;
 using NanoByte.Common.Dispatch;
 using OmegaEngine;
 using OmegaEngine.Graphics.Renderables;
-using LightSource = OmegaEngine.Graphics.LightSource;
+using LightSource = OmegaEngine.Graphics.LightSources.LightSource;
 
 namespace AlphaFramework.Presentation;
 

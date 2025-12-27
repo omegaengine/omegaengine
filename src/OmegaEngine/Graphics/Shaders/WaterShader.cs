@@ -13,6 +13,7 @@ using JetBrains.Annotations;
 using NanoByte.Common;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 using SlimDX.Direct3D9;

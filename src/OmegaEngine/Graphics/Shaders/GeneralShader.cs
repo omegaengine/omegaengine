@@ -10,6 +10,7 @@ using System;
 using JetBrains.Annotations;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.LightSources;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders;

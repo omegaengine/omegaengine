@@ -6,15 +6,15 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.ComponentModel;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
-using System.ComponentModel;
 
-namespace OmegaEngine.Graphics;
+namespace OmegaEngine.Graphics.LightSources;
 
 /// <summary>
 /// A light source that has a fixed position and shines uniformly in all directions.

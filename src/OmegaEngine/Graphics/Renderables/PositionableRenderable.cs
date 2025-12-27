@@ -14,6 +14,7 @@ using JetBrains.Annotations;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;
 

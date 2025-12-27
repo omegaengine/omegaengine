@@ -12,6 +12,7 @@ using JetBrains.Annotations;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
 
 namespace OmegaEngine.Graphics.Shaders;

@@ -9,7 +9,7 @@
 using System.ComponentModel;
 using SlimDX;
 
-namespace OmegaEngine.Graphics;
+namespace OmegaEngine.Graphics.LightSources;
 
 /// <summary>
 /// A light source that has no position and shines in one direction.
