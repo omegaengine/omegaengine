@@ -6,6 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
@@ -24,8 +25,9 @@ public class RemovePositionables<TCoordinates> : AddRemovePositionables<TCoordin
     /// </summary>
     /// <param name="universe">The <see cref="CoordinateUniverse{TCoordinates}"/> to remove from.</param>
     /// <param name="entities">The <see cref="Positionable{TCoordinates}"/>s to remove.</param>
-    public RemovePositionables(CoordinateUniverse<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> entities)
-        : base(universe, entities)
+    /// <param name="callback">Optional callback to be invoked after removing entities (e.g., to update pathfinding).</param>
+    public RemovePositionables(CoordinateUniverse<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> entities, Action? callback = null)
+        : base(universe, entities, callback)
     {}
     #endregion
 

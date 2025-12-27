@@ -25,6 +25,7 @@ public abstract class AddRemovePositionables<TCoordinates> : SimpleCommand
 
     // Note: Use List<> instead of Array, because the size of the incoming IEnumerable<> will be unkown
     private readonly List<Positionable<TCoordinates>> _positionables;
+    private readonly Action? _callback;
     #endregion
 
     #region Constructor
@@ -33,12 +34,14 @@ public abstract class AddRemovePositionables<TCoordinates> : SimpleCommand
     /// </summary>
     /// <param name="universe">The <see cref="CoordinateUniverse{TCoordinates}"/> to add to / remove from.</param>
     /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to add/remove.</param>
-    protected AddRemovePositionables(CoordinateUniverse<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> positionables)
+    /// <param name="callback">Optional callback to be invoked after adding/removing entities (e.g., to update pathfinding).</param>
+    protected AddRemovePositionables(CoordinateUniverse<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> positionables, Action? callback = null)
     {
         _universe = universe ?? throw new ArgumentNullException(nameof(universe));
 
         // Create local defensive copy of entities
         _positionables = new(positionables ?? throw new ArgumentNullException(nameof(positionables)));
+        _callback = callback;
     }
     #endregion
 
@@ -52,6 +55,8 @@ public abstract class AddRemovePositionables<TCoordinates> : SimpleCommand
     {
         foreach (var positionable in _positionables)
             _universe.Positionables.Add(positionable);
+        
+        _callback?.Invoke();
     }
 
     /// <summary>
@@ -61,6 +66,8 @@ public abstract class AddRemovePositionables<TCoordinates> : SimpleCommand
     {
         foreach (var positionable in _positionables)
             _universe.Positionables.Remove(positionable);
+        
+        _callback?.Invoke();
     }
     #endregion
 }
