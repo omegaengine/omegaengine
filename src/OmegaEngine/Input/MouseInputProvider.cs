@@ -167,7 +167,8 @@ public class MouseInputProvider : InputProvider
             _ignoreMouseMove = true;
 
             // Snap back to original position
-            Cursor.Position -= delta;
+            Cursor.Position = _cursorCapturePos;
+            _lastMouseLoc = _control.PointToClient(_cursorCapturePos);
 
             _ignoreMouseMove = false;
         }
