@@ -157,7 +157,7 @@ public sealed class DialogRenderer : IDisposable
         else
         {
             // Auto-scale at resolutions higher than Full HD
-            DialogModel.AutoScale = Math.Max(1, renderSize.Height / 1080f);
+            DialogModel.AutoScale = DialogRender.DialogManager.GetAutoScaleFactor();
 
             DialogRender.Location = _location;
             if (DialogModel.Size == Size.Empty)
