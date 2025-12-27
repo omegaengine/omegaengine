@@ -54,6 +54,7 @@ public class TransitionCamera : QuaternionCamera
 
     private void AnimatePosition(Camera start, Camera end, AnimationOptions options, Engine engine)
     {
+        FrustumCulling = end.FrustumCulling;
         MaxPositionOffset = end.MaxPositionOffset;
 
         engine.Animate(
