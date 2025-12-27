@@ -32,3 +32,60 @@ The base directory is usually located in the directory of the application EXE an
 A game modification (mod) is a set of changes based on an existing game used to modify existing gameplay, add additional content or create an entirely new game.
 
 The engine supports mods via a [virtual file system](#vfs) and modding support in the AlphaEditor.
+
+## Loading Assets
+
+Many asset types provide static `FromContent()` methods for easy loading from the content directories:
+
+```csharp
+// Load a 3D model
+var model = Model.FromContent(engine, "Models/Character.x");
+
+// Load a texture
+var texture = XTexture.FromContent(engine, "Textures/Concrete.png");
+
+// Load a particle system preset
+var particles = CpuParticlePreset.FromContent("Fire");
+```
+
+The `FromContent()` method:
+
+1. Searches for the file in the [VFS](#vfs) content directories
+2. Loads and parses the file
+3. Adds the asset to the <xref:OmegaEngine.Assets.CacheManager> automatically
+4. Returns the asset ready for use
+
+### Cache Manager
+
+The <xref:OmegaEngine.Assets.CacheManager> (accessible via <xref:OmegaEngine.Engine.Cache>) automatically caches loaded assets to improve performance through reference counting.
+
+When you load an asset:
+
+1. The cache is checked for an existing instance with that name
+2. If found, the reference count is incremented and the cached instance is returned
+3. If not found, the asset is loaded, added to the cache with reference count of 1
+
+When you dispose an asset:
+
+1. The reference count is decremented
+2. If the count reaches zero, the asset remains in cache but is marked for potential cleanup
+3. Calling <xref:OmegaEngine.Assets.CacheManager.Clean> removes all assets with zero references
+
+For scenarios like level transitions:
+
+```csharp
+// Load level 1 assets
+var level1Assets = LoadLevel1Assets(engine);
+
+// ... play level 1 ...
+
+// Dispose level 1 assets
+foreach (var asset in level1Assets)
+    asset.Dispose();
+
+// Clean cache to free memory before loading level 2
+engine.Cache.Clean();
+
+// Load level 2 assets
+var level2Assets = LoadLevel2Assets(engine);
+```
