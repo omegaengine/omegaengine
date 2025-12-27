@@ -122,7 +122,8 @@ public abstract class Renderable : EngineElement, IResetable
     /// </summary>
     /// <param name="camera">Supplies information for the view transformation.</param>
     /// <param name="getLights">A delegate that will be called to get lighting information. <c>null</c> if lighting is disabled.</param>
-    internal virtual void Render(Camera camera, GetLights? getLights = null)
+    /// <param name="getShadowCasters">A delegate that will be called to get shadow caster information. <c>null</c> if shadows are disabled.</param>
+    internal virtual void Render(Camera camera, GetLights? getLights = null, GetShadowCasters? getShadowCasters = null)
     {
         PrepareRender();
     }
