@@ -118,7 +118,7 @@ public class StrategyCamera(Func<DoubleVector3, double> heightController) : Zoom
                       0,
                       Math.Cos(_rotation) * translation.Y - Math.Sin(_rotation) * translation.X);
 
-        Rotation += rotation.X;
+        Rotation += rotation.X + rotation.Z;
 
         base.Navigate(translation, rotation);
     }
