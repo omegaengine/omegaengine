@@ -6,7 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace OmegaEngine;
+namespace OmegaEngine.Audio;
 
 /// <summary>
 /// Represents an asset that can playback audio.
