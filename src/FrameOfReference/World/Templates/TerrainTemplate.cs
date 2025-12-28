@@ -33,28 +33,8 @@ namespace FrameOfReference.World.Templates;
 /// <summary>
 /// Defines a type of terrain (texture, effects on units, etc.).
 /// </summary>
-public sealed class TerrainTemplate : Template<TerrainTemplate>
+public sealed class TerrainTemplate : TerrainTemplateBase<TerrainTemplate>
 {
-    /// <summary>
-    /// The filename of the ground texture.
-    /// </summary>
-    [XmlAttribute, Browsable(false)]
-    public string? Texture { get; set; }
-
-    private Color _color = Color.Black;
-
-    /// <summary>
-    /// The mini-map color for this terrain type. Should be unique.
-    /// </summary>
-    /// <remarks>Is not serialized/stored, <see cref="ColorValue"/> is used for that.</remarks>
-    [XmlIgnore, LuaHide, Description("The mini-map color for this terrain type. Should be unique.")]
-    public Color Color { get => _color; set => _color = value.DropAlpha(); }
-
-    /// <summary>Used for XML serialization.</summary>
-    /// <seealso cref="Color"/>
-    [XmlElement("Color"), LuaHide, Browsable(false)]
-    public XColor ColorValue { get => Color; set => Color = value.DropAlpha(); }
-
     private float _movementAbility = 1;
 
     /// <summary>
