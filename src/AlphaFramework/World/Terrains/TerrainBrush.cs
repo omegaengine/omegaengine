@@ -17,20 +17,20 @@ namespace AlphaFramework.World.Terrains;
 public readonly struct TerrainBrush
 {
     /// <summary>
-    /// The length of the sqaure or the diameter of the circle.
+    /// The length of the square or the diameter of the circle.
     /// </summary>
     public readonly int Size;
 
     /// <summary>
-    /// <c>true</c> if this is a circle, <c>false</c> if this is a sqaure.
+    /// <c>true</c> if this is a circle, <c>false</c> if this is a square.
     /// </summary>
     public readonly bool Circle;
 
     /// <summary>
     /// Creates a new modification area.
     /// </summary>
-    /// <param name="size">The length of the sqaure or the diameter of the circle.</param>
-    /// <param name="circle"><c>true</c> if this is a circle, <c>false</c> if this is a sqaure.</param>
+    /// <param name="size">The length of the square or the diameter of the circle.</param>
+    /// <param name="circle"><c>true</c> if this is a circle, <c>false</c> if this is a square.</param>
     public TerrainBrush(int size, bool circle)
     {
         Size = size;
