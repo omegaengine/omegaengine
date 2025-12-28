@@ -265,7 +265,7 @@ public class Game(Settings settings)
                 CurrentState = GameState.Pause;
 
                 // Freeze the mouse interaction
-                if (interactivePresenter != null) RemoveInputReceiver(interactivePresenter);
+                if (interactivePresenter != null) this.RemoveInputReceiver(interactivePresenter);
 
                 // Dim down the screen
                 CurrentPresenter?.DimDown();
@@ -283,7 +283,7 @@ public class Game(Settings settings)
                 CurrentPresenter?.DimUp();
 
                 // Restore the mouse interaction
-                if (interactivePresenter != null) AddInputReceiver(interactivePresenter);
+                if (interactivePresenter != null) this.AddInputReceiver(interactivePresenter);
 
                 // Restore the correct HUD
                 GuiManager.Reset();
@@ -313,7 +313,7 @@ public class Game(Settings settings)
             // Clean up any old stuff
             if (CurrentPresenter != null)
             {
-                if (CurrentPresenter is InteractivePresenter interactivePresenter) RemoveInputReceiver(interactivePresenter);
+                if (CurrentPresenter is InteractivePresenter interactivePresenter) this.RemoveInputReceiver(interactivePresenter);
 
                 CurrentPresenter.HookOut();
                 if (CurrentPresenter != _menuPresenter) CurrentPresenter.Dispose();
@@ -404,7 +404,7 @@ public class Game(Settings settings)
             CurrentPresenter.Initialize();
 
             // Activate new view
-            AddInputReceiver((InteractivePresenter)CurrentPresenter);
+            this.AddInputReceiver((InteractivePresenter)CurrentPresenter);
             CurrentPresenter.HookIn();
             if (settings.Graphics.Fading) Engine.FadeIn();
 
@@ -442,7 +442,7 @@ public class Game(Settings settings)
             CurrentPresenter.Initialize();
 
             // Activate new view
-            AddInputReceiver((InteractivePresenter)CurrentPresenter);
+            this.AddInputReceiver((InteractivePresenter)CurrentPresenter);
             CurrentPresenter.HookIn();
             if (settings.Graphics.Fading) Engine.FadeIn();
 
@@ -467,7 +467,7 @@ public class Game(Settings settings)
     {
         if (CurrentPresenter != null)
         {
-            if (CurrentPresenter is InteractivePresenter interactivePresenter) RemoveInputReceiver(interactivePresenter);
+            if (CurrentPresenter is InteractivePresenter interactivePresenter) this.RemoveInputReceiver(interactivePresenter);
 
             CurrentPresenter.HookOut();
 

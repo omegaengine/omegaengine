@@ -20,7 +20,7 @@ namespace OmegaEngine;
 /// A <see cref="Panel"/> that automatically provides an <see cref="OmegaEngine.Engine"/> instance for rendering on it, an optional timer-driver render loop, input handling, etc.
 /// </summary>
 [Description("A panel that automatically provides an Engine instance for rendering on it, an optional timer-driver render loop, input handling, etc.")]
-public class RenderPanel : TouchPanel
+public class RenderPanel : TouchPanel, IRenderHost
 {
     #region Variables
     private readonly Timer _renderTimer = new() {Interval = 33};
@@ -33,21 +33,15 @@ public class RenderPanel : TouchPanel
     [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Engine? Engine { get; private set; }
 
-    /// <summary>
-    /// A default <see cref="Input.KeyboardInputProvider"/> hooked up to the <see cref="Panel"/>.
-    /// </summary>
+    /// <inheritdoc/>
     [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public KeyboardInputProvider? KeyboardInputProvider { get; private set; }
 
-    /// <summary>
-    /// A default <see cref="Input.MouseInputProvider"/> hooked up to the <see cref="Panel"/>.
-    /// </summary>
+    /// <inheritdoc/>
     [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public MouseInputProvider? MouseInputProvider { get; private set; }
 
-    /// <summary>
-    /// A default <see cref="Input.TouchInputProvider"/> hooked up to the <see cref="Panel"/>.
-    /// </summary>
+    /// <inheritdoc/>
     [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public TouchInputProvider? TouchInputProvider { get; private set; }
 
@@ -117,30 +111,6 @@ public class RenderPanel : TouchPanel
         }
 
         return Engine;
-    }
-    #endregion
-
-    #region Input handling
-    /// <summary>
-    /// Calls <see cref="InputProvider.AddReceiver"/> for all default <see cref="InputProvider"/>s.
-    /// </summary>
-    /// <param name="receiver">The object to receive the commands.</param>
-    public void AddInputReceiver(IInputReceiver receiver)
-    {
-        KeyboardInputProvider?.AddReceiver(receiver);
-        MouseInputProvider?.AddReceiver(receiver);
-        TouchInputProvider?.AddReceiver(receiver);
-    }
-
-    /// <summary>
-    /// Calls <see cref="InputProvider.RemoveReceiver"/> for all default <see cref="InputProvider"/>s.
-    /// </summary>
-    /// <param name="receiver">The object to no longer receive the commands.</param>
-    public void RemoveInputReceiver(IInputReceiver receiver)
-    {
-        KeyboardInputProvider?.RemoveReceiver(receiver);
-        MouseInputProvider?.RemoveReceiver(receiver);
-        TouchInputProvider?.RemoveReceiver(receiver);
     }
     #endregion
 

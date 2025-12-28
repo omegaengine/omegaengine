@@ -34,7 +34,7 @@ namespace OmegaEngine;
 ///   <para>By using this class, you don't need to create a window, set up <see cref="InputProvider"/>s, provide access to <see cref="DebugConsole"/>, etc. yourself.</para>
 ///   <para>You should override at least <see cref="Initialize"/> and <see cref="Render"/>. This corresponds to the template method pattern.</para>
 /// </remarks>
-public partial class RenderHost : IDisposable
+public partial class RenderHost : IRenderHost, IDisposable
 {
     /// <summary>Contains a reference to the <see cref="DebugConsole"/> while it is open</summary>
     private DebugConsole? _debugConsole;
@@ -43,6 +43,15 @@ public partial class RenderHost : IDisposable
     /// The internal form used as the Engine render-targets
     /// </summary>
     protected readonly RenderForm Form;
+
+    /// <inheritdoc/>
+    public KeyboardInputProvider KeyboardInputProvider { get; }
+
+    /// <inheritdoc/>
+    public MouseInputProvider MouseInputProvider { get; }
+
+    /// <inheritdoc/>
+    public TouchInputProvider TouchInputProvider { get; }
 
     /// <summary>
     /// Has the app been shutdown?

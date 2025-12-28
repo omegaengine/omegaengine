@@ -29,7 +29,7 @@ public class Game(Settings settings)
         };
 
         Engine.Views.Add(view);
-        AddInputReceiver(camera);
+        this.AddInputReceiver(camera);
 
         Engine.FadeIn();
         LoadDialog("MainMenu");

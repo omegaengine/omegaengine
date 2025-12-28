@@ -45,6 +45,7 @@ using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
 using NanoByte.Common.Tasks;
 using NanoByte.Common.Undo;
+using OmegaEngine;
 using OmegaEngine.Foundation;
 using OmegaEngine.Input;
 using OmegaEngine.Foundation.Storage;

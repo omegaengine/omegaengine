@@ -7,6 +7,7 @@
  */
 
 using System;
+using OmegaEngine;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Input;
 

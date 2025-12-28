@@ -42,7 +42,7 @@ public class MyRenderHost : RenderHost
         };
 
         Engine.Views.Add(view);
-        AddInputReceiver(camera);
+        this.AddInputReceiver(camera);
     }
 
     private void InitializeGui()
