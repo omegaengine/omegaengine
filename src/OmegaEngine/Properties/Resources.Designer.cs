@@ -159,15 +159,6 @@ namespace OmegaEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loading music....
-        /// </summary>
-        internal static string LoadingMusic {
-            get {
-                return ResourceManager.GetString("LoadingMusic", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The mesh doesn&apos;t use 16-bit indices..
         /// </summary>
         internal static string MeshIndexBufferNot16bit {

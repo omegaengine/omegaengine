@@ -150,9 +150,6 @@
   <data name="LightsNotDeactivated" xml:space="preserve">
     <value>DeactivateLights wurde nach dem letzten Renderdurchlauf nicht aufgerufen.</value>
   </data>
-  <data name="LoadingMusic" xml:space="preserve">
-    <value>Lade Musik...</value>
-  </data>
   <data name="MeshIndexBufferNot16bit" xml:space="preserve">
     <value>Das Mesh verwendet keine 16-bit Indizes.</value>
   </data>

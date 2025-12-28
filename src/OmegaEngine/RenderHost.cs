@@ -18,7 +18,6 @@ using NanoByte.Common.Native;
 using OmegaEngine.Foundation;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
-using OmegaEngine.Foundation.Storage;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Input;
 using SlimDX;
@@ -165,16 +164,6 @@ public partial class RenderHost : IRenderHost, IDisposable
                 Msg.Inform(Form, $"{Resources.BadGraphics}\n{string.Format(Resources.MinimumShaderModel, TerrainShader.MinShaderModel)}", MsgSeverity.Warn);
                 Exit();
                 return false;
-            }
-        }
-
-        // Only load music subsystem if there is a library
-        if (ContentManager.FileExists("Music", "list.txt"))
-        {
-            using (new TimedLogEvent("Load music"))
-            {
-                UpdateStatus(Resources.LoadingMusic);
-                Engine.Music.LoadLibrary("list.txt");
             }
         }
 
