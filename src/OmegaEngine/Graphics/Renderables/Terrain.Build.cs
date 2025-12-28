@@ -306,12 +306,12 @@ partial class Terrain
     /// <exception cref="IOException">There was an error reading one of the texture files.</exception>
     /// <exception cref="UnauthorizedAccessException">Read access to one of the texture files is not permitted.</exception>
     /// <exception cref="InvalidDataException">One of the texture files does not contain a valid texture.</exception>
-    private static XMaterial BuildMaterial(Engine engine, string[] textures)
+    private static XMaterial BuildMaterial(Engine engine, string?[] textures)
     {
         var material = new XMaterial(Color.White) {Specular = Color.Black};
         for (int i = 0; i < textures.Length; i++)
         {
-            string id = textures[i];
+            string? id = textures[i];
             material.DiffuseMaps[i] = XTexture.Get(engine, id);
         }
         return material;
