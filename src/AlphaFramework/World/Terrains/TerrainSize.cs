@@ -18,7 +18,6 @@ namespace AlphaFramework.World.Terrains;
 [XmlInclude(typeof(Size))]
 public struct TerrainSize
 {
-    #region Properties
     /// <summary>
     /// The size of the <see cref="ITerrain"/> along the X-axis.
     /// </summary>
@@ -42,9 +41,7 @@ public struct TerrainSize
     /// </summary>
     [XmlAttribute]
     public float StretchV { get; set; }
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new <see cref="ITerrain"/> point information struct.
     /// </summary>
@@ -59,20 +56,4 @@ public struct TerrainSize
         StretchH = stretchH;
         StretchV = stretchV;
     }
-    #endregion
-
-    #region Conversion
-    /// <summary>
-    /// Convert <see cref="Size"/> into <see cref="TerrainSize"/>.
-    /// </summary>
-    public static implicit operator TerrainSize(Size size) => new(size.Width, size.Height);
-
-    /// <summary>
-    /// Convert <see cref="TerrainSize"/> into <see cref="Size"/>.
-    /// </summary>
-    public static implicit operator Size(TerrainSize size) => new(size.X, size.Y);
-
-    /// <inheritdoc/>
-    public override string ToString() => $"X: {X}\nY: {Y}\nStretchH: {StretchH}\nStretchV: {StretchV}";
-    #endregion
 }

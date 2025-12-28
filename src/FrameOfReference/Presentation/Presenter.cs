@@ -100,27 +100,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
     /// </summary>
     private void SetupTerrain()
     {
-        // Build texture array
-        var textures = new string[Universe.Terrain.Templates.Length];
-        for (int i = 0; i < textures.Length; i++)
-        {
-            if (Universe.Terrain.Templates[i] != null && !string.IsNullOrEmpty(Universe.Terrain.Templates[i].Texture))
-            {
-                // Prefix directory name
-                textures[i] = Path.Combine("Terrain", Universe.Terrain.Templates[i].Texture);
-            }
-        }
-
-        // Create Engine Terrain and add to the Scene
-        Terrain = Terrain.Create(
-            Engine, Universe.Terrain.Size,
-            Universe.Terrain.Size.StretchH, Universe.Terrain.Size.StretchV,
-            Universe.Terrain.HeightMap ?? throw new InvalidOperationException("Terrain height map missing"),
-            Universe.Terrain.TextureMap ?? throw new InvalidOperationException("Terrain texture map missing"),
-            textures,
-            Universe.Terrain.OcclusionIntervalMap,
-            View.Lighting,
-            Settings.Current.Graphics.TerrainBlockSize);
+        Terrain = Universe.Terrain.ToRenderable(Engine, View.Lighting, Settings.Current.Graphics.TerrainBlockSize);
         Terrain.Wireframe = WireframeTerrain;
         Scene.Positionables.Add(Terrain);
     }
