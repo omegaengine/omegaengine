@@ -79,7 +79,7 @@ public static class EngineUtilsAnimation
     }
 
     /// <summary>
-    /// Fades in the screen from total black in one second
+    /// Fades in the screen from total black
     /// </summary>
     /// <param name="engine">The engine to use for rendering</param>
     /// <param name="options">Options controlling the animation</param>
@@ -92,7 +92,7 @@ public static class EngineUtilsAnimation
         engine.Animate(
             start: 255, end: 0,
             callback: value => engine.FadeLevel = (int)value,
-            options ?? new(Duration: TimeSpan.FromSeconds(1)));
+            options ?? new(Duration: TimeSpan.FromSeconds(2), EaseIn: false));
         engine.FadeExtra = true;
     }
 
