@@ -12,7 +12,9 @@
         "TargetFramework": "net472"
       },
       "namespaceLayout": "nested",
-      "dest": "api"
+      "dest": "api",
+      "filter": "filterConfig.yml",
+      "filter": "filterConfig.yml"
     }
   ],
   "build": {
