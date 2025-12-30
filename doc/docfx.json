@@ -19,6 +19,7 @@
     "globalMetadata": {
       "_baseUrl": "https://docs.omegaengine.de/",
       "_appTitle": "OmegaEngine",
+       "_appLogoPath": "icon-omega.png",
       "_appFooter": "Copyright Bastian Eicher"
     },
     "content": [
@@ -38,7 +39,7 @@
     "resource": [
       {
         "src": "..",
-        "files": ["logo.png"]
+        "files": ["logo.png", "icon-omega.png"]
       },
       {
         "src": ".",
