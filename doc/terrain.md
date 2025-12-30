@@ -1,29 +1,23 @@
 # Terrain
 
-The engine is able to render heightmap-based terrains with multiple blended surface textures and pre-calculated self-shadowing.
+OmegaEngine supports heightmap-based terrain rendering with multiple blended surface textures and pre-calculated self-shadowing.
 
-## 2D coordinates
+![](images/screenshots/terrain_mountains.jpg)
 
-Coordinate system directed right-downwards (as used in graphics files). The standard orientation is a view along the positive Y axis.
+The <xref:OmegaEngine.Graphics.Renderables.Terrain> class renders heightmap-based terrains. The terrain is divided into blocks for efficient culling and rendering.
 
-This is sometimes referred to as world coordinates in the source code.
+<xref:AlphaFramework.World.Terrains> provides tools for terrain generation, editing, and storage.
 
-| Positive X axis | Width of the terrain |
-|:----------------|:---------------------|
-| Positive Y axis | Depth of the terrain |
+## Coordinates
+
+Terrain data uses a 2D coordinate system for heightmap and texture data. This coordinate system is directed right-downwards (as used in graphics files).
 
 ![](images/coord_2d.gif)
 
+These 2D coordinates map to the [3D engine coordinate system](scenes.md#coordinate-system):
 
-## 3D coordinates
-
-Left-handed coordinate system (as used by DirectX). The standard orientation is a view along the negative Z axis.
-
-This is sometimes referred to as engine coordinates in the source code.
-
-| Positive X axis | Width of the terrain |
-|:----------------|:---------------------|
+| Axis            | Terrain Dimension     |
+|-----------------|-----------------------|
+| Positive X axis | Width of the terrain  |
 | Positive Y axis | Height of the terrain |
-| Negative Z axis | Depth of the terrain |
-
-![](images/coord_3d.gif)
+| Negative Z axis | Depth of the terrain  |

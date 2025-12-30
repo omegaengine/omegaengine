@@ -1,5 +1,4 @@
 ---
 uid: OmegaEngine.Foundation.Geometry
-summary: *content
+summary: Data structures describing geometric constructs like grids, vectors and planes.
 ---
-Data structures describing geometric constructs like grids, vectors and planes.

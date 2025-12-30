@@ -1,5 +1,4 @@
 ﻿---
 uid: OmegaGUI.Render
-summary: *content
+summary: Actual rendering widgets with DirectX resources.
 ---
-Actual rendering widgets with DirectX resources.

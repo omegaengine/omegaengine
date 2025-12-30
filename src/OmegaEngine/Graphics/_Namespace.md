@@ -1,5 +1,4 @@
 ﻿---
 uid: OmegaEngine.Graphics
-summary: *content
+summary: Graphics subsystem of the engine.
 ---
-Graphics subsystem of the engine.

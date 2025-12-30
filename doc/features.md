@@ -5,20 +5,19 @@ An overview of the engine's features:
   * [Scene management](scenes.md)
     * Multiple viewports
     * 64bit-precision object positioning
-    * [Terrain](terrain.md) rendering (heightmap-based)
-  * [Shader management](shaders.md)
+    * [Terrain rendering](terrain.md) (heightmap-based)
+  * [HLSL shaders](xref:OmegaEngine.Graphics.Shaders)
     * DXSAS support
     * Post-screen effects
     * Dynamic shader generation
-  * [Asset management](assets.md)
+  * [Asset management](xref:OmegaEngine.Assets)
     * Virtual filesystem
     * Mod support
   * Effects
-    * Water reflections
-    * Bloom/Glow maps
+    * [Water with reflection and refraction](water.md)
+    * [Glow](glow.md)
     * Particle systems (with WYSIWYG editor)
-  * GUI toolkit
+  * [GUI toolkit](xref:OmegaGUI)
     * XML file format (with WYSIWYG editor)
     * Lua scripting
-  * Legacy hardware support (fallback to fixed function pipeline)
-  * Render embedded in WinForms or standalone
+  * [Input system](xref:OmegaEngine.Input)

@@ -1,5 +1,4 @@
 ﻿---
 uid: OmegaEngine.Graphics.VertexDecl
-summary: *content
+summary: Structs mapped to DirectX custom vertex formats (for storing additional information per vertex).
 ---
-Structs mapped to DirectX custom vertex formats (for storing additional information per vertex).

@@ -1,5 +1,4 @@
 ﻿---
 uid: OmegaEngine.Audio
-summary: *content
+summary: 3D sound and music playback.
 ---
-3D sound and music playback.

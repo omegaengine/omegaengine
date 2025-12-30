@@ -1,5 +1,4 @@
 ---
 uid: OmegaEngine.Foundation.Storage
-summary: *content
+summary: Storage subsystem with overlay filesystem and serialization.
 ---
-Storage subsystem with virtual filesystem and serialization.

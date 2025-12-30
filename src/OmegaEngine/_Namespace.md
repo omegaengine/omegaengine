@@ -1,7 +1,7 @@
 ﻿---
 uid: OmegaEngine
-summary: *content
+summary: 3D graphics rendering based on DirectX 9.
 ---
-3D graphics rendering based on DirectX 9.
 
-**NuGet package:** [OmegaEngine](https://www.nuget.org/packages/OmegaEngine/)
+> [!NOTE]
+> NuGet package: [OmegaEngine](https://www.nuget.org/packages/OmegaEngine/)

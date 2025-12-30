@@ -1,5 +1,4 @@
 ---
 uid: OmegaEngine.Foundation.Collections
-summary: *content
+summary: Specialized collection types used to limit allocations.
 ---
-Specialized collection types used to limit allocations.

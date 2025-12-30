@@ -19,14 +19,6 @@ It provides base classes for designing a game world using the Model-View-Present
 <xref:FrameOfReference> is the official sample game for OmegaEngine.  
 It is intended as a sample/reference for developers working on other games.
 
-## Prerequisites
-
-You must install these components before you can use OmegaEngine:
-
-- [Visual C++ 2010 Redistributable x86](https://www.microsoft.com/en-us/download/details.aspx?id=26999)
-- [DirectX June 2010 Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=8109)
-- [Visual Studio 2022 v17.13 or newer](https://www.visualstudio.com/downloads/)
-
 ## First steps
 
 Create a WinForms project targetting .NET Framework 4.7.2 or newer with the platform set to `x86`.  
@@ -38,7 +30,7 @@ var scene = new Scene
 {
     Positionables = { Model.Sphere(engine, XTexture.Get(engine, "flag.png")) }
 };
-var view = new View(scene, new TrackCamera()) { BackgroundColor = Color.CornflowerBlue };
+var view = new View(scene, new ArcballCamera()) { BackgroundColor = Color.CornflowerBlue };
 engine.Views.Add(view);
 
 Paint += delegate { engine.Render(); };
@@ -55,8 +47,6 @@ Paint += delegate { engine.Render(); };
 | [AlphaFramework.Presentation](https://www.nuget.org/packages/AlphaFramework.Presentation/) | <xref:AlphaFramework.Presentation> | Basis for presenters that visualize game worlds using the engine.    |
 | [AlphaEditor](https://www.nuget.org/packages/AlphaEditor/)                                 | <xref:AlphaFramework.Editor>       | Toolkit for creating editors for games based on AlphaFramework.      |
 
-**Dependencies**
-
 ```mermaid
 flowchart TD
     engine[OmegaEngine] --> foundation[OmegaEngine.Foundation]
@@ -67,6 +57,11 @@ flowchart TD
     presentation --> gui
     editor[AlphaEditor] --> presentation
 ```
+
+> [!WARNING]
+> You additionally need to ensure these native dependencies are installed or bundled with your application:
+> - [Visual C++ 2010 Redistributable x86](https://www.microsoft.com/en-us/download/details.aspx?id=26999)
+> - [DirectX June 2010 Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=8109)
 
 ## Project templates
 

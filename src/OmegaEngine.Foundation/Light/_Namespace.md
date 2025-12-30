@@ -1,5 +1,4 @@
 ---
 uid: OmegaEngine.Foundation.Light
-summary: *content
+summary: Data structures describing lighting concepts such as color, attenuation and reflection.
 ---
-Data structures describing lighting concepts such as color, attenuation and reflection.

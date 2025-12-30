@@ -8,10 +8,10 @@
   href: ../scenes.md
 - name: Terrain
   href: ../terrain.md
-- name: Shaders
-  href: ../shaders.md
-- name: Assets
-  href: ../assets.md
+- name: Water
+  href: ../water.md
+- name: Glow
+  href: ../glow.md
 - name: Dispose
   href: ../dispose.md
 - name: License

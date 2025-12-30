@@ -1,5 +1,4 @@
 ﻿---
 uid: OmegaGUI.Model
-summary: *content
+summary: Editor-friendly, XML-serializable data model of the GUI. No render code.
 ---
-Editor-friendly, XML-serializable data model of the GUI. No render code.

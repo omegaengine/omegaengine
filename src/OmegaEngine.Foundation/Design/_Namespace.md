@@ -1,5 +1,4 @@
 ---
 uid: OmegaEngine.Foundation.Design
-summary: *content
+summary: Helpers for WinForms data binding.
 ---
-Helpers for WinForms data binding.

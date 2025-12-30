@@ -1,7 +1,7 @@
 ﻿---
 uid: AlphaFramework.Editor
-summary: *content
+summary: Toolkit for creating IDE-like editors for games based on OmegaEngine and AlphaFramework. You can use it to create GUI dialogs, maps, particle systems, etc. for your game.
 ---
-Toolkit for creating IDE-like editors for games based on OmegaEngine and AlphaFramework. You can use it to create GUI dialogs, maps, particle systems, etc. for your game.
 
-**NuGet package:** [AlphaEditor](https://www.nuget.org/packages/AlphaEditor/)
+> [!NOTE]
+> NuGet package: [AlphaEditor](https://www.nuget.org/packages/AlphaEditor/)
