@@ -27,6 +27,7 @@ using AlphaFramework.Presentation;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World;
 using FrameOfReference.World.Positionables;
+using NanoByte.Common;
 using OmegaEngine;
 using OmegaEngine.Graphics.Cameras;
 using SlimDX;
@@ -105,7 +106,7 @@ public sealed class InGamePresenter : InteractivePresenter
     {
         View.TransitionCameraTo(
             CreateCamera(Universe.GetCamera(name)),
-            options: new(Duration: TimeSpan.FromSeconds(4)));
+            options: new(Duration: TimeSpan.FromSeconds(3), EasingFunction: EasingFunction.Cubic));
     }
 
     private Entity? _lockedOnEntity;
