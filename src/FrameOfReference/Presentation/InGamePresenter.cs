@@ -132,19 +132,19 @@ public sealed class InGamePresenter : InteractivePresenter
         SelectedPositionables.Clear();
     }
 
+    /// <summary>
+    /// Makes sure that the camera stays close to the locked-on entity.
+    /// </summary>
     private void HandleLockedOnEntity()
     {
-        if (_lockedOnEntity == null) return;
+        if (_lockedOnEntity == null || View.Camera is not StrategyCamera camera) return;
 
-        if (View.Camera is StrategyCamera camera)
-        {
-            var distanceVector = camera.Target - Universe.Terrain.ToEngineCoords(_lockedOnEntity.Position);
-            double distanceLength = distanceVector.Length();
-            double lockRange = camera.Radius * camera.Radius / 4000;
+        var distanceVector = camera.Target - Universe.Terrain.ToEngineCoords(_lockedOnEntity.Position);
+        double distanceLength = distanceVector.Length();
+        double lockRange = camera.Radius * camera.Radius / 3500;
 
-            if (distanceLength > lockRange)
-                camera.Target -= distanceVector * (1 - lockRange / distanceLength);
-        }
+        if (distanceLength > lockRange)
+            camera.Target -= distanceVector * (1 - lockRange / distanceLength);
     }
 
     /// <inheritdoc/>
