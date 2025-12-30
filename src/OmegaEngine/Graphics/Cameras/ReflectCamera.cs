@@ -13,7 +13,7 @@ using SlimDX;
 namespace OmegaEngine.Graphics.Cameras;
 
 /// <summary>
-/// A camera that reflects the perspective of another <see cref="Camera"/> along a plane.
+/// A camera that reflects the perspective of another camera along a plane.
 /// </summary>
 /// <param name="parentCamera">The parent camera to track</param>
 /// <param name="reflectPlane">The plane along which to reflect the world</param>

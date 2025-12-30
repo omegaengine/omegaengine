@@ -15,7 +15,8 @@ using SlimDX;
 namespace OmegaEngine.Graphics.Cameras;
 
 /// <summary>
-/// A camera that smoothly transitions between two <see cref="Camera"/> states.
+/// A camera that smoothly transitions between two camera states over time. Usually used via <see cref="View.TransitionCameraTo"/>.<para/>
+/// Useful for cinematic camera movements or smooth transitions between different viewpoints.
 /// </summary>
 public class TransitionCamera : QuaternionCamera
 {

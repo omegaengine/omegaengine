@@ -18,7 +18,8 @@ using Resources = OmegaEngine.Properties.Resources;
 namespace OmegaEngine.Graphics.Cameras;
 
 /// <summary>
-/// A first-person camera that simulates human-like movement with a fixed "up" direction.
+/// A camera that allows movement, yaw and pitch, but no roll. Movement in the XY-plane respects the current yaw but ignores the pitch (fixed "Up" vector).<para/>
+/// Useful for building first-person or third-person games with ground-based movement.
 /// </summary>
 public sealed class FirstPersonCamera : QuaternionCamera
 {

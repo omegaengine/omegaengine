@@ -17,7 +17,8 @@ using OmegaEngine.Properties;
 namespace OmegaEngine.Graphics.Cameras;
 
 /// <summary>
-/// An RTS-style camera with an adjustable horizontal rotation and an automatic pitch angle.
+/// An overhead camera that allows panning across the map, rotating, and zooming in/out. The pitch angle is automatically adjusted based on the zoom level.<para/>
+/// Useful for building RTS games, tactical games, or top-down views.
 /// </summary>
 /// <param name="heightController">This delegate is called to control the minimum height of the strategy camera based on its 2D coordinates.</param>
 public class StrategyCamera(Func<DoubleVector3, double> heightController) : ZoomCamera

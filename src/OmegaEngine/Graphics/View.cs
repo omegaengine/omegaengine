@@ -380,6 +380,12 @@ public partial class View : EngineElement, IResetable
     /// </summary>
     /// <param name="target">The new camera</param>
     /// <param name="options">Options controlling the transition</param>
+    /// <example>
+    /// <code>
+    /// var targetCamera = new FreeFlyCamera { Position = new(100, 50, 0) };
+    /// view.TransitionCameraTo(targetCamera, options: new(Duration: TimeSpan.FromSeconds(2)));
+    /// </code>
+    /// </example>
     public void TransitionCameraTo(Camera target, TransitionCameraOptions? options = null)
     {
         #region Sanity checks

@@ -18,7 +18,8 @@ using Resources = OmegaEngine.Properties.Resources;
 namespace OmegaEngine.Graphics.Cameras;
 
 /// <summary>
-/// A camera that can be rotated around a specific point in space.
+/// A camera that orbits around a target point. Adjustable yaw, pitch, and roll. Panning the target respects the current yaw and roll.<para/>
+/// Useful for building model viewers, character inspection screens, or turntable presentations.
 /// </summary>
 public sealed class ArcballCamera : ZoomCamera
 {

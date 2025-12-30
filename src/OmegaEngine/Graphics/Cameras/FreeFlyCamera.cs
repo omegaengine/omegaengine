@@ -10,7 +10,8 @@ using Resources = OmegaEngine.Properties.Resources;
 namespace OmegaEngine.Graphics.Cameras;
 
 /// <summary>
-/// A free-flying camera that supports unrestricted movement and rotation in all directions, similar to an editor or spectator camera.
+/// A camera with free 6-degrees-of-freedom movement (movement and rotation in all directions).<para/>
+/// Useful for building tools, debugging, or games with free-flying movement (space sims, spectator modes).
 /// </summary>
 public class FreeFlyCamera : QuaternionCamera
 {
