@@ -39,7 +39,7 @@ public class XmlZipStorageTest
         // Write and read file
         var testData1 = new TestData { Data = "Hello" };
         var tempStream = new MemoryStream();
-        testData1.SaveXmlZip(tempStream);
+        XmlZipStorage.SaveXmlZip(testData1, tempStream);
         tempStream.Seek(0, SeekOrigin.Begin);
         var testData2 = XmlZipStorage.LoadXmlZip<TestData>(tempStream);
 
@@ -56,7 +56,7 @@ public class XmlZipStorageTest
         // Write and read file
         var testData1 = new TestData { Data = "Hello" };
         var tempStream = new MemoryStream();
-        testData1.SaveXmlZip(tempStream, "Test password");
+        XmlZipStorage.SaveXmlZip(testData1, tempStream, "Test password");
         tempStream.Seek(0, SeekOrigin.Begin);
         var testData2 = XmlZipStorage.LoadXmlZip<TestData>(tempStream, password: "Test password");
 
@@ -72,7 +72,7 @@ public class XmlZipStorageTest
     {
         var tempStream = new MemoryStream();
         var testData = new TestData { Data = "Hello" };
-        testData.SaveXmlZip(tempStream, "Correct password");
+        XmlZipStorage.SaveXmlZip(testData, tempStream, "Correct password");
         tempStream.Seek(0, SeekOrigin.Begin);
         Assert.Throws<ZipException>(() => XmlZipStorage.LoadXmlZip<TestData>(tempStream, password: "Wrong password"));
     }

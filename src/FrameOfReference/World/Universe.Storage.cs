@@ -113,7 +113,7 @@ partial class Universe
     {
         UnwrapWaypoints();
         using (Entity.MaskTemplateData())
-            this.SaveXmlZip(path, additionalFiles: GetEmbeddedFiles().ToArray());
+            XmlZipStorage.SaveXmlZip(this, path, additionalFiles: GetEmbeddedFiles().ToArray());
 
         SourceFile = path;
 

@@ -80,5 +80,5 @@ public class Session<TUniverse>
     /// <exception cref="IOException">A problem occurred while writing the file.</exception>
     /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
     public virtual void Save(string path)
-        => this.SaveXmlZip(path);
+        => XmlZipStorage.SaveXmlZip(this, path);
 }

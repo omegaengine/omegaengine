@@ -103,7 +103,7 @@ public static class XmlZipStorage
     /// <param name="stream">The ZIP archive to be written.</param>
     /// <param name="password">The password to use for encryption; <c>null</c> for no encryption.</param>
     /// <param name="additionalFiles">Additional files to be stored alongside the XML file in the ZIP archive; can be <c>null</c>.</param>
-    public static void SaveXmlZip<T>([DisallowNull] this T data, Stream stream, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
+    public static void SaveXmlZip<T>([DisallowNull] T data, Stream stream, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
         where T : notnull
     {
         #region Sanity checks
@@ -148,7 +148,7 @@ public static class XmlZipStorage
     /// <exception cref="IOException">A problem occurred while writing the file.</exception>
     /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
     /// <remarks>Uses <seealso cref="AtomicWrite"/> internally.</remarks>
-    public static void SaveXmlZip<T>([DisallowNull] this T data, [Localizable(false)] string path, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
+    public static void SaveXmlZip<T>([DisallowNull] T data, [Localizable(false)] string path, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
         where T : notnull
     {
         #region Sanity checks

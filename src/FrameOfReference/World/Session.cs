@@ -111,7 +111,7 @@ public sealed partial class Session : Session<Universe>
     /// <exception cref="IOException">A problem occurred while writing the file.</exception>
     /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
     public override void Save(string path)
-        => this.SaveXmlZip(path, EncryptionKey);
+        => XmlZipStorage.SaveXmlZip(this, path, EncryptionKey);
 
     /// <summary>The maximum number of seconds to handle in one call to <see cref="Update"/>. Additional time is simply dropped.</summary>
     private const double MaximumUpdate = 0.75;
