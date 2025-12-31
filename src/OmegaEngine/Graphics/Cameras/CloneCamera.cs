@@ -60,6 +60,8 @@ public class CloneCamera(Camera parentCamera) : Camera
     /// <inheritdoc/>
     protected override void UpdateProjection()
     {
+        FrustumCulling = ParentCamera.FrustumCulling;
+        FieldOfView = ParentCamera.FieldOfView;
         NearClip = ParentCamera.NearClip;
         FarClip = ParentCamera.FarClip;
 
