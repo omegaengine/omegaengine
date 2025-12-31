@@ -281,7 +281,6 @@ partial class Engine
                 Log.Info("Render first frame");
             }
 
-            Performance.BeforeRender();
             try
             {
                 RenderHelper();
@@ -300,10 +299,6 @@ partial class Engine
                     throw new InvalidDataException("Invalid data passed to a DirectX object", ex);
 
                 throw;
-            }
-            finally
-            {
-                Performance.AfterRender();
             }
             #endregion
         }
