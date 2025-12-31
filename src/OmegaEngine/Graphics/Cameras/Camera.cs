@@ -93,12 +93,12 @@ public abstract partial class Camera : InputReceiverBase, IPositionable
     /// </summary>
     internal Size Size { get => _size; set => value.To(ref _size, ref ProjectionDirty, ref ViewFrustumDirty); }
 
-    private float _fieldOfView = (float)Math.PI / 4.0f;
+    private float _fieldOfView = (float)Math.PI / 2f;
 
     /// <summary>
     /// The view angle in degrees
     /// </summary>
-    [DefaultValue(45f), Description("The view angle in degrees"), Category("Layout")]
+    [DefaultValue(90f), Description("The view angle in degrees"), Category("Layout")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public float FieldOfView { get => _fieldOfView.RadianToDegree(); set => value.DegreeToRadian().To(ref _fieldOfView, ref ProjectionDirty, ref ViewFrustumDirty); }
 

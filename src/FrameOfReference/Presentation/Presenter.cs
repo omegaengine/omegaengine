@@ -136,6 +136,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
             MaxRadius = MaxCameraRadius,
             Radius = state.Radius,
             Rotation = state.Rotation,
+            FieldOfView = 60,
             FarClip = Universe.Fog ? Universe.FogDistance : 1e+6f
         };
     }
