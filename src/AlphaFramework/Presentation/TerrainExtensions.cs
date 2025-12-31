@@ -1,9 +1,12 @@
 using System;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using AlphaFramework.World.Templates;
 using AlphaFramework.World.Terrains;
 using OmegaEngine;
+using OmegaEngine.Foundation.Geometry;
+using SlimDX;
 using RenderableTerrain = OmegaEngine.Graphics.Renderables.Terrain;
 
 namespace AlphaFramework.Presentation;
@@ -45,4 +48,10 @@ public static class TerrainExtensions
                ? Path.Combine("Terrain", texture)
                : null)
           .ToArray();
+
+    /// <summary>
+    /// Maps X to X and Z to -Y. Drops Y.
+    /// </summary>
+    [Pure]
+    public static Vector2 Flatten(this DoubleVector3 vector) => new((float)vector.X, (float)-vector.Z);
 }

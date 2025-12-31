@@ -144,12 +144,6 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
         return length == 0 ? this : new(X / length, Y / length, Z / length);
     }
 
-    /// <summary>
-    /// Maps X to X and Z to -Y. Drops Y.
-    /// </summary>
-    [Pure]
-    public readonly Vector2 Flatten() => new((float)X, (float)-Z);
-
     /// <inheritdoc/>
     public readonly override string ToString() => $"({X}, {Y}, {Z})";
 

@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using AlphaFramework.Presentation;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World;
 using FrameOfReference.World.Components;

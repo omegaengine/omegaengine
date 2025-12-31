@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using AlphaFramework.Presentation;
 using FrameOfReference.World.Positionables;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
