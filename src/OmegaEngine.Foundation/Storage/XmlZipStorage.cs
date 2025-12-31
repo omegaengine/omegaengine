@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -31,12 +32,11 @@ public static class XmlZipStorage
     /// <returns>The loaded object.</returns>
     /// <exception cref="ZipException">A problem occurred while reading the ZIP data or if <paramref name="password"/> is wrong.</exception>
     /// <exception cref="InvalidDataException">A problem occurred while deserializing the XML data.</exception>
-    public static T LoadXmlZip<T>(Stream stream, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
+    public static T LoadXmlZip<T>(Stream stream, [Localizable(false)] string? password = null, IEnumerable<EmbeddedFile>? additionalFiles = null)
         where T : class
     {
         #region Sanity checks
         if (stream == null) throw new ArgumentNullException(nameof(stream));
-        if (additionalFiles == null) throw new ArgumentNullException(nameof(additionalFiles));
         #endregion
 
         T? output = null;
@@ -54,7 +54,7 @@ public static class XmlZipStorage
                 else
                 {
                     // Read additional files from the ZIP archive
-                    foreach (var file in additionalFiles)
+                    foreach (var file in additionalFiles ?? [])
                     {
                         if (StringUtils.EqualsIgnoreCase(zipEntry.Name, file.Filename))
                         {
@@ -82,12 +82,11 @@ public static class XmlZipStorage
     /// <exception cref="ZipException">A problem occurred while reading the ZIP data or if <paramref name="password"/> is wrong.</exception>
     /// <exception cref="InvalidDataException">A problem occurred while deserializing the XML data.</exception>
     /// <remarks>Uses <see cref="AtomicRead"/> internally.</remarks>
-    public static T LoadXmlZip<T>([Localizable(false)] string path, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
+    public static T LoadXmlZip<T>([Localizable(false)] string path, [Localizable(false)] string? password = null, IEnumerable<EmbeddedFile>? additionalFiles = null)
         where T : class
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
-        if (additionalFiles == null) throw new ArgumentNullException(nameof(additionalFiles));
         #endregion
 
         using (new AtomicRead(path))
@@ -103,12 +102,11 @@ public static class XmlZipStorage
     /// <param name="stream">The ZIP archive to be written.</param>
     /// <param name="password">The password to use for encryption; <c>null</c> for no encryption.</param>
     /// <param name="additionalFiles">Additional files to be stored alongside the XML file in the ZIP archive; can be <c>null</c>.</param>
-    public static void SaveXmlZip<T>([DisallowNull] T data, Stream stream, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
+    public static void SaveXmlZip<T>([DisallowNull] T data, Stream stream, [Localizable(false)] string? password = null, IEnumerable<EmbeddedFile>? additionalFiles = null)
         where T : notnull
     {
         #region Sanity checks
         if (stream == null) throw new ArgumentNullException(nameof(stream));
-        if (additionalFiles == null) throw new ArgumentNullException(nameof(additionalFiles));
         #endregion
 
         if (stream.CanSeek) stream.Position = 0;
@@ -126,7 +124,7 @@ public static class XmlZipStorage
         }
 
         // Write additional files to the ZIP archive
-        foreach (var file in additionalFiles)
+        foreach (var file in additionalFiles ?? [])
         {
             var entry = new ZipEntry(file.Filename) {DateTime = DateTime.Now};
             if (!string.IsNullOrEmpty(password)) entry.AESKeySize = 128;
@@ -148,12 +146,11 @@ public static class XmlZipStorage
     /// <exception cref="IOException">A problem occurred while writing the file.</exception>
     /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
     /// <remarks>Uses <seealso cref="AtomicWrite"/> internally.</remarks>
-    public static void SaveXmlZip<T>([DisallowNull] T data, [Localizable(false)] string path, [Localizable(false)] string? password = null, params EmbeddedFile[] additionalFiles)
+    public static void SaveXmlZip<T>([DisallowNull] T data, [Localizable(false)] string path, [Localizable(false)] string? password = null, IEnumerable<EmbeddedFile>? additionalFiles = null)
         where T : notnull
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
-        if (additionalFiles == null) throw new ArgumentNullException(nameof(additionalFiles));
         #endregion
 
         using var atomic = new AtomicWrite(path);

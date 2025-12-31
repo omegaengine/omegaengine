@@ -24,7 +24,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
 using AlphaFramework.World.Terrains;
@@ -113,7 +112,7 @@ partial class Universe
     {
         UnwrapWaypoints();
         using (Entity.MaskTemplateData())
-            XmlZipStorage.SaveXmlZip(this, path, additionalFiles: GetEmbeddedFiles().ToArray());
+            XmlZipStorage.SaveXmlZip(this, path, additionalFiles: GetEmbeddedFiles());
 
         SourceFile = path;
 

@@ -6,6 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
 using System.IO;
 using FluentAssertions;
 using ICSharpCode.SharpZipLib.Zip;
@@ -31,7 +32,7 @@ public class XmlZipStorageTest
     // ReSharper restore MemberCanBePrivate.Global
 
     /// <summary>
-    /// Ensures <see cref="XmlZipStorage.SaveXmlZip{T}(T,string,string,EmbeddedFile[])"/> and <see cref="XmlZipStorage.LoadXmlZip{T}(string,string,EmbeddedFile[])"/> work correctly with no password.
+    /// Ensures <see cref="XmlZipStorage.SaveXmlZip{T}(T,Stream,string?,IEnumerable{EmbeddedFile}?)"/> and <see cref="XmlZipStorage.LoadXmlZip{T}(Stream,string?,IEnumerable{EmbeddedFile}?)"/> work correctly with no password.
     /// </summary>
     [Fact]
     public void TestZipNoPassword()
@@ -48,7 +49,7 @@ public class XmlZipStorageTest
     }
 
     /// <summary>
-    /// Ensures <see cref="XmlZipStorage.SaveXmlZip{T}(T,string,string,EmbeddedFile[])"/> and <see cref="XmlZipStorage.LoadXmlZip{T}(string,string,EmbeddedFile[])"/> work correctly with a password.
+    /// Ensures <see cref="XmlZipStorage.SaveXmlZip{T}(T,Stream,string?,IEnumerable{EmbeddedFile}?)"/> and <see cref="XmlZipStorage.LoadXmlZip{T}(Stream,string?,IEnumerable{EmbeddedFile}?)"/> work correctly with a password.
     /// </summary>
     [Fact]
     public void TestZipPassword()
@@ -65,7 +66,7 @@ public class XmlZipStorageTest
     }
 
     /// <summary>
-    /// Ensures <see cref="XmlZipStorage.LoadXmlZip{T}(string,string,EmbeddedFile[])"/> correctly detects incorrect passwords.
+    /// Ensures <see cref="XmlZipStorage.LoadXmlZip{T}(Stream,string?,IEnumerable{EmbeddedFile}?)"/> correctly detects incorrect passwords.
     /// </summary>
     [Fact]
     public void TestIncorrectPassword()
