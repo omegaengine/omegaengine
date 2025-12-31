@@ -7,6 +7,7 @@
  */
 
 using System.Collections.Generic;
+using System.Drawing;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
 
@@ -32,7 +33,7 @@ partial class View
     /// </summary>
     /// <remarks>
     /// Subset of <see cref="OmegaEngine.Graphics.Scene.Positionables"/>.
-    /// Cache for a single frame, used in <see cref="RenderScene"/> and <see cref="Pick"/>
+    /// Cache for a single frame, used in <see cref="RenderScene"/> and <see cref="Pick(Point)"/>
     /// </remarks>
     private readonly List<PositionableRenderable> _sortedBodies = new(50); // Use educated guess for list capacity
 

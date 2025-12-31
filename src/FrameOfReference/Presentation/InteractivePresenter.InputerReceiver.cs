@@ -127,7 +127,7 @@ partial class InteractivePresenter
     public override void DoubleClick(MouseEventArgs e)
     {
         if (View.Camera is not TransitionCamera
-         && View.Pick(e.Location, out _) is {} pickedObject and not OmegaEngine.Graphics.Renderables.Terrain)
+         && View.Pick(e.Location) is {} pickedObject and not OmegaEngine.Graphics.Renderables.Terrain)
             SwingCameraTo(pickedObject);
     }
 }

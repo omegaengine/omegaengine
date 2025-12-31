@@ -538,7 +538,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     /// <param name="ray">A ray in world space along which to check for intersections.</param>
     /// <param name="distance">Returns the distance along the <paramref name="ray"/> at which the intersection took place.</param>
     /// <returns><c>true</c> if this <see cref="PositionableRenderable"/> was intersected by the <paramref name="ray"/>.</returns>
-    /// <seealso cref="View.Pick"/>
+    /// <seealso cref="View.Pick(Point)"/>
     public virtual bool Intersects(Ray ray, out float distance)
     {
         distance = float.MaxValue;
@@ -551,7 +551,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     /// <param name="ray">A ray in world space along which to check for intersections.</param>
     /// <param name="position">Returns the position of the intersection in entity space.</param>
     /// <returns><c>true</c> if this <see cref="PositionableRenderable"/> was intersected by the <paramref name="ray"/>.</returns>
-    /// <seealso cref="View.Pick"/>
+    /// <seealso cref="View.Pick(Point,out DoubleVector3)"/>
     public bool Intersects(Ray ray, out DoubleVector3 position)
     {
         bool result = Intersects(ray, out float distance);

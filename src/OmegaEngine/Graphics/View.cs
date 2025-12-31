@@ -340,14 +340,35 @@ public partial class View : EngineElement, IResetable
     /// Pick an <see cref="PositionableRenderable"/> in 3D-space using the mouse
     /// </summary>
     /// <param name="location">The screen space location to start the ray from (usually mouse coordinates)</param>
+    /// <returns>The picked <see cref="PositionableRenderable"/> or <c>null</c>.</returns>
+    public PositionableRenderable? Pick(Point location)
+        => GetClosestBody(PickingRay(location));
+
+    /// <summary>
+    /// Pick an <see cref="PositionableRenderable"/> in 3D-space using the mouse
+    /// </summary>
+    /// <param name="location">The screen space location to start the ray from (usually mouse coordinates)</param>
     /// <param name="position">Returns the position of the vertex closest to the intersection in entity space</param>
     /// <returns>The picked <see cref="PositionableRenderable"/> or <c>null</c>.</returns>
     public PositionableRenderable? Pick(Point location, out DoubleVector3 position)
     {
-        Ray pickingRay = PickingRay(location);
+        var pickingRay = PickingRay(location);
 
+        if (GetClosestBody(pickingRay) is {} body)
+        {
+            if (body.Intersects(pickingRay, out position))
+                return body;
+        }
+
+        position = default;
+        return null;
+    }
+
+    private PositionableRenderable? GetClosestBody(Ray pickingRay)
+    {
         PositionableRenderable? closestBody = null;
         float closestDistance = float.MaxValue;
+
         foreach (PositionableRenderable body in _sortedBodies)
         {
             // Find bodies that intersect the ray
@@ -362,12 +383,6 @@ public partial class View : EngineElement, IResetable
             }
         }
 
-        if (closestBody == null) position = default;
-        else
-        {
-            // Calculate position along the ray and compensate for position offset
-            position = (pickingRay.Position + closestDistance * pickingRay.Direction) - ((IPositionableOffset)closestBody).Offset;
-        }
         return closestBody;
     }
     #endregion
