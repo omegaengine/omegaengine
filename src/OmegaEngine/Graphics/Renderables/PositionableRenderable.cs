@@ -328,7 +328,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         if (camera == null) throw new ArgumentNullException(nameof(camera));
         #endregion
 
-        UpdateInternalTransformations(camera);
+        // Note: Assumes IsVisible() was called in this frame, which in turn triggered UpdateInternalTransformations()
 
         if (SurfaceEffect < SurfaceEffect.Glow)
             DrawBoundingBodies();
@@ -514,7 +514,9 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         if (!Visible || Alpha == EngineState.Invisible)
             return false;
 
-        RecalcWorldTransform();
+        // Ensure automatic scaling and transformation effects are applied to bounding bodies
+        UpdateInternalTransformations(camera);
+
         if (WorldBoundingSphere is {} sphere)
         {
             if (!camera.AtLeastOnePixelWide(sphere)) return false;
