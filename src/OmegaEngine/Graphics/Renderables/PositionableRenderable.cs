@@ -557,7 +557,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         bool result = Intersects(ray, out float distance);
 
         // Calculate position along the ray and compensate for position offset
-        position = (ray.Position + distance * ray.Direction) - ((IPositionableOffset)this).Offset;
+        position = (ray.Position + distance * ray.Direction) + ((IPositionableOffset)this).Offset;
         return result;
     }
 
