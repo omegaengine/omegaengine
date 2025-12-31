@@ -106,7 +106,7 @@ public sealed class InGamePresenter : InteractivePresenter
     {
         View.TransitionCameraTo(
             CreateCamera(Universe.GetCamera(name)),
-            options: new(Duration: TimeSpan.FromSeconds(3), EasingFunction: EasingFunction.Cubic));
+            options: new(Duration: TimeSpan.FromSeconds(3), EasingFunction.Cubic));
     }
 
     private Entity? _lockedOnEntity;

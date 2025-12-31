@@ -15,11 +15,11 @@ namespace OmegaEngine;
 /// Options controlling an animation.
 /// </summary>
 /// <param name="Duration">The duration of the complete animation.</param>
+/// <param name="EasingFunction">The kind of easing function to use.</param>
 /// <param name="EaseIn">Whether the animation should be eased in. I.e., start slowly and then speed up.</param>
 /// <param name="EaseOut">Whether the animation should be eased out. I.e., slow down at the end.</param>
-/// <param name="EasingFunction">The kind of easing function to use.</param>
 public record AnimationOptions(
     TimeSpan Duration,
+    EasingFunction EasingFunction = EasingFunction.Sinusoidal,
     bool EaseIn = true,
-    bool EaseOut = true,
-    EasingFunction EasingFunction = EasingFunction.Sinusoidal);
+    bool EaseOut = true);

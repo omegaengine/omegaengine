@@ -15,14 +15,14 @@ namespace OmegaEngine.Graphics.Cameras;
 /// Options controlling a camera transition.
 /// </summary>
 /// <param name="Duration">The duration of the complete transition.</param>
+/// <param name="EasingFunction">The kind of easing function to use.</param>
 /// <param name="EaseIn">Whether the transition should be eased in. I.e., start slowly and then speed up.</param>
 /// <param name="EaseOut">Whether the transition should be eased out. I.e., slow down at the end.</param>
-/// <param name="EasingFunction">The kind of easing function to use.</param>
 /// <param name="RotationBias">The fraction of the transition time after which the rotation should be complete. Value is clamped between 0 and 1.</param>
 public record TransitionCameraOptions(
     TimeSpan Duration,
+    EasingFunction EasingFunction = EasingFunction.Sinusoidal,
     bool EaseIn = true,
     bool EaseOut = true,
-    EasingFunction EasingFunction = EasingFunction.Sinusoidal,
     double RotationBias = 1)
-    : AnimationOptions(Duration, EaseIn, EaseOut, EasingFunction);
+    : AnimationOptions(Duration, EasingFunction, EaseIn, EaseOut);
