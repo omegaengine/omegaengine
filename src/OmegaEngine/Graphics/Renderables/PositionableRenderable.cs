@@ -78,7 +78,8 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
 {
     #region Variables
     private Matrix
-        _internalScalingAndRotation = Matrix.Identity,
+        _internalScaling = Matrix.Identity,
+        _internalRotation = Matrix.Identity,
         _internalTranslation = Matrix.Identity;
 
     /// <summary>Does the world transform need to be recalculated?</summary>
@@ -194,7 +195,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         _effectivePosition = Position.ApplyOffset(((IPositionableOffset)this).Offset);
 
         // Calculate transformation matrices
-        WorldTransformCached = _preTransform * Matrix.Scaling(_scale) * _internalScalingAndRotation * Matrix.RotationQuaternion(Rotation) * Matrix.Translation(_effectivePosition) * _internalTranslation;
+        WorldTransformCached = _preTransform * Matrix.Scaling(_scale) * _internalScaling * Matrix.RotationQuaternion(Rotation) * _internalRotation * Matrix.Translation(_effectivePosition) * _internalTranslation;
         _inverseWorldTransform = Matrix.Invert(WorldTransformCached);
 
         // Transform bounding bodies into world space
@@ -342,9 +343,8 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
 
     private void UpdateInternalTransformations(Camera camera)
     {
-        var internalScalingAndRotation = Matrix.Identity;
+        var internalScaling = Matrix.Identity;
         var internalTranslation = Matrix.Identity;
-
         if (PreventFarClipping)
         {
             float maxDistance = camera.FarClip - WorldBoundingSphere?.Radius ?? camera.FarClip * 0.1f;
@@ -354,18 +354,19 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
             if (distanceFromCamera > maxDistance)
             {
                 float ratio = maxDistance / distanceFromCamera;
-                internalTranslation *= Matrix.Translation(relativePosition * (1.0f - ratio));
-                internalScalingAndRotation *= Matrix.Scaling(new(ratio));
+                internalTranslation = Matrix.Translation(relativePosition * (1.0f - ratio));
+                internalScaling = Matrix.Scaling(new(ratio));
             }
         }
-
-        if (Billboard == BillboardMode.Spherical)
-            internalScalingAndRotation *= camera.SphericalBillboard;
-        if (Billboard == BillboardMode.Cylindrical)
-            internalScalingAndRotation *= camera.CylindricalBillboard;
-
-        internalScalingAndRotation.To(ref _internalScalingAndRotation, ref WorldTransformDirty);
+        internalScaling.To(ref _internalScaling, ref WorldTransformDirty);
         internalTranslation.To(ref _internalTranslation, ref WorldTransformDirty);
+
+        (Billboard switch
+        {
+            BillboardMode.Spherical => camera.SphericalBillboard,
+            BillboardMode.Cylindrical => camera.CylindricalBillboard,
+            _ => Matrix.Identity
+        }).To(ref _internalRotation, ref WorldTransformDirty);
     }
 
     private void DrawBoundingBodies()
