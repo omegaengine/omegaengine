@@ -37,8 +37,8 @@ partial class Model
         return new(mesh, material)
         {
             Engine = engine,
-            BoundingSphere = new(center: new(), radius: size.Length() / 2),
-            BoundingBox = new(minimum: new(-size / 2, 0), maximum: new(size / 2, 0))
+            BoundingSphere = CenteredBoundingSphere(radius: size.Length() / 2),
+            BoundingBox = CenteredBoundingBox(corner: new(size / 2, 0))
         };
     }
 
@@ -64,7 +64,8 @@ partial class Model
         {
             Engine = engine,
             SurfaceEffect = material.IsTextured ? SurfaceEffect.Shader : SurfaceEffect.FixedFunction,
-            BoundingBox = new(minimum: -size / 2, maximum: size / 2)
+            BoundingSphere = CenteredBoundingSphere(radius: size.Length() / 2),
+            BoundingBox = CenteredBoundingBox(corner: size / 2)
         };
     }
 
@@ -90,7 +91,7 @@ partial class Model
         {
             Engine = engine,
             SurfaceEffect = material.IsTextured ? SurfaceEffect.Shader : SurfaceEffect.FixedFunction,
-            BoundingSphere = new(center: new(), radius)
+            BoundingSphere = CenteredBoundingSphere(radius)
         };
     }
 
@@ -114,11 +115,13 @@ partial class Model
             ? TexturedMesh.Cylinder(engine.Device, radiusBottom, radiusTop, length, slices, stacks, material.NeedsTBN)
             : Mesh.CreateCylinder(engine.Device, radiusBottom, radiusTop, length, slices, stacks);
 
+        float radiusMax = Math.Max(radiusBottom, radiusTop);
         return new(mesh, material)
         {
             Engine = engine,
-            SurfaceEffect = material.IsTextured ? SurfaceEffect.Shader : SurfaceEffect.FixedFunction
-            // TODO: BoundingBox = new()
+            SurfaceEffect = material.IsTextured ? SurfaceEffect.Shader : SurfaceEffect.FixedFunction,
+            BoundingSphere = CenteredBoundingSphere(radius: (float)Math.Sqrt(radiusMax * radiusMax + length * length / 4)),
+            BoundingBox = CenteredBoundingBox(corner: new(radiusMax, radiusMax, length / 2))
         };
     }
 
@@ -163,7 +166,8 @@ partial class Model
         return new(mesh, material)
         {
             Engine = engine,
-            // TODO: BoundingBox = new()
+            BoundingSphere = CenteredBoundingSphere(radius: (float)Math.Sqrt(radiusOuter * radiusOuter + height * height / 4)),
+            BoundingBox = CenteredBoundingBox(corner: new(radiusOuter, radiusOuter, height / 2))
         };
     }
 
@@ -183,4 +187,10 @@ partial class Model
             // Auto-determine the number of segments for the disc
             (int)(radiusMean * radiusMean).Clamp(8, 1024));
     }
+
+    private static BoundingSphere CenteredBoundingSphere(float radius)
+        => new(center: new(), radius);
+
+    private static BoundingBox CenteredBoundingBox(Vector3 corner)
+        => new(minimum: -corner, maximum: corner);
 }
