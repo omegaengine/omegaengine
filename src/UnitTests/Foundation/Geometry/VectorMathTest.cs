@@ -28,8 +28,8 @@ public class VectorMathTest
     [Fact]
     public void TestRotateAroundAxis()
     {
-        var vector = new DoubleVector3(1, 0, 0);
-        var axis = new DoubleVector3(0, 0, 1);
+        var vector = DoubleVector3.UnitX;
+        var axis = DoubleVector3.UnitZ;
         var rotated = vector.RotateAroundAxis(axis, Math.PI / 2);
 
         rotated.X.Should().BeApproximately(0, precision: 1e-10);
@@ -40,8 +40,8 @@ public class VectorMathTest
     [Fact]
     public void TestGetRotationTo()
     {
-        var from = new DoubleVector3(1, 0, 0);
-        var to = new DoubleVector3(0, 1, 0);
+        var from = DoubleVector3.UnitX;
+        var to = DoubleVector3.UnitY;
         (var axis, double rotation) = from.GetRotationTo(to);
 
         rotation.Should().BeApproximately(Math.PI / 2, 1e-10);
@@ -51,7 +51,7 @@ public class VectorMathTest
     [Fact]
     public void TestGetRotationToOpposite()
     {
-        var from = new DoubleVector3(1, 0, 0);
+        var from = DoubleVector3.UnitX;
         var to = new DoubleVector3(-1, 0, 0);
         (var axis, double rotation) = from.GetRotationTo(to);
 
@@ -62,9 +62,9 @@ public class VectorMathTest
     [Fact]
     public void TestAdjustReference()
     {
-        var vector = new DoubleVector3(1, 0, 0);
-        var from = new DoubleVector3(1, 0, 0);
-        var to = new DoubleVector3(0, 1, 0);
+        var vector = DoubleVector3.UnitX;
+        var from = DoubleVector3.UnitX;
+        var to = DoubleVector3.UnitY;
 
         var adjusted = vector.AdjustReference(from, to);
         adjusted.X.Should().BeApproximately(0, 1e-10);

@@ -85,8 +85,8 @@ public static class VectorMath
         if (Math.Abs(dot + 1.0) < 1e-9)
         {
             var arbitrary = Math.Abs(from.X) < 0.9
-                ? new DoubleVector3(1, 0, 0)
-                : new DoubleVector3(0, 1, 0);
+                ? DoubleVector3.UnitX
+                : DoubleVector3.UnitY;
             var perpendicularAxis = from.CrossProduct(arbitrary).Normalize();
             return (perpendicularAxis, Math.PI);
         }

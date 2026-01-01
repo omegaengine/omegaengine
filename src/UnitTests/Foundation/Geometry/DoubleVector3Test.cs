@@ -63,10 +63,10 @@ public class DoubleVector3Test
     [Fact]
     public void TestCrossProduct()
     {
-        var v1 = new DoubleVector3(1, 0, 0);
-        var v2 = new DoubleVector3(0, 1, 0);
+        var v1 = DoubleVector3.UnitX;
+        var v2 = DoubleVector3.UnitY;
         var result = v1.CrossProduct(v2);
-        result.Should().Be(new DoubleVector3(0, 0, 1));
+        result.Should().Be(DoubleVector3.UnitZ);
     }
 
     [Fact]

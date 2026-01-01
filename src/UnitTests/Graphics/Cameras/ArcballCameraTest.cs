@@ -7,6 +7,7 @@
  */
 
 using FluentAssertions;
+using OmegaEngine.Foundation.Geometry;
 using Xunit;
 
 namespace OmegaEngine.Graphics.Cameras;
@@ -60,7 +61,7 @@ public class ArcballCameraTest
         };
 
         double initialRadius = camera.Radius;
-        camera.Navigate(translation: new(0, 0, 1));
+        camera.Navigate(translation: DoubleVector3.UnitZ);
         camera.Radius.Should().BeLessThan(initialRadius);
     }
 

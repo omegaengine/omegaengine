@@ -61,7 +61,7 @@ public class StrategyCameraTest
 
         double initialRadius = camera.Radius;
 
-        camera.Navigate(translation: new(0, 0, 1));
+        camera.Navigate(translation: DoubleVector3.UnitZ);
         camera.Radius.Should().BeLessThan(initialRadius);
     }
 

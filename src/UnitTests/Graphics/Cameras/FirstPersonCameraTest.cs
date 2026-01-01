@@ -7,6 +7,7 @@
  */
 
 using FluentAssertions;
+using OmegaEngine.Foundation.Geometry;
 using Xunit;
 
 namespace OmegaEngine.Graphics.Cameras;
@@ -48,7 +49,7 @@ public class FirstPersonCameraTest
     {
         var camera = new FirstPersonCamera
         {
-            WorldUp = new(1, 0, 0) // Right becomes up
+            WorldUp = DoubleVector3.UnitX // Right becomes up
         };
 
         camera.Navigate(translation: new(0, 0, 10));

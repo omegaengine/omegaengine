@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using OmegaEngine.Foundation.Geometry;
+using static OmegaEngine.Foundation.Geometry.DoubleVector3;
 
 namespace OmegaEngine.Input;
 
@@ -23,16 +24,16 @@ public class KeyboardInputProvider : InputProvider
     /// </summary>
     public Dictionary<Keys, (DoubleVector3 Translation, DoubleVector3 Rotation)> KeyBindings { get; } = new()
     {
-        [Keys.W] = (new(0, 0, 1), new()),
-        [Keys.S] = (new(0, 0, -1), new()),
-        [Keys.A] = (new(-1, 0, 0), new()),
-        [Keys.D] = (new(1, 0, 0), new()),
-        [Keys.Q] = (new(), new(0, 0, -1)),
-        [Keys.E] = (new(), new(0, 0, 1)),
-        [Keys.Up] = (new(), new(0, 1, 0)),
-        [Keys.Down] = (new(), new(0, -1, 0)),
-        [Keys.Right] = (new(), new(-1, 0, 0)),
-        [Keys.Left] = (new(), new(1, 0, 0))
+        [Keys.W] = (+UnitZ, default),
+        [Keys.S] = (-UnitZ, default),
+        [Keys.A] = (-UnitX, default),
+        [Keys.D] = (+UnitX, default),
+        [Keys.Q] = (default, -UnitZ),
+        [Keys.E] = (default, +UnitZ),
+        [Keys.Up] = (default, +UnitY),
+        [Keys.Down] = (default, -UnitY),
+        [Keys.Right] = (default, -UnitX),
+        [Keys.Left] = (default, +UnitX)
     };
 
     /// <summary>

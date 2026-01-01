@@ -96,6 +96,8 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     /// <summary>Negates <see cref="DoubleVector3"/></summary>
     public static DoubleVector3 operator -(DoubleVector3 v) => new(-v.X, -v.Y, -v.Z);
 
+    public static readonly DoubleVector3 UnitX = new(1, 0, 0), UnitY = new(0, 1, 0), UnitZ = new(0, 0, 1);
+
     /// <summary>
     /// Linearly interpolates between two vectors.
     /// </summary>

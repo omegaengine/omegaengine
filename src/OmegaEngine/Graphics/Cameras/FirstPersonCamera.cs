@@ -67,7 +67,7 @@ public sealed class FirstPersonCamera : QuaternionCamera
         }
     }
 
-    private static readonly DoubleVector3 _defaultWorldUp = new(0, 1, 0);
+    private static readonly DoubleVector3 _defaultWorldUp = DoubleVector3.UnitY;
     private DoubleVector3 _worldUp = _defaultWorldUp;
 
     /// <summary>
@@ -84,7 +84,7 @@ public sealed class FirstPersonCamera : QuaternionCamera
     public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)
     {
         Position += translation
-                   .RotateAroundAxis(new(0, 1, 0), _yaw)
+                   .RotateAroundAxis(DoubleVector3.UnitY, _yaw)
                    .AdjustReference(from: _defaultWorldUp, to: _worldUp);
 
         Yaw += rotation.X;

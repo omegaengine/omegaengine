@@ -105,7 +105,7 @@ public sealed class ArcballCamera : ZoomCamera
         }
     }
 
-    private static readonly DoubleVector3 _defaultWorldUp = new(0, 1, 0);
+    private static readonly DoubleVector3 _defaultWorldUp = DoubleVector3.UnitY;
     private DoubleVector3 _worldUp = _defaultWorldUp;
 
     /// <summary>
