@@ -71,11 +71,6 @@ public static class BoundingExtensions
     }
 
     /// <summary>
-    /// Pseudo-constant containing the value of sqrt(3)/3
-    /// </summary>
-    private static readonly float _sqrtThreeThirds = (float)Math.Sqrt(3) / 3;
-
-    /// <summary>
     /// Applies a matrix transform to a bounding sphere.
     /// </summary>
     /// <param name="sphere">The bounding sphere to apply the transform to.</param>
@@ -84,19 +79,15 @@ public static class BoundingExtensions
     [Pure]
     public static BoundingSphere Transform(this BoundingSphere sphere, Matrix matrix)
     {
-        // Extract translation data from the matrix
-        var translation = new Vector3(matrix.M41, matrix.M42, matrix.M43);
-
         if (sphere.Radius <= 0)
-            return new(sphere.Center + translation, 0);
+            return new(sphere.Center + new Vector3(matrix.M41, matrix.M42, matrix.M43), radius: 0);
 
-        // Scale, rotate and transform the center of the bounding sphere
-        var newCenter = Vector3.TransformCoordinate(sphere.Center, matrix);
-
-        // Scale a reference vector to determine the average axis factor for sphere scaling
-        var referenceVector = Vector3.TransformCoordinate(new(_sqrtThreeThirds, _sqrtThreeThirds, _sqrtThreeThirds), matrix) - translation;
-        float scale = referenceVector.Length();
-
-        return new(newCenter, sphere.Radius * scale);
+        return new(
+            center: Vector3.TransformCoordinate(sphere.Center, matrix),
+            radius: sphere.Radius * Math.Max(
+                Math.Max(
+                    new Vector3(matrix.M11, matrix.M12, matrix.M13).Length(),
+                    new Vector3(matrix.M21, matrix.M22, matrix.M23).Length()),
+                new Vector3(matrix.M31, matrix.M32, matrix.M33).Length()));
     }
 }
