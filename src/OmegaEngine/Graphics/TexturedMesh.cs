@@ -148,10 +148,9 @@ public static class TexturedMesh
     /// Creates a new <see cref="Mesh"/> representing a textured 2D quad.
     /// </summary>
     /// <param name="device">The <see cref="Device"/> to create the <see cref="Mesh"/> in.</param>
-    /// <param name="width">The width of the quad.</param>
-    /// <param name="height">The height of the quad.</param>
+    /// <param name="size">The size of the quad.</param>
     /// <param name="tbn">Generate TBN (tangent, binormal, normal) vectors instead of just normal vectors.</param>
-    public static Mesh Quad(Device device, float width, float height, bool tbn = false)
+    public static Mesh Quad(Device device, Vector2 size, bool tbn = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -159,10 +158,10 @@ public static class TexturedMesh
 
         PositionTextured[] vertexes =
         [
-            new(new Vector3(-width / 2, -height / 2, 0), 0, 0),
-            new(new Vector3(-width / 2, height / 2, 0), 0, 1),
-            new(new Vector3(width / 2, -height / 2, 0), 1, 0),
-            new(new Vector3(width / 2, height / 2, 0), 1, 1)
+            new(new Vector3(-size.X / 2, -size.Y / 2, 0), 0, 0),
+            new(new Vector3(-size.X / 2, size.Y / 2, 0), 0, 1),
+            new(new Vector3(size.X / 2, -size.Y / 2, 0), 1, 0),
+            new(new Vector3(size.X / 2, size.Y / 2, 0), 1, 1)
         ];
         short[] indexes = [0, 1, 3, 3, 2, 0];
 
@@ -180,19 +179,17 @@ public static class TexturedMesh
     /// Creates a new <see cref="Mesh"/> representing a textured box.
     /// </summary>
     /// <param name="device">The <see cref="Device"/> to create the <see cref="Mesh"/> in.</param>
-    /// <param name="width">The width of the box.</param>
-    /// <param name="height">The height of the box.</param>
-    /// <param name="depth">The depth of the box.</param>
+    /// <param name="size">The size of the box.</param>
     /// <param name="tbn">Generate TBN (tangent, binormal, normal) vectors instead of just normal vectors.</param>
     /// <remarks>The box is formed like the one created by <see cref="Mesh.CreateBox"/>.</remarks>
-    public static Mesh Box(Device device, float width, float height, float depth, bool tbn = false)
+    public static Mesh Box(Device device, Vector3 size, bool tbn = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
         #endregion
 
         // Create an untextured box
-        Mesh mesh = Mesh.CreateBox(device, width, height, depth);
+        Mesh mesh = Mesh.CreateBox(device, size.X, size.Y, size.Z);
 
         // Add texture coordinates
         CloneAddTexture(ref mesh);

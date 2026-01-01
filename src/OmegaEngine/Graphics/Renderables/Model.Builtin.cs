@@ -8,6 +8,7 @@
 
 using System;
 using NanoByte.Common;
+using SlimDX;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Renderables;
@@ -20,23 +21,24 @@ partial class Model
     /// </summary>
     /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
     /// <param name="material">The material used to render the surface of the model; must be <see cref="XMaterial.IsTextured"/>.</param>
-    /// <param name="width">The width of the quad.</param>
-    /// <param name="height">The height of the quad.</param>
+    /// <param name="size">The size of the quad.</param>
     /// <exception cref="NotSupportedException">The <paramref name="material"/> is not textured.</exception>
-    public static Model Quad(Engine engine, XMaterial material, float width = 5, float height = 5)
+    public static Model Quad(Engine engine, XMaterial material, Vector2 size = default)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
+        if (size == default) size = new(5);
+
         if (!material.IsTextured) throw new NotSupportedException("The material must be textured.");
-        var mesh = TexturedMesh.Quad(engine.Device, width, height, material.NeedsTBN);
+        var mesh = TexturedMesh.Quad(engine.Device, size, material.NeedsTBN);
 
         return new(mesh, material)
         {
             Engine = engine,
-            BoundingSphere = new(center: new(), radius:(float)Math.Sqrt(width * width + height * height) / 2f),
-            BoundingBox = new(minimum: new(-width/2, -height/2, 0), maximum: new(width/2, height/2, 0))
+            BoundingSphere = new(center: new(), radius: size.Length() / 2),
+            BoundingBox = new(minimum: new(-size / 2, 0), maximum: new(size / 2, 0))
         };
     }
 
@@ -45,24 +47,24 @@ partial class Model
     /// </summary>
     /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
     /// <param name="material">The material used to render the surface of the model.</param>
-    /// <param name="width">The width of the box</param>
-    /// <param name="height">The height of the box</param>
-    /// <param name="depth">The depth of the box</param>
-    public static Model Box(Engine engine, XMaterial material, float width = 5, float height = 5, float depth = 5)
+    /// <param name="size">The size of the box</param>
+    public static Model Box(Engine engine, XMaterial material, Vector3 size = default)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
+        if (size == default) size = new(5);
+
         var mesh = material.IsTextured
-            ? TexturedMesh.Box(engine.Device, width, height, depth, material.NeedsTBN)
-            : Mesh.CreateBox(engine.Device, width, height, depth);
+            ? TexturedMesh.Box(engine.Device, size, material.NeedsTBN)
+            : Mesh.CreateBox(engine.Device, size.X, size.Y, size.Z);
 
         return new(mesh, material)
         {
             Engine = engine,
             SurfaceEffect = material.IsTextured ? SurfaceEffect.Shader : SurfaceEffect.FixedFunction,
-            BoundingBox = new(minimum: new(-width / 2, -height / 2, -depth / 2), maximum: new(width / 2, height / 2, depth / 2))
+            BoundingBox = new(minimum: -size / 2, maximum: size / 2)
         };
     }
 
