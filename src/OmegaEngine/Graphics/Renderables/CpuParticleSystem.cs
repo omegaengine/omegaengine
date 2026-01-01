@@ -268,19 +268,9 @@ public class CpuParticleSystem : PositionableRenderable
     private void AddParticle(float lodFactor)
     {
         AddParticle(
-            PreTransformedPosition + GetSpawnPosition(),
+            PreTransformedPosition + RandomUtils.GetRandomPointInsideSphere(Preset.SpawnRadius),
             GetFirstLifeParameters(lodFactor),
             GetSecondLifeParameters(lodFactor));
-    }
-
-    private Vector3 GetSpawnPosition()
-    {
-        float randomSpawnRadius = RandomUtils.GetRandomFloat(0, Preset.SpawnRadius);
-        var rotationMatrix = Matrix.RotationYawPitchRoll(
-            RandomUtils.GetRandomFloat(0, 2 * (float)Math.PI), 0,
-            RandomUtils.GetRandomFloat(0, 2 * (float)Math.PI));
-
-        return Vector3.TransformCoordinate(new(randomSpawnRadius, 0, 0), rotationMatrix);
     }
 
     private CpuParticleParametersStruct GetFirstLifeParameters(float lodFactor)
