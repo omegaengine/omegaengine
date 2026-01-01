@@ -30,7 +30,7 @@ public abstract class MatrixCamera : Camera
     /// A unit vector describing the up direction of the camera.
     /// </summary>
     /// <remarks>Only affects roll. Yaw and pitch are determined by position and target.</remarks>
-    protected Vector3 Up = new(0, 1, 0);
+    protected Vector3 Up = Vector3.UnitY;
 
     /// <summary>
     /// Update cached versions of <see cref="View"/> and related matrices; abstract, to be overwritten in subclass.

@@ -195,7 +195,7 @@ public class VertexGroup : PositionableRenderable
     /// <returns>The vertex group that was created.</returns>
     public static VertexGroup Quad(float size, ITextureProvider? texture = null)
     {
-        var normalVector = new Vector3(0, 0, 1);
+        var normalVector = Vector3.UnitZ;
         PositionNormalTextured[] vertexes =
         [
             new(new Vector3(size * -0.5f, size * 0.5f, 0), normalVector, 0, 0),

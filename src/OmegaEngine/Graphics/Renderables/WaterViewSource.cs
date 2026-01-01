@@ -24,7 +24,7 @@ internal sealed class WaterViewSource : IDisposable
     /// <summary>
     /// A vector indicating the up-direction
     /// </summary>
-    public static Vector3 UpVector = new(0, 1, 0);
+    public static Vector3 UpVector = Vector3.UnitY;
 
     /// <summary>
     /// The height of the <see cref="Water"/> planes (Y axis)
