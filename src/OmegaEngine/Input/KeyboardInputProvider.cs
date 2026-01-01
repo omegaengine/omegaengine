@@ -72,7 +72,8 @@ public class KeyboardInputProvider : InputProvider
 
     private void KeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Modifiers.HasFlag(Keys.Control)) return;
+        // Avoid conflicts with keyboard shortcuts
+        if (e.Modifiers.HasFlag(Keys.Alt)) return;
 
         if (KeyBindings.ContainsKey(e.KeyCode))
         {
