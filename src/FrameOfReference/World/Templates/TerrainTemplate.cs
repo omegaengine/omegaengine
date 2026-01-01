@@ -22,11 +22,7 @@
 
 using System;
 using System.ComponentModel;
-using System.Drawing;
-using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
-using LuaInterface;
-using OmegaEngine.Foundation.Light;
 
 namespace FrameOfReference.World.Templates;
 

@@ -21,7 +21,6 @@
  */
 
 using System;
-using System.IO;
 using AlphaFramework.Presentation;
 using FrameOfReference.Presentation.Config;
 using FrameOfReference.World;

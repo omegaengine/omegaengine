@@ -26,7 +26,6 @@ using AlphaFramework.Presentation;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
-using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;
