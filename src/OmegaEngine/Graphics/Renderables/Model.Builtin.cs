@@ -36,7 +36,7 @@ partial class Model
         {
             Engine = engine,
             BoundingSphere = new(center: new(), radius:(float)Math.Sqrt(width * width + height * height) / 2f),
-            BoundingBox = new(minimum: new(), maximum: new(width, height, 0))
+            BoundingBox = new(minimum: new(-width/2, -height/2, 0), maximum: new(width/2, height/2, 0))
         };
     }
 
@@ -62,7 +62,7 @@ partial class Model
         {
             Engine = engine,
             SurfaceEffect = material.IsTextured ? SurfaceEffect.Shader : SurfaceEffect.FixedFunction,
-            BoundingBox = new(minimum: new(), maximum: new(width, height, depth))
+            BoundingBox = new(minimum: new(-width / 2, -height / 2, -depth / 2), maximum: new(width / 2, height / 2, depth / 2))
         };
     }
 
