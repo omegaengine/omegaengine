@@ -157,7 +157,7 @@ public sealed class ArcballCamera : ZoomCamera
            .AdjustReference(from: _defaultWorldUp, to: _worldUp);
         PositionCached = Target - Radius * viewDirection;
 
-        Up = (Vector3)(IsUpsideDown ? -1 * _worldUp : _worldUp).RotateAroundAxis(viewDirection, -_roll);
+        Up = (Vector3)(IsUpsideDown ? -_worldUp : _worldUp).RotateAroundAxis(viewDirection, -_roll);
 
         base.UpdateView();
     }

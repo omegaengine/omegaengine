@@ -90,6 +90,12 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     /// <summary>Divide <see cref="DoubleVector3"/> with <see cref="float"/></summary>
     public static DoubleVector3 operator /(DoubleVector3 vector, float scalar) => new(vector.X / scalar, vector.Y / scalar, vector.Z / scalar);
 
+    /// <summary>Leaves <see cref="DoubleVector3"/> unchanged</summary>
+    public static DoubleVector3 operator +(DoubleVector3 v) => v;
+
+    /// <summary>Negates <see cref="DoubleVector3"/></summary>
+    public static DoubleVector3 operator -(DoubleVector3 v) => new(-v.X, -v.Y, -v.Z);
+
     /// <summary>
     /// Linearly interpolates between two vectors.
     /// </summary>

@@ -77,7 +77,7 @@ internal sealed class WaterViewSource : IDisposable
         // Create child views
         var position = new DoubleVector3(0, height, 0);
 
-        RefractedView = WaterView.CreateRefraction(baseView, new(position, -1 * UpVector), clipTolerance);
+        RefractedView = WaterView.CreateRefraction(baseView, new(position, -UpVector), clipTolerance);
         ReflectedView = WaterView.CreateReflection(baseView, new(position, UpVector), clipTolerance);
 
         // Load shaders
