@@ -77,8 +77,8 @@ partial class View
             #region Activate lights
             if (Lighting && Scene.Lights.Count > 0)
             {
-                foreach (var light in Scene.Lights.OfType<IPositionableOffset>())
-                    ApplyCameraBase(light);
+                foreach (var light in Scene.Lights.OfType<IFloatingOriginAware>())
+                    light.SetFloatingOrigin(Camera);
 
                 using (new ProfilerEvent("Setup lights"))
                     Scene.ActivateLights();
@@ -213,8 +213,7 @@ partial class View
         if (body == null) throw new ArgumentNullException(nameof(body));
         #endregion
 
-        // Apply the camera offset to make sure positioning is right
-        ApplyCameraBase(body);
+        body.SetFloatingOrigin(Camera);
 
         using (new ProfilerEvent(() => $"Render {body}"))
             body.Render(Camera, Lighting ? Scene.GetEffectiveLights : null);

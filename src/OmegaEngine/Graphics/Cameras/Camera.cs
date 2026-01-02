@@ -53,37 +53,36 @@ public abstract partial class Camera : InputReceiverBase, IPositionable
         set => value.To(ref PositionCached, ref ViewDirty, ref ViewFrustumDirty);
     }
 
-    protected DoubleVector3 PositionBaseCached;
+    protected DoubleVector3 FloatingOriginCached;
 
     /// <summary>
-    /// A value that is subtracted from all positions (including the <see cref="Camera"/>'s) before handing them to the graphics hardware
+    /// The origin used to transform 64-bit positions into 32-bit render coordinates
     /// </summary>
-    /// <remarks>Used to improve floating-point precision by keeping effective values small</remarks>
-    /// <seealso cref="IPositionableOffset"/>
-    [Description("A value that is subtracted from all positions (including the camera's) before handing them to the graphics hardware"), Category("Behavior")]
-    public DoubleVector3 PositionBase
+    /// <seealso cref="IFloatingOriginAware"/>
+    [Description("The origin used to transform 64-bit positions into 32-bit render coordinates"), Category("Behavior")]
+    public DoubleVector3 FloatingOrigin
     {
         get
         {
             UpdateView(); // Some cameras automatically update their positions
-            return PositionBaseCached;
+            return FloatingOriginCached;
         }
-        set => value.To(ref PositionBaseCached, ref ViewDirty, ref ViewFrustumDirty);
+        set => value.To(ref FloatingOriginCached, ref ViewDirty, ref ViewFrustumDirty);
     }
 
     /// <summary>
-    /// The maximum distance between <see cref="Position"/> and <see cref="PositionBase"/> before <see cref="PositionBase"/> is automatically adjusted, to avoid floating point errors.
+    /// The maximum distance <see cref="FloatingOrigin"/> can have from <see cref="Position"/> before it is automatically reset
     /// </summary>
-    [DefaultValue(10000f), Description("The maximum distance between Position and PositionBase before PositionBase is automatically adjusted, to avoid floating point errors"), Category("Behavior")]
-    public float MaxPositionOffset { get; set; } = 10000f;
+    [DefaultValue(10000f), Description("The maximum distance FloatingOrigin can have from Position before it is automatically reset"), Category("Behavior")]
+    public float FloatingOriginMaxDistance { get; set; } = 10000f;
 
     /// <summary>
-    /// Adjusts <see cref="PositionBase"/> if <see cref="Position"/> is too far away, to avoid floating point errors.
+    /// Adjusts <see cref="FloatingOrigin"/> if <see cref="Position"/> is too far away.
     /// </summary>
-    protected void AdjustPositionBase()
+    protected void AdjustFloatingOrigin()
     {
-        if (PositionCached.ApplyOffset(PositionBaseCached).Length() > MaxPositionOffset)
-            PositionBase = PositionCached;
+        if (PositionCached.ApplyOffset(FloatingOriginCached).Length() > FloatingOriginMaxDistance)
+            FloatingOrigin = PositionCached;
     }
 
     private Size _size;

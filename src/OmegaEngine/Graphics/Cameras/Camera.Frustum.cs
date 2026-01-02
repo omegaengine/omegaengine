@@ -117,7 +117,7 @@ partial class Camera
     /// </summary>
     internal bool AtLeastOnePixelWide(BoundingSphere boundingSphere)
     {
-        double distanceToCamera = (boundingSphere.Center - PositionCached.ApplyOffset(PositionBaseCached)).Length();
+        double distanceToCamera = (boundingSphere.Center - PositionCached.ApplyOffset(FloatingOriginCached)).Length();
         if (distanceToCamera <= boundingSphere.Radius) return true;
 
         double angularDiameter = 2 * Math.Asin(boundingSphere.Radius / distanceToCamera);

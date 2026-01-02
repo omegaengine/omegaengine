@@ -27,5 +27,5 @@ public class ReflectCamera(Camera parentCamera, DoublePlane reflectPlane) : Clon
 
     /// <inheritdoc/>
     protected override Matrix GetView()
-        => Matrix.Reflection(ReflectPlane.ApplyOffset(PositionBaseCached)) * base.GetView();
+        => Matrix.Reflection(ReflectPlane.ApplyOffset(FloatingOriginCached)) * base.GetView();
 }

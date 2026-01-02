@@ -37,10 +37,10 @@ public abstract class MatrixCamera : Camera
     /// </summary>
     protected override void UpdateView()
     {
-        AdjustPositionBase();
+        AdjustFloatingOrigin();
 
         SimpleViewCached = Matrix.LookAtLH(new(), _target.ApplyOffset(PositionCached), Up);
-        ViewCached = Matrix.LookAtLH(PositionCached.ApplyOffset(PositionBaseCached), _target.ApplyOffset(PositionBaseCached), Up);
+        ViewCached = Matrix.LookAtLH(PositionCached.ApplyOffset(FloatingOriginCached), _target.ApplyOffset(FloatingOriginCached), Up);
 
         CacheSpecialMatrices();
 

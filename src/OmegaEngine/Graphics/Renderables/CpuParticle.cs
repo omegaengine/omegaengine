@@ -175,7 +175,7 @@ internal class CpuParticle : IPoolable<CpuParticle>, IPositionable
         engine.State.WorldTransform =
             Matrix.Scaling(new(Size)) *
             camera.SphericalBillboard *
-            Matrix.Translation(Position.ApplyOffset(camera.PositionBase));
+            Matrix.Translation(Position.ApplyOffset(camera.FloatingOrigin));
 
         // Set the particle color
         var material = new Material {Emissive = Color};

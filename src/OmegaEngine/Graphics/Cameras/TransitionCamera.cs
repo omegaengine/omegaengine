@@ -56,7 +56,7 @@ public class TransitionCamera : QuaternionCamera
     private void AnimatePosition(Camera start, Camera end, AnimationOptions options, Engine engine)
     {
         FrustumCulling = end.FrustumCulling;
-        MaxPositionOffset = end.MaxPositionOffset;
+        FloatingOriginMaxDistance = end.FloatingOriginMaxDistance;
 
         engine.Animate(
             start: 0, end: 1,
@@ -67,7 +67,7 @@ public class TransitionCamera : QuaternionCamera
                 FarClip = MathUtils.Lerp(start.FarClip, end.FarClip, (float)value);
 
                 Position = DoubleVector3.Lerp(start.Position, end.Position, value);
-                AdjustPositionBase();
+                AdjustFloatingOrigin();
 
                 if (value == 1) IsComplete = true;
             },

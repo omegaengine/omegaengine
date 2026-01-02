@@ -19,7 +19,7 @@ namespace OmegaEngine.Audio;
 /// <summary>
 /// A memory-cached sound that is played on-demand simulating a position in 3D-space.
 /// </summary>
-public class Sound3D : Sound, IPositionableOffset
+public class Sound3D : Sound, IFloatingOriginAware
 {
     #region Variables
     private readonly SoundBuffer3D _buffer3D;
@@ -32,18 +32,18 @@ public class Sound3D : Sound, IPositionableOffset
     /// The sound's position in world space
     /// </summary>
     [Description("The body's position in world space"), Category("Layout")]
-    public DoubleVector3 Position { get => _position; set => value.To(ref _position, () => _buffer3D.Position = ((IPositionableOffset)this).EffectivePosition); }
+    public DoubleVector3 Position { get => _position; set => value.To(ref _position, () => _buffer3D.Position = this.GetFloatingPosition()); }
 
-    private DoubleVector3 _positionOffset;
+    private DoubleVector3 _floatingOrigin;
 
     /// <inheritdoc/>
-    DoubleVector3 IPositionableOffset.Offset { get => _positionOffset; set => value.To(ref _positionOffset, () => _buffer3D.Position = ((IPositionableOffset)this).EffectivePosition); }
+    DoubleVector3 IFloatingOriginAware.FloatingOrigin { get => _floatingOrigin; set => value.To(ref _floatingOrigin, () => _buffer3D.Position = this.GetFloatingPosition()); }
 
     /// <summary>
-    /// The sounds's position in render space, based on <see cref="Position"/>
+    /// The sound's position in render space, based on <see cref="Position"/>
     /// </summary>
-    /// <remarks>Constantly changes based on the values set for <see cref="IPositionableOffset.EffectivePosition"/></remarks>
-    Vector3 IPositionableOffset.EffectivePosition => Position.ApplyOffset(((IPositionableOffset)this).Offset);
+    /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingPosition"/></remarks>
+    Vector3 IFloatingOriginAware.FloatingPosition => Position.ApplyFloatingOrigin(this);
     #endregion
 
     #region Constructor

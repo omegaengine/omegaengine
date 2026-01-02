@@ -98,9 +98,9 @@ partial class View
             // Filter out bodies that don't belong in this type of view
             if (!IsToRender(body)) continue;
 
-            // Apply the offset here, so sorting will work.
+            // Apply the floating origin here, so sorting will work.
             // We may need to re-apply it later because ChildViews messed with it.
-            ApplyCameraBase(body);
+            body.SetFloatingOrigin(Camera);
 
             // Filter out invisible bodies
             if (!body.IsVisible(Camera)) continue;

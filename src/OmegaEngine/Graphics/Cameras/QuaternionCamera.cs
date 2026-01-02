@@ -28,10 +28,10 @@ public abstract class QuaternionCamera : Camera
     /// </summary>
     protected override void UpdateView()
     {
-        AdjustPositionBase();
+        AdjustFloatingOrigin();
 
         SimpleViewCached = Matrix.RotationQuaternion(_quaternion);
-        ViewCached = Matrix.Translation(-PositionCached.ApplyOffset(PositionBaseCached)) * SimpleViewCached;
+        ViewCached = Matrix.Translation(-PositionCached.ApplyOffset(FloatingOriginCached)) * SimpleViewCached;
 
         CacheSpecialMatrices();
 

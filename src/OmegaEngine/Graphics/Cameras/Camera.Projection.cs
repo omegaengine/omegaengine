@@ -100,7 +100,7 @@ partial class Camera
         _projectionTranspose = Matrix.Transpose(_projection);
         _projectionInverseTranspose = Matrix.Transpose(_projectionInverse);
 
-        _effectiveClipPlane = _clipPlane.ApplyOffset(PositionBaseCached);
+        _effectiveClipPlane = _clipPlane.ApplyOffset(FloatingOriginCached);
 
         ProjectionDirty = false;
     }

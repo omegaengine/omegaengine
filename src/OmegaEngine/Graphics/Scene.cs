@@ -159,7 +159,7 @@ public sealed class Scene : EngineElement
                 // Fixed-function lighting
                 return new()
                 {
-                    Type = LightType.Point, Position = ((IPositionableOffset)point).EffectivePosition, Range = point.Range,
+                    Type = LightType.Point, Position = point.GetFloatingPosition(), Range = point.Range,
                     Attenuation0 = point.Attenuation.Constant, Attenuation1 = point.Attenuation.Linear, Attenuation2 = point.Attenuation.Quadratic,
                     Diffuse = point.Diffuse, Specular = point.Specular, Ambient = point.Ambient
                 };

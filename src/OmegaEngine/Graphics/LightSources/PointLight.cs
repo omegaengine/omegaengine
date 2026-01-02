@@ -19,7 +19,7 @@ namespace OmegaEngine.Graphics.LightSources;
 /// <summary>
 /// A light source that has a fixed position and shines uniformly in all directions.
 /// </summary>
-public sealed class PointLight : LightSource, IPositionableOffset
+public sealed class PointLight : LightSource, IFloatingOriginAware
 {
     /// <summary>
     /// Shall this light source be converted to a pseudo-directional source for each individual <see cref="PositionableRenderable"/> before rendering?
@@ -33,32 +33,32 @@ public sealed class PointLight : LightSource, IPositionableOffset
     /// The position of the light source
     /// </summary>
     [Description("The position of the light source"), Category("Layout")]
-    public DoubleVector3 Position { get => _position; set => value.To(ref _position, ref _effectivePositionDirty); }
+    public DoubleVector3 Position { get => _position; set => value.To(ref _position, ref _floatingPositionDirty); }
 
-    private DoubleVector3 _positionOffset;
+    private DoubleVector3 _floatingOrigin;
 
     /// <summary>
-    /// A value to be added to <see cref="Position"/> in order gain <see cref="IPositionableOffset.EffectivePosition"/> - auto-updated by <see cref="View.Render"/> to the negative <see cref="Camera.Position"/>
+    /// A value to be added to <see cref="Position"/> in order gain <see cref="IFloatingOriginAware.FloatingPosition"/> - auto-updated by <see cref="View.Render"/> to the negative <see cref="Camera.Position"/>
     /// </summary>
-    DoubleVector3 IPositionableOffset.Offset { get => _positionOffset; set => value.To(ref _positionOffset, ref _effectivePositionDirty); }
+    DoubleVector3 IFloatingOriginAware.FloatingOrigin { get => _floatingOrigin; set => value.To(ref _floatingOrigin, ref _floatingPositionDirty); }
 
-    private bool _effectivePositionDirty;
-    private Vector3 _effectivePosition;
+    private bool _floatingPositionDirty;
+    private Vector3 _floatingPosition;
 
     /// <summary>
     /// The body's position in render space, based on <see cref="Position"/>
     /// </summary>
-    /// <remarks>Constantly changes based on the values set for <see cref="IPositionableOffset.Offset"/></remarks>
-    Vector3 IPositionableOffset.EffectivePosition
+    /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingOrigin"/></remarks>
+    Vector3 IFloatingOriginAware.FloatingPosition
     {
         get
         {
-            if (_effectivePositionDirty)
+            if (_floatingPositionDirty)
             {
-                _effectivePosition = _position.ApplyOffset(((IPositionableOffset)this).Offset);
-                _effectivePositionDirty = false;
+                _floatingPosition = _position.ApplyFloatingOrigin(this);
+                _floatingPositionDirty = false;
             }
-            return _effectivePosition;
+            return _floatingPosition;
         }
     }
 

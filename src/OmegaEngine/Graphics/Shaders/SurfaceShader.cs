@@ -67,7 +67,7 @@ public abstract class SurfaceShader : Shader
 
         SetupLightHelper(light, index, material);
 
-        TrySetValue(_lightPositionHandles, index, new Vector4(((IPositionableOffset)light).EffectivePosition, 1));
+        TrySetValue(_lightPositionHandles, index, new Vector4(light.GetFloatingPosition(), 1));
         TrySetValue(_lightAttenuationHandles, index, (Vector4)light.Attenuation);
     }
 
@@ -166,7 +166,7 @@ public abstract class SurfaceShader : Shader
                         },
                         ParameterClass.Vector => info.SemanticID switch
                         {
-                            SemanticID.CameraPosition => SetValue(camera.Position.ApplyOffset(camera.PositionBase)),
+                            SemanticID.CameraPosition => SetValue(camera.Position.ApplyOffset(camera.FloatingOrigin)),
                             SemanticID.Position when !_lightParametersHandled => StoreHandle(_lightPositionHandles),
                             SemanticID.Direction when !_lightParametersHandled => StoreHandle(_lightDirectionHandles),
                             SemanticID.Attenuation when !_lightParametersHandled => StoreHandle(_lightAttenuationHandles),

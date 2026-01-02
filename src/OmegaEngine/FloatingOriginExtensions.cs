@@ -1,0 +1,49 @@
+/*
+ * Copyright 2006-2014 Bastian Eicher
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+using System.Diagnostics.Contracts;
+using OmegaEngine.Foundation.Geometry;
+using OmegaEngine.Graphics.Cameras;
+using SlimDX;
+
+namespace OmegaEngine;
+
+/// <summary>
+/// Contains extension methods for <see cref="IFloatingOriginAware"/>.
+/// </summary>
+internal static class FloatingOriginExtensions
+{
+    /// <summary>
+    /// Applies the <see cref="Camera.FloatingOrigin"/> as the <see cref="IFloatingOriginAware.FloatingOrigin"/>.
+    /// </summary>
+    public static void SetFloatingOrigin(this IFloatingOriginAware obj, Camera camera)
+    {
+        obj.FloatingOrigin = camera.FloatingOrigin;
+    }
+
+    /// <summary>
+    /// Returns <see cref="IFloatingOriginAware.FloatingOrigin"/>.
+    /// </summary>
+    [Pure]
+    public static DoubleVector3 GetFloatingOrigin(this IFloatingOriginAware obj)
+        => obj.FloatingOrigin;
+
+    /// <summary>
+    /// Returns <see cref="IFloatingOriginAware.FloatingPosition"/>.
+    /// </summary>
+    [Pure]
+    public static Vector3 GetFloatingPosition(this IFloatingOriginAware obj)
+        => obj.FloatingPosition;
+
+    /// <summary>
+    /// Applies the <see cref="Camera.FloatingOrigin"/> as the <see cref="IFloatingOriginAware.FloatingOrigin"/>.
+    /// </summary>
+    [Pure]
+    public static Vector3 ApplyFloatingOrigin(this DoubleVector3 vector, IFloatingOriginAware obj)
+        => vector.ApplyOffset(obj.FloatingOrigin);
+}

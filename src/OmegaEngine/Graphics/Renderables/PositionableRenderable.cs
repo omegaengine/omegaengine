@@ -74,7 +74,7 @@ public enum BillboardMode
 /// An object that can be <see cref="Render"/>ed at a specific <see cref="Position"/> in a <see cref="Scene"/>.
 /// </summary>
 /// <seealso cref="Scene.Positionables"/>
-public abstract class PositionableRenderable : Renderable, IPositionableOffset
+public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 {
     #region Variables
     private Matrix
@@ -178,12 +178,12 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     [Description("The body's position in world space"), Category("Layout")]
     public DoubleVector3 Position { get => _position; set => value.To(ref _position, ref WorldTransformDirty); }
 
-    private DoubleVector3 _positionOffset;
+    private DoubleVector3 _floatingOrigin;
 
     /// <summary>
-    /// A value to be added to <see cref="Position"/> in order gain <see cref="IPositionableOffset.EffectivePosition"/> - auto-updated by <see cref="View.Render"/> to the negative <see cref="Camera.Position"/>
+    /// A value to be added to <see cref="Position"/> in order gain <see cref="IFloatingOriginAware.FloatingPosition"/> - auto-updated by <see cref="View.Render"/> to the negative <see cref="Camera.Position"/>
     /// </summary>
-    DoubleVector3 IPositionableOffset.Offset { get => _positionOffset; set => value.To(ref _positionOffset, ref WorldTransformDirty); }
+    DoubleVector3 IFloatingOriginAware.FloatingOrigin { get => _floatingOrigin; set => value.To(ref _floatingOrigin, ref WorldTransformDirty); }
     #endregion
 
     #region Transform results
@@ -192,10 +192,10 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     {
         if (!WorldTransformDirty) return;
 
-        _effectivePosition = Position.ApplyOffset(((IPositionableOffset)this).Offset);
+        _floatingPosition = Position.ApplyFloatingOrigin(this);
 
         // Calculate transformation matrices
-        WorldTransformCached = _preTransform * Matrix.Scaling(_scale) * _internalScaling * Matrix.RotationQuaternion(Rotation) * _internalRotation * Matrix.Translation(_effectivePosition) * _internalTranslation;
+        WorldTransformCached = _preTransform * Matrix.Scaling(_scale) * _internalScaling * Matrix.RotationQuaternion(Rotation) * _internalRotation * Matrix.Translation(_floatingPosition) * _internalTranslation;
         _inverseWorldTransform = Matrix.Invert(WorldTransformCached);
 
         // Transform bounding bodies into world space
@@ -205,18 +205,18 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
         WorldTransformDirty = false;
     }
 
-    private Vector3 _effectivePosition;
+    private Vector3 _floatingPosition;
 
     /// <summary>
     /// The body's position in render space, based on <see cref="Position"/>
     /// </summary>
-    /// <remarks>Constantly changes based on the values set for <see cref="IPositionableOffset.EffectivePosition"/></remarks>
-    Vector3 IPositionableOffset.EffectivePosition
+    /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingPosition"/></remarks>
+    Vector3 IFloatingOriginAware.FloatingPosition
     {
         get
         {
             RecalcWorldTransform();
-            return _effectivePosition;
+            return _floatingPosition;
         }
     }
 
@@ -225,7 +225,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     /// <summary>
     /// The world transformation matrix for this entity
     /// </summary>
-    /// <remarks>Constantly changes based on the values set for <see cref="IPositionableOffset.EffectivePosition"/></remarks>
+    /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingPosition"/></remarks>
     internal Matrix WorldTransform
     {
         get
@@ -240,7 +240,7 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     /// <summary>
     /// The world transformation matrix for this entity
     /// </summary>
-    /// <remarks>Constantly changes based on the values set for <see cref="IPositionableOffset.EffectivePosition"/></remarks>
+    /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingPosition"/></remarks>
     internal Matrix InverseWorldTransform
     {
         get
@@ -557,8 +557,8 @@ public abstract class PositionableRenderable : Renderable, IPositionableOffset
     {
         bool result = Intersects(ray, out float distance);
 
-        // Calculate position along the ray and compensate for position offset
-        position = (ray.Position + distance * ray.Direction) + ((IPositionableOffset)this).Offset;
+        // Calculate position along the ray and compensate for floating origin
+        position = (ray.Position + distance * ray.Direction) + this.GetFloatingOrigin();
         return result;
     }
 

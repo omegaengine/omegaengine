@@ -43,15 +43,6 @@ partial class View
 
     #region Camera helpers
     /// <summary>
-    /// Applies the <see cref="Cameras.Camera.PositionBase"/> as the <see cref="IPositionableOffset.Offset"/>.
-    /// </summary>
-    /// <param name="offsettable">The positionable object to be shifted</param>
-    internal void ApplyCameraBase(IPositionableOffset offsettable)
-    {
-        offsettable.Offset = Camera.PositionBase;
-    }
-
-    /// <summary>
     /// Updates <see cref="_viewport"/> for usage in <see cref="Render"/>
     /// </summary>
     private void UpdateViewport()

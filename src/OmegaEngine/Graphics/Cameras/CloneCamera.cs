@@ -34,7 +34,7 @@ public class CloneCamera(Camera parentCamera) : Camera
     /// <inheritdoc/>
     protected override void UpdateView()
     {
-        PositionBase = ParentCamera.PositionBase;
+        FloatingOrigin = ParentCamera.FloatingOrigin;
 
         GetView().To(ref ViewCached, () =>
         {

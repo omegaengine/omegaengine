@@ -151,6 +151,6 @@ partial class Camera
         var cylindric = Quaternion.Normalize(new(0, spherical.Y, 0, spherical.W));
         _cylindricBillboard = Matrix.RotationQuaternion(cylindric);
 
-        _effectiveClipPlane = _clipPlane.ApplyOffset(PositionBaseCached);
+        _effectiveClipPlane = _clipPlane.ApplyOffset(FloatingOriginCached);
     }
 }
