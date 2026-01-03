@@ -148,6 +148,13 @@ public class Game(Settings settings)
     /// <inheritdoc/>
     protected override void ApplyGeneralSettings() => Program.UpdateLocale();
 
+    /// <inheritdoc />
+    protected override void ApplyGraphicsSettings()
+    {
+        base.ApplyGraphicsSettings();
+        if (CurrentPresenter != null) CurrentPresenter.View.Camera.FieldOfView = settings.Graphics.FieldOfView;
+    }
+
     /// <inheritdoc/>
     protected override double GetElapsedGameTime(double elapsedTime)
         => CurrentState switch

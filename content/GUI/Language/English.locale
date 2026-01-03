@@ -10,6 +10,7 @@
   <entry key="EndGameSure">Are you sure you want to quit the running game?</entry>
   <entry key="Exit">Exit</entry>
   <entry key="ExitGame">Exit game</entry>
+  <entry key="FieldOfView">Field of view</entry>
   <entry key="Fire">Show fire</entry>
   <entry key="Fog">Fog effect</entry>
   <entry key="FreezeMoons">Freeze moons</entry>

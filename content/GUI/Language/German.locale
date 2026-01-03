@@ -10,6 +10,7 @@
   <entry key="EndGameSure">Sind Sie sicher dass Sie das laufende Spiel beenden möchten?</entry>
   <entry key="Exit">Verlassen</entry>
   <entry key="ExitGame">Spiel verlassen</entry>
+  <entry key="FieldOfView">Sichtfeld</entry>
   <entry key="Fire">Feuer anzeigen</entry>
   <entry key="Fog">Nebel Effekt</entry>
   <entry key="FreezeMoons">Monde einfrieren</entry>

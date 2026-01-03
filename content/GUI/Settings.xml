@@ -16,6 +16,8 @@ if Settings.General.Language == "de" then Language.SelectedItem = "Deutsch"; end
 
 InvertMouse.Checked = Settings.Controls.InvertMouse
 MouseSensitivity.Value = Settings.Controls.MouseSensitivity * 10
+FieldOfView.Value = Settings.Graphics.FieldOfView
+FieldOfViewValueLabel.Text = Settings.Graphics.FieldOfView.."°"
 
 -- Check for each supported resolution if the graphics card can handle it and if so add it to the list
 function resolution_helper(width, height)
@@ -207,6 +209,22 @@ Me.DialogRender.Location = location_backup</OnChanged>
     <Size Width="220" Height="20" />
     <OnChanged>Settings.Graphics.PostScreenEffects = PostScreenEffects.Checked</OnChanged>
   </CheckBox>
+  <Label Name="FieldOfViewLabel" Text="[FieldOfView]">
+    <Location X="525" Y="203" />
+    <Size Width="120" Height="20" />
+  </Label>
+  <Slider Name="FieldOfView">
+    <Location X="525" Y="223" />
+    <Size Width="180" Height="32" />
+    <Min>45</Min>
+    <Max>120</Max>
+    <Value>90</Value>
+    <OnChanged>Settings.Graphics.FieldOfView = FieldOfView.Value; FieldOfViewValueLabel.Text = FieldOfView.Value.."°"</OnChanged>
+  </Slider>
+  <Label Name="FieldOfViewValueLabel" Text="??°">
+    <Location X="685" Y="203" />
+    <Size Width="30" Height="20" />
+  </Label>
   <CheckBox Name="TerrainDoubleSampling" Text="[TerrainDoubleSampling]">
     <Location X="460" Y="359" />
     <Size Width="260" Height="20" />

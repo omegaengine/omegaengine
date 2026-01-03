@@ -96,6 +96,14 @@ public sealed class GraphicsSettings
     [DefaultValue(true), Description("Fade in game scenes from black")]
     public bool Fading { get => _fading; set => value.To(ref _fading, Changed); }
 
+    private float _fieldOfView = 60;
+
+    /// <summary>
+    /// The camera field of view in degrees
+    /// </summary>
+    [DefaultValue(60f), Description("The camera field of view in degrees")]
+    public float FieldOfView { get => _fieldOfView; set => value.To(ref _fieldOfView, Changed); }
+
     /// <summary>
     /// Applies the settings to the engine.
     /// </summary>
