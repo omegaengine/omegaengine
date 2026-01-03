@@ -34,7 +34,7 @@ public class RadioButton : CheckBox
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    private Render.RadioButton _radioButton;
+    private Render.RadioButton? _radioButton;
     #endregion
 
     #region Properties

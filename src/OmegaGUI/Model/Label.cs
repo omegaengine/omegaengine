@@ -35,7 +35,7 @@ public class Label : Control
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    private Render.Label _staticText;
+    private Render.Label? _staticText;
     #endregion
 
     #region Properties

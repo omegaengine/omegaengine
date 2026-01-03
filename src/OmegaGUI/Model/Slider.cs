@@ -37,7 +37,7 @@ public class Slider : Control
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    private Render.Slider _slider;
+    private Render.Slider? _slider;
     #endregion
 
     #region Properties

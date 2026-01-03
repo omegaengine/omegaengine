@@ -40,7 +40,7 @@ public class ListBox : Control
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    private Render.ListBox _listBox;
+    private Render.ListBox? _listBox;
     #endregion
 
     #region Properties

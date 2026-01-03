@@ -35,7 +35,7 @@ public class ScrollBar : Slider
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    private Render.ScrollBar _scrollbar;
+    private Render.ScrollBar? _scrollbar;
     #endregion
 
     #region Properties

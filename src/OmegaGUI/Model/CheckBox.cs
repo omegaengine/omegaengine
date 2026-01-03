@@ -36,7 +36,7 @@ public class CheckBox : ButtonBase
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    private Render.CheckBox _checkbox;
+    private Render.CheckBox? _checkbox;
     #endregion
 
     #region Properties

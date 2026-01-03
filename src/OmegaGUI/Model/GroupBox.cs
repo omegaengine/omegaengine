@@ -36,7 +36,7 @@ public class GroupBox : Control
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
-    private Render.GroupBox _groupBox;
+    private Render.GroupBox? _groupBox;
     #endregion
 
     #region Properties
