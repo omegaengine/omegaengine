@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using NanoByte.Common;
-using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
@@ -252,9 +251,6 @@ public partial class View : EngineElement, IResetable
     public View(Color color)
         : this(new Scene(), new ArcballCamera())
     {
-        var model = new Model(XMesh.Get(Engine, "Lamp.x"));
-        model.Materials[0].Glow = Color.Yellow;
-
         _backgroundColor = color;
         _disposeScene = true;
     }
