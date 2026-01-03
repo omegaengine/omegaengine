@@ -47,4 +47,12 @@ view.PostShaders.Add(new PostColorCorrectionShader
 view.PostShaders.Add(new PostSepiaShader());
 ```
 
+## Dynamic shaders
+
+Shaders can be generated and compiled at runtime based on material properties and rendering requirements. This allows the engine to optimize shaders for specific use cases without requiring pre-compiled variants for every combination of features.
+
+The <xref:OmegaEngine.Graphics.Shaders.TerrainShader> class demonstrates dynamic shader generation. It creates shader code based on the number of textures, lighting requirements, and other terrain-specific parameters, then compiles the shader on-demand.
+
+TODO: Document `.fxd` file format
+
 ## API
