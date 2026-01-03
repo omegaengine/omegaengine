@@ -599,7 +599,9 @@ public class Dialog : ICloneable<Dialog>
         }
 
         // Create a DialogRenderer
-        var renderer = new DialogRenderer(DialogRender.DialogManager.GuiManager, msgBoxDialog);
+        var guiManager = DialogRender.DialogManager.GuiManager 
+            ?? throw new InvalidOperationException("GuiManager not set on DialogManager");
+        var renderer = new DialogRenderer(guiManager, msgBoxDialog);
 
         // Handle button clicks
         MsgBoxResult? result = null;
