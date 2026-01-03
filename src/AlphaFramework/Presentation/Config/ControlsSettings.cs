@@ -24,12 +24,12 @@ using System;
 using System.ComponentModel;
 using NanoByte.Common;
 
-namespace FrameOfReference.Presentation.Config;
+namespace AlphaFramework.Presentation.Config;
 
 /// <summary>
 /// Stores settings for the user controls (mouse, keyboard, etc.).
 /// </summary>
-/// <seealso cref="Settings.Controls"/>
+/// <seealso cref="SettingsBase.Controls"/>
 public sealed class ControlsSettings
 {
     /// <summary>

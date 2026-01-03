@@ -38,16 +38,6 @@ namespace FrameOfReference.Presentation.Config;
 [XmlRoot("Settings")] // Suppress XMLSchema declarations (no inheritance used for properties)
 public sealed class Settings : SettingsBase
 {
-    /// <summary>Stores settings for the user controls (mouse, keyboard, etc.).</summary>
-    public ControlsSettings Controls { get; set; } = new();
-
-    /// <inheritdoc/>
-    protected override void AddChangeHandler(Action handler)
-    {
-        base.AddChangeHandler(handler);
-        Controls.Changed += handler;
-    }
-
     private static Settings? _current;
 
     /// <summary>

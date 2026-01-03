@@ -74,7 +74,6 @@ public class Game(Settings settings)
 
         // Settings update hooks
         settings.General.Changed += Program.UpdateLocale;
-        settings.Controls.Changed += ApplyControlsSettings;
 
         UpdateStatus(Resources.LoadingGraphics);
         using (new TimedLogEvent("Load graphics"))
@@ -118,21 +117,12 @@ public class Game(Settings settings)
 
                 // Remove settings update hooks
                 settings.General.Changed -= Program.UpdateLocale;
-                settings.Controls.Changed -= ApplyControlsSettings;
             }
         }
         finally
         {
             base.Dispose(disposing);
         }
-    }
-
-    /// <summary>
-    /// Called when <see cref="ControlsSettings.Changed"/>
-    /// </summary>
-    private void ApplyControlsSettings()
-    {
-        MouseInputProvider.InvertMouse = settings.Controls.InvertMouse;
     }
 
     /// <inheritdoc/>

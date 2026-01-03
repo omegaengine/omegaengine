@@ -10,6 +10,9 @@ public abstract class SettingsBase
     /// <summary>Stores general game settings (UI language, difficulty level, etc.).</summary>
     public GeneralSettings General { get; set; } = new();
 
+    /// <summary>Stores settings for the user controls (mouse, keyboard, etc.).</summary>
+    public ControlsSettings Controls { get; set; } = new();
+
     /// <summary>Stores display settings (resolution, etc.). Changes here require the engine to be reset.</summary>
     public DisplaySettings Display { get; set; } = new();
 
