@@ -15,6 +15,7 @@ WaterEffectsType = luanet.import_type("OmegaEngine.Foundation.Light.WaterEffects
 if Settings.General.Language == "de" then Language.SelectedItem = "Deutsch"; end;
 
 InvertMouse.Checked = Settings.Controls.InvertMouse
+MouseSensitivity.Value = Settings.Controls.MouseSensitivity * 10
 
 -- Check for each supported resolution if the graphics card can handle it and if so add it to the list
 function resolution_helper(width, height)
@@ -82,7 +83,7 @@ end
   <Shift X="0" Y="0" />
   <GroupBox Name="GeneralBox">
     <Location X="10" Y="42" />
-    <Size Width="720" Height="82" />
+    <Size Width="250" Height="82" />
     <ColorBorder A="255" R="0" G="0" B="0" />
     <ColorFill A="128" R="128" G="128" B="128" />
   </GroupBox>
@@ -111,11 +112,33 @@ end
 Me:Close()
 LoadModalDialog("Settings").DialogRender.Location = Me.DialogRender.Location</OnChanged>
   </DropdownList>
+  <GroupBox Name="GeneralBox">
+    <Location X="280" Y="42" />
+    <Size Width="450" Height="82" />
+    <ColorBorder A="255" R="0" G="0" B="0" />
+    <ColorFill A="128" R="128" G="128" B="128" />
+  </GroupBox>
+  <Label Name="ControlsLabel" Text="[Controls]">
+    <Location X="290" Y="50" />
+    <Size Width="100" Height="20" />
+  </Label>
   <CheckBox Name="InvertMouse" Text="[InvertMouse]">
     <Location X="290" Y="85" />
-    <Size Width="280" Height="20" />
+    <Size Width="200" Height="20" />
     <OnChanged>Settings.Controls.InvertMouse = InvertMouse.Checked</OnChanged>
   </CheckBox>
+  <Label Name="MouseSensitivityLabel" Text="[MouseSensitivity]">
+    <Location X="525" Y="65" />
+    <Size Width="100" Height="20" />
+  </Label>
+  <Slider Name="MouseSensitivity">
+    <Location X="525" Y="85" />
+    <Size Width="180" Height="32" />
+    <Min>1</Min>
+    <Max>40</Max>
+    <Value>10</Value>
+    <OnChanged>Settings.Controls.MouseSensitivity = MouseSensitivity.Value / 10</OnChanged>
+  </Slider>
   <GroupBox Name="DisplayBox">
     <Location X="10" Y="142" />
     <Size Width="720" Height="122" />

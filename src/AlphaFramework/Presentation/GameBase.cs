@@ -165,7 +165,10 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     /// Called when <see cref="ControlsSettings.Changed"/>.
     /// </summary>
     protected virtual void ApplyControlsSettings()
-        => MouseInputProvider.InvertMouse = settings.Controls.InvertMouse;
+    {
+        MouseInputProvider.InvertMouse = settings.Controls.InvertMouse;
+        MouseInputProvider.CursorSensitivity = settings.Controls.MouseSensitivity;
+    }
 
     /// <inheritdoc/>
     protected override void ApplyGraphicsSettings()
