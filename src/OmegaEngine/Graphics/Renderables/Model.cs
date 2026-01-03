@@ -145,9 +145,9 @@ public partial class Model : PositionableRenderable
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights? getLights = null)
+    internal override void Render(Camera camera, GetLights? getLights = null, GetShadowCasters? getShadowCasters = null)
     {
-        base.Render(camera, getLights);
+        base.Render(camera, getLights, getShadowCasters);
         Engine.State.WorldTransform = WorldTransform;
 
         var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getLights == null)

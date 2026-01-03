@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using JetBrains.Annotations;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
@@ -84,6 +85,9 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
     /// <summary>Does the world transform need to be recalculated?</summary>
     protected bool WorldTransformDirty = true;
+
+    /// <summary>Delegate to get shadow casters from the scene</summary>
+    private GetShadowCasters? _getShadowCasters;
     #endregion
 
     #region Properties
@@ -134,6 +138,18 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// </summary>
     [DefaultValue(false), Description("Shall this object still be rendered, even if it is beyond the camera's far clip plane? (at the cost of incorrect Z-ordering)"), Category("Layout")]
     public bool PreventFarClipping { get; set; }
+
+    /// <summary>
+    /// Shall this <see cref="PositionableRenderable"/> cast shadows on other objects?
+    /// </summary>
+    [DefaultValue(false), Description("Shall this body cast shadows on other objects?"), Category("Behavior")]
+    public bool ShadowCaster { get; set; }
+
+    /// <summary>
+    /// Shall this <see cref="PositionableRenderable"/> receive shadows from other objects?
+    /// </summary>
+    [DefaultValue(false), Description("Shall this body receive shadows from other objects?"), Category("Behavior")]
+    public bool ShadowReceiver { get; set; }
     #endregion
 
     #region Transform factors
@@ -322,12 +338,14 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights? getLights = null)
+    internal override void Render(Camera camera, GetLights? getLights = null, GetShadowCasters? getShadowCasters = null)
     {
         #region Sanity checks
         if (IsDisposed) throw new ObjectDisposedException(ToString());
         if (camera == null) throw new ArgumentNullException(nameof(camera));
         #endregion
+
+        _getShadowCasters = getShadowCasters;
 
         // Note: Assumes IsVisible() was called in this frame, which in turn triggered UpdateInternalTransformations()
 
@@ -338,7 +356,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         if (getLights == null && SurfaceEffect is SurfaceEffect.FixedFunction or SurfaceEffect.Shader)
             SurfaceEffect = SurfaceEffect.Plain;
 
-        base.Render(camera, getLights);
+        base.Render(camera, getLights, getShadowCasters);
     }
 
     private void UpdateInternalTransformations(Camera camera)
@@ -391,6 +409,9 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         if (camera == null) throw new ArgumentNullException(nameof(camera));
         if (lights == null) throw new ArgumentNullException(nameof(lights));
         #endregion
+
+        // Apply shadows to lights if this is a shadow receiver
+        lights = ApplyShadows(lights);
 
         SetEngineState(material);
         SetEngineState(camera);
@@ -495,6 +516,188 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
                     SurfaceShader.Apply(render, material, camera, lights);
             }
         }
+    }
+
+    /// <summary>
+    /// Calculates the shadow intensity for this receiver based on shadow casters and light direction.
+    /// </summary>
+    /// <param name="lightDirection">The direction from the light source (normalized)</param>
+    /// <param name="shadowCasters">The potential shadow casters</param>
+    /// <returns>A value from 0 (fully lit) to 1 (fully shadowed)</returns>
+    private float CalculateShadowIntensity(Vector3 lightDirection, PositionableRenderable[] shadowCasters)
+    {
+        if (!ShadowReceiver || WorldBoundingSphere == null)
+            return 0;
+
+        var receiverSphere = WorldBoundingSphere.Value;
+        float maxShadowIntensity = 0;
+
+        foreach (var caster in shadowCasters)
+        {
+            if (caster == this || caster.WorldBoundingSphere == null)
+                continue;
+
+            var casterSphere = caster.WorldBoundingSphere.Value;
+
+            // Check if caster has a valid radius
+            if (casterSphere.Radius <= 0.0001f)
+                continue; // Invalid caster sphere
+
+            // Calculate the vector from caster to receiver
+            var casterToReceiver = receiverSphere.Center - casterSphere.Center;
+
+            // Check if the receiver is in the shadow direction from the light
+            // The shadow is cast in the opposite direction of the light
+            float alignment = Vector3.Dot(casterToReceiver, -lightDirection);
+            if (alignment <= 0)
+                continue; // Receiver is not in shadow direction
+
+            // Calculate the distance from caster center to receiver center
+            float distance = casterToReceiver.Length();
+            if (distance < 0.0001f)
+                continue; // Same position
+
+            // Project receiver onto the shadow ray
+            var shadowRay = -lightDirection;
+            float projectionDistance = Vector3.Dot(casterToReceiver, shadowRay);
+
+            // Calculate how far the shadow extends
+            // Shadow radius grows linearly from the caster sphere
+            float shadowRadius = casterSphere.Radius * (1 + projectionDistance / casterSphere.Radius);
+
+            // Calculate perpendicular distance from receiver to shadow axis
+            var projectedPoint = casterSphere.Center + shadowRay * projectionDistance;
+            float perpendicularDistance = (receiverSphere.Center - projectedPoint).Length();
+
+            // Calculate shadow overlap
+            float shadowIntensity;
+            if (perpendicularDistance + receiverSphere.Radius <= shadowRadius)
+            {
+                // Receiver is entirely within shadow
+                shadowIntensity = 1.0f;
+            }
+            else if (perpendicularDistance - receiverSphere.Radius < shadowRadius)
+            {
+                // Receiver is partially within shadow
+                // Calculate the proportion of overlap
+                float overlap = (shadowRadius - (perpendicularDistance - receiverSphere.Radius)) / (2 * receiverSphere.Radius);
+                shadowIntensity = Math.Max(0, Math.Min(1, overlap));
+            }
+            else
+            {
+                // No shadow
+                shadowIntensity = 0;
+            }
+
+            maxShadowIntensity = Math.Max(maxShadowIntensity, shadowIntensity);
+        }
+
+        return maxShadowIntensity;
+    }
+
+    /// <summary>
+    /// Applies shadows to light sources based on shadow casters.
+    /// </summary>
+    /// <param name="lights">The original light sources</param>
+    /// <returns>Modified light sources with shadows applied</returns>
+    private LightSource[] ApplyShadows(LightSource[] lights)
+    {
+        if (!ShadowReceiver || _getShadowCasters == null || lights.Length == 0)
+            return lights;
+
+        var shadowCasters = _getShadowCasters();
+        if (shadowCasters.Length == 0)
+            return lights;
+
+        var modifiedLights = new List<LightSource>();
+
+        foreach (var light in lights)
+        {
+            // Determine light direction
+            Vector3 lightDirection;
+            if (light is DirectionalLight directional)
+            {
+                lightDirection = Vector3.Normalize(directional.Direction);
+            }
+            else if (light is PointLight point)
+            {
+                // For point lights, calculate direction from receiver to light
+                var lightPos = ((IPositionableOffset)point).EffectivePosition;
+                lightDirection = Vector3.Normalize(lightPos - (WorldBoundingSphere?.Center ?? Vector3.Zero));
+            }
+            else
+            {
+                // Unknown light type, skip shadow calculation
+                modifiedLights.Add(light);
+                continue;
+            }
+
+            float shadowIntensity = CalculateShadowIntensity(lightDirection, shadowCasters);
+
+            if (shadowIntensity > 0)
+            {
+                // Create a modified light with reduced diffuse and specular
+                float lightScale = 1.0f - shadowIntensity;
+                var modifiedLight = CreateShadowedLight(light, lightScale);
+                modifiedLights.Add(modifiedLight);
+            }
+            else
+            {
+                modifiedLights.Add(light);
+            }
+        }
+
+        return modifiedLights.ToArray();
+    }
+
+    /// <summary>
+    /// Creates a copy of a light source with scaled diffuse and specular components.
+    /// </summary>
+    private LightSource CreateShadowedLight(LightSource original, float scale)
+    {
+        if (original is DirectionalLight directional)
+        {
+            return new DirectionalLight
+            {
+                Name = directional.Name,
+                Enabled = directional.Enabled,
+                Direction = directional.Direction,
+                Diffuse = ScaleColor(directional.Diffuse, scale),
+                Specular = ScaleColor(directional.Specular, scale),
+                Ambient = directional.Ambient
+            };
+        }
+        else if (original is PointLight point)
+        {
+            var newPoint = new PointLight
+            {
+                Name = point.Name,
+                Enabled = point.Enabled,
+                Position = point.Position,
+                Range = point.Range,
+                Attenuation = point.Attenuation,
+                RenderAsDirectional = point.RenderAsDirectional,
+                Diffuse = ScaleColor(point.Diffuse, scale),
+                Specular = ScaleColor(point.Specular, scale),
+                Ambient = point.Ambient
+            };
+            ((IPositionableOffset)newPoint).Offset = ((IPositionableOffset)point).Offset;
+            return newPoint;
+        }
+
+        return original;
+    }
+
+    /// <summary>
+    /// Scales a color by a factor.
+    /// </summary>
+    private static Color ScaleColor(Color color, float scale)
+    {
+        return Color.FromArgb(
+            color.A,
+            (int)(color.R * scale),
+            (int)(color.G * scale),
+            (int)(color.B * scale));
     }
     #endregion
 
