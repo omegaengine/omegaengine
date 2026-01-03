@@ -523,9 +523,105 @@ public class Dialog : ICloneable<Dialog>
     #region MsgBoxes
     public void MsgBox(string text, MsgBoxType type, Action<MsgBoxResult>? callback)
     {
-        DialogRender.Refresh();
-        DialogRender.DialogManager.MessageBox.SetFont(0, _fontName, _fontSize, FontWeight.Normal);
-        DialogRender.DialogManager.MessageBox.Show(GetLocalized(text), type, callback);
+        // Create a dialog describing the message box layout
+        var msgBoxDialog = new Dialog
+        {
+            Size = new Size(400, 150),
+            BackgroundColor = Color.FromArgb(196, 64, 64, 64),
+            TextureFile = _textureFile,
+            FontName = _fontName,
+            FontSize = _fontSize
+        };
+
+        // Add the text label
+        var label = new Label
+        {
+            Text = GetLocalized(text),
+            Location = new Point(5, 5),
+            Size = new Size(msgBoxDialog.Size.Width - 10, msgBoxDialog.Size.Height - 60),
+            TextAlign = Render.TextAlign.Center
+        };
+        msgBoxDialog.Controls.Add(label);
+
+        // Add buttons based on type
+        switch (type)
+        {
+            case MsgBoxType.OK:
+                var okButton = new Button
+                {
+                    Text = Resources.MsgBoxOK,
+                    Location = new Point((msgBoxDialog.Size.Width - 110) / 2, msgBoxDialog.Size.Height - 50),
+                    Size = new Size(110, 40)
+                };
+                okButton.OnClick = "MsgBox_OK";
+                msgBoxDialog.Controls.Add(okButton);
+                break;
+
+            case MsgBoxType.OKCancel:
+                var okButton2 = new Button
+                {
+                    Text = Resources.MsgBoxOK,
+                    Location = new Point((msgBoxDialog.Size.Width - 110) / 2 - 60, msgBoxDialog.Size.Height - 50),
+                    Size = new Size(110, 40)
+                };
+                okButton2.OnClick = "MsgBox_OK";
+                msgBoxDialog.Controls.Add(okButton2);
+
+                var cancelButton = new Button
+                {
+                    Text = Resources.MsgBoxCancel,
+                    Location = new Point((msgBoxDialog.Size.Width - 110) / 2 + 60, msgBoxDialog.Size.Height - 50),
+                    Size = new Size(110, 40)
+                };
+                cancelButton.OnClick = "MsgBox_Cancel";
+                msgBoxDialog.Controls.Add(cancelButton);
+                break;
+
+            case MsgBoxType.YesNo:
+                var yesButton = new Button
+                {
+                    Text = Resources.MsgBoxYes,
+                    Location = new Point((msgBoxDialog.Size.Width - 110) / 2 - 60, msgBoxDialog.Size.Height - 50),
+                    Size = new Size(110, 40)
+                };
+                yesButton.OnClick = "MsgBox_Yes";
+                msgBoxDialog.Controls.Add(yesButton);
+
+                var noButton = new Button
+                {
+                    Text = Resources.MsgBoxNo,
+                    Location = new Point((msgBoxDialog.Size.Width - 110) / 2 + 60, msgBoxDialog.Size.Height - 50),
+                    Size = new Size(110, 40)
+                };
+                noButton.OnClick = "MsgBox_No";
+                msgBoxDialog.Controls.Add(noButton);
+                break;
+        }
+
+        // Create a DialogRenderer
+        var renderer = new DialogRenderer(DialogRender.DialogManager.GuiManager, msgBoxDialog);
+
+        // Handle button clicks
+        MsgBoxResult? result = null;
+        msgBoxDialog.ScriptFired += (script, source) =>
+        {
+            result = script switch
+            {
+                "MsgBox_OK" => MsgBoxResult.OK,
+                "MsgBox_Cancel" => MsgBoxResult.Cancel,
+                "MsgBox_Yes" => MsgBoxResult.Yes,
+                "MsgBox_No" => MsgBoxResult.No,
+                _ => null
+            };
+            if (result.HasValue)
+            {
+                renderer.Close();
+                callback?.Invoke(result.Value);
+            }
+        };
+
+        // Show the dialog modally
+        renderer.ShowModal();
     }
     #endregion
 

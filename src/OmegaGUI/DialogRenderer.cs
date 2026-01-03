@@ -127,8 +127,8 @@ public sealed class DialogRenderer : IDisposable
 
             _lua["Me"] = this;
 
-            LuaRegistrationHelper.Enumeration<Render.MsgBoxType>(_lua);
-            LuaRegistrationHelper.Enumeration<Render.MsgBoxResult>(_lua);
+            LuaRegistrationHelper.Enumeration<MsgBoxType>(_lua);
+            LuaRegistrationHelper.Enumeration<MsgBoxResult>(_lua);
             #endregion
 
             dialog.ScriptFired += LuaExecute;
@@ -271,17 +271,6 @@ public sealed class DialogRenderer : IDisposable
     /// </summary>
     // Note: Keep this in addition to the DialogModel property for Lua access
     public void SetLocation(int x, int y) => DialogRender.Location = new(x, y);
-    #endregion
-
-    #region MsgBox
-    public void MsgBox(string text)
-        => MsgBox(text, null);
-
-    public void MsgBox(string text, Action<Render.MsgBoxResult>? callback)
-        => MsgBox(text, Render.MsgBoxType.OK, callback);
-
-    public void MsgBox(string text, Render.MsgBoxType type, Action<Render.MsgBoxResult>? callback)
-        => DialogModel.MsgBox(text, type, callback);
     #endregion
 
     //--------------------//

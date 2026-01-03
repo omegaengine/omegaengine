@@ -62,6 +62,7 @@ public sealed class GuiManager : IDisposable
     {
         _engine = engine ?? throw new ArgumentNullException(nameof(engine));
         DialogManager = new(engine);
+        DialogManager.GuiManager = this;
         engine.ExtraRender += Render;
     }
     #endregion
@@ -123,6 +124,7 @@ public sealed class GuiManager : IDisposable
         CloseAll();
         DialogManager.Dispose();
         DialogManager = new(_engine);
+        DialogManager.GuiManager = this;
     }
     #endregion
 
@@ -165,8 +167,6 @@ public sealed class GuiManager : IDisposable
                 dialog.DialogRender.OnRender(dialog.DialogModel.Animate ? elapsedTime : 1);
             foreach (var dialog in _modalDialogs.Where(dialog => dialog.DialogModel.Visible))
                 dialog.DialogRender.OnRender(dialog.DialogModel.Animate ? elapsedTime : 1);
-            if (DialogManager.MessageBox.Visible)
-                DialogManager.MessageBox.OnRender(elapsedTime);
         }
 
         var readyToRemove = _pendingLuaDisposes.FindAll(lua => !lua.IsExecuting);
@@ -186,13 +186,6 @@ public sealed class GuiManager : IDisposable
     /// <returns><c>true</c> if the message was handled and no further processing is necessary</returns>
     public bool OnMsgProc(Message m)
     {
-        // Exclusive input handling for MessageBox
-        if (DialogManager.MessageBox is { Visible: true })
-        {
-            return DialogManager.MessageBox.
-                                 MessageProc(m.HWnd, (WindowMessage)m.Msg, m.WParam, m.LParam);
-        }
-
         // Exclusive input handling for last modal dialog
         if (_modalDialogs.Count > 0)
         {

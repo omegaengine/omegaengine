@@ -55,6 +55,11 @@ public sealed class DialogManager : IDisposable
     public Engine? Engine { get; }
 
     /// <summary>
+    /// Gets the GUI manager that owns this DialogManager
+    /// </summary>
+    internal GuiManager? GuiManager { get; set; }
+
+    /// <summary>
     /// Gets the DirectX device
     /// </summary>
     public Device Device => Engine.Device;
@@ -79,22 +84,11 @@ public sealed class DialogManager : IDisposable
         engine.DeviceLost += OnLostDevice;
         engine.DeviceReset += OnResetDevice;
 
-        // Create the default MessageBox dialog
-        MessageBox = new(this);
-        MessageBox.SetSize(400, 150);
-
         OnResetDevice();
     }
     #endregion
 
     //--------------------//
-
-    #region Specialized dialogs
-    /// <summary>
-    /// Gets a Specialized MessageBox dialog
-    /// </summary>
-    public MessageBox MessageBox { get; }
-    #endregion
 
     #region Fonts
     /// <summary>
@@ -252,11 +246,6 @@ public sealed class DialogManager : IDisposable
 
         // Create new state block
         StateBlock = new(Engine.Device, StateBlockType.All);
-
-        // Reposition the message box according to the new Viewport
-        MessageBox.Location = new(
-            (Engine.RenderSize.Width - MessageBox.Width) / 2,
-            (Engine.RenderSize.Height - MessageBox.Height) / 2);
     }
     #endregion
 
