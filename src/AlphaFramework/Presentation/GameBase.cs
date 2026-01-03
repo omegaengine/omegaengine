@@ -44,6 +44,7 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
         if (!base.Initialize()) return false;
 
         // Settings update hooks
+        settings.General.Changed += ApplyGeneralSettings;
         settings.Controls.Changed += ApplyControlsSettings;
         settings.Display.Changed += ResetEngine;
         settings.Graphics.Changed += ApplyGraphicsSettings;
@@ -75,6 +76,7 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
                 _guiManager?.Dispose();
 
                 // Remove settings update hooks
+                settings.General.Changed -= ApplyGeneralSettings;
                 settings.Controls.Changed -= ApplyControlsSettings;
                 settings.Display.Changed -= ResetEngine;
                 settings.Graphics.Changed -= ApplyGraphicsSettings;
@@ -153,6 +155,11 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     /// <inheritdoc/>
     protected override EngineConfig BuildEngineConfig(bool fullscreen)
         => settings.Display.ToEngineConfig(fullscreen ? null : Form.ClientSize);
+
+    /// <summary>
+    /// Called when <see cref="GeneralSettings.Changed"/>.
+    /// </summary>
+    protected virtual void ApplyGeneralSettings() {}
 
     /// <summary>
     /// Called when <see cref="ControlsSettings.Changed"/>.

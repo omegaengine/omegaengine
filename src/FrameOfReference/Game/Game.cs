@@ -73,7 +73,6 @@ public class Game(Settings settings)
         if (!base.Initialize()) return false;
 
         // Settings update hooks
-        settings.General.Changed += Program.UpdateLocale;
 
         UpdateStatus(Resources.LoadingGraphics);
         using (new TimedLogEvent("Load graphics"))
@@ -114,9 +113,6 @@ public class Game(Settings settings)
                 // Dispose presenters
                 _menuPresenter?.Dispose();
                 CurrentPresenter?.Dispose();
-
-                // Remove settings update hooks
-                settings.General.Changed -= Program.UpdateLocale;
             }
         }
         finally
@@ -148,6 +144,9 @@ public class Game(Settings settings)
             }
         }
     }
+
+    /// <inheritdoc/>
+    protected override void ApplyGeneralSettings() => Program.UpdateLocale();
 
     /// <inheritdoc/>
     protected override double GetElapsedGameTime(double elapsedTime)
