@@ -48,8 +48,6 @@ public class ScrollBar : Slider
         get => _scrollbar?.TrackPosition ?? ControlValue;
         set
         {
-            if (value < Min || value > Max)
-                throw new InvalidOperationException(Resources.ValueOutOfRange);
             ControlValue = value;
             if (_scrollbar != null) _scrollbar.ScrollTo(value);
         }

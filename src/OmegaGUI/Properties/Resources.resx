@@ -120,14 +120,8 @@
   <data name="ControlNotFound" xml:space="preserve">
     <value>The control was not found.</value>
   </data>
-  <data name="MaxMustBeLargerThanMin" xml:space="preserve">
-    <value>The Max property must be larger than than the Min property.</value>
-  </data>
   <data name="Minimized" xml:space="preserve">
     <value>Minimized</value>
-  </data>
-  <data name="MinMustBeSmallerThanMax" xml:space="preserve">
-    <value>The Min property must be smaller than than the Max property.</value>
   </data>
   <data name="MsgBoxCancel" xml:space="preserve">
     <value>Cancel</value>
@@ -140,8 +134,5 @@
   </data>
   <data name="MsgBoxYes" xml:space="preserve">
     <value>Yes</value>
-  </data>
-  <data name="ValueOutOfRange" xml:space="preserve">
-    <value>The Value property must be within in the range defined by the Min and Max properties</value>
   </data>
 </root>

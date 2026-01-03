@@ -52,8 +52,6 @@ public class Slider : Control
         get => _min;
         set
         {
-            if (value >= Max)
-                throw new InvalidOperationException(Resources.MinMustBeSmallerThanMax);
             _min = value;
             NeedsUpdate();
         }
@@ -70,8 +68,6 @@ public class Slider : Control
         get => _max;
         set
         {
-            if (value <= Min)
-                throw new InvalidOperationException(Resources.MaxMustBeLargerThanMin);
             _max = value;
             NeedsUpdate();
         }
@@ -88,8 +84,6 @@ public class Slider : Control
         get => ControlValue;
         set
         {
-            if (value < Min || value > Max)
-                throw new InvalidOperationException(Resources.ValueOutOfRange);
             ControlValue = value;
             if (_slider != null) _slider.Value = value;
         }
