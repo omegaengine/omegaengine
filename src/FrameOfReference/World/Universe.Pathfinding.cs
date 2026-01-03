@@ -50,7 +50,7 @@ partial class Universe
     /// Initializes the <see cref="CoordinateUniverse{TCoordinates}.Pathfinder"/> engine.
     /// </summary>
     /// <remarks>Is usually called automatically when needed.</remarks>
-    private void InitializePathfinding()
+    public void InitializePathfinding()
     {
         if (Terrain == null) return;
 
