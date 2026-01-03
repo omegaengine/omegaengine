@@ -36,7 +36,6 @@ using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Foundation.Storage;
 using SlimDX;
-using SlimDX.Direct3D9;
 using OmegaGUI.Render;
 using Resources = OmegaGUI.Properties.Resources;
 
@@ -517,15 +516,6 @@ public class Dialog : ICloneable<Dialog>
                 pickedControls.AddLast(control);
         }
         return pickedControls;
-    }
-    #endregion
-
-    #region MsgBoxes
-    public void MsgBox(string text, MsgBoxType type, Action<MsgBoxResult>? callback)
-    {
-        DialogRender.Refresh();
-        DialogRender.DialogManager.MessageBox.SetFont(0, _fontName, _fontSize, FontWeight.Normal);
-        DialogRender.DialogManager.MessageBox.Show(GetLocalized(text), type, callback);
     }
     #endregion
 
