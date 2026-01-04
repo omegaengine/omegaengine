@@ -200,7 +200,7 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
         Debug.Assert(renderPanel.Engine != null);
 
         // Call the GUI render handler
-        _dialogPresenter?.DialogRender.OnRender(1);
+        _dialogPresenter?.Render.OnRender(1);
 
         // Display picking rectangles being pulled up by the mouse
         if (_pickRectangle != Rectangle.Empty)
