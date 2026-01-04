@@ -9,7 +9,7 @@ function return_to_menu()
 end
 
 function msgbox(message, callback)
-	local dialog = LoadModalDialog("MsgBox.xml")
+	local dialog = LoadModalDialog("MsgBox")
 	local messageLabel = dialog:GetControl("Message")
 	messageLabel.Text = message
 	
