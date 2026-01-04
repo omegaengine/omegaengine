@@ -5,7 +5,9 @@
   <ColorText A="255" R="255" G="255" B="255" />
   <CaptionText>[ColorCorrection]</CaptionText>
   <CaptionHeight>25</CaptionHeight>
-  <OnShow>-- Import .NET constructors
+  <OnShow>Me:ImportLua("Utils.lua")
+
+-- Import .NET constructors
 luanet.load_assembly("OmegaEngine")
 NewColorCorrection = luanet.import_type("OmegaEngine.Foundation.Light.ColorCorrection")
 luanet.load_assembly("System.Drawing")
@@ -586,13 +588,10 @@ Fog.Checked = Universe.Fog</OnUpdate>
     <Size Width="100" Height="25" />
     <AlignHorizontal>FromRight</AlignHorizontal>
     <AlignVertical>FromBottom</AlignVertical>
-    <OnClick>function CallbackSave(result)
-  if result == MsgBoxResult.Yes then
-    Presenter:PrepareSave();
-    Universe:Save();
-  end;
-end;
-Me:MsgBox('[SaveMapSure]', MsgBoxType.YesNo, CallbackSave)</OnClick>
+    <OnClick>msgbox_yesno(
+  '[SaveMapSure]',
+  'Presenter:PrepareSave(); Universe:Save()'
+)</OnClick>
   </Button>
   <Button Name="Exit" Text="[Exit]">
     <Location X="12" Y="11" />
