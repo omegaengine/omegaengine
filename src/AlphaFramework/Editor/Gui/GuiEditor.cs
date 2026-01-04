@@ -32,7 +32,7 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
 {
     #region Variables
     private GuiManager _guiManager = null!;
-    private DialogRenderer? _dialogRenderer;
+    private DialogPresenter? _dialogPresenter;
     private Dialogs.AddControlTool? _addControlTool;
 
     /// <summary>The mouse coordinates where the picking started (i.e. where the mouse was first pressed)</summary>
@@ -173,8 +173,8 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
             listBox.SelectedItem = item;
 
         // Reset the GUI rendering system
-        _dialogRenderer?.Dispose();
-        _dialogRenderer = new(_guiManager, Content);
+        _dialogPresenter?.Dispose();
+        _dialogPresenter = new(_guiManager, Content);
         renderPanel.Engine.Render();
 
         base.OnUpdate();
@@ -184,7 +184,7 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
     protected override void OnClose()
     {
         // Shutdown GUI system
-        _dialogRenderer?.Dispose();
+        _dialogPresenter?.Dispose();
         _guiManager.Dispose();
 
         base.OnClose();
@@ -200,7 +200,7 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
         Debug.Assert(renderPanel.Engine != null);
 
         // Call the GUI render handler
-        _dialogRenderer?.DialogRender.OnRender(1);
+        _dialogPresenter?.DialogRender.OnRender(1);
 
         // Display picking rectangles being pulled up by the mouse
         if (_pickRectangle != Rectangle.Empty)
