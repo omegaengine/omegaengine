@@ -30,6 +30,7 @@
   <entry key="Medium">Mittel</entry>
   <entry key="MouseSensitivity">Mausempfindlichkeit</entry>
   <entry key="NewGame">Neues Spiel</entry>
+  <entry key="No">Nein</entry>
   <entry key="None">Keine</entry>
   <entry key="Off">Aus</entry>
   <entry key="OK">OK</entry>
@@ -58,4 +59,5 @@
   <entry key="TerrainDoubleSampling">Terrain Texturverbesserung</entry>
   <entry key="TimeWarpFactor">Zeitverzerrungsfaktor:</entry>
   <entry key="WaterEffects">Wassereffekte</entry>
+  <entry key="Yes">Ja</entry>
 </locale>

@@ -30,6 +30,7 @@
   <entry key="Medium">Medium</entry>
   <entry key="MouseSensitivity">Mouse sensitivity</entry>
   <entry key="NewGame">New game</entry>
+  <entry key="No">No</entry>
   <entry key="None">None</entry>
   <entry key="Off">Off</entry>
   <entry key="OK">OK</entry>
@@ -58,4 +59,5 @@
   <entry key="TerrainDoubleSampling">Terrain texture improvement</entry>
   <entry key="TimeWarpFactor">Time warp factor:</entry>
   <entry key="WaterEffects">Water effects</entry>
+  <entry key="Yes">Yes</entry>
 </locale>

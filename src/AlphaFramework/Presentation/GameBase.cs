@@ -234,6 +234,21 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     }
 
     /// <summary>
+    /// Loads and displays a new modal (exclusively focused) dialog and positions it in the center of the screen.
+    /// </summary>
+    /// <param name="name">The XML file to load from.</param>
+    /// <returns>The newly created dialog.</returns>
+    [LuaGlobal(Description = "Loads and displays a new modal (exclusively focused) dialog.")]
+    public DialogPresenter LoadModalDialogCentered(string name)
+    {
+        var dialog = new DialogPresenter(GuiManager, $"{name}.xml", lua: NewLua());
+        dialog.Render.Location = new((Engine.RenderSize.Width - dialog.Render.Width) / 2, (Engine.RenderSize.Height - dialog.Render.Height) / 2);
+        dialog.ShowModal();
+        Engine.Render(elapsedGameTime: 0);
+        return dialog;
+    }
+
+    /// <summary>
     /// Loads a new exclusively displayed splash-screen dialog.
     /// </summary>
     /// <param name="name">The XML file to load from</param>

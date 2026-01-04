@@ -3,6 +3,7 @@
 	<ColorBackground A="0" R="0" G="0" B="0" />
 	<ColorCaption A="128" R="96" G="128" B="255" />
 	<ColorText A="255" R="255" G="255" B="255" />
+	<OnShow>Me:ImportLua("Utils.lua")</OnShow>
 	<FontSize>19</FontSize>
 	<Size Width="1024" Height="768" />
 	<Shift X="0" Y="0" />
@@ -53,21 +54,18 @@ LoadModalDialog("Settings")</OnClick>
 		<Location X="0" Y="364" />
 		<Size Width="180" Height="48" />
 		<AlignHorizontal>Center</AlignHorizontal>
-		<OnClick>function callback_exit(result)
-	if result == MsgBoxResult.Yes then
-		LoadSplashDialog("Loading")
-		Game:SwitchToMenu()
-	end
-end
-Me:MsgBox('[EndGameSure]', MsgBoxType.YesNo, callback_exit)</OnClick>
+		<OnClick>msgbox_yesno(
+  '[EndGameSure]',
+  'LoadSplashDialog("Loading"); Game:SwitchToMenu()'
+)</OnClick>
 	</Button>
 	<Button Name="Exit" Text="[ExitGame]">
 		<Location X="0" Y="422" />
 		<Size Width="180" Height="48" />
 		<AlignHorizontal>Center</AlignHorizontal>
-		<OnClick>function callback_exit(result)
-	if result == MsgBoxResult.Yes then Game:Exit(); end;
-end
-Me:MsgBox('[EndGameSure]', MsgBoxType.YesNo, callback_exit)</OnClick>
+		<OnClick>msgbox_yesno(
+  '[EndGameSure]',
+  'Game:Exit()'
+)</OnClick>
 	</Button>
 </Dialog>

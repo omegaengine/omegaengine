@@ -8,18 +8,12 @@
 	<OnShow>Me:ImportLua("Utils.lua")
 
 function load(name)
-	function load_helper(name)
-		LoadSplashDialog("Loading")
-		Game:LoadSavegame(name)
-		Game:SwitchToGame()
-	end
-
 	-- Ask before quitting a running game
 	if State == GameState.Pause then
-		function callback_exit(result)
-			if result == MsgBoxResult.Yes then load_helper(name); end;
-		end
-		Me:MsgBox('[EndGameSure]', MsgBoxType.YesNo, callback_exit)
+		msgbox_yesno(
+      '[EndGameSure]',
+      'LoadSplashDialog("Loading"); Game:LoadSavegame(' .. name ..'); Game:SwitchToGame()'
+    )
 	else
 		load_helper(name)
 	end
