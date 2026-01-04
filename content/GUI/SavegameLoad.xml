@@ -16,10 +16,7 @@ function load(name)
 
 	-- Ask before quitting a running game
 	if State == GameState.Pause then
-		function callback_exit(result)
-			if result == MsgBoxResult.Yes then load_helper(name); end;
-		end
-		Me:MsgBox('[EndGameSure]', MsgBoxType.YesNo, callback_exit)
+		msgbox('[EndGameSure]', function() load_helper(name) end)
 	else
 		load_helper(name)
 	end

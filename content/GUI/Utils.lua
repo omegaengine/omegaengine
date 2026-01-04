@@ -7,3 +7,17 @@ function return_to_menu()
 		LoadDialog("PauseMenu")
 	end
 end
+
+function msgbox(message, callback)
+	local dialog = LoadModalDialog("MsgBox.xml")
+	local messageLabel = dialog:GetControl("Message")
+	messageLabel.Text = message
+	
+	if callback then
+		local yesButton = dialog:GetControl("YesButton")
+		yesButton.OnClick = function()
+			dialog:Close()
+			callback()
+		end
+	end
+end

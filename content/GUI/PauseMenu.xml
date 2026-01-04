@@ -53,21 +53,17 @@ LoadModalDialog("Settings")</OnClick>
 		<Location X="0" Y="364" />
 		<Size Width="180" Height="48" />
 		<AlignHorizontal>Center</AlignHorizontal>
-		<OnClick>function callback_exit(result)
-	if result == MsgBoxResult.Yes then
-		LoadSplashDialog("Loading")
-		Game:SwitchToMenu()
-	end
-end
-Me:MsgBox('[EndGameSure]', MsgBoxType.YesNo, callback_exit)</OnClick>
+		<OnClick>msgbox('[EndGameSure]', function()
+	LoadSplashDialog("Loading")
+	Game:SwitchToMenu()
+end)</OnClick>
 	</Button>
 	<Button Name="Exit" Text="[ExitGame]">
 		<Location X="0" Y="422" />
 		<Size Width="180" Height="48" />
 		<AlignHorizontal>Center</AlignHorizontal>
-		<OnClick>function callback_exit(result)
-	if result == MsgBoxResult.Yes then Game:Exit(); end;
-end
-Me:MsgBox('[EndGameSure]', MsgBoxType.YesNo, callback_exit)</OnClick>
+		<OnClick>msgbox('[EndGameSure]', function()
+	Game:Exit()
+end)</OnClick>
 	</Button>
 </Dialog>
