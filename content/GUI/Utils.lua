@@ -13,10 +13,10 @@ function msgbox(message, callback)
 	local messageLabel = dialog:GetControl("Message")
 	messageLabel.Text = message
 	
-	if callback then
-		local yesButton = dialog:GetControl("YesButton")
-		yesButton.OnClick = function()
-			dialog:Close()
+	local yesButton = dialog:GetControl("YesButton")
+	yesButton.OnClick = function()
+		dialog:Close()
+		if callback then
 			callback()
 		end
 	end
