@@ -33,15 +33,15 @@ using OmegaEngine;
 namespace OmegaGUI;
 
 /// <summary>
-/// Maintains lists of all <see cref="DialogRenderer"/>s
+/// Maintains lists of all <see cref="DialogPresenter"/>s
 /// </summary>
 public sealed class GuiManager : IDisposable
 {
     #region Variables
     private readonly Engine _engine;
 
-    private readonly List<DialogRenderer> _normalDialogs = [];
-    private readonly List<DialogRenderer> _modalDialogs = [];
+    private readonly List<DialogPresenter> _normalDialogs = [];
+    private readonly List<DialogPresenter> _modalDialogs = [];
     private readonly List<Lua> _pendingLuaDisposes = [];
 
     private Stopwatch? _timer;
@@ -70,19 +70,19 @@ public sealed class GuiManager : IDisposable
 
     #region Open
     /// <summary>
-    /// Adds a normal <see cref="DialogRenderer"/> to the GUI system that shares user-input with all other <see cref="DialogRenderer"/>s.
+    /// Adds a normal <see cref="DialogPresenter"/> to the GUI system that shares user-input with all other <see cref="DialogPresenter"/>s.
     /// </summary>
-    /// <param name="dialog">The <see cref="DialogRenderer"/> to add.</param>
-    internal void AddNormal(DialogRenderer dialog)
+    /// <param name="dialog">The <see cref="DialogPresenter"/> to add.</param>
+    internal void AddNormal(DialogPresenter dialog)
     {
         _normalDialogs.Add(dialog);
     }
 
     /// <summary>
-    /// Adds a modal <see cref="DialogRenderer"/> to the GUI system that locks all other <see cref="DialogRenderer"/>s while it is active.
+    /// Adds a modal <see cref="DialogPresenter"/> to the GUI system that locks all other <see cref="DialogPresenter"/>s while it is active.
     /// </summary>
-    /// <param name="dialog">The <see cref="DialogRenderer"/> to add.</param>
-    internal void AddModal(DialogRenderer dialog)
+    /// <param name="dialog">The <see cref="DialogPresenter"/> to add.</param>
+    internal void AddModal(DialogPresenter dialog)
     {
         _modalDialogs.Add(dialog);
     }
@@ -90,10 +90,10 @@ public sealed class GuiManager : IDisposable
 
     #region Close
     /// <summary>
-    /// Removes/closes an open <see cref="DialogRenderer"/>.
+    /// Removes/closes an open <see cref="DialogPresenter"/>.
     /// </summary>
-    /// <param name="dialog">The <see cref="DialogRenderer"/> to close.</param>
-    internal void Remove(DialogRenderer dialog)
+    /// <param name="dialog">The <see cref="DialogPresenter"/> to close.</param>
+    internal void Remove(DialogPresenter dialog)
     {
         dialog.DialogRender.Refresh();
         dialog.Dispose();
@@ -102,7 +102,7 @@ public sealed class GuiManager : IDisposable
     }
 
     /// <summary>
-    /// Closes all open <see cref="DialogRenderer"/>s.
+    /// Closes all open <see cref="DialogPresenter"/>s.
     /// </summary>
     [LuaGlobal(Description = "Closes all open dialogs.")]
     public void CloseAll()
@@ -115,7 +115,7 @@ public sealed class GuiManager : IDisposable
     }
 
     /// <summary>
-    /// Closes all open <see cref="DialogRenderer"/>s and resets the GUI system (i.e. clears all its caches).
+    /// Closes all open <see cref="DialogPresenter"/>s and resets the GUI system (i.e. clears all its caches).
     /// </summary>
     [LuaGlobal(Description = "Closes all open dialogs and resets the GUI system (i.e. clears all its caches).")]
     public void Reset()
@@ -128,7 +128,7 @@ public sealed class GuiManager : IDisposable
 
     #region Update
     /// <summary>
-    /// Invokes <see cref="DialogRenderer.Update"/> on all open <see cref="DialogRenderer"/>s.
+    /// Invokes <see cref="DialogPresenter.Update"/> on all open <see cref="DialogPresenter"/>s.
     /// </summary>
     [LuaGlobal(Description = "Invokes the OnUpdate event on all open dialogs.")]
     public void Update()
@@ -201,7 +201,7 @@ public sealed class GuiManager : IDisposable
         }
 
         // Copy dialog list to an array first to prevent exceptions if dialogs are removed
-        var currentGuis = new DialogRenderer[_normalDialogs.Count];
+        var currentGuis = new DialogPresenter[_normalDialogs.Count];
         _normalDialogs.CopyTo(currentGuis, 0);
 
         // Pass input to dialogs for handling from last to first

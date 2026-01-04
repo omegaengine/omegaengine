@@ -211,12 +211,12 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     /// <param name="name">The XML file to load from.</param>
     /// <returns>The newly created dialog.</returns>
     [LuaGlobal(Description = "Loads and displays a new dialog.")]
-    public DialogRenderer LoadDialog(string name)
+    public DialogPresenter LoadDialog(string name)
     {
-        var dialogRenderer = new DialogRenderer(GuiManager, $"{name}.xml", location: new(25, 25), lua: NewLua());
-        dialogRenderer.Show();
+        var dialog = new DialogPresenter(GuiManager, $"{name}.xml", location: new(25, 25), lua: NewLua());
+        dialog.Show();
         Engine.Render(elapsedGameTime: 0);
-        return dialogRenderer;
+        return dialog;
     }
 
     /// <summary>
@@ -225,12 +225,12 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     /// <param name="name">The XML file to load from.</param>
     /// <returns>The newly created dialog.</returns>
     [LuaGlobal(Description = "Loads and displays a new modal (exclusively focused) dialog.")]
-    public DialogRenderer LoadModalDialog(string name)
+    public DialogPresenter LoadModalDialog(string name)
     {
-        var dialogRenderer = new DialogRenderer(GuiManager, $"{name}.xml", location: new(25, 25), lua: NewLua());
-        dialogRenderer.ShowModal();
+        var dialog = new DialogPresenter(GuiManager, $"{name}.xml", location: new(25, 25), lua: NewLua());
+        dialog.ShowModal();
         Engine.Render(elapsedGameTime: 0);
-        return dialogRenderer;
+        return dialog;
     }
 
     /// <summary>
@@ -238,9 +238,9 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     /// </summary>
     /// <param name="name">The XML file to load from</param>
     /// <returns>The newly created dialog.</returns>
-    /// <remarks>Calling this method will close all other <see cref="DialogRenderer"/>s.</remarks>
+    /// <remarks>Calling this method will close all other <see cref="DialogPresenter"/>s.</remarks>
     [LuaGlobal(Description = "Loads a new exclusive displayed splash-screen dialog.")]
-    public DialogRenderer LoadSplashDialog(string name)
+    public DialogPresenter LoadSplashDialog(string name)
     {
         GuiManager.CloseAll();
         return LoadDialog(name);

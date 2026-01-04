@@ -34,9 +34,9 @@ using OmegaGUI.Model;
 namespace OmegaGUI;
 
 /// <summary>
-/// Displays a <see cref="Dialog"/> using <see cref="Render.Dialog"/>.
+/// Displays a <see cref="Dialog"/> model using <see cref="Render.Dialog"/> rendering widgets.
 /// </summary>
-public sealed class DialogRenderer : IDisposable
+public sealed class DialogPresenter : IDisposable
 {
     #region Variables
     private readonly GuiManager _manager;
@@ -77,13 +77,13 @@ public sealed class DialogRenderer : IDisposable
 
     #region Constructor
     /// <summary>
-    /// Creates a new dialog renderer from an XML file
+    /// Creates a new dialog presenter from an XML file
     /// </summary>
     /// <param name="manager">The <see cref="GuiManager"/> used to interface with the <see cref="Engine"/></param>
     /// <param name="filename">The filename of the XML file to load</param>
     /// <param name="location">The location of the dialog on the screen</param>
     /// <param name="lua">The scripting engine to execute event handlers.</param>
-    public DialogRenderer(GuiManager manager, string filename, Point location = new(), Lua? lua = null)
+    public DialogPresenter(GuiManager manager, string filename, Point location = new(), Lua? lua = null)
         : this(manager, Dialog.FromContent(filename), location: location, lua: lua)
     {
         Log.Info($"Loading GUI dialog: {filename}");
@@ -91,13 +91,13 @@ public sealed class DialogRenderer : IDisposable
     }
 
     /// <summary>
-    /// Creates a new dialog renderer for a <see cref="Model.Dialog"/>
+    /// Creates a new dialog presenter for a <see cref="Model.Dialog"/>
     /// </summary>
     /// <param name="manager">The <see cref="GuiManager"/> used to interface with the <see cref="Engine"/></param>
     /// <param name="dialog">The dialog to be displayed</param>
     /// <param name="location">The location of the dialog on the screen</param>
     /// <param name="lua">The scripting engine to execute event handlers.</param>
-    public DialogRenderer(GuiManager manager, Dialog dialog, Point location = new(), Lua? lua = null)
+    public DialogPresenter(GuiManager manager, Dialog dialog, Point location = new(), Lua? lua = null)
     {
         _manager = manager;
         DialogModel = dialog;
@@ -259,7 +259,7 @@ public sealed class DialogRenderer : IDisposable
 
     #region Helper methods
     /// <summary>
-    /// Gets the first <see cref="Model.Control"/> in this <see cref="DialogRenderer"/> with the specified <paramref name="name"/>
+    /// Gets the first <see cref="Model.Control"/> in this <see cref="DialogPresenter"/> with the specified <paramref name="name"/>
     /// </summary>
     /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
     /// <exception cref="KeyNotFoundException">An element with the specified key does not exist in the dictionary.</exception>
@@ -309,7 +309,7 @@ public sealed class DialogRenderer : IDisposable
     }
 
     /// <inheritdoc/>
-    ~DialogRenderer()
+    ~DialogPresenter()
     {
         // This block will only be executed on Garbage Collection, not by manual disposal
         Log.Error($"Forgot to call Dispose on {this}");

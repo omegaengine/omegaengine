@@ -55,8 +55,8 @@ public class MyRenderHost : RenderHost
             Controls = {new Button {Text = "Exit", Location = new Point(10, 10), OnClick = "Game:Exit()"}}
         };
 
-        var dialogRenderer = new DialogRenderer(_guiManager, dialog, lua: NewLua());
-        dialogRenderer.Show();
+        var presenter = new DialogPresenter(_guiManager, dialog, lua: NewLua());
+        presenter.Show();
     }
 
     protected override void Dispose(bool disposing)
@@ -74,3 +74,4 @@ public class MyRenderHost : RenderHost
         }
     }
 }
+
