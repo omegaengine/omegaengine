@@ -9,7 +9,7 @@
 
 function save(name)
 	Game:SaveSavegame(name)
-	Me:MsgBox('[SaveDone]')
+	msgbox('[SaveDone]')
 	return_to_menu()
 end
 
