@@ -65,14 +65,14 @@ public sealed class DialogPresenter : IDisposable
     }
 
     /// <summary>
-    /// The dialog to be displayed
+    /// The data model describing the dialog
     /// </summary>
-    public Dialog DialogModel { get; }
+    public Dialog Model { get; }
 
     /// <summary>
-    /// The rendering system used to display <see cref="DialogModel"/>
+    /// The rendering widgets used to display the dialog
     /// </summary>
-    public Render.Dialog DialogRender { get; }
+    public Render.Dialog Render { get; }
     #endregion
 
     #region Constructor
@@ -100,8 +100,8 @@ public sealed class DialogPresenter : IDisposable
     public DialogPresenter(GuiManager manager, Dialog dialog, Point location = new(), Lua? lua = null)
     {
         _manager = manager;
-        DialogModel = dialog;
-        DialogRender = dialog.GenerateRender(_manager.DialogManager);
+        Model = dialog;
+        Render = dialog.GenerateRender(_manager.DialogManager);
         _location = location;
         _lua = lua;
 
@@ -141,29 +141,29 @@ public sealed class DialogPresenter : IDisposable
     #region Layout
     private void LayoutHelper()
     {
-        var engine = DialogRender.DialogManager.Engine;
+        var engine = Render.DialogManager.Engine;
         if (engine == null || engine.IsDisposed) return;
         var renderSize = engine.RenderSize;
 
-        if (DialogModel.Fullscreen && DialogModel.Size != Size.Empty)
+        if (Model.Fullscreen && Model.Size != Size.Empty)
         {
-            DialogModel.AutoScale = Math.Min(
-                (float)renderSize.Width / DialogModel.Size.Width,
-                (float)renderSize.Height / DialogModel.Size.Height);
+            Model.AutoScale = Math.Min(
+                (float)renderSize.Width / Model.Size.Width,
+                (float)renderSize.Height / Model.Size.Height);
 
-            DialogRender.Location = new();
-            DialogRender.SetSize(renderSize.Width, renderSize.Height);
+            Render.Location = new();
+            Render.SetSize(renderSize.Width, renderSize.Height);
         }
         else
         {
             // Auto-scale at resolutions higher than Full HD
-            DialogModel.AutoScale = Math.Max(1, renderSize.Height / 1080f);
+            Model.AutoScale = Math.Max(1, renderSize.Height / 1080f);
 
-            DialogRender.Location = _location;
-            if (DialogModel.Size == Size.Empty)
-                DialogRender.SetSize(renderSize.Width, renderSize.Height);
+            Render.Location = _location;
+            if (Model.Size == Size.Empty)
+                Render.SetSize(renderSize.Width, renderSize.Height);
             else
-                DialogRender.SetSize((int)(DialogModel.Size.Width * DialogModel.AutoScale), (int)(DialogModel.Size.Height * DialogModel.AutoScale));
+                Render.SetSize((int)(Model.Size.Width * Model.AutoScale), (int)(Model.Size.Height * Model.AutoScale));
         }
     }
     #endregion
@@ -179,7 +179,7 @@ public sealed class DialogPresenter : IDisposable
         #endregion
 
         _manager.AddNormal(this);
-        LuaExecute(DialogModel.OnShow, "Dialog_Show");
+        LuaExecute(Model.OnShow, "Dialog_Show");
         Update();
     }
 
@@ -193,7 +193,7 @@ public sealed class DialogPresenter : IDisposable
         #endregion
 
         _manager.AddModal(this);
-        LuaExecute(DialogModel.OnShow, "Dialog_Show");
+        LuaExecute(Model.OnShow, "Dialog_Show");
         Update();
     }
 
@@ -206,7 +206,7 @@ public sealed class DialogPresenter : IDisposable
         if (Disposed) throw new ObjectDisposedException(ToString());
         #endregion
 
-        LuaExecute(DialogModel.OnUpdate, "Dialog_Update");
+        LuaExecute(Model.OnUpdate, "Dialog_Update");
     }
 
     /// <summary>
@@ -264,13 +264,13 @@ public sealed class DialogPresenter : IDisposable
     /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
     /// <exception cref="KeyNotFoundException">An element with the specified key does not exist in the dictionary.</exception>
     // Note: Keep this in addition to the DialogRender index accessor for Lua access
-    public Control GetControl(string name) => DialogModel[name];
+    public Control GetControl(string name) => Model[name];
 
     /// <summary>
     /// Changes the dialog's on-screen position.
     /// </summary>
     // Note: Keep this in addition to the DialogModel property for Lua access
-    public void SetLocation(int x, int y) => DialogRender.Location = new(x, y);
+    public void SetLocation(int x, int y) => Render.Location = new(x, y);
     #endregion
 
     #region MsgBox
@@ -294,13 +294,13 @@ public sealed class DialogPresenter : IDisposable
     {
         if (Disposed) return;
 
-        if (DialogRender != null)
+        if (Render != null)
         {
             // Ensure clean shutdown
-            DialogRender.RemoveAllControls();
+            Render.RemoveAllControls();
 
-            if (DialogRender.DialogManager.Engine != null)
-                DialogRender.DialogManager.Engine.DeviceReset -= LayoutHelper;
+            if (Render.DialogManager.Engine != null)
+                Render.DialogManager.Engine.DeviceReset -= LayoutHelper;
         }
         if (_lua != null) _manager.QueueLuaDispose(_lua);
 

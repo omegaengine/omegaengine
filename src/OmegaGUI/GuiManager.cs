@@ -95,7 +95,7 @@ public sealed class GuiManager : IDisposable
     /// <param name="dialog">The <see cref="DialogPresenter"/> to close.</param>
     internal void Remove(DialogPresenter dialog)
     {
-        dialog.DialogRender.Refresh();
+        dialog.Render.Refresh();
         dialog.Dispose();
         _normalDialogs.Remove(dialog);
         _modalDialogs.Remove(dialog);
@@ -161,10 +161,10 @@ public sealed class GuiManager : IDisposable
 
         using (new ProfilerEvent("Render GUI"))
         {
-            foreach (var dialog in _normalDialogs.Where(dialog => dialog.DialogModel.Visible))
-                dialog.DialogRender.OnRender(dialog.DialogModel.Animate ? elapsedTime : 1);
-            foreach (var dialog in _modalDialogs.Where(dialog => dialog.DialogModel.Visible))
-                dialog.DialogRender.OnRender(dialog.DialogModel.Animate ? elapsedTime : 1);
+            foreach (var dialog in _normalDialogs.Where(dialog => dialog.Model.Visible))
+                dialog.Render.OnRender(dialog.Model.Animate ? elapsedTime : 1);
+            foreach (var dialog in _modalDialogs.Where(dialog => dialog.Model.Visible))
+                dialog.Render.OnRender(dialog.Model.Animate ? elapsedTime : 1);
             if (DialogManager.MessageBox.Visible)
                 DialogManager.MessageBox.OnRender(elapsedTime);
         }
@@ -196,7 +196,7 @@ public sealed class GuiManager : IDisposable
         // Exclusive input handling for last modal dialog
         if (_modalDialogs.Count > 0)
         {
-            return _modalDialogs[^1].DialogRender.
+            return _modalDialogs[^1].Render.
                                      MessageProc(m.HWnd, (WindowMessage)m.Msg, m.WParam, m.LParam);
         }
 
@@ -207,7 +207,7 @@ public sealed class GuiManager : IDisposable
         // Pass input to dialogs for handling from last to first
         for (int i = currentGuis.Length - 1; i >= 0; i--)
         {
-            if (currentGuis[i].DialogRender.MessageProc(m.HWnd, (WindowMessage)m.Msg, m.WParam, m.LParam))
+            if (currentGuis[i].Render.MessageProc(m.HWnd, (WindowMessage)m.Msg, m.WParam, m.LParam))
             {
                 // Input has been handled, no further processing
                 return true;
