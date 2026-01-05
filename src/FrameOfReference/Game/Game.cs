@@ -72,8 +72,6 @@ public class Game(Settings settings)
     {
         if (!base.Initialize()) return false;
 
-        // Settings update hooks
-
         UpdateStatus(Resources.LoadingGraphics);
         using (new TimedLogEvent("Load graphics"))
         {
