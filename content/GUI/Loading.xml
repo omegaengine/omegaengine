@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Dialog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Animate="false" Fullscreen="true">
-	<ColorBackground A="128" R="0" G="0" B="0" />
-	<ColorCaption A="128" R="96" G="128" B="255" />
-	<ColorText A="255" R="255" G="255" B="255" />
-	<FontSize>70</FontSize>
-	<Size Width="1024" Height="768" />
-	<Shift X="0" Y="0" />
-	<Label Name="Loading" Text="[LoadingGame]">
-		<Location X="0" Y="0" />
-		<Size Width="800" Height="200" />
-		<AlignHorizontal>Center</AlignHorizontal>
-		<AlignVertical>Center</AlignVertical>
-		<TextAlign>Center</TextAlign>
-	</Label>
+  <ColorBackground A="128" R="0" G="0" B="0" />
+  <ColorCaption A="128" R="96" G="128" B="255" />
+  <ColorText A="255" R="255" G="255" B="255" />
+  <FontSize>70</FontSize>
+  <Size Width="1024" Height="768" />
+  <Shift X="0" Y="0" />
+  <Label Name="Loading" Text="[LoadingGame]">
+    <Location X="0" Y="0" />
+    <Size Width="800" Height="200" />
+    <AlignHorizontal>Center</AlignHorizontal>
+    <AlignVertical>Center</AlignVertical>
+    <TextAlign>Center</TextAlign>
+  </Label>
 </Dialog>

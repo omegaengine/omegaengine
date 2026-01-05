@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Dialog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<ColorBackground A="128" R="0" G="0" B="0" />
-	<ColorCaption A="128" R="96" G="128" B="255" />
-	<ColorText A="255" R="255" G="255" B="255" />
-	<FontSize>15</FontSize>
-	<Size Width="400" Height="150" />
-	<Shift X="0" Y="0" />
-	<Label Name="Message" Text="message placeholder">
-		<Location X="0" Y="20" />
-		<Size Width="370" Height="50" />
-		<AlignHorizontal>Center</AlignHorizontal>
-		<TextAlign>Center</TextAlign>
-	</Label>
-	<Button Name="Yes" Text="[Yes]">
-		<Location X="-90" Y="20" />
-		<Size Width="160" Height="40" />
-		<AlignHorizontal>Center</AlignHorizontal>
-		<AlignVertical>FromBottom</AlignVertical>
-		<OnClick>Me:Close()</OnClick>
-	</Button>
-	<Button Name="No" Text="[No]">
-		<Location X="90" Y="20" />
-		<Size Width="160" Height="40" />
-		<AlignHorizontal>Center</AlignHorizontal>
-		<AlignVertical>FromBottom</AlignVertical>
-		<OnClick>Me:Close()</OnClick>
-	</Button>
+  <ColorBackground A="128" R="0" G="0" B="0" />
+  <ColorCaption A="128" R="96" G="128" B="255" />
+  <ColorText A="255" R="255" G="255" B="255" />
+  <FontSize>15</FontSize>
+  <Size Width="400" Height="150" />
+  <Shift X="0" Y="0" />
+  <Label Name="Message" Text="message placeholder">
+    <Location X="0" Y="20" />
+    <Size Width="370" Height="50" />
+    <AlignHorizontal>Center</AlignHorizontal>
+    <TextAlign>Center</TextAlign>
+  </Label>
+  <Button Name="Yes" Text="[Yes]">
+    <Location X="-90" Y="20" />
+    <Size Width="160" Height="40" />
+    <AlignHorizontal>Center</AlignHorizontal>
+    <AlignVertical>FromBottom</AlignVertical>
+    <OnClick>Me:Close()</OnClick>
+  </Button>
+  <Button Name="No" Text="[No]">
+    <Location X="90" Y="20" />
+    <Size Width="160" Height="40" />
+    <AlignHorizontal>Center</AlignHorizontal>
+    <AlignVertical>FromBottom</AlignVertical>
+    <OnClick>Me:Close()</OnClick>
+  </Button>
 </Dialog>

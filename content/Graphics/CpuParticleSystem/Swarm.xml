@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CpuParticlePreset>
-	<LowerParameters1>
-		<LifeTime>-32768</LifeTime>
-		<Friction>0.4</Friction>
-		<Size>10</Size>
-		<Color A="255" R="255" G="255" B="0" />
-	</LowerParameters1>
-	<UpperParameters1>
-		<LifeTime>-32768</LifeTime>
-		<Friction>0.8</Friction>
-		<Size>8</Size>
-		<Color A="255" R="0" G="255" B="255" />
-	</UpperParameters1>
-	<LowerParameters2>
-		<Color A="255" R="255" G="255" B="255" />
-	</LowerParameters2>
-	<UpperParameters2>
-		<Color A="255" R="255" G="255" B="255" />
-	</UpperParameters2>
-	<SpawnRate>100</SpawnRate>
-	<SpawnRadius>30</SpawnRadius>
-	<MaxParticles>100</MaxParticles>
-	<EmitterRepelRange>30</EmitterRepelRange>
-	<EmitterRepelSpeed>10</EmitterRepelSpeed>
-	<EmitterSuctionRange>35</EmitterSuctionRange>
-	<EmitterSuctionSpeed>10</EmitterSuctionSpeed>
-	<Gravity X="2" Y="0" Z="2" />
-	<RandomAcceleration>3</RandomAcceleration>
-	<WarmupTime>1</WarmupTime>
-	<Particle1Texture>smoke.png</Particle1Texture>
-	<Particle1Alpha>256</Particle1Alpha>
+  <LowerParameters1>
+    <LifeTime>-32768</LifeTime>
+    <Friction>0.4</Friction>
+    <Size>10</Size>
+    <Color A="255" R="255" G="255" B="0" />
+  </LowerParameters1>
+  <UpperParameters1>
+    <LifeTime>-32768</LifeTime>
+    <Friction>0.8</Friction>
+    <Size>8</Size>
+    <Color A="255" R="0" G="255" B="255" />
+  </UpperParameters1>
+  <LowerParameters2>
+    <Color A="255" R="255" G="255" B="255" />
+  </LowerParameters2>
+  <UpperParameters2>
+    <Color A="255" R="255" G="255" B="255" />
+  </UpperParameters2>
+  <SpawnRate>100</SpawnRate>
+  <SpawnRadius>30</SpawnRadius>
+  <MaxParticles>100</MaxParticles>
+  <EmitterRepelRange>30</EmitterRepelRange>
+  <EmitterRepelSpeed>10</EmitterRepelSpeed>
+  <EmitterSuctionRange>35</EmitterSuctionRange>
+  <EmitterSuctionSpeed>10</EmitterSuctionSpeed>
+  <Gravity X="2" Y="0" Z="2" />
+  <RandomAcceleration>3</RandomAcceleration>
+  <WarmupTime>1</WarmupTime>
+  <Particle1Texture>smoke.png</Particle1Texture>
+  <Particle1Alpha>256</Particle1Alpha>
 </CpuParticlePreset>

@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Dialog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<ColorBackground A="128" R="0" G="0" B="0" />
-	<ColorCaption A="128" R="96" G="128" B="255" />
-	<ColorText A="255" R="255" G="255" B="255" />
-	<CaptionText>[Load]</CaptionText>
-	<CaptionHeight>30</CaptionHeight>
-	<OnShow>Me:ImportLua("Utils.lua")
+  <ColorBackground A="128" R="0" G="0" B="0" />
+  <ColorCaption A="128" R="96" G="128" B="255" />
+  <ColorText A="255" R="255" G="255" B="255" />
+  <CaptionText>[Load]</CaptionText>
+  <CaptionHeight>30</CaptionHeight>
+  <OnShow>Me:ImportLua("Utils.lua")
 
 function load(name)
-	-- Ask before quitting a running game
-	if State == GameState.Pause then
-		msgbox_yesno(
+  -- Ask before quitting a running game
+  if State == GameState.Pause then
+    msgbox_yesno(
       '[EndGameSure]',
       'LoadSplashDialog("Loading"); Game:LoadSavegame(' .. name ..'); Game:SwitchToGame()'
     )
-	else
-		load_helper(name)
-	end
+  else
+    load_helper(name)
+  end
 end
 
 SavegameNames.Items:AddMany(Game:GetSavegameNames())</OnShow>
-	<FontSize>15</FontSize>
-	<Size Width="400" Height="250" />
-	<Shift X="0" Y="0" />
-	<ListBox Name="SavegameNames">
-		<Location X="0" Y="40" />
-		<Size Width="370" Height="130" />
-		<AlignHorizontal>Center</AlignHorizontal>
-		<OnSelection>OK.Enabled = true</OnSelection>
-		<OnDoubleClick>load(SavegameNames.SelectedItem)</OnDoubleClick>
-	</ListBox>
-	<Button Name="OK" Enabled="false" Text="OK">
-		<Location X="-90" Y="20" />
-		<Size Width="160" Height="40" />
-		<AlignHorizontal>Center</AlignHorizontal>
-		<AlignVertical>FromBottom</AlignVertical>
-		<OnClick>load(SavegameNames.SelectedItem)</OnClick>
-	</Button>
-	<Button Name="Cancel" Text="[Cancel]">
-		<Location X="90" Y="20" />
-		<Size Width="160" Height="40" />
-		<AlignHorizontal>Center</AlignHorizontal>
-		<AlignVertical>FromBottom</AlignVertical>
-		<OnClick>return_to_menu()</OnClick>
-	</Button>
+  <FontSize>15</FontSize>
+  <Size Width="400" Height="250" />
+  <Shift X="0" Y="0" />
+  <ListBox Name="SavegameNames">
+    <Location X="0" Y="40" />
+    <Size Width="370" Height="130" />
+    <AlignHorizontal>Center</AlignHorizontal>
+    <OnSelection>OK.Enabled = true</OnSelection>
+    <OnDoubleClick>load(SavegameNames.SelectedItem)</OnDoubleClick>
+  </ListBox>
+  <Button Name="OK" Enabled="false" Text="OK">
+    <Location X="-90" Y="20" />
+    <Size Width="160" Height="40" />
+    <AlignHorizontal>Center</AlignHorizontal>
+    <AlignVertical>FromBottom</AlignVertical>
+    <OnClick>load(SavegameNames.SelectedItem)</OnClick>
+  </Button>
+  <Button Name="Cancel" Text="[Cancel]">
+    <Location X="90" Y="20" />
+    <Size Width="160" Height="40" />
+    <AlignHorizontal>Center</AlignHorizontal>
+    <AlignVertical>FromBottom</AlignVertical>
+    <OnClick>return_to_menu()</OnClick>
+  </Button>
 </Dialog>

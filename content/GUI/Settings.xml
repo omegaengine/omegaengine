@@ -21,7 +21,7 @@ FieldOfViewValueLabel.Text = Settings.Graphics.FieldOfView.."°"
 
 -- Check for each supported resolution if the graphics card can handle it and if so add it to the list
 function resolution_helper(width, height)
-	if Engine.Capabilities:CheckResolution(width, height) then Resolution.Items:Add(width.."x"..height); end
+  if Engine.Capabilities:CheckResolution(width, height) then Resolution.Items:Add(width.."x"..height); end
 end
 resolution_helper(1024, 768);
 resolution_helper(1152, 864);
@@ -52,12 +52,12 @@ if Resolution.Items:Contains(Settings.Display.ResolutionText) then Resolution.Se
 
 -- Check for each supported AA level if the graphics card can handle it and if so add it to the list
 for level=2,16,2 do
-	if Engine.Capabilities:CheckAA(level) then AntiAliasing.Items:Add(level.."x"); end
+  if Engine.Capabilities:CheckAA(level) then AntiAliasing.Items:Add(level.."x"); end
 end
 
 -- Reselect the previously chosen AA level
 if Settings.Display.AntiAliasing ~= 0 and AntiAliasing.Items:Contains(Settings.Display.AntiAliasingText) then
-	AntiAliasing.SelectedItem = Settings.Display.AntiAliasingText
+  AntiAliasing.SelectedItem = Settings.Display.AntiAliasingText
 end
 
 Anisotropic.Enabled = Engine.Capabilities.Anisotropic
@@ -76,8 +76,8 @@ WaterEffects.SelectedItem = "["..Settings.Graphics.WaterEffects:ToString().."]"
 
 -- Only allow the user to change the language in the main menu
 if State ~= GameState.Menu then
-	LanguageLabel.Enabled = false
-	Language.Enabled = false
+  LanguageLabel.Enabled = false
+  Language.Enabled = false
 end
 </OnShow>
   <FontSize>15</FontSize>
@@ -105,9 +105,9 @@ end
     <SelectedItem>English</SelectedItem>
     <OnChanged>-- Default to English language, provide German as an option
 if Language.SelectedItem=="Deutsch" then
-	Settings.General.Language = "de"
+  Settings.General.Language = "de"
 else
-	Settings.General.Language = "en"
+  Settings.General.Language = "en"
 end
 
 -- Reload the Settings dialog to apply the language switch
