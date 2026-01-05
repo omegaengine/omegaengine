@@ -114,7 +114,7 @@ end
 Me:Close()
 LoadModalDialog("Settings").DialogRender.Location = Me.DialogRender.Location</OnChanged>
   </DropdownList>
-  <GroupBox Name="GeneralBox">
+  <GroupBox Name="ControlsBox">
     <Location X="280" Y="42" />
     <Size Width="450" Height="82" />
     <ColorBorder A="255" R="0" G="0" B="0" />
