@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <CpuParticlePreset>
   <LowerParameters1>
     <LifeTime>1</LifeTime>
@@ -24,8 +24,8 @@
   <SpawnRate>70</SpawnRate>
   <SpawnRadius>10</SpawnRadius>
   <MaxParticles>128</MaxParticles>
-  <EmitterRepelSpeed>150</EmitterRepelSpeed>
   <EmitterRepelRange>50</EmitterRepelRange>
+  <EmitterRepelSpeed>150</EmitterRepelSpeed>
   <Gravity X="0" Y="0" Z="0" />
   <WarmupTime>2</WarmupTime>
   <Particle1Texture>fire.png</Particle1Texture>
