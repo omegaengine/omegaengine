@@ -1009,7 +1009,7 @@ public class Dialog
         // Set the index
         control.index = (uint)controlList.Count;
 
-        // Look for a default element entires
+        // Look for a default element entries
         foreach (var holder in defaultElementList)
         {
             if (holder.ControlType == control.ControlType)
