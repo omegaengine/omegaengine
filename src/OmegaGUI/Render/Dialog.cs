@@ -177,7 +177,7 @@ public class Dialog
     /// <param name="defaultTexture">The texture file containing the controls</param>
     /// <param name="defaultFont">The name of default font for text on controls</param>
     /// <param name="defaultFontSize">The default font size</param>
-    public Dialog(DialogManager manager, Color4 defaultTextColor, string defaultTexture, string defaultFont, uint defaultFontSize)
+    public Dialog(DialogManager manager, Color4? defaultTextColor = null, string defaultTexture = "base.png", string defaultFont = "Arial", uint defaultFontSize = 16)
     {
         DialogManager = manager;
 
@@ -188,28 +188,12 @@ public class Dialog
 
         IsUsingMouseInput = true;
 
-        this.defaultTextColor = defaultTextColor;
+        this.defaultTextColor = defaultTextColor ?? WhiteColorValue;
         this.defaultTexture = defaultTexture;
         this.defaultFont = defaultFont;
         this.defaultFontSize = defaultFontSize;
         InitializeDefaultElements();
     }
-
-    /// <summary>
-    /// Create a new instance of the dialog class
-    /// </summary>
-    /// <param name="manager">The <see cref="DialogManager"/> instance that provides the resources for rendering of this dialog</param>
-    /// <param name="defaultTextColor">The default color of text on this dialog</param>
-    public Dialog(DialogManager manager, Color4 defaultTextColor)
-        : this(manager, defaultTextColor, "base.png", "Arial", 16)
-    {}
-
-    /// <summary>
-    /// Create a new instance of the dialog class
-    /// </summary>
-    /// <param name="manager">The <see cref="DialogManager"/> instance that provides the resources for rendering of this dialog</param>
-    public Dialog(DialogManager manager) : this(manager, WhiteColorValue)
-    {}
     #endregion
 
     #region Default
