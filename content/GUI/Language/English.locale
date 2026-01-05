@@ -49,7 +49,7 @@
   <entry key="Return">Return</entry>
   <entry key="Save">Save</entry>
   <entry key="SaveDone">Game saved!</entry>
-  <entry key="SavegameSaved"></entry>
+  <entry key="SavegameSaved">The current game state was saved.</entry>
   <entry key="SaveMapSure">Do you really want to save the map?</entry>
   <entry key="Sepia">Sepia effect</entry>
   <entry key="Settings">Settings</entry>
