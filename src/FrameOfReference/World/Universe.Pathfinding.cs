@@ -37,6 +37,12 @@ namespace FrameOfReference.World;
 
 partial class Universe
 {
+    /// <summary>
+    /// The pathfinding engine used to navigate <see cref="Positionables"/>.
+    /// </summary>
+    [Browsable(false)]
+    private IPathfinder<Vector2>? _pathfinder;
+
     private int _maxTraversableSlope = 10;
 
     /// <summary>
@@ -47,7 +53,7 @@ partial class Universe
 
     #region Initialize
     /// <summary>
-    /// Initializes the <see cref="CoordinateUniverse{TCoordinates}.Pathfinder"/> engine.
+    /// Initializes the <see cref="IPathfinder{TCoordinates}"/> engine.
     /// </summary>
     /// <remarks>Is usually called automatically when needed.</remarks>
     private void InitializePathfinding()
@@ -59,7 +65,7 @@ partial class Universe
         Terrain.MarkUntraversableSlopes(obstructionMap, MaxTraversableSlope);
         MarkUnmoveableEntities(obstructionMap);
 
-        Pathfinder = new SimplePathfinder(obstructionMap);
+        _pathfinder = new SimplePathfinder(obstructionMap);
     }
 
     /// <summary>
@@ -129,7 +135,7 @@ partial class Universe
         if (Terrain == null) throw new InvalidOperationException("Terrain data not loaded.");
         #endregion
 
-        if (Pathfinder == null)
+        if (_pathfinder == null)
         {
             Log.Warn("Pathfinder not initialized");
             return;
@@ -145,7 +151,7 @@ partial class Universe
         using var _ = new TimedLogEvent($"Calculating path from {entity.Position} to {target}");
 
         // Get path and cancel if none was found
-        var pathNodes = Pathfinder.FindPath(GetScaledPosition(entity.Position), GetScaledPosition(target));
+        var pathNodes = _pathfinder.FindPath(GetScaledPosition(entity.Position), GetScaledPosition(target));
         if (pathNodes == null)
         {
             entity.CurrentPath = null;

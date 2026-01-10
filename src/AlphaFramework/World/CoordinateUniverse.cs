@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
-using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using NanoByte.Common.Collections;
 
@@ -30,12 +29,6 @@ public abstract class CoordinateUniverse<TCoordinates> : UniverseBase
     [Browsable(false)]
     [XmlIgnore] // XML serialization configuration is configured in sub-type
     public abstract MonitoredCollection<Positionable<TCoordinates>> Positionables { get; }
-
-    /// <summary>
-    /// The pathfinding engine used to navigate <see cref="Positionables"/>.
-    /// </summary>
-    [Browsable(false), XmlIgnore]
-    public IPathfinder<TCoordinates>? Pathfinder { get; set; }
 
     /// <inheritdoc/>
     public override void Update(double elapsedGameTime)
