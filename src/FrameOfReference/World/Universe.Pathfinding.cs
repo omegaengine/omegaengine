@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using AlphaFramework.World;
 using AlphaFramework.World.Components;
@@ -49,23 +50,29 @@ partial class Universe
     /// The maximum slope the <see cref="IPathfinder{TCoordinates}"/> considers traversable.
     /// </summary>
     [DefaultValue(10), Category("Gameplay"), Description("The maximum slope the Pathfinder considers traversable.")]
-    public int MaxTraversableSlope { get => _maxTraversableSlope; set => Math.Abs(value).To(ref _maxTraversableSlope, InitializePathfinding); }
+    public int MaxTraversableSlope { get => _maxTraversableSlope; set => Math.Abs(value).To(ref _maxTraversableSlope, ResetPathfinding); }
 
     #region Initialize
     /// <summary>
     /// Initializes the <see cref="IPathfinder{TCoordinates}"/> engine.
     /// </summary>
-    /// <remarks>Is usually called automatically when needed.</remarks>
+    [MemberNotNull(nameof(_pathfinder))]
     private void InitializePathfinding()
     {
-        if (Terrain == null) return;
-
         var obstructionMap = new bool[Terrain.Size.X, Terrain.Size.Y];
         MarkUntraversableWaters(obstructionMap);
         Terrain.MarkUntraversableSlopes(obstructionMap, MaxTraversableSlope);
         MarkUnmoveableEntities(obstructionMap);
 
         _pathfinder = new SimplePathfinder(obstructionMap);
+    }
+
+    /// <summary>
+    /// Sets the <see cref="IPathfinder{TCoordinates}"/> engine to <c>null</c>.
+    /// </summary>
+    public void ResetPathfinding()
+    {
+        _pathfinder = null;
     }
 
     /// <summary>
@@ -135,16 +142,22 @@ partial class Universe
         if (Terrain == null) throw new InvalidOperationException("Terrain data not loaded.");
         #endregion
 
-        if (_pathfinder == null)
-        {
-            Log.Warn("Pathfinder not initialized");
-            return;
-        }
         if (entity.TemplateData?.Movement == null)
         {
             Log.Warn($"{entity} has no Movement component");
             return;
         }
+        if (Terrain == null)
+        {
+            Log.Warn("Terrain data not loaded.");
+            return;
+        }
+        if (_pathfinder == null)
+        {
+            Log.Warn("Initializing pathfinding just-in-time");
+            InitializePathfinding();
+        }
+
         if (entity.Position == target) return;
         if (entity.CurrentPath != null && entity.CurrentPath.Target == target && entity.CurrentPath.PathNodes.Count != 0) return;
 
