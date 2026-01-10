@@ -20,7 +20,7 @@ namespace AlphaFramework.Editor.World.Commands;
 public class MovePositionables : SimpleCommand
 {
     #region Variables
-    // Note: Use List<> instead of Array, because the size of the incoming IEnumerable<> will be unkown
+    // Note: Use List<> instead of Array, because the size of the incoming IEnumerable<> will be unknown
     private readonly List<Positionable<Vector2>> _positionables = [];
 
     private readonly Vector2[] _oldPositions;
