@@ -21,10 +21,11 @@ public class MovePositionables : SimpleCommand
 {
     #region Variables
     // Note: Use List<> instead of Array, because the size of the incoming IEnumerable<> will be unknown
-    private readonly List<Positionable<Vector2>> _positionables = [];
+    private readonly List<Positionable<Vector2>> _positionables;
 
     private readonly Vector2[] _oldPositions;
     private readonly Vector2 _newPosition;
+    private readonly Action? _callback;
     #endregion
 
     #region Constructor
@@ -33,7 +34,8 @@ public class MovePositionables : SimpleCommand
     /// </summary>
     /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to be moved.</param>
     /// <param name="target">The terrain position to move the entities to.</param>
-    public MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
+    /// <param name="callback">Optional callback to be invoked after moving entities (e.g., to update pathfinding).</param>
+    public MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target, Action? callback = null)
     {
         #region Sanity checks
         if (positionables == null) throw new ArgumentNullException(nameof(positionables));
@@ -48,6 +50,7 @@ public class MovePositionables : SimpleCommand
             _oldPositions[i] = _positionables[i].Position;
 
         _newPosition = target;
+        _callback = callback;
     }
     #endregion
 
@@ -62,6 +65,8 @@ public class MovePositionables : SimpleCommand
         // ToDo: Perform grid-alignment
         foreach (var positionable in _positionables)
             positionable.Position = _newPosition;
+
+        _callback?.Invoke();
     }
 
     /// <summary>
@@ -71,6 +76,8 @@ public class MovePositionables : SimpleCommand
     {
         for (int i = 0; i < _positionables.Count; i++)
             _positionables[i].Position = _oldPositions[i];
+
+        _callback?.Invoke();
     }
     #endregion
 }
