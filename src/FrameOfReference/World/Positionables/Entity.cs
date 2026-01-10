@@ -57,6 +57,11 @@ public sealed class Entity : EntityBase<Vector2, EntityTemplate>
     public bool IsPlayerControlled { get; set; }
 
     /// <summary>
+    /// Whether this entity is considered as an obstable for pathfinding.
+    /// </summary>
+    public bool IsObstacle => TemplateData is { Movement: null, Collision: not null };
+
+    /// <summary>
     /// The <see cref="Waypoints"/> index of the <see cref="Waypoint"/> this entity is currently moving towards; -1 for no <see cref="Waypoint"/>.
     /// </summary>
     [XmlAttribute, DefaultValue(-1), Browsable(false)]

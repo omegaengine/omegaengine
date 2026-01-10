@@ -76,7 +76,7 @@ partial class Universe
         int lengthX = obstructionMap.GetLength(0);
         int lengthY = obstructionMap.GetLength(1);
 
-        Positionables.OfType<Entity>().Where(x => x.TemplateData is {Movement: null, Collision: not null}).AsParallel().ForAll(entity =>
+        Positionables.OfType<Entity>().Where(x => x.IsObstacle).AsParallel().ForAll(entity =>
         {
             for (int x = 0; x < lengthX; x++)
             for (int y = 0; y < lengthY; y++)
