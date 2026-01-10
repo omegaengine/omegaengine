@@ -200,6 +200,15 @@ public partial class MapEditor : UndoCommandTab
         renderPanel.Setup();
         renderPanel.MouseInputProvider.Scheme = MouseInputScheme.Planar;
 
+        // Update pathfinding when entities are added/removed
+        _universe.Positionables.Added += AddedOrRemoved;
+        _universe.Positionables.Removed += AddedOrRemoved;
+        void AddedOrRemoved(Positionable<Vector2> obj)
+        {
+            if (obj is Entity { IsObstacle: true })
+                _universe.ResetPathfinding();
+        }
+
         base.OnInitialize();
     }
 
@@ -829,7 +838,7 @@ public partial class MapEditor : UndoCommandTab
     /// <param name="target">The terrain position to move the <paramref name="positionables"/> to</param>
     private void presenter_PositionableMove(IEnumerable<Positionable<Vector2>> positionables, Vector2 target)
     {
-        ExecuteCommand(new MovePositionables(positionables, target));
+        ExecuteCommand(new MovePositionables(positionables, target, callback: _universe.ResetPathfinding));
     }
 
     private void propertyGridPositionable_PropertyValueChanged(object sender, PropertyValueChangedEventArgs e)
