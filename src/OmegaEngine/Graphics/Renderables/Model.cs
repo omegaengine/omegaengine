@@ -153,7 +153,9 @@ public partial class Model : PositionableRenderable
         var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getLights == null)
             ? []
             : getLights(Position, BoundingSphere?.Radius ?? 0);
-        for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, effectiveLights);
+
+        for (int i = 0; i < NumberSubsets; i++)
+            RenderSubset(i, camera, effectiveLights);
     }
 
     protected void RenderSubset(int i, Camera camera, LightSource[] lights)

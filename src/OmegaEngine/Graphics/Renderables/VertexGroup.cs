@@ -235,10 +235,10 @@ public class VertexGroup : PositionableRenderable
             render = (() => Engine.Device.DrawPrimitives(_primitiveType, 0, _primitiveCount));
         }
 
-        // Handle lights for fixed-function or shader rendering
         var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getLights == null)
             ? []
             : getLights(Position, BoundingSphere?.Radius ?? 0);
+
         RenderHelper(render, _material, camera, effectiveLights);
         #endregion
     }

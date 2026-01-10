@@ -77,7 +77,8 @@ public class FloatingModel : Model
         // Never light a floating model
         SurfaceEffect = SurfaceEffect.Plain;
 
-        for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, lights: []);
+        for (int i = 0; i < NumberSubsets; i++)
+            RenderSubset(i, camera, lights: []);
     }
     #endregion
 }
