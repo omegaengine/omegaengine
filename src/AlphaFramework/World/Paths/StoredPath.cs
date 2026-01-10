@@ -13,7 +13,7 @@ using AlphaFramework.World.Positionables;
 namespace AlphaFramework.World.Paths;
 
 /// <summary>
-/// Stores a path calculated by <see cref="CoordinateUniverse{TCoordinates}.Pathfinder"/>.
+/// Stores a path calculated by <see cref="IPathfinder{TCoordinates}"/>.
 /// </summary>
 /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
 /// <seealso cref="EntityBase{TCoordinates,TTemplate}.CurrentPath"/>
