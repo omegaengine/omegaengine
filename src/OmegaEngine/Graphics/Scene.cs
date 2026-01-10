@@ -198,23 +198,13 @@ public sealed class Scene : EngineElement
     /// <returns>An array of light sources, first all <see cref="DirectionalLight"/>s, then all <see cref="PointLight"/>s</returns>
     internal LightSource[] GetEffectiveLights(DoubleVector3 position, float radius)
     {
-        // List for accumulating effective light sources
-        var effectiveLights = new List<LightSource>(_directionalLights.Count + _pointLights.Count); // Use upper bound for list capacity
+        bool IsInRange(PointLight light)
+            => (light.Position - position).Length() <= light.Range + radius;
 
-        // Copy all directional lights
-        _directionalLights.ForEach(effectiveLights.Add);
-
-        effectiveLights.AddRange(_pseudoDirectionalLights
-            .Where(light => light.IsInRange(position, radius))
-            .Select(light => light.AsDirectional(position)));
-
-        _pointLights.ForEach(light =>
-        {
-            // Filter out lights that are too far away
-            if ((light.Position - position).Length() <= light.Range + radius)
-                effectiveLights.Add(light);
-        });
-
+        var effectiveLights = new List<LightSource>(capacity: _directionalLights.Count + _pseudoDirectionalLights.Count + _pointLights.Count);
+        effectiveLights.AddRange(_directionalLights);
+        effectiveLights.AddRange(_pseudoDirectionalLights.Where(IsInRange).Select(light => light.AsDirectional(position)));
+        effectiveLights.AddRange(_pointLights.Where(IsInRange));
         return effectiveLights.ToArray();
     }
     #endregion

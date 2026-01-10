@@ -80,12 +80,6 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
     [Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation."), Category("Behavior")]
     public Attenuation Attenuation { get; set; } = Attenuation.None;
 
-    /// <summary>
-    /// Checks whether the light source is within effective range of a given <paramref name="position"/> with a specified <paramref name="tolerance"/>.
-    /// </summary>
-    internal bool IsInRange(DoubleVector3 position, float tolerance)
-        => (Position - position).Length() <= Range + tolerance;
-
     private DirectionalLight? _directional;
 
     /// <summary>
