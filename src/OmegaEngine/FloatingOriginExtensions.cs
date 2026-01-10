@@ -19,12 +19,10 @@ namespace OmegaEngine;
 internal static class FloatingOriginExtensions
 {
     /// <summary>
-    /// Applies the <see cref="Camera.FloatingOrigin"/> as the <see cref="IFloatingOriginAware.FloatingOrigin"/>.
+    /// Sets <see cref="IFloatingOriginAware.FloatingOrigin"/> to <see cref="Camera.FloatingOrigin"/>.
     /// </summary>
     public static void SetFloatingOrigin(this IFloatingOriginAware obj, Camera camera)
-    {
-        obj.FloatingOrigin = camera.FloatingOrigin;
-    }
+        => obj.FloatingOrigin = camera.FloatingOrigin;
 
     /// <summary>
     /// Returns <see cref="IFloatingOriginAware.FloatingOrigin"/>.
@@ -41,9 +39,9 @@ internal static class FloatingOriginExtensions
         => obj.FloatingPosition;
 
     /// <summary>
-    /// Applies the <see cref="Camera.FloatingOrigin"/> as the <see cref="IFloatingOriginAware.FloatingOrigin"/>.
+    /// Applies the <see cref="IFloatingOriginAware.FloatingOrigin"/> to a position, transforming it into a floating position.
     /// </summary>
     [Pure]
-    public static Vector3 ApplyFloatingOrigin(this DoubleVector3 vector, IFloatingOriginAware obj)
+    public static Vector3 ApplyFloatingOriginTo(this IFloatingOriginAware obj, DoubleVector3 vector)
         => vector.ApplyOffset(obj.FloatingOrigin);
 }

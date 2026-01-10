@@ -43,7 +43,7 @@ public class Sound3D : Sound, IFloatingOriginAware
     /// The sound's position in render space, based on <see cref="Position"/>
     /// </summary>
     /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingPosition"/></remarks>
-    Vector3 IFloatingOriginAware.FloatingPosition => Position.ApplyFloatingOrigin(this);
+    Vector3 IFloatingOriginAware.FloatingPosition => this.ApplyFloatingOriginTo(Position);
     #endregion
 
     #region Constructor

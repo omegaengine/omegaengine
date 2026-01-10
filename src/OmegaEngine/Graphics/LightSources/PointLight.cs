@@ -55,7 +55,7 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         {
             if (_floatingPositionDirty)
             {
-                _floatingPosition = _position.ApplyFloatingOrigin(this);
+                _floatingPosition = this.ApplyFloatingOriginTo(_position);
                 _floatingPositionDirty = false;
             }
             return _floatingPosition;

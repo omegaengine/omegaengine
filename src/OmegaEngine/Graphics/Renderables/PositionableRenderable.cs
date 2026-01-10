@@ -192,7 +192,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     {
         if (!WorldTransformDirty) return;
 
-        _floatingPosition = Position.ApplyFloatingOrigin(this);
+        _floatingPosition = this.ApplyFloatingOriginTo(_position);
 
         // Calculate transformation matrices
         WorldTransformCached = _preTransform * Matrix.Scaling(_scale) * _internalScaling * Matrix.RotationQuaternion(Rotation) * _internalRotation * Matrix.Translation(_floatingPosition) * _internalTranslation;
