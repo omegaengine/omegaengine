@@ -330,7 +330,19 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
 
         bool accumulate = ModifierKeys.HasFlag(Keys.Control);
 
-        // Switch to control dragging instead of selection if the mouse is pressed while above a control
+        // Right-click: move the currently selected control without changing selection
+        if (e.Button == MouseButtons.Right)
+        {
+            // Get the first selected control from the listBox (if any)
+            var selectedControl = listBox.SelectedItem as Control;
+            if (selectedControl != null && Content is { EffectiveScale: 1 })
+            {
+                _dragControl = selectedControl;
+            }
+            return;
+        }
+
+        // Left-click: switch to control dragging instead of selection if the mouse is pressed while above a control
         if (Content is { EffectiveScale: 1 })
         {
             // Loop through all controls from back to front
