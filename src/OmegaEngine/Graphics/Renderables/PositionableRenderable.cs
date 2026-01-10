@@ -384,7 +384,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <param name="material">The material to apply to everything rendered.</param>
     /// <param name="camera">The currently effective <see cref="Camera"/>.</param>
     /// <param name="lights">The currently effective <see cref="LightSource"/>s.</param>
-    protected void RenderHelper([InstantHandle] Action render, XMaterial material, Camera camera, params LightSource[] lights)
+    protected void RenderHelper([InstantHandle] Action render, XMaterial material, Camera camera, LightSource[] lights)
     {
         #region Sanity checks
         if (render == null) throw new ArgumentNullException(nameof(render));
