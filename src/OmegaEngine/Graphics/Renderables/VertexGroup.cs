@@ -8,6 +8,7 @@
 
 using System;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.VertexDecl;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -212,9 +213,9 @@ public class VertexGroup : PositionableRenderable
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights? getLights = null)
+    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
     {
-        base.Render(camera, getLights);
+        base.Render(camera, getEffectiveLighting);
         Engine.State.WorldTransform = WorldTransform;
 
         #region Draw
@@ -235,11 +236,11 @@ public class VertexGroup : PositionableRenderable
             render = (() => Engine.Device.DrawPrimitives(_primitiveType, 0, _primitiveCount));
         }
 
-        var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getLights == null)
-            ? []
-            : getLights(Position, BoundingSphere?.Radius ?? 0);
+        var lighting = (SurfaceEffect == SurfaceEffect.Plain || getEffectiveLighting == null)
+            ? new()
+            : getEffectiveLighting(Position, BoundingSphere?.Radius ?? 0);
 
-        RenderHelper(render, _material, camera, effectiveLights);
+        RenderHelper(render, _material, camera, lighting);
         #endregion
     }
     #endregion

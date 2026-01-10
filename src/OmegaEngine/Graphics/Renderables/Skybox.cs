@@ -9,6 +9,7 @@
 using System;
 using SlimDX;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.LightSources;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Renderables;
@@ -44,9 +45,9 @@ public abstract class Skybox : Renderable
     }
 
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights? getLights = null)
+    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
     {
-        base.Render(camera, getLights);
+        base.Render(camera, getEffectiveLighting);
 
         // Scale by factor 3, which should be safe within a simple projection matrix (near=1 and far=10)
         Engine.State.WorldTransform = Matrix.Scaling(3, 3, 3);

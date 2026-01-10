@@ -322,7 +322,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights? getLights = null)
+    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
     {
         #region Sanity checks
         if (IsDisposed) throw new ObjectDisposedException(ToString());
@@ -335,10 +335,10 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
             DrawBoundingBodies();
 
         // Fall back to plain rendering if lighting is disabled
-        if (getLights == null && SurfaceEffect is SurfaceEffect.FixedFunction or SurfaceEffect.Shader)
+        if (getEffectiveLighting == null && SurfaceEffect is SurfaceEffect.FixedFunction or SurfaceEffect.Shader)
             SurfaceEffect = SurfaceEffect.Plain;
 
-        base.Render(camera, getLights);
+        base.Render(camera, getEffectiveLighting);
     }
 
     private void UpdateInternalTransformations(Camera camera)
@@ -383,13 +383,12 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <param name="render">A delegate that will be called once per rendering pass to display the actual content.</param>
     /// <param name="material">The material to apply to everything rendered.</param>
     /// <param name="camera">The currently effective <see cref="Camera"/>.</param>
-    /// <param name="lights">The currently effective <see cref="LightSource"/>s.</param>
-    protected void RenderHelper([InstantHandle] Action render, XMaterial material, Camera camera, LightSource[] lights)
+    /// <param name="effectiveLighting">The currently effective lighting information for the renderable's position.</param>
+    protected void RenderHelper([InstantHandle] Action render, XMaterial material, Camera camera, EffectiveLighting effectiveLighting)
     {
         #region Sanity checks
         if (render == null) throw new ArgumentNullException(nameof(render));
         if (camera == null) throw new ArgumentNullException(nameof(camera));
-        if (lights == null) throw new ArgumentNullException(nameof(lights));
         #endregion
 
         SetEngineState(material);
@@ -407,7 +406,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
                 RenderFixedFunction(render, material);
                 break;
             case SurfaceEffect.Shader:
-                RenderShader(render, material, camera, lights);
+                RenderShader(render, material, camera, effectiveLighting.LightSources);
                 break;
         }
 

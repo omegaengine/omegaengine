@@ -10,6 +10,7 @@ using System;
 using System.ComponentModel;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Assets;
+using OmegaEngine.Graphics.LightSources;
 
 namespace OmegaEngine.Graphics.Renderables;
 
@@ -61,9 +62,9 @@ public class AnimatedModel : PositionableRenderable
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights? getLights = null)
+    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
     {
-        base.Render(camera, getLights);
+        base.Render(camera, getEffectiveLighting);
         Engine.State.WorldTransform = WorldTransform;
 
         // ToDo: Implement rendering

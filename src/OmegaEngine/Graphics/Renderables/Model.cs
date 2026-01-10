@@ -145,27 +145,27 @@ public partial class Model : PositionableRenderable
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights? getLights = null)
+    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
     {
-        base.Render(camera, getLights);
+        base.Render(camera, getEffectiveLighting);
         Engine.State.WorldTransform = WorldTransform;
 
-        var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getLights == null)
-            ? []
-            : getLights(Position, BoundingSphere?.Radius ?? 0);
+        var lighting = (SurfaceEffect == SurfaceEffect.Plain || getEffectiveLighting == null)
+            ? new()
+            : getEffectiveLighting(Position, BoundingSphere?.Radius ?? 0);
 
         for (int i = 0; i < NumberSubsets; i++)
-            RenderSubset(i, camera, effectiveLights);
+            RenderSubset(i, camera, lighting);
     }
 
-    protected void RenderSubset(int i, Camera camera, LightSource[] lights)
+    protected void RenderSubset(int i, Camera camera, EffectiveLighting effectiveLighting)
     {
         using (new ProfilerEvent(() => $"Subset {i}"))
         {
             // Load the subset-material (default to first one, if the subset has no own)
             XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
-            RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, lights);
+            RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, effectiveLighting);
         }
     }
     #endregion

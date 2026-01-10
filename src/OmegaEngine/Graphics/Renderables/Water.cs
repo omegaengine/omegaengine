@@ -13,6 +13,7 @@ using SlimDX.Direct3D9;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
 using Resources = OmegaEngine.Properties.Resources;
@@ -105,7 +106,7 @@ public class Water : Model
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights? getLights = null)
+    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
     {
         // Rendering this without a shader isn't possible (non-standard FVF)
         if (SurfaceEffect < SurfaceEffect.Shader) SurfaceEffect = SurfaceEffect.Shader;
@@ -116,7 +117,7 @@ public class Water : Model
 
         SelectShader();
 
-        RenderHelper(() => Mesh.DrawSubset(0), Materials[0], camera, lights: []);
+        RenderHelper(() => Mesh.DrawSubset(0), Materials[0], camera, effectiveLighting: new());
         if (DrawBoundingBox && WorldBoundingBox.HasValue && SurfaceEffect < SurfaceEffect.Glow)
             Engine.DrawBoundingBox(WorldBoundingBox.Value);
     }

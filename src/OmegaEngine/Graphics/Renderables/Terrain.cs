@@ -13,6 +13,7 @@ using System.IO;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
 using SlimDX;
@@ -254,7 +255,7 @@ public partial class Terrain : Model
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights? getLights = null)
+    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
     {
         // Rendering this without a shader isn't possible (non-standard FVF)
         if (SurfaceEffect < SurfaceEffect.Shader) SurfaceEffect = SurfaceEffect.Shader;
@@ -266,10 +267,10 @@ public partial class Terrain : Model
         // Update bounding bodies
         RecalcWorldTransform();
 
-        for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, getLights);
+        for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, getEffectiveLighting);
     }
 
-    private void RenderSubset(int i, Camera camera, GetLights? getLights)
+    private void RenderSubset(int i, Camera camera, GetEffectiveLighting? getEffectiveLighting)
     {
         // Frustum culling with the bounding box
         if (_subsetWorldBoundingBoxes != null && !camera.InFrustum(_subsetWorldBoundingBoxes[i])) return;
@@ -291,9 +292,9 @@ public partial class Terrain : Model
                 XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
                 Vector3 boxCenter = (_subsetBoundingBoxes == null ? new() : _subsetBoundingBoxes[i].Minimum + (_subsetBoundingBoxes[i].Maximum - _subsetBoundingBoxes[i].Minimum) * 0.5f);
-                var effectiveLights = getLights?.Invoke(Position + boxCenter, _blockSize * StretchH * (float)(Math.Sqrt(2) / 2)) ?? [];
+                var lighting = getEffectiveLighting?.Invoke(Position + boxCenter, radius: _blockSize * StretchH * (float)(Math.Sqrt(2) / 2)) ?? new();
 
-                RenderHelper(renderSubset, currentMaterial, camera, effectiveLights);
+                RenderHelper(renderSubset, currentMaterial, camera, lighting);
             }
         }
 

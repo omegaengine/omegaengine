@@ -18,6 +18,7 @@ using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.VertexDecl;
 using OmegaEngine.Foundation.Storage;
+using OmegaEngine.Graphics.LightSources;
 using SlimDX;
 using SlimDX.Direct3D9;
 
@@ -380,9 +381,9 @@ public class CpuParticleSystem : PositionableRenderable
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights? getLights = null)
+    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
     {
-        base.Render(camera, getLights);
+        base.Render(camera, getEffectiveLighting);
 
         // Reload textures when they change
         if (Preset.TexturesDirty) UpdateSpriteTextures();

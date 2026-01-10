@@ -19,17 +19,6 @@ using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics;
 
-#region Delegates
-/// <summary>
-/// Returns an array of <see cref="LightSource"/>s effective for this position
-/// </summary>
-/// <param name="position">The position to check for effectiveness of light sources</param>
-/// <param name="radius">The additional search radius to use (usually bounding sphere radius)</param>
-/// <returns>An array of light sources, first all <see cref="DirectionalLight"/>s, then all <see cref="PointLight"/>s</returns>
-/// <seealso cref="Scene.GetEffectiveLights"/>
-internal delegate LightSource[] GetLights(DoubleVector3 position, float radius);
-#endregion
-
 /// <summary>
 /// Represents a scene that can be viewed by a <see cref="Camera"/>.
 /// </summary>
@@ -48,7 +37,7 @@ public sealed class Scene : EngineElement
     /// </summary>
     /// <remarks>
     /// Subset of <see cref="Lights"/>.
-    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLights"/>
+    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLighting"/>
     /// </remarks>
     private readonly List<DirectionalLight> _directionalLights = [];
 
@@ -57,7 +46,7 @@ public sealed class Scene : EngineElement
     /// </summary>
     /// <remarks>
     /// Subset of <see cref="Lights"/>.
-    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLights"/>
+    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLighting"/>
     /// </remarks>
     /// <seealso cref="PointLight.RenderAsDirectional"/>
     private readonly List<PointLight> _pseudoDirectionalLights = [];
@@ -67,7 +56,7 @@ public sealed class Scene : EngineElement
     /// </summary>
     /// <remarks>
     /// Subset of <see cref="Lights"/>.
-    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLights"/>
+    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLighting"/>
     /// </remarks>
     private readonly List<PointLight> _pointLights = [];
     #endregion
@@ -116,7 +105,7 @@ public sealed class Scene : EngineElement
 
     #region Activate lights
     /// <summary>
-    /// Must be called before rendering this scene or calling <see cref="GetEffectiveLights"/>
+    /// Must be called before rendering this scene or calling <see cref="GetEffectiveLighting"/>
     /// </summary>
     /// <remarks>Remember to call <see cref="DeactivateLights"/> when done</remarks>
     internal void ActivateLights()
@@ -189,14 +178,13 @@ public sealed class Scene : EngineElement
     }
     #endregion
 
-    #region Get effective lights
+    #region Get effective lighting
     /// <summary>
-    /// Returns an array of <see cref="LightSource"/>s effective for this position
+    /// Returns <see cref="EffectiveLighting"/> information effective for this position.
     /// </summary>
-    /// <param name="position">The position to check for effectiveness of light sources</param>
-    /// <param name="radius">The additional search radius to use (usually bounding sphere radius)</param>
-    /// <returns>An array of light sources, first all <see cref="DirectionalLight"/>s, then all <see cref="PointLight"/>s</returns>
-    internal LightSource[] GetEffectiveLights(DoubleVector3 position, float radius)
+    /// <param name="position">The position to get lighting information for.</param>
+    /// <param name="radius">The additional search radius to use (usually bounding sphere radius).</param>
+    internal EffectiveLighting GetEffectiveLighting(DoubleVector3 position, float radius)
     {
         bool IsInRange(PointLight light)
             => (light.Position - position).Length() <= light.Range + radius;
@@ -205,7 +193,8 @@ public sealed class Scene : EngineElement
         effectiveLights.AddRange(_directionalLights);
         effectiveLights.AddRange(_pseudoDirectionalLights.Where(IsInRange).Select(light => light.AsDirectional(position)));
         effectiveLights.AddRange(_pointLights.Where(IsInRange));
-        return effectiveLights.ToArray();
+
+        return new(effectiveLights.ToArray());
     }
     #endregion
 }

@@ -8,6 +8,7 @@
 
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.LightSources;
 using SlimDX;
 using SlimDX.Direct3D9;
 
@@ -60,7 +61,7 @@ public class FloatingModel : Model
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetLights? getLights = null)
+    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
     {
         // Note: Doesn't call base methods
         PrepareRender();
@@ -78,7 +79,7 @@ public class FloatingModel : Model
         SurfaceEffect = SurfaceEffect.Plain;
 
         for (int i = 0; i < NumberSubsets; i++)
-            RenderSubset(i, camera, lights: []);
+            RenderSubset(i, camera, effectiveLighting: new());
     }
     #endregion
 }
