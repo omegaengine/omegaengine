@@ -46,6 +46,9 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
 
     /// <summary>The control currently being dragged/moved with the mouse</summary>
     private Control? _dragControl;
+
+    /// <summary>Indicates whether the drag was initiated with a right-click (to preserve selection)</summary>
+    private bool _isRightClickDrag;
     #endregion
 
     #region Constructor
@@ -338,11 +341,13 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
             if (selectedControl != null && Content is { EffectiveScale: 1 })
             {
                 _dragControl = selectedControl;
+                _isRightClickDrag = true;
             }
             return;
         }
 
         // Left-click: switch to control dragging instead of selection if the mouse is pressed while above a control
+        _isRightClickDrag = false;
         if (Content is { EffectiveScale: 1 })
         {
             // Loop through all controls from back to front
@@ -398,9 +403,12 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
                         _dragControl.Location.X + locationDelta.X,
                         _dragControl.Location.Y + locationDelta.Y);
 
-                    // Select the moved control
-                    listBox.ClearSelected();
-                    listBox.SelectedItem = _dragControl;
+                    // Select the moved control (only for left-click drag, not right-click)
+                    if (!_isRightClickDrag)
+                    {
+                        listBox.ClearSelected();
+                        listBox.SelectedItem = _dragControl;
+                    }
                 }
             }
 
@@ -456,6 +464,7 @@ public partial class GuiEditor : UndoCloneTab<Dialog>
             if (_pickStart != e.Location) OnChange();
 
             _dragControl = null;
+            _isRightClickDrag = false;
         }
 
         renderPanel.Engine.Render();
