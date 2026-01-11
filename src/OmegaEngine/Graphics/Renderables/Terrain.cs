@@ -292,7 +292,9 @@ public partial class Terrain : Model
                 XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
                 Vector3 boxCenter = (_subsetBoundingBoxes == null ? new() : _subsetBoundingBoxes[i].Minimum + (_subsetBoundingBoxes[i].Maximum - _subsetBoundingBoxes[i].Minimum) * 0.5f);
-                var lighting = getEffectiveLighting?.Invoke(Position + boxCenter, radius: _blockSize * StretchH * (float)(Math.Sqrt(2) / 2)) ?? new();
+                var lighting = getEffectiveLighting == null
+                    ? new()
+                    : getEffectiveLighting(Position + boxCenter, radius: _blockSize * StretchH * (float)(Math.Sqrt(2) / 2)) with {ShadowCasters = []};
 
                 RenderHelper(renderSubset, currentMaterial, camera, lighting);
             }
