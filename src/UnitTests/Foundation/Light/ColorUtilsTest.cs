@@ -22,7 +22,7 @@ public class ColorUtilsTest
     {
         var color = Color.FromArgb(128, 255, 100, 50);
         var result = color.DropAlpha();
-        
+
         result.A.Should().Be(255);
         result.R.Should().Be(255);
         result.G.Should().Be(100);
@@ -45,8 +45,8 @@ public class ColorUtilsTest
     {
         var color = Color.FromArgb(200, 100, 150, 200);
         var result = color.Multiply(0.5f);
-        
-        result.A.Should().Be(100);
+
+        result.A.Should().Be(color.A); // unchanged
         result.R.Should().Be(50);
         result.G.Should().Be(75);
         result.B.Should().Be(100);
@@ -56,13 +56,11 @@ public class ColorUtilsTest
     public void TestMultiplyClamp()
     {
         var color = Color.FromArgb(200, 100, 150, 200);
-        
+
         var result1 = color.Multiply(1.5f);
-        result1.A.Should().Be(200);
         result1.R.Should().Be(100);
 
         var result2 = color.Multiply(-0.5f);
-        result2.A.Should().Be(0);
         result2.R.Should().Be(0);
     }
 
@@ -71,7 +69,7 @@ public class ColorUtilsTest
     {
         var color1 = Color.FromArgb(100, 0, 0, 0);
         var color2 = Color.FromArgb(200, 100, 100, 100);
-        
+
         var result = ColorUtils.Interpolate(0.5f, color1, color2);
         result.A.Should().Be(150);
         result.R.Should().Be(50);
@@ -84,7 +82,7 @@ public class ColorUtilsTest
     {
         var color1 = Color.Red;
         var color2 = Color.Blue;
-        
+
         var result1 = ColorUtils.Interpolate(0, color1, color2);
         result1.R.Should().Be(color1.R);
         result1.B.Should().Be(color1.B);
@@ -99,7 +97,7 @@ public class ColorUtilsTest
     {
         var color1 = Color.Red;
         var color2 = Color.Blue;
-        
+
         var result1 = ColorUtils.Interpolate(1.5f, color1, color2);
         result1.Should().Be(ColorUtils.Interpolate(1.0f, color1, color2));
 

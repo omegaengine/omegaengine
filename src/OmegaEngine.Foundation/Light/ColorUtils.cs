@@ -30,14 +30,14 @@ public static class ColorUtils
     public static bool EqualsIgnoreAlpha(this Color color1, Color color2) => color1.R == color2.R && color1.G == color2.G && color1.B == color2.B;
 
     /// <summary>
-    /// Multiplies a color with a scalar factor between 0 and 1
+    /// Multiplies a color's RGB channels with a scalar factor between 0 and 1, preserving the alpha channel
     /// </summary>
     [Pure]
     public static Color Multiply(this Color color, float factor)
     {
         factor = factor.Clamp();
         return Color.FromArgb(
-            (byte)(color.A * factor),
+            color.A,
             (byte)(color.R * factor),
             (byte)(color.G * factor),
             (byte)(color.B * factor));
