@@ -20,9 +20,16 @@ public class Game(Settings settings)
         UpdateStatus("Loading graphics");
         var scene = new Scene
         {
-            Positionables = { Model.Sphere(Engine, XTexture.Get(Engine, "flag.png"), slices: 50, stacks: 50) }
+            Positionables = { Model.Sphere(Engine, XTexture.Get(Engine, "flag.png")) }
         };
-        var camera = new ArcballCamera { Pitch = 20 };
+        var camera = new ArcballCamera
+        {
+            FieldOfView = settings.Graphics.FieldOfView,
+            MinRadius = 11,
+            MaxRadius = 200,
+            Radius = 25,
+            Pitch = 30
+        };
         var view = new View(scene, camera)
         {
             BackgroundColor = Color.CornflowerBlue

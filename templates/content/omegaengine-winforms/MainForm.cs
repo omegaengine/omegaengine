@@ -25,9 +25,15 @@ public partial class MainForm : Form
     {
         var scene = new Scene
         {
-            Positionables = { Model.Sphere(engine, XTexture.Get(engine, "flag.png"), slices: 50, stacks: 50) }
+            Positionables = { Model.Sphere(engine, XTexture.Get(engine, "flag.png")) }
         };
-        var camera = new ArcballCamera { Pitch = 20 };
+        var camera = new ArcballCamera
+        {
+            MinRadius = 11,
+            MaxRadius = 200,
+            Radius = 25,
+            Pitch = 30
+        };
         var view = new View(scene, camera)
         {
             BackgroundColor = Color.CornflowerBlue
