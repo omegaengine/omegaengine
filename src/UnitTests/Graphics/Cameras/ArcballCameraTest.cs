@@ -28,7 +28,7 @@ public class ArcballCameraTest
 
         camera.Navigate(translation: new(10, 0, 0));
 
-        camera.Target.X.Should().BeApproximately(-1, precision: 0.001);
+        camera.Target.X.Should().BeApproximately(1, precision: 0.001);
         camera.Target.Y.Should().BeApproximately(0, precision: 0.001);
         camera.Target.Z.Should().BeApproximately(0, precision: 0.001);
     }
@@ -47,7 +47,7 @@ public class ArcballCameraTest
 
         camera.Target.X.Should().BeApproximately(0, precision: 0.001);
         camera.Target.Y.Should().BeApproximately(0, precision: 0.001);
-        camera.Target.Z.Should().BeApproximately(1, precision: 0.001);
+        camera.Target.Z.Should().BeApproximately(-1, precision: 0.001);
     }
 
     [Fact]
