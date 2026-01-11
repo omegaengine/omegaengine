@@ -62,7 +62,7 @@ internal class Vector2RayConverter : ValueTypeConverter<Vector2Ray>
 
         return new(
             new(Convert.ToSingle(values[0], culture), Convert.ToSingle(values[1], culture)),
-            new(Convert.ToSingle(values[3], culture), Convert.ToSingle(values[4], culture)));
+            new(Convert.ToSingle(values[2], culture), Convert.ToSingle(values[3], culture)));
     }
 
     /// <inheritdoc/>
