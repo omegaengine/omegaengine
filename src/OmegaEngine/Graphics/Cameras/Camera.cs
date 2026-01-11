@@ -92,29 +92,29 @@ public abstract partial class Camera : InputReceiverBase, IPositionable
     /// </summary>
     internal Size Size { get => _size; set => value.To(ref _size, ref ProjectionDirty, ref ViewFrustumDirty); }
 
-    private float _fieldOfView = (float)Math.PI / 2f;
+    private float _fieldOfView = (float)Math.PI / 4f;
 
     /// <summary>
     /// The view angle in degrees
     /// </summary>
-    [DefaultValue(90f), Description("The view angle in degrees"), Category("Layout")]
+    [DefaultValue(45f), Description("The view angle in degrees"), Category("Layout")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public float FieldOfView { get => _fieldOfView.RadianToDegree(); set => value.DegreeToRadian().To(ref _fieldOfView, ref ProjectionDirty, ref ViewFrustumDirty); }
 
-    private float _nearClip = 20.0f;
+    private float _nearClip = 1f;
 
     /// <summary>
     /// Minimum distance of objects to the camera
     /// </summary>
-    [DefaultValue(20.0f), Description("Minimum distance of objects to the camera"), Category("Clipping")]
+    [DefaultValue(1f), Description("Minimum distance of objects to the camera"), Category("Clipping")]
     public float NearClip { get => _nearClip; set => value.To(ref _nearClip, ref ProjectionDirty, ref ViewFrustumDirty); }
 
-    private float _farClip = 1e+6f;
+    private float _farClip = 100_000f;
 
     /// <summary>
     /// Maximum distance of objects to the camera
     /// </summary>
-    [DefaultValue(1e+6f), Description("Maximum distance of objects to the camera"), Category("Clipping")]
+    [DefaultValue(100_000f), Description("Maximum distance of objects to the camera"), Category("Clipping")]
     public float FarClip { get => _farClip; set => value.To(ref _farClip, ref ProjectionDirty, ref ViewFrustumDirty); }
 
     private DoublePlane _clipPlane;
