@@ -136,6 +136,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
             Radius = state.Radius,
             Rotation = state.Rotation,
             FieldOfView = Settings.Current.Graphics.FieldOfView,
+            NearClip = 20,
             FarClip = Universe.Fog ? Universe.FogDistance : 1e+6f
         };
     }
