@@ -186,15 +186,31 @@ public sealed class Scene : EngineElement
     /// <param name="radius">The additional search radius to use (usually bounding sphere radius).</param>
     internal EffectiveLighting GetEffectiveLighting(DoubleVector3 position, float radius)
     {
+        double maxDistance = 0;
+
         bool IsInRange(PointLight light)
-            => (light.Position - position).Length() <= light.Range + radius;
+        {
+            double distance = (light.Position - position).Length();
+            if (distance <= light.Range + radius)
+            {
+                maxDistance = Math.Max(maxDistance, distance);
+                return true;
+            }
+            else return false;
+        }
 
         var effectiveLights = new List<LightSource>(capacity: _directionalLights.Count + _pseudoDirectionalLights.Count + _pointLights.Count);
         effectiveLights.AddRange(_directionalLights);
         effectiveLights.AddRange(_pseudoDirectionalLights.Where(IsInRange).Select(light => light.AsDirectional(position)));
         effectiveLights.AddRange(_pointLights.Where(IsInRange));
 
-        return new(effectiveLights.ToArray());
+        var shadowCasters = _positionables.Where(x => x.ShadowCaster);
+
+        // If there are only point lights, only shadow casters closer than the most distant light source matter
+        if (_directionalLights.Count == 0)
+            shadowCasters = shadowCasters.Where(caster => (caster.Position - position).Length() <= maxDistance);
+
+        return new(effectiveLights.ToArray(), shadowCasters.ToArray());
     }
     #endregion
 }

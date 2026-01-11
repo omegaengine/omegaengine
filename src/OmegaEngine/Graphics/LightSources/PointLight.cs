@@ -7,6 +7,7 @@
  */
 
 using System.ComponentModel;
+using System.Diagnostics.Contracts;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
@@ -103,5 +104,44 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         _directional.Ambient = Ambient.Multiply(attenuation);
 
         return _directional;
+    }
+
+    /// <inheritdoc/>
+    [Pure]
+    public override LightSource GetShadowed(BoundingSphere receiverSphere, BoundingSphere casterSphere)
+    {
+        var lightPos = this.GetFloatingPosition();
+        var lightToCaster = casterSphere.Center - lightPos;
+        float lightToCasterDistance = lightToCaster.Length();
+
+        if (lightToCasterDistance < 0.0001)
+            return this; // Light at same position as caster
+
+        var lightDirection = lightToCaster / lightToCasterDistance;
+        var casterToReceiver = receiverSphere.Center - casterSphere.Center;
+        float projectionDistance = Vector3.Dot(casterToReceiver, lightDirection);
+
+        if (projectionDistance <= 0)
+            return this; // Receiver is not behind the caster
+
+        float lightToReceiverDistance = lightToCasterDistance + projectionDistance;
+        float shadowRadius = casterSphere.Radius * (lightToReceiverDistance / lightToCasterDistance);
+
+        var shadowRay = new Vector3Ray(casterSphere.Center, lightDirection);
+        float shadowFactor = GetShadowFactor(receiverSphere, shadowRay, shadowRadius);
+
+        if (shadowFactor == 0) return this;
+        return new PointLight
+        {
+            Name = Name,
+            Enabled = Enabled,
+            Diffuse = Diffuse.Multiply(1 - shadowFactor),
+            Specular = Specular.Multiply(1 - shadowFactor),
+            Ambient = Ambient,
+            Position = Position,
+            RenderAsDirectional = RenderAsDirectional,
+            Range = Range,
+            Attenuation = Attenuation
+        };
     }
 }

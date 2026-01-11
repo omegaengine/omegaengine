@@ -134,6 +134,18 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// </summary>
     [DefaultValue(false), Description("Shall this object still be rendered, even if it is beyond the camera's far clip plane? (at the cost of incorrect Z-ordering)"), Category("Layout")]
     public bool PreventFarClipping { get; set; }
+
+    /// <summary>
+    /// Shall this <see cref="PositionableRenderable"/> cast shadows on other objects?
+    /// </summary>
+    [DefaultValue(false), Description("Shall this body cast shadows on other objects?"), Category("Behavior")]
+    public bool ShadowCaster { get; set; }
+
+    /// <summary>
+    /// Shall this <see cref="PositionableRenderable"/> receive shadows from other objects?
+    /// </summary>
+    [DefaultValue(false), Description("Shall this body receive shadows from other objects?"), Category("Behavior")]
+    public bool ShadowReceiver { get; set; }
     #endregion
 
     #region Transform factors
@@ -406,7 +418,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
                 RenderFixedFunction(render, material);
                 break;
             case SurfaceEffect.Shader:
-                RenderShader(render, material, camera, effectiveLighting.LightSources);
+                RenderShader(render, material, camera, effectiveLighting.GetShadowedLightSources(this));
                 break;
         }
 
