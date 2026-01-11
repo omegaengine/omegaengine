@@ -132,9 +132,9 @@ public sealed class ArcballCamera : ZoomCamera
 
         Target += Radius * MovementSensitivity *
                   new DoubleVector3(
-                          translation.X * -Math.Cos(_yaw),
+                          translation.X * Math.Cos(_yaw),
                           IsUpsideDown ? -translation.Y : translation.Y,
-                          translation.X * Math.Sin(_yaw))
+                          translation.X * -Math.Sin(_yaw))
                      .AdjustReference(from: _defaultWorldUp, to: _worldUp)
                      .RotateAroundAxis(viewDir, -_roll);
 
@@ -151,9 +151,9 @@ public sealed class ArcballCamera : ZoomCamera
         if (!ViewDirty) return;
 
         var viewDirection = new DoubleVector3(
-                -Math.Cos(_pitch) * Math.Sin(_yaw),
+                Math.Cos(_pitch) * Math.Sin(_yaw),
                 -Math.Sin(_pitch),
-                -Math.Cos(_pitch) * Math.Cos(_yaw))
+                Math.Cos(_pitch) * Math.Cos(_yaw))
            .AdjustReference(from: _defaultWorldUp, to: _worldUp);
         PositionCached = Target - Radius * viewDirection;
 
