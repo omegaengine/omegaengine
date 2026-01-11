@@ -21,7 +21,10 @@ public static class ColorUtils
     /// Removes the alpha channel from the color (setting it to full opacity).
     /// </summary>
     [Pure]
-    public static Color DropAlpha(this Color color) => Color.FromArgb(255, color);
+    public static Color DropAlpha(this Color color)
+        => color.A == 255
+            ? color // Preserve well-known color names when possible
+            : Color.FromArgb(255, color);
 
     /// <summary>
     /// Compares two colors ignoring the alpha channel and the name
@@ -36,6 +39,12 @@ public static class ColorUtils
     public static Color Multiply(this Color color, float factor)
     {
         factor = factor.Clamp();
+
+        // Preserve well-known color names when possible
+        if (factor == 1) return color;
+        if (factor == 0 && color.A == 255) return Color.Black;
+        if (color == Color.Black) return color;
+
         return Color.FromArgb(
             color.A,
             (byte)(color.R * factor),

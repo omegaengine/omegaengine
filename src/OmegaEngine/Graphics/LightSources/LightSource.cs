@@ -39,7 +39,7 @@ public abstract class LightSource
     [Description("Shall the light source affect its enabled?"), Category("Behavior")]
     public bool Enabled { get; set; } = true;
 
-    private Color _diffuse = Color.White.DropAlpha();
+    private Color _diffuse = Color.White;
 
     /// <summary>
     /// The diffuse color this light source emits
@@ -47,7 +47,7 @@ public abstract class LightSource
     [Description("The diffuse color this light source emits"), Category("Appearance")]
     public Color Diffuse { get => _diffuse; set => _diffuse = value.DropAlpha(); }
 
-    private Color _specular = Color.Gray.DropAlpha();
+    private Color _specular = Color.Gray;
 
     /// <summary>
     /// The specular color this light source emits
@@ -55,7 +55,7 @@ public abstract class LightSource
     [Description("The specular color this light source emits"), Category("Appearance")]
     public Color Specular { get => _specular; set => _specular = value.DropAlpha(); }
 
-    private Color _ambient = Color.Black.DropAlpha();
+    private Color _ambient = Color.Black;
 
     /// <summary>
     /// The ambient color this light source emits

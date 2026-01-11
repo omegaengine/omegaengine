@@ -30,6 +30,13 @@ public class ColorUtilsTest
     }
 
     [Fact]
+    public void TestDropAlphaWellKnown()
+    {
+        Color.White.DropAlpha().Should().Be(Color.White);
+        Color.Black.DropAlpha().Should().Be(Color.Black);
+    }
+
+    [Fact]
     public void TestEqualsIgnoreAlpha()
     {
         var color1 = Color.FromArgb(128, 100, 150, 200);
@@ -62,6 +69,22 @@ public class ColorUtilsTest
 
         var result2 = color.Multiply(-0.5f);
         result2.R.Should().Be(0);
+    }
+
+    [Fact]
+    public void TestMultiplyOne()
+    {
+        var color = Color.White;
+        var result = color.Multiply(1);
+        result.Should().Be(Color.White);
+    }
+
+    [Fact]
+    public void TestMultiplyZero()
+    {
+        var color = Color.White;
+        var result = color.Multiply(0);
+        result.Should().Be(Color.Black);
     }
 
     [Fact]
