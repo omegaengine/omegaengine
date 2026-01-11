@@ -11,8 +11,11 @@ An overview of the engine's features:
     * Post-screen effects
     * Dynamic shader generation
   * [Asset management](xref:OmegaEngine.Assets)
-    * Virtual filesystem
-    * Mod support
+    * [Overlay filesystem](xref:OmegaEngine.Foundation.Storage#filesystem) with mod support
+  * [Lighting](lighting.md)
+    * Blinn–Phong
+    * Real-time bounding sphere based shadowing
+    * Pre-computed detailed terrain self-shadowing
   * Effects
     * [Water with reflection and refraction](water.md)
     * [Glow](glow.md)
@@ -20,4 +23,5 @@ An overview of the engine's features:
   * [GUI toolkit](xref:OmegaGUI)
     * XML file format (with WYSIWYG editor)
     * Lua scripting
+  * [Render embedded in WinForms or standalone](hosting.md)
   * [Input system](xref:OmegaEngine.Input)
