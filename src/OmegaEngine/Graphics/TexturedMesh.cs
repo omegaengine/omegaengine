@@ -213,8 +213,9 @@ public static class TexturedMesh
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
-        if (slices <= 0) throw new ArgumentOutOfRangeException(nameof(slices));
-        if (stacks <= 0) throw new ArgumentOutOfRangeException(nameof(stacks));
+        if (radius <= 0) throw new ArgumentOutOfRangeException(nameof(radius), "Radius must be positive.");
+        if (slices <= 0) throw new ArgumentOutOfRangeException(nameof(slices), "Slices must be positive.");
+        if (stacks <= 0) throw new ArgumentOutOfRangeException(nameof(stacks), "Stacks must be positive.");
         #endregion
 
         int numVertexes = (slices + 1) * (stacks + 1);
@@ -295,8 +296,10 @@ public static class TexturedMesh
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
-        if (slices <= 0) throw new ArgumentOutOfRangeException(nameof(slices));
-        if (stacks <= 0) throw new ArgumentOutOfRangeException(nameof(stacks));
+        if (radius1 < 0) throw new ArgumentOutOfRangeException(nameof(radius1), "Radius must be positive or zero.");
+        if (radius2 < 0) throw new ArgumentOutOfRangeException(nameof(radius2), "Radius must be positive or zero.");
+        if (slices <= 0) throw new ArgumentOutOfRangeException(nameof(slices), "Number of slices must be positive.");
+        if (stacks <= 0) throw new ArgumentOutOfRangeException(nameof(stacks), "Number of slices must be positive.");
         #endregion
 
         // Create an untextured cylinder
@@ -324,6 +327,11 @@ public static class TexturedMesh
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
+        if (radiusInner <= 0) throw new ArgumentOutOfRangeException(nameof(radiusInner), "Radius of inner disc must be positive.");
+        if (radiusOuter <= 0) throw new ArgumentOutOfRangeException(nameof(radiusOuter), "Radius of outer disc must be positive.");
+        if (radiusOuter <= radiusInner) throw new ArgumentException("Radius of outer disc must be greater than radius of inner disc.", nameof(radiusOuter));
+        if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height), "Height of disc must be positive.");
+        if (segments < 1) throw new ArgumentOutOfRangeException(nameof(segments), "Number of segments must be at least 1.");
         #endregion
 
         const float tuInner = 0, tuOuter = 1;
