@@ -418,7 +418,10 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
                 RenderFixedFunction(render, material);
                 break;
             case SurfaceEffect.Shader:
-                RenderShader(render, material, camera, effectiveLighting.GetShadowedLightSources(this));
+                var lightSources = ShadowReceiver && WorldBoundingSphere is {} boundingSphere
+                    ? effectiveLighting.GetShadowedLightSources(boundingSphere)
+                    : effectiveLighting.LightSources;
+                RenderShader(render, material, camera, lightSources);
                 break;
         }
 

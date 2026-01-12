@@ -9,6 +9,7 @@
 using System.Diagnostics.Contracts;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Renderables;
+using SlimDX;
 
 namespace OmegaEngine.Graphics.LightSources;
 
@@ -27,21 +28,18 @@ public readonly record struct EffectiveLighting(LightSource[] LightSources, Posi
     /// <summary>
     /// Applies shadows to light sources based on shadow casters.
     /// </summary>
-    /// <param name="receiver">The renderable receiving shadows.</param>
+    /// <param name="receiverSphere">The bounding sphere of the of the renderable receiving shadows.</param>
     /// <returns>Modified light sources with shadows applied, or the original light sources if no shadows apply.</returns>
     [Pure]
-    public LightSource[] GetShadowedLightSources(PositionableRenderable receiver)
+    public LightSource[] GetShadowedLightSources(BoundingSphere receiverSphere)
     {
-        if (!receiver.ShadowReceiver || ShadowCasters.Length == 0 || LightSources.Length == 0 || receiver.WorldBoundingSphere is not {} receiverSphere)
-            return LightSources;
-
         var modifiedLights = new LightSource[LightSources.Length];
         for (int i = 0; i < LightSources.Length; i++)
         {
             var lightSource = LightSources[i];
             foreach (var caster in ShadowCasters)
             {
-                if (caster != receiver && caster.WorldBoundingSphere is { Radius: > 0.0001f } casterSphere)
+                if (caster.WorldBoundingSphere is { Radius: > 0.0001f } casterSphere && casterSphere != receiverSphere)
                     lightSource = lightSource.GetShadowed(receiverSphere, casterSphere);
             }
             modifiedLights[i] = lightSource;
