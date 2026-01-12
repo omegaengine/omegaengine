@@ -343,14 +343,17 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
         // Note: Assumes IsVisible() was called in this frame, which in turn triggered UpdateInternalTransformations()
 
-        if (SurfaceEffect < SurfaceEffect.Glow)
-            DrawBoundingBodies();
-
         // Fall back to plain rendering if lighting is disabled
         if (getEffectiveLighting == null && SurfaceEffect is SurfaceEffect.FixedFunction or SurfaceEffect.Shader)
             SurfaceEffect = SurfaceEffect.Plain;
 
         base.Render(camera, getEffectiveLighting);
+
+        if (SurfaceEffect < SurfaceEffect.Glow)
+        {
+            if (DrawBoundingSphere && WorldBoundingSphere is {} sphere) Engine.DrawBoundingSphere(sphere);
+            if (DrawBoundingBox && WorldBoundingBox is {} box) Engine.DrawBoundingBox(box);
+        }
     }
 
     private void UpdateInternalTransformations(Camera camera)
@@ -379,12 +382,6 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
             BillboardMode.Cylindrical => camera.CylindricalBillboard,
             _ => Matrix.Identity
         }).To(ref _internalRotation, ref WorldTransformDirty);
-    }
-
-    private void DrawBoundingBodies()
-    {
-        if (DrawBoundingSphere && WorldBoundingSphere is {} sphere) Engine.DrawBoundingSphere(sphere);
-        if (DrawBoundingBox && WorldBoundingBox is {} box) Engine.DrawBoundingBox(box);
     }
     #endregion
 

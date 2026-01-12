@@ -272,7 +272,7 @@ public partial class Terrain : Model
 
     private void RenderSubset(int i, Camera camera, GetEffectiveLighting? getEffectiveLighting)
     {
-        // Frustum culling with the bounding box
+        // Per-subset frustum culling
         if (_subsetWorldBoundingBoxes != null && !camera.InFrustum(_subsetWorldBoundingBoxes[i])) return;
 
         using (new ProfilerEvent(() => $"Subset {i}"))
@@ -300,9 +300,11 @@ public partial class Terrain : Model
             }
         }
 
-        // Only allow the visualization of bounding bodies in normal view
-        if (DrawBoundingBox && _subsetWorldBoundingBoxes != null && SurfaceEffect < SurfaceEffect.Glow)
-            Engine.DrawBoundingBox(_subsetWorldBoundingBoxes[i]);
+        // Draw per-subset bounding bodies
+        if (SurfaceEffect < SurfaceEffect.Glow)
+        {
+            if (DrawBoundingBox && _subsetWorldBoundingBoxes != null) Engine.DrawBoundingBox(_subsetWorldBoundingBoxes[i]);
+        }
     }
     #endregion
 
