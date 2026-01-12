@@ -49,6 +49,18 @@ public partial class Model : PositionableRenderable
 
     /// <summary>True if the <see cref="Materials"/> are not owned by <see cref="_asset"/> and therefor need to be released by <see cref="OnDispose"/>.</summary>
     private readonly bool _separateMaterials;
+
+    /// <summary>Per-subset bounding spheres in entity space.</summary>
+    private BoundingSphere[]? _subsetBoundingSpheres;
+
+    /// <summary>Per-subset bounding spheres in world space.</summary>
+    private BoundingSphere[]? _subsetWorldBoundingSpheres;
+
+    /// <summary>Per-subset bounding boxes in entity space.</summary>
+    private BoundingBox[]? _subsetBoundingBoxes;
+
+    /// <summary>Per-subset bounding boxes in world space.</summary>
+    private BoundingBox[]? _subsetWorldBoundingBoxes;
     #endregion
 
     #region Properties
@@ -67,7 +79,7 @@ public partial class Model : PositionableRenderable
 
     #region Constructor
 
-    #region Internal texture
+    #region From asset
     /// <summary>
     /// Creates a new model based upon a <see cref="XMesh"/>, using its internal material data if available.
     /// </summary>
@@ -80,18 +92,13 @@ public partial class Model : PositionableRenderable
 
         // Get mesh from asset
         Mesh = mesh.Mesh;
+        SetBoundingBodiesFrom(mesh);
 
         // Get materials from asset
         Materials = mesh.Materials;
         NumberSubsets = Materials.Length;
-
-        // Get bounding bodies
-        BoundingSphere = mesh.BoundingSphere;
-        BoundingBox = mesh.BoundingBox;
     }
-    #endregion
 
-    #region External texture
     /// <summary>
     /// Creates a new model based upon a <see cref="XMesh"/>, using an external texture and a plain white material.
     /// </summary>
@@ -105,20 +112,25 @@ public partial class Model : PositionableRenderable
 
         // Get mesh from asset
         Mesh = mesh.Mesh;
+        SetBoundingBodiesFrom(mesh);
 
         // Get separate materials
         Materials = materials ?? [];
         NumberSubsets = Materials.Length;
         foreach (var material in Materials) material.HoldReference();
         _separateMaterials = true;
+    }
 
-        // Get bounding bodies
+    private void SetBoundingBodiesFrom(XMesh mesh)
+    {
         BoundingSphere = mesh.BoundingSphere;
         BoundingBox = mesh.BoundingBox;
+        _subsetBoundingBoxes = mesh.SubsetBoundingBoxes;
+        _subsetBoundingSpheres = mesh.SubsetBoundingSpheres;
     }
     #endregion
 
-    #region Custom mesh
+    #region From custom mesh
     /// <summary>
     /// Creates a new model based upon a custom mesh.
     /// </summary>
@@ -143,6 +155,28 @@ public partial class Model : PositionableRenderable
 
     //--------------------//
 
+    #region Transform
+    /// <inheritdoc/>
+    protected override void RecalcWorldTransform()
+    {
+        base.RecalcWorldTransform();
+
+        if (_subsetBoundingSpheres != null)
+        {
+            _subsetWorldBoundingSpheres ??= new BoundingSphere[_subsetBoundingSpheres.Length];
+            for (int i = 0; i < _subsetWorldBoundingSpheres.Length; i++)
+                _subsetWorldBoundingSpheres[i] = _subsetBoundingSpheres[i].Transform(WorldTransformCached);
+        }
+
+        if (_subsetBoundingBoxes != null)
+        {
+            _subsetWorldBoundingBoxes ??= new BoundingBox[_subsetBoundingBoxes.Length];
+            for (int i = 0; i < _subsetWorldBoundingBoxes.Length; i++)
+                _subsetWorldBoundingBoxes[i] = _subsetBoundingBoxes[i].Transform(WorldTransformCached);
+        }
+    }
+    #endregion
+
     #region Render
     /// <inheritdoc/>
     internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
@@ -160,12 +194,23 @@ public partial class Model : PositionableRenderable
 
     protected void RenderSubset(int i, Camera camera, EffectiveLighting effectiveLighting)
     {
+        // Per-subset frustum culling
+        if (_subsetWorldBoundingSpheres != null && !camera.InFrustum(_subsetWorldBoundingSpheres[i])) return;
+        if (_subsetWorldBoundingBoxes != null && !camera.InFrustum(_subsetWorldBoundingBoxes[i])) return;
+
         using (new ProfilerEvent(() => $"Subset {i}"))
         {
             // Load the subset-material (default to first one, if the subset has no own)
             XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
             RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, effectiveLighting);
+        }
+
+        // Draw per-subset bounding bodies
+        if (SurfaceEffect < SurfaceEffect.Glow)
+        {
+            if (DrawBoundingSphere && _subsetWorldBoundingSpheres != null) Engine.DrawBoundingSphere(_subsetWorldBoundingSpheres[i]);
+            if (DrawBoundingBox && _subsetWorldBoundingBoxes != null) Engine.DrawBoundingBox(_subsetWorldBoundingBoxes[i]);
         }
     }
     #endregion
