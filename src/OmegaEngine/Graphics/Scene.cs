@@ -100,6 +100,11 @@ public sealed class Scene : EngineElement
     /// All light sources affecting the entities in this scene
     /// </summary>
     public ICollection<LightSource> Lights => _lights;
+
+    /// <summary>
+    /// The maximum distance between shadow casters and receivers to consider.
+    /// </summary>
+    public float MaxShadowRange { get; set; } = float.PositiveInfinity;
     #endregion
 
     #region Constructor
@@ -199,8 +204,10 @@ public sealed class Scene : EngineElement
         if (shadowing && boundingSphere.Radius > 0)
         {
             var shadowCasters = _positionables.Where(x => x.ShadowCaster);
-            if (!float.IsPositiveInfinity(maxLightDistance))
-                shadowCasters = shadowCasters.Where(caster => (caster.GetFloatingPosition() - boundingSphere.Center).Length() <= maxLightDistance);
+
+            float maxShadowDistance = Math.Min(MaxShadowRange, maxLightDistance);
+            if (!float.IsPositiveInfinity(maxShadowDistance))
+                shadowCasters = shadowCasters.Where(caster => (caster.GetFloatingPosition() - boundingSphere.Center).Length() <= maxShadowDistance);
 
             ApplyShadows(lights, boundingSphere, shadowCasters.ToList());
         }
