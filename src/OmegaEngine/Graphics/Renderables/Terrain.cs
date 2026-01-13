@@ -10,6 +10,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
@@ -29,8 +30,6 @@ public partial class Terrain : Model
 {
     #region Variables
     private TerrainShader[]? _subsetShaders;
-    private BoundingBox[]? _subsetBoundingBoxes, _subsetWorldBoundingBoxes;
-    private float _blockSize;
 
     private readonly int[] _indexBuffer;
     private readonly Vector3[] _vertexBuffer;
@@ -62,22 +61,6 @@ public partial class Terrain : Model
     /// </summary>
     [Description(" A factor by which the terrain is vertically stretched"), Category("Layout")]
     public float StretchV { get; private init; }
-    #endregion
-
-    #region Transform results
-    /// <inheritdoc/>
-    protected override void RecalcWorldTransform()
-    {
-        base.RecalcWorldTransform();
-
-        // Transform subset-specific bounding bodies into world space
-        if (_subsetBoundingBoxes != null)
-        {
-            _subsetWorldBoundingBoxes = new BoundingBox[_subsetBoundingBoxes.Length];
-            for (int i = 0; i < NumberSubsets; i++)
-                _subsetWorldBoundingBoxes[i] = _subsetBoundingBoxes[i].Transform(WorldTransformCached);
-        }
-    }
     #endregion
 
     #endregion
@@ -165,8 +148,8 @@ public partial class Terrain : Model
         {
             // Set properties here to keep constructor nice and simple
             Size = size, StretchH = stretchH, StretchV = stretchV,
-            _blockSize = blockSize,
-            _subsetBoundingBoxes = subsetBoundingBoxes,
+            SubsetBoundingBoxes = subsetBoundingBoxes,
+            SubsetBoundingSpheres = subsetBoundingBoxes.Select(SlimDX.BoundingSphere.FromBox).ToArray(),
             _subsetShaders = subsetShaders,
             NumberSubsets = subsetBoundingBoxes.Length
         };
@@ -248,32 +231,17 @@ public partial class Terrain : Model
 
         // Invalidate old bounding boxes
         // ToDo: Update bounding boxes instead
-        _subsetBoundingBoxes = null;
-        _subsetWorldBoundingBoxes = null;
+        SubsetBoundingBoxes = null;
+        SubsetBoundingSpheres = null;
+        WorldTransformDirty = true;
     }
     #endregion
 
     #region Render
-    /// <inheritdoc/>
-    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
+    protected override void RenderSubset(int i, Camera camera, GetEffectiveLighting? getEffectiveLighting)
     {
         // Rendering this without a shader isn't possible (non-standard FVF)
         if (SurfaceEffect < SurfaceEffect.Shader) SurfaceEffect = SurfaceEffect.Shader;
-
-        // Note: Doesn't call base methods
-        PrepareRender();
-        Engine.State.WorldTransform = WorldTransform;
-
-        // Update bounding bodies
-        RecalcWorldTransform();
-
-        for (int i = 0; i < NumberSubsets; i++) RenderSubset(i, camera, getEffectiveLighting);
-    }
-
-    private void RenderSubset(int i, Camera camera, GetEffectiveLighting? getEffectiveLighting)
-    {
-        // Per-subset frustum culling
-        if (_subsetWorldBoundingBoxes != null && !camera.InFrustum(_subsetWorldBoundingBoxes[i])) return;
 
         using (new ProfilerEvent(() => $"Subset {i}"))
         {
@@ -291,19 +259,13 @@ public partial class Terrain : Model
                 if (_subsetShaders?[i] != null) SurfaceShader = _subsetShaders[i];
                 XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
-                Vector3 boxCenter = (_subsetBoundingBoxes == null ? new() : _subsetBoundingBoxes[i].Minimum + (_subsetBoundingBoxes[i].Maximum - _subsetBoundingBoxes[i].Minimum) * 0.5f);
+                var boundingSphere = SubsetBoundingSpheres?[i] ?? new();
                 var effectiveLighting = getEffectiveLighting == null
                     ? new()
-                    : getEffectiveLighting(Position + boxCenter, radius: _blockSize * StretchH * (float)(Math.Sqrt(2) / 2)) with {ShadowCasters = []};
+                    : getEffectiveLighting(Position + boundingSphere.Center, boundingSphere.Radius) with {ShadowCasters = []};
 
                 RenderHelper(renderSubset, currentMaterial, camera, effectiveLighting);
             }
-        }
-
-        // Draw per-subset bounding bodies
-        if (SurfaceEffect < SurfaceEffect.Glow)
-        {
-            if (DrawBoundingBox && _subsetWorldBoundingBoxes != null) Engine.DrawBoundingBox(_subsetWorldBoundingBoxes[i]);
         }
     }
     #endregion

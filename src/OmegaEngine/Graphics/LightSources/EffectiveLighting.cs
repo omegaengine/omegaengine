@@ -54,4 +54,4 @@ public readonly record struct EffectiveLighting(LightSource[] LightSources, Posi
 /// <param name="position">The position to get lighting information for.</param>
 /// <param name="radius">The additional search radius to use (usually bounding sphere radius).</param>
 /// <seealso cref="Scene.GetEffectiveLighting"/>
-internal delegate EffectiveLighting GetEffectiveLighting(DoubleVector3 position, float radius);
+public delegate EffectiveLighting GetEffectiveLighting(DoubleVector3 position, float radius);

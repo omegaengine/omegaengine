@@ -49,18 +49,6 @@ public partial class Model : PositionableRenderable
 
     /// <summary>True if the <see cref="Materials"/> are not owned by <see cref="_asset"/> and therefor need to be released by <see cref="OnDispose"/>.</summary>
     private readonly bool _separateMaterials;
-
-    /// <summary>Per-subset bounding spheres in entity space.</summary>
-    private BoundingSphere[]? _subsetBoundingSpheres;
-
-    /// <summary>Per-subset bounding spheres in floating world space.</summary>
-    private BoundingSphere[]? _subsetWorldBoundingSpheres;
-
-    /// <summary>Per-subset bounding boxes in entity space.</summary>
-    private BoundingBox[]? _subsetBoundingBoxes;
-
-    /// <summary>Per-subset bounding boxes in floating world space.</summary>
-    private BoundingBox[]? _subsetWorldBoundingBoxes;
     #endregion
 
     #region Properties
@@ -125,8 +113,8 @@ public partial class Model : PositionableRenderable
     {
         BoundingSphere = mesh.BoundingSphere;
         BoundingBox = mesh.BoundingBox;
-        _subsetBoundingBoxes = mesh.SubsetBoundingBoxes;
-        _subsetBoundingSpheres = mesh.SubsetBoundingSpheres;
+        SubsetBoundingBoxes = mesh.SubsetBoundingBoxes;
+        SubsetBoundingSpheres = mesh.SubsetBoundingSpheres;
     }
     #endregion
 
@@ -155,24 +143,64 @@ public partial class Model : PositionableRenderable
 
     //--------------------//
 
-    #region Transform
+    #region Bounding bodies
+    /// <summary>
+    /// Per-subset bounding spheres in entity space.
+    /// </summary>
+    protected BoundingSphere[]? SubsetBoundingSpheres { get; set; }
+
+    private BoundingSphere[]? _subsetWorldBoundingSpheres;
+
+    /// <summary>
+    /// Per-subset bounding spheres in floating world space.
+    /// </summary>
+    protected BoundingSphere[]? SubsetWorldBoundingSpheres
+    {
+        get
+        {
+            RecalcWorldTransform();
+            return _subsetWorldBoundingSpheres;
+        }
+    }
+
+    /// <summary>
+    /// Per-subset bounding boxes in entity space.
+    /// </summary>
+    protected BoundingBox[]? SubsetBoundingBoxes { get; set; }
+
+    private BoundingBox[]? _subsetWorldBoundingBoxes;
+
+    /// <summary>
+    /// Per-subset bounding boxes in floating world space.
+    /// </summary>
+    protected BoundingBox[]? SubsetWorldBoundingBoxes
+    {
+        get
+        {
+            RecalcWorldTransform();
+            return _subsetWorldBoundingBoxes;
+        }
+    }
+
     /// <inheritdoc/>
     protected override void RecalcWorldTransform()
     {
         base.RecalcWorldTransform();
 
-        if (_subsetBoundingSpheres != null)
+        if (SubsetBoundingSpheres == null) _subsetWorldBoundingSpheres = null;
+        else
         {
-            _subsetWorldBoundingSpheres ??= new BoundingSphere[_subsetBoundingSpheres.Length];
+            _subsetWorldBoundingSpheres ??= new BoundingSphere[SubsetBoundingSpheres.Length];
             for (int i = 0; i < _subsetWorldBoundingSpheres.Length; i++)
-                _subsetWorldBoundingSpheres[i] = _subsetBoundingSpheres[i].Transform(WorldTransformCached);
+                _subsetWorldBoundingSpheres[i] = SubsetBoundingSpheres[i].Transform(WorldTransformCached);
         }
 
-        if (_subsetBoundingBoxes != null)
+        if (SubsetBoundingBoxes == null) SubsetBoundingBoxes = null;
+        else
         {
-            _subsetWorldBoundingBoxes ??= new BoundingBox[_subsetBoundingBoxes.Length];
+            _subsetWorldBoundingBoxes ??= new BoundingBox[SubsetBoundingBoxes.Length];
             for (int i = 0; i < _subsetWorldBoundingBoxes.Length; i++)
-                _subsetWorldBoundingBoxes[i] = _subsetBoundingBoxes[i].Transform(WorldTransformCached);
+                _subsetWorldBoundingBoxes[i] = SubsetBoundingBoxes[i].Transform(WorldTransformCached);
         }
     }
     #endregion
@@ -182,35 +210,38 @@ public partial class Model : PositionableRenderable
     internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
     {
         base.Render(camera, getEffectiveLighting);
+
         Engine.State.WorldTransform = WorldTransform;
 
-        var lighting = (SurfaceEffect == SurfaceEffect.Plain || getEffectiveLighting == null)
-            ? new()
-            : getEffectiveLighting(Position, BoundingSphere?.Radius ?? 0);
-
         for (int i = 0; i < NumberSubsets; i++)
-            RenderSubset(i, camera, lighting);
+        {
+            // Per-subset frustum culling
+            if (_subsetWorldBoundingSpheres != null && !camera.InFrustum(_subsetWorldBoundingSpheres[i])) continue;
+            if (_subsetWorldBoundingBoxes != null && !camera.InFrustum(_subsetWorldBoundingBoxes[i])) continue;
+
+            RenderSubset(i, camera, getEffectiveLighting);
+
+            // Draw per-subset bounding bodies
+            if (SurfaceEffect < SurfaceEffect.Glow)
+            {
+                if (DrawBoundingSphere && _subsetWorldBoundingSpheres != null) Engine.DrawBoundingSphere(_subsetWorldBoundingSpheres[i]);
+                if (DrawBoundingBox && _subsetWorldBoundingBoxes != null) Engine.DrawBoundingBox(_subsetWorldBoundingBoxes[i]);
+            }
+        }
     }
 
-    protected void RenderSubset(int i, Camera camera, EffectiveLighting effectiveLighting)
+    protected virtual void RenderSubset(int i, Camera camera, GetEffectiveLighting? getEffectiveLighting)
     {
-        // Per-subset frustum culling
-        if (_subsetWorldBoundingSpheres != null && !camera.InFrustum(_subsetWorldBoundingSpheres[i])) return;
-        if (_subsetWorldBoundingBoxes != null && !camera.InFrustum(_subsetWorldBoundingBoxes[i])) return;
-
         using (new ProfilerEvent(() => $"Subset {i}"))
         {
             // Load the subset-material (default to first one, if the subset has no own)
             XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
-            RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, effectiveLighting);
-        }
+            var effectiveLighting = (SurfaceEffect == SurfaceEffect.Plain || getEffectiveLighting == null)
+                ? new()
+                : getEffectiveLighting(Position, BoundingSphere?.Radius ?? 0);
 
-        // Draw per-subset bounding bodies
-        if (SurfaceEffect < SurfaceEffect.Glow)
-        {
-            if (DrawBoundingSphere && _subsetWorldBoundingSpheres != null) Engine.DrawBoundingSphere(_subsetWorldBoundingSpheres[i]);
-            if (DrawBoundingBox && _subsetWorldBoundingBoxes != null) Engine.DrawBoundingBox(_subsetWorldBoundingBoxes[i]);
+            RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, effectiveLighting);
         }
     }
     #endregion

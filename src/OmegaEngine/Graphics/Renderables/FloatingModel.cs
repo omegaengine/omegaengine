@@ -79,7 +79,7 @@ public class FloatingModel : Model
         SurfaceEffect = SurfaceEffect.Plain;
 
         for (int i = 0; i < NumberSubsets; i++)
-            RenderSubset(i, camera, effectiveLighting: new());
+            RenderSubset(i, camera, getEffectiveLighting: null);
     }
     #endregion
 }
