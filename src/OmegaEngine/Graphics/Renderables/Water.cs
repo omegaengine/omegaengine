@@ -13,7 +13,6 @@ using SlimDX.Direct3D9;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
-using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
 using Resources = OmegaEngine.Properties.Resources;
@@ -117,7 +116,7 @@ public class Water : Model
 
         SelectShader();
 
-        RenderHelper(() => Mesh.DrawSubset(0), Materials[0], camera, effectiveLights: new());
+        RenderHelper(() => Mesh.DrawSubset(0), Materials[0], camera, effectiveLights: []);
         if (DrawBoundingBox && WorldBoundingBox.HasValue && SurfaceEffect < SurfaceEffect.Glow)
             Engine.DrawBoundingBox(WorldBoundingBox.Value);
     }

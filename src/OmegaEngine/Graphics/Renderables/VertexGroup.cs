@@ -8,7 +8,6 @@
 
 using System;
 using OmegaEngine.Graphics.Cameras;
-using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.VertexDecl;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -237,8 +236,8 @@ public class VertexGroup : PositionableRenderable
         }
 
         var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getEffectiveLights == null)
-            ? new()
-            : getEffectiveLights(Position, BoundingSphere?.Radius ?? 0);
+            ? []
+            : getEffectiveLights(GetWorldBoundingSphereOrPosition(), ShadowReceiver);
 
         RenderHelper(render, _material, camera, effectiveLights);
         #endregion

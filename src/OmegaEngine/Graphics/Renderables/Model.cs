@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
-using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -238,8 +237,8 @@ public partial class Model : PositionableRenderable
             XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
             var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getEffectiveLights == null)
-                ? new()
-                : getEffectiveLights(Position, BoundingSphere?.Radius ?? 0);
+                ? []
+                : getEffectiveLights(SubsetWorldBoundingSpheres?[i] ?? GetWorldBoundingSphereOrPosition(), ShadowReceiver);
 
             RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, effectiveLights);
         }

@@ -286,6 +286,12 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     }
 
     /// <summary>
+    /// Returns the <see cref="WorldBoundingSphere"/> or, if that is not available, a sphere with the floating world position and zero radius.
+    /// </summary>
+    protected BoundingSphere GetWorldBoundingSphereOrPosition()
+        => WorldBoundingSphere ?? new(this.GetFloatingPosition(), radius: 0);
+
+    /// <summary>
     /// Shall the bounding sphere used to cull this object be drawn/visualized? (used for debugging)
     /// </summary>
     [DefaultValue(false), Description("Shall the bounding sphere used to cull this object be drawn/visualized? (used for debugging)"), Category("Appearance")]
@@ -393,7 +399,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <param name="material">The material to apply to everything rendered.</param>
     /// <param name="camera">The currently effective <see cref="Camera"/>.</param>
     /// <param name="effectiveLights">The currently effective lighting information for the renderable's position.</param>
-    protected void RenderHelper([InstantHandle] Action render, XMaterial material, Camera camera, EffectiveLighting effectiveLights)
+    protected void RenderHelper([InstantHandle] Action render, XMaterial material, Camera camera, LightSource[] effectiveLights)
     {
         #region Sanity checks
         if (render == null) throw new ArgumentNullException(nameof(render));
@@ -415,10 +421,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
                 RenderFixedFunction(render, material);
                 break;
             case SurfaceEffect.Shader:
-                var lightSources = ShadowReceiver && WorldBoundingSphere is {} boundingSphere
-                    ? effectiveLights.GetShadowedLightSources(boundingSphere)
-                    : effectiveLights.LightSources;
-                RenderShader(render, material, camera, lightSources);
+                RenderShader(render, material, camera, effectiveLights);
                 break;
         }
 

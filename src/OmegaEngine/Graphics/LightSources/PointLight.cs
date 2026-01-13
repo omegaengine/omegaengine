@@ -86,19 +86,19 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
     /// <summary>
     /// Converts the point light source to a directional light source.
     /// </summary>
-    /// <param name="target">The target location being lit.</param>
+    /// <param name="target">The floating target location being lit.</param>
     /// <returns>A re-used light source. Updates and returns the same instance on subsequent calls.</returns>
-    internal DirectionalLight AsDirectional(DoubleVector3 target)
+    internal DirectionalLight AsDirectional(Vector3 target)
     {
         _directional ??= new();
 
         _directional.Name = Name;
         _directional.Enabled = Enabled;
 
-        var delta = target - Position;
-        _directional.Direction = (Vector3)delta.Normalize();
+        var delta = target - _floatingPosition;
+        _directional.Direction = Vector3.Normalize(delta);
 
-        float attenuation = Attenuation.Apply((float)delta.Length());
+        float attenuation = Attenuation.Apply(delta.Length());
         _directional.Diffuse = Diffuse.Multiply(attenuation);
         _directional.Specular = Specular.Multiply(attenuation);
         _directional.Ambient = Ambient.Multiply(attenuation);

@@ -8,7 +8,6 @@
 
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
-using OmegaEngine.Graphics.LightSources;
 using SlimDX;
 using SlimDX.Direct3D9;
 

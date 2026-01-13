@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
-using OmegaEngine.Graphics.LightSources;
 
 namespace OmegaEngine.Graphics.Renderables;
 
