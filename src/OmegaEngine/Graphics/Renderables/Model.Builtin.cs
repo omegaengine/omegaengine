@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using NanoByte.Common;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -153,22 +154,88 @@ partial class Model
     /// <param name="radiusOuter">The radius of the outer circle of the ring.</param>
     /// <param name="height">The height of the ring.</param>
     /// <param name="segments">The number of segments the ring shall consist of.</param>
+    /// <param name="subsets">The number of subsets to split the mesh into. Must be a divisor of <paramref name="segments"/>.</param>
     /// <exception cref="NotSupportedException">The <paramref name="material"/> is not textured.</exception>
-    public static Model Disc(Engine engine, XMaterial material, float radiusInner, float radiusOuter, float height, int segments)
+    public static Model Disc(Engine engine, XMaterial material, float radiusInner, float radiusOuter, float height, int segments, int subsets = 1)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
         if (!material.IsTextured) throw new NotSupportedException("The material must be textured.");
-        var mesh = TexturedMesh.Disc(engine.Device, radiusInner, radiusOuter, height, segments, material.NeedsTBN);
+        var mesh = TexturedMesh.Disc(engine.Device, radiusInner, radiusOuter, height, segments, subsets, material.NeedsTBN);
 
-        return new(mesh, material)
+        var model = new Model(mesh, material)
         {
             Engine = engine,
+            NumberSubsets = subsets,
             BoundingSphere = CenteredBoundingSphere(radius: (float)Math.Sqrt(radiusOuter * radiusOuter + height * height / 4)),
             BoundingBox = CenteredBoundingBox(corner: new(radiusOuter, radiusOuter, height / 2))
         };
+
+        if (subsets > 1)
+        {
+            model.SubsetBoundingBoxes = new BoundingBox[subsets];
+            model.SubsetBoundingSpheres = new BoundingSphere[subsets];
+
+            float anglePerSubset = (float)(Math.PI * 2 / subsets);
+
+            for (int i = 0; i < subsets; i++)
+            {
+                float angleStart = i * anglePerSubset;
+                float angleEnd = (i + 1) * anglePerSubset;
+
+                // Calculate base corners of the subset in the XZ plane
+                var innerStart = new Vector3(radiusInner * (float)Math.Cos(angleStart), 0, radiusInner * (float)Math.Sin(angleStart));
+                var innerEnd = new Vector3(radiusInner * (float)Math.Cos(angleEnd), 0, radiusInner * (float)Math.Sin(angleEnd));
+                var outerStart = new Vector3(radiusOuter * (float)Math.Cos(angleStart), 0, radiusOuter * (float)Math.Sin(angleStart));
+                var outerEnd = new Vector3(radiusOuter * (float)Math.Cos(angleEnd), 0, radiusOuter * (float)Math.Sin(angleEnd));
+
+                // Collect all points for this subset
+                var points = new List<Vector3>
+                {
+                    // Base corners at both height levels
+                    new(outerStart.X, height / 2, outerStart.Z),
+                    new(outerStart.X, -height / 2, outerStart.Z),
+                    new(outerEnd.X, height / 2, outerEnd.Z),
+                    new(outerEnd.X, -height / 2, outerEnd.Z),
+                    new(innerStart.X, height / 2, innerStart.Z),
+                    new(innerStart.X, -height / 2, innerStart.Z),
+                    new(innerEnd.X, height / 2, innerEnd.Z),
+                    new(innerEnd.X, -height / 2, innerEnd.Z)
+                };
+
+                // Add cardinal direction points if subset arc includes them
+                // This ensures accurate bounds when the subset spans cardinal directions
+                if (angleStart <= 0 && angleEnd > 0)
+                {
+                    points.Add(new(radiusOuter, height / 2, 0));
+                    points.Add(new(radiusOuter, -height / 2, 0));
+                }
+                if (angleStart < Math.PI && angleEnd >= Math.PI)
+                {
+                    points.Add(new(-radiusOuter, height / 2, 0));
+                    points.Add(new(-radiusOuter, -height / 2, 0));
+                }
+                if (angleStart < Math.PI / 2 && angleEnd >= Math.PI / 2)
+                {
+                    points.Add(new(0, height / 2, radiusOuter));
+                    points.Add(new(0, -height / 2, radiusOuter));
+                }
+                if (angleStart < Math.PI * 3 / 2 && angleEnd >= Math.PI * 3 / 2)
+                {
+                    points.Add(new(0, height / 2, -radiusOuter));
+                    points.Add(new(0, -height / 2, -radiusOuter));
+                }
+
+                // Use SlimDX built-in methods to calculate optimal bounding volumes
+                var pointsArray = points.ToArray();
+                model.SubsetBoundingBoxes[i] = SlimDX.BoundingBox.FromPoints(pointsArray);
+                model.SubsetBoundingSpheres[i] = SlimDX.BoundingSphere.FromPoints(pointsArray);
+            }
+        }
+
+        return model;
     }
 
     /// <summary>
