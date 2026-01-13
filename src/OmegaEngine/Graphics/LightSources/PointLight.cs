@@ -131,7 +131,7 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         float shadowFactor = GetShadowFactor(receiverSphere, shadowRay, shadowRadius);
 
         if (shadowFactor == 0) return this;
-        return new PointLight
+        var lightSource = new PointLight
         {
             Name = Name,
             Enabled = Enabled,
@@ -143,5 +143,7 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
             Range = Range,
             Attenuation = Attenuation
         };
+        lightSource.SetFloatingOrigin(this.GetFloatingOrigin());
+        return lightSource;
     }
 }
