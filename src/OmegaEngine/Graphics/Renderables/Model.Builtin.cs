@@ -77,7 +77,7 @@ partial class Model
     /// <param name="radius">The radius of the sphere.</param>
     /// <param name="slices">The number of vertical slices to divide the sphere into.</param>
     /// <param name="stacks">The number of horizontal stacks to divide the sphere into.</param>
-    public static Model Sphere(Engine engine, XMaterial material, float radius = 10, int slices = 20, int stacks = 20)
+    public static Model Sphere(Engine engine, XMaterial material, float radius = 1, int slices = 20, int stacks = 20)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));

@@ -25,9 +25,9 @@ public class Game(Settings settings)
         var camera = new ArcballCamera
         {
             FieldOfView = settings.Graphics.FieldOfView,
-            MinRadius = 11,
-            MaxRadius = 200,
-            Radius = 25,
+            MinRadius = 2,
+            MaxRadius = 50,
+            Radius = 3,
             Pitch = 30
         };
         var view = new View(scene, camera)
