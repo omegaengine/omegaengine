@@ -33,8 +33,8 @@ internal class Vector2RayConverter : ValueTypeConverter<Vector2Ray>
     /// <inheritdoc/>
     protected override object[] GetArguments(Vector2Ray value) =>
     [
-        value.Origin.X,
-        value.Origin.Y,
+        value.Position.X,
+        value.Position.Y,
         value.Direction.X,
         value.Direction.Y
     ];
@@ -45,8 +45,8 @@ internal class Vector2RayConverter : ValueTypeConverter<Vector2Ray>
         var floatConverter = TypeDescriptor.GetConverter(typeof(float));
         return
         [
-            floatConverter.ConvertToString(context, culture, value.Origin.X) ?? "",
-            floatConverter.ConvertToString(context, culture, value.Origin.Y) ?? "",
+            floatConverter.ConvertToString(context, culture, value.Position.X) ?? "",
+            floatConverter.ConvertToString(context, culture, value.Position.Y) ?? "",
             floatConverter.ConvertToString(context, culture, value.Direction.X) ?? "",
             floatConverter.ConvertToString(context, culture, value.Direction.Y) ?? ""
         ];

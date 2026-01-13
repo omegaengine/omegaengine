@@ -9,7 +9,7 @@ public class Vector3RayTests
     [Fact]
     public void PerpendicularDistance_PointOnRay_ReturnsZero()
     {
-        var ray = new Vector3Ray(origin: new Vector3(2, 0, 0), direction: new Vector3(1, 0, 0));
+        var ray = new Vector3Ray(position: new Vector3(2, 0, 0), direction: new Vector3(1, 0, 0));
         var pointOnRay = new Vector3(7, 0, 0);
 
         float distance = ray.PerpendicularDistance(pointOnRay);
@@ -19,7 +19,7 @@ public class Vector3RayTests
     [Fact]
     public void PerpendicularDistance_PointOffsetPerpendicularly_ReturnsCorrectDistance()
     {
-        var ray = new Vector3Ray(origin: new Vector3(0, 2, 0), direction: new Vector3(1, 0, 0));
+        var ray = new Vector3Ray(position: new Vector3(0, 2, 0), direction: new Vector3(1, 0, 0));
         var point = new Vector3(3, 6, 0);
 
         float distance = ray.PerpendicularDistance(point);
@@ -29,7 +29,7 @@ public class Vector3RayTests
     [Fact]
     public void PerpendicularDistance_PointBehindRay_StillComputesPerpendicularDistance()
     {
-        var ray = new Vector3Ray(origin: new Vector3(0, 0, 2), direction: new Vector3(1, 0, 0));
+        var ray = new Vector3Ray(position: new Vector3(0, 0, 2), direction: new Vector3(1, 0, 0));
         var point = new Vector3(-2, 3, 2);
 
         float distance = ray.PerpendicularDistance(point);

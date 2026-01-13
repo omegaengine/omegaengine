@@ -17,16 +17,16 @@ namespace OmegaEngine.Foundation.Geometry;
 /// <summary>
 /// Defines a ray in three dimensions, specified by an origin and a direction.
 /// </summary>
-/// <param name="origin">A point along the ray.</param>
+/// <param name="position">A point along the ray.</param>
 /// <param name="direction">A unit vector specifying the direction in which the ray is pointing (automatically normalized).</param>
 [TypeConverter(typeof(Vector3RayConverter))]
-public struct Vector3Ray(Vector3 origin, Vector3 direction) : IEquatable<Vector3Ray>
+public struct Vector3Ray(Vector3 position, Vector3 direction) : IEquatable<Vector3Ray>
 {
     /// <summary>
     /// A point along the ray.
     /// </summary>
     [Description("A point along the ray.")]
-    public Vector3 Origin { get; } = origin;
+    public Vector3 Position { get; } = position;
 
     private Vector3 _direction = Vector3.Normalize(direction);
 
@@ -37,10 +37,10 @@ public struct Vector3Ray(Vector3 origin, Vector3 direction) : IEquatable<Vector3
     public Vector3 Direction { readonly get => _direction; set => _direction = Vector3.Normalize(value); }
 
     /// <inheritdoc/>
-    public readonly override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0} => {1})", Origin, Direction);
+    public readonly override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0} => {1})", Position, Direction);
 
     /// <inheritdoc/>
-    public bool Equals(Vector3Ray other) => other.Direction == Direction && other.Origin == Origin;
+    public bool Equals(Vector3Ray other) => other.Direction == Direction && other.Position == Position;
 
     public static bool operator ==(Vector3Ray left, Vector3Ray right) => left.Equals(right);
     public static bool operator !=(Vector3Ray left, Vector3Ray right) => !left.Equals(right);
@@ -50,9 +50,9 @@ public struct Vector3Ray(Vector3 origin, Vector3 direction) : IEquatable<Vector3
     /// </summary>
     public float PerpendicularDistance(Vector3 point)
     {
-        var toPoint = point - Origin;
+        var toPoint = point - Position;
         float projection = Vector3.Dot(toPoint, Direction);
-        var projectedPoint = Origin + Direction * projection;
+        var projectedPoint = Position + Direction * projection;
         return (point - projectedPoint).Length();
     }
 
@@ -64,5 +64,5 @@ public struct Vector3Ray(Vector3 origin, Vector3 direction) : IEquatable<Vector3
     }
 
     /// <inheritdoc/>
-    public readonly override int GetHashCode() => HashCode.Combine(Direction, Origin);
+    public readonly override int GetHashCode() => HashCode.Combine(Direction, Position);
 }

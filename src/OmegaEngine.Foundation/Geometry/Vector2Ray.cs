@@ -17,16 +17,16 @@ namespace OmegaEngine.Foundation.Geometry;
 /// <summary>
 /// Defines a ray in two dimensions, specified by an origin and a direction.
 /// </summary>
-/// <param name="origin">A point along the ray.</param>
+/// <param name="position">A point along the ray.</param>
 /// <param name="direction">A unit vector specifying the direction in which the ray is pointing (automatically normalized).</param>
 [TypeConverter(typeof(Vector2RayConverter))]
-public struct Vector2Ray(Vector2 origin, Vector2 direction) : IEquatable<Vector2Ray>
+public struct Vector2Ray(Vector2 position, Vector2 direction) : IEquatable<Vector2Ray>
 {
     /// <summary>
     /// A point along the ray.
     /// </summary>
     [Description("A point along the ray.")]
-    public Vector2 Origin { get; } = origin;
+    public Vector2 Position { get; } = position;
 
     private Vector2 _direction = Vector2.Normalize(direction);
 
@@ -37,10 +37,10 @@ public struct Vector2Ray(Vector2 origin, Vector2 direction) : IEquatable<Vector2
     public Vector2 Direction { readonly get => _direction; set => _direction = Vector2.Normalize(value); }
 
     /// <inheritdoc/>
-    public readonly override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0} => {1})", Origin, Direction);
+    public readonly override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0} => {1})", Position, Direction);
 
     /// <inheritdoc/>
-    public bool Equals(Vector2Ray other) => other.Direction == Direction && other.Origin == Origin;
+    public bool Equals(Vector2Ray other) => other.Direction == Direction && other.Position == Position;
 
     public static bool operator ==(Vector2Ray left, Vector2Ray right) => left.Equals(right);
     public static bool operator !=(Vector2Ray left, Vector2Ray right) => !left.Equals(right);
@@ -50,9 +50,9 @@ public struct Vector2Ray(Vector2 origin, Vector2 direction) : IEquatable<Vector2
     /// </summary>
     public float PerpendicularDistance(Vector2 point)
     {
-        var toPoint = point - Origin;
+        var toPoint = point - Position;
         float projection = Vector2.Dot(toPoint, Direction);
-        var projectedPoint = Origin + Direction * projection;
+        var projectedPoint = Position + Direction * projection;
         return (point - projectedPoint).Length();
     }
 
@@ -64,5 +64,5 @@ public struct Vector2Ray(Vector2 origin, Vector2 direction) : IEquatable<Vector2
     }
 
     /// <inheritdoc/>
-    public readonly override int GetHashCode() => HashCode.Combine(Direction, Origin);
+    public readonly override int GetHashCode() => HashCode.Combine(Direction, Position);
 }

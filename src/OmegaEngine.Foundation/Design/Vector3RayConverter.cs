@@ -35,9 +35,9 @@ internal class Vector3RayConverter : ValueTypeConverter<Vector3Ray>
     /// <inheritdoc/>
     protected override object[] GetArguments(Vector3Ray value) =>
     [
-        value.Origin.X,
-        value.Origin.Y,
-        value.Origin.Z,
+        value.Position.X,
+        value.Position.Y,
+        value.Position.Z,
         value.Direction.X,
         value.Direction.Y,
         value.Direction.Z
@@ -49,9 +49,9 @@ internal class Vector3RayConverter : ValueTypeConverter<Vector3Ray>
         var floatConverter = TypeDescriptor.GetConverter(typeof(float));
         return
         [
-            floatConverter.ConvertToString(context, culture, value.Origin.X) ?? "",
-            floatConverter.ConvertToString(context, culture, value.Origin.Y) ?? "",
-            floatConverter.ConvertToString(context, culture, value.Origin.Z) ?? "",
+            floatConverter.ConvertToString(context, culture, value.Position.X) ?? "",
+            floatConverter.ConvertToString(context, culture, value.Position.Y) ?? "",
+            floatConverter.ConvertToString(context, culture, value.Position.Z) ?? "",
             floatConverter.ConvertToString(context, culture, value.Direction.X) ?? "",
             floatConverter.ConvertToString(context, culture, value.Direction.Y) ?? "",
             floatConverter.ConvertToString(context, culture, value.Direction.Z) ?? ""
