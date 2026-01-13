@@ -70,16 +70,16 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
     public Vector3 Shift { get; set; }
 
     /// <summary>
-    /// The maximum distance at which the light source has an effect.
-    /// </summary>
-    [Description("The maximum distance at which the light source has an effect."), Category("Behavior")]
-    public float Range { get; set; } = 1000;
-
-    /// <summary>
     /// Factors describing the attenuation of light intensity over distance.
     /// </summary>
     [Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation."), Category("Behavior")]
     public Attenuation Attenuation { get; set; } = Attenuation.None;
+
+    /// <summary>
+    /// The maximum distance at which the light source has an effect.
+    /// </summary>
+    [Description("The maximum distance at which the light source has an effect."), Category("Behavior")]
+    public float Range => Attenuation.Range(minIntensity: 0.02f);
 
     private DirectionalLight? _directional;
 
@@ -140,7 +140,6 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
             Ambient = Ambient,
             Position = Position,
             RenderAsDirectional = RenderAsDirectional,
-            Range = Range,
             Attenuation = Attenuation
         };
         lightSource.SetFloatingOrigin(this.GetFloatingOrigin());

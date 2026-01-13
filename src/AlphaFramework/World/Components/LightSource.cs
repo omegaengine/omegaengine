@@ -36,13 +36,6 @@ public class LightSource : Render
     public XColor ColorValue { get => Color; set => Color = value.DropAlpha(); }
 
     /// <summary>
-    /// The maximum distance at which the light source has an effect.
-    /// </summary>
-    [Description("The maximum distance at which the light source has an effect.")]
-    [XmlAttribute]
-    public float Range { get; set; }
-
-    /// <summary>
     /// Factors describing the attenuation of light intensity over distance.
     /// </summary>
     [Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation.")]

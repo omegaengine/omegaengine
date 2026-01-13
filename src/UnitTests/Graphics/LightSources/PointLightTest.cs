@@ -21,8 +21,7 @@ public class PointLightTest
         Position = new DoubleVector3(0, 20, 0),
         Diffuse = Color.White,
         Specular = Color.White,
-        Ambient = Color.FromArgb(50, 50, 50),
-        Range = 100
+        Ambient = Color.FromArgb(50, 50, 50)
     };
 
     [Fact]
@@ -113,7 +112,6 @@ public class PointLightTest
             Diffuse = Color.Red,
             Specular = Color.Blue,
             Ambient = Color.Green,
-            Range = 50,
             RenderAsDirectional = true,
             Attenuation = new(1, 0.5f, 0.25f)
         };
@@ -175,5 +173,20 @@ public class PointLightTest
         // First receiver should have no shadow, second should have shadow
         shadowed1.Should().Be(light);
         shadowed2.Should().NotBe(light);
+    }
+
+    [Fact]
+    public void Range_Infinite()
+    {
+        var light = CreateLight();
+        light.Range.Should().Be(float.PositiveInfinity);
+    }
+
+    [Fact]
+    public void Range_Attenuated()
+    {
+        var light = CreateLight();
+        light.Attenuation = new(constant: 0.75f, linear: 0, quadratic: 0.001f);
+        light.Range.Should().BeLessThan(float.PositiveInfinity);
     }
 }

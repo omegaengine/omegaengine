@@ -4,7 +4,7 @@
     <CpuParticleSystem Filename="ColdFire.xml">
       <Shift X="0" Y="30" Z="0" />
     </CpuParticleSystem>
-    <LightSource Range="500">
+    <LightSource>
       <Shift X="0" Y="30" Z="0" />
       <Color A="255" R="40" G="72" B="255" />
       <Attenuation Constant="0.75" Linear="0" Quadratic="5E-05" />
@@ -15,7 +15,7 @@
     <CpuParticleSystem Filename="Fire.xml">
       <Shift X="0" Y="30" Z="0" />
     </CpuParticleSystem>
-    <LightSource Range="500">
+    <LightSource>
       <Shift X="0" Y="30" Z="0" />
       <Color A="255" R="255" G="48" B="0" />
       <Attenuation Constant="0.75" Linear="0" Quadratic="5E-05" />

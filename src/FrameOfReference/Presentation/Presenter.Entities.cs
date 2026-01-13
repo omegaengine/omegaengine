@@ -94,7 +94,6 @@ partial class Presenter
             entity => entity.TemplateData?.Render.OfType<LightSource>().Select(component => new PointLight
             {
                 Name = entity.Name,
-                Range = component.Range,
                 Attenuation = component.Attenuation,
                 Diffuse = component.Color,
                 Shift = component.Shift

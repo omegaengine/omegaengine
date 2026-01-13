@@ -56,6 +56,24 @@ public struct Attenuation(float constant, float linear, float quadratic) : IEqua
     public readonly float Apply(float distance)
         => (1 / (Constant + Linear * distance + Quadratic * distance * distance)).Clamp();
 
+    /// <summary>
+    /// Calculates the maximum distance at which a light source with this attenuation will have the given intensity.
+    /// </summary>
+    public float Range(float minIntensity)
+    {
+        if (Quadratic > 0)
+        {
+            float discriminant = Linear * Linear - 4 * Quadratic * (Constant - 1 / minIntensity);
+            return discriminant < 0
+                ? 0
+                : (-Linear + (float)Math.Sqrt(discriminant)) / (2 * Quadratic);
+        }
+        else if (Linear > 0)
+            return (1 / minIntensity - Constant) / Linear;
+        else
+            return float.PositiveInfinity;
+    }
+
     /// <inheritdoc/>
     public readonly override string ToString() => $"(Constant: {Constant}, Linear: {Linear}, Quadratic: {Quadratic})";
 
