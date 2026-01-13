@@ -25,9 +25,9 @@ public partial class Model : PositionableRenderable
 {
     #region Variables
     /// <summary>A reference to the asset providing the data for this model.</summary>
-    private XMesh _asset;
+    private XMesh? _asset;
 
-    /// <summary>The mesh object to use for rendering; never <c>null</c>.</summary>
+    /// <summary>The mesh object to use for rendering.</summary>
     protected readonly Mesh Mesh;
 
     /// <summary>
@@ -115,7 +115,7 @@ public partial class Model : PositionableRenderable
         SetBoundingBodiesFrom(mesh);
 
         // Get separate materials
-        Materials = materials ?? [];
+        Materials = materials;
         NumberSubsets = Materials.Length;
         foreach (var material in Materials) material.HoldReference();
         _separateMaterials = true;
@@ -144,7 +144,7 @@ public partial class Model : PositionableRenderable
         _ownMesh = true;
 
         // Get separate materials
-        Materials = materials ?? [];
+        Materials = materials;
         NumberSubsets = Materials.Length;
         foreach (var material in Materials) material.HoldReference();
         _separateMaterials = true;
@@ -246,7 +246,7 @@ public partial class Model : PositionableRenderable
     {
         try
         {
-            if (_ownMesh) Mesh?.Dispose();
+            if (_ownMesh) Mesh.Dispose();
 
             if (_asset != null)
             {
