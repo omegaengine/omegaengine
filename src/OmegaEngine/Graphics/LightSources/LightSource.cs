@@ -83,7 +83,7 @@ public abstract class LightSource
     /// <param name="shadowRay">Ray pointing from the light source to the shadow caster in floating world space.</param>
     /// <param name="shadowRadius">The radius of the shadow at the shadow receiver.</param>
     /// <returns>A value from 0 (fully lit) to 1 (fully shadowed).</returns>
-    protected static float GetShadowFactor(BoundingSphere receiverSphere, Vector3Ray shadowRay, float shadowRadius)
+    protected static float GetShadowFactor(BoundingSphere receiverSphere, Ray shadowRay, float shadowRadius)
     {
         float distance = shadowRay.PerpendicularDistance(receiverSphere.Center);
         float receiverRadius = receiverSphere.Radius;

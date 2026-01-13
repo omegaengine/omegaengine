@@ -127,7 +127,7 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         float lightToReceiverDistance = lightToCasterDistance + projectionDistance;
         float shadowRadius = casterSphere.Radius * (lightToReceiverDistance / lightToCasterDistance);
 
-        var shadowRay = new Vector3Ray(casterSphere.Center, lightDirection);
+        var shadowRay = new Ray(casterSphere.Center, lightDirection);
         float shadowFactor = GetShadowFactor(receiverSphere, shadowRay, shadowRadius);
 
         if (shadowFactor == 0) return this;

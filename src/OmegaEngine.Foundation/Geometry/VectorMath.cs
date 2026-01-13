@@ -124,7 +124,7 @@ public static class VectorMath
     /// <summary>
     /// Computes the perpendicular distance of this ray to a point.
     /// </summary>
-    public static float PerpendicularDistance(this Vector3Ray ray, Vector3 point)
+    public static float PerpendicularDistance(this Ray ray, Vector3 point)
     {
         var toPoint = point - ray.Position;
         float projection = Vector3.Dot(toPoint, ray.Direction);

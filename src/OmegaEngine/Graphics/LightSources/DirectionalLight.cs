@@ -8,7 +8,6 @@
 
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
-using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using SlimDX;
 
@@ -34,7 +33,7 @@ public sealed class DirectionalLight : LightSource
         if (Vector3.Dot(receiverSphere.Center - casterSphere.Center, Direction) <= 0)
             return this; // Receiver is not in shadow direction
 
-        var shadowRay = new Vector3Ray(casterSphere.Center, Direction);
+        var shadowRay = new Ray(casterSphere.Center, Direction);
         float shadowFactor = GetShadowFactor(receiverSphere, shadowRay, casterSphere.Radius);
 
         if (shadowFactor == 0) return this;
