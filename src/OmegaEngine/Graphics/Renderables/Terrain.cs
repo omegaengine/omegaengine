@@ -14,7 +14,6 @@ using System.Linq;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
-using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
 using SlimDX;
@@ -259,10 +258,9 @@ public partial class Terrain : Model
                 if (_subsetShaders?[i] != null) SurfaceShader = _subsetShaders[i];
                 XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
-                var boundingSphere = SubsetBoundingSpheres?[i] ?? new();
                 var effectiveLights = getEffectiveLights == null
-                    ? new()
-                    : getEffectiveLights(Position + boundingSphere.Center, boundingSphere.Radius) with {ShadowCasters = []};
+                    ? []
+                    : getEffectiveLights(SubsetWorldBoundingSpheres?[i] ?? GetWorldBoundingSphereOrPosition(), shadowing: false);
 
                 RenderHelper(renderSubset, currentMaterial, camera, effectiveLights);
             }

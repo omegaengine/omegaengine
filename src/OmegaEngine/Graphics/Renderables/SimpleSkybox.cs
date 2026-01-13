@@ -11,7 +11,6 @@ using System.IO;
 using System.Linq;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
-using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.VertexDecl;
 using SlimDX.Direct3D9;
 

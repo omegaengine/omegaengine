@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Assets;
-using OmegaEngine.Graphics.LightSources;
 
 namespace OmegaEngine.Graphics.Renderables;
 
