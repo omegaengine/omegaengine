@@ -20,7 +20,7 @@ using Resources = OmegaEngine.Properties.Resources;
 namespace OmegaEngine.Graphics;
 
 /// <summary>
-/// Gets the effective light sources for a specific location.
+/// Gets the effective light sources for a specific location (in range and potentially shadowed).
 /// </summary>
 /// <param name="boundingSphere">The position and optional radius in floating world space of the target being lit.</param>
 /// <param name="shadowing">Whether to apply shadowing.</param>
@@ -188,50 +188,65 @@ public sealed class Scene : EngineElement
 
     #region Get effective lighting
     /// <summary>
-    /// Gets the effective light sources for a specific location.
+    /// Gets the effective light sources for a specific location (in range and potentially shadowed).
     /// </summary>
     /// <param name="boundingSphere">The position and optional radius in floating world space of the target being lit.</param>
     /// <param name="shadowing">Whether to apply shadowing.</param>
     internal LightSource[] GetEffectiveLights(BoundingSphere boundingSphere, bool shadowing)
     {
-        float maxDistance = 0;
+        var lights = GetLights(boundingSphere, out float maxLightDistance);
+
+        if (shadowing && boundingSphere.Radius > 0)
+        {
+            var shadowCasters = _positionables.Where(x => x.ShadowCaster);
+            if (!float.IsPositiveInfinity(maxLightDistance))
+                shadowCasters = shadowCasters.Where(caster => (caster.GetFloatingPosition() - boundingSphere.Center).Length() <= maxLightDistance);
+
+            ApplyShadows(lights, boundingSphere, shadowCasters.ToList());
+        }
+
+        return lights;
+    }
+
+    /// <summary>
+    /// Gets the light sources that are in range of a specific location.
+    /// </summary>
+    /// <param name="boundingSphere">The position and optional radius in floating world space of the target being lit.</param>
+    /// <param name="maxLightDistance">The maximum distance of any returned light source from the specified location.</param>
+    private LightSource[] GetLights(BoundingSphere boundingSphere, out float maxLightDistance)
+    {
+        var lights = new List<LightSource>(capacity: _directionalLights.Count + _pseudoDirectionalLights.Count + _pointLights.Count);
+
+        lights.AddRange(_directionalLights);
+
+        float maxPointLightDistance = 0;
+        lights.AddRange(_pseudoDirectionalLights.Where(IsInRange).Select(light => light.AsDirectional(boundingSphere.Center)));
+        lights.AddRange(_pointLights.Where(IsInRange));
 
         bool IsInRange(PointLight light)
         {
             float distance = (light.GetFloatingPosition() - boundingSphere.Center).Length();
             if (distance <= light.Range + boundingSphere.Radius)
             {
-                maxDistance = Math.Max(maxDistance, distance);
+                maxPointLightDistance = Math.Max(maxPointLightDistance, distance);
                 return true;
             }
             else return false;
         }
 
-        var effectiveLights = new List<LightSource>(capacity: _directionalLights.Count + _pseudoDirectionalLights.Count + _pointLights.Count);
-        effectiveLights.AddRange(_directionalLights);
-        effectiveLights.AddRange(_pseudoDirectionalLights.Where(IsInRange).Select(light => light.AsDirectional(boundingSphere.Center)));
-        effectiveLights.AddRange(_pointLights.Where(IsInRange));
-
-        if (shadowing && boundingSphere.Radius > 0)
-        {
-            var shadowCasters = _positionables.Where(x => x.ShadowCaster);
-            if (_directionalLights.Count == 0)
-                shadowCasters = shadowCasters.Where(caster => (caster.GetFloatingPosition() - boundingSphere.Center).Length() <= maxDistance);
-
-            ApplyShadows(effectiveLights, boundingSphere, shadowCasters.ToList());
-        }
-
-        return effectiveLights.ToArray();
+        maxLightDistance = _directionalLights.Count > 0 ? float.PositiveInfinity : maxPointLightDistance;
+        return lights.ToArray();
     }
+
     /// <summary>
     /// Applies shadows to light sources.
     /// </summary>
     /// <param name="lights">The set of light source to be modified.</param>
     /// <param name="receiverSphere">The bounding sphere of the shadow receiver in world space.</param>
     /// <param name="casters">The potential shadow casters.</param>
-    private static void ApplyShadows(List<LightSource> lights, BoundingSphere receiverSphere, IReadOnlyList<PositionableRenderable> casters)
+    private static void ApplyShadows(LightSource[] lights, BoundingSphere receiverSphere, IReadOnlyList<PositionableRenderable> casters)
     {
-        for (int i = 0; i < lights.Count; i++)
+        for (int i = 0; i < lights.Length; i++)
         {
             foreach (var caster in casters)
             {
