@@ -362,33 +362,27 @@ public class XMesh : Asset
 
             // Extract vertex positions and compute bounding bodies for each subset
             using var vertexStream = Mesh.LockVertexBuffer(LockFlags.ReadOnly);
-            try
+            for (int i = 0; i < subsetCount; i++)
             {
-                for (int i = 0; i < subsetCount; i++)
+                if (subsetVertexIndices[i].Count > 0)
                 {
-                    if (subsetVertexIndices[i].Count > 0)
+                    var positions = new Vector3[subsetVertexIndices[i].Count];
+                    for (int j = 0; j < subsetVertexIndices[i].Count; j++)
                     {
-                        var positions = new Vector3[subsetVertexIndices[i].Count];
-                        for (int j = 0; j < subsetVertexIndices[i].Count; j++)
-                        {
-                            // Seek to the position of the vertex in the stream
-                            vertexStream.Position = subsetVertexIndices[i][j] * Mesh.BytesPerVertex;
-                            // Read the first 3 floats as the position (standard vertex format)
-                            positions[j] = new Vector3(
-                                vertexStream.Read<float>(),
-                                vertexStream.Read<float>(),
-                                vertexStream.Read<float>());
-                        }
-
-                        subsetBoundingBoxes[i] = SlimDX.BoundingBox.FromPoints(positions);
-                        subsetBoundingSpheres[i] = SlimDX.BoundingSphere.FromPoints(positions);
+                        // Seek to the position of the vertex in the stream
+                        vertexStream.Position = subsetVertexIndices[i][j] * Mesh.BytesPerVertex;
+                        // Read the first 3 floats as the position (standard vertex format)
+                        positions[j] = new Vector3(
+                            vertexStream.Read<float>(),
+                            vertexStream.Read<float>(),
+                            vertexStream.Read<float>());
                     }
+
+                    subsetBoundingBoxes[i] = SlimDX.BoundingBox.FromPoints(positions);
+                    subsetBoundingSpheres[i] = SlimDX.BoundingSphere.FromPoints(positions);
                 }
             }
-            finally
-            {
-                Mesh.UnlockVertexBuffer();
-            }
+            Mesh.UnlockVertexBuffer();
 
             // Heuristic for discarding invalid bounding bodies
             if (subsetBoundingSpheres.Any(x => x.Radius < 0.01)) return (null, null);
