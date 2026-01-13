@@ -35,6 +35,7 @@ using FrameOfReference.World.Positionables;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Geometry;
+using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 

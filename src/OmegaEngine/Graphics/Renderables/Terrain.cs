@@ -83,19 +83,19 @@ public partial class Terrain : Model
         // Copy buffers to RAM for fast position lookups
         using (new TimedLogEvent("Copy index and vertex buffer content"))
         {
-            _indexBuffer = BufferHelper.ReadIndexBuffer(mesh);
+            _indexBuffer = mesh.ReadIndexBuffer();
 
             // Get the vertex positions from the VertexBuffer
             if (lighting) // Different vertex formats
             {
-                var verts = BufferHelper.ReadVertexBuffer<PositionNormalMultiTextured>(mesh);
+                var verts = mesh.ReadVertexBuffer<PositionNormalMultiTextured>();
                 _vertexBuffer = new Vector3[verts.Length];
                 for (int i = 0; i < verts.Length; i++)
                     _vertexBuffer[i] = verts[i].Position;
             }
             else
             {
-                var verts = BufferHelper.ReadVertexBuffer<PositionMultiTextured>(mesh);
+                var verts = mesh.ReadVertexBuffer<PositionMultiTextured>();
                 _vertexBuffer = new Vector3[verts.Length];
                 for (int i = 0; i < verts.Length; i++)
                     _vertexBuffer[i] = verts[i].Position;
@@ -174,7 +174,7 @@ public partial class Terrain : Model
         #endregion
 
         var modifyArea = new Rectangle(start, new(partialColorMap.GetLength(0), partialColorMap.GetLength(1)));
-        var verts = BufferHelper.ReadVertexBuffer<PositionNormalMultiTextured>(Mesh);
+        var verts = Mesh.ReadVertexBuffer<PositionNormalMultiTextured>();
 
         // Verts may no longer be in their original order (mesh optimized)
         for (int i = 0; i < verts.Length; i++)
@@ -189,7 +189,7 @@ public partial class Terrain : Model
                 verts[i].Color = partialColorMap[index.X - start.X, index.Y - start.Y];
         }
 
-        BufferHelper.WriteVertexBuffer(Mesh, verts);
+        Mesh.WriteVertexBuffer(verts);
     }
     #endregion
 
@@ -211,7 +211,7 @@ public partial class Terrain : Model
         #endregion
 
         var modifyArea = new Rectangle(start, new(partialHeightMap.GetLength(0), partialHeightMap.GetLength(1)));
-        var verts = BufferHelper.ReadVertexBuffer<PositionMultiTextured>(Mesh);
+        var verts = Mesh.ReadVertexBuffer<PositionMultiTextured>();
 
         // Verts may no longer be in their original order (mesh optimized)
         for (int i = 0; i < verts.Length; i++)
@@ -226,7 +226,7 @@ public partial class Terrain : Model
                 verts[i].Position.Y = partialHeightMap[index.X - start.X, index.Y - start.Y] * StretchV;
         }
 
-        BufferHelper.WriteVertexBuffer(Mesh, verts);
+        Mesh.WriteVertexBuffer(verts);
 
         // Invalidate old bounding boxes
         // ToDo: Update bounding boxes instead

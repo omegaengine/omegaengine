@@ -97,8 +97,8 @@ public class XMesh : Asset
         EffectInstance[] effectInstances = Mesh.GetEffects();
 
         // Calculate bounding bodies before manipulating the mesh
-        BoundingSphere = BufferHelper.ComputeBoundingSphere(Mesh);
-        BoundingBox = BufferHelper.ComputeBoundingBox(Mesh);
+        BoundingSphere = Mesh.ComputeBoundingSphere();
+        BoundingBox = Mesh.ComputeBoundingBox();
 
         // Heuristic for discarding invalid bounding bodies
         if (BoundingSphere.Value.Radius < 0.01) BoundingSphere = null;
@@ -337,8 +337,8 @@ public class XMesh : Asset
         using (new TimedLogEvent("Calculate per-subset bounding bodies"))
         {
             // Read mesh data
-            var attributes = ReadAttributeBuffer();
-            var indices = BufferHelper.ReadIndexBuffer(Mesh);
+            var attributes = Mesh.ReadAttributeBuffer();
+            var indices = Mesh.ReadIndexBuffer();
 
             // Initialize arrays for bounding bodies
             var subsetBoundingBoxes = new BoundingBox[subsetCount];
@@ -389,19 +389,6 @@ public class XMesh : Asset
             if (subsetBoundingBoxes.Any(x => (x.Maximum - x.Minimum).Length() < 0.01)) return (null, null);
 
             return (subsetBoundingBoxes, subsetBoundingSpheres);
-        }
-    }
-
-    private int[] ReadAttributeBuffer()
-    {
-        using var attributeStream = Mesh.LockAttributeBuffer(LockFlags.ReadOnly);
-        try
-        {
-            return attributeStream.ReadRange<int>(Mesh.FaceCount);
-        }
-        finally
-        {
-            Mesh.UnlockAttributeBuffer();
         }
     }
     #endregion

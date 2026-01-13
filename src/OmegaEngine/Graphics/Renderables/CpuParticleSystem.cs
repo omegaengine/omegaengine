@@ -452,7 +452,7 @@ public class CpuParticleSystem : PositionableRenderable
             new(new Vector3(-0.5f, -0.5f, 0), 0, 1),
             new(new Vector3(0.5f, -0.5f, 0), 1, 1)
         ];
-        _vb = BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionTextured.Format);
+        _vb = Engine.Device.CreateVertexBuffer(vertexes, PositionTextured.Format);
 
         // Load textures for the first time
         UpdateSpriteTextures();

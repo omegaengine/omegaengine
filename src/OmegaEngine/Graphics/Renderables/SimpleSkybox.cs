@@ -86,7 +86,7 @@ public sealed class SimpleSkybox : Skybox
         base.OnEngineSet();
 
         #region Vertexes
-        _vb = BufferHelper.CreateVertexBuffer(Engine.Device, new PositionTextured[]
+        _vb = Engine.Device.CreateVertexBuffer(new PositionTextured[]
         {
             // Right
             new(1.0f, -1.0f, 1.0f, 0.0f, 1.0f),
@@ -122,15 +122,15 @@ public sealed class SimpleSkybox : Skybox
         #endregion
 
         #region Indexes
-        _ib = BufferHelper.CreateIndexBuffer(Engine.Device, new short[]
-        {
+        _ib = Engine.Device.CreateIndexBuffer(
+        [
             0, 2, 3, 0, 1, 2, // Right
             4, 5, 6, 4, 6, 7, // Left
             8, 9, 10, 8, 10, 11, // Top
             12, 13, 14, 12, 14, 15, // Bottom
             16, 18, 19, 16, 17, 18, // Front
             20, 21, 22, 20, 22, 23 // Back
-        });
+        ]);
         #endregion
     }
 

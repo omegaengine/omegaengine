@@ -124,7 +124,7 @@ public static class TexturedMeshUtils
 
         bool gotMilkErmTexCoords = false;
         bool gotValidNormals = true;
-        var vertexes = BufferHelper.ReadVertexBuffer<PositionNormalBinormalTangentTextured>(mesh);
+        var vertexes = mesh.ReadVertexBuffer<PositionNormalBinormalTangentTextured>();
 
         // Check all vertexes
         for (int num = 0; num < vertexes.Length; num++)
@@ -153,7 +153,7 @@ public static class TexturedMeshUtils
                 vertexes[num].Tv = +0.75f - vertexes[num].Position.Y / 2.0f;
             }
         }
-        BufferHelper.WriteVertexBuffer(mesh, vertexes);
+        mesh.WriteVertexBuffer(vertexes);
 
         // Assume meshes with propper normal data also have been optimized for rendering
         if (!hadNormals)
@@ -187,7 +187,7 @@ public static class TexturedMeshUtils
         bool gotMilkErmTexCoords = false;
         bool gotValidNormals = true;
         bool gotValidTangents = true;
-        var vertexes = BufferHelper.ReadVertexBuffer<PositionNormalBinormalTangentTextured>(mesh);
+        var vertexes = mesh.ReadVertexBuffer<PositionNormalBinormalTangentTextured>();
 
         // Check all vertexes
         for (int num = 0; num < vertexes.Length; num++)
@@ -226,7 +226,7 @@ public static class TexturedMeshUtils
                 vertexes[num].Tv = +0.75f - vertexes[num].Position.Y / 2.0f;
             }
         }
-        BufferHelper.WriteVertexBuffer(mesh, vertexes);
+        mesh.WriteVertexBuffer(vertexes);
 
         if (!hadNormals)
         {
@@ -271,11 +271,11 @@ public static class TexturedMeshUtils
                     // Compute tangents
                     if (!CompareDecl(PositionNormalMultiTextured.GetVertexElements(), decl))
                         dummyTangentGenerationMesh.ComputeTangent(0, 0, 0, false);
-                    var tangentVertexes = BufferHelper.ReadVertexBuffer<PositionNormalBinormalTangentTextured>(dummyTangentGenerationMesh);
+                    var tangentVertexes = dummyTangentGenerationMesh.ReadVertexBuffer<PositionNormalBinormalTangentTextured>();
                     dummyTangentGenerationMesh.Dispose();
 
                     // Copy generated tangents back
-                    vertexes = BufferHelper.ReadVertexBuffer<PositionNormalBinormalTangentTextured>(mesh);
+                    vertexes = mesh.ReadVertexBuffer<PositionNormalBinormalTangentTextured>();
                     for (int num = 0; num < vertexes.Length; num++)
                     {
                         // Search for tangent vertex with the exact same position and normal.
@@ -290,7 +290,7 @@ public static class TexturedMeshUtils
                             }
                         }
                     }
-                    BufferHelper.WriteVertexBuffer(mesh, vertexes);
+                    mesh.WriteVertexBuffer(vertexes);
                 }
             }
         }

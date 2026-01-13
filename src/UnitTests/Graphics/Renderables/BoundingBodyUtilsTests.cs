@@ -13,7 +13,7 @@ using Xunit;
 
 namespace OmegaEngine.Graphics.Renderables;
 
-public class BoundingExtensionsTests
+public class BoundingBodyUtilsTests
 {
     [Fact]
     public void TransformBoundingBox_WithIdentityMatrix_ShouldRemainUnchanged()

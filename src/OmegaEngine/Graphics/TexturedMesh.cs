@@ -47,7 +47,7 @@ public static class TexturedMesh
         #endregion
 
         // Copy the vertex buffer content to an array
-        var vertexes = BufferHelper.ReadVertexBuffer<PositionNormalTextured>(mesh);
+        var vertexes = mesh.ReadVertexBuffer<PositionNormalTextured>();
 
         // Bottom
         vertexes[13].Tu = 0f;
@@ -110,7 +110,7 @@ public static class TexturedMesh
         vertexes[11].Tv = 1f;
 
         // Copy the array back into the vertex buffer
-        BufferHelper.WriteVertexBuffer(mesh, vertexes);
+        mesh.WriteVertexBuffer(vertexes);
     }
 
     /// <summary>
@@ -118,9 +118,9 @@ public static class TexturedMesh
     /// </summary>
     private static void SetSphericalTextureCoordinates(Mesh mesh)
     {
-        BoundingSphere boundingSphere = BufferHelper.ComputeBoundingSphere(mesh);
+        BoundingSphere boundingSphere = mesh.ComputeBoundingSphere();
 
-        var vertexes = BufferHelper.ReadVertexBuffer<PositionNormalTextured>(mesh);
+        var vertexes = mesh.ReadVertexBuffer<PositionNormalTextured>();
         for (int i = 0; i < vertexes.Length; i++)
         {
             Vector3 vertexRay = Vector3.Normalize(vertexes[i].Position - boundingSphere.Center);
@@ -129,7 +129,7 @@ public static class TexturedMesh
             vertexes[i].Tu = CalculateTu(vertexRay, phi);
             vertexes[i].Tv = (float)(phi / Math.PI);
         }
-        BufferHelper.WriteVertexBuffer(mesh, vertexes);
+        mesh.WriteVertexBuffer(vertexes);
     }
 
     private static float CalculateTu(Vector3 vertexRay, double phi)
@@ -166,8 +166,8 @@ public static class TexturedMesh
         short[] indexes = [0, 1, 3, 3, 2, 0];
 
         var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
-        BufferHelper.WriteVertexBuffer(mesh, vertexes);
-        BufferHelper.WriteIndexBuffer(mesh, indexes);
+        mesh.WriteVertexBuffer(vertexes);
+        mesh.WriteIndexBuffer(indexes);
 
         if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
         else TexturedMeshUtils.GenerateNormals(device, ref mesh);
@@ -253,7 +253,7 @@ public static class TexturedMesh
             }
         }
 
-        BufferHelper.WriteVertexBuffer(mesh, vertexes);
+        mesh.WriteVertexBuffer(vertexes);
 
         var indexes = new short[indexCount];
         int i = 0;
@@ -274,7 +274,7 @@ public static class TexturedMesh
             }
         }
 
-        BufferHelper.WriteIndexBuffer(mesh, indexes);
+        mesh.WriteIndexBuffer(indexes);
 
         if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
 
@@ -405,8 +405,8 @@ public static class TexturedMesh
         }
 
         var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
-        BufferHelper.WriteVertexBuffer(mesh, vertexes);
-        BufferHelper.WriteIndexBuffer(mesh, indexes);
+        mesh.WriteVertexBuffer(vertexes);
+        mesh.WriteIndexBuffer(indexes);
 
         if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
         else TexturedMeshUtils.GenerateNormals(device, ref mesh);

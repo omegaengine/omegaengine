@@ -52,7 +52,7 @@ public class VertexGroup : PositionableRenderable
         _material = XMaterial.DefaultMaterial;
         SurfaceEffect = SurfaceEffect.FixedFunction;
 
-        _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionColored.Format);
+        _buildVertexBuffer = () => Engine.Device.CreateVertexBuffer(vertexes, PositionColored.Format);
         Initialize(indexes);
     }
 
@@ -74,7 +74,7 @@ public class VertexGroup : PositionableRenderable
         _material = XMaterial.DefaultMaterial;
         SurfaceEffect = SurfaceEffect.FixedFunction;
 
-        _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionNormalColored.Format);
+        _buildVertexBuffer = () => Engine.Device.CreateVertexBuffer(vertexes, PositionNormalColored.Format);
         Initialize(indexes);
     }
     #endregion
@@ -101,7 +101,7 @@ public class VertexGroup : PositionableRenderable
         // ReSharper disable once ImpureMethodCallOnReadonlyValueField
         _material.HoldReference();
 
-        _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionTextured.Format);
+        _buildVertexBuffer = () => Engine.Device.CreateVertexBuffer(vertexes, PositionTextured.Format);
         Initialize(indexes);
     }
 
@@ -126,7 +126,7 @@ public class VertexGroup : PositionableRenderable
         // ReSharper disable once ImpureMethodCallOnReadonlyValueField
         _material.HoldReference();
 
-        _buildVertexBuffer = () => BufferHelper.CreateVertexBuffer(Engine.Device, vertexes, PositionNormalTextured.Format);
+        _buildVertexBuffer = () => Engine.Device.CreateVertexBuffer(vertexes, PositionNormalTextured.Format);
         Initialize(indexes);
     }
     #endregion
@@ -142,7 +142,7 @@ public class VertexGroup : PositionableRenderable
         int effectiveVertexes;
         if (indexes != null)
         {
-            _ib = BufferHelper.CreateIndexBuffer(Engine.Device, indexes);
+            _ib = Engine.Device.CreateIndexBuffer(indexes);
             effectiveVertexes = indexes.Length;
         }
         else effectiveVertexes = _vertexCount;
@@ -260,8 +260,8 @@ public class VertexGroup : PositionableRenderable
         _vb = _buildVertexBuffer();
 
         // Calculate bounding bodies
-        BoundingSphere = BufferHelper.ComputeBoundingSphere(_vb!, _vertexCount);
-        BoundingBox = BufferHelper.ComputeBoundingBox(_vb, _vertexCount);
+        BoundingSphere = _vb!.ComputeBoundingSphere(_vertexCount);
+        BoundingBox = _vb.ComputeBoundingBox(_vertexCount);
     }
     #endregion
 

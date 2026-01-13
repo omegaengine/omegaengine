@@ -15,11 +15,10 @@ using Resources = OmegaEngine.Properties.Resources;
 namespace OmegaEngine.Graphics;
 
 /// <summary>
-/// Helper methods for creating, reading from and writing to <see cref="VertexBuffer"/>s and <see cref="IndexBuffer"/>s.
+/// Helper methods for creating, reading from and writing to <see cref="VertexBuffer"/>s, <see cref="IndexBuffer"/>s and attribute buffers.
 /// </summary>
-internal static class BufferHelper
+public static class BufferUtils
 {
-    #region Create VB
     /// <summary>
     /// Creates a <see cref="VertexBuffer"/> and fills it with data.
     /// </summary>
@@ -28,7 +27,7 @@ internal static class BufferHelper
     /// <param name="data">The vertexes to fill the buffer with.</param>
     /// <param name="format">The fixed-function vertex format.</param>
     /// <returns>The newly created and filled <see cref="VertexBuffer"/>.</returns>
-    internal static VertexBuffer CreateVertexBuffer<T>(Device device, T[] data, VertexFormat format) where T : struct
+    public static VertexBuffer CreateVertexBuffer<T>(this Device device, T[] data, VertexFormat format) where T : struct
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -36,26 +35,23 @@ internal static class BufferHelper
         #endregion
 
         var buffer = new VertexBuffer(device, Marshal.SizeOf(typeof(T)) * data.Length, Usage.WriteOnly, format, Pool.Managed);
-        WriteVertexBuffer(buffer, data);
-
+        buffer.Write(data);
         return buffer;
     }
-    #endregion
 
-    #region Read VB
     /// <summary>
     /// Copies the content of a <see cref="VertexBuffer"/> to an array of structs.
     /// </summary>
     /// <typeparam name="T">The vertex format used in the buffer.</typeparam>
     /// <param name="buffer">The buffer to read from.</param>
     /// <returns>The content of the <paramref name="buffer"/>.</returns>
-    internal static T[] ReadVertexBuffer<T>(VertexBuffer buffer) where T : struct
+    public static T[] Read<T>(this VertexBuffer buffer) where T : struct
     {
         #region Sanity checks
         if (buffer == null) throw new ArgumentNullException(nameof(buffer));
         #endregion
 
-        DataStream vertexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
+        var vertexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
         int vertexCount = buffer.Description.SizeInBytes / Marshal.SizeOf(typeof(T));
         var ret = vertexStream.ReadRange<T>(vertexCount);
         buffer.Unlock();
@@ -70,36 +66,34 @@ internal static class BufferHelper
     /// <typeparam name="T">The vertex format used in the buffer.</typeparam>
     /// <param name="mesh">The <see cref="Mesh"/> containing the buffer to read from.</param>
     /// <returns>The content of the buffer in <paramref name="mesh"/>.</returns>
-    internal static T[] ReadVertexBuffer<T>(Mesh mesh) where T : struct
+    public static T[] ReadVertexBuffer<T>(this Mesh mesh) where T : struct
     {
         #region Sanity checks
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
         #endregion
 
-        DataStream vertexStream = mesh.LockVertexBuffer(LockFlags.ReadOnly);
+        var vertexStream = mesh.LockVertexBuffer(LockFlags.ReadOnly);
         var ret = vertexStream.ReadRange<T>(mesh.VertexCount);
         mesh.UnlockVertexBuffer();
         vertexStream.Dispose();
 
         return ret;
     }
-    #endregion
 
-    #region Write VB
     /// <summary>
     /// Fills a <see cref="VertexBuffer"/> with data.
     /// </summary>
     /// <typeparam name="T">The vertex format used in the buffer.</typeparam>
     /// <param name="buffer">The buffer to write to.</param>
     /// <param name="data">The vertexes to fill the buffer with.</param>
-    internal static void WriteVertexBuffer<T>(VertexBuffer buffer, T[] data) where T : struct
+    public static void Write<T>(this VertexBuffer buffer, T[] data) where T : struct
     {
         #region Sanity checks
         if (buffer == null) throw new ArgumentNullException(nameof(buffer));
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        using DataStream vertexStream = buffer.Lock(0, Marshal.SizeOf(typeof(T)) * data.Length, LockFlags.None);
+        using var vertexStream = buffer.Lock(0, Marshal.SizeOf(typeof(T)) * data.Length, LockFlags.None);
         vertexStream.WriteRange(data);
         buffer.Unlock();
     }
@@ -110,29 +104,25 @@ internal static class BufferHelper
     /// <typeparam name="T">The vertex format used in the buffer.</typeparam>
     /// <param name="mesh">The <see cref="Mesh"/> containing the buffer to write to.</param>
     /// <param name="data">The vertexes to fill the buffer with.</param>
-    internal static void WriteVertexBuffer<T>(Mesh mesh, T[] data) where T : struct
+    public static void WriteVertexBuffer<T>(this Mesh mesh, T[] data) where T : struct
     {
         #region Sanity checks
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        using DataStream vertexStream = mesh.LockVertexBuffer(LockFlags.None);
+        using var vertexStream = mesh.LockVertexBuffer(LockFlags.None);
         vertexStream.WriteRange(data);
         mesh.UnlockVertexBuffer();
     }
-    #endregion
 
-    //--------------------//
-
-    #region Create IB
     /// <summary>
     /// Creates an <see cref="IndexBuffer"/> and fills it with data.
     /// </summary>
     /// <param name="device">The device to create the buffer on.</param>
     /// <param name="data">The values to fill the buffer with.</param>
     /// <returns>The newly created and filled <see cref="IndexBuffer"/>.</returns>
-    internal static IndexBuffer CreateIndexBuffer(Device device, short[] data)
+    public static IndexBuffer CreateIndexBuffer(this Device device, short[] data)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -140,8 +130,7 @@ internal static class BufferHelper
         #endregion
 
         var buffer = new IndexBuffer(device, sizeof(short) * data.Length, Usage.WriteOnly, Pool.Managed, true);
-        WriteIndexBuffer(buffer, data);
-
+        buffer.Write(data);
         return buffer;
     }
 
@@ -151,7 +140,7 @@ internal static class BufferHelper
     /// <param name="device">The device to create the buffer on.</param>
     /// <param name="data">The values to fill the buffer with.</param>
     /// <returns>The newly created and filled <see cref="IndexBuffer"/>.</returns>
-    internal static IndexBuffer CreateIndexBuffer(Device device, int[] data)
+    public static IndexBuffer CreateIndexBuffer(this Device device, int[] data)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -159,27 +148,24 @@ internal static class BufferHelper
         #endregion
 
         var buffer = new IndexBuffer(device, sizeof(int) * data.Length, Usage.WriteOnly, Pool.Managed, false);
-        WriteIndexBuffer(buffer, data);
-
+        buffer.Write(data);
         return buffer;
     }
-    #endregion
 
-    #region Read IB
     /// <summary>
     /// Copies the content of an <see cref="IndexBuffer"/> to an array of 16-bit values.
     /// </summary>
     /// <param name="buffer">The buffer to read from.</param>
     /// <remarks>Warning! No check is performed to ensure the buffer actually uses 16-bit values.</remarks>
-    internal static short[] Read16BitIndexBuffer(IndexBuffer buffer)
+    public static short[] Read16Bit(this IndexBuffer buffer)
     {
         #region Sanity checks
         if (buffer == null) throw new ArgumentNullException(nameof(buffer));
         #endregion
 
-        DataStream indexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
+        var indexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
         int indexCount = buffer.Description.SizeInBytes / sizeof(short);
-        var ret = indexStream.ReadRange<short>(indexCount);
+        short[]? ret = indexStream.ReadRange<short>(indexCount);
         buffer.Unlock();
         indexStream.Dispose();
 
@@ -191,15 +177,15 @@ internal static class BufferHelper
     /// </summary>
     /// <param name="buffer">The buffer to read from.</param>
     /// <remarks>Warning! No check is performed to ensure the buffer actually uses 32-bit values.</remarks>
-    internal static int[] Read32BitIndexBuffer(IndexBuffer buffer)
+    public static int[] Read32Bit(this IndexBuffer buffer)
     {
         #region Sanity checks
         if (buffer == null) throw new ArgumentNullException(nameof(buffer));
         #endregion
 
-        DataStream indexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
+        var indexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
         int indexCount = buffer.Description.SizeInBytes / sizeof(int);
-        var ret = indexStream.ReadRange<int>(indexCount);
+        int[] ret = indexStream.ReadRange<int>(indexCount);
         buffer.Unlock();
         indexStream.Dispose();
 
@@ -210,7 +196,7 @@ internal static class BufferHelper
     /// Copies the content of the <see cref="IndexBuffer"/> of a <see cref="Mesh"/> to an array of 32-bit values (16-bit values are automatically converted).
     /// </summary>
     /// <param name="mesh">The <see cref="Mesh"/> containing the buffer to read from.</param>
-    internal static int[] ReadIndexBuffer(Mesh mesh)
+    public static int[] ReadIndexBuffer(this Mesh mesh)
     {
         #region Sanity checks
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
@@ -218,7 +204,7 @@ internal static class BufferHelper
 
         int indexCount = mesh.FaceCount * 3;
         int[] ret;
-        using DataStream indexStream = mesh.LockIndexBuffer(LockFlags.ReadOnly);
+        using var indexStream = mesh.LockIndexBuffer(LockFlags.ReadOnly);
         if ((mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit))
         { // 32-bit values
             ret = indexStream.ReadRange<int>(indexCount);
@@ -226,7 +212,7 @@ internal static class BufferHelper
         else
         { // 16-bit values
             ret = new int[indexCount];
-            var temp = indexStream.ReadRange<short>(indexCount);
+            short[]? temp = indexStream.ReadRange<short>(indexCount);
             for (int i = 0; i < indexCount; i++)
                 ret[i] = temp[i];
         }
@@ -234,23 +220,21 @@ internal static class BufferHelper
 
         return ret;
     }
-    #endregion
 
-    #region Write IB
     /// <summary>
     /// Fills an <see cref="IndexBuffer"/> with 16-bit values.
     /// </summary>
     /// <param name="buffer">The buffer to write to.</param>
     /// <param name="data">The values to fill the buffer with.</param>
     /// <remarks>Warning! No check is performed to ensure the buffer actually uses 16-bit values.</remarks>
-    internal static void WriteIndexBuffer(IndexBuffer buffer, short[] data)
+    public static void Write(this IndexBuffer buffer, short[] data)
     {
         #region Sanity checks
         if (buffer == null) throw new ArgumentNullException(nameof(buffer));
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        using DataStream indexStream = buffer.Lock(0, sizeof(short) * data.Length, LockFlags.None);
+        using var indexStream = buffer.Lock(0, sizeof(short) * data.Length, LockFlags.None);
         indexStream.WriteRange(data);
         buffer.Unlock();
     }
@@ -261,14 +245,14 @@ internal static class BufferHelper
     /// <param name="buffer">The buffer to write to.</param>
     /// <param name="data">The values to fill the buffer with.</param>
     /// <remarks>Warning! No check is performed to ensure the buffer actually uses 32-bit values.</remarks>
-    internal static void WriteIndexBuffer(IndexBuffer buffer, int[] data)
+    public static void Write(this IndexBuffer buffer, int[] data)
     {
         #region Sanity checks
         if (buffer == null) throw new ArgumentNullException(nameof(buffer));
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        using DataStream indexStream = buffer.Lock(0, sizeof(int) * data.Length, LockFlags.None);
+        using var indexStream = buffer.Lock(0, sizeof(int) * data.Length, LockFlags.None);
         indexStream.WriteRange(data);
         buffer.Unlock();
     }
@@ -278,7 +262,7 @@ internal static class BufferHelper
     /// </summary>
     /// <param name="mesh">The <see cref="Mesh"/> containing the buffer to write to.</param>
     /// <param name="data">The values to fill the buffer with.</param>
-    internal static void WriteIndexBuffer(Mesh mesh, short[] data)
+    public static void WriteIndexBuffer(this Mesh mesh, short[] data)
     {
         #region Sanity checks
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
@@ -286,7 +270,7 @@ internal static class BufferHelper
         if ((mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot16bit, nameof(mesh));
         #endregion
 
-        using DataStream indexStream = mesh.LockIndexBuffer(LockFlags.None);
+        using var indexStream = mesh.LockIndexBuffer(LockFlags.None);
         indexStream.WriteRange(data);
         mesh.UnlockIndexBuffer();
     }
@@ -296,7 +280,7 @@ internal static class BufferHelper
     /// </summary>
     /// <param name="mesh">The <see cref="Mesh"/> containing the buffer to write to.</param>
     /// <param name="data">The values to fill the buffer with.</param>
-    internal static void WriteIndexBuffer(Mesh mesh, int[] data)
+    public static void WriteIndexBuffer(this Mesh mesh, int[] data)
     {
         #region Sanity checks
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
@@ -304,54 +288,57 @@ internal static class BufferHelper
         if (!(mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot32bit, nameof(mesh));
         #endregion
 
-        using DataStream indexStream = mesh.LockIndexBuffer(LockFlags.None);
+        using var indexStream = mesh.LockIndexBuffer(LockFlags.None);
         indexStream.WriteRange(data);
         mesh.UnlockIndexBuffer();
     }
-    #endregion
-
-    //--------------------//
-
-    #region Bounding box
-    /// <summary>
-    /// Generates a <see cref="BoundingBox"/> that completely contains all points within a <see cref="VertexBuffer"/>.
-    /// </summary>
-    /// <param name="vb">The <see cref="VertexBuffer"/> to be contained within the <see cref="BoundingBox"/>.</param>
-    /// <param name="vertexCount">The total number of vertex contained within <paramref name="vb"/>.</param>
-    public static BoundingBox ComputeBoundingBox(VertexBuffer vb, int vertexCount) => BoundingBox.FromPoints(GetPoints(vb, vertexCount));
 
     /// <summary>
-    /// Generates a <see cref="BoundingBox"/> that completely contains all points within a <see cref="Mesh"/>.
+    /// Copies the content of the attribute buffer of a <see cref="Mesh"/> to an array of 32-bit values.
     /// </summary>
-    /// <param name="mesh">The <see cref="Mesh"/> to be contained within the <see cref="BoundingBox"/>.</param>
-    public static BoundingBox ComputeBoundingBox(Mesh mesh) => BoundingBox.FromPoints(GetPoints(mesh));
-    #endregion
+    /// <param name="mesh">The <see cref="Mesh"/> containing the buffer to read from.</param>
+    public static int[] ReadAttributeBuffer(this Mesh mesh)
+    {
+        #region Sanity checks
+        if (mesh == null) throw new ArgumentNullException(nameof(mesh));
+        #endregion
 
-    #region Bounding sphere
+        using var attributeStream = mesh.LockAttributeBuffer(LockFlags.ReadOnly);
+        int[] ret = attributeStream.ReadRange<int>(mesh.FaceCount);
+        mesh.UnlockAttributeBuffer();
+        return ret;
+    }
+
     /// <summary>
-    /// Generates a <see cref="BoundingSphere"/> that completely contains all points within a <see cref="VertexBuffer"/>.
+    /// Fills the attribute buffer of a <see cref="Mesh"/> with 32-bit values.
     /// </summary>
-    /// <param name="vb">The <see cref="VertexBuffer"/> to be contained within the <see cref="BoundingSphere"/>.</param>
-    /// <param name="vertexCount">The total number of vertexes contained within <paramref name="vb"/>.</param>
-    public static BoundingSphere ComputeBoundingSphere(VertexBuffer vb, int vertexCount) => BoundingSphere.FromPoints(GetPoints(vb, vertexCount));
+    /// <param name="mesh">The <see cref="Mesh"/> containing the buffer to write to.</param>
+    /// <param name="data">The values to fill the buffer with.</param>
+    public static void WriteAttributeBuffer(this Mesh mesh, int[] data)
+    {
+        #region Sanity checks
+        if (mesh == null) throw new ArgumentNullException(nameof(mesh));
+        if (data == null) throw new ArgumentNullException(nameof(data));
+        #endregion
 
-    /// <summary>
-    /// Generates a <see cref="BoundingSphere"/> that completely contains all points within a <see cref="Mesh"/>.
-    /// </summary>
-    /// <param name="mesh">The <see cref="Mesh"/> to be contained within the <see cref="BoundingSphere"/>.</param>
-    public static BoundingSphere ComputeBoundingSphere(Mesh mesh) => BoundingSphere.FromPoints(GetPoints(mesh));
-    #endregion
+        using var attributeStream = mesh.LockAttributeBuffer(LockFlags.None);
+        attributeStream.WriteRange(data);
+        mesh.UnlockAttributeBuffer();
+    }
 
-    #region Bounding body helpers
     /// <summary>
     /// Gets all points contained within a <see cref="VertexBuffer"/>.
     /// </summary>
     /// <param name="buffer">The <see cref="VertexBuffer"/> to get points from.</param>
     /// <param name="vertexCount">The total number of vertex contained within <paramref name="buffer"/>.</param>
     /// <returns>An array of points defined by the object.</returns>
-    private static Vector3[] GetPoints(VertexBuffer buffer, int vertexCount)
+    public static Vector3[] GetPoints(this VertexBuffer buffer, int vertexCount)
     {
-        DataStream vertexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
+        #region Sanity checks
+        if (buffer == null) throw new ArgumentNullException(nameof(buffer));
+        #endregion
+
+        var vertexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
         var points = D3DX.GetVectors(vertexStream, vertexCount, buffer.Description.SizeInBytes / vertexCount);
         buffer.Unlock();
         vertexStream.Dispose();
@@ -364,14 +351,17 @@ internal static class BufferHelper
     /// </summary>
     /// <param name="mesh">The <see cref="Mesh"/> to get points from.</param>
     /// <returns>An array of points defined by the object.</returns>
-    private static Vector3[] GetPoints(Mesh mesh)
+    public static Vector3[] GetPoints(this Mesh mesh)
     {
-        DataStream vertexStream = mesh.LockVertexBuffer(LockFlags.ReadOnly);
+        #region Sanity checks
+        if (mesh == null) throw new ArgumentNullException(nameof(mesh));
+        #endregion
+
+        var vertexStream = mesh.LockVertexBuffer(LockFlags.ReadOnly);
         var points = D3DX.GetVectors(vertexStream, mesh.VertexCount, mesh.VertexFormat);
         mesh.UnlockVertexBuffer();
         vertexStream.Dispose();
 
         return points;
     }
-    #endregion
 }
