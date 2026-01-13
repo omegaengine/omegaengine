@@ -556,7 +556,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <seealso cref="View.Pick(Point)"/>
     public virtual bool Intersects(Ray ray, out float distance)
     {
-        distance = float.MaxValue;
+        distance = float.PositiveInfinity;
         return false;
     }
 

@@ -252,7 +252,7 @@ public partial class Model : PositionableRenderable
         // Perform pre-checks with bounding bodies to filter out broad misses
         if (!IntersectsBounding(ray))
         {
-            distance = float.MaxValue;
+            distance = float.PositiveInfinity;
             return false;
         }
 

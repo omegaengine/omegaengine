@@ -363,7 +363,7 @@ public partial class View : EngineElement, IResetable
     private PositionableRenderable? GetClosestBody(Ray pickingRay)
     {
         PositionableRenderable? closestBody = null;
-        float closestDistance = float.MaxValue;
+        float closestDistance = float.PositiveInfinity;
 
         foreach (PositionableRenderable body in _sortedBodies)
         {
