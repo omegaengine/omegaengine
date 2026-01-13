@@ -8,6 +8,7 @@
 
 using System;
 using System.Drawing;
+using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
 using SlimDX;
@@ -213,8 +214,7 @@ public static class EngineUtilsDraw
             bool lastLighting = engine.State.FfpLighting;
 
             // Set new states
-            Vector3 boxCenter = box.Minimum + (box.Maximum - box.Minimum) * 0.5f;
-            engine.State.WorldTransform = Matrix.Scaling(box.Maximum - box.Minimum) * Matrix.Translation(boxCenter);
+            engine.State.WorldTransform = Matrix.Scaling(box.Diagonal()) * Matrix.Translation(box.Center());
             engine.State.CullMode = Cull.None;
             engine.State.FillMode = FillMode.Wireframe;
             engine.State.FfpLighting = false;

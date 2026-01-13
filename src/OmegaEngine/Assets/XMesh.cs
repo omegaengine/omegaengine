@@ -102,7 +102,7 @@ public class XMesh : Asset
 
         // Heuristic for discarding invalid bounding bodies
         if (BoundingSphere.Value.Radius < 0.01) BoundingSphere = null;
-        if ((BoundingBox.Value.Maximum - BoundingBox.Value.Minimum).Length() < 0.01) BoundingBox = null;
+        if (BoundingBox.Value.Diagonal().Length() < 0.01) BoundingBox = null;
 
         // Calculate per-subset bounding bodies for multi-subset meshes
         if (extendedMaterials.Length > 1)
@@ -386,7 +386,7 @@ public class XMesh : Asset
 
             // Heuristic for discarding invalid bounding bodies
             if (subsetBoundingSpheres.Any(x => x.Radius < 0.01)) return (null, null);
-            if (subsetBoundingBoxes.Any(x => (x.Maximum - x.Minimum).Length() < 0.01)) return (null, null);
+            if (subsetBoundingBoxes.Any(x => x.Diagonal().Length() < 0.01)) return (null, null);
 
             return (subsetBoundingBoxes, subsetBoundingSpheres);
         }

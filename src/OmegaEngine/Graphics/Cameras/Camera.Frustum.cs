@@ -102,7 +102,7 @@ partial class Camera
     {
         // Pre-checks
         if (!FrustumCulling) return true;
-        if ((boundingBox.Maximum - boundingBox.Minimum) == new Vector3()) return true;
+        if (boundingBox.Diagonal() == default) return true;
 
         UpdateViewFrustum();
 

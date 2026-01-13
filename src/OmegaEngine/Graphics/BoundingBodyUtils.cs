@@ -97,4 +97,18 @@ public static class BoundingBodyUtils
                     new Vector3(matrix.M11, matrix.M12, matrix.M13).Length(),
                     new Vector3(matrix.M21, matrix.M22, matrix.M23).Length()),
                 new Vector3(matrix.M31, matrix.M32, matrix.M33).Length()));
+
+    /// <summary>
+    /// A vector pointing to the center of the bounding box.
+    /// </summary>
+    [Pure]
+    public static Vector3 Center(this BoundingBox box)
+        => (box.Maximum + box.Minimum) / 2;
+
+    /// <summary>
+    /// A vector pointing from the minimum corner to the maximum corner of the bounding box.
+    /// </summary>
+    [Pure]
+    public static Vector3 Diagonal(this BoundingBox box)
+        => box.Maximum - box.Minimum;
 }
