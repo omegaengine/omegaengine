@@ -273,7 +273,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     private BoundingSphere? _worldBoundingSphere;
 
     /// <summary>
-    /// A sphere that completely encompasses the body (in world space, used for culling tests).
+    /// A sphere that completely encompasses the body (in floating world space, used for culling tests).
     /// </summary>
     [Browsable(false)]
     public BoundingSphere? WorldBoundingSphere
@@ -300,7 +300,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     private BoundingBox? _worldBoundingBox;
 
     /// <summary>
-    /// An axis-aligned box that completely encompasses the body (in world space, used for culling tests).
+    /// An axis-aligned box that completely encompasses the body (in floating world space, used for culling tests).
     /// </summary>
     [Browsable(false)]
     public BoundingBox? WorldBoundingBox

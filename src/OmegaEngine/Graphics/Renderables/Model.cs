@@ -53,13 +53,13 @@ public partial class Model : PositionableRenderable
     /// <summary>Per-subset bounding spheres in entity space.</summary>
     private BoundingSphere[]? _subsetBoundingSpheres;
 
-    /// <summary>Per-subset bounding spheres in world space.</summary>
+    /// <summary>Per-subset bounding spheres in floating world space.</summary>
     private BoundingSphere[]? _subsetWorldBoundingSpheres;
 
     /// <summary>Per-subset bounding boxes in entity space.</summary>
     private BoundingBox[]? _subsetBoundingBoxes;
 
-    /// <summary>Per-subset bounding boxes in world space.</summary>
+    /// <summary>Per-subset bounding boxes in floating world space.</summary>
     private BoundingBox[]? _subsetWorldBoundingBoxes;
     #endregion
 
