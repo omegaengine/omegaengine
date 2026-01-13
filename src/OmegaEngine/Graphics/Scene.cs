@@ -204,9 +204,9 @@ public sealed class Scene : EngineElement
             {
                 float maxShadowDistance = Math.Min(lights[i].MaxShadowRange, maxLightDistance);
                 
-                var shadowCasters = allShadowCasters;
+                IEnumerable<PositionableRenderable> shadowCasters = allShadowCasters;
                 if (!float.IsPositiveInfinity(maxShadowDistance))
-                    shadowCasters = shadowCasters.Where(caster => (caster.GetFloatingPosition() - boundingSphere.Center).Length() <= maxShadowDistance).ToList();
+                    shadowCasters = allShadowCasters.Where(caster => (caster.GetFloatingPosition() - boundingSphere.Center).Length() <= maxShadowDistance);
                 
                 foreach (var caster in shadowCasters)
                 {
