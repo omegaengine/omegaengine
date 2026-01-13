@@ -322,8 +322,9 @@ public static class TexturedMesh
     /// <param name="radiusOuter">The radius of the outer circle of the ring.</param>
     /// <param name="height">The height of the ring.</param>
     /// <param name="segments">The number of segments the ring shall consist of.</param>
+    /// <param name="subsets">The number of subsets to split the mesh into. Must be a divisor of <paramref name="segments"/>.</param>
     /// <param name="tbn">Generate TBN (tangent, binormal, normal) vectors instead of just normal vectors.</param>
-    public static Mesh Disc(Device device, float radiusInner, float radiusOuter, float height, int segments, bool tbn = false)
+    public static Mesh Disc(Device device, float radiusInner, float radiusOuter, float height, int segments, int subsets = 1, bool tbn = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -332,6 +333,8 @@ public static class TexturedMesh
         if (radiusOuter <= radiusInner) throw new ArgumentException("Radius of outer disc must be greater than radius of inner disc.", nameof(radiusOuter));
         if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height), "Height of disc must be positive.");
         if (segments < 1) throw new ArgumentOutOfRangeException(nameof(segments), "Number of segments must be at least 1.");
+        if (subsets < 1) throw new ArgumentOutOfRangeException(nameof(subsets), "Number of subsets must be at least 1.");
+        if (segments % subsets != 0) throw new ArgumentException($"Number of segments ({segments}) must be divisible by number of subsets ({subsets}).", nameof(subsets));
         #endregion
 
         const float tuInner = 0, tuOuter = 1;
@@ -357,7 +360,10 @@ public static class TexturedMesh
         }
 
         int indexCount = 0;
+        int triangleCount = 0;
         var indexes = new short[segments * 24];
+        var attributes = new int[indexes.Length / 3]; // One attribute per triangle
+        int segmentsPerSubset = segments / subsets;
 
         for (int i = 0; i < segments; i++)
         {
@@ -371,42 +377,58 @@ public static class TexturedMesh
             if (outerBottom2 >= vertexes.Length) outerBottom2 -= (short)vertexes.Length;
             if (outerTop2 >= vertexes.Length) outerTop2 -= (short)vertexes.Length;
 
+            // Calculate which subset this segment belongs to
+            int subsetId = Math.Min(i / segmentsPerSubset, subsets - 1);
+
             // Bottom 2 triangles
             indexes[indexCount++] = innerBottom1;
             indexes[indexCount++] = innerBottom2;
             indexes[indexCount++] = outerBottom2;
+            attributes[triangleCount++] = subsetId;
+
             indexes[indexCount++] = innerBottom1;
             indexes[indexCount++] = outerBottom2;
             indexes[indexCount++] = outerBottom1;
+            attributes[triangleCount++] = subsetId;
 
             // Top 2 triangles
             indexes[indexCount++] = innerTop1;
             indexes[indexCount++] = outerTop2;
             indexes[indexCount++] = innerTop2;
+            attributes[triangleCount++] = subsetId;
+
             indexes[indexCount++] = innerTop1;
             indexes[indexCount++] = outerTop1;
             indexes[indexCount++] = outerTop2;
+            attributes[triangleCount++] = subsetId;
 
             // Inner 2 triangles
             indexes[indexCount++] = innerTop1;
             indexes[indexCount++] = innerBottom2;
             indexes[indexCount++] = innerBottom1;
+            attributes[triangleCount++] = subsetId;
+
             indexes[indexCount++] = innerTop1;
             indexes[indexCount++] = innerTop2;
             indexes[indexCount++] = innerBottom2;
+            attributes[triangleCount++] = subsetId;
 
             // Outer 2 triangles
             indexes[indexCount++] = outerBottom1;
             indexes[indexCount++] = outerBottom2;
             indexes[indexCount++] = outerTop1;
+            attributes[triangleCount++] = subsetId;
+
             indexes[indexCount++] = outerBottom2;
             indexes[indexCount++] = outerTop2;
             indexes[indexCount++] = outerTop1;
+            attributes[triangleCount++] = subsetId;
         }
 
         var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
         mesh.WriteVertexBuffer(vertexes);
         mesh.WriteIndexBuffer(indexes);
+        mesh.WriteAttributeBuffer(attributes);
 
         if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
         else TexturedMeshUtils.GenerateNormals(device, ref mesh);
