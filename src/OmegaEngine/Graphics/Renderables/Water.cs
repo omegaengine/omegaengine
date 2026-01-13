@@ -106,7 +106,7 @@ public class Water : Model
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
+    internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
     {
         // Rendering this without a shader isn't possible (non-standard FVF)
         if (SurfaceEffect < SurfaceEffect.Shader) SurfaceEffect = SurfaceEffect.Shader;
@@ -117,7 +117,7 @@ public class Water : Model
 
         SelectShader();
 
-        RenderHelper(() => Mesh.DrawSubset(0), Materials[0], camera, effectiveLighting: new());
+        RenderHelper(() => Mesh.DrawSubset(0), Materials[0], camera, effectiveLights: new());
         if (DrawBoundingBox && WorldBoundingBox.HasValue && SurfaceEffect < SurfaceEffect.Glow)
             Engine.DrawBoundingBox(WorldBoundingBox.Value);
     }

@@ -238,7 +238,7 @@ public partial class Terrain : Model
     #endregion
 
     #region Render
-    protected override void RenderSubset(int i, Camera camera, GetEffectiveLighting? getEffectiveLighting)
+    protected override void RenderSubset(int i, Camera camera, GetEffectiveLights? getEffectiveLights)
     {
         // Rendering this without a shader isn't possible (non-standard FVF)
         if (SurfaceEffect < SurfaceEffect.Shader) SurfaceEffect = SurfaceEffect.Shader;
@@ -260,11 +260,11 @@ public partial class Terrain : Model
                 XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
                 var boundingSphere = SubsetBoundingSpheres?[i] ?? new();
-                var effectiveLighting = getEffectiveLighting == null
+                var effectiveLights = getEffectiveLights == null
                     ? new()
-                    : getEffectiveLighting(Position + boundingSphere.Center, boundingSphere.Radius) with {ShadowCasters = []};
+                    : getEffectiveLights(Position + boundingSphere.Center, boundingSphere.Radius) with {ShadowCasters = []};
 
-                RenderHelper(renderSubset, currentMaterial, camera, effectiveLighting);
+                RenderHelper(renderSubset, currentMaterial, camera, effectiveLights);
             }
         }
     }

@@ -213,9 +213,9 @@ public class VertexGroup : PositionableRenderable
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
+    internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
     {
-        base.Render(camera, getEffectiveLighting);
+        base.Render(camera, getEffectiveLights);
         Engine.State.WorldTransform = WorldTransform;
 
         #region Draw
@@ -236,11 +236,11 @@ public class VertexGroup : PositionableRenderable
             render = (() => Engine.Device.DrawPrimitives(_primitiveType, 0, _primitiveCount));
         }
 
-        var effectiveLighting = (SurfaceEffect == SurfaceEffect.Plain || getEffectiveLighting == null)
+        var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getEffectiveLights == null)
             ? new()
-            : getEffectiveLighting(Position, BoundingSphere?.Radius ?? 0);
+            : getEffectiveLights(Position, BoundingSphere?.Radius ?? 0);
 
-        RenderHelper(render, _material, camera, effectiveLighting);
+        RenderHelper(render, _material, camera, effectiveLights);
         #endregion
     }
     #endregion

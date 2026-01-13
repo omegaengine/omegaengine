@@ -61,7 +61,7 @@ public class FloatingModel : Model
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
+    internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
     {
         // Note: Doesn't call base methods
         PrepareRender();
@@ -79,7 +79,7 @@ public class FloatingModel : Model
         SurfaceEffect = SurfaceEffect.Plain;
 
         for (int i = 0; i < NumberSubsets; i++)
-            RenderSubset(i, camera, getEffectiveLighting: null);
+            RenderSubset(i, camera, getEffectiveLights: null);
     }
     #endregion
 }

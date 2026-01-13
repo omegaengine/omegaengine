@@ -45,9 +45,9 @@ public abstract class Skybox : Renderable
     }
 
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
+    internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
     {
-        base.Render(camera, getEffectiveLighting);
+        base.Render(camera, getEffectiveLights);
 
         // Scale by factor 3, which should be safe within a simple projection matrix (near=1 and far=10)
         Engine.State.WorldTransform = Matrix.Scaling(3, 3, 3);

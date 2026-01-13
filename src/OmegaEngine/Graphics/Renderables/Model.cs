@@ -207,9 +207,9 @@ public partial class Model : PositionableRenderable
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
+    internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
     {
-        base.Render(camera, getEffectiveLighting);
+        base.Render(camera, getEffectiveLights);
 
         Engine.State.WorldTransform = WorldTransform;
 
@@ -219,7 +219,7 @@ public partial class Model : PositionableRenderable
             if (_subsetWorldBoundingSpheres != null && !camera.InFrustum(_subsetWorldBoundingSpheres[i])) continue;
             if (_subsetWorldBoundingBoxes != null && !camera.InFrustum(_subsetWorldBoundingBoxes[i])) continue;
 
-            RenderSubset(i, camera, getEffectiveLighting);
+            RenderSubset(i, camera, getEffectiveLights);
 
             // Draw per-subset bounding bodies
             if (SurfaceEffect < SurfaceEffect.Glow)
@@ -230,18 +230,18 @@ public partial class Model : PositionableRenderable
         }
     }
 
-    protected virtual void RenderSubset(int i, Camera camera, GetEffectiveLighting? getEffectiveLighting)
+    protected virtual void RenderSubset(int i, Camera camera, GetEffectiveLights? getEffectiveLights)
     {
         using (new ProfilerEvent(() => $"Subset {i}"))
         {
             // Load the subset-material (default to first one, if the subset has no own)
             XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
-            var effectiveLighting = (SurfaceEffect == SurfaceEffect.Plain || getEffectiveLighting == null)
+            var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getEffectiveLights == null)
                 ? new()
-                : getEffectiveLighting(Position, BoundingSphere?.Radius ?? 0);
+                : getEffectiveLights(Position, BoundingSphere?.Radius ?? 0);
 
-            RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, effectiveLighting);
+            RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, effectiveLights);
         }
     }
     #endregion

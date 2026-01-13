@@ -55,9 +55,9 @@ public sealed class SimpleSkybox : Skybox
         ]);
 
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetEffectiveLighting? getEffectiveLighting = null)
+    internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
     {
-        base.Render(camera, getEffectiveLighting);
+        base.Render(camera, getEffectiveLights);
 
         Engine.State.SetVertexBuffer(_vb);
         Engine.Device.Indices = _ib;

@@ -37,7 +37,7 @@ public sealed class Scene : EngineElement
     /// </summary>
     /// <remarks>
     /// Subset of <see cref="Lights"/>.
-    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLighting"/>
+    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLights"/>
     /// </remarks>
     private readonly List<DirectionalLight> _directionalLights = [];
 
@@ -46,7 +46,7 @@ public sealed class Scene : EngineElement
     /// </summary>
     /// <remarks>
     /// Subset of <see cref="Lights"/>.
-    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLighting"/>
+    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLights"/>
     /// </remarks>
     /// <seealso cref="PointLight.RenderAsDirectional"/>
     private readonly List<PointLight> _pseudoDirectionalLights = [];
@@ -56,7 +56,7 @@ public sealed class Scene : EngineElement
     /// </summary>
     /// <remarks>
     /// Subset of <see cref="Lights"/>.
-    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLighting"/>
+    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLights"/>
     /// </remarks>
     private readonly List<PointLight> _pointLights = [];
     #endregion
@@ -105,7 +105,7 @@ public sealed class Scene : EngineElement
 
     #region Activate lights
     /// <summary>
-    /// Must be called before rendering this scene or calling <see cref="GetEffectiveLighting"/>
+    /// Must be called before rendering this scene or calling <see cref="GetEffectiveLights"/>
     /// </summary>
     /// <remarks>Remember to call <see cref="DeactivateLights"/> when done</remarks>
     internal void ActivateLights()
@@ -180,11 +180,11 @@ public sealed class Scene : EngineElement
 
     #region Get effective lighting
     /// <summary>
-    /// Returns <see cref="EffectiveLighting"/> information effective for this position.
+    /// Gets the effective light sources for a specific location.
     /// </summary>
     /// <param name="position">The position to get lighting information for.</param>
     /// <param name="radius">The additional search radius to use (usually bounding sphere radius).</param>
-    internal EffectiveLighting GetEffectiveLighting(DoubleVector3 position, float radius)
+    internal EffectiveLighting GetEffectiveLights(DoubleVector3 position, float radius)
     {
         double maxDistance = 0;
 

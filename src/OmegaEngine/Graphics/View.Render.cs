@@ -216,7 +216,7 @@ partial class View
         body.SetFloatingOrigin(Camera);
 
         using (new ProfilerEvent(() => $"Render {body}"))
-            body.Render(Camera, Lighting ? Scene.GetEffectiveLighting : null);
+            body.Render(Camera, Lighting ? Scene.GetEffectiveLights : null);
     }
     #endregion
 
