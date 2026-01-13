@@ -7,10 +7,8 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text;
 using NanoByte.Common;
 using NanoByte.Common.Storage;
@@ -336,58 +334,21 @@ public class XMesh : Asset
     {
         using (new TimedLogEvent("Calculate per-subset bounding bodies"))
         {
-            // Read mesh data
-            var attributes = Mesh.ReadAttributeBuffer();
-            var indices = Mesh.ReadIndexBuffer();
-
-            // Initialize arrays for bounding bodies
             var subsetBoundingBoxes = new BoundingBox[subsetCount];
             var subsetBoundingSpheres = new BoundingSphere[subsetCount];
-
-            // Group vertex indices by subset
-            var subsetVertexIndices = new List<int>[subsetCount];
-            for (int i = 0; i < subsetCount; i++)
-                subsetVertexIndices[i] = new List<int>();
-
-            for (int faceIndex = 0; faceIndex < Mesh.FaceCount; faceIndex++)
-            {
-                int subsetId = attributes[faceIndex];
-                if (subsetId >= subsetCount) continue; // Skip invalid subset IDs
-
-                // Add the three vertices of this face (triangle)
-                subsetVertexIndices[subsetId].Add(indices[faceIndex * 3]);
-                subsetVertexIndices[subsetId].Add(indices[faceIndex * 3 + 1]);
-                subsetVertexIndices[subsetId].Add(indices[faceIndex * 3 + 2]);
-            }
-
-            // Extract vertex positions and compute bounding bodies for each subset
-            using var vertexStream = Mesh.LockVertexBuffer(LockFlags.ReadOnly);
             for (int i = 0; i < subsetCount; i++)
             {
-                if (subsetVertexIndices[i].Count > 0)
-                {
-                    var positions = new Vector3[subsetVertexIndices[i].Count];
-                    for (int j = 0; j < subsetVertexIndices[i].Count; j++)
-                    {
-                        // Seek to the position of the vertex in the stream
-                        vertexStream.Position = subsetVertexIndices[i][j] * Mesh.BytesPerVertex;
-                        // Read the first 3 floats as the position (standard vertex format)
-                        positions[j] = new Vector3(
-                            vertexStream.Read<float>(),
-                            vertexStream.Read<float>(),
-                            vertexStream.Read<float>());
-                    }
+                var positions = Mesh.GetPoints(subset: i);
+                if (positions.Length == 0) return (null, null);
 
-                    subsetBoundingBoxes[i] = SlimDX.BoundingBox.FromPoints(positions);
-                    subsetBoundingSpheres[i] = SlimDX.BoundingSphere.FromPoints(positions);
-                }
+                subsetBoundingSpheres[i] = SlimDX.BoundingSphere.FromPoints(positions);
+                if (subsetBoundingSpheres[i].Radius < 0.01) return (null, null);
+
+                subsetBoundingBoxes[i] = SlimDX.BoundingBox.FromPoints(positions);
+                if (subsetBoundingBoxes[i].Diagonal().Length() < 0.01) return (null, null);
             }
-            Mesh.UnlockVertexBuffer();
 
-            // Heuristic for discarding invalid bounding bodies
-            if (subsetBoundingSpheres.Any(x => x.Radius < 0.01)) return (null, null);
-            if (subsetBoundingBoxes.Any(x => x.Diagonal().Length() < 0.01)) return (null, null);
-
+            // Only use subset bounding bodies if they are all valid
             return (subsetBoundingBoxes, subsetBoundingSpheres);
         }
     }

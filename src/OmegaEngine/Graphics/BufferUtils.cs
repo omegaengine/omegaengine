@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -363,5 +364,60 @@ public static class BufferUtils
         vertexStream.Dispose();
 
         return points;
+    }
+
+    /// <summary>
+    /// Gets all points contained within a specific subset of a <see cref="Mesh"/>.
+    /// </summary>
+    /// <param name="mesh">The <see cref="Mesh"/> to get points from.</param>
+    /// <param name="subset">The subset to get points for.</param>
+    /// <returns>An array of points defined by the subset. Returns an empty array if the subset has no faces.</returns>
+    public static Vector3[] GetPoints(this Mesh mesh, int subset)
+    {
+        #region Sanity checks
+        if (mesh == null) throw new ArgumentNullException(nameof(mesh));
+        if (subset < 0) throw new ArgumentOutOfRangeException(nameof(subset), "Subset must be non-negative.");
+        #endregion
+
+        // Read mesh data to determine which vertices belong to this subset
+        int[] attributes = mesh.ReadAttributeBuffer();
+        int[] indices = mesh.ReadIndexBuffer();
+
+        // Collect vertex indices for this subset (may contain duplicates from shared vertices)
+        var vertexIndices = new List<int>();
+        for (int faceIndex = 0; faceIndex < mesh.FaceCount; faceIndex++)
+        {
+            if (attributes[faceIndex] == subset)
+            {
+                // Add the three vertices of this face (triangle)
+                int baseIndex = faceIndex * 3;
+                vertexIndices.Add(indices[baseIndex]);
+                vertexIndices.Add(indices[baseIndex + 1]);
+                vertexIndices.Add(indices[baseIndex + 2]);
+            }
+        }
+        if (vertexIndices.Count == 0) return [];
+
+        // Extract vertex positions
+        var positions = new Vector3[vertexIndices.Count];
+        using var vertexStream = mesh.LockVertexBuffer(LockFlags.ReadOnly);
+        for (int i = 0; i < vertexIndices.Count; i++)
+        {
+            int index = vertexIndices[i];
+            if (index < 0 || index >= mesh.VertexCount)
+                throw new InvalidOperationException($"Vertex index {index} is out of range [0, {mesh.VertexCount})");
+
+            // Seek to the position of the vertex in the stream
+            vertexStream.Position = index * mesh.BytesPerVertex;
+
+            // Read the first 3 floats as the position (standard vertex format)
+            positions[i] = new Vector3(
+                vertexStream.Read<float>(),
+                vertexStream.Read<float>(),
+                vertexStream.Read<float>());
+        }
+        mesh.UnlockVertexBuffer();
+
+        return positions;
     }
 }
