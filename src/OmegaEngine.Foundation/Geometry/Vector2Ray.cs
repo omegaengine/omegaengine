@@ -45,17 +45,6 @@ public struct Vector2Ray(Vector2 position, Vector2 direction) : IEquatable<Vecto
     public static bool operator ==(Vector2Ray left, Vector2Ray right) => left.Equals(right);
     public static bool operator !=(Vector2Ray left, Vector2Ray right) => !left.Equals(right);
 
-    /// <summary>
-    /// Computes the perpendicular distance of this ray to a point.
-    /// </summary>
-    public float PerpendicularDistance(Vector2 point)
-    {
-        var toPoint = point - Position;
-        float projection = Vector2.Dot(toPoint, Direction);
-        var projectedPoint = Position + Direction * projection;
-        return (point - projectedPoint).Length();
-    }
-
     /// <inheritdoc/>
     public override bool Equals(object? obj)
     {

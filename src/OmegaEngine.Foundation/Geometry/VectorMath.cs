@@ -109,4 +109,26 @@ public static class VectorMath
         (var axis, double rotation) = from.GetRotationTo(to);
         return vector.RotateAroundAxis(axis, rotation);
     }
+
+    /// <summary>
+    /// Computes the perpendicular distance of this ray to a point.
+    /// </summary>
+    public static float PerpendicularDistance(this Vector2Ray ray, Vector2 point)
+    {
+        var toPoint = point - ray.Position;
+        float projection = Vector2.Dot(toPoint, ray.Direction);
+        var projectedPoint = ray.Position + ray.Direction * projection;
+        return (point - projectedPoint).Length();
+    }
+
+    /// <summary>
+    /// Computes the perpendicular distance of this ray to a point.
+    /// </summary>
+    public static float PerpendicularDistance(this Vector3Ray ray, Vector3 point)
+    {
+        var toPoint = point - ray.Position;
+        float projection = Vector3.Dot(toPoint, ray.Direction);
+        var projectedPoint = ray.Position + ray.Direction * projection;
+        return (point - projectedPoint).Length();
+    }
 }
