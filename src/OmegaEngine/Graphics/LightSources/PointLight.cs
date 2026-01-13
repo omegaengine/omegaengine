@@ -84,6 +84,16 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
     private DirectionalLight? _directional;
 
     /// <summary>
+    /// Determines whether the light source is in range of the given bounding sphere.
+    /// </summary>
+    /// <param name="boundingSphere">A bounding sphere in floating world space.</param>
+    internal bool IsInRange(BoundingSphere boundingSphere)
+    {
+        float distance = (this.GetFloatingPosition() - boundingSphere.Center).Length();
+        return distance <= Range + boundingSphere.Radius;
+    }
+
+    /// <summary>
     /// Converts the point light source to a directional light source.
     /// </summary>
     /// <param name="target">The floating target location being lit.</param>

@@ -194,14 +194,11 @@ public sealed class Scene : EngineElement
     /// <param name="shadowing">Whether to apply shadowing.</param>
     internal LightSource[] GetEffectiveLights(BoundingSphere boundingSphere, bool shadowing)
     {
-        var lights = GetLights(boundingSphere, out float maxLightDistance);
+        var lights = GetLights(boundingSphere);
 
         if (shadowing && boundingSphere.Radius > 0)
         {
             var shadowCasters = _positionables.Where(x => x.ShadowCaster);
-            if (!float.IsPositiveInfinity(maxLightDistance))
-                shadowCasters = shadowCasters.Where(caster => (caster.GetFloatingPosition() - boundingSphere.Center).Length() <= maxLightDistance);
-
             ApplyShadows(lights, boundingSphere, shadowCasters.ToList());
         }
 
@@ -212,29 +209,12 @@ public sealed class Scene : EngineElement
     /// Gets the light sources that are in range of a specific location.
     /// </summary>
     /// <param name="boundingSphere">The position and optional radius in floating world space of the target being lit.</param>
-    /// <param name="maxLightDistance">The maximum distance of any returned light source from the specified location.</param>
-    private LightSource[] GetLights(BoundingSphere boundingSphere, out float maxLightDistance)
+    private LightSource[] GetLights(BoundingSphere boundingSphere)
     {
         var lights = new List<LightSource>(capacity: _directionalLights.Count + _pseudoDirectionalLights.Count + _pointLights.Count);
-
         lights.AddRange(_directionalLights);
-
-        float maxPointLightDistance = 0;
-        lights.AddRange(_pseudoDirectionalLights.Where(IsInRange).Select(light => light.AsDirectional(boundingSphere.Center)));
-        lights.AddRange(_pointLights.Where(IsInRange));
-
-        bool IsInRange(PointLight light)
-        {
-            float distance = (light.GetFloatingPosition() - boundingSphere.Center).Length();
-            if (distance <= light.Range + boundingSphere.Radius)
-            {
-                maxPointLightDistance = Math.Max(maxPointLightDistance, distance);
-                return true;
-            }
-            else return false;
-        }
-
-        maxLightDistance = _directionalLights.Count > 0 ? float.PositiveInfinity : maxPointLightDistance;
+        lights.AddRange(_pseudoDirectionalLights.Where(x => x.IsInRange(boundingSphere)).Select(light => light.AsDirectional(boundingSphere.Center)));
+        lights.AddRange(_pointLights.Where(x => x.IsInRange(boundingSphere)));
         return lights.ToArray();
     }
 
