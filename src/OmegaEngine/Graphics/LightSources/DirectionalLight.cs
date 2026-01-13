@@ -44,7 +44,8 @@ public sealed class DirectionalLight : LightSource
             Diffuse = Diffuse.Multiply(1 - shadowFactor),
             Specular = Specular.Multiply(1 - shadowFactor),
             Ambient = Ambient,
-            Direction = Direction
+            Direction = Direction,
+            MaxShadowRange = MaxShadowRange
         };
     }
 }

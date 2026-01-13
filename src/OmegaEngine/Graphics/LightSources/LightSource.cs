@@ -69,6 +69,16 @@ public abstract class LightSource
     public Color Ambient { get => _ambient; set => _ambient = value.DropAlpha(); }
 
     /// <summary>
+    /// The maximum distance between shadow casters and receivers to consider.
+    /// </summary>
+    /// <remarks>
+    /// Set to <see cref="float.PositiveInfinity"/> (default) to consider all shadow casters regardless of distance.
+    /// Lower values can improve performance by excluding distant shadow casters.
+    /// </remarks>
+    [Description("The maximum distance between shadow casters and receivers to consider"), Category("Behavior")]
+    public float MaxShadowRange { get; set; } = float.PositiveInfinity;
+
+    /// <summary>
     /// Creates a copy of this light source with simple shadowing applied.
     /// </summary>
     /// <param name="receiverSphere">The bounding sphere of the shadow receiver in world space.</param>

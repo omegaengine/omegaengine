@@ -103,6 +103,8 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         _directional.Specular = Specular.Multiply(attenuation);
         _directional.Ambient = Ambient.Multiply(attenuation);
 
+        _directional.MaxShadowRange = MaxShadowRange;
+
         return _directional;
     }
 
@@ -140,7 +142,8 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
             Ambient = Ambient,
             Position = Position,
             RenderAsDirectional = RenderAsDirectional,
-            Attenuation = Attenuation
+            Attenuation = Attenuation,
+            MaxShadowRange = MaxShadowRange
         };
         lightSource.SetFloatingOrigin(this.GetFloatingOrigin());
         return lightSource;

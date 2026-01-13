@@ -100,11 +100,6 @@ public sealed class Scene : EngineElement
     /// All light sources affecting the entities in this scene
     /// </summary>
     public ICollection<LightSource> Lights => _lights;
-
-    /// <summary>
-    /// The maximum distance between shadow casters and receivers to consider.
-    /// </summary>
-    public float MaxShadowRange { get; set; } = float.PositiveInfinity;
     #endregion
 
     #region Constructor
@@ -203,13 +198,22 @@ public sealed class Scene : EngineElement
 
         if (shadowing && boundingSphere.Radius > 0)
         {
-            var shadowCasters = _positionables.Where(x => x.ShadowCaster);
-
-            float maxShadowDistance = Math.Min(MaxShadowRange, maxLightDistance);
-            if (!float.IsPositiveInfinity(maxShadowDistance))
-                shadowCasters = shadowCasters.Where(caster => (caster.GetFloatingPosition() - boundingSphere.Center).Length() <= maxShadowDistance);
-
-            ApplyShadows(lights, boundingSphere, shadowCasters.ToList());
+            var allShadowCasters = _positionables.Where(x => x.ShadowCaster).ToList();
+            
+            for (int i = 0; i < lights.Length; i++)
+            {
+                float maxShadowDistance = Math.Min(lights[i].MaxShadowRange, maxLightDistance);
+                
+                var shadowCasters = allShadowCasters;
+                if (!float.IsPositiveInfinity(maxShadowDistance))
+                    shadowCasters = shadowCasters.Where(caster => (caster.GetFloatingPosition() - boundingSphere.Center).Length() <= maxShadowDistance).ToList();
+                
+                foreach (var caster in shadowCasters)
+                {
+                    if (caster.WorldBoundingSphere is { Radius: > 0.0001f } casterSphere && casterSphere != boundingSphere)
+                        lights[i] = lights[i].GetShadowed(boundingSphere, casterSphere);
+                }
+            }
         }
 
         return lights;
@@ -243,24 +247,6 @@ public sealed class Scene : EngineElement
 
         maxLightDistance = _directionalLights.Count > 0 ? float.PositiveInfinity : maxPointLightDistance;
         return lights.ToArray();
-    }
-
-    /// <summary>
-    /// Applies shadows to light sources.
-    /// </summary>
-    /// <param name="lights">The set of light source to be modified.</param>
-    /// <param name="receiverSphere">The bounding sphere of the shadow receiver in world space.</param>
-    /// <param name="casters">The potential shadow casters.</param>
-    private static void ApplyShadows(LightSource[] lights, BoundingSphere receiverSphere, IReadOnlyList<PositionableRenderable> casters)
-    {
-        for (int i = 0; i < lights.Length; i++)
-        {
-            foreach (var caster in casters)
-            {
-                if (caster.WorldBoundingSphere is { Radius: > 0.0001f } casterSphere && casterSphere != receiverSphere)
-                    lights[i] = lights[i].GetShadowed(receiverSphere, casterSphere);
-            }
-        }
     }
     #endregion
 }
