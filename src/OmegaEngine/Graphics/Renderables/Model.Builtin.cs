@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using NanoByte.Common;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -184,54 +183,73 @@ partial class Model
             {
                 float angleStart = i * anglePerSubset;
                 float angleEnd = (i + 1) * anglePerSubset;
+                float angleMid = (angleStart + angleEnd) / 2;
 
-                // Calculate base corners of the subset in the XZ plane
-                var innerStart = new Vector3(radiusInner * (float)Math.Cos(angleStart), 0, radiusInner * (float)Math.Sin(angleStart));
-                var innerEnd = new Vector3(radiusInner * (float)Math.Cos(angleEnd), 0, radiusInner * (float)Math.Sin(angleEnd));
-                var outerStart = new Vector3(radiusOuter * (float)Math.Cos(angleStart), 0, radiusOuter * (float)Math.Sin(angleStart));
-                var outerEnd = new Vector3(radiusOuter * (float)Math.Cos(angleEnd), 0, radiusOuter * (float)Math.Sin(angleEnd));
+                // Calculate bounding box by finding min/max X and Z across all corners
+                float innerStartX = radiusInner * (float)Math.Cos(angleStart);
+                float innerStartZ = radiusInner * (float)Math.Sin(angleStart);
+                float innerEndX = radiusInner * (float)Math.Cos(angleEnd);
+                float innerEndZ = radiusInner * (float)Math.Sin(angleEnd);
+                float outerStartX = radiusOuter * (float)Math.Cos(angleStart);
+                float outerStartZ = radiusOuter * (float)Math.Sin(angleStart);
+                float outerEndX = radiusOuter * (float)Math.Cos(angleEnd);
+                float outerEndZ = radiusOuter * (float)Math.Sin(angleEnd);
 
-                // Collect all points for this subset
-                var points = new List<Vector3>
-                {
-                    // Base corners at both height levels
-                    new(outerStart.X, height / 2, outerStart.Z),
-                    new(outerStart.X, -height / 2, outerStart.Z),
-                    new(outerEnd.X, height / 2, outerEnd.Z),
-                    new(outerEnd.X, -height / 2, outerEnd.Z),
-                    new(innerStart.X, height / 2, innerStart.Z),
-                    new(innerStart.X, -height / 2, innerStart.Z),
-                    new(innerEnd.X, height / 2, innerEnd.Z),
-                    new(innerEnd.X, -height / 2, innerEnd.Z)
-                };
+                float minX = Math.Min(Math.Min(innerStartX, innerEndX), Math.Min(outerStartX, outerEndX));
+                float maxX = Math.Max(Math.Max(innerStartX, innerEndX), Math.Max(outerStartX, outerEndX));
+                float minZ = Math.Min(Math.Min(innerStartZ, innerEndZ), Math.Min(outerStartZ, outerEndZ));
+                float maxZ = Math.Max(Math.Max(innerStartZ, innerEndZ), Math.Max(outerStartZ, outerEndZ));
 
-                // Add cardinal direction points if subset arc includes them
-                // This ensures accurate bounds when the subset spans cardinal directions
+                // Check if cardinal directions are within the angular range
+                // X-positive (angle = 0)
                 if (angleStart <= 0 && angleEnd > 0)
-                {
-                    points.Add(new(radiusOuter, height / 2, 0));
-                    points.Add(new(radiusOuter, -height / 2, 0));
-                }
-                if (angleStart < Math.PI && angleEnd >= Math.PI)
-                {
-                    points.Add(new(-radiusOuter, height / 2, 0));
-                    points.Add(new(-radiusOuter, -height / 2, 0));
-                }
+                    maxX = Math.Max(maxX, radiusOuter);
+                // Z-positive (angle = π/2)
                 if (angleStart < Math.PI / 2 && angleEnd >= Math.PI / 2)
-                {
-                    points.Add(new(0, height / 2, radiusOuter));
-                    points.Add(new(0, -height / 2, radiusOuter));
-                }
+                    maxZ = Math.Max(maxZ, radiusOuter);
+                // X-negative (angle = π)
+                if (angleStart < Math.PI && angleEnd >= Math.PI)
+                    minX = Math.Min(minX, -radiusOuter);
+                // Z-negative (angle = 3π/2)
                 if (angleStart < Math.PI * 3 / 2 && angleEnd >= Math.PI * 3 / 2)
+                    minZ = Math.Min(minZ, -radiusOuter);
+
+                model.SubsetBoundingBoxes[i] = new(
+                    minimum: new(minX, -height / 2, minZ),
+                    maximum: new(maxX, height / 2, maxZ));
+
+                // Calculate bounding sphere center and radius
+                // Center is at the midpoint of the sector
+                float centerRadius = (radiusInner + radiusOuter) / 2;
+                var center = new Vector3(
+                    centerRadius * (float)Math.Cos(angleMid),
+                    0,
+                    centerRadius * (float)Math.Sin(angleMid));
+
+                // Find maximum distance from center to any corner
+                // There are 8 corners: 2 radii × 2 angles × 2 heights
+                float radiusSquared = 0;
+                float halfHeight = height / 2;
+
+                for (int corner = 0; corner < 8; corner++)
                 {
-                    points.Add(new(0, height / 2, -radiusOuter));
-                    points.Add(new(0, -height / 2, -radiusOuter));
+                    // Use bit patterns to enumerate all corner combinations:
+                    // bit 0: radius (0=inner, 1=outer)
+                    // bit 1: angle (0=start, 1=end)
+                    // bit 2: height (0=bottom, 1=top)
+                    float r = (corner & 1) == 0 ? radiusInner : radiusOuter;
+                    float angle = (corner & 2) == 0 ? angleStart : angleEnd;
+                    float y = (corner & 4) == 0 ? -halfHeight : halfHeight;
+
+                    float dx = r * (float)Math.Cos(angle) - center.X;
+                    float dy = y;
+                    float dz = r * (float)Math.Sin(angle) - center.Z;
+                    float distSquared = dx * dx + dy * dy + dz * dz;
+
+                    radiusSquared = Math.Max(radiusSquared, distSquared);
                 }
 
-                // Use SlimDX built-in methods to calculate optimal bounding volumes
-                var pointsArray = points.ToArray();
-                model.SubsetBoundingBoxes[i] = SlimDX.BoundingBox.FromPoints(pointsArray);
-                model.SubsetBoundingSpheres[i] = SlimDX.BoundingSphere.FromPoints(pointsArray);
+                model.SubsetBoundingSpheres[i] = new(center, (float)Math.Sqrt(radiusSquared));
             }
         }
 
