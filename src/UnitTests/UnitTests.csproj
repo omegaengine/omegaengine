@@ -5,6 +5,7 @@
   <!-- Build config -->
   <PropertyGroup>
     <RootNamespace>OmegaEngine</RootNamespace>
+    <AssemblyName>OmegaEngine.UnitTests</AssemblyName>
   </PropertyGroup>
 
   <!-- Dependencies -->
