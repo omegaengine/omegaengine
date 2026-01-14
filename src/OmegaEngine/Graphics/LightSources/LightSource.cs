@@ -44,6 +44,13 @@ public abstract class LightSource
     [Description("Shall the light source affect its enabled?"), Category("Behavior")]
     public bool Enabled { get; set; } = true;
 
+    /// <summary>
+    /// The maximum distance between shadow casters and receivers to consider.
+    /// </summary>
+    /// <remarks>Lower values can improve performance by excluding distant shadow casters.</remarks>
+    [Description("The maximum distance between shadow casters and receivers to consider"), Category("Behavior")]
+    public float MaxShadowRange { get; set; } = float.PositiveInfinity;
+
     private Color _diffuse = Color.White;
 
     /// <summary>

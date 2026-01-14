@@ -104,6 +104,7 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
 
         _directional.Name = Name;
         _directional.Enabled = Enabled;
+        _directional.MaxShadowRange = MaxShadowRange;
 
         var delta = target - _floatingPosition;
         _directional.Direction = Vector3.Normalize(delta);
@@ -127,10 +128,12 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         if (lightToCasterDistance < 0.0001)
             return this; // Light at same position as caster
 
-        var lightDirection = lightToCaster / lightToCasterDistance;
         var casterToReceiver = receiverSphere.Center - casterSphere.Center;
-        float projectionDistance = Vector3.Dot(casterToReceiver, lightDirection);
+        if (casterToReceiver.Length() > MaxShadowRange)
+            return this; // Shadow caster is too far away
 
+        var lightDirection = lightToCaster / lightToCasterDistance;
+        float projectionDistance = Vector3.Dot(casterToReceiver, lightDirection);
         if (projectionDistance <= 0)
             return this; // Receiver is not behind the caster
 
@@ -145,6 +148,7 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         {
             Name = Name,
             Enabled = Enabled,
+            MaxShadowRange = MaxShadowRange,
             Diffuse = Diffuse.Multiply(1 - shadowFactor),
             Specular = Specular.Multiply(1 - shadowFactor),
             Ambient = Ambient,
