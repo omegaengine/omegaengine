@@ -17,7 +17,7 @@ public class DirectionalLightTest
 {
     private static DirectionalLight CreateLight() => new()
     {
-        Direction = new Vector3(0, -1, 0),
+        Direction = new(0, -1, 0),
         Diffuse = Color.White,
         Specular = Color.White,
         Ambient = Color.FromArgb(50, 50, 50)
@@ -29,8 +29,8 @@ public class DirectionalLightTest
         var light = CreateLight();
 
         // Receiver is in front of caster (not in shadow direction)
-        var casterSphere = new BoundingSphere(new Vector3(0, 0, 0), radius: 1);
-        var receiverSphere = new BoundingSphere(new Vector3(0, 5, 0), radius: 1); // Above the caster, light points down
+        var casterSphere = new BoundingSphere(new(0, 0, 0), radius: 1);
+        var receiverSphere = new BoundingSphere(new(0, 5, 0), radius: 1); // Above the caster, light points down
 
         var shadowed = light.GetShadowed(receiverSphere, casterSphere);
 
@@ -43,8 +43,8 @@ public class DirectionalLightTest
         var light = CreateLight();
 
         // Receiver is behind caster but outside the shadow cylinder
-        var casterSphere = new BoundingSphere(new Vector3(0, 10, 0), radius: 1);
-        var receiverSphere = new BoundingSphere(new Vector3(5, 0, 0), radius: 1); // Far to the side
+        var casterSphere = new BoundingSphere(new(0, 10, 0), radius: 1);
+        var receiverSphere = new BoundingSphere(new(5, 0, 0), radius: 1); // Far to the side
 
         var shadowed = light.GetShadowed(receiverSphere, casterSphere);
 
@@ -57,8 +57,8 @@ public class DirectionalLightTest
         var light = CreateLight();
 
         // Receiver is directly behind caster and fully contained in shadow cylinder
-        var casterSphere = new BoundingSphere(new Vector3(0, 10, 0), radius: 2);
-        var receiverSphere = new BoundingSphere(new Vector3(0, 0, 0), radius: 1); // Directly below, smaller
+        var casterSphere = new BoundingSphere(new(0, 10, 0), radius: 2);
+        var receiverSphere = new BoundingSphere(new(0, 0, 0), radius: 1); // Directly below, smaller
 
         var shadowed = (DirectionalLight)light.GetShadowed(receiverSphere, casterSphere);
 
@@ -74,8 +74,8 @@ public class DirectionalLightTest
         var light = CreateLight();
 
         // Receiver is partially in shadow cylinder
-        var casterSphere = new BoundingSphere(new Vector3(0, 10, 0), radius: 2);
-        var receiverSphere = new BoundingSphere(new Vector3(2.5f, 0, 0), radius: 1); // Partially overlapping
+        var casterSphere = new BoundingSphere(new(0, 10, 0), radius: 2);
+        var receiverSphere = new BoundingSphere(new(2.5f, 0, 0), radius: 1); // Partially overlapping
 
         var shadowed = (DirectionalLight)light.GetShadowed(receiverSphere, casterSphere);
 
@@ -95,20 +95,20 @@ public class DirectionalLightTest
         {
             Name = "TestLight",
             Enabled = true,
-            Direction = new Vector3(1, -1, 0),
+            Direction = new(1, -1, 0),
             Diffuse = Color.Red,
             Specular = Color.Blue,
             Ambient = Color.Green
         };
 
-        var casterSphere = new BoundingSphere(new Vector3(0, 10, 0), radius: 2);
-        var receiverSphere = new BoundingSphere(new Vector3(1, 0, 0), radius: 1);
+        var casterSphere = new BoundingSphere(new(0, 10, 0), radius: 2);
+        var receiverSphere = new BoundingSphere(new(1, 0, 0), radius: 1);
 
         var shadowed = (DirectionalLight)lightWithName.GetShadowed(receiverSphere, casterSphere);
 
         shadowed.Name.Should().Be(lightWithName.Name);
         shadowed.Enabled.Should().Be(lightWithName.Enabled);
-        shadowed.Direction.Should().Be(Vector3.Normalize(new Vector3(1, -1, 0)));
+        shadowed.Direction.Should().Be(Vector3.Normalize(new(1, -1, 0)));
         shadowed.Ambient.Should().Be(lightWithName.Ambient); // Ambient should not change
     }
 
@@ -118,14 +118,14 @@ public class DirectionalLightTest
         var light = CreateLight();
 
         // Test that directional light creates cylindrical shadow (constant radius)
-        var casterSphere = new BoundingSphere(new Vector3(0, 10, 0), radius: 2);
+        var casterSphere = new BoundingSphere(new(0, 10, 0), radius: 2);
 
         // Receiver close to caster
-        var receiverNear = new BoundingSphere(new Vector3(0, 8, 0), radius: 1);
+        var receiverNear = new BoundingSphere(new(0, 8, 0), radius: 1);
         var shadowedNear = (DirectionalLight)light.GetShadowed(receiverNear, casterSphere);
 
         // Receiver far from caster
-        var receiverFar = new BoundingSphere(new Vector3(0, -10, 0), radius: 1);
+        var receiverFar = new BoundingSphere(new(0, -10, 0), radius: 1);
         var shadowedFar = (DirectionalLight)light.GetShadowed(receiverFar, casterSphere);
 
         // Both should be fully shadowed since they're in the same cylindrical shadow
