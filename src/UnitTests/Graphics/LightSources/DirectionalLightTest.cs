@@ -132,4 +132,19 @@ public class DirectionalLightTest
         shadowedNear.Diffuse.Should().Be(Color.Black);
         shadowedFar.Diffuse.Should().Be(Color.Black);
     }
+
+    [Fact]
+    public void GetShadowed_NoShadow_WhenCasterBeyondMaxShadowRange()
+    {
+        var light = CreateLight();
+        light.MaxShadowRange = 5f;
+
+        // Caster is 10 units away from receiver, beyond MaxShadowRange
+        var casterSphere = new BoundingSphere(new(0, 10, 0), radius: 1);
+        var receiverSphere = new BoundingSphere(new(0, 0, 0), radius: 1);
+
+        var shadowed = light.GetShadowed(receiverSphere, casterSphere);
+
+        shadowed.Should().Be(light); // No shadow applied
+    }
 }

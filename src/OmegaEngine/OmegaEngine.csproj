@@ -34,7 +34,7 @@ The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games 
   <!-- Expose internals to unit tests -->
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-    <_Parameter1>OmegaEngine.UnitTests</_Parameter1>
+    <_Parameter1>UnitTests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 

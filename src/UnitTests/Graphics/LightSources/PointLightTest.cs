@@ -9,6 +9,7 @@
 using System.Drawing;
 using FluentAssertions;
 using OmegaEngine.Foundation.Geometry;
+using OmegaEngine.Foundation.Light;
 using SlimDX;
 using Xunit;
 
@@ -188,5 +189,123 @@ public class PointLightTest
         var light = CreateLight();
         light.Attenuation = new(constant: 0.75f, linear: 0, quadratic: 0.001f);
         light.Range.Should().BeLessThan(float.PositiveInfinity);
+    }
+
+    [Fact]
+    public void GetShadowed_NoShadow_WhenCasterBeyondMaxShadowRange()
+    {
+        var light = CreateLight();
+        light.MaxShadowRange = 10f;
+
+        // Caster is 15 units away from receiver, beyond MaxShadowRange
+        var casterSphere = new BoundingSphere(new(0, 10, 0), radius: 1);
+        var receiverSphere = new BoundingSphere(new(0, -5, 0), radius: 1);
+
+        var shadowed = light.GetShadowed(receiverSphere, casterSphere);
+
+        shadowed.Should().Be(light); // No shadow applied
+    }
+
+    [Fact]
+    public void AsDirectional_ConvertsBasicProperties()
+    {
+        var light = new PointLight
+        {
+            Name = "TestLight",
+            Enabled = true,
+            MaxShadowRange = 100f,
+            Position = new DoubleVector3(0, 10, 0),
+            Diffuse = Color.White,
+            Specular = Color.White,
+            Ambient = Color.FromArgb(50, 50, 50),
+            Attenuation = Attenuation.None
+        };
+        // Trigger floating position computation
+        _ = ((IFloatingOriginAware)light).FloatingPosition;
+
+        var target = new Vector3(0, 0, 0);
+        var directional = light.AsDirectional(target);
+
+        directional.Name.Should().Be(light.Name);
+        directional.Enabled.Should().Be(light.Enabled);
+        directional.MaxShadowRange.Should().Be(light.MaxShadowRange);
+        directional.Direction.Should().Be(Vector3.Normalize(new Vector3(0, -10, 0)));
+        directional.Diffuse.Should().Be(light.Diffuse);
+        directional.Specular.Should().Be(light.Specular);
+        directional.Ambient.Should().Be(light.Ambient);
+    }
+
+    [Fact]
+    public void AsDirectional_AppliesAttenuation()
+    {
+        var light = new PointLight
+        {
+            Position = new DoubleVector3(0, 100, 0),
+            Diffuse = Color.FromArgb(255, 200, 100),
+            Specular = Color.FromArgb(255, 150, 50),
+            Ambient = Color.FromArgb(50, 50, 50),
+            Attenuation = new(constant: 1, linear: 0.01f, quadratic: 0.001f)
+        };
+        // Trigger floating position computation
+        _ = ((IFloatingOriginAware)light).FloatingPosition;
+
+        var target = new Vector3(0, 0, 0);
+        var directional = light.AsDirectional(target);
+
+        // With distance 100 and attenuation (1, 0.01, 0.001), factor = 1 / (1 + 0.01*100 + 0.001*100^2) = 1/12
+        // Expected colors should be attenuated
+        directional.Diffuse.R.Should().BeLessThan(light.Diffuse.R);
+        directional.Diffuse.G.Should().BeLessThan(light.Diffuse.G);
+        directional.Diffuse.B.Should().BeLessThan(light.Diffuse.B);
+        directional.Specular.R.Should().BeLessThan(light.Specular.R);
+        directional.Specular.G.Should().BeLessThan(light.Specular.G);
+        directional.Specular.B.Should().BeLessThan(light.Specular.B);
+        directional.Ambient.R.Should().BeLessThan(light.Ambient.R);
+        directional.Ambient.G.Should().BeLessThan(light.Ambient.G);
+        directional.Ambient.B.Should().BeLessThan(light.Ambient.B);
+    }
+
+    [Fact]
+    public void AsDirectional_ReusesDirectionalLightInstance()
+    {
+        var light = new PointLight
+        {
+            Position = new DoubleVector3(0, 10, 0),
+            Diffuse = Color.White,
+            Specular = Color.White,
+            Ambient = Color.Black
+        };
+        // Trigger floating position computation
+        _ = ((IFloatingOriginAware)light).FloatingPosition;
+
+        var target1 = new Vector3(0, 0, 0);
+        var directional1 = light.AsDirectional(target1);
+
+        var target2 = new Vector3(10, 0, 0);
+        var directional2 = light.AsDirectional(target2);
+
+        // Should return the same instance, just updated
+        directional2.Should().BeSameAs(directional1);
+        directional2.Direction.Should().NotBe(directional1.Direction);
+    }
+
+    [Fact]
+    public void AsDirectional_CalculatesCorrectDirection()
+    {
+        var light = new PointLight
+        {
+            Position = new DoubleVector3(10, 10, 10),
+            Diffuse = Color.White,
+            Specular = Color.White,
+            Ambient = Color.Black
+        };
+        // Trigger floating position computation
+        _ = ((IFloatingOriginAware)light).FloatingPosition;
+
+        var target = new Vector3(0, 0, 0);
+        var directional = light.AsDirectional(target);
+
+        var expectedDirection = Vector3.Normalize(new Vector3(-10, -10, -10));
+        directional.Direction.Should().Be(expectedDirection);
     }
 }
