@@ -30,7 +30,11 @@ public sealed class DirectionalLight : LightSource
     [Pure]
     public override LightSource GetShadowed(BoundingSphere receiverSphere, BoundingSphere casterSphere)
     {
-        if (Vector3.Dot(receiverSphere.Center - casterSphere.Center, Direction) <= 0)
+        var casterToReceiver = receiverSphere.Center - casterSphere.Center;
+        if (casterToReceiver.Length() > MaxShadowRange)
+            return this; // Shadow caster is too far away
+
+        if (Vector3.Dot(casterToReceiver, Direction) <= 0)
             return this; // Receiver is not in shadow direction
 
         var shadowRay = new Ray(casterSphere.Center, Direction);
@@ -41,6 +45,7 @@ public sealed class DirectionalLight : LightSource
         {
             Name = Name,
             Enabled = Enabled,
+            MaxShadowRange = MaxShadowRange,
             Diffuse = Diffuse.Multiply(1 - shadowFactor),
             Specular = Specular.Multiply(1 - shadowFactor),
             Ambient = Ambient,

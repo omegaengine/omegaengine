@@ -189,4 +189,19 @@ public class PointLightTest
         light.Attenuation = new(constant: 0.75f, linear: 0, quadratic: 0.001f);
         light.Range.Should().BeLessThan(float.PositiveInfinity);
     }
+
+    [Fact]
+    public void GetShadowed_NoShadow_WhenCasterBeyondMaxShadowRange()
+    {
+        var light = CreateLight();
+        light.MaxShadowRange = 10;
+
+        // Caster is 15 units away from receiver, beyond MaxShadowRange
+        var casterSphere = new BoundingSphere(new(0, 10, 0), radius: 1);
+        var receiverSphere = new BoundingSphere(new(0, -5, 0), radius: 1);
+
+        var shadowed = light.GetShadowed(receiverSphere, casterSphere);
+
+        shadowed.Should().Be(light); // No shadow applied
+    }
 }
