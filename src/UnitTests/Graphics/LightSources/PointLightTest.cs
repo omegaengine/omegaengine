@@ -18,7 +18,7 @@ public class PointLightTest
 {
     private static PointLight CreateLight() => new()
     {
-        Position = new DoubleVector3(0, 20, 0),
+        Position = new(0, 20, 0),
         Diffuse = Color.White,
         Specular = Color.White,
         Ambient = Color.FromArgb(50, 50, 50)
@@ -29,8 +29,8 @@ public class PointLightTest
     {
         var light = CreateLight();
 
-        var casterSphere = new BoundingSphere(new Vector3(0, 20, 0), 1);
-        var receiverSphere = new BoundingSphere(new Vector3(0, 0, 0), 1);
+        var casterSphere = new BoundingSphere(new(0, 20, 0), 1);
+        var receiverSphere = new BoundingSphere(new(0, 0, 0), 1);
 
         var shadowed = light.GetShadowed(receiverSphere, casterSphere);
 
@@ -43,8 +43,8 @@ public class PointLightTest
         var light = CreateLight();
 
         // Receiver is in front of or beside the caster relative to light
-        var casterSphere = new BoundingSphere(new Vector3(0, 10, 0), 1);
-        var receiverSphere = new BoundingSphere(new Vector3(0, 15, 0), 1); // Between light and caster
+        var casterSphere = new BoundingSphere(new(0, 10, 0), 1);
+        var receiverSphere = new BoundingSphere(new(0, 15, 0), 1); // Between light and caster
 
         var shadowed = light.GetShadowed(receiverSphere, casterSphere);
 
@@ -57,8 +57,8 @@ public class PointLightTest
         var light = CreateLight();
 
         // Receiver is behind caster but outside the shadow cone
-        var casterSphere = new BoundingSphere(new Vector3(0, 10, 0), 1);
-        var receiverSphere = new BoundingSphere(new Vector3(10, 0, 0), 1); // Far to the side
+        var casterSphere = new BoundingSphere(new(0, 10, 0), 1);
+        var receiverSphere = new BoundingSphere(new(10, 0, 0), 1); // Far to the side
 
         var shadowed = light.GetShadowed(receiverSphere, casterSphere);
 
@@ -71,8 +71,8 @@ public class PointLightTest
         var light = CreateLight();
 
         // Receiver is directly behind caster and fully contained in shadow cone
-        var casterSphere = new BoundingSphere(new Vector3(0, 10, 0), 1);
-        var receiverSphere = new BoundingSphere(new Vector3(0, 0, 0), 0.5f); // Directly below, smaller
+        var casterSphere = new BoundingSphere(new(0, 10, 0), 1);
+        var receiverSphere = new BoundingSphere(new(0, 0, 0), 0.5f); // Directly below, smaller
 
         var shadowed = (PointLight)light.GetShadowed(receiverSphere, casterSphere);
 
@@ -88,8 +88,8 @@ public class PointLightTest
         var light = CreateLight();
 
         // Receiver is partially in shadow cone
-        var casterSphere = new BoundingSphere(new Vector3(0, 10, 0), radius: 1);
-        var receiverSphere = new BoundingSphere(new Vector3(1.5f, 0, 0), radius: 1); // Partially overlapping
+        var casterSphere = new BoundingSphere(new(0, 10, 0), radius: 1);
+        var receiverSphere = new BoundingSphere(new(1.5f, 0, 0), radius: 1); // Partially overlapping
 
         var shadowed = (PointLight)light.GetShadowed(receiverSphere, casterSphere);
 
@@ -108,16 +108,17 @@ public class PointLightTest
         {
             Name = "TestPointLight",
             Enabled = true,
-            Position = new DoubleVector3(5, 15, 10),
+            Position = new(5, 15, 10),
             Diffuse = Color.Red,
             Specular = Color.Blue,
             Ambient = Color.Green,
             RenderAsDirectional = true,
             Attenuation = new(1, 0.5f, 0.25f)
         };
+        lightWithProps.SetFloatingOrigin(new DoubleVector3(1, 2, 3));
 
-        var casterSphere = new BoundingSphere(new Vector3(5, 10, 10), radius: 1);
-        var receiverSphere = new BoundingSphere(new Vector3(5, 5, 10), radius: 1);
+        var casterSphere = new BoundingSphere(new(5, 10, 10), radius: 1);
+        var receiverSphere = new BoundingSphere(new(5, 5, 10), radius: 1);
 
         var shadowed = (PointLight)lightWithProps.GetShadowed(receiverSphere, casterSphere);
 
@@ -128,6 +129,7 @@ public class PointLightTest
         shadowed.RenderAsDirectional.Should().Be(lightWithProps.RenderAsDirectional);
         shadowed.Attenuation.Should().Be(lightWithProps.Attenuation);
         shadowed.Ambient.Should().Be(lightWithProps.Ambient); // Ambient should not change
+        shadowed.GetFloatingOrigin().Should().Be(lightWithProps.GetFloatingOrigin());
     }
 
     [Fact]
@@ -136,16 +138,16 @@ public class PointLightTest
         var light = CreateLight();
 
         // Test that point light creates conical shadow (expanding with distance)
-        var casterSphere = new BoundingSphere(new Vector3(0, 10, 0), radius: 1);
+        var casterSphere = new BoundingSphere(new(0, 10, 0), radius: 1);
 
         // Receiver close to caster (distance from caster = 2)
         // Shadow radius = casterRadius * (lightToReceiver / lightToCaster) = 1 * (12/10) = 1.2
-        var receiverNear = new BoundingSphere(new Vector3(0, 8, 0), radius: 0.5f);
+        var receiverNear = new BoundingSphere(new(0, 8, 0), radius: 0.5f);
         var shadowedNear = (PointLight)light.GetShadowed(receiverNear, casterSphere);
 
         // Receiver far from caster (distance from caster = 10)
         // Shadow radius = casterRadius * (lightToReceiver / lightToCaster) = 1 * (20/10) = 2.0
-        var receiverFar = new BoundingSphere(new Vector3(0, 0, 0), radius: 0.5f);
+        var receiverFar = new BoundingSphere(new(0, 0, 0), radius: 0.5f);
         var shadowedFar = (PointLight)light.GetShadowed(receiverFar, casterSphere);
 
         // Both should be fully shadowed
@@ -160,14 +162,14 @@ public class PointLightTest
 
         // Verify the shadow cone expands proportionally with distance from light
         // At distance D1 from light, shadow should be narrower than at distance D2 > D1
-        var casterSphere = new BoundingSphere(new Vector3(0, 15, 0), radius: 2);
+        var casterSphere = new BoundingSphere(new(0, 15, 0), radius: 2);
 
         // Receiver at (0, 10, 0): light-to-receiver = 10, shadow radius = 2 * (10/5) = 4
-        var receiver1 = new BoundingSphere(new Vector3(5.1f, 10, 0), radius: 1); // Just outside shadow
+        var receiver1 = new BoundingSphere(new(5.1f, 10, 0), radius: 1); // Just outside shadow
         var shadowed1 = light.GetShadowed(receiver1, casterSphere);
 
         // Receiver at (0, 5, 0): light-to-receiver = 15, shadow radius = 2 * (15/5) = 6
-        var receiver2 = new BoundingSphere(new Vector3(5.1f, 5, 0), radius: 1); // Inside shadow at greater distance
+        var receiver2 = new BoundingSphere(new(5.1f, 5, 0), radius: 1); // Inside shadow at greater distance
         var shadowed2 = light.GetShadowed(receiver2, casterSphere);
 
         // First receiver should have no shadow, second should have shadow
@@ -203,5 +205,63 @@ public class PointLightTest
         var shadowed = light.GetShadowed(receiverSphere, casterSphere);
 
         shadowed.Should().Be(light); // No shadow applied
+    }
+
+    [Fact]
+    public void AsDirectional_CalculatesCorrectDirection()
+    {
+        var light = new PointLight
+        {
+            Position = new(10, 10, 10),
+            Diffuse = Color.White,
+            Specular = Color.White,
+            Ambient = Color.Black
+        };
+
+        var directional = light.AsDirectional(target: new(10, 20, 10));
+
+        directional.Direction.Should().Be(new Vector3(0, 1, 0));
+    }
+
+    [Fact]
+    public void AsDirectional_AppliesAttenuation()
+    {
+        var light = new PointLight
+        {
+            Position = new(0, 100, 0),
+            Diffuse = Color.FromArgb(255, 200, 100),
+            Specular = Color.FromArgb(255, 150, 50),
+            Ambient = Color.FromArgb(50, 50, 50),
+            Attenuation = new(constant: 1, linear: 0.01f, quadratic: 0.001f)
+        };
+
+        var directional = light.AsDirectional(target: new (0, 0, 0));
+
+        // With distance 100 and attenuation (1, 0.01, 0.001), factor = 1 / (1 + 0.01*100 + 0.001*100^2) = 1/12
+        // Expected colors should be attenuated
+        directional.Diffuse.R.Should().BeLessThan(light.Diffuse.R);
+        directional.Diffuse.G.Should().BeLessThan(light.Diffuse.G);
+        directional.Diffuse.B.Should().BeLessThan(light.Diffuse.B);
+        directional.Specular.R.Should().BeLessThan(light.Specular.R);
+        directional.Specular.G.Should().BeLessThan(light.Specular.G);
+        directional.Specular.B.Should().BeLessThan(light.Specular.B);
+        directional.Ambient.R.Should().BeLessThan(light.Ambient.R);
+        directional.Ambient.G.Should().BeLessThan(light.Ambient.G);
+        directional.Ambient.B.Should().BeLessThan(light.Ambient.B);
+    }
+
+    [Fact]
+    public void AsDirectional_ReusesDirectionalLightInstance()
+    {
+        var light = new PointLight();
+
+        var directional1 = light.AsDirectional(target: new(0, 0, 0));
+        var direction1 = directional1.Direction;
+
+        var directional2 = light.AsDirectional(target: new(10, 0, 0));
+
+        // Should return the same instance, just updated
+        directional2.Should().BeSameAs(directional1);
+        directional2.Direction.Should().NotBe(direction1);
     }
 }
