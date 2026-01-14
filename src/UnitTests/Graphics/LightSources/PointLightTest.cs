@@ -280,13 +280,14 @@ public class PointLightTest
 
         var target1 = new Vector3(0, 0, 0);
         var directional1 = light.AsDirectional(target1);
+        var direction1 = directional1.Direction;
 
         var target2 = new Vector3(10, 0, 0);
         var directional2 = light.AsDirectional(target2);
 
         // Should return the same instance, just updated
         directional2.Should().BeSameAs(directional1);
-        directional2.Direction.Should().NotBe(directional1.Direction);
+        directional2.Direction.Should().NotBe(direction1);
     }
 
     [Fact]
