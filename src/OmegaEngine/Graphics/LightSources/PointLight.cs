@@ -44,7 +44,7 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
     DoubleVector3 IFloatingOriginAware.FloatingOrigin { get => _floatingOrigin; set => value.To(ref _floatingOrigin, ref _floatingPositionDirty); }
 
     private bool _floatingPositionDirty;
-    private Vector3 _floatingPosition;
+    private Vector3 _floatingPositionCached;
 
     /// <summary>
     /// The body's position in render space, based on <see cref="Position"/>
@@ -56,10 +56,10 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         {
             if (_floatingPositionDirty)
             {
-                _floatingPosition = this.ApplyFloatingOriginTo(_position);
+                _floatingPositionCached = this.ApplyFloatingOriginTo(_position);
                 _floatingPositionDirty = false;
             }
-            return _floatingPosition;
+            return _floatingPositionCached;
         }
     }
 
@@ -105,7 +105,7 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         _directional.Name = Name;
         _directional.Enabled = Enabled;
 
-        var delta = target - _floatingPosition;
+        var delta = target - this.GetFloatingPosition();
         _directional.Direction = Vector3.Normalize(delta);
 
         float attenuation = Attenuation.Apply(delta.Length());

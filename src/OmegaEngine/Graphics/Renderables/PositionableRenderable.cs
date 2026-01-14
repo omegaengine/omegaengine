@@ -204,10 +204,10 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     {
         if (!WorldTransformDirty) return;
 
-        _floatingPosition = this.ApplyFloatingOriginTo(_position);
+        _floatingPositionCached = this.ApplyFloatingOriginTo(_position);
 
         // Calculate transformation matrices
-        WorldTransformCached = _preTransform * Matrix.Scaling(_scale) * _internalScaling * Matrix.RotationQuaternion(Rotation) * _internalRotation * Matrix.Translation(_floatingPosition) * _internalTranslation;
+        WorldTransformCached = _preTransform * Matrix.Scaling(_scale) * _internalScaling * Matrix.RotationQuaternion(Rotation) * _internalRotation * Matrix.Translation(_floatingPositionCached) * _internalTranslation;
         _inverseWorldTransform = Matrix.Invert(WorldTransformCached);
 
         // Transform bounding bodies into world space
@@ -217,7 +217,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         WorldTransformDirty = false;
     }
 
-    private Vector3 _floatingPosition;
+    private Vector3 _floatingPositionCached;
 
     /// <summary>
     /// The body's position in render space, based on <see cref="Position"/>
@@ -228,7 +228,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         get
         {
             RecalcWorldTransform();
-            return _floatingPosition;
+            return _floatingPositionCached;
         }
     }
 
