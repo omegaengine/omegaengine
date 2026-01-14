@@ -170,7 +170,7 @@ partial class Model
             Engine = engine,
             NumberSubsets = subsets,
             BoundingSphere = CenteredBoundingSphere(radius: (float)Math.Sqrt(radiusOuter * radiusOuter + height * height / 4)),
-            BoundingBox = CenteredBoundingBox(corner: new(radiusOuter, radiusOuter, height / 2))
+            BoundingBox = CenteredBoundingBox(corner: new(radiusOuter, height / 2, radiusOuter))
         };
 
         if (subsets > 1)
