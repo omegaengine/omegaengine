@@ -194,7 +194,7 @@ public partial class Model : PositionableRenderable
                 _subsetWorldBoundingSpheres[i] = SubsetBoundingSpheres[i].Transform(WorldTransformCached);
         }
 
-        if (SubsetBoundingBoxes == null) SubsetBoundingBoxes = null;
+        if (SubsetBoundingBoxes == null) _subsetWorldBoundingBoxes = null;
         else
         {
             _subsetWorldBoundingBoxes ??= new BoundingBox[SubsetBoundingBoxes.Length];
