@@ -149,7 +149,7 @@ public partial class Model : PositionableRenderable
     /// </summary>
     protected BoundingSphere[]? SubsetBoundingSpheres { get; set; }
 
-    private BoundingSphere[]? _subsetWorldBoundingSpheres;
+    private BoundingSphere[]? _subsetWorldBoundingSpheresCached;
 
     /// <summary>
     /// Per-subset bounding spheres in floating world space.
@@ -159,7 +159,7 @@ public partial class Model : PositionableRenderable
         get
         {
             RecalcWorldTransform();
-            return _subsetWorldBoundingSpheres;
+            return _subsetWorldBoundingSpheresCached;
         }
     }
 
@@ -168,7 +168,7 @@ public partial class Model : PositionableRenderable
     /// </summary>
     protected BoundingBox[]? SubsetBoundingBoxes { get; set; }
 
-    private BoundingBox[]? _subsetWorldBoundingBoxes;
+    private BoundingBox[]? _subsetWorldBoundingBoxesCached;
 
     /// <summary>
     /// Per-subset bounding boxes in floating world space.
@@ -178,29 +178,31 @@ public partial class Model : PositionableRenderable
         get
         {
             RecalcWorldTransform();
-            return _subsetWorldBoundingBoxes;
+            return _subsetWorldBoundingBoxesCached;
         }
     }
 
     /// <inheritdoc/>
     protected override void RecalcWorldTransform()
     {
+        if (!WorldTransformDirty) return;
+
         base.RecalcWorldTransform();
 
-        if (SubsetBoundingSpheres == null) _subsetWorldBoundingSpheres = null;
+        if (SubsetBoundingSpheres == null) _subsetWorldBoundingSpheresCached = null;
         else
         {
-            _subsetWorldBoundingSpheres ??= new BoundingSphere[SubsetBoundingSpheres.Length];
-            for (int i = 0; i < _subsetWorldBoundingSpheres.Length; i++)
-                _subsetWorldBoundingSpheres[i] = SubsetBoundingSpheres[i].Transform(WorldTransformCached);
+            _subsetWorldBoundingSpheresCached ??= new BoundingSphere[SubsetBoundingSpheres.Length];
+            for (int i = 0; i < _subsetWorldBoundingSpheresCached.Length; i++)
+                _subsetWorldBoundingSpheresCached[i] = SubsetBoundingSpheres[i].Transform(WorldTransformCached);
         }
 
-        if (SubsetBoundingBoxes == null) _subsetWorldBoundingBoxes = null;
+        if (SubsetBoundingBoxes == null) _subsetWorldBoundingBoxesCached = null;
         else
         {
-            _subsetWorldBoundingBoxes ??= new BoundingBox[SubsetBoundingBoxes.Length];
-            for (int i = 0; i < _subsetWorldBoundingBoxes.Length; i++)
-                _subsetWorldBoundingBoxes[i] = SubsetBoundingBoxes[i].Transform(WorldTransformCached);
+            _subsetWorldBoundingBoxesCached ??= new BoundingBox[SubsetBoundingBoxes.Length];
+            for (int i = 0; i < _subsetWorldBoundingBoxesCached.Length; i++)
+                _subsetWorldBoundingBoxesCached[i] = SubsetBoundingBoxes[i].Transform(WorldTransformCached);
         }
     }
     #endregion
@@ -215,17 +217,20 @@ public partial class Model : PositionableRenderable
 
         for (int i = 0; i < NumberSubsets; i++)
         {
+            var boundingSphere = SubsetWorldBoundingSpheres?[i];
+            var boundingBox = SubsetWorldBoundingBoxes?[i];
+
             // Per-subset frustum culling
-            if (_subsetWorldBoundingSpheres != null && !camera.InFrustum(_subsetWorldBoundingSpheres[i])) continue;
-            if (_subsetWorldBoundingBoxes != null && !camera.InFrustum(_subsetWorldBoundingBoxes[i])) continue;
+            if (boundingSphere.HasValue && !camera.InFrustum(boundingSphere.Value)) continue;
+            if (boundingBox.HasValue && !camera.InFrustum(boundingBox.Value)) continue;
 
             RenderSubset(i, camera, getEffectiveLights);
 
             // Draw per-subset bounding bodies
             if (SurfaceEffect < SurfaceEffect.Glow)
             {
-                if (DrawBoundingSphere && _subsetWorldBoundingSpheres != null) Engine.DrawBoundingSphere(_subsetWorldBoundingSpheres[i]);
-                if (DrawBoundingBox && _subsetWorldBoundingBoxes != null) Engine.DrawBoundingBox(_subsetWorldBoundingBoxes[i]);
+                if (DrawBoundingSphere && boundingSphere.HasValue) Engine.DrawBoundingSphere(boundingSphere.Value);
+                if (DrawBoundingBox && boundingBox.HasValue) Engine.DrawBoundingBox(boundingBox.Value);
             }
         }
     }
