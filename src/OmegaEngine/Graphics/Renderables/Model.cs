@@ -133,7 +133,8 @@ public partial class Model : PositionableRenderable
         // Get separate materials
         Materials = materials;
         NumberSubsets = Materials.Length;
-        foreach (var material in Materials) material.HoldReference();
+        foreach (var material in Materials)
+            material.HoldReference();
         _separateMaterials = true;
     }
     #endregion
@@ -263,8 +264,7 @@ public partial class Model : PositionableRenderable
             Vector3.TransformNormal(ray.Direction, InverseWorldTransform));
 
         // Check for mesh intersection
-        bool result = Mesh.Intersects(ray, out distance, out int _, out _);
-        return result;
+        return Mesh.Intersects(ray, out distance, out int _, out _);
     }
     #endregion
 
@@ -294,3 +294,4 @@ public partial class Model : PositionableRenderable
     }
     #endregion
 }
+
