@@ -121,28 +121,41 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
     [Pure]
     public override LightSource GetShadowed(BoundingSphere receiverSphere, BoundingSphere casterSphere)
     {
+        float shadowFactor = CalculateShadowFactor(receiverSphere, casterSphere);
+        return ApplyShadowFactor(shadowFactor);
+    }
+
+    /// <inheritdoc/>
+    [Pure]
+    public override float CalculateShadowFactor(BoundingSphere receiverSphere, BoundingSphere casterSphere)
+    {
         var lightPos = this.GetFloatingPosition();
         var lightToCaster = casterSphere.Center - lightPos;
         float lightToCasterDistance = lightToCaster.Length();
 
         if (lightToCasterDistance < 0.0001)
-            return this; // Light at same position as caster
+            return 0; // Light at same position as caster
 
         var casterToReceiver = receiverSphere.Center - casterSphere.Center;
         if (casterToReceiver.Length() > MaxShadowRange)
-            return this; // Shadow caster is too far away
+            return 0; // Shadow caster is too far away
 
         var lightDirection = lightToCaster / lightToCasterDistance;
         float projectionDistance = Vector3.Dot(casterToReceiver, lightDirection);
         if (projectionDistance <= 0)
-            return this; // Receiver is not behind the caster
+            return 0; // Receiver is not behind the caster
 
         float lightToReceiverDistance = lightToCasterDistance + projectionDistance;
         float shadowRadius = casterSphere.Radius * (lightToReceiverDistance / lightToCasterDistance);
 
         var shadowRay = new Ray(casterSphere.Center, lightDirection);
-        float shadowFactor = GetShadowFactor(receiverSphere, shadowRay, shadowRadius);
+        return GetShadowFactor(receiverSphere, shadowRay, shadowRadius);
+    }
 
+    /// <inheritdoc/>
+    [Pure]
+    public override LightSource ApplyShadowFactor(float shadowFactor)
+    {
         if (shadowFactor == 0) return this;
         var lightSource = new PointLight
         {

@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
@@ -222,11 +223,27 @@ public sealed class Scene : EngineElement
     {
         for (int i = 0; i < lights.Length; i++)
         {
-            foreach (var positionable in _positionables)
+            // Collect shadow casters
+            var casters = _positionables
+                .Where(p => p is { ShadowCaster: true, WorldBoundingSphere: { Radius: > 0.0001f } casterSphere } && casterSphere != receiverSphere)
+                .Select(p => p.WorldBoundingSphere!.Value)
+                .ToArray();
+
+            // Calculate shadow factors concurrently for all casters
+            var shadowFactors = new float[casters.Length];
+            Parallel.For(0, casters.Length, j =>
             {
-                if (positionable is { ShadowCaster: true, WorldBoundingSphere: { Radius: > 0.0001f } casterSphere } && casterSphere != receiverSphere)
-                    lights[i] = lights[i].GetShadowed(receiverSphere, casterSphere);
-            }
+                shadowFactors[j] = lights[i].CalculateShadowFactor(receiverSphere, casters[j]);
+            });
+
+            // Merge shadow factors by multiplying (1 - factor) for each, then convert back
+            float combinedLightFactor = 1.0f;
+            foreach (var shadowFactor in shadowFactors)
+                combinedLightFactor *= (1 - shadowFactor);
+            float combinedShadowFactor = 1 - combinedLightFactor;
+
+            // Apply the combined shadow factor
+            lights[i] = lights[i].ApplyShadowFactor(combinedShadowFactor);
         }
     }
     #endregion

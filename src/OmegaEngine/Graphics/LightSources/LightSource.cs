@@ -84,6 +84,23 @@ public abstract class LightSource
     public abstract LightSource GetShadowed(BoundingSphere receiverSphere, BoundingSphere casterSphere);
 
     /// <summary>
+    /// Calculates the shadow factor for a single shadow caster.
+    /// </summary>
+    /// <param name="receiverSphere">The bounding sphere of the shadow receiver in world space.</param>
+    /// <param name="casterSphere">The bounding sphere of the shadow caster in world space.</param>
+    /// <returns>A shadow factor from 0 (fully lit) to 1 (fully shadowed).</returns>
+    [Pure]
+    public abstract float CalculateShadowFactor(BoundingSphere receiverSphere, BoundingSphere casterSphere);
+
+    /// <summary>
+    /// Creates a copy of this light source with a combined shadow factor applied.
+    /// </summary>
+    /// <param name="shadowFactor">The combined shadow factor from 0 (fully lit) to 1 (fully shadowed).</param>
+    /// <returns>A new light source with the shadow factor applied, or this instance if shadowFactor is 0.</returns>
+    [Pure]
+    public abstract LightSource ApplyShadowFactor(float shadowFactor);
+
+    /// <summary>
     /// Calculates the shadow intensity.
     /// </summary>
     /// <param name="receiverSphere">Bounding sphere of the shadow receiver in floating world space.</param>
