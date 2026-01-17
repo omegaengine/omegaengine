@@ -195,13 +195,8 @@ public sealed class Scene : EngineElement
     internal LightSource[] GetEffectiveLights(BoundingSphere boundingSphere, bool shadowing)
     {
         var lights = GetLights(boundingSphere);
-
         if (shadowing && boundingSphere.Radius > 0)
-        {
-            var shadowCasters = _positionables.Where(x => x.ShadowCaster);
-            ApplyShadows(lights, boundingSphere, shadowCasters.ToList());
-        }
-
+            ApplyShadows(lights, boundingSphere);
         return lights;
     }
 
@@ -223,14 +218,13 @@ public sealed class Scene : EngineElement
     /// </summary>
     /// <param name="lights">The set of light source to be modified.</param>
     /// <param name="receiverSphere">The bounding sphere of the shadow receiver in world space.</param>
-    /// <param name="casters">The potential shadow casters.</param>
-    private static void ApplyShadows(LightSource[] lights, BoundingSphere receiverSphere, IReadOnlyList<PositionableRenderable> casters)
+    private void ApplyShadows(LightSource[] lights, BoundingSphere receiverSphere)
     {
         for (int i = 0; i < lights.Length; i++)
         {
-            foreach (var caster in casters)
+            foreach (var positionable in _positionables)
             {
-                if (caster.WorldBoundingSphere is { Radius: > 0.0001f } casterSphere && casterSphere != receiverSphere)
+                if (positionable is { ShadowCaster: true, WorldBoundingSphere: { Radius: > 0.0001f } casterSphere } && casterSphere != receiverSphere)
                     lights[i] = lights[i].GetShadowed(receiverSphere, casterSphere);
             }
         }
