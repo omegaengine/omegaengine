@@ -162,6 +162,20 @@ LoadModalDialog("Settings").DialogRender.Location = Me.DialogRender.Location</On
 Settings.Display.ResolutionText = Resolution.SelectedItem
 Me.DialogRender.Location = location_backup</OnChanged>
   </DropdownList>
+  <CheckBox Name="Fullscreen" Text="[Fullscreen]">
+    <Location X="290" Y="185" />
+    <Size Width="130" Height="20" />
+    <OnChanged>location_backup = Me.DialogRender.Location
+Settings.Display.Fullscreen = Fullscreen.Checked
+Me.DialogRender.Location = location_backup</OnChanged>
+  </CheckBox>
+  <CheckBox Name="VSync" Text="VSync">
+    <Location X="440" Y="185" />
+    <Size Width="130" Height="20" />
+    <OnChanged>location_backup = Me.DialogRender.Location
+Settings.Display.VSync = VSync.Checked
+Me.DialogRender.Location = location_backup</OnChanged>
+  </CheckBox>
   <Label Name="AntiAliasingLabel" Text="Anti-Aliasing">
     <Location X="20" Y="220" />
     <Size Width="100" Height="30" />
@@ -180,35 +194,6 @@ Me.DialogRender.Location = location_backup</OnChanged>
     <Size Width="280" Height="20" />
     <OnChanged>Settings.Graphics.Anisotropic = Anisotropic.Checked</OnChanged>
   </CheckBox>
-  <CheckBox Name="Fullscreen" Text="[Fullscreen]">
-    <Location X="290" Y="185" />
-    <Size Width="130" Height="20" />
-    <OnChanged>location_backup = Me.DialogRender.Location
-Settings.Display.Fullscreen = Fullscreen.Checked
-Me.DialogRender.Location = location_backup</OnChanged>
-  </CheckBox>
-  <CheckBox Name="VSync" Text="VSync">
-    <Location X="440" Y="185" />
-    <Size Width="130" Height="20" />
-    <OnChanged>location_backup = Me.DialogRender.Location
-Settings.Display.VSync = VSync.Checked
-Me.DialogRender.Location = location_backup</OnChanged>
-  </CheckBox>
-  <GroupBox Name="GeneralBox">
-    <Location X="10" Y="282" />
-    <Size Width="720" Height="162" />
-    <ColorBorder A="255" R="0" G="0" B="0" />
-    <ColorFill A="128" R="128" G="128" B="128" />
-  </GroupBox>
-  <Label Name="EffectsLabel" Text="[Effects]">
-    <Location X="20" Y="290" />
-    <Size Width="100" Height="20" />
-  </Label>
-  <CheckBox Name="PostScreenEffects" Text="[PostScreenEffects]">
-    <Location X="20" Y="325" />
-    <Size Width="220" Height="20" />
-    <OnChanged>Settings.Graphics.PostScreenEffects = PostScreenEffects.Checked</OnChanged>
-  </CheckBox>
   <Label Name="FieldOfViewLabel" Text="[FieldOfView]">
     <Location X="525" Y="203" />
     <Size Width="120" Height="20" />
@@ -225,10 +210,20 @@ Me.DialogRender.Location = location_backup</OnChanged>
     <Location X="685" Y="203" />
     <Size Width="30" Height="20" />
   </Label>
-  <CheckBox Name="TerrainDoubleSampling" Text="[TerrainDoubleSampling]">
-    <Location X="460" Y="359" />
-    <Size Width="260" Height="20" />
-    <OnChanged>Settings.Graphics.DoubleSampling = TerrainDoubleSampling.Checked</OnChanged>
+  <GroupBox Name="GeneralBox">
+    <Location X="10" Y="282" />
+    <Size Width="720" Height="162" />
+    <ColorBorder A="255" R="0" G="0" B="0" />
+    <ColorFill A="128" R="128" G="128" B="128" />
+  </GroupBox>
+  <Label Name="EffectsLabel" Text="[Effects]">
+    <Location X="20" Y="290" />
+    <Size Width="100" Height="20" />
+  </Label>
+  <CheckBox Name="PostScreenEffects" Text="[PostScreenEffects]">
+    <Location X="20" Y="325" />
+    <Size Width="220" Height="20" />
+    <OnChanged>Settings.Graphics.PostScreenEffects = PostScreenEffects.Checked</OnChanged>
   </CheckBox>
   <Label Name="WaterEffectsLabel" Text="[WaterEffects]">
     <Location X="20" Y="360" />
@@ -248,6 +243,11 @@ elseif WaterEffects.SelectedItem == "[ReflectTerrain]" then Settings.Graphics.Wa
 elseif WaterEffects.SelectedItem == "[ReflectAll]" then Settings.Graphics.WaterEffects = WaterEffectsType.ReflectAll
 end</OnChanged>
   </DropdownList>
+  <CheckBox Name="TerrainDoubleSampling" Text="[TerrainDoubleSampling]">
+    <Location X="460" Y="359" />
+    <Size Width="260" Height="20" />
+    <OnChanged>Settings.Graphics.DoubleSampling = TerrainDoubleSampling.Checked</OnChanged>
+  </CheckBox>
   <Button Name="Exit" Text="OK">
     <Location X="0" Y="20" />
     <Size Width="160" Height="40" />
