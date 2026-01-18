@@ -228,11 +228,10 @@ public partial class Terrain : Model
 
         Mesh.WriteVertexBuffer(verts);
 
-        // Invalidate old bounding boxes
-        // ToDo: Update bounding boxes instead
+        // Invalidate old bounding bodies
+        // ToDo: Update bounding bodies instead
         SubsetBoundingBoxes = null;
         SubsetBoundingSpheres = null;
-        WorldTransformDirty = true;
     }
     #endregion
 

@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using NanoByte.Common;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
@@ -144,12 +145,17 @@ public partial class Model : PositionableRenderable
     //--------------------//
 
     #region Bounding bodies
+    private BoundingSphere[]? _subsetBoundingSpheres, _subsetWorldBoundingSpheresCached;
+    private bool _subsetWorldBoundingSpheresDirty = true;
+
     /// <summary>
     /// Per-subset bounding spheres in entity space.
     /// </summary>
-    protected BoundingSphere[]? SubsetBoundingSpheres { get; set; }
-
-    private BoundingSphere[]? _subsetWorldBoundingSpheresCached;
+    protected BoundingSphere[]? SubsetBoundingSpheres
+    {
+        get => _subsetBoundingSpheres;
+        set => value.To(ref _subsetBoundingSpheres, () => _subsetWorldBoundingSpheresDirty = true);
+    }
 
     /// <summary>
     /// Per-subset bounding spheres in floating world space.
@@ -159,16 +165,32 @@ public partial class Model : PositionableRenderable
         get
         {
             RecalcWorldTransform();
+            if (_subsetWorldBoundingSpheresDirty)
+            {
+                if (SubsetBoundingSpheres == null) _subsetWorldBoundingSpheresCached = null;
+                else
+                {
+                    _subsetWorldBoundingSpheresCached ??= new BoundingSphere[SubsetBoundingSpheres.Length];
+                    for (int i = 0; i < _subsetWorldBoundingSpheresCached.Length; i++)
+                        _subsetWorldBoundingSpheresCached[i] = SubsetBoundingSpheres[i].Transform(WorldTransformCached);
+                }
+                _subsetWorldBoundingSpheresDirty = false;
+            }
             return _subsetWorldBoundingSpheresCached;
         }
     }
 
+    private BoundingBox[]? _subsetBoundingBoxes, _subsetWorldBoundingBoxesCached;
+    private bool _subsetWorldBoundingBoxesDirty = true;
+
     /// <summary>
     /// Per-subset bounding boxes in entity space.
     /// </summary>
-    protected BoundingBox[]? SubsetBoundingBoxes { get; set; }
-
-    private BoundingBox[]? _subsetWorldBoundingBoxesCached;
+    protected BoundingBox[]? SubsetBoundingBoxes
+    {
+        get => _subsetBoundingBoxes;
+        set => value.To(ref _subsetBoundingBoxes, () => _subsetWorldBoundingBoxesDirty = true);
+    }
 
     /// <summary>
     /// Per-subset bounding boxes in floating world space.
@@ -178,6 +200,17 @@ public partial class Model : PositionableRenderable
         get
         {
             RecalcWorldTransform();
+            if (_subsetWorldBoundingBoxesDirty)
+            {
+                if (SubsetBoundingBoxes == null) _subsetWorldBoundingBoxesCached = null;
+                else
+                {
+                    _subsetWorldBoundingBoxesCached ??= new BoundingBox[SubsetBoundingBoxes.Length];
+                    for (int i = 0; i < _subsetWorldBoundingBoxesCached.Length; i++)
+                        _subsetWorldBoundingBoxesCached[i] = SubsetBoundingBoxes[i].Transform(WorldTransformCached);
+                }
+                _subsetWorldBoundingBoxesDirty = false;
+            }
             return _subsetWorldBoundingBoxesCached;
         }
     }
@@ -189,21 +222,9 @@ public partial class Model : PositionableRenderable
 
         base.RecalcWorldTransform();
 
-        if (SubsetBoundingSpheres == null) _subsetWorldBoundingSpheresCached = null;
-        else
-        {
-            _subsetWorldBoundingSpheresCached ??= new BoundingSphere[SubsetBoundingSpheres.Length];
-            for (int i = 0; i < _subsetWorldBoundingSpheresCached.Length; i++)
-                _subsetWorldBoundingSpheresCached[i] = SubsetBoundingSpheres[i].Transform(WorldTransformCached);
-        }
-
-        if (SubsetBoundingBoxes == null) _subsetWorldBoundingBoxesCached = null;
-        else
-        {
-            _subsetWorldBoundingBoxesCached ??= new BoundingBox[SubsetBoundingBoxes.Length];
-            for (int i = 0; i < _subsetWorldBoundingBoxesCached.Length; i++)
-                _subsetWorldBoundingBoxesCached[i] = SubsetBoundingBoxes[i].Transform(WorldTransformCached);
-        }
+        // Mark subset world bounding bodies as dirty instead of recalculating immediately
+        _subsetWorldBoundingSpheresDirty = true;
+        _subsetWorldBoundingBoxesDirty = true;
     }
     #endregion
 
