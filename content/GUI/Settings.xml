@@ -112,7 +112,7 @@ end
 
 -- Reload the Settings dialog to apply the language switch
 Me:Close()
-LoadModalDialog("Settings").DialogRender.Location = Me.DialogRender.Location</OnChanged>
+LoadModalDialog("Settings").Render.Location = Me.Render.Location</OnChanged>
   </DropdownList>
   <GroupBox Name="ControlsBox">
     <Location X="280" Y="42" />
@@ -158,23 +158,23 @@ LoadModalDialog("Settings").DialogRender.Location = Me.DialogRender.Location</On
   <DropdownList Name="Resolution">
     <Location X="100" Y="180" />
     <Size Width="150" Height="30" />
-    <OnChanged>location_backup = Me.DialogRender.Location
+    <OnChanged>location_backup = Me.Render.Location
 Settings.Display.ResolutionText = Resolution.SelectedItem
-Me.DialogRender.Location = location_backup</OnChanged>
+Me.Render.Location = location_backup</OnChanged>
   </DropdownList>
   <CheckBox Name="Fullscreen" Text="[Fullscreen]">
     <Location X="290" Y="185" />
     <Size Width="130" Height="20" />
-    <OnChanged>location_backup = Me.DialogRender.Location
+    <OnChanged>location_backup = Me.Render.Location
 Settings.Display.Fullscreen = Fullscreen.Checked
-Me.DialogRender.Location = location_backup</OnChanged>
+Me.Render.Location = location_backup</OnChanged>
   </CheckBox>
   <CheckBox Name="VSync" Text="VSync">
     <Location X="440" Y="185" />
     <Size Width="130" Height="20" />
-    <OnChanged>location_backup = Me.DialogRender.Location
+    <OnChanged>location_backup = Me.Render.Location
 Settings.Display.VSync = VSync.Checked
-Me.DialogRender.Location = location_backup</OnChanged>
+Me.Render.Location = location_backup</OnChanged>
   </CheckBox>
   <Label Name="AntiAliasingLabel" Text="Anti-Aliasing">
     <Location X="20" Y="220" />
@@ -185,9 +185,9 @@ Me.DialogRender.Location = location_backup</OnChanged>
     <Size Width="100" Height="30" />
     <Item>[Off]</Item>
     <SelectedItem>[Off]</SelectedItem>
-    <OnChanged>location_backup = Me.DialogRender.Location
+    <OnChanged>location_backup = Me.Render.Location
 Settings.Display.AntiAliasingText = AntiAliasing.SelectedItem
-Me.DialogRender.Location = location_backup</OnChanged>
+Me.Render.Location = location_backup</OnChanged>
   </DropdownList>
   <CheckBox Name="Anisotropic" Text="[Anisotropic]">
     <Location X="290" Y="223" />
