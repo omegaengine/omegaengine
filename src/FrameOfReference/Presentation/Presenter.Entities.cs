@@ -199,6 +199,8 @@ partial class Presenter
         model.Wireframe = WireframeEntities;
         model.DrawBoundingSphere = BoundingSphereEntities;
         model.DrawBoundingBox = BoundingBoxEntities;
+        model.ShadowCaster = component.ShadowCaster;
+        model.ShadowReceiver = component.ShadowReceiver;
     }
 
     private void ConfigureModel(Model model, TestSphere component)

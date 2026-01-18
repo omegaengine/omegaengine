@@ -90,6 +90,20 @@ public abstract class Mesh : Render
     public int Alpha { get; set; }
 
     /// <summary>
+    /// Shall this mesh cast shadows on other objects?
+    /// </summary>
+    [DefaultValue(false), Description("Shall this mesh cast shadows on other objects?")]
+    [XmlAttribute]
+    public bool ShadowCaster { get; set; }
+
+    /// <summary>
+    /// Shall this mesh receive shadows from other objects?
+    /// </summary>
+    [DefaultValue(false), Description("Shall this mesh receive shadows from other objects?")]
+    [XmlAttribute]
+    public bool ShadowReceiver { get; set; }
+
+    /// <summary>
     /// Can this mesh be picked with the mouse?
     /// </summary>
     [DefaultValue(true), Description("Can this mesh be picked with the mouse?")]
