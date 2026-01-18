@@ -115,7 +115,7 @@ public abstract class LightingShader : SurfaceShader
                 if (pass == ShaderPasses.None) continue;
 
                 #region Render pass
-                using (new ProfilerEvent(() => $"Pass {pass}"))
+                using (new ProfilerEvent(() => "Pass " + pass))
                 {
                     Effect.BeginPass((int)pass);
                     render();

@@ -206,16 +206,13 @@ public sealed partial class Engine : EngineElement
     //--------------------//
 
     #region Reset queue
-    private readonly Queue<IResetable> _pendingReset = new();
+    private readonly HashSet<IResetable> _pendingReset = new();
 
     /// <summary>
     /// Queues an object for resetting at the beginning of the next frame.
     /// </summary>
-    /// <param name="o">The entity to be reset.</param>
-    internal void QueueReset(IResetable o)
-    {
-        if (!_pendingReset.Contains(o)) _pendingReset.Enqueue(o);
-    }
+    /// <param name="resetable">The entity to be reset.</param>
+    internal void QueueReset(IResetable resetable) => _pendingReset.Add(resetable);
     #endregion
 
     //--------------------//
