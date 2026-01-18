@@ -25,7 +25,7 @@ namespace OmegaEngine.Graphics;
 /// <param name="boundingSphere">The position and optional radius in floating world space of the target being lit.</param>
 /// <param name="shadowing">Whether to apply shadowing.</param>
 /// <seealso cref="Scene.GetEffectiveLights"/>
-public delegate LightSource[] GetEffectiveLights(BoundingSphere boundingSphere, bool shadowing);
+public delegate IReadOnlyList<LightSource> GetEffectiveLights(BoundingSphere boundingSphere, bool shadowing);
 
 /// <summary>
 /// Represents a scene that can be viewed by a <see cref="Camera"/>.
@@ -192,7 +192,7 @@ public sealed class Scene : EngineElement
     /// </summary>
     /// <param name="boundingSphere">The position and optional radius in floating world space of the target being lit.</param>
     /// <param name="shadowing">Whether to apply shadowing.</param>
-    internal LightSource[] GetEffectiveLights(BoundingSphere boundingSphere, bool shadowing)
+    internal IReadOnlyList<LightSource> GetEffectiveLights(BoundingSphere boundingSphere, bool shadowing)
     {
         var lights = GetLights(boundingSphere);
         if (shadowing && Engine.Effects.Shadows)
@@ -204,13 +204,13 @@ public sealed class Scene : EngineElement
     /// Gets the light sources that are in range of a specific location.
     /// </summary>
     /// <param name="boundingSphere">The position and optional radius in floating world space of the target being lit.</param>
-    private LightSource[] GetLights(BoundingSphere boundingSphere)
+    private List<LightSource> GetLights(BoundingSphere boundingSphere)
     {
         var lights = new List<LightSource>(capacity: _directionalLights.Count + _pseudoDirectionalLights.Count + _pointLights.Count);
         lights.AddRange(_directionalLights);
         lights.AddRange(_pseudoDirectionalLights.Where(x => x.IsInRange(boundingSphere)).Select(light => light.AsDirectional(boundingSphere.Center)));
         lights.AddRange(_pointLights.Where(x => x.IsInRange(boundingSphere)));
-        return lights.ToArray();
+        return lights;
     }
 
     /// <summary>
@@ -218,11 +218,11 @@ public sealed class Scene : EngineElement
     /// </summary>
     /// <param name="lights">The set of light source to be modified.</param>
     /// <param name="receiverSphere">The bounding sphere of the shadow receiver in world space.</param>
-    private void ApplyShadows(LightSource[] lights, BoundingSphere receiverSphere)
+    private void ApplyShadows(List<LightSource> lights, BoundingSphere receiverSphere)
     {
         if (receiverSphere.Radius == 0) return;
 
-        for (int i = 0; i < lights.Length; i++)
+        for (int i = 0; i < lights.Count; i++)
         {
             foreach (var positionable in _positionables)
             {

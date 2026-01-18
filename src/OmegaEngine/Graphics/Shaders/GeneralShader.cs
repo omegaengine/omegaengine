@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
@@ -41,7 +42,7 @@ public class GeneralShader : LightingShader
 
     #region Apply
     /// <inheritdoc/>
-    public override void Apply([InstantHandle] Action render, XMaterial material, Camera camera, params LightSource[] lights)
+    public override void Apply([InstantHandle] Action render, XMaterial material, Camera camera, params IReadOnlyList<LightSource> lights)
     {
         #region Sanity checks
         if (render == null) throw new ArgumentNullException(nameof(render));
@@ -50,7 +51,7 @@ public class GeneralShader : LightingShader
         #endregion
 
         #region Auto-select technique
-        if (lights.Length == 0)
+        if (lights.Count == 0)
         { // Only emissive lighting
             if (Engine.Effects.PerPixelLighting && material.EmissiveMap != null)
                 Effect.Technique = _texturedEmissiveMapOnly;

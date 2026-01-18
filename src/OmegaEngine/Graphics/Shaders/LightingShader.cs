@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using JetBrains.Annotations;
 using OmegaEngine.Graphics.LightSources;
@@ -37,7 +38,7 @@ public abstract class LightingShader : SurfaceShader
 
     #region Passes
     /// <inheritdoc/>
-    protected override void RunPasses([InstantHandle] Action render, XMaterial material, params LightSource[] lights)
+    protected override void RunPasses([InstantHandle] Action render, XMaterial material, params IReadOnlyList<LightSource> lights)
     {
         #region Sanity checks
         if (render == null) throw new ArgumentNullException(nameof(render));
@@ -49,7 +50,7 @@ public abstract class LightingShader : SurfaceShader
         Effect.Begin(FX.None);
 
         // If this shader supports light-less shading, it will have to do that with its first pass
-        if (lights.Length == 0)
+        if (lights.Count == 0)
         {
             #region Render pass
             using (new ProfilerEvent("Pass 0"))
@@ -62,7 +63,7 @@ public abstract class LightingShader : SurfaceShader
         }
         else
         {
-            for (int i = 0; i < lights.Length; i++)
+            for (int i = 0; i < lights.Count; i++)
             {
                 var pass = ShaderPasses.None;
 
@@ -85,7 +86,7 @@ public abstract class LightingShader : SurfaceShader
                         pass = (i == 0) ? ShaderPasses.OneDirLight : ShaderPasses.OneDirLightAdd;
 
                         // Try to handle the next light at the same time
-                        if (i + 1 < lights.Length)
+                        if (i + 1 < lights.Count)
                         {
                             if (lights[i + 1] is DirectionalLight nextDirLight)
                             {

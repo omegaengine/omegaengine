@@ -101,7 +101,7 @@ public abstract class SurfaceShader : Shader
     /// <param name="render">The render delegate (is called once for every shader pass)</param>
     /// <param name="material">The material to be used by this shader; <c>null</c> for device texture</param>
     /// <param name="lights">An array of all lights this shader should consider; <c>null</c> for no lighting</param>
-    protected virtual void RunPasses([InstantHandle] Action render, XMaterial material, params LightSource[] lights)
+    protected virtual void RunPasses([InstantHandle] Action render, XMaterial material, params IReadOnlyList<LightSource> lights)
     {
         #region Sanity checks
         if (render == null) throw new ArgumentNullException(nameof(render));
@@ -133,7 +133,7 @@ public abstract class SurfaceShader : Shader
     /// <param name="material">The material to be used by this shader; <c>null</c> for device texture</param>
     /// <param name="camera">The camera for transformation information</param>
     /// <param name="lights">An array of all lights this shader should consider</param>
-    public virtual void Apply([InstantHandle] Action render, XMaterial material, Camera camera, params LightSource[] lights)
+    public virtual void Apply([InstantHandle] Action render, XMaterial material, Camera camera, params IReadOnlyList<LightSource> lights)
     {
         #region Sanity checks
         if (IsDisposed) throw new ObjectDisposedException(ToString());

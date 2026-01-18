@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using JetBrains.Annotations;
@@ -150,7 +151,7 @@ public class WaterShader : SurfaceShader
     /// <param name="material">The material to be used by this shader; <c>null</c> for device texture.</param>
     /// <param name="camera">The camera for transformation information.</param>
     /// <param name="lights">An array of all lights this shader should consider; should be <c>null</c>.</param>
-    public override void Apply([InstantHandle] Action render, XMaterial material, Camera camera, params LightSource[] lights)
+    public override void Apply([InstantHandle] Action render, XMaterial material, Camera camera, params IReadOnlyList<LightSource> lights)
     {
         #region Sanity checks
         if (render == null) throw new ArgumentNullException(nameof(render));

@@ -399,7 +399,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <param name="material">The material to apply to everything rendered.</param>
     /// <param name="camera">The currently effective <see cref="Camera"/>.</param>
     /// <param name="effectiveLights">The currently effective lighting information for the renderable's position.</param>
-    protected void RenderHelper([InstantHandle] Action render, XMaterial material, Camera camera, LightSource[] effectiveLights)
+    protected void RenderHelper([InstantHandle] Action render, XMaterial material, Camera camera, IReadOnlyList<LightSource> effectiveLights)
     {
         #region Sanity checks
         if (render == null) throw new ArgumentNullException(nameof(render));
@@ -497,7 +497,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }
     }
 
-    private void RenderShader([InstantHandle] Action render, XMaterial material, Camera camera, LightSource[] lights)
+    private void RenderShader([InstantHandle] Action render, XMaterial material, Camera camera, IReadOnlyList<LightSource> lights)
     {
         using (new ProfilerEvent("Surface effect: Shader"))
         {
