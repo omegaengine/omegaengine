@@ -64,6 +64,14 @@ public sealed class GraphicsSettings
     [DefaultValue(true), Description("Apply post-screen effects to the scene")]
     public bool PostScreenEffects { get => _postScreenEffects; set => value.To(ref _postScreenEffects, Changed); }
 
+    private bool _shadows = true;
+
+    /// <summary>
+    /// Enable or disable shadowing casting (does not affect terrain self-shadowing)
+    /// </summary>
+    [DefaultValue(true), Description("Enable or disable shadowing casting (does not affect terrain self-shadowing)")]
+    public bool Shadows { get => _shadows; set => value.To(ref _shadows, Changed); }
+
     private bool _doubleSampling = true;
 
     /// <summary>
@@ -112,6 +120,7 @@ public sealed class GraphicsSettings
         engine.Anisotropic = Anisotropic;
         engine.Effects.NormalMapping = NormalMapping;
         engine.Effects.PostScreenEffects = PostScreenEffects;
+        engine.Effects.Shadows = Shadows;
         engine.Effects.DoubleSampling = DoubleSampling;
         engine.Effects.WaterEffects = WaterEffects;
 
@@ -119,6 +128,7 @@ public sealed class GraphicsSettings
         Anisotropic = engine.Anisotropic;
         NormalMapping = engine.Effects.NormalMapping;
         PostScreenEffects = engine.Effects.PostScreenEffects;
+        Shadows = engine.Effects.Shadows;
         DoubleSampling = engine.Effects.DoubleSampling;
         WaterEffects = engine.Effects.WaterEffects;
     }

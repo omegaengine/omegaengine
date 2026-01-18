@@ -195,7 +195,7 @@ public sealed class Scene : EngineElement
     internal LightSource[] GetEffectiveLights(BoundingSphere boundingSphere, bool shadowing)
     {
         var lights = GetLights(boundingSphere);
-        if (shadowing)
+        if (shadowing && Engine.Effects.Shadows)
             ApplyShadows(lights, boundingSphere);
         return lights;
     }
