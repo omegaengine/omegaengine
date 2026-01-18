@@ -195,7 +195,7 @@ public sealed class Scene : EngineElement
     internal LightSource[] GetEffectiveLights(BoundingSphere boundingSphere, bool shadowing)
     {
         var lights = GetLights(boundingSphere);
-        if (shadowing && boundingSphere.Radius > 0)
+        if (shadowing)
             ApplyShadows(lights, boundingSphere);
         return lights;
     }
@@ -220,6 +220,8 @@ public sealed class Scene : EngineElement
     /// <param name="receiverSphere">The bounding sphere of the shadow receiver in world space.</param>
     private void ApplyShadows(LightSource[] lights, BoundingSphere receiverSphere)
     {
+        if (receiverSphere.Radius == 0) return;
+
         for (int i = 0; i < lights.Length; i++)
         {
             foreach (var positionable in _positionables)
