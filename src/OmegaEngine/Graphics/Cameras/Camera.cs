@@ -73,8 +73,8 @@ public abstract partial class Camera : InputReceiverBase, IPositionable
     /// <summary>
     /// The maximum distance <see cref="FloatingOrigin"/> can have from <see cref="Position"/> before it is automatically reset
     /// </summary>
-    [DefaultValue(10000f), Description("The maximum distance FloatingOrigin can have from Position before it is automatically reset"), Category("Behavior")]
-    public float FloatingOriginMaxDistance { get; set; } = 10000f;
+    [DefaultValue(100_000f), Description("The maximum distance FloatingOrigin can have from Position before it is automatically reset"), Category("Behavior")]
+    public float FloatingOriginMaxDistance { get; set; } = 100_000f;
 
     /// <summary>
     /// Adjusts <see cref="FloatingOrigin"/> if <see cref="Position"/> is too far away.
