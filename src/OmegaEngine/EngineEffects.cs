@@ -51,6 +51,11 @@ public sealed class EngineEffects
     /// </summary>
     /// <seealso cref="EngineCapabilities.PerPixelEffects"/>
     public bool PostScreenEffects { get => _postScreenEffects; set => _postScreenEffects = _capabilities.PerPixelEffects && value; }
+
+    /// <summary>
+    /// Enable or disable shadowing casting (does not affect terrain self-shadowing)
+    /// </summary>
+    public bool Shadows { get; set; } = true;
     #endregion
 
     #region Double sampling

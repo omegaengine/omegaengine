@@ -67,6 +67,8 @@ VSync.Checked = Settings.Display.VSync
 
 PostScreenEffects.Enabled = Engine.Capabilities.PerPixelEffects
 PostScreenEffects.Checked = Settings.Graphics.PostScreenEffects
+Shadows.Enabled = Engine.Capabilities.PerPixelEffects
+Shadows.Checked = Settings.Graphics.Shadows
 TerrainDoubleSampling.Enabled = Engine.Capabilities.DoubleSampling
 TerrainDoubleSampling.Checked = Settings.Graphics.DoubleSampling
 
@@ -224,6 +226,11 @@ Me.DialogRender.Location = location_backup</OnChanged>
     <Location X="20" Y="325" />
     <Size Width="220" Height="20" />
     <OnChanged>Settings.Graphics.PostScreenEffects = PostScreenEffects.Checked</OnChanged>
+  </CheckBox>
+  <CheckBox Name="Shadows" Text="[ShowShadows]">
+    <Location X="460" Y="325" />
+    <Size Width="220" Height="20" />
+    <OnChanged>Settings.Graphics.Shadows = Shadows.Checked</OnChanged>
   </CheckBox>
   <Label Name="WaterEffectsLabel" Text="[WaterEffects]">
     <Location X="20" Y="360" />
