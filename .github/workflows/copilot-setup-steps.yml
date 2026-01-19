@@ -1,0 +1,19 @@
+name: Copilot Setup Steps
+on: workflow_dispatch
+
+jobs:
+  copilot-setup-steps:
+    runs-on: windows-2025
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install MSVC Runtime
+        run: winget install --force --silent --accept-package-agreements --accept-source-agreements --disable-interactivity --id=Microsoft.VCRedist.2010.x86
+      - name: Install D3DX9
+        run: |
+          Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.DXSDK.D3DX/9.29.952.8 -OutFile dxsdk.zip
+          Expand-Archive dxsdk.zip dxsdk
+          Copy-Item dxsdk\build\native\release\bin\x86\D3DX9_43.dll C:\Windows\SysWOW64
+      - name: Build
+        run: .\build.ps1
