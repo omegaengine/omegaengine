@@ -79,15 +79,15 @@ public class Game(Settings settings)
             TerrainTemplate.LoadAll();
 
             // Handle command-line arguments
-            if (Program.Args["map"] is {} map)
+            if (Arguments.GetOption("map") is {} map)
             { // Load command-line map
                 LoadMap(map);
             }
-            else if (Program.Args["modify"] is {} modify)
+            else if (Arguments.GetOption("modify") is {} modify)
             { // Load command-line map for modification
                 ModifyMap(modify);
             }
-            else if (Program.Args.Contains("benchmark"))
+            else if (Arguments.HasOption("benchmark"))
             { // Run automatic benchmark
                 StartBenchmark();
             }
@@ -476,7 +476,7 @@ public class Game(Settings settings)
 
     /// <returns>The name of the menu background map</returns>
     private static string GetMenuMap()
-        => Program.Args["menu"] ?? "Menu";
+        => Arguments.GetOption("menu") ?? "Menu";
 
     /// <summary>
     /// Loads the auto-save into <see cref="CurrentSession"/> for later usage

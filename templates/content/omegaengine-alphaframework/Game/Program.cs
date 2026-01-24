@@ -18,11 +18,6 @@ namespace Template.AlphaFramework;
 static class Program
 {
     /// <summary>
-    /// The arguments this application was launched with.
-    /// </summary>
-    public static Arguments Args { get; private set; } = null!;
-
-    /// <summary>
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
@@ -43,8 +38,6 @@ static class Program
         }
 #endif
 
-        Args = new(args);
-
         Settings.LoadCurrent();
         UpdateLocale();
         Settings.SaveCurrent();
@@ -58,7 +51,7 @@ static class Program
                 ContentManager.BaseDir = new(Path.Combine(Locations.InstallBase, contentDir));
 
             // Mod
-            if (Args["mod"] is {} mod)
+            if (Arguments.GetOption("mod") is {} mod)
                 ContentManager.ModDir = new(Path.Combine(Path.Combine(Locations.InstallBase, "Mods"), mod));
             if (ContentManager.ModDir != null) Log.Info($"Load mod from: {ContentManager.ModDir}");
         }
