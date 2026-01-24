@@ -43,11 +43,6 @@ namespace FrameOfReference;
 public static class Program
 {
     /// <summary>
-    /// The arguments this application was launched with.
-    /// </summary>
-    public static Arguments Args { get; private set; } = null!;
-
-    /// <summary>
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
@@ -69,18 +64,16 @@ public static class Program
         }
 #endif
 
-        Args = new(args);
-
         Settings.LoadCurrent();
         UpdateLocale();
         Settings.SaveCurrent();
 
         // Show additional warning before actually starting the game
-        if (Args.Contains("launchWarn") && !Args.Contains("benchmark"))
+        if (Arguments.HasOption("launchWarn") && !Arguments.HasOption("benchmark"))
             if (!Msg.OkCancel(null, Resources.ReadyToLaunch, MsgSeverity.Info, Resources.ReadyToLaunchContinue)) return;
 
         // Handle benchmark mode
-        if (Args.Contains("benchmark"))
+        if (Arguments.HasOption("benchmark"))
         {
             if (!Msg.OkCancel(null, Resources.BenchmarkInfo, MsgSeverity.Info, Resources.BenchmarkInfoContinue)) return;
             ConfigureSettingsForBenchmark();
@@ -95,7 +88,7 @@ public static class Program
                 ContentManager.BaseDir = new(Path.Combine(Locations.InstallBase, contentDir));
 
             // Mod
-            if (Args["mod"] is {} mod)
+            if (Arguments.GetOption("mod") is {} mod)
                 ContentManager.ModDir = new(Path.Combine(Path.Combine(Locations.InstallBase, "Mods"), mod));
             if (ContentManager.ModDir != null) Log.Info($"Load mod from: {ContentManager.ModDir}");
         }
