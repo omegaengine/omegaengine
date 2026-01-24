@@ -22,6 +22,7 @@
 
 using System;
 using System.Diagnostics;
+using FrameOfReference.Presentation.Config;
 using FrameOfReference.World;
 using OmegaEngine;
 using OmegaEngine.Graphics.Cameras;
@@ -53,7 +54,10 @@ public sealed class MenuPresenter : Presenter
             Target = new (universe.Terrain.Center.X, 150, -universe.Terrain.Center.Y), // Map X = Engine +X, Map Y = Engine -Z
             Radius = 750,
             Yaw = 0,
-            Pitch = 15
+            Pitch = 15,
+            FieldOfView = Settings.Current.Graphics.FieldOfView,
+            NearClip = 20,
+            FarClip = Universe.Fog ? Universe.FogDistance : 1e+6f
         };
 
         View = new(Scene, _camera)
