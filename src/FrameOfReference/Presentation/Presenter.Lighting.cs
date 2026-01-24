@@ -60,7 +60,7 @@ partial class Presenter
 
             // Pre-load deactivated effects for later use
             View.PostShaders.Add(_bleachShader = new() {Enabled = false});
-            View.PostShaders.Add(_colorCorrectionShader = new() {Enabled = false});
+            View.PostShaders.Add(_colorCorrectionShader = new());
             View.PostShaders.Add(_sepiaShader = new() {Enabled = false, Desaturation = 0, Toning = 0});
         }
 
@@ -136,11 +136,6 @@ partial class Presenter
         var correction = ColorCorrection.InterpolateEased(Universe.LightPhase,
             Universe.ColorCorrectionDawn, Universe.ColorCorrectionNoon, Universe.ColorCorrectionDusk, Universe.ColorCorrectionMidnight, Universe.ColorCorrectionDawn);
 
-        // If the color correction values aren't all at default, activate the shader and transfer the values
-        _colorCorrectionShader.Enabled = (correction != ColorCorrection.Default);
-        _colorCorrectionShader.Brightness = correction.Brightness;
-        _colorCorrectionShader.Contrast = correction.Contrast;
-        _colorCorrectionShader.Saturation = correction.Saturation;
-        _colorCorrectionShader.Hue = correction.Hue;
+        _colorCorrectionShader.SetParameters(correction);
     }
 }

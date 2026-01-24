@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using NanoByte.Common;
+using OmegaEngine.Foundation.Light;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders;
@@ -33,11 +34,7 @@ public class PostColorCorrectionShader : PostShader
     public float Brightness
     {
         get => _brightness;
-        set
-        {
-            value = value.Clamp(0, 5);
-            value.To(ref _brightness, () => SetShaderParameter("Brightness", value));
-        }
+        set => value.Clamp(0, 5).To(ref _brightness, () => SetShaderParameter("Brightness", value));
     }
 
     /// <summary>
@@ -47,11 +44,7 @@ public class PostColorCorrectionShader : PostShader
     public float Contrast
     {
         get => _contrast;
-        set
-        {
-            value = value.Clamp(-5, 5);
-            value.To(ref _contrast, () => SetShaderParameter("Contrast", value));
-        }
+        set => value.Clamp(-5, 5).To(ref _contrast, () => SetShaderParameter("Contrast", value));
     }
 
     /// <summary>
@@ -61,11 +54,7 @@ public class PostColorCorrectionShader : PostShader
     public float Saturation
     {
         get => _saturation;
-        set
-        {
-            value = value.Clamp(-5, 5);
-            value.To(ref _saturation, () => SetShaderParameter("Saturation", value));
-        }
+        set => value.Clamp(-5, 5).To(ref _saturation, () => SetShaderParameter("Saturation", value));
     }
 
     /// <summary>
@@ -75,11 +64,18 @@ public class PostColorCorrectionShader : PostShader
     public float Hue
     {
         get => _hue;
-        set
-        {
-            value = value.Clamp(0, 360);
-            value.To(ref _hue, () => SetShaderParameter("Hue", value));
-        }
+        set => value.Clamp(0, 360).To(ref _hue, () => SetShaderParameter("Hue", value));
+    }
+
+    /// <summary>
+    /// Sets multiple color correction parameters in one goe.
+    /// </summary>
+    public void SetParameters(ColorCorrection correction)
+    {
+        Brightness = correction.Brightness;
+        Contrast = correction.Contrast;
+        Saturation = correction.Saturation;
+        Hue = correction.Hue;
     }
     #endregion
 
