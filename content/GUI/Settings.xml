@@ -171,30 +171,25 @@ Me.Render.Location = location_backup</OnChanged>
 Settings.Display.Fullscreen = Fullscreen.Checked
 Me.Render.Location = location_backup</OnChanged>
   </CheckBox>
-  <CheckBox Name="VSync" Text="VSync">
-    <Location X="440" Y="185" />
-    <Size Width="130" Height="20" />
-    <OnChanged>location_backup = Me.Render.Location
-Settings.Display.VSync = VSync.Checked
-Me.Render.Location = location_backup</OnChanged>
-  </CheckBox>
   <Label Name="AntiAliasingLabel" Text="Anti-Aliasing">
     <Location X="20" Y="220" />
     <Size Width="100" Height="30" />
   </Label>
   <DropdownList Name="AntiAliasing">
     <Location X="120" Y="220" />
-    <Size Width="100" Height="30" />
+    <Size Width="130" Height="30" />
     <Item>[Off]</Item>
     <SelectedItem>[Off]</SelectedItem>
     <OnChanged>location_backup = Me.Render.Location
 Settings.Display.AntiAliasingText = AntiAliasing.SelectedItem
 Me.Render.Location = location_backup</OnChanged>
   </DropdownList>
-  <CheckBox Name="Anisotropic" Text="[Anisotropic]">
-    <Location X="290" Y="223" />
-    <Size Width="280" Height="20" />
-    <OnChanged>Settings.Graphics.Anisotropic = Anisotropic.Checked</OnChanged>
+  <CheckBox Name="VSync" Text="VSync">
+    <Location X="290" Y="220" />
+    <Size Width="130" Height="20" />
+    <OnChanged>location_backup = Me.Render.Location
+Settings.Display.VSync = VSync.Checked
+Me.Render.Location = location_backup</OnChanged>
   </CheckBox>
   <Label Name="FieldOfViewLabel" Text="[FieldOfView]">
     <Location X="525" Y="203" />
@@ -224,8 +219,13 @@ Me.Render.Location = location_backup</OnChanged>
   </Label>
   <CheckBox Name="PostScreenEffects" Text="[PostScreenEffects]">
     <Location X="20" Y="325" />
-    <Size Width="220" Height="20" />
+    <Size Width="190" Height="20" />
     <OnChanged>Settings.Graphics.PostScreenEffects = PostScreenEffects.Checked</OnChanged>
+  </CheckBox>
+  <CheckBox Name="Anisotropic" Text="[Anisotropic]">
+    <Location X="220" Y="325" />
+    <Size Width="230" Height="20" />
+    <OnChanged>Settings.Graphics.Anisotropic = Anisotropic.Checked</OnChanged>
   </CheckBox>
   <CheckBox Name="Shadows" Text="[ShowShadows]">
     <Location X="460" Y="325" />
@@ -234,10 +234,10 @@ Me.Render.Location = location_backup</OnChanged>
   </CheckBox>
   <Label Name="WaterEffectsLabel" Text="[WaterEffects]">
     <Location X="20" Y="360" />
-    <Size Width="160" Height="30" />
+    <Size Width="120" Height="30" />
   </Label>
   <DropdownList Name="WaterEffects">
-    <Location X="185" Y="360" />
+    <Location X="140" Y="360" />
     <Size Width="220" Height="30" />
     <Item>[None]</Item>
     <Item>[RefractionOnly]</Item>
