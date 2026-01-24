@@ -113,6 +113,13 @@ float Hue <
     float UIStep = 1.0f;
 > = 0.0f;
 
+float Gamma <
+    string UIWidget = "slider";
+    float UIMin = 0.1f;
+    float UIMax = 5.0f;
+    float UIStep = 0.01f;
+> = 1.0f;
+
 ///////////////////////////////////////////////////////////
 /////////////////////////////////////// Textures //////////
 ///////////////////////////////////////////////////////////
@@ -264,6 +271,8 @@ QUAD_REAL4 colorControlsPS(ccVertexOut IN,
     QUAD_REAL4 c;
     // this compiles to 3 dot products:
     c.rgb = mul(rgbOnly,(QUAD_REAL4x4) IN.colorMatrix).rgb;
+    // Apply gamma correction
+    c.rgb = pow(c.rgb, 1.0 / Gamma);
     c.a = scnColor.a;
     return c;
 }  

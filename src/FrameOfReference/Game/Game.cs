@@ -150,7 +150,11 @@ public class Game(Settings settings)
     protected override void ApplyGraphicsSettings()
     {
         base.ApplyGraphicsSettings();
-        if (CurrentPresenter != null) CurrentPresenter.View.Camera.FieldOfView = settings.Graphics.FieldOfView;
+        if (CurrentPresenter != null)
+        {
+            CurrentPresenter.View.Camera.FieldOfView = settings.Graphics.FieldOfView;
+            CurrentPresenter.UpdateColorCorrection();
+        }
     }
 
     /// <inheritdoc/>
