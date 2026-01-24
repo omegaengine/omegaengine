@@ -15,7 +15,7 @@ using Resources = OmegaEngine.Properties.Resources;
 namespace OmegaEngine.Graphics.Shaders;
 
 /// <summary>
-/// A post-screen shader for applying TV-like settings like brightness, contrast, hue, etc.
+/// A post-screen shader for applying TV-like settings like brightness, contrast, hue, gamma, etc.
 /// </summary>
 public class PostColorCorrectionShader : PostShader
 {
@@ -25,7 +25,7 @@ public class PostColorCorrectionShader : PostShader
     /// </summary>
     public static Version MinShaderModel => new(2, 0);
 
-    private float _brightness = 1, _contrast = 1, _saturation = 1, _hue;
+    private float _brightness = 1, _contrast = 1, _saturation = 1, _hue, _gamma = 1.0f;
 
     /// <summary>
     /// How bright the picture should be - values between 0 (black) and 5 (5x normal)
@@ -76,6 +76,16 @@ public class PostColorCorrectionShader : PostShader
         Contrast = correction.Contrast;
         Saturation = correction.Saturation;
         Hue = correction.Hue;
+    }
+
+    /// <summary>
+    /// The gamma correction value - values between 0.1 and 5.0 (1 for no correction; 2.2 for sRGB)
+    /// </summary>
+    [DefaultValue(1.0f), Description("The gamma correction value - values between 0.1 and 5.0 (1 for no correction; 2.2 for sRGB)")]
+    public float Gamma
+    {
+        get => _gamma;
+        set => value.Clamp(0.1f, 5.0f).To(ref _gamma, () => SetShaderParameter("Gamma", value));
     }
     #endregion
 

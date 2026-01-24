@@ -18,6 +18,7 @@ InvertMouse.Checked = Settings.Controls.InvertMouse
 MouseSensitivity.Value = Settings.Controls.MouseSensitivity * 10
 FieldOfView.Value = Settings.Graphics.FieldOfView
 FieldOfViewValueLabel.Text = Settings.Graphics.FieldOfView.."°"
+Gamma.Value = Settings.Graphics.Gamma * 10
 
 -- Check for each supported resolution if the graphics card can handle it and if so add it to the list
 function resolution_helper(width, height)
@@ -255,6 +256,18 @@ end</OnChanged>
     <Size Width="260" Height="20" />
     <OnChanged>Settings.Graphics.DoubleSampling = TerrainDoubleSampling.Checked</OnChanged>
   </CheckBox>
+  <Label Name="GammaLabel" Text="Gamma">
+    <Location X="441" Y="408" />
+    <Size Width="120" Height="20" />
+  </Label>
+  <Slider Name="Gamma">
+    <Location X="540" Y="404" />
+    <Size Width="180" Height="32" />
+    <Min>1</Min>
+    <Max>50</Max>
+    <Value>10</Value>
+    <OnChanged>Settings.Graphics.Gamma = Gamma.Value * 0.1;</OnChanged>
+  </Slider>
   <Button Name="Exit" Text="OK">
     <Location X="0" Y="20" />
     <Size Width="160" Height="40" />

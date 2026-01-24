@@ -112,6 +112,14 @@ public sealed class GraphicsSettings
     [DefaultValue(60f), Description("The camera field of view in degrees")]
     public float FieldOfView { get => _fieldOfView; set => value.To(ref _fieldOfView, Changed); }
 
+    private float _gamma = 1.0f;
+
+    /// <summary>
+    /// The gamma correction value (1 for no correction; 2.2 for sRGB)
+    /// </summary>
+    [Description("The gamma correction value (1 for no correction; 2.2 for sRGB)")]
+    public float Gamma { get => _gamma; set => value.To(ref _gamma, Changed); }
+
     /// <summary>
     /// Applies the settings to the engine.
     /// </summary>
@@ -131,5 +139,7 @@ public sealed class GraphicsSettings
         Shadows = engine.Effects.Shadows;
         DoubleSampling = engine.Effects.DoubleSampling;
         WaterEffects = engine.Effects.WaterEffects;
+
+        // Note: FieldOfView and Gamma need to be applied elsewhere
     }
 }

@@ -23,6 +23,7 @@
 using System;
 using System.Drawing;
 using AlphaFramework.Presentation;
+using FrameOfReference.Presentation.Config;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
@@ -128,7 +129,7 @@ partial class Presenter
     /// <summary>
     /// Updates the <see cref="_colorCorrectionShader"/> <see cref="ColorCorrection"/> values.
     /// </summary>
-    private void UpdateColorCorrection()
+    public void UpdateColorCorrection()
     {
         if (_colorCorrectionShader == null) return;
 
@@ -137,5 +138,7 @@ partial class Presenter
             Universe.ColorCorrectionDawn, Universe.ColorCorrectionNoon, Universe.ColorCorrectionDusk, Universe.ColorCorrectionMidnight, Universe.ColorCorrectionDawn);
 
         _colorCorrectionShader.SetParameters(correction);
+
+        _colorCorrectionShader.Gamma = Settings.Current.Graphics.Gamma;
     }
 }
