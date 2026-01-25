@@ -209,10 +209,10 @@ public abstract class SurfaceShader : Shader
                     ParameterType.Texture => info.SemanticID switch
                     {
                         SemanticID.Diffuse or SemanticID.DiffuseMap => SetDiffuseTexture(),
-                        SemanticID.Normal or SemanticID.NormalMap => SetTexture(material.NormalMap?.Texture),
-                        SemanticID.Height or SemanticID.HeightMap => SetTexture(material.HeightMap?.Texture),
-                        SemanticID.Specular or SemanticID.SpecularMap => SetTexture(material.SpecularMap?.Texture),
-                        SemanticID.Emissive => SetTexture(material.EmissiveMap?.Texture),
+                        SemanticID.Normal or SemanticID.NormalMap => SetTexture(material.NormalMap),
+                        SemanticID.Height or SemanticID.HeightMap => SetTexture(material.HeightMap),
+                        SemanticID.Specular or SemanticID.SpecularMap => SetTexture(material.SpecularMap),
+                        SemanticID.Emissive => SetTexture(material.EmissiveMap),
                         _ => null
                     },
                     _ => null
@@ -221,13 +221,13 @@ public abstract class SurfaceShader : Shader
                 Result SetValue<T>(T value) where T : struct
                     => Effect.SetValue(info.Handle, value);
 
-                Result SetTexture(BaseTexture? texture)
-                    => Effect.SetTexture(info.Handle, texture);
+                Result SetTexture(ITextureProvider? texture)
+                    => Effect.SetTexture(info.Handle, texture?.Texture);
 
                 Result SetDiffuseTexture()
                 {
                     var ret = diffuseMapCount < material.DiffuseMaps.Length && material.DiffuseMaps[diffuseMapCount] != null
-                        ? SetTexture(material.DiffuseMaps[diffuseMapCount].Texture)
+                        ? SetTexture(material.DiffuseMaps[diffuseMapCount])
                         : SetTexture(null);
 
                     // Increment counter for possible next reference in this shader to a (different) diffuse map
