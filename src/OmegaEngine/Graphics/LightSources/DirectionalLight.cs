@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using OmegaEngine.Foundation.Light;
 using SlimDX;
+using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.LightSources;
 
@@ -52,4 +53,14 @@ public sealed class DirectionalLight : LightSource
             Direction = Direction
         };
     }
+
+    /// <inheritdoc/>
+    internal override Light ToFfpLight() => new()
+    {
+        Type = LightType.Directional,
+        Direction = Direction,
+        Diffuse = Diffuse,
+        Specular = Specular,
+        Ambient = Ambient
+    };
 }

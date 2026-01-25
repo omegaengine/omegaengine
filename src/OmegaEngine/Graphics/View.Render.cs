@@ -74,16 +74,11 @@ partial class View
             Engine.State.ViewTransform = Camera.View;
             Engine.State.ProjectionTransform = Camera.Projection;
 
-            #region Activate lights
-            if (Lighting && Scene.Lights.Count > 0)
+            if (Lighting)
             {
                 foreach (var light in Scene.Lights.OfType<IFloatingOriginAware>())
                     light.SetFloatingOrigin(Camera);
-
-                using (new ProfilerEvent("Setup lights"))
-                    Scene.ActivateLights();
             }
-            #endregion
 
             #region Render bodies
             // Opaque bodies
@@ -118,14 +113,6 @@ partial class View
                     for (int i = _sortedTransparentBodies.Count - 1; i >= 0; i--)
                         RenderBody(_sortedTransparentBodies[i]);
                 }
-            }
-            #endregion
-
-            #region Deactivate lights
-            if (Lighting && Scene.Lights.Count > 0)
-            {
-                using (new ProfilerEvent("Deactivate lights"))
-                    Scene.DeactivateLights();
             }
             #endregion
         }

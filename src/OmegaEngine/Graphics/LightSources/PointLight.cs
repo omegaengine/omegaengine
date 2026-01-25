@@ -14,6 +14,7 @@ using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
+using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.LightSources;
 
@@ -159,4 +160,18 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         lightSource.SetFloatingOrigin(this.GetFloatingOrigin());
         return lightSource;
     }
+
+    /// <inheritdoc/>
+    internal override Light ToFfpLight() => new()
+    {
+        Type = LightType.Point,
+        Position = this.GetFloatingPosition(),
+        Range = Range,
+        Attenuation0 = Attenuation.Constant,
+        Attenuation1 = Attenuation.Linear,
+        Attenuation2 = Attenuation.Quadratic,
+        Diffuse = Diffuse,
+        Specular = Specular,
+        Ambient = Ambient
+    };
 }

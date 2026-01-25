@@ -418,7 +418,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
                 RenderGlow(render, material);
                 break;
             case SurfaceEffect.FixedFunction:
-                RenderFixedFunction(render, material);
+                RenderFixedFunction(render, material, effectiveLights);
                 break;
             case SurfaceEffect.Shader:
                 RenderShader(render, material, camera, effectiveLights);
@@ -486,14 +486,26 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }
     }
 
-    private void RenderFixedFunction([InstantHandle] Action render, XMaterial material)
+    private void RenderFixedFunction([InstantHandle] Action render, XMaterial material, IReadOnlyList<LightSource> lights)
     {
         using (new ProfilerEvent("Surface effect: Fixed-function"))
         {
             Engine.State.FfpLighting = true;
             Engine.Device.Material = material.D3DMaterial;
 
+            int lightCounter = 0;
+            foreach (var light in lights)
+            {
+                if (lightCounter >= Engine.Device.Capabilities.MaxActiveLights) break;
+                Engine.Device.SetLight(lightCounter, light.ToFfpLight());
+                Engine.Device.EnableLight(lightCounter, true);
+                lightCounter++;
+            }
+
             render();
+
+            for (int i = 0; i < lightCounter; i++)
+                Engine.Device.EnableLight(i, false);
         }
     }
 

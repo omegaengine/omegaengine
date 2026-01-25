@@ -15,6 +15,7 @@ using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
+using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.LightSources;
 
@@ -119,4 +120,9 @@ public abstract class LightSource
 
         return (intersectionArea / circle2Area).Clamp();
     }
+
+    /// <summary>
+    /// Converts the light source to a fixed-function pipeline light source.
+    /// </summary>
+    internal abstract Light ToFfpLight();
 }

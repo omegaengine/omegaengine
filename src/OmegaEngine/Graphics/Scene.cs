@@ -6,16 +6,11 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
-using OmegaEngine.Graphics.Shaders;
 using SlimDX;
-using SlimDX.Direct3D9;
-using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics;
 
@@ -34,41 +29,6 @@ public delegate IReadOnlyList<LightSource> GetEffectiveLights(BoundingSphere bou
 /// <seealso cref="View.Scene"/>
 public sealed class Scene : EngineElement
 {
-    #region Variables
-    /// <summary>Number of fixed-function light sources used so far</summary>
-    private int _dxLightCounter;
-
-    // Note: Using Lists here, because the size of the internal arrays will auto-optimize after a few frames
-
-    /// <summary>
-    /// List of enabled (<see cref="LightSource.Enabled"/>) <see cref="DirectionalLight"/>s
-    /// </summary>
-    /// <remarks>
-    /// Subset of <see cref="Lights"/>.
-    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLights"/>
-    /// </remarks>
-    private readonly List<DirectionalLight> _directionalLights = [];
-
-    /// <summary>
-    /// List of enabled (<see cref="LightSource.Enabled"/>) <see cref="PointLight"/>s to be treated like <see cref="DirectionalLight"/>s by <see cref="SurfaceShader"/>s
-    /// </summary>
-    /// <remarks>
-    /// Subset of <see cref="Lights"/>.
-    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLights"/>
-    /// </remarks>
-    /// <seealso cref="PointLight.RenderAsDirectional"/>
-    private readonly List<PointLight> _pseudoDirectionalLights = [];
-
-    /// <summary>
-    /// List of enabled (<see cref="LightSource.Enabled"/>) <see cref="PointLight"/>s
-    /// </summary>
-    /// <remarks>
-    /// Subset of <see cref="Lights"/>.
-    /// Cache for a single frame, used in <see cref="ActivateLights"/> and <see cref="GetEffectiveLights"/>
-    /// </remarks>
-    private readonly List<PointLight> _pointLights = [];
-    #endregion
-
     #region Properties
     private readonly EngineElementCollection<PositionableRenderable> _positionables = new();
 
@@ -109,83 +69,6 @@ public sealed class Scene : EngineElement
     }
     #endregion
 
-    //--------------------//
-
-    #region Activate lights
-    /// <summary>
-    /// Must be called before rendering this scene or calling <see cref="GetEffectiveLights"/>
-    /// </summary>
-    /// <remarks>Remember to call <see cref="DeactivateLights"/> when done</remarks>
-    internal void ActivateLights()
-    {
-        #region Sanity checks
-        if (_dxLightCounter != 0) throw new InvalidOperationException(Resources.LightsNotDeactivated);
-        #endregion
-
-        foreach (var lightSource in _lights.Where(x => x.Enabled))
-        {
-            if (_dxLightCounter < Engine.Device.Capabilities.MaxActiveLights)
-            {
-                Engine.Device.SetLight(_dxLightCounter, BuildLight(lightSource));
-                Engine.Device.EnableLight(_dxLightCounter, true);
-                _dxLightCounter++;
-            }
-        }
-    }
-
-    private Light BuildLight(LightSource source)
-    {
-        switch (source)
-        {
-            case DirectionalLight directional:
-                // Shader lighting
-                _directionalLights.Add(directional);
-
-                // Fixed-function lighting
-                return new()
-                {
-                    Type = LightType.Directional, Direction = directional.Direction,
-                    Diffuse = directional.Diffuse, Specular = directional.Specular, Ambient = directional.Ambient
-                };
-
-            case PointLight point:
-                // Shader lighting
-                if (point.RenderAsDirectional) _pseudoDirectionalLights.Add(point);
-                else _pointLights.Add(point);
-
-                // Fixed-function lighting
-                return new()
-                {
-                    Type = LightType.Point, Position = point.GetFloatingPosition(), Range = point.Range,
-                    Attenuation0 = point.Attenuation.Constant, Attenuation1 = point.Attenuation.Linear, Attenuation2 = point.Attenuation.Quadratic,
-                    Diffuse = point.Diffuse, Specular = point.Specular, Ambient = point.Ambient
-                };
-
-            default:
-                throw new NotSupportedException($"Unknown light source type {source.GetType().Name}.");
-        }
-    }
-    #endregion
-
-    #region Deactivate lights
-    /// <summary>
-    /// To be called after rendering is done - the counterpart to <see cref="ActivateLights"/>
-    /// </summary>
-    internal void DeactivateLights()
-    {
-        _pointLights.Clear();
-        _directionalLights.Clear();
-        _pseudoDirectionalLights.Clear();
-
-        #region Fixed-function lighting
-        for (int i = 0; i < _dxLightCounter; i++)
-            Engine.Device.EnableLight(i, false);
-
-        _dxLightCounter = 0;
-        #endregion
-    }
-    #endregion
-
     #region Get effective lighting
     /// <summary>
     /// Gets the effective light sources for a specific location (in range and potentially shadowed).
@@ -206,10 +89,19 @@ public sealed class Scene : EngineElement
     /// <param name="boundingSphere">The position and optional radius in floating world space of the target being lit.</param>
     private List<LightSource> GetLights(BoundingSphere boundingSphere)
     {
-        var lights = new List<LightSource>(capacity: _directionalLights.Count + _pseudoDirectionalLights.Count + _pointLights.Count);
-        lights.AddRange(_directionalLights);
-        lights.AddRange(_pseudoDirectionalLights.Where(x => x.IsInRange(boundingSphere)).Select(light => light.AsDirectional(boundingSphere.Center)));
-        lights.AddRange(_pointLights.Where(x => x.IsInRange(boundingSphere)));
+        var lights = new List<LightSource>(capacity: _lights.Count);
+        foreach (var light in _lights)
+        {
+            switch (light)
+            {
+                case DirectionalLight:
+                    lights.Add(light);
+                    break;
+                case PointLight point when point.IsInRange(boundingSphere):
+                    lights.Add(point.RenderAsDirectional ? point.AsDirectional(boundingSphere.Center) : point);
+                    break;
+            }
+        }
         return lights;
     }
 
