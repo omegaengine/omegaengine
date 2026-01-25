@@ -7,20 +7,20 @@
   <CaptionHeight>30</CaptionHeight>
   <OnShow>Me:ImportLua("Utils.lua")
 
--- Import .NET enumerations
-luanet.load_assembly("OmegaEngine")
-WaterEffectsType = luanet.import_type("OmegaEngine.Foundation.Light.WaterEffectsType")
-
--- Default to English language, provide German as an option
+-- General
 if Settings.General.Language == "de" then Language.SelectedItem = "Deutsch"; end;
+if State ~= GameState.Menu then
+  LanguageLabel.Enabled = false
+  Language.Enabled = false
+end
 
+-- Controls
 InvertMouse.Checked = Settings.Controls.InvertMouse
 MouseSensitivity.Value = Settings.Controls.MouseSensitivity * 10
-FieldOfView.Value = Settings.Graphics.FieldOfView
-FieldOfViewValueLabel.Text = Settings.Graphics.FieldOfView.."°"
-Gamma.Value = Settings.Graphics.Gamma * 10
 
--- Check for each supported resolution if the graphics card can handle it and if so add it to the list
+-- Display
+
+--- Resolution
 function resolution_helper(width, height)
   if Engine.Capabilities:CheckResolution(width, height) then Resolution.Items:Add(width.."x"..height); end
 end
@@ -47,41 +47,40 @@ resolution_helper(5120, 2160);
 resolution_helper(5120, 2880);
 resolution_helper(6016, 3384);
 resolution_helper(7680, 4320);
-
--- Reselect the previously chosen resolution
 if Resolution.Items:Contains(Settings.Display.ResolutionText) then Resolution.SelectedItem = Settings.Display.ResolutionText; end;
 
--- Check for each supported AA level if the graphics card can handle it and if so add it to the list
+--- Anti-Aliasing
 for level=2,16,2 do
   if Engine.Capabilities:CheckAA(level) then AntiAliasing.Items:Add(level.."x"); end
 end
-
--- Reselect the previously chosen AA level
 if Settings.Display.AntiAliasing ~= 0 and AntiAliasing.Items:Contains(Settings.Display.AntiAliasingText) then
   AntiAliasing.SelectedItem = Settings.Display.AntiAliasingText
 end
 
-Anisotropic.Enabled = Engine.Capabilities.Anisotropic
-Anisotropic.Checked = Settings.Graphics.Anisotropic
 Fullscreen.Checked = Settings.Display.Fullscreen
 VSync.Checked = Settings.Display.VSync
+FieldOfView.Value = Settings.Graphics.FieldOfView
+FieldOfViewValueLabel.Text = Settings.Graphics.FieldOfView.."°"
 
+-- Effects
 PostScreenEffects.Enabled = Engine.Capabilities.PerPixelEffects
 PostScreenEffects.Checked = Settings.Graphics.PostScreenEffects
+Anisotropic.Enabled = Engine.Capabilities.Anisotropic
+Anisotropic.Checked = Settings.Graphics.Anisotropic
 Shadows.Enabled = Engine.Capabilities.PerPixelEffects
 Shadows.Checked = Settings.Graphics.Shadows
 TerrainDoubleSampling.Enabled = Engine.Capabilities.DoubleSampling
 TerrainDoubleSampling.Checked = Settings.Graphics.DoubleSampling
+Gamma.Value = Settings.Graphics.Gamma * 10
+Gamma.Enabled = Settings.Graphics.PostScreenEffects
+GammaValueLabel.Text = string.format("%.1f", Settings.Graphics.Gamma)
 
+--- Water effects
+luanet.load_assembly("OmegaEngine")
+WaterEffectsType = luanet.import_type("OmegaEngine.Foundation.Light.WaterEffectsType")
 WaterEffectsLabel.Enabled = Engine.Capabilities.PerPixelEffects
 WaterEffects.Enabled = WaterEffectsLabel.Enabled
 WaterEffects.SelectedItem = "["..Settings.Graphics.WaterEffects:ToString().."]"
-
--- Only allow the user to change the language in the main menu
-if State ~= GameState.Menu then
-  LanguageLabel.Enabled = false
-  Language.Enabled = false
-end
 </OnShow>
   <FontSize>15</FontSize>
   <Size Width="750" Height="520" />
@@ -202,7 +201,8 @@ Me.Render.Location = location_backup</OnChanged>
     <Min>45</Min>
     <Max>120</Max>
     <Value>90</Value>
-    <OnChanged>Settings.Graphics.FieldOfView = FieldOfView.Value; FieldOfViewValueLabel.Text = FieldOfView.Value.."°"</OnChanged>
+    <OnChanged>Settings.Graphics.FieldOfView = FieldOfView.Value
+FieldOfViewValueLabel.Text = Settings.Graphics.FieldOfView.."°"</OnChanged>
   </Slider>
   <Label Name="FieldOfViewValueLabel" Text="??°">
     <Location X="685" Y="203" />
@@ -221,7 +221,8 @@ Me.Render.Location = location_backup</OnChanged>
   <CheckBox Name="PostScreenEffects" Text="[PostScreenEffects]">
     <Location X="20" Y="325" />
     <Size Width="190" Height="20" />
-    <OnChanged>Settings.Graphics.PostScreenEffects = PostScreenEffects.Checked</OnChanged>
+    <OnChanged>Settings.Graphics.PostScreenEffects = PostScreenEffects.Checked
+Gamma.Enabled = Settings.Graphics.PostScreenEffects</OnChanged>
   </CheckBox>
   <CheckBox Name="Anisotropic" Text="[Anisotropic]">
     <Location X="220" Y="325" />
@@ -257,17 +258,22 @@ end</OnChanged>
     <OnChanged>Settings.Graphics.DoubleSampling = TerrainDoubleSampling.Checked</OnChanged>
   </CheckBox>
   <Label Name="GammaLabel" Text="Gamma">
-    <Location X="441" Y="408" />
+    <Location X="525" Y="384" />
     <Size Width="120" Height="20" />
   </Label>
   <Slider Name="Gamma">
-    <Location X="540" Y="404" />
+    <Location X="525" Y="404" />
     <Size Width="180" Height="32" />
     <Min>1</Min>
     <Max>50</Max>
     <Value>10</Value>
-    <OnChanged>Settings.Graphics.Gamma = Gamma.Value * 0.1;</OnChanged>
+    <OnChanged>Settings.Graphics.Gamma = Gamma.Value * 0.1
+GammaValueLabel.Text = string.format("%.1f", Settings.Graphics.Gamma)</OnChanged>
   </Slider>
+  <Label Name="GammaValueLabel" Text="?.?">
+    <Location X="680" Y="384" />
+    <Size Width="25" Height="20" />
+  </Label>
   <Button Name="Exit" Text="OK">
     <Location X="0" Y="20" />
     <Size Width="160" Height="40" />
