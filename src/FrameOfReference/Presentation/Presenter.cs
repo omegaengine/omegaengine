@@ -89,6 +89,29 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
         }
     }
 
+    /// <inheritdoc/>
+    public override void HookIn()
+    {
+        base.HookIn();
+
+        Settings.Current.Graphics.Changed += ApplyGraphicsSettings;
+        ApplyGraphicsSettings();
+    }
+
+    /// <inheritdoc/>
+    public override void HookOut()
+    {
+        base.HookOut();
+        Settings.Current.Graphics.Changed -= ApplyGraphicsSettings;
+    }
+
+    private void ApplyGraphicsSettings()
+    {
+        var settings = Settings.Current.Graphics;
+        View.Camera.FieldOfView = settings.FieldOfView;
+        if (_colorCorrectionShader != null) _colorCorrectionShader.Gamma = settings.Gamma;
+    }
+
     /// <summary>
     /// The <see cref="OmegaEngine"/> representation of <see cref="World.Universe.Terrain"/>
     /// </summary>

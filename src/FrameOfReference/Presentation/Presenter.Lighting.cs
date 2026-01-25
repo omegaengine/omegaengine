@@ -129,7 +129,7 @@ partial class Presenter
     /// <summary>
     /// Updates the <see cref="_colorCorrectionShader"/> <see cref="ColorCorrection"/> values.
     /// </summary>
-    public void UpdateColorCorrection()
+    private void UpdateColorCorrection()
     {
         if (_colorCorrectionShader == null) return;
 
@@ -138,7 +138,5 @@ partial class Presenter
             Universe.ColorCorrectionDawn, Universe.ColorCorrectionNoon, Universe.ColorCorrectionDusk, Universe.ColorCorrectionMidnight, Universe.ColorCorrectionDawn);
 
         _colorCorrectionShader.SetParameters(correction);
-
-        _colorCorrectionShader.Gamma = Settings.Current.Graphics.Gamma;
     }
 }
