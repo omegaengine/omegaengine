@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace OmegaEngine.Graphics.Cameras | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace OmegaEngine.Graphics.Cameras | OmegaEngine ">
+      
+      <meta name="description" content="Cameras in OmegaEngine determine the perspective from which a  is displayed in a .">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Cameras/_Namespace.md/#L2">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Graphics.Cameras">
+
+  <h1 id="OmegaEngine_Graphics_Cameras" data-uid="OmegaEngine.Graphics.Cameras" class="text-break">Namespace OmegaEngine.Graphics.Cameras</h1>
+  <div class="markdown level0 summary"><p>Cameras in OmegaEngine determine the perspective from which a <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a> is displayed in a <a class="xref" href="OmegaEngine.Graphics.View.html">View</a>.</p>
+</div>
+  <div class="markdown level0 conceptual">
+<p>Cameras manage:</p>
+<ul>
+<li><strong>Position and orientation</strong> - The camera's location and direction in 3D space</li>
+<li><strong>Projection parameters</strong> - Field of view, near/far clipping planes, aspect ratio</li>
+<li><strong>View frustum</strong> - Automatic calculation for culling objects outside the camera's view</li>
+<li><strong>Input handling</strong> - Integration with <a class="xref" href="OmegaEngine.Input.html">input system</a> for interactive camera control</li>
+</ul>
+<p>You can pick from several <a href="#classes">built-in camera types</a> to suit your needs.</p>
+<h2 id="floating-coordinate-system">Floating coordinate system</h2>
+<p>The positions of <a class="xref" href="OmegaEngine.Graphics.Renderables.html">renderables</a>, <a class="xref" href="OmegaEngine.Graphics.LightSources.html">light sources</a>, etc. are stored with 64-bit precision in OmegaEngine. However, they must be converted to 32-bit coordinates for rendering with DirectX. To mitigate the resulting loss of precision, OmegaEngine uses an internal floating coordinate system.</p>
+<p>The origin of this coordinate system is defined by the camera's <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_FloatingOrigin">FloatingOrigin</a> property. This value is subtracted from each 64-bit position before conversion to 32-bit and submission to DirectX.</p>
+<p>Most camera types automatically adjust <code>FloatingOrigin</code> once the camera moves more than <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_FloatingOriginMaxDistance">FloatingOriginMaxDistance</a> units away from it. This keeps the coordinate origin close to the camera, ensuring higher precision for objects near the viewer.</p>
+<div class="TIP">
+<h5>Tip</h5>
+<p>To pick a suitable value for <code>FloatingOriginMaxDistance</code>, you can use this formula:<br>
+<span class="math">\(FloatingOriginMaxDistance=DesiredMaxError*2^{23}\)</span></p>
+<p>For example, if 1 world unit corresponds to 1 meter and you want to achieve a precision of 1 millimeter:<br>
+<span class="math">\(FloatingOriginMaxDistance=0.001*2^{23}\approx8388\)</span></p>
+</div>
+<h2 id="api">API</h2>
+</div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Cameras.ArcballCamera.html">ArcballCamera</a></dt>
+      <dd><p>A camera that orbits around a target point. Adjustable yaw, pitch, and roll. Panning the target respects the current yaw and roll.<p></p>
+Useful for building model viewers, character inspection screens, or turntable presentations.
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Camera</a></dt>
+      <dd><p>Determines the perspective from which a <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a> is displayed.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Cameras.CloneCamera.html">CloneCamera</a></dt>
+      <dd><p>A camera that imitates the perspective of another <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Camera</a>.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Cameras.FirstPersonCamera.html">FirstPersonCamera</a></dt>
+      <dd><p>A camera that allows movement, yaw and pitch, but no roll. Movement in the XY-plane respects the current yaw but ignores the pitch (fixed &quot;Up&quot; vector).<p></p>
+Useful for building first-person or third-person games with ground-based movement.
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Cameras.FreeFlyCamera.html">FreeFlyCamera</a></dt>
+      <dd><p>A camera with free 6-degrees-of-freedom movement (movement and rotation in all directions).<p></p>
+Useful for building tools, debugging, or games with free-flying movement (space sims, spectator modes).
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Cameras.MatrixCamera.html">MatrixCamera</a></dt>
+      <dd><p>A camera that internally uses matrixes for representing rotations.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Cameras.QuaternionCamera.html">QuaternionCamera</a></dt>
+      <dd><p>A camera that internally uses quaternions for representing rotations.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Cameras.ReflectCamera.html">ReflectCamera</a></dt>
+      <dd><p>A camera that reflects the perspective of another camera along a plane.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Cameras.StrategyCamera.html">StrategyCamera</a></dt>
+      <dd><p>An overhead camera that allows panning across the map, rotating, and zooming in/out. The pitch angle is automatically adjusted based on the zoom level.<p></p>
+Useful for building RTS games, tactical games, or top-down views.
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Cameras.TransitionCamera.html">TransitionCamera</a></dt>
+      <dd><p>A camera that smoothly transitions between two camera states over time. Usually used via <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_TransitionCameraTo_OmegaEngine_Graphics_Cameras_Camera_OmegaEngine_Graphics_Cameras_TransitionCameraOptions_">TransitionCameraTo(Camera, TransitionCameraOptions?)</a>.<p></p>
+Useful for cinematic camera movements or smooth transitions between different viewpoints.
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Cameras.TransitionCameraOptions.html">TransitionCameraOptions</a></dt>
+      <dd><p>Options controlling a camera transition.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Cameras.ZoomCamera.html">ZoomCamera</a></dt>
+      <dd><p>Common base class for cameras that support zooming.</p>
+</dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Cameras/_Namespace.md/#L2" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

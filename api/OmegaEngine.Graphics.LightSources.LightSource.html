@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class LightSource | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class LightSource | OmegaEngine ">
+      
+      <meta name="description" content="A light source that illuminates s in a .">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Graphics_LightSources_LightSource.md&amp;value=---%0Auid%3A%20OmegaEngine.Graphics.LightSources.LightSource%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Graphics.LightSources.LightSource">
+
+
+
+  <h1 id="OmegaEngine_Graphics_LightSources_LightSource" data-uid="OmegaEngine.Graphics.LightSources.LightSource" class="text-break">
+Class LightSource  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LightSources/LightSource.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Graphics.html">Graphics</a>.<a class="xref" href="OmegaEngine.Graphics.LightSources.html">LightSources</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A light source that illuminates <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a>s in a <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a>.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class LightSource</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">LightSource</span></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="OmegaEngine.Graphics.LightSources.DirectionalLight.html">DirectionalLight</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.LightSources.PointLight.html">PointLight</a></div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_LightSources_LightSource_Ambient_" data-uid="OmegaEngine.Graphics.LightSources.LightSource.Ambient*"></a>
+
+  <h3 id="OmegaEngine_Graphics_LightSources_LightSource_Ambient" data-uid="OmegaEngine.Graphics.LightSources.LightSource.Ambient">
+  Ambient
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LightSources/LightSource.cs/#L76"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The ambient color this light source emits</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Color Ambient { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.color">Color</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_LightSources_LightSource_Diffuse_" data-uid="OmegaEngine.Graphics.LightSources.LightSource.Diffuse*"></a>
+
+  <h3 id="OmegaEngine_Graphics_LightSources_LightSource_Diffuse" data-uid="OmegaEngine.Graphics.LightSources.LightSource.Diffuse">
+  Diffuse
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LightSources/LightSource.cs/#L60"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The diffuse color this light source emits</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Color Diffuse { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.color">Color</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_LightSources_LightSource_Enabled_" data-uid="OmegaEngine.Graphics.LightSources.LightSource.Enabled*"></a>
+
+  <h3 id="OmegaEngine_Graphics_LightSources_LightSource_Enabled" data-uid="OmegaEngine.Graphics.LightSources.LightSource.Enabled">
+  Enabled
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LightSources/LightSource.cs/#L45"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shall the light source affect its surroundings?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Enabled { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_LightSources_LightSource_MaxShadowRange_" data-uid="OmegaEngine.Graphics.LightSources.LightSource.MaxShadowRange*"></a>
+
+  <h3 id="OmegaEngine_Graphics_LightSources_LightSource_MaxShadowRange" data-uid="OmegaEngine.Graphics.LightSources.LightSource.MaxShadowRange">
+  MaxShadowRange
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LightSources/LightSource.cs/#L52"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The maximum distance between shadow casters and receivers to consider.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float MaxShadowRange { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Graphics_LightSources_LightSource_MaxShadowRange_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Lower values can improve performance by excluding distant shadow casters.</p>
+</div>
+
+
+
+
+  <a id="OmegaEngine_Graphics_LightSources_LightSource_Name_" data-uid="OmegaEngine.Graphics.LightSources.LightSource.Name*"></a>
+
+  <h3 id="OmegaEngine_Graphics_LightSources_LightSource_Name" data-uid="OmegaEngine.Graphics.LightSources.LightSource.Name">
+  Name
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LightSources/LightSource.cs/#L31"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Text value to make it easier to identify a particular camera</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? Name { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_LightSources_LightSource_Specular_" data-uid="OmegaEngine.Graphics.LightSources.LightSource.Specular*"></a>
+
+  <h3 id="OmegaEngine_Graphics_LightSources_LightSource_Specular" data-uid="OmegaEngine.Graphics.LightSources.LightSource.Specular">
+  Specular
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LightSources/LightSource.cs/#L68"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The specular color this light source emits</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Color Specular { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.color">Color</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_LightSources_LightSource_GetShadowFactor_" data-uid="OmegaEngine.Graphics.LightSources.LightSource.GetShadowFactor*"></a>
+
+  <h3 id="OmegaEngine_Graphics_LightSources_LightSource_GetShadowFactor_SlimDX_BoundingSphere_SlimDX_Ray_System_Single_" data-uid="OmegaEngine.Graphics.LightSources.LightSource.GetShadowFactor(SlimDX.BoundingSphere,SlimDX.Ray,System.Single)">
+  GetShadowFactor(BoundingSphere, Ray, float)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LightSources/LightSource.cs/#L94"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calculates the shadow intensity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected static float GetShadowFactor(BoundingSphere receiverSphere, Ray shadowRay, float shadowRadius)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>receiverSphere</code> <span class="xref">BoundingSphere</span></dt>
+    <dd><p>Bounding sphere of the shadow receiver in floating world space.</p>
+</dd>
+    <dt><code>shadowRay</code> <span class="xref">Ray</span></dt>
+    <dd><p>Ray pointing from the light source to the shadow caster in floating world space.</p>
+</dd>
+    <dt><code>shadowRadius</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>The radius of the shadow at the shadow receiver.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>A value from 0 (fully lit) to 1 (fully shadowed).</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_LightSources_LightSource_GetShadowed_" data-uid="OmegaEngine.Graphics.LightSources.LightSource.GetShadowed*"></a>
+
+  <h3 id="OmegaEngine_Graphics_LightSources_LightSource_GetShadowed_SlimDX_BoundingSphere_SlimDX_BoundingSphere_" data-uid="OmegaEngine.Graphics.LightSources.LightSource.GetShadowed(SlimDX.BoundingSphere,SlimDX.BoundingSphere)">
+  GetShadowed(BoundingSphere, BoundingSphere)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LightSources/LightSource.cs/#L84"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a copy of this light source with simple shadowing applied.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Pure]
+public abstract LightSource GetShadowed(BoundingSphere receiverSphere, BoundingSphere casterSphere)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>receiverSphere</code> <span class="xref">BoundingSphere</span></dt>
+    <dd><p>The bounding sphere of the shadow receiver in world space.</p>
+</dd>
+    <dt><code>casterSphere</code> <span class="xref">BoundingSphere</span></dt>
+    <dd><p>The bounding sphere of the shadow caster in world space.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Graphics.LightSources.LightSource.html">LightSource</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_LightSources_LightSource_ToString_" data-uid="OmegaEngine.Graphics.LightSources.LightSource.ToString*"></a>
+
+  <h3 id="OmegaEngine_Graphics_LightSources_LightSource_ToString" data-uid="OmegaEngine.Graphics.LightSources.LightSource.ToString">
+  ToString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LightSources/LightSource.cs/#L34"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a string that represents the current object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>A string that represents the current object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <h2 id="seealso">See Also</h2>
+  <div class="seealso">
+      <div><a class="xref" href="OmegaEngine.Graphics.Scene.html#OmegaEngine_Graphics_Scene_Lights">Lights</a></div>
+  </div>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LightSources/LightSource.cs/#L26" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

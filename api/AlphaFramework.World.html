@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace AlphaFramework.World | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace AlphaFramework.World | OmegaEngine ">
+      
+      <meta name="description" content="Provides a basis for building engine-agnostic models of game worlds.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/_Namespace.md/#L2">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="AlphaFramework.World">
+
+  <h1 id="AlphaFramework_World" data-uid="AlphaFramework.World" class="text-break">Namespace AlphaFramework.World</h1>
+  <div class="markdown level0 summary"><p>Provides a basis for building engine-agnostic models of game worlds.</p>
+</div>
+  <div class="markdown level0 conceptual">
+<div class="NOTE">
+<h5>Note</h5>
+<p>NuGet package: <a href="https://www.nuget.org/packages/AlphaFramework.World/">AlphaFramework.World</a></p>
+</div>
+<h2 id="universe">Universe</h2>
+<p>The <strong>Universe</strong> (see <a class="xref" href="AlphaFramework.World.UniverseBase.html">UniverseBase</a>) represents the game world data. It contains:</p>
+<ul>
+<li><strong>Entities and objects</strong> - All game objects, their properties, and relationships</li>
+<li><strong>Terrain data</strong> - Heightmaps, textures, and world geometry</li>
+</ul>
+<p>The Universe is typically serialized to/from files as level or map data. It is designed to be presentation-agnostic and can be edited without running the game.</p>
+<pre><code class="lang-csharp">public class Universe : UniverseBase
+{
+    public static Universe FromContent(string id)
+        =&gt; Load(ContentManager.GetFilePath(&quot;World/Maps&quot;, id));
+
+    // Serializable properties describing game world here
+
+    public override void Update(double elapsedGameTime)
+    {
+        base.Update(elapsedGameTime);
+
+        // Game world update logic here
+    }
+}
+</code></pre>
+<h2 id="session">Session</h2>
+<p>A <strong>Session</strong> (see <a class="xref" href="AlphaFramework.World.Session-1.html">Session&lt;TUniverse&gt;</a>) represents a game being played. It wraps a Universe and adds:</p>
+<ul>
+<li><strong>Dynamic state</strong> - Entity states that change during gameplay</li>
+<li><strong>Runtime data</strong> - Player progress, inventory, quest states</li>
+<li><strong>Temporal information</strong> - Game time, event history</li>
+</ul>
+<p>Sessions are serializable as savegames.</p>
+<pre><code class="lang-csharp">public class Session : Session&lt;Universe&gt;
+{
+    /// &lt;summary&gt;
+    /// Creates a new game session based upon a given &lt;see cref=&quot;Universe&quot;/&gt;.
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;baseUniverse&quot;&gt;The universe to base the new game session on.&lt;/param&gt;
+    public Session(Universe baseUniverse) : base(baseUniverse)
+    {}
+
+    /// &lt;summary&gt;
+    /// Base-constructor for XML serialization. Do not call manually!
+    /// &lt;/summary&gt;
+    public Session()
+    {}
+
+    // Serializable properties describing game state here
+}
+</code></pre>
+<h2 id="api">API</h2>
+</div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="namespaces">
+Namespaces
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Components.html">AlphaFramework.World.Components</a></dt>
+      <dd><p>Component system for describing rendering aspects, collision bodies, gameplay behavior, etc..</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Paths.html">AlphaFramework.World.Paths</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Positionables.html">AlphaFramework.World.Positionables</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Properties.html">AlphaFramework.World.Properties</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Templates.html">AlphaFramework.World.Templates</a></dt>
+      <dd><p>Template system for building reusable/instantiable entities out of <a class="xref" href="AlphaFramework.World.Components.html">AlphaFramework.World.Components</a>.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Terrains.html">AlphaFramework.World.Terrains</a></dt>
+      <dd><p>AlphaFramework provides tools for generating, editing, and storing data for <a class="xref" href="OmegaEngine.Graphics.Renderables.Terrain.html">Terrain</a>.</p>
+</dd>
+    </dl>
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.CoordinateUniverse-1.html">CoordinateUniverse&lt;TCoordinates&gt;</a></dt>
+      <dd><p>A common base for game worlds with objects in a coordinate system.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Session-1.html">Session&lt;TUniverse&gt;</a></dt>
+      <dd><p>A common base for game sessions (i.e. a game actually being played).</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.UniverseBase.html">UniverseBase</a></dt>
+      <dd><p>A common base for game worlds (but not a running game). Equivalent to the content of a map file.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.UniverseExtensions.html">UniverseExtensions</a></dt>
+      <dd><p>Contains extension methods for <a class="xref" href="AlphaFramework.World.IUniverse.html">IUniverse</a>.</p>
+</dd>
+    </dl>
+    <h3 id="interfaces">
+Interfaces
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.IUniverse.html">IUniverse</a></dt>
+      <dd><p>A game world (but not a running game). Equivalent to the content of a map file.</p>
+</dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/_Namespace.md/#L2" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

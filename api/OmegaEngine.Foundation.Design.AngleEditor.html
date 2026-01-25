@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class AngleEditor | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class AngleEditor | OmegaEngine ">
+      
+      <meta name="description" content="An editor that can be associated with float properties representing angles between 0 and 360 degrees. Uses .">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Foundation_Design_AngleEditor.md&amp;value=---%0Auid%3A%20OmegaEngine.Foundation.Design.AngleEditor%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Foundation.Design.AngleEditor">
+
+
+
+  <h1 id="OmegaEngine_Foundation_Design_AngleEditor" data-uid="OmegaEngine.Foundation.Design.AngleEditor" class="text-break">
+Class AngleEditor  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Design/AngleEditor.cs/#L22"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Foundation.html">Foundation</a>.<a class="xref" href="OmegaEngine.Foundation.Design.html">Design</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.Foundation.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>An editor that can be associated with <code>float</code> properties representing angles between 0 and 360 degrees. Uses <a class="xref" href="OmegaEngine.Foundation.Design.AngleControl.html">AngleControl</a>.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class AngleEditor : FloatEditor</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.design.uitypeeditor">UITypeEditor</a></div>
+      <div><a class="xref" href="OmegaEngine.Foundation.Design.FloatEditor.html">FloatEditor</a></div>
+      <div><span class="xref">AngleEditor</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="OmegaEngine.Foundation.Design.FloatEditor.html#OmegaEngine_Foundation_Design_FloatEditor_GetEditStyle_System_ComponentModel_ITypeDescriptorContext_">FloatEditor.GetEditStyle(ITypeDescriptorContext)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Foundation.Design.FloatEditor.html#OmegaEngine_Foundation_Design_FloatEditor_EditValue_System_ComponentModel_ITypeDescriptorContext_System_IServiceProvider_System_Object_">FloatEditor.EditValue(ITypeDescriptorContext, IServiceProvider, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Foundation.Design.FloatEditor.html#OmegaEngine_Foundation_Design_FloatEditor_TryGetDouble_System_Object_System_Double__">FloatEditor.TryGetDouble(object, out double)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.design.uitypeeditor.editvalue#system-drawing-design-uitypeeditor-editvalue(system-iserviceprovider-system-object)">UITypeEditor.EditValue(IServiceProvider, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.design.uitypeeditor.geteditstyle#system-drawing-design-uitypeeditor-geteditstyle">UITypeEditor.GetEditStyle()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.design.uitypeeditor.getpaintvaluesupported#system-drawing-design-uitypeeditor-getpaintvaluesupported">UITypeEditor.GetPaintValueSupported()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.design.uitypeeditor.paintvalue#system-drawing-design-uitypeeditor-paintvalue(system-object-system-drawing-graphics-system-drawing-rectangle)">UITypeEditor.PaintValue(object, Graphics, Rectangle)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.design.uitypeeditor.isdropdownresizable">UITypeEditor.IsDropDownResizable</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Foundation_Design_AngleEditor_EditValue_" data-uid="OmegaEngine.Foundation.Design.AngleEditor.EditValue*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Design_AngleEditor_EditValue_System_Double_OmegaEngine_Foundation_Design_FloatRangeAttribute_System_Windows_Forms_Design_IWindowsFormsEditorService_" data-uid="OmegaEngine.Foundation.Design.AngleEditor.EditValue(System.Double,OmegaEngine.Foundation.Design.FloatRangeAttribute,System.Windows.Forms.Design.IWindowsFormsEditorService)">
+  EditValue(double, FloatRangeAttribute, IWindowsFormsEditorService)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Design/AngleEditor.cs/#L37"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Displays the UI to edit the <code>float</code> value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override double EditValue(double value, FloatRangeAttribute range, IWindowsFormsEditorService editorService)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The current value.</p>
+</dd>
+    <dt><code>range</code> <a class="xref" href="OmegaEngine.Foundation.Design.FloatRangeAttribute.html">FloatRangeAttribute</a></dt>
+    <dd><p>The range of valid values the user can select.</p>
+</dd>
+    <dt><code>editorService</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.design.iwindowsformseditorservice">IWindowsFormsEditorService</a></dt>
+    <dd><p>The editor service used to display the dropdown control.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The value set by the user.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Design_AngleEditor_EditValue_" data-uid="OmegaEngine.Foundation.Design.AngleEditor.EditValue*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Design_AngleEditor_EditValue_System_Double_System_Windows_Forms_Design_IWindowsFormsEditorService_" data-uid="OmegaEngine.Foundation.Design.AngleEditor.EditValue(System.Double,System.Windows.Forms.Design.IWindowsFormsEditorService)">
+  EditValue(double, IWindowsFormsEditorService)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Design/AngleEditor.cs/#L25"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Displays the UI to edit the <code>float</code> value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override double EditValue(double value, IWindowsFormsEditorService editorService)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The current value.</p>
+</dd>
+    <dt><code>editorService</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.design.iwindowsformseditorservice">IWindowsFormsEditorService</a></dt>
+    <dd><p>The editor service used to display the dropdown control.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The value set by the user.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Design_AngleEditor_GetPaintValueSupported_" data-uid="OmegaEngine.Foundation.Design.AngleEditor.GetPaintValueSupported*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Design_AngleEditor_GetPaintValueSupported_System_ComponentModel_ITypeDescriptorContext_" data-uid="OmegaEngine.Foundation.Design.AngleEditor.GetPaintValueSupported(System.ComponentModel.ITypeDescriptorContext)">
+  GetPaintValueSupported(ITypeDescriptorContext?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Design/AngleEditor.cs/#L50"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether the specified context supports painting a representation of an object's value within the specified context.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool GetPaintValueSupported(ITypeDescriptorContext? context)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>context</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.componentmodel.itypedescriptorcontext">ITypeDescriptorContext</a></dt>
+    <dd><p>An <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.componentmodel.itypedescriptorcontext">ITypeDescriptorContext</a> that can be used to gain additional context information.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.design.uitypeeditor.paintvalue#system-drawing-design-uitypeeditor-paintvalue(system-object-system-drawing-graphics-system-drawing-rectangle)">PaintValue(object, Graphics, Rectangle)</a> is implemented; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Design_AngleEditor_PaintValue_" data-uid="OmegaEngine.Foundation.Design.AngleEditor.PaintValue*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Design_AngleEditor_PaintValue_System_Drawing_Design_PaintValueEventArgs_" data-uid="OmegaEngine.Foundation.Design.AngleEditor.PaintValue(System.Drawing.Design.PaintValueEventArgs)">
+  PaintValue(PaintValueEventArgs)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Design/AngleEditor.cs/#L53"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Paints a representation of the value of an object using the specified <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.design.paintvalueeventargs">PaintValueEventArgs</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void PaintValue(PaintValueEventArgs e)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>e</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.design.paintvalueeventargs">PaintValueEventArgs</a></dt>
+    <dd><p>A <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.design.paintvalueeventargs">PaintValueEventArgs</a> that indicates what to paint and where to paint it.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 id="seealso">See Also</h2>
+  <div class="seealso">
+      <div><a class="xref" href="OmegaEngine.Foundation.Design.FloatRangeAttribute.html">FloatRangeAttribute</a></div>
+  </div>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Design/AngleEditor.cs/#L22" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

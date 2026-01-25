@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class FloatingModel | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class FloatingModel | OmegaEngine ">
+      
+      <meta name="description" content="A  that is rendered observing the s view direction, but ignoring its position.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Graphics_Renderables_FloatingModel.md&amp;value=---%0Auid%3A%20OmegaEngine.Graphics.Renderables.FloatingModel%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Graphics.Renderables.FloatingModel">
+
+
+
+  <h1 id="OmegaEngine_Graphics_Renderables_FloatingModel" data-uid="OmegaEngine.Graphics.Renderables.FloatingModel" class="text-break">
+Class FloatingModel  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/FloatingModel.cs/#L21"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Graphics.html">Graphics</a>.<a class="xref" href="OmegaEngine.Graphics.Renderables.html">Renderables</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html">Model</a> that is rendered observing the <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Camera</a>s view direction, but ignoring its position.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class FloatingModel : Model, IDisposable, IPositionable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="OmegaEngine.EngineElement.html">EngineElement</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html">Renderable</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html">Model</a></div>
+      <div><span class="xref">FloatingModel</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+      <div><a class="xref" href="OmegaEngine.IPositionable.html">IPositionable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_Quad_OmegaEngine_Engine_OmegaEngine_Graphics_XMaterial_SlimDX_Vector2_">Model.Quad(Engine, XMaterial, Vector2)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_Box_OmegaEngine_Engine_OmegaEngine_Graphics_XMaterial_SlimDX_Vector3_">Model.Box(Engine, XMaterial, Vector3)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_Sphere_OmegaEngine_Engine_OmegaEngine_Graphics_XMaterial_System_Single_System_Int32_System_Int32_">Model.Sphere(Engine, XMaterial, float, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_Cylinder_OmegaEngine_Engine_OmegaEngine_Graphics_XMaterial_System_Single_System_Single_System_Single_System_Int32_System_Int32_">Model.Cylinder(Engine, XMaterial, float, float, float, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_Cylinder_OmegaEngine_Engine_OmegaEngine_Graphics_XMaterial_System_Single_System_Single_System_Single_">Model.Cylinder(Engine, XMaterial, float, float, float)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_Disc_OmegaEngine_Engine_OmegaEngine_Graphics_XMaterial_System_Single_System_Single_System_Single_System_Int32_System_Int32_">Model.Disc(Engine, XMaterial, float, float, float, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_Disc_OmegaEngine_Engine_OmegaEngine_Graphics_XMaterial_System_Single_System_Single_System_Single_">Model.Disc(Engine, XMaterial, float, float, float)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_Mesh">Model.Mesh</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_Materials">Model.Materials</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_SetTexture_OmegaEngine_Graphics_ITextureProvider_">Model.SetTexture(ITextureProvider)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_VertexCount">Model.VertexCount</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_NumberSubsets">Model.NumberSubsets</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_SubsetBoundingSpheres">Model.SubsetBoundingSpheres</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_SubsetWorldBoundingSpheres">Model.SubsetWorldBoundingSpheres</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_SubsetBoundingBoxes">Model.SubsetBoundingBoxes</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_SubsetWorldBoundingBoxes">Model.SubsetWorldBoundingBoxes</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_RecalcWorldTransform">Model.RecalcWorldTransform()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_RenderSubset_System_Int32_OmegaEngine_Graphics_Cameras_Camera_OmegaEngine_Graphics_GetEffectiveLights_">Model.RenderSubset(int, Camera, GetEffectiveLights)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_Intersects_SlimDX_Ray_System_Single__">Model.Intersects(Ray, out float)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_OnDispose">Model.OnDispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldTransformDirty">PositionableRenderable.WorldTransformDirty</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Pickable">PositionableRenderable.Pickable</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_RenderIn">PositionableRenderable.RenderIn</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_SurfaceEffect">PositionableRenderable.SurfaceEffect</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_SurfaceShader">PositionableRenderable.SurfaceShader</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Billboard">PositionableRenderable.Billboard</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_PreventFarClipping">PositionableRenderable.PreventFarClipping</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_ShadowCaster">PositionableRenderable.ShadowCaster</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_ShadowReceiver">PositionableRenderable.ShadowReceiver</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_PreTransform">PositionableRenderable.PreTransform</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Scale">PositionableRenderable.Scale</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_SetScale_System_Single_">PositionableRenderable.SetScale(float)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Rotation">PositionableRenderable.Rotation</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Position">PositionableRenderable.Position</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldTransformCached">PositionableRenderable.WorldTransformCached</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_BoundingSphere">PositionableRenderable.BoundingSphere</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldBoundingSphere">PositionableRenderable.WorldBoundingSphere</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_GetWorldBoundingSphereOrPosition">PositionableRenderable.GetWorldBoundingSphereOrPosition()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_DrawBoundingSphere">PositionableRenderable.DrawBoundingSphere</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_BoundingBox">PositionableRenderable.BoundingBox</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldBoundingBox">PositionableRenderable.WorldBoundingBox</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_DrawBoundingBox">PositionableRenderable.DrawBoundingBox</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_RequiredViews">PositionableRenderable.RequiredViews</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_RenderHelper_System_Action_OmegaEngine_Graphics_XMaterial_OmegaEngine_Graphics_Cameras_Camera_System_Collections_Generic_IReadOnlyList_OmegaEngine_Graphics_LightSources_LightSource__">PositionableRenderable.RenderHelper(Action, XMaterial, Camera, IReadOnlyList&lt;LightSource&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Intersects_SlimDX_Ray_OmegaEngine_Foundation_Geometry_DoubleVector3__">PositionableRenderable.Intersects(Ray, out DoubleVector3)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_IntersectsBounding_SlimDX_Ray_">PositionableRenderable.IntersectsBounding(Ray)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_OnEngineSet">PositionableRenderable.OnEngineSet()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_PreRender">Renderable.PreRender</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_OnPreRender">Renderable.OnPreRender()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_RenderCount">Renderable.RenderCount</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_Name">Renderable.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_ToString">Renderable.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_Visible">Renderable.Visible</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_Wireframe">Renderable.Wireframe</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_Alpha">Renderable.Alpha</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_PrepareRender">Renderable.PrepareRender()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_RegisterChild_OmegaEngine_EngineElement_System_Boolean_">EngineElement.RegisterChild(EngineElement, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_UnregisterChild_OmegaEngine_EngineElement_">EngineElement.UnregisterChild(EngineElement)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_Engine">EngineElement.Engine</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_IsEngineSet">EngineElement.IsEngineSet</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_IsDisposed">EngineElement.IsDisposed</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_Dispose">EngineElement.Dispose()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+  <h2 id="OmegaEngine_Graphics_Renderables_FloatingModel_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>This kind of model effectively &quot;floats&quot; atop of the scene. This can be useful for things like direction widgets.</p>
+</div>
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_Renderables_FloatingModel__ctor_" data-uid="OmegaEngine.Graphics.Renderables.FloatingModel.#ctor*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_FloatingModel__ctor_OmegaEngine_Assets_XMesh_" data-uid="OmegaEngine.Graphics.Renderables.FloatingModel.#ctor(OmegaEngine.Assets.XMesh)">
+  FloatingModel(XMesh)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/FloatingModel.cs/#L30"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new floating model based upon a cached mesh, using its internal material data if available</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FloatingModel(XMesh mesh)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mesh</code> <a class="xref" href="OmegaEngine.Assets.XMesh.html">XMesh</a></dt>
+    <dd><p>The mesh to use for rendering</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_FloatingModel__ctor_" data-uid="OmegaEngine.Graphics.Renderables.FloatingModel.#ctor*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_FloatingModel__ctor_OmegaEngine_Assets_XMesh_OmegaEngine_Graphics_XMaterial___" data-uid="OmegaEngine.Graphics.Renderables.FloatingModel.#ctor(OmegaEngine.Assets.XMesh,OmegaEngine.Graphics.XMaterial[])">
+  FloatingModel(XMesh, params XMaterial[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/FloatingModel.cs/#L40"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new floating model based upon a cached mesh, using an external texture and a white material</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FloatingModel(XMesh mesh, params XMaterial[] materials)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mesh</code> <a class="xref" href="OmegaEngine.Assets.XMesh.html">XMesh</a></dt>
+    <dd><p>The mesh use for rendering</p>
+</dd>
+    <dt><code>materials</code> <a class="xref" href="OmegaEngine.Graphics.XMaterial.html">XMaterial</a>[]</dt>
+    <dd><p>The materials to use for rendering the mesh</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_FloatingModel__ctor_" data-uid="OmegaEngine.Graphics.Renderables.FloatingModel.#ctor*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_FloatingModel__ctor_SlimDX_Direct3D9_Mesh_OmegaEngine_Graphics_XMaterial___" data-uid="OmegaEngine.Graphics.Renderables.FloatingModel.#ctor(SlimDX.Direct3D9.Mesh,OmegaEngine.Graphics.XMaterial[])">
+  FloatingModel(Mesh, params XMaterial[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/FloatingModel.cs/#L52"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new floating model based upon a custom mesh. Normals should be already calculated if they are required.
+Warning: The custom mesh and materials will be automatically disposed!</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FloatingModel(Mesh mesh, params XMaterial[] materials)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mesh</code> <span class="xref">Mesh</span></dt>
+    <dd><p>The mesh use for rendering</p>
+</dd>
+    <dt><code>materials</code> <a class="xref" href="OmegaEngine.Graphics.XMaterial.html">XMaterial</a>[]</dt>
+    <dd><p>The materials to use for rendering the mesh</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 id="seealso">See Also</h2>
+  <div class="seealso">
+      <div><a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_FloatingModels">FloatingModels</a></div>
+  </div>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/FloatingModel.cs/#L21" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace OmegaEngine.Input | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace OmegaEngine.Input | OmegaEngine ">
+      
+      <meta name="description" content="OmegaEngine provides a flexible input system that processes low-level input events into higher-level navigational commands. The system consists of s that capture input and s that respond to commands.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Input/_Namespace.md/#L2">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Input">
+
+  <h1 id="OmegaEngine_Input" data-uid="OmegaEngine.Input" class="text-break">Namespace OmegaEngine.Input</h1>
+  <div class="markdown level0 summary"><p>OmegaEngine provides a flexible input system that processes low-level input events into higher-level navigational commands. The system consists of <a class="xref" href="OmegaEngine.Input.InputProvider.html">InputProvider</a>s that capture input and <a class="xref" href="OmegaEngine.Input.IInputReceiver.html">IInputReceiver</a>s that respond to commands.</p>
+</div>
+  <div class="markdown level0 conceptual">
+<p>The input system uses a provider-receiver pattern:</p>
+<ul>
+<li><strong><a class="xref" href="OmegaEngine.Input.InputProvider.html">InputProvider</a></strong> - Captures raw input from devices (keyboard, mouse, touch) and translates it into semantic commands</li>
+<li><strong><a class="xref" href="OmegaEngine.Input.IInputReceiver.html">IInputReceiver</a></strong> - Receives and responds to input commands</li>
+</ul>
+<h2 id="input-providers">Input providers</h2>
+<h3 id="keyboard">Keyboard</h3>
+<p><a class="xref" href="OmegaEngine.Input.KeyboardInputProvider.html">KeyboardInputProvider</a> processes keyboard input for navigation and interaction.</p>
+<p>The <a class="xref" href="OmegaEngine.Input.KeyboardInputProvider.html#OmegaEngine_Input_KeyboardInputProvider_KeyBindings">KeyBindings</a> property maps keyboard keys to translation and rotation commands. Default bindings include:</p>
+<ul>
+<li><strong>WASD</strong> - Forward/backward and strafe left/right</li>
+<li><strong>QE</strong> - Roll left/right</li>
+<li><strong>Arrow keys</strong> - Pitch and yaw</li>
+</ul>
+<p>You can customize the key bindings by modifying this dictionary.</p>
+<h3 id="mouse">Mouse</h3>
+<p><a class="xref" href="OmegaEngine.Input.MouseInputProvider.html">MouseInputProvider</a> processes mouse input for Camera control and selection.</p>
+<p>The <a class="xref" href="OmegaEngine.Input.MouseInputProvider.html#OmegaEngine_Input_MouseInputProvider_Scheme">Scheme</a> property controls which mouse button does what using <a class="xref" href="OmegaEngine.Input.MouseInputScheme.html">MouseInputScheme</a>. Pre-defined schemes include:</p>
+<ul>
+<li><a class="xref" href="OmegaEngine.Input.MouseInputScheme.html#OmegaEngine_Input_MouseInputScheme_Scene">Scene</a> - Full 6DOF navigation (left: pan XY, right: rotate, middle: roll/zoom)</li>
+<li><a class="xref" href="OmegaEngine.Input.MouseInputScheme.html#OmegaEngine_Input_MouseInputScheme_Planar">Planar</a> - Top-down navigation (left: area select, right: pan XY, middle: rotate/zoom)</li>
+<li><a class="xref" href="OmegaEngine.Input.MouseInputScheme.html#OmegaEngine_Input_MouseInputScheme_FreeLook">FreeLook</a> - First-person style (left: look, right: move)</li>
+</ul>
+<p>Each scheme maps mouse buttons to <a class="xref" href="OmegaEngine.Input.MouseAction.html">MouseAction</a>s like navigation or area selection.</p>
+<h3 id="touch">Touch</h3>
+<p><a class="xref" href="OmegaEngine.Input.TouchInputProvider.html">TouchInputProvider</a> processes touch input for gesture-based control.</p>
+<h2 id="input-receivers">Input receivers</h2>
+<p>Classes that want to respond to input commands implement the <a class="xref" href="OmegaEngine.Input.IInputReceiver.html">IInputReceiver</a> interface.</p>
+<h3 id="built-in-receivers">Built-in receivers</h3>
+<p>All <a class="xref" href="OmegaEngine.Graphics.Cameras.html">Cameras</a> implement the interface. This allows you to connect an input provider for direct movement control:</p>
+<pre><code class="lang-csharp">var camera = new FreeFlyCamera();
+inputProvider.AddReceiver(camera);
+</code></pre>
+<p><a class="xref" href="AlphaFramework.Presentation.PresenterBase-1.html">PresenterBase&lt;TUniverse&gt;</a> implements the interface. It passes <code>Navigate()</code> calls through to the <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_Camera">Camera</a>.</p>
+<h3 id="custom-receivers">Custom receivers</h3>
+<p>For custom input handling, you can implement <a class="xref" href="OmegaEngine.Input.IInputReceiver.html">IInputReceiver</a> in your own code.</p>
+<p>You can use the abstract base class <a class="xref" href="OmegaEngine.Input.InputReceiverBase.html">InputReceiverBase</a> to simplify the implementation. It allows you to override only the methods you wish to handle rather than implementing all of the interface methods.</p>
+<pre><code class="lang-csharp">public class MyGameController : InputReceiverBase
+{
+    public override void Navigate(DoubleVector3 translation, DoubleVector3 rotation)
+    {
+        // Handle player movement
+        player.Move(translation.X, translation.Z);
+    }
+
+    // ...
+}
+
+var controller = new MyGameController();
+inputProvider.AddReceiver(controller);
+</code></pre>
+<h2 id="api">API</h2>
+</div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Input.ActionReceiver.html">ActionReceiver</a></dt>
+      <dd><p>Calls a callback delegate whenever any kind of input is received.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Input.InputProvider.html">InputProvider</a></dt>
+      <dd><p>Processes events from an input device into higher-level navigational commands.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Input.InputReceiverBase.html">InputReceiverBase</a></dt>
+      <dd><p>Base class to simplify implementing <a class="xref" href="OmegaEngine.Input.IInputReceiver.html">IInputReceiver</a></p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Input.KeyboardInputProvider.html">KeyboardInputProvider</a></dt>
+      <dd><p>Processes keyboard events into higher-level navigational commands.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Input.MouseAction.html">MouseAction</a></dt>
+      <dd><p>An action bound to a mouse input.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Input.MouseAreaSelection.html">MouseAreaSelection</a></dt>
+      <dd><p>A rectangular selection action bound to a mouse input.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Input.MouseInputProvider.html">MouseInputProvider</a></dt>
+      <dd><p>Processes mouse events into higher-level navigational commands.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Input.MouseInputScheme.html">MouseInputScheme</a></dt>
+      <dd><p>Controls which mouse button does what.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Input.MouseNavigation.html">MouseNavigation</a></dt>
+      <dd><p>A navigation action bound to a mouse input.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Input.TouchInputProvider.html">TouchInputProvider</a></dt>
+      <dd><p>Processes touch events into higher-level navigational commands.</p>
+</dd>
+    </dl>
+    <h3 id="interfaces">
+Interfaces
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Input.IInputReceiver.html">IInputReceiver</a></dt>
+      <dd><p>An object that receives input from an <a class="xref" href="OmegaEngine.Input.InputProvider.html">InputProvider</a>.</p>
+</dd>
+    </dl>
+    <h3 id="enums">
+Enums
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Input.MouseNavigationAxis.html">MouseNavigationAxis</a></dt>
+      <dd><p>An axis / degree-of-freedom manipulatable by mouse.</p>
+</dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Input/_Namespace.md/#L2" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

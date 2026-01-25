@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace OmegaEngine.Graphics.Renderables | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace OmegaEngine.Graphics.Renderables | OmegaEngine ">
+      
+      <meta name="description" content="Objects rendered by OmegaEngine.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/_Namespace.md/#L2">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Graphics.Renderables">
+
+  <h1 id="OmegaEngine_Graphics_Renderables" data-uid="OmegaEngine.Graphics.Renderables" class="text-break">Namespace OmegaEngine.Graphics.Renderables</h1>
+  <div class="markdown level0 summary"><p>Objects rendered by OmegaEngine.</p>
+</div>
+  <div class="markdown level0 conceptual">
+<p>All renderables inherit from <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html">Renderable</a>, which provides the base rendering interface.</p>
+<p><a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a> are renderables that have a position and orientation in 3D space. These are objects that exist within a <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a> at specific locations. Examples include <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html">Model</a>, <a class="xref" href="OmegaEngine.Graphics.Renderables.Terrain.html">Terrain</a> and <a class="xref" href="OmegaEngine.Graphics.Renderables.CpuParticleSystem.html">CpuParticleSystem</a></p>
+<p><a class="xref" href="OmegaEngine.Graphics.Renderables.Skybox.html">Skybox</a> is non-positionable renderable. Skyboxes &quot;follow&quot; the camera position to create the illusion of infinite distance.</p>
+</div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.AnimatedModel.html">AnimatedModel</a></dt>
+      <dd><p>A mesh-based model with frame-hierarchy animation that can be rendered by the engine</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.CpuParticleParameters.html">CpuParticleParameters</a></dt>
+      <dd><p>A set of information about a particle in a particle system</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.CpuParticlePreset.html">CpuParticlePreset</a></dt>
+      <dd><p>A set of information about a particle system as a whole</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.CpuParticleSystem.html">CpuParticleSystem</a></dt>
+      <dd><p>A particle system whose particles are tracked by the CPU.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.FloatingModel.html">FloatingModel</a></dt>
+      <dd><p>A <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html">Model</a> that is rendered observing the <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Camera</a>s view direction, but ignoring its position.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html">Model</a></dt>
+      <dd><p>A model (stored as a Direct3DX <a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html#OmegaEngine_Graphics_Renderables_Model_Mesh">Mesh</a> with one or more subsets). Handle</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a></dt>
+      <dd><p>An object that can be <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Render(Camera, GetEffectiveLights)</a>ed at a specific <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Position">Position</a> in a <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a>.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html">Renderable</a></dt>
+      <dd><p>An object that can be <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Render(Camera, GetEffectiveLights)</a>ed by the <a class="xref" href="OmegaEngine.Engine.html">Engine</a>.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.SimpleSkybox.html">SimpleSkybox</a></dt>
+      <dd><p>A cubic skybox existing of 4 or 6 non-animated planes.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.Skybox.html">Skybox</a></dt>
+      <dd><p>Provides a background for a <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a> that &quot;follows&quot; the <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_Position">Position</a>, creating the illusion of infinite distance.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.Terrain.html">Terrain</a></dt>
+      <dd><p>Displays a multi-textured terrain</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.VertexGroup.html">VertexGroup</a></dt>
+      <dd><p>A simple set of vertexes that can be rendered.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.Water.html">Water</a></dt>
+      <dd><p>Displays a water plane with reflections and refraction</p>
+</dd>
+    </dl>
+    <h3 id="enums">
+Enums
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.BillboardMode.html">BillboardMode</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.SurfaceEffect.html">SurfaceEffect</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.ViewType.html">ViewType</a></dt>
+      <dd></dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/_Namespace.md/#L2" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

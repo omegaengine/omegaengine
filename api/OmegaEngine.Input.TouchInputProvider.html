@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class TouchInputProvider | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class TouchInputProvider | OmegaEngine ">
+      
+      <meta name="description" content="Processes touch events into higher-level navigational commands.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Input_TouchInputProvider.md&amp;value=---%0Auid%3A%20OmegaEngine.Input.TouchInputProvider%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Input.TouchInputProvider">
+
+
+
+  <h1 id="OmegaEngine_Input_TouchInputProvider" data-uid="OmegaEngine.Input.TouchInputProvider" class="text-break">
+Class TouchInputProvider  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Input/TouchInputProvider.cs/#L18"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Input.html">Input</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Processes touch events into higher-level navigational commands.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class TouchInputProvider : InputProvider, IDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="OmegaEngine.Input.InputProvider.html">InputProvider</a></div>
+      <div><span class="xref">TouchInputProvider</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="OmegaEngine.Input.InputProvider.html#OmegaEngine_Input_InputProvider_HasReceivers">InputProvider.HasReceivers</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Input.InputProvider.html#OmegaEngine_Input_InputProvider_AddReceiver_OmegaEngine_Input_IInputReceiver_">InputProvider.AddReceiver(IInputReceiver)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Input.InputProvider.html#OmegaEngine_Input_InputProvider_RemoveReceiver_OmegaEngine_Input_IInputReceiver_">InputProvider.RemoveReceiver(IInputReceiver)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Input.InputProvider.html#OmegaEngine_Input_InputProvider_OnNavigate_OmegaEngine_Foundation_Geometry_DoubleVector3_OmegaEngine_Foundation_Geometry_DoubleVector3_">InputProvider.OnNavigate(DoubleVector3, DoubleVector3)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Input.InputProvider.html#OmegaEngine_Input_InputProvider_OnAreaSelection_System_Drawing_Rectangle_System_Boolean_System_Boolean_">InputProvider.OnAreaSelection(Rectangle, bool, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Input.InputProvider.html#OmegaEngine_Input_InputProvider_OnHover_System_Drawing_Point_">InputProvider.OnHover(Point)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Input.InputProvider.html#OmegaEngine_Input_InputProvider_OnClick_System_Windows_Forms_MouseEventArgs_System_Boolean_">InputProvider.OnClick(MouseEventArgs, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Input.InputProvider.html#OmegaEngine_Input_InputProvider_OnDoubleClick_System_Windows_Forms_MouseEventArgs_">InputProvider.OnDoubleClick(MouseEventArgs)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Input.InputProvider.html#OmegaEngine_Input_InputProvider_Dispose">InputProvider.Dispose()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+  <h2 id="OmegaEngine_Input_TouchInputProvider_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>Complex manipulations with combined panning, rotating and zooming are possible.</p>
+</div>
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaEngine_Input_TouchInputProvider__ctor_" data-uid="OmegaEngine.Input.TouchInputProvider.#ctor*"></a>
+
+  <h3 id="OmegaEngine_Input_TouchInputProvider__ctor_NanoByte_Common_Controls_ITouchControl_" data-uid="OmegaEngine.Input.TouchInputProvider.#ctor(NanoByte.Common.Controls.ITouchControl)">
+  TouchInputProvider(ITouchControl)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Input/TouchInputProvider.cs/#L27"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Starts monitoring and processing Touch events received by a specific control.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TouchInputProvider(ITouchControl control)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>control</code> <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Controls.ITouchControl.html">ITouchControl</a></dt>
+    <dd><p>The control receiving the touch events.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Input_TouchInputProvider_Dispose_" data-uid="OmegaEngine.Input.TouchInputProvider.Dispose*"></a>
+
+  <h3 id="OmegaEngine_Input_TouchInputProvider_Dispose_System_Boolean_" data-uid="OmegaEngine.Input.TouchInputProvider.Dispose(System.Boolean)">
+  Dispose(bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Input/TouchInputProvider.cs/#L53"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>To be called by <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable.dispose">Dispose()</a> and the object destructor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void Dispose(bool disposing)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>disposing</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if called manually and not by the garbage collector.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Input/TouchInputProvider.cs/#L18" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

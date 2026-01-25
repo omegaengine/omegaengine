@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class Game | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class Game | OmegaEngine ">
+      
+      <meta name="description" content="Represents a running instance of the game">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=FrameOfReference_Game.md&amp;value=---%0Auid%3A%20FrameOfReference.Game%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="FrameOfReference.Game">
+
+
+
+  <h1 id="FrameOfReference_Game" data-uid="FrameOfReference.Game" class="text-break">
+Class Game  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="FrameOfReference.html">FrameOfReference</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>FrameOfReference.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Represents a running instance of the game</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Game : GameBase, IRenderHost, IDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="OmegaEngine.RenderHost.html">RenderHost</a></div>
+      <div><a class="xref" href="AlphaFramework.Presentation.GameBase.html">GameBase</a></div>
+      <div><span class="xref">Game</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="OmegaEngine.IRenderHost.html">IRenderHost</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.GameBase.html#AlphaFramework_Presentation_GameBase_GuiManager">GameBase.GuiManager</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.GameBase.html#AlphaFramework_Presentation_GameBase_Render_System_Double_">GameBase.Render(double)</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.GameBase.html#AlphaFramework_Presentation_GameBase_ResetEngine">GameBase.ResetEngine()</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.GameBase.html#AlphaFramework_Presentation_GameBase_BuildEngineConfig_System_Boolean_">GameBase.BuildEngineConfig(bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.GameBase.html#AlphaFramework_Presentation_GameBase_ApplyControlsSettings">GameBase.ApplyControlsSettings()</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.GameBase.html#AlphaFramework_Presentation_GameBase_ApplyGraphicsSettings">GameBase.ApplyGraphicsSettings()</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.GameBase.html#AlphaFramework_Presentation_GameBase_Debug">GameBase.Debug()</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.GameBase.html#AlphaFramework_Presentation_GameBase_LoadDialog_System_String_">GameBase.LoadDialog(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.GameBase.html#AlphaFramework_Presentation_GameBase_LoadModalDialog_System_String_">GameBase.LoadModalDialog(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.GameBase.html#AlphaFramework_Presentation_GameBase_LoadModalDialogCentered_System_String_">GameBase.LoadModalDialogCentered(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.GameBase.html#AlphaFramework_Presentation_GameBase_LoadSplashDialog_System_String_">GameBase.LoadSplashDialog(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Form">RenderHost.Form</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_KeyboardInputProvider">RenderHost.KeyboardInputProvider</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_MouseInputProvider">RenderHost.MouseInputProvider</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_TouchInputProvider">RenderHost.TouchInputProvider</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Disposed">RenderHost.Disposed</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Engine">RenderHost.Engine</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Fullscreen">RenderHost.Fullscreen</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Loading">RenderHost.Loading</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Dispose">RenderHost.Dispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Crash">RenderHost.Crash()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Exit">RenderHost.Exit()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_ToFullscreen">RenderHost.ToFullscreen()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_ToWindowed_System_Drawing_Size_">RenderHost.ToWindowed(Size)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_UpdateStatus_System_String_">RenderHost.UpdateStatus(string)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="FrameOfReference_Game__ctor_" data-uid="FrameOfReference.Game.#ctor*"></a>
+
+  <h3 id="FrameOfReference_Game__ctor_FrameOfReference_Presentation_Config_Settings_" data-uid="FrameOfReference.Game.#ctor(FrameOfReference.Presentation.Config.Settings)">
+  Game(Settings)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Represents a running instance of the game</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Game(Settings settings)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>settings</code> <a class="xref" href="FrameOfReference.Presentation.Config.Settings.html">Settings</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="FrameOfReference_Game_CurrentPresenter_" data-uid="FrameOfReference.Game.CurrentPresenter*"></a>
+
+  <h3 id="FrameOfReference_Game_CurrentPresenter" data-uid="FrameOfReference.Game.CurrentPresenter">
+  CurrentPresenter
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The currently active presenter</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public Presenter? CurrentPresenter { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.Presentation.Presenter.html">Presenter</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Game_CurrentSession_" data-uid="FrameOfReference.Game.CurrentSession*"></a>
+
+  <h3 id="FrameOfReference_Game_CurrentSession" data-uid="FrameOfReference.Game.CurrentSession">
+  CurrentSession
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L58"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The current game session</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public Session? CurrentSession { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.World.Session.html">Session</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Game_CurrentState_" data-uid="FrameOfReference.Game.CurrentState*"></a>
+
+  <h3 id="FrameOfReference_Game_CurrentState" data-uid="FrameOfReference.Game.CurrentState">
+  CurrentState
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L52"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The current state of the game</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public GameState CurrentState { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.GameState.html">GameState</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="FrameOfReference_Game_ApplyGeneralSettings_" data-uid="FrameOfReference.Game.ApplyGeneralSettings*"></a>
+
+  <h3 id="FrameOfReference_Game_ApplyGeneralSettings" data-uid="FrameOfReference.Game.ApplyGeneralSettings">
+  ApplyGeneralSettings()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L147"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when <a class="xref" href="AlphaFramework.Presentation.Config.GeneralSettings.html#AlphaFramework_Presentation_Config_GeneralSettings_Changed">Changed</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void ApplyGeneralSettings()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Game_Dispose_" data-uid="FrameOfReference.Game.Dispose*"></a>
+
+  <h3 id="FrameOfReference_Game_Dispose_System_Boolean_" data-uid="FrameOfReference.Game.Dispose(System.Boolean)">
+  Dispose(bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L105"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>To be called by <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable.dispose">Dispose()</a> and the object destructor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void Dispose(bool disposing)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>disposing</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if called manually and not by the garbage collector.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Game_GetElapsedGameTime_" data-uid="FrameOfReference.Game.GetElapsedGameTime*"></a>
+
+  <h3 id="FrameOfReference_Game_GetElapsedGameTime_System_Double_" data-uid="FrameOfReference.Game.GetElapsedGameTime(System.Double)">
+  GetElapsedGameTime(double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L150"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines the amount of elapsed game time from the amount of elapsed real time.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override double GetElapsedGameTime(double elapsedTime)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>elapsedTime</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Game_GetSavegameNames_" data-uid="FrameOfReference.Game.GetSavegameNames*"></a>
+
+  <h3 id="FrameOfReference_Game_GetSavegameNames" data-uid="FrameOfReference.Game.GetSavegameNames">
+  GetSavegameNames()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L596"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Lists the names of all stored <a class="xref" href="FrameOfReference.World.Session.html">Session</a>s.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; GetSavegameNames()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Game_Initialize_" data-uid="FrameOfReference.Game.Initialize*"></a>
+
+  <h3 id="FrameOfReference_Game_Initialize" data-uid="FrameOfReference.Game.Initialize">
+  Initialize()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L71"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>To be called after the window is ready and the <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Engine">Engine</a> needs to be set up</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override bool Initialize()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if the initialization worked, <code>false</code> if it failed and the app must be closed</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Game_LoadMap_" data-uid="FrameOfReference.Game.LoadMap*"></a>
+
+  <h3 id="FrameOfReference_Game_LoadMap_System_String_" data-uid="FrameOfReference.Game.LoadMap(System.String)">
+  LoadMap(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L520"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads a game map into <a class="xref" href="FrameOfReference.Game.html#FrameOfReference_Game_CurrentSession">CurrentSession</a> and switches the <a class="xref" href="FrameOfReference.Game.html#FrameOfReference_Game_CurrentState">CurrentState</a> to <a class="xref" href="FrameOfReference.GameState.html#FrameOfReference_GameState_InGame">InGame</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void LoadMap(string name)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The name of the map to load</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Game_LoadMenu_" data-uid="FrameOfReference.Game.LoadMenu*"></a>
+
+  <h3 id="FrameOfReference_Game_LoadMenu_System_String_" data-uid="FrameOfReference.Game.LoadMenu(System.String)">
+  LoadMenu(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L495"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads a map into <span class="xref">FrameOfReference.Game._menuUniverse</span> and switches the <a class="xref" href="FrameOfReference.Game.html#FrameOfReference_Game_CurrentState">CurrentState</a> to <a class="xref" href="FrameOfReference.GameState.html#FrameOfReference_GameState_Menu">Menu</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void LoadMenu(string name)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The name of the map to load</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Game_LoadSavegame_" data-uid="FrameOfReference.Game.LoadSavegame*"></a>
+
+  <h3 id="FrameOfReference_Game_LoadSavegame_System_String_" data-uid="FrameOfReference.Game.LoadSavegame(System.String)">
+  LoadSavegame(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L583"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads a savegame from user's profile to replace the <a class="xref" href="FrameOfReference.Game.html#FrameOfReference_Game_CurrentSession">CurrentSession</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void LoadSavegame(string name)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The name of the savegame to load.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Game_ModifyMap_" data-uid="FrameOfReference.Game.ModifyMap*"></a>
+
+  <h3 id="FrameOfReference_Game_ModifyMap_System_String_" data-uid="FrameOfReference.Game.ModifyMap(System.String)">
+  ModifyMap(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L543"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads a game map into <a class="xref" href="FrameOfReference.Game.html#FrameOfReference_Game_CurrentSession">CurrentSession</a> and switches the <a class="xref" href="FrameOfReference.Game.html#FrameOfReference_Game_CurrentState">CurrentState</a> to <a class="xref" href="FrameOfReference.GameState.html#FrameOfReference_GameState_Modify">Modify</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ModifyMap(string name)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The name of the map to load</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Game_NewLua_" data-uid="FrameOfReference.Game.NewLua*"></a>
+
+  <h3 id="FrameOfReference_Game_NewLua" data-uid="FrameOfReference.Game.NewLua">
+  NewLua()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L164"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new <span class="xref">LuaInterface.Lua</span> instance with commonly used objects preloaded.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public override Lua NewLua()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Lua</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Game_Run_" data-uid="FrameOfReference.Game.Run*"></a>
+
+  <h3 id="FrameOfReference_Game_Run" data-uid="FrameOfReference.Game.Run">
+  Run()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L123"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shows the window and runs the render loop until <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Exit">Exit()</a> is called.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public override void Run()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Game_SaveSavegame_" data-uid="FrameOfReference.Game.SaveSavegame*"></a>
+
+  <h3 id="FrameOfReference_Game_SaveSavegame_System_String_" data-uid="FrameOfReference.Game.SaveSavegame(System.String)">
+  SaveSavegame(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L566"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Saves the <a class="xref" href="FrameOfReference.Game.html#FrameOfReference_Game_CurrentSession">CurrentSession</a> as a savegame stored in the user's profile.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SaveSavegame(string name)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The name of the savegame to write.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Game_SwitchToGame_" data-uid="FrameOfReference.Game.SwitchToGame*"></a>
+
+  <h3 id="FrameOfReference_Game_SwitchToGame" data-uid="FrameOfReference.Game.SwitchToGame">
+  SwitchToGame()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L209"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Switches the game to in-game mode</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SwitchToGame()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="FrameOfReference_Game_SwitchToGame_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If <a class="xref" href="FrameOfReference.Game.html#FrameOfReference_Game_CurrentState">CurrentState</a> is already <a class="xref" href="FrameOfReference.GameState.html#FrameOfReference_GameState_InGame">InGame</a>, nothing will happen.
+Loading may take a while, subsequent calls will be a bit faster because the <a class="xref" href="OmegaEngine.Engine.html">Engine</a> cache will still be hot</p>
+</div>
+
+
+
+
+  <a id="FrameOfReference_Game_SwitchToMenu_" data-uid="FrameOfReference.Game.SwitchToMenu*"></a>
+
+  <h3 id="FrameOfReference_Game_SwitchToMenu" data-uid="FrameOfReference.Game.SwitchToMenu">
+  SwitchToMenu()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L188"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Switches to the main menu</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SwitchToMenu()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="FrameOfReference_Game_SwitchToMenu_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If <a class="xref" href="FrameOfReference.Game.html#FrameOfReference_Game_CurrentState">CurrentState</a> is already <a class="xref" href="FrameOfReference.GameState.html#FrameOfReference_GameState_Menu">Menu</a>, nothing will happen.
+Loading will take a while on first call, subsequent calls will be very fast, because <span class="xref">FrameOfReference.Game._menuUniverse</span> is preserved</p>
+</div>
+
+
+
+
+  <a id="FrameOfReference_Game_SwitchToModify_" data-uid="FrameOfReference.Game.SwitchToModify*"></a>
+
+  <h3 id="FrameOfReference_Game_SwitchToModify" data-uid="FrameOfReference.Game.SwitchToModify">
+  SwitchToModify()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L225"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Switches the game to map modification mode</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SwitchToModify()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="FrameOfReference_Game_SwitchToModify_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If <a class="xref" href="FrameOfReference.Game.html#FrameOfReference_Game_CurrentState">CurrentState</a> is already <a class="xref" href="FrameOfReference.GameState.html#FrameOfReference_GameState_Modify">Modify</a>, nothing will happen.
+Loading may take a while, subsequent calls will be a bit faster because the <a class="xref" href="OmegaEngine.Engine.html">Engine</a> cache will still be hot</p>
+</div>
+
+
+
+
+  <a id="FrameOfReference_Game_TogglePause_" data-uid="FrameOfReference.Game.TogglePause*"></a>
+
+  <h3 id="FrameOfReference_Game_TogglePause" data-uid="FrameOfReference.Game.TogglePause">
+  TogglePause()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L242"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Toggles <a class="xref" href="FrameOfReference.Game.html#FrameOfReference_Game_CurrentState">CurrentState</a> between <a class="xref" href="FrameOfReference.GameState.html#FrameOfReference_GameState_InGame">InGame</a> and <a class="xref" href="FrameOfReference.GameState.html#FrameOfReference_GameState_Pause">Pause</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void TogglePause()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="FrameOfReference_Game_TogglePause_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>When called while <a class="xref" href="FrameOfReference.Game.html#FrameOfReference_Game_CurrentState">CurrentState</a> is neither <a class="xref" href="FrameOfReference.GameState.html#FrameOfReference_GameState_InGame">InGame</a> nor <a class="xref" href="FrameOfReference.GameState.html#FrameOfReference_GameState_Pause">Pause</a> nothing happens</p>
+</div>
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Game/Game.cs/#L46" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

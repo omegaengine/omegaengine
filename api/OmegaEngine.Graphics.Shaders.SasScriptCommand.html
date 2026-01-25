@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class SasScriptCommand | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class SasScriptCommand | OmegaEngine ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Graphics_Shaders_SasScriptCommand.md&amp;value=---%0Auid%3A%20OmegaEngine.Graphics.Shaders.SasScriptCommand%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand">
+
+
+
+  <h1 id="OmegaEngine_Graphics_Shaders_SasScriptCommand" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand" class="text-break">
+Class SasScriptCommand  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/SasScriptCommand.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Graphics.html">Graphics</a>.<a class="xref" href="OmegaEngine.Graphics.Shaders.html">Shaders</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class SasScriptCommand</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">SasScriptCommand</span></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptClear.html">SasScriptClear</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptClearSetColor.html">SasScriptClearSetColor</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptClearSetDepth.html">SasScriptClearSetDepth</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptClearSetStencil.html">SasScriptClearSetStencil</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptDraw.html">SasScriptDraw</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptGeometryList.html">SasScriptGeometryList</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptHint.html">SasScriptHint</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptLoopByCount.html">SasScriptLoopByCount</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptLoopByType.html">SasScriptLoopByType</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptLoopEnd.html">SasScriptLoopEnd</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptLoopGetCount.html">SasScriptLoopGetCount</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptLoopGetIndex.html">SasScriptLoopGetIndex</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptLoopUpdate.html">SasScriptLoopUpdate</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptPass.html">SasScriptPass</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptRenderColorTarget.html">SasScriptRenderColorTarget</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptRenderDepthStencilTarget.html">SasScriptRenderDepthStencilTarget</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptScriptExternal.html">SasScriptScriptExternal</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptScriptSignature.html">SasScriptScriptSignature</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptTechnique.html">SasScriptTechnique</a></div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_Shaders_SasScriptCommand__ctor_" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.#ctor*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Shaders_SasScriptCommand__ctor_OmegaEngine_Graphics_Shaders_SasScriptCommand_CommandType_SlimDX_Direct3D9_Effect_" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.#ctor(OmegaEngine.Graphics.Shaders.SasScriptCommand.CommandType,SlimDX.Direct3D9.Effect)">
+  SasScriptCommand(CommandType, Effect)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/SasScriptCommand.cs/#L77"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SasScriptCommand(SasScriptCommand.CommandType type, Effect effect)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>type</code> <a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptCommand.html">SasScriptCommand</a>.<a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptCommand.CommandType.html">CommandType</a></dt>
+    <dd></dd>
+    <dt><code>effect</code> <span class="xref">Effect</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="OmegaEngine_Graphics_Shaders_SasScriptCommand_Effect" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.Effect">
+  Effect
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/SasScriptCommand.cs/#L65"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected readonly Effect Effect</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Effect</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Graphics_Shaders_SasScriptCommand_Index" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.Index">
+  Index
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/SasScriptCommand.cs/#L63"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Index</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Graphics_Shaders_SasScriptCommand_IsDirty" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.IsDirty">
+  IsDirty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/SasScriptCommand.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsDirty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Graphics_Shaders_SasScriptCommand_Options" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.Options">
+  Options
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/SasScriptCommand.cs/#L67"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;string&gt; Options</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_Shaders_SasScriptCommand_Command_" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.Command*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Shaders_SasScriptCommand_Command" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.Command">
+  Command
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/SasScriptCommand.cs/#L71"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SasScriptCommand.CommandType Command { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptCommand.html">SasScriptCommand</a>.<a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptCommand.CommandType.html">CommandType</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Shaders_SasScriptCommand_Selector_" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.Selector*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Shaders_SasScriptCommand_Selector" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.Selector">
+  Selector
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/SasScriptCommand.cs/#L73"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? Selector { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_Shaders_SasScriptCommand_EvaluateChoice_" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.EvaluateChoice*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Shaders_SasScriptCommand_EvaluateChoice" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.EvaluateChoice">
+  EvaluateChoice()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/SasScriptCommand.cs/#L95"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected string EvaluateChoice()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Shaders_SasScriptCommand_EvaluateChoice_" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.EvaluateChoice*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Shaders_SasScriptCommand_EvaluateChoice_System_Int32__" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.EvaluateChoice(System.Int32@)">
+  EvaluateChoice(ref int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/SasScriptCommand.cs/#L101"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected string EvaluateChoice(ref int index)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Shaders_SasScriptCommand_Setup_" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.Setup*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Shaders_SasScriptCommand_Setup" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.Setup">
+  Setup()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/SasScriptCommand.cs/#L85"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual bool Setup()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Shaders_SasScriptCommand_Update_" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.Update*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Shaders_SasScriptCommand_Update" data-uid="OmegaEngine.Graphics.Shaders.SasScriptCommand.Update">
+  Update()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/SasScriptCommand.cs/#L90"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual bool Update()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/SasScriptCommand.cs/#L35" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

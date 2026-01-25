@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class DisplaySettings | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class DisplaySettings | OmegaEngine ">
+      
+      <meta name="description" content="Stores display settings (resolution, etc.). Changes here require the engine to be reset.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=AlphaFramework_Presentation_Config_DisplaySettings.md&amp;value=---%0Auid%3A%20AlphaFramework.Presentation.Config.DisplaySettings%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="AlphaFramework.Presentation.Config.DisplaySettings">
+
+
+
+  <h1 id="AlphaFramework_Presentation_Config_DisplaySettings" data-uid="AlphaFramework.Presentation.Config.DisplaySettings" class="text-break">
+Class DisplaySettings  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/Config/DisplaySettings.cs/#L38"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="AlphaFramework.html">AlphaFramework</a>.<a class="xref" href="AlphaFramework.Presentation.html">Presentation</a>.<a class="xref" href="AlphaFramework.Presentation.Config.html">Config</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>AlphaFramework.Presentation.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Stores display settings (resolution, etc.). Changes here require the engine to be reset.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class DisplaySettings</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">DisplaySettings</span></div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="AlphaFramework_Presentation_Config_DisplaySettings_AntiAliasing_" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.AntiAliasing*"></a>
+
+  <h3 id="AlphaFramework_Presentation_Config_DisplaySettings_AntiAliasing" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.AntiAliasing">
+  AntiAliasing
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/Config/DisplaySettings.cs/#L106"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The level of anti aliasing to use</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int AntiAliasing { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_Config_DisplaySettings_AntiAliasingText_" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.AntiAliasingText*"></a>
+
+  <h3 id="AlphaFramework_Presentation_Config_DisplaySettings_AntiAliasingText" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.AntiAliasingText">
+  AntiAliasingText
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/Config/DisplaySettings.cs/#L112"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The level of anti aliasing to use - as a string followed by an x</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public string AntiAliasingText { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_Config_DisplaySettings_ForceShaderModel_" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.ForceShaderModel*"></a>
+
+  <h3 id="AlphaFramework_Presentation_Config_DisplaySettings_ForceShaderModel" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.ForceShaderModel">
+  ForceShaderModel
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/Config/DisplaySettings.cs/#L147"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? ForceShaderModel { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_Config_DisplaySettings_Fullscreen_" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.Fullscreen*"></a>
+
+  <h3 id="AlphaFramework_Presentation_Config_DisplaySettings_Fullscreen" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.Fullscreen">
+  Fullscreen
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/Config/DisplaySettings.cs/#L131"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Run game in fullscreen mode</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Fullscreen { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_Config_DisplaySettings_Resolution_" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.Resolution*"></a>
+
+  <h3 id="AlphaFramework_Presentation_Config_DisplaySettings_Resolution" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.Resolution">
+  Resolution
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/Config/DisplaySettings.cs/#L51"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The monitor resolution for fullscreen mode</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Size Resolution { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.size">Size</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_Config_DisplaySettings_ResolutionText_" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.ResolutionText*"></a>
+
+  <h3 id="AlphaFramework_Presentation_Config_DisplaySettings_ResolutionText" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.ResolutionText">
+  ResolutionText
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/Config/DisplaySettings.cs/#L66"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The monitor resolution for fullscreen mode - as a string followed with an x between the components</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public string ResolutionText { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_Config_DisplaySettings_VSync_" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.VSync*"></a>
+
+  <h3 id="AlphaFramework_Presentation_Config_DisplaySettings_VSync" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.VSync">
+  VSync
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/Config/DisplaySettings.cs/#L139"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Synchronize the framerate with the monitor's refresh rate</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool VSync { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_Config_DisplaySettings_WindowSize_" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.WindowSize*"></a>
+
+  <h3 id="AlphaFramework_Presentation_Config_DisplaySettings_WindowSize" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.WindowSize">
+  WindowSize
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/Config/DisplaySettings.cs/#L89"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The size of the render window</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Size WindowSize { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.size">Size</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="AlphaFramework_Presentation_Config_DisplaySettings_ToEngineConfig_" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.ToEngineConfig*"></a>
+
+  <h3 id="AlphaFramework_Presentation_Config_DisplaySettings_ToEngineConfig_System_Nullable_System_Drawing_Size__" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.ToEngineConfig(System.Nullable{System.Drawing.Size})">
+  ToEngineConfig(Size?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/Config/DisplaySettings.cs/#L154"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates <a class="xref" href="OmegaEngine.EngineConfig.html">EngineConfig</a> from the settings.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public EngineConfig ToEngineConfig(Size? windowClientSize)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>windowClientSize</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.size">Size</a>?</dt>
+    <dd><p>The client size if running in windowed mode; <code>null</code> if running in fullscreen mode.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.EngineConfig.html">EngineConfig</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="events">Events
+</h2>
+
+
+
+  <h3 id="AlphaFramework_Presentation_Config_DisplaySettings_Changed" data-uid="AlphaFramework.Presentation.Config.DisplaySettings.Changed">
+  Changed
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/Config/DisplaySettings.cs/#L44"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Occurs when a setting in this group is changed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action Changed</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action">Action</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+  <h2 id="seealso">See Also</h2>
+  <div class="seealso">
+      <div><a class="xref" href="AlphaFramework.Presentation.Config.SettingsBase.html#AlphaFramework_Presentation_Config_SettingsBase_Display">Display</a></div>
+  </div>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/Config/DisplaySettings.cs/#L38" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

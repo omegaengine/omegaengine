@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace OmegaEngine.Assets | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace OmegaEngine.Assets | OmegaEngine ">
+      
+      <meta name="description" content="Assets are content files loaded by the engine at runtime. This includes textures, models, sounds, etc..">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Assets/_Namespace.md/#L2">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Assets">
+
+  <h1 id="OmegaEngine_Assets" data-uid="OmegaEngine.Assets" class="text-break">Namespace OmegaEngine.Assets</h1>
+  <div class="markdown level0 summary"><p>Assets are content files loaded by the engine at runtime. This includes textures, models, sounds, etc..</p>
+</div>
+  <div class="markdown level0 conceptual">
+<p>Asset files are often referenced many times during an application's runtime. To prevent repeated load delays the engine keeps loaded and parsed content in an in-memory <a href="#cache">cache</a> that can be flushed, e.g. after switching maps.</p>
+<h2 id="cache">Cache</h2>
+<p>The <a class="xref" href="OmegaEngine.Assets.CacheManager.html">CacheManager</a> (accessible via the <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_Cache">Engine.Cache</a> property) automatically caches loaded assets to improve performance through reference counting.</p>
+<p>When you load an asset:</p>
+<ol>
+<li>The cache is checked for an existing instance with that name</li>
+<li>If found, the reference count is incremented and the cached instance is returned</li>
+<li>If not found, the asset is loaded, added to the cache with reference count of 1</li>
+</ol>
+<p>When you dispose an asset:</p>
+<ol>
+<li>The reference count is decremented</li>
+<li>If the count reaches zero, the asset remains in cache but is marked for potential cleanup</li>
+<li>Calling <a class="xref" href="OmegaEngine.Assets.CacheManager.html#OmegaEngine_Assets_CacheManager_Clean">Clean()</a> removes all assets with zero references</li>
+</ol>
+<p>For scenarios like level transitions:</p>
+<pre><code class="lang-csharp">// Load level 1 assets
+var level1Assets = LoadLevel1Assets(engine);
+
+// ... play level 1 ...
+
+// Dispose level 1 assets
+foreach (var asset in level1Assets)
+    asset.Dispose();
+
+// Clean cache to free memory before loading level 2
+engine.Cache.Clean();
+
+// Load level 2 assets
+var level2Assets = LoadLevel2Assets(engine);
+</code></pre>
+<h2 id="filesystem">Filesystem</h2>
+<p>The filesystem combines multiple directory structures into a single view used to load assets.</p>
+<p>Search order:</p>
+<ol>
+<li>Mod
+<ul>
+<li>Directory specified via the <code>/mod</code> command-line argument<br>
+(only if implemented by the game)</li>
+<li>Directories specified in the <code>OMEGAENGINE_CONTENT_MOD</code> environment variable<br>
+(only if the <code>/mod</code> command-line argument was not used)</li>
+</ul>
+</li>
+<li>Base
+<ul>
+<li>Directory specified in game settings<br>
+(only if implemented by the game)</li>
+<li>Directories specified in the <code>OMEGAENGINE_CONTENT</code> environment variable<br>
+(only if not overriden by game settings)</li>
+<li>The <code>content</code> directory next to the game's executable<br>
+(only if not overriden by the <code>OMEGAENGINE_CONTENT</code> environment variable or game settings)</li>
+</ul>
+</li>
+</ol>
+<h3 id="base-directory">Base directory</h3>
+<p>The base directory is usually located in the directory of the application EXE and named <code>base</code>. This location can be overridden in the engine configuration.</p>
+<h3 id="mods">Mods</h3>
+<p>A game modification (mod) is a set of changes based on an existing game used to modify existing gameplay, add additional content or create an entirely new game.</p>
+<h2 id="api">API</h2>
+</div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Assets.Asset.html">Asset</a></dt>
+      <dd><p>Data loaded from a file and cached for use by one or more <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html">Renderable</a>s, <a class="xref" href="OmegaEngine.Audio.Sound.html">Sound</a>s, etc..</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Assets.CacheManager.html">CacheManager</a></dt>
+      <dd><p>Keeps a cache of <a class="xref" href="OmegaEngine.Assets.Asset.html">Asset</a>s that have been loaded and provides type-safe access to them.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Assets.XAnimatedMesh.html">XAnimatedMesh</a></dt>
+      <dd><p>An animated mesh loaded from an .X file.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Assets.XMesh.html">XMesh</a></dt>
+      <dd><p>A mesh loaded from an .X file.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Assets.XOggSound.html">XOggSound</a></dt>
+      <dd><p>A sound loaded from an OGG Vorbis file.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Assets.XSound.html">XSound</a></dt>
+      <dd><p>Abstract base class for sound assets.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Assets.XTexture.html">XTexture</a></dt>
+      <dd><p>A texture loaded from one of DirectX's natively supported image formats (PNG, JPG, DDS, ...).</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Assets.XWaveSound.html">XWaveSound</a></dt>
+      <dd><p>A sound loaded from a WAVE file.</p>
+</dd>
+    </dl>
+    <h3 id="interfaces">
+Interfaces
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Assets.IReferenceCount.html">IReferenceCount</a></dt>
+      <dd><p>Represents an object that tracks whether it is still needed by increasing and decreasing a reference counter.</p>
+</dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Assets/_Namespace.md/#L2" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

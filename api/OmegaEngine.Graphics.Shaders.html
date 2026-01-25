@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace OmegaEngine.Graphics.Shaders | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace OmegaEngine.Graphics.Shaders | OmegaEngine ">
+      
+      <meta name="description" content="Shaders are small pieces of code executed directly on the graphics card. They govern how vertexes are transformed and how each individual pixel color is calculated.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/_Namespace.md/#L2">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Graphics.Shaders">
+
+  <h1 id="OmegaEngine_Graphics_Shaders" data-uid="OmegaEngine.Graphics.Shaders" class="text-break">Namespace OmegaEngine.Graphics.Shaders</h1>
+  <div class="markdown level0 summary"><p>Shaders are small pieces of code executed directly on the graphics card. They govern how vertexes are transformed and how each individual pixel color is calculated.</p>
+</div>
+  <div class="markdown level0 conceptual"><h2 id="surface-shaders">Surface shaders</h2>
+<p><a class="xref" href="OmegaEngine.Graphics.Shaders.SurfaceShader.html">SurfaceShader</a>s control the appearance of individual renderable objects' surfaces. They determine how materials, textures, and lighting interact to produce the final look of a model or terrain.</p>
+<p>Surface shaders are assigned via the <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_SurfaceShader">PositionableRenderable.SurfaceShader</a> property.  They receive per-object data like world transformation matrices, material properties, and effective light sources for the object's position.</p>
+<h3 id="examples">Examples</h3>
+<p><a class="xref" href="OmegaEngine.Graphics.Shaders.GeneralShader.html">GeneralShader</a> provides standard Phong lighting with diffuse, specular, and ambient components. Supports multiple light sources. normal maps, specular maps and emissive maps.<br>
+This is the default shader used if no other shader is specified.</p>
+<p><a class="xref" href="OmegaEngine.Graphics.Shaders.WaterShader.html">WaterShader</a> renders an animated water surface with reflections and refractions.<br>
+This is used automatically by <a class="xref" href="OmegaEngine.Graphics.Renderables.Water.html">Water</a>.</p>
+<h2 id="post-screen-shaders">Post-screen shaders</h2>
+<p><a class="xref" href="OmegaEngine.Graphics.Shaders.PostShader.html">PostShader</a>s are applied to the entire rendered scene after all objects have been drawn. They perform screen-space effects that affect the complete image.</p>
+<p>Post-screen shaders are added to the <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_PostShaders">View.PostShaders</a> collection. Adding multiple shaders to the collection allows you to chain effects, with each shader processing the output of the previous one.</p>
+<h3 id="examples-1">Examples</h3>
+<p><a class="xref" href="OmegaEngine.Graphics.Shaders.PostBlurShader.html">PostBlurShader</a> blurs the entire scene.</p>
+<pre><code class="lang-csharp">view.PostShaders.Add(new PostBlurShader
+{
+    BlurStrength = 2.0
+});
+</code></pre>
+<p><a class="xref" href="OmegaEngine.Graphics.Shaders.PostColorCorrectionShader.html">PostColorCorrectionShader</a> adjusts brightness, contrast, and saturation of the rendered scene.</p>
+<pre><code class="lang-csharp">view.PostShaders.Add(new PostColorCorrectionShader
+{
+    Brightness = 1.1,
+    Contrast = 1.2,
+    Saturation = 0.9
+});
+</code></pre>
+<p><a class="xref" href="OmegaEngine.Graphics.Shaders.PostSepiaShader.html">PostSepiaShader</a> applies a sepia tone effect to create an old photograph look.</p>
+<pre><code class="lang-csharp">view.PostShaders.Add(new PostSepiaShader());
+</code></pre>
+<h2 id="api">API</h2>
+</div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.DynamicShader.html">DynamicShader</a></dt>
+      <dd><p>Helper class for dynamically generating <a class="xref" href="OmegaEngine.Graphics.Shaders.Shader.html">Shader</a> code</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.GeneralShader.html">GeneralShader</a></dt>
+      <dd><p>A general-purpose surface shader with optional support for normal and specular maps</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.LightingShader.html">LightingShader</a></dt>
+      <dd><p>A <a class="xref" href="OmegaEngine.Graphics.Shaders.SurfaceShader.html">SurfaceShader</a> that properly reacts to <a class="xref" href="OmegaEngine.Graphics.LightSources.LightSource.html">LightSource</a>s</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.PostBleachShader.html">PostBleachShader</a></dt>
+      <dd><p>A post-screen shader that bleaches out the colors.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.PostBlurShader.html">PostBlurShader</a></dt>
+      <dd><p>A post-screen shader that blurs the view using a Gaussian blur filter.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.PostCameraShakeShader.html">PostCameraShakeShader</a></dt>
+      <dd><p>A post-screen shader that simulates a &quot;shaking camera&quot; effect.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.PostColorCorrectionShader.html">PostColorCorrectionShader</a></dt>
+      <dd><p>A post-screen shader for applying TV-like settings like brightness, contrast, hue, gamma, etc.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.PostGlowShader.html">PostGlowShader</a></dt>
+      <dd><p>A post-screen shader that adds a bloom-like glow-effect around objects in the scene.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.PostHaloShader.html">PostHaloShader</a></dt>
+      <dd><p>A post-screen shader that adds shining halos around objects in the scene.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.PostRadialBlurShader.html">PostRadialBlurShader</a></dt>
+      <dd><p>A post-screen shader that blurs the view radially.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.PostScratchedFilmShader.html">PostScratchedFilmShader</a></dt>
+      <dd><p>A post-screen shader that creates &quot;scratched film&quot; effect.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.PostSepiaShader.html">PostSepiaShader</a></dt>
+      <dd><p>A post-screen shader that creates an &quot;old paper&quot; look.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.PostShader.html">PostShader</a></dt>
+      <dd><p>A shader that is applied to the complete scene after rendering.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptClear.html">SasScriptClear</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptClearSetColor.html">SasScriptClearSetColor</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptClearSetDepth.html">SasScriptClearSetDepth</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptClearSetStencil.html">SasScriptClearSetStencil</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptCommand.html">SasScriptCommand</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptDraw.html">SasScriptDraw</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptGeometryList.html">SasScriptGeometryList</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptHint.html">SasScriptHint</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptLoopByCount.html">SasScriptLoopByCount</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptLoopByType.html">SasScriptLoopByType</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptLoopEnd.html">SasScriptLoopEnd</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptLoopGetCount.html">SasScriptLoopGetCount</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptLoopGetIndex.html">SasScriptLoopGetIndex</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptLoopUpdate.html">SasScriptLoopUpdate</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptPass.html">SasScriptPass</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptRenderColorTarget.html">SasScriptRenderColorTarget</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptRenderDepthStencilTarget.html">SasScriptRenderDepthStencilTarget</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptScriptExternal.html">SasScriptScriptExternal</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptScriptSignature.html">SasScriptScriptSignature</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptTechnique.html">SasScriptTechnique</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.Shader.html">Shader</a></dt>
+      <dd><p>Provides access to the properties of shader-programm executing on the GPU.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.ShaderCompileException.html">ShaderCompileException</a></dt>
+      <dd><p>Exception thrown when <a class="xref" href="OmegaEngine.Graphics.Shaders.DynamicShader.html">DynamicShader</a> fails to compile FX code</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SurfaceShader.html">SurfaceShader</a></dt>
+      <dd><p>A shader that controls the look of a <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a>'s surface</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.TerrainShader.html">TerrainShader</a></dt>
+      <dd><p>A shader that blends multiple textures together</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.WaterShader.html">WaterShader</a></dt>
+      <dd><p>A water surface shader</p>
+</dd>
+    </dl>
+    <h3 id="structs">
+Structs
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.ParameterInfo.html">ParameterInfo</a></dt>
+      <dd></dd>
+    </dl>
+    <h3 id="enums">
+Enums
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptClear.ClearType.html">SasScriptClear.ClearType</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptCommand.CommandType.html">SasScriptCommand.CommandType</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SasScriptDraw.DrawType.html">SasScriptDraw.DrawType</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.ScriptEffectType.html">ScriptEffectType</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SemanticID.html">SemanticID</a></dt>
+      <dd></dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Shaders/_Namespace.md/#L2" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

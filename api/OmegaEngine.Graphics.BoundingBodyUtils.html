@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class BoundingBodyUtils | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class BoundingBodyUtils | OmegaEngine ">
+      
+      <meta name="description" content="Helper methods for es and s.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Graphics_BoundingBodyUtils.md&amp;value=---%0Auid%3A%20OmegaEngine.Graphics.BoundingBodyUtils%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Graphics.BoundingBodyUtils">
+
+
+
+  <h1 id="OmegaEngine_Graphics_BoundingBodyUtils" data-uid="OmegaEngine.Graphics.BoundingBodyUtils" class="text-break">
+Class BoundingBodyUtils  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BoundingBodyUtils.cs/#L19"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Graphics.html">Graphics</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Helper methods for <span class="xref">SlimDX.BoundingBox</span>es and <span class="xref">SlimDX.BoundingSphere</span>s.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class BoundingBodyUtils</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">BoundingBodyUtils</span></div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_BoundingBodyUtils_Center_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.Center*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BoundingBodyUtils_Center_SlimDX_BoundingBox_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.Center(SlimDX.BoundingBox)">
+  Center(BoundingBox)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BoundingBodyUtils.cs/#L104"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A vector pointing to the center of the bounding box.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Pure]
+public static Vector3 Center(this BoundingBox box)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>box</code> <span class="xref">BoundingBox</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Vector3</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BoundingBodyUtils_ComputeBoundingBox_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.ComputeBoundingBox*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BoundingBodyUtils_ComputeBoundingBox_SlimDX_Direct3D9_Mesh_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.ComputeBoundingBox(SlimDX.Direct3D9.Mesh)">
+  ComputeBoundingBox(Mesh)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BoundingBodyUtils.cs/#L33"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a <span class="xref">SlimDX.BoundingBox</span> that completely contains all points within a <span class="xref">SlimDX.Direct3D9.Mesh</span>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static BoundingBox ComputeBoundingBox(this Mesh mesh)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mesh</code> <span class="xref">Mesh</span></dt>
+    <dd><p>The <span class="xref">SlimDX.Direct3D9.Mesh</span> to be contained within the <span class="xref">SlimDX.BoundingBox</span>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">BoundingBox</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BoundingBodyUtils_ComputeBoundingBox_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.ComputeBoundingBox*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BoundingBodyUtils_ComputeBoundingBox_SlimDX_Direct3D9_VertexBuffer_System_Int32_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.ComputeBoundingBox(SlimDX.Direct3D9.VertexBuffer,System.Int32)">
+  ComputeBoundingBox(VertexBuffer, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BoundingBodyUtils.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a <span class="xref">SlimDX.BoundingBox</span> that completely contains all points within a <span class="xref">SlimDX.Direct3D9.VertexBuffer</span>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static BoundingBox ComputeBoundingBox(this VertexBuffer vb, int vertexCount)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vb</code> <span class="xref">VertexBuffer</span></dt>
+    <dd><p>The <span class="xref">SlimDX.Direct3D9.VertexBuffer</span> to be contained within the <span class="xref">SlimDX.BoundingBox</span>.</p>
+</dd>
+    <dt><code>vertexCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The total number of vertex contained within <code class="paramref">vb</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">BoundingBox</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BoundingBodyUtils_ComputeBoundingSphere_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.ComputeBoundingSphere*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BoundingBodyUtils_ComputeBoundingSphere_SlimDX_Direct3D9_Mesh_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.ComputeBoundingSphere(SlimDX.Direct3D9.Mesh)">
+  ComputeBoundingSphere(Mesh)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BoundingBodyUtils.cs/#L48"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a <span class="xref">SlimDX.BoundingSphere</span> that completely contains all points within a <span class="xref">SlimDX.Direct3D9.Mesh</span>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static BoundingSphere ComputeBoundingSphere(this Mesh mesh)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mesh</code> <span class="xref">Mesh</span></dt>
+    <dd><p>The <span class="xref">SlimDX.Direct3D9.Mesh</span> to be contained within the <span class="xref">SlimDX.BoundingSphere</span>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">BoundingSphere</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BoundingBodyUtils_ComputeBoundingSphere_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.ComputeBoundingSphere*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BoundingBodyUtils_ComputeBoundingSphere_SlimDX_Direct3D9_VertexBuffer_System_Int32_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.ComputeBoundingSphere(SlimDX.Direct3D9.VertexBuffer,System.Int32)">
+  ComputeBoundingSphere(VertexBuffer, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BoundingBodyUtils.cs/#L41"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a <span class="xref">SlimDX.BoundingSphere</span> that completely contains all points within a <span class="xref">SlimDX.Direct3D9.VertexBuffer</span>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static BoundingSphere ComputeBoundingSphere(this VertexBuffer vb, int vertexCount)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vb</code> <span class="xref">VertexBuffer</span></dt>
+    <dd><p>The <span class="xref">SlimDX.Direct3D9.VertexBuffer</span> to be contained within the <span class="xref">SlimDX.BoundingSphere</span>.</p>
+</dd>
+    <dt><code>vertexCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The total number of vertexes contained within <code class="paramref">vb</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">BoundingSphere</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BoundingBodyUtils_Diagonal_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.Diagonal*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BoundingBodyUtils_Diagonal_SlimDX_BoundingBox_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.Diagonal(SlimDX.BoundingBox)">
+  Diagonal(BoundingBox)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BoundingBodyUtils.cs/#L111"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A vector pointing from the minimum corner to the maximum corner of the bounding box.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Pure]
+public static Vector3 Diagonal(this BoundingBox box)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>box</code> <span class="xref">BoundingBox</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Vector3</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BoundingBodyUtils_Transform_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.Transform*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BoundingBodyUtils_Transform_SlimDX_BoundingBox_SlimDX_Matrix_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.Transform(SlimDX.BoundingBox,SlimDX.Matrix)">
+  Transform(BoundingBox, Matrix)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BoundingBodyUtils.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Applies a matrix transform to a bounding box.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Pure]
+public static BoundingBox Transform(this BoundingBox box, Matrix matrix)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>box</code> <span class="xref">BoundingBox</span></dt>
+    <dd><p>The bounding box to apply the transform to.</p>
+</dd>
+    <dt><code>matrix</code> <span class="xref">Matrix</span></dt>
+    <dd><p>The transformation matrix to apply.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">BoundingBox</span></dt>
+    <dd><p>The transformed bounding box.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BoundingBodyUtils_Transform_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.Transform*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BoundingBodyUtils_Transform_SlimDX_BoundingSphere_SlimDX_Matrix_" data-uid="OmegaEngine.Graphics.BoundingBodyUtils.Transform(SlimDX.BoundingSphere,SlimDX.Matrix)">
+  Transform(BoundingSphere, Matrix)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BoundingBodyUtils.cs/#L91"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Applies a matrix transform to a bounding sphere.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Pure]
+public static BoundingSphere Transform(this BoundingSphere sphere, Matrix matrix)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sphere</code> <span class="xref">BoundingSphere</span></dt>
+    <dd><p>The bounding sphere to apply the transform to.</p>
+</dd>
+    <dt><code>matrix</code> <span class="xref">Matrix</span></dt>
+    <dd><p>The transformation matrix to apply.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">BoundingSphere</span></dt>
+    <dd><p>The transformed bounding sphere.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BoundingBodyUtils.cs/#L19" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

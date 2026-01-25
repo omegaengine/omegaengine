@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class Engine | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class Engine | OmegaEngine ">
+      
+      <meta name="description" content="Provides central control for 3D rendering, sound management, asset caching, etc.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Engine.md&amp;value=---%0Auid%3A%20OmegaEngine.Engine%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Engine">
+
+
+
+  <h1 id="OmegaEngine_Engine" data-uid="OmegaEngine.Engine" class="text-break">
+Class Engine  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Terrain.cs/#L14"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Provides central control for 3D rendering, sound management, asset caching, etc.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class Engine : EngineElement, IDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="OmegaEngine.EngineElement.html">EngineElement</a></div>
+      <div><span class="xref">Engine</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_Engine">EngineElement.Engine</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_IsEngineSet">EngineElement.IsEngineSet</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_IsDisposed">EngineElement.IsDisposed</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_Dispose">EngineElement.Dispose()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="OmegaEngine.EngineUtilsAnimation.html#OmegaEngine_EngineUtilsAnimation_Animate_OmegaEngine_Engine_System_Double_System_Double_System_Action_System_Double__OmegaEngine_AnimationOptions_">EngineUtilsAnimation.Animate(Engine, double, double, Action&lt;double&gt;, AnimationOptions)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.EngineUtilsAnimation.html#OmegaEngine_EngineUtilsAnimation_DimDown_OmegaEngine_Engine_OmegaEngine_AnimationOptions_">EngineUtilsAnimation.DimDown(Engine, AnimationOptions?)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.EngineUtilsAnimation.html#OmegaEngine_EngineUtilsAnimation_DimUp_OmegaEngine_Engine_OmegaEngine_AnimationOptions_">EngineUtilsAnimation.DimUp(Engine, AnimationOptions?)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.EngineUtilsAnimation.html#OmegaEngine_EngineUtilsAnimation_FadeIn_OmegaEngine_Engine_OmegaEngine_AnimationOptions_">EngineUtilsAnimation.FadeIn(Engine, AnimationOptions?)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.EngineUtilsDraw.html#OmegaEngine_EngineUtilsDraw_DrawBoundingBox_OmegaEngine_Engine_SlimDX_BoundingBox_">EngineUtilsDraw.DrawBoundingBox(Engine, BoundingBox)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.EngineUtilsDraw.html#OmegaEngine_EngineUtilsDraw_DrawBoundingSphere_OmegaEngine_Engine_SlimDX_BoundingSphere_">EngineUtilsDraw.DrawBoundingSphere(Engine, BoundingSphere)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.EngineUtilsDraw.html#OmegaEngine_EngineUtilsDraw_DrawQuadColored_OmegaEngine_Engine_System_Drawing_Color_">EngineUtilsDraw.DrawQuadColored(Engine, Color)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.EngineUtilsDraw.html#OmegaEngine_EngineUtilsDraw_DrawQuadShader_OmegaEngine_Engine_">EngineUtilsDraw.DrawQuadShader(Engine)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.EngineUtilsDraw.html#OmegaEngine_EngineUtilsDraw_DrawQuadTextured_OmegaEngine_Engine_">EngineUtilsDraw.DrawQuadTextured(Engine)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.EngineUtilsDraw.html#OmegaEngine_EngineUtilsDraw_DrawRectangleOutline_OmegaEngine_Engine_System_Drawing_Rectangle_System_Drawing_Color_">EngineUtilsDraw.DrawRectangleOutline(Engine, Rectangle, Color)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaEngine_Engine__ctor_" data-uid="OmegaEngine.Engine.#ctor*"></a>
+
+  <h3 id="OmegaEngine_Engine__ctor_System_Windows_Forms_Control_OmegaEngine_EngineConfig_" data-uid="OmegaEngine.Engine.#ctor(System.Windows.Forms.Control,OmegaEngine.EngineConfig)">
+  Engine(Control, EngineConfig)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.cs/#L127"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes the Engine and its components.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Engine(Control target, EngineConfig config)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>target</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.control">Control</a></dt>
+    <dd><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.control">Control</a> the engine should draw onto.</p>
+</dd>
+    <dt><code>config</code> <a class="xref" href="OmegaEngine.EngineConfig.html">EngineConfig</a></dt>
+    <dd><p>Settings for initializing the engine.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.notsupportedexception">NotSupportedException</a></dt>
+    <dd><p>The graphics card does not meet the engine's minimum requirements.</p>
+</dd>
+    <dt><span class="xref">Direct3D9NotFoundException</span></dt>
+    <dd><p>Throw if required DirectX version is missing.</p>
+</dd>
+    <dt><span class="xref">Direct3DX9NotFoundException</span></dt>
+    <dd><p>Throw if required DirectX version is missing.</p>
+</dd>
+    <dt><span class="xref">Direct3D9Exception</span></dt>
+    <dd><p>Internal errors occurred while initializing the graphics card.</p>
+</dd>
+    <dt><span class="xref">DirectSoundException</span></dt>
+    <dd><p>Internal errors occurred while initializing the sound card.</p>
+</dd>
+  </dl>
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaEngine_Engine_Anisotropic_" data-uid="OmegaEngine.Engine.Anisotropic*"></a>
+
+  <h3 id="OmegaEngine_Engine_Anisotropic" data-uid="OmegaEngine.Engine.Anisotropic">
+  Anisotropic
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L176"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Use anisotropic texture filtering</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Anisotropic { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+  <dl class="typelist seealso">
+    <dt>See Also</dt>
+    <dd>
+    <div><a class="xref" href="OmegaEngine.EngineCapabilities.html#OmegaEngine_EngineCapabilities_Anisotropic">Anisotropic</a></div>
+    </dd>
+  </dl>
+
+
+  <a id="OmegaEngine_Engine_AudioDevice_" data-uid="OmegaEngine.Engine.AudioDevice*"></a>
+
+  <h3 id="OmegaEngine_Engine_AudioDevice" data-uid="OmegaEngine.Engine.AudioDevice">
+  AudioDevice
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Audio.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The DirectSound device</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public DirectSound AudioDevice { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">DirectSound</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_Cache_" data-uid="OmegaEngine.Engine.Cache*"></a>
+
+  <h3 id="OmegaEngine_Engine_Cache" data-uid="OmegaEngine.Engine.Cache">
+  Cache
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.cs/#L113"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The central cache used for all graphics and sound assets.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CacheManager Cache { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Assets.CacheManager.html">CacheManager</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_Capabilities_" data-uid="OmegaEngine.Engine.Capabilities*"></a>
+
+  <h3 id="OmegaEngine_Engine_Capabilities" data-uid="OmegaEngine.Engine.Capabilities">
+  Capabilities
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.cs/#L93"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Methods for determining the rendering capabilities of the graphics hardware.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public EngineCapabilities Capabilities { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.EngineCapabilities.html">EngineCapabilities</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_Config_" data-uid="OmegaEngine.Engine.Config*"></a>
+
+  <h3 id="OmegaEngine_Engine_Config" data-uid="OmegaEngine.Engine.Config">
+  Config
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.cs/#L74"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The settings the engine was initialized with.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public EngineConfig Config { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.EngineConfig.html">EngineConfig</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Engine_Config_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Changing this will cause the engine to reset on the next <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_Render">Render()</a> call</p>
+</div>
+
+
+
+
+  <a id="OmegaEngine_Engine_DefaultShader_" data-uid="OmegaEngine.Engine.DefaultShader*"></a>
+
+  <h3 id="OmegaEngine_Engine_DefaultShader" data-uid="OmegaEngine.Engine.DefaultShader">
+  DefaultShader
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L196"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A shader used for default lighting</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GeneralShader DefaultShader { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.GeneralShader.html">GeneralShader</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_Device_" data-uid="OmegaEngine.Engine.Device*"></a>
+
+  <h3 id="OmegaEngine_Engine_Device" data-uid="OmegaEngine.Engine.Device">
+  Device
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L91"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The Direct3D device. Use <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_State">State</a> instead of manipulating this directly when possible.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public Device Device { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Device</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_Effects_" data-uid="OmegaEngine.Engine.Effects*"></a>
+
+  <h3 id="OmegaEngine_Engine_Effects" data-uid="OmegaEngine.Engine.Effects">
+  Effects
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.cs/#L98"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Turn specific rendering effects in the engine on or off.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public EngineEffects Effects { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.EngineEffects.html">EngineEffects</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_FadeExtra_" data-uid="OmegaEngine.Engine.FadeExtra*"></a>
+
+  <h3 id="OmegaEngine_Engine_FadeExtra" data-uid="OmegaEngine.Engine.FadeExtra">
+  FadeExtra
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L222"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Is <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_ExtraRender">ExtraRender</a> faded along with the scene?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool FadeExtra { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_FadeLevel_" data-uid="OmegaEngine.Engine.FadeLevel*"></a>
+
+  <h3 id="OmegaEngine_Engine_FadeLevel" data-uid="OmegaEngine.Engine.FadeLevel">
+  FadeLevel
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L217"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The level of scene fading from 0 (fully visible) to 255 (invisible).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int FadeLevel { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_LastFrameGameTime_" data-uid="OmegaEngine.Engine.LastFrameGameTime*"></a>
+
+  <h3 id="OmegaEngine_Engine_LastFrameGameTime" data-uid="OmegaEngine.Engine.LastFrameGameTime">
+  LastFrameGameTime
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L79"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>How many seconds of game time have elapsed since the last frame started drawing.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double LastFrameGameTime { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_Music_" data-uid="OmegaEngine.Engine.Music*"></a>
+
+  <h3 id="OmegaEngine_Engine_Music" data-uid="OmegaEngine.Engine.Music">
+  Music
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Audio.cs/#L32"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Controls the playback of music (theme-selection, cross-fading, etc.)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MusicManager Music { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Audio.MusicManager.html">MusicManager</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_NeedsReset_" data-uid="OmegaEngine.Engine.NeedsReset*"></a>
+
+  <h3 id="OmegaEngine_Engine_NeedsReset" data-uid="OmegaEngine.Engine.NeedsReset">
+  NeedsReset
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L101"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The engine will be reset on the next <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_Render">Render()</a> call</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool NeedsReset { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Engine_NeedsReset_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Do not try to add new assets while this is true!</p>
+<p>Just run <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_Render">Render()</a> to fix the problem.</p>
+</div>
+
+
+
+
+  <a id="OmegaEngine_Engine_Performance_" data-uid="OmegaEngine.Engine.Performance*"></a>
+
+  <h3 id="OmegaEngine_Engine_Performance" data-uid="OmegaEngine.Engine.Performance">
+  Performance
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.cs/#L108"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Tracks the performance/speed of the engine.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public EnginePerformance Performance { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.EnginePerformance.html">EnginePerformance</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_RenderSize_" data-uid="OmegaEngine.Engine.RenderSize*"></a>
+
+  <h3 id="OmegaEngine_Engine_RenderSize" data-uid="OmegaEngine.Engine.RenderSize">
+  RenderSize
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L153"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The size of the render target</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Size RenderSize { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.size">Size</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_RenderViewport_" data-uid="OmegaEngine.Engine.RenderViewport*"></a>
+
+  <h3 id="OmegaEngine_Engine_RenderViewport" data-uid="OmegaEngine.Engine.RenderViewport">
+  RenderViewport
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L148"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The viewport for the render target</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Viewport RenderViewport { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Viewport</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_ResourceCulture_" data-uid="OmegaEngine.Engine.ResourceCulture*"></a>
+
+  <h3 id="OmegaEngine_Engine_ResourceCulture" data-uid="OmegaEngine.Engine.ResourceCulture">
+  ResourceCulture
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.cs/#L55"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The culture used for loading the assembly resources.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static CultureInfo ResourceCulture { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.globalization.cultureinfo">CultureInfo</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_ShaderDir_" data-uid="OmegaEngine.Engine.ShaderDir*"></a>
+
+  <h3 id="OmegaEngine_Engine_ShaderDir" data-uid="OmegaEngine.Engine.ShaderDir">
+  ShaderDir
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L191"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The base directory where shader files are stored</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string ShaderDir { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_State_" data-uid="OmegaEngine.Engine.State*"></a>
+
+  <h3 id="OmegaEngine_Engine_State" data-uid="OmegaEngine.Engine.State">
+  State
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.cs/#L103"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Used by <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html">Renderable</a> implementations to manipulate the graphics render state. Should not be manipulated manually.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public EngineState State { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.EngineState.html">EngineState</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_Target_" data-uid="OmegaEngine.Engine.Target*"></a>
+
+  <h3 id="OmegaEngine_Engine_Target" data-uid="OmegaEngine.Engine.Target">
+  Target
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.cs/#L65"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.control">Control</a> the engine draws onto.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public Control Target { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.control">Control</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_TotalGameTime_" data-uid="OmegaEngine.Engine.TotalGameTime*"></a>
+
+  <h3 id="OmegaEngine_Engine_TotalGameTime" data-uid="OmegaEngine.Engine.TotalGameTime">
+  TotalGameTime
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L84"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>How many seconds of game time have elapsed in total.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double TotalGameTime { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_Version_" data-uid="OmegaEngine.Engine.Version*"></a>
+
+  <h3 id="OmegaEngine_Engine_Version" data-uid="OmegaEngine.Engine.Version">
+  Version
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.cs/#L60"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The version number of the engine.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Version Version { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.version">Version</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_Views_" data-uid="OmegaEngine.Engine.Views*"></a>
+
+  <h3 id="OmegaEngine_Engine_Views" data-uid="OmegaEngine.Engine.Views">
+  Views
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L73"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A list of all views to be rendered by the engine</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ICollection&lt;View&gt; Views { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection</a>&lt;<a class="xref" href="OmegaEngine.Graphics.View.html">View</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Engine_Views_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Will be disposed when <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_Dispose">Dispose()</a> is called.</p>
+</div>
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Engine_Debug_" data-uid="OmegaEngine.Engine.Debug*"></a>
+
+  <h3 id="OmegaEngine_Engine_Debug" data-uid="OmegaEngine.Engine.Debug">
+  Debug()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Debug.cs/#L100"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Displays a debug interface for the engine, allowing easy manipulation of <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_Views">Views</a>, <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html">Renderable</a>, etc.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Debug()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_DebugClose_" data-uid="OmegaEngine.Engine.DebugClose*"></a>
+
+  <h3 id="OmegaEngine_Engine_DebugClose" data-uid="OmegaEngine.Engine.DebugClose">
+  DebugClose()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Debug.cs/#L120"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Closes the windows displayed by <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_Debug">Debug()</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DebugClose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_OnDispose_" data-uid="OmegaEngine.Engine.OnDispose*"></a>
+
+  <h3 id="OmegaEngine_Engine_OnDispose" data-uid="OmegaEngine.Engine.OnDispose">
+  OnDispose()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.cs/#L221"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Hook that is called when the object needs to dispose its internal resources.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnDispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_Render_" data-uid="OmegaEngine.Engine.Render*"></a>
+
+  <h3 id="OmegaEngine_Engine_Render" data-uid="OmegaEngine.Engine.Render">
+  Render()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L233"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Renders all <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_Views">Views</a>. Tracks elapsed game time automatically.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Render()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_Render_" data-uid="OmegaEngine.Engine.Render*"></a>
+
+  <h3 id="OmegaEngine_Engine_Render_System_Double_System_Boolean_" data-uid="OmegaEngine.Engine.Render(System.Double,System.Boolean)">
+  Render(double, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L243"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Renders all <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_Views">Views</a>. Uses external game time tracking.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Render(double elapsedGameTime, bool noPresent = false)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>elapsedGameTime</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>How many seconds of game time have elapsed since the last frame was drawn.</p>
+</dd>
+    <dt><code>noPresent</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> to suppress actually displaying the render output at the end.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_Screenshot_" data-uid="OmegaEngine.Engine.Screenshot*"></a>
+
+  <h3 id="OmegaEngine_Engine_Screenshot_System_String_" data-uid="OmegaEngine.Engine.Screenshot(System.String)">
+  Screenshot(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Debug.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Saves the current screen at its current resolution</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Screenshot(string filename)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>filename</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The file name to save the screenshot too</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_Screenshot_" data-uid="OmegaEngine.Engine.Screenshot*"></a>
+
+  <h3 id="OmegaEngine_Engine_Screenshot_System_String_System_Drawing_Size_" data-uid="OmegaEngine.Engine.Screenshot(System.String,System.Drawing.Size)">
+  Screenshot(string, Size)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Debug.cs/#L43"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Saves the current screen at a scaled resolution</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Screenshot(string filename, Size size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>filename</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The file name to save the screenshot too</p>
+</dd>
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.size">Size</a></dt>
+    <dd><p>The size to scale the resolution down too</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Engine_Screenshot_" data-uid="OmegaEngine.Engine.Screenshot*"></a>
+
+  <h3 id="OmegaEngine_Engine_Screenshot_System_String_System_Int32_System_Int32_" data-uid="OmegaEngine.Engine.Screenshot(System.String,System.Int32,System.Int32)">
+  Screenshot(string, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Debug.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Saves the current screen at a scaled resolution as JPG</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Screenshot(string filename, int width, int height)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>filename</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The file name to save the screenshot too</p>
+</dd>
+    <dt><code>width</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The width to scale the resolution down too</p>
+</dd>
+    <dt><code>height</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The height to scale the resolution down too</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="events">Events
+</h2>
+
+
+
+  <h3 id="OmegaEngine_Engine_DeviceLost" data-uid="OmegaEngine.Engine.DeviceLost">
+  DeviceLost
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L51"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Occurs after the <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_Device">Device</a> was lost. This usually happens when switching to or from fullscreen mode.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action? DeviceLost</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action">Action</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Engine_DeviceReset" data-uid="OmegaEngine.Engine.DeviceReset">
+  DeviceReset
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Occurs after the <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_Device">Device</a> was reset. This needs to be done to continue using it after <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_DeviceLost">DeviceLost</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action? DeviceReset</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action">Action</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Engine_ExtraRender" data-uid="OmegaEngine.Engine.ExtraRender">
+  ExtraRender
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L39"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Allows the integration of external render processes at the end of the <a class="xref" href="OmegaEngine.Engine.html">Engine</a>'s presentation scheme.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action? ExtraRender</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action">Action</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Engine_PostRender" data-uid="OmegaEngine.Engine.PostRender">
+  PostRender
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L45"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Occurs once for every frame after rendering</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action? PostRender</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action">Action</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Engine_PreRender" data-uid="OmegaEngine.Engine.PreRender">
+  PreRender
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Render.cs/#L33"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Occurs once for every frame before rendering.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action? PreRender</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action">Action</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Engine.Terrain.cs/#L14" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class CheckBox | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class CheckBox | OmegaEngine ">
+      
+      <meta name="description" content="CheckBox control">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaGUI_Render_CheckBox.md&amp;value=---%0Auid%3A%20OmegaGUI.Render.CheckBox%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaGUI.Render.CheckBox">
+
+
+
+  <h1 id="OmegaGUI_Render_CheckBox" data-uid="OmegaGUI.Render.CheckBox" class="text-break">
+Class CheckBox  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L20"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaGUI.html">OmegaGUI</a>.<a class="xref" href="OmegaGUI.Render.html">Render</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaGUI.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>CheckBox control</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class CheckBox : Button</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="OmegaGUI.Render.Control.html">Control</a></div>
+      <div><a class="xref" href="OmegaGUI.Render.Label.html">Label</a></div>
+      <div><a class="xref" href="OmegaGUI.Render.Button.html">Button</a></div>
+      <div><span class="xref">CheckBox</span></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="OmegaGUI.Render.RadioButton.html">RadioButton</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Button.html#OmegaGUI_Render_Button_ButtonLayer">Button.ButtonLayer</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Button.html#OmegaGUI_Render_Button_FillLayer">Button.FillLayer</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Button.html#OmegaGUI_Render_Button_isPressed">Button.isPressed</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Button.html#OmegaGUI_Render_Button_Click">Button.Click</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Button.html#OmegaGUI_Render_Button_RaiseClickEvent_OmegaGUI_Render_Button_System_Boolean_">Button.RaiseClickEvent(Button, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Button.html#OmegaGUI_Render_Button_CanHaveFocus">Button.CanHaveFocus</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Label.html#OmegaGUI_Render_Label_textData">Label.textData</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Label.html#OmegaGUI_Render_Label_TextAlign">Label.TextAlign</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Label.html#OmegaGUI_Render_Label_GetTextCopy">Label.GetTextCopy()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Label.html#OmegaGUI_Render_Label_SetText_System_String_">Label.SetText(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_ToString">Control.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_parentDialog">Control.parentDialog</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_index">Control.index</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_IsDefault">Control.IsDefault</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_localUserData">Control.localUserData</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_visible">Control.visible</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_isMouseOver">Control.isMouseOver</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_hasFocus">Control.hasFocus</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_controlId">Control.controlId</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_ctrlType">Control.ctrlType</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_ctrlHotKey">Control.ctrlHotKey</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_enabled">Control.enabled</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_boundingBox">Control.boundingBox</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_controlX">Control.controlX</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_controlY">Control.controlY</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_width">Control.width</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_height">Control.height</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_elementList">Control.elementList</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_MouseEnter">Control.MouseEnter</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_MouseExit">Control.MouseExit</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_OnInitialize">Control.OnInitialize()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_MsgProc_System_IntPtr_NanoByte_Common_Native_WindowMessage_System_IntPtr_System_IntPtr_">Control.MsgProc(IntPtr, WindowMessage, IntPtr, IntPtr)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_UserData">Control.UserData</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_Parent">Control.Parent</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_OnFocusIn">Control.OnFocusIn()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_OnFocusOut">Control.OnFocusOut()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_OnMouseEnter">Control.OnMouseEnter()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_OnMouseExit">Control.OnMouseExit()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_IsEnabled">Control.IsEnabled</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_IsVisible">Control.IsVisible</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_ControlType">Control.ControlType</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_ID">Control.ID</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_SetLocation_System_Int32_System_Int32_">Control.SetLocation(int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_SetSize_System_Int32_System_Int32_">Control.SetSize(int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_Hotkey">Control.Hotkey</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_Item_System_UInt32_">Control.this[uint]</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_Refresh">Control.Refresh()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaGUI_Render_CheckBox__ctor_" data-uid="OmegaGUI.Render.CheckBox.#ctor*"></a>
+
+  <h3 id="OmegaGUI_Render_CheckBox__ctor_OmegaGUI_Render_Dialog_" data-uid="OmegaGUI.Render.CheckBox.#ctor(OmegaGUI.Render.Dialog)">
+  CheckBox(Dialog)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L50"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Create new checkbox instance</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CheckBox(Dialog parent)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>parent</code> <a class="xref" href="OmegaGUI.Render.Dialog.html">Dialog</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="OmegaGUI_Render_CheckBox_BoxLayer" data-uid="OmegaGUI.Render.CheckBox.BoxLayer">
+  BoxLayer
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L22"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int BoxLayer = 0</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_CheckBox_CheckLayer" data-uid="OmegaGUI.Render.CheckBox.CheckLayer">
+  CheckLayer
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L23"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int CheckLayer = 1</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_CheckBox_buttonRect" data-uid="OmegaGUI.Render.CheckBox.buttonRect">
+  buttonRect
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L43"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Rectangle buttonRect</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_CheckBox_isBoxChecked" data-uid="OmegaGUI.Render.CheckBox.isBoxChecked">
+  isBoxChecked
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L45"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool isBoxChecked</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_CheckBox_textRect" data-uid="OmegaGUI.Render.CheckBox.textRect">
+  textRect
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L44"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Rectangle textRect</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaGUI_Render_CheckBox_IsChecked_" data-uid="OmegaGUI.Render.CheckBox.IsChecked*"></a>
+
+  <h3 id="OmegaGUI_Render_CheckBox_IsChecked" data-uid="OmegaGUI.Render.CheckBox.IsChecked">
+  IsChecked
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L58"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Checked property</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual bool IsChecked { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaGUI_Render_CheckBox_ContainsPoint_" data-uid="OmegaGUI.Render.CheckBox.ContainsPoint*"></a>
+
+  <h3 id="OmegaGUI_Render_CheckBox_ContainsPoint_System_Drawing_Point_" data-uid="OmegaGUI.Render.CheckBox.ContainsPoint(System.Drawing.Point)">
+  ContainsPoint(Point)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L80"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Does the control contain the point?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool ContainsPoint(Point pt)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pt</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_CheckBox_HandleKeyboard_" data-uid="OmegaGUI.Render.CheckBox.HandleKeyboard*"></a>
+
+  <h3 id="OmegaGUI_Render_CheckBox_HandleKeyboard_NanoByte_Common_Native_WindowMessage_System_IntPtr_System_IntPtr_" data-uid="OmegaGUI.Render.CheckBox.HandleKeyboard(NanoByte.Common.Native.WindowMessage,System.IntPtr,System.IntPtr)">
+  HandleKeyboard(WindowMessage, IntPtr, IntPtr)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L144"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Handle the keyboard for the checkbox</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool HandleKeyboard(WindowMessage msg, IntPtr wParam, IntPtr lParam)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>msg</code> <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Native.WindowMessage.html">WindowMessage</a></dt>
+    <dd></dd>
+    <dt><code>wParam</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">IntPtr</a></dt>
+    <dd></dd>
+    <dt><code>lParam</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">IntPtr</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_CheckBox_HandleMouse_" data-uid="OmegaGUI.Render.CheckBox.HandleMouse*"></a>
+
+  <h3 id="OmegaGUI_Render_CheckBox_HandleMouse_NanoByte_Common_Native_WindowMessage_System_Drawing_Point_System_IntPtr_System_IntPtr_" data-uid="OmegaGUI.Render.CheckBox.HandleMouse(NanoByte.Common.Native.WindowMessage,System.Drawing.Point,System.IntPtr,System.IntPtr)">
+  HandleMouse(WindowMessage, Point, IntPtr, IntPtr)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L176"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Handle mouse messages from the checkbox</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool HandleMouse(WindowMessage msg, Point pt, IntPtr wParam, IntPtr lParam)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>msg</code> <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Native.WindowMessage.html">WindowMessage</a></dt>
+    <dd></dd>
+    <dt><code>pt</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd></dd>
+    <dt><code>wParam</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">IntPtr</a></dt>
+    <dd></dd>
+    <dt><code>lParam</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">IntPtr</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_CheckBox_OnHotKey_" data-uid="OmegaGUI.Render.CheckBox.OnHotKey*"></a>
+
+  <h3 id="OmegaGUI_Render_CheckBox_OnHotKey" data-uid="OmegaGUI.Render.CheckBox.OnHotKey">
+  OnHotKey()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L72"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Override hotkey to fire event</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnHotKey()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_CheckBox_RaiseChangedEvent_" data-uid="OmegaGUI.Render.CheckBox.RaiseChangedEvent*"></a>
+
+  <h3 id="OmegaGUI_Render_CheckBox_RaiseChangedEvent_OmegaGUI_Render_CheckBox_System_Boolean_" data-uid="OmegaGUI.Render.CheckBox.RaiseChangedEvent(OmegaGUI.Render.CheckBox,System.Boolean)">
+  RaiseChangedEvent(CheckBox, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L29"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Create new button instance</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void RaiseChangedEvent(CheckBox sender, bool wasTriggeredByUser)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sender</code> <a class="xref" href="OmegaGUI.Render.CheckBox.html">CheckBox</a></dt>
+    <dd></dd>
+    <dt><code>wasTriggeredByUser</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_CheckBox_Render_" data-uid="OmegaGUI.Render.CheckBox.Render*"></a>
+
+  <h3 id="OmegaGUI_Render_CheckBox_Render_SlimDX_Direct3D9_Device_System_Single_" data-uid="OmegaGUI.Render.CheckBox.Render(SlimDX.Direct3D9.Device,System.Single)">
+  Render(Device, float)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L105"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Render the checkbox control</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Render(Device device, float elapsedTime)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>device</code> <span class="xref">Device</span></dt>
+    <dd></dd>
+    <dt><code>elapsedTime</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_CheckBox_SetCheckedInternal_" data-uid="OmegaGUI.Render.CheckBox.SetCheckedInternal*"></a>
+
+  <h3 id="OmegaGUI_Render_CheckBox_SetCheckedInternal_System_Boolean_System_Boolean_" data-uid="OmegaGUI.Render.CheckBox.SetCheckedInternal(System.Boolean,System.Boolean)">
+  SetCheckedInternal(bool, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L63"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets the checked state and fires the event if necessary</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void SetCheckedInternal(bool ischecked, bool fromInput)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ischecked</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+    <dt><code>fromInput</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_CheckBox_UpdateRectangles_" data-uid="OmegaGUI.Render.CheckBox.UpdateRectangles*"></a>
+
+  <h3 id="OmegaGUI_Render_CheckBox_UpdateRectangles" data-uid="OmegaGUI.Render.CheckBox.UpdateRectangles">
+  UpdateRectangles()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L88"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Update the rectangles</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void UpdateRectangles()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="events">Events
+</h2>
+
+
+
+  <h3 id="OmegaGUI_Render_CheckBox_Changed" data-uid="OmegaGUI.Render.CheckBox.Changed">
+  Changed
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler? Changed</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.eventhandler">EventHandler</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/CheckBox.cs/#L20" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

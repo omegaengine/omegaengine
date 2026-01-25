@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class BufferUtils | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class BufferUtils | OmegaEngine ">
+      
+      <meta name="description" content="Helper methods for creating, reading from and writing to s, s and attribute buffers.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Graphics_BufferUtils.md&amp;value=---%0Auid%3A%20OmegaEngine.Graphics.BufferUtils%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Graphics.BufferUtils">
+
+
+
+  <h1 id="OmegaEngine_Graphics_BufferUtils" data-uid="OmegaEngine.Graphics.BufferUtils" class="text-break">
+Class BufferUtils  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L21"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Graphics.html">Graphics</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Helper methods for creating, reading from and writing to <span class="xref">SlimDX.Direct3D9.VertexBuffer</span>s, <span class="xref">SlimDX.Direct3D9.IndexBuffer</span>s and attribute buffers.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class BufferUtils</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">BufferUtils</span></div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_CreateIndexBuffer_" data-uid="OmegaEngine.Graphics.BufferUtils.CreateIndexBuffer*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_CreateIndexBuffer_SlimDX_Direct3D9_Device_System_Int16___" data-uid="OmegaEngine.Graphics.BufferUtils.CreateIndexBuffer(SlimDX.Direct3D9.Device,System.Int16[])">
+  CreateIndexBuffer(Device, short[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L126"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates an <span class="xref">SlimDX.Direct3D9.IndexBuffer</span> and fills it with data.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IndexBuffer CreateIndexBuffer(this Device device, short[] data)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>device</code> <span class="xref">Device</span></dt>
+    <dd><p>The device to create the buffer on.</p>
+</dd>
+    <dt><code>data</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int16">short</a>[]</dt>
+    <dd><p>The values to fill the buffer with.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">IndexBuffer</span></dt>
+    <dd><p>The newly created and filled <span class="xref">SlimDX.Direct3D9.IndexBuffer</span>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_CreateIndexBuffer_" data-uid="OmegaEngine.Graphics.BufferUtils.CreateIndexBuffer*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_CreateIndexBuffer_SlimDX_Direct3D9_Device_System_Int32___" data-uid="OmegaEngine.Graphics.BufferUtils.CreateIndexBuffer(SlimDX.Direct3D9.Device,System.Int32[])">
+  CreateIndexBuffer(Device, int[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L144"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates an <span class="xref">SlimDX.Direct3D9.IndexBuffer</span> and fills it with data.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IndexBuffer CreateIndexBuffer(this Device device, int[] data)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>device</code> <span class="xref">Device</span></dt>
+    <dd><p>The device to create the buffer on.</p>
+</dd>
+    <dt><code>data</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>[]</dt>
+    <dd><p>The values to fill the buffer with.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">IndexBuffer</span></dt>
+    <dd><p>The newly created and filled <span class="xref">SlimDX.Direct3D9.IndexBuffer</span>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_CreateVertexBuffer_" data-uid="OmegaEngine.Graphics.BufferUtils.CreateVertexBuffer*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_CreateVertexBuffer__1_SlimDX_Direct3D9_Device___0___SlimDX_Direct3D9_VertexFormat_" data-uid="OmegaEngine.Graphics.BufferUtils.CreateVertexBuffer``1(SlimDX.Direct3D9.Device,``0[],SlimDX.Direct3D9.VertexFormat)">
+  CreateVertexBuffer&lt;T&gt;(Device, T[], VertexFormat)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L31"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a <span class="xref">SlimDX.Direct3D9.VertexBuffer</span> and fills it with data.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static VertexBuffer CreateVertexBuffer&lt;T&gt;(this Device device, T[] data, VertexFormat format) where T : struct</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>device</code> <span class="xref">Device</span></dt>
+    <dd><p>The device to create the buffer on.</p>
+</dd>
+    <dt><code>data</code> T[]</dt>
+    <dd><p>The vertexes to fill the buffer with.</p>
+</dd>
+    <dt><code>format</code> <span class="xref">VertexFormat</span></dt>
+    <dd><p>The fixed-function vertex format.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">VertexBuffer</span></dt>
+    <dd><p>The newly created and filled <span class="xref">SlimDX.Direct3D9.VertexBuffer</span>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The vertex format used in the buffer.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_GetPoints_" data-uid="OmegaEngine.Graphics.BufferUtils.GetPoints*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_GetPoints_SlimDX_Direct3D9_Mesh_" data-uid="OmegaEngine.Graphics.BufferUtils.GetPoints(SlimDX.Direct3D9.Mesh)">
+  GetPoints(Mesh)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L355"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets all points contained within a <span class="xref">SlimDX.Direct3D9.Mesh</span>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Vector3[] GetPoints(this Mesh mesh)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mesh</code> <span class="xref">Mesh</span></dt>
+    <dd><p>The <span class="xref">SlimDX.Direct3D9.Mesh</span> to get points from.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Vector3</span>[]</dt>
+    <dd><p>An array of points defined by the object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_GetPoints_" data-uid="OmegaEngine.Graphics.BufferUtils.GetPoints*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_GetPoints_SlimDX_Direct3D9_Mesh_System_Int32_" data-uid="OmegaEngine.Graphics.BufferUtils.GetPoints(SlimDX.Direct3D9.Mesh,System.Int32)">
+  GetPoints(Mesh, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L375"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets all points contained within a specific subset of a <span class="xref">SlimDX.Direct3D9.Mesh</span>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Vector3[] GetPoints(this Mesh mesh, int subset)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mesh</code> <span class="xref">Mesh</span></dt>
+    <dd><p>The <span class="xref">SlimDX.Direct3D9.Mesh</span> to get points from.</p>
+</dd>
+    <dt><code>subset</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The subset to get points for.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Vector3</span>[]</dt>
+    <dd><p>An array of points defined by the subset. Returns an empty array if the subset has no faces.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_GetPoints_" data-uid="OmegaEngine.Graphics.BufferUtils.GetPoints*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_GetPoints_SlimDX_Direct3D9_VertexBuffer_System_Int32_" data-uid="OmegaEngine.Graphics.BufferUtils.GetPoints(SlimDX.Direct3D9.VertexBuffer,System.Int32)">
+  GetPoints(VertexBuffer, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L336"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets all points contained within a <span class="xref">SlimDX.Direct3D9.VertexBuffer</span>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Vector3[] GetPoints(this VertexBuffer buffer, int vertexCount)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <span class="xref">VertexBuffer</span></dt>
+    <dd><p>The <span class="xref">SlimDX.Direct3D9.VertexBuffer</span> to get points from.</p>
+</dd>
+    <dt><code>vertexCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The total number of vertex contained within <code class="paramref">buffer</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Vector3</span>[]</dt>
+    <dd><p>An array of points defined by the object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_Read16Bit_" data-uid="OmegaEngine.Graphics.BufferUtils.Read16Bit*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_Read16Bit_SlimDX_Direct3D9_IndexBuffer_" data-uid="OmegaEngine.Graphics.BufferUtils.Read16Bit(SlimDX.Direct3D9.IndexBuffer)">
+  Read16Bit(IndexBuffer)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L161"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies the content of an <span class="xref">SlimDX.Direct3D9.IndexBuffer</span> to an array of 16-bit values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static short[] Read16Bit(this IndexBuffer buffer)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <span class="xref">IndexBuffer</span></dt>
+    <dd><p>The buffer to read from.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int16">short</a>[]</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Graphics_BufferUtils_Read16Bit_SlimDX_Direct3D9_IndexBuffer__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Warning! No check is performed to ensure the buffer actually uses 16-bit values.</p>
+</div>
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_Read32Bit_" data-uid="OmegaEngine.Graphics.BufferUtils.Read32Bit*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_Read32Bit_SlimDX_Direct3D9_IndexBuffer_" data-uid="OmegaEngine.Graphics.BufferUtils.Read32Bit(SlimDX.Direct3D9.IndexBuffer)">
+  Read32Bit(IndexBuffer)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L181"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies the content of an <span class="xref">SlimDX.Direct3D9.IndexBuffer</span> to an array of 32-bit values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int[] Read32Bit(this IndexBuffer buffer)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <span class="xref">IndexBuffer</span></dt>
+    <dd><p>The buffer to read from.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>[]</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Graphics_BufferUtils_Read32Bit_SlimDX_Direct3D9_IndexBuffer__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Warning! No check is performed to ensure the buffer actually uses 32-bit values.</p>
+</div>
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_ReadAttributeBuffer_" data-uid="OmegaEngine.Graphics.BufferUtils.ReadAttributeBuffer*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_ReadAttributeBuffer_SlimDX_Direct3D9_Mesh_" data-uid="OmegaEngine.Graphics.BufferUtils.ReadAttributeBuffer(SlimDX.Direct3D9.Mesh)">
+  ReadAttributeBuffer(Mesh)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L301"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies the content of the attribute buffer of a <span class="xref">SlimDX.Direct3D9.Mesh</span> to an array of 32-bit values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int[] ReadAttributeBuffer(this Mesh mesh)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mesh</code> <span class="xref">Mesh</span></dt>
+    <dd><p>The <span class="xref">SlimDX.Direct3D9.Mesh</span> containing the buffer to read from.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>[]</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_ReadIndexBuffer_" data-uid="OmegaEngine.Graphics.BufferUtils.ReadIndexBuffer*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_ReadIndexBuffer_SlimDX_Direct3D9_Mesh_" data-uid="OmegaEngine.Graphics.BufferUtils.ReadIndexBuffer(SlimDX.Direct3D9.Mesh)">
+  ReadIndexBuffer(Mesh)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L200"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies the content of the <span class="xref">SlimDX.Direct3D9.IndexBuffer</span> of a <span class="xref">SlimDX.Direct3D9.Mesh</span> to an array of 32-bit values (16-bit values are automatically converted).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int[] ReadIndexBuffer(this Mesh mesh)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mesh</code> <span class="xref">Mesh</span></dt>
+    <dd><p>The <span class="xref">SlimDX.Direct3D9.Mesh</span> containing the buffer to read from.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>[]</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_ReadVertexBuffer_" data-uid="OmegaEngine.Graphics.BufferUtils.ReadVertexBuffer*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_ReadVertexBuffer__1_SlimDX_Direct3D9_Mesh_" data-uid="OmegaEngine.Graphics.BufferUtils.ReadVertexBuffer``1(SlimDX.Direct3D9.Mesh)">
+  ReadVertexBuffer&lt;T&gt;(Mesh)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L70"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies the content of the <span class="xref">SlimDX.Direct3D9.VertexBuffer</span> of a <span class="xref">SlimDX.Direct3D9.Mesh</span> to an array of structs.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static T[] ReadVertexBuffer&lt;T&gt;(this Mesh mesh) where T : struct</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mesh</code> <span class="xref">Mesh</span></dt>
+    <dd><p>The <span class="xref">SlimDX.Direct3D9.Mesh</span> containing the buffer to read from.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt>T[]</dt>
+    <dd><p>The content of the buffer in <code class="paramref">mesh</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The vertex format used in the buffer.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_Read_" data-uid="OmegaEngine.Graphics.BufferUtils.Read*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_Read__1_SlimDX_Direct3D9_VertexBuffer_" data-uid="OmegaEngine.Graphics.BufferUtils.Read``1(SlimDX.Direct3D9.VertexBuffer)">
+  Read&lt;T&gt;(VertexBuffer)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L49"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies the content of a <span class="xref">SlimDX.Direct3D9.VertexBuffer</span> to an array of structs.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static T[] Read&lt;T&gt;(this VertexBuffer buffer) where T : struct</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <span class="xref">VertexBuffer</span></dt>
+    <dd><p>The buffer to read from.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt>T[]</dt>
+    <dd><p>The content of the <code class="paramref">buffer</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The vertex format used in the buffer.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_Write_" data-uid="OmegaEngine.Graphics.BufferUtils.Write*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_Write_SlimDX_Direct3D9_IndexBuffer_System_Int16___" data-uid="OmegaEngine.Graphics.BufferUtils.Write(SlimDX.Direct3D9.IndexBuffer,System.Int16[])">
+  Write(IndexBuffer, short[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L231"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fills an <span class="xref">SlimDX.Direct3D9.IndexBuffer</span> with 16-bit values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void Write(this IndexBuffer buffer, short[] data)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <span class="xref">IndexBuffer</span></dt>
+    <dd><p>The buffer to write to.</p>
+</dd>
+    <dt><code>data</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int16">short</a>[]</dt>
+    <dd><p>The values to fill the buffer with.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Graphics_BufferUtils_Write_SlimDX_Direct3D9_IndexBuffer_System_Int16____remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Warning! No check is performed to ensure the buffer actually uses 16-bit values.</p>
+</div>
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_Write_" data-uid="OmegaEngine.Graphics.BufferUtils.Write*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_Write_SlimDX_Direct3D9_IndexBuffer_System_Int32___" data-uid="OmegaEngine.Graphics.BufferUtils.Write(SlimDX.Direct3D9.IndexBuffer,System.Int32[])">
+  Write(IndexBuffer, int[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L249"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fills an <span class="xref">SlimDX.Direct3D9.IndexBuffer</span> with 32-bit values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void Write(this IndexBuffer buffer, int[] data)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <span class="xref">IndexBuffer</span></dt>
+    <dd><p>The buffer to write to.</p>
+</dd>
+    <dt><code>data</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>[]</dt>
+    <dd><p>The values to fill the buffer with.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Graphics_BufferUtils_Write_SlimDX_Direct3D9_IndexBuffer_System_Int32____remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Warning! No check is performed to ensure the buffer actually uses 32-bit values.</p>
+</div>
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_WriteAttributeBuffer_" data-uid="OmegaEngine.Graphics.BufferUtils.WriteAttributeBuffer*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_WriteAttributeBuffer_SlimDX_Direct3D9_Mesh_System_Int32___" data-uid="OmegaEngine.Graphics.BufferUtils.WriteAttributeBuffer(SlimDX.Direct3D9.Mesh,System.Int32[])">
+  WriteAttributeBuffer(Mesh, int[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L318"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fills the attribute buffer of a <span class="xref">SlimDX.Direct3D9.Mesh</span> with 32-bit values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void WriteAttributeBuffer(this Mesh mesh, int[] data)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mesh</code> <span class="xref">Mesh</span></dt>
+    <dd><p>The <span class="xref">SlimDX.Direct3D9.Mesh</span> containing the buffer to write to.</p>
+</dd>
+    <dt><code>data</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>[]</dt>
+    <dd><p>The values to fill the buffer with.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_WriteIndexBuffer_" data-uid="OmegaEngine.Graphics.BufferUtils.WriteIndexBuffer*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_WriteIndexBuffer_SlimDX_Direct3D9_Mesh_System_Int16___" data-uid="OmegaEngine.Graphics.BufferUtils.WriteIndexBuffer(SlimDX.Direct3D9.Mesh,System.Int16[])">
+  WriteIndexBuffer(Mesh, short[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L266"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fills the <span class="xref">SlimDX.Direct3D9.IndexBuffer</span> of a <span class="xref">SlimDX.Direct3D9.Mesh</span> with 16-bit values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void WriteIndexBuffer(this Mesh mesh, short[] data)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mesh</code> <span class="xref">Mesh</span></dt>
+    <dd><p>The <span class="xref">SlimDX.Direct3D9.Mesh</span> containing the buffer to write to.</p>
+</dd>
+    <dt><code>data</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int16">short</a>[]</dt>
+    <dd><p>The values to fill the buffer with.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_WriteIndexBuffer_" data-uid="OmegaEngine.Graphics.BufferUtils.WriteIndexBuffer*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_WriteIndexBuffer_SlimDX_Direct3D9_Mesh_System_Int32___" data-uid="OmegaEngine.Graphics.BufferUtils.WriteIndexBuffer(SlimDX.Direct3D9.Mesh,System.Int32[])">
+  WriteIndexBuffer(Mesh, int[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L284"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fills the <span class="xref">SlimDX.Direct3D9.IndexBuffer</span> of a <span class="xref">SlimDX.Direct3D9.Mesh</span> with 32-bit values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void WriteIndexBuffer(this Mesh mesh, int[] data)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mesh</code> <span class="xref">Mesh</span></dt>
+    <dd><p>The <span class="xref">SlimDX.Direct3D9.Mesh</span> containing the buffer to write to.</p>
+</dd>
+    <dt><code>data</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>[]</dt>
+    <dd><p>The values to fill the buffer with.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_WriteVertexBuffer_" data-uid="OmegaEngine.Graphics.BufferUtils.WriteVertexBuffer*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_WriteVertexBuffer__1_SlimDX_Direct3D9_Mesh___0___" data-uid="OmegaEngine.Graphics.BufferUtils.WriteVertexBuffer``1(SlimDX.Direct3D9.Mesh,``0[])">
+  WriteVertexBuffer&lt;T&gt;(Mesh, T[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L108"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fills the <span class="xref">SlimDX.Direct3D9.VertexBuffer</span> of a <span class="xref">SlimDX.Direct3D9.Mesh</span> with data.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void WriteVertexBuffer&lt;T&gt;(this Mesh mesh, T[] data) where T : struct</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mesh</code> <span class="xref">Mesh</span></dt>
+    <dd><p>The <span class="xref">SlimDX.Direct3D9.Mesh</span> containing the buffer to write to.</p>
+</dd>
+    <dt><code>data</code> T[]</dt>
+    <dd><p>The vertexes to fill the buffer with.</p>
+</dd>
+  </dl>
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The vertex format used in the buffer.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_BufferUtils_Write_" data-uid="OmegaEngine.Graphics.BufferUtils.Write*"></a>
+
+  <h3 id="OmegaEngine_Graphics_BufferUtils_Write__1_SlimDX_Direct3D9_VertexBuffer___0___" data-uid="OmegaEngine.Graphics.BufferUtils.Write``1(SlimDX.Direct3D9.VertexBuffer,``0[])">
+  Write&lt;T&gt;(VertexBuffer, T[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L90"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fills a <span class="xref">SlimDX.Direct3D9.VertexBuffer</span> with data.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void Write&lt;T&gt;(this VertexBuffer buffer, T[] data) where T : struct</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>buffer</code> <span class="xref">VertexBuffer</span></dt>
+    <dd><p>The buffer to write to.</p>
+</dd>
+    <dt><code>data</code> T[]</dt>
+    <dd><p>The vertexes to fill the buffer with.</p>
+</dd>
+  </dl>
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The vertex format used in the buffer.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/BufferUtils.cs/#L21" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

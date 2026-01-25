@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class RenderHost | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class RenderHost | OmegaEngine ">
+      
+      <meta name="description" content="Automatically provides an  instance with a fullscreen-capable window, render loop, input handling, etc.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_RenderHost.md&amp;value=---%0Auid%3A%20OmegaEngine.RenderHost%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.RenderHost">
+
+
+
+  <h1 id="OmegaEngine_RenderHost" data-uid="OmegaEngine.RenderHost" class="text-break">
+Class RenderHost  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.Form.cs/#L20"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Automatically provides an <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Engine">Engine</a> instance with a fullscreen-capable window, render loop, input handling, etc.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class RenderHost : IRenderHost, IDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">RenderHost</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="OmegaEngine.IRenderHost.html">IRenderHost</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="AlphaFramework.Presentation.GameBase.html">GameBase</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="OmegaEngine.RenderHostExtensions.html#OmegaEngine_RenderHostExtensions_AddInputReceiver_OmegaEngine_IRenderHost_OmegaEngine_Input_IInputReceiver_">RenderHostExtensions.AddInputReceiver(IRenderHost, IInputReceiver)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.RenderHostExtensions.html#OmegaEngine_RenderHostExtensions_RemoveInputReceiver_OmegaEngine_IRenderHost_OmegaEngine_Input_IInputReceiver_">RenderHostExtensions.RemoveInputReceiver(IRenderHost, IInputReceiver)</a>
+  </div>
+  </dd></dl>
+
+
+
+  <h2 id="OmegaEngine_RenderHost_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>By using this class, you don't need to create a window, set up <a class="xref" href="OmegaEngine.Input.InputProvider.html">InputProvider</a>s, provide access to <a class="xref" href="OmegaEngine.DebugConsole.html">DebugConsole</a>, etc. yourself.</p>
+<p>You should override at least <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Initialize">Initialize()</a> and <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Render_System_Double_">Render(double)</a>. This corresponds to the template method pattern.</p>
+</div>
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaEngine_RenderHost__ctor_" data-uid="OmegaEngine.RenderHost.#ctor*"></a>
+
+  <h3 id="OmegaEngine_RenderHost__ctor_System_String_System_Drawing_Icon_System_Drawing_Image_System_Boolean_" data-uid="OmegaEngine.RenderHost.#ctor(System.String,System.Drawing.Icon,System.Drawing.Image,System.Boolean)">
+  RenderHost(string, Icon?, Image?, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L100"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets up the <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Form">Form</a>.
+Call <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_ToWindowed_System_Drawing_Size_">ToWindowed(Size)</a> or <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_ToFullscreen">ToFullscreen()</a> and <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Run">Run()</a> afterwards.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected RenderHost(string name, Icon? icon = null, Image? background = null, bool stretch = false)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The name of the application for the title bar</p>
+</dd>
+    <dt><code>icon</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.icon">Icon</a></dt>
+    <dd><p>The icon of the application for the title bar</p>
+</dd>
+    <dt><code>background</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.image">Image</a></dt>
+    <dd><p>A background image for the window while loading</p>
+</dd>
+    <dt><code>stretch</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>Stretch <code class="paramref">background</code> to fit the screen? (<code>false</code> will center it instead)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="OmegaEngine_RenderHost_Form" data-uid="OmegaEngine.RenderHost.Form">
+  Form
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L44"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The internal form used as the Engine render-targets</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected readonly RenderHost.RenderForm Form</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.RenderHost.html">RenderHost</a>.<a class="xref" href="OmegaEngine.RenderHost.RenderForm.html">RenderForm</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaEngine_RenderHost_Disposed_" data-uid="OmegaEngine.RenderHost.Disposed*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_Disposed" data-uid="OmegaEngine.RenderHost.Disposed">
+  Disposed
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L58"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Has the app been shutdown?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public bool Disposed { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_Engine_" data-uid="OmegaEngine.RenderHost.Engine*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_Engine" data-uid="OmegaEngine.RenderHost.Engine">
+  Engine
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L67"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Engine">Engine</a> instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public Engine Engine { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Engine.html">Engine</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p><a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Run">Run()</a> has not been called yet.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="OmegaEngine_RenderHost_Fullscreen_" data-uid="OmegaEngine.RenderHost.Fullscreen*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_Fullscreen" data-uid="OmegaEngine.RenderHost.Fullscreen">
+  Fullscreen
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L73"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Is the app in fullscreen mode?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Fullscreen { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_KeyboardInputProvider_" data-uid="OmegaEngine.RenderHost.KeyboardInputProvider*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_KeyboardInputProvider" data-uid="OmegaEngine.RenderHost.KeyboardInputProvider">
+  KeyboardInputProvider
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L47"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Provides keyboard input.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public KeyboardInputProvider KeyboardInputProvider { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Input.KeyboardInputProvider.html">KeyboardInputProvider</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_Loading_" data-uid="OmegaEngine.RenderHost.Loading*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_Loading" data-uid="OmegaEngine.RenderHost.Loading">
+  Loading
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L81"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates the app is currently loading something and the user must wait.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Loading { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="OmegaEngine_RenderHost_Loading_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>On Windows 7 and newer this will cause a neat taskbar animation.</p>
+</div>
+
+
+
+
+  <a id="OmegaEngine_RenderHost_MouseInputProvider_" data-uid="OmegaEngine.RenderHost.MouseInputProvider*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_MouseInputProvider" data-uid="OmegaEngine.RenderHost.MouseInputProvider">
+  MouseInputProvider
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L50"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Provides mouse input.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MouseInputProvider MouseInputProvider { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Input.MouseInputProvider.html">MouseInputProvider</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_TouchInputProvider_" data-uid="OmegaEngine.RenderHost.TouchInputProvider*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_TouchInputProvider" data-uid="OmegaEngine.RenderHost.TouchInputProvider">
+  TouchInputProvider
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L53"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Provides touch input.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TouchInputProvider TouchInputProvider { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Input.TouchInputProvider.html">TouchInputProvider</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_RenderHost_BuildEngineConfig_" data-uid="OmegaEngine.RenderHost.BuildEngineConfig*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_BuildEngineConfig_System_Boolean_" data-uid="OmegaEngine.RenderHost.BuildEngineConfig(System.Boolean)">
+  BuildEngineConfig(bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L279"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called to generate an <a class="xref" href="OmegaEngine.EngineConfig.html">EngineConfig</a> based on external settings</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual EngineConfig BuildEngineConfig(bool fullscreen)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>fullscreen</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>Shall the configuration be generated for fullscreen mode?</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.EngineConfig.html">EngineConfig</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_Crash_" data-uid="OmegaEngine.RenderHost.Crash*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_Crash" data-uid="OmegaEngine.RenderHost.Crash">
+  Crash()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L359"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Crashes the app for testing purposes</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaGlobal]
+public static void Crash()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_Debug_" data-uid="OmegaEngine.RenderHost.Debug*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_Debug" data-uid="OmegaEngine.RenderHost.Debug">
+  Debug()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L333"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the debug form is to be displayed</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public virtual void Debug()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_Dispose_" data-uid="OmegaEngine.RenderHost.Dispose*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_Dispose" data-uid="OmegaEngine.RenderHost.Dispose">
+  Dispose()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L175"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Dispose the <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Engine">Engine</a>, the internal windows form, etc.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_Dispose_" data-uid="OmegaEngine.RenderHost.Dispose*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_Dispose_System_Boolean_" data-uid="OmegaEngine.RenderHost.Dispose(System.Boolean)">
+  Dispose(bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L193"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>To be called by <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable.dispose">Dispose()</a> and the object destructor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>disposing</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if called manually and not by the garbage collector.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_Exit_" data-uid="OmegaEngine.RenderHost.Exit*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_Exit" data-uid="OmegaEngine.RenderHost.Exit">
+  Exit()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.Form.cs/#L25"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Stops the render loop and closes the window</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Exit()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_Finalize_" data-uid="OmegaEngine.RenderHost.Finalize*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_Finalize" data-uid="OmegaEngine.RenderHost.Finalize">
+  ~RenderHost()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L184"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ~RenderHost()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_Initialize_" data-uid="OmegaEngine.RenderHost.Initialize*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_Initialize" data-uid="OmegaEngine.RenderHost.Initialize">
+  Initialize()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L129"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>To be called after the window is ready and the <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Engine">Engine</a> needs to be set up</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual bool Initialize()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if the initialization worked, <code>false</code> if it failed and the app must be closed</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_NewLua_" data-uid="OmegaEngine.RenderHost.NewLua*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_NewLua" data-uid="OmegaEngine.RenderHost.NewLua">
+  NewLua()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L288"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new <span class="xref">LuaInterface.Lua</span> instance with commonly used objects preloaded.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public virtual Lua NewLua()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Lua</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_Render_" data-uid="OmegaEngine.RenderHost.Render*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_Render_System_Double_" data-uid="OmegaEngine.RenderHost.Render(System.Double)">
+  Render(double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L246"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the next frame needs to be rendered.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void Render(double elapsedTime)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>elapsedTime</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The number of seconds that have passed since this method was last called.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_ResetEngine_" data-uid="OmegaEngine.RenderHost.ResetEngine*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_ResetEngine" data-uid="OmegaEngine.RenderHost.ResetEngine">
+  ResetEngine()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L268"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Resets the <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Engine">Engine</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaGlobal(Description = &quot;Resets the graphics engine&quot;)]
+protected virtual void ResetEngine()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_Run_" data-uid="OmegaEngine.RenderHost.Run*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_Run" data-uid="OmegaEngine.RenderHost.Run">
+  Run()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.cs/#L231"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shows the window and runs the render loop until <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Exit">Exit()</a> is called.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public virtual void Run()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_ToFullscreen_" data-uid="OmegaEngine.RenderHost.ToFullscreen*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_ToFullscreen" data-uid="OmegaEngine.RenderHost.ToFullscreen">
+  ToFullscreen()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.Form.cs/#L30"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets up the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.form">Form</a> for fullscreen display</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void ToFullscreen()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_ToWindowed_" data-uid="OmegaEngine.RenderHost.ToWindowed*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_ToWindowed_System_Drawing_Size_" data-uid="OmegaEngine.RenderHost.ToWindowed(System.Drawing.Size)">
+  ToWindowed(Size)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.Form.cs/#L51"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets up the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.form">Form</a> for normal windowed (non-fullscreen) mode</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void ToWindowed(Size size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.size">Size</a></dt>
+    <dd><p>The window size</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_RenderHost_UpdateStatus_" data-uid="OmegaEngine.RenderHost.UpdateStatus*"></a>
+
+  <h3 id="OmegaEngine_RenderHost_UpdateStatus_System_String_" data-uid="OmegaEngine.RenderHost.UpdateStatus(System.String)">
+  UpdateStatus(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.Form.cs/#L71"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Updates the current status of the loading process</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void UpdateStatus(string message)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The new message to display</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/RenderHost.Form.cs/#L20" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

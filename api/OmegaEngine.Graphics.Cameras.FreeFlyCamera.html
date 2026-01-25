@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class FreeFlyCamera | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class FreeFlyCamera | OmegaEngine ">
+      
+      <meta name="description" content="A camera with free 6-degrees-of-freedom movement (movement and rotation in all directions). Useful for building tools, debugging, or games with free-flying movement (space sims, spectator modes).">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Graphics_Cameras_FreeFlyCamera.md&amp;value=---%0Auid%3A%20OmegaEngine.Graphics.Cameras.FreeFlyCamera%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Graphics.Cameras.FreeFlyCamera">
+
+
+
+  <h1 id="OmegaEngine_Graphics_Cameras_FreeFlyCamera" data-uid="OmegaEngine.Graphics.Cameras.FreeFlyCamera" class="text-break">
+Class FreeFlyCamera  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Cameras/FreeFlyCamera.cs/#L16"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Graphics.html">Graphics</a>.<a class="xref" href="OmegaEngine.Graphics.Cameras.html">Cameras</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A camera with free 6-degrees-of-freedom movement (movement and rotation in all directions).<p></p>
+Useful for building tools, debugging, or games with free-flying movement (space sims, spectator modes).
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class FreeFlyCamera : QuaternionCamera, IInputReceiver, IPositionable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="OmegaEngine.Input.InputReceiverBase.html">InputReceiverBase</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Camera</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Cameras.QuaternionCamera.html">QuaternionCamera</a></div>
+      <div><span class="xref">FreeFlyCamera</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="OmegaEngine.Input.IInputReceiver.html">IInputReceiver</a></div>
+      <div><a class="xref" href="OmegaEngine.IPositionable.html">IPositionable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.QuaternionCamera.html#OmegaEngine_Graphics_Cameras_QuaternionCamera_Quaternion">QuaternionCamera.Quaternion</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.QuaternionCamera.html#OmegaEngine_Graphics_Cameras_QuaternionCamera_UpdateView">QuaternionCamera.UpdateView()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_Name">Camera.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_ToString">Camera.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_PositionCached">Camera.PositionCached</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_Position">Camera.Position</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_FloatingOriginCached">Camera.FloatingOriginCached</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_FloatingOrigin">Camera.FloatingOrigin</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_FloatingOriginMaxDistance">Camera.FloatingOriginMaxDistance</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_AdjustFloatingOrigin">Camera.AdjustFloatingOrigin()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_FieldOfView">Camera.FieldOfView</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_NearClip">Camera.NearClip</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_FarClip">Camera.FarClip</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_ClipPlane">Camera.ClipPlane</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_FrustumCulling">Camera.FrustumCulling</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_ViewFrustumDirty">Camera.ViewFrustumDirty</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_ProjectionDirty">Camera.ProjectionDirty</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_UpdateProjection">Camera.UpdateProjection()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_ViewDirty">Camera.ViewDirty</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_ViewCached">Camera.ViewCached</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_View">Camera.View</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_SimpleViewCached">Camera.SimpleViewCached</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_SimpleView">Camera.SimpleView</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_ViewInverse">Camera.ViewInverse</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_ViewTranspose">Camera.ViewTranspose</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_ViewInverseTranspose">Camera.ViewInverseTranspose</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_SphericalBillboard">Camera.SphericalBillboard</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_CylindricalBillboard">Camera.CylindricalBillboard</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_CacheSpecialMatrices">Camera.CacheSpecialMatrices()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Input.InputReceiverBase.html#OmegaEngine_Input_InputReceiverBase_Hover_System_Drawing_Point_">InputReceiverBase.Hover(Point)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Input.InputReceiverBase.html#OmegaEngine_Input_InputReceiverBase_AreaSelection_System_Drawing_Rectangle_System_Boolean_System_Boolean_">InputReceiverBase.AreaSelection(Rectangle, bool, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Input.InputReceiverBase.html#OmegaEngine_Input_InputReceiverBase_Click_System_Windows_Forms_MouseEventArgs_System_Boolean_">InputReceiverBase.Click(MouseEventArgs, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Input.InputReceiverBase.html#OmegaEngine_Input_InputReceiverBase_DoubleClick_System_Windows_Forms_MouseEventArgs_">InputReceiverBase.DoubleClick(MouseEventArgs)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_Cameras_FreeFlyCamera_Angle_" data-uid="OmegaEngine.Graphics.Cameras.FreeFlyCamera.Angle*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_FreeFlyCamera_Angle" data-uid="OmegaEngine.Graphics.Cameras.FreeFlyCamera.Angle">
+  Angle
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Cameras/FreeFlyCamera.cs/#L31"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The rotation around the <a class="xref" href="OmegaEngine.Graphics.Cameras.FreeFlyCamera.html#OmegaEngine_Graphics_Cameras_FreeFlyCamera_Axis">Axis</a> in degrees.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float Angle { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Cameras_FreeFlyCamera_Axis_" data-uid="OmegaEngine.Graphics.Cameras.FreeFlyCamera.Axis*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_FreeFlyCamera_Axis" data-uid="OmegaEngine.Graphics.Cameras.FreeFlyCamera.Axis">
+  Axis
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Cameras/FreeFlyCamera.cs/#L21"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A unit vector describing the axis around which the camera is rotated.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DoubleVector3 Axis { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_Cameras_FreeFlyCamera_Navigate_" data-uid="OmegaEngine.Graphics.Cameras.FreeFlyCamera.Navigate*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Cameras_FreeFlyCamera_Navigate_OmegaEngine_Foundation_Geometry_DoubleVector3_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Graphics.Cameras.FreeFlyCamera.Navigate(OmegaEngine.Foundation.Geometry.DoubleVector3,OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  Navigate(DoubleVector3, DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Cameras/FreeFlyCamera.cs/#L47"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the user changes the view perspective.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>translation</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd><p>Movement in screen units. X = pan right, Y = pan up, Z = move forward</p>
+</dd>
+    <dt><code>rotation</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd><p>Rotation in degrees. X = yaw right, Y = pitch up, Z = roll clockwise</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Cameras/FreeFlyCamera.cs/#L16" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

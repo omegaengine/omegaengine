@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class EditorPresenter | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class EditorPresenter | OmegaEngine ">
+      
+      <meta name="description" content="Displays a map for editing">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=FrameOfReference_Presentation_EditorPresenter.md&amp;value=---%0Auid%3A%20FrameOfReference.Presentation.EditorPresenter%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="FrameOfReference.Presentation.EditorPresenter">
+
+
+
+  <h1 id="FrameOfReference_Presentation_EditorPresenter" data-uid="FrameOfReference.Presentation.EditorPresenter" class="text-break">
+Class EditorPresenter  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L59"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="FrameOfReference.html">FrameOfReference</a>.<a class="xref" href="FrameOfReference.Presentation.html">Presentation</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>FrameOfReference.Presentation.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Displays a map for editing</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class EditorPresenter : InteractivePresenter, IInputReceiver, IPresenter&lt;Universe&gt;, IDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="OmegaEngine.Input.InputReceiverBase.html">InputReceiverBase</a></div>
+      <div><a class="xref" href="AlphaFramework.Presentation.PresenterBase-1.html">PresenterBase</a>&lt;<a class="xref" href="FrameOfReference.World.Universe.html">Universe</a>&gt;</div>
+      <div><a class="xref" href="AlphaFramework.Presentation.CoordinatePresenter-2.html">CoordinatePresenter</a>&lt;<a class="xref" href="FrameOfReference.World.Universe.html">Universe</a>, <span class="xref">Vector2</span>&gt;</div>
+      <div><a class="xref" href="FrameOfReference.Presentation.Presenter.html">Presenter</a></div>
+      <div><a class="xref" href="FrameOfReference.Presentation.InteractivePresenter.html">InteractivePresenter</a></div>
+      <div><span class="xref">EditorPresenter</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="OmegaEngine.Input.IInputReceiver.html">IInputReceiver</a></div>
+      <div><a class="xref" href="AlphaFramework.Presentation.IPresenter-1.html">IPresenter</a>&lt;<a class="xref" href="FrameOfReference.World.Universe.html">Universe</a>&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="FrameOfReference.Presentation.InteractivePresenter.html#FrameOfReference_Presentation_InteractivePresenter_SelectedPositionables">InteractivePresenter.SelectedPositionables</a>
+    </div>
+    <div>
+      <a class="xref" href="FrameOfReference.Presentation.InteractivePresenter.html#FrameOfReference_Presentation_InteractivePresenter_SwingCameraTo_FrameOfReference_World_CameraState_SlimDX_Vector2__">InteractivePresenter.SwingCameraTo(CameraState&lt;Vector2&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="FrameOfReference.Presentation.InteractivePresenter.html#FrameOfReference_Presentation_InteractivePresenter_SwingCameraTo_SlimDX_Vector2_">InteractivePresenter.SwingCameraTo(Vector2)</a>
+    </div>
+    <div>
+      <a class="xref" href="FrameOfReference.Presentation.InteractivePresenter.html#FrameOfReference_Presentation_InteractivePresenter_SwingCameraTo_OmegaEngine_Graphics_Renderables_PositionableRenderable_">InteractivePresenter.SwingCameraTo(PositionableRenderable)</a>
+    </div>
+    <div>
+      <a class="xref" href="FrameOfReference.Presentation.InteractivePresenter.html#FrameOfReference_Presentation_InteractivePresenter_TakeOverSelection">InteractivePresenter.TakeOverSelection()</a>
+    </div>
+    <div>
+      <a class="xref" href="FrameOfReference.Presentation.InteractivePresenter.html#FrameOfReference_Presentation_InteractivePresenter_DoubleClick_System_Windows_Forms_MouseEventArgs_">InteractivePresenter.DoubleClick(MouseEventArgs)</a>
+    </div>
+    <div>
+      <a class="xref" href="FrameOfReference.Presentation.Presenter.html#FrameOfReference_Presentation_Presenter_WireframeTerrain">Presenter.WireframeTerrain</a>
+    </div>
+    <div>
+      <a class="xref" href="FrameOfReference.Presentation.Presenter.html#FrameOfReference_Presentation_Presenter_HookIn">Presenter.HookIn()</a>
+    </div>
+    <div>
+      <a class="xref" href="FrameOfReference.Presentation.Presenter.html#FrameOfReference_Presentation_Presenter_HookOut">Presenter.HookOut()</a>
+    </div>
+    <div>
+      <a class="xref" href="FrameOfReference.Presentation.Presenter.html#FrameOfReference_Presentation_Presenter_Terrain">Presenter.Terrain</a>
+    </div>
+    <div>
+      <a class="xref" href="FrameOfReference.Presentation.Presenter.html#FrameOfReference_Presentation_Presenter_RebuildTerrain">Presenter.RebuildTerrain()</a>
+    </div>
+    <div>
+      <a class="xref" href="FrameOfReference.Presentation.Presenter.html#FrameOfReference_Presentation_Presenter_CameraState">Presenter.CameraState</a>
+    </div>
+    <div>
+      <a class="xref" href="FrameOfReference.Presentation.Presenter.html#FrameOfReference_Presentation_Presenter_DimDown">Presenter.DimDown()</a>
+    </div>
+    <div>
+      <a class="xref" href="FrameOfReference.Presentation.Presenter.html#FrameOfReference_Presentation_Presenter_DimUp">Presenter.DimUp()</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.CoordinatePresenter-2.html#AlphaFramework_Presentation_CoordinatePresenter_2_Initialize">CoordinatePresenter&lt;Universe, Vector2&gt;.Initialize()</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.CoordinatePresenter-2.html#AlphaFramework_Presentation_CoordinatePresenter_2_WireframeEntities">CoordinatePresenter&lt;Universe, Vector2&gt;.WireframeEntities</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.CoordinatePresenter-2.html#AlphaFramework_Presentation_CoordinatePresenter_2_BoundingSphereEntities">CoordinatePresenter&lt;Universe, Vector2&gt;.BoundingSphereEntities</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.CoordinatePresenter-2.html#AlphaFramework_Presentation_CoordinatePresenter_2_BoundingBoxEntities">CoordinatePresenter&lt;Universe, Vector2&gt;.BoundingBoxEntities</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.PresenterBase-1.html#AlphaFramework_Presentation_PresenterBase_1_View">PresenterBase&lt;Universe&gt;.View</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.PresenterBase-1.html#AlphaFramework_Presentation_PresenterBase_1_Universe">PresenterBase&lt;Universe&gt;.Universe</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.PresenterBase-1.html#AlphaFramework_Presentation_PresenterBase_1_Navigate_OmegaEngine_Foundation_Geometry_DoubleVector3_OmegaEngine_Foundation_Geometry_DoubleVector3_">PresenterBase&lt;Universe&gt;.Navigate(DoubleVector3, DoubleVector3)</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.Presentation.PresenterBase-1.html#AlphaFramework_Presentation_PresenterBase_1_Dispose">PresenterBase&lt;Universe&gt;.Dispose()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="FrameOfReference_Presentation_EditorPresenter__ctor_" data-uid="FrameOfReference.Presentation.EditorPresenter.#ctor*"></a>
+
+  <h3 id="FrameOfReference_Presentation_EditorPresenter__ctor_OmegaEngine_Engine_FrameOfReference_World_Universe_System_Boolean_" data-uid="FrameOfReference.Presentation.EditorPresenter.#ctor(OmegaEngine.Engine,FrameOfReference.World.Universe,System.Boolean)">
+  EditorPresenter(Engine, Universe, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L67"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new editor presenter</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public EditorPresenter(Engine engine, Universe universe, bool lighting)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>engine</code> <a class="xref" href="OmegaEngine.Engine.html">Engine</a></dt>
+    <dd><p>The engine to use for rendering</p>
+</dd>
+    <dt><code>universe</code> <a class="xref" href="FrameOfReference.World.Universe.html">Universe</a></dt>
+    <dd><p>The universe to display</p>
+</dd>
+    <dt><code>lighting</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>Shall lighting be used for rendering?</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="FrameOfReference_Presentation_EditorPresenter_MaxCameraRadius_" data-uid="FrameOfReference.Presentation.EditorPresenter.MaxCameraRadius*"></a>
+
+  <h3 id="FrameOfReference_Presentation_EditorPresenter_MaxCameraRadius" data-uid="FrameOfReference.Presentation.EditorPresenter.MaxCameraRadius">
+  MaxCameraRadius
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L116"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The value for <a class="xref" href="OmegaEngine.Graphics.Cameras.ZoomCamera.html#OmegaEngine_Graphics_Cameras_ZoomCamera_MaxRadius">MaxRadius</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override double MaxCameraRadius { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Presentation_EditorPresenter_TerrainBrush_" data-uid="FrameOfReference.Presentation.EditorPresenter.TerrainBrush*"></a>
+
+  <h3 id="FrameOfReference_Presentation_EditorPresenter_TerrainBrush" data-uid="FrameOfReference.Presentation.EditorPresenter.TerrainBrush">
+  TerrainBrush
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L148"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Controls the shape and size of the area that is visually highlighted for <a class="xref" href="FrameOfReference.Presentation.EditorPresenter.html#FrameOfReference_Presentation_EditorPresenter_TerrainPaint">TerrainPaint</a>ing.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TerrainBrush? TerrainBrush { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="AlphaFramework.World.Terrains.TerrainBrush.html">TerrainBrush</a>?</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="FrameOfReference_Presentation_EditorPresenter_TerrainBrush_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Raise the <a class="xref" href="FrameOfReference.Presentation.EditorPresenter.html#FrameOfReference_Presentation_EditorPresenter_TerrainPaint">TerrainPaint</a> event instead of selecting <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html">Positionable&lt;TCoordinates&gt;</a>s when set to a value other than <code>null</code>.</p>
+</div>
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="FrameOfReference_Presentation_EditorPresenter_AreaSelection_" data-uid="FrameOfReference.Presentation.EditorPresenter.AreaSelection*"></a>
+
+  <h3 id="FrameOfReference_Presentation_EditorPresenter_AreaSelection_System_Drawing_Rectangle_System_Boolean_System_Boolean_" data-uid="FrameOfReference.Presentation.EditorPresenter.AreaSelection(System.Drawing.Rectangle,System.Boolean,System.Boolean)">
+  AreaSelection(Rectangle, bool, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L204"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the user is selecting an area on the screen.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void AreaSelection(Rectangle area, bool done, bool accumulate = false)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>area</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></dt>
+    <dd><p>The selected area in pixels. The bottom-right corner is always the last point selected by the user, therefore the box may be inverted.</p>
+</dd>
+    <dt><code>done</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>True when the user has finished his selection (e.g. released the mouse).</p>
+</dd>
+    <dt><code>accumulate</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> when the user wants the new selection to be added to the old one.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Presentation_EditorPresenter_Click_" data-uid="FrameOfReference.Presentation.EditorPresenter.Click*"></a>
+
+  <h3 id="FrameOfReference_Presentation_EditorPresenter_Click_System_Windows_Forms_MouseEventArgs_System_Boolean_" data-uid="FrameOfReference.Presentation.EditorPresenter.Click(System.Windows.Forms.MouseEventArgs,System.Boolean)">
+  Click(MouseEventArgs, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L224"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the user clicked something (not dragged!).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Click(MouseEventArgs e, bool accumulate = false)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>e</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.mouseeventargs">MouseEventArgs</a></dt>
+    <dd><p>The original event arguments from the click.</p>
+</dd>
+    <dt><code>accumulate</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> when the user wants the action to have an accumulative effect (usually for selections).</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Presentation_EditorPresenter_GetCollisionBox_" data-uid="FrameOfReference.Presentation.EditorPresenter.GetCollisionBox*"></a>
+
+  <h3 id="FrameOfReference_Presentation_EditorPresenter_GetCollisionBox" data-uid="FrameOfReference.Presentation.EditorPresenter.GetCollisionBox">
+  GetCollisionBox()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L261"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calculates a collision <a class="xref" href="FrameOfReference.World.Components.Box.html">Box</a> from the <span class="xref">SlimDX.BoundingBox</span>s of pickable <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a>s.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Box GetCollisionBox()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.World.Components.Box.html">Box</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Presentation_EditorPresenter_GetCollisionCircle_" data-uid="FrameOfReference.Presentation.EditorPresenter.GetCollisionCircle*"></a>
+
+  <h3 id="FrameOfReference_Presentation_EditorPresenter_GetCollisionCircle" data-uid="FrameOfReference.Presentation.EditorPresenter.GetCollisionCircle">
+  GetCollisionCircle()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L247"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calculates a collision <a class="xref" href="FrameOfReference.World.Components.Circle.html">Circle</a> from the <span class="xref">SlimDX.BoundingSphere</span>s of pickable <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a>s.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Circle GetCollisionCircle()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.World.Components.Circle.html">Circle</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Presentation_EditorPresenter_Hover_" data-uid="FrameOfReference.Presentation.EditorPresenter.Hover*"></a>
+
+  <h3 id="FrameOfReference_Presentation_EditorPresenter_Hover_System_Drawing_Point_" data-uid="FrameOfReference.Presentation.EditorPresenter.Hover(System.Drawing.Point)">
+  Hover(Point)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L181"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the user is hovering above a point on the screen.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Hover(Point target)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>target</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd><p>The point the user is hovering over in pixels.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_Presentation_EditorPresenter_Initialize_" data-uid="FrameOfReference.Presentation.EditorPresenter.Initialize*"></a>
+
+  <h3 id="FrameOfReference_Presentation_EditorPresenter_Initialize" data-uid="FrameOfReference.Presentation.EditorPresenter.Initialize">
+  Initialize()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L171"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generate <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html">Renderable</a>s from the <a class="xref" href="AlphaFramework.Presentation.PresenterBase-1.html#AlphaFramework_Presentation_PresenterBase_1_Universe">Universe</a> and keeps everything in sync using events</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Initialize()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="FrameOfReference_Presentation_EditorPresenter_Initialize_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Should be called before <a class="xref" href="AlphaFramework.Presentation.PresenterBase-1.html#AlphaFramework_Presentation_PresenterBase_1_HookIn">HookIn()</a> is used</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.filenotfoundexception">FileNotFoundException</a></dt>
+    <dd><p>A required <a class="xref" href="OmegaEngine.Assets.Asset.html">Asset</a> file could not be found.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.ioexception">IOException</a></dt>
+    <dd><p>There was an error reading an <a class="xref" href="OmegaEngine.Assets.Asset.html">Asset</a> file.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.invaliddataexception">InvalidDataException</a></dt>
+    <dd><p>An <a class="xref" href="OmegaEngine.Assets.Asset.html">Asset</a> file contains invalid data.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="FrameOfReference_Presentation_EditorPresenter_MovePositionables_" data-uid="FrameOfReference.Presentation.EditorPresenter.MovePositionables*"></a>
+
+  <h3 id="FrameOfReference_Presentation_EditorPresenter_MovePositionables_System_Collections_Generic_IEnumerable_AlphaFramework_World_Positionables_Positionable_SlimDX_Vector2___SlimDX_Vector2_" data-uid="FrameOfReference.Presentation.EditorPresenter.MovePositionables(System.Collections.Generic.IEnumerable{AlphaFramework.World.Positionables.Positionable{SlimDX.Vector2}},SlimDX.Vector2)">
+  MovePositionables(IEnumerable&lt;Positionable&lt;Vector2&gt;&gt;, Vector2)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L131"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Informs observers that one or more <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html">Positionable&lt;TCoordinates&gt;</a>s are to be moved to a new position.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void MovePositionables(IEnumerable&lt;Positionable&lt;Vector2&gt;&gt; positionables, Vector2 target)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>positionables</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html">Positionable</a>&lt;<span class="xref">Vector2</span>&gt;&gt;</dt>
+    <dd><p>The <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html">Positionable&lt;TCoordinates&gt;</a>s to be moved.</p>
+</dd>
+    <dt><code>target</code> <span class="xref">Vector2</span></dt>
+    <dd><p>The terrain position to move the <code class="paramref">positionables</code> to.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="FrameOfReference_Presentation_EditorPresenter_MovePositionables_System_Collections_Generic_IEnumerable_AlphaFramework_World_Positionables_Positionable_SlimDX_Vector2___SlimDX_Vector2__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>This replaces <a class="xref" href="FrameOfReference.Presentation.InteractivePresenter.html">InteractivePresenter</a>s pathfinding based movement with a callback event.</p>
+</div>
+
+
+
+
+  <a id="FrameOfReference_Presentation_EditorPresenter_RegisterRenderablesSync_" data-uid="FrameOfReference.Presentation.EditorPresenter.RegisterRenderablesSync*"></a>
+
+  <h3 id="FrameOfReference_Presentation_EditorPresenter_RegisterRenderablesSync" data-uid="FrameOfReference.Presentation.EditorPresenter.RegisterRenderablesSync">
+  RegisterRenderablesSync()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L97"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Hook to configure <a class="xref" href="AlphaFramework.Presentation.CoordinatePresenter-2.html#AlphaFramework_Presentation_CoordinatePresenter_2_RenderablesSync">RenderablesSync</a> and <a class="xref" href="AlphaFramework.Presentation.CoordinatePresenter-2.html#AlphaFramework_Presentation_CoordinatePresenter_2_LightsSync">LightsSync</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void RegisterRenderablesSync()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="events">Events
+</h2>
+
+
+
+  <h3 id="FrameOfReference_Presentation_EditorPresenter_PostionableMove" data-uid="FrameOfReference.Presentation.EditorPresenter.PostionableMove">
+  PostionableMove
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L123"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Occurs when an <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html">Positionable&lt;TCoordinates&gt;</a> is to be moved.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event PostionableMoveHandler? PostionableMove</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.Presentation.PostionableMoveHandler.html">PostionableMoveHandler</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h3 id="FrameOfReference_Presentation_EditorPresenter_TerrainPaint" data-uid="FrameOfReference.Presentation.EditorPresenter.TerrainPaint">
+  TerrainPaint
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L201"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Occurs when the user selects an area while <a class="xref" href="FrameOfReference.Presentation.EditorPresenter.html#FrameOfReference_Presentation_EditorPresenter_TerrainBrush">TerrainBrush</a> is set to a value other than <code>null</code>. Passes the coordinates in world space.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event TerrainPaint? TerrainPaint</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.Presentation.TerrainPaint.html">TerrainPaint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/Presentation/EditorPresenter.cs/#L59" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

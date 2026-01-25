@@ -1,0 +1,2512 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class Dialog | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class Dialog | OmegaEngine ">
+      
+      <meta name="description" content="A dialog model containing DirectX-based controls">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaGUI_Render_Dialog.md&amp;value=---%0Auid%3A%20OmegaGUI.Render.Dialog%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaGUI.Render.Dialog">
+
+
+
+  <h1 id="OmegaGUI_Render_Dialog" data-uid="OmegaGUI.Render.Dialog" class="text-break">
+Class Dialog  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L27"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaGUI.html">OmegaGUI</a>.<a class="xref" href="OmegaGUI.Render.html">Render</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaGUI.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A dialog model containing DirectX-based controls</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Dialog</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">Dialog</span></div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaGUI_Render_Dialog__ctor_" data-uid="OmegaGUI.Render.Dialog.#ctor*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog__ctor_OmegaGUI_Render_DialogManager_System_Nullable_SlimDX_Color4__System_String_System_String_System_UInt32_" data-uid="OmegaGUI.Render.Dialog.#ctor(OmegaGUI.Render.DialogManager,System.Nullable{SlimDX.Color4},System.String,System.String,System.UInt32)">
+  Dialog(DialogManager, Color4?, string, string, uint)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L180"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Create a new instance of the dialog class</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Dialog(DialogManager manager, Color4? defaultTextColor = null, string defaultTexture = &quot;base.png&quot;, string defaultFont = &quot;Arial&quot;, uint defaultFontSize = 16)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>manager</code> <a class="xref" href="OmegaGUI.Render.DialogManager.html">DialogManager</a></dt>
+    <dd><p>The <span class="xref">OmegaGUI.Render.Dialog.DialogManager</span> instance that provides the resources for rendering of this dialog</p>
+</dd>
+    <dt><code>defaultTextColor</code> <span class="xref">Color4</span>?</dt>
+    <dd><p>The default color of text on this dialog</p>
+</dd>
+    <dt><code>defaultTexture</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The texture file containing the controls</p>
+</dd>
+    <dt><code>defaultFont</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The name of default font for text on controls</p>
+</dd>
+    <dt><code>defaultFontSize</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd><p>The default font size</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="OmegaGUI_Render_Dialog_BlackColorValue" data-uid="OmegaGUI.Render.Dialog.BlackColorValue">
+  BlackColorValue
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L33"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly Color4 BlackColorValue</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Color4</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_Dialog_IsMinimized" data-uid="OmegaGUI.Render.Dialog.IsMinimized">
+  IsMinimized
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsMinimized</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_Dialog_IsUsingKeyboardInput" data-uid="OmegaGUI.Render.Dialog.IsUsingKeyboardInput">
+  IsUsingKeyboardInput
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L81"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsUsingKeyboardInput</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_Dialog_IsUsingMouseInput" data-uid="OmegaGUI.Render.Dialog.IsUsingMouseInput">
+  IsUsingMouseInput
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L82"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsUsingMouseInput</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_Dialog_IsUsingNonUserEvents" data-uid="OmegaGUI.Render.Dialog.IsUsingNonUserEvents">
+  IsUsingNonUserEvents
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L80"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsUsingNonUserEvents</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_Dialog_TransparentWhite" data-uid="OmegaGUI.Render.Dialog.TransparentWhite">
+  TransparentWhite
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L32"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly Color4 TransparentWhite</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Color4</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_Dialog_WheelDelta" data-uid="OmegaGUI.Render.Dialog.WheelDelta">
+  WheelDelta
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L30"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int WheelDelta = 120</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_Dialog_WhiteColorValue" data-uid="OmegaGUI.Render.Dialog.WhiteColorValue">
+  WhiteColorValue
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L31"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly Color4 WhiteColorValue</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Color4</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaGUI_Render_Dialog_CaptionHeight_" data-uid="OmegaGUI.Render.Dialog.CaptionHeight*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_CaptionHeight" data-uid="OmegaGUI.Render.Dialog.CaptionHeight">
+  CaptionHeight
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L138"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The height of the caption bar at the top of the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int CaptionHeight { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_DefaultFontSize_" data-uid="OmegaGUI.Render.Dialog.DefaultFontSize*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_DefaultFontSize" data-uid="OmegaGUI.Render.Dialog.DefaultFontSize">
+  DefaultFontSize
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L92"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public uint DefaultFontSize { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_Height_" data-uid="OmegaGUI.Render.Dialog.Height*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_Height" data-uid="OmegaGUI.Render.Dialog.Height">
+  Height
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L129"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Dialogs height</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Height { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_Location_" data-uid="OmegaGUI.Render.Dialog.Location*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_Location" data-uid="OmegaGUI.Render.Dialog.Location">
+  Location
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L103"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The dialog's location</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Point Location { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_Width_" data-uid="OmegaGUI.Render.Dialog.Width*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_Width" data-uid="OmegaGUI.Render.Dialog.Width">
+  Width
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L126"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Dialogs width</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Width { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaGUI_Render_Dialog_AddButton_" data-uid="OmegaGUI.Render.Dialog.AddButton*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddButton_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_" data-uid="OmegaGUI.Render.Dialog.AddButton(System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+  AddButton(int, string, int, int, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1115"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a button control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Button AddButton(int id, string text, int x, int y, int w, int h)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.Button.html">Button</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddButton_" data-uid="OmegaGUI.Render.Dialog.AddButton*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddButton_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_System_Windows_Forms_Keys_System_Boolean_" data-uid="OmegaGUI.Render.Dialog.AddButton(System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Windows.Forms.Keys,System.Boolean)">
+  AddButton(int, string, int, int, int, int, Keys, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1095"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a button control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Button AddButton(int id, string text, int x, int y, int w, int h, Keys hotkey, bool isDefault)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>hotkey</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.keys">Keys</a></dt>
+    <dd></dd>
+    <dt><code>isDefault</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.Button.html">Button</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddCheckBox_" data-uid="OmegaGUI.Render.Dialog.AddCheckBox*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddCheckBox_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_" data-uid="OmegaGUI.Render.Dialog.AddCheckBox(System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
+  AddCheckBox(int, string, int, int, int, int, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1142"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a checkbox control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CheckBox AddCheckBox(int id, string text, int x, int y, int w, int h, bool ischecked)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>ischecked</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.CheckBox.html">CheckBox</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddCheckBox_" data-uid="OmegaGUI.Render.Dialog.AddCheckBox*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddCheckBox_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Windows_Forms_Keys_System_Boolean_" data-uid="OmegaGUI.Render.Dialog.AddCheckBox(System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,System.Windows.Forms.Keys,System.Boolean)">
+  AddCheckBox(int, string, int, int, int, int, bool, Keys, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1121"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a checkbox to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CheckBox AddCheckBox(int id, string text, int x, int y, int w, int h, bool ischecked, Keys hotkey, bool isDefault)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>ischecked</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+    <dt><code>hotkey</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.keys">Keys</a></dt>
+    <dd></dd>
+    <dt><code>isDefault</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.CheckBox.html">CheckBox</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddControl_" data-uid="OmegaGUI.Render.Dialog.AddControl*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddControl_OmegaGUI_Render_Control_" data-uid="OmegaGUI.Render.Dialog.AddControl(OmegaGUI.Render.Control)">
+  AddControl(Control)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1026"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddControl(Control control)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>control</code> <a class="xref" href="OmegaGUI.Render.Control.html">Control</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddDropdownList_" data-uid="OmegaGUI.Render.Dialog.AddDropdownList*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddDropdownList_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_" data-uid="OmegaGUI.Render.Dialog.AddDropdownList(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+  AddDropdownList(int, int, int, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1195"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a dropdown list control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DropdownList AddDropdownList(int id, int x, int y, int w, int h)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.DropdownList.html">DropdownList</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddDropdownList_" data-uid="OmegaGUI.Render.Dialog.AddDropdownList*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddDropdownList_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Windows_Forms_Keys_System_Boolean_" data-uid="OmegaGUI.Render.Dialog.AddDropdownList(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Windows.Forms.Keys,System.Boolean)">
+  AddDropdownList(int, int, int, int, int, Keys, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1176"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a dropdown list control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DropdownList AddDropdownList(int id, int x, int y, int w, int h, Keys hotkey, bool isDefault)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>hotkey</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.keys">Keys</a></dt>
+    <dd></dd>
+    <dt><code>isDefault</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.DropdownList.html">DropdownList</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddGroupBox_" data-uid="OmegaGUI.Render.Dialog.AddGroupBox*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddGroupBox_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_SlimDX_Color4_SlimDX_Color4_" data-uid="OmegaGUI.Render.Dialog.AddGroupBox(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,SlimDX.Color4,SlimDX.Color4)">
+  AddGroupBox(int, int, int, int, int, Color4, Color4)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1078"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a group box control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GroupBox AddGroupBox(int id, int x, int y, int w, int h, Color4 borderColor, Color4 fillCo)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>borderColor</code> <span class="xref">Color4</span></dt>
+    <dd></dd>
+    <dt><code>fillCo</code> <span class="xref">Color4</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.GroupBox.html">GroupBox</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddListBox_" data-uid="OmegaGUI.Render.Dialog.AddListBox*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddListBox_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_" data-uid="OmegaGUI.Render.Dialog.AddListBox(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+  AddListBox(int, int, int, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1271"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a listbox control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ListBox AddListBox(int id, int x, int y, int w, int h)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.ListBox.html">ListBox</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddListBox_" data-uid="OmegaGUI.Render.Dialog.AddListBox*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddListBox_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_OmegaGUI_Render_ListBoxStyle_" data-uid="OmegaGUI.Render.Dialog.AddListBox(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,OmegaGUI.Render.ListBoxStyle)">
+  AddListBox(int, int, int, int, int, ListBoxStyle)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1253"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a listbox control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ListBox AddListBox(int id, int x, int y, int w, int h, ListBoxStyle style)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>style</code> <a class="xref" href="OmegaGUI.Render.ListBoxStyle.html">ListBoxStyle</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.ListBox.html">ListBox</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddPictureBox_" data-uid="OmegaGUI.Render.Dialog.AddPictureBox*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddPictureBox_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_OmegaGUI_Render_Element_" data-uid="OmegaGUI.Render.Dialog.AddPictureBox(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,OmegaGUI.Render.Element)">
+  AddPictureBox(int, int, int, int, int, Element)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1061"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a picture box control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PictureBox AddPictureBox(int id, int x, int y, int w, int h, Element fill)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>fill</code> <a class="xref" href="OmegaGUI.Render.Element.html">Element</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.PictureBox.html">PictureBox</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddRadioButton_" data-uid="OmegaGUI.Render.Dialog.AddRadioButton*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddRadioButton_System_Int32_System_UInt32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_" data-uid="OmegaGUI.Render.Dialog.AddRadioButton(System.Int32,System.UInt32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
+  AddRadioButton(int, uint, string, int, int, int, int, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1170"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a radio button control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RadioButton AddRadioButton(int id, uint groupId, string text, int x, int y, int w, int h, bool ischecked)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>groupId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>ischecked</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.RadioButton.html">RadioButton</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddRadioButton_" data-uid="OmegaGUI.Render.Dialog.AddRadioButton*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddRadioButton_System_Int32_System_UInt32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Windows_Forms_Keys_System_Boolean_" data-uid="OmegaGUI.Render.Dialog.AddRadioButton(System.Int32,System.UInt32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,System.Windows.Forms.Keys,System.Boolean)">
+  AddRadioButton(int, uint, string, int, int, int, int, bool, Keys, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1148"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a radiobutton to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RadioButton AddRadioButton(int id, uint groupId, string text, int x, int y, int w, int h, bool ischecked, Keys hotkey, bool isDefault)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>groupId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>ischecked</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+    <dt><code>hotkey</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.keys">Keys</a></dt>
+    <dd></dd>
+    <dt><code>isDefault</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.RadioButton.html">RadioButton</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddScrollBar_" data-uid="OmegaGUI.Render.Dialog.AddScrollBar*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddScrollBar_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_" data-uid="OmegaGUI.Render.Dialog.AddScrollBar(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+  AddScrollBar(int, int, int, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1247"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a scroll bar control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ScrollBar AddScrollBar(int id, int x, int y, int w, int h)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.ScrollBar.html">ScrollBar</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddScrollBar_" data-uid="OmegaGUI.Render.Dialog.AddScrollBar*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddScrollBar_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_" data-uid="OmegaGUI.Render.Dialog.AddScrollBar(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
+  AddScrollBar(int, int, int, int, int, int, int, int, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1227"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a scroll bar control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ScrollBar AddScrollBar(int id, int x, int y, int w, int h, int min, int max, int initialValue, bool isDefault)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>min</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>max</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>initialValue</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>isDefault</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.ScrollBar.html">ScrollBar</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddSlider_" data-uid="OmegaGUI.Render.Dialog.AddSlider*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddSlider_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_" data-uid="OmegaGUI.Render.Dialog.AddSlider(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+  AddSlider(int, int, int, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1221"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a slider control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Slider AddSlider(int id, int x, int y, int w, int h)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.Slider.html">Slider</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddSlider_" data-uid="OmegaGUI.Render.Dialog.AddSlider*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddSlider_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_" data-uid="OmegaGUI.Render.Dialog.AddSlider(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
+  AddSlider(int, int, int, int, int, int, int, int, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1201"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a slider control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Slider AddSlider(int id, int x, int y, int w, int h, int min, int max, int initialValue, bool isDefault)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>min</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>max</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>initialValue</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>isDefault</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.Slider.html">Slider</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddStatic_" data-uid="OmegaGUI.Render.Dialog.AddStatic*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddStatic_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_" data-uid="OmegaGUI.Render.Dialog.AddStatic(System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+  AddStatic(int, string, int, int, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1055"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a static text control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Label AddStatic(int id, string text, int x, int y, int w, int h)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.Label.html">Label</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddStatic_" data-uid="OmegaGUI.Render.Dialog.AddStatic*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddStatic_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_" data-uid="OmegaGUI.Render.Dialog.AddStatic(System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
+  AddStatic(int, string, int, int, int, int, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1036"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a static text control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Label AddStatic(int id, string text, int x, int y, int w, int h, bool isDefault)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>isDefault</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.Label.html">Label</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddTextBox_" data-uid="OmegaGUI.Render.Dialog.AddTextBox*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddTextBox_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_" data-uid="OmegaGUI.Render.Dialog.AddTextBox(System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+  AddTextBox(int, string, int, int, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1296"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds an edit box control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TextBox AddTextBox(int id, string text, int x, int y, int w, int h)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.TextBox.html">TextBox</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_AddTextBox_" data-uid="OmegaGUI.Render.Dialog.AddTextBox*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_AddTextBox_System_Int32_System_String_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_" data-uid="OmegaGUI.Render.Dialog.AddTextBox(System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
+  AddTextBox(int, string, int, int, int, int, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1277"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds an edit box control to the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TextBox AddTextBox(int id, string text, int x, int y, int w, int h, bool isDefault)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>isDefault</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.TextBox.html">TextBox</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_ClearFocus_" data-uid="OmegaGUI.Render.Dialog.ClearFocus*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_ClearFocus" data-uid="OmegaGUI.Render.Dialog.ClearFocus">
+  ClearFocus()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L795"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Clears focus of the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void ClearFocus()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_ClearRadioButtonGroup_" data-uid="OmegaGUI.Render.Dialog.ClearRadioButtonGroup*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_ClearRadioButtonGroup_System_UInt32_" data-uid="OmegaGUI.Render.Dialog.ClearRadioButtonGroup(System.UInt32)">
+  ClearRadioButtonGroup(uint)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L455"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Clears the radio button group</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClearRadioButtonGroup(uint groupIndex)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_DrawRectangle_" data-uid="OmegaGUI.Render.Dialog.DrawRectangle*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_DrawRectangle_System_Drawing_Rectangle_SlimDX_Color4_System_Boolean_" data-uid="OmegaGUI.Render.Dialog.DrawRectangle(System.Drawing.Rectangle,SlimDX.Color4,System.Boolean)">
+  DrawRectangle(Rectangle, Color4, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1522"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Draw a rectangle</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DrawRectangle(Rectangle rect, Color4 color, bool filled)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>rect</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></dt>
+    <dd></dd>
+    <dt><code>color</code> <span class="xref">Color4</span></dt>
+    <dd></dd>
+    <dt><code>filled</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_DrawSprite_" data-uid="OmegaGUI.Render.Dialog.DrawSprite*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_DrawSprite_OmegaGUI_Render_Element_System_Drawing_Rectangle_" data-uid="OmegaGUI.Render.Dialog.DrawSprite(OmegaGUI.Render.Element,System.Drawing.Rectangle)">
+  DrawSprite(Element, Rectangle)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1484"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Draw a sprite</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DrawSprite(Element element, Rectangle rect)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <a class="xref" href="OmegaGUI.Render.Element.html">Element</a></dt>
+    <dd></dd>
+    <dt><code>rect</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_DrawText_" data-uid="OmegaGUI.Render.Dialog.DrawText*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_DrawText_System_String_OmegaGUI_Render_Element_System_Drawing_Rectangle_" data-uid="OmegaGUI.Render.Dialog.DrawText(System.String,OmegaGUI.Render.Element,System.Drawing.Rectangle)">
+  DrawText(string, Element, Rectangle)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1514"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Draw's some text</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DrawText(string text, Element element, Rectangle rect)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>element</code> <a class="xref" href="OmegaGUI.Render.Element.html">Element</a></dt>
+    <dd></dd>
+    <dt><code>rect</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_DrawText_" data-uid="OmegaGUI.Render.Dialog.DrawText*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_DrawText_System_String_OmegaGUI_Render_Element_System_Drawing_Rectangle_System_Boolean_" data-uid="OmegaGUI.Render.Dialog.DrawText(System.String,OmegaGUI.Render.Element,System.Drawing.Rectangle,System.Boolean)">
+  DrawText(string, Element, Rectangle, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1448"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Draw's some text</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DrawText(string text, Element element, Rectangle rect, bool shadow)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>element</code> <a class="xref" href="OmegaGUI.Render.Element.html">Element</a></dt>
+    <dd></dd>
+    <dt><code>rect</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></dt>
+    <dd></dd>
+    <dt><code>shadow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_GetControlAtPoint_" data-uid="OmegaGUI.Render.Dialog.GetControlAtPoint*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_GetControlAtPoint_System_Drawing_Point_" data-uid="OmegaGUI.Render.Dialog.GetControlAtPoint(System.Drawing.Point)">
+  GetControlAtPoint(Point)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L904"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the control located at a point (if one exists)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Control GetControlAtPoint(Point pt)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pt</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.Control.html">Control</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_GetDefaultElement_" data-uid="OmegaGUI.Render.Dialog.GetDefaultElement*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_GetDefaultElement_OmegaGUI_Render_ControlType_System_UInt32_" data-uid="OmegaGUI.Render.Dialog.GetDefaultElement(OmegaGUI.Render.ControlType,System.UInt32)">
+  GetDefaultElement(ControlType, uint)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L947"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the default element</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Element GetDefaultElement(ControlType ctype, uint index)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ctype</code> <a class="xref" href="OmegaGUI.Render.ControlType.html">ControlType</a></dt>
+    <dd></dd>
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.Element.html">Element</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_GetFont_" data-uid="OmegaGUI.Render.Dialog.GetFont*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_GetFont_System_UInt32_" data-uid="OmegaGUI.Render.Dialog.GetFont(System.UInt32)">
+  GetFont(uint)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L972"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shared resource access. Indexed fonts and textures are shared among
+all the controls.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FontNode GetFont(uint index)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.FontNode.html">FontNode</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_GetTexture_" data-uid="OmegaGUI.Render.Dialog.GetTexture*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_GetTexture_System_UInt32_" data-uid="OmegaGUI.Render.Dialog.GetTexture(System.UInt32)">
+  GetTexture(uint)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L995"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shared resource access. Indexed fonts and textures are shared among
+all the controls.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TextureNode GetTexture(uint index)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.TextureNode.html">TextureNode</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_InitializeControl_" data-uid="OmegaGUI.Render.Dialog.InitializeControl*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_InitializeControl_OmegaGUI_Render_Control_" data-uid="OmegaGUI.Render.Dialog.InitializeControl(OmegaGUI.Render.Control)">
+  InitializeControl(Control)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1005"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a control</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void InitializeControl(Control control)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>control</code> <a class="xref" href="OmegaGUI.Render.Control.html">Control</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_MessageProc_" data-uid="OmegaGUI.Render.Dialog.MessageProc*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_MessageProc_System_IntPtr_NanoByte_Common_Native_WindowMessage_System_IntPtr_System_IntPtr_" data-uid="OmegaGUI.Render.Dialog.MessageProc(System.IntPtr,NanoByte.Common.Native.WindowMessage,System.IntPtr,System.IntPtr)">
+  MessageProc(IntPtr, WindowMessage, IntPtr, IntPtr)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L483"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Handle messages for this dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool MessageProc(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>hWnd</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">IntPtr</a></dt>
+    <dd></dd>
+    <dt><code>msg</code> <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Native.WindowMessage.html">WindowMessage</a></dt>
+    <dd></dd>
+    <dt><code>wParam</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">IntPtr</a></dt>
+    <dd></dd>
+    <dt><code>lParam</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">IntPtr</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if the message was handled and no further processing is necessary</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_OnRender_" data-uid="OmegaGUI.Render.Dialog.OnRender*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_OnRender_System_Single_" data-uid="OmegaGUI.Render.Dialog.OnRender(System.Single)">
+  OnRender(float)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1326"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Render the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnRender(float elapsedTime)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>elapsedTime</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_Refresh_" data-uid="OmegaGUI.Render.Dialog.Refresh*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_Refresh" data-uid="OmegaGUI.Render.Dialog.Refresh">
+  Refresh()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L1431"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Refresh the dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Refresh()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_RemoveAllControls_" data-uid="OmegaGUI.Render.Dialog.RemoveAllControls*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_RemoveAllControls" data-uid="OmegaGUI.Render.Dialog.RemoveAllControls">
+  RemoveAllControls()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L444"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes all controls from this dialog</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveAllControls()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_RequestFocus_" data-uid="OmegaGUI.Render.Dialog.RequestFocus*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_RequestFocus_OmegaGUI_Render_Control_" data-uid="OmegaGUI.Render.Dialog.RequestFocus(OmegaGUI.Render.Control)">
+  RequestFocus(Control)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L774"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Request that this control has focus</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void RequestFocus(Control control)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>control</code> <a class="xref" href="OmegaGUI.Render.Control.html">Control</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_SetBackgroundColors_" data-uid="OmegaGUI.Render.Dialog.SetBackgroundColors*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_SetBackgroundColors_SlimDX_Color4_" data-uid="OmegaGUI.Render.Dialog.SetBackgroundColors(SlimDX.Color4)">
+  SetBackgroundColors(Color4)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L159"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called to set dialog's border colors</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetBackgroundColors(Color4 allCorners)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>allCorners</code> <span class="xref">Color4</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_SetBackgroundColors_" data-uid="OmegaGUI.Render.Dialog.SetBackgroundColors*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_SetBackgroundColors_SlimDX_Color4_SlimDX_Color4_SlimDX_Color4_SlimDX_Color4_" data-uid="OmegaGUI.Render.Dialog.SetBackgroundColors(SlimDX.Color4,SlimDX.Color4,SlimDX.Color4,SlimDX.Color4)">
+  SetBackgroundColors(Color4, Color4, Color4, Color4)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L149"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called to set dialog's border colors</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetBackgroundColors(Color4 topLeft, Color4 topRight, Color4 bottomLeft, Color4 bottomRight)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>topLeft</code> <span class="xref">Color4</span></dt>
+    <dd></dd>
+    <dt><code>topRight</code> <span class="xref">Color4</span></dt>
+    <dd></dd>
+    <dt><code>bottomLeft</code> <span class="xref">Color4</span></dt>
+    <dd></dd>
+    <dt><code>bottomRight</code> <span class="xref">Color4</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_SetCaptionColor_" data-uid="OmegaGUI.Render.Dialog.SetCaptionColor*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_SetCaptionColor_SlimDX_Color4_" data-uid="OmegaGUI.Render.Dialog.SetCaptionColor(SlimDX.Color4)">
+  SetCaptionColor(Color4)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L164"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetCaptionColor(Color4 color)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>color</code> <span class="xref">Color4</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_SetCaptionText_" data-uid="OmegaGUI.Render.Dialog.SetCaptionText*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_SetCaptionText_System_String_" data-uid="OmegaGUI.Render.Dialog.SetCaptionText(System.String)">
+  SetCaptionText(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L132"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called to set dialog's caption</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetCaptionText(string text)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_SetDefaultElement_" data-uid="OmegaGUI.Render.Dialog.SetDefaultElement*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_SetDefaultElement_OmegaGUI_Render_ControlType_System_UInt32_OmegaGUI_Render_Element_" data-uid="OmegaGUI.Render.Dialog.SetDefaultElement(OmegaGUI.Render.ControlType,System.UInt32,OmegaGUI.Render.Element)">
+  SetDefaultElement(ControlType, uint, Element)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L921"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets the default element</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetDefaultElement(ControlType ctype, uint index, Element e)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ctype</code> <a class="xref" href="OmegaGUI.Render.ControlType.html">ControlType</a></dt>
+    <dd></dd>
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+    <dt><code>e</code> <a class="xref" href="OmegaGUI.Render.Element.html">Element</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_SetFont_" data-uid="OmegaGUI.Render.Dialog.SetFont*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_SetFont_System_UInt32_System_String_System_UInt32_SlimDX_Direct3D9_FontWeight_" data-uid="OmegaGUI.Render.Dialog.SetFont(System.UInt32,System.String,System.UInt32,SlimDX.Direct3D9.FontWeight)">
+  SetFont(uint, string, uint, FontWeight)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L958"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shared resource access. Indexed fonts and textures are shared among
+all the controls.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetFont(uint index, string faceName, uint fontHeight, FontWeight weight)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+    <dt><code>faceName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>fontHeight</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+    <dt><code>weight</code> <span class="xref">FontWeight</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_SetRefreshTime_" data-uid="OmegaGUI.Render.Dialog.SetRefreshTime*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_SetRefreshTime_System_Single_" data-uid="OmegaGUI.Render.Dialog.SetRefreshTime(System.Single)">
+  SetRefreshTime(float)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L41"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Set the static refresh time</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetRefreshTime(float time)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>time</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_SetSize_" data-uid="OmegaGUI.Render.Dialog.SetSize*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_SetSize_System_Int32_System_Int32_" data-uid="OmegaGUI.Render.Dialog.SetSize(System.Int32,System.Int32)">
+  SetSize(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L117"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called to set dialog's size</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetSize(int w, int h)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>w</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>h</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_Dialog_SetTexture_" data-uid="OmegaGUI.Render.Dialog.SetTexture*"></a>
+
+  <h3 id="OmegaGUI_Render_Dialog_SetTexture_System_UInt32_System_String_" data-uid="OmegaGUI.Render.Dialog.SetTexture(System.UInt32,System.String)">
+  SetTexture(uint, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L981"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shared resource access. Indexed fonts and textures are shared among
+all the controls.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetTexture(uint index, string filename)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+    <dt><code>filename</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="events">Events
+</h2>
+
+
+
+  <h3 id="OmegaGUI_Render_Dialog_Resize" data-uid="OmegaGUI.Render.Dialog.Resize">
+  Resize
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L114"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler? Resize</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.eventhandler">EventHandler</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/Dialog.cs/#L27" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

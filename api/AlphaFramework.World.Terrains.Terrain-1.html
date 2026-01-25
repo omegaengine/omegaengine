@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class Terrain&lt;TTemplate&gt; | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class Terrain&lt;TTemplate&gt; | OmegaEngine ">
+      
+      <meta name="description" content="This class contains a height-map-based Terrain including texturing and pathfinding data.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=AlphaFramework_World_Terrains_Terrain_1.md&amp;value=---%0Auid%3A%20AlphaFramework.World.Terrains.Terrain%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="AlphaFramework.World.Terrains.Terrain`1">
+
+
+
+  <h1 id="AlphaFramework_World_Terrains_Terrain_1" data-uid="AlphaFramework.World.Terrains.Terrain`1" class="text-break">
+Class Terrain&lt;TTemplate&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.Storage.cs/#L21"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="AlphaFramework.html">AlphaFramework</a>.<a class="xref" href="AlphaFramework.World.html">World</a>.<a class="xref" href="AlphaFramework.World.Terrains.html">Terrains</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>AlphaFramework.World.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>This class contains a height-map-based Terrain including texturing and pathfinding data.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class Terrain&lt;TTemplate&gt; : ITerrain where TTemplate : Template&lt;TTemplate&gt;</code></pre>
+  </div>
+
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TTemplate</code></dt>
+    <dd><p>The specific type of <a class="xref" href="AlphaFramework.World.Templates.Template-1.html">Template&lt;TSelf&gt;</a> to use for storing information about terrain types.</p>
+</dd>
+  </dl>
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">Terrain&lt;TTemplate&gt;</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html">ITerrain</a></div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+  <h2 id="AlphaFramework_World_Terrains_Terrain_1_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>The positive X-axis points towards east (the direction from which light sources in the sky rise),
+the negative X-axis points towards west (the direction in which light sources in the sky set),
+the positive Y-axis points towards north and
+the negative Y-axis points towards south.</p>
+</div>
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1__ctor_" data-uid="AlphaFramework.World.Terrains.Terrain`1.#ctor*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1__ctor" data-uid="AlphaFramework.World.Terrains.Terrain`1.#ctor">
+  Terrain()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.Storage.cs/#L50"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Base-constructor for XML serialization. Do not call manually!</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Terrain()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1__ctor_" data-uid="AlphaFramework.World.Terrains.Terrain`1.#ctor*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1__ctor_AlphaFramework_World_Terrains_TerrainSize_" data-uid="AlphaFramework.World.Terrains.Terrain`1.#ctor(AlphaFramework.World.Terrains.TerrainSize)">
+  Terrain(TerrainSize)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.cs/#L155"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new terrain. It is completely flat and has only one texture initially.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Terrain(TerrainSize size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>size</code> <a class="xref" href="AlphaFramework.World.Terrains.TerrainSize.html">TerrainSize</a></dt>
+    <dd><p>The size of the terrain to create.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_Templates" data-uid="AlphaFramework.World.Terrains.Terrain`1.Templates">
+  Templates
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.cs/#L119"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The <code class="typeparamref">TTemplate</code>s available for usage in this <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html">ITerrain</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly TTemplate?[] Templates</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt>TTemplate[]</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_Center_" data-uid="AlphaFramework.World.Terrains.Terrain`1.Center*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_Center" data-uid="AlphaFramework.World.Terrains.Terrain`1.Center">
+  Center
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The world coordinates of the center of the terrain.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public Vector2 Center { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Vector2</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_DataLoaded_" data-uid="AlphaFramework.World.Terrains.Terrain`1.DataLoaded*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_DataLoaded" data-uid="AlphaFramework.World.Terrains.Terrain`1.DataLoaded">
+  DataLoaded
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.cs/#L142"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Was the minimum necessary data for the terrain  (<a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_HeightMap">HeightMap</a> and <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_TextureMap">TextureMap</a>) loaded already?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public bool DataLoaded { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_HeightMap_" data-uid="AlphaFramework.World.Terrains.Terrain`1.HeightMap*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_HeightMap" data-uid="AlphaFramework.World.Terrains.Terrain`1.HeightMap">
+  HeightMap
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.cs/#L72"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Direct access to the internal height-map array. Handle with care; clone when necessary!</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public ByteGrid? HeightMap { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.ByteGrid.html">ByteGrid</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="AlphaFramework_World_Terrains_Terrain_1_HeightMap_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Is not serialized/stored, is loaded by <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_LoadHeightMap_System_IO_Stream_">LoadHeightMap(Stream)</a>.</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>The height-map size is incorrect.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_OcclusionIntervalMap_" data-uid="AlphaFramework.World.Terrains.Terrain`1.OcclusionIntervalMap*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_OcclusionIntervalMap" data-uid="AlphaFramework.World.Terrains.Terrain`1.OcclusionIntervalMap">
+  OcclusionIntervalMap
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.cs/#L93"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Direct access to the internal occlusion interval map array. Handle with care; clone when necessary!</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public ByteVector4Grid? OcclusionIntervalMap { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.ByteVector4Grid.html">ByteVector4Grid</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="AlphaFramework_World_Terrains_Terrain_1_OcclusionIntervalMap_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Is not serialized/stored, is loaded by <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_LoadOcclusionIntervalMap_System_IO_Stream_">LoadOcclusionIntervalMap(Stream)</a>.</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>The size is incorrect.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_OcclusionIntervalMapOutdated_" data-uid="AlphaFramework.World.Terrains.Terrain`1.OcclusionIntervalMapOutdated*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_OcclusionIntervalMapOutdated" data-uid="AlphaFramework.World.Terrains.Terrain`1.OcclusionIntervalMapOutdated">
+  OcclusionIntervalMapOutdated
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.cs/#L110"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates that the data stored in <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_OcclusionIntervalMap">OcclusionIntervalMap</a> is outdated and should be recalculated using <a class="xref" href="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.html">OcclusionIntervalMapGenerator</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool OcclusionIntervalMapOutdated { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_Size_" data-uid="AlphaFramework.World.Terrains.Terrain`1.Size*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_Size" data-uid="AlphaFramework.World.Terrains.Terrain`1.Size">
+  Size
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.cs/#L42"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The size of the terrain.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TerrainSize Size { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="AlphaFramework.World.Terrains.TerrainSize.html">TerrainSize</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_TemplateNames_" data-uid="AlphaFramework.World.Terrains.Terrain`1.TemplateNames*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_TemplateNames" data-uid="AlphaFramework.World.Terrains.Terrain`1.TemplateNames">
+  TemplateNames
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.Storage.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Used for XML serialization.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public string[]? TemplateNames { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+  <dl class="typelist seealso">
+    <dt>See Also</dt>
+    <dd>
+    <div><a class="xref" href="AlphaFramework.World.Terrains.Terrain-1.html#AlphaFramework_World_Terrains_Terrain_1_Templates">Templates</a></div>
+    </dd>
+  </dl>
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_TextureMap_" data-uid="AlphaFramework.World.Terrains.Terrain`1.TextureMap*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_TextureMap" data-uid="AlphaFramework.World.Terrains.Terrain`1.TextureMap">
+  TextureMap
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.cs/#L124"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Direct access to the internal height-map array. Handle with care; clone when necessary!</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public NibbleGrid? TextureMap { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.NibbleGrid.html">NibbleGrid</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="AlphaFramework_World_Terrains_Terrain_1_TextureMap_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Is not serialized/stored, is loaded by <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_LoadTextureMap_System_String_">LoadTextureMap(string)</a>.</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>The height-map size is incorrect.</p>
+</dd>
+  </dl>
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_GetTerrainIndex_" data-uid="AlphaFramework.World.Terrains.Terrain`1.GetTerrainIndex*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_GetTerrainIndex_SlimDX_Vector2_" data-uid="AlphaFramework.World.Terrains.Terrain`1.GetTerrainIndex(SlimDX.Vector2)">
+  GetTerrainIndex(Vector2)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.cs/#L243"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines the <code class="typeparamref">TTemplate</code> effective at specific coordinates.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public byte GetTerrainIndex(Vector2 coordinates)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>coordinates</code> <span class="xref">Vector2</span></dt>
+    <dd><p>The world coordinates to check.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>The terrain data was not loaded yet.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_LoadHeightMap_" data-uid="AlphaFramework.World.Terrains.Terrain`1.LoadHeightMap*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_LoadHeightMap_System_IO_Stream_" data-uid="AlphaFramework.World.Terrains.Terrain`1.LoadHeightMap(System.IO.Stream)">
+  LoadHeightMap(Stream)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.Storage.cs/#L58"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads data for <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_HeightMap">HeightMap</a> from a stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public void LoadHeightMap(Stream stream)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>stream</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.stream">Stream</a></dt>
+    <dd><p>The stream to read the height-map from.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.ioexception">IOException</a></dt>
+    <dd><p>The height-map size is incorrect.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_LoadHeightMap_" data-uid="AlphaFramework.World.Terrains.Terrain`1.LoadHeightMap*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_LoadHeightMap_System_String_" data-uid="AlphaFramework.World.Terrains.Terrain`1.LoadHeightMap(System.String)">
+  LoadHeightMap(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.Storage.cs/#L70"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads data for <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_HeightMap">HeightMap</a> from a file.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void LoadHeightMap(string path)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>path</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The path of the PNG file to load the height-map from.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.ioexception">IOException</a></dt>
+    <dd><p>The texture-map size is incorrect.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_LoadOcclusionIntervalMap_" data-uid="AlphaFramework.World.Terrains.Terrain`1.LoadOcclusionIntervalMap*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_LoadOcclusionIntervalMap_System_IO_Stream_" data-uid="AlphaFramework.World.Terrains.Terrain`1.LoadOcclusionIntervalMap(System.IO.Stream)">
+  LoadOcclusionIntervalMap(Stream)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.Storage.cs/#L81"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads data for <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_OcclusionIntervalMap">OcclusionIntervalMap</a> from a stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public void LoadOcclusionIntervalMap(Stream stream)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>stream</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.stream">Stream</a></dt>
+    <dd><p>The stream to read the occlusion interval map from.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.ioexception">IOException</a></dt>
+    <dd><p>The occlusion interval map size is incorrect.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_LoadOcclusionIntervalMap_" data-uid="AlphaFramework.World.Terrains.Terrain`1.LoadOcclusionIntervalMap*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_LoadOcclusionIntervalMap_System_String_" data-uid="AlphaFramework.World.Terrains.Terrain`1.LoadOcclusionIntervalMap(System.String)">
+  LoadOcclusionIntervalMap(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.Storage.cs/#L93"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads data for <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_OcclusionIntervalMap">OcclusionIntervalMap</a> from a file.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void LoadOcclusionIntervalMap(string path)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>path</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The path of the PNG file to load the occlusion interval map from.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.ioexception">IOException</a></dt>
+    <dd><p>The texture-map size is incorrect.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_LoadTextureMap_" data-uid="AlphaFramework.World.Terrains.Terrain`1.LoadTextureMap*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_LoadTextureMap_System_IO_Stream_" data-uid="AlphaFramework.World.Terrains.Terrain`1.LoadTextureMap(System.IO.Stream)">
+  LoadTextureMap(Stream)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.Storage.cs/#L104"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads data for <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_TextureMap">TextureMap</a> from a stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public void LoadTextureMap(Stream stream)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>stream</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.stream">Stream</a></dt>
+    <dd><p>The stream to read the texture-map from.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.ioexception">IOException</a></dt>
+    <dd><p>The texture-map size is incorrect.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_LoadTextureMap_" data-uid="AlphaFramework.World.Terrains.Terrain`1.LoadTextureMap*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_LoadTextureMap_System_String_" data-uid="AlphaFramework.World.Terrains.Terrain`1.LoadTextureMap(System.String)">
+  LoadTextureMap(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.Storage.cs/#L116"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads data for <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_TextureMap">TextureMap</a> from a file.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void LoadTextureMap(string path)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>path</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The path of the PNG file to load the texture-map from.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.ioexception">IOException</a></dt>
+    <dd><p>The texture-map size is incorrect.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_MarkUntraversableSlopes_" data-uid="AlphaFramework.World.Terrains.Terrain`1.MarkUntraversableSlopes*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_MarkUntraversableSlopes_System_Boolean_0__0___System_Int32_" data-uid="AlphaFramework.World.Terrains.Terrain`1.MarkUntraversableSlopes(System.Boolean[0:,0:],System.Int32)">
+  MarkUntraversableSlopes(bool[,], int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.cs/#L200"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Marks untraversable slopes in a pathfinding &quot;obstruction map&quot;.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public void MarkUntraversableSlopes(bool[,] obstructionMap, int maxTraversableSlope)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>obstructionMap</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>[,]</dt>
+    <dd><p>The existing pathfinding &quot;obstruction map&quot; to mark the untraversable slopes in.</p>
+</dd>
+    <dt><code>maxTraversableSlope</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The maximum slope to consider traversable.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_World_Terrains_Terrain_1_ToEngineCoords_" data-uid="AlphaFramework.World.Terrains.Terrain`1.ToEngineCoords*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_Terrain_1_ToEngineCoords_SlimDX_Vector2_" data-uid="AlphaFramework.World.Terrains.Terrain`1.ToEngineCoords(SlimDX.Vector2)">
+  ToEngineCoords(Vector2)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.cs/#L180"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Converts a position in world coordinates to the engine entity space coordinate system.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DoubleVector3 ToEngineCoords(Vector2 coordinates)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>coordinates</code> <span class="xref">Vector2</span></dt>
+    <dd><p>The coordinates of the point in engine world space to get information for.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/Terrain.Storage.cs/#L21" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

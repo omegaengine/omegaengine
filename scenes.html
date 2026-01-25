@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Scenes | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Scenes | OmegaEngine ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="docs/toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.9.5/doc/scenes.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="scenes">Scenes</h1>
+
+<p>A <strong><a class="xref" href="api/OmegaEngine.Graphics.Scene.html">Scene</a></strong> contains all the objects to be rendered. It manages collections of renderables and light sources.</p>
+<p><strong><a class="xref" href="api/OmegaEngine.Graphics.Renderables.html">Renderables</a></strong> are objects that can be rendered by the engine, such as models, <a href="terrain.html">terrain</a>, particle systems, or skyboxes.</p>
+<p><strong><a class="xref" href="api/OmegaEngine.Graphics.LightSources.html">Light sources</a></strong> illuminate renderables in the scene.</p>
+<p><strong><a class="xref" href="api/OmegaEngine.Graphics.Cameras.html">Cameras</a></strong> determines the perspective from which a scene is viewed. They define the position, orientation, and projection parameters.</p>
+<p>A <strong><a class="xref" href="api/OmegaEngine.Graphics.View.html">View</a></strong> represents a viewport with a specific scene and camera. The view handles rendering and can apply <a class="xref" href="api/OmegaEngine.Graphics.Shaders.PostShader.html">PostShader</a>s to the final output. Multiple views can render the same scene with different cameras.</p>
+<pre><code class="lang-mermaid">graph TD
+    Scene -- contains --&gt; Renderables
+    Scene -- contains --&gt; LightSources
+    View -- shows --&gt; Scene
+    View -- uses --&gt; Camera
+</code></pre>
+<h2 id="coordinate-system">Coordinate system</h2>
+<p>OmegaEngine uses a left-handed coordinate system (as used by DirectX) with the following default orientation:</p>
+<ul>
+<li><strong>Positive X axis</strong> - Points to the right</li>
+<li><strong>Positive Y axis</strong> - Points upward</li>
+<li><strong>Positive Z axis</strong> - Points into the screen (away from the viewer)</li>
+</ul>
+<p>The standard camera orientation is a view along the negative Z axis, looking into the positive Z direction.</p>
+<p><img src="images/coord_3d.gif" alt=""></p>
+<h2 id="setup">Setup</h2>
+<p>Basic example of setting up a scene with a model and lighting:</p>
+<pre><code class="lang-csharp">var scene = new Scene
+{
+    Positionables =
+    {
+        new Model(XMesh.Get(engine, &quot;MyModel.x&quot;))
+    },
+    Lights =
+    {
+        new DirectionalLight { Direction = new(-1, -1, 1), Diffuse = Color.White }
+    }
+};
+
+var camera = new FreeFlyCamera
+{
+    Position = new(0, 10, -20)
+};
+
+var view = new View(scene, camera) { Lighting = true };
+engine.Views.Add(view);
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/doc/scenes.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

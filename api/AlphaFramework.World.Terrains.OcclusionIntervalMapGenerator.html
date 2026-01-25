@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class OcclusionIntervalMapGenerator | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class OcclusionIntervalMapGenerator | OmegaEngine ">
+      
+      <meta name="description" content="Generates an occlusion interval map from a height map for a  as a background task.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator.md&amp;value=---%0Auid%3A%20AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator">
+
+
+
+  <h1 id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator" class="text-break">
+Class OcclusionIntervalMapGenerator  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/OcclusionIntervalMapGenerator.cs/#L24"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="AlphaFramework.html">AlphaFramework</a>.<a class="xref" href="AlphaFramework.World.html">World</a>.<a class="xref" href="AlphaFramework.World.Terrains.html">Terrains</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>AlphaFramework.World.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Generates an occlusion interval map from a height map for a <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html">ITerrain</a> as a background task.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class OcclusionIntervalMapGenerator : TaskBase, ITask</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">MarshalByRefObject</span></div>
+      <div><a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskBase.html">TaskBase</a></div>
+      <div><span class="xref">OcclusionIntervalMapGenerator</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.ITask.html">ITask</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskBase.html#NanoByte_Common_Tasks_TaskBase_CancellationToken">TaskBase.CancellationToken</a>
+    </div>
+    <div>
+      <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskBase.html#NanoByte_Common_Tasks_TaskBase_CredentialProvider">TaskBase.CredentialProvider</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">TaskBase.Run(CancellationToken, ICredentialProvider, IProgress&lt;TaskSnapshot&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskBase.html#NanoByte_Common_Tasks_TaskBase_Tag">TaskBase.Tag</a>
+    </div>
+    <div>
+      <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskBase.html#NanoByte_Common_Tasks_TaskBase_PreventIdle">TaskBase.PreventIdle</a>
+    </div>
+    <div>
+      <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskBase.html#NanoByte_Common_Tasks_TaskBase_State">TaskBase.State</a>
+    </div>
+    <div>
+      <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskBase.html#NanoByte_Common_Tasks_TaskBase_UnitsProcessed">TaskBase.UnitsProcessed</a>
+    </div>
+    <div>
+      <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskBase.html#NanoByte_Common_Tasks_TaskBase_UnitsTotal">TaskBase.UnitsTotal</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator__ctor_" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.#ctor*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator__ctor_OmegaEngine_Foundation_Geometry_ByteGrid_System_Single_System_Single_System_Double_" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.#ctor(OmegaEngine.Foundation.Geometry.ByteGrid,System.Single,System.Single,System.Double)">
+  OcclusionIntervalMapGenerator(ByteGrid, float, float, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/OcclusionIntervalMapGenerator.cs/#L56"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Prepares to calculate an occlusion interval map for a height-map.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public OcclusionIntervalMapGenerator(ByteGrid heightMap, float stretchH = 1, float stretchV = 1, double lightSourceInclination = 90)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>heightMap</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.ByteGrid.html">ByteGrid</a></dt>
+    <dd><p>The height-map data. This is not cloned and must not be modified during calculation!</p>
+</dd>
+    <dt><code>stretchH</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>A factor by which the terrain is horizontally stretched.</p>
+</dd>
+    <dt><code>stretchV</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>A factor by which the terrain is vertically stretched.</p>
+</dd>
+    <dt><code>lightSourceInclination</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The angle of inclination of the sun's path away from the horizon in degrees.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_CanCancel_" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.CanCancel*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_CanCancel" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.CanCancel">
+  CanCancel
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/OcclusionIntervalMapGenerator.cs/#L111"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether this task can be canceled once it has been started.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool CanCancel { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_MaxDegreeOfParallelism_" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.MaxDegreeOfParallelism*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_MaxDegreeOfParallelism" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.MaxDegreeOfParallelism">
+  MaxDegreeOfParallelism
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/OcclusionIntervalMapGenerator.cs/#L105"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Maximum number of threads to use for the computation. <code>-1</code> to use <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.environment.processorcount">ProcessorCount</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int MaxDegreeOfParallelism { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_Name_" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.Name*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_Name" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.Name">
+  Name
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/OcclusionIntervalMapGenerator.cs/#L108"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A name describing the task in human-readable form.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string Name { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_Result_" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.Result*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_Result" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.Result">
+  Result
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/OcclusionIntervalMapGenerator.cs/#L37"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the calculated occlusion end map array once the calculation is complete.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ByteVector4Grid Result { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.ByteVector4Grid.html">ByteVector4Grid</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_Result_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>A light rise angle is the minimum vertical angle (0 = 0°, 255 = 90°) which a directional light must achieve to be not occluded.</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>The calculation is not complete yet.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_UnitsByte_" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.UnitsByte*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_UnitsByte" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.UnitsByte">
+  UnitsByte
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/OcclusionIntervalMapGenerator.cs/#L114"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p><code>true</code> if <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskBase.html#NanoByte_Common_Tasks_TaskBase_UnitsProcessed">UnitsProcessed</a> and <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskBase.html#NanoByte_Common_Tasks_TaskBase_UnitsTotal">UnitsTotal</a> are measured in bytes;
+<code>false</code> if they are measured in generic units.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override bool UnitsByte { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_Execute_" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.Execute*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_Execute" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.Execute">
+  Execute()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/OcclusionIntervalMapGenerator.cs/#L117"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The actual code to be executed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void Execute()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+  <h4 class="section" id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_Execute_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p><a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskBase.html#NanoByte_Common_Tasks_TaskBase_State">State</a> is automatically set
+to <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskState.html#NanoByte_Common_Tasks_TaskState_Started">Started</a> before calling this method,
+to <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskState.html#NanoByte_Common_Tasks_TaskState_Complete">Complete</a> after a successful exit and
+to an appropriate error state in case on an exception.
+You can set additional <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskState.html">TaskState</a>s during execution.</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.operationcanceledexception">OperationCanceledException</a></dt>
+    <dd><p>The operation was canceled.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.ioexception">IOException</a></dt>
+    <dd><p>The task ended with <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskState.html#NanoByte_Common_Tasks_TaskState_IOError">IOError</a>.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.webexception">WebException</a></dt>
+    <dd><p>The task ended with <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Tasks.TaskState.html#NanoByte_Common_Tasks_TaskState_WebError">WebError</a>.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_FromTerrain_" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.FromTerrain*"></a>
+
+  <h3 id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_FromTerrain_AlphaFramework_World_Terrains_ITerrain_System_Double_" data-uid="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.FromTerrain(AlphaFramework.World.Terrains.ITerrain,System.Double)">
+  FromTerrain(ITerrain, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/OcclusionIntervalMapGenerator.cs/#L88"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Prepares to calculate an occlusion interval map for the height-map of a <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html">ITerrain</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static OcclusionIntervalMapGenerator FromTerrain(ITerrain terrain, double lightSourceInclination)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>terrain</code> <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html">ITerrain</a></dt>
+    <dd><p>The <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html">ITerrain</a> providing the height-map. The height-map is not cloned and must not be modified during calculation!</p>
+</dd>
+    <dt><code>lightSourceInclination</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The angle of inclination of the sun's path away from the horizon in degrees.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.html">OcclusionIntervalMapGenerator</a></dt>
+    <dd><p>The newly crated occlusion interval map generator.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="AlphaFramework_World_Terrains_OcclusionIntervalMapGenerator_FromTerrain_AlphaFramework_World_Terrains_ITerrain_System_Double__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The results are not automatically written back to <code class="paramref">terrain</code>.</p>
+</div>
+
+
+
+
+  <h2 id="seealso">See Also</h2>
+  <div class="seealso">
+      <div><a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_OcclusionIntervalMap">OcclusionIntervalMap</a></div>
+  </div>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/World/Terrains/OcclusionIntervalMapGenerator.cs/#L24" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

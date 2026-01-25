@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class XWaveSound | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class XWaveSound | OmegaEngine ">
+      
+      <meta name="description" content="A sound loaded from a WAVE file.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Assets_XWaveSound.md&amp;value=---%0Auid%3A%20OmegaEngine.Assets.XWaveSound%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Assets.XWaveSound">
+
+
+
+  <h1 id="OmegaEngine_Assets_XWaveSound" data-uid="OmegaEngine.Assets.XWaveSound" class="text-break">
+Class XWaveSound  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Assets/XWaveSound.cs/#L23"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Assets.html">Assets</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A sound loaded from a WAVE file.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class XWaveSound : XSound, IReferenceCount, IDisposable, INamed, IComparable&lt;Asset&gt;</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="OmegaEngine.Assets.Asset.html">Asset</a></div>
+      <div><a class="xref" href="OmegaEngine.Assets.XSound.html">XSound</a></div>
+      <div><span class="xref">XWaveSound</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="OmegaEngine.Assets.IReferenceCount.html">IReferenceCount</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+      <div><a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.INamed.html">INamed</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a class="xref" href="OmegaEngine.Assets.Asset.html">Asset</a>&gt;</div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="OmegaEngine.Assets.XSound.html#OmegaEngine_Assets_XSound_SoundData">XSound.SoundData</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Assets.XSound.html#OmegaEngine_Assets_XSound_SoundFormat">XSound.SoundFormat</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Assets.XSound.html#OmegaEngine_Assets_XSound_Dispose_System_Boolean_">XSound.Dispose(bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Assets.Asset.html#OmegaEngine_Assets_Asset_Name">Asset.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Assets.Asset.html#OmegaEngine_Assets_Asset_ToString">Asset.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Assets.Asset.html#OmegaEngine_Assets_Asset_ReferenceCount">Asset.ReferenceCount</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Assets.Asset.html#OmegaEngine_Assets_Asset_HoldReference">Asset.HoldReference()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Assets.Asset.html#OmegaEngine_Assets_Asset_ReleaseReference">Asset.ReleaseReference()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Assets.Asset.html#OmegaEngine_Assets_Asset_Disposed">Asset.Disposed</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Assets.Asset.html#OmegaEngine_Assets_Asset_Dispose">Asset.Dispose()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaEngine_Assets_XWaveSound__ctor_" data-uid="OmegaEngine.Assets.XWaveSound.#ctor*"></a>
+
+  <h3 id="OmegaEngine_Assets_XWaveSound__ctor_System_IO_Stream_" data-uid="OmegaEngine.Assets.XWaveSound.#ctor(System.IO.Stream)">
+  XWaveSound(Stream)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Assets/XWaveSound.cs/#L32"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads a sound from an WAVE file.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected XWaveSound(Stream stream)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>stream</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.stream">Stream</a></dt>
+    <dd><p>The WAVE file to load the sound from.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Assets_XWaveSound__ctor_System_IO_Stream__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>This should only be called by <a class="xref" href="OmegaEngine.Assets.XWaveSound.html#OmegaEngine_Assets_XWaveSound_Get_OmegaEngine_Engine_System_String_">Get(Engine, string?)</a> to prevent unnecessary duplicates.</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.invaliddataexception">InvalidDataException</a></dt>
+    <dd><p><code class="paramref">stream</code> does not contain a valid WAVE sound file.</p>
+</dd>
+  </dl>
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Assets_XWaveSound_Get_" data-uid="OmegaEngine.Assets.XWaveSound.Get*"></a>
+
+  <h3 id="OmegaEngine_Assets_XWaveSound_Get_OmegaEngine_Engine_System_String_" data-uid="OmegaEngine.Assets.XWaveSound.Get(OmegaEngine.Engine,System.String)">
+  Get(Engine, string?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Assets/XWaveSound.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a cached <a class="xref" href="OmegaEngine.Assets.XWaveSound.html">XWaveSound</a> or creates a new one if the requested ID is not cached.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static XWaveSound? Get(Engine engine, string? id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>engine</code> <a class="xref" href="OmegaEngine.Engine.html">Engine</a></dt>
+    <dd><p>The <a class="xref" href="OmegaEngine.Engine.html">Engine</a> providing the cache.</p>
+</dd>
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The ID of the asset to be returned.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Assets.XWaveSound.html">XWaveSound</a></dt>
+    <dd><p>The requested asset; <code>null</code> if <code class="paramref">id</code> was empty.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Assets_XWaveSound_Get_OmegaEngine_Engine_System_String__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Remember to call <a class="xref" href="OmegaEngine.Assets.CacheManager.html#OmegaEngine_Assets_CacheManager_Clean">Clean()</a> when done, otherwise this object will never be released.</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.filenotfoundexception">FileNotFoundException</a></dt>
+    <dd><p>The specified file could not be found.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.ioexception">IOException</a></dt>
+    <dd><p>There was an error reading the file.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.unauthorizedaccessexception">UnauthorizedAccessException</a></dt>
+    <dd><p>Read access to the file is not permitted.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.invaliddataexception">InvalidDataException</a></dt>
+    <dd><p>The file does not contain valid WAVE sound data.</p>
+</dd>
+  </dl>
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Assets/XWaveSound.cs/#L23" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

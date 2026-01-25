@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class Pool&lt;T&gt; | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class Pool&lt;T&gt; | OmegaEngine ">
+      
+      <meta name="description" content="A very fast pseudo-collection (it does not implement ) that supports fast adding at the beginning.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Foundation_Collections_Pool_1.md&amp;value=---%0Auid%3A%20OmegaEngine.Foundation.Collections.Pool%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Foundation.Collections.Pool`1">
+
+
+
+  <h1 id="OmegaEngine_Foundation_Collections_Pool_1" data-uid="OmegaEngine.Foundation.Collections.Pool`1" class="text-break">
+Class Pool&lt;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Collections/Pool.cs/#L21"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Foundation.html">Foundation</a>.<a class="xref" href="OmegaEngine.Foundation.Collections.html">Collections</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.Foundation.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A very fast pseudo-collection (it does not implement <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable&lt;T&gt;</a>) that supports fast adding at the beginning.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class Pool&lt;T&gt; : IPoolable&lt;T&gt; where T : class, IPoolable&lt;T&gt;</code></pre>
+  </div>
+
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The type of items to store in the pool.</p>
+</dd>
+  </dl>
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">Pool&lt;T&gt;</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="OmegaEngine.Foundation.Collections.IPoolable-1.html">IPoolable</a>&lt;T&gt;</div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+  <h2 id="OmegaEngine_Foundation_Collections_Pool_1_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>An item can always only be in one pool at any given time.</p>
+</div>
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaEngine_Foundation_Collections_Pool_1_Count_" data-uid="OmegaEngine.Foundation.Collections.Pool`1.Count*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Collections_Pool_1_Count" data-uid="OmegaEngine.Foundation.Collections.Pool`1.Count">
+  Count
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Collections/Pool.cs/#L27"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the number of elements contained in the pool</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Count { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of elements contained in the pool</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Foundation_Collections_Pool_1_Add_" data-uid="OmegaEngine.Foundation.Collections.Pool`1.Add*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Collections_Pool_1_Add__0_" data-uid="OmegaEngine.Foundation.Collections.Pool`1.Add(`0)">
+  Add(T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Collections/Pool.cs/#L62"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds an item to the beginning of the pool</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Add(T item)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>item</code> <span class="xref">T</span></dt>
+    <dd><p>The object to add to the pool</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></dt>
+    <dd><p><code class="paramref">item</code> is already in a pool.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="OmegaEngine_Foundation_Collections_Pool_1_Clear_" data-uid="OmegaEngine.Foundation.Collections.Pool`1.Clear*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Collections_Pool_1_Clear" data-uid="OmegaEngine.Foundation.Collections.Pool`1.Clear">
+  Clear()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Collections/Pool.cs/#L120"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes all items from the pool</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Clear()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Collections_Pool_1_Contains_" data-uid="OmegaEngine.Foundation.Collections.Pool`1.Contains*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Collections_Pool_1_Contains__0_" data-uid="OmegaEngine.Foundation.Collections.Pool`1.Contains(`0)">
+  Contains(T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Collections/Pool.cs/#L133"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines whether the pool contains a specific value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Contains(T item)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>item</code> <span class="xref">T</span></dt>
+    <dd><p>The object to locate in the pool</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if <code class="paramref">item</code> is found in the pool; otherwise, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Collections_Pool_1_ForEach_" data-uid="OmegaEngine.Foundation.Collections.Pool`1.ForEach*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Collections_Pool_1_ForEach_System_Action__0__" data-uid="OmegaEngine.Foundation.Collections.Pool`1.ForEach(System.Action{`0})">
+  ForEach(Action&lt;T&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Collections/Pool.cs/#L37"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Performs the specified action on each element of the pool</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ForEach(Action&lt;T&gt; action)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>action</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;T&gt;</dt>
+    <dd><p>A delegate to perform on each element of the pool</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Collections_Pool_1_Remove_" data-uid="OmegaEngine.Foundation.Collections.Pool`1.Remove*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Collections_Pool_1_Remove__0_" data-uid="OmegaEngine.Foundation.Collections.Pool`1.Remove(`0)">
+  Remove(T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Collections/Pool.cs/#L84"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes the first occurrence of a specific object from the pool</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Remove(T item)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>item</code> <span class="xref">T</span></dt>
+    <dd><p>The object to remove from the pool</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if <code class="paramref">item</code> was successfully removed from the buffer list; otherwise, false. This method also returns <code>false</code> if <code class="paramref">item</code> is not found in the original pool</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Foundation_Collections_Pool_1_Remove__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Not all too fast, try to avoid using this</p>
+</div>
+
+
+
+
+  <a id="OmegaEngine_Foundation_Collections_Pool_1_RemoveAll_" data-uid="OmegaEngine.Foundation.Collections.Pool`1.RemoveAll*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Collections_Pool_1_RemoveAll_System_Action__0__" data-uid="OmegaEngine.Foundation.Collections.Pool`1.RemoveAll(System.Action{`0})">
+  RemoveAll(Action&lt;T&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Collections/Pool.cs/#L162"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes all the items in the buffer one-by-one, executing <code class="paramref">action</code> after each removal.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveAll(Action&lt;T&gt; action)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>action</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;T&gt;</dt>
+    <dd><p>A delegate that is executed right after an item is removed.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Foundation_Collections_Pool_1_RemoveAll_System_Action__0___remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Ideal for moving all elements to a new data structure.</p>
+</div>
+
+
+
+
+  <a id="OmegaEngine_Foundation_Collections_Pool_1_RemoveFirst_" data-uid="OmegaEngine.Foundation.Collections.Pool`1.RemoveFirst*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Collections_Pool_1_RemoveFirst_System_Predicate__0__" data-uid="OmegaEngine.Foundation.Collections.Pool`1.RemoveFirst(System.Predicate{`0})">
+  RemoveFirst(Predicate&lt;T&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Collections/Pool.cs/#L241"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes the first item in the buffer that satisfies the condition defined by <code class="paramref">predicate</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveFirst(Predicate&lt;T&gt; predicate)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>predicate</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.predicate-1">Predicate</a>&lt;T&gt;</dt>
+    <dd><p>A delegate that defines the condition to check for.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Foundation_Collections_Pool_1_RemoveFirst_System_Predicate__0___remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Ideal for selectively picking the first suitable element from the pool.</p>
+</div>
+
+
+
+
+  <a id="OmegaEngine_Foundation_Collections_Pool_1_RemoveWhere_" data-uid="OmegaEngine.Foundation.Collections.Pool`1.RemoveWhere*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Collections_Pool_1_RemoveWhere_System_Predicate__0__" data-uid="OmegaEngine.Foundation.Collections.Pool`1.RemoveWhere(System.Predicate{`0})">
+  RemoveWhere(Predicate&lt;T&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Collections/Pool.cs/#L196"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes all the items in the buffer that satisfy the condition defined by <code class="paramref">predicate</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveWhere(Predicate&lt;T&gt; predicate)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>predicate</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.predicate-1">Predicate</a>&lt;T&gt;</dt>
+    <dd><p>A delegate that defines the condition to check for.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Foundation_Collections_Pool_1_RemoveWhere_System_Predicate__0___remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Ideal for selectively picking all suitable elements from the pool.</p>
+</div>
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Collections/Pool.cs/#L21" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

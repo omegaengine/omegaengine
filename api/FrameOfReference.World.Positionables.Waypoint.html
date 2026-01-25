@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class Waypoint | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class Waypoint | OmegaEngine ">
+      
+      <meta name="description" content="A marker used to control automated  movement.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=FrameOfReference_World_Positionables_Waypoint.md&amp;value=---%0Auid%3A%20FrameOfReference.World.Positionables.Waypoint%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="FrameOfReference.World.Positionables.Waypoint">
+
+
+
+  <h1 id="FrameOfReference_World_Positionables_Waypoint" data-uid="FrameOfReference.World.Positionables.Waypoint" class="text-break">
+Class Waypoint  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Positionables/Waypoint.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="FrameOfReference.html">FrameOfReference</a>.<a class="xref" href="FrameOfReference.World.html">World</a>.<a class="xref" href="FrameOfReference.World.Positionables.html">Positionables</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>FrameOfReference.World.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A marker used to control automated <a class="xref" href="FrameOfReference.World.Positionables.Entity.html">Entity</a> movement.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Waypoint : Positionable&lt;Vector2&gt;, ICloneable, IChangeNotify&lt;Positionable&lt;Vector2&gt;&gt;</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html">Positionable</a>&lt;<span class="xref">Vector2</span>&gt;</div>
+      <div><span class="xref">Waypoint</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.icloneable">ICloneable</a></div>
+      <div><a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Dispatch.IChangeNotify-1.html">IChangeNotify</a>&lt;<a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html">Positionable</a>&lt;<span class="xref">Vector2</span>&gt;&gt;</div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_Changed">Positionable&lt;Vector2&gt;.Changed</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_ChangedRebuild">Positionable&lt;Vector2&gt;.ChangedRebuild</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_OnChangedRebuild">Positionable&lt;Vector2&gt;.OnChangedRebuild()</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_Name">Positionable&lt;Vector2&gt;.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_ToString">Positionable&lt;Vector2&gt;.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_Position">Positionable&lt;Vector2&gt;.Position</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_Clone">Positionable&lt;Vector2&gt;.Clone()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="FrameOfReference_World_Positionables_Waypoint_ActivationTime_" data-uid="FrameOfReference.World.Positionables.Waypoint.ActivationTime*"></a>
+
+  <h3 id="FrameOfReference_World_Positionables_Waypoint_ActivationTime" data-uid="FrameOfReference.World.Positionables.Waypoint.ActivationTime">
+  ActivationTime
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Positionables/Waypoint.cs/#L50"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The <a class="xref" href="AlphaFramework.World.IUniverse.html#AlphaFramework_World_IUniverse_GameTime">GameTime</a> when <a class="xref" href="FrameOfReference.World.Positionables.Entity.html">Entity</a>s start walking towards this waypoint.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double ActivationTime { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Positionables_Waypoint_ArrivalTime_" data-uid="FrameOfReference.World.Positionables.Waypoint.ArrivalTime*"></a>
+
+  <h3 id="FrameOfReference_World_Positionables_Waypoint_ArrivalTime" data-uid="FrameOfReference.World.Positionables.Waypoint.ArrivalTime">
+  ArrivalTime
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Positionables/Waypoint.cs/#L67"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The <a class="xref" href="AlphaFramework.World.IUniverse.html#AlphaFramework_World_IUniverse_GameTime">GameTime</a> when <a class="xref" href="FrameOfReference.World.Positionables.Entity.html">Entity</a>s reach this waypoint.
+Set automatically by <a class="xref" href="FrameOfReference.World.Positionables.Entity.html">HandleWaypoints(Entity, double)</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double ArrivalTime { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Positionables_Waypoint_ArrivalTimeSpecified_" data-uid="FrameOfReference.World.Positionables.Waypoint.ArrivalTimeSpecified*"></a>
+
+  <h3 id="FrameOfReference_World_Positionables_Waypoint_ArrivalTimeSpecified" data-uid="FrameOfReference.World.Positionables.Waypoint.ArrivalTimeSpecified">
+  ArrivalTimeSpecified
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Positionables/Waypoint.cs/#L81"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether <a class="xref" href="FrameOfReference.World.Positionables.Waypoint.html#FrameOfReference_World_Positionables_Waypoint_ArrivalTime">ArrivalTime</a> has been set.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public bool ArrivalTimeSpecified { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Positionables_Waypoint_OriginPosition_" data-uid="FrameOfReference.World.Positionables.Waypoint.OriginPosition*"></a>
+
+  <h3 id="FrameOfReference_World_Positionables_Waypoint_OriginPosition" data-uid="FrameOfReference.World.Positionables.Waypoint.OriginPosition">
+  OriginPosition
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Positionables/Waypoint.cs/#L90"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The position where an <a class="xref" href="FrameOfReference.World.Positionables.Entity.html">Entity</a> walking towards this waypoint started off.
+Set automatically by <a class="xref" href="FrameOfReference.World.Positionables.Entity.html">HandleWaypoints(Entity, double)</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector2 OriginPosition { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Vector2</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Positionables_Waypoint_OriginPositionSpecified_" data-uid="FrameOfReference.World.Positionables.Waypoint.OriginPositionSpecified*"></a>
+
+  <h3 id="FrameOfReference_World_Positionables_Waypoint_OriginPositionSpecified" data-uid="FrameOfReference.World.Positionables.Waypoint.OriginPositionSpecified">
+  OriginPositionSpecified
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Positionables/Waypoint.cs/#L104"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether <a class="xref" href="FrameOfReference.World.Positionables.Waypoint.html#FrameOfReference_World_Positionables_Waypoint_OriginPosition">OriginPosition</a> has been set.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public bool OriginPositionSpecified { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Positionables_Waypoint_TargetEntity_" data-uid="FrameOfReference.World.Positionables.Waypoint.TargetEntity*"></a>
+
+  <h3 id="FrameOfReference_World_Positionables_Waypoint_TargetEntity" data-uid="FrameOfReference.World.Positionables.Waypoint.TargetEntity">
+  TargetEntity
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Positionables/Waypoint.cs/#L42"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The name of the <a class="xref" href="FrameOfReference.World.Positionables.Entity.html">Entity</a> this waypoint is for.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? TargetEntity { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="FrameOfReference_World_Positionables_Waypoint_OnChanged_" data-uid="FrameOfReference.World.Positionables.Waypoint.OnChanged*"></a>
+
+  <h3 id="FrameOfReference_World_Positionables_Waypoint_OnChanged" data-uid="FrameOfReference.World.Positionables.Waypoint.OnChanged">
+  OnChanged()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Positionables/Waypoint.cs/#L55"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>To be called when a property relevant for rendering has changed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnChanged()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Positionables/Waypoint.cs/#L35" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

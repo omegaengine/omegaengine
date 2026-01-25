@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class LazyView | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class LazyView | OmegaEngine ">
+      
+      <meta name="description" content="An  that only handles  when  has been called.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Graphics_LazyView.md&amp;value=---%0Auid%3A%20OmegaEngine.Graphics.LazyView%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Graphics.LazyView">
+
+
+
+  <h1 id="OmegaEngine_Graphics_LazyView" data-uid="OmegaEngine.Graphics.LazyView" class="text-break">
+Class LazyView  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LazyView.cs/#L18"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Graphics.html">Graphics</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>An <a class="xref" href="OmegaEngine.Graphics.TextureView.html">TextureView</a> that only handles <span class="xref">OmegaEngine.Graphics.LazyView.Render()</span> when <a class="xref" href="OmegaEngine.Graphics.LazyView.html#OmegaEngine_Graphics_LazyView_SetDirty">SetDirty()</a> has been called.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class LazyView : TextureView, IDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="OmegaEngine.EngineElement.html">EngineElement</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.View.html">View</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.TextureView.html">TextureView</a></div>
+      <div><span class="xref">LazyView</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.TextureView.html#OmegaEngine_Graphics_TextureView_FullAlpha">TextureView.FullAlpha</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.TextureView.html#OmegaEngine_Graphics_TextureView_GetRenderTarget">TextureView.GetRenderTarget()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_RenderedInLastFrame">View.RenderedInLastFrame</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_Name">View.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_ToString">View.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_Area">View.Area</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_AreaCenter">View.AreaCenter</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_Visible">View.Visible</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_InvertCull">View.InvertCull</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_Fog">View.Fog</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_Lighting">View.Lighting</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_ChildViews">View.ChildViews</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_BackgroundColor">View.BackgroundColor</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_Scene">View.Scene</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_FloatingModels">View.FloatingModels</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_PostShaders">View.PostShaders</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_Camera">View.Camera</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_PickingRay_System_Drawing_Point_">View.PickingRay(Point)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_Pick_System_Drawing_Point_">View.Pick(Point)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_Pick_System_Drawing_Point_OmegaEngine_Foundation_Geometry_DoubleVector3__">View.Pick(Point, out DoubleVector3)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_TransitionCameraTo_OmegaEngine_Graphics_Cameras_Camera_OmegaEngine_Graphics_Cameras_TransitionCameraOptions_">View.TransitionCameraTo(Camera, TransitionCameraOptions)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_SetupGlow_System_Single_System_Single_">View.SetupGlow(float, float)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_PreRender">View.PreRender</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_Engine">EngineElement.Engine</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_IsEngineSet">EngineElement.IsEngineSet</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_IsDisposed">EngineElement.IsDisposed</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_Dispose">EngineElement.Dispose()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+  <h2 id="OmegaEngine_Graphics_LazyView_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>Useful for <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a>s and <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Camera</a>s that stay static for most of the time.</p>
+</div>
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_LazyView__ctor_" data-uid="OmegaEngine.Graphics.LazyView.#ctor*"></a>
+
+  <h3 id="OmegaEngine_Graphics_LazyView__ctor_OmegaEngine_Graphics_Scene_OmegaEngine_Graphics_Cameras_Camera_System_Drawing_Size_" data-uid="OmegaEngine.Graphics.LazyView.#ctor(OmegaEngine.Graphics.Scene,OmegaEngine.Graphics.Cameras.Camera,System.Drawing.Size)">
+  LazyView(Scene, Camera, Size)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LazyView.cs/#L34"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new lazy view</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public LazyView(Scene scene, Camera camera, Size size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>scene</code> <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a></dt>
+    <dd><p>The <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a> to render</p>
+</dd>
+    <dt><code>camera</code> <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Camera</a></dt>
+    <dd><p>The <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Camera</a> to look at the <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a> with</p>
+</dd>
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.size">Size</a></dt>
+    <dd><p>The size of screen area this view should fill (leave empty for fullscreen)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_LazyView_Dirty_" data-uid="OmegaEngine.Graphics.LazyView.Dirty*"></a>
+
+  <h3 id="OmegaEngine_Graphics_LazyView_Dirty" data-uid="OmegaEngine.Graphics.LazyView.Dirty">
+  Dirty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LazyView.cs/#L24"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Does this <a class="xref" href="OmegaEngine.Graphics.LazyView.html">LazyView</a> need handle the next <span class="xref">OmegaEngine.Graphics.LazyView.Render()</span> call?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Dirty { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_LazyView_SetDirty_" data-uid="OmegaEngine.Graphics.LazyView.SetDirty*"></a>
+
+  <h3 id="OmegaEngine_Graphics_LazyView_SetDirty" data-uid="OmegaEngine.Graphics.LazyView.SetDirty">
+  SetDirty()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LazyView.cs/#L47"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets <a class="xref" href="OmegaEngine.Graphics.LazyView.html#OmegaEngine_Graphics_LazyView_Dirty">Dirty</a> to <code>true</code></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetDirty()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/LazyView.cs/#L18" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

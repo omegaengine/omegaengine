@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class Universe | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class Universe | OmegaEngine ">
+      
+      <meta name="description" content="Represents a world with a height-map based .">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=FrameOfReference_World_Universe.md&amp;value=---%0Auid%3A%20FrameOfReference.World.Universe%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="FrameOfReference.World.Universe">
+
+
+
+  <h1 id="FrameOfReference_World_Universe" data-uid="FrameOfReference.World.Universe" class="text-break">
+Class Universe  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Storage.cs/#L38"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="FrameOfReference.html">FrameOfReference</a>.<a class="xref" href="FrameOfReference.World.html">World</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>FrameOfReference.World.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Represents a world with a height-map based <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_Terrain">Terrain</a>.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class Universe : CoordinateUniverse&lt;Vector2&gt;, IUniverse</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="AlphaFramework.World.UniverseBase.html">UniverseBase</a></div>
+      <div><a class="xref" href="AlphaFramework.World.CoordinateUniverse-1.html">CoordinateUniverse</a>&lt;<span class="xref">Vector2</span>&gt;</div>
+      <div><span class="xref">Universe</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="AlphaFramework.World.IUniverse.html">IUniverse</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="AlphaFramework.World.UniverseBase.html#AlphaFramework_World_UniverseBase_SkyboxChanged">UniverseBase.SkyboxChanged</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.UniverseBase.html#AlphaFramework_World_UniverseBase_Skybox">UniverseBase.Skybox</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.UniverseBase.html#AlphaFramework_World_UniverseBase_GameTime">UniverseBase.GameTime</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.UniverseBase.html#AlphaFramework_World_UniverseBase_SourceFile">UniverseBase.SourceFile</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="FrameOfReference_World_Universe__ctor_" data-uid="FrameOfReference.World.Universe.#ctor*"></a>
+
+  <h3 id="FrameOfReference_World_Universe__ctor" data-uid="FrameOfReference.World.Universe.#ctor">
+  Universe()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Storage.cs/#L48"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Base-constructor for XML serialization. Do not call manually!</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Universe()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe__ctor_" data-uid="FrameOfReference.World.Universe.#ctor*"></a>
+
+  <h3 id="FrameOfReference_World_Universe__ctor_AlphaFramework_World_Terrains_Terrain_FrameOfReference_World_Templates_TerrainTemplate__" data-uid="FrameOfReference.World.Universe.#ctor(AlphaFramework.World.Terrains.Terrain{FrameOfReference.World.Templates.TerrainTemplate})">
+  Universe(Terrain&lt;TerrainTemplate&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.cs/#L78"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="FrameOfReference.World.Universe.html">Universe</a> with a terrain.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Universe(Terrain&lt;TerrainTemplate&gt; terrain)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>terrain</code> <a class="xref" href="AlphaFramework.World.Terrains.Terrain-1.html">Terrain</a>&lt;<a class="xref" href="FrameOfReference.World.Templates.TerrainTemplate.html">TerrainTemplate</a>&gt;</dt>
+    <dd><p>The terrain for the new <a class="xref" href="FrameOfReference.World.Universe.html">Universe</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="FrameOfReference_World_Universe_FileExt" data-uid="FrameOfReference.World.Universe.FileExt">
+  FileExt
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Storage.cs/#L43"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The file extensions when this class is stored as a file.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const string FileExt = &quot;.FrameOfReferenceMap&quot;</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="FrameOfReference_World_Universe_AmbientColor_" data-uid="FrameOfReference.World.Universe.AmbientColor*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_AmbientColor" data-uid="FrameOfReference.World.Universe.AmbientColor">
+  AmbientColor
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L72"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The color of the ambient light (background light that is always visible and has no direction).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Color AmbientColor { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.color">Color</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="FrameOfReference_World_Universe_AmbientColor_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Is not serialized/stored, <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_AmbientColorValue">AmbientColorValue</a> is used for that.</p>
+</div>
+
+
+
+
+  <a id="FrameOfReference_World_Universe_AmbientColorValue_" data-uid="FrameOfReference.World.Universe.AmbientColorValue*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_AmbientColorValue" data-uid="FrameOfReference.World.Universe.AmbientColorValue">
+  AmbientColorValue
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L77"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Used for XML serialization.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+[Browsable(false)]
+public XColor AmbientColorValue { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Light.XColor.html">XColor</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+  <dl class="typelist seealso">
+    <dt>See Also</dt>
+    <dd>
+    <div><a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_AmbientColor">AmbientColor</a></div>
+    </dd>
+  </dl>
+
+
+  <a id="FrameOfReference_World_Universe_Bleach_" data-uid="FrameOfReference.World.Universe.Bleach*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_Bleach" data-uid="FrameOfReference.World.Universe.Bleach">
+  Bleach
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L215"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Is the fog active?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Bleach { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_ColorCorrectionDawn_" data-uid="FrameOfReference.World.Universe.ColorCorrectionDawn*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_ColorCorrectionDawn" data-uid="FrameOfReference.World.Universe.ColorCorrectionDawn">
+  ColorCorrectionDawn
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L151"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Color correction values to apply at dawn.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ColorCorrection ColorCorrectionDawn { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Light.ColorCorrection.html">ColorCorrection</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_ColorCorrectionDusk_" data-uid="FrameOfReference.World.Universe.ColorCorrectionDusk*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_ColorCorrectionDusk" data-uid="FrameOfReference.World.Universe.ColorCorrectionDusk">
+  ColorCorrectionDusk
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L167"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Color correction values to apply at dusk.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ColorCorrection ColorCorrectionDusk { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Light.ColorCorrection.html">ColorCorrection</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_ColorCorrectionMidnight_" data-uid="FrameOfReference.World.Universe.ColorCorrectionMidnight*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_ColorCorrectionMidnight" data-uid="FrameOfReference.World.Universe.ColorCorrectionMidnight">
+  ColorCorrectionMidnight
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L175"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Color correction values to apply at midnight.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ColorCorrection ColorCorrectionMidnight { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Light.ColorCorrection.html">ColorCorrection</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_ColorCorrectionNoon_" data-uid="FrameOfReference.World.Universe.ColorCorrectionNoon*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_ColorCorrectionNoon" data-uid="FrameOfReference.World.Universe.ColorCorrectionNoon">
+  ColorCorrectionNoon
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L159"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Color correction values to apply at noon.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ColorCorrection ColorCorrectionNoon { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Light.ColorCorrection.html">ColorCorrection</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_CurrentCamera_" data-uid="FrameOfReference.World.Universe.CurrentCamera*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_CurrentCamera" data-uid="FrameOfReference.World.Universe.CurrentCamera">
+  CurrentCamera
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.cs/#L71"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The current position and direction of the camera in the game.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public CameraState&lt;Vector2&gt;? CurrentCamera { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.World.CameraState-1.html">CameraState</a>&lt;<span class="xref">Vector2</span>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="FrameOfReference_World_Universe_CurrentCamera_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>This is updated only when leaving the game, not continuously.</p>
+</div>
+
+
+
+
+  <a id="FrameOfReference_World_Universe_Fog_" data-uid="FrameOfReference.World.Universe.Fog*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_Fog" data-uid="FrameOfReference.World.Universe.Fog">
+  Fog
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L185"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Is the fog active?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Fog { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_FogColor_" data-uid="FrameOfReference.World.Universe.FogColor*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_FogColor" data-uid="FrameOfReference.World.Universe.FogColor">
+  FogColor
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L202"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The color of the fog.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Color FogColor { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.color">Color</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="FrameOfReference_World_Universe_FogColor_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Is not serialized/stored, <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_FogColorValue">FogColorValue</a> is used for that.</p>
+</div>
+
+
+
+
+  <a id="FrameOfReference_World_Universe_FogColorValue_" data-uid="FrameOfReference.World.Universe.FogColorValue*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_FogColorValue" data-uid="FrameOfReference.World.Universe.FogColorValue">
+  FogColorValue
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L207"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Used for XML serialization.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+[Browsable(false)]
+public XColor FogColorValue { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Light.XColor.html">XColor</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+  <dl class="typelist seealso">
+    <dt>See Also</dt>
+    <dd>
+    <div><a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_FogColor">FogColor</a></div>
+    </dd>
+  </dl>
+
+
+  <a id="FrameOfReference_World_Universe_FogDistance_" data-uid="FrameOfReference.World.Universe.FogDistance*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_FogDistance" data-uid="FrameOfReference.World.Universe.FogDistance">
+  FogDistance
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L193"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The maximum distance one can look through the fog.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float FogDistance { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_LightPhase_" data-uid="FrameOfReference.World.Universe.LightPhase*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_LightPhase" data-uid="FrameOfReference.World.Universe.LightPhase">
+  LightPhase
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L54"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A value between 0 and 4 representing the current sun and moon positions. (0 = dawn, 1 = noon, 2 = dusk, 3 = midnight)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[FloatRange(0, 4)]
+public float LightPhase { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_LightPhaseSpeedFactor_" data-uid="FrameOfReference.World.Universe.LightPhaseSpeedFactor*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_LightPhaseSpeedFactor" data-uid="FrameOfReference.World.Universe.LightPhaseSpeedFactor">
+  LightPhaseSpeedFactor
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L61"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The speed with which the <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_LightPhase">LightPhase</a> is incremented.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float LightPhaseSpeedFactor { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_MaxTraversableSlope_" data-uid="FrameOfReference.World.Universe.MaxTraversableSlope*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_MaxTraversableSlope" data-uid="FrameOfReference.World.Universe.MaxTraversableSlope">
+  MaxTraversableSlope
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Pathfinding.cs/#L52"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The maximum slope the <a class="xref" href="AlphaFramework.World.Paths.IPathfinder-1.html">IPathfinder&lt;TCoordinates&gt;</a> considers traversable.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int MaxTraversableSlope { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_MoonColor_" data-uid="FrameOfReference.World.Universe.MoonColor*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_MoonColor" data-uid="FrameOfReference.World.Universe.MoonColor">
+  MoonColor
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L118"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The color of the diffuse light (normal directional light) of the second moon.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Color MoonColor { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.color">Color</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="FrameOfReference_World_Universe_MoonColor_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Is not serialized/stored, <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_MoonColorValue">MoonColorValue</a> is used for that.</p>
+</div>
+
+
+
+
+  <a id="FrameOfReference_World_Universe_MoonColorValue_" data-uid="FrameOfReference.World.Universe.MoonColorValue*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_MoonColorValue" data-uid="FrameOfReference.World.Universe.MoonColorValue">
+  MoonColorValue
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L123"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Used for XML serialization.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+[Browsable(false)]
+public XColor MoonColorValue { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Light.XColor.html">XColor</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+  <dl class="typelist seealso">
+    <dt>See Also</dt>
+    <dd>
+    <div><a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_MoonColor">MoonColor</a></div>
+    </dd>
+  </dl>
+
+
+  <a id="FrameOfReference_World_Universe_MoonInclination_" data-uid="FrameOfReference.World.Universe.MoonInclination*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_MoonInclination" data-uid="FrameOfReference.World.Universe.MoonInclination">
+  MoonInclination
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L131"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The angle of inclination of the second moon's path away from the horizon towards south in degrees.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float MoonInclination { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_Positionables_" data-uid="FrameOfReference.World.Universe.Positionables*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_Positionables" data-uid="FrameOfReference.World.Universe.Positionables">
+  Positionables
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.cs/#L44"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A collection of all <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html">Positionable&lt;TCoordinates&gt;</a>s in this <a class="xref" href="AlphaFramework.World.CoordinateUniverse-1.html">CoordinateUniverse&lt;TCoordinates&gt;</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public override MonitoredCollection&lt;Positionable&lt;Vector2&gt;&gt; Positionables { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Collections.MonitoredCollection-1.html">MonitoredCollection</a>&lt;<a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html">Positionable</a>&lt;<span class="xref">Vector2</span>&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_SunColor_" data-uid="FrameOfReference.World.Universe.SunColor*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_SunColor" data-uid="FrameOfReference.World.Universe.SunColor">
+  SunColor
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L86"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The color of the diffuse light (normal directional light) of the sun.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Color SunColor { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.color">Color</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="FrameOfReference_World_Universe_SunColor_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Is not serialized/stored, <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_SunColorValue">SunColorValue</a> is used for that.</p>
+</div>
+
+
+
+
+  <a id="FrameOfReference_World_Universe_SunColorValue_" data-uid="FrameOfReference.World.Universe.SunColorValue*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_SunColorValue" data-uid="FrameOfReference.World.Universe.SunColorValue">
+  SunColorValue
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L91"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Used for XML serialization.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+[Browsable(false)]
+public XColor SunColorValue { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Light.XColor.html">XColor</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+  <dl class="typelist seealso">
+    <dt>See Also</dt>
+    <dd>
+    <div><a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_SunColor">SunColor</a></div>
+    </dd>
+  </dl>
+
+
+  <a id="FrameOfReference_World_Universe_SunInclination_" data-uid="FrameOfReference.World.Universe.SunInclination*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_SunInclination" data-uid="FrameOfReference.World.Universe.SunInclination">
+  SunInclination
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L99"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The angle of inclination of the sun's path away from the horizon towards south in degrees.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float SunInclination { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_Terrain_" data-uid="FrameOfReference.World.Universe.Terrain*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_Terrain" data-uid="FrameOfReference.World.Universe.Terrain">
+  Terrain
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.cs/#L56"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_Terrain">Terrain</a> on which <a class="xref" href="FrameOfReference.World.Positionables.Entity.html">Entity</a>s are placed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public Terrain&lt;TerrainTemplate&gt; Terrain { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="AlphaFramework.World.Terrains.Terrain-1.html">Terrain</a>&lt;<a class="xref" href="FrameOfReference.World.Templates.TerrainTemplate.html">TerrainTemplate</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="FrameOfReference_World_Universe_Terrain_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Is not serialized/stored, <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_TerrainSerialize">TerrainSerialize</a> is used for that.</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>The <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_Terrain">Terrain</a> could not be properly loaded from the file.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="FrameOfReference_World_Universe_TerrainSerialize_" data-uid="FrameOfReference.World.Universe.TerrainSerialize*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_TerrainSerialize" data-uid="FrameOfReference.World.Universe.TerrainSerialize">
+  TerrainSerialize
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Storage.cs/#L83"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Used for XML serialization.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+[Browsable(false)]
+public Terrain&lt;TerrainTemplate&gt; TerrainSerialize { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="AlphaFramework.World.Terrains.Terrain-1.html">Terrain</a>&lt;<a class="xref" href="FrameOfReference.World.Templates.TerrainTemplate.html">TerrainTemplate</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="FrameOfReference_World_Universe_FromContent_" data-uid="FrameOfReference.World.Universe.FromContent*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_FromContent_System_String_" data-uid="FrameOfReference.World.Universe.FromContent(System.String)">
+  FromContent(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Storage.cs/#L72"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads a <a class="xref" href="FrameOfReference.World.Universe.html">Universe</a> from the game content source via the <a class="xref" href="OmegaEngine.Foundation.Storage.ContentManager.html">ContentManager</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Universe FromContent(string id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The ID of the <a class="xref" href="FrameOfReference.World.Universe.html">Universe</a> to load.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.World.Universe.html">Universe</a></dt>
+    <dd><p>The loaded <a class="xref" href="FrameOfReference.World.Universe.html">Universe</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_GetCamera_" data-uid="FrameOfReference.World.Universe.GetCamera*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_GetCamera_System_String_" data-uid="FrameOfReference.World.Universe.GetCamera(System.String)">
+  GetCamera(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.cs/#L118"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Retrieves an <a class="xref" href="FrameOfReference.World.CameraState-1.html">CameraState&lt;TCoordinates&gt;</a> from <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_Positionables">Positionables</a> by its name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CameraState&lt;Vector2&gt;? GetCamera(string name)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.World.CameraState-1.html">CameraState</a>&lt;<span class="xref">Vector2</span>&gt;</dt>
+    <dd><p>The first matching <a class="xref" href="FrameOfReference.World.CameraState-1.html">CameraState&lt;TCoordinates&gt;</a>; <code>null</code> if there is no match.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_GetEntity_" data-uid="FrameOfReference.World.Universe.GetEntity*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_GetEntity_System_String_" data-uid="FrameOfReference.World.Universe.GetEntity(System.String)">
+  GetEntity(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.cs/#L106"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Retrieves an <a class="xref" href="FrameOfReference.World.Positionables.Entity.html">Entity</a> from <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_Positionables">Positionables</a> by its name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Entity? GetEntity(string name)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.World.Positionables.Entity.html">Entity</a></dt>
+    <dd><p>The first matching <a class="xref" href="FrameOfReference.World.Positionables.Entity.html">Entity</a>; <code>null</code> if there is no match.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_GetTrigger_" data-uid="FrameOfReference.World.Universe.GetTrigger*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_GetTrigger_System_String_" data-uid="FrameOfReference.World.Universe.GetTrigger(System.String)">
+  GetTrigger(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.cs/#L112"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Retrieves an <a class="xref" href="FrameOfReference.World.Positionables.Trigger.html">Trigger</a> from <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_Positionables">Positionables</a> by its name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Trigger? GetTrigger(string name)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.World.Positionables.Trigger.html">Trigger</a></dt>
+    <dd><p>The first matching <a class="xref" href="FrameOfReference.World.Positionables.Trigger.html">Trigger</a>; <code>null</code> if there is no match.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_Load_" data-uid="FrameOfReference.World.Universe.Load*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_Load_System_String_" data-uid="FrameOfReference.World.Universe.Load(System.String)">
+  Load(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Storage.cs/#L59"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads a <a class="xref" href="FrameOfReference.World.Universe.html">Universe</a> from a compressed XML file (map file).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Universe Load(string path)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>path</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The file to load from.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.World.Universe.html">Universe</a></dt>
+    <dd><p>The loaded <a class="xref" href="FrameOfReference.World.Universe.html">Universe</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.ioexception">IOException</a></dt>
+    <dd><p>A problem occurred while reading the file.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.unauthorizedaccessexception">UnauthorizedAccessException</a></dt>
+    <dd><p>Read access to the file is not permitted.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p>A problem occurred while deserializing the XML data.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="FrameOfReference_World_Universe_MakeAllNpc_" data-uid="FrameOfReference.World.Universe.MakeAllNpc*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_MakeAllNpc" data-uid="FrameOfReference.World.Universe.MakeAllNpc">
+  MakeAllNpc()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.cs/#L160"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Turns all <a class="xref" href="FrameOfReference.World.Positionables.Entity.html">Entity</a>s into NPCs.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void MakeAllNpc()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_MakePlayerControlled_" data-uid="FrameOfReference.World.Universe.MakePlayerControlled*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_MakePlayerControlled_System_String_" data-uid="FrameOfReference.World.Universe.MakePlayerControlled(System.String)">
+  MakePlayerControlled(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.cs/#L141"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Turns a specific <a class="xref" href="FrameOfReference.World.Positionables.Entity.html">Entity</a> into a player-controlled character.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void MakePlayerControlled(string name)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.keynotfoundexception">KeyNotFoundException</a></dt>
+    <dd><p>Entity not found.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="FrameOfReference_World_Universe_PlayerMove_" data-uid="FrameOfReference.World.Universe.PlayerMove*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_PlayerMove_FrameOfReference_World_Positionables_Entity_SlimDX_Vector2_" data-uid="FrameOfReference.World.Universe.PlayerMove(FrameOfReference.World.Positionables.Entity,SlimDX.Vector2)">
+  PlayerMove(Entity, Vector2)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.cs/#L123"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Makes a player-controlled <a class="xref" href="FrameOfReference.World.Positionables.Entity.html">Entity</a> move towards a <code class="paramref">target</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void PlayerMove(Entity entity, Vector2 target)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>entity</code> <a class="xref" href="FrameOfReference.World.Positionables.Entity.html">Entity</a></dt>
+    <dd></dd>
+    <dt><code>target</code> <span class="xref">Vector2</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_ResetPathfinding_" data-uid="FrameOfReference.World.Universe.ResetPathfinding*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_ResetPathfinding" data-uid="FrameOfReference.World.Universe.ResetPathfinding">
+  ResetPathfinding()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Pathfinding.cs/#L73"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets the <a class="xref" href="AlphaFramework.World.Paths.IPathfinder-1.html">IPathfinder&lt;TCoordinates&gt;</a> engine to <code>null</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ResetPathfinding()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_Save_" data-uid="FrameOfReference.World.Universe.Save*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_Save_System_String_" data-uid="FrameOfReference.World.Universe.Save(System.String)">
+  Save(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Storage.cs/#L111"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Saves this <a class="xref" href="AlphaFramework.World.CoordinateUniverse-1.html">CoordinateUniverse&lt;TCoordinates&gt;</a> in a map file.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Save(string path)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>path</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The file to save in.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.ioexception">IOException</a></dt>
+    <dd><p>A problem occurred while writing the file.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.unauthorizedaccessexception">UnauthorizedAccessException</a></dt>
+    <dd><p>Write access to the file is not permitted.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="FrameOfReference_World_Universe_UnwrapWaypoints_" data-uid="FrameOfReference.World.Universe.UnwrapWaypoints*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_UnwrapWaypoints" data-uid="FrameOfReference.World.Universe.UnwrapWaypoints">
+  UnwrapWaypoints()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Pathfinding.cs/#L217"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Moves <a class="xref" href="FrameOfReference.World.Positionables.Waypoint.html">Waypoint</a> from <a class="xref" href="FrameOfReference.World.Positionables.Entity.html#FrameOfReference_World_Positionables_Entity_Waypoints">Waypoints</a> to <a class="xref" href="AlphaFramework.World.CoordinateUniverse-1.html#AlphaFramework_World_CoordinateUniverse_1_Positionables">Positionables</a>.
+Call to prepare for editing.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UnwrapWaypoints()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_Update_" data-uid="FrameOfReference.World.Universe.Update*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_Update_AlphaFramework_World_Positionables_IUpdateable_System_Double_" data-uid="FrameOfReference.World.Universe.Update(AlphaFramework.World.Positionables.IUpdateable,System.Double)">
+  Update(IUpdateable, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.cs/#L93"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Updates a single <a class="xref" href="AlphaFramework.World.Positionables.IUpdateable.html">IUpdateable</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void Update(IUpdateable updateable, double elapsedGameTime)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>updateable</code> <a class="xref" href="AlphaFramework.World.Positionables.IUpdateable.html">IUpdateable</a></dt>
+    <dd></dd>
+    <dt><code>elapsedGameTime</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_Universe_Update_" data-uid="FrameOfReference.World.Universe.Update*"></a>
+
+  <h3 id="FrameOfReference_World_Universe_Update_System_Double_" data-uid="FrameOfReference.World.Universe.Update(System.Double)">
+  Update(double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.cs/#L85"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Updates the universe.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Update(double elapsedGameTime)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>elapsedGameTime</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>How much game time in seconds has elapsed since this method was last called.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="events">Events
+</h2>
+
+
+
+  <h3 id="FrameOfReference_World_Universe_LightingChanged" data-uid="FrameOfReference.World.Universe.LightingChanged">
+  LightingChanged
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Lighting.cs/#L43"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Occurs when <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_LightPhase">LightPhase</a>, <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_AmbientColor">AmbientColor</a>, <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_SunColor">SunColor</a>,
+<a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_ColorCorrectionDawn">ColorCorrectionDawn</a>, <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_ColorCorrectionNoon">ColorCorrectionNoon</a> or <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_ColorCorrectionDusk">ColorCorrectionDusk</a>, <a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_ColorCorrectionMidnight">ColorCorrectionMidnight</a> was changed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action? LightingChanged</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action">Action</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/Universe.Storage.cs/#L38" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

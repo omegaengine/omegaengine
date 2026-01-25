@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class ButtonBase | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class ButtonBase | OmegaEngine ">
+      
+      <meta name="description" content="A basis for Button-like control">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaGUI_Model_ButtonBase.md&amp;value=---%0Auid%3A%20OmegaGUI.Model.ButtonBase%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaGUI.Model.ButtonBase">
+
+
+
+  <h1 id="OmegaGUI_Model_ButtonBase" data-uid="OmegaGUI.Model.ButtonBase" class="text-break">
+Class ButtonBase  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Model/ButtonBase.cs/#L34"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaGUI.html">OmegaGUI</a>.<a class="xref" href="OmegaGUI.Model.html">Model</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaGUI.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A basis for Button-like control</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class ButtonBase : Label, ICloneable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="OmegaGUI.Model.Control.html">Control</a></div>
+      <div><a class="xref" href="OmegaGUI.Model.Label.html">Label</a></div>
+      <div><span class="xref">ButtonBase</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.icloneable">ICloneable</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="OmegaGUI.Model.Button.html">Button</a></div>
+      <div><a class="xref" href="OmegaGUI.Model.CheckBox.html">CheckBox</a></div>
+      <div><a class="xref" href="OmegaGUI.Model.DropdownList.html">DropdownList</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Label.html#OmegaGUI_Model_Label_ControlText">Label.ControlText</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Label.html#OmegaGUI_Model_Label_Text">Label.Text</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Label.html#OmegaGUI_Model_Label_TextAlign">Label.TextAlign</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_DXControl">Control.DXControl</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_EffectiveLocation">Control.EffectiveLocation</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_EffectiveSize">Control.EffectiveSize</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_NeedsUpdate">Control.NeedsUpdate()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_Name">Control.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_ToString">Control.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_Default">Control.Default</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_IsEnabled">Control.IsEnabled</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_Enabled">Control.Enabled</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_IsVisible">Control.IsVisible</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_Visible">Control.Visible</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_Location">Control.Location</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_Size">Control.Size</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_AlignHorizontal">Control.AlignHorizontal</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_AlignVertical">Control.AlignVertical</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_DrawBox">Control.DrawBox</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_OnMouseEnter">Control.OnMouseEnter</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_OnMouseExit">Control.OnMouseExit</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_ControlModel">Control.ControlModel</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_SetupMouseEvents">Control.SetupMouseEvents()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Model.Control.html#OmegaGUI_Model_Control_Clone">Control.Clone()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaGUI_Model_ButtonBase_Hotkey_" data-uid="OmegaGUI.Model.ButtonBase.Hotkey*"></a>
+
+  <h3 id="OmegaGUI_Model_ButtonBase_Hotkey" data-uid="OmegaGUI.Model.ButtonBase.Hotkey">
+  Hotkey
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Model/ButtonBase.cs/#L42"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A hotkey that can substitute a mouse click - no auto-update</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Keys Hotkey { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.keys">Keys</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Model_ButtonBase_OnClick_" data-uid="OmegaGUI.Model.ButtonBase.OnClick*"></a>
+
+  <h3 id="OmegaGUI_Model_ButtonBase_OnClick" data-uid="OmegaGUI.Model.ButtonBase.OnClick">
+  OnClick
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Model/ButtonBase.cs/#L58"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A Lua script to execute when the control is clicked</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[FileType(&quot;Lua&quot;)]
+public string? OnClick { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Model/ButtonBase.cs/#L34" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class CameraState&lt;TCoordinates&gt; | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class CameraState&lt;TCoordinates&gt; | OmegaEngine ">
+      
+      <meta name="description" content="Stores the position and direction of the camera in the game.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=FrameOfReference_World_CameraState_1.md&amp;value=---%0Auid%3A%20FrameOfReference.World.CameraState%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="FrameOfReference.World.CameraState`1">
+
+
+
+  <h1 id="FrameOfReference_World_CameraState_1" data-uid="FrameOfReference.World.CameraState`1" class="text-break">
+Class CameraState&lt;TCoordinates&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/CameraState.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="FrameOfReference.html">FrameOfReference</a>.<a class="xref" href="FrameOfReference.World.html">World</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>FrameOfReference.World.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Stores the position and direction of the camera in the game.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class CameraState&lt;TCoordinates&gt; : Positionable&lt;TCoordinates&gt;, ICloneable, IChangeNotify&lt;Positionable&lt;TCoordinates&gt;&gt; where TCoordinates : struct</code></pre>
+  </div>
+
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TCoordinates</code></dt>
+    <dd><p>Data type for storing position coordinates of objects in the game world.</p>
+</dd>
+  </dl>
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html">Positionable</a>&lt;TCoordinates&gt;</div>
+      <div><span class="xref">CameraState&lt;TCoordinates&gt;</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.icloneable">ICloneable</a></div>
+      <div><a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Dispatch.IChangeNotify-1.html">IChangeNotify</a>&lt;<a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html">Positionable</a>&lt;TCoordinates&gt;&gt;</div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="FrameOfReference.World.Positionables.BenchmarkPoint-1.html">BenchmarkPoint&lt;TCoordinates&gt;</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_Changed">Positionable&lt;TCoordinates&gt;.Changed</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_OnChanged">Positionable&lt;TCoordinates&gt;.OnChanged()</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_ChangedRebuild">Positionable&lt;TCoordinates&gt;.ChangedRebuild</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_OnChangedRebuild">Positionable&lt;TCoordinates&gt;.OnChangedRebuild()</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_Name">Positionable&lt;TCoordinates&gt;.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_ToString">Positionable&lt;TCoordinates&gt;.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_Position">Positionable&lt;TCoordinates&gt;.Position</a>
+    </div>
+    <div>
+      <a class="xref" href="AlphaFramework.World.Positionables.Positionable-1.html#AlphaFramework_World_Positionables_Positionable_1_Clone">Positionable&lt;TCoordinates&gt;.Clone()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="FrameOfReference_World_CameraState_1_Radius_" data-uid="FrameOfReference.World.CameraState`1.Radius*"></a>
+
+  <h3 id="FrameOfReference_World_CameraState_1_Radius" data-uid="FrameOfReference.World.CameraState`1.Radius">
+  Radius
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/CameraState.cs/#L41"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The camera's distance from the focused position.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double Radius { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_World_CameraState_1_Rotation_" data-uid="FrameOfReference.World.CameraState`1.Rotation*"></a>
+
+  <h3 id="FrameOfReference_World_CameraState_1_Rotation" data-uid="FrameOfReference.World.CameraState`1.Rotation">
+  Rotation
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/CameraState.cs/#L47"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The horizontal rotation of the view direction in degrees.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double Rotation { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 id="seealso">See Also</h2>
+  <div class="seealso">
+      <div><a class="xref" href="FrameOfReference.World.Universe.html#FrameOfReference_World_Universe_CurrentCamera">CurrentCamera</a></div>
+  </div>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/FrameOfReference/World/CameraState.cs/#L35" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

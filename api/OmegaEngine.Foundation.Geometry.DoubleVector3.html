@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Struct DoubleVector3 | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Struct DoubleVector3 | OmegaEngine ">
+      
+      <meta name="description" content="Defines a three-component vector with  accuracy.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Foundation_Geometry_DoubleVector3.md&amp;value=---%0Auid%3A%20OmegaEngine.Foundation.Geometry.DoubleVector3%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3">
+
+
+
+  <h1 id="OmegaEngine_Foundation_Geometry_DoubleVector3" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3" class="text-break">
+Struct DoubleVector3  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L22"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Foundation.html">Foundation</a>.<a class="xref" href="OmegaEngine.Foundation.Geometry.html">Geometry</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.Foundation.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Defines a three-component vector with <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a> accuracy.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[TypeConverter(typeof(DoubleVector3Converter))]
+public struct DoubleVector3 : IEquatable&lt;DoubleVector3&gt;</code></pre>
+  </div>
+
+
+
+
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a>&gt;</div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="AlphaFramework.Presentation.TerrainExtensions.html#AlphaFramework_Presentation_TerrainExtensions_Flatten_OmegaEngine_Foundation_Geometry_DoubleVector3_">TerrainExtensions.Flatten(DoubleVector3)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.Foundation.Geometry.VectorMath.html#OmegaEngine_Foundation_Geometry_VectorMath_AdjustReference_OmegaEngine_Foundation_Geometry_DoubleVector3_OmegaEngine_Foundation_Geometry_DoubleVector3_OmegaEngine_Foundation_Geometry_DoubleVector3_">VectorMath.AdjustReference(DoubleVector3, DoubleVector3, DoubleVector3)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.Foundation.Geometry.VectorMath.html#OmegaEngine_Foundation_Geometry_VectorMath_GetRotationTo_OmegaEngine_Foundation_Geometry_DoubleVector3_OmegaEngine_Foundation_Geometry_DoubleVector3_">VectorMath.GetRotationTo(DoubleVector3, DoubleVector3)</a>
+  </div>
+  <div>
+      <a class="xref" href="OmegaEngine.Foundation.Geometry.VectorMath.html#OmegaEngine_Foundation_Geometry_VectorMath_RotateAroundAxis_OmegaEngine_Foundation_Geometry_DoubleVector3_OmegaEngine_Foundation_Geometry_DoubleVector3_System_Double_">VectorMath.RotateAroundAxis(DoubleVector3, DoubleVector3, double)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3__ctor_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.#ctor*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3__ctor_System_Double_System_Double_System_Double_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.#ctor(System.Double,System.Double,System.Double)">
+  DoubleVector3(double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L50"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new vector.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DoubleVector3(double x, double y, double z)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The X component.</p>
+</dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The Y component.</p>
+</dd>
+    <dt><code>z</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The Z component.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_UnitX" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.UnitX">
+  UnitX
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L99"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly DoubleVector3 UnitX</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_UnitY" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.UnitY">
+  UnitY
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L99"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly DoubleVector3 UnitY</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_UnitZ" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.UnitZ">
+  UnitZ
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L99"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static readonly DoubleVector3 UnitZ</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_X_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.X*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_X" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.X">
+  X
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L29"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the X component of the vector.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double X { readonly get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_Y_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.Y*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_Y" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.Y">
+  Y
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the Y component of the vector.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double Y { readonly get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_Z_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.Z*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_Z" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.Z">
+  Z
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L41"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the Z component of the vector.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double Z { readonly get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_ApplyOffset_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.ApplyOffset*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_ApplyOffset_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.ApplyOffset(OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  ApplyOffset(DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L115"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a single-precision standard Vector3 after subtracting an offset value</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Pure]
+public readonly Vector3 ApplyOffset(DoubleVector3 offset)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>offset</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd><p>This value is subtracting from the double-precision data before it is casted to single-precision</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Vector3</span></dt>
+    <dd><p>The relative value</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_CrossProduct_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.CrossProduct*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_CrossProduct_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.CrossProduct(OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  CrossProduct(DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L132"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calculates the cross product of this vector and <code class="paramref">other</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Pure]
+public readonly DoubleVector3 CrossProduct(DoubleVector3 other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd><p>The second vector to calculate the cross product with.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_DotProduct_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.DotProduct*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_DotProduct_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.DotProduct(OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  DotProduct(DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L125"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calculates the dot product of this vector and <code class="paramref">other</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Pure]
+public readonly double DotProduct(DoubleVector3 other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd><p>The second vector to calculate the dot product with.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_Equals_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.Equals*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_Equals_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.Equals(OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  Equals(DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L165"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether the current object is equal to another object of the same type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Equals(DoubleVector3 other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd><p>An object to compare with this object.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_Equals_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.Equals*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_Equals_System_Object_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.Equals(System.Object)">
+  Equals(object?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L171"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether this instance and a specified object are equal.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object? obj)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>obj</code> <span class="xref">object</span></dt>
+    <dd><p>The object to compare with the current instance.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if <code class="paramref">obj</code> and this instance are the same type and represent the same value; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_GetHashCode_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.GetHashCode*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_GetHashCode" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.GetHashCode">
+  GetHashCode()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L178"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the hash code for this instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override readonly int GetHashCode()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>A 32-bit signed integer that is the hash code for this instance.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_Length_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.Length*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_Length" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.Length">
+  Length()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L142"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calculates the length of the vector.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Pure]
+public readonly double Length()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_Lerp_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.Lerp*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_Lerp_OmegaEngine_Foundation_Geometry_DoubleVector3_OmegaEngine_Foundation_Geometry_DoubleVector3_System_Double_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.Lerp(OmegaEngine.Foundation.Geometry.DoubleVector3,OmegaEngine.Foundation.Geometry.DoubleVector3,System.Double)">
+  Lerp(DoubleVector3, DoubleVector3, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L107"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Linearly interpolates between two vectors.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 Lerp(DoubleVector3 start, DoubleVector3 end, double factor)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>start</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd><p>The start vector.</p>
+</dd>
+    <dt><code>end</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd><p>The end vector.</p>
+</dd>
+    <dt><code>factor</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The interpolation factor. Typically in the range 0-1. Values outside this range will extrapolate.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_Normalize_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.Normalize*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_Normalize" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.Normalize">
+  Normalize()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L148"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a copy of the vector scaled to a length of 1.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Pure]
+public readonly DoubleVector3 Normalize()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_ToString_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.ToString*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_ToString" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.ToString">
+  ToString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L156"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the fully qualified type name of this instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override readonly string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The fully qualified type name.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="operators">Operators
+</h2>
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Addition_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Addition*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Addition_OmegaEngine_Foundation_Geometry_DoubleVector3_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Addition(OmegaEngine.Foundation.Geometry.DoubleVector3,OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  operator +(DoubleVector3, DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L70"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Add <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a> to <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 operator +(DoubleVector3 vector1, DoubleVector3 vector2)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vector1</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+    <dt><code>vector2</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Addition_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Addition*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Addition_OmegaEngine_Foundation_Geometry_DoubleVector3_SlimDX_Vector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Addition(OmegaEngine.Foundation.Geometry.DoubleVector3,SlimDX.Vector3)">
+  operator +(DoubleVector3, Vector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L58"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Add <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a> to <span class="xref">SlimDX.Vector3</span></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 operator +(DoubleVector3 vector1, Vector3 vector2)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vector1</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+    <dt><code>vector2</code> <span class="xref">Vector3</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Addition_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Addition*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Addition_SlimDX_Vector3_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Addition(SlimDX.Vector3,OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  operator +(Vector3, DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L61"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Add <span class="xref">SlimDX.Vector3</span> to <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 operator +(Vector3 vector1, DoubleVector3 vector2)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vector1</code> <span class="xref">Vector3</span></dt>
+    <dd></dd>
+    <dt><code>vector2</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Division_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Division*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Division_OmegaEngine_Foundation_Geometry_DoubleVector3_System_Double_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Division(OmegaEngine.Foundation.Geometry.DoubleVector3,System.Double)">
+  operator /(DoubleVector3, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L88"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Divide <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a> with <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 operator /(DoubleVector3 vector, double scalar)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vector</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+    <dt><code>scalar</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Division_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Division*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Division_OmegaEngine_Foundation_Geometry_DoubleVector3_System_Single_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Division(OmegaEngine.Foundation.Geometry.DoubleVector3,System.Single)">
+  operator /(DoubleVector3, float)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L91"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Divide <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a> with <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 operator /(DoubleVector3 vector, float scalar)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vector</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+    <dt><code>scalar</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Equality_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Equality*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Equality_OmegaEngine_Foundation_Geometry_DoubleVector3_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Equality(OmegaEngine.Foundation.Geometry.DoubleVector3,OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  operator ==(DoubleVector3, DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L167"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator ==(DoubleVector3 left, DoubleVector3 right)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>left</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+    <dt><code>right</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Explicit_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Explicit*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Explicit_OmegaEngine_Foundation_Geometry_DoubleVector3__SlimDX_Vector3" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Explicit(OmegaEngine.Foundation.Geometry.DoubleVector3)~SlimDX.Vector3">
+  explicit operator Vector3(DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L162"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Convert <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a> into <span class="xref">SlimDX.Vector3</span></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static explicit operator Vector3(DoubleVector3 vector)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vector</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Vector3</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Explicit_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Explicit*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Explicit_SlimDX_Vector3__OmegaEngine_Foundation_Geometry_DoubleVector3" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Explicit(SlimDX.Vector3)~OmegaEngine.Foundation.Geometry.DoubleVector3">
+  explicit operator DoubleVector3(Vector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L159"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Convert <span class="xref">SlimDX.Vector3</span> into <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static explicit operator DoubleVector3(Vector3 vector)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vector</code> <span class="xref">Vector3</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Inequality_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Inequality*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Inequality_OmegaEngine_Foundation_Geometry_DoubleVector3_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Inequality(OmegaEngine.Foundation.Geometry.DoubleVector3,OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  operator !=(DoubleVector3, DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L168"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator !=(DoubleVector3 left, DoubleVector3 right)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>left</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+    <dt><code>right</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Multiply_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Multiply*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Multiply_OmegaEngine_Foundation_Geometry_DoubleVector3_System_Double_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Multiply(OmegaEngine.Foundation.Geometry.DoubleVector3,System.Double)">
+  operator *(DoubleVector3, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L76"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Multiply <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a> with <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 operator *(DoubleVector3 vector, double scalar)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vector</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+    <dt><code>scalar</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Multiply_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Multiply*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Multiply_OmegaEngine_Foundation_Geometry_DoubleVector3_System_Single_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Multiply(OmegaEngine.Foundation.Geometry.DoubleVector3,System.Single)">
+  operator *(DoubleVector3, float)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L85"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Multiply <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a> with <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 operator *(DoubleVector3 vector, float scalar)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vector</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+    <dt><code>scalar</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Multiply_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Multiply*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Multiply_System_Double_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Multiply(System.Double,OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  operator *(double, DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L79"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Multiply <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a> with <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 operator *(double scalar, DoubleVector3 vector)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>scalar</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+    <dt><code>vector</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Multiply_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Multiply*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Multiply_System_Single_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Multiply(System.Single,OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  operator *(float, DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L82"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Multiply <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a> with <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 operator *(float scalar, DoubleVector3 vector)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>scalar</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+    <dt><code>vector</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Subtraction_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Subtraction*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Subtraction_OmegaEngine_Foundation_Geometry_DoubleVector3_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Subtraction(OmegaEngine.Foundation.Geometry.DoubleVector3,OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  operator -(DoubleVector3, DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L73"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Subtract <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a> from <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 operator -(DoubleVector3 vector1, DoubleVector3 vector2)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vector1</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+    <dt><code>vector2</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Subtraction_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Subtraction*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Subtraction_OmegaEngine_Foundation_Geometry_DoubleVector3_SlimDX_Vector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Subtraction(OmegaEngine.Foundation.Geometry.DoubleVector3,SlimDX.Vector3)">
+  operator -(DoubleVector3, Vector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Subtract <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a> from <span class="xref">SlimDX.Vector3</span></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 operator -(DoubleVector3 vector1, Vector3 vector2)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vector1</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+    <dt><code>vector2</code> <span class="xref">Vector3</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Subtraction_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Subtraction*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_Subtraction_SlimDX_Vector3_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_Subtraction(SlimDX.Vector3,OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  operator -(Vector3, DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L67"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Subtract <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a> from <span class="xref">SlimDX.Vector3</span></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 operator -(Vector3 vector1, DoubleVector3 vector2)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vector1</code> <span class="xref">Vector3</span></dt>
+    <dd></dd>
+    <dt><code>vector2</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_UnaryNegation_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_UnaryNegation*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_UnaryNegation_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_UnaryNegation(OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  operator -(DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L97"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Negates <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 operator -(DoubleVector3 v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_UnaryPlus_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_UnaryPlus*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_DoubleVector3_op_UnaryPlus_OmegaEngine_Foundation_Geometry_DoubleVector3_" data-uid="OmegaEngine.Foundation.Geometry.DoubleVector3.op_UnaryPlus(OmegaEngine.Foundation.Geometry.DoubleVector3)">
+  operator +(DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L94"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Leaves <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a> unchanged</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DoubleVector3 operator +(DoubleVector3 v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Geometry/DoubleVector3.cs/#L22" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

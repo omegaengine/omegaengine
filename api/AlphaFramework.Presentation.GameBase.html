@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class GameBase | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class GameBase | OmegaEngine ">
+      
+      <meta name="description" content="Base class for building a game using AlphaFramework. Handles basic engine and GUI setup.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=AlphaFramework_Presentation_GameBase.md&amp;value=---%0Auid%3A%20AlphaFramework.Presentation.GameBase%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="AlphaFramework.Presentation.GameBase">
+
+
+
+  <h1 id="AlphaFramework_Presentation_GameBase" data-uid="AlphaFramework.Presentation.GameBase" class="text-break">
+Class GameBase  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="AlphaFramework.html">AlphaFramework</a>.<a class="xref" href="AlphaFramework.Presentation.html">Presentation</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>AlphaFramework.Presentation.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Base class for building a game using AlphaFramework. Handles basic engine and GUI setup.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class GameBase : RenderHost, IRenderHost, IDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="OmegaEngine.RenderHost.html">RenderHost</a></div>
+      <div><span class="xref">GameBase</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="OmegaEngine.IRenderHost.html">IRenderHost</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="FrameOfReference.Game.html">Game</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Form">RenderHost.Form</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_KeyboardInputProvider">RenderHost.KeyboardInputProvider</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_MouseInputProvider">RenderHost.MouseInputProvider</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_TouchInputProvider">RenderHost.TouchInputProvider</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Disposed">RenderHost.Disposed</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Engine">RenderHost.Engine</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Fullscreen">RenderHost.Fullscreen</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Loading">RenderHost.Loading</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Dispose">RenderHost.Dispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Crash">RenderHost.Crash()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Exit">RenderHost.Exit()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_ToFullscreen">RenderHost.ToFullscreen()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_ToWindowed_System_Drawing_Size_">RenderHost.ToWindowed(Size)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_UpdateStatus_System_String_">RenderHost.UpdateStatus(string)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="AlphaFramework_Presentation_GameBase__ctor_" data-uid="AlphaFramework.Presentation.GameBase.#ctor*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase__ctor_AlphaFramework_Presentation_Config_SettingsBase_System_String_System_Drawing_Icon_System_Drawing_Image_System_Boolean_" data-uid="AlphaFramework.Presentation.GameBase.#ctor(AlphaFramework.Presentation.Config.SettingsBase,System.String,System.Drawing.Icon,System.Drawing.Image,System.Boolean)">
+  GameBase(SettingsBase, string, Icon?, Image?, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Base class for building a game using AlphaFramework. Handles basic engine and GUI setup.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected GameBase(SettingsBase settings, string name, Icon? icon = null, Image? background = null, bool stretch = false)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>settings</code> <a class="xref" href="AlphaFramework.Presentation.Config.SettingsBase.html">SettingsBase</a></dt>
+    <dd><p>Settings for the game</p>
+</dd>
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The name of the application for the title bar</p>
+</dd>
+    <dt><code>icon</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.icon">Icon</a></dt>
+    <dd><p>The icon of the application for the title bar</p>
+</dd>
+    <dt><code>background</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.image">Image</a></dt>
+    <dd><p>A background image for the window while loading</p>
+</dd>
+    <dt><code>stretch</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>Stretch <code class="paramref">background</code> to fit the screen? (<code>false</code> will center it instead)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="AlphaFramework_Presentation_GameBase_GuiManager_" data-uid="AlphaFramework.Presentation.GameBase.GuiManager*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_GuiManager" data-uid="AlphaFramework.Presentation.GameBase.GuiManager">
+  GuiManager
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L37"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Manages all GUI dialogs displayed in the game</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public GuiManager GuiManager { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.GuiManager.html">GuiManager</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></dt>
+    <dd><p><a class="xref" href="AlphaFramework.Presentation.GameBase.html#AlphaFramework_Presentation_GameBase_Run">Run()</a> has not been called yet.</p>
+</dd>
+  </dl>
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="AlphaFramework_Presentation_GameBase_ApplyControlsSettings_" data-uid="AlphaFramework.Presentation.GameBase.ApplyControlsSettings*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_ApplyControlsSettings" data-uid="AlphaFramework.Presentation.GameBase.ApplyControlsSettings">
+  ApplyControlsSettings()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L169"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when <a class="xref" href="AlphaFramework.Presentation.Config.ControlsSettings.html#AlphaFramework_Presentation_Config_ControlsSettings_Changed">Changed</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void ApplyControlsSettings()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_ApplyGeneralSettings_" data-uid="AlphaFramework.Presentation.GameBase.ApplyGeneralSettings*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_ApplyGeneralSettings" data-uid="AlphaFramework.Presentation.GameBase.ApplyGeneralSettings">
+  ApplyGeneralSettings()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L164"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when <a class="xref" href="AlphaFramework.Presentation.Config.GeneralSettings.html#AlphaFramework_Presentation_Config_GeneralSettings_Changed">Changed</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void ApplyGeneralSettings()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_ApplyGraphicsSettings_" data-uid="AlphaFramework.Presentation.GameBase.ApplyGraphicsSettings*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_ApplyGraphicsSettings" data-uid="AlphaFramework.Presentation.GameBase.ApplyGraphicsSettings">
+  ApplyGraphicsSettings()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L178"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when graphics settings from an external source need to be applied to the <a class="xref" href="OmegaEngine.Engine.html">Engine</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void ApplyGraphicsSettings()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_BuildEngineConfig_" data-uid="AlphaFramework.Presentation.GameBase.BuildEngineConfig*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_BuildEngineConfig_System_Boolean_" data-uid="AlphaFramework.Presentation.GameBase.BuildEngineConfig(System.Boolean)">
+  BuildEngineConfig(bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L158"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called to generate an <a class="xref" href="OmegaEngine.EngineConfig.html">EngineConfig</a> based on external settings</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override EngineConfig BuildEngineConfig(bool fullscreen)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>fullscreen</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>Shall the configuration be generated for fullscreen mode?</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.EngineConfig.html">EngineConfig</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_Debug_" data-uid="AlphaFramework.Presentation.GameBase.Debug*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_Debug" data-uid="AlphaFramework.Presentation.GameBase.Debug">
+  Debug()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L187"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the debug form is to be displayed</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public override void Debug()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_Dispose_" data-uid="AlphaFramework.Presentation.GameBase.Dispose*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_Dispose_System_Boolean_" data-uid="AlphaFramework.Presentation.GameBase.Dispose(System.Boolean)">
+  Dispose(bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L71"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>To be called by <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable.dispose">Dispose()</a> and the object destructor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void Dispose(bool disposing)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>disposing</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if called manually and not by the garbage collector.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_GetElapsedGameTime_" data-uid="AlphaFramework.Presentation.GameBase.GetElapsedGameTime*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_GetElapsedGameTime_System_Double_" data-uid="AlphaFramework.Presentation.GameBase.GetElapsedGameTime(System.Double)">
+  GetElapsedGameTime(double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L184"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines the amount of elapsed game time from the amount of elapsed real time.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual double GetElapsedGameTime(double elapsedTime)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>elapsedTime</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_Initialize_" data-uid="AlphaFramework.Presentation.GameBase.Initialize*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_Initialize" data-uid="AlphaFramework.Presentation.GameBase.Initialize">
+  Initialize()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L41"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>To be called after the window is ready and the <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Engine">Engine</a> needs to be set up</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override bool Initialize()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if the initialization worked, <code>false</code> if it failed and the app must be closed</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_LoadDialog_" data-uid="AlphaFramework.Presentation.GameBase.LoadDialog*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_LoadDialog_System_String_" data-uid="AlphaFramework.Presentation.GameBase.LoadDialog(System.String)">
+  LoadDialog(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L217"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads and displays a new dialog.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaGlobal(Description = &quot;Loads and displays a new dialog.&quot;)]
+public DialogPresenter LoadDialog(string name)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The XML file to load from.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.DialogPresenter.html">DialogPresenter</a></dt>
+    <dd><p>The newly created dialog.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_LoadModalDialog_" data-uid="AlphaFramework.Presentation.GameBase.LoadModalDialog*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_LoadModalDialog_System_String_" data-uid="AlphaFramework.Presentation.GameBase.LoadModalDialog(System.String)">
+  LoadModalDialog(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L231"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads and displays a new modal (exclusively focused) dialog.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaGlobal(Description = &quot;Loads and displays a new modal (exclusively focused) dialog.&quot;)]
+public DialogPresenter LoadModalDialog(string name)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The XML file to load from.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.DialogPresenter.html">DialogPresenter</a></dt>
+    <dd><p>The newly created dialog.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_LoadModalDialogCentered_" data-uid="AlphaFramework.Presentation.GameBase.LoadModalDialogCentered*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_LoadModalDialogCentered_System_String_" data-uid="AlphaFramework.Presentation.GameBase.LoadModalDialogCentered(System.String)">
+  LoadModalDialogCentered(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L245"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads and displays a new modal (exclusively focused) dialog and positions it in the center of the screen.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaGlobal(Description = &quot;Loads and displays a new modal (exclusively focused) dialog.&quot;)]
+public DialogPresenter LoadModalDialogCentered(string name)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The XML file to load from.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.DialogPresenter.html">DialogPresenter</a></dt>
+    <dd><p>The newly created dialog.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_LoadSplashDialog_" data-uid="AlphaFramework.Presentation.GameBase.LoadSplashDialog*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_LoadSplashDialog_System_String_" data-uid="AlphaFramework.Presentation.GameBase.LoadSplashDialog(System.String)">
+  LoadSplashDialog(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L261"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads a new exclusively displayed splash-screen dialog.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaGlobal(Description = &quot;Loads a new exclusive displayed splash-screen dialog.&quot;)]
+public DialogPresenter LoadSplashDialog(string name)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The XML file to load from</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.DialogPresenter.html">DialogPresenter</a></dt>
+    <dd><p>The newly created dialog.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="AlphaFramework_Presentation_GameBase_LoadSplashDialog_System_String__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Calling this method will close all other <a class="xref" href="OmegaGUI.DialogPresenter.html">DialogPresenter</a>s.</p>
+</div>
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_NewLua_" data-uid="AlphaFramework.Presentation.GameBase.NewLua*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_NewLua" data-uid="AlphaFramework.Presentation.GameBase.NewLua">
+  NewLua()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L197"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new <span class="xref">LuaInterface.Lua</span> instance with commonly used objects preloaded.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public override Lua NewLua()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Lua</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_Render_" data-uid="AlphaFramework.Presentation.GameBase.Render*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_Render_System_Double_" data-uid="AlphaFramework.Presentation.GameBase.Render(System.Double)">
+  Render(double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L119"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the next frame needs to be rendered.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void Render(double elapsedTime)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>elapsedTime</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The number of seconds that have passed since this method was last called.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_ResetEngine_" data-uid="AlphaFramework.Presentation.GameBase.ResetEngine*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_ResetEngine" data-uid="AlphaFramework.Presentation.GameBase.ResetEngine">
+  ResetEngine()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L136"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Resets the <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Engine">Engine</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void ResetEngine()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_GameBase_Run_" data-uid="AlphaFramework.Presentation.GameBase.Run*"></a>
+
+  <h3 id="AlphaFramework_Presentation_GameBase_Run" data-uid="AlphaFramework.Presentation.GameBase.Run">
+  Run()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L94"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shows the window and runs the render loop until <a class="xref" href="OmegaEngine.RenderHost.html#OmegaEngine_RenderHost_Exit">Exit()</a> is called.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[LuaHide]
+public override void Run()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/GameBase.cs/#L28" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

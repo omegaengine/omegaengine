@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Overview | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Overview | OmegaEngine ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="docs/toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.9.5/doc/index.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+
+
+<p><img src="logo.png" alt=""></p>
+<p><a class="xref" href="api/OmegaEngine.html">OmegaEngine</a> is a general-purpose 3D graphics for .NET Framework and DirectX 9. The engine is designed to be light-weight, modular and gameplay-agnostic. It is designed to be:</p>
+<ul>
+<li>light-weight (core engine including dependencies &lt; 8MB),</li>
+<li>modular (use only the parts you need for your project) and</li>
+<li>gameplay-agnostic (also suitable for visualization projects, etc.).</li>
+</ul>
+<p><a class="xref" href="api/OmegaGUI.html">OmegaGUI</a> is a GUI toolkit for OmegaEngine with an XML file format und Lua scripting.<br>
+The AlphaEditor contains a WYSIWYG editor for the toolkit.</p>
+<p><a class="xref" href="api/AlphaFramework.html">AlphaFramework</a> is a complementary framework for OmegaEngine.<br>
+It provides base classes for designing a game world using the Model-View-Presenter pattern.</p>
+<p><a class="xref" href="api/FrameOfReference.html">FrameOfReference</a> is the official sample game for OmegaEngine.<br>
+It is intended as a sample/reference for developers working on other games.</p>
+<h2 id="first-steps">First steps</h2>
+<p>Create a WinForms project targetting .NET Framework 4.7.2 or newer with the platform set to <code>x86</code>.<br>
+Add a reference to the NuGet package <code>OmegaEngine</code>. Then add the following code to render a textured sphere:</p>
+<pre><code class="lang-csharp">var engine = new Engine(this, new EngineConfig { TargetSize = ClientSize });
+var scene = new Scene
+{
+    Positionables = { Model.Sphere(engine, XTexture.Get(engine, &quot;flag.png&quot;)) }
+};
+var view = new View(scene, new ArcballCamera()) { BackgroundColor = Color.CornflowerBlue };
+engine.Views.Add(view);
+
+Paint += delegate { engine.Render(); };
+</code></pre>
+<h2 id="nuget-packages">NuGet packages</h2>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Namespace</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.nuget.org/packages/OmegaEngine/">OmegaEngine</a></td>
+<td><a class="xref" href="api/OmegaEngine.html">OmegaEngine</a></td>
+<td>3D graphics rendering based on DirectX 9.</td>
+</tr>
+<tr>
+<td><a href="https://www.nuget.org/packages/OmegaEngine.Foundation/">OmegaEngine.Foundation</a></td>
+<td><a class="xref" href="api/OmegaEngine.Foundation.html">OmegaEngine.Foundation</a></td>
+<td>Rendering-agnostic infrastructure like storage  and data structures.</td>
+</tr>
+<tr>
+<td><a href="https://www.nuget.org/packages/OmegaGUI/">OmegaGUI</a></td>
+<td><a class="xref" href="api/OmegaGUI.html">OmegaGUI</a></td>
+<td>GUI toolkit with XML file format und Lua scripting.</td>
+</tr>
+<tr>
+<td><a href="https://www.nuget.org/packages/AlphaFramework.World/">AlphaFramework.World</a></td>
+<td><a class="xref" href="api/AlphaFramework.World.html">AlphaFramework.World</a></td>
+<td>Basis for engine-agnostic models of game worlds.</td>
+</tr>
+<tr>
+<td><a href="https://www.nuget.org/packages/AlphaFramework.Presentation/">AlphaFramework.Presentation</a></td>
+<td><a class="xref" href="api/AlphaFramework.Presentation.html">AlphaFramework.Presentation</a></td>
+<td>Basis for presenters that visualize game worlds using the engine.</td>
+</tr>
+<tr>
+<td><a href="https://www.nuget.org/packages/AlphaEditor/">AlphaEditor</a></td>
+<td><a class="xref" href="api/AlphaFramework.Editor.html">AlphaFramework.Editor</a></td>
+<td>Toolkit for creating editors for games based on AlphaFramework.</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="lang-mermaid">flowchart TD
+    engine[OmegaEngine] --&gt; foundation[OmegaEngine.Foundation]
+    gui[OmegaGUI] --&gt; engine
+    world[AlphaFramework.World] --&gt; foundation
+    presentation[AlphaFramework.Presentation] --&gt; world
+    presentation --&gt; engine
+    presentation --&gt; gui
+    editor[AlphaEditor] --&gt; presentation
+</code></pre>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>You additionally need to ensure these native dependencies are installed or bundled with your application:</p>
+<ul>
+<li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=26999">Visual C++ 2010 Redistributable x86</a></li>
+<li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=8109">DirectX June 2010 Runtime</a></li>
+</ul>
+</div>
+<h2 id="project-templates">Project templates</h2>
+<p>The OmegaEngine <a href="https://www.nuget.org/packages/OmegaEngine.Templates#readme-body-tab">project templates</a> help you create C# projects that use OmegaEngine, OmegaGUI and AlphaFramework.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/doc/index.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

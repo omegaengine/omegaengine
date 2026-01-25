@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class ListBox | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class ListBox | OmegaEngine ">
+      
+      <meta name="description" content="List box control">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaGUI_Render_ListBox.md&amp;value=---%0Auid%3A%20OmegaGUI.Render.ListBox%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaGUI.Render.ListBox">
+
+
+
+  <h1 id="OmegaGUI_Render_ListBox" data-uid="OmegaGUI.Render.ListBox" class="text-break">
+Class ListBox  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L23"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaGUI.html">OmegaGUI</a>.<a class="xref" href="OmegaGUI.Render.html">Render</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaGUI.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>List box control</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ListBox : Control</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="OmegaGUI.Render.Control.html">Control</a></div>
+      <div><span class="xref">ListBox</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_ToString">Control.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_parentDialog">Control.parentDialog</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_index">Control.index</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_IsDefault">Control.IsDefault</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_localUserData">Control.localUserData</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_visible">Control.visible</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_isMouseOver">Control.isMouseOver</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_hasFocus">Control.hasFocus</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_controlId">Control.controlId</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_ctrlType">Control.ctrlType</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_ctrlHotKey">Control.ctrlHotKey</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_enabled">Control.enabled</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_boundingBox">Control.boundingBox</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_controlX">Control.controlX</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_controlY">Control.controlY</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_width">Control.width</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_height">Control.height</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_elementList">Control.elementList</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_MouseEnter">Control.MouseEnter</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_MouseExit">Control.MouseExit</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_MsgProc_System_IntPtr_NanoByte_Common_Native_WindowMessage_System_IntPtr_System_IntPtr_">Control.MsgProc(IntPtr, WindowMessage, IntPtr, IntPtr)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_UserData">Control.UserData</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_Parent">Control.Parent</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_OnFocusIn">Control.OnFocusIn()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_OnFocusOut">Control.OnFocusOut()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_OnMouseEnter">Control.OnMouseEnter()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_OnMouseExit">Control.OnMouseExit()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_OnHotKey">Control.OnHotKey()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_ContainsPoint_System_Drawing_Point_">Control.ContainsPoint(Point)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_IsEnabled">Control.IsEnabled</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_IsVisible">Control.IsVisible</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_ControlType">Control.ControlType</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_ID">Control.ID</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_SetLocation_System_Int32_System_Int32_">Control.SetLocation(int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_SetSize_System_Int32_System_Int32_">Control.SetSize(int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_Hotkey">Control.Hotkey</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_Item_System_UInt32_">Control.this[uint]</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaGUI.Render.Control.html#OmegaGUI_Render_Control_Refresh">Control.Refresh()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaGUI_Render_ListBox__ctor_" data-uid="OmegaGUI.Render.ListBox.#ctor*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox__ctor_OmegaGUI_Render_Dialog_" data-uid="OmegaGUI.Render.ListBox.#ctor(OmegaGUI.Render.Dialog)">
+  ListBox(Dialog)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L77"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Create a new list box control</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ListBox(Dialog parent)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>parent</code> <a class="xref" href="OmegaGUI.Render.Dialog.html">Dialog</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_MainLayer" data-uid="OmegaGUI.Render.ListBox.MainLayer">
+  MainLayer
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L25"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int MainLayer = 0</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_SelectionLayer" data-uid="OmegaGUI.Render.ListBox.SelectionLayer">
+  SelectionLayer
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int SelectionLayer = 1</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_border" data-uid="OmegaGUI.Render.ListBox.border">
+  border
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L66"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected int border</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_ctrlStyle" data-uid="OmegaGUI.Render.ListBox.ctrlStyle">
+  ctrlStyle
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L71"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ListBoxStyle ctrlStyle</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.ListBoxStyle.html">ListBoxStyle</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_isDragging" data-uid="OmegaGUI.Render.ListBox.isDragging">
+  isDragging
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L70"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool isDragging</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_itemList" data-uid="OmegaGUI.Render.ListBox.itemList">
+  itemList
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L73"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected List&lt;ListItem&gt; itemList</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="OmegaGUI.Render.ListItem.html">ListItem</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_margin" data-uid="OmegaGUI.Render.ListBox.margin">
+  margin
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L65"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected int margin</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_scrollWidth" data-uid="OmegaGUI.Render.ListBox.scrollWidth">
+  scrollWidth
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L64"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected int scrollWidth</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_scrollbarControl" data-uid="OmegaGUI.Render.ListBox.scrollbarControl">
+  scrollbarControl
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L63"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ScrollBar scrollbarControl</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.ScrollBar.html">ScrollBar</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_selectedIndex" data-uid="OmegaGUI.Render.ListBox.selectedIndex">
+  selectedIndex
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L68"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected int selectedIndex</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_selectedStarted" data-uid="OmegaGUI.Render.ListBox.selectedStarted">
+  selectedStarted
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L69"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected int selectedStarted</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_selectionRect" data-uid="OmegaGUI.Render.ListBox.selectionRect">
+  selectionRect
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L62"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Rectangle selectionRect</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_textHeight" data-uid="OmegaGUI.Render.ListBox.textHeight">
+  textHeight
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L67"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected int textHeight</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_textRect" data-uid="OmegaGUI.Render.ListBox.textRect">
+  textRect
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L61"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Rectangle textRect</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaGUI_Render_ListBox_CanHaveFocus_" data-uid="OmegaGUI.Render.ListBox.CanHaveFocus*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_CanHaveFocus" data-uid="OmegaGUI.Render.ListBox.CanHaveFocus">
+  CanHaveFocus
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L120"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Can this control have focus</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool CanHaveFocus { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_Item_" data-uid="OmegaGUI.Render.ListBox.Item*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_Item_System_Int32_" data-uid="OmegaGUI.Render.ListBox.Item(System.Int32)">
+  this[int]
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L129"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indexer for items in the list</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ListItem this[int index] { get; }</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.ListItem.html">ListItem</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_NumberItems_" data-uid="OmegaGUI.Render.ListBox.NumberItems*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_NumberItems" data-uid="OmegaGUI.Render.ListBox.NumberItems">
+  NumberItems
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L126"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Number of items current in the list</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int NumberItems { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_Style_" data-uid="OmegaGUI.Render.ListBox.Style*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_Style" data-uid="OmegaGUI.Render.ListBox.Style">
+  Style
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L123"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets the style of the listbox</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ListBoxStyle Style { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.ListBoxStyle.html">ListBoxStyle</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaGUI_Render_ListBox_AddItem_" data-uid="OmegaGUI.Render.ListBox.AddItem*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_AddItem_System_String_System_String_System_Object_" data-uid="OmegaGUI.Render.ListBox.AddItem(System.String,System.String,System.Object)">
+  AddItem(string, string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L562"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds an item to the list box control</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddItem(string text, string tag, object data)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>tag</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>data</code> <span class="xref">object</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_Clear_" data-uid="OmegaGUI.Render.ListBox.Clear*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_Clear" data-uid="OmegaGUI.Render.ListBox.Clear">
+  Clear()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L603"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes all items from the control</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Clear()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_GetSelectedIndex_" data-uid="OmegaGUI.Render.ListBox.GetSelectedIndex*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_GetSelectedIndex_System_Int32_" data-uid="OmegaGUI.Render.ListBox.GetSelectedIndex(System.Int32)">
+  GetSelectedIndex(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L621"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>For single-selection listbox, returns the index of the selected item.
+For multi-selection, returns the first selected item after the previousSelected position.
+To search for the first selected item, the app passes -1 for previousSelected.  For
+subsequent searches, the app passes the returned index back to GetSelectedIndex as.
+previousSelected.
+Returns -1 on error or if no item is selected.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetSelectedIndex(int previousSelected)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>previousSelected</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_GetSelectedItem_" data-uid="OmegaGUI.Render.ListBox.GetSelectedItem*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_GetSelectedItem" data-uid="OmegaGUI.Render.ListBox.GetSelectedItem">
+  GetSelectedItem()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L650"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the selected item</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ListItem GetSelectedItem()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.ListItem.html">ListItem</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_GetSelectedItem_" data-uid="OmegaGUI.Render.ListBox.GetSelectedItem*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_GetSelectedItem_System_Int32_" data-uid="OmegaGUI.Render.ListBox.GetSelectedItem(System.Int32)">
+  GetSelectedItem(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L644"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the selected item</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ListItem GetSelectedItem(int previousSelected)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>previousSelected</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaGUI.Render.ListItem.html">ListItem</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_HandleKeyboard_" data-uid="OmegaGUI.Render.ListBox.HandleKeyboard*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_HandleKeyboard_NanoByte_Common_Native_WindowMessage_System_IntPtr_System_IntPtr_" data-uid="OmegaGUI.Render.ListBox.HandleKeyboard(NanoByte.Common.Native.WindowMessage,System.IntPtr,System.IntPtr)">
+  HandleKeyboard(WindowMessage, IntPtr, IntPtr)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L138"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the control needs to handle the keyboard</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool HandleKeyboard(WindowMessage msg, IntPtr wParam, IntPtr lParam)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>msg</code> <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Native.WindowMessage.html">WindowMessage</a></dt>
+    <dd></dd>
+    <dt><code>wParam</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">IntPtr</a></dt>
+    <dd></dd>
+    <dt><code>lParam</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">IntPtr</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_HandleMouse_" data-uid="OmegaGUI.Render.ListBox.HandleMouse*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_HandleMouse_NanoByte_Common_Native_WindowMessage_System_Drawing_Point_System_IntPtr_System_IntPtr_" data-uid="OmegaGUI.Render.ListBox.HandleMouse(NanoByte.Common.Native.WindowMessage,System.Drawing.Point,System.IntPtr,System.IntPtr)">
+  HandleMouse(WindowMessage, Point, IntPtr, IntPtr)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L250"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the control should handle the mouse</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool HandleMouse(WindowMessage msg, Point pt, IntPtr wParam, IntPtr lParam)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>msg</code> <a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Native.WindowMessage.html">WindowMessage</a></dt>
+    <dd></dd>
+    <dt><code>pt</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd></dd>
+    <dt><code>wParam</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">IntPtr</a></dt>
+    <dd></dd>
+    <dt><code>lParam</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">IntPtr</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_InsertItem_" data-uid="OmegaGUI.Render.ListBox.InsertItem*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_InsertItem_System_Int32_System_String_System_Object_" data-uid="OmegaGUI.Render.ListBox.InsertItem(System.Int32,System.String,System.Object)">
+  InsertItem(int, string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L575"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Inserts an item to the list box control</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void InsertItem(int index, string text, object data)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>data</code> <span class="xref">object</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_OnInitialize_" data-uid="OmegaGUI.Render.ListBox.OnInitialize*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_OnInitialize" data-uid="OmegaGUI.Render.ListBox.OnInitialize">
+  OnInitialize()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L132"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initialize the scrollbar control here</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnInitialize()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_RaiseDoubleClickEvent_" data-uid="OmegaGUI.Render.ListBox.RaiseDoubleClickEvent*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_RaiseDoubleClickEvent_OmegaGUI_Render_ListBox_System_Boolean_" data-uid="OmegaGUI.Render.ListBox.RaiseDoubleClickEvent(OmegaGUI.Render.ListBox,System.Boolean)">
+  RaiseDoubleClickEvent(ListBox, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L33"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Raises the double click event</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void RaiseDoubleClickEvent(ListBox sender, bool wasTriggeredByUser)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sender</code> <a class="xref" href="OmegaGUI.Render.ListBox.html">ListBox</a></dt>
+    <dd></dd>
+    <dt><code>wasTriggeredByUser</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_RaiseSelectionEvent_" data-uid="OmegaGUI.Render.ListBox.RaiseSelectionEvent*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_RaiseSelectionEvent_OmegaGUI_Render_ListBox_System_Boolean_" data-uid="OmegaGUI.Render.ListBox.RaiseSelectionEvent(OmegaGUI.Render.ListBox,System.Boolean)">
+  RaiseSelectionEvent(ListBox, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Raises the selection event</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void RaiseSelectionEvent(ListBox sender, bool wasTriggeredByUser)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sender</code> <a class="xref" href="OmegaGUI.Render.ListBox.html">ListBox</a></dt>
+    <dd></dd>
+    <dt><code>wasTriggeredByUser</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_RemoveAt_" data-uid="OmegaGUI.Render.ListBox.RemoveAt*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_RemoveAt_System_Int32_" data-uid="OmegaGUI.Render.ListBox.RemoveAt(System.Int32)">
+  RemoveAt(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L588"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes an item at a particular index</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveAt(int index)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_Render_" data-uid="OmegaGUI.Render.ListBox.Render*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_Render_SlimDX_Direct3D9_Device_System_Single_" data-uid="OmegaGUI.Render.ListBox.Render(SlimDX.Direct3D9.Device,System.Single)">
+  Render(Device, float)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L475"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when the control should be rendered</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Render(Device device, float elapsedTime)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>device</code> <span class="xref">Device</span></dt>
+    <dd></dd>
+    <dt><code>elapsedTime</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_SelectItem_" data-uid="OmegaGUI.Render.ListBox.SelectItem*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_SelectItem_System_Int32_" data-uid="OmegaGUI.Render.ListBox.SelectItem(System.Int32)">
+  SelectItem(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L673"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Selects this item</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SelectItem(int newIndex)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>newIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_SetBorder_" data-uid="OmegaGUI.Render.ListBox.SetBorder*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_SetBorder_System_Int32_System_Int32_" data-uid="OmegaGUI.Render.ListBox.SetBorder(System.Int32,System.Int32)">
+  SetBorder(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L656"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets the border and margin sizes</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetBorder(int borderSize, int marginSize)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>borderSize</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>marginSize</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_SetScrollbarWidth_" data-uid="OmegaGUI.Render.ListBox.SetScrollbarWidth*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_SetScrollbarWidth_System_Int32_" data-uid="OmegaGUI.Render.ListBox.SetScrollbarWidth(System.Int32)">
+  SetScrollbarWidth(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L113"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets the scroll bar width of this control</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetScrollbarWidth(int width)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>width</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_SetSelected_" data-uid="OmegaGUI.Render.ListBox.SetSelected*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_SetSelected_System_String_" data-uid="OmegaGUI.Render.ListBox.SetSelected(System.String)">
+  SetSelected(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L664"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets the selected item by text</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetSelected(string text)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaGUI_Render_ListBox_UpdateRectangles_" data-uid="OmegaGUI.Render.ListBox.UpdateRectangles*"></a>
+
+  <h3 id="OmegaGUI_Render_ListBox_UpdateRectangles" data-uid="OmegaGUI.Render.ListBox.UpdateRectangles">
+  UpdateRectangles()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L86"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Update the rectangles for the list box control</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void UpdateRectangles()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="events">Events
+</h2>
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_DoubleClick" data-uid="OmegaGUI.Render.ListBox.DoubleClick">
+  DoubleClick
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L29"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler? DoubleClick</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.eventhandler">EventHandler</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h3 id="OmegaGUI_Render_ListBox_Selection" data-uid="OmegaGUI.Render.ListBox.Selection">
+  Selection
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L30"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler? Selection</code></pre>
+  </div>
+
+
+
+
+
+
+  <h4 class="section">Event Type</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.eventhandler">EventHandler</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaGUI/Render/ListBox.cs/#L23" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

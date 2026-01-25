@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace AlphaFramework.Presentation | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace AlphaFramework.Presentation | OmegaEngine ">
+      
+      <meta name="description" content="Provides a basis for building presenters that visualize -based game worlds using .">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/_Namespace.md/#L2">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="AlphaFramework.Presentation">
+
+  <h1 id="AlphaFramework_Presentation" data-uid="AlphaFramework.Presentation" class="text-break">Namespace AlphaFramework.Presentation</h1>
+  <div class="markdown level0 summary"><p>Provides a basis for building presenters that visualize <a class="xref" href="AlphaFramework.World.html">AlphaFramework.World</a>-based game worlds using <a class="xref" href="OmegaEngine.Graphics.Renderables.html">OmegaEngine.Graphics.Renderables</a>.</p>
+</div>
+  <div class="markdown level0 conceptual">
+<div class="NOTE">
+<h5>Note</h5>
+<p>NuGet package: <a href="https://www.nuget.org/packages/AlphaFramework.Presentation/">AlphaFramework.Presentation</a></p>
+</div>
+<h2 id="presenter">Presenter</h2>
+<p>The <strong>Presenter</strong> (see <a class="xref" href="AlphaFramework.Presentation.PresenterBase-1.html">PresenterBase&lt;TUniverse&gt;</a>) handles visual representation. It bridges the game world and the rendering engine:</p>
+<ul>
+<li><strong>Creates renderables</strong> - Converts entities to <a class="xref" href="OmegaEngine.Graphics.Renderables.html">Renderables</a></li>
+<li><strong>Manages the scene</strong> - Adds/removes objects from the <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a></li>
+<li><strong>Handles view updates</strong> - Keeps visual representation synchronized with world state</li>
+</ul>
+<p>Different presenter implementations can provide different visualization modes (e.g., in-game, editor, menu background) without changing the underlying world data.</p>
+<pre><code class="lang-csharp">public class Presenter(Engine engine, Universe universe) : PresenterBase&lt;Universe&gt;
+{
+    public Presenter(Engine engine, Universe universe) : base(engine, universe)
+    {
+        View = new(Scene, new FreeFlyCamera());
+    }
+
+    public override void Initialize()
+    {
+        if (Initialized) return;
+
+        // Add PositionableRenderables to Scene.Positionables
+
+        base.Initialize();
+    }
+}
+</code></pre>
+<h2 id="section"><a class="xref" href="AlphaFramework.Presentation.GameBase.html">GameBase</a></h2>
+<p><strong>GameBase</strong> provides the application shell. It extends <a class="xref" href="OmegaEngine.RenderHost.html">RenderHost</a> with game-specific features:</p>
+<ul>
+<li><strong>Settings management</strong> - Loads and saves game configuration</li>
+<li><strong>GUI system</strong> - Integrates OmegaGUI for menus and HUD</li>
+<li><strong>Lifecycle management</strong> - Handles initialization, main loop, and cleanup</li>
+</ul>
+<p>Your game class derives from <code>GameBase</code> and coordinates the other components:</p>
+<pre><code class="lang-csharp">public class MyGame(Settings settings)
+    : GameBase(settings, &quot;My game&quot;)
+{
+    private Session? _session;
+    private Presenter? _presenter;
+
+    protected override bool Initialize()
+    {
+        if (!base.Initialize()) return false;
+
+        // Load universe
+        var universe = Universe.Load(&quot;Level1.xml&quot;);
+
+        // Create session
+        _session = new Session(universe);
+
+        // Create presenter
+        _presenter = new(Engine, universe);
+        _presenter.HookIn();
+
+        return true;
+    }
+
+    protected override void Render(double elapsedTime)
+    {
+        _session!.Update(elapsedTime);
+        base.Render(elapsedTime);
+    }
+}
+</code></pre>
+<h2 id="api">API</h2>
+</div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="namespaces">
+Namespaces
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.Presentation.Config.html">AlphaFramework.Presentation.Config</a></dt>
+      <dd></dd>
+    </dl>
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.Presentation.Arguments.html">Arguments</a></dt>
+      <dd><p>Helpers for interpreting the command-line arguments for the current process.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.Presentation.CoordinatePresenter-2.html">CoordinatePresenter&lt;TUniverse, TCoordinates&gt;</a></dt>
+      <dd><p>Uses the <a class="xref" href="OmegaEngine.Engine.html">Engine</a> to present a <a class="xref" href="AlphaFramework.World.CoordinateUniverse-1.html">CoordinateUniverse&lt;TCoordinates&gt;</a> game world.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.Presentation.GameBase.html">GameBase</a></dt>
+      <dd><p>Base class for building a game using AlphaFramework. Handles basic engine and GUI setup.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.Presentation.PresenterBase-1.html">PresenterBase&lt;TUniverse&gt;</a></dt>
+      <dd><p>Uses the <a class="xref" href="AlphaFramework.Presentation.PresenterBase-1.html#AlphaFramework_Presentation_PresenterBase_1_Engine">Engine</a> to present an <a class="xref" href="AlphaFramework.World.IUniverse.html">IUniverse</a> game world.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.Presentation.TerrainExtensions.html">TerrainExtensions</a></dt>
+      <dd><p>Contains extension methods for <a class="xref" href="AlphaFramework.World.Terrains.Terrain-1.html">Terrain&lt;TTemplate&gt;</a>.</p>
+</dd>
+    </dl>
+    <h3 id="interfaces">
+Interfaces
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.Presentation.IPresenter-1.html">IPresenter&lt;TUniverse&gt;</a></dt>
+      <dd><p>Maintains a <a class="xref" href="OmegaEngine.Graphics.View.html">View</a> to present an <a class="xref" href="AlphaFramework.World.IUniverse.html">IUniverse</a> game world.</p>
+</dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/AlphaFramework/Presentation/_Namespace.md/#L2" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

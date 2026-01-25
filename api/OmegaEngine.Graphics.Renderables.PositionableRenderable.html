@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class PositionableRenderable | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class PositionableRenderable | OmegaEngine ">
+      
+      <meta name="description" content="An object that can be ed at a specific  in a .">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Graphics_Renderables_PositionableRenderable.md&amp;value=---%0Auid%3A%20OmegaEngine.Graphics.Renderables.PositionableRenderable%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable">
+
+
+
+  <h1 id="OmegaEngine_Graphics_Renderables_PositionableRenderable" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable" class="text-break">
+Class PositionableRenderable  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L77"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Graphics.html">Graphics</a>.<a class="xref" href="OmegaEngine.Graphics.Renderables.html">Renderables</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>An object that can be <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Render(Camera, GetEffectiveLights)</a>ed at a specific <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Position">Position</a> in a <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a>.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class PositionableRenderable : Renderable, IDisposable, IPositionable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="OmegaEngine.EngineElement.html">EngineElement</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html">Renderable</a></div>
+      <div><span class="xref">PositionableRenderable</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+      <div><a class="xref" href="OmegaEngine.IPositionable.html">IPositionable</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="OmegaEngine.Graphics.Renderables.AnimatedModel.html">AnimatedModel</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Renderables.CpuParticleSystem.html">CpuParticleSystem</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Renderables.Model.html">Model</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Renderables.VertexGroup.html">VertexGroup</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_PreRender">Renderable.PreRender</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_OnPreRender">Renderable.OnPreRender()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_RenderCount">Renderable.RenderCount</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_Name">Renderable.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_ToString">Renderable.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_Visible">Renderable.Visible</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_Wireframe">Renderable.Wireframe</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_Alpha">Renderable.Alpha</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_PrepareRender">Renderable.PrepareRender()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_RegisterChild_OmegaEngine_EngineElement_System_Boolean_">EngineElement.RegisterChild(EngineElement, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_UnregisterChild_OmegaEngine_EngineElement_">EngineElement.UnregisterChild(EngineElement)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_Engine">EngineElement.Engine</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_IsEngineSet">EngineElement.IsEngineSet</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_IsDisposed">EngineElement.IsDisposed</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_Dispose">EngineElement.Dispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_OnDispose">EngineElement.OnDispose()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldTransformDirty" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.WorldTransformDirty">
+  WorldTransformDirty
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L86"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Does the world transform need to be recalculated?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool WorldTransformDirty</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_Billboard_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.Billboard*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_Billboard" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.Billboard">
+  Billboard
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L129"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>How this <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a> shall be rotated towards the camera</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BillboardMode Billboard { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.BillboardMode.html">BillboardMode</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_BoundingBox_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.BoundingBox*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_BoundingBox" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.BoundingBox">
+  BoundingBox
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L303"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A axis-aligned box that completely encompasses the body (in entity space, even before apply <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_PreTransform">PreTransform</a>).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public BoundingBox? BoundingBox { get; protected set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">BoundingBox</span>?</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_BoundingSphere_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.BoundingSphere*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_BoundingSphere" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.BoundingSphere">
+  BoundingSphere
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L270"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A sphere that completely encompasses the body (in entity space, even before apply <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_PreTransform">PreTransform</a>).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public BoundingSphere? BoundingSphere { get; protected set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">BoundingSphere</span>?</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_DrawBoundingBox_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.DrawBoundingBox*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_DrawBoundingBox" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.DrawBoundingBox">
+  DrawBoundingBox
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L324"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shall the bounding box used to cull this object be drawn/visualized? (used for debugging)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool DrawBoundingBox { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_DrawBoundingSphere_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.DrawBoundingSphere*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_DrawBoundingSphere" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.DrawBoundingSphere">
+  DrawBoundingSphere
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L297"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shall the bounding sphere used to cull this object be drawn/visualized? (used for debugging)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool DrawBoundingSphere { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_Pickable_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.Pickable*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_Pickable" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.Pickable">
+  Pickable
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L95"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shall this <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a> be pickable with the mouse?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Pickable { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_Position_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.Position*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_Position" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.Position">
+  Position
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L190"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The body's position in world space</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DoubleVector3 Position { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_PreTransform_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.PreTransform*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_PreTransform" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.PreTransform">
+  PreTransform
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L157"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A transformation matrix that is to be applied before the normal world transform occurs - useful for correcting off-center meshes</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public Matrix PreTransform { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Matrix</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_PreventFarClipping_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.PreventFarClipping*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_PreventFarClipping" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.PreventFarClipping">
+  PreventFarClipping
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L135"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shall this object still be rendered, even if it is beyond the <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_FarClip">FarClip</a> plane? (at the cost of incorrect Z-ordering)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool PreventFarClipping { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_RenderIn_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.RenderIn*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_RenderIn" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.RenderIn">
+  RenderIn
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L101"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>In what kind of <a class="xref" href="OmegaEngine.Graphics.View.html">View</a>s shall this body be rendered?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ViewType RenderIn { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.ViewType.html">ViewType</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_RequiredViews_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.RequiredViews*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_RequiredViews" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.RequiredViews">
+  RequiredViews
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L335"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A list of <a class="xref" href="OmegaEngine.Graphics.View.html">View</a>s that must be rendered before this <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a> can be rendered</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public ICollection&lt;View&gt; RequiredViews { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection</a>&lt;<a class="xref" href="OmegaEngine.Graphics.View.html">View</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_Rotation_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.Rotation*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_Rotation" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.Rotation">
+  Rotation
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L182"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The body's rotation quaternion</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public Quaternion Rotation { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Quaternion</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_Scale_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.Scale*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_Scale" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.Scale">
+  Scale
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L165"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Scaling to be performed before rendering</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector3 Scale { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Vector3</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_ShadowCaster_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.ShadowCaster*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_ShadowCaster" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.ShadowCaster">
+  ShadowCaster
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L141"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shall this <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a> cast shadows on other objects?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ShadowCaster { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_ShadowReceiver_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.ShadowReceiver*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_ShadowReceiver" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.ShadowReceiver">
+  ShadowReceiver
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L147"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shall this <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a> receive shadows from other objects?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ShadowReceiver { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_SurfaceEffect_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.SurfaceEffect*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_SurfaceEffect" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.SurfaceEffect">
+  SurfaceEffect
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L107"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>What kinds of surface effects (e.g. lighting) to apply to this <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SurfaceEffect SurfaceEffect { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.SurfaceEffect.html">SurfaceEffect</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_SurfaceShader_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.SurfaceShader*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_SurfaceShader" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.SurfaceShader">
+  SurfaceShader
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L115"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_SurfaceShader">SurfaceShader</a> to apply to the surface of this <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SurfaceShader? SurfaceShader { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Graphics.Shaders.SurfaceShader.html">SurfaceShader</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Graphics_Renderables_PositionableRenderable_SurfaceShader_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Will NOT be disposed when <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_Dispose">Dispose()</a> is called.</p>
+</div>
+
+
+  <dl class="typelist seealso">
+    <dt>See Also</dt>
+    <dd>
+    <div><a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_SurfaceEffect">SurfaceEffect</a></div>
+    </dd>
+  </dl>
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldBoundingBox_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.WorldBoundingBox*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldBoundingBox" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.WorldBoundingBox">
+  WorldBoundingBox
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L311"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>An axis-aligned box that completely encompasses the body (in floating world space, used for culling tests).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public BoundingBox? WorldBoundingBox { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">BoundingBox</span>?</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldBoundingSphere_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.WorldBoundingSphere*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldBoundingSphere" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.WorldBoundingSphere">
+  WorldBoundingSphere
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L278"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A sphere that completely encompasses the body (in floating world space, used for culling tests).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public BoundingSphere? WorldBoundingSphere { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">BoundingSphere</span>?</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldTransformCached_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.WorldTransformCached*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldTransformCached" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.WorldTransformCached">
+  WorldTransformCached
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L235"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Matrix WorldTransformCached { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Matrix</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_GetWorldBoundingSphereOrPosition_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.GetWorldBoundingSphereOrPosition*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_GetWorldBoundingSphereOrPosition" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.GetWorldBoundingSphereOrPosition">
+  GetWorldBoundingSphereOrPosition()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L291"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldBoundingSphere">WorldBoundingSphere</a> or, if that is not available, a sphere with the floating world position and zero radius.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected BoundingSphere GetWorldBoundingSphereOrPosition()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">BoundingSphere</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_Intersects_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.Intersects*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_Intersects_SlimDX_Ray_OmegaEngine_Foundation_Geometry_DoubleVector3__" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.Intersects(SlimDX.Ray,OmegaEngine.Foundation.Geometry.DoubleVector3@)">
+  Intersects(Ray, out DoubleVector3)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L582"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determine whether this <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a> is intersected by a ray.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Intersects(Ray ray, out DoubleVector3 position)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ray</code> <span class="xref">Ray</span></dt>
+    <dd><p>A ray in world space along which to check for intersections.</p>
+</dd>
+    <dt><code>position</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a></dt>
+    <dd><p>Returns the position of the intersection in entity space.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if this <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a> was intersected by the <code class="paramref">ray</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <dl class="typelist seealso">
+    <dt>See Also</dt>
+    <dd>
+    <div><a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_Pick_System_Drawing_Point_OmegaEngine_Foundation_Geometry_DoubleVector3__">Pick</a>(<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a>, out <a class="xref" href="OmegaEngine.Foundation.Geometry.DoubleVector3.html">DoubleVector3</a>)</div>
+    </dd>
+  </dl>
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_Intersects_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.Intersects*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_Intersects_SlimDX_Ray_System_Single__" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.Intersects(SlimDX.Ray,System.Single@)">
+  Intersects(Ray, out float)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L569"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determine whether this <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a> is intersected by a ray.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual bool Intersects(Ray ray, out float distance)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ray</code> <span class="xref">Ray</span></dt>
+    <dd><p>A ray in world space along which to check for intersections.</p>
+</dd>
+    <dt><code>distance</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>Returns the distance along the <code class="paramref">ray</code> at which the intersection took place.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if this <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a> was intersected by the <code class="paramref">ray</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <dl class="typelist seealso">
+    <dt>See Also</dt>
+    <dd>
+    <div><a class="xref" href="OmegaEngine.Graphics.View.html#OmegaEngine_Graphics_View_Pick_System_Drawing_Point_">Pick</a>(<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a>)</div>
+    </dd>
+  </dl>
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_IntersectsBounding_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.IntersectsBounding*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_IntersectsBounding_SlimDX_Ray_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.IntersectsBounding(SlimDX.Ray)">
+  IntersectsBounding(Ray)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L596"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determine whether <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldBoundingBox">WorldBoundingBox</a> and <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldBoundingSphere">WorldBoundingSphere</a> (if defined) are intersected by a ray.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual bool IntersectsBounding(Ray ray)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ray</code> <span class="xref">Ray</span></dt>
+    <dd><p>A ray in world space along which to check for intersections.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if the bounding bodies were undefined or intersected by the <code class="paramref">ray</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_OnEngineSet_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.OnEngineSet*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_OnEngineSet" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.OnEngineSet">
+  OnEngineSet()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L610"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Hook that is called when <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_Engine">Engine</a> is set for the first time.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnEngineSet()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_RecalcWorldTransform_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.RecalcWorldTransform*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_RecalcWorldTransform" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.RecalcWorldTransform">
+  RecalcWorldTransform()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L203"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called to generate/update transformation matrices and related values</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void RecalcWorldTransform()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_RenderHelper_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.RenderHelper*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_RenderHelper_System_Action_OmegaEngine_Graphics_XMaterial_OmegaEngine_Graphics_Cameras_Camera_System_Collections_Generic_IReadOnlyList_OmegaEngine_Graphics_LightSources_LightSource__" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.RenderHelper(System.Action,OmegaEngine.Graphics.XMaterial,OmegaEngine.Graphics.Cameras.Camera,System.Collections.Generic.IReadOnlyList{OmegaEngine.Graphics.LightSources.LightSource})">
+  RenderHelper(Action, XMaterial, Camera, IReadOnlyList&lt;LightSource&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L402"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Provides an automatic rendering framework that handles things like setting textures, materials, lighting and shaders.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void RenderHelper(Action render, XMaterial material, Camera camera, IReadOnlyList&lt;LightSource&gt; effectiveLights)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>render</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action">Action</a></dt>
+    <dd><p>A delegate that will be called once per rendering pass to display the actual content.</p>
+</dd>
+    <dt><code>material</code> <a class="xref" href="OmegaEngine.Graphics.XMaterial.html">XMaterial</a></dt>
+    <dd><p>The material to apply to everything rendered.</p>
+</dd>
+    <dt><code>camera</code> <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Camera</a></dt>
+    <dd><p>The currently effective <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Camera</a>.</p>
+</dd>
+    <dt><code>effectiveLights</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="OmegaEngine.Graphics.LightSources.LightSource.html">LightSource</a>&gt;</dt>
+    <dd><p>The currently effective lighting information for the renderable's position.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_PositionableRenderable_SetScale_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.SetScale*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_PositionableRenderable_SetScale_System_Single_" data-uid="OmegaEngine.Graphics.Renderables.PositionableRenderable.SetScale(System.Single)">
+  SetScale(float)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L172"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Scales this <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a> symmetrically</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetScale(float factor)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>factor</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>The factor by which to scale</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 id="seealso">See Also</h2>
+  <div class="seealso">
+      <div><a class="xref" href="OmegaEngine.Graphics.Scene.html#OmegaEngine_Graphics_Scene_Positionables">Positionables</a></div>
+  </div>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine/Graphics/Renderables/PositionableRenderable.cs/#L77" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

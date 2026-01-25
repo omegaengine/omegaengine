@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class FileEntry | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class FileEntry | OmegaEngine ">
+      
+      <meta name="description" content="Describes a file returned by .">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.9.5/apiSpec/new?filename=OmegaEngine_Foundation_Storage_FileEntry.md&amp;value=---%0Auid%3A%20OmegaEngine.Foundation.Storage.FileEntry%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Foundation.Storage.FileEntry">
+
+
+
+  <h1 id="OmegaEngine_Foundation_Storage_FileEntry" data-uid="OmegaEngine.Foundation.Storage.FileEntry" class="text-break">
+Class FileEntry  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Storage/FileEntry.cs/#L41"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Foundation.html">Foundation</a>.<a class="xref" href="OmegaEngine.Foundation.Storage.html">Storage</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.Foundation.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Describes a file returned by <a class="xref" href="OmegaEngine.Foundation.Storage.ContentManager.html#OmegaEngine_Foundation_Storage_ContentManager_GetFileList_System_String_System_String_">GetFileList(string, string)</a>.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class FileEntry : INamed, IHighlightColor, IContextMenu, IEquatable&lt;FileEntry&gt;, IComparable&lt;FileEntry&gt;</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">FileEntry</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.INamed.html">INamed</a></div>
+      <div><a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.IHighlightColor.html">IHighlightColor</a></div>
+      <div><a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Controls.IContextMenu.html">IContextMenu</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="OmegaEngine.Foundation.Storage.FileEntry.html">FileEntry</a>&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a class="xref" href="OmegaEngine.Foundation.Storage.FileEntry.html">FileEntry</a>&gt;</div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaEngine_Foundation_Storage_FileEntry_EntryType_" data-uid="OmegaEngine.Foundation.Storage.FileEntry.EntryType*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Storage_FileEntry_EntryType" data-uid="OmegaEngine.Foundation.Storage.FileEntry.EntryType">
+  EntryType
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Storage/FileEntry.cs/#L60"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The kind of file entry this is (in relation to its mod status).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FileEntryType EntryType { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Foundation.Storage.FileEntryType.html">FileEntryType</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Storage_FileEntry_FileType_" data-uid="OmegaEngine.Foundation.Storage.FileEntry.FileType*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Storage_FileEntry_FileType" data-uid="OmegaEngine.Foundation.Storage.FileEntry.FileType">
+  FileType
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Storage/FileEntry.cs/#L48"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The type of file (e.g. Textures, Sounds, ...).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string FileType { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Foundation_Storage_FileEntry_FileType_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>This is only used for file operations and not for sorting!</p>
+</div>
+
+
+
+
+  <a id="OmegaEngine_Foundation_Storage_FileEntry_HighlightColor_" data-uid="OmegaEngine.Foundation.Storage.FileEntry.HighlightColor*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Storage_FileEntry_HighlightColor" data-uid="OmegaEngine.Foundation.Storage.FileEntry.HighlightColor">
+  HighlightColor
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Storage/FileEntry.cs/#L69"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The color to highlight this file entry with in list representations.
+<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.color.empty">Empty</a> for <a class="xref" href="OmegaEngine.Foundation.Storage.FileEntryType.html#OmegaEngine_Foundation_Storage_FileEntryType_Normal">Normal</a> (no highlighting).
+<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.color.blue">Blue</a> for <a class="xref" href="OmegaEngine.Foundation.Storage.FileEntryType.html#OmegaEngine_Foundation_Storage_FileEntryType_Modified">Modified</a>.
+<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.color.green">Green</a> for <a class="xref" href="OmegaEngine.Foundation.Storage.FileEntryType.html#OmegaEngine_Foundation_Storage_FileEntryType_Added">Added</a>.
+<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.color.red">Red</a> for <a class="xref" href="OmegaEngine.Foundation.Storage.FileEntryType.html#OmegaEngine_Foundation_Storage_FileEntryType_Deleted">Deleted</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Color HighlightColor { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.color">Color</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Storage_FileEntry_Name_" data-uid="OmegaEngine.Foundation.Storage.FileEntry.Name*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Storage_FileEntry_Name" data-uid="OmegaEngine.Foundation.Storage.FileEntry.Name">
+  Name
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Storage/FileEntry.cs/#L55"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The relative file path.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Name { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Foundation_Storage_FileEntry_Equals_" data-uid="OmegaEngine.Foundation.Storage.FileEntry.Equals*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Storage_FileEntry_Equals_OmegaEngine_Foundation_Storage_FileEntry_" data-uid="OmegaEngine.Foundation.Storage.FileEntry.Equals(OmegaEngine.Foundation.Storage.FileEntry)">
+  Equals(FileEntry?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Storage/FileEntry.cs/#L147"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether the current object is equal to another object of the same type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Equals(FileEntry? other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="OmegaEngine.Foundation.Storage.FileEntry.html">FileEntry</a></dt>
+    <dd><p>An object to compare with this object.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Storage_FileEntry_Equals_" data-uid="OmegaEngine.Foundation.Storage.FileEntry.Equals*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Storage_FileEntry_Equals_System_Object_" data-uid="OmegaEngine.Foundation.Storage.FileEntry.Equals(System.Object)">
+  Equals(object?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Storage/FileEntry.cs/#L155"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines whether the specified object is equal to the current object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object? obj)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>obj</code> <span class="xref">object</span></dt>
+    <dd><p>The object to compare with the current object.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the specified object  is equal to the current object; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Storage_FileEntry_GetContextMenu_" data-uid="OmegaEngine.Foundation.Storage.FileEntry.GetContextMenu*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Storage_FileEntry_GetContextMenu" data-uid="OmegaEngine.Foundation.Storage.FileEntry.GetContextMenu">
+  GetContextMenu()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Storage/FileEntry.cs/#L106"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the context menu for this file entry; can be <code>null</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ContextMenuStrip? GetContextMenu()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.windows.forms.contextmenustrip">ContextMenuStrip</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Storage_FileEntry_GetHashCode_" data-uid="OmegaEngine.Foundation.Storage.FileEntry.GetHashCode*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Storage_FileEntry_GetHashCode" data-uid="OmegaEngine.Foundation.Storage.FileEntry.GetHashCode">
+  GetHashCode()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Storage/FileEntry.cs/#L163"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Serves as the default hash function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>A hash code for the current object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.9.5/src/OmegaEngine.Foundation/Storage/FileEntry.cs/#L41" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
