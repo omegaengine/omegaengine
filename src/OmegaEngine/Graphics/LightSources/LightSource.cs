@@ -102,9 +102,6 @@ public abstract class LightSource
         // Shadow receiver is fully contained within shadow
         if (distance + receiverRadius <= shadowRadius) return 1;
 
-        // Shadow is fully contained within shadow receiver
-        if (distance + shadowRadius <= receiverRadius) return 0;
-
         float shadowRadiusSquared = shadowRadius * shadowRadius;
         float receiverRadiusSquared = receiverRadius * receiverRadius;
         float distanceSquared = distance * distance;
