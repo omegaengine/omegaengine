@@ -47,6 +47,14 @@ public static class EngineUtilsDraw
             [0, 1, 2, 3, 0], Format.Index32, vertexes, 20);
     }
 
+    private static readonly PositionTextured[] texturedQuadVertexes =
+    [
+        new(-1, 1, 0, 0, 0),
+        new(-1, -1, 0, 0, 1),
+        new(1, 1, 0, 1, 0),
+        new(1, -1, 0, 1, 1)
+    ];
+
     /// <summary>
     /// Draw a textured quad filling the current <see cref="Viewport"/> using <see cref="PositionTextured"/> - useful for <see cref="PostShader"/>
     /// </summary>
@@ -65,21 +73,8 @@ public static class EngineUtilsDraw
             engine.State.FfpLighting = false;
             engine.State.Fog = false;
 
-            // Calculate half-pixel offset to fix Direct3D9 pixel/texel alignment
-            var viewport = engine.Device.Viewport;
-            float halfPixelX = 0.5f / viewport.Width;
-            float halfPixelY = 0.5f / viewport.Height;
-
-            PositionTextured[] vertexes =
-            [
-                new(-1, 1, 0, halfPixelX, halfPixelY),
-                new(-1, -1, 0, halfPixelX, 1 - halfPixelY),
-                new(1, 1, 0, 1 - halfPixelX, halfPixelY),
-                new(1, -1, 0, 1 - halfPixelX, 1 - halfPixelY)
-            ];
-
             engine.Device.VertexFormat = PositionTextured.Format;
-            engine.Device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, vertexes);
+            engine.Device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, texturedQuadVertexes);
         }
     }
 
