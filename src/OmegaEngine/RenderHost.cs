@@ -134,7 +134,6 @@ public partial class RenderHost : IRenderHost, IDisposable
             try
             {
                 _engine = new(Form, BuildEngineConfig(fullscreen: false)); // No fullscreen while loading
-                ApplyGraphicsSettings();
             }
             #region Error handling
             catch (NotSupportedException ex)
@@ -282,12 +281,6 @@ public partial class RenderHost : IRenderHost, IDisposable
         Fullscreen = fullscreen,
         TargetSize = fullscreen ? Screen.PrimaryScreen.Bounds.Size : Form.ClientSize
     };
-
-    /// <summary>
-    /// Called when graphics settings from an external source need to be applied to the <see cref="Engine"/>
-    /// </summary>
-    protected virtual void ApplyGraphicsSettings()
-    {}
 
     /// <summary>
     /// Creates a new <see cref="Lua"/> instance with commonly used objects preloaded.

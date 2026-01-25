@@ -49,6 +49,8 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
         settings.Display.Changed += ResetEngine;
         settings.Graphics.Changed += ApplyGraphicsSettings;
 
+        ApplyGraphicsSettings();
+
         Form.ResizeEnd += delegate
         {
             if (!settings.Display.Fullscreen)
@@ -170,8 +172,10 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
         MouseInputProvider.CursorSensitivity = settings.Controls.MouseSensitivity;
     }
 
-    /// <inheritdoc/>
-    protected override void ApplyGraphicsSettings()
+    /// <summary>
+    /// Called when graphics settings from an external source need to be applied to the <see cref="Engine"/>
+    /// </summary>
+    protected virtual void ApplyGraphicsSettings()
         => settings.Graphics.ApplyTo(Engine);
 
     /// <summary>
