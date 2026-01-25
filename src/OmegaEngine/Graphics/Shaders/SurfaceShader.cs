@@ -222,7 +222,11 @@ public abstract class SurfaceShader : Shader
                     => Effect.SetValue(info.Handle, value);
 
                 Result SetTexture(ITextureProvider? texture)
-                    => Effect.SetTexture(info.Handle, texture?.Texture);
+                {
+                    // TODO: Find sampler used for this shader and call:
+                    // _device.SetSamplerState(sampler, SamplerState.SrgbTexture, texture is { SRgb: true } ? 1 : 0);
+                    return Effect.SetTexture(info.Handle, texture?.Texture);
+                }
 
                 Result SetDiffuseTexture()
                 {

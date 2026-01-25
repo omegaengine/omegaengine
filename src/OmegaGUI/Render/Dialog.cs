@@ -1373,6 +1373,7 @@ public class Dialog
                 // Set the texture up, and begin the sprite
                 TextureNode tNode = GetTexture(0);
                 device.SetTexture(0, tNode.Texture);
+                device.SetSamplerState(0, SamplerState.SrgbTexture, 0);
                 DialogManager.Sprite.Begin(SpriteFlags.DoNotSaveState);
 
                 // Render the caption if it's enabled.

@@ -23,4 +23,9 @@ public interface ITextureProvider : IReferenceCount
     /// The <see cref="SlimDX.Direct3D9.Texture"/> this object represents.
     /// </summary>
     Texture Texture { get; }
+
+    /// <summary>
+    /// Indicates whether the texture should be converted from sRGB to linear color space when sampling.
+    /// </summary>
+    public bool SRgb { get; }
 }

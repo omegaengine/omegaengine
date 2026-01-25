@@ -40,6 +40,9 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
     /// </summary>
     public Texture Texture { get; private set; }
 
+    /// <inheritdoc/>
+    public bool SRgb => false;
+
     /// <summary>
     /// Was this object already disposed?
     /// </summary>

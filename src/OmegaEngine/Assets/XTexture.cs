@@ -27,6 +27,9 @@ public class XTexture : Asset, ITextureProvider
     /// The <see cref="SlimDX.Direct3D9.Texture"/> inside this asset.
     /// </summary>
     public Texture Texture { get; }
+
+    /// <inheritdoc/>
+    public bool SRgb { get; set; }
     #endregion
 
     #region Constructor

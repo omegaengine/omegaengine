@@ -360,6 +360,7 @@ public sealed class EngineState
     public void SetTexture(ITextureProvider? texture)
     {
         _device.SetTexture(0, texture?.Texture);
+        _device.SetSamplerState(0, SamplerState.SrgbTexture, texture is { SRgb: true } ? 1 : 0);
     }
     #endregion
 }
