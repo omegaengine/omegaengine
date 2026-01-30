@@ -1,7 +1,6 @@
 ---
 title: Overview
 ---
-
 ![](../logo.png)
 
 <xref:OmegaEngine> is a general-purpose 3D graphics for .NET Framework and DirectX 9. The engine is designed to be light-weight, modular and gameplay-agnostic. It is designed to be:

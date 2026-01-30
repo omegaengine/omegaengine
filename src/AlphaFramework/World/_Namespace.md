@@ -2,7 +2,6 @@
 uid: AlphaFramework.World
 summary: Provides a basis for building engine-agnostic models of game worlds.
 ---
-
 > [!NOTE]
 > NuGet package: [AlphaFramework.World](https://www.nuget.org/packages/AlphaFramework.World/)
 

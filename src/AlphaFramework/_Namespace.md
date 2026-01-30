@@ -2,7 +2,6 @@
 uid: AlphaFramework
 summary: AlphaFramework is a high-level game framework built on top of OmegaEngine. It provides an architecture for managing game worlds, logic, and presentation. Its design emphasizes clean separation of responsibilities.
 ---
-
 ## Core concepts
 
 AlphaFramework organizes game development into two domains:
