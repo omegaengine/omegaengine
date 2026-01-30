@@ -30,7 +30,7 @@ using NanoByte.Common;
 using SlimDX;
 using SlimDX.Direct3D9;
 
-namespace OmegaEngine.Graphics.Shaders;
+namespace OmegaEngine.Graphics.Shaders.Dxsas;
 
 public class SasScriptCommand
 {
