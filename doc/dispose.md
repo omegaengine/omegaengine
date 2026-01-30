@@ -2,7 +2,7 @@
 
 All classes in the <xref:OmegaEngine> namespace implementing the  `IDisposable` interface must be `.Dispose()`ed manually.
 
-Unlike other .NET objects you can not rely on the garbage collection to cleanup left-over resources here. This is because of circular references caused by [event hooks](#lost-device) as well as the [asset management system](xref:OmegaEngine.Assets)'s caching feature.
+Unlike other .NET objects you can not rely on the garbage collection to cleanup left-over resources here. This is because of circular references caused by [event hooks](#lost-device) as well as the [asset caching system](xref:OmegaEngine.Assets#cache).
 
 If you forget a `.Dispose()` this may trigger an exception (in Debug mode) or a log entry (in Release mode) at a non-deterministic point in time.
 
