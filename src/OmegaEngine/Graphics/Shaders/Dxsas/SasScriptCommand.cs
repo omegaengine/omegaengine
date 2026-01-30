@@ -84,13 +84,13 @@ public class SasScriptCommand(SasScriptCommand.CommandType type, Effect effect)
         return true;
     }
 
-    protected string EvaluateChoice()
+    protected string? EvaluateChoice()
     {
         int index = -1;
         return EvaluateChoice(ref index);
     }
 
-    protected string EvaluateChoice(ref int index)
+    protected string? EvaluateChoice(ref int index)
     {
         string ret = null;
         if (string.IsNullOrEmpty(Selector))
@@ -276,7 +276,7 @@ public class SasScriptLoopEnd(Effect effect) : SasScriptCommand(CommandType.Loop
 #region Render color target
 public class SasScriptRenderColorTarget(Effect effect) : SasScriptCommand(CommandType.RenderColorTarget, effect)
 {
-    public EffectHandle TextureHandle { get; private set; }
+    public EffectHandle? TextureHandle { get; private set; }
 
     #region Update
     public override bool Update()
@@ -309,7 +309,7 @@ public class SasScriptRenderColorTarget(Effect effect) : SasScriptCommand(Comman
 #region Render DepthStencil target
 public class SasScriptRenderDepthStencilTarget(Effect effect) : SasScriptCommand(CommandType.RenderDepthStencilTarget, effect)
 {
-    public EffectHandle TextureHandle { get; private set; }
+    public EffectHandle? TextureHandle { get; private set; }
 
     #region Update
     public override bool Update()
@@ -345,7 +345,7 @@ public class SasScriptRenderDepthStencilTarget(Effect effect) : SasScriptCommand
 #region Technique
 public class SasScriptTechnique(Effect effect) : SasScriptCommand(CommandType.Technique, effect)
 {
-    public EffectHandle Handle { get; private set; }
+    public EffectHandle? Handle { get; private set; }
 
     #region Update
     public override bool Update()
