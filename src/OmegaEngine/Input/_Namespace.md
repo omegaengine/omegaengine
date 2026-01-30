@@ -74,4 +74,39 @@ var controller = new MyGameController();
 inputProvider.AddReceiver(controller);
 ```
 
+## Usage with Hosting classes
+
+<xref:OmegaEngine.RenderHost> and <xref:OmegaEngine.RenderPanel> automatically set up all built-in input providers.
+
+You can register an input receiver with all of the providers with a single call to <xref:OmegaEngine.RenderHostExtensions.AddInputReceiver(OmegaEngine.IRenderHost,OmegaEngine.Input.IInputReceiver)>
+
+## Overview
+
+```mermaid
+flowchart TD
+    subgraph Providers["Input providers"]
+        KeyboardInputProvider
+        MouseInputProvider
+        TouchInputProvider
+    end
+
+    subgraph Receivers["Input receivers"]
+        Camera
+        Presenter
+        CustomReceiver["Custom receiver"]
+    end
+
+    RenderHost --> KeyboardInputProvider
+    RenderHost --> MouseInputProvider
+    RenderHost --> TouchInputProvider
+
+    KeyboardInputProvider --> IInputReceiver
+    MouseInputProvider --> IInputReceiver
+    TouchInputProvider --> IInputReceiver
+
+    IInputReceiver --> Camera
+    IInputReceiver --> Presenter --> Camera
+    IInputReceiver --> CustomReceiver
+```
+
 ## API

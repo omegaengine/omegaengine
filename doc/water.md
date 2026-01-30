@@ -45,4 +45,4 @@ water.SetupChildViews(view, clipTolerance: 2.0);
 > `clipTolerance` determines how far to shift the clip plane along its normal vector. Increase this value if you see graphical glitches at water edges.
 
 > [!WARNING]
-> Multiple water planes at the same height share the same refraction and reflection views for efficiency. Avoid creating water planes at different heights to limit the performance impact.
+> Avoid placing multiple water planes at different heights within a single scene. Water planes at the same height share the same refraction and reflection render passes. However, water planes at different heights require additional render passes, which negatively impacts performance.
