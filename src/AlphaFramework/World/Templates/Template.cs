@@ -88,14 +88,7 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICo
     /// </summary>
     /// <seealso cref="LoadAll"/>
     public static NamedCollection<TSelf> All
-    {
-        get
-        {
-            if (_all == null) throw new InvalidOperationException(string.Format(Resources.NotLoaded, FileName));
-
-            return _all;
-        }
-    }
+        => _all ?? throw new InvalidOperationException(string.Format(Resources.NotLoaded, FileName));
 
     /// <summary>
     /// Loads the list of <see cref="Template{TSelf}"/>s from <see cref="FileName"/>.

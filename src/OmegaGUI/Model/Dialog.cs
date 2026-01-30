@@ -477,46 +477,25 @@ public class Dialog : ICloneable<Dialog>
     /// <summary>
     /// Gets the first <see cref="Control"/> in this <see cref="Dialog"/> with the specified <paramref name="name"/>
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
     /// <exception cref="KeyNotFoundException">An element with the specified key does not exist in the dictionary.</exception>
     public Control this[string name]
-    {
-        get
-        {
-            #region Sanity checks
-            if (name == null) throw new ArgumentNullException(nameof(name));
-            #endregion
-
-            foreach (Control control in Controls)
-                if (control.Name == name) return control;
-            throw new KeyNotFoundException(Resources.ControlNotFound);
-        }
-    }
+        => Controls.FirstOrDefault(x => x.Name == name)
+        ?? throw new KeyNotFoundException(Resources.ControlNotFound);
 
     /// <summary>
     /// Gets the <see cref="ButtonStyle"/> with the specified <paramref name="name"/>
     /// </summary>
     /// <returns>The requested <see cref="ButtonStyle"/> or <c>null</c> if it couldn't be found</returns>
     internal ButtonStyle GetButtonStyle(string name)
-    {
-        return ButtonStyles.FirstOrDefault(style => style.Name == name);
-    }
+        => ButtonStyles.FirstOrDefault(style => style.Name == name);
 
     /// <summary>
     /// Finds <see cref="Control"/>s within a certain area
     /// </summary>
     /// <param name="area">The coordinate area to look in</param>
     /// <returns>A list of all <see cref="Control"/>s with the <paramref name="area"/>.</returns>
-    public ICollection<Control> PickControls(Rectangle area)
-    {
-        var pickedControls = new LinkedList<Control>();
-        foreach (var control in Controls)
-        {
-            if (control.DrawBox.IntersectsWith(area))
-                pickedControls.AddLast(control);
-        }
-        return pickedControls;
-    }
+    public IReadOnlyList<Control> PickControls(Rectangle area)
+        => Controls.Where(control => control.DrawBox.IntersectsWith(area)).ToList();
     #endregion
 
     //--------------------//
