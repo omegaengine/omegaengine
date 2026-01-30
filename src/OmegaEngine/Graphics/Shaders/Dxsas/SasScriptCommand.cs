@@ -32,7 +32,7 @@ using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics.Shaders.Dxsas;
 
-public class SasScriptCommand
+public class SasScriptCommand(SasScriptCommand.CommandType type, Effect effect)
 {
     #region Enumerations
     public enum CommandType
@@ -62,23 +62,15 @@ public class SasScriptCommand
     #region Variables
     public int Index;
     public bool IsDirty;
-    protected readonly Effect Effect;
+    protected readonly Effect Effect = effect;
 
     public List<string> Options;
     #endregion
 
     #region Properties
-    public CommandType Command { get; }
+    public CommandType Command { get; } = type;
 
     public string? Selector { get; set; }
-    #endregion
-
-    #region Constructor
-    public SasScriptCommand(CommandType type, Effect effect)
-    {
-        Command = type;
-        Effect = effect;
-    }
     #endregion
 
     #region Access
@@ -184,20 +176,13 @@ public class SasScriptCommand
 #region Derived classes
 
 #region Loop by type
-public class SasScriptLoopByType : SasScriptCommand
-{
-    public SasScriptLoopByType(Effect effect) : base(CommandType.LoopByType, effect)
-    {}
-}
+public class SasScriptLoopByType(Effect effect) : SasScriptCommand(CommandType.LoopByType, effect);
 #endregion
 
 #region Loop by count
-public class SasScriptLoopByCount : SasScriptCommand
+public class SasScriptLoopByCount(Effect effect) : SasScriptCommand(CommandType.LoopByCount, effect)
 {
     public int Count { get; private set; }
-
-    public SasScriptLoopByCount(Effect effect) : base(CommandType.LoopByCount, effect)
-    {}
 
     #region Update
     public override bool Update()
@@ -226,12 +211,9 @@ public class SasScriptLoopByCount : SasScriptCommand
 #endregion
 
 #region Loop get count
-public class SasScriptLoopGetCount : SasScriptCommand
+public class SasScriptLoopGetCount(Effect effect) : SasScriptCommand(CommandType.LoopGetCount, effect)
 {
     public EffectHandle DestinationParameter { get; private set; }
-
-    public SasScriptLoopGetCount(Effect effect) : base(CommandType.LoopGetCount, effect)
-    {}
 
     #region Update
     public override bool Update()
@@ -256,12 +238,9 @@ public class SasScriptLoopGetCount : SasScriptCommand
 #endregion
 
 #region Loop get index
-public class SasScriptLoopGetIndex : SasScriptCommand
+public class SasScriptLoopGetIndex(Effect effect) : SasScriptCommand(CommandType.LoopGetIndex, effect)
 {
     public EffectHandle DestinationParameter { get; private set; }
-
-    public SasScriptLoopGetIndex(Effect effect) : base(CommandType.LoopGetIndex, effect)
-    {}
 
     #region Update
     public override bool Update()
@@ -285,30 +264,19 @@ public class SasScriptLoopGetIndex : SasScriptCommand
 #endregion
 
 #region Loop update
-public class SasScriptLoopUpdate : SasScriptCommand
-{
-    public SasScriptLoopUpdate(Effect effect) : base(CommandType.LoopUpdate, effect)
-    {}
-}
+public class SasScriptLoopUpdate(Effect effect) : SasScriptCommand(CommandType.LoopUpdate, effect);
 #endregion
 
 #region Loop end
-public class SasScriptLoopEnd : SasScriptCommand
-{
-    public SasScriptLoopEnd(Effect effect) : base(CommandType.LoopEnd, effect)
-    {}
-}
+public class SasScriptLoopEnd(Effect effect) : SasScriptCommand(CommandType.LoopEnd, effect);
 #endregion
 
 //--------------------//
 
 #region Render color target
-public class SasScriptRenderColorTarget : SasScriptCommand
+public class SasScriptRenderColorTarget(Effect effect) : SasScriptCommand(CommandType.RenderColorTarget, effect)
 {
     public EffectHandle TextureHandle { get; private set; }
-
-    public SasScriptRenderColorTarget(Effect effect) : base(CommandType.RenderColorTarget, effect)
-    {}
 
     #region Update
     public override bool Update()
@@ -339,12 +307,9 @@ public class SasScriptRenderColorTarget : SasScriptCommand
 #endregion
 
 #region Render DepthStencil target
-public class SasScriptRenderDepthStencilTarget : SasScriptCommand
+public class SasScriptRenderDepthStencilTarget(Effect effect) : SasScriptCommand(CommandType.RenderDepthStencilTarget, effect)
 {
     public EffectHandle TextureHandle { get; private set; }
-
-    public SasScriptRenderDepthStencilTarget(Effect effect) : base(CommandType.RenderDepthStencilTarget, effect)
-    {}
 
     #region Update
     public override bool Update()
@@ -378,12 +343,9 @@ public class SasScriptRenderDepthStencilTarget : SasScriptCommand
 //--------------------//
 
 #region Technique
-public class SasScriptTechnique : SasScriptCommand
+public class SasScriptTechnique(Effect effect) : SasScriptCommand(CommandType.Technique, effect)
 {
     public EffectHandle Handle { get; private set; }
-
-    public SasScriptTechnique(Effect effect) : base(CommandType.Technique, effect)
-    {}
 
     #region Update
     public override bool Update()
@@ -412,12 +374,9 @@ public class SasScriptTechnique : SasScriptCommand
 #endregion
 
 #region Pass
-public class SasScriptPass : SasScriptCommand
+public class SasScriptPass(Effect effect) : SasScriptCommand(CommandType.Pass, effect)
 {
     public int PassNum { get; private set; }
-
-    public SasScriptPass(Effect effect) : base(CommandType.Pass, effect)
-    {}
 
     #region Update
     public override bool Update()
@@ -448,7 +407,7 @@ public class SasScriptPass : SasScriptCommand
 #endregion
 
 #region Draw
-public class SasScriptDraw : SasScriptCommand
+public class SasScriptDraw(Effect effect) : SasScriptCommand(CommandType.Draw, effect)
 {
     public enum DrawType
     {
@@ -459,9 +418,6 @@ public class SasScriptDraw : SasScriptCommand
     }
 
     public DrawType DrawOption { get; private set; }
-
-    public SasScriptDraw(Effect effect) : base(CommandType.Draw, effect)
-    {}
 
     #region Update
     public override bool Update()
@@ -484,23 +440,15 @@ public class SasScriptDraw : SasScriptCommand
 //--------------------//
 
 #region Script signature
-public class SasScriptScriptSignature : SasScriptCommand
-{
-    public SasScriptScriptSignature(Effect effect) : base(CommandType.ScriptSignature, effect)
-    {}
-}
+public class SasScriptScriptSignature(Effect effect) : SasScriptCommand(CommandType.ScriptSignature, effect);
 #endregion
 
 #region Script external
-public class SasScriptScriptExternal : SasScriptCommand
-{
-    public SasScriptScriptExternal(Effect effect) : base(CommandType.ScriptExternal, effect)
-    {}
-}
+public class SasScriptScriptExternal(Effect effect) : SasScriptCommand(CommandType.ScriptExternal, effect);
 #endregion
 
 #region Script command
-public class SasScriptClear : SasScriptCommand
+public class SasScriptClear(Effect effect) : SasScriptCommand(CommandType.Clear, effect)
 {
     public enum ClearType
     {
@@ -510,9 +458,6 @@ public class SasScriptClear : SasScriptCommand
     }
 
     public ClearType ClearOption { get; private set; } = ClearType.Color;
-
-    public SasScriptClear(Effect effect) : base(CommandType.Clear, effect)
-    {}
 
     #region Update
     public override bool Update()
@@ -540,12 +485,9 @@ public class SasScriptClear : SasScriptCommand
 //--------------------//
 
 #region Clear set color
-public class SasScriptClearSetColor : SasScriptCommand
+public class SasScriptClearSetColor(Effect effect) : SasScriptCommand(CommandType.ClearSetColor, effect)
 {
     public Vector4 Color { get; private set; }
-
-    public SasScriptClearSetColor(Effect effect) : base(CommandType.ClearSetColor, effect)
-    {}
 
     #region Update
     public override bool Update()
@@ -568,12 +510,9 @@ public class SasScriptClearSetColor : SasScriptCommand
 #endregion
 
 #region Clear set depth
-public class SasScriptClearSetDepth : SasScriptCommand
+public class SasScriptClearSetDepth(Effect effect) : SasScriptCommand(CommandType.ClearSetDepth, effect)
 {
     public float Depth { get; private set; }
-
-    public SasScriptClearSetDepth(Effect effect) : base(CommandType.ClearSetDepth, effect)
-    {}
 
     #region Update
     public override bool Update()
@@ -595,12 +534,9 @@ public class SasScriptClearSetDepth : SasScriptCommand
 #endregion
 
 #region Clear set stencil
-public class SasScriptClearSetStencil : SasScriptCommand
+public class SasScriptClearSetStencil(Effect effect) : SasScriptCommand(CommandType.ClearSetStencil, effect)
 {
     public int Stencil { get; private set; }
-
-    public SasScriptClearSetStencil(Effect effect) : base(CommandType.ClearSetStencil, effect)
-    {}
 
     #region Update
     public override bool Update()
@@ -624,19 +560,11 @@ public class SasScriptClearSetStencil : SasScriptCommand
 //--------------------//
 
 #region Geometry list
-public class SasScriptGeometryList : SasScriptCommand
-{
-    public SasScriptGeometryList(Effect effect) : base(CommandType.GeometryList, effect)
-    {}
-}
+public class SasScriptGeometryList(Effect effect) : SasScriptCommand(CommandType.GeometryList, effect);
 #endregion
 
 #region Hint
-public class SasScriptHint : SasScriptCommand
-{
-    public SasScriptHint(Effect effect) : base(CommandType.Hint, effect)
-    {}
-}
+public class SasScriptHint(Effect effect) : SasScriptCommand(CommandType.Hint, effect);
 #endregion
 
 #endregion
