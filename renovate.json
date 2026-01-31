@@ -23,8 +23,8 @@
       "automergeType": "branch"
     },
     {
-      "matchPackagePatterns": ["^Generator\\.Equals"],
-      "groupName": "Generator.Equals",
+      "matchPackagePatterns": ["^NanoByte\\.StructureEditor", "^ICSharpCode\\.TextEditorEx$"],
+      "groupName": "NanoByte.StructureEditor",
       "automerge": true,
       "automergeType": "branch"
     },
