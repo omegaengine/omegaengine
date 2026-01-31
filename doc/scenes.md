@@ -32,7 +32,7 @@ The standard camera orientation is a view along the negative Z axis, looking int
 
 ## Setup
 
-Basic example of setting up a scene with a model and lighting:
+Basic example of setting up a scene with a model and [lighting](lighting.md):
 
 ```csharp
 var scene = new Scene

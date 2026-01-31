@@ -6,12 +6,16 @@
   href: ../screenshots.md
 - name: Scenes
   href: ../scenes.md
+- name: Lighting
+  href: ../lighting.md
 - name: Terrain
   href: ../terrain.md
 - name: Water
   href: ../water.md
 - name: Glow
   href: ../glow.md
+- name: Hosting
+  href: ../hosting.md
 - name: Dispose
   href: ../dispose.md
 - name: License
