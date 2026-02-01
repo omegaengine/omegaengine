@@ -11,8 +11,7 @@ An overview of the engine's features:
     * Post-screen effects
     * Dynamic shader generation
   * [Asset management](xref:OmegaEngine.Assets)
-    * Virtual filesystem
-    * Mod support
+    * [Overlay filesystem](xref:OmegaEngine.Foundation.Storage#filesystem) with mod support
   * Effects
     * [Water with reflection and refraction](water.md)
     * [Glow](glow.md)
