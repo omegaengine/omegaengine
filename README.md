@@ -23,7 +23,7 @@ var scene = new Scene
 {
     Positionables = { Model.Sphere(engine, XTexture.Get(engine, "flag.png")) }
 };
-var view = new View(scene, new TrackCamera()) { BackgroundColor = Color.CornflowerBlue };
+var view = new View(scene, new ArcballCamera()) { BackgroundColor = Color.CornflowerBlue };
 engine.Views.Add(view);
 
 Paint += delegate { engine.Render(); };
