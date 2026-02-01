@@ -35,6 +35,9 @@ engine.Views.Add(view);
 Paint += delegate { engine.Render(); };
 ```
 
+> [!TIP]
+> See [Hosting](hosting.md) for more advanced render loops.
+
 ## NuGet packages
 
 | Package                                                                                    | Namespace                          | Description                                                          |

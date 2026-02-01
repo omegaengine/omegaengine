@@ -20,4 +20,5 @@ An overview of the engine's features:
   * [GUI toolkit](xref:OmegaGUI)
     * XML file format (with WYSIWYG editor)
     * Lua scripting
+  * [Render embedded in WinForms or standalone](hosting.md)
   * [Input system](xref:OmegaEngine.Input)
