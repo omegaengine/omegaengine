@@ -1,6 +1,6 @@
 ﻿---
 uid: OmegaEngine.Input
-summary: OmegaEngine provides a flexible input system that processes low-level input events into higher-level navigational commands. The system consists of <xref:OmegaEngine.Input.InputProvider>s that capture input and <xref:OmegaEngine.Input.IInputReceiver>s that respond to commands.
+summary: OmegaEngine provides a flexible input system that processes low-level input events into higher-level navigational commands.
 ---
 The input system uses a provider-receiver pattern:
 
@@ -110,3 +110,4 @@ flowchart TD
 ```
 
 ## API
+
