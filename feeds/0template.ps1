@@ -19,4 +19,4 @@ function Run-ZeroInstall {
     }
 }
 
-Run-ZeroInstall @args
+Run-ZeroInstall run --batch https://apps.0install.net/0install/0template.xml @args
