@@ -119,18 +119,18 @@ public sealed class ArcballCamera : ZoomCamera
     }
 
     /// <summary>
-    /// Controls the sensitivity of movement.
+    /// Controls how translation input for <see cref="Navigate"/> is scaled compared to rotation input.
     /// </summary>
-    [FloatRange(0, 100), Description("Controls the sensitivity of movement."), Category("Behavior")]
+    [FloatRange(0, 0.1), Description("Controls how translation input is scaled compared to rotation input."), Category("Behavior")]
     [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
-    public double MovementSensitivity { get; set; } = 0.01;
+    public double TranslationSensitivity { get; set; } = 0.01;
 
     /// <inheritdoc/>
     public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)
     {
         var viewDir = (Target - PositionCached).Normalize();
 
-        Target += Radius * MovementSensitivity *
+        Target += Radius * TranslationSensitivity *
                   new DoubleVector3(
                           translation.X * Math.Cos(_yaw),
                           IsUpsideDown ? -translation.Y : translation.Y,

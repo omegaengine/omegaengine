@@ -23,7 +23,7 @@ public class ArcballCameraTest
         var camera = new ArcballCamera
         {
             Radius = 10,
-            MovementSensitivity = 0.01
+            TranslationSensitivity = 0.01
         };
 
         camera.Navigate(translation: new(10, 0, 0));
@@ -40,7 +40,7 @@ public class ArcballCameraTest
         {
             Yaw = 90,
             Radius = 10,
-            MovementSensitivity = 0.01
+            TranslationSensitivity = 0.01
         };
 
         camera.Navigate(translation: new(10, 0, 0));

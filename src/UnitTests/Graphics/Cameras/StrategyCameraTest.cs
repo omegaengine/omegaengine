@@ -23,7 +23,7 @@ public class StrategyCameraTest
         var camera = new StrategyCamera(heightController: _ => 0)
         {
             Radius = 10,
-            MovementSensitivity = 0.01
+            TranslationSensitivity = 0.01
         };
 
         camera.Navigate(translation: new(0, 10, 0));
@@ -38,7 +38,7 @@ public class StrategyCameraTest
         var camera = new StrategyCamera(heightController: _ => 0)
         {
             Rotation = 90,
-            MovementSensitivity = 0.01,
+            TranslationSensitivity = 0.01,
             Radius = 10
         };
 
