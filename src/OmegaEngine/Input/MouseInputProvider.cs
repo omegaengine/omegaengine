@@ -35,12 +35,12 @@ public class MouseInputProvider : InputProvider
     public bool InvertMouse { get; set; }
 
     /// <summary>
-    /// The sensitivity of the mouse cursor. The higher the value, the faster the movement.
+    /// A factor used to scale mouse cursor input.
     /// </summary>
     public double CursorSensitivity { get; set; } = 1;
 
     /// <summary>
-    /// The sensitivity of the mouse wheel. The higher the value, the faster the movement.
+    /// A factor used to scale mouse wheel input.
     /// </summary>
     public double WheelSensitivity { get; set; } = 0.1;
 

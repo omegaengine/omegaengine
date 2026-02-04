@@ -49,8 +49,8 @@ public sealed class ControlsSettings
     private double _mouseSensitivity = 1;
 
     /// <summary>
-    /// The sensitivity of the mouse cursor. The higher the value, the faster the movement.
+    /// The sensitivity of the mouse input. The higher the value, the faster the movement.
     /// </summary>
-    [DefaultValue(1.0), Description("The sensitivity of the mouse cursor. The higher the value, the faster the movement.")]
+    [DefaultValue(1.0), Description("The sensitivity of the mouse input. The higher the value, the faster the movement.")]
     public double MouseSensitivity { get => _mouseSensitivity; set => value.To(ref _mouseSensitivity, Changed); }
 }
