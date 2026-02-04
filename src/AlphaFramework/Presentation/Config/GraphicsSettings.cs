@@ -112,12 +112,12 @@ public sealed class GraphicsSettings
     [DefaultValue(60f), Description("The camera field of view in degrees")]
     public float FieldOfView { get => _fieldOfView; set => value.To(ref _fieldOfView, Changed); }
 
-    private float _gamma = 1.0f;
+    private float _gamma = 1f;
 
     /// <summary>
     /// The gamma correction value (1 for no correction; 2.2 for sRGB)
     /// </summary>
-    [Description("The gamma correction value (1 for no correction; 2.2 for sRGB)")]
+    [DefaultValue(1f), Description("The gamma correction value (1 for no correction; 2.2 for sRGB)")]
     public float Gamma { get => _gamma; set => value.To(ref _gamma, Changed); }
 
     /// <summary>
