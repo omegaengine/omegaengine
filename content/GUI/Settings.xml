@@ -16,7 +16,7 @@ end
 
 -- Controls
 InvertMouse.Checked = Settings.Controls.InvertMouse
-MouseSensitivity.Value = Settings.Controls.MouseSensitivity * 10
+MouseSensitivity.Value = Settings.Controls.MouseSensitivity * 100
 
 -- Display
 
@@ -139,9 +139,9 @@ LoadModalDialog("Settings").Render.Location = Me.Render.Location</OnChanged>
     <Location X="525" Y="85" />
     <Size Width="180" Height="32" />
     <Min>1</Min>
-    <Max>40</Max>
+    <Max>25</Max>
     <Value>10</Value>
-    <OnChanged>Settings.Controls.MouseSensitivity = MouseSensitivity.Value / 10</OnChanged>
+    <OnChanged>Settings.Controls.MouseSensitivity = MouseSensitivity.Value / 100</OnChanged>
   </Slider>
   <GroupBox Name="DisplayBox">
     <Location X="10" Y="142" />

@@ -106,9 +106,9 @@ public class StrategyCamera(Func<DoubleVector3, double> heightController) : Zoom
     /// <summary>
     /// Controls how translation input for <see cref="Navigate"/> is scaled compared to rotation input.
     /// </summary>
-    [FloatRange(0, 0.1), Description("Controls how translation input is scaled compared to rotation input."), Category("Behavior")]
+    [FloatRange(0, 0.01), Description("Controls how translation input is scaled compared to rotation input."), Category("Behavior")]
     [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
-    public double TranslationSensitivity { get; set; } = 0.01;
+    public double TranslationSensitivity { get; set; } = 0.006;
 
     /// <inheritdoc/>
     public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)

@@ -46,11 +46,11 @@ public sealed class ControlsSettings
     [DefaultValue(false), Description("Invert the mouse axes")]
     public bool InvertMouse { get => _invertMouse; set => value.To(ref _invertMouse, Changed); }
 
-    private double _mouseSensitivity = 1;
+    private double _mouseSensitivity = 0.1;
 
     /// <summary>
     /// The sensitivity of the mouse input. The higher the value, the faster the movement.
     /// </summary>
-    [DefaultValue(1.0), Description("The sensitivity of the mouse input. The higher the value, the faster the movement.")]
+    [DefaultValue(0.1), Description("The sensitivity of the mouse input. The higher the value, the faster the movement.")]
     public double MouseSensitivity { get => _mouseSensitivity; set => value.To(ref _mouseSensitivity, Changed); }
 }

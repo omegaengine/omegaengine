@@ -37,7 +37,7 @@ public class MouseInputProvider : InputProvider
     /// <summary>
     /// A factor used to scale mouse cursor input.
     /// </summary>
-    public double CursorSensitivity { get; set; } = 1;
+    public double CursorSensitivity { get; set; } = 0.1;
 
     /// <summary>
     /// A factor used to scale mouse wheel input.
