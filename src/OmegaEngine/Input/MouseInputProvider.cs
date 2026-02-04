@@ -42,7 +42,7 @@ public class MouseInputProvider : InputProvider
     /// <summary>
     /// A factor used to scale mouse wheel input.
     /// </summary>
-    public double WheelSensitivity { get; set; } = 0.1;
+    public double WheelSensitivity { get; set; } = 0.08;
 
     /// <summary>The control receiving the mouse events.</summary>
     private readonly Control _control;
