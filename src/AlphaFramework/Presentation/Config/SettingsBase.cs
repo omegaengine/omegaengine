@@ -28,6 +28,7 @@ public abstract class SettingsBase
     protected virtual void AddChangeHandler(Action handler)
     {
         General.Changed += handler;
+        Controls.Changed += handler;
         Display.Changed += handler;
         Graphics.Changed += handler;
         Editor.Changed += handler;
