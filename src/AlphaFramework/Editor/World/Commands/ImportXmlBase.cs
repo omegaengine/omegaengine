@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Diagnostics;
 using AlphaFramework.World;
 using NanoByte.Common.Storage;
 using NanoByte.Common.Undo;
@@ -16,95 +17,71 @@ namespace AlphaFramework.Editor.World.Commands;
 /// <summary>
 /// Common base for loading new XML data into a <see cref="IUniverse"/>.
 /// </summary>
+/// <param name="getUniverse">Called to get the current <typeparamref name="TUniverse"/> in the editor.</param>
+/// <param name="setUniverse">Called to change the current <typeparamref name="TUniverse"/> in the editor.</param>
+/// <param name="xmlData">The XML string to parse.</param>
+/// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
 /// <typeparam name="TUniverse">The specific type of <see cref="IUniverse"/> to load XML data for.</typeparam>
-public abstract class ImportXmlBase<TUniverse> : FirstExecuteCommand
+public abstract class ImportXmlBase<TUniverse>(Func<TUniverse> getUniverse, Action<TUniverse> setUniverse, string xmlData, Action refreshHandler) : FirstExecuteCommand
     where TUniverse : class, IUniverse
 {
-    #region Variables
-    private readonly Func<TUniverse> _getUniverse;
-    private readonly Action<TUniverse> _setUniverse;
-    private readonly string _xmlData;
-    private readonly Action _refreshHandler;
-    private TUniverse _undoUniverse, _redoUniverse;
-    #endregion
+    private TUniverse? _undoUniverse, _redoUniverse;
 
-    #region Constructor
-    /// <summary>
-    /// Creates a new command for loading XML data into a <typeparamref name="TUniverse"/>.
-    /// </summary>
-    /// <param name="getUniverse">Called to get the current <typeparamref name="TUniverse"/> in the editor.</param>
-    /// <param name="setUniverse">Called to change the current <typeparamref name="TUniverse"/> in the editor.</param>
-    /// <param name="xmlData">The XML string to parse.</param>
-    /// <param name="refreshHandler">Called when the presenter needs to be reset.</param>
-    protected ImportXmlBase(Func<TUniverse> getUniverse, Action<TUniverse> setUniverse, string xmlData, Action refreshHandler)
-    {
-        _getUniverse = getUniverse ?? throw new ArgumentNullException(nameof(getUniverse));
-        _setUniverse = setUniverse ?? throw new ArgumentNullException(nameof(setUniverse));
-        _xmlData = xmlData ?? throw new ArgumentNullException(nameof(xmlData));
-        _refreshHandler = refreshHandler ?? throw new ArgumentNullException(nameof(refreshHandler));
-    }
-    #endregion
-
-    #region Execute
     /// <summary>
     /// Imports the XML data
     /// </summary>
     protected override void OnFirstExecute()
     {
         // Backup current state for undo
-        _undoUniverse = _getUniverse();
+        _undoUniverse = getUniverse();
+        Debug.Assert(_undoUniverse != null);
 
         // Create new universe from XML and partially restore old data
-        var newUniverse = XmlStorage.FromXmlString<TUniverse>(_xmlData);
+        var newUniverse = XmlStorage.FromXmlString<TUniverse>(xmlData);
         newUniverse.SourceFile = _undoUniverse.SourceFile;
         TransferNonXmlData(_undoUniverse, newUniverse);
 
         // Apply new data
-        _setUniverse(newUniverse);
+        setUniverse(newUniverse);
 
         // Update rendering
-        _refreshHandler();
+        refreshHandler();
     }
 
     /// <summary>
     /// Transfers any non-serialized data from <paramref name="oldUniverse"/> to <paramref name="newUniverse"/>.
     /// </summary>
     protected abstract void TransferNonXmlData(TUniverse oldUniverse, TUniverse newUniverse);
-    #endregion
 
-    #region Redo
     /// <summary>
     /// Restores the imported XML data
     /// </summary>
     protected override void OnRedo()
     {
         // Backup current state for undo
-        _undoUniverse = _getUniverse();
+        _undoUniverse = getUniverse();
 
         // Restore redo-backup and then clear it
-        _setUniverse(_redoUniverse);
+        setUniverse(_redoUniverse);
         _redoUniverse = null;
 
         // Update rendering
-        _refreshHandler();
+        refreshHandler();
     }
-    #endregion
 
-    #region Undo
     /// <summary>
     /// Restores the original XML data
     /// </summary>
     protected override void OnUndo()
     {
         // Backup current state for redo
-        _redoUniverse = _getUniverse();
+        _redoUniverse = getUniverse();
 
         // Restore undo-backup and then clear it
-        _setUniverse(_undoUniverse);
+        setUniverse(_undoUniverse);
         _undoUniverse = null;
 
         // Update rendering
-        _refreshHandler();
+        refreshHandler();
     }
-    #endregion
 }

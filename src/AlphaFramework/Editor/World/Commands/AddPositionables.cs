@@ -15,39 +15,19 @@ namespace AlphaFramework.Editor.World.Commands;
 /// <summary>
 /// Adds one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="CoordinateUniverse{TCoordinates}"/>.
 /// </summary>
-public class AddPositionables<TCoordinates> : AddRemovePositionables<TCoordinates>
+/// <param name="universe">The <see cref="CoordinateUniverse{TCoordinates}"/> to add to.</param>
+/// <param name="entities">The <see cref="Positionable{TCoordinates}"/>ies to add.</param>
+public class AddPositionables<TCoordinates>(CoordinateUniverse<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> entities)
+    : AddRemovePositionables<TCoordinates>(universe, entities)
     where TCoordinates : struct
 {
-    #region Constructor
-    /// <summary>
-    /// Creates a new command for adding one or more <see cref="Positionable{TCoordinates}"/>ies to a <see cref="CoordinateUniverse{TCoordinates}"/>.
-    /// </summary>
-    /// <param name="universe">The <see cref="CoordinateUniverse{TCoordinates}"/> to add to.</param>
-    /// <param name="entities">The <see cref="Positionable{TCoordinates}"/>ies to add.</param>
-    public AddPositionables(CoordinateUniverse<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> entities)
-        : base(universe, entities)
-    {}
-    #endregion
-
-    //--------------------//
-
-    #region Execute
     /// <summary>
     /// Adds the <see cref="Positionable{TCoordinates}"/> to the <see cref="CoordinateUniverse{TCoordinates}"/>
     /// </summary>
-    protected override void OnExecute()
-    {
-        AddPositionables();
-    }
-    #endregion
+    protected override void OnExecute() => AddPositionables();
 
-    #region Undo
     /// <summary>
     /// Removes the <see cref="Positionable{TCoordinates}"/> from the <see cref="CoordinateUniverse{TCoordinates}"/> again
     /// </summary>
-    protected override void OnUndo()
-    {
-        RemovePositionables();
-    }
-    #endregion
+    protected override void OnUndo() => RemovePositionables();
 }

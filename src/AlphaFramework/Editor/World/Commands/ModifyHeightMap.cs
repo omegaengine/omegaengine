@@ -19,14 +19,11 @@ namespace AlphaFramework.Editor.World.Commands;
 /// </summary>
 public class ModifyHeightMap : FirstExecuteCommand
 {
-    #region Variables
     private readonly ITerrain _terrain;
     private readonly Point _start;
     private readonly byte[,] _oldPartialData, _newPartialData;
     private readonly Action _refreshHandler;
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new command for modifying a rectangular area of the height-map in a <see cref="ITerrain"/>.
     /// </summary>
@@ -45,11 +42,7 @@ public class ModifyHeightMap : FirstExecuteCommand
 
         if (oldPartialData.GetLength(0) != newPartialData.GetLength(0) || oldPartialData.GetLength(1) != newPartialData.GetLength(1)) throw new ArgumentException(Resources.PartialDataArrayDimensionsNotEqual, nameof(newPartialData));
     }
-    #endregion
 
-    //--------------------//
-
-    #region Undo/Redo
     protected override void OnFirstExecute()
     {
         // Terrain data has already been modified but entity positions have not been updated yet
@@ -86,5 +79,4 @@ public class ModifyHeightMap : FirstExecuteCommand
 
         OnFirstExecute();
     }
-    #endregion
 }

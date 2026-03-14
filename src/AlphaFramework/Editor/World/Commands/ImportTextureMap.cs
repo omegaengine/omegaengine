@@ -15,23 +15,12 @@ namespace AlphaFramework.Editor.World.Commands;
 /// <summary>
 /// Loads new texture-map data into a <see cref="ITerrain"/>.
 /// </summary>
-public class ImportTextureMap : ImportMap<NibbleGrid>
+/// <param name="terrain">The <see cref="ITerrain"/> to load new texture-map data into.</param>
+/// <param name="fileName">The file to load the texture-map data from.</param>
+/// <param name="refreshHandler">Called when the <see cref="ITerrain"/> needs to be reset.</param>
+public class ImportTextureMap(ITerrain terrain, string fileName, Action refreshHandler)
+    : ImportMap<NibbleGrid>(terrain, fileName, refreshHandler)
 {
-    #region Constructor
-    /// <summary>
-    /// Creates a new command for loading texture-map data into a <see cref="ITerrain"/>.
-    /// </summary>
-    /// <param name="terrain">The <see cref="ITerrain"/> to load new texture-map data into.</param>
-    /// <param name="fileName">The file to load the texture-map data from.</param>
-    /// <param name="refreshHandler">Called when the <see cref="ITerrain"/> needs to be reset.</param>
-    public ImportTextureMap(ITerrain terrain, string fileName, Action refreshHandler)
-        : base(terrain, fileName, refreshHandler)
-    {}
-    #endregion
-
-    //--------------------//
-
-    #region Terrain access
     /// <summary>
     /// Points to <see cref="ITerrain.TextureMap"/>
     /// </summary>
@@ -41,8 +30,5 @@ public class ImportTextureMap : ImportMap<NibbleGrid>
     /// Loads the texture-map data from a file into the <see cref="ITerrain"/>
     /// </summary>
     protected override void LoadMap()
-    {
-        Terrain.LoadTextureMap(FileName);
-    }
-    #endregion
+        => Terrain.LoadTextureMap(FileName);
 }

@@ -17,34 +17,17 @@ namespace AlphaFramework.Editor.World.Commands;
 /// <summary>
 /// Adds/removes one or more <see cref="Positionable{TCoordinates}"/>ies to/from a <see cref="CoordinateUniverse{TCoordinates}"/>.
 /// </summary>
-public abstract class AddRemovePositionables<TCoordinates> : SimpleCommand
+/// <param name="universe">The <see cref="CoordinateUniverse{TCoordinates}"/> to add to / remove from.</param>
+/// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to add/remove.</param>
+public abstract class AddRemovePositionables<TCoordinates>(CoordinateUniverse<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> positionables) : SimpleCommand
     where TCoordinates : struct
 {
-    #region Variables
-    private readonly CoordinateUniverse<TCoordinates> _universe;
+    private readonly CoordinateUniverse<TCoordinates> _universe = universe ?? throw new ArgumentNullException(nameof(universe));
 
     // Note: Use List<> instead of Array, because the size of the incoming IEnumerable<> will be unkown
-    private readonly List<Positionable<TCoordinates>> _positionables;
-    #endregion
+    // Create local defensive copy of entities
+    private readonly List<Positionable<TCoordinates>> _positionables = [..positionables];
 
-    #region Constructor
-    /// <summary>
-    /// Creates a new command for adding/removing one or more <see cref="Positionable{TCoordinates}"/>ies to/from a <see cref="CoordinateUniverse{TCoordinates}"/>.
-    /// </summary>
-    /// <param name="universe">The <see cref="CoordinateUniverse{TCoordinates}"/> to add to / remove from.</param>
-    /// <param name="positionables">The <see cref="Positionable{TCoordinates}"/>s to add/remove.</param>
-    protected AddRemovePositionables(CoordinateUniverse<TCoordinates> universe, IEnumerable<Positionable<TCoordinates>> positionables)
-    {
-        _universe = universe ?? throw new ArgumentNullException(nameof(universe));
-
-        // Create local defensive copy of entities
-        _positionables = new(positionables ?? throw new ArgumentNullException(nameof(positionables)));
-    }
-    #endregion
-
-    //--------------------//
-
-    #region Add/remove helpers
     /// <summary>
     /// Removes the entities from the universe
     /// </summary>
@@ -62,5 +45,4 @@ public abstract class AddRemovePositionables<TCoordinates> : SimpleCommand
         foreach (var positionable in _positionables)
             _universe.Positionables.Remove(positionable);
     }
-    #endregion
 }

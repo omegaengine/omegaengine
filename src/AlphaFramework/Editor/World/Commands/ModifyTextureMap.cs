@@ -19,14 +19,11 @@ namespace AlphaFramework.Editor.World.Commands;
 /// </summary>
 public class ModifyTextureMap : PreExecutedCommand
 {
-    #region Variables
     private readonly ITerrain _terrain;
     private readonly Point _start;
     private readonly byte[,] _oldPartialData, _newPartialData;
     private readonly Action _refreshHandler;
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new command for modifying a rectangular area of the texture-map in a <see cref="ITerrain"/>.
     /// </summary>
@@ -45,11 +42,7 @@ public class ModifyTextureMap : PreExecutedCommand
 
         if (oldPartialData.GetLength(0) != newPartialData.GetLength(0) || oldPartialData.GetLength(1) != newPartialData.GetLength(1)) throw new ArgumentException(Resources.PartialDataArrayDimensionsNotEqual, nameof(newPartialData));
     }
-    #endregion
 
-    //--------------------//
-
-    #region Undo/Redo
     /// <summary>
     /// Applies the <see cref="_newPartialData"/> to <see cref="ITerrain.TextureMap"/>.
     /// </summary>
@@ -75,5 +68,4 @@ public class ModifyTextureMap : PreExecutedCommand
         }
         _refreshHandler();
     }
-    #endregion
 }

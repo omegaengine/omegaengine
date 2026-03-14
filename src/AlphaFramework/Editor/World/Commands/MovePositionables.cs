@@ -19,16 +19,13 @@ namespace AlphaFramework.Editor.World.Commands;
 /// </summary>
 public class MovePositionables : SimpleCommand
 {
-    #region Variables
     // Note: Use List<> instead of Array, because the size of the incoming IEnumerable<> will be unknown
     private readonly List<Positionable<Vector2>> _positionables;
 
     private readonly Vector2[] _oldPositions;
     private readonly Vector2 _newPosition;
     private readonly Action? _callback;
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new command for moving one or more <see cref="Positionable{TCoordinates}"/>s.
     /// </summary>
@@ -37,10 +34,6 @@ public class MovePositionables : SimpleCommand
     /// <param name="callback">Optional callback to be invoked after moving entities (e.g., to update pathfinding).</param>
     public MovePositionables(IEnumerable<Positionable<Vector2>> positionables, Vector2 target, Action? callback = null)
     {
-        #region Sanity checks
-        if (positionables == null) throw new ArgumentNullException(nameof(positionables));
-        #endregion
-
         // Create local defensive copy of entities
         _positionables = new(positionables);
 
@@ -52,11 +45,7 @@ public class MovePositionables : SimpleCommand
         _newPosition = target;
         _callback = callback;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Undo / Redo
     /// <summary>
     /// Set the changed <see cref="Positionable{TCoordinates}.Position"/>s.
     /// </summary>
@@ -79,5 +68,4 @@ public class MovePositionables : SimpleCommand
 
         _callback?.Invoke();
     }
-    #endregion
 }
