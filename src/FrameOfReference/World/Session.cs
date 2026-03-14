@@ -57,11 +57,6 @@ public sealed partial class Session : Session<Universe>
     {}
 
     /// <summary>
-    /// The file extensions when this class is stored as a file.
-    /// </summary>
-    public const string FileExt = $".{Constants.AppNameShort}Save";
-
-    /// <summary>
     /// Base-constructor for XML serialization. Do not call manually!
     /// </summary>
     public Session()

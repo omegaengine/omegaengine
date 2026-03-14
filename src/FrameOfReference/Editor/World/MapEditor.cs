@@ -386,7 +386,7 @@ public partial class MapEditor : UndoCommandTab
         #endregion
 
         // Trim away the file extension, if the file is located within the regular game content directory
-        string mapFile = Path.IsPathRooted(FilePath) ? FilePath : FilePath.Replace(Universe.FileExt, "");
+        string mapFile = Path.IsPathRooted(FilePath) ? FilePath : FilePath.Replace(Constants.MapFileExt, "");
 
         // Close the tab in case the map gets changed inside the game
         ForceClose();

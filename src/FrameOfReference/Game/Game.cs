@@ -292,7 +292,7 @@ public class Game(Settings settings)
         using (new TimedLogEvent("Start benchmark"))
         {
             // Load map
-            CurrentSession = new(Universe.FromContent($"Benchmark{Universe.FileExt}"));
+            CurrentSession = new(Universe.FromContent($"Benchmark{Constants.MapFileExt}"));
 
             // Switch mode
             CurrentState = GameState.Benchmark;
@@ -308,7 +308,7 @@ public class Game(Settings settings)
 
             // Load benchmark universe
             CurrentPresenter = new BenchmarkPresenter(Engine,
-                Universe.FromContent($"Benchmark{Universe.FileExt}"), path =>
+                Universe.FromContent($"Benchmark{Constants.MapFileExt}"), path =>
                 { // Callback for submitting the benchmark results
                     Form.Visible = false;
                     //if (Msg.Ask(Form, Resources.BenchmarkReady, MsgSeverity.Info, Resources.BenchmarkReadyContinue, Resources.BenchmarkReadyCancel))
@@ -498,11 +498,11 @@ public class Game(Settings settings)
 
         _menuUniverse = name.EndsWith(
             // Does the name have file ending?
-            Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
+            Constants.MapFileExt, StringComparison.OrdinalIgnoreCase) ?
             // Real filename
             Universe.Load(Path.Combine(Locations.InstallBase, name)) :
             // Internal map name
-            Universe.FromContent(name + Universe.FileExt);
+            Universe.FromContent(name + Constants.MapFileExt);
 
         CleanupPresenter();
         if (_menuPresenter != null)
@@ -523,11 +523,11 @@ public class Game(Settings settings)
 
         CurrentSession = new(
             // Does the name have file ending?
-            name.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
+            name.EndsWith(Constants.MapFileExt, StringComparison.OrdinalIgnoreCase) ?
                 // Real filename
                 Universe.Load(Path.Combine(Locations.InstallBase, name)) :
                 // Internal map name
-                Universe.FromContent(name + Universe.FileExt));
+                Universe.FromContent(name + Constants.MapFileExt));
 
         CleanupPresenter();
         InitializeGameMode();
@@ -546,11 +546,11 @@ public class Game(Settings settings)
 
         CurrentSession = new(
             // Does the name have file ending?
-            name.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase) ?
+            name.EndsWith(Constants.MapFileExt, StringComparison.OrdinalIgnoreCase) ?
                 // Real filename
                 Universe.Load(Path.Combine(Locations.InstallBase, name)) :
                 // Internal map name
-                Universe.FromContent(name + Universe.FileExt));
+                Universe.FromContent(name + Constants.MapFileExt));
 
         CleanupPresenter();
         InitializeModifyMode();
@@ -572,7 +572,7 @@ public class Game(Settings settings)
             ((InGamePresenter)CurrentPresenter!).PrepareSave();
 
         // Write to disk
-        string path = Locations.GetSaveDataPath(Constants.AppName, isFile: true, name + Session.FileExt);
+        string path = Locations.GetSaveDataPath(Constants.AppName, isFile: true, name + Constants.SavegameFileExt);
         CurrentSession?.Save(path);
     }
 
@@ -585,7 +585,7 @@ public class Game(Settings settings)
         if (string.IsNullOrEmpty(name)) return;
 
         // Read from disk
-        string path = Locations.GetSaveDataPath(Constants.AppName, isFile: true, name + Session.FileExt);
+        string path = Locations.GetSaveDataPath(Constants.AppName, isFile: true, name + Constants.SavegameFileExt);
         CurrentSession = Session.Load(path);
         CurrentSession.Lua = NewLua();
     }
@@ -596,8 +596,8 @@ public class Game(Settings settings)
     public IEnumerable<string> GetSavegameNames()
     {
         var savegameDir = new DirectoryInfo(Locations.GetSaveDataPath(Constants.AppName, isFile: false));
-        return savegameDir.GetFiles($"*{Session.FileExt}")
-                          .Select(x => x.Name[..^Session.FileExt.Length])
+        return savegameDir.GetFiles($"*{Constants.SavegameFileExt}")
+                          .Select(x => x.Name[..^Constants.SavegameFileExt.Length])
                           .Except("Resume");
     }
 }

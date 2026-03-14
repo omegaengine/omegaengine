@@ -60,7 +60,7 @@ public sealed partial class MainForm : MainFormBase
     private void MainForm_Load(object sender, EventArgs e)
     {
         // Open files passed as command-line arguments
-        foreach (string file in Environment.GetCommandLineArgs().Where(file => file.EndsWith(Universe.FileExt, StringComparison.OrdinalIgnoreCase)))
+        foreach (string file in Environment.GetCommandLineArgs().Where(file => file.EndsWith(Constants.MapFileExt, StringComparison.OrdinalIgnoreCase)))
             AddTab(new MapEditor(file, false));
     }
 
@@ -92,7 +92,7 @@ public sealed partial class MainForm : MainFormBase
 
     private void toolUniverseEditor_Click(object sender, EventArgs e)
     {
-        OpenFileTab("World/Maps", Universe.FileExt, (path, overwrite) => new MapEditor(path, overwrite));
+        OpenFileTab("World/Maps", Constants.MapFileExt, (path, overwrite) => new MapEditor(path, overwrite));
     }
 
     private void toolUniverseEntityEditor_Click(object sender, EventArgs e)

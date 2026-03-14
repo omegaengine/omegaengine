@@ -38,11 +38,6 @@ namespace FrameOfReference.World;
 partial class Universe
 {
     /// <summary>
-    /// The file extensions when this class is stored as a file.
-    /// </summary>
-    public const string FileExt = $".{Constants.AppNameShort}Map";
-
-    /// <summary>
     /// Base-constructor for XML serialization. Do not call manually!
     /// </summary>
     public Universe()

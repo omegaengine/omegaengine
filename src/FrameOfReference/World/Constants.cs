@@ -33,4 +33,14 @@ public static class Constants
     /// The short version of the application name (used for EXE name, AppModel IDs, etc.)
     /// </summary>
     public const string AppNameShort = "FrameOfReference";
+
+    /// <summary>
+    /// The file extensions for map files (serialized <see cref="Universe"/>).
+    /// </summary>
+    public const string MapFileExt = ".xml";
+
+    /// <summary>
+    /// The file extensions for savegames (serialized <see cref="Session"/>).
+    /// </summary>
+    public const string SavegameFileExt = $".{AppNameShort}Save";
 }
