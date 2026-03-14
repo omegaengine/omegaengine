@@ -36,7 +36,7 @@ public class Session<TUniverse>
     /// <summary>
     /// Base-constructor for XML serialization. Do not call manually!
     /// </summary>
-    protected Session()
+    public Session()
     {
         Universe = null!;
     }
@@ -45,7 +45,7 @@ public class Session<TUniverse>
     /// Creates a new game session based upon a given universe
     /// </summary>
     /// <param name="baseUniverse">The universe to base the new game session on.</param>
-    protected Session(TUniverse baseUniverse)
+    public Session(TUniverse baseUniverse)
     {
         Universe = baseUniverse ?? throw new ArgumentNullException(nameof(baseUniverse));
 
