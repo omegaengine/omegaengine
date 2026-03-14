@@ -24,9 +24,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using AlphaFramework.World;
-using ICSharpCode.SharpZipLib.Zip;
 using NanoByte.Common;
-using OmegaEngine.Foundation.Storage;
 
 #if NETFRAMEWORK
 using System.Linq;
@@ -76,25 +74,8 @@ public sealed partial class Session : Session<Universe>
     /// <exception cref="IOException">A problem occurred while reading the file.</exception>
     /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
     /// <exception cref="InvalidOperationException">A problem occurred while deserializing the XML data.</exception>
-    public static Session Load(string path)
-    {
-        Session session;
-        try
-        {
-            session = XmlZipStorage.LoadXmlZip<Session>(path);
-        }
-        #region Error handling
-        catch (ZipException ex)
-        {
-            throw new IOException(ex.Message, ex);
-        }
-        #endregion
-
-        // Restore the original map filename
-        session.Universe.SourceFile = session.MapSourceFile;
-
-        return session;
-    }
+    public new static Session Load(string path)
+        => Load<Session>(path);
 
     /// <summary>The maximum number of seconds to handle in one call to <see cref="Update"/>. Additional time is simply dropped.</summary>
     private const double MaximumUpdate = 0.75;
