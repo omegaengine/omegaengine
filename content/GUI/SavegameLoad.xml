@@ -15,7 +15,7 @@ function load(name)
       'LoadSplashDialog("Loading"); Game:LoadSavegame(' .. name ..'); Game:SwitchToGame()'
     )
   else
-    load_helper(name)
+    LoadSplashDialog("Loading"); Game:LoadSavegame(name); Game:SwitchToGame()
   end
 end
 
