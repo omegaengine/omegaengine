@@ -64,32 +64,24 @@ public sealed partial class Session : Session<Universe>
     public const string FileExt = $".{Constants.AppNameShort}Save";
 
     /// <summary>
-    /// Used for encrypting serialized versions of this class.
-    /// </summary>
-    /// <remarks>This provides only very basic protection against savegame tampering.</remarks>
-    private const string EncryptionKey = "Session";
-
-    /// <summary>
     /// Base-constructor for XML serialization. Do not call manually!
     /// </summary>
     public Session()
     {}
 
     /// <summary>
-    /// Loads a <see cref="Session"/> from an encrypted XML file (savegame).
+    /// Loads a <see cref="Session"/> from a compressed XML file (savegame).
     /// </summary>
     /// <param name="path">The file to load from.</param>
-    /// <returns>The loaded <see cref="Session"/>.</returns>
     /// <exception cref="IOException">A problem occurred while reading the file.</exception>
     /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
     /// <exception cref="InvalidOperationException">A problem occurred while deserializing the XML data.</exception>
     public static Session Load(string path)
     {
-        // Load the file
         Session session;
         try
         {
-            session = XmlZipStorage.LoadXmlZip<Session>(path, EncryptionKey);
+            session = XmlZipStorage.LoadXmlZip<Session>(path);
         }
         #region Error handling
         catch (ZipException ex)
@@ -103,15 +95,6 @@ public sealed partial class Session : Session<Universe>
 
         return session;
     }
-
-    /// <summary>
-    /// Saves this session in an encrypted XML file (savegame).
-    /// </summary>
-    /// <param name="path">The file to save in.</param>
-    /// <exception cref="IOException">A problem occurred while writing the file.</exception>
-    /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
-    public override void Save(string path)
-        => XmlZipStorage.SaveXmlZip(this, path, EncryptionKey);
 
     /// <summary>The maximum number of seconds to handle in one call to <see cref="Update"/>. Additional time is simply dropped.</summary>
     private const double MaximumUpdate = 0.75;
