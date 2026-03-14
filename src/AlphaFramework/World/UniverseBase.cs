@@ -46,12 +46,18 @@ public abstract class UniverseBase : IUniverse
 
     /// <inheritdoc/>
     [XmlIgnore, Browsable(false)]
-    public string? SourceFile { get; set; }
+    public string? SourceFile { get; protected set; }
 
     /// <inheritdoc/>
     public virtual void Save(string path)
     {
         this.SaveXml(path);
+        SourceFile = path;
+    }
+
+    /// <inheritdoc/>
+    public virtual void PostLoad(string? path)
+    {
         SourceFile = path;
     }
 }

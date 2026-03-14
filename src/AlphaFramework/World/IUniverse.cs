@@ -28,10 +28,10 @@ public interface IUniverse
     void Update(double elapsedGameTime);
 
     /// <summary>
-    /// The map file this world was loaded from.
+    /// The map file this universe was originally loaded from, if any.
     /// </summary>
-    /// <remarks>Is not serialized/stored, is set by whatever method loads the universe.</remarks>
-    string? SourceFile { get; set; }
+    /// <remarks>Should still point to the original map file, even when the universe is embedded inside a savegame.</remarks>
+    string? SourceFile { get; }
 
     /// <summary>
     /// Saves this <see cref="CoordinateUniverse{TCoordinates}"/> in a map file.
@@ -40,4 +40,10 @@ public interface IUniverse
     /// <exception cref="IOException">A problem occurred while writing the file.</exception>
     /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
     void Save(string path);
+
+    /// <summary>
+    /// Hook to be called after the universe was deserialized.
+    /// </summary>
+    /// <param name="path">The map file this universe was originally loaded from, if any. Should still point to the original map file, even when the universe is embedded inside a savegame.</param>
+    void PostLoad(string? path);
 }

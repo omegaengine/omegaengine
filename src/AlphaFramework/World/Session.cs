@@ -115,8 +115,8 @@ public class Session<TUniverse>
         }
         #endregion
 
-        // Restore the original map filename
-        session.Universe.SourceFile = session.MapSourceFile;
+        if (session.MapSourceFile != null)
+            session.Universe.PostLoad(session.MapSourceFile);
 
         return session;
     }

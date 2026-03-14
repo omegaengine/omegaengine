@@ -38,7 +38,7 @@ public abstract class ImportXmlBase<TUniverse>(Func<TUniverse> getUniverse, Acti
 
         // Create new universe from XML and partially restore old data
         var newUniverse = XmlStorage.FromXmlString<TUniverse>(xmlData);
-        newUniverse.SourceFile = _undoUniverse.SourceFile;
+        newUniverse.PostLoad(_undoUniverse.SourceFile);
         TransferNonXmlData(_undoUniverse, newUniverse);
 
         // Apply new data

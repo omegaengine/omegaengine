@@ -60,7 +60,7 @@ partial class Universe
     {
         // Load the core data but without terrain data yet (that is delay-loaded)
         var universe = XmlZipStorage.LoadXmlZip<Universe>(path);
-        universe.SourceFile = path;
+        universe.PostLoad(path);
         return universe;
     }
 
@@ -75,7 +75,7 @@ partial class Universe
 
         using var stream = ContentManager.GetFileStream("World/Maps", id);
         var universe = XmlZipStorage.LoadXmlZip<Universe>(stream);
-        universe.SourceFile = id;
+        universe.PostLoad(id);
         return universe;
     }
 
