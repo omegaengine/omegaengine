@@ -71,7 +71,7 @@ static class Program
 <xref:AlphaFramework.Presentation.GameBase> extends `RenderHost` with <xref:AlphaFramework>-specific features:
 
 - **GUI system** - Automatically initializes <xref:OmegaGUI>
-- **Settings management** - Automatically applies settings to the engine and input system when they change
+- **Settings management** - Automatically applies [settings](xref:AlphaFramework.Presentation.Config) to the engine and input system when they change
 
 **Use when:** Building a game using AlphaFramework.
 
