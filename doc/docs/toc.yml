@@ -4,6 +4,8 @@
   href: ../features.md
 - name: Scenes
   href: ../scenes.md
+- name: Lighting
+  href: ../lighting.md
 - name: Terrain
   href: ../terrain.md
 - name: Water
