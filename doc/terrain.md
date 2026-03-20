@@ -4,9 +4,31 @@ OmegaEngine supports heightmap-based terrain rendering with multiple blended sur
 
 ![](images/screenshots/terrain_mountains.jpg)
 
-The <xref:OmegaEngine.Graphics.Renderables.Terrain> class renders heightmap-based terrains. The terrain is divided into blocks for efficient culling and rendering.
+The <xref:OmegaEngine.Graphics.Renderables.Terrain> class renders terrains.
 
 <xref:AlphaFramework.World.Terrains> provides tools for terrain generation, editing, and storage.
+
+## Height map
+
+The height map is a 2D grid of elevation values that defines the terrain's shape. Each value in the grid represents the height at that specific location on the terrain. Height maps are stored as byte grids (values 0-255) and can be scaled using TODO.
+
+In AlphaFramework, the height map is accessed via <xref:AlphaFramework.World.Terrains.ITerrain.HeightMap>. The data is typically loaded from external files for efficient storage.
+
+## Textures
+
+The texture map defines which texture to use at each location on the terrain. Multiple textures can be blended together to create smooth transitions between different terrain types (e.g., grass, rock, sand).
+
+AlphaFramework uses texture templates (<xref:AlphaFramework.World.Templates.Template`1>) to map texture indices to actual textures. The <xref:AlphaFramework.World.Terrains.ITerrain.TextureMap> stores indices that reference these templates, allowing efficient reuse of texture definitions across the terrain.
+
+TODO: Review
+
+When <xref:OmegaEngine.EngineEffects.DoubleSampling> is enabled (via <xref:AlphaFramework.Presentation.Config.GraphicsSettings.DoubleSampling>), terrain textures are sampled twice with different texture coordinates and blended together. This technique provides better image quality by reducing repetitive tiling patterns that can occur when the same texture is repeated across large terrain areas.
+
+## Shadowing
+
+The occlusion interval map provides pre-calculated self-shadowing data. This map stores information about which parts of the terrain cast shadows on other parts, based on the terrain's geometry. This approach allows for efficient rendering of terrain shadows without real-time shadow calculations.
+
+The <xref:AlphaFramework.World.Terrains.ITerrain.OcclusionIntervalMap> can be generated using <xref:AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator>.
 
 ## Coordinates
 
