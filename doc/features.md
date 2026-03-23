@@ -11,7 +11,7 @@ An overview of the engine's features:
     * Post-screen effects
     * Dynamic shader generation
   * [Asset management](xref:OmegaEngine.Assets)
-    * [Overlay filesystem](xref:OmegaEngine.Foundation.Storage#filesystem) with mod support
+    * [Overlay filesystem](xref:OmegaEngine.Foundation.Storage) with mod support
   * [Lighting](lighting.md)
     * Blinn–Phong
     * Real-time bounding sphere based shadowing

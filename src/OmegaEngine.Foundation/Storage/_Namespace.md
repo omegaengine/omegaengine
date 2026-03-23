@@ -1,62 +1,71 @@
 ---
 uid: OmegaEngine.Foundation.Storage
-summary: The storage subsystem provides a flexible filesystem abstraction that combines multiple content directories into a unified view.
+summary: The storage subsystem provides a unified way to locate, read, and write content files.
 ---
-## Content Manager
+<xref:OmegaEngine.Foundation.Storage.ContentManager> lets you request files using a **type** and an **ID**.
 
-The <xref:OmegaEngine.Foundation.Storage.ContentManager> locates and loads files from the overlay filesystem.
+* **Type**: determines name of subdirectory to look in
+* **ID**: determines filename
 
-### Directory names
+The actual physical locations of these directories are abstracted.
 
-Asset loading methods automatically prepend directory names based on the asset type:
+**Directory structure example**
 
-| Asset Type | Method | Directory |
-|------------|--------|-----------|
-| Textures | `XTexture.Get(engine, "texture.png")` | `Textures/` |
-| Mesh textures | `XTexture.Get(engine, "texture.png", meshTexture: true)` | `Meshes/` |
-| Meshes | `XMesh.Get(engine, "mesh.x")` | `Meshes/` |
-| Particle systems | `CpuParticlePreset.FromContent("fire")` | `Graphics/CpuParticleSystem/` |
-
-Example:
-```csharp
-// Loads from "Textures/texture.png"
-var texture = XTexture.Get(engine, "texture.png");
-
-// Loads from "Meshes/mesh.x"
-var mesh = XMesh.Get(engine, "mesh.x");
-
-// Loads from "Meshes/texture.png" (texture associated with a mesh)
-var meshTexture = XTexture.Get(engine, "texture.png", meshTexture: true);
-
-// Loads from "Graphics/CpuParticleSystem/fire.xml"
-var particles = CpuParticlePreset.FromContent("fire");
+```text
+content/
+  Textures/
+    Grass.png
+  Meshes/
+    Character.x
+  Sounds/
+    Bird.wav
 ```
 
-## Filesystem
+## Base content
 
-The filesystem combines multiple directory structures into a single view used to load assets.
+By default, content is loaded from a `content` directory next to the game executable.
 
-Search order:
+### Environment variable
 
-1. Mod
-    - Directory specified via the `/mod` command-line argument  
-      (only if implemented by the game)
-    - Directories specified in the `OMEGAENGINE_CONTENT_MOD` environment variable  
-      (only if the `/mod` command-line argument was not used)
-2. Base
-    - Directory specified in game settings  
-      (only if implemented by the game)
-    - Directories specified in the `OMEGAENGINE_CONTENT` environment variable  
-      (only if not overriden by game settings)
-    - The `content` directory next to the game's executable  
-      (only if not overriden by the `OMEGAENGINE_CONTENT` environment variable or game settings)
+You can override the location using the environment variable `OMEGAENGINE_CONTENT`.
 
-### Base directory
+Multiple directories can be specified using `;` as a separator. Directories are checked in the order they are specified.
 
-The base directory is usually located in the directory of the application EXE and named `base`. This location can be overridden in the engine configuration.
+### Settings
 
-### Mods
+You can override the location using [application settings](xref:AlphaFramework.Presentation.Config), but you need to explicitly wire this up in your `Program.cs`:
 
-A game modification (mod) is a set of changes based on an existing game used to modify existing gameplay, add additional content or create an entirely new game.
+```csharp
+if (Settings.Current.General.ContentDir is {} contentDir)
+    ContentManager.BaseDir = new(Path.Combine(Locations.InstallBase, contentDir));
+```
+
+## Mods
+
+Mods act as an override layer. Files in mod directories takes precedence over files with the same path in base content.
+
+### Environment variable
+
+You can specify the mod directory using the environment variable `OMEGAENGINE_CONTENT_MOD`.
+
+Multiple directories can be specified using `;` as a separator. Directories are checked in the order they are specified.
+
+### Command-line argument
+
+You can specify the mod directory using command-line arguments, but you need to explicitly wire this up in your `Program.cs`:
+
+```csharp
+if (Arguments.GetOption("mod") is {} mod)
+    ContentManager.ModDir = new(Path.Combine(Locations.InstallBase, "Mods", mod));
+```
+
+## Lookup order
+
+When resolving a file, the system searches in this order:
+
+1. Mod directories (in specified order)
+2. Base content directories (in specified order)
+
+The first match wins.
 
 ## API

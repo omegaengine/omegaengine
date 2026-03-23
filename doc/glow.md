@@ -59,3 +59,10 @@ Use a <xref:OmegaEngine.Graphics.XMaterial.GlowMap> texture to define which part
 var model = new Model(XMesh.Get(engine, "Lamp.x"));
 model.Materials[0].GlowMap = XTexture.Get(engine, "LampGlow.png");
 ```
+
+> [!TIP]
+> The [asset management system](xref:OmegaEngine.Assets#texture-naming-convention) automatically discovers certain texture maps based on a naming convention. To make a glow map discoverable, append `_glow` to the name of the corresponding diffuse texture and keep the original file extension.
+>
+> **Example:**  
+> Diffuse texture file name: `mytexture.png`  
+> Glow map file name: `mytexture_glow.png`

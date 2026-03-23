@@ -2,24 +2,48 @@
 uid: OmegaEngine.Assets
 summary: Assets are content files loaded by the engine at runtime. This includes textures, models, sounds, etc..
 ---
-## Loading assets
+When loading an asset the <xref:OmegaEngine.Foundation.Storage> subsystem is used to locate the file and then the [asset cache](#cache) is used to store it in-memory for reuse.
 
-Many asset types provide static `Get()` methods for easy loading from the content directories:
+## Get methods
+
+Most asset types provide static `Get()` methods. You pass in the asset's ID (which is its filename) and you'll either get an already cached instance or the contents is loaded from disk and cached.
+
+Examples:
 
 ```csharp
 // Load a 3D model
 var model = XMesh.Get(engine, "Character.x");
 
 // Load a texture
-var texture = XTexture.Get(engine, "Concrete.png");
+var texture = XTexture.Get(engine, "Grass.png");
 ```
 
-The `Get()` method:
+### Directories
 
-1. Searches for the file in the [filesystem](xref:OmegaEngine.Foundation.Storage#filesystem)
-2. Loads and parses the file
-3. Adds the asset to the [cache](#cache)
-4. Returns the asset ready for use
+These methods automatically choose [content subdirectories](xref:OmegaEngine.Foundation.Storage) based on the asset type:
+
+| Asset Type    | Method                                                          | Content Subdirectory |
+| ------------- | --------------------------------------------------------------- | -------------------- |
+| Textures      | `XTexture.Get(engine, "Grass.png")`                             | `Textures`           |
+| Meshes        | `XMesh.Get(engine, "Character.x")`                              | `Meshes`             |
+| Mesh textures | `XTexture.Get(engine, "Character_Skin.png", meshTexture: true)` | `Meshes`             |
+| Sound         | `XSound.Get(engine, "Bird.wav")`                                | `Sounds`             |
+
+Examples:
+
+```csharp
+// Loads from "Textures/texture.png"
+var texture = XTexture.Get(engine, "texture.png");
+
+// Loads from "Meshes/mesh.x"
+var mesh = XMesh.Get(engine, "mesh.x");
+
+// Loads from "Meshes/texture.png" (texture associated with a mesh)
+var meshTexture = XTexture.Get(engine, "texture.png", meshTexture: true);
+
+// Loads from "Graphics/CpuParticleSystem/fire.xml"
+var particles = CpuParticlePreset.FromContent("fire");
+```
 
 ## Cache
 
@@ -41,7 +65,7 @@ For scenarios like level transitions:
 
 ```csharp
 // Load level 1 assets
-var level1Assets = LoadLevel1Assets(engine);
+List<IDisposable> level1Assets = LoadLevel1Assets(engine);
 
 // ... play level 1 ...
 
@@ -53,7 +77,27 @@ foreach (var asset in level1Assets)
 engine.Cache.Clean();
 
 // Load level 2 assets
-var level2Assets = LoadLevel2Assets(engine);
+List<IDisposable> level2Assets = LoadLevel2Assets(engine);
 ```
+
+## Texture naming convention
+
+When loading meshes from .X files, <xref:OmegaEngine.Assets.XMesh> automatically looks for associated textures using filename suffixes:
+
+| Suffix      | Map Type     | Property                                          | Purpose                         |
+| ----------- | ------------ | ------------------------------------------------- | ------------------------------- |
+| `_normal`   | Normal map   | <xref:OmegaEngine.Graphics.XMaterial.NormalMap>   | Surface detail and bump mapping |
+| `_height`   | Height map   | <xref:OmegaEngine.Graphics.XMaterial.HeightMap>   | Parallax occlusion mapping      |
+| `_specular` | Specular map | <xref:OmegaEngine.Graphics.XMaterial.SpecularMap> | Specular highlight intensity    |
+| `_emissive` | Emissive map | <xref:OmegaEngine.Graphics.XMaterial.EmissiveMap> | Self-illumination               |
+| `_glow`     | Glow map     | <xref:OmegaEngine.Graphics.XMaterial.GlowMap>     | Bloom/glow effects              |
+
+For example, if a mesh references `Character.png`, the engine will automatically search for and load if present:
+
+- `Character_normal.png` for normal mapping
+- `Character_height.png` for parallax effects
+- `Character_specular.png` for specular highlights
+- `Character_emissive.png` for emissive surfaces
+- `Character_glow.png` for glow effects
 
 ## API
