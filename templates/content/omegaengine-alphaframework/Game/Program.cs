@@ -52,7 +52,7 @@ static class Program
 
             // Mod
             if (Arguments.GetOption("mod") is {} mod)
-                ContentManager.ModDir = new(Path.Combine(Path.Combine(Locations.InstallBase, "Mods"), mod));
+                ContentManager.ModDir = new(Path.Combine(Locations.InstallBase, "Mods", mod));
             if (ContentManager.ModDir != null) Log.Info($"Load mod from: {ContentManager.ModDir}");
         }
         #region Error handling
