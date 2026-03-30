@@ -54,9 +54,18 @@ public class CpuParticleSystem : PositionableRenderable
     public Vector3 Velocity { get; set; }
 
     /// <summary>
+    /// Controls whether particles are tracked in world space (<c>true</c>) or relative to the particle system (<c>false</c>).
+    /// When <c>false</c>, moving the particle system moves all existing particles along with it.
+    /// </summary>
+    [Description("Controls whether particles are tracked in world space or relative to the particle system"), Category("Behavior")]
+    public bool WorldSpace { get; set; } = true;
+
+    /// <summary>
     /// The position with the <see cref="PositionableRenderable.PreTransform"/> applied
     /// </summary>
     private DoubleVector3 PreTransformedPosition => Position + Vector3.TransformCoordinate(new(), PreTransform * Matrix.RotationQuaternion(Rotation));
+
+    private DoubleVector3? _previousPreTransformedPosition;
     #endregion
 
     #region Constructor
@@ -149,6 +158,18 @@ public class CpuParticleSystem : PositionableRenderable
     /// <param name="elapsedTime">How many seconds have passed since the last call of this function</param>
     private void UpdateParticles(float elapsedTime)
     {
+        var currentPosition = PreTransformedPosition;
+        if (!WorldSpace && _previousPreTransformedPosition.HasValue)
+        {
+            var delta = currentPosition - _previousPreTransformedPosition.Value;
+            if (delta != default)
+            {
+                _firstLifeParticles.ForEach(p => p.Position += delta);
+                _secondLifeParticles.ForEach(p => p.Position += delta);
+            }
+        }
+        _previousPreTransformedPosition = currentPosition;
+
         UpdateFirstLifeParticles(elapsedTime);
         UpdateSecondLifeParticles(elapsedTime);
 
