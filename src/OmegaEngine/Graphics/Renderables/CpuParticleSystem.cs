@@ -136,7 +136,7 @@ public class CpuParticleSystem : PositionableRenderable
             return Preset.WarmupTime;
         }
 
-        float maxStep = Preset.WarmupTime.Clamp(0, 0.2f);
+        float maxStep = Math.Max(Preset.WarmupTime, 0.2f);
         return (Math.Abs(Engine.LastFrameGameTime) * Preset.Speed).Clamp(0, maxStep);
     }
     #endregion
