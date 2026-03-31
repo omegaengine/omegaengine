@@ -180,6 +180,7 @@ partial class Presenter
             if (string.IsNullOrEmpty(component.Filename)) return null;
 
             var particleSystem = new OmegaEngine.Graphics.Renderables.CpuParticleSystem(CpuParticlePreset.FromContent(component.Filename));
+            particleSystem.WorldSpace = component.WorldSpace;
             ConfigureParticleSystem(entity, particleSystem, component);
             return particleSystem;
         });
