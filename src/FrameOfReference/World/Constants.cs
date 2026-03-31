@@ -37,7 +37,7 @@ public static class Constants
     /// <summary>
     /// The file extensions for map files (serialized <see cref="Universe"/>).
     /// </summary>
-    public const string MapFileExt = ".xml";
+    public const string MapFileExt = $".{AppNameShort}Map";
 
     /// <summary>
     /// The file extensions for savegames (serialized <see cref="Session"/>).
