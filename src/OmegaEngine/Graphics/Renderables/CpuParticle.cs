@@ -164,8 +164,8 @@ internal class CpuParticle : IPoolable<CpuParticle>, IPositionable
     /// </summary>
     /// <param name="engine">The <see cref="Engine"/> to use to render this particle</param>
     /// <param name="camera">Supplies information for the view transformation</param>
-    /// <param name="offset">An additional positional offset applied during rendering. Use the particle system's position to render particles relative to it instead of in world space.</param>
-    internal void Render(Engine engine, Camera camera, DoubleVector3 offset)
+    /// <param name="origin">An additional positional origin applied during rendering. Use the particle system's position to render particles relative to it instead of in world space.</param>
+    internal void Render(Engine engine, Camera camera, DoubleVector3 origin)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -176,7 +176,7 @@ internal class CpuParticle : IPoolable<CpuParticle>, IPositionable
         engine.State.WorldTransform =
             Matrix.Scaling(new(Size)) *
             camera.SphericalBillboard *
-            Matrix.Translation((Position + offset).ApplyOffset(camera.FloatingOrigin));
+            Matrix.Translation((Position + origin).ApplyOffset(camera.FloatingOrigin));
 
         // Set the particle color
         var material = new Material {Emissive = Color};
