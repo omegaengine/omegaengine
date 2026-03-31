@@ -19,7 +19,7 @@ namespace OmegaEngine.Graphics.Renderables;
 /// A set of information about a particle in a particle system
 /// </summary>
 [XmlInclude(typeof(Color)), XmlInclude(typeof(Color4))]
-public class CpuParticleParameters
+public record CpuParticleParameters
 {
     /// <summary>
     /// This value for <see cref="LifeTime"/> is a flag for infinite life
@@ -75,12 +75,4 @@ public class CpuParticleParameters
     /// </summary>
     [DefaultValue(0f), Description("How much the particle gets darker per second")]
     public float DeltaColor { get; set; }
-
-    /// <summary>
-    /// Creates a plain copy of the particle system parameter set
-    /// </summary>
-    internal CpuParticleParameters CloneParameters()
-    {
-        return (CpuParticleParameters)MemberwiseClone();
-    }
 }

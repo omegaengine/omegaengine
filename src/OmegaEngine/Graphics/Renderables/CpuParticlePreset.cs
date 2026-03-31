@@ -21,10 +21,8 @@ namespace OmegaEngine.Graphics.Renderables;
 /// A set of information about a particle system as a whole
 /// </summary>
 [XmlRoot("CpuParticlePreset")] // Suppress XMLSchema declarations (no inheritance used for properties)
-public class CpuParticlePreset : ICloneable
+public record CpuParticlePreset
 {
-    private string _particleTexture1, _particleTexture2;
-
     /// <summary>
     /// Flag indicating that <see cref="Particle1Texture"/> and/or <see cref="Particle2Texture"/> have changed and need to be reloaded
     /// </summary>
@@ -34,13 +32,13 @@ public class CpuParticlePreset : ICloneable
     /// The lower values of the range of parameters used to spawn new particles
     /// </summary>
     [Browsable(false)]
-    public CpuParticleParameters LowerParameters1 { get; set; }
+    public CpuParticleParameters LowerParameters1 { get; set; } = new() {LifeTime = 2, Size = 10}; // Default value not part of serialization contract
 
     /// <summary>
     /// The upper values of the range of parameters used to spawn new particles
     /// </summary>
     [Browsable(false)]
-    public CpuParticleParameters UpperParameters1 { get; set; }
+    public CpuParticleParameters UpperParameters1 { get; set; } = new() {LifeTime = 2, Size = 10}; // Default value not part of serialization contract
 
     /// <summary>
     /// <c>true</c> <see cref="CpuParticleParameters.LifeTime"/> is set to <see cref="CpuParticleParameters.InfiniteFlag"/> for <see cref="LowerParameters1"/> or <see cref="UpperParameters1"/>.
@@ -52,13 +50,13 @@ public class CpuParticlePreset : ICloneable
     /// The lower values of the range of parameters used to start particles' "second life"
     /// </summary>
     [Browsable(false)]
-    public CpuParticleParameters LowerParameters2 { get; set; }
+    public CpuParticleParameters LowerParameters2 { get; set; } = new();
 
     /// <summary>
     /// The upper values of the range of parameters used to start particles' "second life"
     /// </summary>
     [Browsable(false)]
-    public CpuParticleParameters UpperParameters2 { get; set; }
+    public CpuParticleParameters UpperParameters2 { get; set; } = new();
 
     /// <summary>
     /// <c>true</c> <see cref="CpuParticleParameters.LifeTime"/> is set to <see cref="CpuParticleParameters.InfiniteFlag"/> for <see cref="LowerParameters2"/> or <see cref="UpperParameters2"/>.
@@ -69,8 +67,8 @@ public class CpuParticlePreset : ICloneable
     /// <summary>
     /// How many new particles shall be spawned per second
     /// </summary>
-    [DefaultValue(0f), Category("Spawn"), Description("How many new particles shall be spawned per second")]
-    public float SpawnRate { get; set; }
+    [Category("Spawn"), Description("How many new particles shall be spawned per second")]
+    public float SpawnRate { get; set; } = 10; // Default value not part of serialization contract
 
     /// <summary>
     /// The largest distance from the emitter at which particle shall be spawned
@@ -132,18 +130,22 @@ public class CpuParticlePreset : ICloneable
     [DefaultValue(0f), Category("General"), Description("How many seconds to \"fast forward\" the particle system before it's render the first time")]
     public float WarmupTime { get; set; }
 
+    private string _particleTexture1 = "fire.png"; // Default value not part of serialization contract
+
     /// <summary>
     /// The ID of the texture to place on the particles
     /// </summary>
-    [DefaultValue(""), Category("Render"), Description("The ID of the texture to place on the particles")]
+    [Category("Render"), Description("The ID of the texture to place on the particles")]
     public string Particle1Texture { get => _particleTexture1; set => value.To(ref _particleTexture1, ref TexturesDirty); }
 
     /// <summary>
     /// The level of transparency from 0 (solid) to 255 (invisible),
     /// <see cref="EngineState.AlphaChannel"/>, <see cref="EngineState.BinaryAlphaChannel"/> or <see cref="EngineState.AdditivBlending"/>
     /// </summary>
-    [DefaultValue(0), Category("Render"), Description("The level of transparency from 0 (solid) to 255 (invisible), 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending")]
-    public int Particle1Alpha { get; set; }
+    [Category("Render"), Description("The level of transparency from 0 (solid) to 255 (invisible), 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending")]
+    public int Particle1Alpha { get; set; } = EngineState.AdditivBlending; // Default value not part of serialization contract
+
+    private string? _particleTexture2;
 
     /// <summary>
     /// The ID of the texture to place on the particles during their "second life"
@@ -186,19 +188,6 @@ public class CpuParticlePreset : ICloneable
         }
     }
 
-    public CpuParticlePreset()
-    {
-        LowerParameters1 = new() {LifeTime = 2, Size = 10};
-        UpperParameters1 = new() {LifeTime = 2, Size = 10};
-        LowerParameters2 = new();
-        UpperParameters2 = new();
-
-        // Pre-initialize with some useful default values (not the "official" default values for serialization)
-        Particle1Texture = "fire.png";
-        Particle1Alpha = 257;
-        SpawnRate = 10;
-    }
-
     /// <summary>
     /// Loads a preset from an XML file via the <see cref="ContentManager"/>.
     /// </summary>
@@ -213,20 +202,4 @@ public class CpuParticlePreset : ICloneable
         using var stream = ContentManager.GetFileStream("Graphics/CpuParticleSystem", id);
         return XmlStorage.LoadXml<CpuParticlePreset>(stream);
     }
-
-    /// <summary>
-    /// Creates a deep copy of the particle system preset
-    /// </summary>
-    /// <returns>The cloned preset</returns>
-    public CpuParticlePreset Clone()
-    {
-        var newPreset = (CpuParticlePreset)MemberwiseClone();
-        newPreset.LowerParameters1 = LowerParameters1.CloneParameters();
-        newPreset.UpperParameters1 = UpperParameters1.CloneParameters();
-        newPreset.LowerParameters2 = LowerParameters2.CloneParameters();
-        newPreset.UpperParameters2 = UpperParameters2.CloneParameters();
-        return newPreset;
-    }
-
-    object ICloneable.Clone() => Clone();
 }
