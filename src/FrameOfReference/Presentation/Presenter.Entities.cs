@@ -179,8 +179,9 @@ partial class Presenter
         {
             if (string.IsNullOrEmpty(component.Filename)) return null;
 
-            var particleSystem = new OmegaEngine.Graphics.Renderables.CpuParticleSystem(CpuParticlePreset.FromContent(component.Filename))
+            var particleSystem = new OmegaEngine.Graphics.Renderables.CpuParticleSystem
             {
+                Preset = CpuParticlePreset.FromContent(component.Filename),
                 LocalSpace = component.LocalSpace
             };
             ConfigureParticleSystem(entity, particleSystem, component);

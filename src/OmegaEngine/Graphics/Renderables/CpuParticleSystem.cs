@@ -70,12 +70,10 @@ public class CpuParticleSystem : PositionableRenderable
     /// <summary>
     /// Creates a new particle system.
     /// </summary>
-    /// <param name="preset">The initial configuration of the particle system.</param>
-    public CpuParticleSystem(CpuParticlePreset preset)
+    public CpuParticleSystem()
     {
         Pickable = false;
         RenderIn = ViewType.NormalOnly;
-        Preset = preset ?? throw new ArgumentNullException(nameof(preset));
 
         // Make the update function execute once per frame
         PreRender += Update;
