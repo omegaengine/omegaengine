@@ -65,7 +65,6 @@ public class CpuParticleSystem : PositionableRenderable
     /// </summary>
     private DoubleVector3 PreTransformedPosition => Position + Vector3.TransformCoordinate(new(), PreTransform * Matrix.RotationQuaternion(Rotation));
 
-    private DoubleVector3? _previousPreTransformedPosition;
     #endregion
 
     #region Constructor
@@ -158,18 +157,6 @@ public class CpuParticleSystem : PositionableRenderable
     /// <param name="elapsedTime">How many seconds have passed since the last call of this function</param>
     private void UpdateParticles(float elapsedTime)
     {
-        var currentPosition = PreTransformedPosition;
-        if (!WorldSpace && _previousPreTransformedPosition.HasValue)
-        {
-            var delta = currentPosition - _previousPreTransformedPosition.Value;
-            if (delta != default)
-            {
-                _firstLifeParticles.ForEach(p => p.Position += delta);
-                _secondLifeParticles.ForEach(p => p.Position += delta);
-            }
-        }
-        _previousPreTransformedPosition = currentPosition;
-
         UpdateFirstLifeParticles(elapsedTime);
         UpdateSecondLifeParticles(elapsedTime);
 
@@ -433,13 +420,15 @@ public class CpuParticleSystem : PositionableRenderable
         bool fog = Engine.State.Fog;
         Engine.State.Fog = false;
 
+        var offset = WorldSpace ? default : PreTransformedPosition;
+
         if (_material1.DiffuseMaps[0] != null)
         {
             using (new ProfilerEvent("Render first-life particles"))
             {
                 Engine.State.AlphaBlend = Preset.Particle1Alpha;
                 Engine.State.SetTexture(_material1.DiffuseMaps[0]);
-                _firstLifeParticles.ForEach(particle => particle.Render(Engine, camera));
+                _firstLifeParticles.ForEach(particle => particle.Render(Engine, camera, offset));
             }
         }
 
@@ -449,7 +438,7 @@ public class CpuParticleSystem : PositionableRenderable
             {
                 Engine.State.AlphaBlend = Preset.Particle2Alpha;
                 Engine.State.SetTexture(_material2.DiffuseMaps[0]);
-                _secondLifeParticles.ForEach(particle => particle.Render(Engine, camera));
+                _secondLifeParticles.ForEach(particle => particle.Render(Engine, camera, offset));
             }
         }
 
