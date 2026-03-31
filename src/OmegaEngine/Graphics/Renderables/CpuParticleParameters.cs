@@ -21,14 +21,11 @@ namespace OmegaEngine.Graphics.Renderables;
 [XmlInclude(typeof(Color)), XmlInclude(typeof(Color4))]
 public class CpuParticleParameters
 {
-    #region Constants
     /// <summary>
     /// This value for <see cref="LifeTime"/> is a flag for infinite life
     /// </summary>
     internal const float InfiniteFlag = -32768;
-    #endregion
 
-    #region Properties
     /// <summary>
     /// How many seconds this particle will exist.
     /// Set to 0 never create. Set to <see cref="InfiniteFlag"/> for infinite.
@@ -78,9 +75,7 @@ public class CpuParticleParameters
     /// </summary>
     [DefaultValue(0f), Description("How much the particle gets darker per second")]
     public float DeltaColor { get; set; }
-    #endregion
 
-    #region Clone
     /// <summary>
     /// Creates a plain copy of the particle system parameter set
     /// </summary>
@@ -88,5 +83,4 @@ public class CpuParticleParameters
     {
         return (CpuParticleParameters)MemberwiseClone();
     }
-    #endregion
 }

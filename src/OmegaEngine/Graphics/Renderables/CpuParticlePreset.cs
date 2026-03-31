@@ -23,18 +23,13 @@ namespace OmegaEngine.Graphics.Renderables;
 [XmlRoot("CpuParticlePreset")] // Suppress XMLSchema declarations (no inheritance used for properties)
 public class CpuParticlePreset : ICloneable
 {
-    #region Variables
     private string _particleTexture1, _particleTexture2;
 
     /// <summary>
     /// Flag indicating that <see cref="Particle1Texture"/> and/or <see cref="Particle2Texture"/> have changed and need to be reloaded
     /// </summary>
     internal bool TexturesDirty;
-    #endregion
 
-    #region Properties
-
-    #region Particle parameters
     /// <summary>
     /// The lower values of the range of parameters used to spawn new particles
     /// </summary>
@@ -70,9 +65,7 @@ public class CpuParticlePreset : ICloneable
     /// </summary>
     [Browsable(false)]
     public bool InfiniteLifetime2 => LowerParameters2.LifeTime == CpuParticleParameters.InfiniteFlag || UpperParameters2.LifeTime == CpuParticleParameters.InfiniteFlag;
-    #endregion
 
-    #region Spawn
     /// <summary>
     /// How many new particles shall be spawned per second
     /// </summary>
@@ -90,9 +83,7 @@ public class CpuParticlePreset : ICloneable
     /// </summary>
     [DefaultValue(512), Category("Spawn"), Description("The maximum number particles in existence at any one point in time")]
     public int MaxParticles { get; set; } = 512;
-    #endregion
 
-    #region Acceleration
     /// <summary>
     /// How far the emitter's repelling force can reach
     /// </summary>
@@ -128,9 +119,7 @@ public class CpuParticlePreset : ICloneable
     /// </summary>
     [DefaultValue(0f), Category("Acceleration"), Description("Randomly accelerate particles with up to the specified speed")]
     public float RandomAcceleration { get; set; }
-    #endregion
 
-    #region General
     /// <summary>
     /// A factor by which all elapsed times are multiplied
     /// </summary>
@@ -142,9 +131,7 @@ public class CpuParticlePreset : ICloneable
     /// </summary>
     [DefaultValue(0f), Category("General"), Description("How many seconds to \"fast forward\" the particle system before it's render the first time")]
     public float WarmupTime { get; set; }
-    #endregion
 
-    #region Render
     /// <summary>
     /// The ID of the texture to place on the particles
     /// </summary>
@@ -170,11 +157,7 @@ public class CpuParticlePreset : ICloneable
     /// </summary>
     [DefaultValue(0), Category("Render"), Description("The level of transparency from 0 (solid) to 255 (invisible) for particles' \"second life\", 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending")]
     public int Particle2Alpha { get; set; }
-    #endregion
 
-    #endregion
-
-    #region Constructor
     public CpuParticlePreset()
     {
         LowerParameters1 = new() {LifeTime = 2, Size = 10};
@@ -187,11 +170,7 @@ public class CpuParticlePreset : ICloneable
         Particle1Alpha = 257;
         SpawnRate = 10;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Storage
     /// <summary>
     /// Loads a preset from an XML file via the <see cref="ContentManager"/>.
     /// </summary>
@@ -206,9 +185,7 @@ public class CpuParticlePreset : ICloneable
         using var stream = ContentManager.GetFileStream("Graphics/CpuParticleSystem", id);
         return XmlStorage.LoadXml<CpuParticlePreset>(stream);
     }
-    #endregion
 
-    #region Clone
     /// <summary>
     /// Creates a deep copy of the particle system preset
     /// </summary>
@@ -224,5 +201,4 @@ public class CpuParticlePreset : ICloneable
     }
 
     object ICloneable.Clone() => Clone();
-    #endregion
 }
