@@ -54,9 +54,11 @@ public class CpuParticleSystem : PositionableRenderable
     public Vector3 Velocity { get; set; }
 
     /// <summary>
-    /// The position with the <see cref="PositionableRenderable.PreTransform"/> applied
+    /// Controls whether particles are tracked relative to the particle system instead of world space.
     /// </summary>
-    private DoubleVector3 PreTransformedPosition => Position + Vector3.TransformCoordinate(new(), PreTransform * Matrix.RotationQuaternion(Rotation));
+    /// <remarks>When <c>true</c>, moving the particle system moves all existing particles along with it.</remarks>
+    [Description("Controls whether particles are tracked relative to the particle system instead of world space.")]
+    public bool LocalSpace { get; set; }
     #endregion
 
     #region Constructor
@@ -219,7 +221,8 @@ public class CpuParticleSystem : PositionableRenderable
 
     private void ApplyEmitterForces(CpuParticle particle, float elapsedTime)
     {
-        Vector3 particlePosition = particle.Position.ApplyOffset(PreTransformedPosition);
+        var particleOffset = LocalSpace ? new() : Position;
+        Vector3 particlePosition = particle.Position.ApplyOffset(particleOffset);
         float particleDistance = particlePosition.Length();
         Vector3 particleDirection = Vector3.Normalize(particlePosition);
 
@@ -244,8 +247,9 @@ public class CpuParticleSystem : PositionableRenderable
     /// <param name="lodFactor">A factor by which sizes are multiplied for level-of-detail purposes</param>
     private void AddParticle(float lodFactor = 1)
     {
+        var particleOffset = LocalSpace ? new() : Position;
         AddParticle(
-            PreTransformedPosition + RandomUtils.GetRandomPointInsideSphere(Preset.SpawnRadius),
+            particleOffset + RandomUtils.GetRandomPointInsideSphere(Preset.SpawnRadius),
             GetFirstLifeParameters(lodFactor),
             GetSecondLifeParameters(lodFactor));
     }
@@ -389,13 +393,17 @@ public class CpuParticleSystem : PositionableRenderable
         bool fog = Engine.State.Fog;
         Engine.State.Fog = false;
 
+        var renderOffset = LocalSpace ? Position : new();
+        if (!PreTransform.IsIdentity)
+            renderOffset += Vector3.TransformCoordinate(new(), PreTransform * Matrix.RotationQuaternion(Rotation));
+
         if (_material1.DiffuseMaps[0] != null)
         {
             using (new ProfilerEvent("Render first-life particles"))
             {
                 Engine.State.AlphaBlend = Preset.Particle1Alpha;
                 Engine.State.SetTexture(_material1.DiffuseMaps[0]);
-                _firstLifeParticles.ForEach(particle => particle.Render(Engine, camera));
+                _firstLifeParticles.ForEach(particle => particle.Render(Engine, camera, renderOffset));
             }
         }
 
@@ -405,7 +413,7 @@ public class CpuParticleSystem : PositionableRenderable
             {
                 Engine.State.AlphaBlend = Preset.Particle2Alpha;
                 Engine.State.SetTexture(_material2.DiffuseMaps[0]);
-                _secondLifeParticles.ForEach(particle => particle.Render(Engine, camera));
+                _secondLifeParticles.ForEach(particle => particle.Render(Engine, camera, renderOffset));
             }
         }
 

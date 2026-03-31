@@ -6,6 +6,8 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.ComponentModel;
+using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 
 namespace AlphaFramework.World.Components;
@@ -15,4 +17,11 @@ namespace AlphaFramework.World.Components;
 /// </summary>
 /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
 public class CpuParticleSystem : ParticleSystem
-{}
+{
+    /// <summary>
+    /// Controls whether particles are tracked relative to the particle system instead of world space.
+    /// </summary>
+    [DefaultValue(false), Description("Controls whether particles are tracked relative to the particle system instead of world space.")]
+    [XmlAttribute]
+    public bool LocalSpace { get; set; }
+}
