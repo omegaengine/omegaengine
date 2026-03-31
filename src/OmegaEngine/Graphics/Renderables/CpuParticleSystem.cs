@@ -117,11 +117,12 @@ public class CpuParticleSystem : PositionableRenderable
 
         using (new ProfilerEvent("Update particles"))
         {
-            // Update in intervals to increase accuracy
-            while (elapsedTime > 0.06f)
+            // Update in fixed intervals to increase accuracy
+            const float updateInterval = 0.06f;
+            while (elapsedTime > updateInterval)
             {
-                UpdateParticles(0.06f);
-                elapsedTime -= 0.06f;
+                UpdateParticles(updateInterval);
+                elapsedTime -= updateInterval;
             }
             UpdateParticles((float)elapsedTime);
         }
@@ -209,7 +210,7 @@ public class CpuParticleSystem : PositionableRenderable
         while (_newParticlesBuffer >= 1)
         {
             _newParticlesBuffer--;
-            AddParticle(1 / (float)Math.Sqrt(0.975f));
+            AddParticle();
         }
     }
     #endregion
@@ -233,10 +234,9 @@ public class CpuParticleSystem : PositionableRenderable
 
         if (Preset.RandomAcceleration > 0)
         {
-            float randomFactor = Preset.RandomAcceleration / 1.732f /* approx. sqrt(3) */;
-            particle.Velocity += RandomUtils.GetRandomVector3(
-                new(-randomFactor, -randomFactor, -randomFactor),
-                new(randomFactor, randomFactor, randomFactor));
+            const float sqrt3 = 1.732f;
+            var randomFactor = new Vector3(Preset.RandomAcceleration / sqrt3);
+            particle.Velocity += RandomUtils.GetRandomVector3(-randomFactor, randomFactor);
         }
     }
 
@@ -265,7 +265,7 @@ public class CpuParticleSystem : PositionableRenderable
     /// Adds a new particle with random values
     /// </summary>
     /// <param name="lodFactor">A factor by which sizes are multiplied for level-of-detail purposes</param>
-    private void AddParticle(float lodFactor)
+    private void AddParticle(float lodFactor = 1)
     {
         AddParticle(
             PreTransformedPosition + RandomUtils.GetRandomPointInsideSphere(Preset.SpawnRadius),
