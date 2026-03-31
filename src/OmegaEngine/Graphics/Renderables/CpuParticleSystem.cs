@@ -41,11 +41,22 @@ public class CpuParticleSystem : PositionableRenderable
     #endregion
 
     #region Properties
+    private CpuParticlePreset _preset = new();
+
     /// <summary>
     /// The configuration of this particle system.
     /// </summary>
     [Browsable(false)]
-    public CpuParticlePreset Preset { get; set; }
+    public required CpuParticlePreset Preset
+    {
+        get => _preset;
+        set
+        {
+            Alpha = Math.Max(value.Particle1Alpha, value.Particle2Alpha);
+            BoundingSphere = value.CalculateBoundingSphere();
+            _preset = value;
+        }
+    }
 
     /// <summary>
     /// Controls whether particles are tracked relative to the particle system instead of world space.
@@ -65,11 +76,6 @@ public class CpuParticleSystem : PositionableRenderable
         Pickable = false;
         RenderIn = ViewType.NormalOnly;
         Preset = preset ?? throw new ArgumentNullException(nameof(preset));
-
-        // Set the highest alpha blending value here to get correct sorting behavior
-        Alpha = preset.Particle1Alpha > preset.Particle2Alpha ? preset.Particle1Alpha : preset.Particle2Alpha;
-
-        BoundingSphere = preset.CalculateBoundingSphere();
 
         // Make the update function execute once per frame
         PreRender += Update;

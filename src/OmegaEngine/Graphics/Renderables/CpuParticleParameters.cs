@@ -31,13 +31,13 @@ public record CpuParticleParameters
     /// Set to 0 never create. Set to <see cref="InfiniteFlag"/> for infinite.
     /// </summary>
     [DefaultValue(0f), Description("How many seconds this particle will exist; 0 = never create; -32768 for infinite")]
-    public float LifeTime { get; set; }
+    public float LifeTime { get; init; }
 
     /// <summary>
     /// How much the velocity will be reduced in one second as a value between 0 and 1
     /// </summary>
     [DefaultValue(0f), Description("How much the velocity will be reduced in one second as a value between 0 and 1")]
-    public float Friction { get; set; }
+    public float Friction { get; init; }
 
     /// <summary>
     /// The size of the particle

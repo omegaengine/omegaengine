@@ -32,13 +32,13 @@ public record CpuParticlePreset
     /// The lower values of the range of parameters used to spawn new particles
     /// </summary>
     [Browsable(false)]
-    public CpuParticleParameters LowerParameters1 { get; set; } = new() {LifeTime = 2, Size = 10}; // Default value not part of serialization contract
+    public CpuParticleParameters LowerParameters1 { get; init; } = new() {LifeTime = 2, Size = 10}; // Default value not part of serialization contract
 
     /// <summary>
     /// The upper values of the range of parameters used to spawn new particles
     /// </summary>
     [Browsable(false)]
-    public CpuParticleParameters UpperParameters1 { get; set; } = new() {LifeTime = 2, Size = 10}; // Default value not part of serialization contract
+    public CpuParticleParameters UpperParameters1 { get; init; } = new() {LifeTime = 2, Size = 10}; // Default value not part of serialization contract
 
     /// <summary>
     /// <c>true</c> <see cref="CpuParticleParameters.LifeTime"/> is set to <see cref="CpuParticleParameters.InfiniteFlag"/> for <see cref="LowerParameters1"/> or <see cref="UpperParameters1"/>.
@@ -50,13 +50,13 @@ public record CpuParticlePreset
     /// The lower values of the range of parameters used to start particles' "second life"
     /// </summary>
     [Browsable(false)]
-    public CpuParticleParameters LowerParameters2 { get; set; } = new();
+    public CpuParticleParameters LowerParameters2 { get; init; } = new();
 
     /// <summary>
     /// The upper values of the range of parameters used to start particles' "second life"
     /// </summary>
     [Browsable(false)]
-    public CpuParticleParameters UpperParameters2 { get; set; } = new();
+    public CpuParticleParameters UpperParameters2 { get; init; } = new();
 
     /// <summary>
     /// <c>true</c> <see cref="CpuParticleParameters.LifeTime"/> is set to <see cref="CpuParticleParameters.InfiniteFlag"/> for <see cref="LowerParameters2"/> or <see cref="UpperParameters2"/>.
@@ -74,7 +74,7 @@ public record CpuParticlePreset
     /// The largest distance from the emitter at which particle shall be spawned
     /// </summary>
     [DefaultValue(0f), Category("Spawn"), Description("The largest distance from the emitter at which particle shall be spawned")]
-    public float SpawnRadius { get; set; }
+    public float SpawnRadius { get; init; }
 
     /// <summary>
     /// The maximum number particles in existence at any one point in time
@@ -86,13 +86,13 @@ public record CpuParticlePreset
     /// How far the emitter's repelling force can reach
     /// </summary>
     [DefaultValue(0f), Category("Acceleration"), Description("How far the emitter's repelling force can reach")]
-    public float EmitterRepelRange { get; set; }
+    public float EmitterRepelRange { get; init; }
 
     /// <summary>
     /// How fast particles will be pushed away from the emitter's centre
     /// </summary>
     [DefaultValue(0f), Category("Acceleration"), Description("How fast particles will be pushed away from the emitter's centre")]
-    public float EmitterRepelSpeed { get; set; }
+    public float EmitterRepelSpeed { get; init; }
 
     /// <summary>
     /// From where the emitter suction force starts to act
@@ -110,13 +110,13 @@ public record CpuParticlePreset
     /// A permanent acceleration force applied to all particles
     /// </summary>
     [Category("Acceleration"), Description("A permanent acceleration force applied to all particles")]
-    public Vector3 Gravity { get; set; }
+    public Vector3 Gravity { get; init; }
 
     /// <summary>
     /// Randomly accelerate particles with up to the specified speed
     /// </summary>
     [DefaultValue(0f), Category("Acceleration"), Description("Randomly accelerate particles with up to the specified speed")]
-    public float RandomAcceleration { get; set; }
+    public float RandomAcceleration { get; init; }
 
     /// <summary>
     /// A factor by which all elapsed times are multiplied
@@ -143,7 +143,7 @@ public record CpuParticlePreset
     /// <see cref="EngineState.AlphaChannel"/>, <see cref="EngineState.BinaryAlphaChannel"/> or <see cref="EngineState.AdditivBlending"/>
     /// </summary>
     [Category("Render"), Description("The level of transparency from 0 (solid) to 255 (invisible), 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending")]
-    public int Particle1Alpha { get; set; } = EngineState.AdditivBlending; // Default value not part of serialization contract
+    public int Particle1Alpha { get; init; } = EngineState.AdditivBlending; // Default value not part of serialization contract
 
     private string? _particleTexture2;
 
@@ -158,7 +158,7 @@ public record CpuParticlePreset
     /// <see cref="EngineState.AlphaChannel"/>, <see cref="EngineState.BinaryAlphaChannel"/> or <see cref="EngineState.AdditivBlending"/>
     /// </summary>
     [DefaultValue(0), Category("Render"), Description("The level of transparency from 0 (solid) to 255 (invisible) for particles' \"second life\", 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending")]
-    public int Particle2Alpha { get; set; }
+    public int Particle2Alpha { get; init; }
 
     /// <summary>
     /// Calculates a bounding sphere that encompasses all particles that could be created by a particle system with this configuration.
