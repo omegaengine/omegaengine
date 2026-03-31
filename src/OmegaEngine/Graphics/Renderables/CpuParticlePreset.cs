@@ -86,9 +86,9 @@ public class CpuParticlePreset : ICloneable
     public float SpawnRadius { get; set; }
 
     /// <summary>
-    /// The maximum number particles in existance at any one point in time
+    /// The maximum number particles in existence at any one point in time
     /// </summary>
-    [DefaultValue(512), Category("Spawn"), Description("The maximum number particles in existance at any one point in time")]
+    [DefaultValue(512), Category("Spawn"), Description("The maximum number particles in existence at any one point in time")]
     public int MaxParticles { get; set; } = 512;
     #endregion
 

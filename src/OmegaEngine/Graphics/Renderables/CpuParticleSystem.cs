@@ -70,7 +70,7 @@ public class CpuParticleSystem : PositionableRenderable
         RenderIn = ViewType.NormalOnly;
         Preset = preset ?? throw new ArgumentNullException(nameof(preset));
 
-        // Set the highest alpha blending value here to get correct sorting behaviour
+        // Set the highest alpha blending value here to get correct sorting behavior
         Alpha = preset.Particle1Alpha > preset.Particle2Alpha ? preset.Particle1Alpha : preset.Particle2Alpha;
 
         // ReSharper disable CompareOfFloatsByEqualityOperator
@@ -92,9 +92,9 @@ public class CpuParticleSystem : PositionableRenderable
             float maxDistance = preset.SpawnRadius + (preset.Gravity.Length() - minFriction) * maxLifeTime * maxLifeTime / 2f;
 
             BoundingSphere = new(
-                // Move half the way in gravity direction, handle first half of replling force
+                // Move half the way in gravity direction, handle first half of repelling force
                 center: Vector3.Normalize(preset.Gravity) * (maxDistance / 2f - preset.EmitterRepelRange),
-                // Encapsulate the entire gravity area, handle secibd half of replling force
+                // Encapsulate the entire gravity area, handle second half of repelling force
                 radius: maxDistance / 2 + preset.EmitterRepelRange);
         }
 
