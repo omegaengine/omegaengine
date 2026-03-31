@@ -36,7 +36,7 @@ public class CpuParticleSystem : PositionableRenderable
     /// <summary>A free-list of <see cref="CpuParticle"/>s to be reused</summary>
     private readonly Stack<CpuParticle> _deadParticles = new();
 
-    private VertexBuffer _vb;
+    private VertexBuffer? _vb;
     private XMaterial _material1, _material2;
     #endregion
 
@@ -382,7 +382,7 @@ public class CpuParticleSystem : PositionableRenderable
     {
         // Set shared settings for all particles
         Engine.State.FfpLighting = true;
-        Engine.State.SetVertexBuffer(_vb);
+        Engine.State.SetVertexBuffer(_vb ?? throw new InvalidOperationException());
         Engine.State.ZBufferMode = ZBufferMode.ReadOnly;
         bool fog = Engine.State.Fog;
         Engine.State.Fog = false;
