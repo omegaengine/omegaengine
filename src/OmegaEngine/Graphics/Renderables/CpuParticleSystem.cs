@@ -92,9 +92,9 @@ public class CpuParticleSystem : PositionableRenderable
             float maxDistance = preset.SpawnRadius + (preset.Gravity.Length() - minFriction) * maxLifeTime * maxLifeTime / 2f;
 
             BoundingSphere = new(
-                // Move half the way in gravity direction, handle first half of replling force
+                // Move half the way in gravity direction, handle first half of repelling force
                 center: Vector3.Normalize(preset.Gravity) * (maxDistance / 2f - preset.EmitterRepelRange),
-                // Encapsulate the entire gravity area, handle secibd half of replling force
+                // Encapsulate the entire gravity area, handle second half of replling force
                 radius: maxDistance / 2 + preset.EmitterRepelRange);
         }
 
