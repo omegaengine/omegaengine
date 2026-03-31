@@ -73,30 +73,7 @@ public class CpuParticleSystem : PositionableRenderable
         // Set the highest alpha blending value here to get correct sorting behavior
         Alpha = preset.Particle1Alpha > preset.Particle2Alpha ? preset.Particle1Alpha : preset.Particle2Alpha;
 
-        // ReSharper disable CompareOfFloatsByEqualityOperator
-        // Calculate bounding sphere
-        // If any of the four values is set to infinite...
-        if (preset.LowerParameters1.LifeTime == CpuParticleParameters.InfiniteFlag || preset.UpperParameters1.LifeTime == CpuParticleParameters.InfiniteFlag ||
-            preset.LowerParameters2.LifeTime == CpuParticleParameters.InfiniteFlag || preset.UpperParameters2.LifeTime == CpuParticleParameters.InfiniteFlag)
-        { // ... use rather wild approximation
-            float maxDistance = preset.RandomAcceleration * preset.EmitterRepelRange * preset.EmitterRepelSpeed / 10;
-
-            BoundingSphere = new(center: new(), radius: maxDistance / 2);
-        }
-        // ReSharper restore CompareOfFloatsByEqualityOperator
-
-        else
-        { // ... otherwise sum up the maximums
-            float maxLifeTime = preset.UpperParameters1.LifeTime + preset.UpperParameters2.LifeTime;
-            float minFriction = preset.LowerParameters1.Friction + preset.LowerParameters2.Friction;
-            float maxDistance = preset.SpawnRadius + (preset.Gravity.Length() - minFriction) * maxLifeTime * maxLifeTime / 2f;
-
-            BoundingSphere = new(
-                // Move half the way in gravity direction, handle first half of repelling force
-                center: Vector3.Normalize(preset.Gravity) * (maxDistance / 2f - preset.EmitterRepelRange),
-                // Encapsulate the entire gravity area, handle second half of repelling force
-                radius: maxDistance / 2 + preset.EmitterRepelRange);
-        }
+        BoundingSphere = preset.CalculateBoundingSphere();
 
         // Make the update function execute once per frame
         PreRender += Update;

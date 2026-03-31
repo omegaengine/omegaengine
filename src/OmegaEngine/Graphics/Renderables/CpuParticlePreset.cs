@@ -158,6 +158,34 @@ public class CpuParticlePreset : ICloneable
     [DefaultValue(0), Category("Render"), Description("The level of transparency from 0 (solid) to 255 (invisible) for particles' \"second life\", 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending")]
     public int Particle2Alpha { get; set; }
 
+    /// <summary>
+    /// Calculates a bounding sphere that encompasses all particles that could be created by a particle system with this configuration.
+    /// </summary>
+    public BoundingSphere CalculateBoundingSphere()
+    {
+        // If any of the four values is set to infinite...
+        if (LowerParameters1.LifeTime == CpuParticleParameters.InfiniteFlag || UpperParameters1.LifeTime == CpuParticleParameters.InfiniteFlag ||
+            LowerParameters2.LifeTime == CpuParticleParameters.InfiniteFlag || UpperParameters2.LifeTime == CpuParticleParameters.InfiniteFlag)
+        { // ... use rather wild approximation
+            float maxDistance = RandomAcceleration * EmitterRepelRange * EmitterRepelSpeed / 10;
+
+            return new(center: new(), radius: maxDistance / 2);
+        }
+        else
+        { // ... otherwise sum up the maximums
+            float maxLifeTime = UpperParameters1.LifeTime + UpperParameters2.LifeTime;
+            float minFriction = LowerParameters1.Friction + LowerParameters2.Friction;
+            float netAcceleration = Math.Max(Gravity.Length() - minFriction, 0);
+            float maxDistance = SpawnRadius + netAcceleration * maxLifeTime * maxLifeTime / 2f;
+
+            return new(
+                // Move half the way in gravity direction, handle first half of repelling force
+                center: Vector3.Normalize(Gravity) * (maxDistance / 2f - EmitterRepelRange),
+                // Encapsulate the entire gravity area, handle second half of repelling force
+                radius: maxDistance / 2 + EmitterRepelRange);
+        }
+    }
+
     public CpuParticlePreset()
     {
         LowerParameters1 = new() {LifeTime = 2, Size = 10};
