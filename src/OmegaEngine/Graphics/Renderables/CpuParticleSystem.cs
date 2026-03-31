@@ -48,12 +48,6 @@ public class CpuParticleSystem : PositionableRenderable
     public CpuParticlePreset Preset { get; set; }
 
     /// <summary>
-    /// The base velocity of all particles spawned by this particle system
-    /// </summary>
-    [Description("The base velocity of all particles spawned by this particle system"), Category("Behavior")]
-    public Vector3 Velocity { get; set; }
-
-    /// <summary>
     /// Controls whether particles are tracked relative to the particle system instead of world space.
     /// </summary>
     /// <remarks>When <c>true</c>, moving the particle system moves all existing particles along with it.</remarks>
@@ -209,7 +203,7 @@ public class CpuParticleSystem : PositionableRenderable
 
     private void ApplyGlobalForces(CpuParticle particle, float elapsedTime)
     {
-        particle.Velocity += (Preset.Gravity + Velocity) * elapsedTime;
+        particle.Velocity += Preset.Gravity * elapsedTime;
 
         if (Preset.RandomAcceleration > 0)
         {
