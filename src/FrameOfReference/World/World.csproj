@@ -5,7 +5,7 @@
     <AssemblyName>FrameOfReference.World</AssemblyName>
     <RootNamespace>FrameOfReference.World</RootNamespace>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
-    <PlatformTarget>anycpu</PlatformTarget>
+    <PlatformTarget></PlatformTarget><!-- any CPU arch -->
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
     <Nullable>enable</Nullable>

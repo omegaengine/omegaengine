@@ -8,6 +8,7 @@
     <!--suppress MsbuildTargetFrameworkTagInspection -->
     <TargetFrameworks>net472</TargetFrameworks>
     <PlatformTarget>x86</PlatformTarget>
+    <EnableWindowsTargeting>True</EnableWindowsTargeting>
     <Nullable>annotations</Nullable>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>

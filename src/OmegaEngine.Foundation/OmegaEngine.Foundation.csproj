@@ -5,7 +5,7 @@
     <Description>Rendering-agnostic infrastructure used by OmegaEngine. Includes storage subsystem and data structures.</Description>
     <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
     <TargetFrameworks>net472;net8.0</TargetFrameworks>
-    <PlatformTarget>anycpu</PlatformTarget>
+    <PlatformTarget></PlatformTarget><!-- any CPU arch -->
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='net8.0'">

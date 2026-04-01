@@ -2,7 +2,7 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-  build:
+  windows:
     runs-on: windows-latest
     steps:
       # Prepare
@@ -79,3 +79,16 @@ jobs:
           force_orphan: true
           publish_dir: artifacts/Documentation
           cname: docs.omegaengine.de
+
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      # Prepare
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          show-progress: false
+
+      # Build
+      - name: Build
+        run: ./build.sh

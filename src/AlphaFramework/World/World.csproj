@@ -8,7 +8,7 @@ AlphaFramework.World provides a basis for building engine-agnostic models of gam
     <RootNamespace>AlphaFramework.World</RootNamespace>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
     <TargetFrameworks>net472;net8.0</TargetFrameworks>
-    <PlatformTarget>anycpu</PlatformTarget>
+    <PlatformTarget></PlatformTarget><!-- any CPU arch -->
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='net8.0'">
     <Nullable>enable</Nullable>
