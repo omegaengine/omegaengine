@@ -111,8 +111,7 @@ internal class CpuParticle : IPoolable<CpuParticle>, IPositionable
                 Alive = false;
             }
         }
-        // ReSharper disable once CompareOfFloatsByEqualityOperator
-        else if (Parameters1.LifeTime != -32768)
+        else if (Parameters1.LifeTime != CpuParticleParameters.InfiniteFlag)
         {
             Parameters1.LifeTime -= elapsedTime;
 
