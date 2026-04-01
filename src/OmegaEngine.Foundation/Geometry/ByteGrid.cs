@@ -11,6 +11,7 @@ using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.Versioning;
 using OmegaEngine.Foundation.Properties;
 
 namespace OmegaEngine.Foundation.Geometry;
@@ -59,6 +60,7 @@ public class ByteGrid : Grid<byte>
     /// <summary>
     /// Loads a grid from a PNG stream.
     /// </summary>
+    [SupportedOSPlatform("windows6.1")]
     public static ByteGrid Load(Stream stream)
     {
         #region Sanity checks
@@ -85,6 +87,7 @@ public class ByteGrid : Grid<byte>
     }
 
     /// <inheritdoc/>
+    [SupportedOSPlatform("windows6.1")]
     public override unsafe Bitmap GenerateBitmap()
     {
         var bitmap = new Bitmap(Width, Height, PixelFormat.Format8bppIndexed);

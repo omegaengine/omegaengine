@@ -11,6 +11,7 @@ using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.Versioning;
 using NanoByte.Common;
 using NanoByte.Common.Streams;
 
@@ -58,6 +59,7 @@ public abstract class Grid<T>(T[,] data)
     /// <summary>
     /// Saves the grid to a PNG file.
     /// </summary>
+    [SupportedOSPlatform("windows6.1")]
     public void Save([Localizable(false)] string path)
     {
         using var bitmap = GenerateBitmap();
@@ -67,6 +69,7 @@ public abstract class Grid<T>(T[,] data)
     /// <summary>
     /// Saves the grid to a PNG stream.
     /// </summary>
+    [SupportedOSPlatform("windows6.1")]
     public void Save(Stream stream)
     {
         // NOTE: Use intermediate RAM buffer because writing a PNG directly to a ZIP won't work

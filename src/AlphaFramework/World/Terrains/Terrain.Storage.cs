@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.Versioning;
 using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
 using AlphaFramework.World.Templates;
@@ -56,6 +57,7 @@ partial class Terrain<TTemplate>
     #region Load specific maps
     /// <inheritdoc/>
     [LuaHide]
+    [SupportedOSPlatform("windows6.1")]
     public void LoadHeightMap(Stream stream)
     {
         Log.Info("Loading terrain height-map");
@@ -67,6 +69,7 @@ partial class Terrain<TTemplate>
     }
 
     /// <inheritdoc/>
+    [SupportedOSPlatform("windows6.1")]
     public void LoadHeightMap(string path)
     {
         #region Sanity checks
@@ -79,6 +82,7 @@ partial class Terrain<TTemplate>
 
     /// <inheritdoc/>
     [LuaHide]
+    [SupportedOSPlatform("windows6.1")]
     public void LoadOcclusionIntervalMap(Stream stream)
     {
         Log.Info("Loading occlusion interval map");
@@ -90,6 +94,7 @@ partial class Terrain<TTemplate>
     }
 
     /// <inheritdoc/>
+    [SupportedOSPlatform("windows6.1")]
     public void LoadOcclusionIntervalMap(string path)
     {
         #region Sanity checks
@@ -102,6 +107,7 @@ partial class Terrain<TTemplate>
 
     /// <inheritdoc/>
     [LuaHide]
+    [SupportedOSPlatform("windows6.1")]
     public void LoadTextureMap(Stream stream)
     {
         Log.Info("Loading terrain texture-map");
@@ -113,6 +119,7 @@ partial class Terrain<TTemplate>
     }
 
     /// <inheritdoc/>
+    [SupportedOSPlatform("windows6.1")]
     public void LoadTextureMap(string path)
     {
         #region Sanity checks

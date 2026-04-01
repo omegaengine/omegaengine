@@ -10,6 +10,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.Versioning;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Foundation.Properties;
@@ -50,6 +51,7 @@ public class NibbleGrid : Grid<byte>
     /// Loads a grid from a PNG stream.
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException">Any of the colors in the imag  is not part of the classic 16 colors palette.</exception>
+    [SupportedOSPlatform("windows6.1")]
     public static NibbleGrid Load(Stream stream)
     {
         #region Sanity checks
@@ -103,6 +105,7 @@ public class NibbleGrid : Grid<byte>
     }
 
     /// <inheritdoc/>
+    [SupportedOSPlatform("windows6.1")]
     public override unsafe Bitmap GenerateBitmap()
     {
         var bitmap = new Bitmap(Width, Height, PixelFormat.Format4bppIndexed);
