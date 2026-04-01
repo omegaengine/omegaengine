@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Xml.Serialization;
 using NanoByte.Common;
-using OmegaEngine.Foundation.Design;
 using SlimDX;
 
 namespace OmegaEngine.Foundation.Light;
@@ -22,7 +21,9 @@ namespace OmegaEngine.Foundation.Light;
 /// <param name="constant">A constant factor multiplied with the color.</param>
 /// <param name="linear">A constant factor multiplied with the color and the inverse distance.</param>
 /// <param name="quadratic">A constant factor multiplied with the color and the inverse distance squared.</param>
-[TypeConverter(typeof(AttenuationConverter))]
+#if NETFRAMEWORK
+[TypeConverter(typeof(Design.AttenuationConverter))]
+#endif
 public struct Attenuation(float constant, float linear, float quadratic) : IEquatable<Attenuation>
 {
     /// <summary>

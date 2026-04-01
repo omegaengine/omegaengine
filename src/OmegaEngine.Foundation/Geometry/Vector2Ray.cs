@@ -9,7 +9,6 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
-using OmegaEngine.Foundation.Design;
 using SlimDX;
 
 namespace OmegaEngine.Foundation.Geometry;
@@ -19,7 +18,9 @@ namespace OmegaEngine.Foundation.Geometry;
 /// </summary>
 /// <param name="position">A point along the ray.</param>
 /// <param name="direction">A unit vector specifying the direction in which the ray is pointing (automatically normalized).</param>
-[TypeConverter(typeof(Vector2RayConverter))]
+#if NETFRAMEWORK
+[TypeConverter(typeof(Design.Vector2RayConverter))]
+#endif
 public struct Vector2Ray(Vector2 position, Vector2 direction) : IEquatable<Vector2Ray>
 {
     /// <summary>

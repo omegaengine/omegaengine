@@ -9,7 +9,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
-using OmegaEngine.Foundation.Design;
 using SlimDX;
 
 namespace OmegaEngine.Foundation.Geometry;
@@ -19,7 +18,9 @@ namespace OmegaEngine.Foundation.Geometry;
 /// </summary>
 /// <param name="point">A point that lies along the plane.</param>
 /// <param name="normal">The normal vector of the plane.</param>
-[TypeConverter(typeof(DoublePlaneConverter))]
+#if NETFRAMEWORK
+[TypeConverter(typeof(Design.DoublePlaneConverter))]
+#endif
 public struct DoublePlane(DoubleVector3 point, Vector3 normal) : IEquatable<DoublePlane>
 {
     /// <summary>

@@ -12,7 +12,6 @@ using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Globalization;
 using NanoByte.Common;
-using OmegaEngine.Foundation.Design;
 using SlimDX;
 
 namespace OmegaEngine.Foundation.Geometry;
@@ -20,7 +19,9 @@ namespace OmegaEngine.Foundation.Geometry;
 /// <summary>
 /// A 2D polygon consisting of four points.
 /// </summary>
-[TypeConverter(typeof(QuadrangleConverter))]
+#if NETFRAMEWORK
+[TypeConverter(typeof(Design.QuadrangleConverter))]
+#endif
 public readonly struct Quadrangle(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4) : IEquatable<Quadrangle>
 {
     /// <summary>

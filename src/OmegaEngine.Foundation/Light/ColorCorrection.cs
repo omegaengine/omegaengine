@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using JetBrains.Annotations;
 using NanoByte.Common;
-using OmegaEngine.Foundation.Design;
 using SlimDX;
 
 namespace OmegaEngine.Foundation.Light;
@@ -19,7 +18,9 @@ namespace OmegaEngine.Foundation.Light;
 /// <summary>
 /// Color correction values for use in post-processing.
 /// </summary>
-[TypeConverter(typeof(ColorCorrectionConverter))]
+#if NETFRAMEWORK
+[TypeConverter(typeof(Design.ColorCorrectionConverter))]
+#endif
 public struct ColorCorrection : IEquatable<ColorCorrection>
 {
     #region Constants

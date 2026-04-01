@@ -10,7 +10,10 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
+
+#if NETFRAMEWORK
 using OmegaEngine.Foundation.Design;
+#endif
 
 namespace AlphaFramework.World.Components;
 
@@ -58,21 +61,27 @@ public abstract class Mesh : Render
     /// How the mesh loaded from the file shall be rotated around the X axis (east to west).
     /// </summary>
     [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the X axis (east to west).")]
+    #if NETFRAMEWORK
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
+#endif
     public float RotationX { get; set; }
 
     /// <summary>
     /// How the mesh loaded from the file shall be rotated around the Y axis (top to bottom).
     /// </summary>
     [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Y axis (top to bottom).")]
+    #if NETFRAMEWORK
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
+#endif
     public float RotationY { get; set; }
 
     /// <summary>
     /// How the mesh loaded from the file shall be rotated around the Z axis (north to south).
     /// </summary>
     [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Z axis (north to south).")]
+    #if NETFRAMEWORK
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
+#endif
     public float RotationZ { get; set; }
 
     /// <summary>

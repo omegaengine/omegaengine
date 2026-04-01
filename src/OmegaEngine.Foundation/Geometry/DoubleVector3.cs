@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using System.Xml.Serialization;
-using OmegaEngine.Foundation.Design;
 using SlimDX;
 
 namespace OmegaEngine.Foundation.Geometry;
@@ -19,7 +18,9 @@ namespace OmegaEngine.Foundation.Geometry;
 /// <summary>
 /// Defines a three-component vector with <see cref="double"/> accuracy.
 /// </summary>
-[TypeConverter(typeof(DoubleVector3Converter))]
+#if NETFRAMEWORK
+[TypeConverter(typeof(Design.DoubleVector3Converter))]
+#endif
 [StructLayout(LayoutKind.Sequential)]
 public struct DoubleVector3 : IEquatable<DoubleVector3>
 {
