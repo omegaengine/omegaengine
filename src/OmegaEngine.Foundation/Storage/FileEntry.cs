@@ -10,10 +10,13 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Windows.Forms;
 using NanoByte.Common;
-using NanoByte.Common.Controls;
 using OmegaEngine.Foundation.Properties;
+
+#if NETFRAMEWORK
+using System.Windows.Forms;
+using NanoByte.Common.Controls;
+#endif
 
 namespace OmegaEngine.Foundation.Storage;
 
@@ -38,7 +41,10 @@ public enum FileEntryType
 /// <summary>
 /// Describes a file returned by <see cref="ContentManager.GetFileList"/>.
 /// </summary>
-public sealed class FileEntry : INamed, IHighlightColor, IContextMenu, IEquatable<FileEntry>, IComparable<FileEntry>
+public sealed class FileEntry : INamed, IHighlightColor, IEquatable<FileEntry>, IComparable<FileEntry>
+#if NETFRAMEWORK
+    , IContextMenu
+#endif
 {
     #region Properties
     /// <summary>
@@ -100,6 +106,7 @@ public sealed class FileEntry : INamed, IHighlightColor, IContextMenu, IEquatabl
     //--------------------//
 
     #region Context menu
+#if NETFRAMEWORK
     /// <summary>
     /// Returns the context menu for this file entry; can be <c>null</c>.
     /// </summary>
@@ -140,6 +147,7 @@ public sealed class FileEntry : INamed, IHighlightColor, IContextMenu, IEquatabl
 
         return new() { Items = { revertMenuEntry } };
     }
+#endif
     #endregion
 
     #region Equality
