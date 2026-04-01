@@ -210,11 +210,7 @@ public class CpuParticleSystem : PositionableRenderable
         particle.Velocity += Preset.Gravity * elapsedTime;
 
         if (Preset.RandomAcceleration > 0)
-        {
-            const float sqrt3 = 1.732f;
-            var randomFactor = new Vector3(Preset.RandomAcceleration / sqrt3);
-            particle.Velocity += RandomUtils.GetRandomVector3(-randomFactor, randomFactor);
-        }
+            particle.Velocity += RandomUtils.GetRandomPointInsideSphere(Preset.RandomAcceleration * (float)Math.Sqrt(elapsedTime));
     }
 
     private void ApplyEmitterForces(CpuParticle particle, float elapsedTime)
