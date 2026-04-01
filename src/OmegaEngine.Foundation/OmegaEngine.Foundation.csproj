@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Description>Rendering-agnostic infrastructure used by OmegaEngine. Includes storage subsystem and data structures.</Description>
     <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
-    <TargetFrameworks>net472;net8.0-windows</TargetFrameworks>
+    <TargetFrameworks>net472;net8.0</TargetFrameworks>
     <PlatformTarget>anycpu</PlatformTarget>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net8.0'">
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -25,6 +25,7 @@
     <Compile Remove="Shims\**" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'!='net472'">
+    <PackageReference Include="System.Drawing.Common" Version="8.0.25" />
     <Compile Remove="Design\**" />
   </ItemGroup>
 
