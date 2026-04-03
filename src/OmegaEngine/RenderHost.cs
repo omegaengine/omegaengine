@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -72,21 +73,26 @@ public partial class RenderHost : IRenderHost, IDisposable
     /// </summary>
     public bool Fullscreen { get; private set; }
 
+    private readonly Stopwatch _timer = Stopwatch.StartNew();
+
     private bool _loading;
 
     /// <summary>
     /// Indicates the app is currently loading something and the user must wait.
     /// </summary>
-    /// <remarks>On Windows 7 and newer this will cause a neat taskbar animation.</remarks>
+    /// <remarks>This pauses the timer used to determine elapsed time between frames.</remarks>
     public bool Loading
     {
         get => _loading;
-        set =>
-            // Show taskbar animation on Windows 7 or newer
-            value.To(ref _loading, () =>
-                WindowsTaskbar.SetProgressState(Form.Handle, value
-                    ? WindowsTaskbar.ProgressBarState.Indeterminate
-                    : WindowsTaskbar.ProgressBarState.NoProgress));
+        set => value.To(ref _loading, () =>
+        {
+            if (value) _timer.Reset();
+            else _timer.Start();
+
+            WindowsTaskbar.SetProgressState(Form.Handle, value
+                ? WindowsTaskbar.ProgressBarState.Indeterminate
+                : WindowsTaskbar.ProgressBarState.NoProgress);
+        });
     }
 
     /// <summary>

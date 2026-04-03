@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -149,7 +148,6 @@ partial class RenderHost
             }
 
             // Keep the timer outside of the event handling
-            var timer = Stopwatch.StartNew();
 
             // Hook the render loop into the application's idle event
             Application.Idle += delegate
@@ -161,9 +159,8 @@ partial class RenderHost
                         Thread.Sleep(500);
 
                     // Start the timer over
-                    double elapsedTime = timer.Elapsed.TotalSeconds;
-                    timer.Reset();
-                    timer.Start();
+                    double elapsedTime = _timer.Elapsed.TotalSeconds;
+                    _timer.Restart();
 
                     // Loop the Render method
                     Render(elapsedTime);
