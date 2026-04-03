@@ -72,9 +72,6 @@ public sealed partial class Session : Session<Universe>
     public new static Session Load(string path)
         => Load<Session>(path);
 
-    /// <summary>The maximum number of seconds to handle in one call to <see cref="Update"/>. Additional time is simply dropped.</summary>
-    private const double MaximumUpdate = 0.75;
-
     /// <summary>
     /// <see cref="IUniverse.GameTime"/> time left over from the last <see cref="Update"/> call due to the fixed update step size.
     /// </summary>
@@ -84,10 +81,12 @@ public sealed partial class Session : Session<Universe>
     /// <inheritdoc/>
     public override double Update(double elapsedRealTime)
     {
+        elapsedRealTime = elapsedRealTime.Clamp();
+
         if (TimeTravelInProgress) return UpdateTimeTravel(elapsedRealTime);
 
         double elapsedGameTime = elapsedRealTime * TimeWarpFactor;
-        double gameTimeDelta = LeftoverGameTime + elapsedGameTime.Clamp(-MaximumUpdate, MaximumUpdate);
+        double gameTimeDelta = LeftoverGameTime + elapsedGameTime;
         LeftoverGameTime = UpdateDeterministic(gameTimeDelta);
         return elapsedGameTime;
     }

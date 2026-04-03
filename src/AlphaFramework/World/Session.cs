@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using LuaInterface;
+using NanoByte.Common;
 using OmegaEngine.Foundation.Storage;
 
 namespace AlphaFramework.World;
@@ -66,7 +67,7 @@ public class Session<TUniverse>
     /// <returns>The elapsed game time (real time multiplied by <see cref="TimeWarpFactor"/>)</returns>
     public virtual double Update(double elapsedRealTime)
     {
-        double elapsedGameTime = (elapsedRealTime * TimeWarpFactor);
+        double elapsedGameTime = (elapsedRealTime.Clamp() * TimeWarpFactor);
 
         // ReSharper disable once CompareOfFloatsByEqualityOperator
         if (elapsedGameTime != 0) Universe.Update(elapsedGameTime);
