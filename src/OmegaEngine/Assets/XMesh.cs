@@ -104,7 +104,7 @@ public class XMesh : Asset
 
         // Calculate per-subset bounding bodies for multi-subset meshes
         if (extendedMaterials.Length > 1)
-            (SubsetBoundingBoxes, SubsetBoundingSpheres) = CalculateSubsetBoundingBodies(extendedMaterials.Length);
+            (SubsetBoundingSpheres, SubsetBoundingBoxes) = CalculateSubsetBoundingBodies(extendedMaterials.Length);
 
         try
         {
@@ -330,12 +330,12 @@ public class XMesh : Asset
     /// <summary>
     /// Calculates per-subset bounding boxes and spheres for multi-subset meshes.
     /// </summary>
-    private (BoundingBox[]?, BoundingSphere[]?) CalculateSubsetBoundingBodies(int subsetCount)
+    private (BoundingSphere[]?, BoundingBox[]?) CalculateSubsetBoundingBodies(int subsetCount)
     {
         using (new TimedLogEvent("Calculate per-subset bounding bodies"))
         {
-            var subsetBoundingBoxes = new BoundingBox[subsetCount];
             var subsetBoundingSpheres = new BoundingSphere[subsetCount];
+            var subsetBoundingBoxes = new BoundingBox[subsetCount];
             for (int i = 0; i < subsetCount; i++)
             {
                 var positions = Mesh.GetPoints(subset: i);
@@ -349,7 +349,7 @@ public class XMesh : Asset
             }
 
             // Only use subset bounding bodies if they are all valid
-            return (subsetBoundingBoxes, subsetBoundingSpheres);
+            return (subsetBoundingSpheres, subsetBoundingBoxes);
         }
     }
     #endregion
