@@ -9,6 +9,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Text;
 using NanoByte.Common;
 using NanoByte.Common.Storage;
@@ -94,17 +95,22 @@ public class XMesh : Asset
         ExtendedMaterial[] extendedMaterials = Mesh.GetMaterials();
         EffectInstance[] effectInstances = Mesh.GetEffects();
 
-        // Calculate bounding bodies before manipulating the mesh
-        BoundingSphere = Mesh.ComputeBoundingSphere();
-        BoundingBox = Mesh.ComputeBoundingBox();
-
-        // Heuristic for discarding invalid bounding bodies
-        if (BoundingSphere.Value.Radius < 0.01) BoundingSphere = null;
-        if (BoundingBox.Value.Diagonal().Length() < 0.01) BoundingBox = null;
-
-        // Calculate per-subset bounding bodies for multi-subset meshes
         if (extendedMaterials.Length > 1)
+        {
             (SubsetBoundingSpheres, SubsetBoundingBoxes) = CalculateSubsetBoundingBodies(extendedMaterials.Length);
+
+            BoundingSphere = SubsetBoundingSpheres?.Aggregate(SlimDX.BoundingSphere.Merge);
+            BoundingBox = SubsetBoundingBoxes?.Aggregate(SlimDX.BoundingBox.Merge);
+        }
+        else
+        {
+            BoundingSphere = Mesh.ComputeBoundingSphere();
+            BoundingBox = Mesh.ComputeBoundingBox();
+
+            // Heuristic for discarding invalid bounding bodies
+            if (BoundingSphere.Value.Radius < 0.01) BoundingSphere = null;
+            if (BoundingBox.Value.Diagonal().Length() < 0.01) BoundingBox = null;
+        }
 
         try
         {
