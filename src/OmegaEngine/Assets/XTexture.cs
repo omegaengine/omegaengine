@@ -50,9 +50,10 @@ public class XTexture : Asset, ITextureProvider
                 D3DX.Default, D3DX.Default, 0, Usage.None, Format.Unknown, Pool.Managed,
                 Filter.Default, Filter.Default, 0);
         }
-        #region Sanity checks
+        #region Error handling
         catch (Direct3D9Exception ex)
         {
+            GC.SuppressFinalize(this); // Prevent "Forgot to call Dispose" error
             throw new InvalidDataException(ex.Message, ex);
         }
         #endregion

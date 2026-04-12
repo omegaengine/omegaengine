@@ -85,9 +85,10 @@ public class XMesh : Asset
         {
             _mesh = Mesh.FromStream(engine.Device, stream, MeshFlags.Managed);
         }
-        #region Sanity checks
+        #region Error handling
         catch (Direct3D9Exception ex)
         {
+            GC.SuppressFinalize(this); // Prevent "Forgot to call Dispose" error
             throw new InvalidDataException(ex.Message, ex);
         }
         #endregion
