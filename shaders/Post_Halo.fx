@@ -89,7 +89,7 @@ VS_OUTPUT_BLUR VS_Quad_Horizontal_9tap(float3 Position : POSITION,
     VS_OUTPUT_BLUR OUT = (VS_OUTPUT_BLUR)0;
     OUT.Position = float4(Position, 1);
     float TexelIncrement = 1/QuadScreenSize.x;
-    float3 Coord = float3(TexCoord.x, TexCoord.y, 1);
+    float3 Coord = float3(TexCoord.xy + QuadTexelOffsets, 1);
     OUT.TexCoord0 = float4(Coord.x + TexelIncrement, Coord.y, TexCoord.z, 1);
     OUT.TexCoord1 = float4(Coord.x + TexelIncrement * 2, Coord.y, TexCoord.z, 1);
     OUT.TexCoord2 = float4(Coord.x + TexelIncrement * 3, Coord.y, TexCoord.z, 1);
@@ -108,7 +108,7 @@ VS_OUTPUT_BLUR VS_Quad_Vertical_9tap(float3 Position : POSITION,
     VS_OUTPUT_BLUR OUT = (VS_OUTPUT_BLUR)0;
     OUT.Position = float4(Position, 1);
     float TexelIncrement = 1/QuadScreenSize.y;
-    float3 Coord = float3(TexCoord.x, TexCoord.y, 1);
+    float3 Coord = float3(TexCoord.xy + QuadTexelOffsets, 1);
     OUT.TexCoord0 = float4(Coord.x, Coord.y + TexelIncrement, TexCoord.z, 1);
     OUT.TexCoord1 = float4(Coord.x, Coord.y + TexelIncrement * 2, TexCoord.z, 1);
     OUT.TexCoord2 = float4(Coord.x, Coord.y + TexelIncrement * 3, TexCoord.z, 1);
