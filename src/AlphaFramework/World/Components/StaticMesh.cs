@@ -14,5 +14,4 @@ namespace AlphaFramework.World.Components;
 /// Represents a non-animated mesh loaded from a file.
 /// </summary>
 /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-public class StaticMesh : Mesh
-{}
+public class StaticMesh : Mesh;
