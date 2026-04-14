@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World.Paths;
 using AlphaFramework.World.Templates;
+using NanoByte.Common;
 
 namespace AlphaFramework.World.Positionables;
 
@@ -99,21 +100,13 @@ public abstract class EntityBase<TCoordinates, TTemplate> : Positionable<TCoordi
     // ReSharper disable once StaticFieldInGenericType
     private static bool _templateDataMasked;
 
-    private struct TemplateDataMasking : IDisposable
-    {
-        public void Dispose()
-        {
-            _templateDataMasked = false;
-        }
-    }
-
     /// <summary>
     /// Makes all <see cref="TemplateData"/> values return <c>null</c> until <see cref="IDisposable.Dispose"/> is called on the returned object. This is not thread-safe!
     /// </summary>
     public static IDisposable MaskTemplateData()
     {
         _templateDataMasked = true;
-        return new TemplateDataMasking();
+        return new Disposable(() => _templateDataMasked = false);
     }
     #endregion
 
