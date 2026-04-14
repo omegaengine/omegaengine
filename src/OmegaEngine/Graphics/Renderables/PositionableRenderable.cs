@@ -264,13 +264,17 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     #endregion
 
     #region Bounding bodies
+    private BoundingSphere? _boundingSphere, _worldBoundingSphere;
+
     /// <summary>
     /// A sphere that completely encompasses the body (in entity space, even before apply <see cref="PreTransform"/>).
     /// </summary>
     [Browsable(false)]
-    public BoundingSphere? BoundingSphere { get; protected set; }
-
-    private BoundingSphere? _worldBoundingSphere;
+    public BoundingSphere? BoundingSphere
+    {
+        get => _boundingSphere;
+        protected set => value.To(ref _boundingSphere, ref WorldTransformDirty);
+    }
 
     /// <summary>
     /// A sphere that completely encompasses the body (in floating world space, used for culling tests).
@@ -297,13 +301,17 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     [DefaultValue(false), Description("Shall the bounding sphere used to cull this object be drawn/visualized? (used for debugging)"), Category("Appearance")]
     public bool DrawBoundingSphere { get; set; }
 
+    private BoundingBox? _boundingBox, _worldBoundingBox;
+
     /// <summary>
-    /// A axis-aligned box that completely encompasses the body (in entity space, even before apply <see cref="PreTransform"/>).
+    /// An axis-aligned box that completely encompasses the body (in entity space, even before apply <see cref="PreTransform"/>).
     /// </summary>
     [Browsable(false)]
-    public BoundingBox? BoundingBox { get; protected set; }
-
-    private BoundingBox? _worldBoundingBox;
+    public BoundingBox? BoundingBox
+    {
+        get => _boundingBox;
+        protected set => value.To(ref _boundingBox, ref WorldTransformDirty);
+    }
 
     /// <summary>
     /// An axis-aligned box that completely encompasses the body (in floating world space, used for culling tests).
