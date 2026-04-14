@@ -207,7 +207,7 @@ public class CpuParticleSystem : PositionableRenderable
 
     private void ApplyGlobalForces(CpuParticle particle, float elapsedTime)
     {
-        particle.Velocity += Preset.Gravity * elapsedTime;
+        particle.Velocity += _effectiveGravity * elapsedTime;
 
         if (Preset.RandomAcceleration > 0)
             particle.Velocity += RandomUtils.GetRandomPointInsideSphere(Preset.RandomAcceleration * (float)Math.Sqrt(elapsedTime));
@@ -350,6 +350,20 @@ public class CpuParticleSystem : PositionableRenderable
         #endregion
 
         Preset.TexturesDirty = false;
+    }
+    #endregion
+
+    #region World transform
+    private Vector3 _effectiveGravity;
+
+    /// <inheritdoc/>
+    protected override void RecalcWorldTransform()
+    {
+        if (!WorldTransformDirty) return;
+
+        _effectiveGravity = Vector3.TransformNormal(Preset.Gravity, WorldTransformCached);
+
+        base.RecalcWorldTransform();
     }
     #endregion
 
