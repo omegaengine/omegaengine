@@ -207,7 +207,10 @@ public class CpuParticleSystem : PositionableRenderable
 
     private void ApplyGlobalForces(CpuParticle particle, float elapsedTime)
     {
-        particle.Velocity += Preset.Gravity * elapsedTime;
+        var gravity = LocalSpace
+            ? Vector3.TransformNormal(Preset.Gravity, PreTransform * Matrix.RotationQuaternion(Rotation))
+            : Preset.Gravity;
+        particle.Velocity += gravity * elapsedTime;
 
         if (Preset.RandomAcceleration > 0)
             particle.Velocity += RandomUtils.GetRandomPointInsideSphere(Preset.RandomAcceleration * (float)Math.Sqrt(elapsedTime));
