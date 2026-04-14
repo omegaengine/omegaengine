@@ -121,12 +121,19 @@ public class CpuParticleSystem : PositionableRenderable
     #region Update particles
     private float _newParticlesBuffer;
 
+    // Cached per update-step to avoid recomputing for every particle
+    private Vector3 _effectiveGravity;
+
     /// <summary>
     /// Updates all particles in the system
     /// </summary>
     /// <param name="elapsedTime">How many seconds have passed since the last call of this function</param>
     private void UpdateParticles(float elapsedTime)
     {
+        _effectiveGravity = LocalSpace
+            ? Vector3.TransformNormal(Preset.Gravity, PreTransform * Matrix.RotationQuaternion(Rotation))
+            : Preset.Gravity;
+
         UpdateFirstLifeParticles(elapsedTime);
         UpdateSecondLifeParticles(elapsedTime);
 
@@ -207,10 +214,7 @@ public class CpuParticleSystem : PositionableRenderable
 
     private void ApplyGlobalForces(CpuParticle particle, float elapsedTime)
     {
-        var gravity = LocalSpace
-            ? Vector3.TransformNormal(Preset.Gravity, PreTransform * Matrix.RotationQuaternion(Rotation))
-            : Preset.Gravity;
-        particle.Velocity += gravity * elapsedTime;
+        particle.Velocity += _effectiveGravity * elapsedTime;
 
         if (Preset.RandomAcceleration > 0)
             particle.Velocity += RandomUtils.GetRandomPointInsideSphere(Preset.RandomAcceleration * (float)Math.Sqrt(elapsedTime));
