@@ -7,11 +7,11 @@
  */
 
 using System.ComponentModel;
-using System.Drawing.Design;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 
 #if NETFRAMEWORK
+using System.Drawing.Design;
 using OmegaEngine.Foundation.Design;
 #endif
 
