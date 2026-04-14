@@ -22,20 +22,19 @@
 
 using System;
 using System.Linq;
+using AlphaFramework.Presentation;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World.Positionables;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using OmegaEngine;
-using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 using CpuParticleSystem = AlphaFramework.World.Components.CpuParticleSystem;
 using LightSource = AlphaFramework.World.Components.LightSource;
-using ViewType = OmegaEngine.Graphics.Renderables.ViewType;
 using Water = AlphaFramework.World.Positionables.Water;
 
 namespace FrameOfReference.Presentation;
@@ -92,13 +91,7 @@ partial class Presenter
     private void RegisterRenderComponentLight()
     {
         LightsSync.RegisterMultiple<Entity, PointLight>(
-            entity => entity.TemplateData?.Render.OfType<LightSource>().Select(component => new PointLight
-            {
-                Name = entity.Name,
-                Attenuation = component.Attenuation,
-                Diffuse = component.Color,
-                Shift = component.Shift
-            }),
+            entity => entity.TemplateData?.Render.OfType<LightSource>().Select(component => component.ToPresentation(entity.Name)),
             UpdateRepresentation);
     }
     #endregion
@@ -153,76 +146,20 @@ partial class Presenter
 
         RegisterRenderComponentLight();
 
-        RegisterRenderComponent<StaticMesh>((entity, component) =>
-        {
-            if (string.IsNullOrEmpty(component.Filename)) return null;
-
-            var model = new Model(XMesh.Get(Engine, component.Filename)) {Name = entity.Name};
-            ConfigureModel(model, component);
-            return model;
-        });
-        RegisterRenderComponent<AnimatedMesh>((entity, component) =>
-        {
-            if (string.IsNullOrEmpty(component.Filename)) return null;
-
-            var model = new AnimatedModel(XAnimatedMesh.Get(Engine, component.Filename)) {Name = entity.Name};
-            ConfigureModel(model, component);
-            return model;
-        });
-        RegisterRenderComponent<TestSphere>((entity, component) =>
-        {
-            var model = Model.Sphere(Engine, XTexture.Get(Engine, component.Texture), component.Radius, component.Slices, component.Stacks);
-            model.Name = entity.Name;
-            ConfigureModel(model, component);
-            return model;
-        });
-        RegisterRenderComponent<CpuParticleSystem>((entity, component) =>
-        {
-            if (string.IsNullOrEmpty(component.Filename)) return null;
-
-            var particleSystem = new OmegaEngine.Graphics.Renderables.CpuParticleSystem
-            {
-                Preset = CpuParticlePreset.FromContent(component.Filename),
-                LocalSpace = component.LocalSpace
-            };
-            ConfigureParticleSystem(entity, particleSystem, component);
-            return particleSystem;
-        });
+        RegisterRenderComponent<StaticMesh>((entity, component) => ApplySharedState(component.ToPresentation(Engine, entity.Name)));
+        RegisterRenderComponent<AnimatedMesh>((entity, component) => ApplySharedState(component.ToPresentation(Engine, entity.Name)));
+        RegisterRenderComponent<TestSphere>((entity, component) => ApplySharedState(component.ToPresentation(Engine, entity.Name)));
+        RegisterRenderComponent<CpuParticleSystem>((entity, component) => ApplySharedState(component.ToPresentation(entity.Name)));
     }
 
-    private void ConfigureModel(PositionableRenderable model, Mesh component)
+    private PositionableRenderable? ApplySharedState(PositionableRenderable? model)
     {
-        model.PreTransform = Matrix.Scaling(component.Scale, component.Scale, component.Scale) *
-                             Matrix.RotationYawPitchRoll(
-                                 component.RotationY.DegreeToRadian(),
-                                 component.RotationX.DegreeToRadian(),
-                                 component.RotationZ.DegreeToRadian()) *
-                             Matrix.Translation(component.Shift);
-        model.Alpha = component.Alpha;
-        model.Pickable = component.Pickable;
-        model.RenderIn = (ViewType)component.RenderIn;
-        model.Wireframe = WireframeEntities;
-        model.DrawBoundingSphere = BoundingSphereEntities;
-        model.DrawBoundingBox = BoundingBoxEntities;
-        model.ShadowCaster = component.ShadowCaster;
-        model.ShadowReceiver = component.ShadowReceiver;
-    }
-
-    private void ConfigureModel(Model model, TestSphere component)
-    {
-        model.PreTransform = Matrix.Translation(component.Shift);
-        model.Alpha = component.Alpha;
-        model.Wireframe = WireframeEntities;
-        model.DrawBoundingSphere = BoundingSphereEntities;
-        model.DrawBoundingBox = BoundingBoxEntities;
-    }
-
-    private void ConfigureParticleSystem(Entity entity, PositionableRenderable particleSystem, ParticleSystem component)
-    {
-        particleSystem.Name = entity.Name;
-        particleSystem.PreTransform = Matrix.Translation(component.Shift);
-        particleSystem.Wireframe = WireframeEntities;
-        particleSystem.DrawBoundingSphere = BoundingSphereEntities;
-        particleSystem.DrawBoundingBox = BoundingBoxEntities;
+        if (model != null)
+        {
+            model.Wireframe = WireframeEntities;
+            model.DrawBoundingSphere = BoundingSphereEntities;
+            model.DrawBoundingBox = BoundingBoxEntities;
+        }
+        return model;
     }
 }
