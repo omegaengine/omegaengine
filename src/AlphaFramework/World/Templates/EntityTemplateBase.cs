@@ -6,8 +6,9 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Xml.Serialization;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
@@ -23,9 +24,8 @@ public abstract class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : 
     /// Controls how this class of entities shall be rendered.
     /// </summary>
     [Browsable(false)]
-    // Note: Can not use ICollection<T> interface with XML Serialization
     [XmlElement(typeof(TestSphere)), XmlElement(typeof(StaticMesh)), XmlElement(typeof(AnimatedMesh)), XmlElement(typeof(CpuParticleSystem)), XmlElement(typeof(LightSource))]
-    public Collection<Render> Render { get; private set; } = [];
+    public List<Render> Render { get; private set; } = [];
 
     /// <summary>
     /// Controls the basic movement parameters.
@@ -42,14 +42,8 @@ public abstract class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : 
     /// <returns>The cloned <see cref="EntityTemplateBase{TSelf}"/>.</returns>
     public override TSelf Clone()
     {
-        // Perform initial shallow copy
         var newClass = base.Clone();
-
-        // Replace contained lists with deep copies
-        newClass.Render = [];
-        foreach (var render in Render)
-            newClass.Render.Add(render.Clone());
-
+        newClass.Render = Render.Select(x => x.Clone()).ToList();
         return newClass;
     }
     #endregion
