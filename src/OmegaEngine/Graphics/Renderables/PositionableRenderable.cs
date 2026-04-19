@@ -130,12 +130,6 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     public BillboardMode Billboard { get; set; }
 
     /// <summary>
-    /// Shall this object still be rendered, even if it is beyond the <see cref="Camera.FarClip"/> plane? (at the cost of incorrect Z-ordering)
-    /// </summary>
-    [DefaultValue(false), Description("Shall this object still be rendered, even if it is beyond the camera's far clip plane? (at the cost of incorrect Z-ordering)"), Category("Layout")]
-    public bool PreventFarClipping { get; set; }
-
-    /// <summary>
     /// Shall this <see cref="PositionableRenderable"/> cast shadows on other objects?
     /// </summary>
     [DefaultValue(false), Description("Shall this body cast shadows on other objects?"), Category("Behavior")]
@@ -196,6 +190,22 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// A value to be added to <see cref="Position"/> in order gain <see cref="IFloatingOriginAware.FloatingPosition"/> - auto-updated by <see cref="View.Render"/> to the negative <see cref="Camera.Position"/>
     /// </summary>
     DoubleVector3 IFloatingOriginAware.FloatingOrigin { get => _floatingOrigin; set => value.To(ref _floatingOrigin, ref WorldTransformDirty); }
+
+    /// <summary>
+    /// When the renderable is farther than this distance from the <see cref="Camera"/>, it is instead rendered at this distance, with corresponding scaling applied to preserve its apparent size (angular diameter).
+    /// </summary>
+    /// <remarks>
+    /// <para>A common usage pattern is to set this to a value slightly lower than <see cref="Camera.FarClip"/> to allow very large objects to remain visible in the distance.</para>
+    /// <para>
+    /// When using this feature:
+    /// <list type="bullet">
+    /// <item>View frustum culling is disabled, meaning the object is always submitted for rendering if it passes distance-based culling.</item>
+    /// <item>Z-order may appear incorrect if multiple objects have similar values for <see cref="ForcedPerspectiveDistance"/> and are close to each other in screen space.</item>
+    /// </list>
+    /// </para>
+    /// </remarks>
+    [Description("When the renderable is farther than this distance from the camera, it is instead rendered at this distance, with corresponding scaling applied to preserve its apparent size (angular diameter)."), Category("Layout")]
+    public float? ForcedPerspectiveDistance { get; set; }
     #endregion
 
     #region Transform results
@@ -374,9 +384,8 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     {
         var internalScaling = Matrix.Identity;
         var internalTranslation = Matrix.Identity;
-        if (PreventFarClipping)
+        if (ForcedPerspectiveDistance is {} maxDistance)
         {
-            float maxDistance = camera.FarClip - WorldBoundingSphere?.Radius ?? camera.FarClip * 0.1f;
             var relativePosition = camera.Position.ApplyOffset(Position);
 
             float distanceFromCamera = relativePosition.Length();
@@ -555,11 +564,11 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         if (WorldBoundingSphere is {} sphere)
         {
             if (!camera.AtLeastOnePixelWide(sphere)) return false;
-            if (!PreventFarClipping && !camera.InFrustum(sphere)) return false;
+            if (ForcedPerspectiveDistance == null && !camera.InFrustum(sphere)) return false;
         }
         if (WorldBoundingBox is {} box)
         {
-            if (!PreventFarClipping && !camera.InFrustum(box)) return false;
+            if (ForcedPerspectiveDistance == null && !camera.InFrustum(box)) return false;
         }
 
         return true;
