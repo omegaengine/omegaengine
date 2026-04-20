@@ -5,10 +5,10 @@
     <AssemblyName>Template.AlphaFramework.World</AssemblyName>
     <RootNamespace>Template.AlphaFramework.World</RootNamespace>
     <OutputPath>..\artifacts\$(Configuration)\</OutputPath>
-    <TargetFrameworks>net472;net8.0</TargetFrameworks>
+    <TargetFrameworks>net472;net10.0</TargetFrameworks>
     <Nullable>annotations</Nullable>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='net8.0'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net10.0'">
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
