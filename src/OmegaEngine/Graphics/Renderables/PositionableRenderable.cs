@@ -214,11 +214,15 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
         _floatingPositionCached = this.ApplyFloatingOriginTo(_position);
 
-        WorldTransformCached = _preTransform * Matrix.Scaling(_scale) * _forcedPerspectiveScaling * Matrix.RotationQuaternion(Rotation) * _billboardRotation * Matrix.Translation(_floatingPositionCached) * _forcedPerspectiveTranslation;
+        var preTransformAndScale = _preTransform * Matrix.Scaling(_scale);
+        var rotateAndTranslate = Matrix.RotationQuaternion(Rotation) * _billboardRotation * Matrix.Translation(_floatingPositionCached);
+
+        WorldTransformCached = preTransformAndScale * _forcedPerspectiveScaling * rotateAndTranslate * _forcedPerspectiveTranslation;
         _inverseWorldTransform = Matrix.Invert(WorldTransformCached);
 
-        _worldBoundingSphere = BoundingSphere?.Transform(WorldTransformCached);
-        _worldBoundingBox = BoundingBox?.Transform(WorldTransformCached);
+        WorldTransformWithoutForcedPerspectiveCached = preTransformAndScale * rotateAndTranslate;
+        _worldBoundingSphere = BoundingSphere?.Transform(WorldTransformWithoutForcedPerspectiveCached);
+        _worldBoundingBox = BoundingBox?.Transform(WorldTransformWithoutForcedPerspectiveCached);
 
         WorldTransformDirty = false;
     }
@@ -239,6 +243,8 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     }
 
     protected Matrix WorldTransformCached { get; private set; }
+
+    protected Matrix WorldTransformWithoutForcedPerspectiveCached { get; private set; }
 
     /// <summary>
     /// The world transformation matrix for this entity

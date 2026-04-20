@@ -172,7 +172,7 @@ public partial class Model : PositionableRenderable
                 {
                     _subsetWorldBoundingSpheresCached ??= new BoundingSphere[SubsetBoundingSpheres.Length];
                     for (int i = 0; i < _subsetWorldBoundingSpheresCached.Length; i++)
-                        _subsetWorldBoundingSpheresCached[i] = SubsetBoundingSpheres[i].Transform(WorldTransformCached);
+                        _subsetWorldBoundingSpheresCached[i] = SubsetBoundingSpheres[i].Transform(WorldTransformWithoutForcedPerspectiveCached);
                 }
                 _subsetWorldBoundingSpheresDirty = false;
             }
@@ -207,7 +207,7 @@ public partial class Model : PositionableRenderable
                 {
                     _subsetWorldBoundingBoxesCached ??= new BoundingBox[SubsetBoundingBoxes.Length];
                     for (int i = 0; i < _subsetWorldBoundingBoxesCached.Length; i++)
-                        _subsetWorldBoundingBoxesCached[i] = SubsetBoundingBoxes[i].Transform(WorldTransformCached);
+                        _subsetWorldBoundingBoxesCached[i] = SubsetBoundingBoxes[i].Transform(WorldTransformWithoutForcedPerspectiveCached);
                 }
                 _subsetWorldBoundingBoxesDirty = false;
             }
