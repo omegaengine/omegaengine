@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using SlimDX;
 
@@ -79,8 +80,9 @@ partial class Camera
     /// Checks whether a <see cref="BoundingSphere"/> is inside the camera's view frustum
     /// </summary>
     /// <param name="boundingSphere">A sphere that completely encompasses the body in world space</param>
+    /// <param name="ignoreFarClip">Whether to ignore the far clip plane of the view frustum</param>
     /// <returns><c>true</c> if the sphere is in the frustum</returns>
-    internal bool InFrustum(BoundingSphere boundingSphere)
+    internal bool InFrustum(BoundingSphere boundingSphere, bool ignoreFarClip)
     {
         // Pre-checks
         if (!FrustumCulling) return true;
@@ -97,8 +99,9 @@ partial class Camera
     /// Checks whether a <see cref="BoundingBox"/> is inside the camera's view frustum
     /// </summary>
     /// <param name="boundingBox">An axis-aligned box that completely encompasses the body in world space</param>
+    /// <param name="ignoreFarClip">Whether to ignore the far clip plane of the view frustum</param>
     /// <returns><c>true</c> if the box is in the frustum</returns>
-    internal bool InFrustum(BoundingBox boundingBox)
+    internal bool InFrustum(BoundingBox boundingBox, bool ignoreFarClip)
     {
         // Pre-checks
         if (!FrustumCulling) return true;
@@ -124,4 +127,7 @@ partial class Camera
         double pixelDiameter = angularDiameter * _size.Width / _fieldOfView;
         return pixelDiameter >= 1.0;
     }
+
+    private IEnumerable<Plane> GetPlanes(bool ignoreFarClip)
+        => ignoreFarClip ? _viewFrustum.Take(5) : _viewFrustum;
 }

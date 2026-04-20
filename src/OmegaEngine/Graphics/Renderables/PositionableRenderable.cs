@@ -194,13 +194,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// </summary>
     /// <remarks>
     /// <para>A common usage pattern is to set this to a value slightly lower than <see cref="Camera.FarClip"/> to allow very large objects to remain visible in the distance.</para>
-    /// <para>
-    /// When using this feature:
-    /// <list type="bullet">
-    /// <item>View frustum culling is disabled, meaning the object is always submitted for rendering if it passes distance-based culling.</item>
-    /// <item>Z-order may appear incorrect if multiple objects have similar values for <see cref="ForcedPerspectiveDistance"/> and are close to each other in screen space.</item>
-    /// </list>
-    /// </para>
+    /// <para>Z-order may appear incorrect if other objects are further than than this value from the camera and are close to this one in screen space.</para>
     /// </remarks>
     [Description("When the renderable is farther than this distance from the camera, it is instead rendered at this distance, with corresponding scaling applied to preserve its apparent size (angular diameter)."), Category("Layout")]
     public float? ForcedPerspectiveDistance { get; set; }
@@ -553,8 +547,8 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// </summary>
     /// <param name="camera">The <see cref="Camera"/> used to look the object.</param>
     /// <returns><c>true</c> if the object is visible.</returns>
-    /// <seealso cref="Cameras.Camera.InFrustum(SlimDX.BoundingSphere)"/>
-    /// <seealso cref="Cameras.Camera.InFrustum(SlimDX.BoundingBox)"/>
+    /// <seealso cref="Cameras.Camera.InFrustum(SlimDX.BoundingSphere,bool)"/>
+    /// <seealso cref="Cameras.Camera.InFrustum(SlimDX.BoundingBox,bool)"/>
     internal bool IsVisible(Camera camera)
     {
         #region Sanity checks
@@ -567,14 +561,15 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         // Ensure automatic scaling and transformation effects are applied to bounding bodies
         UpdateInternalTransformations(camera);
 
+        bool ignoreFarClip = ForcedPerspectiveDistance != null;
         if (WorldBoundingSphere is {} sphere)
         {
             if (!camera.AtLeastOnePixelWide(sphere)) return false;
-            if (ForcedPerspectiveDistance == null && !camera.InFrustum(sphere)) return false;
+            if (!camera.InFrustum(sphere, ignoreFarClip)) return false;
         }
         if (WorldBoundingBox is {} box)
         {
-            if (ForcedPerspectiveDistance == null && !camera.InFrustum(box)) return false;
+            if (!camera.InFrustum(box, ignoreFarClip)) return false;
         }
 
         return true;
