@@ -76,16 +76,6 @@ public enum BillboardMode
 /// <seealso cref="Scene.Positionables"/>
 public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 {
-    #region Variables
-    private Matrix
-        _internalScaling = Matrix.Identity,
-        _internalRotation = Matrix.Identity,
-        _internalTranslation = Matrix.Identity;
-
-    /// <summary>Does the world transform need to be recalculated?</summary>
-    protected bool WorldTransformDirty = true;
-    #endregion
-
     #region Properties
 
     #region Flags
@@ -143,6 +133,14 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     #endregion
 
     #region Transform factors
+    /// <summary>Does the world transform need to be recalculated?</summary>
+    protected bool WorldTransformDirty = true;
+
+    private Matrix
+        _forcedPerspectiveScaling = Matrix.Identity,
+        _forcedPerspectiveTranslation = Matrix.Identity,
+        _billboardRotation = Matrix.Identity;
+
     private Matrix _preTransform = Matrix.Identity;
 
     /// <summary>
@@ -216,11 +214,9 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
         _floatingPositionCached = this.ApplyFloatingOriginTo(_position);
 
-        // Calculate transformation matrices
-        WorldTransformCached = _preTransform * Matrix.Scaling(_scale) * _internalScaling * Matrix.RotationQuaternion(Rotation) * _internalRotation * Matrix.Translation(_floatingPositionCached) * _internalTranslation;
+        WorldTransformCached = _preTransform * Matrix.Scaling(_scale) * _forcedPerspectiveScaling * Matrix.RotationQuaternion(Rotation) * _billboardRotation * Matrix.Translation(_floatingPositionCached) * _forcedPerspectiveTranslation;
         _inverseWorldTransform = Matrix.Invert(WorldTransformCached);
 
-        // Transform bounding bodies into world space
         _worldBoundingSphere = BoundingSphere?.Transform(WorldTransformCached);
         _worldBoundingBox = BoundingBox?.Transform(WorldTransformCached);
 
@@ -382,8 +378,20 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
     private void UpdateInternalTransformations(Camera camera)
     {
-        var internalScaling = Matrix.Identity;
-        var internalTranslation = Matrix.Identity;
+        var (forcedPerspectiveScaling, forcedPerspectiveTranslation) = GetForcedPerspective(camera);
+        forcedPerspectiveScaling.To(ref _forcedPerspectiveScaling, ref WorldTransformDirty);
+        forcedPerspectiveTranslation.To(ref _forcedPerspectiveTranslation, ref WorldTransformDirty);
+
+        (Billboard switch
+        {
+            BillboardMode.Spherical => camera.SphericalBillboard,
+            BillboardMode.Cylindrical => camera.CylindricalBillboard,
+            _ => Matrix.Identity
+        }).To(ref _billboardRotation, ref WorldTransformDirty);
+    }
+
+    private (Matrix scaling, Matrix translation) GetForcedPerspective(Camera camera)
+    {
         if (ForcedPerspectiveDistance is {} maxDistance)
         {
             var relativePosition = camera.Position.ApplyOffset(Position);
@@ -392,19 +400,11 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
             if (distanceFromCamera > maxDistance)
             {
                 float ratio = maxDistance / distanceFromCamera;
-                internalTranslation = Matrix.Translation(relativePosition * (1.0f - ratio));
-                internalScaling = Matrix.Scaling(new(ratio));
+                return (Matrix.Scaling(new(ratio)), Matrix.Translation(relativePosition * (1.0f - ratio)));
             }
         }
-        internalScaling.To(ref _internalScaling, ref WorldTransformDirty);
-        internalTranslation.To(ref _internalTranslation, ref WorldTransformDirty);
 
-        (Billboard switch
-        {
-            BillboardMode.Spherical => camera.SphericalBillboard,
-            BillboardMode.Cylindrical => camera.CylindricalBillboard,
-            _ => Matrix.Identity
-        }).To(ref _internalRotation, ref WorldTransformDirty);
+        return (Matrix.Identity, Matrix.Identity);
     }
     #endregion
 
