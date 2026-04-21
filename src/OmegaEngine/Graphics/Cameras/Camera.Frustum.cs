@@ -90,7 +90,7 @@ partial class Camera
         UpdateViewFrustum();
 
         // Check if the sphere lies completely behind one of the frustum planes
-        return _viewFrustum.All(t => BoundingSphere.Intersects(boundingSphere, t) != PlaneIntersectionType.Back);
+        return GetPlanes(ignoreFarClip).All(t => BoundingSphere.Intersects(boundingSphere, t) != PlaneIntersectionType.Back);
 
         // Otherwise the object is at least partially visible
     }
@@ -110,10 +110,13 @@ partial class Camera
         UpdateViewFrustum();
 
         // Check if the box lies completely behind one of the frustum planes
-        return _viewFrustum.All(plane => BoundingBox.Intersects(boundingBox, plane) != PlaneIntersectionType.Back);
+        return GetPlanes(ignoreFarClip).All(plane => BoundingBox.Intersects(boundingBox, plane) != PlaneIntersectionType.Back);
 
         // Otherwise the object is at least partially visible
     }
+
+    private IEnumerable<Plane> GetPlanes(bool ignoreFarClip)
+        => ignoreFarClip ? _viewFrustum.Take(5) : _viewFrustum;
 
     /// <summary>
     /// Checks whether a <see cref="BoundingSphere"/> would appear at least 1 pixel in diameter
@@ -127,7 +130,4 @@ partial class Camera
         double pixelDiameter = angularDiameter * _size.Width / _fieldOfView;
         return pixelDiameter >= 1.0;
     }
-
-    private IEnumerable<Plane> GetPlanes(bool ignoreFarClip)
-        => ignoreFarClip ? _viewFrustum.Take(5) : _viewFrustum;
 }
