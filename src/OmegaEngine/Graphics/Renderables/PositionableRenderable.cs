@@ -136,12 +136,10 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <summary>Does the world transform need to be recalculated?</summary>
     protected bool WorldTransformDirty = true;
 
-    private Matrix
-        _forcedPerspectiveScaling = Matrix.Identity,
-        _forcedPerspectiveTranslation = Matrix.Identity,
-        _billboardRotation = Matrix.Identity;
-
     private Matrix _preTransform = Matrix.Identity;
+    private Matrix _billboardRotation = Matrix.Identity;
+    private float _forcedPerspectiveScaling = 1;
+    private DoubleVector3 _forcedPerspectiveTranslation;
 
     /// <summary>
     /// A transformation matrix that is to be applied before the normal world transform occurs - useful for correcting off-center meshes
@@ -206,15 +204,22 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     {
         if (!WorldTransformDirty) return;
 
-        _floatingPositionCached = this.ApplyFloatingOriginTo(_position);
+        var scaling = _preTransform * Matrix.Scaling(_scale);
+        var rotation = Matrix.RotationQuaternion(Rotation) * _billboardRotation;
 
-        var preTransformAndScale = _preTransform * Matrix.Scaling(_scale);
-        var rotateAndTranslate = Matrix.RotationQuaternion(Rotation) * _billboardRotation * Matrix.Translation(_floatingPositionCached);
-
-        WorldTransformCached = preTransformAndScale * _forcedPerspectiveScaling * rotateAndTranslate * _forcedPerspectiveTranslation;
+        WorldTransformCached =
+            scaling
+          * Matrix.Scaling(new(_forcedPerspectiveScaling))
+          * rotation
+          * Matrix.Translation(this.ApplyFloatingOriginTo(_position + _forcedPerspectiveTranslation));
         _inverseWorldTransform = Matrix.Invert(WorldTransformCached);
 
-        WorldTransformWithoutForcedPerspectiveCached = preTransformAndScale * rotateAndTranslate;
+        _floatingPositionCached = this.ApplyFloatingOriginTo(_position);
+        WorldTransformWithoutForcedPerspectiveCached =
+            scaling
+          * rotation
+          * Matrix.Translation(_floatingPositionCached);
+
         _worldBoundingSphere = BoundingSphere?.Transform(WorldTransformWithoutForcedPerspectiveCached);
         _worldBoundingBox = BoundingBox?.Transform(WorldTransformWithoutForcedPerspectiveCached);
 
@@ -390,21 +395,20 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }).To(ref _billboardRotation, ref WorldTransformDirty);
     }
 
-    private (Matrix scaling, Matrix translation) GetForcedPerspective(Camera camera)
+    private (float scaling, DoubleVector3 translation) GetForcedPerspective(Camera camera)
     {
         if (ForcedPerspectiveDistance is {} maxDistance)
         {
-            var relativePosition = camera.Position.ApplyOffset(Position);
-
-            float distanceFromCamera = relativePosition.Length();
+            var relativePosition = camera.Position - Position;
+            double distanceFromCamera = relativePosition.Length();
             if (distanceFromCamera > maxDistance)
             {
-                float ratio = maxDistance / distanceFromCamera;
-                return (Matrix.Scaling(new(ratio)), Matrix.Translation(relativePosition * (1.0f - ratio)));
+                double ratio = maxDistance / distanceFromCamera;
+                return (scaling: (float)ratio, translation: relativePosition * (1 - ratio));
             }
         }
 
-        return (Matrix.Identity, Matrix.Identity);
+        return (scaling: 1, translation: new());
     }
     #endregion
 
