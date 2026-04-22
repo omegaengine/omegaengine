@@ -61,7 +61,7 @@ model.Materials[0].GlowMap = XTexture.Get(engine, "LampGlow.png");
 ```
 
 > [!TIP]
-> The [asset management system](xref:OmegaEngine.Assets#texture-naming-convention) automatically discovers certain texture maps based on a naming convention. To make a glow map discoverable, append `_glow` to the name of the corresponding diffuse texture and keep the original file extension.
+> The [asset management system](xref:OmegaEngine.Assets#texture-naming-convention) automatically discovers additional textures for meshes based on a naming convention. To make a glow map discoverable, append `_glow` to the name of the corresponding diffuse texture and keep the original file extension.
 >
 > **Example:**  
 > Diffuse texture file name: `mytexture.png`  
