@@ -38,3 +38,5 @@ This technique:
 - stores the data in occlusion interval maps
 - uses this data during rendering to determine if terrain points are in shadow
 - provides accurate terrain shadows without real-time calculations
+
+See [Terrain](terrain.md#shadowing) for more details on terrain shadowing.
