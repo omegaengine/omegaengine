@@ -16,7 +16,7 @@ The **Presenter** (see <xref:AlphaFramework.Presentation.PresenterBase`1>) handl
 Different presenter implementations can provide different visualization modes (e.g., in-game, editor, menu background) without changing the underlying world data.
 
 ```csharp
-public class Presenter(Engine engine, Universe universe) : PresenterBase<Universe>
+public class Presenter : PresenterBase<Universe>
 {
     public Presenter(Engine engine, Universe universe) : base(engine, universe)
     {
