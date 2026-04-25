@@ -34,6 +34,34 @@ public class Presenter : PresenterBase<Universe>
 }
 ```
 
+## Template rendering
+
+<xref:AlphaFramework.Presentation.RenderComponentPresentation> provides `.ToPresentation()` extension methods that convert AlphaFramework <xref:AlphaFramework.World.Templates.EntityTemplateBase`1.Render> components into live OmegaEngine renderables:
+
+| Data component                                           | Presentation type                                          |
+| -------------------------------------------------------- | ---------------------------------------------------------- |
+| <xref:AlphaFramework.World.Components.StaticMesh>        | <xref:OmegaEngine.Graphics.Renderables.Model>              |
+| <xref:AlphaFramework.World.Components.AnimatedMesh>      | <xref:OmegaEngine.Graphics.Renderables.AnimatedModel>      |
+| <xref:AlphaFramework.World.Components.TestSphere>        | <xref:OmegaEngine.Graphics.Renderables.Model> (procedural) |
+| <xref:AlphaFramework.World.Components.CpuParticleSystem> | <xref:OmegaEngine.Graphics.Renderables.CpuParticleSystem>  |
+| <xref:AlphaFramework.World.Components.LightSource>       | <xref:OmegaEngine.Graphics.LightSources.PointLight>        |
+
+This is useful for applying <xref:AlphaFramework.World.Templates>. A presenter typically iterates `entity.TemplateData.Render`, calls `.ToPresentation(engine)` on each component, and registers the resulting renderables with the scene:
+
+```csharp
+foreach (var component in entity.TemplateData!.Render)
+{
+    var renderable = component switch
+    {
+        StaticMesh m => m.ToPresentation(engine),
+        LightSource l => l.ToPresentation(),
+        _ => null
+    };
+    if (renderable != null)
+        scene.Positionables.Add(renderable);
+}
+```
+
 ## <xref:AlphaFramework.Presentation.GameBase>
 
 **GameBase** provides the application shell. It extends <xref:OmegaEngine.RenderHost> with game-specific features:
