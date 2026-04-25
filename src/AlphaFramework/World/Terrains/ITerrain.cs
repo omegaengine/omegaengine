@@ -57,9 +57,9 @@ public interface ITerrain
     bool OcclusionIntervalMapOutdated { get; set; }
 
     /// <summary>
-    /// Direct access to the internal height-map array. Handle with care; clone when necessary!
+    /// Direct access to the internal texture-map array. Handle with care; clone when necessary!
     /// </summary>
-    /// <exception cref="InvalidOperationException">The height-map size is incorrect.</exception>
+    /// <exception cref="InvalidOperationException">The texture-map size is incorrect.</exception>
     /// <remarks>Is not serialized/stored, is loaded by <see cref="LoadTextureMap(string)"/>.</remarks>
     [XmlIgnore, Browsable(false)]
     NibbleGrid? TextureMap { get; set; }
@@ -92,7 +92,7 @@ public interface ITerrain
     /// Loads data for <see cref="ITerrain.HeightMap"/> from a file.
     /// </summary>
     /// <param name="path">The path of the PNG file to load the height-map from.</param>
-    /// <exception cref="IOException">The texture-map size is incorrect.</exception>
+    /// <exception cref="IOException">The height-map size is incorrect.</exception>
     void LoadHeightMap(string path);
 
     /// <summary>
@@ -107,7 +107,7 @@ public interface ITerrain
     /// Loads data for <see cref="ITerrain.OcclusionIntervalMap"/> from a file.
     /// </summary>
     /// <param name="path">The path of the PNG file to load the occlusion interval map from.</param>
-    /// <exception cref="IOException">The texture-map size is incorrect.</exception>
+    /// <exception cref="IOException">The occlusion interval map size is incorrect.</exception>
     void LoadOcclusionIntervalMap(string path);
 
     /// <summary>
