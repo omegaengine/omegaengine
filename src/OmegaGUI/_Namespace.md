@@ -86,6 +86,18 @@ var button = new Button
 };
 ```
 
+When a `Lua` instance is passed to <xref:OmegaGUI.DialogPresenter>, all named controls in the dialog are automatically registered as Lua variables using their `Name` property. The presenter itself is also available as `Me`. Event properties such as `OnClick` specify Lua code strings that are executed in this context when the event fires.
+
+## Localization
+
+OmegaGUI supports localization through XML `.locale` files stored in `GUI/Language/` in the content directory. Control text properties use a `[Key]` syntax to reference locale entries:
+
+```xml
+<Button Text="[StartGame]" />
+```
+
+At runtime the `[Key]` is replaced by the matching entry from the active language file (e.g. `English.locale`, `German.locale`). The language is selected based on `Resources.Culture`; if no matching file exists the engine falls back to English, then German, then the raw key string.
+
 ## Theming
 
 Controls are rendered using texture atlases loaded via the [storage system](xref:OmegaEngine.Foundation.Storage) from `GUI/Textures/<YourThemeName>.png`. The default theme is `base`.
@@ -126,5 +138,21 @@ Create custom themes by:
 |              | Lower right border | 241  | 113 | 246   | 121    |
 | Listbox      | Main               | 13   | 123 | 241   | 160    |
 |              | Selection          | 16   | 166 | 240   | 183    |
+
+## Scaling
+
+TODO: Review
+
+Dialogs can be scaled through several mechanisms:
+
+- **<xref:OmegaGUI.Model.Dialog.FontSize>** - Controls the default font size for all text in the dialog. Larger values make text bigger.
+- **<xref:OmegaGUI.Model.Dialog.Scale>** - A multiplier applied to all dialog dimensions and positions. Values greater than 1.0 enlarge the dialog.
+- **<xref:OmegaGUI.Model.Dialog.Fullscreen>** - When `true` and `Size` is set, the dialog is uniformly scaled to fill the screen while maintaining its aspect ratio. When `Size` is empty the dialog simply covers the full render area.
+
+### Automatic scaling
+
+Dialogs without `Fullscreen` are automatically scaled up when the render height exceeds 1080 pixels (Full HD). The <xref:OmegaGUI.DialogPresenter> calculates an auto-scale factor: `max(1, renderHeight / 1080)`. This ensures that GUI elements remain appropriately sized on high-resolution displays (e.g., 4K monitors) without requiring separate assets or manual configuration.
+
+Example: On a 2160p (4K) display, dialogs are automatically scaled by a factor of 2.0, making them twice as large to maintain readability.
 
 ## API
