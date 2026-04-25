@@ -247,8 +247,8 @@ public sealed partial class Terrain<TTemplate> : ITerrain
         #endregion
 
         return _textureMap[
-            (int)(coordinates.X / _size.StretchV),
-            (int)(coordinates.Y / _size.StretchV)];
+            (int)(coordinates.X / (_size.StretchH * 3)),
+            (int)(coordinates.Y / (_size.StretchH * 3))];
     }
     #endregion
 }
