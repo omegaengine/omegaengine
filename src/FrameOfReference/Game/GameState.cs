@@ -22,7 +22,6 @@
 
 namespace FrameOfReference;
 
-/// <seealso cref="Game.CurrentState"/>
 public enum GameState
 {
     /// <summary>The game is starting up</summary>

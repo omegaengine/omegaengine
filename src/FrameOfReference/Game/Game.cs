@@ -30,6 +30,7 @@ using FrameOfReference.Presentation.Config;
 using FrameOfReference.Properties;
 using FrameOfReference.World;
 using FrameOfReference.World.Templates;
+using JetBrains.Annotations;
 using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
@@ -46,23 +47,9 @@ namespace FrameOfReference;
 public class Game(Settings settings)
     : GameBase(settings, Constants.AppName, Resources.Icon, Resources.Loading)
 {
-    /// <summary>
-    /// The current state of the game
-    /// </summary>
-    [LuaHide]
-    public GameState CurrentState { get; private set; }
-
-    /// <summary>
-    /// The current game session
-    /// </summary>
-    [LuaHide]
-    public Session? CurrentSession { get; private set; }
-
-    /// <summary>
-    /// The currently active presenter
-    /// </summary>
-    [LuaHide]
-    public Presenter? CurrentPresenter { get; private set; }
+    private GameState _currentState;
+    private Session? _currentSession;
+    private Presenter? _currentPresenter;
 
     private Universe? _menuUniverse;
     private MenuPresenter? _menuPresenter;
@@ -110,7 +97,7 @@ public class Game(Settings settings)
             {
                 // Dispose presenters
                 _menuPresenter?.Dispose();
-                CurrentPresenter?.Dispose();
+                _currentPresenter?.Dispose();
             }
         }
         finally
@@ -129,7 +116,7 @@ public class Game(Settings settings)
         base.Run();
 
         // Auto-save session for later resuming
-        if (CurrentSession != null && CurrentSession.TimeWarpFactor != 0)
+        if (_currentSession != null && _currentSession.TimeWarpFactor != 0)
         {
             try
             {
@@ -148,15 +135,15 @@ public class Game(Settings settings)
 
     /// <inheritdoc/>
     protected override double GetElapsedGameTime(double elapsedTime)
-        => CurrentState switch
+        => _currentState switch
         {
             // Time passes as defined by the session
-            GameState.InGame or GameState.Modify => CurrentSession?.Update(elapsedTime) ?? elapsedTime,
+            GameState.InGame or GameState.Modify => _currentSession?.Update(elapsedTime) ?? elapsedTime,
 
             // Time passes very slowly and does not affect session
             GameState.Pause => elapsedTime / 10,
 
-            // Time passes normally but there is no session
+            // Time passes normally, but there is no session
             _ => elapsedTime
         };
 
@@ -172,10 +159,10 @@ public class Game(Settings settings)
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Program));
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Settings));
 
-        lua["State"] = CurrentState;
-        lua["Session"] = CurrentSession;
-        lua["Presenter"] = CurrentPresenter ?? throw new InvalidOperationException($"{nameof(Presenter)} not set yet.");
-        lua["Universe"] = CurrentPresenter.Universe;
+        lua["State"] = _currentState;
+        lua["Session"] = _currentSession;
+        lua["Universe"] = _currentSession?.Universe;
+        lua["Presenter"] = _currentPresenter ?? throw new InvalidOperationException($"{nameof(Presenter)} not set yet.");
 
         return lua;
     }
@@ -183,8 +170,8 @@ public class Game(Settings settings)
     /// <summary>
     /// Switches to the main menu
     /// </summary>
-    /// <remarks>If <see cref="CurrentState"/> is already <see cref="GameState.Menu"/>, nothing will happen.
-    /// Loading will take a while on first call, subsequent calls will be very fast, because <see cref="_menuUniverse"/> is preserved</remarks>
+    /// <remarks>Loading will take a while on first call, subsequent calls will be very fast, because <see cref="_menuUniverse"/> is preserved</remarks>
+    [UsedImplicitly]
     public void SwitchToMenu()
     {
         // Handle cases where the main menu was bypassed on startup
@@ -195,7 +182,7 @@ public class Game(Settings settings)
         }
 
         // Prevent unnecessary loading
-        if (CurrentState == GameState.Menu) return;
+        if (_currentState == GameState.Menu) return;
 
         CleanupPresenter();
         InitializeMenuMode();
@@ -204,14 +191,14 @@ public class Game(Settings settings)
     /// <summary>
     /// Switches the game to in-game mode
     /// </summary>
-    /// <remarks>If <see cref="CurrentState"/> is already <see cref="GameState.InGame"/>, nothing will happen.
-    /// Loading may take a while, subsequent calls will be a bit faster because the <see cref="Engine"/> cache will still be hot</remarks>
+    /// <remarks>Loading may take a while, subsequent calls will be a bit faster because the <see cref="Engine"/> cache will still be hot.</remarks>
+    [UsedImplicitly]
     public void SwitchToGame()
     {
-        if (CurrentSession == null) throw new InvalidOperationException(Resources.NoSessionLoaded);
+        if (_currentSession == null) throw new InvalidOperationException(Resources.NoSessionLoaded);
 
         // Prevent unnecessary loading
-        if (CurrentState == GameState.InGame) return;
+        if (_currentState == GameState.InGame) return;
 
         CleanupPresenter();
         InitializeGameMode();
@@ -220,14 +207,14 @@ public class Game(Settings settings)
     /// <summary>
     /// Switches the game to map modification mode
     /// </summary>
-    /// <remarks>If <see cref="CurrentState"/> is already <see cref="GameState.Modify"/>, nothing will happen.
-    /// Loading may take a while, subsequent calls will be a bit faster because the <see cref="Engine"/> cache will still be hot</remarks>
+    /// <remarks>Loading may take a while, subsequent calls will be a bit faster because the <see cref="Engine"/> cache will still be hot.</remarks>
+    [UsedImplicitly]
     public void SwitchToModify()
     {
-        if (CurrentSession == null) throw new InvalidOperationException(Resources.NoSessionLoaded);
+        if (_currentSession == null) throw new InvalidOperationException(Resources.NoSessionLoaded);
 
         // Prevent unnecessary loading
-        if (CurrentState == GameState.Modify) return;
+        if (_currentState == GameState.Modify) return;
 
         CleanupPresenter();
         InitializeModifyMode();
@@ -236,26 +223,26 @@ public class Game(Settings settings)
     private GameState _stateBeforePause;
 
     /// <summary>
-    /// Toggles <see cref="CurrentState"/> between <see cref="GameState.InGame"/> and <see cref="GameState.Pause"/>
+    /// Toggles between <see cref="GameState.InGame"/> and <see cref="GameState.Pause"/>
     /// </summary>
-    /// <remarks>When called while <see cref="CurrentState"/> is neither <see cref="GameState.InGame"/> nor <see cref="GameState.Pause"/> nothing happens</remarks>
+    [UsedImplicitly]
     public void TogglePause()
     {
-        var interactivePresenter = CurrentPresenter as InteractivePresenter;
+        var interactivePresenter = _currentPresenter as InteractivePresenter;
 
-        switch (CurrentState)
+        switch (_currentState)
         {
             case GameState.InGame or GameState.Modify:
                 // Backup previous state
-                _stateBeforePause = CurrentState;
+                _stateBeforePause = _currentState;
 
-                CurrentState = GameState.Pause;
+                _currentState = GameState.Pause;
 
                 // Freeze the mouse interaction
                 if (interactivePresenter != null) this.RemoveInputReceiver(interactivePresenter);
 
                 // Dim down the screen
-                CurrentPresenter?.DimDown();
+                _currentPresenter?.DimDown();
 
                 // Show pause menu
                 GuiManager.Reset();
@@ -264,50 +251,49 @@ public class Game(Settings settings)
 
             case GameState.Pause:
                 // Restore previous state (usually GameState.InGame)
-                CurrentState = _stateBeforePause;
+                _currentState = _stateBeforePause;
 
                 // Dim screen back up
-                CurrentPresenter?.DimUp();
+                _currentPresenter?.DimUp();
 
                 // Restore the mouse interaction
                 if (interactivePresenter != null) this.AddInputReceiver(interactivePresenter);
 
                 // Restore the correct HUD
                 GuiManager.Reset();
-                if (CurrentState == GameState.InGame) LoadDialog("InGame/HUD");
-                else if (CurrentState == GameState.Modify) LoadDialog("InGame/HUD_Modify");
+                if (_currentState == GameState.InGame) LoadDialog("InGame/HUD");
+                else if (_currentState == GameState.Modify) LoadDialog("InGame/HUD_Modify");
                 break;
         }
     }
 
     /// <summary>
-    /// Loads the benchmark map into <see cref="CurrentSession"/> and switches the <see cref="CurrentState"/> to <see cref="GameState.Benchmark"/>
+    /// Loads the benchmark map into <see cref="_currentSession"/> and switches the <see cref="_currentState"/> to <see cref="GameState.Benchmark"/>
     /// </summary>
-    /// <remarks>If <see cref="CurrentState"/> is <see cref="GameState.Benchmark"/>, nothing will happen</remarks>
     private void StartBenchmark()
     {
         // Prevent unnecessary loading
-        if (CurrentState == GameState.Benchmark) return;
+        if (_currentState == GameState.Benchmark) return;
 
         using (new TimedLogEvent("Start benchmark"))
         {
             // Load map
-            CurrentSession = new(Universe.FromContent($"Benchmark{Constants.MapFileExt}"));
+            _currentSession = new(Universe.FromContent($"Benchmark{Constants.MapFileExt}"));
 
             // Switch mode
-            CurrentState = GameState.Benchmark;
+            _currentState = GameState.Benchmark;
 
             // Clean up any old stuff
-            if (CurrentPresenter != null)
+            if (_currentPresenter != null)
             {
-                if (CurrentPresenter is InteractivePresenter interactivePresenter) this.RemoveInputReceiver(interactivePresenter);
+                if (_currentPresenter is InteractivePresenter interactivePresenter) this.RemoveInputReceiver(interactivePresenter);
 
-                CurrentPresenter.HookOut();
-                if (CurrentPresenter != _menuPresenter) CurrentPresenter.Dispose();
+                _currentPresenter.HookOut();
+                if (_currentPresenter != _menuPresenter) _currentPresenter.Dispose();
             }
 
             // Load benchmark universe
-            CurrentPresenter = new BenchmarkPresenter(Engine,
+            _currentPresenter = new BenchmarkPresenter(Engine,
                 Universe.FromContent($"Benchmark{Constants.MapFileExt}"), path =>
                 { // Callback for submitting the benchmark results
                     Form.Visible = false;
@@ -318,13 +304,13 @@ public class Game(Settings settings)
                     Msg.Inform(null, $"Please upload the file '{path}'.", MsgSeverity.Info);
                     Exit();
                 });
-            CurrentPresenter.Initialize();
+            _currentPresenter.Initialize();
 
             // Note: Do not call before Presenter has been initialized
-            CurrentSession.Lua = NewLua();
+            _currentSession.Lua = NewLua();
 
             // Activate new view
-            CurrentPresenter.HookIn();
+            _currentPresenter.HookIn();
             if (settings.Graphics.Fading) Engine.FadeIn();
 
             // Show benchmark GUI
@@ -340,7 +326,7 @@ public class Game(Settings settings)
     }
 
     /// <summary>
-    /// Creates the <see cref="_menuPresenter"/> if necessary, sets it as the <see cref="CurrentPresenter"/> and configures the GUI for the main menu
+    /// Creates the <see cref="_menuPresenter"/> if necessary, sets it as the <see cref="_currentPresenter"/> and configures the GUI for the main menu
     /// </summary>
     private void InitializeMenuMode()
     {
@@ -349,7 +335,7 @@ public class Game(Settings settings)
         using (new TimedLogEvent("Initialize menu"))
         {
             // Switch mode
-            CurrentState = GameState.Menu;
+            _currentState = GameState.Menu;
 
             // Clean previous presenter
             //CleanupPresenter();
@@ -357,10 +343,10 @@ public class Game(Settings settings)
             // Load menu scene
             _menuPresenter ??= new(Engine, _menuUniverse!);
             _menuPresenter.Initialize();
-            CurrentPresenter = _menuPresenter;
+            _currentPresenter = _menuPresenter;
 
             // Activate new view
-            CurrentPresenter.HookIn();
+            _currentPresenter.HookIn();
             if (settings.Graphics.Fading) Engine.FadeIn();
 
             // Show game GUI
@@ -372,27 +358,30 @@ public class Game(Settings settings)
     }
 
     /// <summary>
-    /// Creates the <see cref="CurrentPresenter"/> and configures the GUI for in-game mode
+    /// Creates the <see cref="_currentPresenter"/> and configures the GUI for in-game mode
     /// </summary>
     private void InitializeGameMode()
     {
+        if (_currentSession == null) throw new InvalidOperationException(Resources.NoSessionLoaded);
+
         Loading = true;
 
         using (new TimedLogEvent("Initialize game"))
         {
             // Switch mode
-            CurrentState = GameState.InGame;
+            _currentState = GameState.InGame;
 
             // Clean previous presenter
             CleanupPresenter();
 
             // Load game scene
-            CurrentPresenter = new InGamePresenter(Engine, CurrentSession!.Universe);
-            CurrentPresenter.Initialize();
+            var presenter = new InGamePresenter(Engine, _currentSession.Universe);
+            presenter.Initialize();
+            _currentPresenter = presenter;
 
             // Activate new view
-            this.AddInputReceiver((InteractivePresenter)CurrentPresenter);
-            CurrentPresenter.HookIn();
+            this.AddInputReceiver(presenter);
+            _currentPresenter.HookIn();
             if (settings.Graphics.Fading) Engine.FadeIn();
 
             // Show game GUI
@@ -410,27 +399,29 @@ public class Game(Settings settings)
     }
 
     /// <summary>
-    /// Creates the <see cref="CurrentPresenter"/> and configures the GUI for live modification mode
+    /// Creates the <see cref="_currentPresenter"/> and configures the GUI for live modification mode
     /// </summary>
     private void InitializeModifyMode()
     {
+        if (_currentSession == null) throw new InvalidOperationException(Resources.NoSessionLoaded);
+
         Loading = true;
 
         using (new TimedLogEvent("Initialize game (in modify mode)"))
         {
             // Switch mode
-            CurrentState = GameState.Modify;
+            _currentState = GameState.Modify;
 
             // Clean previous presenter
             CleanupPresenter();
 
             // Load game scene
-            CurrentPresenter = new InGamePresenter(Engine, CurrentSession.Universe);
-            CurrentPresenter.Initialize();
+            _currentPresenter = new InGamePresenter(Engine, _currentSession.Universe);
+            _currentPresenter.Initialize();
 
             // Activate new view
-            this.AddInputReceiver((InteractivePresenter)CurrentPresenter);
-            CurrentPresenter.HookIn();
+            this.AddInputReceiver((InteractivePresenter)_currentPresenter);
+            _currentPresenter.HookIn();
             if (settings.Graphics.Fading) Engine.FadeIn();
 
             // Show game GUI
@@ -448,18 +439,18 @@ public class Game(Settings settings)
     }
 
     /// <summary>
-    /// <see cref="PresenterBase{TUniverse}.HookOut"/> and disposes the <see cref="CurrentPresenter"/> (unless it is the <see cref="_menuPresenter"/>)
+    /// <see cref="PresenterBase{TUniverse}.HookOut"/> and disposes the <see cref="_currentPresenter"/> (unless it is the <see cref="_menuPresenter"/>)
     /// </summary>
     private void CleanupPresenter()
     {
-        if (CurrentPresenter != null)
+        if (_currentPresenter != null)
         {
-            if (CurrentPresenter is InteractivePresenter interactivePresenter) this.RemoveInputReceiver(interactivePresenter);
+            if (_currentPresenter is InteractivePresenter interactivePresenter) this.RemoveInputReceiver(interactivePresenter);
 
-            CurrentPresenter.HookOut();
+            _currentPresenter.HookOut();
 
             // Don't dispose the _menuPresenter, since it will be reused for fast switching
-            if (CurrentPresenter != _menuPresenter) CurrentPresenter.Dispose();
+            if (_currentPresenter != _menuPresenter) _currentPresenter.Dispose();
         }
     }
 
@@ -468,7 +459,7 @@ public class Game(Settings settings)
         => Arguments.GetOption("menu") ?? "Menu";
 
     /// <summary>
-    /// Loads the auto-save into <see cref="CurrentSession"/> for later usage
+    /// Loads the auto-save into <see cref="_currentSession"/> for later usage
     /// </summary>
     private void PreloadPreviousSession()
     {
@@ -489,9 +480,10 @@ public class Game(Settings settings)
     }
 
     /// <summary>
-    /// Loads a map into <see cref="_menuUniverse"/> and switches the <see cref="CurrentState"/> to <see cref="GameState.Menu"/>
+    /// Loads a map into <see cref="_menuUniverse"/> and switches to <see cref="GameState.Menu"/>
     /// </summary>
     /// <param name="name">The name of the map to load</param>
+    [UsedImplicitly]
     public void LoadMenu(string name)
     {
         if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
@@ -514,14 +506,15 @@ public class Game(Settings settings)
     }
 
     /// <summary>
-    /// Loads a game map into <see cref="CurrentSession"/> and switches the <see cref="CurrentState"/> to <see cref="GameState.InGame"/>
+    /// Loads a game map into <see cref="_currentSession"/> and switches to <see cref="GameState.InGame"/>
     /// </summary>
     /// <param name="name">The name of the map to load</param>
+    [UsedImplicitly]
     public void LoadMap(string name)
     {
         if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
-        CurrentSession = new(
+        _currentSession = new(
             // Does the name have file ending?
             name.EndsWith(Constants.MapFileExt, StringComparison.OrdinalIgnoreCase) ?
                 // Real filename
@@ -533,18 +526,19 @@ public class Game(Settings settings)
         InitializeGameMode();
 
         // Note: Do not call before Presenter has been initialized
-        CurrentSession.Lua = NewLua();
+        _currentSession.Lua = NewLua();
     }
 
     /// <summary>
-    /// Loads a game map into <see cref="CurrentSession"/> and switches the <see cref="CurrentState"/> to <see cref="GameState.Modify"/>
+    /// Loads a game map into <see cref="_currentSession"/> and switches the <see cref="_currentState"/> to <see cref="GameState.Modify"/>
     /// </summary>
     /// <param name="name">The name of the map to load</param>
+    [UsedImplicitly]
     public void ModifyMap(string name)
     {
         if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
-        CurrentSession = new(
+        _currentSession = new(
             // Does the name have file ending?
             name.EndsWith(Constants.MapFileExt, StringComparison.OrdinalIgnoreCase) ?
                 // Real filename
@@ -556,43 +550,46 @@ public class Game(Settings settings)
         InitializeModifyMode();
 
         // Note: Do not call before Presenter has been initialized
-        CurrentSession.Lua = NewLua();
+        _currentSession.Lua = NewLua();
     }
 
     /// <summary>
-    /// Saves the <see cref="CurrentSession"/> as a savegame stored in the user's profile.
+    /// Saves the <see cref="_currentSession"/> as a savegame stored in the user's profile.
     /// </summary>
     /// <param name="name">The name of the savegame to write.</param>
+    [UsedImplicitly]
     public void SaveSavegame(string name)
     {
         if (string.IsNullOrEmpty(name)) return;
 
         // If we are currently in-game, then the camera position must be explicitly stored/updated
-        if (CurrentState is GameState.InGame or GameState.Pause)
-            ((InGamePresenter)CurrentPresenter!).PrepareSave();
+        if (_currentState is GameState.InGame or GameState.Pause)
+            ((InGamePresenter)_currentPresenter!).PrepareSave();
 
         // Write to disk
         string path = Locations.GetSaveDataPath(Constants.AppName, isFile: true, name + Constants.SavegameFileExt);
-        CurrentSession?.Save(path);
+        _currentSession?.Save(path);
     }
 
     /// <summary>
-    /// Loads a savegame from user's profile to replace the <see cref="CurrentSession"/>.
+    /// Loads a savegame from user's profile to replace the <see cref="_currentSession"/>.
     /// </summary>
     /// <param name="name">The name of the savegame to load.</param>
+    [UsedImplicitly]
     public void LoadSavegame(string name)
     {
         if (string.IsNullOrEmpty(name)) return;
 
         // Read from disk
         string path = Locations.GetSaveDataPath(Constants.AppName, isFile: true, name + Constants.SavegameFileExt);
-        CurrentSession = Session.Load(path);
-        CurrentSession.Lua = NewLua();
+        _currentSession = Session.Load(path);
+        _currentSession.Lua = NewLua();
     }
 
     /// <summary>
     /// Lists the names of all stored <see cref="Session"/>s.
     /// </summary>
+    [UsedImplicitly]
     public IEnumerable<string> GetSavegameNames()
     {
         var savegameDir = new DirectoryInfo(Locations.GetSaveDataPath(Constants.AppName, isFile: false));
