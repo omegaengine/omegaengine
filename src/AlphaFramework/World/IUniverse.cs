@@ -42,7 +42,8 @@ public interface IUniverse
     void Save(string path);
 
     /// <summary>
-    /// Hook to be called after the universe was deserialized.
+    /// Hook to be called after the universe was loaded from a file.
+    /// Useful for rebuilding properties that do not survive serialization.
     /// </summary>
     /// <param name="path">The map file this universe was originally loaded from, if any. Should still point to the original map file, even when the universe is embedded inside a savegame.</param>
     void PostLoad(string? path);
