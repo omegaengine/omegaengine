@@ -38,7 +38,8 @@ namespace FrameOfReference.World;
 /// <summary>
 /// Represents a world with a height-map based <see cref="Terrain"/>.
 /// </summary>
-public sealed partial class Universe : CoordinateUniverse<Vector2>
+/// <param name="terrain">The terrain for the new <see cref="Universe"/>.</param>
+public sealed partial class Universe(Terrain<TerrainTemplate> terrain) : CoordinateUniverse<Vector2>
 {
     /// <inheritdoc/>
     [Browsable(false)]
@@ -70,15 +71,6 @@ public sealed partial class Universe : CoordinateUniverse<Vector2>
     /// <remarks>This is updated only when leaving the game, not continuously.</remarks>
     [Browsable(false)]
     public CameraState<Vector2>? CurrentCamera { get; set; }
-
-    /// <summary>
-    /// Creates a new <see cref="Universe"/> with a terrain.
-    /// </summary>
-    /// <param name="terrain">The terrain for the new <see cref="Universe"/>.</param>
-    public Universe(Terrain<TerrainTemplate> terrain)
-    {
-        TerrainSerialize = terrain;
-    }
 
     #region Update
     /// <inheritdoc/>

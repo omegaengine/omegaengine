@@ -42,19 +42,13 @@ A **Session** (see <xref:AlphaFramework.World.Session`1>) represents a game bein
 Sessions are serializable as savegames.
 
 ```csharp
-public class Session : Session<Universe>
+public class Session(Universe universe) : Session<Universe>(universe)
 {
     /// <summary>
-    /// Creates a new game session based upon a given <see cref="Universe"/>.
+    /// Used for XML serialization. Do not call manually!
     /// </summary>
-    /// <param name="baseUniverse">The universe to base the new game session on.</param>
-    public Session(Universe baseUniverse) : base(baseUniverse)
-    {}
-
-    /// <summary>
-    /// Base-constructor for XML serialization. Do not call manually!
-    /// </summary>
-    public Session()
+    [UsedImplicitly, Obsolete("Used for XML serialization. Do not call manually!")]
+    public Session() : this(null!)
     {}
 
     // Serializable properties describing game state here

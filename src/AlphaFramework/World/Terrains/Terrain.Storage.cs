@@ -13,6 +13,7 @@ using System.Runtime.Versioning;
 using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
 using AlphaFramework.World.Templates;
+using JetBrains.Annotations;
 using LuaInterface;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
@@ -46,8 +47,9 @@ partial class Terrain<TTemplate>
     }
 
     /// <summary>
-    /// Base-constructor for XML serialization. Do not call manually!
+    /// Used for XML serialization. Do not call manually!
     /// </summary>
+    [UsedImplicitly, Obsolete("Used for XML serialization. Do not call manually!")]
     public Terrain()
     {}
     #endregion

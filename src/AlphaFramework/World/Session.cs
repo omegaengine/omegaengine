@@ -10,6 +10,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
+using JetBrains.Annotations;
 using LuaInterface;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Storage;
@@ -20,39 +21,27 @@ namespace AlphaFramework.World;
 /// A common base for game sessions (i.e. a game actually being played).
 /// </summary>
 /// <typeparam name="TUniverse">The specific type of <see cref="IUniverse"/> stored in the session.</typeparam>
-public class Session<TUniverse>
+/// <param name="universe">The state of the game world.</param>
+public class Session<TUniverse>(TUniverse universe)
     where TUniverse : class, IUniverse
 {
     /// <summary>
-    /// The current state of the game world.
+    /// The state of the game world.
     /// </summary>
     [LuaHide]
-    public TUniverse Universe { get; set; }
+    public TUniverse Universe { get; set; } = universe;
 
     /// <summary>
     /// The filename of the map file the <see cref="Universe"/> was loaded from.
     /// </summary>
-    public string? MapSourceFile { get; set; }
+    public string? MapSourceFile { get; set; } = universe.SourceFile;
 
     /// <summary>
-    /// Base-constructor for XML serialization. Do not call manually!
+    /// Used for XML serialization. Do not call manually!
     /// </summary>
-    public Session()
-    {
-        Universe = null!;
-    }
-
-    /// <summary>
-    /// Creates a new game session based upon a given universe
-    /// </summary>
-    /// <param name="baseUniverse">The universe to base the new game session on.</param>
-    public Session(TUniverse baseUniverse)
-    {
-        Universe = baseUniverse ?? throw new ArgumentNullException(nameof(baseUniverse));
-
-        // Transfer map name from universe to session, because it will persist there
-        MapSourceFile = baseUniverse.SourceFile;
-    }
+    [UsedImplicitly, Obsolete("Used for XML serialization. Do not call manually!")]
+    public Session() : this(null!)
+    {}
 
     /// <summary>
     /// The factor by which <see cref="IUniverse.GameTime"/> progression should be multiplied in relation to real time.

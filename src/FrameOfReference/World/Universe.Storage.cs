@@ -29,6 +29,7 @@ using AlphaFramework.World.Properties;
 using AlphaFramework.World.Terrains;
 using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
+using JetBrains.Annotations;
 using LuaInterface;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Storage;
@@ -38,9 +39,10 @@ namespace FrameOfReference.World;
 partial class Universe
 {
     /// <summary>
-    /// Base-constructor for XML serialization. Do not call manually!
+    /// Used for XML serialization. Do not call manually!
     /// </summary>
-    public Universe()
+    [UsedImplicitly, Obsolete("Used for XML serialization. Do not call manually!")]
+    public Universe() : this(null!)
     {}
 
     /// <summary>
@@ -76,7 +78,7 @@ partial class Universe
 
     /// <summary>Used for XML serialization.</summary>
     [XmlElement("Terrain"), LuaHide, Browsable(false)]
-    public Terrain<TerrainTemplate> TerrainSerialize { get; set; } = null!;
+    public Terrain<TerrainTemplate> TerrainSerialize { get; set; } = terrain;
 
     /// <summary>
     /// Performs the deferred loading of <see cref="Terrain"/> data.

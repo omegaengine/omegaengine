@@ -26,6 +26,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using FrameOfReference.World;
 using FrameOfReference.World.Positionables;
+using JetBrains.Annotations;
 using OmegaEngine.Foundation.Light;
 using SlimDX;
 
@@ -56,8 +57,9 @@ public class Statistics
     public TestCase[] TestCases = [];
 
     /// <summary>
-    /// Base-constructor for XML serialization. Do not call manually!
+    /// Used for XML serialization. Do not call manually!
     /// </summary>
+    [UsedImplicitly, Obsolete("Used for XML serialization. Do not call manually!")]
     public Statistics()
     {}
 

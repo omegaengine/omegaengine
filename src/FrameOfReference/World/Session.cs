@@ -24,6 +24,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using AlphaFramework.World;
+using JetBrains.Annotations;
 using NanoByte.Common;
 
 #if NETFRAMEWORK
@@ -39,7 +40,8 @@ namespace FrameOfReference.World;
 /// Represents a game session (i.e. a game actually being played).
 /// It is equivalent to the content of a savegame.
 /// </summary>
-public sealed partial class Session : Session<Universe>
+/// <param name="universe">The state of the game world.</param>
+public sealed partial class Session(Universe universe) : Session<Universe>(universe)
 {
 #if NETFRAMEWORK
     /// <summary>
@@ -50,16 +52,10 @@ public sealed partial class Session : Session<Universe>
 #endif
 
     /// <summary>
-    /// Creates a new game session based upon a given <see cref="Universe"/>.
+    /// Used for XML serialization. Do not call manually!
     /// </summary>
-    /// <param name="baseUniverse">The universe to base the new game session on.</param>
-    public Session(Universe baseUniverse) : base(baseUniverse)
-    {}
-
-    /// <summary>
-    /// Base-constructor for XML serialization. Do not call manually!
-    /// </summary>
-    public Session()
+    [UsedImplicitly, Obsolete("Used for XML serialization. Do not call manually!")]
+    public Session() : this(null!)
     {}
 
     /// <summary>

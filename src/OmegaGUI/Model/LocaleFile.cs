@@ -20,7 +20,9 @@
  * THE SOFTWARE.
  */
 
+using System;
 using System.Xml.Serialization;
+using JetBrains.Annotations;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Storage;
@@ -31,7 +33,7 @@ namespace OmegaGUI.Model;
 /// A wrapper around an <see cref="XmlDictionary"/> used to store localized strings.
 /// </summary>
 [XmlRoot("locale")]
-public sealed class LocaleFile
+public sealed class LocaleFile(XmlDictionary entries)
 {
     #region Constants
     /// <summary>
@@ -45,25 +47,17 @@ public sealed class LocaleFile
     /// The collection of entries to be stored.
     /// </summary>
     [XmlElement("entry")]
-    public XmlDictionary Entries { get; }
+    public XmlDictionary Entries { get; } = entries;
     #endregion
 
     #region Constructor
     /// <summary>
-    /// Base-constructor for XML serialization. Do not call manually!
+    /// Used for XML serialization. Do not call manually!
     /// </summary>
-    public LocaleFile()
+    [UsedImplicitly, Obsolete("Used for XML serialization. Do not call manually!")]
+    public LocaleFile() : this([])
     {
         Entries = [];
-    }
-
-    /// <summary>
-    /// Creates a new wrapper for a collection.
-    /// </summary>
-    /// <param name="entries">The collection of entries to be stored.</param>
-    private LocaleFile(XmlDictionary entries)
-    {
-        Entries = entries;
     }
     #endregion
 
