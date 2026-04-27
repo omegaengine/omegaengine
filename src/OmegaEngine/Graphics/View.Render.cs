@@ -10,6 +10,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using OmegaEngine.Graphics.Cameras;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Renderables;
@@ -224,11 +225,10 @@ partial class View
 
         #region Camera
         // If a transition camera has finished, replace it with the final target
-        if (_transitionCamera is { IsComplete: true } && _targetCamera != null)
+        if (Camera is TransitionCamera { IsComplete: true } && _transitionTargetCamera != null)
         {
-            Camera = _targetCamera;
-            _transitionCamera = null;
-            _targetCamera = null;
+            Camera = _transitionTargetCamera;
+            _transitionTargetCamera = null;
         }
 
         // Update transformation matrices

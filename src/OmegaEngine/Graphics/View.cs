@@ -30,18 +30,6 @@ public partial class View : EngineElement, IResetable
     #region Variables
     #region Content
     private readonly bool _disposeScene;
-
-    /// <summary>
-    /// A camera for smooth transitioning to <see cref="_targetCamera"/>
-    /// </summary>
-    /// <remarks>Must be <c>null</c> or equal to <see cref="Camera"/></remarks>
-    private TransitionCamera? _transitionCamera;
-
-    /// <summary>
-    /// A new <see cref="Camera"/> to use after a transition is done
-    /// </summary>
-    /// <remarks>Must be <c>null</c> if <see cref="_transitionCamera"/> is <c>null</c>, will replace <see cref="Camera"/></remarks>
-    private Camera? _targetCamera;
     #endregion
 
     #region Background
@@ -386,6 +374,8 @@ public partial class View : EngineElement, IResetable
     //--------------------//
 
     #region Camera effects
+    private Camera? _transitionTargetCamera;
+
     /// <summary>
     /// Switches from the current camera to a new camera using a transition effect
     /// </summary>
@@ -404,7 +394,7 @@ public partial class View : EngineElement, IResetable
         #endregion
 
         // Create the transitional camera and make it active
-        Camera = _transitionCamera = new(
+        Camera = new TransitionCamera(
             start: Camera,
             end: target,
             options ?? new(Duration: TimeSpan.FromSeconds(1)),
@@ -412,7 +402,7 @@ public partial class View : EngineElement, IResetable
         {
             Name = "Transition to: " + target.Name,
         };
-        _targetCamera = target;
+        _transitionTargetCamera = target;
     }
     #endregion
 
