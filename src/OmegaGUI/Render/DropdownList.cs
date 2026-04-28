@@ -115,8 +115,7 @@ public class DropdownList : Button
         // Update the scroll bars rects too
         scrollbarControl.SetLocation(dropDownRect.Right, dropDownRect.Top + 2);
         scrollbarControl.SetSize(scrollWidth, dropDownRect.Height - 2);
-        FontNode fNode = parentDialog.DialogManager.GetFontNode(
-            (int)(elementList[2]).FontIndex);
+        FontNode fNode = parentDialog.GetFont(elementList[2].FontIndex);
         if (fNode is { Height: > 0 })
         {
             int itemHeight = (int)fNode.Height + ItemVerticalPadding;
@@ -421,7 +420,7 @@ public class DropdownList : Button
         Element e = elementList[DropdownLayer];
 
         // Calculate item height with padding for proper spacing
-        FontNode font = parentDialog.DialogManager.GetFontNode((int)e.FontIndex);
+        FontNode font = parentDialog.GetFont(e.FontIndex);
         int itemHeight = (int)font.Height + ItemVerticalPadding;
 
         // If we have not initialized the scroll bar page size,

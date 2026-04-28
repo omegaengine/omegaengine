@@ -98,7 +98,7 @@ public class ListBox : Control
         // Update the scroll bars rects too
         scrollbarControl.SetLocation(boundingBox.Right - scrollWidth, boundingBox.Top);
         scrollbarControl.SetSize(scrollWidth, height);
-        FontNode fNode = parentDialog.DialogManager.GetFontNode((int)elementList[0].FontIndex);
+        FontNode fNode = parentDialog.GetFont(elementList[0].FontIndex);
         if (fNode is { Height: > 0 })
         {
             scrollbarControl.PageSize = (int)(textRect.Height / fNode.Height);
@@ -497,7 +497,7 @@ public class ListBox : Control
             // Find out the height of a single line of text
             Rectangle rc = textRect;
             Rectangle sel = selectionRect;
-            rc.Height = (int)(parentDialog.DialogManager.GetFontNode((int)e.FontIndex).Height);
+            rc.Height = (int)(parentDialog.GetFont(e.FontIndex).Height);
             textHeight = rc.Height;
 
             // If we have not initialized the scroll bar page size,
