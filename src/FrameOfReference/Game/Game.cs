@@ -111,23 +111,10 @@ public class Game(Settings settings)
     public override void Run()
     {
         MouseInputProvider.Scheme = MouseInputScheme.Planar;
-
-        // Will return after the game has finished (is exiting)
         base.Run();
 
-        // Auto-save session for later resuming
-        if (_currentSession != null && _currentSession.TimeWarpFactor != 0)
-        {
-            try
-            {
-                SaveSavegame("Resume");
-            }
-            catch (IOException ex)
-            {
-                // Only log, don't warn user when auto-save fails
-                Log.Warn($"Failed to save game session to user profile: {ex.Message}");
-            }
-        }
+        // Save before exit
+        SaveSavegame("Resume");
     }
 
     /// <inheritdoc/>
@@ -174,6 +161,8 @@ public class Game(Settings settings)
     [UsedImplicitly]
     public void SwitchToMenu()
     {
+        SaveSavegame("Resume");
+
         // Handle cases where the main menu was bypassed on startup
         if (_menuUniverse == null)
         {
