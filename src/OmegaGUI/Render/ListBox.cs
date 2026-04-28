@@ -25,8 +25,6 @@ public class ListBox : Control
     public const int MainLayer = 0;
     public const int SelectionLayer = 1;
 
-    private const int ItemVerticalPadding = 4;
-
     #region Event code
     public event EventHandler? DoubleClick;
     public event EventHandler? Selection;
@@ -103,8 +101,7 @@ public class ListBox : Control
         FontNode fNode = parentDialog.DialogManager.GetFontNode((int)elementList[0].FontIndex);
         if (fNode is { Height: > 0 })
         {
-            int itemHeight = (int)fNode.Height + ItemVerticalPadding;
-            scrollbarControl.PageSize = textRect.Height / itemHeight;
+            scrollbarControl.PageSize = (int)(textRect.Height / fNode.Height);
 
             // The selected item may have been scrolled off the page.
             // Ensure that it is in page again.
@@ -500,7 +497,7 @@ public class ListBox : Control
             // Find out the height of a single line of text
             Rectangle rc = textRect;
             Rectangle sel = selectionRect;
-            rc.Height = (int)parentDialog.DialogManager.GetFontNode((int)e.FontIndex).Height + ItemVerticalPadding;
+            rc.Height = (int)(parentDialog.DialogManager.GetFontNode((int)e.FontIndex).Height);
             textHeight = rc.Height;
 
             // If we have not initialized the scroll bar page size,
