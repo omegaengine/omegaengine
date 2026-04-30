@@ -101,10 +101,18 @@ public static class TexturedMeshUtils
     {
         using (new TimedLogEvent("Optimized mesh"))
         {
-            const MeshOptimizeFlags flags = MeshOptimizeFlags.VertexCache | MeshOptimizeFlags.AttributeSort;
+            mesh.GenerateAdjacency(epsilon: 0);
 
-            mesh.GenerateAdjacency(0);
-            mesh.OptimizeInPlace(flags);
+            try
+            {
+                mesh.OptimizeInPlace(MeshOptimizeFlags.VertexCache | MeshOptimizeFlags.AttributeSort);
+            }
+            #region Error handling
+            catch (Direct3D9Exception ex)
+            {
+                Log.Warn("Failed to optimize mesh", ex);
+            }
+            #endregion
         }
     }
 
