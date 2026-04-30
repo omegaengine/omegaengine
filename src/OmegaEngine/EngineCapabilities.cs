@@ -55,7 +55,7 @@ public sealed class EngineCapabilities
                 break;
             }
         }
-        catch (ManagementException)
+        catch (Exception)
         {
             Log.Warn("Could not get Hardware-info for CPU");
         }
@@ -76,7 +76,7 @@ public sealed class EngineCapabilities
                 break;
             }
         }
-        catch (ManagementException)
+        catch (Exception)
         {
             Log.Warn("Could not get Hardware-info for RAM");
         }
@@ -99,7 +99,7 @@ public sealed class EngineCapabilities
                 if (_hardware.Gpu.Ram > 0) break;
             }
         }
-        catch (ManagementException)
+        catch (Exception)
         {
             Log.Warn("Could not get Hardware-info for GPU RAM");
         }
