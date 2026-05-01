@@ -18,7 +18,6 @@ namespace OmegaEngine.Graphics.Renderables;
 /// </summary>
 public abstract class Renderable : EngineElement, IResetable
 {
-    #region Variables
     private bool _preRenderDone;
 
     /// <summary>
@@ -36,9 +35,7 @@ public abstract class Renderable : EngineElement, IResetable
             _preRenderDone = true;
         }
     }
-    #endregion
 
-    #region Properties
     /// <summary>
     /// How many times has this entity been rendered in this frame?
     /// </summary>
@@ -46,7 +43,6 @@ public abstract class Renderable : EngineElement, IResetable
     [Description("How many times has this entity been rendered in this frame?"), Category("Appearance")]
     public int RenderCount { get; private set; }
 
-    #region Name
     /// <summary>
     /// Text value to make it easier to identify a particular render entity
     /// </summary>
@@ -60,9 +56,7 @@ public abstract class Renderable : EngineElement, IResetable
             value += $": {Name}";
         return value;
     }
-    #endregion
 
-    #region Flags
     /// <summary>
     /// Shall the entity be rendered?
     /// </summary>
@@ -81,13 +75,7 @@ public abstract class Renderable : EngineElement, IResetable
     /// </summary>
     [DefaultValue(0), Description("The level of transparency from 0 (solid) to 255 (invisible), 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending"), Category("Appearance")]
     public int Alpha { get; set; }
-    #endregion
 
-    #endregion
-
-    //--------------------//
-
-    #region Reset
     /// <summary>
     /// Is to be called at the beginning of a frame.
     /// </summary>
@@ -96,9 +84,7 @@ public abstract class Renderable : EngineElement, IResetable
         _preRenderDone = false;
         RenderCount = 0;
     }
-    #endregion
 
-    #region Render
     /// <summary>
     /// Should be called before rendering anything.
     /// </summary>
@@ -126,5 +112,4 @@ public abstract class Renderable : EngineElement, IResetable
     {
         PrepareRender();
     }
-    #endregion
 }

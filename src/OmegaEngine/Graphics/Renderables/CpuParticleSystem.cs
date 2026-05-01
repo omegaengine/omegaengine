@@ -28,7 +28,6 @@ namespace OmegaEngine.Graphics.Renderables;
 /// </summary>
 public class CpuParticleSystem : PositionableRenderable
 {
-    #region Variables
     private readonly Pool<CpuParticle>
         _firstLifeParticles = new(),
         _secondLifeParticles = new();
@@ -38,9 +37,7 @@ public class CpuParticleSystem : PositionableRenderable
 
     private VertexBuffer? _vb;
     private XMaterial _material1, _material2;
-    #endregion
 
-    #region Properties
     private CpuParticlePreset _preset = new();
 
     /// <summary>
@@ -64,9 +61,7 @@ public class CpuParticleSystem : PositionableRenderable
     /// <remarks>When <c>true</c>, moving the particle system moves all existing particles along with it.</remarks>
     [Description("Controls whether particles are tracked relative to the particle system instead of world space.")]
     public bool LocalSpace { get; set; }
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Creates a new particle system.
     /// </summary>
@@ -78,11 +73,7 @@ public class CpuParticleSystem : PositionableRenderable
         // Make the update function execute once per frame
         PreRender += Update;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Update system
     private bool _firstUpdate = true;
 
     /// <summary>
@@ -116,9 +107,7 @@ public class CpuParticleSystem : PositionableRenderable
         float maxStep = Math.Max(Preset.WarmupTime, 0.2f);
         return (Math.Abs(Engine.LastFrameGameTime) * Preset.Speed).Clamp(0, maxStep);
     }
-    #endregion
 
-    #region Update particles
     private float _newParticlesBuffer;
 
     /// <summary>
@@ -190,9 +179,7 @@ public class CpuParticleSystem : PositionableRenderable
             AddParticle();
         }
     }
-    #endregion
 
-    #region Update particle
     /// <summary>
     /// Updates a specific particle
     /// </summary>
@@ -232,9 +219,7 @@ public class CpuParticleSystem : PositionableRenderable
             particle.Velocity -= particleDirection * suctionFactor * Preset.EmitterSuctionSpeed * elapsedTime;
         }
     }
-    #endregion
 
-    #region Add particle
     /// <summary>
     /// Adds a new particle with random values
     /// </summary>
@@ -302,11 +287,7 @@ public class CpuParticleSystem : PositionableRenderable
         }
         else _firstLifeParticles.Add(new(position, parameters1, parameters2));
     }
-    #endregion
 
-    //--------------------//
-
-    #region Texture helper
     /// <summary>
     /// Loads the textures for the <see cref="CpuParticle"/> sprites
     /// </summary>
@@ -351,9 +332,7 @@ public class CpuParticleSystem : PositionableRenderable
 
         Preset.TexturesDirty = false;
     }
-    #endregion
 
-    #region World transform
     private Vector3 _effectiveGravity;
 
     /// <inheritdoc/>
@@ -365,9 +344,7 @@ public class CpuParticleSystem : PositionableRenderable
 
         base.RecalcWorldTransform();
     }
-    #endregion
 
-    #region Render
     /// <inheritdoc/>
     internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
     {
@@ -428,11 +405,7 @@ public class CpuParticleSystem : PositionableRenderable
         Engine.State.FfpLighting = false;
         Engine.State.Fog = fog;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Engine
     protected override void OnEngineSet()
     {
         base.OnEngineSet();
@@ -450,9 +423,7 @@ public class CpuParticleSystem : PositionableRenderable
         // Load textures for the first time
         UpdateSpriteTextures();
     }
-    #endregion
 
-    #region Dispose
     /// <inheritdoc/>
     protected override void OnDispose()
     {
@@ -468,5 +439,4 @@ public class CpuParticleSystem : PositionableRenderable
             base.OnDispose();
         }
     }
-    #endregion
 }
