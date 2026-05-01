@@ -31,7 +31,7 @@ public partial class CpuParticleSystemEditor : UndoCommandTab
     /// <summary>
     /// The camera used by the presenter
     /// </summary>
-    protected readonly ArcballCamera Camera = new() {MinRadius = 50, MaxRadius = 2000, Radius = 400};
+    protected readonly ArcballCamera Camera = new();
 
     private CpuParticlePreset _preset = null!;
     private CpuParticleSystem _particleSystem = null!;
@@ -97,6 +97,8 @@ public partial class CpuParticleSystemEditor : UndoCommandTab
 
         // Setup scene
         _particleSystem = new() {Preset = _preset};
+        UpdateCameraMinMaxRadius();
+        Camera.Radius = BoundingRadius * 2;
         _scene = new() {Positionables = {_particleSystem}};
         renderPanel.Engine.Views.Add(new(_scene, Camera) {BackgroundColor = Color.Black});
 
@@ -127,8 +129,18 @@ public partial class CpuParticleSystemEditor : UndoCommandTab
 
         // Update the engine particle system configuration
         _particleSystem.Preset = _preset;
+        UpdateCameraMinMaxRadius();
 
         base.OnUpdate();
+    }
+
+    private float BoundingRadius => _particleSystem.BoundingSphere?.Radius ?? 1;
+
+    private void UpdateCameraMinMaxRadius()
+    {
+        Camera.MinRadius = BoundingRadius / 5;
+        Camera.MaxRadius = BoundingRadius * 10;
+        Camera.Radius = Camera.Radius.Clamp(Camera.MinRadius, Camera.MaxRadius);
     }
     #endregion
 
