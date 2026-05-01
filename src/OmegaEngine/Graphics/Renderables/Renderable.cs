@@ -21,11 +21,17 @@ public abstract class Renderable : EngineElement, IFrameResettable
     private bool _preRenderDone;
 
     /// <summary>
-    /// Occurs once per frame before rendering the entity.
-    /// Will not be executed if the entity is excluded by a culling test.
+    /// Triggered once per frame before rendering the entity.
+    /// Will only be triggered once, even if the entity is rendered in multiple views.
+    /// Will not be triggered if the entity is excluded by a culling test.
     /// </summary>
     public event Action? PreRender;
 
+    /// <summary>
+    /// Called once per frame before rendering the entity.
+    /// Will only be called once, even if the entity is rendered in multiple views.
+    /// Will not be called if the entity is excluded by a culling test.
+    /// </summary>
     protected virtual void OnPreRender()
     {
         if (!_preRenderDone && PreRender != null)

@@ -98,6 +98,8 @@ partial class View
             // Filter out bodies that don't belong in this type of view
             if (!IsToRender(body)) continue;
 
+            body.OnPreVisibilityCheck();
+
             // Apply the floating origin here, so sorting will work.
             // We may need to re-apply it later because ChildViews messed with it.
             body.SetFloatingOrigin(Camera);

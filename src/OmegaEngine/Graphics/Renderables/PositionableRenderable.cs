@@ -547,6 +547,19 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
     #region Visiblity check
     /// <summary>
+    /// Triggered before checking the entity for visibility.
+    /// Will be triggered multiple times if the entity is rendered in multiple views.
+    /// </summary>
+    public event Action? PreVisibilityCheck;
+
+    /// <summary>
+    /// Called before checking the entity for visibility.
+    /// Will be called multiple times if the entity is rendered in multiple views.
+    /// </summary>
+    internal void OnPreVisibilityCheck()
+        => PreVisibilityCheck?.Invoke();
+
+    /// <summary>
     /// Checks whether this object is visible at the moment (includes Frustum Culling and other filtering criteria).
     /// </summary>
     /// <param name="camera">The <see cref="Camera"/> used to look the object.</param>
