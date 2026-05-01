@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Hosting | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Hosting | OmegaEngine ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="docs/toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.11.8/doc/hosting.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="hosting">Hosting</h1>
+
+<p>For simple use cases, you initialize the Engine and call the <code>.Render()</code> method yourself. However, for most use-cases you will probably want to use one of the built-in hosting classes.</p>
+<h2 id="renderpanel">RenderPanel</h2>
+<p><a class="xref" href="api/OmegaEngine.RenderPanel.html">RenderPanel</a> is a Windows Forms UserControl that hosts the engine.</p>
+<ul>
+<li><strong>Embeddable</strong> - Can be placed in forms with other controls</li>
+<li><strong>Optional render loop</strong> - Choose between automatic rendering or manual control</li>
+<li><strong>Input system</strong> - Hooks up <a class="xref" href="api/OmegaEngine.Input.html">input providers</a> (mouse, keyboard, etc.)</li>
+</ul>
+<p><strong>Use when:</strong> Integrating 3D rendering into a level editor, model viewer, etc..</p>
+<pre><code class="lang-csharp">// In your Form designer
+var renderPanel = new RenderPanel
+{
+    AutoRender = true,
+    AutoRenderInterval = 33 // ~30 FPS
+};
+this.Controls.Add(renderPanel);
+
+// In your Form_Load method
+renderPanel.Setup();
+var scene = new Scene { /* ... */ };
+var camera = new ArcballCamera();
+renderPanel.Engine.Views.Add(new View(scene, camera));
+renderPanel.AddInputReceiver(camera);
+</code></pre>
+<h2 id="renderhost">RenderHost</h2>
+<p><a class="xref" href="api/OmegaEngine.RenderHost.html">RenderHost</a> is a application host that provides a windowed or fullscreen application.</p>
+<ul>
+<li><strong>Window management</strong> - Creates and manages a render-capable form with fullscreen support</li>
+<li><strong>Render loop</strong> - Handles the main application loop and frame rendering</li>
+<li><strong>Input system</strong> - Hooks up <a class="xref" href="api/OmegaEngine.Input.html">input providers</a> (mouse, keyboard, etc.)</li>
+</ul>
+<p><strong>Use when:</strong> Building a standalone game or application that needs its own window.</p>
+<pre><code class="lang-csharp">public class MyApp : RenderHost(name: &quot;My Application&quot;)
+{
+    protected override bool Initialize()
+    {
+        if (!base.Initialize()) return false;
+
+        var scene = new Scene { /* ... */ };
+        var camera = new ArcballCamera();
+        Engine.Views.Add(new View(scene, camera));
+
+        this.AddInputReceiver(camera);
+
+        return true;
+    }
+}
+
+static class Program
+{
+    static void Main()
+    {
+        using var app = new MyApp();
+        app.Run();
+    }
+}
+</code></pre>
+<h2 id="gamebase">GameBase</h2>
+<p><a class="xref" href="api/AlphaFramework.Presentation.GameBase.html">GameBase</a> extends <code>RenderHost</code> with <a class="xref" href="api/AlphaFramework.html">AlphaFramework</a>-specific features:</p>
+<ul>
+<li><strong>GUI system</strong> - Automatically initializes <a class="xref" href="api/OmegaGUI.html">OmegaGUI</a></li>
+<li><strong>Settings management</strong> - Automatically applies <a class="xref" href="api/AlphaFramework.Presentation.Config.html">settings</a> to the engine and input system when they change</li>
+</ul>
+<p><strong>Use when:</strong> Building a game using AlphaFramework.</p>
+<pre><code class="lang-csharp">public class MyGame(Settings settings) : GameBase(settings, name: &quot;My Application&quot;)
+{
+    protected override bool Initialize()
+    {
+        if (!base.Initialize()) return false;
+
+        var scene = new Scene { /* ... */ };
+        var camera = new ArcballCamera();
+        Engine.Views.Add(new View(scene, camera));
+
+        this.AddInputReceiver(camera);
+
+        LoadDialog(&quot;MainMenu&quot;);
+
+        return true;
+    }
+}
+
+static class Program
+{
+    static void Main()
+    {
+        using var game = new MyGame(Settings.Current);
+        game.Run();
+    }
+}
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.11.8/doc/hosting.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

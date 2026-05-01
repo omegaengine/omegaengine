@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class CpuParticleSystem | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class CpuParticleSystem | OmegaEngine ">
+      
+      <meta name="description" content="A particle system whose particles are tracked by the CPU.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.11.8/apiSpec/new?filename=OmegaEngine_Graphics_Renderables_CpuParticleSystem.md&amp;value=---%0Auid%3A%20OmegaEngine.Graphics.Renderables.CpuParticleSystem%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem">
+
+
+
+  <h1 id="OmegaEngine_Graphics_Renderables_CpuParticleSystem" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem" class="text-break">
+Class CpuParticleSystem  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.11.8/src/OmegaEngine/Graphics/Renderables/CpuParticleSystem.cs/#L29"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Graphics.html">Graphics</a>.<a class="xref" href="OmegaEngine.Graphics.Renderables.html">Renderables</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A particle system whose particles are tracked by the CPU.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class CpuParticleSystem : PositionableRenderable, IDisposable, IPositionable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><a class="xref" href="OmegaEngine.EngineElement.html">EngineElement</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html">Renderable</a></div>
+      <div><a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a></div>
+      <div><span class="xref">CpuParticleSystem</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+      <div><a class="xref" href="OmegaEngine.IPositionable.html">IPositionable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Pickable">PositionableRenderable.Pickable</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_RenderIn">PositionableRenderable.RenderIn</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_SurfaceEffect">PositionableRenderable.SurfaceEffect</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_SurfaceShader">PositionableRenderable.SurfaceShader</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Billboard">PositionableRenderable.Billboard</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_ShadowCaster">PositionableRenderable.ShadowCaster</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_ShadowReceiver">PositionableRenderable.ShadowReceiver</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldTransformDirty">PositionableRenderable.WorldTransformDirty</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_PreTransform">PositionableRenderable.PreTransform</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Scale">PositionableRenderable.Scale</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_SetScale_System_Single_">PositionableRenderable.SetScale(float)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Rotation">PositionableRenderable.Rotation</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Position">PositionableRenderable.Position</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_ForcedPerspectiveDistance">PositionableRenderable.ForcedPerspectiveDistance</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldTransformCached">PositionableRenderable.WorldTransformCached</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldTransformWithoutForcedPerspectiveCached">PositionableRenderable.WorldTransformWithoutForcedPerspectiveCached</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_BoundingSphere">PositionableRenderable.BoundingSphere</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldBoundingSphere">PositionableRenderable.WorldBoundingSphere</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_GetWorldBoundingSphereOrPosition">PositionableRenderable.GetWorldBoundingSphereOrPosition()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_DrawBoundingSphere">PositionableRenderable.DrawBoundingSphere</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_BoundingBox">PositionableRenderable.BoundingBox</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_WorldBoundingBox">PositionableRenderable.WorldBoundingBox</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_DrawBoundingBox">PositionableRenderable.DrawBoundingBox</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_RequiredViews">PositionableRenderable.RequiredViews</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_RenderHelper_System_Action_OmegaEngine_Graphics_XMaterial_OmegaEngine_Graphics_Cameras_Camera_System_Collections_Generic_IReadOnlyList_OmegaEngine_Graphics_LightSources_LightSource__">PositionableRenderable.RenderHelper(Action, XMaterial, Camera, IReadOnlyList&lt;LightSource&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_PreVisibilityCheck">PositionableRenderable.PreVisibilityCheck</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Intersects_SlimDX_Ray_System_Single__">PositionableRenderable.Intersects(Ray, out float)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Intersects_SlimDX_Ray_OmegaEngine_Foundation_Geometry_DoubleVector3__">PositionableRenderable.Intersects(Ray, out DoubleVector3)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_IntersectsBounding_SlimDX_Ray_">PositionableRenderable.IntersectsBounding(Ray)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_PreRender">Renderable.PreRender</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_RenderCount">Renderable.RenderCount</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_Name">Renderable.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_ToString">Renderable.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_Visible">Renderable.Visible</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_Wireframe">Renderable.Wireframe</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_Alpha">Renderable.Alpha</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_PrepareRender">Renderable.PrepareRender()</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_RegisterChild_OmegaEngine_EngineElement_System_Boolean_">EngineElement.RegisterChild(EngineElement, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_UnregisterChild_OmegaEngine_EngineElement_">EngineElement.UnregisterChild(EngineElement)</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_Engine">EngineElement.Engine</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_IsEngineSet">EngineElement.IsEngineSet</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_IsDisposed">EngineElement.IsDisposed</a>
+    </div>
+    <div>
+      <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_Dispose">EngineElement.Dispose()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_Renderables_CpuParticleSystem__ctor_" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.#ctor*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_CpuParticleSystem__ctor" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.#ctor">
+  CpuParticleSystem()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.11.8/src/OmegaEngine/Graphics/Renderables/CpuParticleSystem.cs/#L68"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new particle system.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CpuParticleSystem()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_LocalSpace_" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.LocalSpace*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_LocalSpace" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.LocalSpace">
+  LocalSpace
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.11.8/src/OmegaEngine/Graphics/Renderables/CpuParticleSystem.cs/#L62"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Controls whether particles are tracked relative to the particle system instead of world space.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool LocalSpace { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_LocalSpace_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>When <code>true</code>, moving the particle system moves all existing particles along with it.</p>
+</div>
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_Preset_" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.Preset*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_Preset" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.Preset">
+  Preset
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.11.8/src/OmegaEngine/Graphics/Renderables/CpuParticleSystem.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The configuration of this particle system.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Browsable(false)]
+public required CpuParticlePreset Preset { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.CpuParticlePreset.html">CpuParticlePreset</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_OnDispose_" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.OnDispose*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_OnDispose" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.OnDispose">
+  OnDispose()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.11.8/src/OmegaEngine/Graphics/Renderables/CpuParticleSystem.cs/#L436"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Hook that is called when the object needs to dispose its internal resources.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnDispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_OnEngineSet_" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.OnEngineSet*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_OnEngineSet" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.OnEngineSet">
+  OnEngineSet()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.11.8/src/OmegaEngine/Graphics/Renderables/CpuParticleSystem.cs/#L417"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Hook that is called when <a class="xref" href="OmegaEngine.EngineElement.html#OmegaEngine_EngineElement_Engine">Engine</a> is set for the first time.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnEngineSet()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_OnPreRender_" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.OnPreRender*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_OnPreRender" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.OnPreRender">
+  OnPreRender()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.11.8/src/OmegaEngine/Graphics/Renderables/CpuParticleSystem.cs/#L88"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called once per frame before rendering the entity.
+Will only be called once, even if the entity is rendered in multiple views.
+Will not be called if the entity is excluded by a culling test.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnPreRender()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_RecalcWorldTransform_" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.RecalcWorldTransform*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_RecalcWorldTransform" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.RecalcWorldTransform">
+  RecalcWorldTransform()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.11.8/src/OmegaEngine/Graphics/Renderables/CpuParticleSystem.cs/#L347"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called to generate/update transformation matrices and related values</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void RecalcWorldTransform()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_Reset_" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.Reset*"></a>
+
+  <h3 id="OmegaEngine_Graphics_Renderables_CpuParticleSystem_Reset" data-uid="OmegaEngine.Graphics.Renderables.CpuParticleSystem.Reset">
+  Reset()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.11.8/src/OmegaEngine/Graphics/Renderables/CpuParticleSystem.cs/#L77"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Resets the particle system to its initial state.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Reset()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.11.8/src/OmegaEngine/Graphics/Renderables/CpuParticleSystem.cs/#L29" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

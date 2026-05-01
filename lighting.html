@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Lighting | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Lighting | OmegaEngine ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="docs/toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.11.8/doc/lighting.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="lighting">Lighting</h1>
+
+<p>OmegaEngine uses a realtime lighting system that supports multiple light types and shadowing techniques.</p>
+<h2 id="lighting-model">Lighting model</h2>
+<p>The default surface shader (<a class="xref" href="api/OmegaEngine.Graphics.Shaders.GeneralShader.html">GeneralShader</a>) implements <strong>Blinn-Phong</strong> lighting, which provides:</p>
+<ul>
+<li><strong>Diffuse lighting</strong> - Light scattered equally in all directions from a surface</li>
+<li><strong>Specular highlights</strong> - Bright spots that appear on shiny surfaces</li>
+<li><strong>Ambient lighting</strong> - Base illumination level to prevent completely dark areas</li>
+<li><strong>Emissive lighting</strong> - Light emitted by surfaces without any light source shining on them (not itself treated as a light source illuminating other surfaces)</li>
+</ul>
+<p>See <a class="xref" href="api/OmegaEngine.Graphics.LightSources.html">OmegaEngine.Graphics.LightSources</a> for details on the types of light sources.</p>
+<h2 id="shadowing">Shadowing</h2>
+<p>OmegaEngine supports two distinct shadow casting methods for different purposes.</p>
+<h3 id="bounding-sphere-shadows">Bounding sphere shadows</h3>
+<p><a class="xref" href="api/OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a>s can cast realtime shadows on each other using a simple bounding sphere approximation. This provides easy shadowing with low performance impact, but with low fidelity: when an object is only partially within a shadow, it gets darkened in its entirety, rather than showing a shadow &quot;line&quot; across its surface.</p>
+<p>This technique:</p>
+<ul>
+<li>projects cones starting at light sources and passing through shadow casters, matching their bounding sphere's radius</li>
+<li>tests whether shadow receivers are partially, fully or not at all within those cones</li>
+</ul>
+<p>Each <a class="xref" href="api/OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a> can be a shadow caster, a shadow receiver, both or neither.</p>
+<h3 id="terrain-self-shadowing">Terrain self-shadowing</h3>
+<p>Terrain rendering supports high-fidelity self-shadowing using pre-calculated occlusion interval maps (see <a class="xref" href="api/AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_OcclusionIntervalMap">OcclusionIntervalMap</a>).</p>
+<p>This technique:</p>
+<ul>
+<li>calculates which angles each terrain point is visible from</li>
+<li>stores the data in occlusion interval maps</li>
+<li>uses this data during rendering to determine if terrain points are in shadow</li>
+<li>provides accurate terrain shadows without real-time calculations</li>
+</ul>
+<p>See <a href="terrain.html#shadowing">Terrain</a> for more details on terrain shadowing.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.11.8/doc/lighting.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

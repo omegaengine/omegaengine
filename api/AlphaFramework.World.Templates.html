@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace AlphaFramework.World.Templates | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace AlphaFramework.World.Templates | OmegaEngine ">
+      
+      <meta name="description" content="Template system for building reusable/instantiable entities out of .">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.11.8/src/AlphaFramework/World/Templates/_Namespace.md/#L2">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="AlphaFramework.World.Templates">
+
+  <h1 id="AlphaFramework_World_Templates" data-uid="AlphaFramework.World.Templates" class="text-break">Namespace AlphaFramework.World.Templates</h1>
+  <div class="markdown level0 summary"><p>Template system for building reusable/instantiable entities out of <a class="xref" href="AlphaFramework.World.Components.html">AlphaFramework.World.Components</a>.</p>
+</div>
+  <div class="markdown level0 conceptual">
+<p>A template is created once (typically loaded from XML) and can be referenced by name from many entity instances throughout your game world.</p>
+<h2 id="template-types">Template types</h2>
+<p>AlphaFramework provides two main template base classes:</p>
+<ul>
+<li><strong><a class="xref" href="AlphaFramework.World.Templates.EntityTemplateBase-1.html">EntityTemplateBase&lt;TSelf&gt;</a></strong> - Templates for game entities (characters, objects, vehicles, etc.). Contains a collection of <a class="xref" href="AlphaFramework.World.Templates.EntityTemplateBase-1.html#AlphaFramework_World_Templates_EntityTemplateBase_1_Render">Render</a> components and an optional <a class="xref" href="AlphaFramework.World.Components.Movement.html">Movement</a> component.</li>
+<li><strong><a class="xref" href="AlphaFramework.World.Templates.TerrainTemplateBase-1.html">TerrainTemplateBase&lt;TSelf&gt;</a></strong> - Templates for terrain types. Defines the texture and traversal properties for terrain tiles. See <a class="xref" href="AlphaFramework.World.Terrains.html">AlphaFramework.World.Terrains</a> for details on the terrain system.</li>
+</ul>
+<h2 id="extending-templates">Extending templates</h2>
+<p>Derive from <a class="xref" href="AlphaFramework.World.Templates.EntityTemplateBase-1.html">EntityTemplateBase&lt;TSelf&gt;</a> using the self-referential generic pattern to create your own template type. Add any game-specific properties (e.g. collision shapes, hitpoints) alongside the inherited rendering and movement data:</p>
+<pre><code class="lang-csharp">public class EntityTemplate : EntityTemplateBase&lt;EntityTemplate&gt;
+{
+    [XmlElement(typeof(Circle)), XmlElement(typeof(Box))]
+    public Collision&lt;Vector2&gt;? Collision { get; set; }
+}
+</code></pre>
+<p>For more specialized hierarchies you can also derive directly from <a class="xref" href="AlphaFramework.World.Templates.Template-1.html">Template&lt;TSelf&gt;</a> and compose your own component collections instead of using the built-in <code>Render</code> list.</p>
+<h2 id="render-components">Render components</h2>
+<p><code>EntityTemplateBase&lt;T&gt;.Render</code> is a polymorphic list of <a class="xref" href="AlphaFramework.World.Components.Render.html">Render</a> instances that describe how the entity looks:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="xref" href="AlphaFramework.World.Components.StaticMesh.html">StaticMesh</a></td>
+<td>A rigid mesh loaded from an <code>.x</code> file</td>
+</tr>
+<tr>
+<td><a class="xref" href="AlphaFramework.World.Components.AnimatedMesh.html">AnimatedMesh</a></td>
+<td>A skinned/animated mesh loaded from an <code>.x</code> file</td>
+</tr>
+<tr>
+<td><a class="xref" href="AlphaFramework.World.Components.TestSphere.html">TestSphere</a></td>
+<td>A procedurally generated sphere, useful for prototyping</td>
+</tr>
+<tr>
+<td><a class="xref" href="AlphaFramework.World.Components.CpuParticleSystem.html">CpuParticleSystem</a></td>
+<td>A CPU-driven particle effect loaded from an XML preset file</td>
+</tr>
+<tr>
+<td><a class="xref" href="AlphaFramework.World.Components.LightSource.html">LightSource</a></td>
+<td>A point light with colour and distance attenuation</td>
+</tr>
+</tbody>
+</table>
+<p>All render components support a <code>Shift</code> offset relative to the entity origin. <a class="xref" href="AlphaFramework.World.Components.Mesh.html">Mesh</a>-based components additionally support <code>Scale</code>, per-axis rotation, <code>Alpha</code> and <code>ShadowCaster</code>/<code>ShadowReceiver</code> flags.</p>
+<h2 id="creating-a-template-in-code">Creating a template in code</h2>
+<pre><code class="lang-csharp">var guardTemplate = new EntityTemplate
+{
+    Name = &quot;Guard&quot;,
+    Render =
+    {
+        new StaticMesh { Filename = &quot;Guard.x&quot;, Scale = 0.5f },
+        new LightSource { Color = Color.White, Attenuation = new Attenuation(1, 0, 0) }
+    },
+    Collision = new Circle { Radius = 0.5f }
+};
+</code></pre>
+<h2 id="storage">Storage</h2>
+<p>Templates are stored in and loaded from XML files. By convention each template type is stored in a file named after the class with an <code>s</code> suffix, e.g. <code>EntityTemplates.xml</code>.</p>
+<p><a class="xref" href="AlphaFramework.World.Templates.Template-1.html#AlphaFramework_World_Templates_Template_1_LoadAll">LoadAll()</a> populates the static <a class="xref" href="AlphaFramework.World.Templates.Template-1.html#AlphaFramework_World_Templates_Template_1_All">All</a> collection:</p>
+<pre><code class="lang-csharp">EntityTemplate.LoadAll(); // reads EntityTemplates.xml
+var guard = EntityTemplate.All[&quot;Guard&quot;];
+</code></pre>
+<h2 id="binding-templates-to-entities">Binding templates to entities</h2>
+<p>Entities reference their template by name via <code>TemplateName</code>. Assigning this property looks up the template in <a class="xref" href="AlphaFramework.World.Templates.Template-1.html#AlphaFramework_World_Templates_Template_1_All">All</a> and <strong>deep-clones</strong> it into <code>TemplateData</code>, so each entity owns an independent copy that can be modified at runtime without affecting other instances:</p>
+<pre><code class="lang-csharp">var entity = new Entity&lt;EntityTemplate&gt;
+{
+    TemplateName = &quot;Guard&quot;, // clones the template into TemplateData
+    Position = new Vector2(10, 5)
+};
+
+// Access the cloned template data at runtime
+float radius = entity.TemplateData?.Collision is Circle c ? c.Radius : 0f;
+</code></pre>
+<p>In savegame files <code>TemplateData</code> is serialized directly (overriding the map-file template reference on load), which allows per-entity customization to persist across sessions.</p>
+<h2 id="rendering-bridge">Rendering bridge</h2>
+<p><a class="xref" href="AlphaFramework.Presentation.html">AlphaFramework.Presentation</a> provides extension methods that convert the data-side render components into live OmegaEngine renderables.</p>
+<h2 id="api">API</h2>
+</div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Templates.EntityTemplateBase-1.html">EntityTemplateBase&lt;TSelf&gt;</a></dt>
+      <dd><p>A common base for entity templates (collection of components used as a prototype for constructing new entities). Defines the behavior and look for a certain class of <a class="xref" href="AlphaFramework.World.Positionables.EntityBase-2.html">EntityBase&lt;TCoordinates, TTemplate&gt;</a>.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Templates.Template-1.html">Template&lt;TSelf&gt;</a></dt>
+      <dd><p>A set of data used as a prototype for constructing new objects at runtime.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Templates.TerrainTemplateBase-1.html">TerrainTemplateBase&lt;TSelf&gt;</a></dt>
+      <dd><p>A common base for terrain templates. Defines the texture for a patch of terrain.</p>
+</dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.11.8/src/AlphaFramework/World/Templates/_Namespace.md/#L2" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

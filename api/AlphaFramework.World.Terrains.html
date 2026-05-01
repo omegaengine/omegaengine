@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace AlphaFramework.World.Terrains | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace AlphaFramework.World.Terrains | OmegaEngine ">
+      
+      <meta name="description" content="AlphaFramework provides tools for generating, editing, and storing data for .">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.11.8/src/AlphaFramework/World/Terrains/_Namespace.md/#L2">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="AlphaFramework.World.Terrains">
+
+  <h1 id="AlphaFramework_World_Terrains" data-uid="AlphaFramework.World.Terrains" class="text-break">Namespace AlphaFramework.World.Terrains</h1>
+  <div class="markdown level0 summary"><p>AlphaFramework provides tools for generating, editing, and storing data for <a class="xref" href="OmegaEngine.Graphics.Renderables.Terrain.html">Terrain</a>.</p>
+</div>
+  <div class="markdown level0 conceptual">
+<p>AlphaFramework's terrain system stores terrain data in a serializable format using <a class="xref" href="AlphaFramework.World.Terrains.Terrain-1.html">Terrain&lt;TTemplate&gt;</a>. This allows terrain to be saved, loaded, and edited without requiring the rendering engine.</p>
+<h2 id="terrain-data-structure">Terrain Data Structure</h2>
+<p>The terrain system uses several components:</p>
+<ul>
+<li><strong><a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_HeightMap">HeightMap</a></strong> - A 2D grid of elevation values (0-255), one sample per terrain grid point</li>
+<li><strong><a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_TextureMap">TextureMap</a></strong> - Indices into the template array (0-15), at 1/3 the resolution of the height map</li>
+<li><strong><a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html#AlphaFramework_World_Terrains_ITerrain_OcclusionIntervalMap">OcclusionIntervalMap</a></strong> - Pre-calculated self-shadowing data</li>
+<li>Array of <strong><a class="xref" href="AlphaFramework.World.Templates.TerrainTemplateBase-1.html">TerrainTemplateBase&lt;TSelf&gt;</a></strong> - Objects that map texture indices to actual texture file paths</li>
+</ul>
+<pre><code class="lang-mermaid">graph TD
+    Terrain[Terrain&lt;TTemplate&gt;] --&gt; HeightMap[Height Map&lt;br/&gt;ByteGrid]
+    Terrain --&gt; TextureMap[Texture Map&lt;br/&gt;NibbleGrid, 1/3 resolution]
+    Terrain --&gt; OcclusionMap[Occlusion Interval Map&lt;br/&gt;ByteVector4Grid]
+    Terrain --&gt; Templates[Templates Array]
+    Templates --&gt; Template1[Template 0: Grass]
+    Templates --&gt; Template2[Template 1: Rock]
+    Templates --&gt; Template3[Template 2: Sand]
+    TextureMap -.references.-&gt; Templates
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> Terrain dimensions (<code>TerrainSize.X</code> and <code>TerrainSize.Y</code>) must be multiples of 3, because the texture map resolution is exactly 1/3 of the height map resolution.</p>
+</blockquote>
+<h2 id="terrain-templates">Terrain Templates</h2>
+<p>Derive from <code>TerrainTemplateBase&lt;&gt;</code> to create your own terrain template type that maps texture indices to actual texture resources:</p>
+<pre><code class="lang-csharp">public class TerrainTemplate : TerrainTemplateBase&lt;TerrainTemplate&gt;
+{
+    /// &lt;summary&gt;The texture to use for this terrain type&lt;/summary&gt;
+    public string Texture { get; set; }
+
+    // Add additional properties as needed for your game
+}
+</code></pre>
+<p>Templates associate texture indices in the texture map with actual texture files. Each template can define:</p>
+<ul>
+<li>Texture file path</li>
+<li>Display name</li>
+<li>Additional properties specific to your terrain type</li>
+</ul>
+<h2 id="converting-to-renderable">Converting to Renderable</h2>
+<p>Use the <a class="xref" href="AlphaFramework.Presentation.TerrainExtensions.html#AlphaFramework_Presentation_TerrainExtensions_ToRenderable__1_AlphaFramework_World_Terrains_Terrain___0__OmegaEngine_Engine_System_Boolean_System_Int32_">ToRenderable&lt;TTemplate&gt;(Terrain&lt;TTemplate&gt;, Engine, bool, int)</a> extension method to convert terrain data to a renderable format:</p>
+<pre><code class="lang-csharp">// Load terrain data
+var terrain = new Terrain&lt;TerrainTemplate&gt;(size: new(x: 300, y: 300, stretchH: 2.5f, stretchV: 0.5f));
+terrain.LoadHeightMap(&quot;Maps/heightmap.dat&quot;);
+terrain.LoadTextureMap(&quot;Maps/texturemap.dat&quot;);
+
+// Define texture templates (up to 16)
+terrain.Templates[0] = new() { Name = &quot;Grass&quot;, Texture = &quot;grass.png&quot; };
+terrain.Templates[1] = new() { Name = &quot;Rock&quot;, Texture = &quot;rock.png&quot; };
+
+// Convert to renderable for OmegaEngine
+var renderable = terrain.ToRenderable(engine, lighting: true);
+scene.Positionables.Add(renderable);
+</code></pre>
+<h2 id="api">API</h2>
+</div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Terrains.OcclusionIntervalMapGenerator.html">OcclusionIntervalMapGenerator</a></dt>
+      <dd><p>Generates an occlusion interval map from a height map for a <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html">ITerrain</a> as a background task.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Terrains.Terrain-1.html">Terrain&lt;TTemplate&gt;</a></dt>
+      <dd><p>This class contains a height-map-based Terrain including texturing and pathfinding data.</p>
+</dd>
+    </dl>
+    <h3 id="structs">
+Structs
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Terrains.TerrainBrush.html">TerrainBrush</a></dt>
+      <dd><p>Describes a square or circle terrain area that is to be modified.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Terrains.TerrainSize.html">TerrainSize</a></dt>
+      <dd><p>Contains information about the size of a <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html">ITerrain</a>.</p>
+</dd>
+    </dl>
+    <h3 id="interfaces">
+Interfaces
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html">ITerrain</a></dt>
+      <dd><p>A common base for all <a class="xref" href="AlphaFramework.World.Terrains.ITerrain.html">ITerrain</a> types.</p>
+</dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.11.8/src/AlphaFramework/World/Terrains/_Namespace.md/#L2" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
