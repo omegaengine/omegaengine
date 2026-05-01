@@ -337,9 +337,9 @@ public class CpuParticleSystem : PositionableRenderable
     {
         if (!WorldTransformDirty) return;
 
-        _effectiveGravity = Vector3.TransformNormal(Preset.Gravity, WorldTransformCached);
-
         base.RecalcWorldTransform();
+
+        _effectiveGravity = Vector3.TransformNormal(Preset.Gravity, WorldTransformCached);
     }
 
     /// <inheritdoc/>
