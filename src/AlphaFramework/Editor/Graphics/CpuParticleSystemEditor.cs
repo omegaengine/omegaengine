@@ -13,18 +13,26 @@ using System.Windows.Forms;
 using NanoByte.Common;
 using NanoByte.Common.Storage;
 using NanoByte.Common.Undo;
+using OmegaEngine;
 using OmegaEngine.Graphics;
+using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Foundation.Storage;
+using OmegaEngine.Input;
 
 namespace AlphaFramework.Editor.Graphics;
 
 /// <summary>
 /// Allows a user to tweak the parameters for a <see cref="CpuParticleSystem"/>
 /// </summary>
-public partial class CpuParticleSystemEditor : ParticleSystemEditor
+public partial class CpuParticleSystemEditor : UndoCommandTab
 {
     #region Variables
+    /// <summary>
+    /// The camera used by the presenter
+    /// </summary>
+    protected readonly ArcballCamera Camera = new() {MinRadius = 50, MaxRadius = 2000, Radius = 400};
+
     private CpuParticlePreset _preset = null!;
     private CpuParticleSystem _particleSystem = null!;
     private Scene _scene = null!;
@@ -46,6 +54,15 @@ public partial class CpuParticleSystemEditor : ParticleSystemEditor
     #endregion
 
     //--------------------//
+
+    #region Render control
+    private void timerRender_Tick(object sender, EventArgs e)
+    {
+        timerRender.Enabled = false; // Prevent multiple ticks from accumulating
+        if (Visible) renderPanel.Engine?.Render();
+        timerRender.Enabled = true;
+    }
+    #endregion
 
     #region Handlers
     /// <inheritdoc/>
@@ -83,7 +100,8 @@ public partial class CpuParticleSystemEditor : ParticleSystemEditor
         _scene = new() {Positionables = {_particleSystem}};
         renderPanel.Engine.Views.Add(new(_scene, Camera) {BackgroundColor = Color.Black});
 
-        base.OnInitialize();
+        renderPanel.AddInputReceiver(Camera);
+        renderPanel.AddInputReceiver(new ActionReceiver(() => renderPanel.Engine?.Render()));
     }
 
     /// <inheritdoc/>

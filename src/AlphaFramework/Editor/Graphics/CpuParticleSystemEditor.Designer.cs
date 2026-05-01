@@ -30,6 +30,9 @@ namespace AlphaFramework.Editor.Graphics
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.renderPanel = new OmegaEngine.RenderPanel();
+            this.timerRender = new System.Windows.Forms.Timer(this.components);
             this.propertyGridUpper2 = new System.Windows.Forms.PropertyGrid();
             this.propertyGridLower2 = new System.Windows.Forms.PropertyGrid();
             this.labelGridUpper2 = new System.Windows.Forms.Label();
@@ -45,8 +48,19 @@ namespace AlphaFramework.Editor.Graphics
             // 
             // renderPanel
             // 
+            this.renderPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.renderPanel.Location = new System.Drawing.Point(200, 0);
+            this.renderPanel.Name = "panelRender";
+            this.renderPanel.Size = new System.Drawing.Size(318, 538);
             this.renderPanel.TabIndex = 10;
-            // 
+            //
+            // timerRender
+            //
+            this.timerRender.Enabled = true;
+            this.timerRender.Interval = 33;
+            this.timerRender.Tick += new System.EventHandler(this.timerRender_Tick);
             // propertyGridUpper2
             // 
             this.propertyGridUpper2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -166,6 +180,7 @@ namespace AlphaFramework.Editor.Graphics
             // 
             // CpuParticleSystemEditor
             // 
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.propertyGridUpper1);
             this.Controls.Add(this.propertyGridLower1);
@@ -177,6 +192,7 @@ namespace AlphaFramework.Editor.Graphics
             this.Controls.Add(this.propertyGridLower2);
             this.Controls.Add(this.labelGridUpper2);
             this.Controls.Add(this.labelLower2);
+            this.Controls.Add(this.renderPanel);
             this.Name = "CpuParticleSystemEditor";
             this.NameUI = "CPU Particle System Editor";
             this.Size = new System.Drawing.Size(718, 538);
@@ -199,6 +215,8 @@ namespace AlphaFramework.Editor.Graphics
 
         #endregion
 
+        protected OmegaEngine.RenderPanel renderPanel;
+        private System.Windows.Forms.Timer timerRender;
         private System.Windows.Forms.PropertyGrid propertyGridUpper2;
         private System.Windows.Forms.PropertyGrid propertyGridLower2;
         private System.Windows.Forms.Label labelGridUpper2;
