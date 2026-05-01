@@ -266,7 +266,7 @@ partial class Engine
         #endregion
 
         // Handle pending resets
-        foreach (var resetable in _pendingReset) resetable.Reset();
+        foreach (var resettable in _pendingReset) resettable.FrameReset();
         _pendingReset.Clear();
 
         // Raise PreRender event only if this is a normal render run

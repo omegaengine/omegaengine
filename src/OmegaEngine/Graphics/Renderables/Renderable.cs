@@ -16,7 +16,7 @@ namespace OmegaEngine.Graphics.Renderables;
 /// <summary>
 /// An object that can be <see cref="Render"/>ed by the <see cref="Engine"/>.
 /// </summary>
-public abstract class Renderable : EngineElement, IResetable
+public abstract class Renderable : EngineElement, IFrameResettable
 {
     private bool _preRenderDone;
 
@@ -76,10 +76,8 @@ public abstract class Renderable : EngineElement, IResetable
     [DefaultValue(0), Description("The level of transparency from 0 (solid) to 255 (invisible), 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending"), Category("Appearance")]
     public int Alpha { get; set; }
 
-    /// <summary>
-    /// Is to be called at the beginning of a frame.
-    /// </summary>
-    void IResetable.Reset()
+    /// <inheritdoc/>
+    void IFrameResettable.FrameReset()
     {
         _preRenderDone = false;
         RenderCount = 0;
@@ -97,7 +95,7 @@ public abstract class Renderable : EngineElement, IResetable
         OnPreRender();
 
         RenderCount++; // Culling-debug information
-        Engine.QueueReset(this);
+        Engine.QueueFrameReset(this);
 
         Engine.State.FillMode = Wireframe ? FillMode.Wireframe : FillMode.Solid;
         Engine.State.AlphaBlend = Alpha;

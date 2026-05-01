@@ -221,7 +221,7 @@ partial class View
 
         // Culling-debug information
         RenderedInLastFrame = true;
-        Engine.QueueReset(this);
+        Engine.QueueFrameReset(this);
 
         #region Camera
         // If a transition camera has finished, replace it with the final target

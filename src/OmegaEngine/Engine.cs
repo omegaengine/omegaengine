@@ -23,16 +23,6 @@ using SlimDX.Direct3D9;
 
 namespace OmegaEngine;
 
-#region Interfaces
-internal interface IResetable
-{
-    /// <summary>
-    /// Is to be called at the beginning of a frame.
-    /// </summary>
-    void Reset();
-}
-#endregion
-
 /// <summary>
 /// Provides central control for 3D rendering, sound management, asset caching, etc.
 /// </summary>
@@ -206,13 +196,12 @@ public sealed partial class Engine : EngineElement
     //--------------------//
 
     #region Reset queue
-    private readonly HashSet<IResetable> _pendingReset = new();
+    private readonly HashSet<IFrameResettable> _pendingReset = new();
 
     /// <summary>
     /// Queues an object for resetting at the beginning of the next frame.
     /// </summary>
-    /// <param name="resetable">The entity to be reset.</param>
-    internal void QueueReset(IResetable resetable) => _pendingReset.Add(resetable);
+    internal void QueueFrameReset(IFrameResettable frameResettable) => _pendingReset.Add(frameResettable);
     #endregion
 
     //--------------------//
