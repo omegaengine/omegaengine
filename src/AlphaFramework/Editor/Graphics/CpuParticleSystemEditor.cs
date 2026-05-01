@@ -127,13 +127,7 @@ public partial class CpuParticleSystemEditor : ParticleSystemEditor
     #region Reset
     private void buttonReset_Click(object sender, EventArgs e)
     {
-        // Remove the old particle system...
-        _scene.Positionables.Remove(_particleSystem);
-        _particleSystem.Dispose();
-
-        // ... and replace it with a new one using the same _preset
-        _particleSystem = new() {Preset = _preset};
-        _scene.Positionables.Add(_particleSystem);
+        _particleSystem.Reset();
     }
     #endregion
 }

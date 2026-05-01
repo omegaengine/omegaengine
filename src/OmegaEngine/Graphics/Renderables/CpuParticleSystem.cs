@@ -71,7 +71,18 @@ public class CpuParticleSystem : PositionableRenderable
         RenderIn = ViewType.NormalOnly;
     }
 
-    private bool _firstUpdate = true;
+    /// <summary>
+    /// Resets the particle system to its initial state.
+    /// </summary>
+    public void Reset()
+    {
+        _firstLifeParticles.RemoveAll(_deadParticles.Push);
+        _secondLifeParticles.RemoveAll(_deadParticles.Push);
+        _newParticlesBuffer = 0;
+        _warmedUp = false;
+    }
+
+    private bool _warmedUp;
 
     /// <inheritdoc />
     protected override void OnPreRender()
@@ -95,9 +106,9 @@ public class CpuParticleSystem : PositionableRenderable
 
     private double GetElapsedTime()
     {
-        if (_firstUpdate)
-        { // Fast forward the elapsed time for the first render
-            _firstUpdate = false;
+        if (!_warmedUp)
+        {
+            _warmedUp = true;
             return Preset.WarmupTime;
         }
 
