@@ -69,18 +69,15 @@ public class CpuParticleSystem : PositionableRenderable
     {
         Pickable = false;
         RenderIn = ViewType.NormalOnly;
-
-        // Make the update function execute once per frame
-        PreRender += Update;
     }
 
     private bool _firstUpdate = true;
 
-    /// <summary>
-    /// Updates the particle system
-    /// </summary>
-    private void Update()
+    /// <inheritdoc />
+    protected override void OnPreRender()
     {
+        base.OnPreRender();
+
         double elapsedTime = GetElapsedTime();
 
         using (new ProfilerEvent("Update particles"))
