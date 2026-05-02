@@ -145,7 +145,7 @@ public record CpuParticlePreset
     [Category("Render"), Description("The level of transparency from 0 (solid) to 255 (invisible), 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending")]
     public int Particle1Alpha { get; init; } = EngineState.AdditivBlending; // Default value not part of serialization contract
 
-    private string? _particleTexture2;
+    private string _particleTexture2 = "";
 
     /// <summary>
     /// The ID of the texture to place on the particles during their "second life"
