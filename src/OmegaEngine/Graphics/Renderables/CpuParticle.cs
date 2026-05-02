@@ -109,6 +109,7 @@ internal class CpuParticle : IPoolable<CpuParticle>, IPositionable
             if (Parameters2.LifeTime <= 0)
             { // Handle dead particles
                 Alive = false;
+                return;
             }
         }
         else if (Parameters1.LifeTime != CpuParticleParameters.InfiniteFlag)
