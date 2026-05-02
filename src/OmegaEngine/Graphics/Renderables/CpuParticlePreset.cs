@@ -168,10 +168,10 @@ public record CpuParticlePreset
         // If any of the four values is set to infinite...
         if (LowerParameters1.LifeTime == CpuParticleParameters.InfiniteFlag || UpperParameters1.LifeTime == CpuParticleParameters.InfiniteFlag ||
             LowerParameters2.LifeTime == CpuParticleParameters.InfiniteFlag || UpperParameters2.LifeTime == CpuParticleParameters.InfiniteFlag)
-        { // ... use rather wild approximation
-            float maxDistance = RandomAcceleration * EmitterRepelRange * EmitterRepelSpeed / 10;
+        { // ... use a generous approximation: spawn area + repel range + 1s of random acceleration
+            float maxDistance = SpawnRadius + EmitterRepelRange + RandomAcceleration;
 
-            return new(center: new(), radius: maxDistance / 2);
+            return new(center: new(), radius: Math.Max(maxDistance, 1));
         }
         else
         { // ... otherwise sum up the maximums
