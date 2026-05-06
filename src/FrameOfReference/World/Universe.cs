@@ -36,14 +36,21 @@ using SlimDX;
 namespace FrameOfReference.World;
 
 /// <summary>
-/// Represents a world with a height-map based <see cref="Terrain"/>.
+/// Contents of a game world. Corresponds to a map file.
 /// </summary>
-/// <param name="terrain">The terrain for the new <see cref="Universe"/>.</param>
-public sealed partial class Universe(Terrain<TerrainTemplate> terrain) : CoordinateUniverse<Vector2>
+public sealed partial class Universe : CoordinateUniverse<Vector2>
 {
+    /// <summary>
+    /// Creates a new game world.
+    /// </summary>
+    /// <param name="terrain">The terrain for the game world.</param>
+    public Universe(Terrain<TerrainTemplate> terrain)
+    {
+        TerrainSerialize = terrain;
+    }
+
     /// <inheritdoc/>
     [Browsable(false)]
-    // Note: Can not use ICollection<T> interface with XML Serialization
     [XmlElement(typeof(Entity)), XmlElement(typeof(Water)),
      XmlElement(typeof(Waypoint)), XmlElement(typeof(Trigger)),
      XmlElement(typeof(CameraState<Vector2>), ElementName = "CameraState"), XmlElement(typeof(BenchmarkPoint<Vector2>), ElementName = "BenchmarkPoint")]

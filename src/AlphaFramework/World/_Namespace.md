@@ -7,12 +7,15 @@ summary: Provides a basis for building engine-agnostic models of game worlds.
 
 ## Universe
 
-The **Universe** (see <xref:AlphaFramework.World.UniverseBase>) represents the game world data. It contains:
+A **Universe** represents the game world data. It can contain:
 
-- **Entities and objects** - All game objects, their properties, and relationships
-- **Terrain data** - Heightmaps, textures, and world geometry
+- **Entities**: Game objects, their properties, and relationships
+- **Terrain data**: Heightmaps, textures, world geometry
+- Any other data that is relevant to the game
 
-The Universe is typically serialized to/from files as level or map data. It is designed to be presentation-agnostic and can be edited without running the game.
+A Universe is typically serialized to/from files as level or map data. It is designed to be presentation-agnostic and can be edited without running the game.
+
+Derive from <xref:AlphaFramework.World.UniverseBase> to define your own Universe type:
 
 ```csharp
 public class Universe : UniverseBase
@@ -33,22 +36,27 @@ public class Universe : UniverseBase
 
 ## Session
 
-A **Session** (see <xref:AlphaFramework.World.Session`1>) represents a game being played. It wraps a Universe and adds:
+A **Session** represents a game being played. Sessions are serializable as savegames.
 
-- **Dynamic state** - Entity states that change during gameplay
-- **Runtime data** - Player progress, inventory, quest states
-- **Temporal information** - Game time, event history
+You can use the generic <xref:AlphaFramework.World.Session`1> class to create sessions that simply wrap a Universe.
 
-Sessions are serializable as savegames.
+Or you can derive from the type to extend it with your own properties for things like player progress, inventory, or quest states:
 
 ```csharp
-public class Session(Universe universe) : Session<Universe>(universe)
+public class Session : Session<Universe>
 {
+    /// <summary>
+    /// Creates a new game session.
+    /// </summary>
+    /// <param name="universe">Contents of the game world.</param>
+    public Session(Universe universe) : base(universe)
+    {}
+
     /// <summary>
     /// Used for XML serialization. Do not call manually!
     /// </summary>
     [UsedImplicitly, Obsolete("Used for XML serialization. Do not call manually!")]
-    public Session() : this(null!)
+    public Session()
     {}
 
     // Serializable properties describing game state here

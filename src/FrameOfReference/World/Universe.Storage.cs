@@ -42,8 +42,10 @@ partial class Universe
     /// Used for XML serialization. Do not call manually!
     /// </summary>
     [UsedImplicitly, Obsolete("Used for XML serialization. Do not call manually!")]
-    public Universe() : this(null!)
-    {}
+    public Universe()
+    {
+        TerrainSerialize = null!;
+    }
 
     /// <summary>
     /// Loads a <see cref="Universe"/> from a compressed XML file (map file).
@@ -78,7 +80,7 @@ partial class Universe
 
     /// <summary>Used for XML serialization.</summary>
     [XmlElement("Terrain"), LuaHide, Browsable(false)]
-    public Terrain<TerrainTemplate> TerrainSerialize { get; set; } = terrain;
+    public Terrain<TerrainTemplate> TerrainSerialize { get; set; }
 
     /// <summary>
     /// Performs the deferred loading of <see cref="Terrain"/> data.

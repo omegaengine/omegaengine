@@ -18,30 +18,40 @@ using OmegaEngine.Foundation.Storage;
 namespace AlphaFramework.World;
 
 /// <summary>
-/// A common base for game sessions (i.e. a game actually being played).
+/// State of a game session. Corresponds to a savegame.
 /// </summary>
 /// <typeparam name="TUniverse">The specific type of <see cref="IUniverse"/> stored in the session.</typeparam>
-/// <param name="universe">The state of the game world.</param>
-public class Session<TUniverse>(TUniverse universe)
-    where TUniverse : class, IUniverse
+public class Session<TUniverse> where TUniverse : class, IUniverse
 {
     /// <summary>
-    /// The state of the game world.
+    /// Contents of the game world.
     /// </summary>
     [LuaHide]
-    public TUniverse Universe { get; set; } = universe;
+    public TUniverse Universe { get; set; }
 
     /// <summary>
     /// The filename of the map file the <see cref="Universe"/> was loaded from.
     /// </summary>
-    public string? MapSourceFile { get; set; } = universe.SourceFile;
+    public string? MapSourceFile { get; set; }
+
+    /// <summary>
+    /// Creates a new game session.
+    /// </summary>
+    /// <param name="universe">Contents of the game world.</param>
+    public Session(TUniverse universe)
+    {
+        Universe = universe;
+        MapSourceFile = universe.SourceFile;
+    }
 
     /// <summary>
     /// Used for XML serialization. Do not call manually!
     /// </summary>
     [UsedImplicitly, Obsolete("Used for XML serialization. Do not call manually!")]
-    public Session() : this(null!)
-    {}
+    public Session()
+    {
+        Universe = null!;
+    }
 
     /// <summary>
     /// The factor by which <see cref="IUniverse.GameTime"/> progression should be multiplied in relation to real time.

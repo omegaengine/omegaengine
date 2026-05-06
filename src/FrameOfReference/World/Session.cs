@@ -37,11 +37,9 @@ using LuaInterface;
 namespace FrameOfReference.World;
 
 /// <summary>
-/// Represents a game session (i.e. a game actually being played).
-/// It is equivalent to the content of a savegame.
+/// State of a game session. Corresponds to a savegame.
 /// </summary>
-/// <param name="universe">The state of the game world.</param>
-public sealed partial class Session(Universe universe) : Session<Universe>(universe)
+public sealed partial class Session : Session<Universe>
 {
 #if NETFRAMEWORK
     /// <summary>
@@ -52,10 +50,17 @@ public sealed partial class Session(Universe universe) : Session<Universe>(unive
 #endif
 
     /// <summary>
+    /// Creates a new game session.
+    /// </summary>
+    /// <param name="universe">Contents of the game world.</param>
+    public Session(Universe universe) : base(universe)
+    {}
+
+    /// <summary>
     /// Used for XML serialization. Do not call manually!
     /// </summary>
     [UsedImplicitly, Obsolete("Used for XML serialization. Do not call manually!")]
-    public Session() : this(null!)
+    public Session()
     {}
 
     /// <summary>
