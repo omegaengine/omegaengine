@@ -12,7 +12,7 @@ function load(name)
   if State == GameState.Pause then
     msgbox_yesno(
       '[EndGameSure]',
-      'LoadSplashDialog("Loading"); Game:LoadSavegame(' .. name ..'); Game:SwitchToGame()'
+      'LoadSplashDialog("Loading"); Game:LoadSavegame([===[' .. name ..']===]); Game:SwitchToGame()'
     )
   else
     LoadSplashDialog("Loading"); Game:LoadSavegame(name); Game:SwitchToGame()
