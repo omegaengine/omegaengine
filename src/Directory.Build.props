@@ -44,10 +44,10 @@
 
   <!-- Build-time dependencies -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.202" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.203" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup Condition="'$(MSBuildRuntimeType)'=='Core'">
-    <PackageReference Include="System.Resources.Extensions" Version="10.0.6" />
+    <PackageReference Include="System.Resources.Extensions" Version="10.0.7" />
   </ItemGroup>
 
 </Project>
