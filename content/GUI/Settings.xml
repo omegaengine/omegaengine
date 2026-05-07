@@ -9,7 +9,7 @@
 
 -- General
 if Settings.General.Language == "de" then Language.SelectedItem = "Deutsch"; end;
-if State ~= GameState.Menu then
+if not IsMainMenu then
   LanguageLabel.Enabled = false
   Language.Enabled = false
 end

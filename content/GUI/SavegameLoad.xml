@@ -9,7 +9,7 @@
 
 function load(name)
   -- Ask before quitting a running game
-  if State == GameState.Pause then
+  if IsPauseMenu then
     msgbox_yesno(
       '[EndGameSure]',
       'LoadSplashDialog("Loading"); Game:LoadSavegame([===[' .. name ..']===]); Game:SwitchToGame()'

@@ -128,7 +128,7 @@ public class Game(Settings settings)
             GameState.InGame or GameState.Modify => _currentSession?.Update(elapsedTime) ?? elapsedTime,
 
             // Time passes very slowly and does not affect session
-            GameState.Pause => elapsedTime / 10,
+            GameState.PauseMenu => elapsedTime / 10,
 
             // Time passes normally, but there is no session
             _ => elapsedTime
@@ -140,13 +140,13 @@ public class Game(Settings settings)
     {
         var lua = base.NewLua();
 
-        LuaRegistrationHelper.Enumeration<GameState>(lua);
-
         // Make methods globally accessible (without prepending the class name)
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Program));
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Settings));
 
-        lua["State"] = _currentState;
+        lua["IsMainMenu"] = _currentState == GameState.MainMenu;
+        lua["IsPauseMenu"] = _currentState == GameState.PauseMenu;
+
         lua["Session"] = _currentSession;
         lua["Universe"] = _currentSession?.Universe;
         lua["Presenter"] = _currentPresenter ?? throw new InvalidOperationException($"{nameof(Presenter)} not set yet.");
@@ -171,7 +171,7 @@ public class Game(Settings settings)
         }
 
         // Prevent unnecessary loading
-        if (_currentState == GameState.Menu) return;
+        if (_currentState == GameState.MainMenu) return;
 
         CleanupPresenter();
         InitializeMenuMode();
@@ -212,7 +212,7 @@ public class Game(Settings settings)
     private GameState _stateBeforePause;
 
     /// <summary>
-    /// Toggles between <see cref="GameState.InGame"/> and <see cref="GameState.Pause"/>
+    /// Toggles between <see cref="GameState.InGame"/> and <see cref="GameState.PauseMenu"/>
     /// </summary>
     [UsedImplicitly]
     public void TogglePause()
@@ -225,7 +225,7 @@ public class Game(Settings settings)
                 // Backup previous state
                 _stateBeforePause = _currentState;
 
-                _currentState = GameState.Pause;
+                _currentState = GameState.PauseMenu;
 
                 // Freeze the mouse interaction
                 if (interactivePresenter != null) this.RemoveInputReceiver(interactivePresenter);
@@ -238,7 +238,7 @@ public class Game(Settings settings)
                 LoadDialog("PauseMenu");
                 break;
 
-            case GameState.Pause:
+            case GameState.PauseMenu:
                 // Restore previous state (usually GameState.InGame)
                 _currentState = _stateBeforePause;
 
@@ -324,7 +324,7 @@ public class Game(Settings settings)
         using (new TimedLogEvent("Initialize menu"))
         {
             // Switch mode
-            _currentState = GameState.Menu;
+            _currentState = GameState.MainMenu;
 
             // Clean previous presenter
             //CleanupPresenter();
@@ -469,7 +469,7 @@ public class Game(Settings settings)
     }
 
     /// <summary>
-    /// Loads a map into <see cref="_menuUniverse"/> and switches to <see cref="GameState.Menu"/>
+    /// Loads a map into <see cref="_menuUniverse"/> and switches to <see cref="GameState.MainMenu"/>
     /// </summary>
     /// <param name="name">The name of the map to load</param>
     [UsedImplicitly]
@@ -552,7 +552,7 @@ public class Game(Settings settings)
         if (string.IsNullOrEmpty(name)) return;
 
         // If we are currently in-game, then the camera position must be explicitly stored/updated
-        if (_currentState is GameState.InGame or GameState.Pause)
+        if (_currentState is GameState.InGame or GameState.PauseMenu)
             ((InGamePresenter)_currentPresenter!).PrepareSave();
 
         // Write to disk

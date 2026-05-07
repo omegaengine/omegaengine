@@ -28,10 +28,10 @@ public enum GameState
     Init,
 
     /// <summary>The game is in the main menu</summary>
-    Menu,
+    MainMenu,
 
-    /// <summary>The game is paused</summary>
-    Pause,
+    /// <summary>The game is in the pause menu</summary>
+    PauseMenu,
 
     /// <summary>The game is running an automatic benchmark</summary>
     Benchmark,
