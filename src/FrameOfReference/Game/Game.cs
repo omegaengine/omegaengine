@@ -23,7 +23,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using AlphaFramework.Presentation;
 using FrameOfReference.Presentation;
 using FrameOfReference.Presentation.Config;
@@ -33,7 +32,6 @@ using FrameOfReference.World.Templates;
 using JetBrains.Annotations;
 using LuaInterface;
 using NanoByte.Common;
-using NanoByte.Common.Collections;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
 using OmegaEngine;
@@ -80,7 +78,7 @@ public class Game(Settings settings)
             }
             else
             { // Load main menu
-                PreloadPreviousSession();
+                _currentSession = Savegames.LoadFromResume();
                 LoadMenu(GetMenuMap());
             }
         }
@@ -114,7 +112,8 @@ public class Game(Settings settings)
         base.Run();
 
         // Save before exit
-        SaveSavegame("Resume");
+        (_currentPresenter as InGamePresenter)?.PrepareSave();
+        _currentSession?.SaveAsResume();
     }
 
     /// <inheritdoc/>
@@ -161,7 +160,9 @@ public class Game(Settings settings)
     [UsedImplicitly]
     public void SwitchToMenu()
     {
-        SaveSavegame("Resume");
+        // Save before exit
+        (_currentPresenter as InGamePresenter)?.PrepareSave();
+        _currentSession?.SaveAsResume();
 
         // Handle cases where the main menu was bypassed on startup
         if (_menuUniverse == null)
@@ -448,27 +449,6 @@ public class Game(Settings settings)
         => Arguments.GetOption("menu") ?? "Menu";
 
     /// <summary>
-    /// Loads the auto-save into <see cref="_currentSession"/> for later usage
-    /// </summary>
-    private void PreloadPreviousSession()
-    {
-        try
-        {
-            LoadSavegame("Resume");
-        }
-        catch (FileNotFoundException)
-        {
-            Log.Info("No previous game session found");
-        }
-        catch (Exception ex)
-        {
-            Log.Warn($"Failed to restore previous game session: {ex.Message}");
-            return;
-        }
-        Log.Info("Previous game session restored");
-    }
-
-    /// <summary>
     /// Loads a map into <see cref="_menuUniverse"/> and switches to <see cref="GameState.MainMenu"/>
     /// </summary>
     /// <param name="name">The name of the map to load</param>
@@ -549,15 +529,10 @@ public class Game(Settings settings)
     [UsedImplicitly]
     public void SaveSavegame(string name)
     {
-        if (string.IsNullOrEmpty(name)) return;
+        if (string.IsNullOrEmpty(name) || _currentSession == null) return;
 
-        // If we are currently in-game, then the camera position must be explicitly stored/updated
-        if (_currentState is GameState.InGame or GameState.PauseMenu)
-            ((InGamePresenter)_currentPresenter!).PrepareSave();
-
-        // Write to disk
-        string path = Locations.GetSaveDataPath(Constants.AppName, isFile: true, name + Constants.SavegameFileExt);
-        _currentSession?.Save(path);
+        (_currentPresenter as InGamePresenter)?.PrepareSave();
+        _currentSession.SaveAs(name);
     }
 
     /// <summary>
@@ -567,23 +542,13 @@ public class Game(Settings settings)
     [UsedImplicitly]
     public void LoadSavegame(string name)
     {
-        if (string.IsNullOrEmpty(name)) return;
-
-        // Read from disk
-        string path = Locations.GetSaveDataPath(Constants.AppName, isFile: true, name + Constants.SavegameFileExt);
-        _currentSession = Session.Load(path);
-        _currentSession.Lua = NewLua();
+        if (!string.IsNullOrEmpty(name))
+            _currentSession = Savegames.LoadFrom(name);
     }
 
     /// <summary>
-    /// Lists the names of all stored <see cref="Session"/>s.
+    /// Lists valid inputs for <see cref="LoadSavegame"/>.
     /// </summary>
     [UsedImplicitly]
-    public IEnumerable<string> GetSavegameNames()
-    {
-        var savegameDir = new DirectoryInfo(Locations.GetSaveDataPath(Constants.AppName, isFile: false));
-        return savegameDir.GetFiles($"*{Constants.SavegameFileExt}")
-                          .Select(x => x.Name[..^Constants.SavegameFileExt.Length])
-                          .Except("Resume");
-    }
+    public IEnumerable<string> GetSavegameNames() => Savegames.GetNames();
 }
