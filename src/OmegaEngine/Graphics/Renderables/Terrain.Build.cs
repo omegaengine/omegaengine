@@ -203,17 +203,7 @@ partial class Terrain
         if (TerrainShader.MinShaderModel > engine.Capabilities.MaxShaderModel) return null;
 
         using (new TimedLogEvent("Compiling terrain shaders"))
-        {
-            // Generate shader for each unique texture mask in parallel
-            textureMasks.Distinct().AsParallel().ForAll(textureMask => engine.GetTerrainShader(lighting, textureMask));
-        }
-
-        // Look up previously compiled shaders by texture mask and assign to appropriate subset indexes
-        var shaders = new TerrainShader[textureMasks.Length];
-        for (int i = 0; i < textureMasks.Length; i++)
-            shaders[i] = engine.GetTerrainShader(lighting, textureMasks[i]);
-
-        return shaders;
+            return engine.GetTerrainShaders(lighting, textureMasks);
     }
 
     private static Mesh CompileMesh(Engine engine, PositionMultiTextured[] vertexes, int[] indexes, int[] attributes, bool lighting)

@@ -6,6 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Linq;
 using OmegaEngine.Graphics.Shaders;
 
 namespace OmegaEngine;
@@ -26,13 +27,27 @@ partial class Engine
     private readonly object _terrainShaderLock = new();
 
     /// <summary>
+    /// Returns a shader for each entry in <paramref name="textureMasks"/>, compiling any not yet cached.
+    /// </summary>
+    /// <param name="lighting">Get shaders with lighting enabled?</param>
+    /// <param name="textureMasks">The bitmasks indicating which textures are enabled per subset.</param>
+    /// <returns>One shader per entry in <paramref name="textureMasks"/>, in the same order.</returns>
+    internal TerrainShader[] GetTerrainShaders(bool lighting, ushort[] textureMasks)
+    {
+        var compiled = textureMasks.Distinct()
+            .AsParallel()
+            .ToDictionary(mask => mask, mask => GetTerrainShader(lighting, mask));
+        return textureMasks.Select(mask => compiled[mask]).ToArray();
+    }
+
+    /// <summary>
     /// Generates a shader for a specific set of enabled textures. Results are cached.
     /// </summary>
     /// <param name="lighting">Get a shader with lighting enabled?</param>
     /// <param name="textureMask">A bitmask that indicates which textures are enabled.</param>
     /// <returns>The newly generated or previously cached shader.</returns>
     /// <remarks>This method is thread-safe.</remarks>
-    internal TerrainShader GetTerrainShader(bool lighting, int textureMask)
+    private TerrainShader GetTerrainShader(bool lighting, int textureMask)
     {
         var terrainShaders = lighting ? _terrainShadersLighting : _terrainShadersNoLighting;
         if (terrainShaders[textureMask] is {} shader)
