@@ -23,6 +23,8 @@ partial class Engine
     /// </summary>
     private readonly TerrainShader?[] _terrainShadersNoLighting = new TerrainShader?[65536];
 
+    private readonly object _terrainShaderLock = new();
+
     /// <summary>
     /// Generates a shader for a specific set of enabled textures. Results are cached.
     /// </summary>
@@ -33,8 +35,19 @@ partial class Engine
     internal TerrainShader GetTerrainShader(bool lighting, int textureMask)
     {
         var terrainShaders = lighting ? _terrainShadersLighting : _terrainShadersNoLighting;
-        if (terrainShaders[textureMask] == null)
-            RegisterChild(terrainShaders[textureMask] = new(lighting, Capabilities, textureMask));
+        if (terrainShaders[textureMask] is {} shader)
+            return shader;
+
+        // TerrainShader constructor only generates shader source/bytecode (CPU work) and is therefore thread-safe
+        shader = new TerrainShader(lighting, Capabilities, textureMask);
+
+        // RegisterChild triggers Effect.FromStream(Device, ...) and is not thread-safe
+        lock (_terrainShaderLock)
+        {
+            if (terrainShaders[textureMask] == null)
+                RegisterChild(terrainShaders[textureMask] = shader);
+        }
+
         return terrainShaders[textureMask];
     }
 }
