@@ -23,11 +23,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using AlphaFramework.Presentation;
 using FrameOfReference.Presentation;
 using FrameOfReference.Presentation.Config;
 using FrameOfReference.Properties;
 using FrameOfReference.World;
+using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
 using JetBrains.Annotations;
 using LuaInterface;
@@ -192,6 +194,8 @@ public class Game(Settings settings)
 
         CleanupPresenter();
         InitializeGameMode();
+
+        _currentSession.Lua = NewLua();
     }
 
     /// <summary>
@@ -208,6 +212,8 @@ public class Game(Settings settings)
 
         CleanupPresenter();
         InitializeModifyMode();
+
+        _currentSession.Lua = NewLua();
     }
 
     private GameState _stateBeforePause;
@@ -368,6 +374,10 @@ public class Game(Settings settings)
             var presenter = new InGamePresenter(Engine, _currentSession.Universe);
             presenter.Initialize();
             _currentPresenter = presenter;
+
+            // Restore camera lock after loading savegame
+            if (_currentSession.Universe.Positionables.OfType<Entity>().FirstOrDefault(x => x.IsPlayerControlled) is {Name: {} playerEntity})
+                presenter.LockOn(playerEntity);
 
             // Activate new view
             this.AddInputReceiver(presenter);
