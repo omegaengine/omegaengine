@@ -1,0 +1,51 @@
+using FrameOfReference.Presentation;
+using FrameOfReference.Presentation.Config;
+using FrameOfReference.World;
+using LuaInterface;
+using NanoByte.Common;
+using OmegaEngine;
+
+namespace FrameOfReference.States;
+
+/// <summary>
+/// State while the main menu is shown.
+/// </summary>
+public class MainMenu(Game game, Universe universe) : IGameState
+{
+    private readonly MenuPresenter _presenter = new(game.Engine, universe);
+    private readonly Savegames _savegames = new(game);
+
+    /// <inheritdoc/>
+    public void Enter()
+    {
+        game.Loading = true;
+
+        using (new TimedLogEvent("Initialize menu"))
+        {
+            _presenter.Initialize();
+            _presenter.HookIn();
+            if (Settings.Current.Graphics.Fading) game.Engine.FadeIn();
+            game.GuiManager.CloseAll();
+            game.LoadDialog("MainMenu");
+        }
+
+        game.Loading = false;
+    }
+
+    /// <inheritdoc/>
+    public void Exit() => _presenter.HookOut();
+
+    /// <inheritdoc/>
+    public double GetElapsedGameTime(double elapsedTime) => elapsedTime;
+
+    /// <inheritdoc/>
+    public void BindLua(Lua lua)
+    {
+        lua["IsMainMenu"] = true;
+        lua["Presenter"] = _presenter;
+        lua["Savegames"] = _savegames;
+    }
+
+    /// <inheritdoc/>
+    public void Dispose() => _presenter.Dispose();
+}

@@ -21,38 +21,37 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using AlphaFramework.Presentation;
-using FrameOfReference.Presentation;
 using FrameOfReference.Presentation.Config;
 using FrameOfReference.Properties;
+using FrameOfReference.States;
 using FrameOfReference.World;
-using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
 using JetBrains.Annotations;
 using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
-using OmegaEngine;
 using OmegaEngine.Input;
 
 namespace FrameOfReference;
 
 /// <summary>
-/// Represents a running instance of the game
+/// Represents a running instance of the game.
 /// </summary>
 public class Game(Settings settings)
     : GameBase(settings, Constants.AppName, Resources.Icon, Resources.Loading)
 {
-    private GameState _currentState;
-    private Session? _currentSession;
-    private Presenter? _currentPresenter;
+    private IGameState? _state;
 
-    private Universe? _menuUniverse;
-    private MenuPresenter? _menuPresenter;
+    private MainMenu? _menuState;
+    private MainMenu MenuState => _menuState ??= new(this, GetMenuUniverse());
+
+    private Session? _resumeSession;
+
+    [UsedImplicitly]
+    public bool CanResume => _resumeSession != null;
 
     /// <inheritdoc/>
     protected override bool Initialize()
@@ -65,27 +64,119 @@ public class Game(Settings settings)
             EntityTemplate.LoadAll();
             TerrainTemplate.LoadAll();
 
-            // Handle command-line arguments
             if (Arguments.GetOption("map") is {} map)
-            { // Load command-line map
                 LoadMap(map);
-            }
             else if (Arguments.GetOption("modify") is {} modify)
-            { // Load command-line map for modification
                 ModifyMap(modify);
-            }
             else if (Arguments.HasOption("benchmark"))
-            { // Run automatic benchmark
-                StartBenchmark();
+            {
+                TransitionTo(new Benchmark(this, onComplete: path =>
+                {
+                    Form.Visible = false;
+                    Msg.Inform(null, $"Please upload the file '{path}'.", MsgSeverity.Info);
+                    Exit();
+                }));
             }
             else
-            { // Load main menu
-                _currentSession = Savegames.LoadFromResume();
-                LoadMenu(GetMenuMap());
+            {
+                _resumeSession = Savegames.LoadFromResume();
+                SwitchToMenu();
             }
         }
 
         return true;
+    }
+
+    /// <summary>
+    /// Switches to the main menu.
+    /// </summary>
+    [UsedImplicitly]
+    public void SwitchToMenu()
+        => TransitionTo(MenuState);
+
+    /// <summary>
+    /// Loads a game map and switches to in-game mode.
+    /// </summary>
+    [UsedImplicitly]
+    public void LoadMap(string name)
+        => SwitchToInGame(new Session(GetMap(name)));
+
+    /// <summary>
+    /// Switches to in-game mode using the resume session.
+    /// </summary>
+    [UsedImplicitly]
+    public void ResumeGame()
+        => SwitchToInGame(_resumeSession ?? throw new InvalidOperationException(Resources.NoSessionLoaded));
+
+    /// <summary>
+    /// Switches to in-game mode using the provided <paramref name="session"/>.
+    /// </summary>
+    internal void SwitchToInGame(Session session)
+    {
+        _resumeSession = session;
+        TransitionTo(new InGame(this, session));
+    }
+
+    /// <summary>
+    /// Loads a game map and switches to live modification mode.
+    /// </summary>
+    [UsedImplicitly]
+    public void ModifyMap(string name)
+        => SwitchToModify(new Session(GetMap(name)));
+
+    private void SwitchToModify(Session session)
+    {
+        _resumeSession = session;
+        TransitionTo(new Modify(this, session));
+    }
+
+    private void TransitionTo(IGameState newState)
+    {
+        var oldState = _state;
+        oldState?.Exit();
+
+        _state = newState;
+        _state.Enter();
+
+        if (oldState != _menuState) oldState?.Dispose();
+    }
+
+    private static Universe GetMenuUniverse()
+        => GetMap(Arguments.GetOption("menu") ?? "Menu");
+
+    private static Universe GetMap(string name)
+        => name.EndsWith(Constants.MapFileExt, StringComparison.OrdinalIgnoreCase)
+            ? Universe.Load(Path.Combine(Locations.InstallBase, name))
+            : Universe.FromContent(name + Constants.MapFileExt);
+
+    /// <inheritdoc/>
+    protected override void ApplyGeneralSettings() => Program.UpdateLocale();
+
+    /// <inheritdoc/>
+    protected override double GetElapsedGameTime(double elapsedTime)
+        => _state?.GetElapsedGameTime(elapsedTime) ?? elapsedTime;
+
+    /// <inheritdoc/>
+    [LuaHide]
+    public override Lua NewLua()
+    {
+        var lua = base.NewLua();
+
+        LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Program));
+        LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Settings));
+
+        lua["Game"] = this;
+        _state?.BindLua(lua);
+
+        return lua;
+    }
+
+    /// <inheritdoc/>
+    [LuaHide]
+    public override void Run()
+    {
+        MouseInputProvider.Scheme = MouseInputScheme.Planar;
+        base.Run();
     }
 
     /// <inheritdoc/>
@@ -95,9 +186,9 @@ public class Game(Settings settings)
         {
             if (disposing)
             {
-                // Dispose presenters
-                _menuPresenter?.Dispose();
-                _currentPresenter?.Dispose();
+                _state?.Exit();
+                _state?.Dispose();
+                if (_state != _menuState) _menuState?.Dispose();
             }
         }
         finally
@@ -105,460 +196,4 @@ public class Game(Settings settings)
             base.Dispose(disposing);
         }
     }
-
-    /// <inheritdoc/>
-    [LuaHide]
-    public override void Run()
-    {
-        MouseInputProvider.Scheme = MouseInputScheme.Planar;
-        base.Run();
-
-        // Save before exit
-        (_currentPresenter as InGamePresenter)?.PrepareSave();
-        _currentSession?.SaveAsResume();
-    }
-
-    /// <inheritdoc/>
-    protected override void ApplyGeneralSettings() => Program.UpdateLocale();
-
-    /// <inheritdoc/>
-    protected override double GetElapsedGameTime(double elapsedTime)
-        => _currentState switch
-        {
-            // Time passes as defined by the session
-            GameState.InGame or GameState.Modify => _currentSession?.Update(elapsedTime) ?? elapsedTime,
-
-            // Time passes very slowly and does not affect session
-            GameState.PauseMenu => elapsedTime / 10,
-
-            // Time passes normally, but there is no session
-            _ => elapsedTime
-        };
-
-    /// <inheritdoc/>
-    [LuaHide]
-    public override Lua NewLua()
-    {
-        var lua = base.NewLua();
-
-        // Make methods globally accessible (without prepending the class name)
-        LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Program));
-        LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Settings));
-
-        lua["IsMainMenu"] = _currentState == GameState.MainMenu;
-        lua["IsPauseMenu"] = _currentState == GameState.PauseMenu;
-
-        lua["Session"] = _currentSession;
-        lua["Universe"] = _currentSession?.Universe;
-        lua["Presenter"] = _currentPresenter ?? throw new InvalidOperationException($"{nameof(Presenter)} not set yet.");
-
-        return lua;
-    }
-
-    /// <summary>
-    /// Switches to the main menu
-    /// </summary>
-    /// <remarks>Loading will take a while on first call, subsequent calls will be very fast, because <see cref="_menuUniverse"/> is preserved</remarks>
-    [UsedImplicitly]
-    public void SwitchToMenu()
-    {
-        // Save before exit
-        (_currentPresenter as InGamePresenter)?.PrepareSave();
-        _currentSession?.SaveAsResume();
-
-        // Handle cases where the main menu was bypassed on startup
-        if (_menuUniverse == null)
-        {
-            LoadMenu(GetMenuMap());
-            return;
-        }
-
-        // Prevent unnecessary loading
-        if (_currentState == GameState.MainMenu) return;
-
-        CleanupPresenter();
-        InitializeMenuMode();
-    }
-
-    /// <summary>
-    /// Switches the game to in-game mode
-    /// </summary>
-    /// <remarks>Loading may take a while, subsequent calls will be a bit faster because the <see cref="Engine"/> cache will still be hot.</remarks>
-    [UsedImplicitly]
-    public void SwitchToGame()
-    {
-        if (_currentSession == null) throw new InvalidOperationException(Resources.NoSessionLoaded);
-
-        // Prevent unnecessary loading
-        if (_currentState == GameState.InGame) return;
-
-        CleanupPresenter();
-        InitializeGameMode();
-
-        _currentSession.Lua = NewLua();
-    }
-
-    /// <summary>
-    /// Switches the game to map modification mode
-    /// </summary>
-    /// <remarks>Loading may take a while, subsequent calls will be a bit faster because the <see cref="Engine"/> cache will still be hot.</remarks>
-    [UsedImplicitly]
-    public void SwitchToModify()
-    {
-        if (_currentSession == null) throw new InvalidOperationException(Resources.NoSessionLoaded);
-
-        // Prevent unnecessary loading
-        if (_currentState == GameState.Modify) return;
-
-        CleanupPresenter();
-        InitializeModifyMode();
-
-        _currentSession.Lua = NewLua();
-    }
-
-    private GameState _stateBeforePause;
-
-    /// <summary>
-    /// Toggles between <see cref="GameState.InGame"/> and <see cref="GameState.PauseMenu"/>
-    /// </summary>
-    [UsedImplicitly]
-    public void TogglePause()
-    {
-        var interactivePresenter = _currentPresenter as InteractivePresenter;
-
-        switch (_currentState)
-        {
-            case GameState.InGame or GameState.Modify:
-                // Backup previous state
-                _stateBeforePause = _currentState;
-
-                _currentState = GameState.PauseMenu;
-
-                // Freeze the mouse interaction
-                if (interactivePresenter != null) this.RemoveInputReceiver(interactivePresenter);
-
-                // Dim down the screen
-                _currentPresenter?.DimDown();
-
-                // Show pause menu
-                GuiManager.Reset();
-                LoadDialog("PauseMenu");
-                break;
-
-            case GameState.PauseMenu:
-                // Restore previous state (usually GameState.InGame)
-                _currentState = _stateBeforePause;
-
-                // Dim screen back up
-                _currentPresenter?.DimUp();
-
-                // Restore the mouse interaction
-                if (interactivePresenter != null) this.AddInputReceiver(interactivePresenter);
-
-                // Restore the correct HUD
-                GuiManager.Reset();
-                if (_currentState == GameState.InGame) LoadDialog("InGame/HUD");
-                else if (_currentState == GameState.Modify) LoadDialog("InGame/HUD_Modify");
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Loads the benchmark map into <see cref="_currentSession"/> and switches the <see cref="_currentState"/> to <see cref="GameState.Benchmark"/>
-    /// </summary>
-    private void StartBenchmark()
-    {
-        // Prevent unnecessary loading
-        if (_currentState == GameState.Benchmark) return;
-
-        using (new TimedLogEvent("Start benchmark"))
-        {
-            // Load map
-            _currentSession = new(Universe.FromContent($"Benchmark{Constants.MapFileExt}"));
-
-            // Switch mode
-            _currentState = GameState.Benchmark;
-
-            // Clean up any old stuff
-            if (_currentPresenter != null)
-            {
-                if (_currentPresenter is InteractivePresenter interactivePresenter) this.RemoveInputReceiver(interactivePresenter);
-
-                _currentPresenter.HookOut();
-                if (_currentPresenter != _menuPresenter) _currentPresenter.Dispose();
-            }
-
-            // Load benchmark universe
-            _currentPresenter = new BenchmarkPresenter(Engine,
-                Universe.FromContent($"Benchmark{Constants.MapFileExt}"), path =>
-                { // Callback for submitting the benchmark results
-                    Form.Visible = false;
-                    //if (Msg.Ask(Form, Resources.BenchmarkReady, MsgSeverity.Info, Resources.BenchmarkReadyContinue, Resources.BenchmarkReadyCancel))
-                    //{
-                    //    // ToDo: new Uri("https://omegaengine.de/benchmark-upload/?app=" + Constants.AppNameGrid)
-                    //}
-                    Msg.Inform(null, $"Please upload the file '{path}'.", MsgSeverity.Info);
-                    Exit();
-                });
-            _currentPresenter.Initialize();
-
-            // Note: Do not call before Presenter has been initialized
-            _currentSession.Lua = NewLua();
-
-            // Activate new view
-            _currentPresenter.HookIn();
-            if (settings.Graphics.Fading) Engine.FadeIn();
-
-            // Show benchmark GUI
-            GuiManager.Reset();
-            LoadDialog("InGame/HUD_Benchmark");
-        }
-
-        using (new TimedLogEvent("Clean caches"))
-        {
-            Engine.Cache.Clean();
-            GC.Collect();
-        }
-    }
-
-    /// <summary>
-    /// Creates the <see cref="_menuPresenter"/> if necessary, sets it as the <see cref="_currentPresenter"/> and configures the GUI for the main menu
-    /// </summary>
-    private void InitializeMenuMode()
-    {
-        Loading = true;
-
-        using (new TimedLogEvent("Initialize menu"))
-        {
-            // Switch mode
-            _currentState = GameState.MainMenu;
-
-            // Clean previous presenter
-            //CleanupPresenter();
-
-            // Load menu scene
-            _menuPresenter ??= new(Engine, _menuUniverse!);
-            _menuPresenter.Initialize();
-            _currentPresenter = _menuPresenter;
-
-            // Activate new view
-            _currentPresenter.HookIn();
-            if (settings.Graphics.Fading) Engine.FadeIn();
-
-            // Show game GUI
-            GuiManager.CloseAll();
-            LoadDialog("MainMenu");
-        }
-
-        Loading = false;
-    }
-
-    /// <summary>
-    /// Creates the <see cref="_currentPresenter"/> and configures the GUI for in-game mode
-    /// </summary>
-    private void InitializeGameMode()
-    {
-        if (_currentSession == null) throw new InvalidOperationException(Resources.NoSessionLoaded);
-
-        Loading = true;
-
-        using (new TimedLogEvent("Initialize game"))
-        {
-            // Switch mode
-            _currentState = GameState.InGame;
-
-            // Clean previous presenter
-            CleanupPresenter();
-
-            // Load game scene
-            var presenter = new InGamePresenter(Engine, _currentSession.Universe);
-            presenter.Initialize();
-            _currentPresenter = presenter;
-
-            // Restore camera lock after loading savegame
-            if (_currentSession.Universe.Positionables.OfType<Entity>().FirstOrDefault(x => x.IsPlayerControlled) is {Name: {} playerEntity})
-                presenter.LockOn(playerEntity);
-
-            // Activate new view
-            this.AddInputReceiver(presenter);
-            _currentPresenter.HookIn();
-            if (settings.Graphics.Fading) Engine.FadeIn();
-
-            // Show game GUI
-            GuiManager.Reset();
-            LoadDialog("InGame/HUD");
-        }
-
-        using (new TimedLogEvent("Clean caches"))
-        {
-            Engine.Cache.Clean();
-            GC.Collect();
-        }
-
-        Loading = false;
-    }
-
-    /// <summary>
-    /// Creates the <see cref="_currentPresenter"/> and configures the GUI for live modification mode
-    /// </summary>
-    private void InitializeModifyMode()
-    {
-        if (_currentSession == null) throw new InvalidOperationException(Resources.NoSessionLoaded);
-
-        Loading = true;
-
-        using (new TimedLogEvent("Initialize game (in modify mode)"))
-        {
-            // Switch mode
-            _currentState = GameState.Modify;
-
-            // Clean previous presenter
-            CleanupPresenter();
-
-            // Load game scene
-            _currentPresenter = new InGamePresenter(Engine, _currentSession.Universe);
-            _currentPresenter.Initialize();
-
-            // Activate new view
-            this.AddInputReceiver((InteractivePresenter)_currentPresenter);
-            _currentPresenter.HookIn();
-            if (settings.Graphics.Fading) Engine.FadeIn();
-
-            // Show game GUI
-            GuiManager.Reset();
-            LoadDialog("InGame/HUD_Modify");
-        }
-
-        using (new TimedLogEvent("Clean caches"))
-        {
-            Engine.Cache.Clean();
-            GC.Collect();
-        }
-
-        Loading = false;
-    }
-
-    /// <summary>
-    /// <see cref="PresenterBase{TUniverse}.HookOut"/> and disposes the <see cref="_currentPresenter"/> (unless it is the <see cref="_menuPresenter"/>)
-    /// </summary>
-    private void CleanupPresenter()
-    {
-        if (_currentPresenter != null)
-        {
-            if (_currentPresenter is InteractivePresenter interactivePresenter) this.RemoveInputReceiver(interactivePresenter);
-
-            _currentPresenter.HookOut();
-
-            // Don't dispose the _menuPresenter, since it will be reused for fast switching
-            if (_currentPresenter != _menuPresenter) _currentPresenter.Dispose();
-        }
-    }
-
-    /// <returns>The name of the menu background map</returns>
-    private static string GetMenuMap()
-        => Arguments.GetOption("menu") ?? "Menu";
-
-    /// <summary>
-    /// Loads a map into <see cref="_menuUniverse"/> and switches to <see cref="GameState.MainMenu"/>
-    /// </summary>
-    /// <param name="name">The name of the map to load</param>
-    [UsedImplicitly]
-    public void LoadMenu(string name)
-    {
-        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-
-        _menuUniverse = name.EndsWith(
-            // Does the name have file ending?
-            Constants.MapFileExt, StringComparison.OrdinalIgnoreCase) ?
-            // Real filename
-            Universe.Load(Path.Combine(Locations.InstallBase, name)) :
-            // Internal map name
-            Universe.FromContent(name + Constants.MapFileExt);
-
-        CleanupPresenter();
-        if (_menuPresenter != null)
-        { // Prevent the old presenter from being reused for fast switching
-            _menuPresenter.Dispose();
-            _menuPresenter = null;
-        }
-        InitializeMenuMode();
-    }
-
-    /// <summary>
-    /// Loads a game map into <see cref="_currentSession"/> and switches to <see cref="GameState.InGame"/>
-    /// </summary>
-    /// <param name="name">The name of the map to load</param>
-    [UsedImplicitly]
-    public void LoadMap(string name)
-    {
-        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-
-        _currentSession = new(
-            // Does the name have file ending?
-            name.EndsWith(Constants.MapFileExt, StringComparison.OrdinalIgnoreCase) ?
-                // Real filename
-                Universe.Load(Path.Combine(Locations.InstallBase, name)) :
-                // Internal map name
-                Universe.FromContent(name + Constants.MapFileExt));
-
-        CleanupPresenter();
-        InitializeGameMode();
-
-        // Note: Do not call before Presenter has been initialized
-        _currentSession.Lua = NewLua();
-    }
-
-    /// <summary>
-    /// Loads a game map into <see cref="_currentSession"/> and switches the <see cref="_currentState"/> to <see cref="GameState.Modify"/>
-    /// </summary>
-    /// <param name="name">The name of the map to load</param>
-    [UsedImplicitly]
-    public void ModifyMap(string name)
-    {
-        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-
-        _currentSession = new(
-            // Does the name have file ending?
-            name.EndsWith(Constants.MapFileExt, StringComparison.OrdinalIgnoreCase) ?
-                // Real filename
-                Universe.Load(Path.Combine(Locations.InstallBase, name)) :
-                // Internal map name
-                Universe.FromContent(name + Constants.MapFileExt));
-
-        CleanupPresenter();
-        InitializeModifyMode();
-
-        // Note: Do not call before Presenter has been initialized
-        _currentSession.Lua = NewLua();
-    }
-
-    /// <summary>
-    /// Saves the <see cref="_currentSession"/> as a savegame stored in the user's profile.
-    /// </summary>
-    /// <param name="name">The name of the savegame to write.</param>
-    [UsedImplicitly]
-    public void SaveSavegame(string name)
-    {
-        if (string.IsNullOrEmpty(name) || _currentSession == null) return;
-
-        (_currentPresenter as InGamePresenter)?.PrepareSave();
-        _currentSession.SaveAs(name);
-    }
-
-    /// <summary>
-    /// Loads a savegame from user's profile to replace the <see cref="_currentSession"/>.
-    /// </summary>
-    /// <param name="name">The name of the savegame to load.</param>
-    [UsedImplicitly]
-    public void LoadSavegame(string name)
-    {
-        if (!string.IsNullOrEmpty(name))
-            _currentSession = Savegames.LoadFrom(name);
-    }
-
-    /// <summary>
-    /// Lists valid inputs for <see cref="LoadSavegame"/>.
-    /// </summary>
-    [UsedImplicitly]
-    public IEnumerable<string> GetSavegameNames() => Savegames.GetNames();
 }

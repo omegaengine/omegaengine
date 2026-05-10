@@ -9,17 +9,17 @@
 
 function load(name)
   -- Ask before quitting a running game
-  if IsPauseMenu then
+  if IsMainMenu then
+    LoadSplashDialog("Loading"); Savegames:Load(name)
+  else
     msgbox_yesno(
       '[EndGameSure]',
-      'LoadSplashDialog("Loading"); Game:LoadSavegame([===[' .. name ..']===]); Game:SwitchToGame()'
+      'LoadSplashDialog("Loading"); Savegames:Load([===[' .. name ..']===])'
     )
-  else
-    LoadSplashDialog("Loading"); Game:LoadSavegame(name); Game:SwitchToGame()
   end
 end
 
-SavegameNames.Items:AddMany(Game:GetSavegameNames())</OnShow>
+SavegameNames.Items:AddMany(Savegames:GetNames())</OnShow>
   <FontSize>15</FontSize>
   <Size Width="400" Height="250" />
   <Shift X="0" Y="0" />

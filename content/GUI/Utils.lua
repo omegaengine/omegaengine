@@ -2,8 +2,7 @@ function return_to_menu()
 	Me:Close()
 	if IsMainMenu then
 		LoadDialog("MainMenu")
-	end
-	if IsPauseMenu then
+	else
 		LoadDialog("PauseMenu")
 	end
 end

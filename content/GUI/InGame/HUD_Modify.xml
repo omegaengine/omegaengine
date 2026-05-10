@@ -75,7 +75,7 @@ Engine:Debug()</OnClick>
     <Location X="20" Y="20" />
     <Size Width="130" Height="40" />
     <AlignHorizontal>FromRight</AlignHorizontal>
-    <OnClick>Game:TogglePause()</OnClick>
+    <OnClick>InGame:TogglePause()</OnClick>
   </Button>
   <Label Name="FPS" Text="FPS: 12,3456">
     <Location X="20" Y="20" />

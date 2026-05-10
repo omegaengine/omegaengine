@@ -27,7 +27,7 @@
     <Location X="190" Y="510" />
     <Size Width="100" Height="48" />
     <AlignHorizontal>Center</AlignHorizontal>
-    <OnClick>Game:TogglePause()</OnClick>
+    <OnClick>InGame:TogglePause()</OnClick>
   </Button>
   <Button Name="NewGame" Text="[Save]">
     <Location X="0" Y="130" />

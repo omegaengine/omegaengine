@@ -3,7 +3,7 @@
   <ColorBackground A="0" R="0" G="0" B="0" />
   <ColorCaption A="128" R="96" G="128" B="255" />
   <ColorText A="255" R="255" G="255" B="255" />
-  <OnShow>ResumeGame.Enabled = (Session ~= nil)</OnShow>
+  <OnShow>ResumeGame.Enabled = Game.CanResume</OnShow>
   <FontSize>30</FontSize>
   <Size Width="1024" Height="768" />
   <Shift X="0" Y="0" />
@@ -18,7 +18,7 @@
     <Size Width="200" Height="50" />
     <AlignVertical>Center</AlignVertical>
     <OnClick>LoadSplashDialog("Loading")
-Game:SwitchToGame()</OnClick>
+Game:ResumeGame()</OnClick>
   </Button>
   <Button Name="NewGame" Text="[NewGame]">
     <Location X="40" Y="-60" />

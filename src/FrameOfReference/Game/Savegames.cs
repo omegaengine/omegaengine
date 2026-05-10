@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using FrameOfReference.World;
+using JetBrains.Annotations;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Storage;
@@ -32,36 +33,53 @@ using NanoByte.Common.Storage;
 namespace FrameOfReference;
 
 /// <summary>
-/// Provides helpers for saving and loading <see cref="Session"/>s as named savegames.
+/// Saving and loading <see cref="Session"/>s as named savegames.
 /// </summary>
-public static class Savegames
+/// <param name="game">The game instance.</param>
+/// <param name="session">The currently active session, if any.</param>
+/// <param name="beforeSave">Called before saving, e.g. to sync presenter state back to the session.</param>
+public class Savegames(Game game, Session? session = null, Action? beforeSave = null)
 {
-    /// <summary>
-    /// Saves <paramref name="session"/> under the specified <paramref name="name"/>.
-    /// </summary>
-    public static void SaveAs(this Session session, string name)
-        => session.Save(GetPath(name));
+    private const string ResumeName = "Resume";
 
     /// <summary>
-    /// Saves <paramref name="session"/> as the auto-resume slot so it can be reloaded on next launch.
+    /// Saves the currently active session under the specified <paramref name="name"/>.
     /// </summary>
-    public static void SaveAsResume(this Session session)
-        => session.SaveAs("Resume");
+    [UsedImplicitly]
+    public void Save(string name)
+    {
+        if (string.IsNullOrEmpty(name) || session == null) return;
+        beforeSave?.Invoke();
+        session.Save(GetPath(name));
+    }
 
     /// <summary>
-    /// Loads the session saved under the specified <paramref name="name"/>.
+    /// Saves the currently active session in the auto-resume slot.
     /// </summary>
-    public static Session LoadFrom(string name)
-        => Session.Load(GetPath(name));
+    internal void SaveAsResume()
+    {
+        beforeSave?.Invoke();
+        session?.Save(GetPath(ResumeName));
+    }
 
     /// <summary>
-    /// Loads the auto-resume save, or returns <see langword="null"/> if none exists or it cannot be read.
+    /// Loads the session saved under the specified <paramref name="name"/> and activates it.
     /// </summary>
-    public static Session? LoadFromResume()
+    [UsedImplicitly]
+    public void Load(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return;
+        game.SwitchToInGame(LoadFrom(name));
+    }
+
+    /// <summary>
+    /// Loads the session saved in the auto-resume slot without activating it.
+    /// </summary>
+    internal static Session? LoadFromResume()
     {
         try
         {
-            return LoadFrom("Resume");
+            return LoadFrom(ResumeName);
         }
         catch (FileNotFoundException)
         {
@@ -75,14 +93,21 @@ public static class Savegames
     }
 
     /// <summary>
+    /// Loads the session saved under the specified <paramref name="name"/> without activating it.
+    /// </summary>
+    private static Session LoadFrom(string name)
+        => Session.Load(GetPath(name));
+
+    /// <summary>
     /// Returns the names of all user-created savegames, excluding the auto-resume slot.
     /// </summary>
-    public static IEnumerable<string> GetNames()
+    [UsedImplicitly]
+    public IEnumerable<string> GetNames()
     {
         var dir = new DirectoryInfo(Locations.GetSaveDataPath(Constants.AppName, isFile: false));
         return dir.GetFiles($"*{Constants.SavegameFileExt}")
-                  .Select(x => x.Name[..^Constants.SavegameFileExt.Length])
-                  .Except("Resume");
+            .Select(x => x.Name[..^Constants.SavegameFileExt.Length])
+            .Except(ResumeName);
     }
 
     private static string GetPath(string name)
