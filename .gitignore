@@ -1,5 +1,6 @@
 *.user
 *.bak
+*.local.json
 
 # Caches
 **/.vs/
