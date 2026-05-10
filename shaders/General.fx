@@ -1,19 +1,19 @@
 // Description: A general-purpose surface shader.
 //
 // Techniques:
-// - ColoredPerVertex (ps_1_1, plain color, per-vertex lighting)
-// - Colored (ps_2_0, plain color, per-pixel lighting)
-// - ColoredEmissiveOnly (ps_1_1, plain color, plain emissive lighting only)
-// - TexturedPerVertex (ps_1_1, textured, per-vertex lighting)
-// - Textured (ps_2_0, textured, per-pixel lighting)
-// - TexturedNormalMap (ps_2_0, textured, per-pixel lighting, normal map)
-// - TexturedSpecularMap (ps_2_0, textured, per-pixel lighting, specular map)
-// - TexturedNormalSpecularMap (ps_2_0, textured, per-pixel lighting, normal map + specular map)
-// - TexturedEmissiveMap (ps_2_0, textured, per-pixel lighting, emissive map)
-// - TexturedNormalEmissiveMap (ps_2_0, textured, per-pixel lighting, normal map + emissive map)
-// - TexturedNormalSpecularEmissiveMap (ps_2_0, textured, per-pixel lighting, normal map + specular map + emissive map)
-// - TexturedEmissiveOnly (ps_2_0, textured, plain emissive lighting only)
-// - TexturedEmissiveMapOnly (ps_2_0, textured, emissive map lighting only)
+// - ColoredPerVertex (Shader Model 1.1, plain color, per-vertex lighting)
+// - Colored (Shader Model 2.0, plain color, per-pixel lighting)
+// - ColoredEmissiveOnly (Shader Model 1.1, plain color, plain emissive lighting only)
+// - TexturedPerVertex (Shader Model 1.1, textured, per-vertex lighting)
+// - Textured (Shader Model 2.0, textured, per-pixel lighting)
+// - TexturedNormalMap (Shader Model 2.0, textured, per-pixel lighting, normal map)
+// - TexturedSpecularMap (Shader Model 2.0, textured, per-pixel lighting, specular map)
+// - TexturedNormalSpecularMap (Shader Model 2.0, textured, per-pixel lighting, normal map + specular map)
+// - TexturedEmissiveMap (Shader Model 2.0, textured, per-pixel lighting, emissive map)
+// - TexturedNormalEmissiveMap (Shader Model 2.0, textured, per-pixel lighting, normal map + emissive map)
+// - TexturedNormalSpecularEmissiveMap (Shader Model 2.0, textured, per-pixel lighting, normal map + specular map + emissive map)
+// - TexturedEmissiveOnly (Shader Model 2.0, textured, plain emissive lighting only)
+// - TexturedEmissiveMapOnly (Shader Model 2.0, textured, emissive map lighting only)
 //
 // Passes:
 // - AmbientLight (Light1 must be an ambient-only light, must be called as first pass)

@@ -3,14 +3,14 @@
 // optional occlusion interval map for shadows
 //
 // Techniques:
-// - Simple14 (ps_1_4, 4 textures, no lighting)
-// - Simple20 (ps_2_0, 16 textures, no lighting)
-// - Light14 (ps_1_4, 4 textures, per-vertex lighting)
-// - Light20 (ps_2_0, 16 textures, per-pixel lighting)
-// - Light2a (ps_2_a, 16 textures, per-pixel lighting, double sampling)
-// - Light2b (ps_2_b, 16 textures, per-pixel lighting, double sampling)
-// - SimpleBlack (vs_1_1, all black)
-// - LightBlack (vs_1_1, all black)
+// - Simple14 (Shader Model 1.4, 4 textures, no lighting)
+// - Simple20 (Shader Model 2.0, 16 textures, no lighting)
+// - Light14 (Shader Model 1.4, 4 textures, per-vertex lighting)
+// - Light20 (Shader Model 2.0, 16 textures, per-pixel lighting)
+// - Light2a (Shader Model 2.0a, 16 textures, per-pixel lighting, double sampling)
+// - Light2b (Shader Model 2.0b, 16 textures, per-pixel lighting, double sampling)
+// - SimpleBlack (Shader Model 1.1, all black)
+// - LightBlack (Shader Model 1.1, all black)
 //
 // Passes:
 // - AmbientLight (Light1 must be an ambient-only light, must be called as first pass)
