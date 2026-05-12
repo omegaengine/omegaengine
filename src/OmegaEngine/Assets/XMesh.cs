@@ -83,7 +83,16 @@ public class XMesh : Asset
 
         try
         {
-            _mesh = Mesh.FromStream(engine.Device, stream, MeshFlags.Managed);
+            try
+            {
+                _mesh = Mesh.FromStream(engine.Device, stream, MeshFlags.Managed);
+            }
+            catch (Direct3D9Exception ex) when (stream.CanSeek)
+            {
+                Log.Warn("Mesh.FromStream with MeshFlags.Managed failed; retrying with MeshFlags.SystemMemory", ex);
+                stream.Position = 0;
+                _mesh = Mesh.FromStream(engine.Device, stream, MeshFlags.SystemMemory);
+            }
         }
         #region Error handling
         catch (Direct3D9Exception ex)

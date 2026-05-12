@@ -127,10 +127,17 @@ public sealed class DialogManager : IDisposable
             fn.Font.Dispose(); // Get rid of this
 
         // Create the new font
-        fn.Font = new(Engine.Device, (int)fn.Height, 0, fn.Weight, 1, false, CharacterSet.Default,
-            // ReSharper disable BitwiseOperatorOnEnumWihtoutFlags
-            Precision.Default, FontQuality.Default, PitchAndFamily.Default | PitchAndFamily.DontCare, fn.FaceName);
-        // ReSharper restore BitwiseOperatorOnEnumWihtoutFlags
+        try
+        {
+            fn.Font = new(Engine.Device, (int)fn.Height, 0, fn.Weight, 1, false, CharacterSet.Default,
+                Precision.Default, FontQuality.Default, PitchAndFamily.Default | PitchAndFamily.DontCare, fn.FaceName);
+        }
+        #region Error handling
+        catch (Direct3D9Exception ex)
+        {
+            Log.Error("D3DX Font creation failed; text rendering will be disabled", ex);
+        }
+        #endregion
     }
     #endregion
 
@@ -179,8 +186,18 @@ public sealed class DialogManager : IDisposable
         var info = new ImageInformation();
         using (var stream = ContentManager.GetFileStream("GUI/Textures", tn.Filename))
         {
-            tn.Texture = Texture.FromStream(Engine.Device, stream, D3DX.Default, D3DX.Default, D3DX.Default, Usage.None,
-                Format.Unknown, Pool.Managed, Filter.Default, Filter.Default, 0);
+            try
+            {
+                tn.Texture = Texture.FromStream(Engine.Device, stream, D3DX.Default, D3DX.Default, D3DX.Default, Usage.None,
+                    Format.Unknown, Pool.Managed, Filter.Default, Filter.Default, 0);
+            }
+            catch (Direct3D9Exception) when (stream.CanSeek)
+            {
+                Log.Warn("Texture.FromStream with D3DX defaults failed; retrying without mip-map generation");
+                stream.Position = 0;
+                tn.Texture = Texture.FromStream(Engine.Device, stream, D3DX.Default, D3DX.Default, 1, Usage.None,
+                    Format.Unknown, Pool.Managed, Filter.None, Filter.None, 0);
+            }
         }
 
         // Store dimensions
@@ -202,7 +219,17 @@ public sealed class DialogManager : IDisposable
         for (int i = 0; i < _textureCache.Count; i++)
             CreateTexture(i);
 
-        Sprite = new(Engine.Device); // Create the sprite
+        // Create the sprite
+        try
+        {
+            Sprite = new(Engine.Device);
+        }
+        #region Error handling
+        catch (Direct3D9Exception ex)
+        {
+            Log.Error("D3DX Sprite creation failed", ex);
+        }
+        #endregion
     }
 
     /// <summary>
@@ -234,13 +261,22 @@ public sealed class DialogManager : IDisposable
     /// </summary>
     public void OnResetDevice()
     {
-        _fontCache.ForEach(node => node.Font.OnResetDevice());
+        _fontCache.ForEach(node => node.Font?.OnResetDevice());
 
         if (Sprite != null)
             Sprite.OnResetDevice();
 
         // Create new state block
-        StateBlock = new(Engine.Device, StateBlockType.All);
+        try
+        {
+            StateBlock = new(Engine.Device, StateBlockType.All);
+        }
+        #region Error handling
+        catch (Direct3D9Exception ex)
+        {
+            Log.Error("Direct3D StateBlock creation failed; GUI render-state capture will be skipped", ex);
+        }
+        #endregion
     }
     #endregion
 

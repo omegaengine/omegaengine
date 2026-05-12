@@ -46,9 +46,20 @@ public class XTexture : Asset, ITextureProvider
 
         try
         {
-            Texture = Texture.FromStream(engine.Device, stream,
-                D3DX.Default, D3DX.Default, 0, Usage.None, Format.Unknown, Pool.Managed,
-                Filter.Default, Filter.Default, 0);
+            try
+            {
+                Texture = Texture.FromStream(engine.Device, stream,
+                    D3DX.Default, D3DX.Default, 0, Usage.None, Format.Unknown, Pool.Managed,
+                    Filter.Default, Filter.Default, 0);
+            }
+            catch (Direct3D9Exception ex) when (stream.CanSeek)
+            {
+                Log.Warn("Texture.FromStream with D3DX defaults failed; retrying without mip-map generation", ex);
+                stream.Position = 0;
+                Texture = Texture.FromStream(engine.Device, stream,
+                    D3DX.Default, D3DX.Default, 1, Usage.None, Format.Unknown, Pool.Managed,
+                    Filter.None, Filter.None, 0);
+            }
         }
         #region Error handling
         catch (Direct3D9Exception ex)
