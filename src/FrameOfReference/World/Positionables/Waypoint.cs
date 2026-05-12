@@ -78,7 +78,7 @@ public class Waypoint : Positionable<Vector2>
     /// <summary>
     /// Indicates whether <see cref="ArrivalTime"/> has been set.
     /// </summary>
-    [Browsable(false), XmlIgnore]
+    [Browsable(false)]
     public bool ArrivalTimeSpecified { get; set; }
 
     private Vector2 _originPosition;
@@ -101,7 +101,7 @@ public class Waypoint : Positionable<Vector2>
     /// <summary>
     /// Indicates whether <see cref="OriginPosition"/> has been set.
     /// </summary>
-    [Browsable(false), XmlIgnore]
+    [Browsable(false)]
     public bool OriginPositionSpecified { get; set; }
     #endregion
 }
