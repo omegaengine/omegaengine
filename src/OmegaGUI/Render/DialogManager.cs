@@ -265,12 +265,12 @@ public sealed class DialogManager : IDisposable
         Engine.DeviceReset -= OnResetDevice;
 
         // Dispose DirectX objects
-        Sprite.Dispose();
-        StateBlock.Dispose();
+        Sprite?.Dispose();
+        StateBlock?.Dispose();
 
         // Clear caches
-        _textureCache.ForEach(node => node.Texture.Dispose());
-        _fontCache.ForEach(node => node.Font.Dispose());
+        _textureCache.ForEach(node => node.Texture?.Dispose());
+        _fontCache.ForEach(node => node.Font?.Dispose());
 
         GC.SuppressFinalize(this);
         Disposed = true;
