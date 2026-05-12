@@ -18,7 +18,7 @@ namespace OmegaEngine.Foundation.Collections;
 /// </summary>
 /// <remarks>An item can always only be in one pool at any given time.</remarks>
 /// <typeparam name="T">The type of items to store in the pool.</typeparam>
-public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
+public sealed class Pool<T> where T : class, IPoolable<T>
 {
     /// <summary>
     /// Gets the number of elements contained in the pool
@@ -27,8 +27,6 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
     public int Count { get; private set; }
 
     private T? _firstElement;
-
-    T? IPoolable<T>.NextElement { get => _firstElement; set => _firstElement = value; }
 
     /// <summary>
     /// Performs the specified action on each element of the pool
@@ -88,7 +86,7 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
         #endregion
 
         // Get the first element and the object pointing to it
-        IPoolable<T> previousElement = this;
+        T? previousElement = null;
         var currentElement = _firstElement;
 
         while (currentElement != null)
@@ -97,7 +95,8 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
             if (currentElement == item)
             {
                 // Pull up the next entry
-                previousElement.NextElement = currentElement.NextElement;
+                if (previousElement == null) _firstElement = currentElement.NextElement;
+                else previousElement.NextElement = currentElement.NextElement;
                 Count--;
 
                 // Remove linkage from item and exit
@@ -200,7 +199,7 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
         #endregion
 
         // Get the first element and the object pointing to it
-        IPoolable<T> previousElement = this;
+        T? previousElement = null;
         var currentElement = _firstElement;
 
         while (currentElement != null)
@@ -213,7 +212,8 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
             if (predicate(currentElement))
             {
                 // Pull up the next entry
-                previousElement.NextElement = nextElement;
+                if (previousElement == null) _firstElement = nextElement;
+                else previousElement.NextElement = nextElement;
                 Count--;
 
                 // Move on to the next element (previous handle stays the same)
@@ -245,7 +245,7 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
         #endregion
 
         // Get the first element and the object pointing to it
-        IPoolable<T> previousElement = this;
+        T? previousElement = null;
         var currentElement = _firstElement;
 
         while (currentElement != null)
@@ -258,7 +258,8 @@ public sealed class Pool<T> : IPoolable<T> where T : class, IPoolable<T>
             if (predicate(currentElement))
             {
                 // Pull up the next entry
-                previousElement.NextElement = nextElement;
+                if (previousElement == null) _firstElement = nextElement;
+                else previousElement.NextElement = nextElement;
                 Count--;
 
                 // Exit after first removal
