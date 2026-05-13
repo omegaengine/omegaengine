@@ -222,7 +222,7 @@ namespace OmegaEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There was no such body found: .
+        ///   Looks up a localized string similar to There was no such body found:.
         /// </summary>
         internal static string NoSuchBody {
             get {
@@ -276,7 +276,7 @@ namespace OmegaEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Release method was called to often on {0}..
+        ///   Looks up a localized string similar to The Release method was called to0 often on {0}..
         /// </summary>
         internal static string ReleasedTooOften {
             get {

@@ -175,7 +175,7 @@
     <value>There was no such body found: </value>
   </data>
   <data name="NoSuchLightSource" xml:space="preserve">
-    <value>There was no such light source found:</value>
+    <value>There was no such light source found: </value>
   </data>
   <data name="NotAvailable" xml:space="preserve">
     <value>A required graphics feature was not available</value>
@@ -190,7 +190,7 @@
     <value>The value must be a real number.</value>
   </data>
   <data name="ReleasedTooOften" xml:space="preserve">
-    <value>The Release method was called to often on {0}.</value>
+    <value>The Release method was called too often on {0}.</value>
   </data>
   <data name="SongAlreadyLoaded" xml:space="preserve">
     <value>This song was loaded more than once: </value>

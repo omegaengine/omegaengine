@@ -166,10 +166,10 @@
     <value>Ihre Grafikkarte unterstützt kein lineares Textur Filtern.</value>
   </data>
   <data name="NoModifyTerrainColorWithoutLighting" xml:space="preserve">
-    <value>Die Terrain Farbe kann nicht modifziert werden, wenn Terrain Beleuchtung deaktiviert ist.</value>
+    <value>Die Terrain Farbe kann nicht modifiziert werden, wenn Terrain Beleuchtung deaktiviert ist.</value>
   </data>
   <data name="NoModifyTerrainHeightWithLighting" xml:space="preserve">
-    <value>Die Terrain "Height-Map" kann nicht modifziert werden, wenn Terrain Beleuchtung aktiviert ist.</value>
+    <value>Die Terrain "Height-Map" kann nicht modifiziert werden, wenn Terrain Beleuchtung aktiviert ist.</value>
   </data>
   <data name="NoSuchBody" xml:space="preserve">
     <value>Es wurde kein derartiges Body gefunden: </value>
@@ -220,7 +220,7 @@
     <value>Das Array muss eine Länge von {0} haben.</value>
   </data>
   <data name="WrongTextureMapSize" xml:space="preserve">
-    <value>"Texture-Map" muss genau ein Drittel der Terriangröße sein.</value>
+    <value>"Texture-Map" muss genau ein Drittel der Terraingröße sein.</value>
   </data>
   <data name="WrongVertexCountLine" xml:space="preserve">
     <value>Die Anzahl der Vertexes muss für eine LineList ein Vielfaches von 2 sein.</value>
