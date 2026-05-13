@@ -97,7 +97,7 @@ public sealed class Entity : EntityBase<Vector2, EntityTemplate>
     public int GetCurrentWaypointIndex(double gameTime)
     {
         int index = Waypoints.FindLastIndex(x => x.ActivationTime <= gameTime);
-        if (index == -1 || (Waypoints[index].ArrivalTimeSpecified && Waypoints[index].ArrivalTime <= gameTime)) return -1;
+        if (index == -1 || Waypoints[index].ArrivalTime <= gameTime) return -1;
         return index;
     }
 

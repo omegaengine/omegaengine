@@ -248,7 +248,7 @@ partial class Universe
             }
 
             StartMoving(entity,
-                target: (elapsedGameTime >= 0) ? waypoint.Position : waypoint.OriginPosition);
+                target: elapsedGameTime >= 0 ? waypoint.Position : waypoint.OriginPosition ?? entity.Position);
         }
 
         entity.ActiveWaypointIndex = index;
@@ -256,7 +256,7 @@ partial class Universe
 
     private void RecordArrivalTime(Entity entity, Waypoint waypoint)
     {
-        if (waypoint.ArrivalTimeSpecified) return;
+        if (waypoint.ArrivalTime.HasValue) return;
 
         waypoint.ArrivalTime = GameTime;
         Log.Info($"Recorded arrival time for {entity.Name} at {waypoint.Name}: {GameTime}");
@@ -264,7 +264,7 @@ partial class Universe
 
     private static void RecordOriginPosition(Entity entity, Waypoint waypoint)
     {
-        if (waypoint.OriginPositionSpecified) return;
+        if (waypoint.OriginPosition.HasValue) return;
 
         waypoint.OriginPosition = entity.Position;
         Log.Info($"Recorded origin position for {entity.Name} towards {waypoint.Name}: {entity.Position}");
