@@ -121,8 +121,8 @@ partial class Engine
         };
 
         // Automatically use best-possible ZBuffer
-        if (EngineCapabilities.TestDepthStencil(config.Adapter, Format.D32))
-            presentParams.AutoDepthStencilFormat = Format.D32;
+        if (EngineCapabilities.TestDepthStencil(config.Adapter, Format.D24S8))
+            presentParams.AutoDepthStencilFormat = Format.D24S8;
         else if (EngineCapabilities.TestDepthStencil(config.Adapter, Format.D24X8))
             presentParams.AutoDepthStencilFormat = Format.D24X8;
         else
