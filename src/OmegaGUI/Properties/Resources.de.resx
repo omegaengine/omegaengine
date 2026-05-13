@@ -120,14 +120,8 @@
   <data name="ControlNotFound" xml:space="preserve">
     <value>Das Steuerelement konnte nicht gefunden werden.</value>
   </data>
-  <data name="MaxMustBeLargerThanMin" xml:space="preserve">
-    <value>Die Max Eigenschaft muss größer als die Min Eigenschaft sein.</value>
-  </data>
   <data name="Minimized" xml:space="preserve">
     <value>Minimiert</value>
-  </data>
-  <data name="MinMustBeSmallerThanMax" xml:space="preserve">
-    <value>Die Min Eigenschaft muss kleiner als die Max Eigenschaft sein.</value>
   </data>
   <data name="MsgBoxCancel" xml:space="preserve">
     <value>Abbrechen</value>
@@ -140,8 +134,5 @@
   </data>
   <data name="MsgBoxYes" xml:space="preserve">
     <value>Ja</value>
-  </data>
-  <data name="ValueOutOfRange" xml:space="preserve">
-    <value>Die Value Eigenschaft muss innerhalb des Bereiches liegen, der mit den Min und Max Properties definiert ist.</value>
   </data>
 </root>
