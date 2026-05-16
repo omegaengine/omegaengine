@@ -187,8 +187,8 @@ partial class Terrain
 
                 // Generate a bounding box using the minimum and maximum heights
                 subsetBoundingBoxesOut[subsetCount] = new(
-                    new(xBlock * blockSize * stretchH, blockMinHeight * stretchV, -yBlock * blockSize * stretchH),
-                    new((xBlock + 1) * blockSize * stretchH, blockMaxHeight * stretchV, -(yBlock + 1) * blockSize * stretchH));
+                    new(xBlock * blockSize * stretchH, blockMinHeight * stretchV, -(yBlock + 1) * blockSize * stretchH),
+                    new((xBlock + 1) * blockSize * stretchH, blockMaxHeight * stretchV, -yBlock * blockSize * stretchH));
             }
         });
 
