@@ -61,7 +61,7 @@ public class MouseInputProvider : InputProvider
         _control.MouseUp += MouseUp;
         _control.MouseWheel += MouseWheel;
         _control.MouseDoubleClick += MouseDoubleClick;
-        _control.LostFocus += (_, _) => ForceReleaseCursor();
+        _control.LostFocus += LostFocus;
         // Note: _control.MouseClick is useless since on a render target without any child controls even drags would be considered clicks
     }
 
@@ -252,6 +252,10 @@ public class MouseInputProvider : InputProvider
 
     private void MouseDoubleClick(object sender, MouseEventArgs e)
         => OnDoubleClick(e);
+
+    private void LostFocus(object sender, EventArgs e)
+        => ForceReleaseCursor();
+
     /// <inheritdoc/>
     protected override void Dispose(bool disposing)
     {
@@ -265,6 +269,7 @@ public class MouseInputProvider : InputProvider
             _control.MouseUp -= MouseUp;
             _control.MouseWheel -= MouseWheel;
             _control.MouseDoubleClick -= MouseDoubleClick;
+            _control.LostFocus -= LostFocus;
         }
     }
 }
