@@ -204,7 +204,7 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
             _engine.DeviceLost -= OnLostDevice;
             _engine.DeviceReset -= Initialize;
 
-            if (_engine == null || _engine.IsDisposed) return;
+            if (_engine.IsDisposed) return;
             _rtsHelper?.Dispose();
             Surface?.Dispose();
             Texture?.Dispose();
