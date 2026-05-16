@@ -61,7 +61,7 @@ public sealed class MusicManager : IDisposable
     public void LoadLibrary(string id)
     {
         using var stream = ContentManager.GetFileStream("Music", id);
-        var streamReader = new StreamReader(stream);
+        using var streamReader = new StreamReader(stream);
         while (!streamReader.EndOfStream)
         {
             string line = streamReader.ReadLine();
@@ -70,6 +70,11 @@ public sealed class MusicManager : IDisposable
 
             // Lines formatted as Song|Theme1,Theme2,Theme3,...
             string[] values = line.Split('|');
+            if (values.Length < 2)
+            {
+                Log.Warn($"Malformed music library line in {id}: {line}");
+                continue;
+            }
             string[] songThemes = values[1].Split(',');
             AddSong(values[0], songThemes);
         }
@@ -219,8 +224,10 @@ public sealed class MusicManager : IDisposable
             for (int i = 0; i < 40; i++)
             {
                 Thread.Sleep(50);
+                if (fadeSong.IsDisposed) return;
                 fadeSong.Volume -= 100;
             }
+            if (fadeSong.IsDisposed) return;
             fadeSong.StopPlayback();
         });
 
@@ -246,7 +253,7 @@ public sealed class MusicManager : IDisposable
     {
         if (_engine is { IsDisposed: false })
         {
-            foreach (Song song in _themes.Values)
+            foreach (Song song in _themes.Values.Distinct())
                 song.Dispose();
         }
 
