@@ -120,11 +120,11 @@
   <data name="textWelcome.Text" xml:space="preserve">
     <value>Willkommen beim AlphaEditor! Dieses Tool dient als eine IDE (Integrierte Entwicklungsumgebung) zum Modifizieren von Spielen, die auf der OmegaEngine basieren.
 
-Bevor Sie anfangen können Änderungen vorzunehmen, müssen Sie einen sogenannten Mod erstellen. Ein Mod ist ein Ordner, der all jene Dateien enthält, die Sie geändert haben und sich nun von den Originalen unterscheiden. Folglich bleibt das Original-Spiel unverändert, wenn sie im AlphaEditor arbeiten. Sie müssen das Spiel von innerhalb des AlphaEditors starten, um Ihre Änderungen in Wirkung zu sehen.
-Sie können ein Mod Paket erstellen, um Ihre Änderungen an Andere weitergeben zu können. Es handelt sich dabei um eine komprimierte Datei, die auf anderen Rechnern installiert werden kann. Ein installierter Mod kann auch ohne den AlphaEditor gestartet werden.
+Bevor Sie anfangen können, Änderungen vorzunehmen, müssen Sie einen sogenannten Mod erstellen. Ein Mod ist ein Ordner, der all jene Dateien enthält, die Sie geändert haben und sich nun von den Originalen unterscheiden. Folglich bleibt das Original-Spiel unverändert, wenn Sie im AlphaEditor arbeiten. Sie müssen das Spiel von innerhalb des AlphaEditors starten, um Ihre Änderungen in Aktion zu sehen.
+Sie können ein Mod-Paket erstellen, um Ihre Änderungen an andere weitergeben zu können. Es handelt sich dabei um eine komprimierte Datei, die auf anderen Rechnern installiert werden kann. Ein installierter Mod kann auch ohne den AlphaEditor gestartet werden.
 
-Der AlphaEditor erlaubt es Ihnen mit einem Tab Interface, mehrere Dateien auf einmal zu öffnen. Alle geöffneten Dateien werden am unteren Rand des Bildschirms gelistet.
-Ein Objekt auf dem Bildschirm mit der "Entfernen" Taste auf der Tastatur zu löschen ist im Allgemeinen nicht möglich. Verwenden Sie stattdessen die Tastenkombination "Umschalt+Entfernen".
+Der AlphaEditor erlaubt es Ihnen, mit einem Tab-Interface mehrere Dateien auf einmal zu öffnen. Alle geöffneten Dateien werden am unteren Rand des Bildschirms gelistet.
+Ein Objekt auf dem Bildschirm mit der "Entfernen"-Taste auf der Tastatur zu löschen, ist im Allgemeinen nicht möglich. Verwenden Sie stattdessen die Tastenkombination "Umschalt+Entfernen".
 </value>
   </data>
   <data name="checkBoxDontShowAgain.Text" xml:space="preserve">

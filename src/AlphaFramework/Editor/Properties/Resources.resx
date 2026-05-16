@@ -212,11 +212,11 @@ Close the Mod and apply the language change everywhere</value>
     <value>The external data was successfully imported.</value>
   </data>
   <data name="DeleteCheckedEntries" xml:space="preserve">
-    <value>Do you want delete the {0} checked entries?
+    <value>Do you want to delete the {0} checked entries?
 Note: This is not necessarily the currently selected one.</value>
   </data>
   <data name="DeleteSelectedEntry" xml:space="preserve">
-    <value>Do you want delete the currently selected entry?
+    <value>Do you want to delete the currently selected entry?
 {0}</value>
   </data>
   <data name="DirectoryNotCreatable" xml:space="preserve">
@@ -241,11 +241,11 @@ Use this directory anyway
     <value>Please enter a name for the template.</value>
   </data>
   <data name="ExportCheckedEntries" xml:space="preserve">
-    <value>Do you want export the {0} checked entries?
+    <value>Do you want to export the {0} checked entries?
 Note: This is not necessarily the currently selected one.</value>
   </data>
   <data name="ExportSelectedEntry" xml:space="preserve">
-    <value>Do you want export the currently selected entry?
+    <value>Do you want to export the currently selected entry?
 {0}</value>
   </data>
   <data name="FailedReadArchives" xml:space="preserve">
@@ -294,7 +294,7 @@ Note: This is not necessarily the currently selected one.</value>
     <value>You must enter a storage location.</value>
   </data>
   <data name="ModPackaged" xml:space="preserve">
-    <value>The mod was successfully packaged into a auto-installable file.</value>
+    <value>The mod was successfully packaged into an auto-installable file.</value>
   </data>
   <data name="NameInUse" xml:space="preserve">
     <value>This name is already in use.</value>
@@ -322,7 +322,7 @@ Note: This is not necessarily the currently selected one.</value>
   </data>
   <data name="SaveChangesNo" xml:space="preserve">
     <value>&amp;Don't save
-Ignore the not saved changes</value>
+Ignore the unsaved changes</value>
   </data>
   <data name="SaveChangesYes" xml:space="preserve">
     <value>&amp;Save

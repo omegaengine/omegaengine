@@ -121,14 +121,14 @@
     <value>Das Spiel läuft bereits.</value>
   </data>
   <data name="BenchmarkInfo" xml:space="preserve">
-    <value>Sie sind dabei einen automatischen Benchmark zu starten. Hierbei werden Daten über Ihre Hardware und die Performance des Spiels gesammelt, welche anschließend an die Entwickler geschickt werden.
+    <value>Sie sind dabei, einen automatischen Benchmark zu starten. Hierbei werden Daten über Ihre Hardware und die Performance des Spiels gesammelt, welche anschließend an die Entwickler geschickt werden.
 Dieser Vorgang dauert ungefähr 20 Minuten. Um die Ergebnisse nicht zu verfälschen, sollten Sie währenddessen keine anderen Anwendungen ausführen. Das Spiel verwendet für den Benchmark, unabhängig von Ihren Einstellungen, den Vollbildmodus.</value>
   </data>
   <data name="BenchmarkInfoContinue" xml:space="preserve">
     <value>&amp;Starten</value>
   </data>
   <data name="BenchmarkReady" xml:space="preserve">
-    <value>Die Benchmark-Daten wurden erfolgreich gesammelt und können jetzt die Entwickler gesendet werden können.</value>
+    <value>Die Benchmark-Daten wurden erfolgreich gesammelt und können jetzt an die Entwickler gesendet werden.</value>
   </data>
   <data name="BenchmarkReadyCancel" xml:space="preserve">
     <value>&amp;Nicht senden

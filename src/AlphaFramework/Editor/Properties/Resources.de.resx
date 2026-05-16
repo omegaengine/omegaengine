@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AutoSavePendingChanges" xml:space="preserve">
-    <value>Die Änderungen die Sie vorgenommen haben, werden gespeichert, damit diese auch tatsächlich sichtbar werden.</value>
+    <value>Die Änderungen, die Sie vorgenommen haben, werden gespeichert, damit diese auch tatsächlich sichtbar werden.</value>
   </data>
   <data name="BadGraphics" xml:space="preserve">
     <value>Ihre Grafikkarte wird von dieser Anwendung nicht unterstützt.</value>
@@ -168,7 +168,7 @@ Trotzdem das Verzeichnis verwenden
     <value>Die benötigte Version von DirectX ist auf Ihrem Computer nicht installiert.</value>
   </data>
   <data name="EnterTemplateName" xml:space="preserve">
-    <value>Bitte geben Sie einen Namen für die Template ein.</value>
+    <value>Bitte geben Sie einen Namen für das Template ein.</value>
   </data>
   <data name="ExportCheckedEntries" xml:space="preserve">
     <value>Möchten Sie die {0} angehakten Einträge exportieren?
@@ -209,7 +209,7 @@ Beachten Sie: Dies ist nicht zwangsläufig der aktuell ausgewählte Eintrag.</va
     <value>Der Dateipfad ist ungültig.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
-    <value>Die eingegebenen Daten sind ungültig</value>
+    <value>Die eingegebenen Daten sind ungültig.</value>
   </data>
   <data name="KeyAlreadyPresent" xml:space="preserve">
     <value>Der Schlüssel war bereits im Verzeichnis vorhanden.</value>
@@ -277,7 +277,7 @@ Die Datei speichern und dann schließen</value>
     <value>Template-Auswahl</value>
   </data>
   <data name="TestInGame" xml:space="preserve">
-    <value>Sie sind dabei das Spiel mit dem aktuellen Mod zu starten.
+    <value>Sie sind dabei, das Spiel mit dem aktuellen Mod zu starten.
 Bitte stellen Sie vorher sicher, dass Sie alle Änderungen gespeichert haben, damit diese auch tatsächlich sichtbar werden.</value>
   </data>
   <data name="TestInGameContinue" xml:space="preserve">
@@ -289,7 +289,7 @@ Das Spiel starten</value>
 Die Datei speichern und das Spiel starten</value>
   </data>
   <data name="TestInGameMap" xml:space="preserve">
-    <value>Sie sind dabei das Spiel zu starten und darin die aktuelle Map zu öffnen.</value>
+    <value>Sie sind dabei, das Spiel zu starten und darin die aktuelle Map zu öffnen.</value>
   </data>
   <data name="YesDelete" xml:space="preserve">
     <value>Ja, löschen</value>

@@ -124,7 +124,7 @@
     <value>&amp;Autor:</value>
   </data>
   <data name="labelLocation.Text" xml:space="preserve">
-    <value>&amp;Speicherot:</value>
+    <value>&amp;Speicherort:</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Mod Eigenschaften</value>

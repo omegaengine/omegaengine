@@ -121,7 +121,7 @@
     <value>Abbrechen</value>
   </data>
   <data name="labelInfo.Text" xml:space="preserve">
-    <value>Ein Mod Paket ist eine komprimierte Datei die alle Dateien aus dem Mod-Verzeichnis enthält. Ein Endbenutz kann den Mod installieren, indem er einfach auf das Paket doppelklickt.</value>
+    <value>Ein Mod-Paket ist eine komprimierte Datei, die alle Dateien aus dem Mod-Verzeichnis enthält. Ein Endbenutzer kann den Mod installieren, indem er einfach auf das Paket doppelklickt.</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Mod verpacken</value>

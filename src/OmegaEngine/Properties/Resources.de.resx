@@ -139,7 +139,7 @@
     <value>Der dynamische Shader konnte nicht kompiliert werden.</value>
   </data>
   <data name="EngineCannotChange" xml:space="preserve">
-    <value>Engine kann nicht wieder geändert werden, nachdem Sie gesetzt wurde.</value>
+    <value>Engine kann nicht wieder geändert werden, nachdem sie gesetzt wurde.</value>
   </data>
   <data name="EngineNotSetYet" xml:space="preserve">
     <value>Engine wurde noch nicht gesetzt.</value>
@@ -172,7 +172,7 @@
     <value>Die Terrain "Height-Map" kann nicht modifiziert werden, wenn Terrain Beleuchtung aktiviert ist.</value>
   </data>
   <data name="NoSuchBody" xml:space="preserve">
-    <value>Es wurde kein derartiges Body gefunden: </value>
+    <value>Es wurde kein derartiger Body gefunden: </value>
   </data>
   <data name="NoSuchLightSource" xml:space="preserve">
     <value>Es wurde keine derartige Lichtquelle gefunden: </value>
