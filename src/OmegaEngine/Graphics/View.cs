@@ -460,7 +460,7 @@ public partial class View : EngineElement, IFrameResettable
             // Dispose and remove all water view sources associated to this view
             Engine.WaterViewSources.RemoveWhere(viewSource =>
             {
-                if (viewSource.RefractedView == this || viewSource.RefractedView == this)
+                if (viewSource.RefractedView == this || viewSource.ReflectedView == this)
                 {
                     viewSource.Dispose();
                     return true;
