@@ -39,6 +39,11 @@ public class ImportXml(Func<Universe> getUniverse, Action<Universe> setUniverse,
     /// <inheritdoc/>
     protected override void TransferNonXmlData(Universe oldUniverse, Universe newUniverse)
     {
-        newUniverse.Terrain = oldUniverse.Terrain;
+        var oldTerrain = oldUniverse.Terrain;
+        var newTerrain = newUniverse.Terrain;
+
+        newTerrain.HeightMap = oldTerrain.HeightMap;
+        newTerrain.TextureMap = oldTerrain.TextureMap;
+        newTerrain.OcclusionIntervalMap = oldTerrain.OcclusionIntervalMap;
     }
 }
