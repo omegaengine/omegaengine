@@ -211,13 +211,21 @@ partial class Terrain
         using var _ = new TimedLogEvent("Compiling terrain mesh");
 
         var mesh = new Mesh(engine.Device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed | MeshFlags.Use32Bit, PositionMultiTextured.GetVertexElements());
-        mesh.WriteVertexBuffer(vertexes);
-        mesh.WriteIndexBuffer(indexes);
+        try
+        {
+            mesh.WriteVertexBuffer(vertexes);
+            mesh.WriteIndexBuffer(indexes);
 
-        // Add subset data to mesh
-        mesh.WriteAttributeBuffer(attributes);
+            // Add subset data to mesh
+            mesh.WriteAttributeBuffer(attributes);
 
-        if (lighting) TexturedMeshUtils.GenerateNormals(engine.Device, ref mesh);
+            if (lighting) TexturedMeshUtils.GenerateNormals(engine.Device, ref mesh);
+        }
+        catch
+        {
+            mesh.Dispose();
+            throw;
+        }
 
         return mesh;
     }
