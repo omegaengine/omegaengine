@@ -9,7 +9,6 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using NanoByte.Common;
 using SlimDX;
@@ -58,7 +57,7 @@ partial class Terrain
         #endregion
 
         var vertexes = GenerateVertexes(size, stretchH, stretchV, heightMap, textureMap, occlusionIntervalMap);
-        var indexes = GenerateIndexes(size, stretchH, stretchV, blockSize, vertexes, out int[] attributes, out ushort[] subsetTextureMasks, out subsetBoundingBoxes);
+        var indexes = GenerateIndexes(size, stretchH, blockSize, vertexes, out int[] attributes, out ushort[] subsetTextureMasks, out subsetBoundingBoxes);
         subsetShaders = GetSubsetShaders(engine, lighting, subsetTextureMasks);
         return CompileMesh(engine, vertexes, indexes, attributes, lighting);
     }
@@ -69,12 +68,14 @@ partial class Terrain
 
         var vertexes = new PositionMultiTextured[size.Width * size.Height];
 
-        Parallel.For(0, size.Width, x =>
+        Parallel.For(0, size.Width,
+            localInit: () => new float[16],
+            body: (x, _, texWeights) =>
         {
             for (int y = 0; y < size.Height; y++)
             {
                 #region Texture blending
-                var texWeights = new float[16];
+                Array.Clear(texWeights, 0, texWeights.Length);
 
                 // Perform integer division (texture map has 1/3 of height map accuracy) but keep remainders
                 int xCoord = Math.DivRem(x, 3, out int xRemainder);
@@ -123,11 +124,13 @@ partial class Terrain
                     occlusionIntervals.ByteToAngle(),
                     texWeights, Color.White);
             }
-        });
+            return texWeights;
+        },
+            localFinally: _ => { });
         return vertexes;
     }
 
-    private static int[] GenerateIndexes(Size size, float stretchH, float stretchV, int blockSize, PositionMultiTextured[] vertexes, out int[] attributes, out ushort[] subsetTextureMasks, out BoundingBox[] subsetBoundingBoxes)
+    private static int[] GenerateIndexes(Size size, float stretchH, int blockSize, PositionMultiTextured[] vertexes, out int[] attributes, out ushort[] subsetTextureMasks, out BoundingBox[] subsetBoundingBoxes)
     {
         using var _ = new TimedLogEvent("Generating terrain indexes");
 
@@ -159,7 +162,7 @@ partial class Terrain
                 int subsetCount = xBlock * blocksY + yBlock;
 
                 #region Generate indexes
-                byte blockMaxHeight = 0, blockMinHeight = 255;
+                float blockMaxHeight = float.MinValue, blockMinHeight = float.MaxValue;
                 for (int yVert = startY; yVert < endY; yVert++)
                 {
                     for (int xVert = startX; xVert < endX; xVert++)
@@ -170,25 +173,25 @@ partial class Terrain
                         // Keep track of the highest and lowest height value that has occurred in this block/subset so far
                         // Determine which textures are used in this block/subset
                         int indexCount = vertexCount * 6;
-                        indexes[indexCount++] = IndexHelper((xVert + 0) + size.Width * (yVert + 0), vertexes, stretchV, ref blockMaxHeight, ref blockMinHeight, ref subsetTextureMasksOut[subsetCount]);
-                        indexes[indexCount++] = IndexHelper((xVert + 1) + size.Width * (yVert + 0), vertexes, stretchV, ref blockMaxHeight, ref blockMinHeight, ref subsetTextureMasksOut[subsetCount]);
-                        indexes[indexCount++] = IndexHelper((xVert + 0) + size.Width * (yVert + 1), vertexes, stretchV, ref blockMaxHeight, ref blockMinHeight, ref subsetTextureMasksOut[subsetCount]);
-                        indexes[indexCount++] = IndexHelper((xVert + 1) + size.Width * (yVert + 0), vertexes, stretchV, ref blockMaxHeight, ref blockMinHeight, ref subsetTextureMasksOut[subsetCount]);
-                        indexes[indexCount++] = IndexHelper((xVert + 1) + size.Width * (yVert + 1), vertexes, stretchV, ref blockMaxHeight, ref blockMinHeight, ref subsetTextureMasksOut[subsetCount]);
-                        indexes[indexCount] = IndexHelper((xVert + 0) + size.Width * (yVert + 1), vertexes, stretchV, ref blockMaxHeight, ref blockMinHeight, ref subsetTextureMasksOut[subsetCount]);
+                        indexes[indexCount++] = IndexHelper((xVert + 0) + size.Width * (yVert + 0), vertexes, ref blockMaxHeight, ref blockMinHeight, ref subsetTextureMasksOut[subsetCount]);
+                        indexes[indexCount++] = IndexHelper((xVert + 1) + size.Width * (yVert + 0), vertexes, ref blockMaxHeight, ref blockMinHeight, ref subsetTextureMasksOut[subsetCount]);
+                        indexes[indexCount++] = IndexHelper((xVert + 0) + size.Width * (yVert + 1), vertexes, ref blockMaxHeight, ref blockMinHeight, ref subsetTextureMasksOut[subsetCount]);
+                        indexes[indexCount++] = IndexHelper((xVert + 1) + size.Width * (yVert + 0), vertexes, ref blockMaxHeight, ref blockMinHeight, ref subsetTextureMasksOut[subsetCount]);
+                        indexes[indexCount++] = IndexHelper((xVert + 1) + size.Width * (yVert + 1), vertexes, ref blockMaxHeight, ref blockMinHeight, ref subsetTextureMasksOut[subsetCount]);
+                        indexes[indexCount] = IndexHelper((xVert + 0) + size.Width * (yVert + 1), vertexes, ref blockMaxHeight, ref blockMinHeight, ref subsetTextureMasksOut[subsetCount]);
 
                         // Assign the current subset number to both faces (triangles) of the current square
                         int faceCount = vertexCount * 2;
-                        attributesOut[faceCount++] = subsetCount;
                         attributesOut[faceCount] = subsetCount;
+                        attributesOut[faceCount + 1] = subsetCount;
                     }
                 }
                 #endregion
 
                 // Generate a bounding box using the minimum and maximum heights
                 subsetBoundingBoxesOut[subsetCount] = new(
-                    new(xBlock * blockSize * stretchH, blockMinHeight * stretchV, -(yBlock + 1) * blockSize * stretchH),
-                    new((xBlock + 1) * blockSize * stretchH, blockMaxHeight * stretchV, -yBlock * blockSize * stretchH));
+                    new(xBlock * blockSize * stretchH, blockMinHeight, -(yBlock + 1) * blockSize * stretchH),
+                    new((xBlock + 1) * blockSize * stretchH, blockMaxHeight, -yBlock * blockSize * stretchH));
             }
         });
 
@@ -254,35 +257,36 @@ partial class Terrain
     /// </summary>
     /// <param name="index">The index within <paramref name="array"/> to look up</param>
     /// <param name="array">The vertex array to perform the lookup in</param>
-    /// <param name="factor">A factor by which the <paramref name="array"/> elements are to be diveded before handling them</param>
-    /// <param name="maxHeight">A height value that is increased if a higher value is found in the lookup</param>
-    /// <param name="minHeight">A height value that is decreased if a lower value is found in the lookup</param>
+    /// <param name="maxHeight">A height value (in world units) that is increased if a higher value is found in the lookup</param>
+    /// <param name="minHeight">A height value (in world units) that is decreased if a lower value is found in the lookup</param>
     /// <param name="textureMask">A bitmask that is updated to indicate which textures are used.</param>
     /// <returns>Passed the <paramref name="index"/> back out.</returns>
-    private static int IndexHelper(int index, PositionMultiTextured[] array, float factor, ref byte maxHeight, ref byte minHeight, ref ushort textureMask)
+    private static int IndexHelper(int index, PositionMultiTextured[] array, ref float maxHeight, ref float minHeight, ref ushort textureMask)
     {
-        float height = array[index].Position.Y / factor;
-        if (height > maxHeight) maxHeight = (byte)height;
-        if (height < minHeight) minHeight = (byte)height;
+        ref readonly var v = ref array[index];
+
+        float height = v.Position.Y;
+        if (height > maxHeight) maxHeight = height;
+        if (height < minHeight) minHeight = height;
 
         #region Texture lookup
         // ReSharper disable CompareOfFloatsByEqualityOperator
-        if (array[index].TexWeights1.X != 0) textureMask |= 1 << 0;
-        if (array[index].TexWeights1.Y != 0) textureMask |= 1 << 1;
-        if (array[index].TexWeights1.Z != 0) textureMask |= 1 << 2;
-        if (array[index].TexWeights1.W != 0) textureMask |= 1 << 3;
-        if (array[index].TexWeights2.X != 0) textureMask |= 1 << 4;
-        if (array[index].TexWeights2.Y != 0) textureMask |= 1 << 5;
-        if (array[index].TexWeights2.Z != 0) textureMask |= 1 << 6;
-        if (array[index].TexWeights2.W != 0) textureMask |= 1 << 7;
-        if (array[index].TexWeights3.X != 0) textureMask |= 1 << 8;
-        if (array[index].TexWeights3.Y != 0) textureMask |= 1 << 9;
-        if (array[index].TexWeights3.Z != 0) textureMask |= 1 << 10;
-        if (array[index].TexWeights3.W != 0) textureMask |= 1 << 11;
-        if (array[index].TexWeights4.X != 0) textureMask |= 1 << 12;
-        if (array[index].TexWeights4.Y != 0) textureMask |= 1 << 13;
-        if (array[index].TexWeights4.Z != 0) textureMask |= 1 << 14;
-        if (array[index].TexWeights4.W != 0) textureMask |= 1 << 15;
+        if (v.TexWeights1.X != 0) textureMask |= 1 << 0;
+        if (v.TexWeights1.Y != 0) textureMask |= 1 << 1;
+        if (v.TexWeights1.Z != 0) textureMask |= 1 << 2;
+        if (v.TexWeights1.W != 0) textureMask |= 1 << 3;
+        if (v.TexWeights2.X != 0) textureMask |= 1 << 4;
+        if (v.TexWeights2.Y != 0) textureMask |= 1 << 5;
+        if (v.TexWeights2.Z != 0) textureMask |= 1 << 6;
+        if (v.TexWeights2.W != 0) textureMask |= 1 << 7;
+        if (v.TexWeights3.X != 0) textureMask |= 1 << 8;
+        if (v.TexWeights3.Y != 0) textureMask |= 1 << 9;
+        if (v.TexWeights3.Z != 0) textureMask |= 1 << 10;
+        if (v.TexWeights3.W != 0) textureMask |= 1 << 11;
+        if (v.TexWeights4.X != 0) textureMask |= 1 << 12;
+        if (v.TexWeights4.Y != 0) textureMask |= 1 << 13;
+        if (v.TexWeights4.Z != 0) textureMask |= 1 << 14;
+        if (v.TexWeights4.W != 0) textureMask |= 1 << 15;
         // ReSharper restore CompareOfFloatsByEqualityOperator
         #endregion
 
