@@ -36,7 +36,15 @@ public static class BufferUtils
         #endregion
 
         var buffer = new VertexBuffer(device, Marshal.SizeOf(typeof(T)) * data.Length, Usage.WriteOnly, format, Pool.Managed);
-        buffer.Write(data);
+        try
+        {
+            buffer.Write(data);
+        }
+        catch
+        {
+            buffer.Dispose();
+            throw;
+        }
         return buffer;
     }
 
@@ -131,7 +139,15 @@ public static class BufferUtils
         #endregion
 
         var buffer = new IndexBuffer(device, sizeof(short) * data.Length, Usage.WriteOnly, Pool.Managed, true);
-        buffer.Write(data);
+        try
+        {
+            buffer.Write(data);
+        }
+        catch
+        {
+            buffer.Dispose();
+            throw;
+        }
         return buffer;
     }
 
@@ -149,7 +165,15 @@ public static class BufferUtils
         #endregion
 
         var buffer = new IndexBuffer(device, sizeof(int) * data.Length, Usage.WriteOnly, Pool.Managed, false);
-        buffer.Write(data);
+        try
+        {
+            buffer.Write(data);
+        }
+        catch
+        {
+            buffer.Dispose();
+            throw;
+        }
         return buffer;
     }
 

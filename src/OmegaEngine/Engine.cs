@@ -123,16 +123,16 @@ public sealed partial class Engine : EngineElement
         Engine = this;
         RegisterChild(_views);
 
-        _direct3D = new();
         Target = target;
         Config = config;
         ShaderDir = Path.Combine(Locations.InstallBase, "Shaders");
 
-        Capabilities = new(_direct3D, config);
-        Effects = new(Capabilities) {PerPixelLighting = true};
-
         try
         {
+            _direct3D = new();
+            Capabilities = new(_direct3D, config);
+            Effects = new(Capabilities) {PerPixelLighting = true};
+
             CreateDevice();
             State = new(Device);
             SetupTextureFiltering();

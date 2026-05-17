@@ -38,7 +38,15 @@ public class XWaveSound : XSound
         using var waveFile = new WaveStream(stream);
         SoundFormat = waveFile.Format;
         SoundData = new MemoryStream((int)waveFile.Length);
-        waveFile.CopyToEx(SoundData);
+        try
+        {
+            waveFile.CopyToEx(SoundData);
+        }
+        catch
+        {
+            SoundData.Dispose();
+            throw;
+        }
     }
     #endregion
 

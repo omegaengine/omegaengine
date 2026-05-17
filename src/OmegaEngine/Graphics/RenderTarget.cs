@@ -84,7 +84,16 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
         engine.DeviceLost += OnLostDevice;
         engine.DeviceReset += Initialize;
 
-        Initialize();
+        try
+        {
+            Initialize();
+        }
+        catch
+        {
+            engine.DeviceLost -= OnLostDevice;
+            engine.DeviceReset -= Initialize;
+            throw;
+        }
     }
     #endregion
 
@@ -124,7 +133,16 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
             // Create the target texture and surface
             Texture = new(_engine.Device, Viewport.Width, Viewport.Height, 1,
                 Usage.RenderTarget, _engine.PresentParams.BackBufferFormat, Pool.Default);
-            Surface = Texture.GetSurfaceLevel(0);
+            try
+            {
+                Surface = Texture.GetSurfaceLevel(0);
+            }
+            catch
+            {
+                Texture.Dispose();
+                Texture = null!;
+                throw;
+            }
         }
     }
     #endregion
