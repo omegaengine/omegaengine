@@ -71,7 +71,7 @@ public sealed class Entity : EntityBase<Vector2, EntityTemplate>
     /// The <see cref="Waypoint"/>s associated with this entity ordered by <see cref="Waypoint.ActivationTime"/>.
     /// </summary>
     [XmlElement, Browsable(false)]
-    public List<Waypoint> Waypoints { get; } = [];
+    public List<Waypoint> Waypoints { get; private set; } = [];
 
     //--------------------//
 
@@ -196,6 +196,16 @@ public sealed class Entity : EntityBase<Vector2, EntityTemplate>
         // Make the entity face the direction it is walking in (unless it's the last step)
         if (CurrentPath != null)
             Rotation = ((float)Math.Atan2(posDifference.Y, posDifference.X)).RadianToDegree() - 90;
+    }
+    #endregion
+
+    #region Clone
+    /// <inheritdoc/>
+    public override Positionable<Vector2> Clone()
+    {
+        var clone = (Entity)base.Clone();
+        clone.Waypoints = new(Waypoints);
+        return clone;
     }
     #endregion
 }
