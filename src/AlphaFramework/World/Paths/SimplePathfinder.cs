@@ -48,6 +48,13 @@ public class SimplePathfinder : IPathfinder<Vector2>
         var roundedTarget = new Vector2((int)target.X, (int)target.Y);
         var goneLockup = new int[_obstructionMap.GetLength(0), _obstructionMap.GetLength(1)];
 
+        // Positions outside the map are unreachable
+        if (roundedStart.X < 0 || roundedStart.Y < 0
+         || roundedStart.X >= _obstructionMap.GetLength(0) || roundedStart.Y >= _obstructionMap.GetLength(1)
+         || roundedTarget.X < 0 || roundedTarget.Y < 0
+         || roundedTarget.X >= _obstructionMap.GetLength(0) || roundedTarget.Y >= _obstructionMap.GetLength(1))
+            return null;
+
         if (_obstructionMap[(int)roundedTarget.X, (int)roundedTarget.Y]) return null;
 
         bool pathFound = false;
