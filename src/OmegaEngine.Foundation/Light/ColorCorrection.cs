@@ -126,7 +126,7 @@ public struct ColorCorrection : IEquatable<ColorCorrection>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
-        return (obj.GetType() != typeof(ColorCorrection)) && Equals((ColorCorrection)obj);
+        return obj is ColorCorrection colorCorrection && Equals(colorCorrection);
     }
 
     /// <inheritdoc/>
