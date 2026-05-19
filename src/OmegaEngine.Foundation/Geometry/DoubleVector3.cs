@@ -61,7 +61,7 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     /// <summary>Add <see cref="Vector3"/> to <see cref="DoubleVector3"/></summary>
     public static DoubleVector3 operator +(Vector3 vector1, DoubleVector3 vector2) => new(vector1.X + vector2.X, vector1.Y + vector2.Y, vector1.Z + vector2.Z);
 
-    /// <summary>Subtract <see cref="DoubleVector3"/> from <see cref="Vector3"/></summary>
+    /// <summary>Subtract <see cref="Vector3"/> from <see cref="DoubleVector3"/></summary>
     public static DoubleVector3 operator -(DoubleVector3 vector1, Vector3 vector2) => new(vector1.X - vector2.X, vector1.Y - vector2.Y, vector1.Z - vector2.Z);
 
     /// <summary>Subtract <see cref="DoubleVector3"/> from <see cref="Vector3"/></summary>
