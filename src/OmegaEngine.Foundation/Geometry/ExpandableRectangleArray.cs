@@ -107,8 +107,8 @@ public class ExpandableRectangleArray<T>
         #endregion
 
         // Build the result array and fill it with base values if possible
-        int width = Math.Min(TotalArea.Width, baseValues.GetLength(0) - TotalArea.X);
-        int height = Math.Min(TotalArea.Height, baseValues.GetLength(1) - TotalArea.Y);
+        int width = Math.Max(0, Math.Min(TotalArea.Width, baseValues.GetLength(0) - TotalArea.X));
+        int height = Math.Max(0, Math.Min(TotalArea.Height, baseValues.GetLength(1) - TotalArea.Y));
         var result = new T[width, height];
         for (int x = 0; x < width; x++)
         {
