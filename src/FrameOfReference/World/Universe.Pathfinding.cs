@@ -118,6 +118,8 @@ partial class Universe
             int yStart = (int)Math.Floor(water.Position.Y / Terrain.Size.StretchH);
             int yEnd = (int)Math.Ceiling((water.Position.Y + water.Size.Y) / Terrain.Size.StretchH);
 
+            if (xStart < 0) xStart = 0;
+            if (yStart < 0) yStart = 0;
             if (xEnd > Terrain.Size.X - 1) xEnd = Terrain.Size.X - 1;
             if (yEnd > Terrain.Size.Y - 1) yEnd = Terrain.Size.Y - 1;
 
