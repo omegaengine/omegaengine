@@ -63,11 +63,15 @@ public static class RandomUtils
     /// <summary>
     /// Get a random Vector3 value that lies within a sphere with the given radius
     /// </summary>
-    public static Vector3 GetRandomPointInsideSphere(float radius) =>
-        VectorMath.UnitVector(
-            inclination: GetRandomFloat(0, 2 * (float)Math.PI),
-            azimuth: GetRandomFloat(0, 2 * (float)Math.PI))
-      * GetRandomFloat(0, radius);
+    public static Vector3 GetRandomPointInsideSphere(float radius)
+    {
+        // Cube root keeps the radial density uniform; acos keeps the direction uniform on the sphere
+        double radiusFactor = _randomGenerator.NextDouble();
+        return VectorMath.UnitVector(
+                inclination: Math.Acos(1 - 2 * _randomGenerator.NextDouble()),
+                azimuth: GetRandomFloat(0, 2 * (float)Math.PI))
+          * (radius * (float)Math.Pow(radiusFactor, 1.0 / 3.0));
+    }
 
     /// <summary>
     /// Get a random color value between <paramref name="limit1"/> and <paramref name="limit2"/>
