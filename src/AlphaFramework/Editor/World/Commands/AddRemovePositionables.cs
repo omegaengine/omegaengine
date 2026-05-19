@@ -29,7 +29,7 @@ public abstract class AddRemovePositionables<TCoordinates>(CoordinateUniverse<TC
     private readonly List<Positionable<TCoordinates>> _positionables = [..positionables];
 
     /// <summary>
-    /// Removes the entities from the universe
+    /// Adds the entities to the universe
     /// </summary>
     protected void AddPositionables()
     {
@@ -38,7 +38,7 @@ public abstract class AddRemovePositionables<TCoordinates>(CoordinateUniverse<TC
     }
 
     /// <summary>
-    /// Adds the entities to the universe
+    /// Removes the entities from the universe
     /// </summary>
     protected void RemovePositionables()
     {
