@@ -130,7 +130,14 @@ public sealed partial class Session : Session<Universe>
         {
             // Skip triggers with unmet dependencies
             if (!string.IsNullOrEmpty(trigger.DependsOn))
-                if (!Universe.GetTrigger(trigger.DependsOn).WasTriggered) continue;
+            {
+                if (Universe.GetTrigger(trigger.DependsOn) is not {} dependency)
+                {
+                    Log.Warn($"Trigger '{trigger.Name}' depends on unknown trigger '{trigger.DependsOn}'");
+                    continue;
+                }
+                if (!dependency.WasTriggered) continue;
+            }
 
             var targetEntity = playerEntities.FirstOrDefault(x => x.Name == trigger.TargetEntity);
             if (targetEntity != null)
