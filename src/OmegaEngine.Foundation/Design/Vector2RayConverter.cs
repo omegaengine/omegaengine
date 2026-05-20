@@ -24,19 +24,15 @@ internal class Vector2RayConverter : ValueTypeConverter<Vector2Ray>
 
     /// <inheritdoc/>
     protected override ConstructorInfo GetConstructor() => typeof(Vector2Ray).GetConstructor([
-        typeof(float),
-        typeof(float),
-        typeof(float),
-        typeof(float)
+        typeof(Vector2),
+        typeof(Vector2)
     ])!;
 
     /// <inheritdoc/>
     protected override object[] GetArguments(Vector2Ray value) =>
     [
-        value.Position.X,
-        value.Position.Y,
-        value.Direction.X,
-        value.Direction.Y
+        value.Position,
+        value.Direction
     ];
 
     /// <inheritdoc/>
