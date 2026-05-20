@@ -52,7 +52,7 @@ internal class ColorCorrectionConverter : ValueTypeConverter<ColorCorrection>
             brightness: Convert.ToSingle(values[0], culture),
             contrast: Convert.ToSingle(values[1], culture),
             saturation: Convert.ToSingle(values[2], culture),
-            hue: Convert.ToSingle(values[2], culture));
+            hue: Convert.ToSingle(values[3], culture));
     }
 
     /// <inheritdoc/>

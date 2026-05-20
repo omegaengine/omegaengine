@@ -25,7 +25,7 @@ internal class DoubleVector3Converter : ValueTypeConverter<DoubleVector3>
     protected override ConstructorInfo GetConstructor() => typeof(DoubleVector3).GetConstructor([typeof(double), typeof(double), typeof(double)])!;
 
     /// <inheritdoc/>
-    protected override object[] GetArguments(DoubleVector3 value) => [value.X, value.Y];
+    protected override object[] GetArguments(DoubleVector3 value) => [value.X, value.Y, value.Z];
 
     /// <inheritdoc/>
     protected override string[] GetValues(DoubleVector3 value, ITypeDescriptorContext? context, CultureInfo culture)

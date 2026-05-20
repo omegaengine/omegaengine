@@ -24,23 +24,15 @@ internal class DoublePlaneConverter : ValueTypeConverter<DoublePlane>
 
     /// <inheritdoc/>
     protected override ConstructorInfo GetConstructor() => typeof(DoublePlane).GetConstructor([
-        typeof(double),
-        typeof(double),
-        typeof(double),
-        typeof(float),
-        typeof(float),
-        typeof(float)
+        typeof(DoubleVector3),
+        typeof(Vector3)
     ])!;
 
     /// <inheritdoc/>
     protected override object[] GetArguments(DoublePlane value) =>
     [
-        value.Point.X,
-        value.Point.Y,
-        value.Point.Z,
-        value.Normal.X,
-        value.Normal.Y,
-        value.Normal.Z
+        value.Point,
+        value.Normal
     ];
 
     /// <inheritdoc/>
