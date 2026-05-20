@@ -104,12 +104,15 @@ internal class CpuParticle : IPoolable<CpuParticle>, IPositionable
     {
         if (SecondLife)
         {
-            Parameters2.LifeTime -= elapsedTime;
+            if (Parameters2.LifeTime != CpuParticleParameters.InfiniteFlag)
+            {
+                Parameters2.LifeTime -= elapsedTime;
 
-            if (Parameters2.LifeTime <= 0)
-            { // Handle dead particles
-                Alive = false;
-                return;
+                if (Parameters2.LifeTime <= 0)
+                { // Handle dead particles
+                    Alive = false;
+                    return;
+                }
             }
         }
         else if (Parameters1.LifeTime != CpuParticleParameters.InfiniteFlag)
@@ -118,7 +121,7 @@ internal class CpuParticle : IPoolable<CpuParticle>, IPositionable
 
             if (Parameters1.LifeTime <= 0)
             {
-                if (Parameters2.LifeTime > 0)
+                if (Parameters2.LifeTime is > 0 or CpuParticleParameters.InfiniteFlag)
                 { // Handle second-life particles
                     SecondLife = true;
                 }
