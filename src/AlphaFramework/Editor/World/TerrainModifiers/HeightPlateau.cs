@@ -36,7 +36,7 @@ public sealed class HeightPlateau : Height
         #endregion
 
         var heightMap = Terrain.HeightMap;
-        byte centerHeight = heightMap[offset.X + brush.Size / 2, offset.Y + brush.Size / 2];
+        byte centerHeight = heightMap.ClampedRead(offset.X + brush.Size / 2, offset.Y + brush.Size / 2);
 
         // Iterate through intersection of [0,area.Size) and [-offset,heightMap-offset)
         for (int x = Math.Max(0, -offset.X); x < Math.Min(brush.Size, heightMap.Width - offset.X); x++)
