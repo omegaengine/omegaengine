@@ -162,7 +162,6 @@ public class Slider : Control
                     isPressed = false;
                     parentDialog.DialogManager.Target.Capture = false;
                     Dialog.ClearFocus();
-                    RaiseChanged(this, true);
                     return true;
                 }
                 break;
