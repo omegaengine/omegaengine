@@ -46,6 +46,9 @@ public class RadioButton : CheckBox
     /// </summary>
     protected virtual void SetCheckedInternal(bool ischecked, bool clearGroup, bool fromInput)
     {
+        if (ischecked && clearGroup)
+            parentDialog.ClearRadioButtonGroup(buttonGroupIndex);
+
         isBoxChecked = ischecked;
         RaiseChangedEvent(this, fromInput);
     }
