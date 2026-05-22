@@ -459,7 +459,7 @@ public class ListBox : Control
                     {
                         // User drags the mouse below the window bottom
                         scrollbarControl.Scroll(1);
-                        selectedIndex = Math.Min(itemList.Count, scrollbarControl.TrackPosition + scrollbarControl.PageSize - 1);
+                        selectedIndex = Math.Min(itemList.Count - 1, scrollbarControl.TrackPosition + scrollbarControl.PageSize - 1);
                         RaiseSelectionEvent(this, true);
                     }
                 }
@@ -683,7 +683,7 @@ public class ListBox : Control
         // Clamp the item
         if (selectedIndex < 0)
             selectedIndex = 0;
-        if (selectedIndex > itemList.Count)
+        if (selectedIndex >= itemList.Count)
             selectedIndex = itemList.Count - 1;
 
         // Did the selection change?
