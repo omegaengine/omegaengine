@@ -183,7 +183,6 @@ public sealed class DialogManager : IDisposable
         if (string.IsNullOrEmpty(tn.Filename)) return;
 
         // Create the new texture
-        var info = new ImageInformation();
         using (var stream = ContentManager.GetFileStream("GUI/Textures", tn.Filename))
         {
             try
@@ -200,9 +199,10 @@ public sealed class DialogManager : IDisposable
             }
         }
 
-        // Store dimensions
-        tn.Width = (uint)info.Width;
-        tn.Height = (uint)info.Height;
+        // Store dimensions (read from the actual created texture)
+        SurfaceDescription desc = tn.Texture.GetLevelDescription(0);
+        tn.Width = (uint)desc.Width;
+        tn.Height = (uint)desc.Height;
     }
     #endregion
 
