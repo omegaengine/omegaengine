@@ -121,6 +121,8 @@ public class Button : Label
                     // Button click
                     if (ContainsPoint(pt))
                         RaiseClickEvent(this, true);
+
+                    return true;
                 }
             }
                 break;
