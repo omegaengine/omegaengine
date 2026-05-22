@@ -272,9 +272,9 @@ public class TextBox : Control
             // Yes, get that data
             var clipString = (string)clipData.GetData(DataFormats.StringFormat);
             // find any new lines, remove everything after that
-            int i;
-            if ((i = clipString.IndexOf("\n", StringComparison.Ordinal)) > 0)
-                clipString = clipString[..(i - 1)];
+            int i = clipString.IndexOfAny(['\r', '\n']);
+            if (i >= 0)
+                clipString = clipString[..i];
 
             // Insert that into the text data
             textData.Text = textData.Text.Insert(caretPosition, clipString);
