@@ -126,7 +126,7 @@ public class ScrollBar : Control
         }
     }
 
-    /// <summary>Scrolls by delta items.  A positive value scrolls down, while a negative scrolls down</summary>
+    /// <summary>Scrolls by delta items.  A positive value scrolls down, while a negative scrolls up</summary>
     public void Scroll(int delta)
     {
         // Perform scroll
@@ -296,9 +296,13 @@ public class ScrollBar : Control
                     int maxFirstItem = end - start - pgSize; // Largest possible index for first item
                     int maxThumb = trackRect.Height - thumbRect.Height; // Largest possible thumb position
 
-                    m_position = start + (thumbRect.Top - trackRect.Top +
-                                          maxThumb / (maxFirstItem * 2)) * // Shift by half a row to avoid last row covered
-                        maxFirstItem / maxThumb;
+                    // Guard against division by zero if the content shrank to fit while dragging
+                    if (maxFirstItem > 0 && maxThumb > 0)
+                    {
+                        m_position = start + (thumbRect.Top - trackRect.Top +
+                                              maxThumb / (maxFirstItem * 2)) * // Shift by half a row to avoid last row covered
+                            maxFirstItem / maxThumb;
+                    }
 
                     return true;
                 }
