@@ -457,9 +457,8 @@ public class Dialog
         // Find all radio buttons with the given group number
         foreach (Control control in controlList)
         {
-            var radioButton = (RadioButton)control;
             // Clear the radio button checked setting
-            if (radioButton != null && radioButton.ButtonGroup == groupIndex)
+            if (control is RadioButton radioButton && radioButton.ButtonGroup == groupIndex)
                 radioButton.SetChecked(false, false);
         }
     }
