@@ -111,5 +111,5 @@ public class Savegames(Game game, Session? session = null, Action? beforeSave = 
     }
 
     private static string GetPath(string name)
-        => Locations.GetSaveDataPath(Constants.AppName, isFile: true, name + Constants.SavegameFileExt);
+        => Locations.GetSaveDataPath(Constants.AppName, isFile: true, name.RemoveCharacters(Path.GetInvalidFileNameChars()) + Constants.SavegameFileExt);
 }
