@@ -166,8 +166,16 @@ public static class TexturedMesh
         short[] indexes = [0, 1, 3, 3, 2, 0];
 
         var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
-        mesh.WriteVertexBuffer(vertexes);
-        mesh.WriteIndexBuffer(indexes);
+        try
+        {
+            mesh.WriteVertexBuffer(vertexes);
+            mesh.WriteIndexBuffer(indexes);
+        }
+        catch
+        {
+            mesh.Dispose();
+            throw;
+        }
 
         if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
         else TexturedMeshUtils.GenerateNormals(device, ref mesh);
@@ -222,9 +230,7 @@ public static class TexturedMesh
         int numFaces = slices * stacks * 2;
         int indexCount = numFaces * 3;
 
-        var mesh = new Mesh(device, numFaces, numVertexes, MeshFlags.Managed, PositionNormalTextured.Format);
-
-        var vertexes = new PositionNormalTextured[mesh.VertexCount];
+        var vertexes = new PositionNormalTextured[numVertexes];
         int vertIndex = 0;
         for (int slice = 0; slice <= slices; slice++)
         {
@@ -253,8 +259,6 @@ public static class TexturedMesh
             }
         }
 
-        mesh.WriteVertexBuffer(vertexes);
-
         var indexes = new short[indexCount];
         int i = 0;
         for (short x = 0; x < slices; x++)
@@ -274,7 +278,17 @@ public static class TexturedMesh
             }
         }
 
-        mesh.WriteIndexBuffer(indexes);
+        var mesh = new Mesh(device, numFaces, numVertexes, MeshFlags.Managed, PositionNormalTextured.Format);
+        try
+        {
+            mesh.WriteVertexBuffer(vertexes);
+            mesh.WriteIndexBuffer(indexes);
+        }
+        catch
+        {
+            mesh.Dispose();
+            throw;
+        }
 
         if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
 
@@ -426,9 +440,17 @@ public static class TexturedMesh
         }
 
         var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
-        mesh.WriteVertexBuffer(vertexes);
-        mesh.WriteIndexBuffer(indexes);
-        mesh.WriteAttributeBuffer(attributes);
+        try
+        {
+            mesh.WriteVertexBuffer(vertexes);
+            mesh.WriteIndexBuffer(indexes);
+            mesh.WriteAttributeBuffer(attributes);
+        }
+        catch
+        {
+            mesh.Dispose();
+            throw;
+        }
 
         if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
         else TexturedMeshUtils.GenerateNormals(device, ref mesh);
