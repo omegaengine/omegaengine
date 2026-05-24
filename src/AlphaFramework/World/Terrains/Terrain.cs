@@ -215,10 +215,8 @@ public sealed partial class Terrain<TTemplate> : ITerrain
                     GetSlope(x, y, 0, 1) > maxTraversableSlope
                  || GetSlope(x, y, 1, 0) > maxTraversableSlope
                  || GetSlope(x, y, 1, 1) > maxTraversableSlope
-                 || GetSlope(x, y, 1, -1) > maxTraversableSlope
                  || GetSlope(x, y, 0, -1) > maxTraversableSlope
                  || GetSlope(x, y, -1, 0) > maxTraversableSlope
-                 || GetSlope(x, y, -1, 1) > maxTraversableSlope
                  || GetSlope(x, y, -1, -1) > maxTraversableSlope;
             }
         }
