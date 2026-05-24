@@ -274,7 +274,7 @@ public class VertexGroup : PositionableRenderable
             _vb?.Dispose();
             _ib?.Dispose();
 
-            _material.HoldReference();
+            _material.ReleaseReference();
         }
         finally
         {
