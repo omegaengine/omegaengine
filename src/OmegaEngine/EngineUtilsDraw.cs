@@ -42,9 +42,8 @@ public static class EngineUtilsDraw
         ];
         engine.Device.VertexFormat = TransformedColored.Format;
         engine.State.SetTexture(null);
-        engine.Device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0, 5, 4,
-            // ToDo: Properly determine vertex stride
-            [0, 1, 2, 3, 0], Format.Index32, vertexes, 20);
+        engine.Device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0, 4, 4,
+            [0, 1, 2, 3, 0], Format.Index32, vertexes, TransformedColored.StrideSize);
     }
 
     private static readonly PositionTextured[] texturedQuadVertexes =
