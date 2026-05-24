@@ -55,8 +55,9 @@ public static partial class DynamicShader
             if (trimmedLine.StartsWith("///", StringComparison.Ordinal))
             {
                 // Store XML code for later parsing
-                xmlBuffer.AppendLine(trimmedLine.Substring(3, 1) == " " ?
-                    trimmedLine[4..] : trimmedLine[3..]);
+                xmlBuffer.AppendLine(trimmedLine.Length > 3 && trimmedLine[3] == ' '
+                    ? trimmedLine[4..]
+                    : trimmedLine[3..]);
             }
             else if (!trimmedLine.StartsWith("//", StringComparison.Ordinal))
             { // Parse XML code once it stops coming
