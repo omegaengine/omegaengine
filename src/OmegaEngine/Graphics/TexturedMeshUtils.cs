@@ -67,18 +67,10 @@ public static class TexturedMeshUtils
         hadNormals = false;
         hadTangents = false;
 
-        for (int i = 0; i < 6 && i < decl.Length; i++)
+        for (int i = 0; i < decl.Length && (!hadNormals || !hadTangents); i++)
         {
-            if (decl[i].Usage == DeclarationUsage.Normal)
-            {
-                hadNormals = true;
-                break;
-            }
-            if (decl[i].Usage == DeclarationUsage.Tangent)
-            {
-                hadTangents = true;
-                break;
-            }
+            if (decl[i].Usage == DeclarationUsage.Normal) hadNormals = true;
+            else if (decl[i].Usage == DeclarationUsage.Tangent) hadTangents = true;
         }
 
         // Select the appropriate new vertex format
