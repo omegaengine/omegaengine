@@ -25,7 +25,7 @@ public struct PositionNormalMultiTextured
     /// <summary>
     /// The length of this vertex structure in bytes.
     /// </summary>
-    public const int StrideSize = 30 * 4;
+    public const int StrideSize = 32 * 4;
     #endregion
 
     #region Variables
@@ -107,17 +107,17 @@ public struct PositionNormalMultiTextured
         // Tu, Tv
         new(0, sizeof(float) * 6, DeclarationType.Float2, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 0),
         // OcclusionIntervals
-        new(0, sizeof(float) * 10, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 1),
+        new(0, sizeof(float) * 8, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 1),
         // TexWeights1
-        new(0, sizeof(float) * 14, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 2),
+        new(0, sizeof(float) * 12, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 2),
         // TexWeights2
-        new(0, sizeof(float) * 18, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 3),
+        new(0, sizeof(float) * 16, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 3),
         // TexWeights3
-        new(0, sizeof(float) * 22, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 4),
+        new(0, sizeof(float) * 20, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 4),
         // TexWeights4
-        new(0, sizeof(float) * 26, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 5),
+        new(0, sizeof(float) * 24, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 5),
         // Color
-        new(0, sizeof(float) * 30, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.Color, 0),
+        new(0, sizeof(float) * 28, DeclarationType.Float4, DeclarationMethod.Default, DeclarationUsage.Color, 0),
         // End
         VertexElement.VertexDeclarationEnd
     ];

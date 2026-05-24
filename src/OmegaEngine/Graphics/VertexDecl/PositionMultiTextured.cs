@@ -25,7 +25,7 @@ public struct PositionMultiTextured
     /// <summary>
     /// The length of this vertex structure in bytes.
     /// </summary>
-    public const int StrideSize = 27 * 4;
+    public const int StrideSize = 29 * 4;
     #endregion
 
     #region Variables
