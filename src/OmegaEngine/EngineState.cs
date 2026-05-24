@@ -63,6 +63,7 @@ public sealed class EngineState
         _fogStart = _fogEnd = 0;
         _alphaBlend = 0;
         _worldTransform = _viewTransform = _projectionTransform = new();
+        _userClipPlane = default;
     }
     #endregion
 
