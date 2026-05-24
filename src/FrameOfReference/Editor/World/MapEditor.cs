@@ -487,7 +487,7 @@ public partial class MapEditor : UndoCommandTab
 
                 case Waypoint waypoint:
                     newTrigger.Position = waypoint.Position;
-                    newTrigger.DueTime = Math.Round(waypoint.ArrivalTime ?? _universe.GameTime);
+                    newTrigger.DueTime = Math.Round(waypoint.ArrivalTimeSpecified ? waypoint.ArrivalTime : _universe.GameTime);
                     newTrigger.TargetEntity = waypoint.TargetEntity;
                     newTrigger.Name = waypoint.Name;
                     break;

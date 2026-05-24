@@ -142,7 +142,7 @@ public sealed partial class Universe : CoordinateUniverse<Vector2>
         var entity = GetEntity(name) ?? throw new KeyNotFoundException($"Entity not found: {name}");
 
         // Remove any recorded paths
-        entity.Waypoints.RemoveAll(x => (x.ArrivalTime ?? x.ActivationTime) >= GameTime);
+        entity.Waypoints.RemoveAll(x => (x.ArrivalTimeSpecified ? x.ArrivalTime : x.ActivationTime) >= GameTime);
         entity.CurrentPath = null;
 
         // Reactivates all associated triggers
@@ -163,7 +163,7 @@ public sealed partial class Universe : CoordinateUniverse<Vector2>
             entity.IsPlayerControlled = false;
 
             // Prevent characters from finishing last pathfinding command after player control was removed
-            foreach (var openWaypoint in entity.Waypoints.Where(x => !x.ArrivalTime.HasValue))
+            foreach (var openWaypoint in entity.Waypoints.Where(x => !x.ArrivalTimeSpecified))
             {
                 openWaypoint.Position = entity.Position;
                 openWaypoint.ArrivalTime = GameTime;

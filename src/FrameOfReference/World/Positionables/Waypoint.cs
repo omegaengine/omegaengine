@@ -54,21 +54,52 @@ public class Waypoint : Positionable<Vector2>
     protected override void OnChanged()
     {
         base.OnChanged();
-        ArrivalTime = null;
-        OriginPosition = null;
+        ArrivalTimeSpecified = OriginPositionSpecified = false;
     }
+
+    private double _arrivalTime;
 
     /// <summary>
     /// The <see cref="IUniverse.GameTime"/> when <see cref="Positionables.Entity"/>s reach this waypoint.
     /// Set automatically by <see cref="Universe.HandleWaypoints"/>.
     /// </summary>
     [ReadOnly(true), Description("The game time when entities reach this waypoint.")]
-    public double? ArrivalTime { get; set; }
+    public double ArrivalTime
+    {
+        get => _arrivalTime;
+        set
+        {
+            _arrivalTime = value;
+            ArrivalTimeSpecified = true;
+        }
+    }
+
+    /// <summary>
+    /// Indicates whether <see cref="ArrivalTime"/> has been set.
+    /// </summary>
+    [Browsable(false)]
+    public bool ArrivalTimeSpecified { get; set; }
+
+    private Vector2 _originPosition;
 
     /// <summary>
     /// The position where an <see cref="Positionables.Entity"/> walking towards this waypoint started off.
     /// Set automatically by <see cref="Universe.HandleWaypoints"/>.
     /// </summary>
     [ReadOnly(true), Description("The position where an entity walking towards this waypoint started off.")]
-    public Vector2? OriginPosition { get; set; }
+    public Vector2 OriginPosition
+    {
+        get => _originPosition;
+        set
+        {
+            _originPosition = value;
+            OriginPositionSpecified = true;
+        }
+    }
+
+    /// <summary>
+    /// Indicates whether <see cref="OriginPosition"/> has been set.
+    /// </summary>
+    [Browsable(false)]
+    public bool OriginPositionSpecified { get; set; }
 }
