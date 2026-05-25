@@ -54,11 +54,16 @@ public static class TexturedMeshUtils
 
         // Check if vertex declaration of mesh already is already ok
         var decl = mesh.GetDeclaration();
-        if (CompareDecl(PositionNormalBinormalTangentTextured.GetVertexElements(), decl) ||
-            CompareDecl(PositionNormalMultiTextured.GetVertexElements(), decl))
+        if (CompareDecl(PositionNormalBinormalTangentTextured.GetVertexElements(), decl))
         {
             hadNormals = true;
             hadTangents = true;
+            return false;
+        }
+        if (CompareDecl(PositionNormalMultiTextured.GetVertexElements(), decl))
+        {
+            hadNormals = true;
+            hadTangents = false;
             return false;
         }
 
