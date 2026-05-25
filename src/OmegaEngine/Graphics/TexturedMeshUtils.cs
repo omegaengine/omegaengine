@@ -112,7 +112,7 @@ public static class TexturedMeshUtils
     }
 
     /// <summary>
-    /// Generate normal vectors if not present and convert into <see cref="PositionNormalBinormalTangentTextured"/> format for shaders.
+    /// Generate normal vectors if not present and convert into a normal-carrying format for shaders.
     /// Tangent and binormal data is left empty.
     /// </summary>
     /// <param name="device">The <see cref="Device"/> containing the mesh</param>
@@ -124,6 +124,14 @@ public static class TexturedMeshUtils
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
 
         if (!ExpandDeclaration(device, ref mesh, out bool hadNormals, out _)) return;
+
+        if (CompareDecl(PositionNormalMultiTextured.GetVertexElements(), mesh.GetDeclaration()))
+        {
+            using (new TimedLogEvent("Computed normals"))
+                mesh.ComputeNormals();
+            Optimize(mesh);
+            return;
+        }
 
         bool gotMilkErmTexCoords = false;
         bool gotValidNormals = true;
