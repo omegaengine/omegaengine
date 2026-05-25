@@ -280,8 +280,7 @@ public static class TexturedMeshUtils
                     dummyTangentGenerationMesh.WeldVertices(WeldFlags.WeldPartialMatches, weldEpsilons);
 
                     // Compute tangents
-                    if (!CompareDecl(PositionNormalMultiTextured.GetVertexElements(), decl))
-                        dummyTangentGenerationMesh.ComputeTangent(0, 0, 0, false);
+                    dummyTangentGenerationMesh.ComputeTangent(0, 0, 0, false);
                     var tangentVertexes = dummyTangentGenerationMesh.ReadVertexBuffer<PositionNormalBinormalTangentTextured>();
                     dummyTangentGenerationMesh.Dispose();
 
@@ -305,13 +304,10 @@ public static class TexturedMeshUtils
                 }
             }
         }
-        else
+        else if (!hadTangents)
         {
-            if (!hadTangents && !CompareDecl(PositionNormalMultiTextured.GetVertexElements(), decl))
-            {
-                using (new TimedLogEvent("Computed tangents"))
-                    mesh.ComputeTangent(0, 0, D3DX.Default, false);
-            }
+            using (new TimedLogEvent("Computed tangents"))
+                mesh.ComputeTangent(0, 0, D3DX.Default, false);
         }
 
         Optimize(mesh);
