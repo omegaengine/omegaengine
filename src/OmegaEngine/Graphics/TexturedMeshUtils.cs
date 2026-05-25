@@ -307,7 +307,7 @@ public static class TexturedMeshUtils
         }
         else
         {
-            if (!hadTangents && CompareDecl(PositionNormalMultiTextured.GetVertexElements(), decl))
+            if (!hadTangents && !CompareDecl(PositionNormalMultiTextured.GetVertexElements(), decl))
             {
                 using (new TimedLogEvent("Computed tangents"))
                     mesh.ComputeTangent(0, 0, D3DX.Default, false);
