@@ -37,8 +37,6 @@ public static class TexturedMeshUtils
 
         // Cancel as soon as one vertex declaration doesn't match
         return !baseDecl.Where((t, i) => !testDecl[i].Equals(t)).Any();
-
-        // If we reached here, everything is identical
     }
 
     /// <summary>
@@ -155,7 +153,7 @@ public static class TexturedMeshUtils
         }
         mesh.WriteVertexBuffer(vertexes);
 
-        // Assume meshes with propper normal data also have been optimized for rendering
+        // Assume meshes with proper normal data also have been optimized for rendering
         if (!hadNormals)
         {
             using (new TimedLogEvent("Computed normals"))
