@@ -1377,9 +1377,6 @@ public class Dialog
                 // Render the caption if it's enabled.
                 if (!string.IsNullOrEmpty(caption))
                 {
-                    // DrawSprite will offset the rect down by
-                    // captionHeight, so adjust the rect higher
-                    // here to negate the effect.
                     var rect = new Rectangle(0, 0, Width, captionHeight);
                     DrawSprite(captionElement, rect);
                     rect.Offset(5, 0); // Make a left margin
