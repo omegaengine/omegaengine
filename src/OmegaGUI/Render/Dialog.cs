@@ -119,7 +119,7 @@ public class Dialog
         Width = w;
         Height = h;
         UpdateVertexes();
-        if (Resize != null) Resize(this, EventArgs.Empty);
+        Resize?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>Dialogs width</summary>
@@ -690,7 +690,7 @@ public class Dialog
                 }
 
                 // Not yet handled, see if the mouse is over any controls
-                Control control = GetControlAtPoint(mousePoint);
+                Control? control = GetControlAtPoint(mousePoint);
                 if (control is { IsEnabled: true })
                 {
                     // Let the control handle the mouse if it wants (and return true if it handles it)
@@ -747,7 +747,7 @@ public class Dialog
         }
 
         // Figure out which control the mouse is over now
-        Control control = GetControlAtPoint(pt);
+        Control? control = GetControlAtPoint(pt);
         if (controlMouseOver != control)
         {
             if (controlMouseOver != null)
@@ -900,7 +900,7 @@ public class Dialog
 
     #region Controls Methods/Properties
     /// <summary>Returns the control located at a point (if one exists)</summary>
-    public Control GetControlAtPoint(Point pt)
+    public Control? GetControlAtPoint(Point pt)
     {
         // Loop through controls backwards
         for (int i = controlList.Count - 1; i >= 0; i--)
