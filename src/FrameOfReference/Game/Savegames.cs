@@ -40,11 +40,16 @@ namespace FrameOfReference;
 /// <param name="beforeSave">Called before saving, e.g. to sync presenter state back to the session.</param>
 public class Savegames(Game game, Session? session = null, Action? beforeSave = null)
 {
+    /// <summary>
+    /// The savegame name used for the auto-resume slot.
+    /// </summary>
     private const string ResumeName = "Resume";
 
     /// <summary>
     /// Saves the currently active session under the specified <paramref name="name"/>.
     /// </summary>
+    /// <exception cref="IOException">A problem occurred while writing the file.</exception>
+    /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
     [UsedImplicitly]
     public void Save(string name)
     {
@@ -56,6 +61,8 @@ public class Savegames(Game game, Session? session = null, Action? beforeSave = 
     /// <summary>
     /// Saves the currently active session in the auto-resume slot.
     /// </summary>
+    /// <exception cref="IOException">A problem occurred while writing the file.</exception>
+    /// <exception cref="UnauthorizedAccessException">Write access to the file is not permitted.</exception>
     internal void SaveAsResume()
     {
         beforeSave?.Invoke();
@@ -65,6 +72,9 @@ public class Savegames(Game game, Session? session = null, Action? beforeSave = 
     /// <summary>
     /// Loads the session saved under the specified <paramref name="name"/> and activates it.
     /// </summary>
+    /// <exception cref="IOException">A problem occurred while reading the file.</exception>
+    /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
+    /// <exception cref="InvalidOperationException">A problem occurred while deserializing the XML data.</exception>
     [UsedImplicitly]
     public void Load(string name)
     {
@@ -95,6 +105,9 @@ public class Savegames(Game game, Session? session = null, Action? beforeSave = 
     /// <summary>
     /// Loads the session saved under the specified <paramref name="name"/> without activating it.
     /// </summary>
+    /// <exception cref="IOException">A problem occurred while reading the file.</exception>
+    /// <exception cref="UnauthorizedAccessException">Read access to the file is not permitted.</exception>
+    /// <exception cref="InvalidOperationException">A problem occurred while deserializing the XML data.</exception>
     private static Session LoadFrom(string name)
         => Session.Load(GetPath(name));
 
