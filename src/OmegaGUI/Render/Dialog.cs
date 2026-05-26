@@ -482,7 +482,7 @@ public class Dialog
     public bool MessageProc(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)
     {
         #region Caption dragging
-        if (!string.IsNullOrEmpty(caption) && lParam.ToInt32() > 0) // Don't drag into negative areas
+        if (!string.IsNullOrEmpty(caption))
         {
             if (msg == WindowMessage.LeftButtonDown)
             { // Start dragging
@@ -514,17 +514,14 @@ public class Dialog
             { // Finish dragging
                 Point mouseLocation = MouseLocationHelper(lParam);
 
-                if (isDragging)
-                {
-                    WinFormsUtils.ReleaseCapture();
-                    isDragging = false;
-                    Location = new(
-                        Location.X + (mouseLocation.X - lastMouseLocation.X),
-                        Location.Y + (mouseLocation.Y - lastMouseLocation.Y));
+                WinFormsUtils.ReleaseCapture();
+                isDragging = false;
+                Location = new(
+                    Location.X + (mouseLocation.X - lastMouseLocation.X),
+                    Location.Y + (mouseLocation.Y - lastMouseLocation.Y));
 
-                    // Click was handled
-                    return true;
-                }
+                // Click was handled
+                return true;
             }
             else if (msg == WindowMessage.LeftButtonDoubleClick)
             { // Toggle minimized state
@@ -690,8 +687,7 @@ public class Dialog
                 }
 
                 // Not yet handled, see if the mouse is over any controls
-                Control? control = GetControlAtPoint(mousePoint);
-                if (control is { IsEnabled: true })
+                if (GetControlAtPoint(mousePoint) is { } control)
                 {
                     // Let the control handle the mouse if it wants (and return true if it handles it)
                     if (control.HandleMouse(msg, mousePoint, wParam, lParam))
@@ -869,7 +865,7 @@ public class Dialog
         // be the returned 'previous' control.
         while (index < 0)
         {
-            dialog = dialog.prevDialog ?? control.Parent;
+            dialog = dialog.prevDialog;
             index = dialog.controlList.Count - 1;
         }
 
