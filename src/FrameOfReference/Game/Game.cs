@@ -66,6 +66,20 @@ public class Game(Settings settings)
 
             if (Arguments.GetOption("map") is {} map)
                 LoadMap(map);
+            else if (Arguments.GetOption("savegame") is {} savegame)
+            {
+                try
+                {
+                    new Savegames(this).Load(savegame);
+                }
+                #region Error handling
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
+                {
+                    Msg.Inform(Form, ex.Message, MsgSeverity.Error);
+                    return false;
+                }
+                #endregion
+            }
             else if (Arguments.GetOption("modify") is {} modify)
                 ModifyMap(modify);
             else if (Arguments.HasOption("benchmark"))
