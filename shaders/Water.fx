@@ -125,7 +125,7 @@ outRefractionReflection VS_RefractionReflection(inWater IN)
     OUT.refractionMapSamplingPos = mul(IN.position, worldViewProjection).xyw;
     OUT.bumpMapSamplingPos = calcSamplingCoord(IN.texCoord);
 
-    return OUT;    
+    return OUT;
 }
 
 outRefraction VS_Refraction(inWater IN)
@@ -139,7 +139,7 @@ outRefraction VS_Refraction(inWater IN)
     OUT.refractionMapSamplingPos = mul(IN.position, worldViewProjection).xyw;
     OUT.bumpMapSamplingPos = calcSamplingCoord(IN.texCoord);
 
-    return OUT;    
+    return OUT;
 }
 
 outSimple VS_Simple(inWater IN)
