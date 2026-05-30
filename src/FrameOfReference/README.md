@@ -9,9 +9,10 @@ To open the Debug Console when running the sample project press `Ctrl + Alt + Sh
 
 Command-line arguments for the sample project:
 
-| Usage             | Description                                             |
-| ----------------- | ------------------------------------------------------- |
-| `/map MapName`    | Loads *MapName* in normal game mode                     |
-| `/modify MapName` | Loads *MapName* in modification mode                    |
-| `/benchmark`      | Executes the automatic benchmark                        |
-| `/menu MapName`   | Loads *MapName* as the background map for the main menu |
+| Usage                    | Description                                             |
+| ------------------------ | ------------------------------------------------------- |
+| `/map MapName`           | Loads *MapName* in normal game mode                     |
+| `/modify MapName`        | Loads *MapName* in modification mode                    |
+| `/benchmark`             | Executes the automatic benchmark                        |
+| `/menu MapName`          | Loads *MapName* as the background map for the main menu |
+| `/savegame SavegameName` | Loads *SavegameName* as the current session             |
