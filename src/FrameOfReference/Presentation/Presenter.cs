@@ -81,6 +81,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
     {
         try
         {
+            ChildViewThumbnails = false;
             Universe.LightingChanged -= UpdateLighting;
         }
         finally
