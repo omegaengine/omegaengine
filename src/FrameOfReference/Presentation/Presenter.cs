@@ -81,6 +81,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
     {
         try
         {
+            ShowWaterViews = false;
             Universe.LightingChanged -= UpdateLighting;
         }
         finally
