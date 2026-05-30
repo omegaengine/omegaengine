@@ -129,6 +129,13 @@ public sealed class WaterView : SupportView
         _cloneCamera.ParentCamera = BaseView.Camera;
         Camera = _cloneCamera;
 
+        // Eagerly refresh the camera's view and projection caches from the current parent
+        // camera state. Without this, the lazy cache evaluation inside the render pipeline
+        // can consume stale FloatingOrigin / view-matrix state when the parent camera is
+        // moving, causing the effective clip plane to lag one frame behind.
+        _ = Camera.View;
+        _ = Camera.Projection;
+
         base.Render();
     }
 }
