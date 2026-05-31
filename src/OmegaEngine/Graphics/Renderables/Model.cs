@@ -242,9 +242,12 @@ public partial class Model : PositionableRenderable
             var boundingBox = SubsetWorldBoundingBoxes?[i];
 
             // Per-subset frustum culling
-            bool ignoreFarClip = ForcedPerspectiveDistance != null;
-            if (boundingSphere.HasValue && !camera.InFrustum(boundingSphere.Value, ignoreFarClip)) continue;
-            if (boundingBox.HasValue && !camera.InFrustum(boundingBox.Value, ignoreFarClip)) continue;
+            if (camera.ClipPlane == default)
+            {
+                bool ignoreFarClip = ForcedPerspectiveDistance != null;
+                if (boundingSphere.HasValue && !camera.InFrustum(boundingSphere.Value, ignoreFarClip)) continue;
+                if (boundingBox.HasValue && !camera.InFrustum(boundingBox.Value, ignoreFarClip)) continue;
+            }
 
             RenderSubset(i, camera, getEffectiveLights);
 
