@@ -33,12 +33,9 @@ namespace OmegaEngine;
 /// </summary>
 public partial class DebugConsole : Form
 {
-    #region Variables
     private string _lastCommand;
     private readonly Lua _lua;
-    #endregion
 
-    #region Constructor
     public DebugConsole(Lua lua)
     {
         InitializeComponent();
@@ -51,9 +48,7 @@ public partial class DebugConsole : Form
         HandleCreated += delegate { Log.Handler += LogHandler; };
         HandleDestroyed += delegate { Log.Handler -= LogHandler; };
     }
-    #endregion
 
-    #region Startup
     private void DebugForm_Load(object sender, EventArgs e)
     {
         // Copy Lua globals list to auto-complete collection
@@ -75,11 +70,7 @@ public partial class DebugConsole : Form
     {
         UpdateLog();
     }
-    #endregion
 
-    //--------------------//
-
-    #region Update
     /// <summary>
     /// Updates the on-screen representation of the <see cref="Log"/>.
     /// </summary>
@@ -93,9 +84,7 @@ public partial class DebugConsole : Form
             Application.DoEvents();
         }));
     }
-    #endregion
 
-    #region Run
     private void runButton_Click(object sender, EventArgs e)
     {
         string command = inputBox.Text.Trim();
@@ -131,13 +120,10 @@ public partial class DebugConsole : Form
 
         inputBox.Text = "";
     }
-    #endregion
 
-    #region Retrieve last command
     private void inputBox_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.KeyCode == Keys.Up && string.IsNullOrEmpty(inputBox.Text))
             inputBox.Text = _lastCommand;
     }
-    #endregion
 }
