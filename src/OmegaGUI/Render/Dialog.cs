@@ -513,6 +513,9 @@ public class Dialog
                     Location.Y + (mouseLocation.Y - lastMouseLocation.Y));
 
                 lastMouseLocation = mouseLocation;
+
+                // Drag was handled
+                return true;
             }
             else if ((msg == WindowMessage.LeftButtonUp) && isDragging)
             { // Finish dragging
