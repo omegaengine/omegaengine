@@ -109,14 +109,16 @@ public partial class DebugConsole : Form
                 _lua["DebugResult"] = null;
             }
         }
+        #region Error handling
         catch (LuaScriptException ex)
         {
             // Unwrap .NET exceptions inside Lua exceptions
-            string message = ex.IsNetException ? ex.InnerException.Message : ex.Message;
+            string message = ex.IsNetException && ex.InnerException is {} inner ? inner.Message : ex.Message;
 
             // Output exception message
             Log.Debug($"==> {message}");
         }
+        #endregion
 
         inputBox.Text = "";
     }
