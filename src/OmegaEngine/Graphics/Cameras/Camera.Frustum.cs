@@ -18,7 +18,8 @@ partial class Camera
     /// <summary>Does the view frustum need to be recalculated?</summary>
     protected bool ViewFrustumDirty = true;
 
-    private readonly Plane[] _viewFrustum = new Plane[6];
+    // 0-3: side planes, 4: near plane, 5: custom clip plane, 6: far plane
+    private readonly Plane[] _viewFrustum = new Plane[7];
 
     /// <summary>
     /// Update <see cref="_viewFrustum"/> if necessary
@@ -54,23 +55,22 @@ partial class Camera
         _viewFrustum[3].D = ViewProjection.M44 + ViewProjection.M42;
 
         // Near plane
-        if (_clipPlane == default)
-        {
-            _viewFrustum[4].Normal.X = ViewProjection.M13;
-            _viewFrustum[4].Normal.Y = ViewProjection.M23;
-            _viewFrustum[4].Normal.Z = ViewProjection.M33;
-            _viewFrustum[4].D = ViewProjection.M43;
-        }
-        else _viewFrustum[4] = EffectiveClipPlane;
+        _viewFrustum[4].Normal.X = ViewProjection.M13;
+        _viewFrustum[4].Normal.Y = ViewProjection.M23;
+        _viewFrustum[4].Normal.Z = ViewProjection.M33;
+        _viewFrustum[4].D = ViewProjection.M43;
+
+        // Custom clip plane (culls in addition to the near plane)
+        _viewFrustum[5] = _clipPlane == default ? _viewFrustum[4] : EffectiveClipPlane;
 
         // Far plane
-        _viewFrustum[5].Normal.X = ViewProjection.M14 - ViewProjection.M13;
-        _viewFrustum[5].Normal.Y = ViewProjection.M24 - ViewProjection.M23;
-        _viewFrustum[5].Normal.Z = ViewProjection.M34 - ViewProjection.M33;
-        _viewFrustum[5].D = ViewProjection.M44 - ViewProjection.M43;
+        _viewFrustum[6].Normal.X = ViewProjection.M14 - ViewProjection.M13;
+        _viewFrustum[6].Normal.Y = ViewProjection.M24 - ViewProjection.M23;
+        _viewFrustum[6].Normal.Z = ViewProjection.M34 - ViewProjection.M33;
+        _viewFrustum[6].D = ViewProjection.M44 - ViewProjection.M43;
 
         // Normalize planes
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < _viewFrustum.Length; i++)
             _viewFrustum[i] = Plane.Normalize(_viewFrustum[i]);
 
         ViewFrustumDirty = false;
@@ -116,7 +116,7 @@ partial class Camera
     }
 
     private IEnumerable<Plane> GetPlanes(bool ignoreFarClip)
-        => ignoreFarClip ? _viewFrustum.Take(5) : _viewFrustum;
+        => ignoreFarClip ? _viewFrustum.Take(6) : _viewFrustum;
 
     /// <summary>
     /// Checks whether a <see cref="BoundingSphere"/> would appear at least 1 pixel in diameter
