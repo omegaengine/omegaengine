@@ -57,9 +57,9 @@ public abstract class InGameBase : SessionStateBase
     [LuaHide]
     public override void Exit()
     {
-        _savegames.SaveAsResume();
         game.RemoveInputReceiver(_presenter);
         _presenter.HookOut();
+        _savegames.SaveAsResume();
     }
 
     /// <summary>
