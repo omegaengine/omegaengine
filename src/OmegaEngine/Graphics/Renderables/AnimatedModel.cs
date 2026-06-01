@@ -20,7 +20,7 @@ public class AnimatedModel : PositionableRenderable
 {
     #region Variables
     /// <summary>A reference to the asset providing the data for this model.</summary>
-    private XAnimatedMesh _asset;
+    private XAnimatedMesh? _asset;
 
     /// <summary>
     /// An array of materials used to render this mesh

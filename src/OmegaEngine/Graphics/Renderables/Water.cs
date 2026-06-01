@@ -25,7 +25,7 @@ namespace OmegaEngine.Graphics.Renderables;
 public class Water : Model
 {
     #region Variables
-    private WaterViewSource _viewSource;
+    private WaterViewSource? _viewSource;
     //private readonly WaterShader _simpleWaterShader;
     private readonly ITextureProvider _waterTexture;
     #endregion
@@ -131,6 +131,8 @@ public class Water : Model
 
     private void SelectShader()
     {
+        if (_viewSource == null) throw new InvalidOperationException($"Must call ${nameof(SetupChildViews)} before rendering {nameof(Water)}.");
+
         switch (Engine.Effects.WaterEffects)
         {
             case WaterEffectsType.None:
