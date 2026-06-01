@@ -444,9 +444,13 @@ public class Dialog
     public void RemoveAllControls()
     {
         controlList.Clear();
-        if ((controlFocus != null) && (controlFocus.Parent == this))
+
+        if (controlFocus != null && controlFocus.Parent == this)
             controlFocus = null;
-        controlMouseOver = null;
+        if (controlMouseDown != null && controlMouseDown.Parent == this)
+            controlMouseDown = null;
+        if (controlMouseOver != null && controlMouseOver.Parent == this)
+            controlMouseOver = null;
     }
     #endregion
 
@@ -1425,9 +1429,18 @@ public class Dialog
         using (new ProfilerEvent("Refresh GUI dialog"))
         {
             // Reset the controls
-            controlFocus = null;
-            controlMouseDown = null;
-            controlMouseOver = null;
+            if (controlFocus != null && controlFocus.Parent == this)
+            {
+                controlFocus.OnFocusOut();
+                controlFocus = null;
+            }
+            if (controlMouseDown != null && controlMouseDown.Parent == this)
+                controlMouseDown = null;
+            if (controlMouseOver != null && controlMouseOver.Parent == this)
+            {
+                controlMouseOver.OnMouseExit();
+                controlMouseOver = null;
+            }
 
             // Refresh any controls
             controlList.ForEach(control => control.Refresh());
