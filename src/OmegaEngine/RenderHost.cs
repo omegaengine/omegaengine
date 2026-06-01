@@ -334,7 +334,7 @@ public partial class RenderHost : IRenderHost, IDisposable
     }
 
     /// <summary>
-    /// Called when the debug form is to be displayed
+    /// Called when the debug console is to be displayed
     /// </summary>
     [LuaHide]
     public virtual void Debug()
@@ -342,13 +342,13 @@ public partial class RenderHost : IRenderHost, IDisposable
         // Exit fullscreen mode to allow a normal window to be displayed
         if (Fullscreen) ToWindowed(Form.ClientSize);
 
-        // Only create a new form if there isn't already one open
+        // Only create a new console if there isn't already one open
         if (_debugConsole == null)
         {
             _debugConsole = new(NewLua());
             _debugConsole.Text = $@"{Application.ProductName} {_debugConsole.Text}";
 
-            // Remove the reference as soon the form is closed
+            // Remove the reference as soon the console is closed
             _debugConsole.FormClosed += delegate
             {
                 _debugConsole.Dispose();
