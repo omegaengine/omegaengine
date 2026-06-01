@@ -184,20 +184,19 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     protected virtual double GetElapsedGameTime(double elapsedTime) => elapsedTime;
 
     /// <inheritdoc/>
-    [LuaHide]
-    public override void Debug()
+    protected override void ShowDebugConsole()
     {
         // Exit fullscreen mode gracefully
         settings.Display.Fullscreen = false;
 
-        base.Debug();
+        base.ShowDebugConsole();
     }
 
     /// <inheritdoc/>
     [LuaHide]
-    public override Lua NewLua()
+    public override void BindLua(Lua lua)
     {
-        var lua = base.NewLua();
+        base.BindLua(lua);
 
         // Make methods globally accessible (without prepending the class name)
         LuaRegistrationHelper.TaggedInstanceMethods(lua, GuiManager);
@@ -205,8 +204,6 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
         lua["Game"] = this;
         lua["Settings"] = settings;
         lua["IsMod"] = ContentManager.ModDir != null;
-
-        return lua;
     }
 
     /// <summary>

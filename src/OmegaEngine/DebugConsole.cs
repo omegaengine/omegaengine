@@ -33,16 +33,21 @@ namespace OmegaEngine;
 /// </summary>
 public partial class DebugConsole : Form
 {
-    private string _lastCommand;
-    private readonly Lua _lua;
+    private string? _lastCommand;
 
-    public DebugConsole(Lua lua)
+    /// <summary>
+    /// The Lua environment used for executing commands.
+    /// </summary>
+    public Lua Lua { get; } = new();
+
+    /// <summary>
+    /// Creates a new debug console.
+    /// </summary>
+    public DebugConsole()
     {
         InitializeComponent();
 
-        // Prepare Lua interpreter
-        _lua = lua;
-        LuaRegistrationHelper.TaggedStaticMethods(_lua, typeof(PropertyGridForm));
+        LuaRegistrationHelper.TaggedStaticMethods(Lua, typeof(PropertyGridForm));
 
         // Keep the text-box in sync with the Log while the window is open
         HandleCreated += delegate { Log.Handler += LogHandler; };
@@ -53,7 +58,7 @@ public partial class DebugConsole : Form
     {
         // Copy Lua globals list to auto-complete collection
         var autoComplete = new AutoCompleteStringCollection();
-        foreach (string global in _lua.Globals)
+        foreach (string global in Lua.Globals)
             autoComplete.Add(global);
 
         // Set text-box to use auto-complete collection
@@ -67,9 +72,7 @@ public partial class DebugConsole : Form
     }
 
     private void LogHandler(LogSeverity severity, string message, Exception exception)
-    {
-        UpdateLog();
-    }
+        => UpdateLog();
 
     /// <summary>
     /// Updates the on-screen representation of the <see cref="Log"/>.
@@ -98,15 +101,14 @@ public partial class DebugConsole : Form
         try
         {
             // Execute the command and capture its result
-            if (command.Contains("=")) _lua.DoString(command);
-            else _lua.DoString($"DebugResult = {command}");
-            if (_lua["DebugResult"] != null)
+            Lua.DoString(command.Contains("=") ? command : $"DebugResult = {command}");
+            if (Lua["DebugResult"] != null)
             {
                 // Output the result as a string if possible
-                string result = _lua["DebugResult"].ToString();
+                string result = Lua["DebugResult"].ToString();
                 if (!string.IsNullOrEmpty(result))
                     Log.Debug($"==> {result}");
-                _lua["DebugResult"] = null;
+                Lua["DebugResult"] = null;
             }
         }
         #region Error handling

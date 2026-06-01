@@ -117,9 +117,8 @@ public partial class RenderHost : IRenderHost, IDisposable
         Form.Shown += Form_Shown;
         Form.KeyDown += delegate(object _, KeyEventArgs e)
         {
-            // Ctrl + Shift + Alt + D = Debug console
             if (e.Control && e.Alt && e.Shift && e.KeyCode == Keys.D)
-                Debug();
+                ShowDebugConsole();
         };
 
         // Start tracking input
@@ -289,12 +288,11 @@ public partial class RenderHost : IRenderHost, IDisposable
     };
 
     /// <summary>
-    /// Creates a new <see cref="Lua"/> instance with commonly used objects preloaded.
+    /// Registers commonly used objects in a <see cref="Lua"/> context.
     /// </summary>
     [LuaHide]
-    public virtual Lua NewLua()
+    public virtual void BindLua(Lua lua)
     {
-        var lua = new Lua();
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Log));
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(StringUtils));
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(MathUtils));
@@ -324,8 +322,6 @@ public partial class RenderHost : IRenderHost, IDisposable
         LuaRegistrationHelper.TaggedInstanceMethods(lua, this);
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(RenderHost));
 
-        return lua;
-
         void ImportConstructor(Type type)
         {
             lua.DoString($"luanet.load_assembly(\"{type.Assembly.GetName()}\")");
@@ -334,10 +330,19 @@ public partial class RenderHost : IRenderHost, IDisposable
     }
 
     /// <summary>
-    /// Called when the debug console is to be displayed
+    /// Creates a <see cref="Lua"/> instance with <see cref="BindLua"/> applied.
     /// </summary>
-    [LuaHide]
-    public virtual void Debug()
+    public Lua NewLua()
+    {
+        var lua = new Lua();
+        BindLua(lua);
+        return lua;
+    }
+
+    /// <summary>
+    /// Shows the debug console.
+    /// </summary>
+    protected virtual void ShowDebugConsole()
     {
         // Exit fullscreen mode to allow a normal window to be displayed
         if (Fullscreen) ToWindowed(Form.ClientSize);
@@ -345,8 +350,10 @@ public partial class RenderHost : IRenderHost, IDisposable
         // Only create a new console if there isn't already one open
         if (_debugConsole == null)
         {
-            _debugConsole = new(NewLua());
+            _debugConsole = new();
             _debugConsole.Text = $@"{Application.ProductName} {_debugConsole.Text}";
+
+            BindLua(_debugConsole.Lua);
 
             // Remove the reference as soon the console is closed
             _debugConsole.FormClosed += delegate
@@ -357,6 +364,16 @@ public partial class RenderHost : IRenderHost, IDisposable
         }
 
         _debugConsole?.Show();
+    }
+
+    /// <summary>
+    /// Refreshes the state of the debug console, if visible.
+    /// </summary>
+    /// <seealso cref="ShowDebugConsole"/>
+    protected void RefreshDebugConsole()
+    {
+        if (_debugConsole != null)
+            BindLua(_debugConsole.Lua);
     }
 
     /// <summary>

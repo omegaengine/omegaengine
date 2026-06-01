@@ -151,6 +151,7 @@ public class Game(Settings settings)
 
         _state = newState;
         _state.Enter();
+        RefreshDebugConsole();
 
         if (oldState != _menuState) oldState?.Dispose();
     }
@@ -172,17 +173,15 @@ public class Game(Settings settings)
 
     /// <inheritdoc/>
     [LuaHide]
-    public override Lua NewLua()
+    public override void BindLua(Lua lua)
     {
-        var lua = base.NewLua();
+        base.BindLua(lua);
 
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Program));
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(Settings));
 
         lua["Game"] = this;
         _state?.BindLua(lua);
-
-        return lua;
     }
 
     /// <inheritdoc/>
