@@ -95,13 +95,12 @@ public static class EngineUtilsDraw
             engine.State.FfpLighting = false;
             engine.State.Fog = false;
 
-            // Span the full viewport extent so every destination pixel is covered (point sampling maps texel i 1:1)
             TransformedTextured[] vertexes =
             [
-                new(engine.Device.Viewport.X, engine.Device.Viewport.Y + engine.Device.Viewport.Height, 0, 1, 0, 1),
-                new(engine.Device.Viewport.X, engine.Device.Viewport.Y, 0, 1, 0, 0),
-                new(engine.Device.Viewport.X + engine.Device.Viewport.Width, engine.Device.Viewport.Y + engine.Device.Viewport.Height, 0, 1, 1, 1),
-                new(engine.Device.Viewport.X + engine.Device.Viewport.Width, engine.Device.Viewport.Y, 0, 1, 1, 0)
+                new(engine.Device.Viewport.X - 0.5f, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 0.5f, 0, 1, 0, 1),
+                new(engine.Device.Viewport.X - 0.5f, engine.Device.Viewport.Y - 0.5f, 0, 1, 0, 0),
+                new(engine.Device.Viewport.X + engine.Device.Viewport.Width - 0.5f, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 0.5f, 0, 1, 1, 1),
+                new(engine.Device.Viewport.X + engine.Device.Viewport.Width - 0.5f, engine.Device.Viewport.Y - 0.5f, 0, 1, 1, 0)
             ];
 
             // Disable texture filtering
@@ -139,10 +138,10 @@ public static class EngineUtilsDraw
 
             TransformedColored[] vertexes =
             [
-                new(engine.Device.Viewport.X, engine.Device.Viewport.Y + engine.Device.Viewport.Height, 0, 1, colVal),
-                new(engine.Device.Viewport.X, engine.Device.Viewport.Y, 0, 1, colVal),
-                new(engine.Device.Viewport.X + engine.Device.Viewport.Width, engine.Device.Viewport.Y + engine.Device.Viewport.Height, 0, 1, colVal),
-                new(engine.Device.Viewport.X + engine.Device.Viewport.Width, engine.Device.Viewport.Y, 0, 1, colVal)
+                new(engine.Device.Viewport.X - 0.5f, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 0.5f, 0, 1, colVal),
+                new(engine.Device.Viewport.X - 0.5f, engine.Device.Viewport.Y - 0.5f, 0, 1, colVal),
+                new(engine.Device.Viewport.X + engine.Device.Viewport.Width - 0.5f, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 0.5f, 0, 1, colVal),
+                new(engine.Device.Viewport.X + engine.Device.Viewport.Width - 0.5f, engine.Device.Viewport.Y - 0.5f, 0, 1, colVal)
             ];
 
             engine.State.SetTexture(null);
