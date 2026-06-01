@@ -80,7 +80,6 @@ public class XMesh : Asset
         #endregion
 
         // Load mesh and materials
-
         try
         {
             try
