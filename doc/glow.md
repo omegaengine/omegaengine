@@ -47,8 +47,9 @@ Objects contribute to the glow effect through their materials:
 Set the <xref:OmegaEngine.Graphics.XMaterial.Glow> color property on a material to make it glow. The color defines which color the object emits in the glow pass.
 
 ```csharp
-var model = new Model(XMesh.Get(engine, "Lamp.x"));
-model.Materials[0].Glow = Color.Yellow;
+var mesh = XMesh.Get(engine, "Lamp.x");
+var material = mesh.Materials[0] with { Glow = Color.Yellow };
+var model = new Model(mesh, material);
 ```
 
 ### Glow map
@@ -56,8 +57,9 @@ model.Materials[0].Glow = Color.Yellow;
 Use a <xref:OmegaEngine.Graphics.XMaterial.GlowMap> texture to define which parts of a model should glow and with what intensity. Bright areas in the glow map will appear in the glow pass.
 
 ```csharp
-var model = new Model(XMesh.Get(engine, "Lamp.x"));
-model.Materials[0].GlowMap = XTexture.Get(engine, "LampGlow.png");
+var mesh = XMesh.Get(engine, "Lamp.x");
+var texture = XTexture.Get(engine, "LampGlow.png");
+var model = new Model(mesh, texture);
 ```
 
 > [!TIP]

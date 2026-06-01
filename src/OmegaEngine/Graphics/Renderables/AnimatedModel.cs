@@ -25,7 +25,7 @@ public class AnimatedModel : PositionableRenderable
     /// <summary>
     /// An array of materials used to render this mesh
     /// </summary>
-    public readonly XMaterial[] Materials;
+    protected readonly XMaterial[] Materials;
     #endregion
 
     #region Properties

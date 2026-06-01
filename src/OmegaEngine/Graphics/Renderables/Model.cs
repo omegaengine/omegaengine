@@ -33,16 +33,7 @@ public partial class Model : PositionableRenderable
     /// <summary>
     /// An array of materials used to render this mesh
     /// </summary>
-    public readonly XMaterial[] Materials;
-
-    /// <summary>
-    /// Sets the first diffuse texture of the first material.
-    /// </summary>
-    /// <param name="texture">The texture to set; <c>null</c> for no texture.</param>
-    public void SetTexture(ITextureProvider texture)
-    {
-        Materials[0].DiffuseMaps[0] = texture;
-    }
+    protected readonly XMaterial[] Materials;
 
     /// <summary>True if the <see cref="Mesh"/> is created or owned by this class and therefore should also be disposed by it.</summary>
     private readonly bool _ownMesh;
