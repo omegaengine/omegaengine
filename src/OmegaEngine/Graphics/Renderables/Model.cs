@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using NanoByte.Common;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
@@ -74,7 +75,7 @@ public partial class Model : PositionableRenderable
         SetBoundingBodiesFrom(mesh);
 
         // Get materials from asset
-        Materials = mesh.Materials;
+        Materials = mesh.Materials.ToArray();
         NumberSubsets = Materials.Length;
     }
 

@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Assets;
 
@@ -45,7 +46,7 @@ public class AnimatedModel : PositionableRenderable
     {
         _asset = mesh ?? throw new ArgumentNullException(nameof(mesh));
         _asset.HoldReference();
-        Materials = mesh.Materials;
+        Materials = mesh.Materials.ToArray();
         NumberSubsets = Materials.Length;
 
         // Get bounding bodies
