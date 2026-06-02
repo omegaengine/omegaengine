@@ -30,6 +30,7 @@ using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
 using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
+using JetBrains.Annotations;
 using NanoByte.Common.Collections;
 using SlimDX;
 
@@ -137,6 +138,7 @@ public sealed partial class Universe : CoordinateUniverse<Vector2>
     /// Turns a specific <see cref="Entity"/> into a player-controlled character.
     /// </summary>
     /// <exception cref="KeyNotFoundException">Entity not found.</exception>
+    [UsedImplicitly]
     public void MakePlayerControlled(string name)
     {
         var entity = GetEntity(name) ?? throw new KeyNotFoundException($"Entity not found: {name}");
@@ -156,6 +158,7 @@ public sealed partial class Universe : CoordinateUniverse<Vector2>
     /// <summary>
     /// Turns all <see cref="Entity"/>s into NPCs.
     /// </summary>
+    [UsedImplicitly]
     public void MakeAllNpc()
     {
         foreach (var entity in Positionables.OfType<Entity>().Where(x => x.IsPlayerControlled))
