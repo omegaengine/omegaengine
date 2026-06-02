@@ -7,12 +7,6 @@
   <CaptionHeight>25</CaptionHeight>
   <OnShow>Me:ImportLua("Utils.lua")
 
--- Import .NET constructors
-luanet.load_assembly("OmegaEngine")
-NewColorCorrection = luanet.import_type("OmegaEngine.Foundation.Light.ColorCorrection")
-luanet.load_assembly("System.Drawing")
-NewColor = luanet.import_type("System.Drawing.Color").FromArgb
-
 -- Define helper function rounding floats and then converting them to strings
 function round(num)
   return string.format("%." .. 1 .. "f", num)
@@ -20,26 +14,26 @@ end
 
 -- Define helper functions for block-updating .NET structs
 function set_color_correction_phase0()
-  Universe.ColorCorrectionDawn = NewColorCorrection(Brightness0.Value / 10, Contrast0.Value / 10 - 5, Saturation0.Value / 10 - 5, Hue0.Value)
+  Universe.ColorCorrectionDawn = ColorCorrection(Brightness0.Value / 10, Contrast0.Value / 10 - 5, Saturation0.Value / 10 - 5, Hue0.Value)
 end
 function set_color_correction_phase1()
-  Universe.ColorCorrectionNoon = NewColorCorrection(Brightness1.Value / 10, Contrast1.Value / 10 - 5, Saturation1.Value / 10 - 5, Hue1.Value)
+  Universe.ColorCorrectionNoon = ColorCorrection(Brightness1.Value / 10, Contrast1.Value / 10 - 5, Saturation1.Value / 10 - 5, Hue1.Value)
 end
 function set_color_correction_phase2()
-  Universe.ColorCorrectionDusk = NewColorCorrection(Brightness2.Value / 10, Contrast2.Value / 10 - 5, Saturation2.Value / 10 - 5, Hue2.Value)
+  Universe.ColorCorrectionDusk = ColorCorrection(Brightness2.Value / 10, Contrast2.Value / 10 - 5, Saturation2.Value / 10 - 5, Hue2.Value)
 end
 function set_color_correction_phase3()
-  Universe.ColorCorrectionMidnight = NewColorCorrection(Brightness3.Value / 10, Contrast3.Value / 10 - 5, Saturation3.Value / 10 - 5, Hue3.Value)
+  Universe.ColorCorrectionMidnight = ColorCorrection(Brightness3.Value / 10, Contrast3.Value / 10 - 5, Saturation3.Value / 10 - 5, Hue3.Value)
 end
 function set_ambient_color()
-  Universe.AmbientColor = NewColor(AmbientColorRed.Value, AmbientColorGreen.Value, AmbientColorBlue.Value)
+  Universe.AmbientColor = Color(AmbientColorRed.Value, AmbientColorGreen.Value, AmbientColorBlue.Value)
 end
 function set_sun()
-  Universe.SunColor = NewColor(SunColorRed.Value, SunColorGreen.Value, SunColorBlue.Value)
+  Universe.SunColor = Color(SunColorRed.Value, SunColorGreen.Value, SunColorBlue.Value)
   Universe.SunInclination = SunInclination.Value
 end
 function set_moon()
-  Universe.MoonColor = NewColor(MoonColorRed.Value, MoonColorGreen.Value, MoonColorBlue.Value)
+  Universe.MoonColor = Color(MoonColorRed.Value, MoonColorGreen.Value, MoonColorBlue.Value)
   Universe.MoonInclination = MoonInclination.Value
 end
 
@@ -170,7 +164,7 @@ Fog.Checked = Universe.Fog</OnUpdate>
   <Button Name="Reset0" Text="[Reset]">
     <Location X="80" Y="126" />
     <Size Width="100" Height="20" />
-    <OnClick>Universe.ColorCorrectionDawn = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase0()</OnClick>
+    <OnClick>Universe.ColorCorrectionDawn = ColorCorrection(1, 1, 1, 0); refresh_color_correction_phase0()</OnClick>
   </Button>
   <GroupBox Name="ColorCorrectionNoonBox">
     <Location X="10" Y="150" />
@@ -240,7 +234,7 @@ Fog.Checked = Universe.Fog</OnUpdate>
   <Button Name="Reset1" Text="[Reset]">
     <Location X="80" Y="241" />
     <Size Width="100" Height="20" />
-    <OnClick>Universe.ColorCorrectionNoon = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase1()</OnClick>
+    <OnClick>Universe.ColorCorrectionNoon = ColorCorrection(1, 1, 1, 0); refresh_color_correction_phase1()</OnClick>
   </Button>
   <GroupBox Name="ColorCorrectionDuskBox">
     <Location X="10" Y="265" />
@@ -310,7 +304,7 @@ Fog.Checked = Universe.Fog</OnUpdate>
   <Button Name="Reset2" Text="[Reset]">
     <Location X="80" Y="356" />
     <Size Width="100" Height="20" />
-    <OnClick>Universe.ColorCorrectionDusk = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase2()</OnClick>
+    <OnClick>Universe.ColorCorrectionDusk = ColorCorrection(1, 1, 1, 0); refresh_color_correction_phase2()</OnClick>
   </Button>
   <GroupBox Name="ColorCorrectionMidnightBox">
     <Location X="10" Y="380" />
@@ -380,7 +374,7 @@ Fog.Checked = Universe.Fog</OnUpdate>
   <Button Name="Reset3" Text="[Reset]">
     <Location X="80" Y="471" />
     <Size Width="100" Height="20" />
-    <OnClick>Universe.ColorCorrectionMidnight = NewColorCorrection(1, 1, 1, 0); refresh_color_correction_phase3()</OnClick>
+    <OnClick>Universe.ColorCorrectionMidnight = ColorCorrection(1, 1, 1, 0); refresh_color_correction_phase3()</OnClick>
   </Button>
   <GroupBox Name="AmbientColorBox">
     <Location X="260" Y="35" />

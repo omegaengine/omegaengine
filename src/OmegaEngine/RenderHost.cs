@@ -318,15 +318,16 @@ public partial class RenderHost : IRenderHost, IDisposable
         ImportConstructor(typeof(Vector2Ray));
         ImportConstructor(typeof(DoubleVector3));
         ImportConstructor(typeof(XColor));
+        ImportConstructor(typeof(Attenuation));
+        ImportConstructor(typeof(ColorCorrection));
+        ImportConstructor(typeof(WaterEffectsType));
+        void ImportConstructor(Type type)
+            => lua.DoString($"luanet.load_assembly(\"{type.Assembly.GetName()}\"); {type.Name} = luanet.import_type(\"{type.FullName}\")");
+
+        lua.DoString("luanet.load_assembly(\"System.Drawing\"); Color = luanet.import_type(\"System.Drawing.Color\").FromArgb");
 
         LuaRegistrationHelper.TaggedInstanceMethods(lua, this);
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(RenderHost));
-
-        void ImportConstructor(Type type)
-        {
-            lua.DoString($"luanet.load_assembly(\"{type.Assembly.GetName()}\")");
-            lua.DoString($"{type.Name} = luanet.import_type(\"{type.FullName}\")");
-        }
     }
 
     /// <summary>

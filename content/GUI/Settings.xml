@@ -76,8 +76,6 @@ Gamma.Enabled = Settings.Graphics.PostScreenEffects
 GammaValueLabel.Text = string.format("%.1f", Settings.Graphics.Gamma)
 
 --- Water effects
-luanet.load_assembly("OmegaEngine")
-WaterEffectsType = luanet.import_type("OmegaEngine.Foundation.Light.WaterEffectsType")
 WaterEffectsLabel.Enabled = Engine.Capabilities.PerPixelEffects
 WaterEffects.Enabled = WaterEffectsLabel.Enabled
 WaterEffects.SelectedItem = "["..Settings.Graphics.WaterEffects:ToString().."]"
