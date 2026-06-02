@@ -241,19 +241,6 @@ public sealed class DialogPresenter : IDisposable
     }
     #endregion
 
-    #region Lua import
-    /// <summary>
-    /// Imports an external Lua script into the GUI's Lua instance
-    /// </summary>
-    /// <param name="filename">The Lua file to import</param>
-    public void ImportLua(string filename)
-    {
-        using var stream = ContentManager.GetFileStream("GUI", filename);
-        using var streamReader = new StreamReader(stream);
-        _lua.DoString(streamReader.ReadToEnd());
-    }
-    #endregion
-
     #region Helper methods
     /// <summary>
     /// Gets the first <see cref="Model.Control"/> in this <see cref="DialogPresenter"/> with the specified <paramref name="name"/>

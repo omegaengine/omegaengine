@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using JetBrains.Annotations;
 using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
@@ -330,8 +331,19 @@ public partial class RenderHost : IRenderHost, IDisposable
         LuaRegistrationHelper.TaggedInstanceMethods(lua, this);
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(RenderHost));
 
+        // Use "GUI" folder as filesystem root for Lua
+        var wrapper = new LuaWrapper(lua);
+        LuaRegistrationHelper.TaggedInstanceMethods(lua, wrapper);
         if (ContentManager.FileExists("GUI", "init.lua"))
-            lua.DoFile(ContentManager.GetFilePath("GUI", "init.lua"));
+            wrapper.DoFile("init.lua");
+    }
+
+    private class LuaWrapper(Lua lua)
+    {
+        // Replaces Lua's built-in dofile() function with a version that uses ContentManager to locate files
+        [LuaGlobal(Name = "dofile", Description = "Executes a Lua file."), UsedImplicitly]
+        public object[] DoFile(string filename)
+            => lua.DoFile(ContentManager.GetFilePath("GUI", filename));
     }
 
     /// <summary>
