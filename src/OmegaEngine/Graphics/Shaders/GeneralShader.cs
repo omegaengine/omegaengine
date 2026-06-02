@@ -56,13 +56,13 @@ public class GeneralShader : LightingShader
             if (Engine.Effects.PerPixelLighting && material.EmissiveMap != null)
                 Effect.Technique = _texturedEmissiveMapOnly;
             else
-                Effect.Technique = (material.DiffuseMaps[0] == null) ? _coloredEmissiveOnly : _texturedEmissiveOnly;
+                Effect.Technique = (material.DiffuseMap == null) ? _coloredEmissiveOnly : _texturedEmissiveOnly;
         }
         else
         {
             if (Engine.Effects.PerPixelLighting)
             { // Normal per-pixel lighting
-                if (material.DiffuseMaps[0] == null)
+                if (material.DiffuseMap == null)
                     Effect.Technique = _colored;
                 else
                 {
@@ -83,7 +83,7 @@ public class GeneralShader : LightingShader
             }
             else
             { // Normal per-vertex lighting
-                Effect.Technique = (material.DiffuseMaps[0] == null) ? _coloredPerVertex : _texturedPerVertex;
+                Effect.Technique = (material.DiffuseMap == null) ? _coloredPerVertex : _texturedPerVertex;
             }
         }
         #endregion

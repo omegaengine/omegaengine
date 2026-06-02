@@ -140,7 +140,7 @@ public class Water : Model
                 if (WaterShader.MinShaderModel > Engine.Capabilities.MaxShaderModel)
                 {
                     // No shader usage at all, render the surface map with the fixed-function pipeline
-                    Materials[0].DiffuseMaps[0] = _waterTexture;
+                    Materials[0].DiffuseMaps = [_waterTexture];
                     SurfaceEffect = SurfaceEffect.FixedFunction;
                 }
                 else SurfaceShader = Engine.SimpleWaterShader;

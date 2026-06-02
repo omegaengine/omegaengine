@@ -133,7 +133,7 @@ public class XMesh : Asset
                     string textureFilename = extendedMaterials[i].TextureFileName;
                     if (!string.IsNullOrEmpty(textureFilename))
                     {
-                        material.DiffuseMaps[0] = ShaderLoadHelper(engine, meshName, textureFilename);
+                        material.DiffuseMaps = [ShaderLoadHelper(engine, meshName, textureFilename)];
 
                         string baseFilename = Path.Combine(Path.GetDirectoryName(meshName) ?? "", Path.GetFileNameWithoutExtension(textureFilename));
                         string fileExt = Path.GetExtension(textureFilename);
@@ -177,7 +177,7 @@ public class XMesh : Asset
                         foreach (EffectDefault param in parameters)
                         {
                             XTexture extraTexture = ShaderTextureHelper(engine, param, meshName, "diffuseTexture");
-                            if (extraTexture != null) material.DiffuseMaps[0] = extraTexture;
+                            if (extraTexture != null) material.DiffuseMaps = [extraTexture];
 
                             extraTexture = ShaderTextureHelper(engine, param, meshName, "normalTexture");
                             if (extraTexture != null)

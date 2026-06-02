@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Immutable;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
@@ -309,13 +310,15 @@ partial class Terrain
     /// <exception cref="InvalidDataException">One of the texture files does not contain a valid texture.</exception>
     private static XMaterial BuildMaterial(Engine engine, string?[] textures)
     {
-        var material = new XMaterial(Color.White) {Specular = Color.Black};
-        for (int i = 0; i < textures.Length; i++)
+        var diffuseMaps = ImmutableArray.CreateBuilder<ITextureProvider?>(textures.Length);
+        foreach (string? id in textures)
+            diffuseMaps.Add(XTexture.Get(engine, id));
+
+        return new(Diffuse: Color.White)
         {
-            string? id = textures[i];
-            material.DiffuseMaps[i] = XTexture.Get(engine, id);
-        }
-        return material;
+            Specular = Color.Black,
+            DiffuseMaps = diffuseMaps.MoveToImmutable()
+        };
     }
     #endregion
 }

@@ -452,7 +452,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     private void SetEngineState(XMaterial material)
     {
         // Set texture
-        Engine.State.SetTexture(material.DiffuseMaps[0]);
+        Engine.State.SetTexture(material.DiffuseMap);
 
         // Fall back to fixed-function pipeline if no shader was set for this body
         if (SurfaceEffect == SurfaceEffect.Shader && SurfaceShader == null)

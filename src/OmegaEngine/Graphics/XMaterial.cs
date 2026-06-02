@@ -6,6 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Drawing;
 using OmegaEngine.Assets;
@@ -29,12 +30,17 @@ public record struct XMaterial(Color Diffuse)
     /// <summary>
     /// The diffuse textures maps
     /// </summary>
-    public readonly ITextureProvider?[] DiffuseMaps = new ITextureProvider[16];
+    public ImmutableArray<ITextureProvider?> DiffuseMaps = [];
+
+    /// <summary>
+    /// The primary diffuse texture map
+    /// </summary>
+    public readonly ITextureProvider? DiffuseMap => DiffuseMaps.IsDefaultOrEmpty ? null : DiffuseMaps[0];
 
     /// <summary>
     /// Indicates whether this material uses textures
     /// </summary>
-    public bool IsTextured => DiffuseMaps is [not null, ..] || EmissiveMap != null;
+    public bool IsTextured => DiffuseMap != null || EmissiveMap != null;
 
     /// <summary>
     /// The color of the material when lit by ambient/background light (always active)
@@ -136,8 +142,7 @@ public record struct XMaterial(Color Diffuse)
 
     public XMaterial(ITextureProvider? diffuse) : this(Color.White)
     {
-        DiffuseMaps = new ITextureProvider[16];
-        DiffuseMaps[0] = diffuse;
+        DiffuseMaps = [diffuse];
     }
 
     public static implicit operator XMaterial(XTexture texture) => new(texture);
@@ -147,8 +152,7 @@ public record struct XMaterial(Color Diffuse)
     /// </summary>
     public readonly void HoldReference()
     {
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-        if (DiffuseMaps != null)
+        if (!DiffuseMaps.IsDefaultOrEmpty)
         {
             foreach (var texture in DiffuseMaps)
                 texture?.HoldReference();
@@ -165,8 +169,7 @@ public record struct XMaterial(Color Diffuse)
     /// </summary>
     public void ReleaseReference()
     {
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-        if (DiffuseMaps != null)
+        if (!DiffuseMaps.IsDefaultOrEmpty)
         {
             foreach (var texture in DiffuseMaps)
                 texture?.ReleaseReference();

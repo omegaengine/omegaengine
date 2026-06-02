@@ -392,22 +392,22 @@ public class CpuParticleSystem : PositionableRenderable
         if (!PreTransform.IsIdentity)
             renderOffset += Vector3.TransformCoordinate(new(), PreTransform * Matrix.RotationQuaternion(Rotation));
 
-        if (_material1.DiffuseMaps[0] != null)
+        if (_material1.DiffuseMap != null)
         {
             using (new ProfilerEvent("Render first-life particles"))
             {
                 Engine.State.AlphaBlend = Preset.Particle1Alpha;
-                Engine.State.SetTexture(_material1.DiffuseMaps[0]);
+                Engine.State.SetTexture(_material1.DiffuseMap);
                 _firstLifeParticles.ForEach(particle => particle.Render(Engine, camera, renderOffset));
             }
         }
 
-        if (_material2.DiffuseMaps[0] != null && _secondLifeParticles.Count > 0)
+        if (_material2.DiffuseMap != null && _secondLifeParticles.Count > 0)
         {
             using (new ProfilerEvent("Render second-life particles"))
             {
                 Engine.State.AlphaBlend = Preset.Particle2Alpha;
-                Engine.State.SetTexture(_material2.DiffuseMaps[0]);
+                Engine.State.SetTexture(_material2.DiffuseMap);
                 _secondLifeParticles.ForEach(particle => particle.Render(Engine, camera, renderOffset));
             }
         }
