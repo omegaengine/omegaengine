@@ -19,19 +19,12 @@ namespace OmegaEngine.Graphics;
 /// <param name="baseView">The <see cref="View"/> to base this support-view on</param>
 /// <param name="camera">The <see cref="Camera"/> to look at the <see cref="Scene"/> with</param>
 public abstract class SupportView(View baseView, Camera camera)
-    : TextureView(baseView.Scene, camera, SupportSize(baseView.Area.Size))
+    : TextureView(baseView.Scene, camera, baseView.Area.Size)
 {
     /// <summary>
     /// The <see cref="View"/> this one is based upon
     /// </summary>
     protected readonly View BaseView = baseView;
-
-    /// <summary>
-    /// Calculates the size for a <see cref="SupportView"/> based on the base <see cref="View"/>'s size
-    /// </summary>
-    /// <param name="size"></param>
-    /// <returns>.</returns>
-    private static Size SupportSize(Size size) => new(size.Width * 2 / 3, size.Height * 2 / 3);
 
     /// <inheritdoc/>
     protected override bool IsToRender(PositionableRenderable body)
@@ -53,7 +46,7 @@ public abstract class SupportView(View baseView, Camera camera)
     internal override void Render()
     {
         // Keep the size in sync with the base view
-        Area = new(new(), SupportSize(BaseView.Area.Size));
+        Area = new(new(), BaseView.Area.Size);
 
         base.Render();
     }
