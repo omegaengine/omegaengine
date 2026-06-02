@@ -19,6 +19,7 @@ using NanoByte.Common.Native;
 using OmegaEngine.Foundation;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
+using OmegaEngine.Foundation.Storage;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Input;
 using SlimDX;
@@ -328,6 +329,9 @@ public partial class RenderHost : IRenderHost, IDisposable
 
         LuaRegistrationHelper.TaggedInstanceMethods(lua, this);
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(RenderHost));
+
+        if (ContentManager.FileExists("GUI", "init.lua"))
+            lua.DoFile(ContentManager.GetFilePath("GUI", "init.lua"));
     }
 
     /// <summary>

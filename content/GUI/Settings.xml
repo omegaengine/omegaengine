@@ -5,9 +5,7 @@
   <ColorText A="255" R="255" G="255" B="255" />
   <CaptionText>[Settings]</CaptionText>
   <CaptionHeight>30</CaptionHeight>
-  <OnShow>Me:ImportLua("Utils.lua")
-
--- General
+  <OnShow>-- General
 if Settings.General.Language == "de" then Language.SelectedItem = "Deutsch"; end;
 if not IsMainMenu then
   LanguageLabel.Enabled = false
