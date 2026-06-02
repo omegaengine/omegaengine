@@ -512,7 +512,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         using (new ProfilerEvent("Surface effect: Fixed-function"))
         {
             Engine.State.FfpLighting = true;
-            Engine.Device.Material = material.D3DMaterial;
+            Engine.Device.Material = material.ToD3DMaterial();
 
             int lightCounter = 0;
             foreach (var light in lights)

@@ -10,7 +10,6 @@ using System.ComponentModel;
 using System.Drawing;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Light;
-using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics;
 
@@ -36,11 +35,6 @@ public record struct XMaterial(Color Diffuse)
     /// Indicates whether this material uses textures
     /// </summary>
     public bool IsTextured => DiffuseMaps is [not null, ..] || EmissiveMap != null;
-
-    /// <summary>
-    /// A DirectX material with the color information from this <see cref="XMaterial"/>
-    /// </summary>
-    public Material D3DMaterial => new() {Ambient = Ambient, Diffuse = Diffuse, Specular = Specular, Power = SpecularPower, Emissive = Emissive};
 
     /// <summary>
     /// The color of the material when lit by ambient/background light (always active)

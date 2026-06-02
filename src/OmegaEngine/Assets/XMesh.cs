@@ -127,14 +127,7 @@ public class XMesh : Asset
                 // Store each material and texture
                 for (int i = 0; i < extendedMaterials.Length; i++)
                 {
-                    var material = new();
-
-                    // Apply the mesh's material information
-                    Material meshMaterial = extendedMaterials[i].MaterialD3D;
-                    material.Diffuse = meshMaterial.Diffuse.ToColor();
-                    material.Specular = meshMaterial.Specular.ToColor();
-                    material.SpecularPower = meshMaterial.Power;
-                    material.Emissive = meshMaterial.Emissive.ToColor();
+                    var material = extendedMaterials[i].MaterialD3D.ToXMaterial();
 
                     // Search for texture file names in material
                     string textureFilename = extendedMaterials[i].TextureFileName;
