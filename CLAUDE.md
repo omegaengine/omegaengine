@@ -37,6 +37,7 @@ The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Refe
   - `Graphics/`: `Cameras/`, `LightSources/`, `Renderables/` (scene-graph objects), `Shaders/`, `VertexDecl/`.
   - `Audio/`, `Input/`, `Assets/` (cached GPU/asset resources).
   - `DebugConsole`/`DebugForm` provide the in-engine debug overlay.
+- `UnitTests/`: xUnit tests for `OmegaEngine` and `OmegaEngine.Foundation`.
 - `OmegaGUI/`: XML-based GUI toolkit with embedded Lua scripting.
   - `Model/` is the serializable dialog model.
   - `Render/` draws it through the engine.
@@ -44,14 +45,13 @@ The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Refe
   - `World/`: engine-agnostic world models. `UniverseBase` holds static world data; `Session` tracks dynamic game state. Sub-areas: `Positionables/`, `Components/`, `Properties/`, `Templates/` (data-driven entity templates), `Terrains/`, `Paths/`.
   - `Presentation/`: `PresenterBase`/`GameBase` translate a World into renderable engine objects and drive the app lifecycle.
   - `Editor/`: AlphaEditor, reusable WinForms base (`MainFormBase`, undo `Tab`s, mod packaging) for building game editors.
-- `UnitTests/`, `AlphaFramework/UnitTests/`, `FrameOfReference/UnitTests/`: xUnit. Test projects multi-target so the framework-agnostic code can be exercised cross-framework even though the rendering code is .NET Framework-only.
+  - `UnitTests/`: xUnit tests for AlphaFramework projects.
 
 ## Build & test
 
 - `src/build.ps1`: creates a Release build of the engine and Frame of Reference. Only works on Windows.
 - `src/build.sh`: creates a Release build of the engine and Frame of Reference. Runs on Linux but creates build output for Windows.
 - `src/test.ps1`: runs unit tests. Requires a prior build. Only works on Windows.
-- `src/test.sh`: runs a subset of the unit tests on Linux.
 
 ## Conventions
 
@@ -63,10 +63,14 @@ The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Refe
 
 ## Content layout (`content/`)
 
-Runtime assets. Some of them are bundled in the `OmegaEngine` NuGet (see `src\OmegaEngine\OmegaEngine.csproj`) while the rest is for Frame of Reference.
+Runtime assets. Some of them are bundled in the `OmegaEngine` NuGet (see `src\OmegaEngine\OmegaEngine.csproj`) while the rest is for [Frame of Reference](src/FrameOfReference/).
 
 - `World/`: serialized simulation data.
-  - `Maps/*.xml`: `Universe` XML documents (one per map). `Menu.xml` is the main-menu background scene; `Game.xml` is the playable solar system.
+  - `Maps/*.FrameOfReferenceMap`: ZIP files with alternate file ending
+    - `data.xml`: Serialized `Universe`
+    - `height.png`: Terrain height map
+    - `texture.png`: Terrain texture map
+    - `occlusion.png`: Terrain self-shadowing occlusion angles
   - `*Templates.xml`: config for classes of terrain, entities, etc..
 - `GUI/`: OmegaGUI dialog definitions and scripts.
   - `*.xml`: top-level screens (`MainMenu`, `PauseMenu`, etc.).
@@ -79,10 +83,11 @@ Runtime assets. Some of them are bundled in the `OmegaEngine` NuGet (see `src\Om
 - `Graphics/Shaders/*.fxd`: Templates for dynamic shader templates that are evaluated and compiled at runtime.
 - `Meshes/`: 3D mesh assets and paired textures.
 - `Textures/`: shared textures.
-  - `Surfaces/`: planet/moon/sun surface maps. Naming convention: `<BodyName>.dds` (diffuse), `<BodyName>.normal.dds`, `<BodyName>.specular.dds`, `<BodyName>.atmosphere.dds`, `<BodyName>.lights.dds`, `<BodyName>.rings.dds`.
-  - `Skybox/<name>/`: six-face DDS cubemap (`ft`, `bk`, `lf`, `rt`, `up`, `dn`). The name matches the `<Skybox>` element in the map XML.
+  - `Skybox/<name>/`: six-face cubemap (`ft`, `bk`, `lf`, `rt`, `up`, `dn`). The name matches the `<Skybox>` element in the map XML.
   - `Particles/`: particle textures referenced from `CpuParticlePreset` XML.
   - `Terrain/`: terrain surface textures.
+  - `Water/`: water surface textures.
+  - `Shaders/`: textures sampled by shaders.
 
 ## Other directories
 

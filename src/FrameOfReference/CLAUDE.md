@@ -4,7 +4,7 @@
 
 ## Tech stack
 
-- C# 13 on .NET Framework 4.7.2, `x86` only. The engine-agnostic `World` project multi-targets .NET Framework 4.7.2 and .NET 10.
+- C# 13 on .NET Framework 4.7.2, `x86` only. Unlike `AlphaFramework.World`, the sample game's `World` project targets only .NET Framework 4.7.2.
 - built on OmegaEngine for 3D graphics (DirectX 9 / SlimDX).
 - uses the [AlphaFramework](../AlphaFramework/_Namespace.md) game framework to map the game world onto OmegaEngine rendering constructs.
 - UI uses [OmegaGUI](../OmegaGUI/_Namespace.md) XML dialogs with embedded Lua. Content lives under the repo-level `content/` directory.
@@ -18,9 +18,10 @@ Layered the same way as AlphaFramework — `World` → `Presentation` → `Game`
   - `Components/`: composable entity behavior/data.
   - `Templates/`: data-driven templates loaded at startup to instantiate entities.
 - `Presentation/`: maps simulation entities to the OmegaEngine scene graph. `Presenter` (partials `.Entities`/`.Lighting`) is the base; concrete presenters specialize it — `InteractivePresenter`, `InGamePresenter`, `EditorPresenter`, `MenuPresenter`, `BenchmarkPresenter`.
-- `Game/`: WinForms host and entry point. `Program.cs` is `Main`; `Game.cs` is the application/game-loop object; `Savegames.cs` handles save/load. `States/` is the game-state machine.
+- `Game/`: WinForms host, game loop, savegame management.
+  - `States/`: game-state machine.
 - `Editor/`: separate WinForms map editor built on [AlphaEditor](../AlphaFramework/Editor/). Has a build dependency on `Game` (see `OmegaEngine.slnx`).
-- `UnitTests/`: xUnit. Multi-targets .NET Framework and .NET so simulation code can be tested cross-framework even though the game itself is .NET Framework-only.
+- `UnitTests/`: xUnit tests.
 
 ## Conventions
 
