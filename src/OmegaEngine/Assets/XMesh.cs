@@ -27,19 +27,16 @@ namespace OmegaEngine.Assets;
 /// <seealso cref="Model"/>
 public class XMesh : Asset
 {
-    #region Variables
     /// <summary>
     /// Materials (diffuse/normal/height/specular map, lighting settings) associated with the mesh
     /// </summary>
     public readonly XMaterial[] Materials;
-    #endregion
 
-    #region Properties
+    private readonly Mesh _mesh;
+
     /// <summary>
     /// The mesh in DirectX format
     /// </summary>
-    private readonly Mesh _mesh;
-
     public Mesh Mesh => _mesh;
 
     /// <summary>
@@ -61,9 +58,7 @@ public class XMesh : Asset
     /// Per-subset bounding spheres in entity space (null for single-subset meshes)
     /// </summary>
     public BoundingSphere[]? SubsetBoundingSpheres { get; }
-    #endregion
 
-    #region Constructor
     /// <summary>
     /// Loads a static mesh from an .X file.
     /// </summary>
@@ -123,7 +118,6 @@ public class XMesh : Asset
 
         try
         {
-            #region Extract material data
             bool needsTangents = false;
             if (extendedMaterials is { Length: > 0 })
             {
@@ -147,7 +141,6 @@ public class XMesh : Asset
                     {
                         Materials[i].DiffuseMaps[0] = ShaderLoadHelper(engine, meshName, textureFilename);
 
-                        #region Auto-detect extra texture maps
                         string baseFilename = Path.Combine(Path.GetDirectoryName(meshName) ?? "", Path.GetFileNameWithoutExtension(textureFilename));
                         string fileExt = Path.GetExtension(textureFilename);
 
@@ -181,10 +174,8 @@ public class XMesh : Asset
                         string glowFilename = $"{baseFilename}_glow{fileExt}";
                         if (ContentManager.FileExists("Meshes", glowFilename))
                             Materials[i].EmissiveMap ??= Materials[i].GlowMap = XTexture.Get(engine, glowFilename, meshTexture: true);
-                        #endregion
                     }
 
-                    #region Load extra texture maps from shader configuration
                     // Search for texture file names in shader effect if present
                     if (effectInstances != null && i < effectInstances.Length)
                     {
@@ -212,7 +203,6 @@ public class XMesh : Asset
                             if (extraTexture != null) Materials[i].SpecularMap = extraTexture;
                         }
                     }
-                    #endregion
                 }
 
                 // Generate normals (plus tangents if normal/height maps are available)
@@ -221,7 +211,6 @@ public class XMesh : Asset
                 else
                     TexturedMeshUtils.GenerateNormals(engine.Device, ref _mesh);
             }
-            #endregion
         }
         #region Error handling
         catch (Exception)
@@ -232,9 +221,7 @@ public class XMesh : Asset
         }
         #endregion
     }
-    #endregion
 
-    #region Static access
     /// <summary>
     /// Returns a cached <see cref="XMesh"/> or creates a new one if the requested ID is not cached.
     /// </summary>
@@ -271,11 +258,7 @@ public class XMesh : Asset
 
         return data;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Texture helpers
     /// <summary>
     /// Finds and loads a mesh texture
     /// </summary>
@@ -317,9 +300,7 @@ public class XMesh : Asset
         }
         return null;
     }
-    #endregion
 
-    #region Reference control
     /// <inheritdoc/>
     public override void HoldReference()
     {
@@ -337,11 +318,7 @@ public class XMesh : Asset
         foreach (var material in Materials)
             material.ReleaseReference();
     }
-    #endregion
 
-    //--------------------//
-
-    #region Per-subset bounding bodies
     /// <summary>
     /// Calculates per-subset bounding boxes and spheres for multi-subset meshes.
     /// </summary>
@@ -367,11 +344,7 @@ public class XMesh : Asset
             return (subsetBoundingSpheres, subsetBoundingBoxes);
         }
     }
-    #endregion
 
-    //--------------------//
-
-    #region Dispose
     protected override void Dispose(bool disposing)
     {
         try
@@ -387,5 +360,4 @@ public class XMesh : Asset
             base.Dispose(disposing);
         }
     }
-    #endregion
 }
