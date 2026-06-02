@@ -9,11 +9,13 @@
 using System;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using NanoByte.Common;
 using NanoByte.Common.Storage;
+using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -128,6 +130,10 @@ public class XMesh : Asset
                 for (int i = 0; i < extendedMaterials.Length; i++)
                 {
                     var material = extendedMaterials[i].MaterialD3D.ToXMaterial();
+
+                    // Often unset in mesh files, default to white instead of black
+                    if (material.Ambient.EqualsIgnoreAlpha(Color.Black)) material.Ambient = Color.White;
+                    if (material.Specular.EqualsIgnoreAlpha(Color.Black)) material.Specular = Color.White;
 
                     // Search for texture file names in material
                     string textureFilename = extendedMaterials[i].TextureFileName;
