@@ -299,24 +299,6 @@ public class XMesh : Asset
         return null;
     }
 
-    /// <inheritdoc/>
-    public override void HoldReference()
-    {
-        base.HoldReference();
-
-        foreach (var material in Materials)
-            material.HoldReference();
-    }
-
-    /// <inheritdoc/>
-    public override void ReleaseReference()
-    {
-        base.ReleaseReference();
-
-        foreach (var material in Materials)
-            material.ReleaseReference();
-    }
-
     /// <summary>
     /// Calculates per-subset bounding boxes and spheres for multi-subset meshes.
     /// </summary>

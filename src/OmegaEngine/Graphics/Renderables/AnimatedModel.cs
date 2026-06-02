@@ -46,8 +46,10 @@ public class AnimatedModel : PositionableRenderable
     {
         _asset = mesh ?? throw new ArgumentNullException(nameof(mesh));
         _asset.HoldReference();
+
         Materials = mesh.Materials.ToArray();
         NumberSubsets = Materials.Length;
+        foreach (var material in Materials) material.HoldReference();
 
         // Get bounding bodies
         BoundingSphere = mesh.BoundingSphere;
@@ -84,6 +86,8 @@ public class AnimatedModel : PositionableRenderable
                 _asset.ReleaseReference();
                 _asset = null;
             }
+
+            foreach (var material in Materials) material.ReleaseReference();
         }
         finally
         {

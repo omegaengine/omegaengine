@@ -35,12 +35,6 @@ public partial class Model : PositionableRenderable
     /// An array of materials used to render this mesh
     /// </summary>
     protected readonly XMaterial[] Materials;
-
-    /// <summary>True if the <see cref="Mesh"/> is created or owned by this class and therefore should also be disposed by it.</summary>
-    private readonly bool _ownMesh;
-
-    /// <summary>True if the <see cref="Materials"/> are not owned by <see cref="_asset"/> and therefor need to be released by <see cref="OnDispose"/>.</summary>
-    private readonly bool _separateMaterials;
     #endregion
 
     #region Properties
@@ -58,59 +52,37 @@ public partial class Model : PositionableRenderable
     #endregion
 
     #region Constructor
-
-    #region From asset
     /// <summary>
     /// Creates a new model based upon a <see cref="XMesh"/>, using its internal material data if available.
     /// </summary>
-    /// <param name="mesh">The <see cref="XMesh"/> providing the mesh data.</param>
+    /// <param name="mesh">The <see cref="XMesh"/> providing the mesh and material data.</param>
     /// <remarks>Calling <see cref="IDisposable.Dispose"/> will not dispose the <paramref name="mesh"/>. This is handled by the <see cref="CacheManager"/>.</remarks>
-    public Model(XMesh mesh)
-    {
-        _asset = mesh ?? throw new ArgumentNullException(nameof(mesh));
-        _asset.HoldReference();
-
-        // Get mesh from asset
-        Mesh = mesh.Mesh;
-        SetBoundingBodiesFrom(mesh);
-
-        // Get materials from asset
-        Materials = mesh.Materials.ToArray();
-        NumberSubsets = Materials.Length;
-    }
+    public Model(XMesh mesh) : this(mesh, mesh.Materials.ToArray())
+    {}
 
     /// <summary>
-    /// Creates a new model based upon a <see cref="XMesh"/>, using an external texture and a plain white material.
+    /// Creates a new model based upon a <see cref="XMesh"/>, using custom material data.
     /// </summary>
     /// <param name="mesh">The <see cref="XMesh"/> providing the mesh data.</param>
     /// <param name="materials">The materials to use for rendering the model.</param>
+    /// <exception cref="ArgumentException">The number of <paramref name="materials"/> provided does not match the number of materials required by the <paramref name="mesh"/>.</exception>
     /// <remarks>Calling <see cref="IDisposable.Dispose"/> will call <see cref="IReferenceCount.ReleaseReference"/> on <paramref name="mesh"/> and <paramref name="materials"/>.</remarks>
-    public Model(XMesh mesh, params XMaterial[] materials)
+    public Model(XMesh mesh, params XMaterial[] materials) : this(mesh.Mesh, materials)
     {
-        _asset = mesh ?? throw new ArgumentNullException(nameof(mesh));
+        #region Sanity checks
+        if (mesh.Materials.Length != materials.Length)
+            throw new ArgumentException($"Mesh requires {mesh.Materials.Length} materials, but {materials.Length} materials were provided");
+        #endregion
+
+        _asset = mesh;
         _asset.HoldReference();
 
-        // Get mesh from asset
-        Mesh = mesh.Mesh;
-        SetBoundingBodiesFrom(mesh);
-
-        // Get separate materials
-        Materials = materials;
-        NumberSubsets = Materials.Length;
-        foreach (var material in Materials) material.HoldReference();
-        _separateMaterials = true;
-    }
-
-    private void SetBoundingBodiesFrom(XMesh mesh)
-    {
         BoundingSphere = mesh.BoundingSphere;
         BoundingBox = mesh.BoundingBox;
         SubsetBoundingBoxes = mesh.SubsetBoundingBoxes;
         SubsetBoundingSpheres = mesh.SubsetBoundingSpheres;
     }
-    #endregion
 
-    #region From custom mesh
     /// <summary>
     /// Creates a new model based upon a custom mesh.
     /// </summary>
@@ -119,19 +91,12 @@ public partial class Model : PositionableRenderable
     /// <remarks>Calling <see cref="IDisposable.Dispose"/> will call <see cref="IDisposable.Dispose"/> on <paramref name="mesh"/> and <see cref="IReferenceCount.ReleaseReference"/> on <paramref name="materials"/>.</remarks>
     public Model(Mesh mesh, params XMaterial[] materials)
     {
-        // Get custom mesh
         Mesh = mesh ?? throw new ArgumentNullException(nameof(mesh));
-        _ownMesh = true;
 
-        // Get separate materials
         Materials = materials;
         NumberSubsets = Materials.Length;
-        foreach (var material in Materials)
-            material.HoldReference();
-        _separateMaterials = true;
+        foreach (var material in Materials) material.HoldReference();
     }
-    #endregion
-
     #endregion
 
     //--------------------//
@@ -298,16 +263,14 @@ public partial class Model : PositionableRenderable
     {
         try
         {
-            if (_ownMesh) Mesh.Dispose();
-
-            if (_asset != null)
+            if (_asset == null) Mesh.Dispose();
+            else
             {
                 _asset.ReleaseReference();
                 _asset = null;
             }
 
-            if (_separateMaterials)
-                foreach (var material in Materials) material.ReleaseReference();
+            foreach (var material in Materials) material.ReleaseReference();
         }
         finally
         {
