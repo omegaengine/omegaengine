@@ -26,7 +26,7 @@ public class VertexGroup : PositionableRenderable
     private readonly int _vertexCount;
 
     private IndexBuffer? _ib;
-    private readonly XMaterial _material = XMaterial.DefaultMaterial;
+    private readonly XMaterial _material;
     private readonly PrimitiveType _primitiveType;
     private int _primitiveCount;
     #endregion
@@ -49,7 +49,7 @@ public class VertexGroup : PositionableRenderable
         _primitiveType = primitiveType;
         _vertexCount = vertexes.Length;
 
-        _material = XMaterial.DefaultMaterial;
+        _material = new();
         SurfaceEffect = SurfaceEffect.FixedFunction;
 
         _buildVertexBuffer = () => Engine.Device.CreateVertexBuffer(vertexes, PositionColored.Format);
@@ -71,7 +71,7 @@ public class VertexGroup : PositionableRenderable
         _primitiveType = primitiveType;
         _vertexCount = vertexes.Length;
 
-        _material = XMaterial.DefaultMaterial;
+        _material = new();
         SurfaceEffect = SurfaceEffect.FixedFunction;
 
         _buildVertexBuffer = () => Engine.Device.CreateVertexBuffer(vertexes, PositionNormalColored.Format);

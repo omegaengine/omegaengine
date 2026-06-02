@@ -126,7 +126,7 @@ public class XMesh : Asset
                 // Store each material and texture
                 for (int i = 0; i < extendedMaterials.Length; i++)
                 {
-                    Materials[i] = XMaterial.DefaultMaterial;
+                    Materials[i] = new();
 
                     // Apply the mesh's material information
                     Material meshMaterial = extendedMaterials[i].MaterialD3D;

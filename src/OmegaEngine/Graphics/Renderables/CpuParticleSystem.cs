@@ -36,7 +36,9 @@ public class CpuParticleSystem : PositionableRenderable
     private readonly Stack<CpuParticle> _deadParticles = new();
 
     private VertexBuffer? _vb;
-    private XMaterial _material1, _material2;
+    private XMaterial
+        _material1 = new(),
+        _material2 = new();
 
     private CpuParticlePreset _preset = new();
 
@@ -307,7 +309,7 @@ public class CpuParticleSystem : PositionableRenderable
 
         #region First-life material
         // Start with empty material
-        _material1 = XMaterial.DefaultMaterial;
+        _material1 = new();
         if (!string.IsNullOrEmpty(Preset.Particle1Texture))
         {
             // Get texture path
@@ -323,7 +325,7 @@ public class CpuParticleSystem : PositionableRenderable
         #endregion
 
         #region Second-life material
-        _material2 = XMaterial.DefaultMaterial;
+        _material2 = new();
         if (!string.IsNullOrEmpty(Preset.Particle2Texture))
         {
             // Get texture path

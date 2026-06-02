@@ -17,10 +17,16 @@ namespace OmegaEngine.Graphics;
 /// <summary>
 /// A combination of textures and lighting parameters.
 /// </summary>
-/// <param name="color">The color of the material when hit by diffuse light (normal lighting).</param>
+/// <param name="Diffuse">The color of the material when hit by diffuse light (normal lighting).</param>
 /// <remarks><see cref="XMaterial"/> instances are auto-generated when <see cref="XMesh"/>es are loaded.</remarks>
-public struct XMaterial(Color color)
+public record struct XMaterial(Color Diffuse)
 {
+    /// <summary>
+    /// A plain white untextured material.
+    /// </summary>
+    public XMaterial() : this(Diffuse: Color.White)
+    {}
+
     /// <summary>
     /// The diffuse textures maps
     /// </summary>
@@ -30,11 +36,6 @@ public struct XMaterial(Color color)
     /// Indicates whether this material uses textures
     /// </summary>
     public bool IsTextured => DiffuseMaps is [not null, ..] || EmissiveMap != null;
-
-    /// <summary>
-    /// A plain white untextured material
-    /// </summary>
-    public static XMaterial DefaultMaterial => new(Color.White);
 
     /// <summary>
     /// A DirectX material with the color information from this <see cref="XMaterial"/>
@@ -51,7 +52,7 @@ public struct XMaterial(Color color)
     /// The color of the material when hit by diffuse light (normal lighting)
     /// </summary>
     [DefaultValue(typeof(Color), "White")]
-    public Color Diffuse { get; set; } = color;
+    public Color Diffuse { get; set; } = Diffuse;
 
     /// <summary>
     /// The color of specular (shiny) highlights on the material surface
