@@ -95,7 +95,7 @@ public class Water : Model
     /// Creates views as reflection and refraction sources - Call after setting position!
     /// </summary>
     /// <param name="view">The original view to reflect</param>
-    /// <param name="clipTolerance">How far to shift the clip plane along its normal vector to reduce graphical glitches at corners</param>
+    /// <param name="clipTolerance">How far to shift the clip plane along its normal vector to reduce graphical glitches at edges</param>
     /// <remarks>This method may be called only once on an instance</remarks>
     public void SetupChildViews(View view, float clipTolerance = 2)
     {

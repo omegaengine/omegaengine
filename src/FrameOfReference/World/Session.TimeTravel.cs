@@ -31,7 +31,7 @@ namespace FrameOfReference.World;
 partial class Session
 {
     /// <summary>
-    /// Indicates whwther a <see cref="TimeTravel"/> request is currently being processed.
+    /// Indicates whether a <see cref="TimeTravel"/> request is currently being processed.
     /// </summary>
     [Browsable(false), XmlIgnore]
     public bool TimeTravelInProgress { get; set; }

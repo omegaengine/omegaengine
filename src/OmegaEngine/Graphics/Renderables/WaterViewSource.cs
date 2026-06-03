@@ -43,7 +43,7 @@ internal sealed class WaterViewSource : IDisposable
     public readonly WaterView ReflectedView;
 
     /// <summary>
-    /// How far to shift the clip plane along its normal vector to reduce graphical glitches at corners
+    /// How far to shift the clip plane along its normal vector to reduce graphical glitches at edges
     /// </summary>
     public readonly float ClipTolerance;
 
@@ -67,7 +67,7 @@ internal sealed class WaterViewSource : IDisposable
     /// </summary>
     /// <param name="height">The height of the <see cref="Water"/> planes (Y axis)</param>
     /// <param name="baseView">The <see cref="View"/> the <see cref="Water"/> planes are shown in</param>
-    /// <param name="clipTolerance">How far to shift the clip plane along its normal vector to reduce graphical glitches at corners</param>
+    /// <param name="clipTolerance">How far to shift the clip plane along its normal vector to reduce graphical glitches at edges</param>
     private WaterViewSource(double height, View baseView, float clipTolerance)
     {
         Height = height;
@@ -93,7 +93,7 @@ internal sealed class WaterViewSource : IDisposable
     /// <param name="engine">The <see cref="Engine"/> to create the views in</param>
     /// <param name="height">The height of the <see cref="Water"/> planes (Y axis)</param>
     /// <param name="baseView">The <see cref="View"/> the <see cref="Water"/> planes are shown in</param>
-    /// <param name="clipTolerance">How far to shift the clip plane along its normal vector to reduce graphical glitches at corners</param>
+    /// <param name="clipTolerance">How far to shift the clip plane along its normal vector to reduce graphical glitches at edges</param>
     /// <returns>A <see cref="WaterViewSource"/> fitting the parameters</returns>
     /// <seealso cref="Engine.WaterViewSources"/>
     public static WaterViewSource FromEngine(Engine engine, double height, View baseView, float clipTolerance)
