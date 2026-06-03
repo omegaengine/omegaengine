@@ -147,7 +147,7 @@ public sealed class BenchmarkPresenter : Presenter
             testCase.HighRes ? new(1024, 768) : new Size(800, 600);
         Settings.Current.Display.AntiAliasing = testCase.AntiAliasing ? 2 : 0;
         Settings.Current.Graphics.Anisotropic = testCase.GraphicsSettings.HasFlag(TestGraphicsSettings.Anisotropic);
-        Settings.Current.Graphics.DoubleSampling = testCase.GraphicsSettings.HasFlag(TestGraphicsSettings.DoubleSampling);
+        Settings.Current.Graphics.DetailMapping = testCase.GraphicsSettings.HasFlag(TestGraphicsSettings.DetailMapping);
         Settings.Current.Graphics.PostScreenEffects = testCase.GraphicsSettings.HasFlag(TestGraphicsSettings.PostScreenEffects);
         Settings.Current.Graphics.WaterEffects = testCase.WaterEffects;
 

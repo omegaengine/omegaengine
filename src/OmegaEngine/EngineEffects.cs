@@ -41,13 +41,13 @@ public sealed class EngineEffects(EngineCapabilities capabilities)
     /// </summary>
     public bool Shadows { get; set; } = true;
 
-    private bool _doubleSampling;
+    private bool _detailMapping;
 
     /// <summary>
-    /// Sample terrain textures twice with different texture coordinates for better image quality
+    /// Sample textures twice with different texture coordinates to create an illusion of more details
     /// </summary>
-    /// <seealso cref="EngineCapabilities.DoubleSampling"/>
-    public bool DoubleSampling { get => _doubleSampling; set => _doubleSampling = capabilities.DoubleSampling && value; }
+    /// <seealso cref="EngineCapabilities.DetailMapping"/>
+    public bool DetailMapping { get => _detailMapping; set => _detailMapping = capabilities.DetailMapping && value; }
 
     private WaterEffectsType _waterEffects = WaterEffectsType.None;
 

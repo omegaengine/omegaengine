@@ -56,7 +56,7 @@
   <entry key="ShowMenu">Show menu</entry>
   <entry key="ShowShadows">Show shadows</entry>
   <entry key="ShowUnitShadows">Show unit shadows</entry>
-  <entry key="TerrainDoubleSampling">Terrain texture improvement</entry>
+  <entry key="TerrainDetails">Terrain details</entry>
   <entry key="TimeWarpFactor">Time warp factor:</entry>
   <entry key="WaterEffects">Water effects</entry>
   <entry key="Yes">Yes</entry>

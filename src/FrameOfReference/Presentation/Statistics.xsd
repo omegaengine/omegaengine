@@ -55,7 +55,7 @@
       <xs:simpleType>
         <xs:restriction base="xs:string">
           <xs:enumeration value="Anisotropic" />
-          <xs:enumeration value="DoubleSampling" />
+          <xs:enumeration value="DetailMapping" />
           <xs:enumeration value="PostScreenEffects" />
         </xs:restriction>
       </xs:simpleType>

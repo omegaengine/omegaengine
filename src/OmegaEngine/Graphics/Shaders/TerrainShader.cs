@@ -107,7 +107,7 @@ public class TerrainShader : LightingShader
             Effect.Technique = _lighting ? _lightBlack : _simpleBlack;
         else
         {
-            if (Engine.Effects.DoubleSampling && _lighting)
+            if (Engine.Effects.DetailMapping && _lighting)
             {
                 if (Engine.Capabilities.MaxShaderModel >= new Version(2, 0, 2))
                     Effect.Technique = _light2B;

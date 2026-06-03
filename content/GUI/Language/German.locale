@@ -56,7 +56,7 @@
   <entry key="ShowMenu">Menü anzeigen</entry>
   <entry key="ShowShadows">Schatten anzeigen</entry>
   <entry key="ShowUnitShadows">Einheitenschatten anzeigen</entry>
-  <entry key="TerrainDoubleSampling">Terrain Texturverbesserung</entry>
+  <entry key="TerrainDetails">Terrain Details</entry>
   <entry key="TimeWarpFactor">Zeitverzerrungsfaktor:</entry>
   <entry key="WaterEffects">Wassereffekte</entry>
   <entry key="Yes">Ja</entry>

@@ -41,7 +41,7 @@ public enum TestGraphicsSettings
     Anisotropic = 1,
 
     /// <summary>Activate terrain texture double sampling.</summary>
-    DoubleSampling = 2,
+    DetailMapping = 2,
 
     /// <summary>Activate post-screen effects.</summary>
     PostScreenEffects = 4

@@ -72,13 +72,13 @@ public sealed class GraphicsSettings
     [DefaultValue(true), Description("Enable or disable shadowing casting (does not affect terrain self-shadowing)")]
     public bool Shadows { get => _shadows; set => value.To(ref _shadows, Changed); }
 
-    private bool _doubleSampling = true;
+    private bool _detailMapping = true;
 
     /// <summary>
-    /// Sample textures twice with different texture coordinates for better image quality
+    /// Sample textures twice with different texture coordinates to create an illusion of more details
     /// </summary>
-    [DefaultValue(true), Description("Sample textures twice with different texture coordinates for better image quality")]
-    public bool DoubleSampling { get => _doubleSampling; set => value.To(ref _doubleSampling, Changed); }
+    [DefaultValue(true), Description("Sample textures twice with different texture coordinates to create an illusion of more details")]
+    public bool DetailMapping { get => _detailMapping; set => value.To(ref _detailMapping, Changed); }
 
     private int _terrainBlockSize = 32;
 
@@ -129,7 +129,7 @@ public sealed class GraphicsSettings
         engine.Effects.NormalMapping = NormalMapping;
         engine.Effects.PostScreenEffects = PostScreenEffects;
         engine.Effects.Shadows = Shadows;
-        engine.Effects.DoubleSampling = DoubleSampling;
+        engine.Effects.DetailMapping = DetailMapping;
         engine.Effects.WaterEffects = WaterEffects;
 
         // Read back in case any of the values were invalid or unsupported
@@ -137,7 +137,7 @@ public sealed class GraphicsSettings
         NormalMapping = engine.Effects.NormalMapping;
         PostScreenEffects = engine.Effects.PostScreenEffects;
         Shadows = engine.Effects.Shadows;
-        DoubleSampling = engine.Effects.DoubleSampling;
+        DetailMapping = engine.Effects.DetailMapping;
         WaterEffects = engine.Effects.WaterEffects;
 
         // Note: FieldOfView and Gamma need to be applied elsewhere

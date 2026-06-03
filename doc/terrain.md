@@ -20,7 +20,7 @@ The texture map defines which texture to use at each location on the terrain. Mu
 
 AlphaFramework uses [texture templates](xref:AlphaFramework.World.Terrains#terrain-templates) to map texture indices to actual textures. The <xref:AlphaFramework.World.Terrains.ITerrain.TextureMap> stores indices that reference these templates, allowing efficient reuse of texture definitions across the terrain. The texture map is stored at 1/3 the resolution of the height map: each texture cell covers a 3×3 block of height map samples.
 
-When <xref:OmegaEngine.EngineEffects.DoubleSampling> is enabled, terrain textures are sampled twice with different texture coordinates and blended together. This technique provides better image quality by reducing repetitive tiling patterns that can occur when the same texture is repeated across large terrain areas.
+When <xref:OmegaEngine.EngineEffects.DetailMapping> is enabled, terrain textures are sampled twice with different texture coordinates and blended together. This technique provides better image quality by reducing repetitive tiling patterns that can occur when the same texture is repeated across large terrain areas.
 
 ## Shadowing
 

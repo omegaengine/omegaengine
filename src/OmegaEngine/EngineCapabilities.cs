@@ -195,10 +195,10 @@ public sealed class EngineCapabilities
     public bool PerPixelEffects => MaxShaderModel >= new Version(2, 0);
 
     /// <summary>
-    /// Does the hardware the engine is running on support terrain texture double sampling?
+    /// Does the hardware the engine is running on support detail mapping (sampling textures twice with different texture coordinates)?
     /// </summary>
-    /// <seealso cref="EngineEffects.DoubleSampling"/>
-    public bool DoubleSampling => MaxShaderModel >= new Version(2, 0, 1);
+    /// <seealso cref="EngineEffects.DetailMapping"/>
+    public bool DetailMapping => MaxShaderModel >= new Version(2, 0, 1);
     #endregion
 
     #region Resolution check

@@ -67,8 +67,8 @@ Anisotropic.Enabled = Engine.Capabilities.Anisotropic
 Anisotropic.Checked = Settings.Graphics.Anisotropic
 Shadows.Enabled = Engine.Capabilities.PerPixelEffects
 Shadows.Checked = Settings.Graphics.Shadows
-TerrainDoubleSampling.Enabled = Engine.Capabilities.DoubleSampling
-TerrainDoubleSampling.Checked = Settings.Graphics.DoubleSampling
+DetailMapping.Enabled = Engine.Capabilities.DetailMapping
+DetailMapping.Checked = Settings.Graphics.DetailMapping
 Gamma.Value = Settings.Graphics.Gamma * 10
 Gamma.Enabled = Settings.Graphics.PostScreenEffects
 GammaValueLabel.Text = string.format("%.1f", Settings.Graphics.Gamma)
@@ -248,10 +248,10 @@ elseif WaterEffects.SelectedItem == "[ReflectTerrain]" then Settings.Graphics.Wa
 elseif WaterEffects.SelectedItem == "[ReflectAll]" then Settings.Graphics.WaterEffects = WaterEffectsType.ReflectAll
 end</OnChanged>
   </DropdownList>
-  <CheckBox Name="TerrainDoubleSampling" Text="[TerrainDoubleSampling]">
+  <CheckBox Name="DetailMapping" Text="[TerrainDetails]">
     <Location X="460" Y="359" />
     <Size Width="260" Height="20" />
-    <OnChanged>Settings.Graphics.DoubleSampling = TerrainDoubleSampling.Checked</OnChanged>
+    <OnChanged>Settings.Graphics.DetailMapping = DetailMapping.Checked</OnChanged>
   </CheckBox>
   <Label Name="GammaLabel" Text="Gamma">
     <Location X="525" Y="384" />
