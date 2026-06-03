@@ -58,7 +58,7 @@ public class MyRenderHost : RenderHost
 
         var dialog = new Dialog
         {
-            Controls = {new Button {Text = "Exit", Location = new Point(10, 10), OnClick = "Game:Exit()"}}
+            Controls = {new Button {Text = "Exit", Location = new Point(10, 10), OnClick = "Host:Exit()"}}
         };
 
         var presenter = new DialogPresenter(_guiManager, dialog, lua: NewLua());
