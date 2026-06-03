@@ -141,7 +141,10 @@ public sealed partial class Engine : EngineElement
                 WaterEffects = WaterEffectsType.ReflectAll
             };
 
-            CreateDevice();
+            Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, Capabilities.GetCreateFlags(), PresentParams);
+
+            RenderViewport = Device.Viewport;
+            BackBuffer = Device.GetBackBuffer(0, 0);
             State = new(Device);
             SetupTextureFiltering();
             Performance = new(Device, RenderPure);
@@ -167,36 +170,6 @@ public sealed partial class Engine : EngineElement
             throw;
         }
         #endregion
-    }
-
-    /// <summary>
-    /// Helper method for the constructor that creates the <see cref="Device"/>.
-    /// </summary>
-    /// <exception cref="Direct3D9Exception">Internal errors occurred during creation.</exception>
-    /// <exception cref="Direct3DX9NotFoundException"><c>d3dx9_43.dll</c> is missing.</exception>
-    private void CreateDevice()
-    {
-        Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, GetFlags(), PresentParams);
-        RenderViewport = Device.Viewport;
-        BackBuffer = Device.GetBackBuffer(0, 0);
-
-        CreateFlags GetFlags()
-        {
-            switch (Capabilities)
-            {
-                case {PureDevice: true}:
-                    Log.Info("Creating Direct3D device with Hardware Vertex Processing & Pure Device");
-                    return CreateFlags.FpuPreserve | CreateFlags.HardwareVertexProcessing | CreateFlags.PureDevice;
-
-                case {HardwareVertexProcessing: true}:
-                    Log.Info("Creating Direct3D device with Hardware Vertex Processing");
-                    return CreateFlags.FpuPreserve | CreateFlags.HardwareVertexProcessing;
-
-                default:
-                    Log.Info("Creating Direct3D device with Software Vertex Processing");
-                    return CreateFlags.FpuPreserve | CreateFlags.SoftwareVertexProcessing;
-            }
-        }
     }
     #endregion
 

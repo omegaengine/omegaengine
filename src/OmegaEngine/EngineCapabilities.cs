@@ -274,4 +274,14 @@ public sealed class EngineCapabilities
     /// </summary>
     public string SupportedAA => string.Join(",", KnownAALevels.Where(x => CheckAA(x)).Select(x => x.ToString()));
     #endregion
+
+    /// <summary>
+    /// Returns flags for creating a Direct3D9 device based on the available capabilities.
+    /// </summary>
+    internal CreateFlags GetCreateFlags() => CreateFlags.FpuPreserve | this switch
+    {
+        { PureDevice: true } => CreateFlags.HardwareVertexProcessing | CreateFlags.PureDevice,
+        { HardwareVertexProcessing: true } => CreateFlags.HardwareVertexProcessing,
+        _ => CreateFlags.SoftwareVertexProcessing
+    };
 }
