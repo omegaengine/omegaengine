@@ -39,7 +39,7 @@ public sealed class EngineEffects(EngineCapabilities capabilities)
     /// <summary>
     /// Enable or disable shadowing casting (does not affect terrain self-shadowing)
     /// </summary>
-    public bool Shadows { get; set; } = true;
+    public bool Shadows { get; set; }
 
     private bool _detailMapping;
 
@@ -49,7 +49,7 @@ public sealed class EngineEffects(EngineCapabilities capabilities)
     /// <seealso cref="EngineCapabilities.DetailMapping"/>
     public bool DetailMapping { get => _detailMapping; set => _detailMapping = capabilities.DetailMapping && value; }
 
-    private WaterEffectsType _waterEffects = WaterEffectsType.None;
+    private WaterEffectsType _waterEffects;
 
     /// <summary>
     /// The effects to be display on water (e.g. reflections)
@@ -57,8 +57,6 @@ public sealed class EngineEffects(EngineCapabilities capabilities)
     public WaterEffectsType WaterEffects
     {
         get => _waterEffects;
-        set =>
-            // Check if the selected effect mode is supported by the hardware
-            _waterEffects = capabilities.PerPixelEffects ? value : WaterEffectsType.None;
+        set => _waterEffects = capabilities.PerPixelEffects ? value : WaterEffectsType.None;
     }
 }

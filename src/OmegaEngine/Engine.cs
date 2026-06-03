@@ -16,6 +16,7 @@ using LuaInterface;
 using NanoByte.Common;
 using NanoByte.Common.Storage;
 using OmegaEngine.Assets;
+using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Properties;
@@ -131,7 +132,15 @@ public sealed partial class Engine : EngineElement
         {
             _direct3D = new();
             Capabilities = new(_direct3D, config);
-            Effects = new(Capabilities) {PerPixelLighting = true};
+            Effects = new(Capabilities)
+            {
+                PerPixelLighting = true,
+                NormalMapping = true,
+                PostScreenEffects = true,
+                Shadows = true,
+                DetailMapping = true,
+                WaterEffects = WaterEffectsType.ReflectAll
+            };
 
             CreateDevice();
             State = new(Device);
