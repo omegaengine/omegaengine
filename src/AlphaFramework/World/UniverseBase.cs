@@ -8,9 +8,11 @@
 
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Xml.Serialization;
 using NanoByte.Common;
 using NanoByte.Common.Storage;
+using OmegaEngine.Foundation.Storage;
 
 namespace AlphaFramework.World;
 
@@ -53,6 +55,18 @@ public abstract class UniverseBase : IUniverse
     {
         this.SaveXml(path);
         SourceFile = path;
+    }
+
+    /// <summary>
+    /// Saves the universe back to the file it was loaded from.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Universe was not loaded from a file.</exception>
+    public void Save()
+    {
+        if (SourceFile == null) throw new InvalidOperationException("Universe was not loaded from a file.");
+
+        string path = Path.IsPathRooted(SourceFile) ? SourceFile : ContentManager.CreateFilePath("World/Maps", SourceFile);
+        Save(path);
     }
 
     /// <inheritdoc/>
