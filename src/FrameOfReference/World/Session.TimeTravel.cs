@@ -40,7 +40,7 @@ partial class Session
 
     private double _timeTravelElapsed;
 
-    private const double TimeTravelSpeedFactor = 1 / 30.0;
+    private const double TimeTravelSpeedFactor = 0.07;
 
     /// <summary>
     /// Like <see cref="UpdateTo"/>, but interpolates between the current and the target time smoothly.
