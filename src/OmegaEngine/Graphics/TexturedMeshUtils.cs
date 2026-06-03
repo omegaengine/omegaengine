@@ -293,8 +293,9 @@ public static class TexturedMeshUtils
                         {
                             if (vertexes[num].Position == tangentVertexes[tangentVertexNum].Position && vertexes[num].Normal == tangentVertexes[tangentVertexNum].Normal)
                             {
-                                // Copy the tangent over
+                                // Copy the tangent and binormal over
                                 vertexes[num].Tangent = tangentVertexes[tangentVertexNum].Tangent;
+                                vertexes[num].Binormal = tangentVertexes[tangentVertexNum].Binormal;
                                 // No more checks required, proceed with next vertex
                                 break;
                             }
@@ -307,7 +308,7 @@ public static class TexturedMeshUtils
         else if (!hadTangents)
         {
             using (new TimedLogEvent("Computed tangents"))
-                mesh.ComputeTangent(0, 0, D3DX.Default, false);
+                mesh.ComputeTangent(0, 0, 0, false);
         }
 
         Optimize(mesh);
