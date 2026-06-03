@@ -111,8 +111,7 @@ public sealed partial class Engine : EngineElement
     /// <param name="target">The <see cref="System.Windows.Forms.Control"/> the engine should draw onto.</param>
     /// <param name="config">Settings for initializing the engine.</param>
     /// <exception cref="NotSupportedException">The graphics card does not meet the engine's minimum requirements.</exception>
-    /// <exception cref="Direct3D9NotFoundException">Throw if required DirectX version is missing.</exception>
-    /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
+    /// <exception cref="Direct3DX9NotFoundException"><c>d3dx9_43.dll</c> is missing.</exception>
     /// <exception cref="Direct3D9Exception">Internal errors occurred while initializing the graphics card.</exception>
     /// <exception cref="SlimDX.DirectSound.DirectSoundException">Internal errors occurred while initializing the sound card.</exception>
     public Engine(Control target, EngineConfig config)
@@ -174,8 +173,7 @@ public sealed partial class Engine : EngineElement
     /// Helper method for the constructor that creates the <see cref="Device"/>.
     /// </summary>
     /// <exception cref="Direct3D9Exception">Internal errors occurred during creation.</exception>
-    /// <exception cref="Direct3D9NotFoundException">Throw if required DirectX version is missing.</exception>
-    /// <exception cref="Direct3DX9NotFoundException">Throw if required DirectX version is missing.</exception>
+    /// <exception cref="Direct3DX9NotFoundException"><c>d3dx9_43.dll</c> is missing.</exception>
     private void CreateDevice()
     {
         Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, GetFlags(), PresentParams);
