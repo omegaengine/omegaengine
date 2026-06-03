@@ -16,7 +16,6 @@ namespace OmegaEngine;
 /// </summary>
 public sealed class EngineEffects
 {
-    #region Dependencies
     private readonly EngineCapabilities _capabilities;
 
     /// <summary>
@@ -27,11 +26,7 @@ public sealed class EngineEffects
     {
         _capabilities = capabilities ?? throw new ArgumentNullException(nameof(capabilities));
     }
-    #endregion
 
-    //--------------------//
-
-    #region Per-pixel effects
     private bool _perPixelLighting, _normalMapping, _postScreenEffects;
 
     /// <summary>
@@ -56,9 +51,7 @@ public sealed class EngineEffects
     /// Enable or disable shadowing casting (does not affect terrain self-shadowing)
     /// </summary>
     public bool Shadows { get; set; } = true;
-    #endregion
 
-    #region Double sampling
     private bool _doubleSampling;
 
     /// <summary>
@@ -66,9 +59,7 @@ public sealed class EngineEffects
     /// </summary>
     /// <seealso cref="EngineCapabilities.DoubleSampling"/>
     public bool DoubleSampling { get => _doubleSampling; set => _doubleSampling = _capabilities.DoubleSampling && value; }
-    #endregion
 
-    #region Water effects
     private WaterEffectsType _waterEffects = WaterEffectsType.None;
 
     /// <summary>
@@ -81,5 +72,4 @@ public sealed class EngineEffects
             // Check if the selected effect mode is supported by the hardware
             _waterEffects = _capabilities.PerPixelEffects ? value : WaterEffectsType.None;
     }
-    #endregion
 }
