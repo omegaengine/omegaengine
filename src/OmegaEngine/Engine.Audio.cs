@@ -24,12 +24,12 @@ partial class Engine
     /// The DirectSound device
     /// </summary>
     [LuaHide]
-    public DirectSound AudioDevice { get; private set; }
+    public DirectSound? AudioDevice { get; private set; }
 
     /// <summary>
     /// Controls the playback of music (theme-selection, cross-fading, etc.)
     /// </summary>
-    public MusicManager Music { get; private set; }
+    public MusicManager? Music { get; private set; }
     #endregion
 
     //--------------------//

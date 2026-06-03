@@ -195,7 +195,7 @@ partial class Engine
     /// </summary>
     public GeneralShader DefaultShader { get; private set; }
 
-    private WaterShader _simpleWaterShader;
+    private WaterShader? _simpleWaterShader;
 
     /// <summary>
     /// A shader used for simple water (no reflection or refraction)
