@@ -225,8 +225,8 @@ Gamma.Enabled = Settings.Graphics.PostScreenEffects</OnChanged>
     <Size Width="230" Height="20" />
     <OnChanged>Settings.Graphics.Anisotropic = Anisotropic.Checked</OnChanged>
   </CheckBox>
-  <CheckBox Name="Shadows" Text="[ShowShadows]">
-    <Location X="460" Y="325" />
+  <CheckBox Name="Shadows" Text="[Shadows]">
+    <Location X="460" Y="359" />
     <Size Width="220" Height="20" />
     <OnChanged>Settings.Graphics.Shadows = Shadows.Checked</OnChanged>
   </CheckBox>
@@ -249,8 +249,8 @@ elseif WaterEffects.SelectedItem == "[ReflectAll]" then Settings.Graphics.WaterE
 end</OnChanged>
   </DropdownList>
   <CheckBox Name="DetailMapping" Text="[TerrainDetails]">
-    <Location X="460" Y="359" />
-    <Size Width="260" Height="20" />
+    <Location X="460" Y="325" />
+    <Size Width="220" Height="20" />
     <OnChanged>Settings.Graphics.DetailMapping = DetailMapping.Checked</OnChanged>
   </CheckBox>
   <Label Name="GammaLabel" Text="Gamma">

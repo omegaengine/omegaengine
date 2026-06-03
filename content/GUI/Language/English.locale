@@ -53,9 +53,8 @@
   <entry key="SaveMapSure">Do you really want to save the map?</entry>
   <entry key="Sepia">Sepia effect</entry>
   <entry key="Settings">Settings</entry>
+  <entry key="Shadows">Object shadows</entry>
   <entry key="ShowMenu">Show menu</entry>
-  <entry key="ShowShadows">Show shadows</entry>
-  <entry key="ShowUnitShadows">Show unit shadows</entry>
   <entry key="TerrainDetails">Terrain details</entry>
   <entry key="TimeWarpFactor">Time warp factor:</entry>
   <entry key="WaterEffects">Water effects</entry>
