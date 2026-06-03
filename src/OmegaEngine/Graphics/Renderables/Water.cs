@@ -97,7 +97,7 @@ public class Water : Model
     /// <param name="view">The original view to reflect</param>
     /// <param name="clipTolerance">How far to shift the clip plane along its normal vector to reduce graphical glitches at edges</param>
     /// <remarks>This method may be called only once on an instance</remarks>
-    public void SetupChildViews(View view, float clipTolerance = 2)
+    public void SetupChildViews(View view, float clipTolerance = 10)
     {
         #region Sanity checks
         if (view == null) throw new ArgumentNullException(nameof(view));
