@@ -286,7 +286,9 @@ public partial class RenderHost : IRenderHost, IDisposable
     protected virtual EngineConfig BuildEngineConfig(bool fullscreen) => new()
     {
         Fullscreen = fullscreen,
-        TargetSize = fullscreen ? Screen.PrimaryScreen.Bounds.Size : Form.ClientSize
+        TargetSize = fullscreen ? Screen.PrimaryScreen.Bounds.Size : Form.ClientSize,
+        VSync = true,
+        AntiAliasing = EngineCapabilities.CheckAA(adapter: 0, sample: 2) ? 2 : 0
     };
 
     /// <summary>

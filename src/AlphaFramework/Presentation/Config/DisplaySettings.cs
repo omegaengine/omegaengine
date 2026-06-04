@@ -98,7 +98,7 @@ public sealed class DisplaySettings
         }
     }
 
-    private int _antiAliasing;
+    private int _antiAliasing = 2;
 
     /// <summary>
     /// The level of anti aliasing to use
@@ -131,7 +131,7 @@ public sealed class DisplaySettings
     [Description("Run game in fullscreen mode")]
     public bool Fullscreen { get => _fullscreen; set => value.To(ref _fullscreen, Changed); }
 
-    private bool _vSync;
+    private bool _vSync = true;
 
     /// <summary>
     /// Synchronize the framerate with the monitor's refresh rate
