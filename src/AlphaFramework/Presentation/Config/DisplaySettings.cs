@@ -61,12 +61,11 @@ public sealed class DisplaySettings
     }
 
     /// <summary>
-    /// The monitor resolution for fullscreen mode - as a string followed with an x between the components
+    /// The monitor resolution for fullscreen mode as a string in the format <c>WIDTHxHEIGHT</c>
     /// </summary>
     [XmlIgnore, Browsable(false)]
     public string ResolutionText
     {
-        #region Scripting-friendly interface
         get => $"{Resolution.Width}x{_resolution.Height}";
         set
         {
@@ -78,7 +77,6 @@ public sealed class DisplaySettings
                     int.Parse(components[1], CultureInfo.InvariantCulture));
             }
         }
-        #endregion
     }
 
     private Size _windowSize = new(1024, 768);
