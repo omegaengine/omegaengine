@@ -1,7 +1,6 @@
-﻿using OmegaEngine.Graphics;
-using SlimDX.Direct3D9;
+﻿using SlimDX.Direct3D9;
 
-namespace OmegaEngine;
+namespace OmegaEngine.Graphics;
 
 /// <summary>
 /// Extension methods for <see cref="XMaterial"/>.
