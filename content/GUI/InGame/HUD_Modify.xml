@@ -71,7 +71,7 @@ Engine:Debug()</OnClick>
     <AlignHorizontal>Center</AlignHorizontal>
     <OnClick>LoadDialog("InGame/ColorCorrection")</OnClick>
   </Button>
-  <Button Name="ShowMenu" Text="[ShowMenu]" Hotkey="Pause">
+  <Button Name="ShowMenu" Text="[ShowMenu]" Hotkey="Escape">
     <Location X="20" Y="20" />
     <Size Width="130" Height="40" />
     <AlignHorizontal>FromRight</AlignHorizontal>

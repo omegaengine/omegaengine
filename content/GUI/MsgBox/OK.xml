@@ -12,7 +12,7 @@
     <AlignHorizontal>Center</AlignHorizontal>
     <TextAlign>Center</TextAlign>
   </Label>
-  <Button Name="OK" Text="[OK]">
+  <Button Name="OK" Text="[OK]" Hotkey="Return">
     <Location X="0" Y="20" />
     <Size Width="160" Height="40" />
     <AlignHorizontal>Center</AlignHorizontal>

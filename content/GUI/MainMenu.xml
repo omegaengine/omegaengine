@@ -13,28 +13,28 @@
     <AlignVertical>Center</AlignVertical>
     <TextAlign>Center</TextAlign>
   </Label>
-  <Button Name="ResumeGame" Text="[Resume]">
+  <Button Name="ResumeGame" Text="[Resume]" Hotkey="Return">
     <Location X="40" Y="-120" />
     <Size Width="200" Height="50" />
     <AlignVertical>Center</AlignVertical>
     <OnClick>LoadSplashDialog("Loading")
 Game:ResumeGame()</OnClick>
   </Button>
-  <Button Name="NewGame" Text="[NewGame]">
+  <Button Name="NewGame" Default="true" Text="[NewGame]" Hotkey="N">
     <Location X="40" Y="-60" />
     <Size Width="200" Height="50" />
     <AlignVertical>Center</AlignVertical>
     <OnClick>LoadSplashDialog("Loading")
 Game:LoadMap("Tutorial")</OnClick>
   </Button>
-  <Button Name="LoadGame" Text="[LoadGame]">
+  <Button Name="LoadGame" Text="[LoadGame]" Hotkey="L">
     <Location X="40" Y="0" />
     <Size Width="200" Height="50" />
     <AlignVertical>Center</AlignVertical>
     <OnClick>Me:Close()
 LoadModalDialog("SavegameLoad")</OnClick>
   </Button>
-  <Button Name="Settings" Text="[Settings]">
+  <Button Name="Settings" Text="[Settings]" Hotkey="C">
     <Location X="40" Y="60" />
     <Size Width="200" Height="50" />
     <AlignVertical>Center</AlignVertical>

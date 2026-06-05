@@ -17,7 +17,8 @@
   end
 end
 
-SavegameNames.Items:AddMany(Savegames:GetNames())</OnShow>
+SavegameNames.Items:AddMany(Savegames:GetNames())
+SavegameNames:Focus()</OnShow>
   <FontSize>15</FontSize>
   <Size Width="400" Height="250" />
   <Shift X="0" Y="0" />
@@ -28,14 +29,14 @@ SavegameNames.Items:AddMany(Savegames:GetNames())</OnShow>
     <OnSelection>OK.Enabled = true</OnSelection>
     <OnDoubleClick>load(SavegameNames.SelectedItem)</OnDoubleClick>
   </ListBox>
-  <Button Name="OK" Enabled="false" Text="OK">
+  <Button Name="OK" Enabled="false" Text="OK" Hotkey="Return">
     <Location X="-90" Y="20" />
     <Size Width="160" Height="40" />
     <AlignHorizontal>Center</AlignHorizontal>
     <AlignVertical>FromBottom</AlignVertical>
     <OnClick>load(SavegameNames.SelectedItem)</OnClick>
   </Button>
-  <Button Name="Cancel" Text="[Cancel]">
+  <Button Name="Cancel" Text="[Cancel]" Hotkey="Escape">
     <Location X="90" Y="20" />
     <Size Width="160" Height="40" />
     <AlignHorizontal>Center</AlignHorizontal>

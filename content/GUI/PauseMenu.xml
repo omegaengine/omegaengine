@@ -22,34 +22,34 @@
     <TextureSize Width="188" Height="63" />
     <Alpha>255</Alpha>
   </PictureBox>
-  <Button Name="ResumeGame" Text="[Return]" Hotkey="Pause">
+  <Button Name="ResumeGame" Text="[Return]" Hotkey="Escape">
     <Location X="190" Y="510" />
     <Size Width="100" Height="48" />
     <AlignHorizontal>Center</AlignHorizontal>
     <OnClick>InGame:TogglePause()</OnClick>
   </Button>
-  <Button Name="NewGame" Text="[Save]">
+  <Button Name="SaveGame" Default="true" Text="[Save]" Hotkey="S">
     <Location X="0" Y="130" />
     <Size Width="180" Height="48" />
     <AlignHorizontal>Center</AlignHorizontal>
     <OnClick>Me:Close()
 LoadModalDialog("SavegameSave")</OnClick>
   </Button>
-  <Button Name="LoadGame" Text="[Load]">
+  <Button Name="LoadGame" Text="[Load]" Hotkey="L">
     <Location X="0" Y="188" />
     <Size Width="180" Height="48" />
     <AlignHorizontal>Center</AlignHorizontal>
     <OnClick>Me:Close()
 LoadModalDialog("SavegameLoad")</OnClick>
   </Button>
-  <Button Name="Settings" Text="[Settings]">
+  <Button Name="Settings" Text="[Settings]" Hotkey="C">
     <Location X="0" Y="276" />
     <Size Width="180" Height="48" />
     <AlignHorizontal>Center</AlignHorizontal>
     <OnClick>Me:Close()
 LoadModalDialog("Settings")</OnClick>
   </Button>
-  <Button Name="ToMainMenu" Text="[MainMenu]">
+  <Button Name="ToMainMenu" Text="[MainMenu]" Hotkey="M">
     <Location X="0" Y="364" />
     <Size Width="180" Height="48" />
     <AlignHorizontal>Center</AlignHorizontal>

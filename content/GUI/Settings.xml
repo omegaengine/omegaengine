@@ -276,7 +276,7 @@ GammaValueLabel.Text = string.format("%.1f", Settings.Graphics.Gamma)</OnChanged
     <Location X="680" Y="384" />
     <Size Width="25" Height="20" />
   </Label>
-  <Button Name="Exit" Text="OK">
+  <Button Name="Exit" Default="true" Text="OK" Hotkey="Return">
     <Location X="0" Y="20" />
     <Size Width="160" Height="40" />
     <AlignHorizontal>Center</AlignHorizontal>

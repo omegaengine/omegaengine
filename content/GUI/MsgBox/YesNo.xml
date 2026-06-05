@@ -12,14 +12,14 @@
     <AlignHorizontal>Center</AlignHorizontal>
     <TextAlign>Center</TextAlign>
   </Label>
-  <Button Name="Yes" Text="[Yes]">
+  <Button Name="Yes" Text="[Yes]" Hotkey="Return">
     <Location X="-90" Y="20" />
     <Size Width="160" Height="40" />
     <AlignHorizontal>Center</AlignHorizontal>
     <AlignVertical>FromBottom</AlignVertical>
     <OnClick>Me:Close()</OnClick>
   </Button>
-  <Button Name="No" Text="[No]">
+  <Button Name="No" Text="[No]" Hotkey="Escape">
     <Location X="90" Y="20" />
     <Size Width="160" Height="40" />
     <AlignHorizontal>Center</AlignHorizontal>
