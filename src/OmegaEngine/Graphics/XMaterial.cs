@@ -66,10 +66,11 @@ public record struct XMaterial(Color Diffuse)
     public Color Specular { get; set; } = Color.Gray;
 
     /// <summary>
-    /// The sharpness of specular highlights (lower value = sharper)
+    /// The sharpness of specular highlights (higher value = sharper, smaller highlight)
     /// </summary>
-    [DefaultValue(1f)]
-    public float SpecularPower { get; set; } = 1;
+    /// <remarks>Defaults to match the exponent hardcoded in the surface shaders, so the fixed-function pipeline and shaders produce comparable highlights.</remarks>
+    [DefaultValue(100f)]
+    public float SpecularPower { get; set; } = 100;
 
     /// <summary>
     /// The color of the light this material emits by itself
