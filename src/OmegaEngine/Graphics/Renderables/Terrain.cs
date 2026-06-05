@@ -249,7 +249,7 @@ public partial class Terrain : Model
             {
                 // The terrain will always appear completely black on the glow/shadow map
                 using (new ProfilerEvent(() => $"Apply black {_subsetShaders[i]}"))
-                    _subsetShaders?[i].Apply(renderSubset, new(), camera);
+                    _subsetShaders?[i].Apply(renderSubset, XMaterial.Default, camera);
             }
             else
             {

@@ -43,7 +43,7 @@ public class Water : Model
     /// </summary>
     /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
     /// <param name="size">The size of the water plane.</param>
-    public Water(Engine engine, SizeF size) : base(BuildMesh(engine, size), new XMaterial())
+    public Water(Engine engine, SizeF size) : base(BuildMesh(engine, size), XMaterial.Default)
     {
         Engine = engine;
         Size = size;

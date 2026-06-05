@@ -24,6 +24,11 @@ public record struct XMaterial(Color Diffuse)
     /// <summary>
     /// A plain white untextured material.
     /// </summary>
+    public static readonly XMaterial Default = new();
+
+    /// <summary>
+    /// A plain white untextured material.
+    /// </summary>
     public XMaterial() : this(Diffuse: Color.White)
     {}
 
