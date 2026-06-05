@@ -189,7 +189,7 @@ lightComponents calcDirLight(float3 worldPos, float3 normal, float3 lightDir,
     float3 halfAngle = normalize(eye + lightDir);
 
     // Scale specular with diffuse to avoid highlights on sides facing away from light source
-    float specularFactor = pow(saturate(dot(normal, halfAngle)), 100);
+    float specularFactor = pow(saturate(dot(normal, halfAngle)), specularPower);
     specularFactor *= saturate(diffuseFactor * 2.0f);
 
     lightComponents OUT;
