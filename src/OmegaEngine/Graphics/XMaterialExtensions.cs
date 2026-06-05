@@ -1,4 +1,5 @@
-﻿using SlimDX.Direct3D9;
+﻿using SlimDX;
+using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics;
 
@@ -20,15 +21,17 @@ public static class XMaterialExtensions
             Emissive = material.Emissive
         };
 
+    private static readonly Color4 _unset = new(1, 0, 0, 0);
+
     /// <summary>
     /// Converts a <see cref="Material"/> to an <see cref="XMaterial"/>.
     /// </summary>
     public static XMaterial ToXMaterial(this Material material)
         => new(Diffuse: material.Diffuse.ToColor())
         {
-            Ambient = material.Ambient.ToColor(),
-            Specular = material.Specular.ToColor(),
-            SpecularPower = material.Power,
+            Ambient = material.Ambient == _unset ? XMaterial.Default.Ambient : material.Ambient.ToColor(),
+            Specular = material.Specular == _unset ? XMaterial.Default.Specular : material.Specular.ToColor(),
+            SpecularPower = material.Power == 1 ? XMaterial.Default.SpecularPower : material.Power,
             Emissive = material.Emissive.ToColor()
         };
 }
