@@ -27,6 +27,7 @@ using AlphaFramework.Presentation;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World;
 using FrameOfReference.World.Positionables;
+using JetBrains.Annotations;
 using NanoByte.Common;
 using OmegaEngine;
 using OmegaEngine.Graphics.Cameras;
@@ -101,7 +102,8 @@ public sealed class InGamePresenter : InteractivePresenter
     /// <summary>
     /// Switches from the current camera view to a new view using a transition effect.
     /// </summary>
-    /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="CameraState{TCoordinates}"/> stored in the <see cref="PresenterBase{TUniverse}.Universe"/>.</param>
+    /// <param name="name">The name of a <see cref="CameraState{TCoordinates}"/> stored in the <see cref="PresenterBase{TUniverse}.Universe"/>.</param>
+    [UsedImplicitly]
     public void SwingCameraTo(string name)
     {
         View.TransitionCameraTo(
@@ -114,7 +116,7 @@ public sealed class InGamePresenter : InteractivePresenter
     /// <summary>
     /// Sets <see cref="InteractivePresenter.SelectedPositionables"/> to a single specific <see cref="Entity"/> and forces the <see cref="Camera"/> to stay close to it.
     /// </summary>
-    /// <param name="name">The <see cref="Positionable{TCoordinates}.Name"/> of a <see cref="Entity"/> stored in the <see cref="PresenterBase{TUniverse}.Universe"/>.</param>
+    /// <param name="name">The name of a <see cref="Entity"/> stored in the <see cref="PresenterBase{TUniverse}.Universe"/>.</param>
     public void LockOn(string name)
     {
         _lockedOnEntity = Universe.GetEntity(name);
