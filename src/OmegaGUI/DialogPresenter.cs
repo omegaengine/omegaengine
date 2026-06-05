@@ -189,6 +189,7 @@ public sealed class DialogPresenter : IDisposable
         if (Disposed) throw new ObjectDisposedException(ToString());
         #endregion
 
+        Render.IsUsingKeyboardInput = true;
         _manager.AddModal(this);
         LuaExecute(Model.OnShow, "Dialog_Show");
         Update();
