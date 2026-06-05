@@ -119,7 +119,16 @@ public sealed class EngineState
     /// <summary>
     /// Controls whether fixed-function pipeline lighting is used at the moment instead of <see cref="SurfaceShader"/>s
     /// </summary>
-    public bool FfpLighting { get => _ffpLighting; set => value.To(ref _ffpLighting, () => _device.SetRenderState(RenderState.Lighting, value)); }
+    public bool FfpLighting
+    {
+        get => _ffpLighting;
+        set => value.To(ref _ffpLighting, () =>
+        {
+            _device.SetRenderState(RenderState.Lighting, value);
+            _device.SetRenderState(RenderState.Ambient, value);
+            _device.SetRenderState(RenderState.SpecularEnable, value);
+        });
+    }
     #endregion
 
     #region Fog
