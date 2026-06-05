@@ -82,7 +82,7 @@ public abstract class InGameBase : SessionStateBase
             game.RemoveInputReceiver(_presenter);
             _presenter.DimDown();
             game.GuiManager.Reset();
-            game.LoadDialog("PauseMenu");
+            game.LoadModalDialog("PauseMenu");
         }
     }
 

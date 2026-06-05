@@ -26,7 +26,7 @@ public class MainMenu(Game game, Universe universe) : IGameState
             _presenter.HookIn();
             if (Settings.Current.Graphics.Fading) game.Engine.FadeIn();
             game.GuiManager.CloseAll();
-            game.LoadDialog("MainMenu");
+            game.LoadModalDialog("MainMenu");
         }
 
         game.Loading = false;
