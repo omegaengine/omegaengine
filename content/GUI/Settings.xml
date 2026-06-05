@@ -65,8 +65,9 @@ PostScreenEffects.Enabled = Engine.Capabilities.PerPixelEffects
 PostScreenEffects.Checked = Settings.Graphics.PostScreenEffects
 Anisotropic.Enabled = Engine.Capabilities.Anisotropic
 Anisotropic.Checked = Settings.Graphics.Anisotropic
-Shadows.Enabled = Engine.Capabilities.PerPixelEffects
 Shadows.Checked = Settings.Graphics.Shadows
+NormalMapping.Enabled = Engine.Capabilities.PerPixelEffects
+NormalMapping.Checked = Settings.Graphics.NormalMapping
 DetailMapping.Enabled = Engine.Capabilities.DetailMapping
 DetailMapping.Checked = Settings.Graphics.DetailMapping
 Gamma.Value = Settings.Graphics.Gamma * 10
@@ -226,16 +227,26 @@ Gamma.Enabled = Settings.Graphics.PostScreenEffects</OnChanged>
     <OnChanged>Settings.Graphics.Anisotropic = Anisotropic.Checked</OnChanged>
   </CheckBox>
   <CheckBox Name="Shadows" Text="[Shadows]">
-    <Location X="460" Y="359" />
+    <Location X="460" Y="325" />
     <Size Width="220" Height="20" />
     <OnChanged>Settings.Graphics.Shadows = Shadows.Checked</OnChanged>
   </CheckBox>
-  <Label Name="WaterEffectsLabel" Text="[WaterEffects]">
+  <CheckBox Name="NormalMapping" Text="[NormalMapping]">
     <Location X="20" Y="360" />
+    <Size Width="200" Height="20" />
+    <OnChanged>Settings.Graphics.NormalMapping = NormalMapping.Checked</OnChanged>
+  </CheckBox>
+  <CheckBox Name="DetailMapping" Text="[TerrainDetails]">
+    <Location X="219" Y="356" />
+    <Size Width="220" Height="20" />
+    <OnChanged>Settings.Graphics.DetailMapping = DetailMapping.Checked</OnChanged>
+  </CheckBox>
+  <Label Name="WaterEffectsLabel" Text="[WaterEffects]">
+    <Location X="20" Y="400" />
     <Size Width="120" Height="30" />
   </Label>
   <DropdownList Name="WaterEffects">
-    <Location X="140" Y="360" />
+    <Location X="140" Y="400" />
     <Size Width="220" Height="30" />
     <Item>[None]</Item>
     <Item>[RefractionOnly]</Item>
@@ -248,11 +259,6 @@ elseif WaterEffects.SelectedItem == "[ReflectTerrain]" then Settings.Graphics.Wa
 elseif WaterEffects.SelectedItem == "[ReflectAll]" then Settings.Graphics.WaterEffects = WaterEffectsType.ReflectAll
 end</OnChanged>
   </DropdownList>
-  <CheckBox Name="DetailMapping" Text="[TerrainDetails]">
-    <Location X="460" Y="325" />
-    <Size Width="220" Height="20" />
-    <OnChanged>Settings.Graphics.DetailMapping = DetailMapping.Checked</OnChanged>
-  </CheckBox>
   <Label Name="GammaLabel" Text="Gamma">
     <Location X="525" Y="384" />
     <Size Width="120" Height="20" />
