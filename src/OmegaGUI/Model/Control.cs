@@ -246,6 +246,12 @@ public abstract class Control : ICloneable
 
     [Browsable(false)]
     public Render.Control? ControlModel => DXControl;
+
+    /// <summary>Requests keyboard focus for this control.</summary>
+    public void Focus()
+    {
+        if (DXControl != null) Render.Dialog.RequestFocus(DXControl);
+    }
     #endregion
 
     #region Generate
