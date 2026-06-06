@@ -40,7 +40,7 @@ float4x4 worldInverseTranspose : WorldInverseTranspose;
 float4x4 viewInverse           : ViewInverse;
 
 // General lighting
-float specularPower    : SpecularPower < string UIWidget = "slider"; float UIMin = 1.0; float UIMax = 128.0; float UIStep = 1.0; > = 30.0f;
+float specularPower    : SpecularPower < string UIWidget = "slider"; float UIMin = 1.0; float UIMax = 128.0; float UIStep = 1.0; > = 32.0f;
 float3 emissiveColor   : Emissive = {0.0f, 0.0f, 0.0f};
 float emissiveFactor   : Emissive < string UIWidget = "slider"; float UIMin = 0.0; float UIMax = 10.0; float UIStep = 0.01; > = 0.0f;
 

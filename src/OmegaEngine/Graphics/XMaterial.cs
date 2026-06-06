@@ -70,7 +70,7 @@ public record struct XMaterial(Color Diffuse)
     /// </summary>
     /// <remarks>Defaults to match the exponent hardcoded in the surface shaders, so the fixed-function pipeline and shaders produce comparable highlights.</remarks>
     [DefaultValue(100f)]
-    public float SpecularPower { get; set; } = 100;
+    public float SpecularPower { get; set; } = 32;
 
     /// <summary>
     /// The color of the light this material emits by itself
