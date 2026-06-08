@@ -18,7 +18,6 @@ namespace OmegaEngine.Graphics.VertexDecl;
 [StructLayout(LayoutKind.Sequential)]
 public struct TransformedTextured
 {
-    #region Constants
     /// <summary>
     /// The fixed-function format of this vertex structure.
     /// </summary>
@@ -28,11 +27,7 @@ public struct TransformedTextured
     /// The length of this vertex structure in bytes.
     /// </summary>
     public const int StrideSize = 6 * 4;
-    #endregion
 
-    #region Variables
-    // ReSharper disable MemberCanBePrivate.Global
-    // ReSharper disable FieldCanBeMadeReadOnly.Global
     /// <summary>The position of the vertex in screen-space</summary>
     public Vector3 Position;
 
@@ -45,11 +40,6 @@ public struct TransformedTextured
     /// <summary>The V-component of the texture coordinates</summary>
     public float Tv;
 
-    // ReSharper restore FieldCanBeMadeReadOnly.Global
-    // ReSharper restore MemberCanBePrivate.Global
-    #endregion
-
-    #region Constructor
     /// <summary>
     /// Creates a new transformed, textured vertex
     /// </summary>
@@ -77,9 +67,6 @@ public struct TransformedTextured
     public TransformedTextured(float xvalue, float yvalue, float zvalue, float rhw, float tu, float tv)
         : this(new(xvalue, yvalue, zvalue), rhw, tu, tv)
     {}
-    #endregion
 
-    #region ToString
     public override string ToString() => $"{nameof(TransformedTextured)}(position={Position}, rhw={Rhw}, tu={Tu}, tv={Tv})";
-    #endregion
 }

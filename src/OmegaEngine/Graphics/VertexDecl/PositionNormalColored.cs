@@ -19,7 +19,6 @@ namespace OmegaEngine.Graphics.VertexDecl;
 [StructLayout(LayoutKind.Sequential)]
 public struct PositionNormalColored
 {
-    #region Constants
     /// <summary>
     /// The fixed-function format of this vertex structure.
     /// </summary>
@@ -29,11 +28,7 @@ public struct PositionNormalColored
     /// The length of this vertex structure in bytes.
     /// </summary>
     public const int StrideSize = 7 * 4;
-    #endregion
 
-    #region Variables
-    // ReSharper disable MemberCanBePrivate.Global
-    // ReSharper disable FieldCanBeMadeReadOnly.Global
     /// <summary>The position of the vertex in entity-space</summary>
     public Vector3 Position;
 
@@ -43,11 +38,6 @@ public struct PositionNormalColored
     /// <summary>The color of the vertex</summary>
     public int Color;
 
-    // ReSharper restore FieldCanBeMadeReadOnly.Global
-    // ReSharper restore MemberCanBePrivate.Global
-    #endregion
-
-    #region Constructor
     /// <summary>
     /// Creates a new positioned, colored vertex with normal information
     /// </summary>
@@ -60,9 +50,6 @@ public struct PositionNormalColored
         Normal = normal;
         Color = color;
     }
-    #endregion
 
-    #region ToString
     public override string ToString() => $"{nameof(PositionNormalColored)}(position={Position}, normal={Normal}, color={Color})";
-    #endregion
 }

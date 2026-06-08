@@ -21,16 +21,11 @@ namespace OmegaEngine.Graphics.VertexDecl;
 [StructLayout(LayoutKind.Sequential)]
 public struct PositionNormalMultiTextured
 {
-    #region Constants
     /// <summary>
     /// The length of this vertex structure in bytes.
     /// </summary>
     public const int StrideSize = 32 * 4;
-    #endregion
 
-    #region Variables
-    // ReSharper disable MemberCanBePrivate.Global
-    // ReSharper disable FieldCanBeMadeReadOnly.Global
     /// <summary>The position of the vertex in entity-space</summary>
     public Vector3 Position;
 
@@ -52,11 +47,6 @@ public struct PositionNormalMultiTextured
     /// <summary>A color by which the texture will be multiplied</summary>
     public Color4 Color;
 
-    // ReSharper restore FieldCanBeMadeReadOnly.Global
-    // ReSharper restore MemberCanBePrivate.Global
-    #endregion
-
-    #region Constructor
     /// <summary>
     /// Creates a new multi-textured vertex
     /// </summary>
@@ -69,11 +59,9 @@ public struct PositionNormalMultiTextured
     /// <param name="color">A color by which the texture will be multiplied</param>
     public PositionNormalMultiTextured(Vector3 position, Vector3 normal, float tu, float tv, Vector4 occlusionIntervals, float[] texWeights, Color4 color)
     {
-        #region Sanity checks
         if (texWeights == null) throw new ArgumentNullException(nameof(texWeights));
         if (texWeights.Length != 16)
             throw new ArgumentException(string.Format(Resources.WrongTexArrayLength, "16"), nameof(texWeights));
-        #endregion
 
         Position = position;
         Normal = normal;
@@ -86,15 +74,9 @@ public struct PositionNormalMultiTextured
         TexWeights4 = new(texWeights[12], texWeights[13], texWeights[14], texWeights[15]);
         Color = color;
     }
-    #endregion
 
-    #region ToString
     public override string ToString() => $"{nameof(PositionNormalMultiTextured)}(position={Position}, normal={Normal}, tu={Tu}, tv={Tv}, texWeights={TexWeights1}{TexWeights2}{TexWeights3}{TexWeights4})";
-    #endregion
 
-    //--------------------//
-
-    #region Vertex declaration
     /// <summary>
     /// Returns an array describing the usage of the vertex fields
     /// </summary>
@@ -121,5 +103,4 @@ public struct PositionNormalMultiTextured
         // End
         VertexElement.VertexDeclarationEnd
     ];
-    #endregion
 }

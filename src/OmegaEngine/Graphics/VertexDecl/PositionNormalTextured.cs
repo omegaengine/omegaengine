@@ -19,7 +19,6 @@ namespace OmegaEngine.Graphics.VertexDecl;
 [StructLayout(LayoutKind.Sequential)]
 public struct PositionNormalTextured
 {
-    #region Constants
     /// <summary>
     /// The fixed-function format of this vertex structure.
     /// </summary>
@@ -29,11 +28,7 @@ public struct PositionNormalTextured
     /// The length of this vertex structure in bytes.
     /// </summary>
     public const int StrideSize = 8 * 4;
-    #endregion
 
-    #region Variables
-    // ReSharper disable MemberCanBePrivate.Global
-    // ReSharper disable FieldCanBeMadeReadOnly.Global
     /// <summary>The position of the vertex in entity-space</summary>
     public Vector3 Position;
 
@@ -46,11 +41,6 @@ public struct PositionNormalTextured
     /// <summary>The V-component of the texture coordinates</summary>
     public float Tv;
 
-    // ReSharper restore FieldCanBeMadeReadOnly.Global
-    // ReSharper restore MemberCanBePrivate.Global
-    #endregion
-
-    #region Constructor
     /// <summary>
     /// Creates a new position, textured vertex with normal information
     /// </summary>
@@ -65,9 +55,6 @@ public struct PositionNormalTextured
         Tu = tu;
         Tv = tv;
     }
-    #endregion
 
-    #region ToString
     public override string ToString() => $"{nameof(PositionNormalTextured)}(position={Position}, normal={Normal}, tu={Tu}, tv={Tv})";
-    #endregion
 }
