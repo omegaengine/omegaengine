@@ -16,8 +16,11 @@ namespace OmegaEngine.Graphics.VertexDecl;
 /// A fixed-function vertex format that stores position, normals and color.
 /// Using this format hints the engine that that lighting is to be used.
 /// </summary>
+/// <param name="position">The position of the vertex in entity-space</param>
+/// <param name="normal">The normal of the vertex in entity-space</param>
+/// <param name="color">The color of the vertex</param>
 [StructLayout(LayoutKind.Sequential)]
-public struct PositionNormalColored
+public struct PositionNormalColored(Vector3 position, Vector3 normal, int color)
 {
     /// <summary>
     /// The fixed-function format of this vertex structure.
@@ -25,26 +28,13 @@ public struct PositionNormalColored
     public const VertexFormat Format = VertexFormat.Position | VertexFormat.Normal | VertexFormat.Diffuse;
 
     /// <summary>The position of the vertex in entity-space</summary>
-    public Vector3 Position;
+    public Vector3 Position = position;
 
     /// <summary>The normal of the vertex in entity-space</summary>
-    public Vector3 Normal;
+    public Vector3 Normal = normal;
 
     /// <summary>The color of the vertex</summary>
-    public int Color;
-
-    /// <summary>
-    /// Creates a new positioned, colored vertex with normal information
-    /// </summary>
-    /// <param name="position">The position of the vertex in entity-space</param>
-    /// <param name="normal">The normal of the vertex in entity-space</param>
-    /// <param name="color">The color of the vertex</param>
-    public PositionNormalColored(Vector3 position, Vector3 normal, int color)
-    {
-        Position = position;
-        Normal = normal;
-        Color = color;
-    }
+    public int Color = color;
 
     public override string ToString() => $"{nameof(PositionNormalColored)}(position={Position}, normal={Normal}, color={Color})";
 }

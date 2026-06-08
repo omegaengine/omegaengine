@@ -16,8 +16,11 @@ namespace OmegaEngine.Graphics.VertexDecl;
 /// A fixed-function vertex format that stores position and texture coordinates.
 /// Using this format hints the engine that normals and tangents still need to be calculated.
 /// </summary>
+/// <param name="position">The position of the vertex in entity-space</param>
+/// <param name="tu">The U-component of the texture coordinates</param>
+/// <param name="tv">The V-component of the texture coordinates</param>
 [StructLayout(LayoutKind.Sequential)]
-public struct PositionTextured
+public struct PositionTextured(Vector3 position, float tu, float tv)
 {
     /// <summary>
     /// The fixed-function format of this vertex structure.
@@ -25,26 +28,13 @@ public struct PositionTextured
     public const VertexFormat Format = VertexFormat.Position | VertexFormat.Texture1;
 
     /// <summary>The position of the vertex in entity-space</summary>
-    public Vector3 Position;
+    public Vector3 Position = position;
 
     /// <summary>The U-component of the texture coordinates</summary>
-    public float Tu;
+    public float Tu = tu;
 
     /// <summary>The V-component of the texture coordinates</summary>
-    public float Tv;
-
-    /// <summary>
-    /// Creates a new positioned, textured vertex
-    /// </summary>
-    /// <param name="position">The position of the vertex in entity-space</param>
-    /// <param name="tu">The U-component of the texture coordinates</param>
-    /// <param name="tv">The V-component of the texture coordinates</param>
-    public PositionTextured(Vector3 position, float tu, float tv)
-    {
-        Position = position;
-        Tu = tu;
-        Tv = tv;
-    }
+    public float Tv = tv;
 
     /// <summary>
     /// Creates a new positioned, textured vertex

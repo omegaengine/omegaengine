@@ -15,8 +15,13 @@ namespace OmegaEngine.Graphics.VertexDecl;
 /// <summary>
 /// A fixed-function vertex format that stores a transformed position, color and texture coordinates.
 /// </summary>
+/// <param name="position">The position of the vertex in screen-space</param>
+/// <param name="rhw">The reciprocal of homogeneous W (the depth-value)</param>
+/// <param name="color">A color by which the texture will be multiplied</param>
+/// <param name="tu">The U-component of the texture coordinates</param>
+/// <param name="tv">The V-component of the texture coordinates</param>
 [StructLayout(LayoutKind.Sequential)]
-public struct TransformedColoredTextured
+public struct TransformedColoredTextured(Vector3 position, float rhw, int color, float tu, float tv)
 {
     /// <summary>
     /// The fixed-function format of this vertex structure.
@@ -24,36 +29,19 @@ public struct TransformedColoredTextured
     public const VertexFormat Format = VertexFormat.PositionRhw | VertexFormat.Diffuse | VertexFormat.Texture1;
 
     /// <summary>The position of the vertex in screen-space</summary>
-    public Vector3 Position;
+    public Vector3 Position = position;
 
     /// <summary>The reciprocal of homogeneous W (the depth-value)</summary>
-    public float Rhw;
+    public float Rhw = rhw;
 
     /// <summary>A color by which the texture will be multiplied</summary>
-    public int Color;
+    public int Color = color;
 
     /// <summary>The U-component of the texture coordinates</summary>
-    public float Tu;
+    public float Tu = tu;
 
     /// <summary>The V-component of the texture coordinates</summary>
-    public float Tv;
-
-    /// <summary>
-    /// Creates a new transformed, colored and textured vertex
-    /// </summary>
-    /// <param name="position">The position of the vertex in screen-space</param>
-    /// <param name="rhw">The reciprocal of homogeneous W (the depth-value)</param>
-    /// <param name="color">A color by which the texture will be multiplied</param>
-    /// <param name="tu">The U-component of the texture coordinates</param>
-    /// <param name="tv">The V-component of the texture coordinates</param>
-    public TransformedColoredTextured(Vector3 position, float rhw, int color, float tu, float tv)
-    {
-        Position = position;
-        Rhw = rhw;
-        Color = color;
-        Tu = tu;
-        Tv = tv;
-    }
+    public float Tv = tv;
 
     /// <summary>
     /// Creates a new transformed, colored and textured vertex

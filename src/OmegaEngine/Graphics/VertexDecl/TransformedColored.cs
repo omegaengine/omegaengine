@@ -15,8 +15,11 @@ namespace OmegaEngine.Graphics.VertexDecl;
 /// <summary>
 /// A fixed-function vertex format that stores a transformed position and color.
 /// </summary>
+/// <param name="position">The position of the vertex in screen-space</param>
+/// <param name="rhw">The reciprocal of homogeneous W (the depth-value)</param>
+/// <param name="color">The color of the vertex</param>
 [StructLayout(LayoutKind.Sequential)]
-public struct TransformedColored
+public struct TransformedColored(Vector3 position, float rhw, int color)
 {
     /// <summary>
     /// The fixed-function format of this vertex structure.
@@ -24,26 +27,13 @@ public struct TransformedColored
     public const VertexFormat Format = VertexFormat.PositionRhw | VertexFormat.Diffuse;
 
     /// <summary>The position of the vertex in screen-space</summary>
-    public Vector3 Position;
+    public Vector3 Position = position;
 
     /// <summary>The reciprocal of homogeneous W (the depth-value)</summary>
-    public float Rhw;
+    public float Rhw = rhw;
 
     /// <summary>The color of the vertex</summary>
-    public int Color;
-
-    /// <summary>
-    /// Creates a new transformed, colored vertex
-    /// </summary>
-    /// <param name="position">The position of the vertex in screen-space</param>
-    /// <param name="rhw">The reciprocal of homogeneous W (the depth-value)</param>
-    /// <param name="color">The color of the vertex</param>
-    public TransformedColored(Vector3 position, float rhw, int color)
-    {
-        Position = position;
-        Rhw = rhw;
-        Color = color;
-    }
+    public int Color = color;
 
     /// <summary>
     /// Creates a new transformed, colored vertex

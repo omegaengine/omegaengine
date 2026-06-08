@@ -16,45 +16,32 @@ namespace OmegaEngine.Graphics.VertexDecl;
 /// A custom vertex format that stores position, normals, binormals, tangents and texture coordinates.
 /// Using this format hints the engine that all necessary data is already present.
 /// </summary>
+/// <param name="position">The position of the vertex in entity-space</param>
+/// <param name="normal">The normal of the vertex in entity-space</param>
+/// <param name="binormal">The binormal of the vertex in entity-space</param>
+/// <param name="tangent">The tangent of the vertex in entity-space</param>
+/// <param name="tu">The U-component of the texture coordinates</param>
+/// <param name="tv">The V-component of the texture coordinates</param>
 [StructLayout(LayoutKind.Sequential)]
-public struct PositionNormalBinormalTangentTextured
+public struct PositionNormalBinormalTangentTextured(Vector3 position, Vector3 normal, Vector3 binormal, Vector3 tangent, float tu, float tv)
 {
     /// <summary>The position of the vertex in entity-space</summary>
-    public Vector3 Position;
+    public Vector3 Position = position;
 
     /// <summary>The normal of the vertex in entity-space</summary>
-    public Vector3 Normal;
+    public Vector3 Normal = normal;
 
     /// <summary>The U-component of the texture coordinates</summary>
-    public float Tu;
+    public float Tu = tu;
 
     /// <summary>The V-component of the texture coordinates</summary>
-    public float Tv;
+    public float Tv = tv;
 
     /// <summary>The binormal of the vertex in entity-space</summary>
-    public Vector3 Binormal;
+    public Vector3 Binormal = binormal;
 
     /// <summary>The tangent of the vertex in entity-space</summary>
-    public Vector3 Tangent;
-
-    /// <summary>
-    /// Creates a new positioned, textured vertex with normal, binormal and tangent information
-    /// </summary>
-    /// <param name="position">The position of the vertex in entity-space</param>
-    /// <param name="normal">The normal of the vertex in entity-space</param>
-    /// <param name="binormal">The binormal of the vertex in entity-space</param>
-    /// <param name="tangent">The tangent of the vertex in entity-space</param>
-    /// <param name="tu">The U-component of the texture coordinates</param>
-    /// <param name="tv">The V-component of the texture coordinates</param>
-    public PositionNormalBinormalTangentTextured(Vector3 position, Vector3 normal, Vector3 binormal, Vector3 tangent, float tu, float tv)
-    {
-        Position = position;
-        Normal = normal;
-        Binormal = binormal;
-        Tangent = tangent;
-        Tu = tu;
-        Tv = tv;
-    }
+    public Vector3 Tangent = tangent;
 
     public override string ToString() => $"{nameof(PositionNormalBinormalTangentTextured)}(position={Position}, normal={Normal}, tu={Tu}, tv={Tv}, binormal={Binormal}, tangent={Tangent})";
 

@@ -16,8 +16,10 @@ namespace OmegaEngine.Graphics.VertexDecl;
 /// A fixed-function vertex format that stores position and color.
 /// Using this format hints the engine that no lighting is to be used.
 /// </summary>
+/// <param name="position">The position of the vertex in entity-space</param>
+/// <param name="color">The color of the vertex</param>
 [StructLayout(LayoutKind.Sequential)]
-public struct PositionColored
+public struct PositionColored(Vector3 position, int color)
 {
     /// <summary>
     /// The fixed-function format of this vertex structure.
@@ -25,21 +27,10 @@ public struct PositionColored
     public const VertexFormat Format = VertexFormat.Position | VertexFormat.Diffuse;
 
     /// <summary>The position of the vertex in entity-space</summary>
-    public Vector3 Position;
+    public Vector3 Position = position;
 
     /// <summary>The color of the vertex</summary>
-    public int Color;
-
-    /// <summary>
-    /// Creates a new positioned, colored vertex
-    /// </summary>
-    /// <param name="position">The position of the vertex in entity-space</param>
-    /// <param name="color">The color of the vertex</param>
-    public PositionColored(Vector3 position, int color)
-    {
-        Position = position;
-        Color = color;
-    }
+    public int Color = color;
 
     /// <summary>
     /// Creates a new positioned, colored vertex

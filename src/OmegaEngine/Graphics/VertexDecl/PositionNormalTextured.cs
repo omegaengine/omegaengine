@@ -16,8 +16,12 @@ namespace OmegaEngine.Graphics.VertexDecl;
 /// A fixed-function vertex format that stores position, normals and texture coordinates.
 /// Using this format hints the engine that tangents (and maybe normals) still need to be calculated.
 /// </summary>
+/// <param name="position">The position of the vertex in entity-space</param>
+/// <param name="normal">The normal of the vertex in entity-space</param>
+/// <param name="tu">The U-component of the texture coordinates</param>
+/// <param name="tv">The V-component of the texture coordinates</param>
 [StructLayout(LayoutKind.Sequential)]
-public struct PositionNormalTextured
+public struct PositionNormalTextured(Vector3 position, Vector3 normal, float tu, float tv)
 {
     /// <summary>
     /// The fixed-function format of this vertex structure.
@@ -25,31 +29,16 @@ public struct PositionNormalTextured
     public const VertexFormat Format = VertexFormat.Position | VertexFormat.Normal | VertexFormat.Texture1;
 
     /// <summary>The position of the vertex in entity-space</summary>
-    public Vector3 Position;
+    public Vector3 Position = position;
 
     /// <summary>The normal of the vertex in entity-space</summary>
-    public Vector3 Normal;
+    public Vector3 Normal = normal;
 
     /// <summary>The U-component of the texture coordinates</summary>
-    public float Tu;
+    public float Tu = tu;
 
     /// <summary>The V-component of the texture coordinates</summary>
-    public float Tv;
-
-    /// <summary>
-    /// Creates a new position, textured vertex with normal information
-    /// </summary>
-    /// <param name="position">The position of the vertex in entity-space</param>
-    /// <param name="normal">The normal of the vertex in entity-space</param>
-    /// <param name="tu">The U-component of the texture coordinates</param>
-    /// <param name="tv">The V-component of the texture coordinates</param>
-    public PositionNormalTextured(Vector3 position, Vector3 normal, float tu, float tv)
-    {
-        Position = position;
-        Normal = normal;
-        Tu = tu;
-        Tv = tv;
-    }
+    public float Tv = tv;
 
     public override string ToString() => $"{nameof(PositionNormalTextured)}(position={Position}, normal={Normal}, tu={Tu}, tv={Tv})";
 }
