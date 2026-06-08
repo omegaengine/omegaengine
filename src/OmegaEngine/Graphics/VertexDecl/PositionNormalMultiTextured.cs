@@ -89,7 +89,7 @@ public struct PositionNormalMultiTextured
     #endregion
 
     #region ToString
-    public override string ToString() => $"PositionNormalMultiTextured(position={Position}, normal={Normal}tu={Tu}, tv={Tv}, texWeights={TexWeights1}{TexWeights2}{TexWeights3}{TexWeights4})";
+    public override string ToString() => $"{nameof(PositionNormalMultiTextured)}(position={Position}, normal={Normal}, tu={Tu}, tv={Tv}, texWeights={TexWeights1}{TexWeights2}{TexWeights3}{TexWeights4})";
     #endregion
 
     //--------------------//
