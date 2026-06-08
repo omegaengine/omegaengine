@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NanoByte.Common;
 using NanoByte.Common.Native;
@@ -1562,7 +1563,7 @@ public class Dialog
         else
         {
             device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0, 5, 4,
-                new short[] {0, 1, 2, 3, 0}, Format.Index16, vertexes, TransformedColoredTextured.StrideSize);
+                new short[] {0, 1, 2, 3, 0}, Format.Index16, vertexes, Marshal.SizeOf<TransformedColoredTextured>());
         }
 
         // Reset some texture states

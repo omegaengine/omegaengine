@@ -8,6 +8,7 @@
 
 using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
@@ -43,7 +44,7 @@ public static class EngineUtilsDraw
         engine.Device.VertexFormat = TransformedColored.Format;
         engine.State.SetTexture(null);
         engine.Device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0, 4, 4,
-            [0, 1, 2, 3, 0], Format.Index32, vertexes, TransformedColored.StrideSize);
+            [0, 1, 2, 3, 0], Format.Index32, vertexes, Marshal.SizeOf<TransformedColored>());
     }
 
     private static readonly PositionTextured[] texturedQuadVertexes =

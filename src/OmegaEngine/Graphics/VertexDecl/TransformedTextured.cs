@@ -23,11 +23,6 @@ public struct TransformedTextured
     /// </summary>
     public const VertexFormat Format = VertexFormat.PositionRhw | VertexFormat.Texture1;
 
-    /// <summary>
-    /// The length of this vertex structure in bytes.
-    /// </summary>
-    public const int StrideSize = 6 * 4;
-
     /// <summary>The position of the vertex in screen-space</summary>
     public Vector3 Position;
 

@@ -23,11 +23,6 @@ public struct TransformedColored
     /// </summary>
     public const VertexFormat Format = VertexFormat.PositionRhw | VertexFormat.Diffuse;
 
-    /// <summary>
-    /// The length of this vertex structure in bytes.
-    /// </summary>
-    public const int StrideSize = 5 * 4;
-
     /// <summary>The position of the vertex in screen-space</summary>
     public Vector3 Position;
 

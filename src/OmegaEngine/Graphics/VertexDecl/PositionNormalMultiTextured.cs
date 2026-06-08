@@ -21,11 +21,6 @@ namespace OmegaEngine.Graphics.VertexDecl;
 [StructLayout(LayoutKind.Sequential)]
 public struct PositionNormalMultiTextured
 {
-    /// <summary>
-    /// The length of this vertex structure in bytes.
-    /// </summary>
-    public const int StrideSize = 32 * 4;
-
     /// <summary>The position of the vertex in entity-space</summary>
     public Vector3 Position;
 

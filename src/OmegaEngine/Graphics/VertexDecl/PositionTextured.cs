@@ -24,11 +24,6 @@ public struct PositionTextured
     /// </summary>
     public const VertexFormat Format = VertexFormat.Position | VertexFormat.Texture1;
 
-    /// <summary>
-    /// The length of this vertex structure in bytes.
-    /// </summary>
-    public const int StrideSize = 5 * 4;
-
     /// <summary>The position of the vertex in entity-space</summary>
     public Vector3 Position;
 
