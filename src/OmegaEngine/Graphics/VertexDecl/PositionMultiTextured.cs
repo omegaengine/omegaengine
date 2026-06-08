@@ -15,7 +15,7 @@ using Resources = OmegaEngine.Properties.Resources;
 namespace OmegaEngine.Graphics.VertexDecl;
 
 /// <summary>
-/// A fixed-function vertex format that stores position, shadow information, texture blending weights and texture coordinates.
+/// A custom vertex format that stores position, shadow information, texture blending weights and texture coordinates.
 /// Using this format hints the engine that normals and tangents still need to be calculated.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]

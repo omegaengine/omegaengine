@@ -14,7 +14,7 @@ namespace OmegaEngine.Graphics.VertexDecl;
 
 /// <summary>
 /// A fixed-function vertex format that stores position and color.
-/// Using this format hints the engine that that no lighting is to be used.
+/// Using this format hints the engine that no lighting is to be used.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct PositionColored
