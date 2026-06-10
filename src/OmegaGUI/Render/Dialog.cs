@@ -1562,7 +1562,7 @@ public class Dialog
         if (filled) device.DrawUserPrimitives(PrimitiveType.TriangleFan, 2, vertexes);
         else
         {
-            device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0, 5, 4,
+            device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0, 4, 4,
                 new short[] {0, 1, 2, 3, 0}, Format.Index16, vertexes, Marshal.SizeOf<TransformedColoredTextured>());
         }
 
