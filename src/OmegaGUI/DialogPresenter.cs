@@ -276,7 +276,11 @@ public sealed class DialogPresenter : IDisposable
             if (Render.DialogManager.Engine != null)
                 Render.DialogManager.Engine.DeviceReset -= LayoutHelper;
         }
-        if (_lua != null) _manager.QueueLuaDispose(_lua);
+        if (_lua != null)
+        {
+            Model.ScriptFired -= LuaExecute;
+            _manager.QueueLuaDispose(_lua);
+        }
 
         GC.SuppressFinalize(this);
         Disposed = true;
