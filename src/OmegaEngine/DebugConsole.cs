@@ -21,8 +21,10 @@
  */
 
 using System;
+using System.Text;
 using System.Windows.Forms;
-using LuaInterface;
+using NLua;
+using NLua.Exceptions;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
 
@@ -38,7 +40,7 @@ public partial class DebugConsole : Form
     /// <summary>
     /// The Lua environment used for executing commands.
     /// </summary>
-    public Lua Lua { get; } = new();
+    public Lua Lua { get; } = new() { State = { Encoding = Encoding.UTF8 } };
 
     /// <summary>
     /// Creates a new debug console.

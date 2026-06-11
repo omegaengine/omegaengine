@@ -14,7 +14,7 @@ using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
 using AlphaFramework.World.Templates;
 using JetBrains.Annotations;
-using LuaInterface;
+using NLua;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 

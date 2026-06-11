@@ -25,7 +25,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using LuaInterface;
+using NLua;
+using NLua.Exceptions;
 using NanoByte.Common;
 using OmegaEngine;
 using OmegaEngine.Foundation.Storage;
@@ -262,7 +263,7 @@ public sealed class DialogPresenter : IDisposable
 
     #region Dispose
     /// <summary>
-    /// Removes the <see cref="Engine"/> hooks and queues the <see cref="LuaInterface.Lua"/> interpreter for disposal
+    /// Removes the <see cref="Engine"/> hooks and queues the <see cref="NLua.Lua"/> interpreter for disposal
     /// </summary>
     public void Dispose()
     {

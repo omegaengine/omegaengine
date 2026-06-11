@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
-using LuaInterface;
+using NLua;
 using OmegaEngine.Foundation.Light;
 
 namespace AlphaFramework.World.Components;

@@ -30,7 +30,7 @@ using AlphaFramework.World.Terrains;
 using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
 using JetBrains.Annotations;
-using LuaInterface;
+using NLua;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Storage;
 

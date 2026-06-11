@@ -25,7 +25,7 @@ using System.IO;
 using System.Xml.Serialization;
 using AlphaFramework.Presentation.Config;
 using FrameOfReference.World;
-using LuaInterface;
+using NLua;
 using NanoByte.Common;
 using NanoByte.Common.Storage;
 using Locations = NanoByte.Common.Storage.Locations;
@@ -53,7 +53,7 @@ public sealed class Settings : SettingsBase
     /// Loads the current settings from an automatically located XML file
     /// </summary>
     /// <remarks>Any errors are logged and then ignored.</remarks>
-    [LuaGlobal(Name = "LoadSettings", Description = "Loads the current settings from an automatically located XML file")]
+    [LuaMember(Name = "LoadSettings")]
     public static Settings LoadCurrent()
     {
         try
@@ -89,7 +89,7 @@ public sealed class Settings : SettingsBase
     /// Saves the current settings to an automatically located XML file
     /// </summary>
     /// <remarks>Any errors are logged and then ignored.</remarks>
-    [LuaGlobal(Name = "SaveSettings", Description = "Saves the current settings to an automatically located XML file")]
+    [LuaMember(Name = "SaveSettings")]
     public static void SaveCurrent()
     {
         if (_current == null) return;

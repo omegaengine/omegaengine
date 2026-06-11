@@ -11,7 +11,7 @@ using System.ComponentModel;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using JetBrains.Annotations;
-using LuaInterface;
+using NLua;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Storage;
 

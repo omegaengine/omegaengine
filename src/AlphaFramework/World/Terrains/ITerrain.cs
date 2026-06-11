@@ -11,7 +11,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
-using LuaInterface;
+using NLua;
 using OmegaEngine.Foundation.Geometry;
 using SlimDX;
 

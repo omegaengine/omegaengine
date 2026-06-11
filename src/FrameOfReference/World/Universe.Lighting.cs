@@ -25,7 +25,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Xml.Serialization;
-using LuaInterface;
+using NLua;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Light;

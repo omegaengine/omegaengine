@@ -31,7 +31,7 @@ using NanoByte.Common;
 using System.Linq;
 using System.Xml.Serialization;
 using FrameOfReference.World.Positionables;
-using LuaInterface;
+using NLua;
 #endif
 
 namespace FrameOfReference.World;

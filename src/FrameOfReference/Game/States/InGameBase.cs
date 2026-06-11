@@ -2,7 +2,7 @@ using FrameOfReference.Presentation;
 using FrameOfReference.Presentation.Config;
 using FrameOfReference.World;
 using JetBrains.Annotations;
-using LuaInterface;
+using NLua;
 using NanoByte.Common;
 using OmegaEngine;
 

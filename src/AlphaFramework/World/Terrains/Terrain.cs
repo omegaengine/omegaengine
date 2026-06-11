@@ -12,7 +12,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
-using LuaInterface;
+using NLua;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using SlimDX;

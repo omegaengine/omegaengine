@@ -29,7 +29,7 @@ using FrameOfReference.States;
 using FrameOfReference.World;
 using FrameOfReference.World.Templates;
 using JetBrains.Annotations;
-using LuaInterface;
+using NLua;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;

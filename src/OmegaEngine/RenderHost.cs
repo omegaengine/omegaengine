@@ -11,9 +11,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using JetBrains.Annotations;
-using LuaInterface;
+using NLua;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Native;
@@ -272,7 +273,7 @@ public partial class RenderHost : IRenderHost, IDisposable
     /// <summary>
     /// Resets the <see cref="Engine"/>
     /// </summary>
-    [LuaGlobal(Description = "Resets the graphics engine")]
+    [LuaMember]
     protected virtual void ResetEngine()
     {
         Engine.Config = BuildEngineConfig(Fullscreen);
@@ -328,7 +329,7 @@ public partial class RenderHost : IRenderHost, IDisposable
         void ImportConstructor(Type type)
             => lua.DoString($"luanet.load_assembly(\"{type.Assembly.GetName()}\"); {type.Name} = luanet.import_type(\"{type.FullName}\")");
 
-        lua.DoString("luanet.load_assembly(\"System.Drawing\"); Color = luanet.import_type(\"System.Drawing.Color\").FromArgb");
+        lua.DoString($"luanet.load_assembly(\"{typeof(Color).Assembly.GetName()}\"); Color = luanet.import_type(\"System.Drawing.Color\").FromArgb");
 
         LuaRegistrationHelper.TaggedInstanceMethods(lua, this);
         LuaRegistrationHelper.TaggedStaticMethods(lua, typeof(RenderHost));
@@ -343,7 +344,7 @@ public partial class RenderHost : IRenderHost, IDisposable
     private class LuaWrapper(Lua lua)
     {
         // Replaces Lua's built-in dofile() function with a version that uses ContentManager to locate files
-        [LuaGlobal(Name = "dofile", Description = "Executes a Lua file."), UsedImplicitly]
+        [LuaMember(Name = "dofile"), UsedImplicitly]
         public object[] DoFile(string filename)
             => lua.DoFile(ContentManager.GetFilePath("GUI", filename));
     }
@@ -353,7 +354,7 @@ public partial class RenderHost : IRenderHost, IDisposable
     /// </summary>
     public Lua NewLua()
     {
-        var lua = new Lua();
+        var lua = new Lua { State = { Encoding = Encoding.UTF8 } };
         BindLua(lua);
         return lua;
     }
@@ -398,7 +399,7 @@ public partial class RenderHost : IRenderHost, IDisposable
     /// <summary>
     /// Crashes the app for testing purposes
     /// </summary>
-    [LuaGlobal]
+    [LuaMember]
     public static void Crash()
         => throw new InvalidOperationException("The Crash function was called");
 }

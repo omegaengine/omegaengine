@@ -9,7 +9,7 @@
 using System;
 using System.Drawing;
 using AlphaFramework.Presentation.Config;
-using LuaInterface;
+using NLua;
 using NanoByte.Common;
 using OmegaEngine;
 using OmegaEngine.Foundation.Storage;
@@ -211,7 +211,7 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     /// </summary>
     /// <param name="name">The XML file to load from.</param>
     /// <returns>The newly created dialog.</returns>
-    [LuaGlobal(Description = "Loads and displays a new dialog.")]
+    [LuaMember]
     public DialogPresenter LoadDialog(string name)
     {
         var dialog = new DialogPresenter(GuiManager, $"{name}.xml", location: new(25, 25), lua: NewLua());
@@ -225,7 +225,7 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     /// </summary>
     /// <param name="name">The XML file to load from.</param>
     /// <returns>The newly created dialog.</returns>
-    [LuaGlobal(Description = "Loads and displays a new modal (exclusively focused) dialog.")]
+    [LuaMember]
     public DialogPresenter LoadModalDialog(string name)
     {
         var dialog = new DialogPresenter(GuiManager, $"{name}.xml", location: new(25, 25), lua: NewLua());
@@ -239,7 +239,7 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     /// </summary>
     /// <param name="name">The XML file to load from.</param>
     /// <returns>The newly created dialog.</returns>
-    [LuaGlobal(Description = "Loads and displays a new modal (exclusively focused) dialog.")]
+    [LuaMember]
     public DialogPresenter LoadModalDialogCentered(string name)
     {
         var dialog = new DialogPresenter(GuiManager, $"{name}.xml", lua: NewLua());
@@ -255,7 +255,7 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     /// <param name="name">The XML file to load from</param>
     /// <returns>The newly created dialog.</returns>
     /// <remarks>Calling this method will close all other <see cref="DialogPresenter"/>s.</remarks>
-    [LuaGlobal(Description = "Loads a new exclusive displayed splash-screen dialog.")]
+    [LuaMember]
     public DialogPresenter LoadSplashDialog(string name)
     {
         GuiManager.CloseAll();

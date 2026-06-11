@@ -6,7 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using LuaInterface;
+using NLua;
 using SlimDX.DirectSound;
 using OmegaEngine.Audio;
 

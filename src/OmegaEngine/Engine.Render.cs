@@ -13,7 +13,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using LuaInterface;
+using NLua;
 using NanoByte.Common;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;

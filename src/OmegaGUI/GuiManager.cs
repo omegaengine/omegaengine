@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
-using LuaInterface;
+using NLua;
 using NanoByte.Common;
 using NanoByte.Common.Native;
 using OmegaEngine;
@@ -104,7 +104,7 @@ public sealed class GuiManager : IDisposable
     /// <summary>
     /// Closes all open <see cref="DialogPresenter"/>s.
     /// </summary>
-    [LuaGlobal(Description = "Closes all open dialogs.")]
+    [LuaMember]
     public void CloseAll()
     {
         _normalDialogs.ForEach(dialog => dialog.Dispose());
@@ -117,7 +117,7 @@ public sealed class GuiManager : IDisposable
     /// <summary>
     /// Closes all open <see cref="DialogPresenter"/>s and resets the GUI system (i.e. clears all its caches).
     /// </summary>
-    [LuaGlobal(Description = "Closes all open dialogs and resets the GUI system (i.e. clears all its caches).")]
+    [LuaMember]
     public void Reset()
     {
         CloseAll();
@@ -130,7 +130,7 @@ public sealed class GuiManager : IDisposable
     /// <summary>
     /// Invokes <see cref="DialogPresenter.Update"/> on all open <see cref="DialogPresenter"/>s.
     /// </summary>
-    [LuaGlobal(Description = "Invokes the OnUpdate event on all open dialogs.")]
+    [LuaMember]
     public void Update()
     {
         _normalDialogs.ForEach(dialog => dialog.Update());

@@ -1,7 +1,7 @@
 using System;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
-using LuaInterface;
+using NLua;
 using NanoByte.Common;
 using OmegaEngine;
 using OmegaEngine.Foundation.Geometry;
