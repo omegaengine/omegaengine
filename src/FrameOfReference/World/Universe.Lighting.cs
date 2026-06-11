@@ -23,12 +23,15 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Design;
 using System.Xml.Serialization;
 using NLua;
 using NanoByte.Common;
-using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Light;
+
+#if NETFRAMEWORK
+using System.Drawing.Design;
+using OmegaEngine.Foundation.Design;
+#endif
 
 namespace FrameOfReference.World;
 
@@ -51,8 +54,11 @@ partial class Universe
     /// <summary>
     /// A value between 0 and 4 representing the current sun and moon positions. (0 = dawn, 1 = noon, 2 = dusk, 3 = midnight)
     /// </summary>
-    [FloatRange(0f, 4f), Category("Lighting"), Description("A value between 0 and 4 representing the current sun and moon positions. (0 = dawn, 1 = noon, 2 = dusk, 3 = midnight)")]
+    [Category("Lighting"), Description("A value between 0 and 4 representing the current sun and moon positions. (0 = dawn, 1 = noon, 2 = dusk, 3 = midnight)")]
+#if NETFRAMEWORK
+    [FloatRange(0f, 4f)]
     [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
+#endif
     public float LightPhase { get => _lightPhase; set => (value.Modulo(4)).To(ref _lightPhase, OnLightingChanged); }
 
     /// <summary>
@@ -97,7 +103,9 @@ partial class Universe
     /// The angle of inclination of the sun's path away from the horizon towards south in degrees.
     /// </summary>
     [DefaultValue(70f), Category("Lighting"), Description("The angle of inclination of the sun's path away from the horizon towards south in degrees.")]
+#if NETFRAMEWORK
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
+#endif
     public float SunInclination
     {
         get => _sunInclination;
@@ -129,7 +137,10 @@ partial class Universe
     /// The angle of inclination of the second moon's path away from the horizon towards south in degrees.
     /// </summary>
     [Category("Lighting"), Description("The angle of inclination of the second moon's path away from the horizon towards south in degrees.")]
-    [DefaultValue(70f), Editor(typeof(AngleEditor), typeof(UITypeEditor))]
+    [DefaultValue(70f)]
+#if NETFRAMEWORK
+    [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
+#endif
     public float MoonInclination
     {
         get => _moonInclination;

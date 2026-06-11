@@ -22,13 +22,16 @@
 
 using System;
 using System.ComponentModel;
-using System.Drawing.Design;
 using System.Xml.Serialization;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
 using NanoByte.Common;
-using OmegaEngine.Foundation.Design;
 using SlimDX;
+
+#if NETFRAMEWORK
+using System.Drawing.Design;
+using OmegaEngine.Foundation.Design;
+#endif
 
 namespace FrameOfReference.World.Positionables;
 
@@ -60,15 +63,21 @@ public sealed class Trigger : Positionable<Vector2>
     /// <summary>
     /// A Lua script to execute when <see cref="TargetEntity"/> gets within <see cref="Range"/>.
     /// </summary>
-    [DefaultValue(""), Description("A Lua script to execute when TargetEntity gets within range."), FileType("Lua")]
+    [DefaultValue(""), Description("A Lua script to execute when TargetEntity gets within range.")]
+#if NETFRAMEWORK
+    [FileType("Lua")]
     [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
+#endif
     public string? OnActivation { get; set; }
 
     /// <summary>
     /// A Lua script to execute if the trigger was not activated by <see cref="DueTime"/>.
     /// </summary>
-    [DefaultValue(""), Description("A Lua script to execute if the trigger was not activated by DueTime."), FileType("Lua")]
+    [DefaultValue(""), Description("A Lua script to execute if the trigger was not activated by DueTime.")]
+#if NETFRAMEWORK
+    [FileType("Lua")]
     [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
+#endif
     public string? OnTimeout { get; set; }
 
     /// <summary>

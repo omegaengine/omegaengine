@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.Versioning;
 using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
 using AlphaFramework.World.Terrains;
@@ -32,6 +33,7 @@ using FrameOfReference.World.Templates;
 using JetBrains.Annotations;
 using NLua;
 using NanoByte.Common;
+using NanoByte.Common.Native;
 using OmegaEngine.Foundation.Storage;
 
 namespace FrameOfReference.World;
@@ -85,6 +87,7 @@ partial class Universe
     /// <summary>
     /// Performs the deferred loading of <see cref="Terrain"/> data.
     /// </summary>
+    [SupportedOSPlatform("windows6.1")]
     private void LoadTerrainData()
     {
         if (SourceFile == null) return;
@@ -117,6 +120,7 @@ partial class Universe
 
         IEnumerable<EmbeddedFile> GetEmbeddedFiles()
         {
+            if (!WindowsUtils.IsWindows7) yield break;
             if (Terrain.HeightMap is {} heightMap)
                 yield return new("height.png", 0, heightMap.Save);
             if (Terrain.TextureMap is {} textureMap)

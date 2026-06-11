@@ -5,7 +5,12 @@
     <AssemblyName>FrameOfReference.World</AssemblyName>
     <RootNamespace>FrameOfReference.World</RootNamespace>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
+    <TargetFrameworks>net472;net10.0</TargetFrameworks>
     <!--suppress CheckTagEmptyBody --><PlatformTarget></PlatformTarget><!-- any CPU arch -->
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net10.0'">
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <!-- Dependencies -->

@@ -21,9 +21,12 @@
  */
 
 using System.ComponentModel;
-using System.Drawing.Design;
 using AlphaFramework.World.Positionables;
+
+#if NETFRAMEWORK
+using System.Drawing.Design;
 using OmegaEngine.Foundation.Design;
+#endif
 
 namespace FrameOfReference.World;
 
@@ -45,6 +48,8 @@ public class CameraState<TCoordinates> : Positionable<TCoordinates>
     /// The horizontal rotation of the view direction in degrees.
     /// </summary>
     [DefaultValue(0f), Description("The horizontal rotation of the view direction in degrees.")]
+#if NETFRAMEWORK
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
+#endif
     public double Rotation { get; set; }
 }

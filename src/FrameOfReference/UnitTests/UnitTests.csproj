@@ -5,12 +5,18 @@
   <!-- Build config -->
   <PropertyGroup>
     <RootNamespace>FrameOfReference</RootNamespace>
+    <TargetFrameworks>net472;net10.0</TargetFrameworks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net10.0'">
+    <PlatformTarget></PlatformTarget><!-- any CPU arch -->
   </PropertyGroup>
 
   <!-- Dependencies -->
   <ItemGroup>
-    <ProjectReference Include="..\Game\Game.csproj" />
-    <ProjectReference Include="..\Editor\Editor.csproj" />
+    <ProjectReference Include="..\World\World.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net472'">
+    <ProjectReference Include="..\Presentation\Presentation.csproj" />
   </ItemGroup>
 
 </Project>

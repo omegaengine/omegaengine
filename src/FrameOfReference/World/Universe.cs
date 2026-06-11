@@ -32,6 +32,7 @@ using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
 using JetBrains.Annotations;
 using NanoByte.Common.Collections;
+using NanoByte.Common.Native;
 using SlimDX;
 
 namespace FrameOfReference.World;
@@ -67,7 +68,7 @@ public sealed partial class Universe : CoordinateUniverse<Vector2>
     {
         get
         {
-            if (TerrainSerialize is {DataLoaded: false}) LoadTerrainData();
+            if (TerrainSerialize is {DataLoaded: false} && WindowsUtils.IsWindows7) LoadTerrainData();
             return TerrainSerialize;
         }
         set => TerrainSerialize = value;
