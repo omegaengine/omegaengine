@@ -601,7 +601,7 @@ public class Dialog
                     foreach (Control control in controlList)
                     {
                         // Was the hotkey hit?
-                        if (control.Hotkey == (Keys)wParam.ToInt32())
+                        if (control.Hotkey == (Keys)wParam.ToInt32() && control.IsEnabled)
                         {
                             control.OnHotKey();
                             return true;
