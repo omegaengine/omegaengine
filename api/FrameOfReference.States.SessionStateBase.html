@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class SessionStateBase | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class SessionStateBase | OmegaEngine ">
+      
+      <meta name="description" content="Common base for states with an active  and .">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.15.0/apiSpec/new?filename=FrameOfReference_States_SessionStateBase.md&amp;value=---%0Auid%3A%20FrameOfReference.States.SessionStateBase%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="FrameOfReference.States.SessionStateBase">
+
+
+
+  <h1 id="FrameOfReference_States_SessionStateBase" data-uid="FrameOfReference.States.SessionStateBase" class="text-break">
+Class SessionStateBase  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.15.0/src/FrameOfReference/Game/States/SessionStateBase.cs/#L12"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="FrameOfReference.html">FrameOfReference</a>.<a class="xref" href="FrameOfReference.States.html">States</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>FrameOfReference.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Common base for states with an active <a class="xref" href="FrameOfReference.World.Session.html">Session</a> and <a class="xref" href="FrameOfReference.Presentation.Presenter.html">Presenter</a>.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class SessionStateBase : IGameState, IDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">SessionStateBase</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="FrameOfReference.States.IGameState.html">IGameState</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="FrameOfReference.States.Benchmark.html">Benchmark</a></div>
+      <div><a class="xref" href="FrameOfReference.States.InGameBase.html">InGameBase</a></div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="FrameOfReference_States_SessionStateBase__ctor_" data-uid="FrameOfReference.States.SessionStateBase.#ctor*"></a>
+
+  <h3 id="FrameOfReference_States_SessionStateBase__ctor_FrameOfReference_Game_FrameOfReference_World_Session_" data-uid="FrameOfReference.States.SessionStateBase.#ctor(FrameOfReference.Game,FrameOfReference.World.Session)">
+  SessionStateBase(Game, Session)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.15.0/src/FrameOfReference/Game/States/SessionStateBase.cs/#L12"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Common base for states with an active <a class="xref" href="FrameOfReference.World.Session.html">Session</a> and <a class="xref" href="FrameOfReference.Presentation.Presenter.html">Presenter</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected SessionStateBase(Game game, Session session)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>game</code> <a class="xref" href="FrameOfReference.Game.html">Game</a></dt>
+    <dd></dd>
+    <dt><code>session</code> <a class="xref" href="FrameOfReference.World.Session.html">Session</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="FrameOfReference_States_SessionStateBase_game" data-uid="FrameOfReference.States.SessionStateBase.game">
+  game
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.15.0/src/FrameOfReference/Game/States/SessionStateBase.cs/#L14"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected readonly Game game</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.Game.html">Game</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="FrameOfReference_States_SessionStateBase_session" data-uid="FrameOfReference.States.SessionStateBase.session">
+  session
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.15.0/src/FrameOfReference/Game/States/SessionStateBase.cs/#L15"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected readonly Session session</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="FrameOfReference.World.Session.html">Session</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="FrameOfReference_States_SessionStateBase_BindLua_" data-uid="FrameOfReference.States.SessionStateBase.BindLua*"></a>
+
+  <h3 id="FrameOfReference_States_SessionStateBase_BindLua_NLua_Lua_" data-uid="FrameOfReference.States.SessionStateBase.BindLua(NLua.Lua)">
+  BindLua(Lua)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.15.0/src/FrameOfReference/Game/States/SessionStateBase.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Registers state-specific values in the given Lua environment.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void BindLua(Lua lua)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lua</code> <a class="xref" href="https://github.com/NLua/NLua/blob/1.15.0/src/Lua.cs">Lua</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_States_SessionStateBase_CleanCaches_" data-uid="FrameOfReference.States.SessionStateBase.CleanCaches*"></a>
+
+  <h3 id="FrameOfReference_States_SessionStateBase_CleanCaches" data-uid="FrameOfReference.States.SessionStateBase.CleanCaches">
+  CleanCaches()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.15.0/src/FrameOfReference/Game/States/SessionStateBase.cs/#L34"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void CleanCaches()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_States_SessionStateBase_Dispose_" data-uid="FrameOfReference.States.SessionStateBase.Dispose*"></a>
+
+  <h3 id="FrameOfReference_States_SessionStateBase_Dispose" data-uid="FrameOfReference.States.SessionStateBase.Dispose">
+  Dispose()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.15.0/src/FrameOfReference/Game/States/SessionStateBase.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract void Dispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_States_SessionStateBase_Enter_" data-uid="FrameOfReference.States.SessionStateBase.Enter*"></a>
+
+  <h3 id="FrameOfReference_States_SessionStateBase_Enter" data-uid="FrameOfReference.States.SessionStateBase.Enter">
+  Enter()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.15.0/src/FrameOfReference/Game/States/SessionStateBase.cs/#L18"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when this state becomes the active state.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract void Enter()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_States_SessionStateBase_Exit_" data-uid="FrameOfReference.States.SessionStateBase.Exit*"></a>
+
+  <h3 id="FrameOfReference_States_SessionStateBase_Exit" data-uid="FrameOfReference.States.SessionStateBase.Exit">
+  Exit()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.15.0/src/FrameOfReference/Game/States/SessionStateBase.cs/#L21"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Called when this state is no longer the active state.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract void Exit()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_States_SessionStateBase_GetElapsedGameTime_" data-uid="FrameOfReference.States.SessionStateBase.GetElapsedGameTime*"></a>
+
+  <h3 id="FrameOfReference_States_SessionStateBase_GetElapsedGameTime_System_Double_" data-uid="FrameOfReference.States.SessionStateBase.GetElapsedGameTime(System.Double)">
+  GetElapsedGameTime(double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.15.0/src/FrameOfReference/Game/States/SessionStateBase.cs/#L24"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the amount of in-game time that corresponds to <code class="paramref">elapsedTime</code> real time.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual double GetElapsedGameTime(double elapsedTime)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>elapsedTime</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="FrameOfReference_States_SessionStateBase_InitializeLua_" data-uid="FrameOfReference.States.SessionStateBase.InitializeLua*"></a>
+
+  <h3 id="FrameOfReference_States_SessionStateBase_InitializeLua" data-uid="FrameOfReference.States.SessionStateBase.InitializeLua">
+  InitializeLua()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.15.0/src/FrameOfReference/Game/States/SessionStateBase.cs/#L43"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void InitializeLua()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.15.0/src/FrameOfReference/Game/States/SessionStateBase.cs/#L12" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
