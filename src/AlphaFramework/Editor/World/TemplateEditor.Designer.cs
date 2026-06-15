@@ -41,7 +41,6 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.buttonExport = new System.Windows.Forms.ToolStripButton();
             this.propertyGridTemplate = new System.Windows.Forms.PropertyGrid();
-            this.timerRender = new System.Windows.Forms.Timer(this.components);
             this.dialogExportXml = new System.Windows.Forms.SaveFileDialog();
             this.splitVertical.Panel1.SuspendLayout();
             this.splitVertical.SuspendLayout();
@@ -188,11 +187,6 @@
             this.propertyGridTemplate.TabIndex = 2;
             this.propertyGridTemplate.ToolbarVisible = false;
             // 
-            // timerRender
-            // 
-            this.timerRender.Enabled = true;
-            this.timerRender.Interval = 33;
-            // 
             // dialogExportXml
             // 
             this.dialogExportXml.Filter = "XML file (*.xml)|*.xml|All files (*.*)|*.*";
@@ -226,7 +220,6 @@
         protected System.Windows.Forms.SplitContainer splitVertical;
         private System.Windows.Forms.Panel panelList;
         private System.Windows.Forms.GroupBox groupTemplate;
-        private System.Windows.Forms.Timer timerRender;
         private System.Windows.Forms.PropertyGrid propertyGridTemplate;
         private System.Windows.Forms.ToolStrip toolStripTemplate;
         private System.Windows.Forms.ToolStripButton buttonAdd;
