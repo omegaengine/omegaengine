@@ -19,7 +19,6 @@ namespace AlphaFramework.Editor;
 public class UndoCloneTab<T> : UndoTab<T>
     where T : ICloneable<T>
 {
-    #region Variables
     /// <summary>
     /// The content to be handled by the undo-system
     /// </summary>
@@ -30,18 +29,11 @@ public class UndoCloneTab<T> : UndoTab<T>
     /// </summary>
     /// <remarks>This is used to get the state of <see cref="Content"/> as it was before <see cref="OnChange"/> was called</remarks>
     private T _currentBackup;
-    #endregion
 
-    #region Constructor
-    // Note: This prevents instatiation without making class abstract
-    /// <inheritdoc/>
+    // Note: This prevents instantiation without making class abstract
     protected UndoCloneTab()
     {}
-    #endregion
 
-    //--------------------//
-
-    #region Handlers
     /// <summary>
     /// Called on startup to load the content for this tab from a file
     /// </summary>
@@ -64,11 +56,7 @@ public class UndoCloneTab<T> : UndoTab<T>
 
         base.OnChange();
     }
-    #endregion
 
-    //--------------------//
-
-    #region Undo
     /// <summary>
     /// Called to undo the last change
     /// </summary>
@@ -82,9 +70,7 @@ public class UndoCloneTab<T> : UndoTab<T>
         Content = toRestore.Clone();
         _currentBackup = Content.Clone();
     }
-    #endregion
 
-    #region Redo
     /// <summary>
     /// Called to redo the last undone change
     /// </summary>
@@ -98,5 +84,4 @@ public class UndoCloneTab<T> : UndoTab<T>
         Content = toRestore.Clone();
         _currentBackup = Content.Clone();
     }
-    #endregion
 }

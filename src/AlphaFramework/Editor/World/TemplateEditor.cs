@@ -26,7 +26,7 @@ namespace AlphaFramework.Editor.World;
 /// <typeparam name="T">The type of <see cref="Template{T}"/>es to edit</typeparam>
 public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T>> where T : Template<T>
 {
-    #region Variables
+    #region WinForms
     // Don't use WinForms designer for this, since it doesn't understand generics
     /// <summary>The filtered tree view listing all <see cref="Template{T}"/>s.</summary>
     protected readonly FilteredTreeView<T> TemplateList = new()
@@ -37,9 +37,7 @@ public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T
         Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
         TabIndex = 1
     };
-    #endregion
 
-    #region Constructor
     /// <inheritdoc/>
     protected TemplateEditor()
     {
@@ -52,15 +50,11 @@ public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T
     }
     #endregion
 
-    //--------------------//
-
-    #region Handlers
     /// <summary>
     /// Called on startup to load the content for this tab from a file
     /// </summary>
     protected override void OnInitialize()
     {
-        #region File handling
         if (Path.IsPathRooted(FilePath))
         {
             _fullPath = FilePath;
@@ -93,7 +87,6 @@ public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T
                 Content.SaveXml(_fullPath);
             }
         }
-        #endregion
 
         TemplateList.Nodes = Content;
 
@@ -189,25 +182,15 @@ public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T
 
         TemplateList.Nodes = Content;
 
-        // Reasign the selection if the class still exists after the redo-action
+        // Reassign the selection if the class still exists after the redo-action
         if (TemplateList.SelectedEntry == null) return;
         string className = TemplateList.SelectedEntry.Name;
         TemplateList.SelectedEntry = Content.Contains(className) ? Content[className] : null;
     }
-    #endregion
 
-    //--------------------//
+    private void buttonAdd_Click(object sender, EventArgs e) => OnNewTemplate();
 
-    #region Buttons
-    private void buttonAdd_Click(object sender, EventArgs e)
-    {
-        OnNewTemplate();
-    }
-
-    private void buttonRemove_Click(object sender, EventArgs e)
-    {
-        Delete();
-    }
+    private void buttonRemove_Click(object sender, EventArgs e) => Delete();
 
     private void buttonCopy_Click(object sender, EventArgs e)
     {
@@ -272,17 +255,14 @@ public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T
         dialogExportXml.FileName = "";
         dialogExportXml.ShowDialog(this);
     }
-    #endregion
 
-    #region Export
     private void dialogExportXml_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
     {
         if (TemplateList.CheckedEntries.Count != 0)
             TemplateList.CheckedEntries.ToList().SaveXml(dialogExportXml.FileName);
-        else if (TemplateList.SelectedEntry != null)
-            TemplateList.SelectedEntry.SaveXml(dialogExportXml.FileName);
+        else
+            TemplateList.SelectedEntry?.SaveXml(dialogExportXml.FileName);
 
         ToastProvider.ShowToast(Resources.SavedFile);
     }
-    #endregion
 }
