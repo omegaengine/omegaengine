@@ -66,9 +66,9 @@ public class UndoCloneTab<T> : UndoTab<T>
         var toRestore = UndoBackups.Pop();
         RedoBackups.Push(_currentBackup);
 
-        // Restore the backup and update the current backup
-        Content = toRestore.Clone();
-        _currentBackup = Content.Clone();
+        // Restore the (now detached) backup and create a fresh current backup
+        Content = toRestore;
+        _currentBackup = toRestore.Clone();
     }
 
     /// <summary>
@@ -80,8 +80,8 @@ public class UndoCloneTab<T> : UndoTab<T>
         var toRestore = RedoBackups.Pop();
         UndoBackups.Push(_currentBackup);
 
-        // Restore the backup and update the current backup
-        Content = toRestore.Clone();
-        _currentBackup = Content.Clone();
+        // Restore the (now detached) backup and create a fresh current backup
+        Content = toRestore;
+        _currentBackup = toRestore.Clone();
     }
 }
