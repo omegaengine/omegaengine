@@ -32,7 +32,6 @@ namespace AlphaFramework.Editor.Graphics
         {
             this.components = new System.ComponentModel.Container();
             this.renderPanel = new OmegaEngine.RenderPanel();
-            this.timerRender = new System.Windows.Forms.Timer(this.components);
             this.propertyGridUpper2 = new System.Windows.Forms.PropertyGrid();
             this.propertyGridLower2 = new System.Windows.Forms.PropertyGrid();
             this.labelGridUpper2 = new System.Windows.Forms.Label();
@@ -51,16 +50,11 @@ namespace AlphaFramework.Editor.Graphics
             this.renderPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.renderPanel.AutoRender = true;
             this.renderPanel.Location = new System.Drawing.Point(200, 0);
             this.renderPanel.Name = "panelRender";
             this.renderPanel.Size = new System.Drawing.Size(318, 538);
             this.renderPanel.TabIndex = 10;
-            //
-            // timerRender
-            //
-            this.timerRender.Enabled = true;
-            this.timerRender.Interval = 33;
-            this.timerRender.Tick += new System.EventHandler(this.timerRender_Tick);
             // propertyGridUpper2
             // 
             this.propertyGridUpper2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -216,7 +210,6 @@ namespace AlphaFramework.Editor.Graphics
         #endregion
 
         protected OmegaEngine.RenderPanel renderPanel;
-        private System.Windows.Forms.Timer timerRender;
         private System.Windows.Forms.PropertyGrid propertyGridUpper2;
         private System.Windows.Forms.PropertyGrid propertyGridLower2;
         private System.Windows.Forms.Label labelGridUpper2;

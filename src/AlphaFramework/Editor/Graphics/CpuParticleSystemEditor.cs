@@ -53,17 +53,6 @@ public partial class CpuParticleSystemEditor : UndoCommandTab
     }
     #endregion
 
-    //--------------------//
-
-    #region Render control
-    private void timerRender_Tick(object sender, EventArgs e)
-    {
-        timerRender.Enabled = false; // Prevent multiple ticks from accumulating
-        if (Visible) renderPanel.Engine?.Render();
-        timerRender.Enabled = true;
-    }
-    #endregion
-
     #region Handlers
     /// <inheritdoc/>
     protected override void OnInitialize()
