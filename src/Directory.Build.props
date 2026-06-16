@@ -16,6 +16,7 @@
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <NoWarn>$(NoWarn);1591;NU1900;NU1901;NU1902;NU1903;NU1904</NoWarn><!-- Missing XML comments + NuGet advisories -->
+    <Version>1.0.0-pre</Version><!-- Overriden by build scripts -->
   </PropertyGroup>
   <PropertyGroup Condition="'$(MSBuildRuntimeType)'=='Core'">
     <GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
