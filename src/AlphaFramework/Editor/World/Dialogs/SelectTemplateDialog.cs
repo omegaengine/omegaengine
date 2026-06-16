@@ -44,7 +44,7 @@ public sealed class SelectTemplateDialog<T> : OKCancelDialog where T : Template<
     /// Creates a new <see cref="Template{T}"/> selection dialog
     /// </summary>
     /// <param name="templates">The list of <see cref="Template{T}"/>es to choose from</param>
-    public SelectTemplateDialog(NamedCollection<T> templates)
+    public SelectTemplateDialog(ClonableNamedCollection<T> templates)
     {
         Text = Resources.TemplateSelection;
 

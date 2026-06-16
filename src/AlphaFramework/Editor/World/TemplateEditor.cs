@@ -24,7 +24,8 @@ namespace AlphaFramework.Editor.World;
 /// Abstract base tab for editing <see cref="Template{T}"/>es
 /// </summary>
 /// <typeparam name="T">The type of <see cref="Template{T}"/>es to edit</typeparam>
-public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T>> where T : Template<T>
+public abstract partial class TemplateEditor<T> : UndoCloneTab<ClonableNamedCollection<T>>
+    where T : Template<T>, ICloneable<T>
 {
     #region WinForms
     // Don't use WinForms designer for this, since it doesn't understand generics
@@ -61,7 +62,7 @@ public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T
             if (!_overwrite && File.Exists(_fullPath))
             { // Load existing file
                 Log.Info($"Load file: {_fullPath}");
-                Content = XmlStorage.LoadXml<NamedCollection<T>>(_fullPath);
+                Content = XmlStorage.LoadXml<ClonableNamedCollection<T>>(_fullPath);
             }
             else
             { // Create new file
@@ -78,7 +79,7 @@ public abstract partial class TemplateEditor<T> : UndoCloneTab<NamedCollection<T
             { // Load existing file, might be from an Archive and not fullPath
                 string id = FilePath;
                 using var stream = ContentManager.GetFileStream("World", id);
-                Content = XmlStorage.LoadXml<NamedCollection<T>>(stream);
+                Content = XmlStorage.LoadXml<ClonableNamedCollection<T>>(stream);
             }
             else
             { // Create new file

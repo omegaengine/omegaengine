@@ -27,7 +27,7 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICl
     /// <summary>
     /// The name of this class. Used in map files as a reference. Must be unique and is case-sensitive!
     /// </summary>
-    // Mark as read only for PropertyGrid, since direct renames would confuse NamedCollection<T>
+    // Mark as read only for PropertyGrid, since direct renames would confuse ClonableNamedCollection<T>
     [XmlAttribute, ReadOnly(true), Description("The name of this class. Used in map files as a reference. Must be unique and is case-sensitive!")]
     public required string Name { get; set; }
 
@@ -81,13 +81,13 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICl
     /// </summary>
     public static string FileName => $"{typeof(TSelf).Name}s.xml";
 
-    private static NamedCollection<TSelf>? _all;
+    private static ClonableNamedCollection<TSelf>? _all;
 
     /// <summary>
     /// A list of all loaded <see cref="Template{TSelf}"/>s.
     /// </summary>
     /// <seealso cref="LoadAll"/>
-    public static NamedCollection<TSelf> All
+    public static ClonableNamedCollection<TSelf> All
         => _all ?? throw new InvalidOperationException(string.Format(Resources.NotLoaded, FileName));
 
     /// <summary>
@@ -96,7 +96,7 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICl
     public static void LoadAll()
     {
         using var stream = ContentManager.GetFileStream("World", FileName);
-        _all = XmlStorage.LoadXml<NamedCollection<TSelf>>(stream);
+        _all = XmlStorage.LoadXml<ClonableNamedCollection<TSelf>>(stream);
     }
     #endregion
 }
