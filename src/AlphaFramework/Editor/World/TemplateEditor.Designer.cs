@@ -32,6 +32,7 @@
             this.splitVertical = new System.Windows.Forms.SplitContainer();
             this.panelList = new System.Windows.Forms.Panel();
             this.groupTemplate = new System.Windows.Forms.GroupBox();
+            this.splitHorizontal = new System.Windows.Forms.SplitContainer();
             this.toolStripTemplate = new System.Windows.Forms.ToolStrip();
             this.buttonAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -46,6 +47,8 @@
             this.splitVertical.SuspendLayout();
             this.panelList.SuspendLayout();
             this.groupTemplate.SuspendLayout();
+            this.splitHorizontal.Panel2.SuspendLayout();
+            this.splitHorizontal.SuspendLayout();
             this.toolStripTemplate.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -88,7 +91,7 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupTemplate.Controls.Add(this.toolStripTemplate);
-            this.groupTemplate.Controls.Add(this.propertyGridTemplate);
+            this.groupTemplate.Controls.Add(this.splitHorizontal);
             this.groupTemplate.Location = new System.Drawing.Point(6, 3);
             this.groupTemplate.Name = "groupTemplate";
             this.groupTemplate.Size = new System.Drawing.Size(140, 528);
@@ -176,14 +179,29 @@
             this.buttonExport.Text = "Export...";
             this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
             // 
+            // splitHorizontal
+            // 
+            this.splitHorizontal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitHorizontal.Location = new System.Drawing.Point(6, 44);
+            this.splitHorizontal.Name = "splitHorizontal";
+            this.splitHorizontal.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitHorizontal.Panel2
+            // 
+            this.splitHorizontal.Panel2.Controls.Add(this.propertyGridTemplate);
+            this.splitHorizontal.Size = new System.Drawing.Size(128, 479);
+            this.splitHorizontal.SplitterDistance = 306;
+            this.splitHorizontal.TabIndex = 1;
+            // 
             // propertyGridTemplate
             // 
-            this.propertyGridTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.propertyGridTemplate.Location = new System.Drawing.Point(6, 355);
+            this.propertyGridTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGridTemplate.Location = new System.Drawing.Point(0, 0);
             this.propertyGridTemplate.Name = "propertyGridTemplate";
             this.propertyGridTemplate.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
-            this.propertyGridTemplate.Size = new System.Drawing.Size(128, 168);
+            this.propertyGridTemplate.Size = new System.Drawing.Size(128, 169);
             this.propertyGridTemplate.TabIndex = 2;
             this.propertyGridTemplate.ToolbarVisible = false;
             // 
@@ -208,6 +226,8 @@
             this.panelList.ResumeLayout(false);
             this.groupTemplate.ResumeLayout(false);
             this.groupTemplate.PerformLayout();
+            this.splitHorizontal.Panel2.ResumeLayout(false);
+            this.splitHorizontal.ResumeLayout(false);
             this.toolStripTemplate.ResumeLayout(false);
             this.toolStripTemplate.PerformLayout();
             this.ResumeLayout(false);
@@ -220,6 +240,7 @@
         protected System.Windows.Forms.SplitContainer splitVertical;
         private System.Windows.Forms.Panel panelList;
         private System.Windows.Forms.GroupBox groupTemplate;
+        private System.Windows.Forms.SplitContainer splitHorizontal;
         private System.Windows.Forms.PropertyGrid propertyGridTemplate;
         private System.Windows.Forms.ToolStrip toolStripTemplate;
         private System.Windows.Forms.ToolStripButton buttonAdd;

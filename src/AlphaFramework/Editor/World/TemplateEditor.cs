@@ -33,9 +33,7 @@ public abstract partial class TemplateEditor<T> : UndoCloneTab<ClonableNamedColl
     protected readonly FilteredTreeView<T> TemplateList = new()
     {
         CheckBoxes = true,
-        Location = new(6, 44),
-        Size = new(128, 306),
-        Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
+        Dock = DockStyle.Fill,
         TabIndex = 1
     };
 
@@ -44,7 +42,7 @@ public abstract partial class TemplateEditor<T> : UndoCloneTab<ClonableNamedColl
     {
         InitializeComponent();
 
-        groupTemplate.Controls.Add(TemplateList);
+        splitHorizontal.Panel1.Controls.Add(TemplateList);
         TemplateList.SelectedEntryChanged += delegate { OnUpdate(); };
         TemplateList.CheckedEntriesChanged += delegate { UpdateHelper(); };
         propertyGridTemplate.PropertyValueChanged += delegate { OnChange(); };
