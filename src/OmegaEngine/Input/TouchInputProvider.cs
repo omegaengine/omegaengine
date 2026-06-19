@@ -7,7 +7,7 @@
  */
 
 using System;
-using NanoByte.Common.Controls;
+using NanoByte.Common.Controls.Touch;
 
 namespace OmegaEngine.Input;
 
@@ -17,7 +17,7 @@ namespace OmegaEngine.Input;
 /// <remarks>Complex manipulations with combined panning, rotating and zooming are possible.</remarks>
 public class TouchInputProvider : InputProvider
 {
-    /// <summary>The control receiving the keyboard events.</summary>
+    /// <summary>The control receiving the touch events.</summary>
     private readonly ITouchControl _control;
 
     /// <summary>
@@ -27,37 +27,9 @@ public class TouchInputProvider : InputProvider
     public TouchInputProvider(ITouchControl control)
     {
         _control = control ?? throw new ArgumentNullException(nameof(control));
-
-        // Start tracking input events
-        _control.TouchDown += TouchDown;
-        _control.TouchMove += TouchMove;
-        _control.TouchUp += TouchUp;
-    }
-
-    private void TouchDown(object sender, TouchEventArgs e)
-    {
-        // ToDo: Implement
-    }
-
-    private void TouchMove(object sender, TouchEventArgs e)
-    {
-        // ToDo: Implement
-    }
-
-    private void TouchUp(object sender, TouchEventArgs e)
-    {
-        // ToDo: Implement
     }
 
     /// <inheritdoc/>
     protected override void Dispose(bool disposing)
-    {
-        if (disposing)
-        { // This block will only be executed on manual disposal, not by Garbage Collection
-            // Stop tracking input events
-            _control.TouchDown -= TouchDown;
-            _control.TouchMove -= TouchMove;
-            _control.TouchUp -= TouchUp;
-        }
-    }
+    {}
 }

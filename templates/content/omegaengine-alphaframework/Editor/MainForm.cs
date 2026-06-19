@@ -1,4 +1,5 @@
 ﻿using AlphaFramework.Editor;
+using NanoByte.Common;
 using NanoByte.Common.Controls;
 using Template.AlphaFramework.Presentation.Config;
 using Resources = AlphaFramework.Editor.Properties.Resources;

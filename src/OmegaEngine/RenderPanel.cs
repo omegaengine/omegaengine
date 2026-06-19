@@ -10,9 +10,10 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
-using NanoByte.Common.Controls;
+using NanoByte.Common.Controls.Touch;
 using OmegaEngine.Input;
 using SlimDX.Direct3D9;
+using TouchInputProvider = OmegaEngine.Input.TouchInputProvider;
 
 namespace OmegaEngine;
 

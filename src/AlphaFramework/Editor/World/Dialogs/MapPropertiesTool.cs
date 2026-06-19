@@ -64,6 +64,6 @@ public sealed partial class MapPropertiesTool : Form
     private void propertyGridUniverse_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
     {
         // Add undo-entry for changed property
-        OnExecuteCommand(new PropertyChangedCommand(_universe, e));
+        OnExecuteCommand(e.ToPropertyChangedCommand(_universe));
     }
 }

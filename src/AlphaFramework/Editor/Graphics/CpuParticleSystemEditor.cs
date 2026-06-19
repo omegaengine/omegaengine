@@ -139,7 +139,7 @@ public partial class CpuParticleSystemEditor : UndoCommandTab
     private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
     {
         // Add undo-entry for changed property
-        ExecuteCommandSafe(new PropertyChangedCommand(((PropertyGrid)s).SelectedObject, e));
+        ExecuteCommandSafe(e.ToPropertyChangedCommand(((PropertyGrid)s).SelectedObject));
     }
     #endregion
 
