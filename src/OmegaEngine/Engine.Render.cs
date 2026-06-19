@@ -405,7 +405,7 @@ partial class Engine
 
         #region Wait
         // Wait in case the device isn't ready to be reset
-        while (Device.TestCooperativeLevel() == ResultCode.DeviceLost)
+        while (IsDeviceLost())
         {
             Thread.Sleep(100);
             WinForms.Application.DoEvents();
@@ -432,6 +432,21 @@ partial class Engine
         #endregion
 
         _isResetting = NeedsReset = false;
+
+        bool IsDeviceLost()
+        {
+            try
+            {
+                return Device.TestCooperativeLevel() == ResultCode.DeviceLost;
+            }
+            #region Error handling
+            catch (NullReferenceException)
+            {
+                // Workaround for SlimDX bug
+                return true;
+            }
+            #endregion
+        }
     }
     #endregion
 }
