@@ -21,6 +21,14 @@ public record MouseInputScheme(MouseAction? LeftDrag = null, MouseAction? RightD
         MiddleDrag: new MouseNavigation(X: RotationZ, Y: TranslationZ));
 
     /// <summary>
+    /// Rotation around a fixed target.
+    /// Left button for rotation, right button for roll and zoom.
+    /// </summary>
+    public static MouseInputScheme Orbit => new(
+        LeftDrag: new MouseNavigation(X: RotationX, Y: RotationY),
+        RightDrag: new MouseNavigation(X: RotationZ, Y: TranslationZ));
+
+    /// <summary>
     /// Focuses on movement constrained to a plane.
     /// Left button for area selection, right button for XY panning, middle button for rotation and zoom.
     /// Ideal for top-down or strategy-style navigation.

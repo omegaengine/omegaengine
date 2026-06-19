@@ -28,6 +28,7 @@ You can customize the key bindings by modifying this dictionary.
 The <xref:OmegaEngine.Input.MouseInputProvider.Scheme> property controls which mouse button does what using <xref:OmegaEngine.Input.MouseInputScheme>. Pre-defined schemes include:
 
 - <xref:OmegaEngine.Input.MouseInputScheme.Scene> - Full 6DOF navigation (left: pan XY, right: rotate, middle: roll/zoom)
+- <xref:OmegaEngine.Input.MouseInputScheme.Orbit> - Rotation around a fixed target. (left: rotate, right: roll/zoom)
 - <xref:OmegaEngine.Input.MouseInputScheme.Planar> - Top-down navigation (left: area select, right: pan XY, middle: rotate/zoom)
 - <xref:OmegaEngine.Input.MouseInputScheme.FreeLook> - First-person style (left: look, right: move)
 
