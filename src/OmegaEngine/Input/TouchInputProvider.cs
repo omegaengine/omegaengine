@@ -17,6 +17,21 @@ namespace OmegaEngine.Input;
 /// <remarks>Complex manipulations with combined panning, rotating and zooming are possible.</remarks>
 public class TouchInputProvider : InputProvider
 {
+    /// <summary>
+    /// A factor used to scale panning (drag) input.
+    /// </summary>
+    public double PanSensitivity { get; set; } = 0.2;
+
+    /// <summary>
+    /// A factor used to scale zoom (pinch) input.
+    /// </summary>
+    public double ZoomSensitivity { get; set; } = 40;
+
+    /// <summary>
+    /// A factor used to scale rotation (twist) input.
+    /// </summary>
+    public double RotationSensitivity { get; set; } = 1;
+
     /// <summary>The control receiving the touch events.</summary>
     private readonly ITouchControl _control;
 
@@ -27,9 +42,28 @@ public class TouchInputProvider : InputProvider
     public TouchInputProvider(ITouchControl control)
     {
         _control = control ?? throw new ArgumentNullException(nameof(control));
+
+        // Start tracking input events
+        _control.ManipulationUpdated += ManipulationUpdated;
+    }
+
+    private void ManipulationUpdated(object sender, ManipulationEventArgs e)
+    {
+        if (!HasReceivers) return;
+
+        var d = e.Delta;
+        OnNavigate(
+            translation: new(PanSensitivity * -d.TranslationX, PanSensitivity * d.TranslationY, ZoomSensitivity * (d.Scale - 1)),
+            rotation: new(0, 0, RotationSensitivity * -(d.Rotation * 180.0 / Math.PI)));
     }
 
     /// <inheritdoc/>
     protected override void Dispose(bool disposing)
-    {}
+    {
+        if (disposing)
+        { // This block will only be executed on manual disposal, not by Garbage Collection
+            // Stop tracking input events
+            _control.ManipulationUpdated -= ManipulationUpdated;
+        }
+    }
 }
