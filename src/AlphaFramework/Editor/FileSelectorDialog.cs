@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
@@ -60,7 +61,7 @@ public partial class FileSelectorDialog : Form
     /// <param name="allowNew">Allow the user to create a new file instead of opening an existing one?</param>
     /// <returns><c>true</c> if a file was selected, <c>false</c> if none was selected</returns>
     /// <exception cref="InvalidOperationException">The user didn't select a file.</exception>
-    private static bool TryGetPath(string type, string extension, out string path, out bool overwrite, bool allowNew)
+    private static bool TryGetPath(string type, string extension, [NotNullWhen(true)] out string? path, out bool overwrite, bool allowNew)
     {
         var selector = new FileSelectorDialog {_type = type, _extension = extension, buttonNew = {Enabled = allowNew}};
 
