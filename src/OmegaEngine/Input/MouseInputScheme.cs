@@ -1,4 +1,4 @@
-using static OmegaEngine.Input.MouseNavigationAxis;
+using static OmegaEngine.Input.NavigationAxis;
 
 namespace OmegaEngine.Input;
 
@@ -8,7 +8,7 @@ namespace OmegaEngine.Input;
 /// <param name="LeftDrag">How to handle dragging the mouse while the left button is pressed.</param>
 /// <param name="RightDrag">How to handle dragging the mouse while the right button is pressed.</param>
 /// <param name="MiddleDrag">How to handle dragging the mouse while the middle button or both the left and the right button are pressed.</param>
-public record MouseInputScheme(MouseAction? LeftDrag = null, MouseAction? RightDrag = null, MouseAction? MiddleDrag = null)
+public record MouseInputScheme(InputAction? LeftDrag = null, InputAction? RightDrag = null, InputAction? MiddleDrag = null)
 {
     /// <summary>
     /// Scene navigation with full six degrees of freedom.
@@ -16,17 +16,17 @@ public record MouseInputScheme(MouseAction? LeftDrag = null, MouseAction? RightD
     /// Designed for general-purpose scene inspection.
     /// </summary>
     public static MouseInputScheme Scene => new(
-        LeftDrag: new MouseNavigation(X: TranslationX, Y: TranslationY),
-        RightDrag: new MouseNavigation(X: RotationX, Y: RotationY),
-        MiddleDrag: new MouseNavigation(X: RotationZ, Y: TranslationZ));
+        LeftDrag: new Navigation(X: TranslationX, Y: TranslationY),
+        RightDrag: new Navigation(X: RotationX, Y: RotationY),
+        MiddleDrag: new Navigation(X: RotationZ, Y: TranslationZ));
 
     /// <summary>
     /// Rotation around a fixed target.
     /// Left button for rotation, right button for roll and zoom.
     /// </summary>
     public static MouseInputScheme Orbit => new(
-        LeftDrag: new MouseNavigation(X: RotationX, Y: RotationY),
-        RightDrag: new MouseNavigation(X: RotationZ, Y: TranslationZ));
+        LeftDrag: new Navigation(X: RotationX, Y: RotationY),
+        RightDrag: new Navigation(X: RotationZ, Y: TranslationZ));
 
     /// <summary>
     /// Focuses on movement constrained to a plane.
@@ -34,9 +34,9 @@ public record MouseInputScheme(MouseAction? LeftDrag = null, MouseAction? RightD
     /// Ideal for top-down or strategy-style navigation.
     /// </summary>
     public static MouseInputScheme Planar => new(
-        LeftDrag: new MouseAreaSelection(),
-        RightDrag: new MouseNavigation(X: TranslationX, Y: TranslationY),
-        MiddleDrag: new MouseNavigation(X: RotationX, Y: TranslationZ));
+        LeftDrag: new AreaSelection(),
+        RightDrag: new Navigation(X: TranslationX, Y: TranslationY),
+        MiddleDrag: new Navigation(X: RotationX, Y: TranslationZ));
 
     /// <summary>
     /// Enables free-look navigation.
@@ -45,6 +45,6 @@ public record MouseInputScheme(MouseAction? LeftDrag = null, MouseAction? RightD
     /// </summary>
     public static MouseInputScheme FreeLook { get; }
         = new(
-            LeftDrag: new MouseNavigation(X: RotationX, Y: RotationY),
-            RightDrag: new MouseNavigation(X: TranslationX, Y: TranslationZ));
+            LeftDrag: new Navigation(X: RotationX, Y: RotationY),
+            RightDrag: new Navigation(X: TranslationX, Y: TranslationZ));
 }

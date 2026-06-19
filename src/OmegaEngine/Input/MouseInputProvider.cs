@@ -10,7 +10,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using OmegaEngine.Foundation.Geometry;
-using static OmegaEngine.Input.MouseNavigationAxis;
+using static OmegaEngine.Input.NavigationAxis;
 
 namespace OmegaEngine.Input;
 
@@ -76,7 +76,7 @@ public class MouseInputProvider : InputProvider
 
     private MouseButtons _pressedButtons;
     private bool _isDragging;
-    private MouseAction? _activeAction;
+    private InputAction? _activeAction;
 
     private bool _cursorCaptured;
     private Point _cursorCapturePos;
@@ -146,17 +146,17 @@ public class MouseInputProvider : InputProvider
         {
             _isDragging = true;
 
-            if (_activeAction is MouseNavigation { CaptureCursor: true })
+            if (_activeAction is Navigation { CaptureCursor: true })
                 CaptureCursor();
         }
 
         switch (_activeAction)
         {
-            case MouseAreaSelection when _isDragging:
+            case AreaSelection when _isDragging:
                 OnAreaSelection(new(_origMouseLoc, _totalMouseDelta), done: false, accumulate: Control.ModifierKeys.HasFlag(Keys.Control));
                 break;
 
-            case MouseNavigation nav when _isDragging:
+            case Navigation nav when _isDragging:
                 ApplyNavigation(nav, delta);
                 break;
         }
@@ -205,7 +205,7 @@ public class MouseInputProvider : InputProvider
         }
     }
 
-    private void ApplyNavigation(MouseNavigation nav, Size delta)
+    private void ApplyNavigation(Navigation nav, Size delta)
     {
         var translation = new DoubleVector3();
         var rotation = new DoubleVector3();
@@ -215,7 +215,7 @@ public class MouseInputProvider : InputProvider
 
         OnNavigate(translation, rotation);
 
-        void ApplyAxis(MouseNavigationAxis axis, int value)
+        void ApplyAxis(NavigationAxis axis, int value)
         {
             double v = InvertMouse ? -value : value;
             if (nav.ViewportScaling)

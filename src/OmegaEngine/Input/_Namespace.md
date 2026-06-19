@@ -32,7 +32,7 @@ The <xref:OmegaEngine.Input.MouseInputProvider.Scheme> property controls which m
 - <xref:OmegaEngine.Input.MouseInputScheme.Planar> - Top-down navigation (left: area select, right: pan XY, middle: rotate/zoom)
 - <xref:OmegaEngine.Input.MouseInputScheme.FreeLook> - First-person style (left: look, right: move)
 
-Each scheme maps mouse buttons to <xref:OmegaEngine.Input.MouseAction>s like navigation or area selection.
+Each scheme maps mouse buttons to <xref:OmegaEngine.Input.InputAction>s like <xref:OmegaEngine.Input.Navigation> or <xref:OmegaEngine.Input.AreaSelection>.
 
 ### Touch
 
