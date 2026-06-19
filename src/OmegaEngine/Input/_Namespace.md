@@ -38,6 +38,15 @@ Each scheme maps mouse buttons to <xref:OmegaEngine.Input.InputAction>s like <xr
 
 <xref:OmegaEngine.Input.TouchInputProvider> processes touch input for gesture-based control.
 
+The <xref:OmegaEngine.Input.TouchInputProvider.Scheme> property controls which touch gesture does what using <xref:OmegaEngine.Input.TouchInputScheme>. Pre-defined schemes include:
+
+- <xref:OmegaEngine.Input.TouchInputScheme.Scene> - Pan translates XY, pinch zooms, twist rolls
+- <xref:OmegaEngine.Input.TouchInputScheme.Orbit> - Pan rotates around a fixed target, pinch zooms, twist rolls
+- <xref:OmegaEngine.Input.TouchInputScheme.Planar> - Top-down navigation (pan translates XY, pinch zooms, twist yaws)
+- <xref:OmegaEngine.Input.TouchInputScheme.FreeLook> - First-person style (pan rotates, pinch moves forward, twist rolls)
+
+Each scheme maps the pan, pinch and twist gestures to <xref:OmegaEngine.Input.NavigationAxis>es.
+
 ## Input receivers
 
 Classes that want to respond to input commands implement the <xref:OmegaEngine.Input.IInputReceiver> interface.

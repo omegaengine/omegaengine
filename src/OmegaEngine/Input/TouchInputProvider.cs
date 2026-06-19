@@ -8,6 +8,8 @@
 
 using System;
 using NanoByte.Common.Controls.Touch;
+using OmegaEngine.Foundation.Geometry;
+using static OmegaEngine.Input.NavigationAxis;
 
 namespace OmegaEngine.Input;
 
@@ -17,6 +19,11 @@ namespace OmegaEngine.Input;
 /// <remarks>Complex manipulations with combined panning, rotating and zooming are possible.</remarks>
 public class TouchInputProvider : InputProvider
 {
+    /// <summary>
+    /// Controls which touch gesture does what.
+    /// </summary>
+    public TouchInputScheme Scheme { get; set; } = TouchInputScheme.Scene;
+
     /// <summary>
     /// A factor used to scale panning (drag) input.
     /// </summary>
@@ -51,10 +58,43 @@ public class TouchInputProvider : InputProvider
     {
         if (!HasReceivers) return;
 
-        var d = e.Delta;
-        OnNavigate(
-            translation: new(PanSensitivity * -d.TranslationX, PanSensitivity * d.TranslationY, ZoomSensitivity * (d.Scale - 1)),
-            rotation: new(0, 0, RotationSensitivity * -(d.Rotation * 180.0 / Math.PI)));
+        var translation = new DoubleVector3();
+        var rotation = new DoubleVector3();
+
+        if (Scheme.Pan is {} pan)
+        {
+            ApplyAxis(pan.X, PanSensitivity * e.Delta.TranslationX);
+            ApplyAxis(pan.Y, PanSensitivity * e.Delta.TranslationY);
+        }
+        if (Scheme.Pinch is {} pinch) ApplyAxis(pinch, ZoomSensitivity * (e.Delta.Scale - 1));
+        if (Scheme.Twist is {} twist) ApplyAxis(twist, RotationSensitivity * (e.Delta.Rotation * 180.0 / Math.PI));
+
+        OnNavigate(translation, rotation);
+
+        void ApplyAxis(NavigationAxis axis, double v)
+        {
+            switch (axis)
+            {
+                case TranslationX:
+                    translation.X += -v;
+                    break;
+                case TranslationY:
+                    translation.Y += +v;
+                    break;
+                case TranslationZ:
+                    translation.Z += +v;
+                    break;
+                case RotationX:
+                    rotation.X += +v;
+                    break;
+                case RotationY:
+                    rotation.Y += -v;
+                    break;
+                case RotationZ:
+                    rotation.Z += -v;
+                    break;
+            }
+        }
     }
 
     /// <inheritdoc/>
