@@ -43,7 +43,6 @@ The <xref:OmegaEngine.Input.TouchInputProvider.Scheme> property controls which t
 - <xref:OmegaEngine.Input.TouchInputScheme.Scene> - Pan translates XY, pinch zooms, twist rolls
 - <xref:OmegaEngine.Input.TouchInputScheme.Orbit> - Pan rotates around a fixed target, pinch zooms, twist rolls
 - <xref:OmegaEngine.Input.TouchInputScheme.Planar> - Top-down navigation (pan translates XY, pinch zooms, twist yaws)
-- <xref:OmegaEngine.Input.TouchInputScheme.FreeLook> - First-person style (pan rotates, pinch moves forward, twist rolls)
 
 Each scheme maps the pan, pinch and twist gestures to <xref:OmegaEngine.Input.NavigationAxis>es.
 

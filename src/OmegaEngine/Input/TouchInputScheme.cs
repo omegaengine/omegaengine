@@ -37,15 +37,4 @@ public record TouchInputScheme(Navigation? Pan = null, NavigationAxis? Pinch = n
         Pan: new Navigation(X: TranslationX, Y: TranslationY),
         Pinch: TranslationZ,
         Twist: RotationX);
-
-    /// <summary>
-    /// Enables free-look navigation.
-    /// Pan rotates, pinch moves forward, twist rolls.
-    /// Suitable for first-person navigation scenarios.
-    /// </summary>
-    public static TouchInputScheme FreeLook { get; }
-        = new(
-            Pan: new Navigation(X: RotationX, Y: RotationY),
-            Pinch: TranslationZ,
-            Twist: RotationZ);
 }
