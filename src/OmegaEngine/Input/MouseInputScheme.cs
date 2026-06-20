@@ -21,8 +21,9 @@ public record MouseInputScheme(InputAction? LeftDrag = null, InputAction? RightD
         MiddleDrag: new Navigation(X: RotationZ, Y: TranslationZ));
 
     /// <summary>
-    /// Rotation around a fixed target.
+    /// Orbit around a fixed target.
     /// Left button for rotation, right button for roll and zoom.
+    /// Suitable for inspecting a single object or focal point.
     /// </summary>
     public static MouseInputScheme Orbit => new(
         LeftDrag: new Navigation(X: RotationX, Y: RotationY),

@@ -11,6 +11,7 @@ namespace OmegaEngine.Input;
 public record TouchInputScheme(Navigation? Pan = null, NavigationAxis? Pinch = null, NavigationAxis? Twist = null)
 {
     /// <summary>
+    /// Scene navigation with translation, zoom and roll.
     /// Pan translates XY, pinch zooms, twist rolls.
     /// Designed for general-purpose scene inspection.
     /// </summary>
@@ -20,8 +21,9 @@ public record TouchInputScheme(Navigation? Pan = null, NavigationAxis? Pinch = n
         Twist: RotationZ);
 
     /// <summary>
-    /// Rotation around a fixed target.
+    /// Orbit around a fixed target.
     /// Pan rotates, pinch zooms, twist rolls.
+    /// Suitable for inspecting a single object or focal point.
     /// </summary>
     public static TouchInputScheme Orbit => new(
         Pan: new Navigation(X: RotationX, Y: RotationY),
