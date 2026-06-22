@@ -44,7 +44,7 @@ public class Slider : Control
     private int _min;
 
     /// <summary>
-    /// Minimum value for control  - no auto-update
+    /// Minimum value for control
     /// </summary>
     [DefaultValue(0), Description("Minimum value for control"), Category("Behavior")]
     public int Min
@@ -53,14 +53,14 @@ public class Slider : Control
         set
         {
             _min = value;
-            NeedsUpdate();
+            _slider?.SetRange(_min, _max);
         }
     }
 
     private int _max = 10;
 
     /// <summary>
-    /// Maximum value for control - no auto-update
+    /// Maximum value for control
     /// </summary>
     [DefaultValue(10), Description("Maximum value for control"), Category("Behavior")]
     public int Max
@@ -69,7 +69,7 @@ public class Slider : Control
         set
         {
             _max = value;
-            NeedsUpdate();
+            _slider?.SetRange(_min, _max);
         }
     }
 

@@ -110,7 +110,7 @@ public abstract class Control : ICloneable
     private bool _isDefault;
 
     /// <summary>
-    /// Is this the default control on the dialog? - no auto-update
+    /// Is this the default control on the dialog?
     /// </summary>
     [XmlAttribute, DefaultValue(false), Description("Is this the default control on the dialog?"), Category("Behavior")]
     public bool Default
@@ -119,7 +119,7 @@ public abstract class Control : ICloneable
         set
         {
             _isDefault = value;
-            NeedsUpdate();
+            if (DXControl != null) DXControl.IsDefault = value;
         }
     }
 

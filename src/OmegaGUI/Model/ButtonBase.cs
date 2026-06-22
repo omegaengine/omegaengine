@@ -37,7 +37,7 @@ public abstract class ButtonBase : Label
     private Keys _hotkey;
 
     /// <summary>
-    /// A hotkey that can substitute a mouse click - no auto-update
+    /// A hotkey that can substitute a mouse click
     /// </summary>
     [DefaultValue(Keys.None), Description("A hotkey that can substitute a mouse click"), Category("Behavior")]
     [XmlAttribute]
@@ -47,7 +47,7 @@ public abstract class ButtonBase : Label
         set
         {
             _hotkey = value;
-            NeedsUpdate();
+            if (DXControl != null) DXControl.Hotkey = value;
         }
     }
 
