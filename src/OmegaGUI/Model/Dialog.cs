@@ -87,7 +87,7 @@ public class Dialog : ICloneable<Dialog>
     public override string ToString() => "Dialog";
 
     /// <summary>
-    /// A flag to determine whether the model counterpart to this dialog vuew needs to be recreated to reflect changes made to properties
+    /// A flag to determine whether the model counterpart to this dialog view needs to be recreated to reflect changes made to properties
     /// </summary>
     [XmlIgnore, Browsable(false)]
     public bool NeedsUpdate { get; internal set; }

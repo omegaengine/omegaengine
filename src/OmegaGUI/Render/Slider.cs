@@ -70,7 +70,7 @@ public class Slider : Control
         if (newValue == currentValue)
             return;
 
-        // Update the value, the rects, then fire the events if necessar
+        // Update the value, the rects, then fire the events if necessary
         currentValue = newValue;
         UpdateRectangles();
         RaiseChanged(this, fromInput);
