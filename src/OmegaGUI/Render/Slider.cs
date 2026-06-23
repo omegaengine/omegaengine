@@ -67,13 +67,13 @@ public class Slider : Control
         // Clamp to the range
         newValue = Math.Max(minValue, newValue);
         newValue = Math.Min(maxValue, newValue);
-        if (newValue == currentValue)
-            return;
 
         // Update the value, the rects, then fire the events if necessary
+        bool valueChanged = currentValue != newValue;
         currentValue = newValue;
         UpdateRectangles();
-        RaiseChanged(this, fromInput);
+        if (valueChanged)
+            RaiseChanged(this, fromInput);
     }
     #endregion
 
