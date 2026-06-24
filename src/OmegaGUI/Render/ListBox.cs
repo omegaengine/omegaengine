@@ -400,7 +400,10 @@ public class ListBox : Control
                 parentDialog.DialogManager.Target.Capture = false;
                 isDragging = false;
 
-                if (selectedIndex != -1)
+                // The item list may have changed (e.g. via a selection event handler) since
+                // the click that set these indices, so guard against stale out-of-range values
+                if (selectedIndex >= 0 && selectedIndex < itemList.Count &&
+                    selectedStarted >= 0 && selectedStarted < itemList.Count)
                 {
                     // Set all items between selectedStarted and selectedIndex to
                     // the same state as selectedStarted
@@ -595,6 +598,8 @@ public class ListBox : Control
 
         if (selectedIndex >= itemList.Count)
             selectedIndex = itemList.Count - 1;
+        if (selectedStarted >= itemList.Count)
+            selectedStarted = Math.Max(0, itemList.Count - 1);
 
         RaiseSelectionEvent(this, true);
     }
@@ -608,6 +613,7 @@ public class ListBox : Control
         // Update scroll bar and index
         scrollbarControl.SetTrackRange(0, 1);
         selectedIndex = -1;
+        selectedStarted = 0;
     }
 
     /// <summary>
