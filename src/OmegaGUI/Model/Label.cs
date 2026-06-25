@@ -21,6 +21,8 @@
  */
 
 using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.Drawing.Design;
 using System.Xml.Serialization;
 using OmegaGUI.Render;
 
@@ -45,6 +47,7 @@ public class Label : Control
     /// The text displayed on the control
     /// </summary>
     [DefaultValue(""), Description("The text displayed on the control"), Category("Appearance")]
+    [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [XmlAttribute]
     public virtual string Text
     {

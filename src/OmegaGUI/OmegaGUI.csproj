@@ -9,6 +9,7 @@
 
   <!-- Dependencies -->
   <ItemGroup>
+    <Reference Include="System.Design" />
     <ProjectReference Include="..\OmegaEngine\OmegaEngine.csproj" />
   </ItemGroup>
 
