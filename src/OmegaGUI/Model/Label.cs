@@ -62,9 +62,9 @@ public class Label : Control
     private TextAlign _textAlign;
 
     /// <summary>
-    /// How the text is to be aligned - only effective for Label
+    /// How the text is to be aligned horizontally - only effective for Label
     /// </summary>
-    [DefaultValue(TextAlign.Left), Description("How the text is to be aligned - only effective for Label"), Category("Appearance")]
+    [DefaultValue(TextAlign.Left), Description("How the text is to be aligned horizontally - only effective for Label"), Category("Appearance")]
     public TextAlign TextAlign
     {
         get => _textAlign;
@@ -72,6 +72,22 @@ public class Label : Control
         {
             _textAlign = value;
             if (_staticText != null) _staticText.TextAlign = value;
+        }
+    }
+
+    private VerticalTextAlign _verticalTextAlign = VerticalTextAlign.Center;
+
+    /// <summary>
+    /// How the text is to be aligned vertically - only effective for Label
+    /// </summary>
+    [DefaultValue(VerticalTextAlign.Center), Description("How the text is to be aligned vertically - only effective for Label"), Category("Appearance")]
+    public VerticalTextAlign VerticalTextAlign
+    {
+        get => _verticalTextAlign;
+        set
+        {
+            _verticalTextAlign = value;
+            if (_staticText != null) _staticText.VerticalTextAlign = value;
         }
     }
     #endregion
@@ -93,6 +109,7 @@ public class Label : Control
         ControlModel.IsVisible = IsVisible;
         ControlModel.IsEnabled = IsEnabled;
         _staticText.TextAlign = _textAlign;
+        _staticText.VerticalTextAlign = _verticalTextAlign;
 
         // Setup event hooks
         SetupMouseEvents();

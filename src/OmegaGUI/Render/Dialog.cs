@@ -224,17 +224,21 @@ public class Dialog
         //-------------------------------------
         // Label
         //-------------------------------------
-        e.SetFont(0, defaultTextColor, DrawTextFormat.Left | DrawTextFormat.VerticalCenter);
-        e.FontColor.States[(int)ControlState.Disabled] = new(0.75f, 0.75f, 0.75f, 0.75f);
-        SetDefaultElement(ControlType.Label, (int)TextAlign.Left, e);
-
-        e.SetFont(0, defaultTextColor, DrawTextFormat.Center | DrawTextFormat.VerticalCenter);
-        e.FontColor.States[(int)ControlState.Disabled] = new(0.75f, 0.75f, 0.75f, 0.75f);
-        SetDefaultElement(ControlType.Label, (int)TextAlign.Center, e);
-
-        e.SetFont(0, defaultTextColor, DrawTextFormat.Right | DrawTextFormat.VerticalCenter);
-        e.FontColor.States[(int)ControlState.Disabled] = new(0.75f, 0.75f, 0.75f, 0.75f);
-        SetDefaultElement(ControlType.Label, (int)TextAlign.Right, e);
+        static void AddLabelElement(Dialog d, Element el, Color4 color, DrawTextFormat format, VerticalTextAlign v, TextAlign h)
+        {
+            el.SetFont(0, color, format);
+            el.FontColor.States[(int)ControlState.Disabled] = new(0.75f, 0.75f, 0.75f, 0.75f);
+            d.SetDefaultElement(ControlType.Label, (uint)((int)v * 3 + (int)h), el);
+        }
+        AddLabelElement(this, e, defaultTextColor, DrawTextFormat.Left   | DrawTextFormat.Top,            VerticalTextAlign.Top,    TextAlign.Left);
+        AddLabelElement(this, e, defaultTextColor, DrawTextFormat.Center | DrawTextFormat.Top,            VerticalTextAlign.Top,    TextAlign.Center);
+        AddLabelElement(this, e, defaultTextColor, DrawTextFormat.Right  | DrawTextFormat.Top,            VerticalTextAlign.Top,    TextAlign.Right);
+        AddLabelElement(this, e, defaultTextColor, DrawTextFormat.Left   | DrawTextFormat.VerticalCenter, VerticalTextAlign.Center, TextAlign.Left);
+        AddLabelElement(this, e, defaultTextColor, DrawTextFormat.Center | DrawTextFormat.VerticalCenter, VerticalTextAlign.Center, TextAlign.Center);
+        AddLabelElement(this, e, defaultTextColor, DrawTextFormat.Right  | DrawTextFormat.VerticalCenter, VerticalTextAlign.Center, TextAlign.Right);
+        AddLabelElement(this, e, defaultTextColor, DrawTextFormat.Left   | DrawTextFormat.Bottom,         VerticalTextAlign.Bottom, TextAlign.Left);
+        AddLabelElement(this, e, defaultTextColor, DrawTextFormat.Center | DrawTextFormat.Bottom,         VerticalTextAlign.Bottom, TextAlign.Center);
+        AddLabelElement(this, e, defaultTextColor, DrawTextFormat.Right  | DrawTextFormat.Bottom,         VerticalTextAlign.Bottom, TextAlign.Right);
 
         //-------------------------------------
         // Button - Button

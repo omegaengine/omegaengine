@@ -19,6 +19,8 @@ public class Label : Control
 
     public TextAlign TextAlign { get; set; }
 
+    public VerticalTextAlign VerticalTextAlign { get; set; } = VerticalTextAlign.Center;
+
     /// <summary>
     /// Create a new instance of a static text control
     /// </summary>
@@ -41,7 +43,7 @@ public class Label : Control
             state = ControlState.Disabled;
 
         // Blend the element colors
-        Element e = elementList[(int)TextAlign];
+        Element e = elementList[(int)VerticalTextAlign * 3 + (int)TextAlign];
         e.FontColor.Blend(state, elapsedTime);
 
         // Render with a shadow

@@ -9,13 +9,23 @@
 namespace OmegaGUI.Render;
 
 /// <summary>
-/// How to align text within a control
+/// How to align text horizontally within a control
 /// </summary>
 public enum TextAlign
 {
     Left,
     Center,
     Right
+}
+
+/// <summary>
+/// How to align text vertically within a control
+/// </summary>
+public enum VerticalTextAlign
+{
+    Top,
+    Center,
+    Bottom
 }
 
 /// <summary>
