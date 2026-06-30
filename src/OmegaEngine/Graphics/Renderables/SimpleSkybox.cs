@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using System.Linq;
 using OmegaEngine.Assets;
+using OmegaEngine.Foundation.Storage;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.VertexDecl;
 using SlimDX.Direct3D9;
@@ -33,7 +34,7 @@ public sealed class SimpleSkybox : Skybox
     {}
 
     /// <summary>
-    /// Creates a new skybox using a cached <see cref="XTexture"/>s (loading new ones if they aren't cached).
+    /// Creates a new skybox using textures by file name.
     /// </summary>
     /// <param name="engine">The <see cref="Engine"/> providing the cache and rendering capabilities.</param>
     /// <param name="rt">The ID of the "right" texture.</param>
@@ -52,6 +53,31 @@ public sealed class SimpleSkybox : Skybox
             XTexture.Get(engine, rt), XTexture.Get(engine, lf), XTexture.Get(engine, up),
             XTexture.Get(engine, dn), XTexture.Get(engine, ft), XTexture.Get(engine, bk)
         ]);
+
+    /// <summary>
+    /// Creates a new skybox using a set of textures following a fixed naming convention.
+    /// </summary>
+    /// <param name="engine">The <see cref="Engine"/> providing the cache and rendering capabilities.</param>
+    /// <param name="name">The base name of the skybox.</param>
+    /// <param name="format">The file format/ending of the texture files (e.g., <c>dds</c> or <c>jpg</c>).</param>
+    /// <exception cref="FileNotFoundException">One of the specified texture files could not be found.</exception>
+    /// <exception cref="IOException">There was an error reading one of the texture files.</exception>
+    /// <exception cref="UnauthorizedAccessException">Read access to one of the texture files is not permitted.</exception>
+    /// <exception cref="InvalidDataException">One of the texture files does not contain a valid texture.</exception>
+    /// <remarks>Looks for textures named <c>Skybox/name/rt|lf|up|dn|ft|bk.format</c>.</remarks>
+    public static SimpleSkybox FromAssetSet(Engine engine, string name, string format = "dds")
+    {
+        string rt = $"Skybox/{name}/rt.{format}";
+        string lf = $"Skybox/{name}/lf.{format}";
+        string up = $"Skybox/{name}/up.{format}";
+        string dn = $"Skybox/{name}/dn.{format}";
+        string ft = $"Skybox/{name}/ft.{format}";
+        string bk = $"Skybox/{name}/bk.{format}";
+
+        return ContentManager.FileExists("Textures", up) && ContentManager.FileExists("Textures", dn)
+            ? FromAssets(engine, rt, lf, up, dn, ft, bk) // Full skybox
+            : FromAssets(engine, rt, lf, null, null, ft, bk); // Cardboard-style skybox (missing top and bottom)
+    }
 
     /// <inheritdoc/>
     internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
