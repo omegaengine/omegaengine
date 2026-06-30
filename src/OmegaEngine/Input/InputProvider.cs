@@ -78,7 +78,7 @@ public abstract class InputProvider : IDisposable
     /// <param name="accumulate"><c>true</c> when the user wants the action to have an accumulative effect (usually for selections).</param>
     protected virtual void OnClick(MouseEventArgs e, bool accumulate = false)
     {
-        foreach (var receiver in _receivers)
+        foreach (var receiver in _receivers.ToArray()) // Copy list to avoid concurrent modification exceptions
             receiver.Click(e, accumulate);
     }
 
@@ -88,7 +88,7 @@ public abstract class InputProvider : IDisposable
     /// <param name="e">The original event arguments from the click.</param>
     protected virtual void OnDoubleClick(MouseEventArgs e)
     {
-        foreach (var receiver in _receivers)
+        foreach (var receiver in _receivers.ToArray()) // Copy list to avoid concurrent modification exceptions
             receiver.DoubleClick(e);
     }
 
