@@ -26,6 +26,7 @@ using FrameOfReference.Presentation.Config;
 using FrameOfReference.World;
 using OmegaEngine;
 using OmegaEngine.Foundation.Geometry;
+using OmegaEngine.Foundation.Storage;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
@@ -65,6 +66,9 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
     {
         if (Initialized) return;
 
+        UpdateSkybox();
+        Universe.SkyboxChanged += UpdateSkybox;
+
         if (View.Lighting)
         {
             SetupLighting();
@@ -83,6 +87,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
         {
             ChildViewThumbnails = false;
             Universe.LightingChanged -= UpdateLighting;
+            Universe.SkyboxChanged -= UpdateSkybox;
         }
         finally
         {
@@ -111,6 +116,28 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
         var settings = Settings.Current.Graphics;
         View.Camera.FieldOfView = settings.FieldOfView;
         if (_colorCorrectionShader != null) _colorCorrectionShader.Gamma = settings.Gamma;
+    }
+
+    private void UpdateSkybox()
+    {
+        Scene.Skybox?.Dispose();
+        Scene.Skybox = string.IsNullOrEmpty(Universe.Skybox)
+            ? null
+            : BuildSkybox(Universe.Skybox);
+    }
+
+    private SimpleSkybox BuildSkybox(string name)
+    {
+        string rt = $"Skybox/{name}/rt.jpg";
+        string lf = $"Skybox/{name}/lf.jpg";
+        string up = $"Skybox/{name}/up.jpg";
+        string dn = $"Skybox/{name}/dn.jpg";
+        string ft = $"Skybox/{name}/ft.jpg";
+        string bk = $"Skybox/{name}/bk.jpg";
+
+        return ContentManager.FileExists("Textures", up) && ContentManager.FileExists("Textures", dn)
+            ? SimpleSkybox.FromAssets(Engine, rt, lf, up, dn, ft, bk) // Full skybox
+            : SimpleSkybox.FromAssets(Engine, rt, lf, null, null, ft, bk); // Cardboard-style skybox (missing top and bottom)
     }
 
     /// <summary>

@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
-using NanoByte.Common;
 using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Storage;
 
@@ -21,21 +20,6 @@ namespace AlphaFramework.World;
 /// </summary>
 public abstract class UniverseBase : IUniverse
 {
-    private string? _skybox;
-
-    private void OnSkyboxChanged() => SkyboxChanged?.Invoke();
-
-    /// <summary>
-    /// Occurs when <see cref="Skybox"/> was changed.
-    /// </summary>
-    public event Action? SkyboxChanged;
-
-    /// <summary>
-    /// The name of the skybox to use for this map; may be <c>null</c> or empty.
-    /// </summary>
-    [DefaultValue(""), Category("Effects"), Description("The name of the skybox to use for this map; may be null or empty.")]
-    public string? Skybox { get => _skybox; set => value.To(ref _skybox, OnSkyboxChanged); }
-
     /// <inheritdoc/>
     [DefaultValue(0.0), Category("Gameplay"), Description("Total elapsed game time in seconds.")]
     public double GameTime { get; set; }

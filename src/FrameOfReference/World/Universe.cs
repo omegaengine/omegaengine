@@ -30,6 +30,7 @@ using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
 using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
+using NanoByte.Common;
 using JetBrains.Annotations;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Native;
@@ -50,6 +51,21 @@ public sealed partial class Universe : CoordinateUniverse<Vector2>
     {
         TerrainSerialize = terrain;
     }
+
+    private string? _skybox;
+
+    private void OnSkyboxChanged() => SkyboxChanged?.Invoke();
+
+    /// <summary>
+    /// Occurs when <see cref="Skybox"/> was changed.
+    /// </summary>
+    public event Action? SkyboxChanged;
+
+    /// <summary>
+    /// The name of the skybox to use for this map; may be <c>null</c> or empty.
+    /// </summary>
+    [DefaultValue(""), Category("Effects"), Description("The name of the skybox to use for this map; may be null or empty.")]
+    public string? Skybox { get => _skybox; set => value.To(ref _skybox, OnSkyboxChanged); }
 
     /// <inheritdoc/>
     [Browsable(false)]

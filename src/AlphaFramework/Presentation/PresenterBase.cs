@@ -5,7 +5,6 @@ using NLua;
 using NanoByte.Common;
 using OmegaEngine;
 using OmegaEngine.Foundation.Geometry;
-using OmegaEngine.Foundation.Storage;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Input;
@@ -47,9 +46,6 @@ public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe
     public virtual void Initialize()
     {
         Initialized = true;
-
-        UpdateSkybox();
-        Universe.SkyboxChanged += UpdateSkybox;
     }
 
     /// <inheritdoc/>
@@ -67,41 +63,6 @@ public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe
     /// <inheritdoc/>
     public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)
         => View.Camera.Navigate(translation, rotation);
-
-    /// <summary>
-    /// The file format (file ending without a dot) used to store skybox textures.
-    /// </summary>
-    protected virtual string SkyboxFileFormat => "jpg";
-
-    private void UpdateSkybox()
-    {
-        // Clean up the old skybox if any
-        if (Scene.Skybox != null)
-        {
-            Scene.Skybox.Dispose();
-            Scene.Skybox = null;
-        }
-
-        // Allow for no skybox at all
-        if (string.IsNullOrEmpty(Universe.Skybox)) return;
-
-        // Right, Left, Up, Down, Front, Back texture filenames
-        string rt = $"Skybox/{Universe.Skybox}/rt.{SkyboxFileFormat}";
-        string lf = $"Skybox/{Universe.Skybox}/lf.{SkyboxFileFormat}";
-        string up = $"Skybox/{Universe.Skybox}/up.{SkyboxFileFormat}";
-        string dn = $"Skybox/{Universe.Skybox}/dn.{SkyboxFileFormat}";
-        string ft = $"Skybox/{Universe.Skybox}/ft.{SkyboxFileFormat}";
-        string bk = $"Skybox/{Universe.Skybox}/bk.{SkyboxFileFormat}";
-
-        if (ContentManager.FileExists("Textures", up) && ContentManager.FileExists("Textures", dn))
-        { // Full skybox
-            Scene.Skybox = SimpleSkybox.FromAssets(Engine, rt, lf, up, dn, ft, bk);
-        }
-        else
-        { // Cardboard-style skybox (missing top and bottom)
-            Scene.Skybox = SimpleSkybox.FromAssets(Engine, rt, lf, null, null, ft, bk);
-        }
-    }
 
     /// <summary>
     /// Dims in the screen down.
@@ -142,7 +103,6 @@ public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe
         { // This block will only be executed on manual disposal, not by Garbage Collection
             Log.Info("Disposing presenter");
 
-            Universe.SkyboxChanged -= UpdateSkybox;
             Scene.Dispose();
             View.Dispose();
         }
