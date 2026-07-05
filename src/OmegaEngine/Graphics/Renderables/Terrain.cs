@@ -146,6 +146,7 @@ public partial class Terrain : Model
             lighting)
         {
             // Set properties here to keep constructor nice and simple
+            Engine = engine,
             Size = size, StretchH = stretchH, StretchV = stretchV,
             SubsetBoundingBoxes = subsetBoundingBoxes,
             SubsetBoundingSpheres = subsetBoundingBoxes.Select(SlimDX.BoundingSphere.FromBox).ToArray(),

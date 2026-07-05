@@ -52,7 +52,10 @@ public sealed class SimpleSkybox : Skybox
         => new([
             XTexture.Get(engine, rt), XTexture.Get(engine, lf), XTexture.Get(engine, up),
             XTexture.Get(engine, dn), XTexture.Get(engine, ft), XTexture.Get(engine, bk)
-        ]);
+        ])
+        {
+            Engine = engine
+        };
 
     /// <summary>
     /// Creates a new skybox using a set of textures following a fixed naming convention.
