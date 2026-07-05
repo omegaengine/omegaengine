@@ -119,91 +119,11 @@ public class XMesh : Asset
 
         try
         {
-            bool needsTangents = false;
-            if (extendedMaterials is { Length: > 0 })
+            Materials = LoadMaterials(engine, meshName, extendedMaterials, effectInstances, out bool needsTangents);
+
+            // Generate normals (plus tangents if normal/height maps are available)
+            if (!Materials.IsDefault)
             {
-                var builder = ImmutableArray.CreateBuilder<XMaterial>(extendedMaterials.Length);
-
-                // Store each material and texture
-                for (int i = 0; i < extendedMaterials.Length; i++)
-                {
-                    var material = extendedMaterials[i].MaterialD3D.ToXMaterial();
-
-                    // Search for texture file names in material
-                    string textureFilename = extendedMaterials[i].TextureFileName;
-                    if (!string.IsNullOrEmpty(textureFilename))
-                    {
-                        material.DiffuseMaps = [ShaderLoadHelper(engine, meshName, textureFilename)];
-
-                        string baseFilename = Path.Combine(Path.GetDirectoryName(meshName) ?? "", Path.GetFileNameWithoutExtension(textureFilename));
-                        string fileExt = Path.GetExtension(textureFilename);
-
-                        // Normal map
-                        string normalFilename = $"{baseFilename}_normal{fileExt}";
-                        if (ContentManager.FileExists("Meshes", normalFilename))
-                        {
-                            material.NormalMap = XTexture.Get(engine, normalFilename, meshTexture: true);
-                            needsTangents = true;
-                        }
-
-                        // Height map
-                        string heightFilename = $"{baseFilename}_height{fileExt}";
-                        if (ContentManager.FileExists("Meshes", heightFilename))
-                        {
-                            material.HeightMap = XTexture.Get(engine, heightFilename, meshTexture: true);
-                            needsTangents = true;
-                        }
-
-                        // Specular map
-                        string specularFilename = $"{baseFilename}_specular{fileExt}";
-                        if (ContentManager.FileExists("Meshes", specularFilename))
-                            material.SpecularMap = XTexture.Get(engine, specularFilename, meshTexture: true);
-
-                        // Emissive map
-                        string emissiveFilename = $"{baseFilename}_emissive{fileExt}";
-                        if (ContentManager.FileExists("Meshes", emissiveFilename))
-                            material.EmissiveMap = XTexture.Get(engine, emissiveFilename, meshTexture: true);
-
-                        // Glow map
-                        string glowFilename = $"{baseFilename}_glow{fileExt}";
-                        if (ContentManager.FileExists("Meshes", glowFilename))
-                            material.EmissiveMap ??= material.GlowMap = XTexture.Get(engine, glowFilename, meshTexture: true);
-                    }
-
-                    // Search for texture file names in shader effect if present
-                    if (effectInstances != null && i < effectInstances.Length)
-                    {
-                        EffectDefault[] parameters = effectInstances[i].Defaults;
-                        foreach (EffectDefault param in parameters)
-                        {
-                            XTexture extraTexture = ShaderTextureHelper(engine, param, meshName, "diffuseTexture");
-                            if (extraTexture != null) material.DiffuseMaps = [extraTexture];
-
-                            extraTexture = ShaderTextureHelper(engine, param, meshName, "normalTexture");
-                            if (extraTexture != null)
-                            {
-                                material.NormalMap = extraTexture;
-                                needsTangents = true;
-                            }
-
-                            extraTexture = ShaderTextureHelper(engine, param, meshName, "heightTexture");
-                            if (extraTexture != null)
-                            {
-                                material.HeightMap = extraTexture;
-                                needsTangents = true;
-                            }
-
-                            extraTexture = ShaderTextureHelper(engine, param, meshName, "specularTexture");
-                            if (extraTexture != null) material.SpecularMap = extraTexture;
-                        }
-                    }
-
-                    builder.Add(material);
-                }
-
-                Materials = builder.MoveToImmutable();
-
-                // Generate normals (plus tangents if normal/height maps are available)
                 if (needsTangents && engine.Capabilities.PerPixelEffects)
                     TexturedMeshUtils.GenerateTBN(engine.Device, ref _mesh, weldVertexes: true);
                 else
@@ -218,6 +138,102 @@ public class XMesh : Asset
             throw;
         }
         #endregion
+    }
+
+    /// <summary>
+    /// Builds <see cref="XMaterial"/>s from a mesh's materials and effects, loading associated textures.
+    /// </summary>
+    /// <param name="engine">The <see cref="Engine"/> to load textures with.</param>
+    /// <param name="meshName">The name of the mesh. This is used for finding associated textures.</param>
+    /// <param name="extendedMaterials">The materials extracted from the mesh (e.g. via <see cref="SlimDX.Direct3D9.Mesh.GetMaterials"/>).</param>
+    /// <param name="effectInstances">The effect instances extracted from the mesh (e.g. via <see cref="SlimDX.Direct3D9.Mesh.GetEffects"/>); may be <c>null</c>.</param>
+    /// <param name="needsTangents">Set to <c>true</c> if any loaded material references a normal or height map and therefore requires tangent data.</param>
+    /// <returns>The loaded materials; <c>default</c> if <paramref name="extendedMaterials"/> is empty.</returns>
+    internal static ImmutableArray<XMaterial> LoadMaterials(Engine engine, string meshName, ExtendedMaterial[] extendedMaterials, EffectInstance[]? effectInstances, out bool needsTangents)
+    {
+        needsTangents = false;
+        if (extendedMaterials is not { Length: > 0 }) return default;
+
+        var builder = ImmutableArray.CreateBuilder<XMaterial>(extendedMaterials.Length);
+
+        // Store each material and texture
+        for (int i = 0; i < extendedMaterials.Length; i++)
+        {
+            var material = extendedMaterials[i].MaterialD3D.ToXMaterial();
+
+            // Search for texture file names in material
+            string textureFilename = extendedMaterials[i].TextureFileName;
+            if (!string.IsNullOrEmpty(textureFilename))
+            {
+                material.DiffuseMaps = [ShaderLoadHelper(engine, meshName, textureFilename)];
+
+                string baseFilename = Path.Combine(Path.GetDirectoryName(meshName) ?? "", Path.GetFileNameWithoutExtension(textureFilename));
+                string fileExt = Path.GetExtension(textureFilename);
+
+                // Normal map
+                string normalFilename = $"{baseFilename}_normal{fileExt}";
+                if (ContentManager.FileExists("Meshes", normalFilename))
+                {
+                    material.NormalMap = XTexture.Get(engine, normalFilename, meshTexture: true);
+                    needsTangents = true;
+                }
+
+                // Height map
+                string heightFilename = $"{baseFilename}_height{fileExt}";
+                if (ContentManager.FileExists("Meshes", heightFilename))
+                {
+                    material.HeightMap = XTexture.Get(engine, heightFilename, meshTexture: true);
+                    needsTangents = true;
+                }
+
+                // Specular map
+                string specularFilename = $"{baseFilename}_specular{fileExt}";
+                if (ContentManager.FileExists("Meshes", specularFilename))
+                    material.SpecularMap = XTexture.Get(engine, specularFilename, meshTexture: true);
+
+                // Emissive map
+                string emissiveFilename = $"{baseFilename}_emissive{fileExt}";
+                if (ContentManager.FileExists("Meshes", emissiveFilename))
+                    material.EmissiveMap = XTexture.Get(engine, emissiveFilename, meshTexture: true);
+
+                // Glow map
+                string glowFilename = $"{baseFilename}_glow{fileExt}";
+                if (ContentManager.FileExists("Meshes", glowFilename))
+                    material.EmissiveMap ??= material.GlowMap = XTexture.Get(engine, glowFilename, meshTexture: true);
+            }
+
+            // Search for texture file names in shader effect if present
+            if (effectInstances != null && i < effectInstances.Length)
+            {
+                EffectDefault[] parameters = effectInstances[i].Defaults;
+                foreach (EffectDefault param in parameters)
+                {
+                    XTexture extraTexture = ShaderTextureHelper(engine, param, meshName, "diffuseTexture");
+                    if (extraTexture != null) material.DiffuseMaps = [extraTexture];
+
+                    extraTexture = ShaderTextureHelper(engine, param, meshName, "normalTexture");
+                    if (extraTexture != null)
+                    {
+                        material.NormalMap = extraTexture;
+                        needsTangents = true;
+                    }
+
+                    extraTexture = ShaderTextureHelper(engine, param, meshName, "heightTexture");
+                    if (extraTexture != null)
+                    {
+                        material.HeightMap = extraTexture;
+                        needsTangents = true;
+                    }
+
+                    extraTexture = ShaderTextureHelper(engine, param, meshName, "specularTexture");
+                    if (extraTexture != null) material.SpecularMap = extraTexture;
+                }
+            }
+
+            builder.Add(material);
+        }
+
+        return builder.MoveToImmutable();
     }
 
     /// <summary>

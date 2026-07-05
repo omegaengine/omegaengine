@@ -6,6 +6,8 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.ComponentModel;
+using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 
 namespace AlphaFramework.World.Components;
@@ -16,5 +18,10 @@ namespace AlphaFramework.World.Components;
 /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
 public class AnimatedMesh : Mesh
 {
-    // ToDo: Implement
+    /// <summary>
+    /// The name of the animation to play by default; empty for the mesh's first animation.
+    /// </summary>
+    [DefaultValue(""), Description("The name of the animation to play by default; empty for the mesh's first animation.")]
+    [XmlAttribute]
+    public string? DefaultAnimation { get; set; }
 }
