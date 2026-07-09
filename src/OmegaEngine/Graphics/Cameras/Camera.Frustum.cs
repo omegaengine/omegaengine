@@ -90,9 +90,11 @@ partial class Camera
         UpdateViewFrustum();
 
         // Check if the sphere lies completely behind one of the frustum planes
-        return GetPlanes(ignoreFarClip).All(t => BoundingSphere.Intersects(boundingSphere, t) != PlaneIntersectionType.Back);
+        if (GetPlanes(ignoreFarClip).Any(t => BoundingSphere.Intersects(boundingSphere, t) == PlaneIntersectionType.Back))
+            return false;
 
         // Otherwise the object is at least partially visible
+        return true;
     }
 
     /// <summary>
