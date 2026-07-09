@@ -202,8 +202,8 @@ public partial class Model : PositionableRenderable
             if (camera.ClipPlane == default)
             {
                 bool ignoreFarClip = ForcedPerspectiveDistance != null;
-                if (boundingSphere.HasValue && !camera.InFrustum(boundingSphere.Value, ignoreFarClip)) continue;
-                if (boundingBox.HasValue && !camera.InFrustum(boundingBox.Value, ignoreFarClip)) continue;
+                if (boundingSphere is {} sphere && !camera.InFrustum(sphere, ignoreFarClip)) continue;
+                if (boundingBox is {} box && !camera.InFrustum(box, ignoreFarClip)) continue;
             }
 
             RenderSubset(i, camera, getEffectiveLights);
@@ -211,8 +211,8 @@ public partial class Model : PositionableRenderable
             // Draw per-subset bounding bodies
             if (SurfaceEffect < SurfaceEffect.Glow)
             {
-                if (DrawBoundingSphere && boundingSphere.HasValue) Engine.DrawBoundingSphere(boundingSphere.Value);
-                if (DrawBoundingBox && boundingBox.HasValue) Engine.DrawBoundingBox(boundingBox.Value);
+                if (DrawBoundingSphere && boundingSphere is {} sphere) Engine.DrawBoundingSphere(sphere);
+                if (DrawBoundingBox && boundingBox is {} box) Engine.DrawBoundingBox(box);
             }
         }
     }

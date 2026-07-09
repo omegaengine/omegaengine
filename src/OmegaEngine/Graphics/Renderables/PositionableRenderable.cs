@@ -630,9 +630,9 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <returns><c>true</c> if the bounding bodies were undefined or intersected by the <paramref name="ray"/>.</returns>
     protected virtual bool IntersectsBounding(Ray ray)
     {
-        if (WorldBoundingSphere.HasValue && !SlimDX.BoundingSphere.Intersects(WorldBoundingSphere.Value, ray, out float _))
+        if (WorldBoundingSphere is {} sphere && !SlimDX.BoundingSphere.Intersects(sphere, ray, out float _))
             return false;
-        if (WorldBoundingBox.HasValue && !SlimDX.BoundingBox.Intersects(WorldBoundingBox.Value, ray, out float _))
+        if (WorldBoundingBox is {} box && !SlimDX.BoundingBox.Intersects(box, ray, out float _))
             return false;
         return true;
     }

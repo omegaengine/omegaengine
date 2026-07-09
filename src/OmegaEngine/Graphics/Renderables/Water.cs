@@ -125,8 +125,8 @@ public class Water : Model
         SelectShader();
 
         RenderHelper(() => Mesh.DrawSubset(0), Materials[0], camera, effectiveLights: []);
-        if (DrawBoundingBox && WorldBoundingBox.HasValue && SurfaceEffect < SurfaceEffect.Glow)
-            Engine.DrawBoundingBox(WorldBoundingBox.Value);
+        if (DrawBoundingBox && WorldBoundingBox is {} box && SurfaceEffect < SurfaceEffect.Glow)
+            Engine.DrawBoundingBox(box);
     }
 
     private void SelectShader()
