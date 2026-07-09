@@ -26,7 +26,7 @@ partial class View
     /// Subset of <see cref="PostShaders"/>.
     /// Cache for a single frame, used in <see cref="Render"/>
     /// </remarks>
-    private readonly List<PostShader> _effectivePostShaders = new(5); // Use educated guess for list capacity
+    private readonly List<PostShader> _effectivePostShaders = new(capacity: 5);
 
     /// <summary>
     /// A front-to-back sorted list of visible <see cref="PositionableRenderable"/>s
@@ -35,7 +35,7 @@ partial class View
     /// Subset of <see cref="OmegaEngine.Graphics.Scene.Positionables"/>.
     /// Cache for a single frame, used in <see cref="RenderScene"/> and <see cref="Pick(Point)"/>
     /// </remarks>
-    private readonly List<PositionableRenderable> _sortedBodies = new(50); // Use educated guess for list capacity
+    private readonly List<PositionableRenderable> _sortedBodies = new(capacity: 50);
 
     /// <summary>
     /// A front-to-back sorted list of visible <see cref="Water"/>s
@@ -44,7 +44,7 @@ partial class View
     /// Subset of <see cref="_sortedBodies"/>.
     /// Cache for a single frame, used in <see cref="RenderScene"/>
     /// </remarks>
-    private readonly List<Water> _sortedWaters = new(10); // Use educated guess for list capacity
+    private readonly List<Water> _sortedWaters = new(capacity: 10);
 
     /// <summary>
     /// A front-to-back sorted list of visible <see cref="Terrain"/>s
@@ -53,7 +53,7 @@ partial class View
     /// Subset of <see cref="_sortedBodies"/>.
     /// Cache for a single frame, used in <see cref="RenderScene"/>
     /// </remarks>
-    private readonly List<Terrain> _sortedTerrains = new(1); // Use educated guess for list capacity
+    private readonly List<Terrain> _sortedTerrains = new(capacity: 1);
 
     /// <summary>
     /// A front-to-back sorted list of visible, transparent (<see cref="Renderable.Alpha"/>) <see cref="PositionableRenderable"/>s
@@ -62,7 +62,7 @@ partial class View
     /// Subset of <see cref="_sortedBodies"/>.
     /// Cache for a single frame, used in <see cref="RenderScene"/>
     /// </remarks>
-    private readonly List<PositionableRenderable> _sortedTransparentBodies = new(10); // Use educated guess for list capacity
+    private readonly List<PositionableRenderable> _sortedTransparentBodies = new(capacity: 10);
 
     /// <summary>
     /// A front-to-back sorted list of visible, opaque (<see cref="Renderable.Alpha"/>) <see cref="PositionableRenderable"/>s, except for <see cref="Water"/>s and <see cref="Terrain"/>s
@@ -71,7 +71,17 @@ partial class View
     /// Subset of <see cref="_sortedBodies"/>.
     /// Cache for a single frame, used in <see cref="RenderScene"/>
     /// </remarks>
-    private readonly List<PositionableRenderable> _sortedOpaqueBodies = new(30); // Use educated guess for list capacity
+    private readonly List<PositionableRenderable> _sortedOpaqueBodies = new(capacity: 30);
+
+    /// <summary>
+    /// Scratch buffer holding the squared distance to the camera for each entry in <see cref="_sortedBodies"/>, so it only needs to be calculated once per body per frame.
+    /// </summary>
+    private readonly List<(double DistanceSquared, int Index, PositionableRenderable Body)> _bodySortKeys = new(capacity: 50);
+
+    /// <summary>
+    /// Scratch buffer holding the squared distance to the camera for each entry in <see cref="_sortedTerrains"/>, so it only needs to be calculated once per body per frame.
+    /// </summary>
+    private readonly List<(double DistanceSquared, int Index, Terrain Body)> _terrainSortKeys = new(capacity: 1);
     #endregion
 
     /// <summary>
@@ -90,7 +100,11 @@ partial class View
         _sortedWaters.Clear();
         _sortedTransparentBodies.Clear();
         _sortedOpaqueBodies.Clear();
+        _bodySortKeys.Clear();
+        _terrainSortKeys.Clear();
         #endregion
+
+        var cameraPosition = Camera.Position;
 
         #region Build master list
         foreach (PositionableRenderable body in Scene.Positionables)
@@ -107,15 +121,20 @@ partial class View
             // Filter out invisible bodies
             if (!body.IsVisible(Camera)) continue;
 
+            // Calculate the distance once per body, instead of repeatedly during sorting
+            double distanceSquared = (body.Position - cameraPosition).LengthSquared();
+
             // Separate out Terrain bodies early, because they need to be sorted separately
-            if (body is Terrain terrain) _sortedTerrains.Add(terrain);
-            else _sortedBodies.Add(body);
+            if (body is Terrain terrain) _terrainSortKeys.Add((distanceSquared, _terrainSortKeys.Count, terrain));
+            else _bodySortKeys.Add((distanceSquared, _bodySortKeys.Count, body));
         }
 
-        // Sort the bodies near-to-far (or the other way round if culling is inverted)
-        var comparer = new DistanceComparer(Camera, InvertCull);
-        _sortedBodies.Sort(comparer);
-        _sortedTerrains.Sort(comparer);
+        // Sort the bodies near-to-far (or the other way round if culling is inverted) with the original index as a stable tie-breaker
+        _bodySortKeys.Sort(CompareSortKey);
+        _terrainSortKeys.Sort(CompareSortKey);
+
+        foreach (var entry in _bodySortKeys) _sortedBodies.Add(entry.Body);
+        foreach (var entry in _terrainSortKeys) _sortedTerrains.Add(entry.Body);
         #endregion
 
         #region Distribute bodies among specialized lists
@@ -133,5 +152,19 @@ partial class View
         // Terrains need to be part of the normal bodies list, just placed at the end, due to special sorting
         _sortedBodies.AddRange(_sortedTerrains);
         #endregion
+    }
+
+    private int CompareSortKey((double DistanceSquared, int Index, PositionableRenderable Body) x, (double DistanceSquared, int Index, PositionableRenderable Body) y)
+    {
+        int compare = x.DistanceSquared.CompareTo(y.DistanceSquared);
+        if (InvertCull) compare = -compare;
+        return compare != 0 ? compare : x.Index.CompareTo(y.Index);
+    }
+
+    private int CompareSortKey((double DistanceSquared, int Index, Terrain Body) x, (double DistanceSquared, int Index, Terrain Body) y)
+    {
+        int compare = x.DistanceSquared.CompareTo(y.DistanceSquared);
+        if (InvertCull) compare = -compare;
+        return compare != 0 ? compare : x.Index.CompareTo(y.Index);
     }
 }
