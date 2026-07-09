@@ -193,6 +193,7 @@ public partial class Model : PositionableRenderable
 
         Engine.State.WorldTransform = WorldTransform;
 
+        bool firstClippedSubsetRendered = false;
         for (int i = 0; i < NumberSubsets; i++)
         {
             var boundingSphere = SubsetWorldBoundingSpheres?[i];
@@ -206,6 +207,14 @@ public partial class Model : PositionableRenderable
             }
 
             RenderSubset(i, camera, getEffectiveLights);
+
+            if (camera.ClipPlane != default && !firstClippedSubsetRendered)
+            {
+                // Drivers may apply user-clip-plane changes one clip-enabled draw late, so the first clipped draw can go out with a stale plane.
+                // Render the first subset again: the repeat runs with the now-latched current plane and fills in any missing pixels.
+                RenderSubset(i, camera, getEffectiveLights);
+                firstClippedSubsetRendered = true;
+            }
 
             // Draw per-subset bounding bodies
             if (SurfaceEffect < SurfaceEffect.Glow)
