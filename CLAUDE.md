@@ -96,3 +96,9 @@ Runtime assets. Some of them are bundled in the `OmegaEngine` NuGet (see `src\Om
 - `templates/`: `OmegaEngine.Templates` project templates for scaffolding new engine-based projects.
 - `doc/`: source for the documentation site at <https://docs.omegaengine.de/>.
 - `artifacts/`: build output (`Debug/`, `Release/`).
+
+## File encoding
+
+This repo stores most files with CRLF line endings and uses the Git option `core.autocrlf=false`. Some `.cs` files carry a UTF-8 BOM. This should be preserved.
+
+Running `sed -i` for bulk replacements rewrites whole files as LF. Instead prefer using the Edit tool or PowerShell `[IO.File]::ReadAllText/WriteAllText` with `UTF8Encoding($false)` plus explicit CRLF preservation, and re-prepend the BOM if the file originally had one.
