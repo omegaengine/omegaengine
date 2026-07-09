@@ -462,15 +462,12 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
     private void SetEngineState(Camera camera)
     {
-        // Activate user clip plane if it is set
-        if (camera.ClipPlane != default)
-        {
-            Engine.State.UserClipPlane = (SurfaceEffect == SurfaceEffect.Shader)
-                // Transform the user clip plane into camera space for rendering with shaders
-                ? Plane.Transform(camera.EffectiveClipPlane, camera.ViewProjection)
-                // When rendering without shaders the clip plane is in world space
-                : camera.EffectiveClipPlane;
-        }
+        // Activate user clip plane if it is set.
+        // Only do this for shader-based rendering (transformed into camera space):
+        // Mixing fixed-function draws (world-space plane) and shader draws (clip-space plane) makes drivers mis-clip the first shader draw after a fixed-function one, wiping out entire draw calls.
+        // Bodies rendered without shaders are still culled against the clip plane at the body level by the view frustum check.
+        if (camera.ClipPlane != default && SurfaceEffect == SurfaceEffect.Shader)
+            Engine.State.UserClipPlane = Plane.Transform(camera.EffectiveClipPlane, camera.ViewProjection);
     }
 
     private void RenderPlain([InstantHandle] Action render, XMaterial material)

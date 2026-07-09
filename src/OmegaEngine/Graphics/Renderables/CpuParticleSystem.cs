@@ -366,16 +366,13 @@ public class CpuParticleSystem : PositionableRenderable
         // Never light a particle system
         SurfaceEffect = SurfaceEffect.Plain;
 
-        if (camera.ClipPlane != default)
-        {
-            // Rendering without shaders, so the clip plane is in world space
-            Engine.State.UserClipPlane = camera.EffectiveClipPlane;
-        }
+        // Note: No user clip plane here, even if camera.ClipPlane is set.
+        // Fixed-function draws with world-space clip planes make drivers mis-clip subsequent shader draws that use clip-space planes (e.g. terrain blocks vanishing in water views).
+        // Particle systems are still culled against the clip plane at the body level by the view frustum check.
 
         RenderParticles(camera);
 
         // Restore defaults
-        Engine.State.UserClipPlane = default;
         Engine.State.ZBufferMode = ZBufferMode.Normal;
     }
 
