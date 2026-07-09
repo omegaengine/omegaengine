@@ -141,7 +141,14 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     /// Calculates the length of the vector.
     /// </summary>
     [Pure]
-    public readonly double Length() => Math.Sqrt(X * X + Y * Y + Z * Z);
+    public readonly double Length() => Math.Sqrt(LengthSquared());
+
+    /// <summary>
+    /// Calculates the squared length of the vector.
+    /// </summary>
+    /// <remarks>Cheaper than <see cref="Length"/> since it avoids a square root; sufficient for comparing distances.</remarks>
+    [Pure]
+    public readonly double LengthSquared() => X * X + Y * Y + Z * Z;
 
     /// <summary>
     /// Returns a copy of the vector scaled to a length of 1.

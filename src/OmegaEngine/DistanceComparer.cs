@@ -12,7 +12,7 @@ public class DistanceComparer(IPositionable rootPosition, bool inverse = false) 
     /// <inheritdoc />
     public override int Compare(IPositionable x, IPositionable y)
     {
-        int compare = (x.Position - rootPosition.Position).Length().CompareTo((y.Position - rootPosition.Position).Length());
+        int compare = (x.Position - rootPosition.Position).LengthSquared().CompareTo((y.Position - rootPosition.Position).LengthSquared());
         return inverse ? -compare : compare;
     }
 }
