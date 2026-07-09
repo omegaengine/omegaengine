@@ -201,14 +201,14 @@ public sealed class EngineState
     /// <summary>
     /// Value for <see cref="AlphaBlend"/> to apply additive blending (use color map)
     /// </summary>
-    public const int AdditivBlending = 257;
+    public const int AdditiveBlending = 257;
     #endregion
 
     private int _alphaBlend;
 
     /// <summary>
     /// The level of transparency from 0 (solid) to 255 (invisible),
-    /// <see cref="AlphaChannel"/>, <see cref="BinaryAlphaChannel"/> or <see cref="AdditivBlending"/>
+    /// <see cref="AlphaChannel"/>, <see cref="BinaryAlphaChannel"/> or <see cref="AdditiveBlending"/>
     /// </summary>
     public int AlphaBlend
     {
@@ -253,7 +253,7 @@ public sealed class EngineState
                         }
                         break;
 
-                    case AdditivBlending:
+                    case AdditiveBlending:
                         using (new ProfilerEvent("Alpha blending to additive blending"))
                         {
                             // Blend using color

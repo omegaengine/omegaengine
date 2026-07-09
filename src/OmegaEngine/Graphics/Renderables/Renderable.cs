@@ -77,7 +77,7 @@ public abstract class Renderable : EngineElement, IFrameResettable
 
     /// <summary>
     /// The level of transparency from 0 (solid) to 255 (invisible),
-    /// <see cref="OmegaEngine.EngineState.AlphaChannel"/>, <see cref="OmegaEngine.EngineState.BinaryAlphaChannel"/> or <see cref="OmegaEngine.EngineState.AdditivBlending"/>
+    /// <see cref="OmegaEngine.EngineState.AlphaChannel"/>, <see cref="OmegaEngine.EngineState.BinaryAlphaChannel"/> or <see cref="OmegaEngine.EngineState.AdditiveBlending"/>
     /// </summary>
     [DefaultValue(0), Description("The level of transparency from 0 (solid) to 255 (invisible), 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending"), Category("Appearance")]
     public int Alpha { get; set; }

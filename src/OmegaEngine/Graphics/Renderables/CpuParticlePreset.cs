@@ -140,10 +140,10 @@ public record CpuParticlePreset
 
     /// <summary>
     /// The level of transparency from 0 (solid) to 255 (invisible),
-    /// <see cref="EngineState.AlphaChannel"/>, <see cref="EngineState.BinaryAlphaChannel"/> or <see cref="EngineState.AdditivBlending"/>
+    /// <see cref="EngineState.AlphaChannel"/>, <see cref="EngineState.BinaryAlphaChannel"/> or <see cref="EngineState.AdditiveBlending"/>
     /// </summary>
     [Category("Render"), Description("The level of transparency from 0 (solid) to 255 (invisible), 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending")]
-    public int Particle1Alpha { get; init; } = EngineState.AdditivBlending; // Default value not part of serialization contract
+    public int Particle1Alpha { get; init; } = EngineState.AdditiveBlending; // Default value not part of serialization contract
 
     private string _particleTexture2 = "";
 
@@ -155,7 +155,7 @@ public record CpuParticlePreset
 
     /// <summary>
     /// The level of transparency from 0 (solid) to 255 (invisible) for particles' "second life",
-    /// <see cref="EngineState.AlphaChannel"/>, <see cref="EngineState.BinaryAlphaChannel"/> or <see cref="EngineState.AdditivBlending"/>
+    /// <see cref="EngineState.AlphaChannel"/>, <see cref="EngineState.BinaryAlphaChannel"/> or <see cref="EngineState.AdditiveBlending"/>
     /// </summary>
     [DefaultValue(0), Category("Render"), Description("The level of transparency from 0 (solid) to 255 (invisible) for particles' \"second life\", 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending")]
     public int Particle2Alpha { get; init; }
