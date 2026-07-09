@@ -246,15 +246,15 @@ public partial class Terrain : Model
         {
             Action renderSubset = () => Mesh.DrawSubset(i);
 
-            if (SurfaceEffect >= SurfaceEffect.Glow)
+            if (SurfaceEffect == SurfaceEffect.Glow)
             {
-                // The terrain will always appear completely black on the glow/shadow map
+                // The terrain will always appear completely black on the glow map
                 using (new ProfilerEvent(() => $"Apply black {_subsetShaders[i]}"))
                     _subsetShaders?[i].Apply(renderSubset, XMaterial.Default, camera);
             }
             else
             {
-                // Apply the normal terrain shader
+                // Apply the regular terrain shader
                 if (_subsetShaders?[i] != null) SurfaceShader = _subsetShaders[i];
                 XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
