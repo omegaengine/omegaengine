@@ -13,6 +13,7 @@ using System.Drawing;
 using JetBrains.Annotations;
 using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
+using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Shaders;
@@ -495,13 +496,24 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         using (new ProfilerEvent("Surface effect: Glow"))
         {
             Engine.State.FfpLighting = true;
-            Engine.State.SetTexture(material.GlowMap);
             Engine.Device.Material = new() {Emissive = material.Glow};
 
-            // Alpha setting applies both to regular and glow rendering pass.
-            // However, if there is no glow texture, alpha-channel blending does not work.
-            if (material.GlowMap == null && Alpha is EngineState.AlphaChannel or EngineState.BinaryAlphaChannel)
-                Engine.State.AlphaBlend = 0;
+            if (material.Glow.EqualsIgnoreAlpha(Color.Black) && material.GlowMap == null
+             && Alpha is EngineState.AlphaChannel or EngineState.BinaryAlphaChannel)
+            {
+                // A non-glowing, alpha-blended or alpha-tested surface:
+                // emit black but keep its alpha channel (from the diffuse map) so opaque parts occlude the glow while transparent parts let it shine through
+                Engine.State.SetTexture(material.DiffuseMap);
+            }
+            else
+            {
+                Engine.State.SetTexture(material.GlowMap);
+
+                // Alpha setting applies both to regular and glow rendering pass.
+                // However, if there is no glow texture, alpha-channel blending does not work.
+                if (material.GlowMap == null && Alpha is EngineState.AlphaChannel or EngineState.BinaryAlphaChannel)
+                    Engine.State.AlphaBlend = 0;
+            }
 
             render();
         }
