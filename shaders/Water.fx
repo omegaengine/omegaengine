@@ -151,7 +151,7 @@ outSimple VS_Simple(inWater IN)
     OUT.texCoord = calcSamplingCoord(IN.texCoord);
     OUT.texCoord = calcSamplingCoord(IN.texCoord);
 
-    return OUT;    
+    return OUT;
 }
 
 
