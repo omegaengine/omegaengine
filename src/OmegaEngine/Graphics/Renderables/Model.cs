@@ -232,9 +232,9 @@ public partial class Model : PositionableRenderable
             // Load the subset-material (default to first one, if the subset has no own)
             XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
-            var effectiveLights = (SurfaceEffect == SurfaceEffect.Plain || getEffectiveLights == null)
-                ? []
-                : getEffectiveLights(SubsetWorldBoundingSpheres?[i] ?? GetWorldBoundingSphereOrPosition(), ShadowReceiver);
+            var effectiveLights = SurfaceEffect is SurfaceEffect.FixedFunction or SurfaceEffect.Shader && getEffectiveLights != null
+                ? getEffectiveLights(SubsetWorldBoundingSpheres?[i] ?? GetWorldBoundingSphereOrPosition(), ShadowReceiver)
+                : [];
 
             RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, effectiveLights);
         }
