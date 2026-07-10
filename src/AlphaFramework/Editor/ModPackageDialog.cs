@@ -110,7 +110,6 @@ public partial class ModPackageDialog : Form
 
         // Update form
         labelInfo.Visible = buttonStart.Visible = false;
-        buttonCancel.Enabled = false; // ToDo: Implement proper cancel function
         labelWait.Visible = true;
 
         // Start ZIPing
@@ -132,6 +131,15 @@ public partial class ModPackageDialog : Form
             try
             {
                 _fastZip.CreateZip(saveFileDialog.FileName, _modDirPath, true, null);
+
+                // CreateZip aborts early when the user cancels; discard the incomplete package
+                if (backgroundWorker.CancellationPending)
+                {
+                    e.Cancel = true;
+                    try { File.Delete(saveFileDialog.FileName); }
+                    catch (IOException) {}
+                    catch (UnauthorizedAccessException) {}
+                }
             }
             #region Error handling
             catch (ZipException ex)
