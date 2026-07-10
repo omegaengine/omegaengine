@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 pushd $PSScriptRoot
 
 echo "Testing templates against local build"
-dotnet build --verbosity quiet --property OmegaEngineVersion=$Version
+dotnet build --verbosity quiet --property OmegaEngineVersion=$Version -c Release
 if ($LASTEXITCODE -ne 0) {throw "Exit Code: $LASTEXITCODE"}
 
 echo "Generating Directory.Build.props"
