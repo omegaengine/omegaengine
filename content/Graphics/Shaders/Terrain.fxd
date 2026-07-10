@@ -240,7 +240,6 @@ outLight2x VS_Light2x(inLight IN)
     OUT.worldPos = transWorld(IN.entityPos);
     OUT.normal = transNorm(IN.normal);
 
-    // ToDo: Compact the weights using the DynamicShader system
     OUT.texWeights1 = IN.texWeights1;
     OUT.texWeights2 = IN.texWeights2;
     OUT.texWeights3 = IN.texWeights3;
@@ -263,7 +262,6 @@ outSimple2x VS_Simple20(inSimple IN)
     OUT.zDepth = OUT.pos.z;
     OUT.worldPos = transWorld(IN.entityPos);
 
-    // ToDo: Compact the weights using the DynamicShader system
     OUT.texWeights1 = IN.texWeights1;
     OUT.texWeights2 = IN.texWeights2;
     OUT.texWeights3 = IN.texWeights3;
@@ -283,7 +281,6 @@ outLight14 VS_Light14(inLight IN,  // Overload for ambient-only light
     // Apply transforms
     OUT.pos = transProj(IN.entityPos);
 
-    // ToDo: Compact the weights using the DynamicShader system
     OUT.texWeights1 = IN.texWeights1.xy;
     OUT.texWeights2 = IN.texWeights1.zw;
 
@@ -304,7 +301,6 @@ outLight14 VS_Light14(inLight IN,  // Overload for two directional lights
     // Apply transforms
     OUT.pos = transProj(IN.entityPos);
 
-    // ToDo: Compact the weights using the DynamicShader system
     OUT.texWeights1 = IN.texWeights1.xy;
     OUT.texWeights2 = IN.texWeights1.zw;
 
@@ -324,7 +320,6 @@ outLight14 VS_Light14(inLight IN,  // Overload for one directional light
     // Apply transforms
     OUT.pos = transProj(IN.entityPos);
 
-    // ToDo: Compact the weights using the DynamicShader system
     OUT.texWeights1 = IN.texWeights1.xy;
     OUT.texWeights2 = IN.texWeights1.zw;
 
@@ -343,7 +338,6 @@ outLight14 VS_Light14(inLight IN,  // Overload for one point light
     // Apply transforms
     OUT.pos = transProj(IN.entityPos);
 
-    // ToDo: Compact the weights using the DynamicShader system
     OUT.texWeights1 = IN.texWeights1.xy;
     OUT.texWeights2 = IN.texWeights1.zw;
 
@@ -363,7 +357,6 @@ outSimple14 VS_Simple14(inSimple IN)
     // Apply transforms
     OUT.pos = transProj(IN.entityPos);
 
-    // ToDo: Compact the weights using the DynamicShader system
     OUT.texWeights1 = IN.texWeights1.xy;
     OUT.texWeights2 = IN.texWeights1.zw;
 

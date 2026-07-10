@@ -1485,7 +1485,6 @@ public class Dialog
                 (element.FontColor.Current.Red + element.FontColor.Current.Green + element.FontColor.Current.Blue > 1.5f) ?
                     Color.Black : Color.Gray;
 
-            // ToDo: Optimize performance
             fNode.Font.DrawString(DialogManager.Sprite, text, shadowRect, element.textFormat, shadowColor);
         }
 

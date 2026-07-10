@@ -230,7 +230,6 @@ public partial class Terrain : Model
         Mesh.WriteVertexBuffer(verts);
 
         // Invalidate old bounding bodies
-        // ToDo: Update bounding bodies instead
         SubsetBoundingBoxes = null;
         SubsetBoundingSpheres = null;
     }

@@ -51,7 +51,6 @@ public class MovePositionables : SimpleCommand
     /// </summary>
     protected override void OnExecute()
     {
-        // ToDo: Perform grid-alignment
         foreach (var positionable in _positionables)
             positionable.Position = _newPosition;
 
