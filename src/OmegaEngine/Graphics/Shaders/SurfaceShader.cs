@@ -160,6 +160,8 @@ public abstract class SurfaceShader : Shader
                         {
                             SemanticID.SpecularPower => SetValue(material.SpecularPower),
                             SemanticID.Emissive => SetValue(material.EmissiveFactor),
+                            SemanticID.NearClip => SetValue(camera.NearClip),
+                            SemanticID.FarClip => SetValue(camera.FarClip),
                             SemanticID.Time => SetValue((float)Engine.TotalGameTime),
                             SemanticID.ElapsedTime => SetValue((float)Engine.LastFrameGameTime),
                             _ => null

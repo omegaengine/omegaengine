@@ -74,6 +74,8 @@ public enum SemanticID
     RenderDepthStencilTarget,
     ViewportPixelSize,
     CameraPosition,
+    NearClip,
+    FarClip,
     Time,
     ElapsedTime,
     AnimationTime,

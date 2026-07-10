@@ -445,6 +445,9 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
             case SurfaceEffect.Shader:
                 RenderShader(render, material, camera, effectiveLights);
                 break;
+            case SurfaceEffect.Depth:
+                RenderDepth(render, material, camera);
+                break;
         }
 
         Engine.State.UserClipPlane = default;
@@ -550,6 +553,34 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
                 using (new ProfilerEvent(() => $"Apply {SurfaceShader}"))
                     SurfaceShader.Apply(render, material, camera, lights);
             }
+        }
+    }
+
+    private void RenderDepth([InstantHandle] Action render, XMaterial material, Camera camera)
+    {
+        using (new ProfilerEvent("Surface effect: Depth"))
+        {
+            // Render a flat black surface and let fog fade it to white towards the far clip plane,
+            // turning the near-black/far-white fog gradient into a grayscale depth visualization
+            Engine.State.FfpLighting = true;
+            Engine.Device.Material = new() {Emissive = Color.Black};
+            Engine.State.SetTexture(null);
+
+            bool fog = Engine.State.Fog;
+            Color fogColor = Engine.State.FogColor;
+            float fogStart = Engine.State.FogStart, fogEnd = Engine.State.FogEnd;
+
+            Engine.State.Fog = true;
+            Engine.State.FogColor = Color.White;
+            Engine.State.FogStart = camera.NearClip;
+            Engine.State.FogEnd = camera.FarClip;
+
+            render();
+
+            Engine.State.Fog = fog;
+            Engine.State.FogColor = fogColor;
+            Engine.State.FogStart = fogStart;
+            Engine.State.FogEnd = fogEnd;
         }
     }
     #endregion

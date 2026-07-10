@@ -261,6 +261,10 @@ public partial class View : EngineElement, IFrameResettable
                     glowView.Render();
                     break;
 
+                case DepthView depthView when Engine.Effects.PostScreenEffects:
+                    depthView.Render();
+                    break;
+
                 case WaterView waterView:
                     var effectLevel = waterView.Reflection ? WaterEffectsType.ReflectTerrain : WaterEffectsType.RefractionOnly;
                     if (Engine.Effects.WaterEffects >= effectLevel &&
@@ -426,6 +430,32 @@ public partial class View : EngineElement, IFrameResettable
         PostShaders.Add(new PostGlowShader(newView) {BlurStrength = blurStrength, GlowStrength = glowStrength});
 
         _childViews.Add(newView);
+    }
+    #endregion
+
+    #region Depth
+    private bool _depthSetup;
+
+    /// <summary>
+    /// The depth-map child view created by <see cref="SetupDepth"/>, or <c>null</c> if <see cref="SetupDepth"/> has not been called
+    /// </summary>
+    /// <remarks>Use <see cref="TextureView.GetRenderTarget"/> on this to access the rendered depth texture</remarks>
+    [Browsable(false)]
+    public DepthView? DepthView { get; private set; }
+
+    /// <summary>
+    /// Creates a depth-map of this view and adds it to <see cref="ChildViews"/>
+    /// </summary>
+    /// <remarks>Calling this method multiple times will have no effect</remarks>
+    public void SetupDepth()
+    {
+        // Only setup depth once
+        if (_depthSetup) return;
+        _depthSetup = true;
+
+        DepthView = new DepthView(this) {Name = $"{Name} Depth"};
+
+        _childViews.Add(DepthView);
     }
     #endregion
 

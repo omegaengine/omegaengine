@@ -11,6 +11,7 @@
 // - Light2b (Shader Model 2.0b, 16 textures, per-pixel lighting, double sampling)
 // - SimpleBlack (Shader Model 1.1, all black)
 // - LightBlack (Shader Model 1.1, all black)
+// - Depth (Shader Model 1.4, outputs normalized camera-relative depth as grayscale)
 //
 // Passes:
 // - AmbientLight (Light1 must be an ambient-only light, must be called as first pass)
@@ -32,6 +33,8 @@ float4x4 worldViewProjection   : WorldViewProjection;
 float4x4 worldViewProjInv      : WorldViewProjectionInverse;
 float4x4 worldInverseTranspose : WorldInverseTranspose;
 float4x4 viewInverse           : ViewInverse;
+float nearClip                 : NearClip;
+float farClip                  : FarClip;
 
 // Light 1
 float4 lightDirection1 : Direction < string Object = "Light1"; string Space = "World"; >;
@@ -146,6 +149,11 @@ struct outSimple14
 struct outBlack {
   float4 pos   : POSITION; // Position in clip space
   float4 color : COLOR0;   // The effective color including lighting
+};
+
+struct outDepth {
+  float4 pos   : POSITION;  // Position in clip space
+  float depth  : TEXCOORD0; // Normalized camera-relative depth
 };
 
 
@@ -389,6 +397,19 @@ outBlack VS_SimpleBlack(inSimple IN)
     return OUT;
 }
 
+// Position-only; works for both the lit and unlit vertex layouts since neither is actually referenced beyond entityPos
+outDepth VS_Depth(inSimple IN)
+{
+    outDepth OUT;
+
+    OUT.pos = transProj(IN.entityPos);
+
+    float dist = length(transWorld(IN.entityPos) - cameraPosition);
+    OUT.depth = saturate((dist - nearClip) / (farClip - nearClip));
+
+    return OUT;
+}
+
 
 //---------------- Pixel shaders ----------------
 
@@ -548,6 +569,9 @@ float4 PS_Simple14(outSimple14 IN) : COLOR
     return color;
 }
 /// <EndFilter />
+
+float4 PS_Depth(outDepth IN) : COLOR
+{ return float4(IN.depth, IN.depth, IN.depth, 1); }
 
 
 //---------------- Techniques ----------------
@@ -792,5 +816,14 @@ technique LightBlack
   {
     VertexShader = compile vs_1_1 VS_LightBlack();
     PixelShader = null;
+  }
+}
+
+technique Depth
+{
+  pass Depth
+  {
+    VertexShader = compile vs_1_1 VS_Depth();
+    PixelShader = compile ps_1_4 PS_Depth();
   }
 }

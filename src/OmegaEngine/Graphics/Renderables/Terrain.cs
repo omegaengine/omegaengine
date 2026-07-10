@@ -256,6 +256,21 @@ public partial class Terrain : Model
                         shader.Apply(renderSubset, XMaterial.Default, camera);
                     break;
 
+                case SurfaceEffect.Depth:
+                    using (new ProfilerEvent(() => $"Apply depth {shader}"))
+                    {
+                        shader.RenderDepthOnly = true;
+                        try
+                        {
+                            shader.Apply(renderSubset, XMaterial.Default, camera);
+                        }
+                        finally
+                        {
+                            shader.RenderDepthOnly = false;
+                        }
+                    }
+                    break;
+
                 default:
                     // Apply the regular terrain shader
                     if (_subsetShaders?[i] != null) SurfaceShader = shader;

@@ -30,10 +30,17 @@ public class TerrainShader : LightingShader
     private readonly EffectHandle
         _simple14 = "Simple14", _simple20 = "Simple20",
         _light14 = "Light14", _light20 = "Light20", _light2A = "Light2a", _light2B = "Light2b",
-        _simpleBlack = "SimpleBlack", _lightBlack = "LightBlack";
+        _simpleBlack = "SimpleBlack", _lightBlack = "LightBlack",
+        _depth = "Depth";
 
     private readonly bool _lighting;
     private readonly DataStream _stream;
+
+    /// <summary>
+    /// When set to <c>true</c> before calling <see cref="Apply"/>, causes the shader's technique selection to be overridden to output normalized camera-relative depth as a grayscale color instead of its normal appearance.
+    /// </summary>
+    /// <seealso cref="SurfaceEffect.Depth"/>
+    internal bool RenderDepthOnly { get; set; }
     #endregion
 
     #region Properties
@@ -103,7 +110,9 @@ public class TerrainShader : LightingShader
         #endregion
 
         #region Auto-select technique
-        if (lights.Count == 0 && _lighting)
+        if (RenderDepthOnly)
+            Effect.Technique = _depth;
+        else if (lights.Count == 0 && _lighting)
             Effect.Technique = _lighting ? _lightBlack : _simpleBlack;
         else
         {
