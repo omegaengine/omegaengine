@@ -241,28 +241,32 @@ public partial class Terrain : Model
     {
         // Rendering this without a shader isn't possible (non-standard FVF)
         if (SurfaceEffect < SurfaceEffect.Shader) SurfaceEffect = SurfaceEffect.Shader;
+        if (_subsetShaders == null) return;
+        var shader = _subsetShaders[i];
 
         using (new ProfilerEvent(() => $"Subset {i}"))
         {
             Action renderSubset = () => Mesh.DrawSubset(i);
 
-            if (SurfaceEffect == SurfaceEffect.Glow)
+            switch (SurfaceEffect)
             {
-                // The terrain will always appear completely black on the glow map
-                using (new ProfilerEvent(() => $"Apply black {_subsetShaders[i]}"))
-                    _subsetShaders?[i].Apply(renderSubset, XMaterial.Default, camera);
-            }
-            else
-            {
-                // Apply the regular terrain shader
-                if (_subsetShaders?[i] != null) SurfaceShader = _subsetShaders[i];
-                XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
+                case SurfaceEffect.Glow:
+                    // The terrain will always appear completely black on the glow map
+                    using (new ProfilerEvent(() => $"Apply black {shader}"))
+                        shader.Apply(renderSubset, XMaterial.Default, camera);
+                    break;
 
-                var effectiveLights = getEffectiveLights == null
-                    ? []
-                    : getEffectiveLights(SubsetWorldBoundingSpheres?[i] ?? GetWorldBoundingSphereOrPosition(), shadowing: false);
+                default:
+                    // Apply the regular terrain shader
+                    if (_subsetShaders?[i] != null) SurfaceShader = shader;
+                    XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
-                RenderHelper(renderSubset, currentMaterial, camera, effectiveLights);
+                    var effectiveLights = getEffectiveLights == null
+                        ? []
+                        : getEffectiveLights(SubsetWorldBoundingSpheres?[i] ?? GetWorldBoundingSphereOrPosition(), shadowing: false);
+
+                    RenderHelper(renderSubset, currentMaterial, camera, effectiveLights);
+                    break;
             }
         }
     }
