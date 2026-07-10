@@ -71,7 +71,7 @@ public class Dialog : ICloneable<Dialog>
     internal Render.Dialog? DialogRender;
 
     /// <summary>
-    /// ToDo: Document
+    /// The index of the next free texture slot for control-specific textures (e.g. a <see cref="PictureBox"/> or a <see cref="ButtonStyle"/> with its own texture). Slot 0 is reserved for the default GUI skin; custom textures are numbered upwards from 1. Each control that claims a slot reads this value and increments it.
     /// </summary>
     internal uint CustomTexture = 1;
 
