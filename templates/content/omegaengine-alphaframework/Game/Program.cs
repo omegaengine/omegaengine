@@ -33,7 +33,7 @@ static class Program
         WindowsMutex.Create(Constants.AppName, out bool alreadyRunning);
         if (alreadyRunning)
         {
-            Msg.Inform(null, Resources.AlreadyRunning, MsgSeverity.Warn);
+            Msg.Inform(null, $"{Constants.AppName} is already running.", MsgSeverity.Warn);
             return;
         }
 #endif
