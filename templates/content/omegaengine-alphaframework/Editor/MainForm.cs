@@ -1,7 +1,9 @@
 ﻿using AlphaFramework.Editor;
 using NanoByte.Common;
 using NanoByte.Common.Controls;
+using Template.AlphaFramework.Editor.World;
 using Template.AlphaFramework.Presentation.Config;
+using Template.AlphaFramework.World;
 using Resources = AlphaFramework.Editor.Properties.Resources;
 
 namespace Template.AlphaFramework.Editor;
@@ -26,6 +28,16 @@ public sealed partial class MainForm : MainFormBase
                 break;
         }
     }
+
+    private void MainForm_Load(object sender, EventArgs e)
+    {
+        // Open any map files passed as command-line arguments
+        foreach (string file in Environment.GetCommandLineArgs().Where(file => file.EndsWith(Constants.MapFileExt, StringComparison.OrdinalIgnoreCase)))
+            AddTab(new MapEditor(file, false));
+    }
+
+    private void toolMap_Click(object sender, EventArgs e)
+        => OpenFileTab("World/Maps", Constants.MapFileExt, (path, overwrite) => new MapEditor(path, overwrite));
 
     /// <inheritdoc/>
     protected override void Restart()

@@ -5,14 +5,9 @@
 	<ColorText A="255" R="255" G="255" B="255" />
 	<Size Width="0" Height="0" />
 	<Shift X="0" Y="0" />
-	<Button Text="New Game">
+	<Button Text="Menu">
 		<Location X="10" Y="10" />
 		<Size Width="140" Height="40" />
-		<OnClick>Game:NewGame()</OnClick>
-	</Button>
-	<Button Text="Exit">
-		<Location X="10" Y="60" />
-		<Size Width="140" Height="40" />
-		<OnClick>Game:Exit()</OnClick>
+		<OnClick>Game:SwitchToMenu()</OnClick>
 	</Button>
 </Dialog>

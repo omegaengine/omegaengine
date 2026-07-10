@@ -29,10 +29,31 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.toolMap = new System.Windows.Forms.ToolStripButton();
+            this.SuspendLayout();
+            //
+            // toolStrip (inherited from MainFormBase)
+            //
+            this.toolStrip.Items.Insert(0, this.toolMap);
+            //
+            // toolMap
+            //
+            this.toolMap.Name = "toolMap";
+            this.toolMap.Text = "Map Editor";
+            this.toolMap.Click += new System.EventHandler(this.toolMap_Click);
+            //
+            // MainForm
+            //
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Name = "MainForm";
             this.Text = "Editor";
+            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.ResumeLayout(false);
+            this.PerformLayout();
         }
 
         #endregion
+
+        private System.Windows.Forms.ToolStripButton toolMap;
     }
 }
