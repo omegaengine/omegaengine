@@ -12,7 +12,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 using NanoByte.Common.Values.Design;
-using OmegaEngine.Foundation.Light;
+using OmegaEngine.Foundation.Geometry;
 
 namespace OmegaEngine.Foundation.Design;
 

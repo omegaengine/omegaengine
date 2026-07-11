@@ -9,7 +9,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace OmegaEngine.Foundation.Light;
+namespace OmegaEngine.Foundation.Geometry;
 
 /// <summary>
 /// Contains test methods for <see cref="Attenuation"/>.

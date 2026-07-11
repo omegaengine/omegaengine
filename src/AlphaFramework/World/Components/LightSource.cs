@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 using NLua;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 
 namespace AlphaFramework.World.Components;
@@ -38,6 +39,6 @@ public class LightSource : Render
     /// <summary>
     /// Factors describing the attenuation of light intensity over distance.
     /// </summary>
-    [Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation.")]
-    public Attenuation Attenuation { get; set; } = new(1, 0, 0);
+    [Description("Factors describing the attenuation of light intensity over distance.")]
+    public Attenuation Attenuation { get; set; } = Attenuation.None;
 }

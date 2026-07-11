@@ -73,7 +73,7 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
     /// <summary>
     /// Factors describing the attenuation of light intensity over distance.
     /// </summary>
-    [Description("Factors describing the attenuation of light intensity over distance. (1,0,0) for no attenuation."), Category("Behavior")]
+    [Description("Factors describing the attenuation of light intensity over distance."), Category("Behavior")]
     public Attenuation Attenuation { get; set; } = Attenuation.None;
 
     /// <summary>

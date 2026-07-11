@@ -13,52 +13,52 @@ using System.Xml.Serialization;
 using NanoByte.Common;
 using SlimDX;
 
-namespace OmegaEngine.Foundation.Light;
+namespace OmegaEngine.Foundation.Geometry;
 
 /// <summary>
-/// Factors describing the attenuation of light intensity over distance.
+/// Factors describing the attenuation of intensity over distance.
 /// </summary>
-/// <param name="constant">A constant factor multiplied with the color.</param>
-/// <param name="linear">A constant factor multiplied with the color and the inverse distance.</param>
-/// <param name="quadratic">A constant factor multiplied with the color and the inverse distance squared.</param>
+/// <param name="constant">A constant factor multiplied with the value.</param>
+/// <param name="linear">A constant factor multiplied with the value and the inverse distance.</param>
+/// <param name="quadratic">A constant factor multiplied with the value and the inverse distance squared.</param>
 #if NETFRAMEWORK
 [TypeConverter(typeof(Design.AttenuationConverter))]
 #endif
 public struct Attenuation(float constant, float linear, float quadratic) : IEquatable<Attenuation>
 {
     /// <summary>
-    /// Value for no attenuation over distance.
+    /// No attenuation over distance.
     /// </summary>
-    public static readonly Attenuation None = new(1, 0, 0);
+    public static readonly Attenuation None = new(constant: 1, linear: 0, quadratic: 0);
 
     /// <summary>
-    /// A constant factor multiplied with the color.
+    /// A constant factor multiplied with the value.
     /// </summary>
-    [XmlAttribute, Description("A constant factor multiplied with the color.")]
+    [XmlAttribute, Description("A constant factor multiplied with the value.")]
     public float Constant { get; set; } = constant;
 
     /// <summary>
-    /// A constant factor multiplied with the color and the inverse distance.
+    /// A constant factor multiplied with the value and the inverse distance.
     /// </summary>
-    [XmlAttribute, Description("A constant factor multiplied with the color and the inverse distance.")]
+    [XmlAttribute, Description("A constant factor multiplied with the value and the inverse distance.")]
     public float Linear { get; set; } = linear;
 
     /// <summary>
-    /// A constant factor multiplied with the color and the inverse distance squared.
+    /// A constant factor multiplied with the value and the inverse distance squared.
     /// </summary>
-    [XmlAttribute, Description("A constant factor multiplied with the color and the inverse distance squared.")]
+    [XmlAttribute, Description("A constant factor multiplied with the value and the inverse distance squared.")]
     public float Quadratic { get; set; } = quadratic;
 
     /// <summary>
-    /// Calculates the effective attenuation factor (between 0 and 1) based on the distance from the light source.
+    /// Calculates the effective attenuation factor (between 0 and 1) based on the distance from the source.
     /// </summary>
-    /// <param name="distance">The distance from the light source.</param>
+    /// <param name="distance">The distance from the source.</param>
     [Pure]
     public readonly float Apply(float distance)
         => (1 / (Constant + Linear * distance + Quadratic * distance * distance)).Clamp();
 
     /// <summary>
-    /// Calculates the maximum distance at which a light source with this attenuation will have the given intensity.
+    /// Calculates the maximum distance at which a source with this attenuation will have the given intensity.
     /// </summary>
     public float Range(float minIntensity)
     {
