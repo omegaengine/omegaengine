@@ -14,6 +14,7 @@ using NanoByte.Common;
 using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Input;
+using SlimDX;
 
 namespace OmegaEngine.Graphics.Cameras;
 
@@ -21,7 +22,7 @@ namespace OmegaEngine.Graphics.Cameras;
 /// Determines the perspective from which a <see cref="Scene"/> is displayed.
 /// </summary>
 /// <seealso cref="OmegaEngine.Graphics.View.Camera"/>
-public abstract partial class Camera : InputReceiverBase, IPositionable
+public abstract partial class Camera : InputReceiverBase, IPositionable, IViewpoint
 {
     /// <summary>
     /// Text value to make it easier to identify a particular camera
@@ -52,6 +53,18 @@ public abstract partial class Camera : InputReceiverBase, IPositionable
         }
         set => value.To(ref PositionCached, ref ViewDirty, ref ViewFrustumDirty);
     }
+
+    /// <summary>
+    /// The camera's forward direction as a unit vector
+    /// </summary>
+    [Description("The camera's forward direction as a unit vector"), Category("Layout")]
+    public Vector3 Forward => new(View.M13, View.M23, View.M33);
+
+    /// <summary>
+    /// The camera's up direction as a unit vector
+    /// </summary>
+    [Description("The camera's up direction as a unit vector"), Category("Layout")]
+    public Vector3 Up => new(View.M12, View.M22, View.M32);
 
     protected DoubleVector3 FloatingOriginCached;
 

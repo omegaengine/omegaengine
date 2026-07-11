@@ -25,7 +25,7 @@ namespace OmegaEngine.Graphics;
 /// Controls the rendering of a <see cref="OmegaEngine.Graphics.Scene"/> using a <see cref="Cameras.Camera"/>.
 /// </summary>
 /// <remarks>Multiple <see cref="View"/>s can share the same <see cref="OmegaEngine.Graphics.Scene"/>, but they should all have separate <see cref="Cameras.Camera"/>s.</remarks>
-public partial class View : EngineElement, IFrameResettable
+public partial class View : EngineElement, IFrameResettable, IViewpoint
 {
     #region Variables
     #region Content
@@ -203,6 +203,10 @@ public partial class View : EngineElement, IFrameResettable
     /// </summary>
     [Browsable(false)]
     public Camera Camera { get; set; }
+
+    DoubleVector3 IViewpoint.Position => Camera.Position;
+    Vector3 IViewpoint.Forward => Camera.Forward;
+    Vector3 IViewpoint.Up => Camera.Up;
     #endregion
 
     #endregion
