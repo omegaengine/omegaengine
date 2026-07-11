@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <locale>
   <entry key="Anisotropic">Anisotropic texture filtering</entry>
+  <entry key="Audio">Audio</entry>
   <entry key="Cancel">Cancel</entry>
   <entry key="ColorCorrection">Color correction</entry>
   <entry key="Controls">Controls</entry>
@@ -29,6 +30,7 @@
   <entry key="MainMenu">Main Menu</entry>
   <entry key="Medium">Medium</entry>
   <entry key="MouseSensitivity">Mouse sensitivity</entry>
+  <entry key="MusicVolume">Music volume</entry>
   <entry key="NewGame">New game</entry>
   <entry key="NormalMapping">Normal mapping</entry>
   <entry key="No">No</entry>
@@ -56,6 +58,7 @@
   <entry key="Settings">Settings</entry>
   <entry key="Shadows">Object shadows</entry>
   <entry key="ShowMenu">Show menu</entry>
+  <entry key="SoundEffects">Sound effects</entry>
   <entry key="TerrainDetails">Terrain details</entry>
   <entry key="TimeWarpFactor">Time warp factor:</entry>
   <entry key="WaterEffects">Water effects</entry>

@@ -24,9 +24,9 @@ public interface IAudio
     bool Looping { get; }
 
     /// <summary>
-    /// The playback volume for the asset.
+    /// The playback volume as a factor between 0 (silent) and 1 (normal).
     /// </summary>
-    int Volume { get; set; }
+    float Volume { get; set; }
 
     /// <summary>
     /// Starts the asset playback.

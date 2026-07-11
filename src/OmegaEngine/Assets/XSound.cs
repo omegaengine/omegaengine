@@ -9,25 +9,48 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using NAudio.Wave;
 using NanoByte.Common;
-using SlimDX.Multimedia;
+using NanoByte.Common.Storage;
+using OmegaEngine.Audio;
+using OmegaEngine.Foundation.Storage;
 
 namespace OmegaEngine.Assets;
 
 /// <summary>
-/// Abstract base class for sound assets.
+/// A sound loaded from an audio file, decoded into in-memory IEEE-float samples ready for playback.
 /// </summary>
-public abstract class XSound : Asset
+public class XSound : Asset
 {
-    #region Properties
-    public Stream SoundData { get; protected set; }
+    /// <summary>The decoded, interleaved IEEE-float samples at <see cref="AudioManager.SampleRate"/>.</summary>
+    public float[] Samples { get; }
 
-    public WaveFormat SoundFormat { get; protected set; }
-    #endregion
+    /// <summary>The format of <see cref="Samples"/> (IEEE-float, <see cref="AudioManager.SampleRate"/>, native channel count).</summary>
+    public WaveFormat Format { get; }
 
-    #region Static access
     /// <summary>
-    /// Returns a cached <see cref="XWaveSound"/> or <see cref="XOggSound"/> (based on the file ending) or creates a new one if the requested ID is not cached.
+    /// Loads a sound from an audio file stream.
+    /// </summary>
+    /// <param name="stream">The audio file to load the sound from.</param>
+    /// <remarks>This should only be called by <see cref="Get"/> to prevent unnecessary duplicates.</remarks>
+    protected XSound(WaveStream stream)
+    {
+        #region Sanity checks
+        if (stream == null) throw new ArgumentNullException(nameof(stream));
+        #endregion
+
+        (Samples, Format) = AudioHelpers.DecodeToMemory(stream.ToSampleProvider());
+    }
+
+    /// <summary>
+    /// Creates a fresh sample provider for playing back this sound.
+    /// </summary>
+    /// <param name="looping">Whether the playback should loop back to the start when it reaches the end.</param>
+    internal ISampleProvider CreateProvider(bool looping)
+        => new CachedSoundSampleProvider(Samples, Format, looping);
+
+    /// <summary>
+    /// Returns a cached <see cref="XSound"/> or creates a new one if the requested ID is not cached.
     /// </summary>
     /// <param name="engine">The <see cref="Engine"/> providing the cache.</param>
     /// <param name="id">The ID of the asset to be returned.</param>
@@ -45,29 +68,22 @@ public abstract class XSound : Asset
         if (string.IsNullOrEmpty(id)) return null;
         #endregion
 
-        if (id.EndsWith(".ogg", StringComparison.OrdinalIgnoreCase)) return XOggSound.Get(engine, id);
-        return XWaveSound.Get(engine, id);
-    }
-    #endregion
+        // Try to find existing asset in cache
+        const string type = "Sounds";
+        id = id.ToNativePath();
+        string fullID = Path.Combine(type, id);
+        var data = engine.Cache.GetAsset<XSound>(fullID);
 
-    //--------------------//
+        // Load from file if not in cache
+        if (data == null)
+        {
+            string path = ContentManager.GetFilePath(type, id);
+            using (new TimedLogEvent($"Loading sound: {id}"))
+            using (var stream = AudioHelpers.OpenStream(path))
+                data = new(stream) {Name = fullID};
+            engine.Cache.AddAsset(data);
+        }
 
-    #region Dispose
-    protected override void Dispose(bool disposing)
-    {
-        try
-        {
-            if (disposing)
-            {
-                // This block will only be executed on manual disposal, not by Garbage Collection
-                Log.Info($"Disposing {this}");
-                SoundData?.Dispose();
-            }
-        }
-        finally
-        {
-            base.Dispose(disposing);
-        }
+        return data;
     }
-    #endregion
 }

@@ -16,7 +16,9 @@ using NLua;
 using NanoByte.Common;
 using NanoByte.Common.Storage;
 using OmegaEngine.Assets;
+using OmegaEngine.Audio;
 using OmegaEngine.Foundation.Light;
+using OmegaEngine.Foundation.Storage;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Properties;
@@ -102,6 +104,16 @@ public sealed partial class Engine : EngineElement
     /// The central cache used for all graphics and sound assets.
     /// </summary>
     public CacheManager Cache { get; } = new();
+
+    /// <summary>
+    /// The shared audio output device and mixer.
+    /// </summary>
+    public AudioManager Audio { get; } = new();
+
+    /// <summary>
+    /// Controls the playback of music (theme-selection, cross-fading, etc.)
+    /// </summary>
+    public MusicManager Music { get; }
     #endregion
 
     #region Constructor
@@ -155,7 +167,9 @@ public sealed partial class Engine : EngineElement
             SimpleSphere = Mesh.CreateSphere(Device, 1, 12, 12);
             SimpleBox = Mesh.CreateBox(Device, 1, 1, 1);
 
-            SetupAudio();
+            Music = new MusicManager(this);
+            if (ContentManager.FileExists("Music", "list.txt"))
+                Music.LoadLibrary("list.txt");
         }
         #region Error handling
         catch (Direct3D9Exception ex) when (ex.ResultCode == ResultCode.NotAvailable)
@@ -190,13 +204,18 @@ public sealed partial class Engine : EngineElement
     {
         Log.Info($"Disposing engine\nLast framerate: {Performance?.Fps}");
 
+        // Shut down audio first: stopping the output joins its background thread
+        Audio?.Dispose();
+        Music?.Dispose();
+
+        // SlimDX releases COM objects on the GC finalizer thread when they are collected, which is not thread-safe against the explicit COM releases performed throughout the rest of this method.
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+
         // Dispose scenes and views
         ExtraRender = null;
         foreach (var view in Views) view.Scene.Dispose();
         base.OnDispose();
-
-        // Shutdown music
-        Music?.Dispose();
 
         // Dispose cached assets
         Cache?.Dispose();
@@ -208,11 +227,6 @@ public sealed partial class Engine : EngineElement
         // Dispose Direct3D device
         BackBuffer?.Dispose();
         Device?.Dispose();
-
-        // Dispose DirectSound objects
-        //_listener?.Dispose();
-        AudioDevice?.Dispose();
-
         _direct3D?.Dispose();
 
         // Dispose debug window

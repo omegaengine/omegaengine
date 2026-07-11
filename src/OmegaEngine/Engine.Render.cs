@@ -304,8 +304,11 @@ partial class Engine
             #endregion
         }
 
-        // Raise PostRender event only if this is a normal render run
-        if (!noPresent) PostRender?.Invoke();
+        if (!noPresent)
+        {
+            PostRender?.Invoke();
+            Audio.Update();
+        }
     }
 
     /// <summary>

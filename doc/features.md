@@ -25,6 +25,7 @@ An overview of the engine's features:
     * Lua scripting
   * [Render embedded in WinForms or standalone](hosting.md)
   * [Input system](xref:OmegaEngine.Input)
+  * [Audio system](xref:OmegaEngine.Audio)
 
 ## Screenshots
 

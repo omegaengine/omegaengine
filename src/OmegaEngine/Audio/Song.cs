@@ -8,65 +8,85 @@
 
 using System;
 using System.IO;
-using SlimDX.DirectSound;
+using System.Threading;
+using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
+using OmegaEngine.Foundation.Storage;
 
 namespace OmegaEngine.Audio;
 
 /// <summary>
 /// A streamed sound that is played in the background as music.
 /// </summary>
-public class Song : EngineElement, IAudio
+/// <param name="id">The file name of the song relative to the <c>Music</c> content directory.</param>
+public class Song(string id) : EngineElement, IAudio
 {
-    #region Variables
-    /// <summary>The sound buffer containing the decoded data ready for playback.</summary>
-    private SecondarySoundBuffer _soundBuffer;
-    #endregion
-
-    #region Properties
     /// <summary>
-    /// The ID of this song
+    /// The ID of this song (the file name relative to the <c>Music</c> content directory).
     /// </summary>
-    public string ID { get; private set; }
+    public string ID { get; } = id;
+
+    private WaveStream? _reader;
+    private ISampleProvider? _activeInput;
+    private VolumeSampleProvider? _volumeProvider;
+
+    // Set by the audio thread when the song reaches its end; volatile so the main thread sees it promptly.
+    private volatile bool _ended;
 
     /// <inheritdoc/>
-    public bool Playing => !_soundBuffer.Disposed && _soundBuffer.Status == BufferStatus.Playing;
+    public bool Playing => _activeInput != null && !_ended;
+
+    private bool _looping;
 
     /// <inheritdoc/>
-    public bool Looping => !_soundBuffer.Disposed && _soundBuffer.Status == BufferStatus.Looping;
+    public bool Looping => Playing && _looping;
 
-    /// <inheritdoc/>>
-    public int Volume { get => _soundBuffer.Volume; set => _soundBuffer.Volume = value; }
-    #endregion
+    private float _volume = 1f;
 
-    #region Constructor
-    /// <summary>
-    /// Loads a song from an OGG file
-    /// </summary>
-    /// <param name="id">The OGG file to load the song from</param>
-    /// <exception cref="IOException">There was a problem loading the song.</exception>
-    public Song(string id)
+    /// <inheritdoc/>
+    public float Volume
     {
-        #region Sanity checks
-        if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
-        #endregion
-
-        ID = id;
+        get => _volume;
+        set
+        {
+            _volume = value;
+            if (_volumeProvider != null) _volumeProvider.Volume = value;
+        }
     }
-    #endregion
 
-    //--------------------//
-
-    #region Playback
     /// <summary>
     /// Starts the song playback
     /// </summary>
+    /// <exception cref="FileNotFoundException">The song file could not be found.</exception>
+    /// <exception cref="IOException">There was a problem loading the song.</exception>
+    /// <exception cref="InvalidDataException">The song file does not contain valid sound data.</exception>
     public void StartPlayback(bool looping)
     {
         #region Sanity checks
         if (IsDisposed) throw new ObjectDisposedException(ToString());
         #endregion
 
-        //SoundBuffer.Play(0, looping ? PlayFlags.Looping : PlayFlags.None);
+        StopPlayback();
+
+        string path = ContentManager.GetFilePath("Music", ID);
+        var reader = AudioHelpers.OpenStream(path);
+        _reader = reader;
+
+        var chain = AudioHelpers.EnsureStereo(AudioHelpers.ResampleToMixerRate(reader.ToSampleProvider()));
+        if (looping) chain = new LoopingSampleProvider(chain, () => reader.Position = 0);
+        _volumeProvider = new(chain) {Volume = _volume};
+
+        _looping = looping;
+        _ended = false;
+        if (Engine.Audio.AddInput(_volumeProvider, AudioCategory.Music, onEnded: OnEndedNaturally))
+            _activeInput = _volumeProvider;
+        else
+        {
+            // Audio disabled: don't hold the file open
+            _reader = null;
+            _volumeProvider = null;
+            reader.Dispose();
+        }
     }
 
     /// <summary>
@@ -74,42 +94,38 @@ public class Song : EngineElement, IAudio
     /// </summary>
     public void StopPlayback()
     {
-        //SoundBuffer.Stop();
-        //SoundBuffer.CurrentPlayPosition = 0;
+        // Remove from the mixer first (outside any lock) so the audio thread stops reading before we release the reader
+        var input = Interlocked.Exchange(ref _activeInput, null);
+        if (input != null) Engine.Audio.RemoveInput(input, AudioCategory.Music);
+
+        _volumeProvider = null;
+        _ended = false;
+
+        // Exchange ensures the reader is disposed exactly once, even if OnEndedNaturally races us
+        Interlocked.Exchange(ref _reader, null)?.Dispose();
     }
-    #endregion
 
-    //--------------------//
-
-    #region Engine
-    /// <inheritdoc/>
-    protected override void OnEngineSet()
+    /// <summary>
+    /// Invoked on the audio thread when the song reaches its end on its own. Releases the file handle without touching the mixer (the input has already been removed from it).
+    /// </summary>
+    private void OnEndedNaturally()
     {
-        base.OnEngineSet();
-
-        var description = new SoundBufferDescription
-        {
-            Flags = BufferFlags.ControlVolume
-        };
-
-        _soundBuffer = new(Engine.AudioDevice, description);
+        _ended = true;
+        _activeInput = null;
+        _volumeProvider = null;
+        Interlocked.Exchange(ref _reader, null)?.Dispose();
     }
-    #endregion
 
-    #region Dispose
     /// <inheritdoc/>
     protected override void OnDispose()
     {
         try
         {
-            // Make sure stop-events are raised before fully disposing the object
-            //if (_soundBuffer.Status == BufferStatus.Playing) _soundBuffer.Stop();
-            //_soundBuffer.Dispose();
+            StopPlayback();
         }
         finally
         {
             base.OnDispose();
         }
     }
-    #endregion
 }

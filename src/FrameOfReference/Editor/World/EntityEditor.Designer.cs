@@ -57,6 +57,12 @@ namespace FrameOfReference.Editor.World
             this.buttonAddMovement = new System.Windows.Forms.ToolStripButton();
             this.buttonRemoveMovement = new System.Windows.Forms.ToolStripButton();
             this.propertyGridMovement = new System.Windows.Forms.PropertyGrid();
+            this.tabPageSound = new System.Windows.Forms.TabPage();
+            this.labelSound = new System.Windows.Forms.Label();
+            this.toolStripSound = new System.Windows.Forms.ToolStrip();
+            this.buttonAddSound = new System.Windows.Forms.ToolStripButton();
+            this.buttonRemoveSound = new System.Windows.Forms.ToolStripButton();
+            this.propertyGridSound = new System.Windows.Forms.PropertyGrid();
             this.splitSettings = new System.Windows.Forms.SplitContainer();
             this.splitRender = new System.Windows.Forms.SplitContainer();
             this.renderPanel = new OmegaEngine.RenderPanel();
@@ -72,6 +78,8 @@ namespace FrameOfReference.Editor.World
             this.toolStripCollision.SuspendLayout();
             this.tabPageMovement.SuspendLayout();
             this.toolStripMovement.SuspendLayout();
+            this.tabPageSound.SuspendLayout();
+            this.toolStripSound.SuspendLayout();
             this.splitSettings.Panel1.SuspendLayout();
             this.splitSettings.Panel2.SuspendLayout();
             this.splitSettings.SuspendLayout();
@@ -193,6 +201,7 @@ namespace FrameOfReference.Editor.World
             this.tabComponents.Controls.Add(this.tabPageRender);
             this.tabComponents.Controls.Add(this.tabPageCollision);
             this.tabComponents.Controls.Add(this.tabPageMovement);
+            this.tabComponents.Controls.Add(this.tabPageSound);
             this.tabComponents.Location = new System.Drawing.Point(3, 3);
             this.tabComponents.Name = "tabComponents";
             this.tabComponents.SelectedIndex = 0;
@@ -428,6 +437,75 @@ namespace FrameOfReference.Editor.World
             this.propertyGridMovement.ToolbarVisible = false;
             this.propertyGridMovement.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridMovement_PropertyValueChanged);
             // 
+            // tabPageSound
+            //
+            this.tabPageSound.Controls.Add(this.labelSound);
+            this.tabPageSound.Controls.Add(this.toolStripSound);
+            this.tabPageSound.Controls.Add(this.propertyGridSound);
+            this.tabPageSound.Location = new System.Drawing.Point(4, 22);
+            this.tabPageSound.Name = "tabPageSound";
+            this.tabPageSound.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageSound.Size = new System.Drawing.Size(286, 168);
+            this.tabPageSound.TabIndex = 3;
+            this.tabPageSound.Text = "Sound";
+            this.tabPageSound.UseVisualStyleBackColor = true;
+            //
+            // labelSound
+            //
+            this.labelSound.AutoSize = true;
+            this.labelSound.Location = new System.Drawing.Point(6, 3);
+            this.labelSound.Name = "labelSound";
+            this.labelSound.Size = new System.Drawing.Size(0, 13);
+            this.labelSound.TabIndex = 0;
+            //
+            // toolStripSound
+            //
+            this.toolStripSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolStripSound.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStripSound.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buttonAddSound,
+            this.buttonRemoveSound});
+            this.toolStripSound.Location = new System.Drawing.Point(228, 0);
+            this.toolStripSound.Name = "toolStripSound";
+            this.toolStripSound.Size = new System.Drawing.Size(58, 25);
+            this.toolStripSound.TabIndex = 1;
+            this.toolStripSound.Text = "toolStrip1";
+            //
+            // buttonAddSound
+            //
+            this.buttonAddSound.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.buttonAddSound.Enabled = false;
+            this.buttonAddSound.Image = global::AlphaFramework.Editor.Properties.Resources.CreateButton;
+            this.buttonAddSound.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonAddSound.Name = "buttonAddSound";
+            this.buttonAddSound.Size = new System.Drawing.Size(23, 22);
+            this.buttonAddSound.Text = "Add new sound component...";
+            this.buttonAddSound.Click += new System.EventHandler(this.buttonAddSound_Click);
+            //
+            // buttonRemoveSound
+            //
+            this.buttonRemoveSound.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.buttonRemoveSound.Enabled = false;
+            this.buttonRemoveSound.Image = global::AlphaFramework.Editor.Properties.Resources.DeleteButton;
+            this.buttonRemoveSound.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonRemoveSound.Name = "buttonRemoveSound";
+            this.buttonRemoveSound.Size = new System.Drawing.Size(23, 22);
+            this.buttonRemoveSound.Text = "Remove sound component";
+            this.buttonRemoveSound.Click += new System.EventHandler(this.buttonRemoveSound_Click);
+            //
+            // propertyGridSound
+            //
+            this.propertyGridSound.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.propertyGridSound.Location = new System.Drawing.Point(0, 22);
+            this.propertyGridSound.Name = "propertyGridSound";
+            this.propertyGridSound.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
+            this.propertyGridSound.Size = new System.Drawing.Size(286, 116);
+            this.propertyGridSound.TabIndex = 2;
+            this.propertyGridSound.ToolbarVisible = false;
+            this.propertyGridSound.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGridSound_PropertyValueChanged);
+            //
             // splitSettings
             // 
             this.splitSettings.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -523,6 +601,10 @@ namespace FrameOfReference.Editor.World
             this.tabPageMovement.PerformLayout();
             this.toolStripMovement.ResumeLayout(false);
             this.toolStripMovement.PerformLayout();
+            this.tabPageSound.ResumeLayout(false);
+            this.tabPageSound.PerformLayout();
+            this.toolStripSound.ResumeLayout(false);
+            this.toolStripSound.PerformLayout();
             this.splitSettings.Panel1.ResumeLayout(false);
             this.splitSettings.Panel2.ResumeLayout(false);
             this.splitSettings.ResumeLayout(false);
@@ -562,6 +644,12 @@ namespace FrameOfReference.Editor.World
         private System.Windows.Forms.PropertyGrid propertyGridCollision;
         private System.Windows.Forms.Label labelCollision;
         private System.Windows.Forms.Label labelMovement;
+        private System.Windows.Forms.TabPage tabPageSound;
+        private System.Windows.Forms.ToolStrip toolStripSound;
+        private System.Windows.Forms.ToolStripButton buttonAddSound;
+        private System.Windows.Forms.ToolStripButton buttonRemoveSound;
+        private System.Windows.Forms.PropertyGrid propertyGridSound;
+        private System.Windows.Forms.Label labelSound;
         private System.Windows.Forms.CheckBox checkNormalMapping;
         private OmegaEngine.RenderPanel renderPanel;
         private System.Windows.Forms.CheckBox checkBoundingSphere;

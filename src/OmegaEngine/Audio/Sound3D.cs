@@ -6,11 +6,9 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.ComponentModel;
-using NanoByte.Common;
-using SlimDX;
-using SlimDX.DirectSound;
+using System.Runtime.CompilerServices;
+using NAudio.Wave;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Geometry;
 
@@ -19,86 +17,44 @@ namespace OmegaEngine.Audio;
 /// <summary>
 /// A memory-cached sound that is played on-demand simulating a position in 3D-space.
 /// </summary>
-public class Sound3D : Sound, IFloatingOriginAware
+public class Sound3D(XSound sound) : Sound(sound)
 {
-    #region Variables
-    private readonly SoundBuffer3D _buffer3D;
-    #endregion
+    private Positional3DSampleProvider? _panner;
 
-    #region Properties
-    private DoubleVector3 _position;
+    // Boxed in a volatile field, so the audio thread always reads a complete, non-torn DoubleVector3 snapshot.
+    private volatile StrongBox<DoubleVector3> _position = new(default);
 
     /// <summary>
     /// The sound's position in world space
     /// </summary>
-    [Description("The body's position in world space"), Category("Layout")]
-    public DoubleVector3 Position { get => _position; set => value.To(ref _position, () => _buffer3D.Position = this.GetFloatingPosition()); }
+    [Description("The sound's position in world space"), Category("Layout")]
+    public DoubleVector3 Position
+    {
+        get => _position.Value;
+        set => _position = new(value);
+    }
 
-    private DoubleVector3 _floatingOrigin;
+    /// <summary>
+    /// Factors describing how the sound's volume attenuates with distance from the listener.
+    /// </summary>
+    [Description("Factors describing how the sound's volume attenuates with distance from the listener."), Category("Behavior")]
+    public Attenuation Attenuation { get; set; } = Attenuation.None;
 
     /// <inheritdoc/>
-    DoubleVector3 IFloatingOriginAware.FloatingOrigin { get => _floatingOrigin; set => value.To(ref _floatingOrigin, () => _buffer3D.Position = this.GetFloatingPosition()); }
+    protected override ISampleProvider CreatePlaybackChain(bool looping)
+        => _panner = new(Asset.CreateProvider(looping), Attenuation, () => Engine.Audio.ListenerSnapshot, () => Position) { Volume = Volume };
 
-    /// <summary>
-    /// The sound's position in render space, based on <see cref="Position"/>
-    /// </summary>
-    /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingPosition"/></remarks>
-    Vector3 IFloatingOriginAware.FloatingPosition => this.ApplyFloatingOriginTo(Position);
-    #endregion
-
-    #region Constructor
-    /// <summary>
-    /// Sets up a new Sound based on an <see cref="XSound"/> asset.
-    /// </summary>
-    /// <param name="sound">The <see cref="XSound"/> asset to get the audio data from.</param>
-    public Sound3D(XSound sound) : base(sound)
+    /// <inheritdoc/>
+    protected override void ApplyVolume()
     {
-        #region Sanity checks
-        if (sound == null) throw new ArgumentNullException(nameof(sound));
-        #endregion
-
-        _buffer3D = new(SoundBuffer);
-    }
-    #endregion
-
-    //--------------------//
-
-    #region Playback
-    /// <summary>
-    /// Starts the sound playback
-    /// </summary>
-    public override void StartPlayback(bool looping)
-    {
-        #region Sanity checks
-        if (IsDisposed) throw new ObjectDisposedException(ToString());
-        #endregion
-
-        // ToDo: Implement
+        if (_panner != null)
+            _panner.Volume = Volume;
     }
 
-    /// <summary>
-    /// Stops the sound playback
-    /// </summary>
+    /// <inheritdoc/>
     public override void StopPlayback()
     {
-        // ToDo: Implement
+        base.StopPlayback();
+        _panner = null;
     }
-    #endregion
-
-    //--------------------//
-
-    #region Dispose
-    /// <inheritdoc/>
-    protected override void OnDispose()
-    {
-        try
-        {
-            if (_buffer3D is { Disposed: false }) _buffer3D.Dispose();
-        }
-        finally
-        {
-            base.OnDispose();
-        }
-    }
-    #endregion
 }

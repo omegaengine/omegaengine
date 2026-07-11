@@ -22,38 +22,20 @@ namespace OmegaEngine.Audio;
 /// <summary>
 /// Manages the playback of <see cref="Song"/> in the background controlled by themes.
 /// </summary>
-public sealed class MusicManager : IDisposable
+/// <param name="engine">The <see cref="Engine"/> to be used for playing the music</param>
+public sealed class MusicManager(Engine engine) : IDisposable
 {
-    #region Variables
-    private readonly Engine _engine;
     private readonly MultiDictionary<string, Song> _themes = new();
 
     private string? _currentTheme;
     private Song? _currentSong;
-    #endregion
 
-    #region Properties
     /// <summary>
     /// Is music currently being played?
     /// </summary>
     [MemberNotNullWhen(true, nameof(_currentSong))]
     public bool Playing => _currentSong is { Playing: true };
-    #endregion
 
-    #region Constructor
-    /// <summary>
-    /// Creates a new empty music controller
-    /// </summary>
-    /// <param name="engine">The <see cref="Engine"/> to be used for playing the music</param>
-    internal MusicManager(Engine engine)
-    {
-        _engine = engine;
-    }
-    #endregion
-
-    //--------------------//
-
-    #region Load Library
     /// <summary>
     /// Populates the music manager with songs listed in a library file
     /// </summary>
@@ -79,11 +61,7 @@ public sealed class MusicManager : IDisposable
             AddSong(values[0], songThemes);
         }
     }
-    #endregion
 
-    //--------------------//
-
-    #region Add song
     /// <summary>
     /// Adds a new song to the list
     /// </summary>
@@ -103,13 +81,11 @@ public sealed class MusicManager : IDisposable
             throw new InvalidOperationException(Resources.SongAlreadyLoaded + id);
 
         // Load the song and associate it with its themes
-        var newSong = new Song(id) {Engine = _engine};
+        var newSong = new Song(id) {Engine = engine};
         foreach (string theme in themes)
             _themes.Add(theme, newSong);
     }
-    #endregion
 
-    #region Play song
     /// <summary>
     /// Plays a specific song
     /// </summary>
@@ -127,7 +103,7 @@ public sealed class MusicManager : IDisposable
     /// Plays a specific song
     /// </summary>
     /// <param name="song">The song to play</param>
-    internal void PlaySong(Song song)
+    private void PlaySong(Song song)
     {
         if (Playing)
         {
@@ -136,13 +112,11 @@ public sealed class MusicManager : IDisposable
         }
         _currentSong = song;
 
-        _currentSong.Volume = 0;
+        _currentSong.Volume = 1f;
         _currentSong.StopPlayback();
         song.StartPlayback(looping: false);
     }
-    #endregion
 
-    #region Select theme
     /// <summary>
     /// Starts playing random songs from a certain theme
     /// </summary>
@@ -177,11 +151,7 @@ public sealed class MusicManager : IDisposable
     {
         _currentTheme = theme;
     }
-    #endregion
 
-    //--------------------//
-
-    #region Update
     /// <summary>
     /// Plays the next song from the current theme (if any) if the last one stopped
     /// </summary>
@@ -190,9 +160,7 @@ public sealed class MusicManager : IDisposable
         if (!string.IsNullOrEmpty(_currentTheme) && !Playing)
             PlayTheme(_currentTheme);
     }
-    #endregion
 
-    #region Stop
     /// <summary>
     /// Stops the currently playing song
     /// </summary>
@@ -204,9 +172,7 @@ public sealed class MusicManager : IDisposable
         if (fade) Fadeout();
         else _currentSong.StopPlayback();
     }
-    #endregion
 
-    #region Fadeout
     /// <summary>
     /// Fades out the current song
     /// </summary>
@@ -218,40 +184,31 @@ public sealed class MusicManager : IDisposable
         Song fadeSong = _currentSong;
         _currentSong = null;
 
-        // Prepare background thread for fading out the song
+        // Prepare background thread for gradually fading out the song over ~2 seconds
+        float startVolume = fadeSong.Volume;
         var fadeThread = new Thread(() =>
         {
-            for (int i = 0; i < 40; i++)
+            const int steps = 40;
+            for (int i = 1; i <= steps; i++)
             {
                 Thread.Sleep(50);
-                if (fadeSong.IsDisposed) return;
-                fadeSong.Volume -= 100;
+                if (fadeSong.IsDisposed || !fadeSong.Playing) return;
+                fadeSong.Volume = startVolume * (1f - (float)i / steps);
             }
             if (fadeSong.IsDisposed) return;
             fadeSong.StopPlayback();
         });
 
-        // Abort the fading proccess when playback ends
-        //fadeSong.SoundBuffer.Stopped += delegate
-        //{
-        //    if (fadeThread != null) fadeThread.Abort();
-        //    fadeThread = null;
-        //};
-
         // Start the thread
         fadeThread.Start();
     }
-    #endregion
 
-    //--------------------//
-
-    #region Dispose
     /// <summary>
     /// Disposes all <see cref="Song"/>s maintained by this <see cref="MusicManager"/>
     /// </summary>
     public void Dispose()
     {
-        if (_engine is { IsDisposed: false })
+        if (engine is { IsDisposed: false })
         {
             foreach (Song song in _themes.Values.Distinct())
                 song.Dispose();
@@ -269,5 +226,4 @@ public sealed class MusicManager : IDisposable
         throw new InvalidOperationException($"Forgot to call Dispose on {this}");
 #endif
     }
-    #endregion
 }

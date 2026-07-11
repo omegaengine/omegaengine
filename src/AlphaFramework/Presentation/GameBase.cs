@@ -48,8 +48,10 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
         settings.Controls.Changed += ApplyControlsSettings;
         settings.Display.Changed += ResetEngine;
         settings.Graphics.Changed += ApplyGraphicsSettings;
+        settings.Audio.Changed += ApplyAudioSettings;
 
         ApplyGraphicsSettings();
+        ApplyAudioSettings();
 
         Form.ResizeEnd += delegate
         {
@@ -82,6 +84,7 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
                 settings.Controls.Changed -= ApplyControlsSettings;
                 settings.Display.Changed -= ResetEngine;
                 settings.Graphics.Changed -= ApplyGraphicsSettings;
+                settings.Audio.Changed -= ApplyAudioSettings;
             }
         }
         finally
@@ -177,6 +180,12 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     /// </summary>
     protected virtual void ApplyGraphicsSettings()
         => settings.Graphics.ApplyTo(Engine);
+
+    /// <summary>
+    /// Called when audio settings from an external source need to be applied to the <see cref="Engine"/>
+    /// </summary>
+    protected virtual void ApplyAudioSettings()
+        => settings.Audio.ApplyTo(Engine);
 
     /// <summary>
     /// Determines the amount of elapsed game time from the amount of elapsed real time.

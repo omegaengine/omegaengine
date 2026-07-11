@@ -7,8 +7,9 @@
  */
 
 using System;
+using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 using OmegaEngine.Assets;
-using SlimDX.DirectSound;
 
 namespace OmegaEngine.Audio;
 
@@ -17,26 +18,35 @@ namespace OmegaEngine.Audio;
 /// </summary>
 public class Sound : EngineElement, IAudio
 {
-    #region Variables
     /// <summary>A reference to the asset providing the data for this sound.</summary>
     protected readonly XSound Asset;
 
-    /// <summary>The sound buffer containing the decoded data ready for playback.</summary>
-    protected SecondarySoundBuffer SoundBuffer;
-    #endregion
+    private ISampleProvider? _activeInput;
+    private VolumeSampleProvider? _volumeProvider;
 
-    #region Properties
-    /// <inheritdoc/>
-    public bool Playing => !SoundBuffer.Disposed && SoundBuffer.Status == BufferStatus.Playing;
+    private bool _ended;
 
     /// <inheritdoc/>
-    public bool Looping => !SoundBuffer.Disposed && SoundBuffer.Status == BufferStatus.Looping;
+    public bool Playing => _activeInput != null && !_ended;
 
-    /// <inheritdoc/>>
-    public int Volume { get => SoundBuffer.Volume; set => SoundBuffer.Volume = value; }
-    #endregion
+    private bool _looping;
 
-    #region Constructor
+    /// <inheritdoc/>
+    public bool Looping => Playing && _looping;
+
+    private float _volume = 1f;
+
+    /// <inheritdoc/>
+    public float Volume
+    {
+        get => _volume;
+        set
+        {
+            _volume = value;
+            ApplyVolume();
+        }
+    }
+
     /// <summary>
     /// Sets up a new Sound based on an <see cref="XSound"/> asset.
     /// </summary>
@@ -46,11 +56,7 @@ public class Sound : EngineElement, IAudio
         Asset = sound ?? throw new ArgumentNullException(nameof(sound));
         Asset.HoldReference();
     }
-    #endregion
 
-    //--------------------//
-
-    #region Playback
     /// <summary>
     /// Starts the sound playback
     /// </summary>
@@ -60,7 +66,13 @@ public class Sound : EngineElement, IAudio
         if (IsDisposed) throw new ObjectDisposedException(ToString());
         #endregion
 
-        SoundBuffer.Play(0, looping ? PlayFlags.Looping : PlayFlags.None);
+        StopPlayback();
+
+        _looping = looping;
+        _ended = false;
+        var input = CreatePlaybackChain(looping);
+        if (Engine.Audio.AddInput(input, AudioCategory.Sound, onEnded: () => _ended = true))
+            _activeInput = input;
     }
 
     /// <summary>
@@ -68,49 +80,49 @@ public class Sound : EngineElement, IAudio
     /// </summary>
     public virtual void StopPlayback()
     {
-        SoundBuffer.Stop();
-        SoundBuffer.CurrentPlayPosition = 0;
-    }
-    #endregion
-
-    //--------------------//
-
-    #region Engine
-    /// <inheritdoc/>
-    protected override void OnEngineSet()
-    {
-        base.OnEngineSet();
-
-        var description = new SoundBufferDescription
+        if (_activeInput != null)
         {
-            Format = Asset.SoundFormat,
-            SizeInBytes = (int)Asset.SoundData.Length,
-            Flags = BufferFlags.ControlVolume | BufferFlags.Control3D
-        };
+            Engine.Audio.RemoveInput(_activeInput, AudioCategory.Sound);
+            _activeInput = null;
+        }
 
-        SoundBuffer = new(Engine.AudioDevice, description);
-        var data = new byte[description.SizeInBytes];
-        Asset.SoundData.Read(data, 0, (int)Asset.SoundData.Length);
-        SoundBuffer.Write(data, 0, LockFlags.None);
+        _volumeProvider = null;
+        _ended = false;
     }
-    #endregion
 
-    #region Dispose
+    /// <summary>
+    /// Builds the chain of sample providers feeding the mixer for a single playback.
+    /// </summary>
+    /// <param name="looping">Whether the playback should loop.</param>
+    /// <returns>The top-level sample provider (stereo, <see cref="AudioManager.SampleRate"/>, IEEE-float).</returns>
+    protected virtual ISampleProvider CreatePlaybackChain(bool looping)
+    {
+        var stereo = AudioHelpers.EnsureStereo(Asset.CreateProvider(looping));
+        _volumeProvider = new(stereo) {Volume = _volume};
+        return _volumeProvider;
+    }
+
+    /// <summary>
+    /// Applies the current <see cref="Volume"/> to the active playback (if any).
+    /// </summary>
+    protected virtual void ApplyVolume()
+    {
+        if (_volumeProvider != null)
+            _volumeProvider.Volume = _volume;
+    }
+
     /// <inheritdoc/>
     protected override void OnDispose()
     {
         try
         {
-            if (SoundBuffer is { Disposed: false })
-            {
-                if (Playing) SoundBuffer.Stop();
-                SoundBuffer.Dispose();
-            }
+            if (_activeInput != null)
+                Engine.Audio.RemoveInput(_activeInput, AudioCategory.Sound);
+            Asset.ReleaseReference();
         }
         finally
         {
             base.OnDispose();
         }
     }
-    #endregion
 }

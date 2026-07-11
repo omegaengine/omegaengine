@@ -78,9 +78,15 @@ GammaValueLabel.Text = string.format("%.1f", Settings.Graphics.Gamma)
 WaterEffectsLabel.Enabled = Engine.Capabilities.PerPixelEffects
 WaterEffects.Enabled = WaterEffectsLabel.Enabled
 WaterEffects.SelectedItem = "["..Settings.Graphics.WaterEffects:ToString().."]"
+
+-- Audio
+MusicVolume.Value = Settings.Audio.MusicVolume * 10
+MusicVolumeValueLabel.Text = string.format("%.0f%%", Settings.Audio.MusicVolume * 100)
+SoundVolume.Value = Settings.Audio.SoundVolume * 10
+SoundVolumeValueLabel.Text = string.format("%.0f%%", Settings.Audio.SoundVolume * 100)
 </OnShow>
   <FontSize>15</FontSize>
-  <Size Width="750" Height="520" />
+  <Size Width="750" Height="620" />
   <Shift X="0" Y="0" />
   <GroupBox Name="GeneralBox">
     <Location X="10" Y="42" />
@@ -275,6 +281,50 @@ GammaValueLabel.Text = string.format("%.1f", Settings.Graphics.Gamma)</OnChanged
   <Label Name="GammaValueLabel" Text="?.?">
     <Location X="680" Y="384" />
     <Size Width="25" Height="20" />
+  </Label>
+  <GroupBox Name="AudioBox">
+    <Location X="10" Y="452" />
+    <Size Width="720" Height="100" />
+    <ColorBorder A="255" R="0" G="0" B="0" />
+    <ColorFill A="128" R="128" G="128" B="128" />
+  </GroupBox>
+  <Label Name="AudioLabel" Text="[Audio]">
+    <Location X="20" Y="460" />
+    <Size Width="100" Height="20" />
+  </Label>
+  <Label Name="MusicVolumeLabel" Text="[MusicVolume]">
+    <Location X="20" Y="500" />
+    <Size Width="110" Height="20" />
+  </Label>
+  <Slider Name="MusicVolume">
+    <Location X="135" Y="500" />
+    <Size Width="160" Height="32" />
+    <Max>20</Max>
+    <Value>10</Value>
+    <OnChanged>Settings.Audio.MusicVolume = MusicVolume.Value / 10
+MusicVolumeValueLabel.Text = string.format("%.0f%%", Settings.Audio.MusicVolume * 100)</OnChanged>
+  </Slider>
+  <Label Name="MusicVolumeValueLabel" Text="?%">
+    <Location X="268" Y="476" />
+    <Size Width="45" Height="20" />
+    <TextAlign>Right</TextAlign>
+  </Label>
+  <Label Name="SoundVolumeLabel" Text="[SoundEffects]">
+    <Location X="380" Y="500" />
+    <Size Width="110" Height="20" />
+  </Label>
+  <Slider Name="SoundVolume">
+    <Location X="495" Y="500" />
+    <Size Width="160" Height="32" />
+    <Max>20</Max>
+    <Value>10</Value>
+    <OnChanged>Settings.Audio.SoundVolume = SoundVolume.Value / 10
+SoundVolumeValueLabel.Text = string.format("%.0f%%", Settings.Audio.SoundVolume * 100)</OnChanged>
+  </Slider>
+  <Label Name="SoundVolumeValueLabel" Text="?%">
+    <Location X="622" Y="476" />
+    <Size Width="50" Height="20" />
+    <TextAlign>Right</TextAlign>
   </Label>
   <Button Name="Exit" Default="true" Text="OK" Hotkey="Return">
     <Location X="0" Y="20" />

@@ -33,6 +33,12 @@ public abstract class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : 
     [Browsable(false)]
     public Movement? Movement { get; set; }
 
+    /// <summary>
+    /// Controls a sound this class of entities emits.
+    /// </summary>
+    [Browsable(false)]
+    public Sound? Sound { get; set; }
+
     //--------------------//
 
     #region Clone
@@ -44,6 +50,7 @@ public abstract class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : 
     {
         var newClass = base.Clone();
         newClass.Render = Render.Select(x => x.Clone()).ToList();
+        if (Sound != null) newClass.Sound = Sound.Clone();
         return newClass;
     }
     #endregion

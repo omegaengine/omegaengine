@@ -55,10 +55,17 @@ public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe
         if (!Initialized) Initialize();
 
         Engine.Views.Add(View);
+        Engine.Audio.Listener = View;
     }
 
     /// <inheritdoc/>
-    public virtual void HookOut() => Engine.Views.Remove(View);
+    public virtual void HookOut()
+    {
+        Engine.Views.Remove(View);
+
+        // Only relinquish the audio listener if a newer presenter hasn't already taken it over
+        if (Engine.Audio.Listener == View) Engine.Audio.Listener = null;
+    }
 
     /// <inheritdoc/>
     public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)

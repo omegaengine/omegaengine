@@ -29,6 +29,7 @@ using FrameOfReference.World.Positionables;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using OmegaEngine;
+using OmegaEngine.Audio;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
@@ -94,6 +95,21 @@ partial class Presenter
             entity => entity.TemplateData?.Render.OfType<LightSource>().Select(component => component.ToPresentation(entity.Name)),
             UpdateRepresentation);
     }
+
+    /// <summary>
+    /// Registers a callback for converting an entity's <see cref="AlphaFramework.World.Components.Sound"/> component to a <see cref="Sound3D"/> representation.
+    /// </summary>
+    private void RegisterSoundComponent()
+    {
+        SoundsSync.Register<Entity, Sound3D>(
+            entity =>
+            {
+                if (entity.TemplateData?.Sound?.ToPresentation(Engine) is not {} sound) return null;
+                sound.StartPlayback(looping: true);
+                return sound;
+            },
+            UpdateRepresentation);
+    }
     #endregion
 
     #region Update helpers
@@ -137,6 +153,22 @@ partial class Presenter
         representation.Position = Universe.Terrain.ToEngineCoords(element.Position) +
                                   Vector3.TransformCoordinate(representation.Shift, Matrix.RotationY(element.Rotation.DegreeToRadian()));
     }
+
+    /// <summary>
+    /// Applies the position and rotation of a Model element to a <see cref="Sound3D"/> representation.
+    /// </summary>
+    protected void UpdateRepresentation(Entity element, Sound3D representation)
+    {
+        #region Sanity checks
+        if (element == null) throw new ArgumentNullException(nameof(element));
+        if (representation == null) throw new ArgumentNullException(nameof(representation));
+        #endregion
+
+        if (element.TemplateData?.Sound is not {} sound) return;
+
+        representation.Position = Universe.Terrain.ToEngineCoords(element.Position) +
+                                  Vector3.TransformCoordinate(sound.Shift, Matrix.RotationY(element.Rotation.DegreeToRadian()));
+    }
     #endregion
 
     /// <inheritdoc/>
@@ -145,6 +177,7 @@ partial class Presenter
         RegisterWater();
 
         RegisterRenderComponentLight();
+        RegisterSoundComponent();
 
         RegisterRenderComponent<StaticMesh>((entity, component) => ApplySharedState(component.ToPresentation(Engine, entity.Name)));
         RegisterRenderComponent<AnimatedMesh>((entity, component) => ApplySharedState(component.ToPresentation(Engine, entity.Name)));

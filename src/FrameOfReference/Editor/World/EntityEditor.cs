@@ -145,6 +145,12 @@ public partial class EntityEditor : EntityEditorDesignerShim
             propertyGridMovement.SelectedObject = null;
             labelMovement.Text = "";
             #endregion
+
+            #region Sound component
+            buttonAddSound.Enabled = buttonRemoveSound.Enabled = false;
+            propertyGridSound.SelectedObject = null;
+            labelSound.Text = "";
+            #endregion
         }
         else
         { // Class is selected
@@ -186,6 +192,13 @@ public partial class EntityEditor : EntityEditorDesignerShim
             buttonRemoveMovement.Enabled = !buttonAddMovement.Enabled;
             propertyGridMovement.SelectedObject = selectedClass.Movement;
             labelMovement.Text = selectedClass.Movement?.ToString() ?? "None";
+            #endregion
+
+            #region Sound Control
+            buttonAddSound.Enabled = (selectedClass.Sound == null);
+            buttonRemoveSound.Enabled = !buttonAddSound.Enabled;
+            propertyGridSound.SelectedObject = selectedClass.Sound;
+            labelSound.Text = selectedClass.Sound?.ToString() ?? "None";
             #endregion
 
             #region Setup sample rendering
@@ -426,6 +439,32 @@ public partial class EntityEditor : EntityEditorDesignerShim
     private void propertyGridMovement_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
     {
         OnChange();
+    }
+    #endregion
+
+    #region Sound Control
+    private void buttonAddSound_Click(object sender, EventArgs e)
+    {
+        TemplateList.SelectedEntry.Sound = new();
+        OnChange();
+
+        OnUpdate();
+    }
+
+    private void buttonRemoveSound_Click(object sender, EventArgs e)
+    {
+        TemplateList.SelectedEntry.Sound = null;
+        OnChange();
+
+        OnUpdate();
+    }
+
+    private void propertyGridSound_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+    {
+        OnChange();
+
+        // Sound-relevant properties may have changed
+        OnUpdate();
     }
     #endregion
 

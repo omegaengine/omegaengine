@@ -6,10 +6,12 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
 using NanoByte.Common.Dispatch;
 using OmegaEngine;
+using OmegaEngine.Audio;
 using OmegaEngine.Graphics.Renderables;
 using LightSource = OmegaEngine.Graphics.LightSources.LightSource;
 
@@ -34,6 +36,7 @@ public abstract class CoordinatePresenter<TUniverse, TCoordinates> : PresenterBa
     {
         RenderablesSync = new(Universe.Positionables, Scene.Positionables);
         LightsSync = new(Universe.Positionables, Scene.Lights);
+        SoundsSync = new(Universe.Positionables, _sounds);
     }
 
     /// <inheritdoc />
@@ -42,6 +45,7 @@ public abstract class CoordinatePresenter<TUniverse, TCoordinates> : PresenterBa
         RegisterRenderablesSync();
         RenderablesSync.Initialize();
         LightsSync.Initialize();
+        SoundsSync.Initialize();
 
         base.Initialize();
     }
@@ -55,6 +59,13 @@ public abstract class CoordinatePresenter<TUniverse, TCoordinates> : PresenterBa
     /// Maps between <see cref="CoordinateUniverse{TCoordinates}.Positionables"/> and <see cref="OmegaEngine.Graphics.Scene.Lights"/>.
     /// </summary>
     protected readonly ModelViewSync<Positionable<TCoordinates>, LightSource> LightsSync;
+
+    private readonly List<Sound3D> _sounds = [];
+
+    /// <summary>
+    /// Maps between <see cref="CoordinateUniverse{TCoordinates}.Positionables"/> and <see cref="Sound3D"/> representations for entities with a <see cref="AlphaFramework.World.Components.Sound"/> component.
+    /// </summary>
+    protected readonly ModelViewSync<Positionable<TCoordinates>, Sound3D> SoundsSync;
 
     /// <summary>
     /// Hook to configure <see cref="RenderablesSync"/> and <see cref="LightsSync"/>.
@@ -119,6 +130,7 @@ public abstract class CoordinatePresenter<TUniverse, TCoordinates> : PresenterBa
             {
                 RenderablesSync.Dispose();
                 LightsSync.Dispose();
+                SoundsSync.Dispose();
             }
         }
         finally

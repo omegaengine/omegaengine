@@ -19,6 +19,9 @@ public abstract class SettingsBase
     /// <summary>Stores graphics settings (effect details, etc.). Changes here don't require the engine to be reset.</summary>
     public GraphicsSettings Graphics { get; set; } = new();
 
+    /// <summary>Stores audio settings.</summary>
+    public AudioSettings Audio { get; set; } = new();
+
     /// <summary>Stores settings for the game's editor.</summary>
     public EditorSettings Editor { get; set; } = new();
 
@@ -31,6 +34,7 @@ public abstract class SettingsBase
         Controls.Changed += handler;
         Display.Changed += handler;
         Graphics.Changed += handler;
+        Audio.Changed += handler;
         Editor.Changed += handler;
     }
 }
