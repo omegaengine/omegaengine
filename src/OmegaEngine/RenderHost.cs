@@ -157,7 +157,7 @@ public partial class RenderHost : IRenderHost, IDisposable
                 Exit();
                 return false;
             }
-            catch (SlimDXException ex) when (ex is Direct3D9Exception or SlimDX.DirectSound.DirectSoundException)
+            catch (Direct3D9Exception ex)
             {
                 Msg.Inform(Form, ex.Message, MsgSeverity.Error);
                 Exit();

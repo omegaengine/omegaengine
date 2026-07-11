@@ -280,12 +280,6 @@ public abstract class Tab : UserControl
                 OnClose();
                 throw new OperationCanceledException();
             }
-            catch (SlimDX.DirectSound.DirectSoundException ex)
-            {
-                Msg.Inform(this, ex.Message, MsgSeverity.Error);
-                OnClose();
-                throw new OperationCanceledException();
-            }
             #endregion
         }
 

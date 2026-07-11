@@ -113,7 +113,6 @@ public sealed partial class Engine : EngineElement
     /// <exception cref="NotSupportedException">The graphics card does not meet the engine's minimum requirements.</exception>
     /// <exception cref="Direct3DX9NotFoundException"><c>d3dx9_43.dll</c> is missing.</exception>
     /// <exception cref="Direct3D9Exception">Internal errors occurred while initializing the graphics card.</exception>
-    /// <exception cref="SlimDX.DirectSound.DirectSoundException">Internal errors occurred while initializing the sound card.</exception>
     public Engine(Control target, EngineConfig config)
     {
         #region Sanity checks
