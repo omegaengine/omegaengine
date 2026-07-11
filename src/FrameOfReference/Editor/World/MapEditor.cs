@@ -47,6 +47,7 @@ using NanoByte.Common.Tasks;
 using NanoByte.Common.Undo;
 using OmegaEngine;
 using OmegaEngine.Foundation;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Input;
 using OmegaEngine.Foundation.Storage;
 using SlimDX;
@@ -357,12 +358,10 @@ public partial class MapEditor : UndoCommandTab
     /// </summary>
     /// <returns>The world coordinates of the <see cref="Terrain{TTemplate}"/> point currently at the center of the screen</returns>
     private Vector2 GetScreenTerrainCenter()
-    {
-        // ToDo: Place at center of screen
-        //_presenter.View.Pick(_presenter.View.AreaCenter);
-
-        return _universe.Terrain.Center;
-    }
+        => _presenter?.Terrain is {} terrain
+        && terrain.Intersects(_presenter.View.PickingRay(_presenter.View.ViewportCenter), out DoubleVector3 point)
+            ? new((float)point.X, (float)-point.Z)
+            : _universe.Terrain.Center;
     #endregion
 
     #region Toolbar

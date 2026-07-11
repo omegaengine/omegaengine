@@ -184,7 +184,12 @@ public sealed class EditorPresenter : InteractivePresenter
 
         if (Terrain.Intersects(View.PickingRay(target), out DoubleVector3 hoverPoint))
         {
-            // ToDo: Make steps discrete
+            // Snap the brush to whole terrain grid steps so it aligns with the cells it will paint
+            float stretchH = Universe.Terrain.Size.StretchH;
+            hoverPoint = new(
+                Math.Round(hoverPoint.X / stretchH) * stretchH,
+                hoverPoint.Y,
+                Math.Round(hoverPoint.Z / stretchH) * stretchH);
             _terrainPaintingBrushCircle.Position = _terrainPaintingBrushSquare.Position = hoverPoint;
 
             _terrainPaintingBrushCircle.Visible = TerrainBrush.Value.Circle;

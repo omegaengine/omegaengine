@@ -109,12 +109,12 @@ public partial class View : EngineElement, IFrameResettable
     }
 
     /// <summary>
-    /// The center point of <see cref="Area"/>
+    /// The center point of the actual render viewport in screen space.
     /// </summary>
     [Browsable(false)]
-    public Point AreaCenter => new(
-        _area.Location.X + _area.Size.Width / 2,
-        _area.Location.Y + _area.Size.Height / 2);
+    public Point ViewportCenter => new(
+        _viewport.X + _viewport.Width / 2,
+        _viewport.Y + _viewport.Height / 2);
     #endregion
 
     #region Flags
