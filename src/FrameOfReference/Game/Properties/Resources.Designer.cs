@@ -147,15 +147,6 @@ namespace FrameOfReference.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loading graphics....
-        /// </summary>
-        internal static string LoadingGraphics {
-            get {
-                return ResourceManager.GetString("LoadingGraphics", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The file Editor.exe could not be found..
         /// </summary>
         internal static string MissingEditor {
@@ -198,6 +189,15 @@ namespace FrameOfReference.Properties {
         internal static string ReadyToLaunchContinue {
             get {
                 return ResourceManager.GetString("ReadyToLaunchContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        internal static string StatusLoading {
+            get {
+                return ResourceManager.GetString("StatusLoading", resourceCulture);
             }
         }
     }

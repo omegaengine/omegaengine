@@ -141,9 +141,6 @@ Die Daten senden und dann beenden</value>
   <data name="FailedReadArchives" xml:space="preserve">
     <value>Lesen der Spieldaten Archive fehlgeschlagen.</value>
   </data>
-  <data name="LoadingGraphics" xml:space="preserve">
-    <value>Lade Grafik...</value>
-  </data>
   <data name="MissingEditor" xml:space="preserve">
     <value>Die Datei Editor.exe konnte nicht gefunden werden.</value>
   </data>
@@ -159,5 +156,8 @@ Das Spiel ist jetzt bereit zum Starten.</value>
   </data>
   <data name="ReadyToLaunchContinue" xml:space="preserve">
     <value>&amp;Spielen</value>
+  </data>
+  <data name="StatusLoading" xml:space="preserve">
+    <value>Lade...</value>
   </data>
 </root>

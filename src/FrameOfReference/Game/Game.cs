@@ -58,8 +58,8 @@ public class Game(Settings settings)
     {
         if (!base.Initialize()) return false;
 
-        UpdateStatus(Resources.LoadingGraphics);
-        using (new TimedLogEvent("Load graphics"))
+        UpdateStatus(Resources.StatusLoading);
+        using (new TimedLogEvent("Game startup"))
         {
             EntityTemplate.LoadAll();
             TerrainTemplate.LoadAll();
