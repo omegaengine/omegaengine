@@ -305,7 +305,7 @@ partial class Engine
         }
 
         // Raise PostRender event only if this is a normal render run
-        if (PostRender != null && !noPresent) PostRender();
+        if (!noPresent) PostRender?.Invoke();
     }
 
     /// <summary>

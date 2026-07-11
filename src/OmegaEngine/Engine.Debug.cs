@@ -66,7 +66,7 @@ partial class Engine
         }
 
         // Render one frame for screenshot
-        Render(elapsedGameTime: 0, true);
+        Render(elapsedGameTime: 0, noPresent: true);
 
         // Copy the BackBuffer to the file
         Surface.ToFile(BackBuffer, filename, ImageFileFormat.Jpg, new(new(), size));
@@ -82,7 +82,7 @@ partial class Engine
             DeviceReset?.Invoke();
 
             // Render one frame to restore original configuration
-            Render(elapsedGameTime: 0, true);
+            Render(elapsedGameTime: 0, noPresent: true);
         }
 
         // Restore PostRender delegate
