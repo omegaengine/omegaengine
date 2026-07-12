@@ -160,12 +160,11 @@ public abstract class Shader : EngineElement
     /// <param name="path">The shader file path relative to the shader directory or as an absolute path</param>
     protected void LoadShaderFile(string path)
     {
+        using var _ = new TimedLogEvent($"Loading shader file: {path}");
+
         path = Path.Combine(Engine.ShaderDir, path);
-        using (new TimedLogEvent($"Loading shader file: {path}"))
-        {
-            if (!File.Exists(path)) throw new FileNotFoundException($"{Resources.NotFoundShaderFile}\n{path}", path);
-            Effect = Effect.FromFile(Engine.Device, path, null, null, null, ShaderFlags.None);
-        }
+        if (!File.Exists(path)) throw new FileNotFoundException($"{Resources.NotFoundShaderFile}\n{path}", path);
+        Effect = Effect.FromFile(Engine.Device, path, null, null, null, ShaderFlags.None);
     }
     #endregion
 

@@ -18,17 +18,16 @@ public class MainMenu(Game game, Universe universe) : IGameState
     /// <inheritdoc/>
     public void Enter()
     {
+        using var _ = new TimedLogEvent($"Enter {nameof(MainMenu)} state");
+
         game.Loading = true;
 
-        using (new TimedLogEvent("Initialize menu"))
-        {
-            _presenter.Initialize();
-            _presenter.HookIn();
-            if (Settings.Current.Graphics.Fading) game.Engine.FadeIn();
-            game.GuiManager.CloseAll();
-            game.LoadModalDialog("MainMenu");
-            game.Engine.Music.PlayTheme("MainMenu");
-        }
+        _presenter.Initialize();
+        _presenter.HookIn();
+        if (Settings.Current.Graphics.Fading) game.Engine.FadeIn();
+        game.GuiManager.CloseAll();
+        game.LoadModalDialog("MainMenu");
+        game.Engine.Music.PlayTheme("MainMenu");
 
         game.Loading = false;
     }

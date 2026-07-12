@@ -25,16 +25,15 @@ public class Benchmark : SessionStateBase
     [LuaHide]
     public override void Enter()
     {
-        using (new TimedLogEvent("Start benchmark"))
-        {
-            _presenter.Initialize();
-            InitializeLua();
-            _presenter.HookIn();
-            if (Settings.Current.Graphics.Fading) game.Engine.FadeIn();
+        using var _ = new TimedLogEvent("Start benchmark");
 
-            game.GuiManager.Reset();
-            game.LoadDialog("InGame/HUD_Benchmark");
-        }
+        _presenter.Initialize();
+        InitializeLua();
+        _presenter.HookIn();
+        if (Settings.Current.Graphics.Fading) game.Engine.FadeIn();
+
+        game.GuiManager.Reset();
+        game.LoadDialog("InGame/HUD_Benchmark");
 
         game.Engine.Cache.Clean();
     }

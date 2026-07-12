@@ -136,42 +136,41 @@ public partial class RenderHost : IRenderHost, IDisposable
     /// <returns><c>true</c> if the initialization worked, <c>false</c> if it failed and the app must be closed</returns>
     protected virtual bool Initialize()
     {
-        using (new TimedLogEvent("Initialize engine"))
-        {
-            // Initialize engine
-            try
-            {
-                _engine = new(Form, BuildEngineConfig(fullscreen: false)); // No fullscreen while loading
-            }
-            #region Error handling
-            catch (NotSupportedException ex)
-            {
-                Log.Error($"{ex}\n{ex.InnerException}");
-                Msg.Inform(Form, Resources.BadGraphics, MsgSeverity.Error);
-                Exit();
-                return false;
-            }
-            catch (Direct3D9Exception ex) when (ex is Direct3D9NotFoundException or Direct3DX9NotFoundException)
-            {
-                Msg.Inform(Form, Resources.DirectXMissing, MsgSeverity.Error);
-                Exit();
-                return false;
-            }
-            catch (Direct3D9Exception ex)
-            {
-                Msg.Inform(Form, ex.Message, MsgSeverity.Error);
-                Exit();
-                return false;
-            }
-            #endregion
+        using var _ = new TimedLogEvent("Initialize engine");
 
-            if (Engine.Capabilities.MaxShaderModel < TerrainShader.MinShaderModel)
-            {
-                Log.Error($"No support for Pixel Shader {TerrainShader.MinShaderModel}");
-                Msg.Inform(Form, $"{Resources.BadGraphics}\n{string.Format(Resources.MinimumShaderModel, TerrainShader.MinShaderModel)}", MsgSeverity.Warn);
-                Exit();
-                return false;
-            }
+        // Initialize engine
+        try
+        {
+            _engine = new(Form, BuildEngineConfig(fullscreen: false)); // No fullscreen while loading
+        }
+        #region Error handling
+        catch (NotSupportedException ex)
+        {
+            Log.Error($"{ex}\n{ex.InnerException}");
+            Msg.Inform(Form, Resources.BadGraphics, MsgSeverity.Error);
+            Exit();
+            return false;
+        }
+        catch (Direct3D9Exception ex) when (ex is Direct3D9NotFoundException or Direct3DX9NotFoundException)
+        {
+            Msg.Inform(Form, Resources.DirectXMissing, MsgSeverity.Error);
+            Exit();
+            return false;
+        }
+        catch (Direct3D9Exception ex)
+        {
+            Msg.Inform(Form, ex.Message, MsgSeverity.Error);
+            Exit();
+            return false;
+        }
+        #endregion
+
+        if (Engine.Capabilities.MaxShaderModel < TerrainShader.MinShaderModel)
+        {
+            Log.Error($"No support for Pixel Shader {TerrainShader.MinShaderModel}");
+            Msg.Inform(Form, $"{Resources.BadGraphics}\n{string.Format(Resources.MinimumShaderModel, TerrainShader.MinShaderModel)}", MsgSeverity.Warn);
+            Exit();
+            return false;
         }
 
         return true;

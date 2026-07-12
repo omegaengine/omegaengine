@@ -94,21 +94,20 @@ public static class TexturedMeshUtils
     /// <param name="mesh">The <see cref="Mesh"/> to be optimized.</param>
     private static void Optimize(Mesh mesh)
     {
-        using (new TimedLogEvent("Optimized mesh"))
-        {
-            mesh.GenerateAdjacency(epsilon: 0);
+        using var _ = new TimedLogEvent("Optimized mesh");
 
-            try
-            {
-                mesh.OptimizeInPlace(MeshOptimizeFlags.VertexCache | MeshOptimizeFlags.AttributeSort);
-            }
-            #region Error handling
-            catch (Direct3D9Exception ex)
-            {
-                Log.Warn("Failed to optimize mesh", ex);
-            }
-            #endregion
+        mesh.GenerateAdjacency(epsilon: 0);
+
+        try
+        {
+            mesh.OptimizeInPlace(MeshOptimizeFlags.VertexCache | MeshOptimizeFlags.AttributeSort);
         }
+        #region Error handling
+        catch (Direct3D9Exception ex)
+        {
+            Log.Warn("Failed to optimize mesh", ex);
+        }
+        #endregion
     }
 
     /// <summary>
@@ -253,56 +252,55 @@ public static class TexturedMeshUtils
 
             if (!hadTangents)
             {
-                using (new TimedLogEvent("Computed tangents"))
+                using var _ = new TimedLogEvent("Computed tangents");
+
+                // If the vertexes for a smoothend point exist several times the
+                // DirectX ComputeTangent method is not able to treat them all the
+                // same way.
+                // To circumvent this, we collapse all vertexes in a cloned mesh
+                // even if the texture coordinates don't fit. Then we copy the
+                // generated tangents back to the original mesh vertexes (duplicating
+                // the tangents for vertexes at the same point with the same normals
+                // if required). This happens usually with models exported from 3DSMax.
+
+                // Clone mesh just for tangent generation
+                Mesh dummyTangentGenerationMesh = mesh.Clone(device, mesh.CreationOptions, decl);
+
+                // Reuse weldEpsilons, just change the TextureCoordinates, which we don't care about anymore
+                weldEpsilons.TextureCoordinate1 = 1;
+                weldEpsilons.TextureCoordinate2 = 1;
+                weldEpsilons.TextureCoordinate3 = 1;
+                weldEpsilons.TextureCoordinate4 = 1;
+                weldEpsilons.TextureCoordinate5 = 1;
+                weldEpsilons.TextureCoordinate6 = 1;
+                weldEpsilons.TextureCoordinate7 = 1;
+                weldEpsilons.TextureCoordinate8 = 1;
+                // Rest of the weldEpsilons values can stay 0, we don't use them
+                dummyTangentGenerationMesh.WeldVertices(WeldFlags.WeldPartialMatches, weldEpsilons);
+
+                // Compute tangents
+                dummyTangentGenerationMesh.ComputeTangent(0, 0, 0, false);
+                var tangentVertexes = dummyTangentGenerationMesh.ReadVertexBuffer<PositionNormalBinormalTangentTextured>();
+                dummyTangentGenerationMesh.Dispose();
+
+                // Copy generated tangents back
+                vertexes = mesh.ReadVertexBuffer<PositionNormalBinormalTangentTextured>();
+                for (int num = 0; num < vertexes.Length; num++)
                 {
-                    // If the vertexes for a smoothend point exist several times the
-                    // DirectX ComputeTangent method is not able to treat them all the
-                    // same way.
-                    // To circumvent this, we collapse all vertexes in a cloned mesh
-                    // even if the texture coordinates don't fit. Then we copy the
-                    // generated tangents back to the original mesh vertexes (duplicating
-                    // the tangents for vertexes at the same point with the same normals
-                    // if required). This happens usually with models exported from 3DSMax.
-
-                    // Clone mesh just for tangent generation
-                    Mesh dummyTangentGenerationMesh = mesh.Clone(device, mesh.CreationOptions, decl);
-
-                    // Reuse weldEpsilons, just change the TextureCoordinates, which we don't care about anymore
-                    weldEpsilons.TextureCoordinate1 = 1;
-                    weldEpsilons.TextureCoordinate2 = 1;
-                    weldEpsilons.TextureCoordinate3 = 1;
-                    weldEpsilons.TextureCoordinate4 = 1;
-                    weldEpsilons.TextureCoordinate5 = 1;
-                    weldEpsilons.TextureCoordinate6 = 1;
-                    weldEpsilons.TextureCoordinate7 = 1;
-                    weldEpsilons.TextureCoordinate8 = 1;
-                    // Rest of the weldEpsilons values can stay 0, we don't use them
-                    dummyTangentGenerationMesh.WeldVertices(WeldFlags.WeldPartialMatches, weldEpsilons);
-
-                    // Compute tangents
-                    dummyTangentGenerationMesh.ComputeTangent(0, 0, 0, false);
-                    var tangentVertexes = dummyTangentGenerationMesh.ReadVertexBuffer<PositionNormalBinormalTangentTextured>();
-                    dummyTangentGenerationMesh.Dispose();
-
-                    // Copy generated tangents back
-                    vertexes = mesh.ReadVertexBuffer<PositionNormalBinormalTangentTextured>();
-                    for (int num = 0; num < vertexes.Length; num++)
+                    // Search for tangent vertex with the exact same position and normal.
+                    for (int tangentVertexNum = 0; tangentVertexNum < tangentVertexes.Length; tangentVertexNum++)
                     {
-                        // Search for tangent vertex with the exact same position and normal.
-                        for (int tangentVertexNum = 0; tangentVertexNum < tangentVertexes.Length; tangentVertexNum++)
+                        if (vertexes[num].Position == tangentVertexes[tangentVertexNum].Position && vertexes[num].Normal == tangentVertexes[tangentVertexNum].Normal)
                         {
-                            if (vertexes[num].Position == tangentVertexes[tangentVertexNum].Position && vertexes[num].Normal == tangentVertexes[tangentVertexNum].Normal)
-                            {
-                                // Copy the tangent and binormal over
-                                vertexes[num].Tangent = tangentVertexes[tangentVertexNum].Tangent;
-                                vertexes[num].Binormal = tangentVertexes[tangentVertexNum].Binormal;
-                                // No more checks required, proceed with next vertex
-                                break;
-                            }
+                            // Copy the tangent and binormal over
+                            vertexes[num].Tangent = tangentVertexes[tangentVertexNum].Tangent;
+                            vertexes[num].Binormal = tangentVertexes[tangentVertexNum].Binormal;
+                            // No more checks required, proceed with next vertex
+                            break;
                         }
                     }
-                    mesh.WriteVertexBuffer(vertexes);
                 }
+                mesh.WriteVertexBuffer(vertexes);
             }
         }
         else if (!hadTangents)

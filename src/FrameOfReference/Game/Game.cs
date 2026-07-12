@@ -58,44 +58,43 @@ public class Game(Settings settings)
     {
         if (!base.Initialize()) return false;
 
+        using var _ = new TimedLogEvent("Game startup");
         UpdateStatus(Resources.StatusLoading);
-        using (new TimedLogEvent("Game startup"))
-        {
-            EntityTemplate.LoadAll();
-            TerrainTemplate.LoadAll();
 
-            if (Arguments.GetOption("map") is {} map)
-                LoadMap(map);
-            else if (Arguments.GetOption("savegame") is {} savegame)
+        EntityTemplate.LoadAll();
+        TerrainTemplate.LoadAll();
+
+        if (Arguments.GetOption("map") is {} map)
+            LoadMap(map);
+        else if (Arguments.GetOption("savegame") is {} savegame)
+        {
+            try
             {
-                try
-                {
-                    new Savegames(this).Load(savegame);
-                }
-                #region Error handling
-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
-                {
-                    Msg.Inform(Form, ex.Message, MsgSeverity.Error);
-                    return false;
-                }
-                #endregion
+                new Savegames(this).Load(savegame);
             }
-            else if (Arguments.GetOption("modify") is {} modify)
-                ModifyMap(modify);
-            else if (Arguments.HasOption("benchmark"))
+            #region Error handling
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
             {
-                TransitionTo(new Benchmark(this, onComplete: path =>
-                {
-                    Form.Visible = false;
-                    Msg.Inform(null, $"Please upload the file '{path}'.", MsgSeverity.Info);
-                    Exit();
-                }));
+                Msg.Inform(Form, ex.Message, MsgSeverity.Error);
+                return false;
             }
-            else
+            #endregion
+        }
+        else if (Arguments.GetOption("modify") is {} modify)
+            ModifyMap(modify);
+        else if (Arguments.HasOption("benchmark"))
+        {
+            TransitionTo(new Benchmark(this, onComplete: path =>
             {
-                _resumeSession = Savegames.LoadFromResume();
-                SwitchToMenu();
-            }
+                Form.Visible = false;
+                Msg.Inform(null, $"Please upload the file '{path}'.", MsgSeverity.Info);
+                Exit();
+            }));
+        }
+        else
+        {
+            _resumeSession = Savegames.LoadFromResume();
+            SwitchToMenu();
         }
 
         return true;

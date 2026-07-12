@@ -30,25 +30,25 @@ public abstract class InGameBase : SessionStateBase
     [LuaHide]
     public override void Enter()
     {
+        using var _ = new TimedLogEvent("Enter InGame state");
+
         game.Loading = true;
 
-        using (new TimedLogEvent("Initialize game"))
-        {
-            _presenter.Initialize();
-            OnPresenterInitialized();
-            game.AddInputReceiver(_presenter);
-            _presenter.HookIn();
-            if (Settings.Current.Graphics.Fading) game.Engine.FadeIn();
+        _presenter.Initialize();
+        OnPresenterInitialized();
+        game.AddInputReceiver(_presenter);
+        _presenter.HookIn();
+        if (Settings.Current.Graphics.Fading) game.Engine.FadeIn();
 
-            game.GuiManager.Reset();
-            game.LoadDialog(HudDialog);
-        }
+        game.GuiManager.Reset();
+        game.LoadDialog(HudDialog);
+
+        InitializeLua();
 
         game.Engine.Cache.Clean();
 
         game.Loading = false;
         _isPaused = false;
-        InitializeLua();
     }
 
     protected virtual void OnPresenterInitialized() {}

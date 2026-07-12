@@ -65,19 +65,18 @@ public sealed class CacheManager : IDisposable
     /// </summary>
     public void Clean()
     {
-        using (new ProfilerEvent("Cleaning asset cache"))
-        {
-            // Build a list of elements to remove
-            var pendingRemove = new LinkedList<Asset>();
-            foreach (var asset in _assetCache.Where(x => x.ReferenceCount == 0))
-            {
-                asset.Dispose();
-                pendingRemove.AddLast(asset);
-            }
+        using var _ = new ProfilerEvent("Cleaning asset cache");
 
-            // Remove the elements one-by-one
-            foreach (var asset in pendingRemove) _assetCache.Remove(asset);
+        // Build a list of elements to remove
+        var pendingRemove = new LinkedList<Asset>();
+        foreach (var asset in _assetCache.Where(x => x.ReferenceCount == 0))
+        {
+            asset.Dispose();
+            pendingRemove.AddLast(asset);
         }
+
+        // Remove the elements one-by-one
+        foreach (var asset in pendingRemove) _assetCache.Remove(asset);
 
         GC.Collect();
     }
