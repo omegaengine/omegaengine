@@ -78,6 +78,8 @@ public sealed class CacheManager : IDisposable
             // Remove the elements one-by-one
             foreach (var asset in pendingRemove) _assetCache.Remove(asset);
         }
+
+        GC.Collect();
     }
     #endregion
 

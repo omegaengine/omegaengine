@@ -1,8 +1,6 @@
-using System;
 using FrameOfReference.Presentation;
 using FrameOfReference.World;
 using NLua;
-using NanoByte.Common;
 
 namespace FrameOfReference.States;
 
@@ -29,15 +27,6 @@ public abstract class SessionStateBase(Game game, Session session) : IGameState
     {
         lua["Session"] = session;
         lua["Universe"] = session.Universe;
-    }
-
-    protected void CleanCaches()
-    {
-        using (new TimedLogEvent("Clean caches"))
-        {
-            game.Engine.Cache.Clean();
-            GC.Collect();
-        }
     }
 
     protected void InitializeLua() => session.Lua = game.NewLua();

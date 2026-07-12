@@ -36,7 +36,7 @@ public class Benchmark : SessionStateBase
             game.LoadDialog("InGame/HUD_Benchmark");
         }
 
-        CleanCaches();
+        game.Engine.Cache.Clean();
     }
 
     /// <inheritdoc/>

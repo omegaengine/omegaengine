@@ -44,7 +44,7 @@ public abstract class InGameBase : SessionStateBase
             game.LoadDialog(HudDialog);
         }
 
-        CleanCaches();
+        game.Engine.Cache.Clean();
 
         game.Loading = false;
         _isPaused = false;
