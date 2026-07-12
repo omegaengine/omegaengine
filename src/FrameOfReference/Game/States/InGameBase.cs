@@ -38,7 +38,7 @@ public abstract class InGameBase : SessionStateBase
         OnPresenterInitialized();
         game.AddInputReceiver(_presenter);
         _presenter.HookIn();
-        if (Settings.Current.Graphics.Fading) game.Engine.FadeIn();
+        game.Engine.FadeIn();
 
         game.GuiManager.Reset();
         game.LoadDialog(HudDialog);

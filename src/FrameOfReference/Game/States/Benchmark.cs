@@ -30,7 +30,6 @@ public class Benchmark : SessionStateBase
         _presenter.Initialize();
         InitializeLua();
         _presenter.HookIn();
-        if (Settings.Current.Graphics.Fading) game.Engine.FadeIn();
 
         game.GuiManager.Reset();
         game.LoadDialog("InGame/HUD_Benchmark");

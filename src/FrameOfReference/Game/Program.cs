@@ -121,7 +121,6 @@ public static class Program
     /// </summary>
     private static void ConfigureSettingsForBenchmark()
     {
-        Settings.Current.Graphics.Fading = false;
         Settings.Current.Graphics.WaterEffects = WaterEffectsType.None;
         Settings.Current.Display.VSync = false;
         Settings.Current.Display.Resolution = Settings.Current.Display.WindowSize = new(1024, 768);

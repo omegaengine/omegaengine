@@ -96,14 +96,6 @@ public sealed class GraphicsSettings
     [DefaultValue(WaterEffectsType.ReflectAll), Description("What kind of effects to display on water (e.g. reflections)")]
     public WaterEffectsType WaterEffects { get => _waterEffects; set => value.To(ref _waterEffects, Changed); }
 
-    private bool _fading = true;
-
-    /// <summary>
-    /// Fade in game scenes from black
-    /// </summary>
-    [DefaultValue(true), Description("Fade in game scenes from black")]
-    public bool Fading { get => _fading; set => value.To(ref _fading, Changed); }
-
     private float _fieldOfView = 60;
 
     /// <summary>
