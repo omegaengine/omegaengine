@@ -363,12 +363,15 @@ public class DropdownList : Button
                 }
                 case WindowMessage.LeftButtonUp:
                 {
-                    if (isPressed && ContainsPoint(pt))
+                    if (isPressed)
                     {
-                        // Button click
+                        // End the press, even if the button was released outside the control
                         isPressed = false;
                         parentDialog.DialogManager.Target.Capture = false;
-                        return true;
+
+                        // Button click
+                        if (ContainsPoint(pt))
+                            return true;
                     }
                     break;
                 }

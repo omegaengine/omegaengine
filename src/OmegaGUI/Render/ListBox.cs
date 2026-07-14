@@ -287,17 +287,21 @@ public class ListBox : Control
                         clicked < itemList.Count &&
                         clicked < scrollbarControl.TrackPosition + scrollbarControl.PageSize)
                     {
-                        parentDialog.DialogManager.Target.Capture = true;
-                        isDragging = true;
-
                         // If this is a double click, fire off an event and exit
                         // since the first click would have taken care of the selection
                         // updating.
                         if (msg == WindowMessage.LeftButtonDoubleClick)
                         {
+                            // End the drag started by the preceding click before raising the event.
+                            parentDialog.DialogManager.Target.Capture = false;
+                            isDragging = false;
+
                             RaiseDoubleClickEvent(this, true);
                             return true;
                         }
+
+                        parentDialog.DialogManager.Target.Capture = true;
+                        isDragging = true;
 
                         selectedIndex = clicked;
                         if ((wParam.ToInt32() & ShiftModifier) == 0)
@@ -438,6 +442,14 @@ public class ListBox : Control
             {
                 if (isDragging)
                 {
+                    // The button-up that should have ended the drag may never have reached us
+                    if (!System.Windows.Forms.Control.MouseButtons.HasFlag(MouseButtons.Left))
+                    {
+                        parentDialog.DialogManager.Target.Capture = false;
+                        isDragging = false;
+                        break;
+                    }
+
                     // compute the index of the item below the cursor
                     int itemIndex = -1;
                     if (textHeight > 0)

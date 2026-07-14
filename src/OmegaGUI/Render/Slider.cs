@@ -170,6 +170,14 @@ public class Slider : Control
             {
                 if (isPressed)
                 {
+                    // The button-up that should have ended the drag may never have reached us
+                    if (!System.Windows.Forms.Control.MouseButtons.HasFlag(MouseButtons.Left))
+                    {
+                        isPressed = false;
+                        parentDialog.DialogManager.Target.Capture = false;
+                        break;
+                    }
+
                     SetValueInternal(ValueFromPosition(controlX + pt.X + dragOffset), true);
                     return true;
                 }
