@@ -32,9 +32,9 @@ public class VertexGroupTest : EngineTestBase
     {
         PositionColored[] vertexes =
         [
-            new(0, 0, 0, Color.Red.ToArgb()),
-            new(1, 0, 0, Color.Green.ToArgb()),
-            new(0, 1, 0, Color.Blue.ToArgb())
+            new(0, 0, 0, Color.Red),
+            new(1, 0, 0, Color.Green),
+            new(0, 1, 0, Color.Blue)
         ];
         using var group = new VertexGroup(PrimitiveType.TriangleList, vertexes);
         group.Engine = Engine;

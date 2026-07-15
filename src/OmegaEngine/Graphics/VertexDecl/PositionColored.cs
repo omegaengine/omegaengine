@@ -6,6 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Drawing;
 using System.Runtime.InteropServices;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -19,7 +20,7 @@ namespace OmegaEngine.Graphics.VertexDecl;
 /// <param name="position">The position of the vertex in entity-space</param>
 /// <param name="color">The color of the vertex</param>
 [StructLayout(LayoutKind.Sequential)]
-public struct PositionColored(Vector3 position, int color)
+public struct PositionColored(Vector3 position, Color color)
 {
     /// <summary>
     /// The fixed-function format of this vertex structure.
@@ -30,7 +31,7 @@ public struct PositionColored(Vector3 position, int color)
     public Vector3 Position = position;
 
     /// <summary>The color of the vertex</summary>
-    public int Color = color;
+    public int Color = color.ToArgb();
 
     /// <summary>
     /// Creates a new positioned, colored vertex
@@ -39,7 +40,7 @@ public struct PositionColored(Vector3 position, int color)
     /// <param name="yvalue">The Y-component of the position of the vertex in entity-space</param>
     /// <param name="zvalue">The Z-component of the position of the vertex in entity-space</param>
     /// <param name="color">The color of the vertex</param>
-    public PositionColored(float xvalue, float yvalue, float zvalue, int color)
+    public PositionColored(float xvalue, float yvalue, float zvalue, Color color)
         : this(new(xvalue, yvalue, zvalue), color)
     {}
 
