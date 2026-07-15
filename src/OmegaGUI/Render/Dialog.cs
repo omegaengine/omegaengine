@@ -1312,18 +1312,18 @@ public class Dialog
     {
         dialogVertexes =
         [
-            new(dialogX - 1, dialogY - 1, 0.5f, 1.0f, topLeftColor.ToArgb(), 0.0f, 0.5f),
-            new(dialogX + Width, dialogY - 1, 0.5f, 1.0f, topRightColor.ToArgb(), 1.0f, 0.5f),
-            new(dialogX + Width, dialogY + Height, 0.5f, 1.0f, bottomRightColor.ToArgb(), 1.0f, 1.0f),
-            new(dialogX - 1, dialogY + Height, 0.5f, 1.0f, bottomLeftColor.ToArgb(), 0.0f, 1.0f)
+            new(dialogX - 1, dialogY - 1, 0.5f, 1.0f, topLeftColor.ToColor(), 0.0f, 0.5f),
+            new(dialogX + Width, dialogY - 1, 0.5f, 1.0f, topRightColor.ToColor(), 1.0f, 0.5f),
+            new(dialogX + Width, dialogY + Height, 0.5f, 1.0f, bottomRightColor.ToColor(), 1.0f, 1.0f),
+            new(dialogX - 1, dialogY + Height, 0.5f, 1.0f, bottomLeftColor.ToColor(), 0.0f, 1.0f)
         ];
 
         captionVertexes =
         [
-            new(dialogX + 5, dialogY + 5, 0.5f, 1.0f, captionColor.ToArgb(), 0.0f, 0.5f),
-            new(dialogX + Width - 5, dialogY + 5, 0.5f, 1.0f, captionColor.ToArgb(), 1.0f, 0.5f),
-            new(dialogX + Width - 5, dialogY + captionHeight - 5, 0.5f, 1.0f, captionColor.ToArgb(), 1.0f, 1.0f),
-            new(dialogX + 5, dialogY + captionHeight - 5, 0.5f, 1.0f, captionColor.ToArgb(), 0.0f, 1.0f)
+            new(dialogX + 5, dialogY + 5, 0.5f, 1.0f, captionColor.ToColor(), 0.0f, 0.5f),
+            new(dialogX + Width - 5, dialogY + 5, 0.5f, 1.0f, captionColor.ToColor(), 1.0f, 0.5f),
+            new(dialogX + Width - 5, dialogY + captionHeight - 5, 0.5f, 1.0f, captionColor.ToColor(), 1.0f, 1.0f),
+            new(dialogX + 5, dialogY + captionHeight - 5, 0.5f, 1.0f, captionColor.ToColor(), 0.0f, 1.0f)
         ];
     }
     #endregion
@@ -1537,7 +1537,7 @@ public class Dialog
         rect.Offset(dialogX, dialogY);
 
         // Get the integer value of the color
-        int realColor = color.ToArgb();
+        var realColor = color.ToColor();
         // Create some vertexes
         TransformedColoredTextured[] vertexes =
         [

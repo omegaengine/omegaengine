@@ -6,6 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Drawing;
 using System.Runtime.InteropServices;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -20,7 +21,7 @@ namespace OmegaEngine.Graphics.VertexDecl;
 /// <param name="normal">The normal of the vertex in entity-space</param>
 /// <param name="color">The color of the vertex</param>
 [StructLayout(LayoutKind.Sequential)]
-public struct PositionNormalColored(Vector3 position, Vector3 normal, int color)
+public struct PositionNormalColored(Vector3 position, Vector3 normal, Color color)
 {
     /// <summary>
     /// The fixed-function format of this vertex structure.
@@ -34,7 +35,7 @@ public struct PositionNormalColored(Vector3 position, Vector3 normal, int color)
     public Vector3 Normal = normal;
 
     /// <summary>The color of the vertex</summary>
-    public int Color = color;
+    public int Color = color.ToArgb();
 
     public override string ToString() => $"{nameof(PositionNormalColored)}(position={Position}, normal={Normal}, color={Color})";
 }

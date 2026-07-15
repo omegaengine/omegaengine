@@ -36,10 +36,10 @@ public static class EngineUtilsDraw
 
         TransformedColored[] vertexes =
         [
-            new(rectangle.Left, rectangle.Top, 0, 1, color.ToArgb()),
-            new(rectangle.Right, rectangle.Top, 0, 1, color.ToArgb()),
-            new(rectangle.Right, rectangle.Bottom, 0, 1, color.ToArgb()),
-            new(rectangle.Left, rectangle.Bottom, 0, 1, color.ToArgb())
+            new(rectangle.Left, rectangle.Top, 0, 1, color),
+            new(rectangle.Right, rectangle.Top, 0, 1, color),
+            new(rectangle.Right, rectangle.Bottom, 0, 1, color),
+            new(rectangle.Left, rectangle.Bottom, 0, 1, color)
         ];
         engine.Device.VertexFormat = TransformedColored.Format;
         engine.State.SetTexture(null);
@@ -129,8 +129,6 @@ public static class EngineUtilsDraw
 
         using (new ProfilerEvent("Rendering colored quad"))
         {
-            int colVal = color.ToArgb();
-
             // Prepare render states
             engine.State.FillMode = FillMode.Solid;
             engine.State.CullMode = Cull.Counterclockwise;
@@ -139,10 +137,10 @@ public static class EngineUtilsDraw
 
             TransformedColored[] vertexes =
             [
-                new(engine.Device.Viewport.X - 0.5f, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 0.5f, 0, 1, colVal),
-                new(engine.Device.Viewport.X - 0.5f, engine.Device.Viewport.Y - 0.5f, 0, 1, colVal),
-                new(engine.Device.Viewport.X + engine.Device.Viewport.Width - 0.5f, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 0.5f, 0, 1, colVal),
-                new(engine.Device.Viewport.X + engine.Device.Viewport.Width - 0.5f, engine.Device.Viewport.Y - 0.5f, 0, 1, colVal)
+                new(engine.Device.Viewport.X - 0.5f, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 0.5f, 0, 1, color),
+                new(engine.Device.Viewport.X - 0.5f, engine.Device.Viewport.Y - 0.5f, 0, 1, color),
+                new(engine.Device.Viewport.X + engine.Device.Viewport.Width - 0.5f, engine.Device.Viewport.Y + engine.Device.Viewport.Height - 0.5f, 0, 1, color),
+                new(engine.Device.Viewport.X + engine.Device.Viewport.Width - 0.5f, engine.Device.Viewport.Y - 0.5f, 0, 1, color)
             ];
 
             engine.State.SetTexture(null);

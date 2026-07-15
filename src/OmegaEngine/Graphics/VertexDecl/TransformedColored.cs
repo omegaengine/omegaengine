@@ -6,6 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Drawing;
 using System.Runtime.InteropServices;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -19,7 +20,7 @@ namespace OmegaEngine.Graphics.VertexDecl;
 /// <param name="rhw">The reciprocal of homogeneous W (the depth-value)</param>
 /// <param name="color">The color of the vertex</param>
 [StructLayout(LayoutKind.Sequential)]
-public struct TransformedColored(Vector3 position, float rhw, int color)
+public struct TransformedColored(Vector3 position, float rhw, Color color)
 {
     /// <summary>
     /// The fixed-function format of this vertex structure.
@@ -33,7 +34,7 @@ public struct TransformedColored(Vector3 position, float rhw, int color)
     public float Rhw = rhw;
 
     /// <summary>The color of the vertex</summary>
-    public int Color = color;
+    public int Color = color.ToArgb();
 
     /// <summary>
     /// Creates a new transformed, colored vertex
@@ -43,7 +44,7 @@ public struct TransformedColored(Vector3 position, float rhw, int color)
     /// <param name="zvalue">The Z-component of the position of the vertex in screen-space</param>
     /// <param name="rhw">The reciprocal of homogeneous W (the depth-value)</param>
     /// <param name="color">The color of the vertex</param>
-    public TransformedColored(float xvalue, float yvalue, float zvalue, float rhw, int color)
+    public TransformedColored(float xvalue, float yvalue, float zvalue, float rhw, Color color)
         : this(new(xvalue, yvalue, zvalue), rhw, color)
     {}
 

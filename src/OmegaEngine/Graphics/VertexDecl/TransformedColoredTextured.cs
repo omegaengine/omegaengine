@@ -6,6 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Drawing;
 using System.Runtime.InteropServices;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -21,7 +22,7 @@ namespace OmegaEngine.Graphics.VertexDecl;
 /// <param name="tu">The U-component of the texture coordinates</param>
 /// <param name="tv">The V-component of the texture coordinates</param>
 [StructLayout(LayoutKind.Sequential)]
-public struct TransformedColoredTextured(Vector3 position, float rhw, int color, float tu, float tv)
+public struct TransformedColoredTextured(Vector3 position, float rhw, Color color, float tu, float tv)
 {
     /// <summary>
     /// The fixed-function format of this vertex structure.
@@ -35,7 +36,7 @@ public struct TransformedColoredTextured(Vector3 position, float rhw, int color,
     public float Rhw = rhw;
 
     /// <summary>A color by which the texture will be multiplied</summary>
-    public int Color = color;
+    public int Color = color.ToArgb();
 
     /// <summary>The U-component of the texture coordinates</summary>
     public float Tu = tu;
@@ -53,7 +54,7 @@ public struct TransformedColoredTextured(Vector3 position, float rhw, int color,
     /// <param name="color">A color by which the texture will be multiplied</param>
     /// <param name="tu">The U-component of the texture coordinates</param>
     /// <param name="tv">The V-component of the texture coordinates</param>
-    public TransformedColoredTextured(float xvalue, float yvalue, float zvalue, float rhw, int color, float tu, float tv)
+    public TransformedColoredTextured(float xvalue, float yvalue, float zvalue, float rhw, Color color, float tu, float tv)
         : this(new(xvalue, yvalue, zvalue), rhw, color, tu, tv)
     {}
 
