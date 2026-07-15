@@ -40,6 +40,36 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
+    public void AutoScaleDistanceKeepsNaturalSizeWhenClose()
+    {
+        using var model = Model.Box(Engine, XMaterial.Default, new(2, 2, 2));
+        float originalRadius = model.WorldBoundingSphere!.Value.Radius;
+
+        model.AutoScaleDistance = 100;
+
+        // Camera closer than the start distance: the factor is clamped to 1, so no scaling occurs
+        var camera = new ArcballCamera {Radius = 50, Size = new Size(800, 600)};
+        model.IsVisible(camera);
+
+        model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius, 0.001f);
+    }
+
+    [Fact]
+    public void AutoScaleDistanceScalesUpWhenFar()
+    {
+        using var model = Model.Box(Engine, XMaterial.Default, new(2, 2, 2));
+        float originalRadius = model.WorldBoundingSphere!.Value.Radius;
+
+        model.AutoScaleDistance = 100;
+
+        // Camera at twice the start distance: factor = distance / AutoScaleDistance = 2
+        var camera = new ArcballCamera {Radius = 200, Size = new Size(800, 600)};
+        model.IsVisible(camera);
+
+        model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius * 2, 0.001f);
+    }
+
+    [Fact]
     public void IsVisibleIsFalseWhenHiddenOrFullyTransparent()
     {
         using var model = Model.Box(Engine, XMaterial.Default);

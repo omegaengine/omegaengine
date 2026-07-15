@@ -141,6 +141,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     private Matrix _billboardRotation = Matrix.Identity;
     private float _forcedPerspectiveScaling = 1;
     private DoubleVector3 _forcedPerspectiveTranslation;
+    private float _autoScaleFactor = 1;
 
     /// <summary>
     /// A transformation matrix that is to be applied before the normal world transform occurs - useful for correcting off-center meshes
@@ -197,6 +198,16 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// </remarks>
     [Description("When the renderable is farther than this distance from the camera, it is instead rendered at this distance, with corresponding scaling applied to preserve its apparent size (angular diameter)."), Category("Layout")]
     public float? ForcedPerspectiveDistance { get; set; }
+
+    /// <summary>
+    /// The distance from the <see cref="Camera"/> beyond which the renderable is automatically scaled up to preserve its apparent size (angular diameter), keeping distant objects visible.
+    /// </summary>
+    /// <remarks>
+    /// <para>While closer than this distance the renderable renders at its natural size; farther away it is scaled up so that it never appears smaller than it does at this distance.</para>
+    /// <para>The auto-scaling is applied on top of <see cref="Scale"/> and is reflected in the bounding bodies used for culling. Combine with <see cref="ForcedPerspectiveDistance"/> for very large, very distant objects.</para>
+    /// </remarks>
+    [Description("The distance from the camera beyond which the renderable is automatically scaled up to preserve its apparent size (angular diameter), keeping distant objects visible."), Category("Layout")]
+    public float? AutoScaleDistance { get; set; }
     #endregion
 
     #region Transform results
@@ -205,7 +216,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     {
         if (!WorldTransformDirty) return;
 
-        var scaling = _preTransform * Matrix.Scaling(_scale);
+        var scaling = _preTransform * Matrix.Scaling(_scale * _autoScaleFactor);
         var rotation = Matrix.RotationQuaternion(Rotation) * _billboardRotation;
 
         WorldTransformCached =
@@ -384,9 +395,14 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
     private void UpdateInternalTransformations(Camera camera)
     {
-        var (forcedPerspectiveScaling, forcedPerspectiveTranslation) = GetForcedPerspective(camera);
+        var relativePosition = camera.Position - Position;
+        double distanceFromCamera = relativePosition.Length();
+
+        var (forcedPerspectiveScaling, forcedPerspectiveTranslation) = GetForcedPerspective(relativePosition, distanceFromCamera);
         forcedPerspectiveScaling.To(ref _forcedPerspectiveScaling, ref WorldTransformDirty);
         forcedPerspectiveTranslation.To(ref _forcedPerspectiveTranslation, ref WorldTransformDirty);
+
+        GetAutoScale(distanceFromCamera).To(ref _autoScaleFactor, ref WorldTransformDirty);
 
         (Billboard switch
         {
@@ -396,21 +412,21 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }).To(ref _billboardRotation, ref WorldTransformDirty);
     }
 
-    private (float scaling, DoubleVector3 translation) GetForcedPerspective(Camera camera)
+    private (float scaling, DoubleVector3 translation) GetForcedPerspective(DoubleVector3 relativePosition, double distanceFromCamera)
     {
-        if (ForcedPerspectiveDistance is {} maxDistance)
+        if (ForcedPerspectiveDistance is {} maxDistance && distanceFromCamera > maxDistance)
         {
-            var relativePosition = camera.Position - Position;
-            double distanceFromCamera = relativePosition.Length();
-            if (distanceFromCamera > maxDistance)
-            {
-                double ratio = maxDistance / distanceFromCamera;
-                return (scaling: (float)ratio, translation: relativePosition * (1 - ratio));
-            }
+            double ratio = maxDistance / distanceFromCamera;
+            return (scaling: (float)ratio, translation: relativePosition * (1 - ratio));
         }
 
         return (scaling: 1, translation: new());
     }
+
+    private float GetAutoScale(double distanceFromCamera)
+        => AutoScaleDistance is {} startDistance
+            ? (float)Math.Max(1, distanceFromCamera / startDistance)
+            : 1;
     #endregion
 
     #region Render helper
