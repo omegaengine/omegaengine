@@ -435,7 +435,7 @@ public class ListBox : Control
                 int lines = SystemInformation.MouseWheelScrollLines;
                 int scrollAmount = BitwiseUtils.HiWord((uint)wParam.ToInt32()) / Dialog.WheelDelta * lines;
                 scrollbarControl.Scroll(-scrollAmount);
-                break;
+                return true;
             }
 
             case WindowMessage.MouseMove:

@@ -226,11 +226,10 @@ public class ScrollBar : Control
             case WindowMessage.LeftButtonDoubleClick:
             case WindowMessage.LeftButtonDown:
             {
-                parentDialog.DialogManager.Target.Capture = true;
-
                 // Check for on up button
                 if (upButtonRect.Contains(pt))
                 {
+                    parentDialog.DialogManager.Target.Capture = true;
                     if (m_position > start)
                         --m_position;
                     UpdateThumbRectangle();
@@ -240,6 +239,7 @@ public class ScrollBar : Control
                 // Check for on down button
                 if (downButtonRect.Contains(pt))
                 {
+                    parentDialog.DialogManager.Target.Capture = true;
                     if (m_position + pgSize < end)
                         ++m_position;
                     UpdateThumbRectangle();
@@ -249,6 +249,7 @@ public class ScrollBar : Control
                 // Check for click on thumb
                 if (thumbRect.Contains(pt))
                 {
+                    parentDialog.DialogManager.Target.Capture = true;
                     isDragging = true;
                     thumbOffsetY = pt.Y - thumbRect.Top;
                     return true;
@@ -259,11 +260,13 @@ public class ScrollBar : Control
                 {
                     if (thumbRect.Top > pt.Y && trackRect.Top <= pt.Y)
                     {
+                        parentDialog.DialogManager.Target.Capture = true;
                         Scroll(-(pgSize - 1));
                         return true;
                     }
                     if (thumbRect.Bottom <= pt.Y && trackRect.Bottom > pt.Y)
                     {
+                        parentDialog.DialogManager.Target.Capture = true;
                         Scroll(pgSize - 1);
                         return true;
                     }
