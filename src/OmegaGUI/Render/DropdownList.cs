@@ -379,31 +379,37 @@ public class DropdownList : Button
                 {
                     int zdelta = BitwiseUtils.HiWord((uint)wParam.ToInt32()) / Dialog.WheelDelta;
                     if (isComboOpen)
-                        scrollbarControl.Scroll(-zdelta * SystemInformation.MouseWheelScrollLines);
-                    else
                     {
-                        if (zdelta > 0)
+                        int oldTrackPosition = scrollbarControl.TrackPosition;
+                        scrollbarControl.Scroll(-zdelta * SystemInformation.MouseWheelScrollLines);
+
+                        // Only treat the input as handled if scrolling actually took place
+                        return scrollbarControl.TrackPosition != oldTrackPosition;
+                    }
+
+                    if (zdelta > 0)
+                    {
+                        if (focusedIndex > 0)
                         {
-                            if (focusedIndex > 0)
-                            {
-                                focusedIndex--;
-                                selectedIndex = focusedIndex;
-                                if (!isComboOpen)
-                                    RaiseChangedEvent(this, true);
-                            }
-                        }
-                        else
-                        {
-                            if (focusedIndex + 1 < NumberItems)
-                            {
-                                focusedIndex++;
-                                selectedIndex = focusedIndex;
-                                if (!isComboOpen)
-                                    RaiseChangedEvent(this, true);
-                            }
+                            focusedIndex--;
+                            selectedIndex = focusedIndex;
+                            RaiseChangedEvent(this, true);
+                            return true;
                         }
                     }
-                    return true;
+                    else if (zdelta < 0)
+                    {
+                        if (focusedIndex + 1 < NumberItems)
+                        {
+                            focusedIndex++;
+                            selectedIndex = focusedIndex;
+                            RaiseChangedEvent(this, true);
+                            return true;
+                        }
+                    }
+
+                    // Only treat the input as handled if the selection actually changed
+                    return false;
                 }
             }
         }

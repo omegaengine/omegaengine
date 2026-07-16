@@ -434,8 +434,11 @@ public class ListBox : Control
             {
                 int lines = SystemInformation.MouseWheelScrollLines;
                 int scrollAmount = BitwiseUtils.HiWord((uint)wParam.ToInt32()) / Dialog.WheelDelta * lines;
+                int oldTrackPosition = scrollbarControl.TrackPosition;
                 scrollbarControl.Scroll(-scrollAmount);
-                return true;
+
+                // Only treat the input as handled if scrolling actually took place
+                return scrollbarControl.TrackPosition != oldTrackPosition;
             }
 
             case WindowMessage.MouseMove:
