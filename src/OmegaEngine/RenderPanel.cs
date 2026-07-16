@@ -80,7 +80,12 @@ public class RenderPanel : TouchPanel, IRenderHost
     {
         base.OnResize(eventargs);
 
-        if (Engine != null) Engine.Config = new() {TargetSize = ClientSize};
+        if (Engine != null)
+        {
+            var config = Engine.Config;
+            config.TargetSize = ClientSize;
+            Engine.Config = config;
+        }
     }
     #endregion
 
