@@ -58,7 +58,7 @@ end
 Fullscreen.Checked = Settings.Display.Fullscreen
 VSync.Checked = Settings.Display.VSync
 FieldOfView.Value = Settings.Graphics.FieldOfView
-FieldOfViewValueLabel.Text = Settings.Graphics.FieldOfView.."°"
+FieldOfViewValueLabel.Text = string.format("%.0f°", Settings.Graphics.FieldOfView)
 
 -- Effects
 PostScreenEffects.Enabled = Engine.Capabilities.PerPixelEffects
@@ -205,7 +205,7 @@ Me.Render.Location = location_backup</OnChanged>
     <Max>120</Max>
     <Value>90</Value>
     <OnChanged>Settings.Graphics.FieldOfView = FieldOfView.Value
-FieldOfViewValueLabel.Text = Settings.Graphics.FieldOfView.."°"</OnChanged>
+FieldOfViewValueLabel.Text = string.format("%.0f°", Settings.Graphics.FieldOfView)</OnChanged>
   </Slider>
   <Label Name="FieldOfViewValueLabel" Text="??°">
     <Location X="685" Y="203" />
@@ -298,7 +298,7 @@ GammaValueLabel.Text = string.format("%.1f", Settings.Graphics.Gamma)</OnChanged
   </Label>
   <Slider Name="MusicVolume">
     <Location X="135" Y="500" />
-    <Size Width="160" Height="32" />
+    <Size Width="180" Height="32" />
     <Max>20</Max>
     <Value>10</Value>
     <OnChanged>Settings.Audio.MusicVolume = MusicVolume.Value / 10
@@ -315,7 +315,7 @@ MusicVolumeValueLabel.Text = string.format("%.0f%%", Settings.Audio.MusicVolume 
   </Label>
   <Slider Name="SoundVolume">
     <Location X="495" Y="500" />
-    <Size Width="160" Height="32" />
+    <Size Width="180" Height="32" />
     <Max>20</Max>
     <Value>10</Value>
     <OnChanged>Settings.Audio.SoundVolume = SoundVolume.Value / 10
