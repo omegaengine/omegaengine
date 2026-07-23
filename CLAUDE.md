@@ -60,7 +60,10 @@ The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Refe
 - Respect the layering: `OmegaEngine.Foundation` stays rendering-agnostic; `World` layers stay free of rendering/UI dependencies; engine code must not depend on AlphaFramework or the sample game.
 - Code that multi-targets net472 + net10 may need `Shims/` polyfills rather than newer BCL APIs; check what the other target framework supports.
 - Doc comments on public APIs are the norm (XML doc warning 1591 is suppressed but most public types have them).
+- `[Description("...")]` (matching the XML doc comment) belongs on every concrete property implementation in `AlphaFramework.World/` and `FrameOfReference.World/` (not on the interface/abstract declaration).
 - Lua code in `content/GUI/` (both `.xml` and `.lua` files): Use `snake_case` for variables, function and parameters defined in Lua. GUI controls and C# objects that are merly accessed by Lua use `PascalCase`.
+- Lua embedded in `.xml` files (`<OnShow>`, `<OnUpdate>`, `<OnClick>`, ...) is XML text content, so it must be XML-escaped: write `&lt;` for `<` (e.g. `a &lt;= b`, `a &lt; b`) and `&amp;` for `&`.
+- Lua null checks: prefer `x and x.y` over `x ~= nil and x.y`. This is more concise and idiomatic in Lua, where `nil` and `false` are falsy.
 
 ## Content layout (`content/`)
 
