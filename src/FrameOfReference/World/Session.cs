@@ -24,7 +24,6 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using AlphaFramework.World;
-using FrameOfReference.World.Positionables;
 using JetBrains.Annotations;
 using NanoByte.Common;
 
@@ -79,7 +78,10 @@ public sealed partial class Session : Session<Universe>
     [DefaultValue(0.0)]
     public double LeftoverGameTime { get; set; }
 
+    /// <summary>Minimum effective time warp factor at a burn change.</summary>
     private const double DefaultBurnChangeTimeWarpFactor = 10;
+
+    /// <summary>Ramp duration around a burn change in game-time seconds.</summary>
     private const double BurnChangeRampDuration = 20;
 
     /// <inheritdoc/>
@@ -97,27 +99,27 @@ public sealed partial class Session : Session<Universe>
 
     private double GetEffectiveTimeWarpFactor()
     {
-        double nearestBurnChangeDistance = double.PositiveInfinity;
+        double timeToNearestBurnChange = double.PositiveInfinity;
         foreach (var positionable in Universe.Positionables)
         {
-            if (positionable is not Entity {IsPlayerControlled: true} entity) continue;
+            if (positionable is not Positionables.Entity {IsPlayerControlled: true} entity) continue;
 
             foreach (var waypoint in entity.Waypoints)
             {
-                double distance = Math.Abs(waypoint.ActivationTime - Universe.GameTime);
-                if (distance < nearestBurnChangeDistance) nearestBurnChangeDistance = distance;
+                double timeToActivation = Math.Abs(waypoint.ActivationTime - Universe.GameTime);
+                if (timeToActivation < timeToNearestBurnChange) timeToNearestBurnChange = timeToActivation;
             }
         }
 
-        return GetBurnChangeAdjustedTimeWarpFactor(TimeWarpFactor, nearestBurnChangeDistance);
+        return GetBurnChangeAdjustedTimeWarpFactor(TimeWarpFactor, timeToNearestBurnChange);
     }
 
-    private static double GetBurnChangeAdjustedTimeWarpFactor(double timeWarpFactor, double burnChangeDistance)
+    private static double GetBurnChangeAdjustedTimeWarpFactor(double timeWarpFactor, double timeToBurnChange)
     {
         if (timeWarpFactor <= DefaultBurnChangeTimeWarpFactor) return timeWarpFactor;
-        if (burnChangeDistance >= BurnChangeRampDuration) return timeWarpFactor;
+        if (timeToBurnChange >= BurnChangeRampDuration) return timeWarpFactor;
 
-        double rampFactor = burnChangeDistance / BurnChangeRampDuration;
+        double rampFactor = timeToBurnChange / BurnChangeRampDuration;
         return DefaultBurnChangeTimeWarpFactor + ((timeWarpFactor - DefaultBurnChangeTimeWarpFactor) * rampFactor);
     }
 
