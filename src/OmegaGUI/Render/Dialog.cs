@@ -34,7 +34,6 @@ public class Dialog
     public static readonly Color4 BlackColorValue = new(0.0f, 0.0f, 0.0f);
     private static Control? controlFocus; // The control which has focus
     private static Control? controlMouseOver; // The control which is hovered over
-    private static Control? controlMouseDown; // The control which the mouse was pressed on
 
     private static double timeRefresh;
 
@@ -452,8 +451,6 @@ public class Dialog
 
         if (controlFocus != null && controlFocus.Parent == this)
             controlFocus = null;
-        if (controlMouseDown != null && controlMouseDown.Parent == this)
-            controlMouseDown = null;
         if (controlMouseOver != null && controlMouseOver.Parent == this)
             controlMouseOver = null;
     }
@@ -689,68 +686,31 @@ public class Dialog
 
                 // If a control is in focus, it belongs to this dialog, and it's enabled, then give
                 // it the first chance at handling the message.
-                Control? handler = null;
                 if (controlFocus != null &&
                     controlFocus.Parent == this &&
                     controlFocus.IsEnabled)
                 {
                     // If the control MsgProc handles it, then we don't.
                     if (controlFocus.HandleMouse(msg, mousePoint, wParam, lParam))
-                        handler = controlFocus;
+                        return true;
                 }
 
-                if (handler == null)
+                // Not yet handled, see if the mouse is over any controls
+                if (GetControlAtPoint(mousePoint) is { } control)
                 {
-                    // Not yet handled, see if the mouse is over any controls
-                    if (GetControlAtPoint(mousePoint) is { } control)
+                    // Let the control handle the mouse if it wants (the focused control already had its chance)
+                    if (control != controlFocus && control.HandleMouse(msg, mousePoint, wParam, lParam))
+                        return true;
+                }
+                else
+                {
+                    // Mouse not over any controls in this dialog, if there was a control which had focus it just lost it
+                    if (msg == WindowMessage.LeftButtonDown && controlFocus != null && controlFocus.Parent == this)
                     {
-                        // Let the control handle the mouse if it wants (the focused control already had its chance)
-                        if (control != controlFocus && control.HandleMouse(msg, mousePoint, wParam, lParam))
-                            handler = control;
-                    }
-                    else
-                    {
-                        // Mouse not over any controls in this dialog, if there was a control which had focus it just lost it
-                        if (msg == WindowMessage.LeftButtonDown && controlFocus != null && controlFocus.Parent == this)
-                        {
-                            controlFocus.OnFocusOut();
-                            controlFocus = null;
-                        }
+                        controlFocus.OnFocusOut();
+                        controlFocus = null;
                     }
                 }
-
-                // Track the entire click gesture: once a click has started on a control, the
-                // rest of the gesture must not leak through to the application, even if the
-                // control does not explicitly handle the individual messages (e.g. the mouse-up).
-                switch (msg)
-                {
-                    case WindowMessage.LeftButtonDown:
-                    case WindowMessage.LeftButtonDoubleClick:
-                        controlMouseDown = handler;
-                        break;
-
-                    case WindowMessage.LeftButtonUp:
-                        if (controlMouseDown != null && controlMouseDown.Parent == this)
-                        {
-                            // The click started on a control, so its mouse-up belongs to the GUI as well
-                            controlMouseDown = null;
-                            return true;
-                        }
-                        break;
-
-                    case WindowMessage.MouseMove:
-                        // The button-up that should have ended the click may never have reached us
-                        if (controlMouseDown != null && !System.Windows.Forms.Control.MouseButtons.HasFlag(MouseButtons.Left))
-                            controlMouseDown = null;
-
-                        // Drags that started on a control are not passed on to the application
-                        if (controlMouseDown != null && controlMouseDown.Parent == this)
-                            return true;
-                        break;
-                }
-
-                if (handler != null)
-                    return true;
 
                 // Still not handled, hand this off to the dialog. Return false to indicate the
                 // message should still be handled by the application (usually to move the camera).
@@ -774,23 +734,6 @@ public class Dialog
     /// </summary>
     private void OnMouseMove(Point pt)
     {
-        // If the mouse was previously hovering over a control, it's either
-        // still over the control or has left
-        if (controlMouseDown != null)
-        {
-            // If another dialog owns this control then let that dialog handle it
-            if (controlMouseDown.Parent != this)
-                return;
-
-            // If the same control is still under the mouse, nothing needs to be done
-            if (controlMouseDown.ContainsPoint(pt))
-                return;
-
-            // Mouse has moved outside the control, notify the control and continue
-            controlMouseDown.OnMouseExit();
-            controlMouseDown = null;
-        }
-
         // Figure out which control the mouse is over now
         Control? control = GetControlAtPoint(pt);
         if (controlMouseOver != control)
@@ -1479,8 +1422,6 @@ public class Dialog
                 controlFocus.OnFocusOut();
                 controlFocus = null;
             }
-            if (controlMouseDown != null && controlMouseDown.Parent == this)
-                controlMouseDown = null;
             if (controlMouseOver != null && controlMouseOver.Parent == this)
             {
                 controlMouseOver.OnMouseExit();

@@ -177,6 +177,9 @@ public sealed class GuiManager : IDisposable
     #endregion
 
     #region Message handling
+    /// <summary>Is a left-click gesture that started on a GUI control currently in progress?</summary>
+    private bool _clickInProgress;
+
     /// <summary>
     /// Handles Windows Messages for the GUI
     /// </summary>
@@ -184,12 +187,50 @@ public sealed class GuiManager : IDisposable
     /// <returns><c>true</c> if the message was handled and no further processing is necessary</returns>
     public bool OnMsgProc(Message m)
     {
+        var msg = (WindowMessage)m.Msg;
+        bool handled = Dispatch(m, msg);
+
+        // Track the entire click gesture: once a click has started on a control, the rest of the
+        // gesture must not leak through to the application, even if no dialog handles the
+        // individual messages. This is tracked here rather than in the dialogs themselves because
+        // event handlers may open or close dialogs in the middle of a gesture.
+        switch (msg)
+        {
+            case WindowMessage.LeftButtonDown:
+            case WindowMessage.LeftButtonDoubleClick:
+                _clickInProgress = handled;
+                break;
+
+            case WindowMessage.LeftButtonUp:
+                if (_clickInProgress)
+                {
+                    // The click started on a control, so its mouse-up belongs to the GUI as well
+                    _clickInProgress = false;
+                    return true;
+                }
+                break;
+
+            case WindowMessage.MouseMove:
+                // The button-up that should have ended the click may never have reached us
+                if (_clickInProgress && !Control.MouseButtons.HasFlag(MouseButtons.Left))
+                    _clickInProgress = false;
+
+                // Drags that started on a control are not passed on to the application
+                if (_clickInProgress) return true;
+                break;
+        }
+
+        return handled;
+    }
+
+    /// <summary>
+    /// Passes a Windows Message to the <see cref="DialogPresenter"/>s for handling
+    /// </summary>
+    private bool Dispatch(Message m, WindowMessage msg)
+    {
         // Exclusive input handling for last modal dialog
         if (_modalDialogs.Count > 0)
-        {
-            return _modalDialogs[^1].Render.
-                                     MessageProc(m.HWnd, (WindowMessage)m.Msg, m.WParam, m.LParam);
-        }
+            return _modalDialogs[^1].Render.MessageProc(m.HWnd, msg, m.WParam, m.LParam);
 
         // Copy dialog list to an array first to prevent exceptions if dialogs are removed
         var currentGuis = new DialogPresenter[_normalDialogs.Count];
@@ -198,7 +239,7 @@ public sealed class GuiManager : IDisposable
         // Pass input to dialogs for handling from last to first
         for (int i = currentGuis.Length - 1; i >= 0; i--)
         {
-            if (currentGuis[i].Render.MessageProc(m.HWnd, (WindowMessage)m.Msg, m.WParam, m.LParam))
+            if (currentGuis[i].Render.MessageProc(m.HWnd, msg, m.WParam, m.LParam))
             {
                 // Input has been handled, no further processing
                 return true;
