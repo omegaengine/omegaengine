@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace OmegaEngine.Audio | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace OmegaEngine.Audio | OmegaEngine ">
+      
+      <meta name="description" content="The audio subsystem plays back sound effects and background music.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.16.5/src/OmegaEngine/Audio/_Namespace.md/#L2">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Audio">
+
+  <h1 id="OmegaEngine_Audio" data-uid="OmegaEngine.Audio" class="text-break">Namespace OmegaEngine.Audio</h1>
+  <div class="markdown level0 summary"><p>The audio subsystem plays back sound effects and background music.</p>
+</div>
+  <div class="markdown level0 conceptual"><h2 id="output-device-and-mixer">Output device and mixer</h2>
+<p>Each <a class="xref" href="OmegaEngine.Engine.html">Engine</a> owns one <a class="xref" href="OmegaEngine.Audio.AudioManager.html">AudioManager</a> (exposed as <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_Audio">Audio</a>). It holds the shared NAudio output device and a mixer that all sounds and music feed into.</p>
+<p>All inputs are mixed as 32-bit IEEE-float, stereo, at <a class="xref" href="OmegaEngine.Audio.AudioManager.html#OmegaEngine_Audio_AudioManager_SampleRate">SampleRate</a> (44.1 kHz). Sources in other formats are resampled and converted to match before they reach the mixer.</p>
+<h2 id="sound-effects">Sound effects</h2>
+<p>Sound effects are decoded up-front into an in-memory buffer of samples, so they can be triggered repeatedly and overlapped without re-reading the file.</p>
+<ul>
+<li><a class="xref" href="OmegaEngine.Assets.XSound.html">XSound</a> is the cached asset holding the decoded samples. Load it via <a class="xref" href="OmegaEngine.Assets.XSound.html#OmegaEngine_Assets_XSound_Get_OmegaEngine_Engine_System_String_">Get(Engine, string?)</a>.</li>
+<li><a class="xref" href="OmegaEngine.Audio.Sound.html">Sound</a> plays a sound non-positionally. Each call to <a class="xref" href="OmegaEngine.Audio.Sound.html#OmegaEngine_Audio_Sound_StartPlayback_System_Boolean_">StartPlayback(bool)</a> feeds an independent playback into the mixer, so the same asset can play multiple times at once.</li>
+<li><a class="xref" href="OmegaEngine.Audio.Sound3D.html">Sound3D</a> pans and attenuates a sound in stereo based on its <a class="xref" href="OmegaEngine.Audio.Sound3D.html#OmegaEngine_Audio_Sound3D_Position">Position</a> in world space relative to a listener.</li>
+</ul>
+<p>The listener for 3D playback is whatever <a class="xref" href="OmegaEngine.IViewpoint.html">IViewpoint</a> is assigned to <a class="xref" href="OmegaEngine.Audio.AudioManager.html#OmegaEngine_Audio_AudioManager_Listener">Listener</a>. Both <a class="xref" href="OmegaEngine.Graphics.Cameras.Camera.html">Camera</a> and <a class="xref" href="OmegaEngine.Graphics.View.html">View</a> implement that interface, so you can assign either; assigning the <code>View</code> is preferred because it delegates to whichever <code>Camera</code> is currently active, keeping the listener correct across camera swaps and transitions.</p>
+<p>Games built on <a class="xref" href="AlphaFramework.Presentation.PresenterBase-1.html">PresenterBase&lt;TUniverse&gt;</a> get this wiring for free. The presenter points the listener at its <code>View</code> when hooked in.</p>
+<h2 id="background-music">Background music</h2>
+<p><a class="xref" href="OmegaEngine.Audio.Song.html">Song</a> streams a music file from disk rather than decoding it fully into memory. <a class="xref" href="OmegaEngine.Audio.MusicManager.html">MusicManager</a> (exposed as <a class="xref" href="OmegaEngine.Engine.html#OmegaEngine_Engine_Music">Music</a>) organizes songs into named <em>themes</em> and handles selection and cross-fading:</p>
+<ul>
+<li><a class="xref" href="OmegaEngine.Audio.MusicManager.html#OmegaEngine_Audio_MusicManager_AddSong_System_String_System_String___">AddSong(string, params string[])</a> registers a song with one or more themes.</li>
+<li><a class="xref" href="OmegaEngine.Audio.MusicManager.html#OmegaEngine_Audio_MusicManager_PlayTheme_System_String_">PlayTheme(string)</a> starts a random song from a theme, fading out any currently playing song.</li>
+<li><a class="xref" href="OmegaEngine.Audio.MusicManager.html#OmegaEngine_Audio_MusicManager_Update">Update()</a> advances to the next song in the current theme once the previous one finishes.</li>
+</ul>
+<p>If a file named <code>list.txt</code> is located in the <code>Music</code> content directory, it will automatically be parsed and used to populate the list of themes.</p>
+<h2 id="supported-formats">Supported formats</h2>
+<p>Both sounds and songs infer the file format from the file ending:</p>
+<ul>
+<li><code>.wav</code></li>
+<li><code>.mp3</code></li>
+<li><code>.m4a</code></li>
+<li><code>.wma</code></li>
+</ul>
+<h2 id="signal-chain">Signal chain</h2>
+<pre><code class="lang-mermaid">flowchart LR
+    subgraph Sources
+        XSound[&quot;XSound (decoded samples)&quot;]
+        SongFile[&quot;Song (streamed file)&quot;]
+    end
+
+    Sound --&gt; Volume
+    XSound --&gt; Sound
+    XSound --&gt; Sound3D
+    Sound3D --&gt; Pan[&quot;Pan / attenuate&quot;]
+    SongFile --&gt; Resample --&gt; Stereo --&gt; Volume
+
+    Volume --&gt; Mixer
+    Pan --&gt; Mixer
+    Mixer --&gt; Output[&quot;Output device&quot;]
+</code></pre>
+<h2 id="api">API</h2>
+</div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Audio.AudioManager.html">AudioManager</a></dt>
+      <dd><p>Owns the shared NAudio output device and mixer that all <a class="xref" href="OmegaEngine.Audio.Sound.html">Sound</a>s and <a class="xref" href="OmegaEngine.Audio.Song.html">Song</a>s feed into.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Audio.MusicManager.html">MusicManager</a></dt>
+      <dd><p>Manages the playback of <a class="xref" href="OmegaEngine.Audio.Song.html">Song</a> in the background controlled by themes.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Audio.Song.html">Song</a></dt>
+      <dd><p>A streamed sound that is played in the background as music.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Audio.Sound.html">Sound</a></dt>
+      <dd><p>A memory-cached sound that is played on-demand.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Audio.Sound3D.html">Sound3D</a></dt>
+      <dd><p>A memory-cached sound that is played on-demand simulating a position in 3D-space.</p>
+</dd>
+    </dl>
+    <h3 id="interfaces">
+Interfaces
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Audio.IAudio.html">IAudio</a></dt>
+      <dd><p>Represents an asset that can playback audio.</p>
+</dd>
+    </dl>
+    <h3 id="enums">
+Enums
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="OmegaEngine.Audio.AudioCategory.html">AudioCategory</a></dt>
+      <dd><p>Categorizes audio playback so it can be routed through the matching global volume bus in <a class="xref" href="OmegaEngine.Audio.AudioManager.html">AudioManager</a>.</p>
+</dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.16.5/src/OmegaEngine/Audio/_Namespace.md/#L2" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
