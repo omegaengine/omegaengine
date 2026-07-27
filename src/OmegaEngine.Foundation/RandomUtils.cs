@@ -9,6 +9,7 @@
 using System;
 using System.Drawing;
 using JetBrains.Annotations;
+using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using SlimDX;
@@ -21,17 +22,12 @@ namespace OmegaEngine.Foundation;
 public static class RandomUtils
 {
     /// <summary>
-    /// Global random generator
-    /// </summary>
-    private static readonly Random _randomGenerator = new();
-
-    /// <summary>
-    /// Get random a integer value
+    /// Get random integer value
     /// </summary>
     /// <param name="min">The minimum value</param>
     /// <param name="max">The maximum value</param>
     [Pure]
-    public static int GetRandomInt(int min, int max) => _randomGenerator.Next(min, max);
+    public static int GetRandomInt(int min, int max) => RandomShared.Instance.Next(min, max);
 
     /// <summary>
     /// Get a random float value between <paramref name="min"/> and <paramref name="max"/>
@@ -39,7 +35,7 @@ public static class RandomUtils
     /// <param name="min">The minimum value</param>
     /// <param name="max">The maximum value</param>
     [Pure]
-    public static float GetRandomFloat(float min, float max) => (float)_randomGenerator.NextDouble() * (max - min) + min;
+    public static float GetRandomFloat(float min, float max) => (float)RandomShared.Instance.NextDouble() * (max - min) + min;
 
     /// <summary>
     /// Get a random double value between <paramref name="min"/> and <paramref name="max"/>
@@ -47,7 +43,7 @@ public static class RandomUtils
     /// <param name="min">The minimum value</param>
     /// <param name="max">The maximum value</param>
     [Pure]
-    public static double GetRandomDouble(double min, double max) => _randomGenerator.NextDouble() * (max - min) + min;
+    public static double GetRandomDouble(double min, double max) => RandomShared.Instance.NextDouble() * (max - min) + min;
 
     /// <summary>
     /// Get a random Vector3 value between <paramref name="min"/> and <paramref name="max"/>
@@ -66,9 +62,9 @@ public static class RandomUtils
     public static Vector3 GetRandomPointInsideSphere(float radius)
     {
         // Cube root keeps the radial density uniform; acos keeps the direction uniform on the sphere
-        double radiusFactor = _randomGenerator.NextDouble();
+        double radiusFactor = RandomShared.Instance.NextDouble();
         return VectorMath.UnitVector(
-                inclination: Math.Acos(1 - 2 * _randomGenerator.NextDouble()),
+                inclination: Math.Acos(1 - 2 * RandomShared.Instance.NextDouble()),
                 azimuth: GetRandomFloat(0, 2 * (float)Math.PI))
           * (radius * (float)Math.Pow(radiusFactor, 1.0 / 3.0));
     }
