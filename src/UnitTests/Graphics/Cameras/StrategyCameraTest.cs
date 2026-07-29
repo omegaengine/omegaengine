@@ -137,6 +137,6 @@ public class StrategyCameraTest
         };
 
         // Camera Y position should be at or above terrain height
-        camera.Position.Y.Should().BeGreaterOrEqualTo(terrainHeight);
+        camera.Position.Y.Should().BeGreaterThanOrEqualTo(terrainHeight);
     }
 }
