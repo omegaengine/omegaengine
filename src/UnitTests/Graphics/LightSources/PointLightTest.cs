@@ -7,7 +7,7 @@
  */
 
 using System.Drawing;
-using FluentAssertions;
+using AwesomeAssertions;
 using OmegaEngine.Foundation.Geometry;
 using SlimDX;
 using Xunit;

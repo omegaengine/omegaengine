@@ -8,7 +8,7 @@
 
 using System.Collections.Generic;
 using System.IO;
-using FluentAssertions;
+using AwesomeAssertions;
 using ICSharpCode.SharpZipLib.Zip;
 using NanoByte.Common.Storage;
 using Xunit;

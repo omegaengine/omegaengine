@@ -7,7 +7,7 @@
  */
 
 using System.Drawing;
-using FluentAssertions;
+using AwesomeAssertions;
 using OmegaEngine.Graphics.VertexDecl;
 using SlimDX.Direct3D9;
 using Xunit;

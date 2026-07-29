@@ -8,7 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace OmegaEngine.Foundation.Collections;

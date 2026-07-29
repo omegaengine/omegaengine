@@ -7,7 +7,7 @@
  */
 
 using System;
-using FluentAssertions;
+using AwesomeAssertions;
 using SlimDX;
 using Xunit;
 

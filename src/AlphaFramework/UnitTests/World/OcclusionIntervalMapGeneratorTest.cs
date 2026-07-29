@@ -7,7 +7,7 @@
  */
 
 using AlphaFramework.World.Terrains;
-using FluentAssertions;
+using AwesomeAssertions;
 using OmegaEngine.Foundation.Geometry;
 using Xunit;
 
