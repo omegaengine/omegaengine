@@ -74,6 +74,12 @@ public sealed class DialogPresenter : IDisposable
     /// The rendering widgets used to display the dialog
     /// </summary>
     public Render.Dialog Render { get; }
+
+    /// <summary>
+    /// Additional state passed in by whatever opened this dialog. Exposed to Lua as <c>Args</c>.
+    /// </summary>
+    [Browsable(false)]
+    public object? Args { get; }
     #endregion
 
     #region Constructor
@@ -84,8 +90,9 @@ public sealed class DialogPresenter : IDisposable
     /// <param name="filename">The filename of the XML file to load</param>
     /// <param name="location">The location of the dialog on the screen</param>
     /// <param name="lua">The scripting engine to execute event handlers.</param>
-    public DialogPresenter(GuiManager manager, string filename, Point location = new(), Lua? lua = null)
-        : this(manager, Dialog.FromContent(filename), location: location, lua: lua)
+    /// <param name="args">Additional state to expose to <paramref name="lua"/> as <c>Args</c>. A Lua table (copied) or a .NET object (by reference).</param>
+    public DialogPresenter(GuiManager manager, string filename, Point location = new(), Lua? lua = null, object? args = null)
+        : this(manager, Dialog.FromContent(filename), location: location, lua: lua, args: args)
     {
         Log.Info($"Loading GUI dialog: {filename}");
         Name = filename;
@@ -98,13 +105,15 @@ public sealed class DialogPresenter : IDisposable
     /// <param name="dialog">The dialog to be displayed</param>
     /// <param name="location">The location of the dialog on the screen</param>
     /// <param name="lua">The scripting engine to execute event handlers.</param>
-    public DialogPresenter(GuiManager manager, Dialog dialog, Point location = new(), Lua? lua = null)
+    /// <param name="args">Additional state to expose to <paramref name="lua"/> as <c>Args</c>. A Lua table (copied) or a .NET object (by reference).</param>
+    public DialogPresenter(GuiManager manager, Dialog dialog, Point location = new(), Lua? lua = null, object? args = null)
     {
         _manager = manager;
         Model = dialog;
         Render = dialog.GenerateRender(_manager.DialogManager);
         _location = location;
         _lua = lua;
+        Args = lua == null ? args : LuaArgs.Transfer(args, lua);
 
         LayoutHelper();
         _manager.DialogManager.Engine.DeviceReset += LayoutHelper;
@@ -127,6 +136,8 @@ public sealed class DialogPresenter : IDisposable
             }
 
             _lua["Me"] = this;
+
+            if (Args != null) _lua["Args"] = Args;
             #endregion
 
             dialog.ScriptFired += LuaExecute;

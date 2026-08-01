@@ -8,11 +8,11 @@
   <OnShow>function load(name)
   -- Ask before quitting a running game
   if IsMainMenu then
-    LoadSplashDialog("Loading"); Savegames:Load(name)
+    LoadDialog("Loading", {Splash = true}); Savegames:Load(name)
   else
     msgbox_yesno(
       '[EndGameSure]',
-      'LoadSplashDialog("Loading"); Savegames:Load([===[' .. name ..']===])'
+      'LoadDialog("Loading", {Splash = true}); Savegames:Load([===[' .. name ..']===])'
     )
   end
 end

@@ -1,3 +1,4 @@
+using AlphaFramework.Presentation;
 using FrameOfReference.Presentation;
 using FrameOfReference.Presentation.Config;
 using FrameOfReference.World;
@@ -27,7 +28,7 @@ public class MainMenu(Game game, Universe universe) : IGameState
         game.Engine.FadeIn();
 
         game.GuiManager.CloseAll();
-        game.LoadModalDialog("MainMenu");
+        game.LoadDialog("MainMenu", options: new() {Modal = true});
         game.Engine.Music.PlayTheme("MainMenu");
 
         game.Loading = false;

@@ -33,21 +33,21 @@
     <Size Width="180" Height="48" />
     <AlignHorizontal>Center</AlignHorizontal>
     <OnClick>Me:Close()
-LoadModalDialog("SavegameSave")</OnClick>
+LoadDialog("SavegameSave", {Modal = true})</OnClick>
   </Button>
   <Button Name="LoadGame" Text="[Load]" Hotkey="L">
     <Location X="0" Y="188" />
     <Size Width="180" Height="48" />
     <AlignHorizontal>Center</AlignHorizontal>
     <OnClick>Me:Close()
-LoadModalDialog("SavegameLoad")</OnClick>
+LoadDialog("SavegameLoad", {Modal = true})</OnClick>
   </Button>
   <Button Name="Settings" Text="[Settings]" Hotkey="C">
     <Location X="0" Y="276" />
     <Size Width="180" Height="48" />
     <AlignHorizontal>Center</AlignHorizontal>
     <OnClick>Me:Close()
-LoadModalDialog("Settings")</OnClick>
+LoadDialog("Settings", {Modal = true})</OnClick>
   </Button>
   <Button Name="ToMainMenu" Text="[MainMenu]" Hotkey="M">
     <Location X="0" Y="364" />
@@ -55,7 +55,7 @@ LoadModalDialog("Settings")</OnClick>
     <AlignHorizontal>Center</AlignHorizontal>
     <OnClick>msgbox_yesno(
   '[EndGameSure]',
-  'LoadSplashDialog("Loading"); Game:SwitchToMenu()'
+  'LoadDialog("Loading", {Splash = true}); Game:SwitchToMenu()'
 )</OnClick>
   </Button>
   <Button Name="Exit" Text="[ExitGame]">

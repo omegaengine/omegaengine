@@ -117,7 +117,7 @@ end
 
 -- Reload the Settings dialog to apply the language switch
 Me:Close()
-LoadModalDialog("Settings").Render.Location = Me.Render.Location</OnChanged>
+LoadDialog("Settings", {Modal = true, Location = Me.Render.Location})</OnChanged>
   </DropdownList>
   <GroupBox Name="ControlsBox">
     <Location X="280" Y="42" />

@@ -1,3 +1,4 @@
+using AlphaFramework.Presentation;
 using FrameOfReference.Presentation;
 using FrameOfReference.Presentation.Config;
 using FrameOfReference.World;
@@ -82,7 +83,7 @@ public abstract class InGameBase : SessionStateBase
             game.RemoveInputReceiver(_presenter);
             _presenter.DimDown();
             game.GuiManager.Reset();
-            game.LoadModalDialog("PauseMenu");
+            game.LoadDialog("PauseMenu", options: new() {Modal = true});
         }
     }
 

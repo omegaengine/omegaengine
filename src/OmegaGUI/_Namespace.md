@@ -88,6 +88,26 @@ var button = new Button
 
 When a `Lua` instance is passed to <xref:OmegaGUI.DialogPresenter>, all named controls in the dialog are automatically registered as Lua variables using their `Name` property. The presenter itself is also available as `Me`. Event properties such as `OnClick` specify Lua code strings that are executed in this context when the event fires.
 
+### Passing state to a dialog
+
+Since each dialog has its own Lua instance, they do not share any variables. To hand state to a dialog, pass it as the `args` argument. It is available to the dialog's scripts as the global `Args` (or `Me.Args`) from the very first `OnShow` onwards:
+
+```csharp
+var dialogPresenter = new DialogPresenter(guiManager, dialog, lua: myLuaInstance, args: myObject);
+```
+
+Games built on [AlphaFramework](xref:AlphaFramework.Presentation) can do the same from Lua via `LoadDialog`:
+
+```lua
+LoadDialog("MsgBox/OK", {Modal = true, Centered = true}, {message = "Hello"})
+```
+
+```xml
+<OnShow>Message.Text = Args.message</OnShow>
+```
+
+Lua tables are bound to the Lua instance they were created in, so they are copied into the target instance. .NET objects inside them are shared by reference. Lua functions cannot be passed this way.
+
 ## Localization
 
 OmegaGUI supports localization through XML `.locale` files stored in `GUI/Language/` in the content directory. Control text properties use a `[Key]` syntax to reference locale entries:

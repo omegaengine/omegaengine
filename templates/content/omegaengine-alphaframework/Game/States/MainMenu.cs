@@ -1,3 +1,4 @@
+using AlphaFramework.Presentation;
 using OmegaEngine;
 using Template.AlphaFramework.Presentation;
 using Template.AlphaFramework.World;
@@ -21,7 +22,7 @@ public sealed class MainMenu(Game game, Universe universe) : IGameState
         game.Engine.FadeIn();
 
         game.GuiManager.CloseAll();
-        game.LoadModalDialog("MainMenu");
+        game.LoadDialog("MainMenu", new DialogOptions {Modal = true});
     }
 
     /// <inheritdoc/>

@@ -8,12 +8,9 @@ function return_to_menu()
 end
 
 function msgbox(message)
-	local dialog = LoadModalDialogCentered("MsgBox/OK")
-	dialog:GetControl("Message").Text = message
+	LoadDialog("MsgBox/OK", {Modal = true, Centered = true}, {message = message})
 end
 
-function msgbox_yesno(message, onYes)
-	local dialog = LoadModalDialogCentered("MsgBox/YesNo")
-	dialog:GetControl("Message").Text = message
-	dialog:GetControl("Yes").OnClick = "Me:Close(); " .. onYes
+function msgbox_yesno(message, on_yes)
+	LoadDialog("MsgBox/YesNo", {Modal = true, Centered = true}, {message = message, on_yes = on_yes})
 end
