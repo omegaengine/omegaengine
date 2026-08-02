@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using FluentAssertions;
+using AwesomeAssertions;
 using OmegaEngine.Foundation.Geometry;
 using Xunit;
 

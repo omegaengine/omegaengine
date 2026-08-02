@@ -7,7 +7,7 @@
  */
 
 using System.IO;
-using FluentAssertions;
+using AwesomeAssertions;
 using NanoByte.Common.Storage;
 using Xunit;
 

@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace FrameOfReference.World.Positionables;

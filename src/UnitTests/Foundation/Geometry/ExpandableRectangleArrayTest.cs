@@ -7,7 +7,7 @@
  */
 
 using System.Drawing;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace OmegaEngine.Foundation.Geometry;

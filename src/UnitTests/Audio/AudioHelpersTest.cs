@@ -8,7 +8,7 @@
 
 using System.IO;
 using System.Runtime.CompilerServices;
-using FluentAssertions;
+using AwesomeAssertions;
 using NAudio.Wave;
 using NanoByte.Common.Storage;
 using Xunit;

@@ -7,7 +7,7 @@
  */
 
 using System.Drawing;
-using FluentAssertions;
+using AwesomeAssertions;
 using SlimDX.Direct3D9;
 using Xunit;
 

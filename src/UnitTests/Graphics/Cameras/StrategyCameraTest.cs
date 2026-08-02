@@ -6,7 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using FluentAssertions;
+using AwesomeAssertions;
 using OmegaEngine.Foundation.Geometry;
 using Xunit;
 
@@ -137,6 +137,6 @@ public class StrategyCameraTest
         };
 
         // Camera Y position should be at or above terrain height
-        camera.Position.Y.Should().BeGreaterOrEqualTo(terrainHeight);
+        camera.Position.Y.Should().BeGreaterThanOrEqualTo(terrainHeight);
     }
 }
