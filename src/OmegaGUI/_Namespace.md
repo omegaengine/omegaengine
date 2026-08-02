@@ -106,7 +106,20 @@ LoadDialog("MsgBox/OK", {Modal = true, Centered = true}, {message = "Hello"})
 <OnShow>Message.Text = Args.message</OnShow>
 ```
 
-Lua tables are bound to the Lua instance they were created in, so they are copied into the target instance. .NET objects inside them are shared by reference. Lua functions cannot be passed this way.
+Lua tables are bound to the Lua instance they were created in, so they are copied into the target instance. .NET objects inside them are shared by reference.
+
+Lua functions are bound to their instance too, so they are wrapped as callbacks that the receiving dialog can call like a normal function, without arguments:
+
+```lua
+msgbox_yesno('Really quit?', function() Game:Exit() end)
+```
+
+```xml
+<OnClick>Me:Close()
+Args.on_yes()</OnClick>
+```
+
+Such a callback keeps running in the Lua instance of the dialog that provided it, so it can access that dialog's controls and locals. Calling it after that dialog has been closed does nothing.
 
 ## Localization
 

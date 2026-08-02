@@ -3,8 +3,7 @@
   <ColorBackground A="128" R="0" G="0" B="0" />
   <ColorCaption A="128" R="96" G="128" B="255" />
   <ColorText A="255" R="255" G="255" B="255" />
-  <OnShow>Message.Text = Args.message
-Yes.OnClick = "Me:Close(); " .. Args.on_yes</OnShow>
+  <OnShow>Message.Text = Args.message</OnShow>
   <FontSize>15</FontSize>
   <Size Width="400" Height="150" />
   <Shift X="0" Y="0" />
@@ -19,7 +18,8 @@ Yes.OnClick = "Me:Close(); " .. Args.on_yes</OnShow>
     <Size Width="160" Height="40" />
     <AlignHorizontal>Center</AlignHorizontal>
     <AlignVertical>FromBottom</AlignVertical>
-    <OnClick>Me:Close()</OnClick>
+    <OnClick>Me:Close()
+Args.on_yes()</OnClick>
   </Button>
   <Button Name="No" Text="[No]" Hotkey="Escape">
     <Location X="90" Y="20" />

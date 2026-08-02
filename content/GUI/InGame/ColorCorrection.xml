@@ -580,10 +580,10 @@ Fog.Checked = Universe.Fog</OnUpdate>
     <Size Width="100" Height="25" />
     <AlignHorizontal>FromRight</AlignHorizontal>
     <AlignVertical>FromBottom</AlignVertical>
-    <OnClick>msgbox_yesno(
-  '[SaveMapSure]',
-  'Presenter:PrepareSave(); Universe:Save()'
-)</OnClick>
+    <OnClick>msgbox_yesno('[SaveMapSure]', function()
+  Presenter:PrepareSave()
+  Universe:Save()
+end)</OnClick>
   </Button>
   <Button Name="Exit" Text="[Exit]">
     <Location X="12" Y="11" />

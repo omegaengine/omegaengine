@@ -53,18 +53,15 @@ LoadDialog("Settings", {Modal = true})</OnClick>
     <Location X="0" Y="364" />
     <Size Width="180" Height="48" />
     <AlignHorizontal>Center</AlignHorizontal>
-    <OnClick>msgbox_yesno(
-  '[EndGameSure]',
-  'LoadDialog("Loading", {Splash = true}); Game:SwitchToMenu()'
-)</OnClick>
+    <OnClick>msgbox_yesno('[EndGameSure]', function()
+  LoadDialog("Loading", {Splash = true})
+  Game:SwitchToMenu()
+end)</OnClick>
   </Button>
   <Button Name="Exit" Text="[ExitGame]">
     <Location X="0" Y="422" />
     <Size Width="180" Height="48" />
     <AlignHorizontal>Center</AlignHorizontal>
-    <OnClick>msgbox_yesno(
-  '[EndGameSure]',
-  'Game:Exit()'
-)</OnClick>
+    <OnClick>msgbox_yesno('[EndGameSure]', function() Game:Exit() end)</OnClick>
   </Button>
 </Dialog>

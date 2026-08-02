@@ -33,18 +33,27 @@ internal static class LuaArgs
     /// <summary>
     /// Prepares a value originating from one <see cref="Lua"/> instance for use in another one.
     /// </summary>
-    /// <param name="value">The value to transfer. Lua tables are copied, .NET objects are passed by reference.</param>
+    /// <param name="value">The value to transfer. Lua tables are copied, Lua functions are wrapped as callbacks, .NET objects are passed by reference.</param>
     /// <param name="target">The <see cref="Lua"/> instance the value is to be used in.</param>
     /// <param name="depth">The current Lua table nesting level.</param>
-    /// <exception cref="ArgumentException"><paramref name="value"/> is or contains a Lua function or too deeply nested Lua tables.</exception>
-    /// <remarks>Lua tables are bound to the <see cref="Lua"/> instance they were created in and can therefore not be shared.</remarks>
+    /// <remarks>Lua tables and functions are bound to the <see cref="Lua"/> instance they were created in and can therefore not be shared.</remarks>
     public static object? Transfer(object? value, Lua target, int depth = 0)
         => value switch
         {
             LuaTable table => CopyTable(table, target, depth),
-            LuaFunction => throw new ArgumentException("Lua functions can not be passed between Lua instances.", nameof(value)),
+            LuaFunction function => Wrap(function),
             _ => value
         };
+
+    /// <summary>
+    /// Wraps a Lua function so that it can be called from another <see cref="Lua"/> instance like a normal function, without any arguments.
+    /// </summary>
+    /// <remarks>
+    /// The function keeps running in the <see cref="Lua"/> instance it was created in.
+    /// Calling it after that instance has been disposed (i.e., after the dialog that provided the function was closed) does nothing.
+    /// </remarks>
+    private static Func<object?> Wrap(LuaFunction function)
+        => () => function.Call() is [var result, ..] ? result : null;
 
     private static LuaTable CopyTable(LuaTable table, Lua target, int depth)
     {

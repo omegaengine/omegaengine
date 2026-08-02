@@ -10,10 +10,10 @@
   if IsMainMenu then
     LoadDialog("Loading", {Splash = true}); Savegames:Load(name)
   else
-    msgbox_yesno(
-      '[EndGameSure]',
-      'LoadDialog("Loading", {Splash = true}); Savegames:Load([===[' .. name ..']===])'
-    )
+    msgbox_yesno('[EndGameSure]', function()
+      LoadDialog("Loading", {Splash = true})
+      Savegames:Load(name)
+    end)
   end
 end
 
