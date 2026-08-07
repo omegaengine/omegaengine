@@ -7,10 +7,10 @@
  */
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
 using OmegaEngine.Foundation;
@@ -29,6 +29,15 @@ public sealed class MusicManager(Engine engine) : IDisposable
 
     private string? _currentTheme;
     private Song? _currentSong;
+
+    /// <summary>
+    /// How long <see cref="Fadeout"/> takes to reduce a song's volume to zero.
+    /// </summary>
+    private static readonly TimeSpan FadeDuration = TimeSpan.FromSeconds(2);
+
+    private Song? _fadingSong;
+    private float _fadeStartVolume;
+    private readonly Stopwatch _fadeTimer = new();
 
     /// <summary>
     /// Is music currently being played?
@@ -107,11 +116,13 @@ public sealed class MusicManager(Engine engine) : IDisposable
     /// <param name="song">The song to play</param>
     private void PlaySong(Song song)
     {
-        if (Playing)
-        {
-            if (_currentSong == song) return;
-            Fadeout();
-        }
+        if (Playing && _currentSong == song) return;
+
+        // Take the song back over if it is still fading out from a previous playback, so that the fade doesn't silence it again
+        if (_fadingSong == song) EndFade(stop: false);
+
+        Fadeout();
+
         _currentSong = song;
 
         _currentSong.Volume = 1f;
@@ -165,10 +176,12 @@ public sealed class MusicManager(Engine engine) : IDisposable
     }
 
     /// <summary>
-    /// Plays another song from the current theme (if any) once the last one has finished
+    /// Advances any fadeout in progress and plays another song from the current theme (if any) once the last one has finished
     /// </summary>
     public void Update()
     {
+        UpdateFade();
+
         if (!string.IsNullOrEmpty(_currentTheme) && !Playing)
             PlayRandomSong(_currentTheme);
     }
@@ -188,7 +201,7 @@ public sealed class MusicManager(Engine engine) : IDisposable
     }
 
     /// <summary>
-    /// Fades out the current song
+    /// Starts fading out the current song. The fade itself is performed step-by-step by <see cref="Update"/>.
     /// </summary>
     private void Fadeout()
     {
@@ -198,23 +211,44 @@ public sealed class MusicManager(Engine engine) : IDisposable
         Song fadeSong = _currentSong;
         _currentSong = null;
 
-        // Prepare background thread for gradually fading out the song over ~2 seconds
-        float startVolume = fadeSong.Volume;
-        var fadeThread = new Thread(() =>
-        {
-            const int steps = 40;
-            for (int i = 1; i <= steps; i++)
-            {
-                Thread.Sleep(50);
-                if (fadeSong.IsDisposed || !fadeSong.Playing) return;
-                fadeSong.Volume = startVolume * (1f - (float)i / steps);
-            }
-            if (fadeSong.IsDisposed) return;
-            fadeSong.StopPlayback();
-        });
+        // Only one song can fade at a time; cut off any previous one
+        EndFade(stop: true);
 
-        // Start the thread
-        fadeThread.Start();
+        _fadingSong = fadeSong;
+        _fadeStartVolume = fadeSong.Volume;
+        _fadeTimer.Restart();
+    }
+
+    /// <summary>
+    /// Gradually reduces the volume of the song currently fading out and stops it once it is silent
+    /// </summary>
+    private void UpdateFade()
+    {
+        if (_fadingSong == null) return;
+
+        // The song may have stopped or been disposed in the meantime
+        if (_fadingSong.IsDisposed || !_fadingSong.Playing)
+        {
+            EndFade(stop: false);
+            return;
+        }
+
+        double progress = _fadeTimer.Elapsed.Divide(FadeDuration);
+        if (progress >= 1) EndFade(stop: true);
+        else _fadingSong.Volume = _fadeStartVolume * (1f - (float)progress);
+    }
+
+    /// <summary>
+    /// Ends the fadeout in progress (if any)
+    /// </summary>
+    /// <param name="stop">Whether to stop the playback of the fading song</param>
+    private void EndFade(bool stop)
+    {
+        if (_fadingSong == null) return;
+
+        if (stop && !_fadingSong.IsDisposed) _fadingSong.StopPlayback();
+        _fadingSong = null;
+        _fadeTimer.Reset();
     }
 
     /// <summary>
