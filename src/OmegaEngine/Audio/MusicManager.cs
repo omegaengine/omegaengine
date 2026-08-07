@@ -135,14 +135,24 @@ public sealed class MusicManager(Engine engine) : IDisposable
         if (Playing)
             if (_themes[theme].Contains(_currentSong)) return;
 
-        // Find all songs that match the new theme
-        var possibleSongs = _themes[_currentTheme].ToArray();
+        PlayRandomSong(theme);
+    }
+
+    /// <summary>
+    /// Plays a randomly selected song from a theme, avoiding the song that was played last if the theme offers alternatives
+    /// </summary>
+    /// <param name="theme">The name of the theme to pick a song from</param>
+    private void PlayRandomSong(string theme)
+    {
+        // Find all songs that match the theme
+        var possibleSongs = _themes[theme].ToArray();
+
+        // Don't repeat the previous song unless it is the only one in the theme
+        var otherSongs = possibleSongs.Where(song => song != _currentSong).ToArray();
+        if (otherSongs.Length > 0) possibleSongs = otherSongs;
 
         if (possibleSongs.Length > 0)
-        {
-            // Plays a randomly selected song from theme
             PlaySong(possibleSongs[RandomUtils.GetRandomInt(0, possibleSongs.Length)]);
-        }
     }
 
     /// <summary>
@@ -155,12 +165,12 @@ public sealed class MusicManager(Engine engine) : IDisposable
     }
 
     /// <summary>
-    /// Plays the next song from the current theme (if any) if the last one stopped
+    /// Plays another song from the current theme (if any) once the last one has finished
     /// </summary>
     public void Update()
     {
         if (!string.IsNullOrEmpty(_currentTheme) && !Playing)
-            PlayTheme(_currentTheme);
+            PlayRandomSong(_currentTheme);
     }
 
     /// <summary>
