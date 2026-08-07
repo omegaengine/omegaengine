@@ -134,6 +134,8 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
 
         double elapsedGameTime = GetElapsedGameTime(elapsedTime);
         Engine.Render(elapsedGameTime);
+
+        Engine.Music.Update();
     }
 
     /// <inheritdoc/>

@@ -265,7 +265,6 @@ public partial class RenderHost : IRenderHost, IDisposable
 
         Engine.Render(elapsedTime);
 
-        // Start new song after last one has stopped
         Engine.Music.Update();
     }
 
