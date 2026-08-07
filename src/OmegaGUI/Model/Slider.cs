@@ -20,11 +20,9 @@
  * THE SOFTWARE.
  */
 
-using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using OmegaEngine.Foundation.Design;
-using Resources = OmegaGUI.Properties.Resources;
 
 namespace OmegaGUI.Model;
 

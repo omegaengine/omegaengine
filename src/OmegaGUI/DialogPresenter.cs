@@ -24,12 +24,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using NLua;
 using NLua.Exceptions;
 using NanoByte.Common;
 using OmegaEngine;
-using OmegaEngine.Foundation.Storage;
 using OmegaGUI.Model;
 
 namespace OmegaGUI;

@@ -20,9 +20,7 @@
  * THE SOFTWARE.
  */
 
-using System;
 using System.ComponentModel;
-using Resources = OmegaGUI.Properties.Resources;
 
 namespace OmegaGUI.Model;
 

@@ -1,6 +1,4 @@
-using AlphaFramework.Presentation;
 using FrameOfReference.Presentation;
-using FrameOfReference.Presentation.Config;
 using FrameOfReference.World;
 using JetBrains.Annotations;
 using NLua;

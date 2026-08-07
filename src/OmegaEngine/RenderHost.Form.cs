@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using NanoByte.Common.Controls;
 using NanoByte.Common.Controls.Touch;
 using NanoByte.Common.Native;
 
