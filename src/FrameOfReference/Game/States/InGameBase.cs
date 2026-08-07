@@ -72,7 +72,7 @@ public abstract class InGameBase : SessionStateBase
             _isPaused = false;
             _presenter.DimUp();
             game.AddInputReceiver(_presenter);
-            game.GuiManager.Reset();
+            game.GuiManager.CloseAll();
             game.LoadDialog(HudDialog);
         }
         else
@@ -80,7 +80,7 @@ public abstract class InGameBase : SessionStateBase
             _isPaused = true;
             game.RemoveInputReceiver(_presenter);
             _presenter.DimDown();
-            game.GuiManager.Reset();
+            game.GuiManager.CloseAll();
             game.LoadDialog("PauseMenu", options: new() {Modal = true});
         }
     }
