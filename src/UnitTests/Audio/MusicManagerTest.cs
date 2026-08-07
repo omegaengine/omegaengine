@@ -103,6 +103,19 @@ public class MusicManagerTest : EngineTestBase
     }
 
     [Fact]
+    public void StopClearsTheCurrentThemeSoUpdateDoesNotResumePlayback()
+    {
+        Engine.Music.AddSong("test-a.wav", "menu");
+        Engine.Music.PlayTheme("menu");
+        if (!Engine.Music.Playing) Assert.Skip("No audio output device available.");
+
+        Engine.Music.Stop(fade: false);
+        Engine.Music.Update();
+
+        Engine.Music.Playing.Should().BeFalse();
+    }
+
+    [Fact]
     public void StopOnAlreadySilentManagerDoesNotThrow()
     {
         Action stop = () => Engine.Music.Stop(fade: true);

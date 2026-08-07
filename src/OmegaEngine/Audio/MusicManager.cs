@@ -92,6 +92,8 @@ public sealed class MusicManager(Engine engine) : IDisposable
     /// <param name="id">The name of the song to play</param>
     public void PlaySong(string id)
     {
+        _currentTheme = null;
+
         foreach (var song in _themes.Values.Where(x => x.ID == id))
         {
             PlaySong(song);
@@ -162,11 +164,13 @@ public sealed class MusicManager(Engine engine) : IDisposable
     }
 
     /// <summary>
-    /// Stops the currently playing song
+    /// Stops the currently playing song and clears the current theme
     /// </summary>
     /// <param name="fade">True to fade out the music instead of immediately cutting it off</param>
     public void Stop(bool fade)
     {
+        _currentTheme = null;
+
         if (!Playing) return;
 
         if (fade) Fadeout();
