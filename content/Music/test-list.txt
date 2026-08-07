@@ -1,0 +1,4 @@
+# Test library for MusicManagerTest
+test-a.wav|Menu
+test-b.wav|Menu,Game
+malformed-line-without-pipe

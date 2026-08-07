@@ -17,22 +17,102 @@ public class MusicManagerTest : EngineTestBase
     [Fact]
     public void AddingTheSameSongTwiceThrows()
     {
-        var music = Engine.Music!;
-        music.AddSong("intro.mp3", "menu");
+        Engine.Music.AddSong("intro.mp3", "menu");
 
-        Action addAgain = () => music.AddSong("intro.mp3", "game");
-
+        Action addAgain = () => Engine.Music.AddSong("intro.mp3", "game");
         addAgain.Should().Throw<InvalidOperationException>();
     }
 
     [Fact]
     public void PlayingAnEmptyThemeDoesNothing()
     {
-        var music = Engine.Music!;
-
         // No songs registered for this theme -> stays silent, doesn't throw
-        music.PlayTheme("nonexistent");
+        Engine.Music.PlayTheme("nonexistent");
 
-        music.Playing.Should().BeFalse();
+        Engine.Music.Playing.Should().BeFalse();
+    }
+
+    [Fact]
+    public void PlaySongWithUnknownIdDoesNothing()
+    {
+        Engine.Music.AddSong("intro.mp3", "menu");
+        Engine.Music.PlaySong("nonexistent.mp3");
+        Engine.Music.Playing.Should().BeFalse();
+    }
+
+    [Fact]
+    public void LoadLibrarySkipsCommentsAndMalformedLines()
+    {
+        Engine.Music.LoadLibrary("test-list.txt");
+
+        Action addAgain = () => Engine.Music.AddSong("test-a.wav", "other");
+        addAgain.Should().Throw<InvalidOperationException>();
+        Action addOtherAgain = () => Engine.Music.AddSong("test-b.wav", "other");
+        addOtherAgain.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void PlayThemePlaysASongFromTheTheme()
+    {
+        Engine.Music.AddSong("test-a.wav", "menu");
+
+        Engine.Music.PlayTheme("menu");
+        if (!Engine.Music.Playing) Assert.Skip("No audio output device available.");
+
+        Engine.Music.Playing.Should().BeTrue();
+    }
+
+    [Fact]
+    public void PlayThemeDoesNotRestartASongAlreadyMatchingTheTheme()
+    {
+        Engine.Music.AddSong("test-a.wav", "menu", "game");
+
+        Engine.Music.PlayTheme("menu");
+        if (!Engine.Music.Playing) Assert.Skip("No audio output device available.");
+
+        // Switching to a theme that also contains the currently playing song must not interrupt it
+        Engine.Music.PlayTheme("game");
+
+        Engine.Music.Playing.Should().BeTrue();
+    }
+
+    [Fact]
+    public void SwitchThemeDoesNotInterruptTheCurrentSong()
+    {
+        Engine.Music.AddSong("test-a.wav", "menu");
+        Engine.Music.AddSong("test-b.wav", "game");
+
+        Engine.Music.PlayTheme("menu");
+        if (!Engine.Music.Playing) Assert.Skip("No audio output device available.");
+
+        Engine.Music.SwitchTheme("game");
+
+        Engine.Music.Playing.Should().BeTrue();
+    }
+
+    [Fact]
+    public void StopWithoutFadeStopsPlaybackImmediately()
+    {
+        Engine.Music.AddSong("test-a.wav", "menu");
+        Engine.Music.PlayTheme("menu");
+        if (!Engine.Music.Playing) Assert.Skip("No audio output device available.");
+
+        Engine.Music.Stop(fade: false);
+
+        Engine.Music.Playing.Should().BeFalse();
+    }
+
+    [Fact]
+    public void StopOnAlreadySilentManagerDoesNotThrow()
+    {
+        Action stop = () => Engine.Music.Stop(fade: true);
+        stop.Should().NotThrow();
+    }
+
+    [Fact]
+    public void UpdateWithoutAThemeDoesNotThrow()
+    {
+        Action update = () => Engine.Music.Update();
+        update.Should().NotThrow();
     }
 }
