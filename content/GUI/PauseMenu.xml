@@ -13,15 +13,12 @@
     <ColorBorder A="255" R="0" G="0" B="0" />
     <ColorFill A="128" R="128" G="128" B="128" />
   </GroupBox>
-  <PictureBox Name="Logo">
+  <Label Name="Logo" FontScale="1.5" Text="Frame of Reference">
     <Location X="0" Y="40" />
-    <Size Width="188" Height="63" />
-    <AlignHorizontal>Center</AlignHorizontal>
-    <TextureFile>logo.png</TextureFile>
-    <TextureLocation X="0" Y="0" />
-    <TextureSize Width="188" Height="63" />
-    <Alpha>255</Alpha>
-  </PictureBox>
+    <Size Width="188" Height="80" />
+    <AlignVertical>Center</AlignVertical>
+    <TextAlign>Center</TextAlign>
+  </Label>
   <Button Name="ResumeGame" Text="[Return]" Hotkey="Escape">
     <Location X="190" Y="510" />
     <Size Width="100" Height="48" />

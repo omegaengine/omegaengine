@@ -254,8 +254,20 @@ public class Dialog : ICloneable<Dialog>
         set
         {
             _fontSize = value;
-            if (DialogRender != null) DialogRender.DefaultFontSize = (uint)(_fontSize * EffectiveScale);
+            UpdateFonts();
         }
+    }
+
+    /// <summary>
+    /// Updates the default font size and the custom fonts of all <see cref="Controls"/> with a <see cref="Control.FontScale"/>
+    /// </summary>
+    private void UpdateFonts()
+    {
+        if (DialogRender == null) return;
+
+        DialogRender.DefaultFontSize = (uint)(_fontSize * EffectiveScale);
+        foreach (Control control in Controls)
+            control.UpdateFont();
     }
     #endregion
 
@@ -312,7 +324,7 @@ public class Dialog : ICloneable<Dialog>
             {
                 foreach (Control control in Controls)
                     control.UpdateLayout();
-                DialogRender.DefaultFontSize = (uint)(_fontSize * EffectiveScale);
+                UpdateFonts();
             }
         }
     }
@@ -332,7 +344,7 @@ public class Dialog : ICloneable<Dialog>
             {
                 foreach (Control control in Controls)
                     control.UpdateLayout();
-                DialogRender.DefaultFontSize = (uint)(_fontSize * EffectiveScale);
+                UpdateFonts();
             }
         }
     }
@@ -447,6 +459,7 @@ public class Dialog : ICloneable<Dialog>
         {
             control.Parent = this;
             control.Generate();
+            control.GenerateFont();
         }
 
         // Update control positions

@@ -94,7 +94,7 @@ SoundVolumeValueLabel.Text = string.format("%.0f%%", Settings.Audio.SoundVolume 
     <ColorBorder A="255" R="0" G="0" B="0" />
     <ColorFill A="128" R="128" G="128" B="128" />
   </GroupBox>
-  <Label Name="GeneralLabel" Text="[General]">
+  <Label Name="GeneralLabel" FontScale="1.25" Text="[General]">
     <Location X="20" Y="50" />
     <Size Width="100" Height="20" />
   </Label>
@@ -125,7 +125,7 @@ LoadDialog("Settings", {Modal = true, Location = Me.Render.Location})</OnChanged
     <ColorBorder A="255" R="0" G="0" B="0" />
     <ColorFill A="128" R="128" G="128" B="128" />
   </GroupBox>
-  <Label Name="ControlsLabel" Text="[Controls]">
+  <Label Name="ControlsLabel" FontScale="1.25" Text="[Controls]">
     <Location X="290" Y="50" />
     <Size Width="100" Height="20" />
   </Label>
@@ -152,7 +152,7 @@ LoadDialog("Settings", {Modal = true, Location = Me.Render.Location})</OnChanged
     <ColorBorder A="255" R="0" G="0" B="0" />
     <ColorFill A="128" R="128" G="128" B="128" />
   </GroupBox>
-  <Label Name="DisplayLabel" Text="[Display]">
+  <Label Name="DisplayLabel" FontScale="1.25" Text="[Display]">
     <Location X="20" Y="150" />
     <Size Width="100" Height="20" />
   </Label>
@@ -217,7 +217,7 @@ FieldOfViewValueLabel.Text = string.format("%.0f°", Settings.Graphics.FieldOfVi
     <ColorBorder A="255" R="0" G="0" B="0" />
     <ColorFill A="128" R="128" G="128" B="128" />
   </GroupBox>
-  <Label Name="EffectsLabel" Text="[Effects]">
+  <Label Name="EffectsLabel" FontScale="1.25" Text="[Effects]">
     <Location X="20" Y="290" />
     <Size Width="100" Height="20" />
   </Label>
@@ -288,7 +288,7 @@ GammaValueLabel.Text = string.format("%.1f", Settings.Graphics.Gamma)</OnChanged
     <ColorBorder A="255" R="0" G="0" B="0" />
     <ColorFill A="128" R="128" G="128" B="128" />
   </GroupBox>
-  <Label Name="AudioLabel" Text="[Audio]">
+  <Label Name="AudioLabel" FontScale="1.25" Text="[Audio]">
     <Location X="20" Y="460" />
     <Size Width="100" Height="20" />
   </Label>

@@ -953,6 +953,16 @@ public class Dialog
     }
 
     /// <summary>
+    /// Adds a font in a new slot and returns its index.
+    /// </summary>
+    public uint AddFont(string faceName, uint fontHeight, FontWeight weight)
+    {
+        var index = (uint)fontList.Count;
+        SetFont(index, faceName, fontHeight, weight);
+        return index;
+    }
+
+    /// <summary>
     /// Shared resource access. Indexed fonts and textures are shared among
     /// all the controls.
     /// </summary>

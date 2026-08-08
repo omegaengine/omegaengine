@@ -26,6 +26,7 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.Xml.Serialization;
 using OmegaEngine.Foundation.Design;
+using SlimDX.Direct3D9;
 
 namespace OmegaGUI.Model;
 
@@ -152,6 +153,29 @@ public abstract class Control : ICloneable
         {
             IsVisible = value;
             if (DXControl != null) DXControl.IsVisible = value;
+        }
+    }
+    #endregion
+
+    #region Appearance
+    /// <summary>
+    /// The index of the font slot in <see cref="Dialog.DialogRender"/> used by this control; 0 for the dialog default
+    /// </summary>
+    private uint _fontSlot;
+
+    private float _fontScale = 1;
+
+    /// <summary>
+    /// A factor by which the dialog's font size is multiplied for text on this control - no auto-update
+    /// </summary>
+    [XmlAttribute, DefaultValue(1f), Description("A factor by which the dialog's font size is multiplied for text on this control"), Category("Appearance")]
+    public float FontScale
+    {
+        get => _fontScale;
+        set
+        {
+            _fontScale = value;
+            NeedsUpdate();
         }
     }
     #endregion
@@ -315,6 +339,33 @@ public abstract class Control : ICloneable
                 DXControl.SetSize(EffectiveSize.Width, EffectiveSize.Height);
             }
         }
+    }
+    #endregion
+
+    #region Update Font
+    /// <summary>
+    /// Assigns a font slot for <see cref="FontScale"/> after (re-)generating the control model
+    /// </summary>
+    internal void GenerateFont()
+    {
+        _fontSlot = 0;
+        UpdateFont();
+    }
+
+    /// <summary>
+    /// Updates the size of this control's custom font, e.g. after a scale change
+    /// </summary>
+    internal void UpdateFont()
+    {
+        if (Parent?.DialogRender == null || DXControl == null || _fontScale == 1) return;
+
+        var size = (uint)(Parent.FontSize * Parent.EffectiveScale * _fontScale);
+        if (_fontSlot == 0)
+        {
+            _fontSlot = Parent.DialogRender.AddFont(Parent.FontName, size, FontWeight.Normal);
+            DXControl.SetFontIndex(_fontSlot);
+        }
+        else Parent.DialogRender.SetFont(_fontSlot, Parent.FontName, size, FontWeight.Normal);
     }
     #endregion
 

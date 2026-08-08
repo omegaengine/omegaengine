@@ -7,9 +7,9 @@
   <FontSize>30</FontSize>
   <Size Width="1024" Height="768" />
   <Shift X="0" Y="0" />
-  <Label Name="Logo" Text="Frame of Reference">
-    <Location X="47" Y="-190" />
-    <Size Width="188" Height="63" />
+  <Label Name="Logo" FontScale="1.5" Text="Frame of Reference">
+    <Location X="47" Y="-200" />
+    <Size Width="188" Height="100" />
     <AlignVertical>Center</AlignVertical>
     <TextAlign>Center</TextAlign>
   </Label>

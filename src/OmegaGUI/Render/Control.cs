@@ -180,6 +180,14 @@ public abstract class Control
     }
 
     /// <summary>
+    /// Sets the font slot used by all elements of this control
+    /// </summary>
+    public void SetFontIndex(uint fontIndex)
+    {
+        foreach (var element in elementList) element.FontIndex = fontIndex;
+    }
+
+    /// <summary>
     /// Create a new instance of a control
     /// </summary>
     protected Control(Dialog parent)
