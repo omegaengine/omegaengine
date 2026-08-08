@@ -71,9 +71,17 @@ public class Sound : EngineElement, IAudio
         _looping = looping;
         _ended = false;
         var input = CreatePlaybackChain(looping);
-        if (Engine.Audio.AddInput(input, AudioCategory.Sound, onEnded: () => _ended = true))
+        if (Engine.Audio.AddInput(input, AudioCategory.Sound, onEnded: OnEnded))
             _activeInput = input;
     }
+
+    /// <summary>
+    /// Called when the playback finishes on its own, i.e. not via <see cref="StopPlayback"/>. Never called for looping playback.
+    /// </summary>
+    /// <remarks>
+    /// Runs on the audio thread while the mixer is producing samples, so overrides must not block.
+    /// </remarks>
+    protected virtual void OnEnded() => _ended = true;
 
     /// <summary>
     /// Stops the sound playback

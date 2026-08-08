@@ -78,12 +78,45 @@ public sealed class AudioManager : IDisposable
     /// </summary>
     internal ListenerSnapshot ListenerSnapshot => _listenerSnapshot;
 
+    /// <summary>Positional sounds currently playing, refreshed by <see cref="Update"/>.</summary>
+    private readonly HashSet<Sound3D> _positionalSounds = [];
+
+    /// <summary>Scratch copy of <see cref="_positionalSounds"/>, so <see cref="Update"/> can work outside the lock. Main thread only.</summary>
+    private readonly List<Sound3D> _positionalSoundsBuffer = [];
+
     /// <summary>
-    /// Refreshes the snapshot taken from <see cref="Listener"/>. Must be called once per frame on the main thread.
+    /// Starts refreshing a <see cref="Sound3D"/>'s placement once per frame. No-op if already registered.
     /// </summary>
+    internal void Register(Sound3D sound)
+    {
+        lock (_positionalSounds) _positionalSounds.Add(sound);
+    }
+
+    /// <summary>
+    /// Stops refreshing a <see cref="Sound3D"/>'s placement. No-op if not registered.
+    /// </summary>
+    internal void Unregister(Sound3D sound)
+    {
+        lock (_positionalSounds) _positionalSounds.Remove(sound);
+    }
+
+    /// <summary>
+    /// Refreshes the snapshot taken from <see cref="Listener"/> and the placement of all playing <see cref="Sound3D"/>s. Must be called once per frame on the main thread.
+    /// </summary>
+    /// <remarks>
+    /// Deriving each sound's placement here, from one listener snapshot, is what keeps the audio thread from combining a sound position and a listener position captured in different frames.
+    /// That mismatch would otherwise scale with how far the sound and the listener travel between frames.
+    /// </remarks>
     public void Update()
     {
-        _listenerSnapshot = Listener?.To(ListenerSnapshot.FromViewpoint) ?? ListenerSnapshot.Default;
+        var listener = Listener?.To(ListenerSnapshot.FromViewpoint) ?? ListenerSnapshot.Default;
+        _listenerSnapshot = listener;
+
+        _positionalSoundsBuffer.Clear();
+        lock (_positionalSounds) _positionalSoundsBuffer.AddRange(_positionalSounds);
+
+        foreach (var sound in _positionalSoundsBuffer)
+            sound.UpdatePlacement(listener);
     }
 
     /// <summary>

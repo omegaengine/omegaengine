@@ -9,19 +9,20 @@
 using System;
 using NAudio.Wave;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
 
 namespace OmegaEngine.Audio;
 
 /// <summary>
-/// Wraps a sound source and pans/attenuates it in stereo based on the position of the source relative to a <see cref="ListenerSnapshot"/>.
+/// Wraps a sound source and pans/attenuates it in stereo based on the position of the source relative to the listener.
 /// </summary>
-/// <remarks>The geometry is re-evaluated on every read, so moving the source or the listener is reflected live.</remarks>
+/// <remarks>
+/// The geometry is re-read on every read, so moving the source or the listener is reflected live.
+/// It arrives as a <see cref="PlacementSnapshot"/>, so a read can never pair up data from two different frames.
+/// </remarks>
 /// <param name="source">The sound to spatialize. Mono or multi-channel; down-mixed to mono before panning.</param>
 /// <param name="attenuation">Factors describing how the volume attenuates with distance from the listener.</param>
-/// <param name="getListener">Supplies the current listener position and orientation. Called on every <see cref="Read"/>.</param>
-/// <param name="getPosition">Supplies the sound's current position in world space. Called on every <see cref="Read"/>.</param>
-internal sealed class Positional3DSampleProvider(ISampleProvider source, Attenuation attenuation, Func<ListenerSnapshot> getListener, Func<DoubleVector3> getPosition) : ISampleProvider
+/// <param name="getPlacement">Supplies where the sound currently sits relative to the listener. Called on every <see cref="Read"/>.</param>
+internal sealed class Positional3DSampleProvider(ISampleProvider source, Attenuation attenuation, Func<PlacementSnapshot> getPlacement) : ISampleProvider
 {
     private readonly int _sourceChannels = source.WaveFormat.Channels;
     private float[] _sourceBuffer = [];
@@ -65,23 +66,12 @@ internal sealed class Positional3DSampleProvider(ISampleProvider source, Attenua
 
     private (float leftGain, float rightGain) ComputeGains()
     {
-        var listener = getListener();
-        var delta = getPosition() - listener.Position;
-        double distance = delta.Length();
+        var placement = getPlacement();
 
-        float gain = Volume * attenuation.Apply((float)distance);
-
-        // Determine left/right balance from the lateral angle to the source
-        float pan = 0f;
-        if (distance > 1e-6)
-        {
-            var direction = (Vector3)(delta / distance);
-            var right = Vector3.Normalize(Vector3.Cross(listener.Up, listener.Forward));
-            pan = Math.Max(-1f, Math.Min(1f, Vector3.Dot(direction, right)));
-        }
+        float gain = Volume * attenuation.Apply(placement.Distance);
 
         // Constant-power panning
-        double angle = (pan + 1d) * Math.PI / 4d; // 0..pi/2
+        double angle = (placement.Pan + 1d) * Math.PI / 4d; // 0..pi/2
         return (
             leftGain: gain * (float)Math.Cos(angle),
             rightGain: gain * (float)Math.Sin(angle)
