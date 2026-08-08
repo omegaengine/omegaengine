@@ -26,6 +26,7 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.Xml.Serialization;
 using OmegaEngine.Foundation.Design;
+using OmegaEngine.Foundation.Light;
 using SlimDX.Direct3D9;
 
 namespace OmegaGUI.Model;
@@ -176,6 +177,26 @@ public abstract class Control : ICloneable
         {
             _fontScale = value;
             NeedsUpdate();
+        }
+    }
+
+    /// <summary>Used for XML serialization.</summary>
+    public XColor ColorText;
+
+    /// <summary>Used for XML serialization.</summary>
+    public bool ShouldSerializeColorText() => ColorText != default(XColor);
+
+    /// <summary>
+    /// A custom text color override for this control's default state
+    /// </summary>
+    [XmlIgnore, DefaultValue(typeof(Color), "0, 0, 0, 0"), Description("A custom text color override for this control's default state"), Category("Appearance")]
+    public Color TextColor
+    {
+        get => ColorText;
+        set
+        {
+            ColorText = value;
+            ApplyTextColor();
         }
     }
     #endregion
@@ -366,6 +387,15 @@ public abstract class Control : ICloneable
             DXControl.SetFontIndex(_fontSlot);
         }
         else Parent.DialogRender.SetFont(_fontSlot, Parent.FontName, size, FontWeight.Normal);
+    }
+
+    /// <summary>
+    /// (Re-)applies <see cref="TextColor"/> to the control's rendered elements, e.g. after (re-)generating
+    /// </summary>
+    internal void ApplyTextColor()
+    {
+        if (DXControl != null && ColorText != default(XColor))
+            DXControl.SetFontColor(ColorText.ToColor4());
     }
     #endregion
 

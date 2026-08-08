@@ -501,6 +501,7 @@ public class Dialog : ICloneable<Dialog>
             control.Parent = this;
             control.Generate();
             control.GenerateFont();
+            control.ApplyTextColor();
         }
 
         // Update control positions

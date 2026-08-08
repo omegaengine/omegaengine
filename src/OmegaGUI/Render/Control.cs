@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using NanoByte.Common.Native;
+using SlimDX;
 using SlimDX.Direct3D9;
 
 namespace OmegaGUI.Render;
@@ -185,6 +186,21 @@ public abstract class Control
     public void SetFontIndex(uint fontIndex)
     {
         foreach (var element in elementList) element.FontIndex = fontIndex;
+    }
+
+    /// <summary>
+    /// Overrides the text color used by all elements of this control for the <see cref="ControlState.Normal"/> state
+    /// </summary>
+    public void SetFontColor(Color4 color)
+    {
+        foreach (var element in elementList)
+        {
+            if (element.FontColor.States == null) continue;
+
+            var states = (Color4[])element.FontColor.States.Clone();
+            states[(int)ControlState.Normal] = color;
+            element.FontColor.States = states;
+        }
     }
 
     /// <summary>
