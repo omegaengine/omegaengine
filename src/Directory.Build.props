@@ -33,13 +33,13 @@
     <Authors>Bastian Eicher</Authors>
     <Copyright>Copyright Bastian Eicher</Copyright>
     <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
-    <RepositoryUrl>https://raw.githubusercontent.com/omegaengine/omegaengine/</RepositoryUrl>
+    <RepositoryUrl>https://github.com/omegaengine/omegaengine</RepositoryUrl>
     <PackageProjectUrl>https://omegaengine.de/</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>icon-omega.png</PackageIcon>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)..\README.md" Pack="true" PackagePath=""/>
+    <None Include="README.md" Pack="true" PackagePath="" Condition="Exists('$(MSBuildProjectDirectory)\README.md')" />
     <None Include="$(MSBuildThisFileDirectory)..\icon-omega.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
