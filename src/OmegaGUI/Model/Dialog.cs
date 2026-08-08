@@ -36,6 +36,7 @@ using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Foundation.Storage;
 using SlimDX;
+using SlimDX.Direct3D9;
 using OmegaGUI.Render;
 using Resources = OmegaGUI.Properties.Resources;
 
@@ -259,15 +260,53 @@ public class Dialog : ICloneable<Dialog>
     }
 
     /// <summary>
-    /// Updates the default font size and the custom fonts of all <see cref="Controls"/> with a <see cref="Control.FontScale"/>
+    /// The index of the font slot in <see cref="DialogRender"/> used for the caption; 0 for the dialog default
+    /// </summary>
+    private uint _captionFontSlot;
+
+    private float _captionFontScale = 1;
+
+    /// <summary>
+    /// A factor by which <see cref="FontSize"/> is multiplied for the caption text - no auto-update
+    /// </summary>
+    [XmlAttribute, DefaultValue(1f), Description("A factor by which the font size is multiplied for the caption text"), Category("Appearance")]
+    public float CaptionFontScale
+    {
+        get => _captionFontScale;
+        set
+        {
+            _captionFontScale = value;
+            NeedsUpdate = true;
+        }
+    }
+
+    /// <summary>
+    /// Updates the default font size, the caption font and the custom fonts of all <see cref="Controls"/> with a <see cref="Control.FontScale"/>
     /// </summary>
     private void UpdateFonts()
     {
         if (DialogRender == null) return;
 
         DialogRender.DefaultFontSize = (uint)(_fontSize * EffectiveScale);
+        UpdateCaptionFont();
         foreach (Control control in Controls)
             control.UpdateFont();
+    }
+
+    /// <summary>
+    /// Updates the size of the caption's custom font, e.g. after a scale change
+    /// </summary>
+    private void UpdateCaptionFont()
+    {
+        if (DialogRender == null || _captionFontScale == 1) return;
+
+        var size = (uint)(_fontSize * EffectiveScale * _captionFontScale);
+        if (_captionFontSlot == 0)
+        {
+            _captionFontSlot = DialogRender.AddFont(_fontName, size, FontWeight.Normal);
+            DialogRender.CaptionFontIndex = _captionFontSlot;
+        }
+        else DialogRender.SetFont(_captionFontSlot, _fontName, size, FontWeight.Normal);
     }
     #endregion
 
@@ -445,6 +484,8 @@ public class Dialog : ICloneable<Dialog>
         // Set dialog properites
         DialogRender.SetCaptionText(GetLocalized(_captionText));
         DialogRender.CaptionHeight = _captionHeight;
+        _captionFontSlot = 0;
+        UpdateCaptionFont();
         UpdateColors();
 
         // Load custom button styles

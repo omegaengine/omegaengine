@@ -99,6 +99,9 @@ public class Dialog
         }
     }
 
+    /// <summary>The font slot used for the caption text</summary>
+    public uint CaptionFontIndex { get => captionElement.FontIndex; set => captionElement.FontIndex = value; }
+
     /// <summary>The dialog's location</summary>
     public Point Location
     {
