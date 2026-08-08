@@ -21,6 +21,8 @@ public class Label : Control
 
     public VerticalTextAlign VerticalTextAlign { get; set; } = VerticalTextAlign.Center;
 
+    public bool Shadow { get; set; } = true;
+
     /// <summary>
     /// Create a new instance of a static text control
     /// </summary>
@@ -46,8 +48,7 @@ public class Label : Control
         Element e = elementList[(int)VerticalTextAlign * 3 + (int)TextAlign];
         e.FontColor.Blend(state, elapsedTime);
 
-        // Render with a shadow
-        parentDialog.DrawText(textData, e, boundingBox, true);
+        parentDialog.DrawText(textData, e, boundingBox, Shadow);
     }
 
     /// <summary>

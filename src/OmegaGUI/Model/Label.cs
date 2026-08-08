@@ -90,6 +90,22 @@ public class Label : Control
             if (_staticText != null) _staticText.VerticalTextAlign = value;
         }
     }
+
+    private bool _shadow = true;
+
+    /// <summary>
+    /// Whether to draw a shadow behind the text for better legibility
+    /// </summary>
+    [DefaultValue(true), Description("Whether to draw a shadow behind the text for better legibility"), Category("Appearance")]
+    public bool Shadow
+    {
+        get => _shadow;
+        set
+        {
+            _shadow = value;
+            if (_staticText != null) _staticText.Shadow = value;
+        }
+    }
     #endregion
 
     #region Constructor
@@ -110,6 +126,7 @@ public class Label : Control
         ControlModel.IsEnabled = IsEnabled;
         _staticText.TextAlign = _textAlign;
         _staticText.VerticalTextAlign = _verticalTextAlign;
+        _staticText.Shadow = _shadow;
 
         // Setup event hooks
         SetupMouseEvents();
