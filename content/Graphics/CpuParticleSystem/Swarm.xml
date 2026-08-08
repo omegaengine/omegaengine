@@ -21,12 +21,12 @@
   <SpawnRate>100</SpawnRate>
   <SpawnRadius>30</SpawnRadius>
   <MaxParticles>100</MaxParticles>
-  <EmitterRepelRange>30</EmitterRepelRange>
+  <EmitterRepelRange>50</EmitterRepelRange>
   <EmitterRepelSpeed>10</EmitterRepelSpeed>
-  <EmitterSuctionRange>35</EmitterSuctionRange>
+  <EmitterSuctionRange>55</EmitterSuctionRange>
   <EmitterSuctionSpeed>10</EmitterSuctionSpeed>
   <Gravity X="2" Y="0" Z="2" />
-  <RandomAcceleration>3</RandomAcceleration>
+  <RandomAcceleration>10</RandomAcceleration>
   <WarmupTime>1</WarmupTime>
   <Particle1Texture>smoke.png</Particle1Texture>
   <Particle1Alpha>256</Particle1Alpha>
