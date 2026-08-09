@@ -435,9 +435,9 @@ public class Dialog : ICloneable<Dialog>
     [XmlElement(typeof(Button)), XmlElement(typeof(CheckBox)),
      XmlElement(typeof(DropdownList)), XmlElement(typeof(GroupBox)),
      XmlElement(typeof(TextBox)), XmlElement(typeof(ListBox)),
-     XmlElement(typeof(PictureBox)), XmlElement(typeof(RadioButton)),
-     XmlElement(typeof(ScrollBar)), XmlElement(typeof(Slider)),
-     XmlElement(typeof(Label))]
+     XmlElement(typeof(PictureBox)), XmlElement(typeof(ProgressBar)),
+     XmlElement(typeof(RadioButton)), XmlElement(typeof(ScrollBar)),
+     XmlElement(typeof(Slider)), XmlElement(typeof(Label))]
     public BindingList<Control> Controls { get; private set; } = [];
     #endregion
 

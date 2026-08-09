@@ -44,6 +44,7 @@ public enum ControlType
     TextBox,
     Scrollbar,
     PictureBox,
+    ProgressBar,
 }
 
 /// <summary>

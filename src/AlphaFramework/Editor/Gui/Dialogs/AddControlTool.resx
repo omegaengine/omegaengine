@@ -143,15 +143,18 @@
     <value>PictureBox</value>
   </data>
   <data name="typeBox.Items7" xml:space="preserve">
-    <value>RadioButton</value>
+    <value>ProgressBar</value>
   </data>
   <data name="typeBox.Items8" xml:space="preserve">
-    <value>ScrollBar</value>
+    <value>RadioButton</value>
   </data>
   <data name="typeBox.Items9" xml:space="preserve">
-    <value>Slider</value>
+    <value>ScrollBar</value>
   </data>
   <data name="typeBox.Items10" xml:space="preserve">
+    <value>Slider</value>
+  </data>
+  <data name="typeBox.Items11" xml:space="preserve">
     <value>TextBox</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />

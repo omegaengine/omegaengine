@@ -171,6 +171,11 @@ Create custom themes by:
 |              | Lower right border | 241  | 113 | 246   | 121    |
 | Listbox      | Main               | 13   | 123 | 241   | 160    |
 |              | Selection          | 16   | 166 | 240   | 183    |
+| ProgressBar  | Background         | 7    | 81  | 247   | 123    |
+|              | Fill               | 20   | 126 | 238   | 157    |
+
+> [!NOTE]
+> The ProgressBar regions deliberately overlap those of the DropdownList and Listbox, so that themes do not need to provide dedicated artwork for it. Its background is the same beveled frame as the DropdownList, while its fill sits inside the Listbox's flat area. Keep that area near-white in custom themes: the fill is modulated with <xref:OmegaGUI.Model.ProgressBar.FillColor>, so a strongly colored region cannot be tinted to arbitrary colors.
 
 ## Scaling
 

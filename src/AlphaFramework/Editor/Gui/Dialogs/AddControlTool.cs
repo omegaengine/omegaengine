@@ -64,6 +64,9 @@ public sealed partial class AddControlTool : System.Windows.Forms.Form
             case "PictureBox":
                 OnNewControl(new PictureBox());
                 break;
+            case "ProgressBar":
+                OnNewControl(new ProgressBar());
+                break;
             case "RadioButton":
                 OnNewControl(new RadioButton());
                 break;

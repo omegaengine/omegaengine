@@ -360,6 +360,24 @@ public class Dialog
         SetDefaultElement(ControlType.Slider, Slider.ButtonLayer, e);
 
         //-------------------------------------
+        // ProgressBar - Background
+        //-------------------------------------
+        // Reuses the DropdownList's beveled frame
+        e.SetTexture(0, Rectangle.FromLTRB(7, 81, 247, 123));
+        e.TextureColor.States[(int)ControlState.Normal] = new(0.55f, 0.8f, 0.8f, 0.8f);
+        e.TextureColor.States[(int)ControlState.Disabled] = new(0.55f, 0.4f, 0.4f, 0.4f);
+        // Assign the element
+        SetDefaultElement(ControlType.ProgressBar, ProgressBar.BackgroundLayer, e);
+
+        //-------------------------------------
+        // ProgressBar - Fill
+        //-------------------------------------
+        // Reuses the inside of the ListBox's white area, which modulates cleanly to any color
+        e.SetTexture(0, Rectangle.FromLTRB(20, 126, 238, 157));
+        // Assign the element
+        SetDefaultElement(ControlType.ProgressBar, ProgressBar.FillLayer, e);
+
+        //-------------------------------------
         // Scrollbar - Track
         //-------------------------------------
         const int scrollBarStartX = 196;
@@ -1089,6 +1107,23 @@ public class Dialog
         s.SetSize(w, h);
 
         return s;
+    }
+
+    /// <summary>Adds a progress bar control to the dialog</summary>
+    public ProgressBar AddProgressBar(int id, int x, int y, int w, int h)
+    {
+        // First create the progress bar
+        var p = new ProgressBar(this);
+
+        // Now call the add control method
+        AddControl(p);
+
+        // Set the properties of the progress bar now
+        p.ID = id;
+        p.SetLocation(x, y);
+        p.SetSize(w, h);
+
+        return p;
     }
 
     /// <summary>Adds a button control to the dialog</summary>

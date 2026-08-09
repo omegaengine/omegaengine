@@ -50,7 +50,8 @@ namespace AlphaFramework.Editor.Gui.Dialogs
             resources.GetString("typeBox.Items7"),
             resources.GetString("typeBox.Items8"),
             resources.GetString("typeBox.Items9"),
-            resources.GetString("typeBox.Items10")});
+            resources.GetString("typeBox.Items10"),
+            resources.GetString("typeBox.Items11")});
             this.typeBox.Name = "typeBox";
             // 
             // label
