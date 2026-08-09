@@ -390,12 +390,16 @@ public abstract class Control : ICloneable
     }
 
     /// <summary>
-    /// (Re-)applies <see cref="TextColor"/> to the control's rendered elements, e.g. after (re-)generating
+    /// (Re-)applies <see cref="TextColor"/> to the control's rendered elements, e.g. after (re-)generating or after clearing a previous override
     /// </summary>
     internal void ApplyTextColor()
     {
-        if (DXControl != null && ColorText != default(XColor))
+        if (DXControl == null) return;
+
+        if (ColorText != default(XColor))
             DXControl.SetFontColor(ColorText.ToColor4());
+        else
+            DXControl.ResetFontColor();
     }
     #endregion
 

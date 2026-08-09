@@ -204,6 +204,25 @@ public abstract class Control
     }
 
     /// <summary>
+    /// Undoes a previous <see cref="SetFontColor"/> override, restoring the control type's default <see cref="ControlState.Normal"/> text color
+    /// </summary>
+    public void ResetFontColor()
+    {
+        for (int i = 0; i < elementList.Count; i++)
+        {
+            var element = elementList[i];
+            if (element.FontColor.States == null) continue;
+
+            var defaultElement = parentDialog.GetDefaultElement(ControlType, (uint)i);
+            if (defaultElement?.FontColor.States == null) continue;
+
+            var states = (Color4[])element.FontColor.States.Clone();
+            states[(int)ControlState.Normal] = defaultElement.FontColor.States[(int)ControlState.Normal];
+            element.FontColor.States = states;
+        }
+    }
+
+    /// <summary>
     /// Create a new instance of a control
     /// </summary>
     protected Control(Dialog parent)
