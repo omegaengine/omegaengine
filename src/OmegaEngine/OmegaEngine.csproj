@@ -12,6 +12,7 @@ The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games 
   <!-- Dependencies -->
   <ItemGroup>
     <Reference Include="System.Management" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <ProjectReference Include="..\OmegaEngine.Foundation\OmegaEngine.Foundation.csproj" />
     <PackageReference Include="NAudio" Version="2.3.0" />
   </ItemGroup>

@@ -8,8 +8,10 @@
 
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing.Design;
 using NanoByte.Common;
+using NanoByte.Common.Values.Design;
 using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Geometry;
 using SlimDX;
@@ -121,7 +123,7 @@ public sealed class ArcballCamera : ZoomCamera
     /// <summary>
     /// Controls how translation input for <see cref="Navigate"/> is scaled compared to rotation input.
     /// </summary>
-    [FloatRange(0, 0.01), Description("Controls how translation input is scaled compared to rotation input."), Category("Behavior")]
+    [Range(0, 0.01), Description("Controls how translation input is scaled compared to rotation input."), Category("Behavior")]
     [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
     public double TranslationSensitivity { get; set; } = 0.004;
 

@@ -8,8 +8,10 @@
 
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing.Design;
 using NanoByte.Common;
+using NanoByte.Common.Values.Design;
 using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Properties;
@@ -64,7 +66,7 @@ public class StrategyCamera(Func<DoubleVector3, double> heightController) : Zoom
     /// <summary>
     /// The minimum pitch angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MinRadius"/>.
     /// </summary>
-    [FloatRange(0, 90), Description("The minimum pitch angle in degrees. Effective when Radius is equal to MinRadius."), Category("Behavior")]
+    [Range(0, 90), Description("The minimum pitch angle in degrees. Effective when Radius is equal to MinRadius."), Category("Behavior")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public float MinPitch
     {
@@ -86,7 +88,7 @@ public class StrategyCamera(Func<DoubleVector3, double> heightController) : Zoom
     /// <summary>
     /// The maximum pitch angle in degrees. Effective when <see cref="ZoomCamera.Radius"/> is equal to <see cref="ZoomCamera.MaxRadius"/>.
     /// </summary>
-    [FloatRange(0, 90), Description("The maximum pitch angle in degrees. Effective when Radius is equal to MaxRadius."), Category("Behavior")]
+    [Range(0, 90), Description("The maximum pitch angle in degrees. Effective when Radius is equal to MaxRadius."), Category("Behavior")]
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public float MaxPitch
     {
@@ -106,7 +108,7 @@ public class StrategyCamera(Func<DoubleVector3, double> heightController) : Zoom
     /// <summary>
     /// Controls how translation input for <see cref="Navigate"/> is scaled compared to rotation input.
     /// </summary>
-    [FloatRange(0, 0.01), Description("Controls how translation input is scaled compared to rotation input."), Category("Behavior")]
+    [Range(0, 0.01), Description("Controls how translation input is scaled compared to rotation input."), Category("Behavior")]
     [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
     public double TranslationSensitivity { get; set; } = 0.006;
 

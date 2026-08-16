@@ -22,6 +22,7 @@
 
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Xml.Serialization;
 using NLua;
@@ -30,6 +31,7 @@ using OmegaEngine.Foundation.Light;
 
 #if NETFRAMEWORK
 using System.Drawing.Design;
+using NanoByte.Common.Values.Design;
 using OmegaEngine.Foundation.Design;
 #endif
 
@@ -55,8 +57,8 @@ partial class Universe
     /// A value between 0 and 4 representing the current sun and moon positions. (0 = dawn, 1 = noon, 2 = dusk, 3 = midnight)
     /// </summary>
     [Category("Lighting"), Description("A value between 0 and 4 representing the current sun and moon positions. (0 = dawn, 1 = noon, 2 = dusk, 3 = midnight)")]
+    [Range(0f, 4f)]
 #if NETFRAMEWORK
-    [FloatRange(0f, 4f)]
     [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
 #endif
     public float LightPhase { get => _lightPhase; set => (value.Modulo(4)).To(ref _lightPhase, OnLightingChanged); }

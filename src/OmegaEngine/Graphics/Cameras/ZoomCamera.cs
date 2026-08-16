@@ -1,8 +1,9 @@
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing.Design;
 using NanoByte.Common;
-using OmegaEngine.Foundation.Design;
+using NanoByte.Common.Values.Design;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Properties;
 
@@ -83,14 +84,14 @@ public abstract class ZoomCamera : MatrixCamera
     /// <summary>
     /// Base factor used for exponential zoom scaling.
     /// </summary>
-    [FloatRange(0, 2), Description("Base factor used for exponential zoom scaling."), Category("Behavior")]
+    [Range(0, 2), Description("Base factor used for exponential zoom scaling."), Category("Behavior")]
     [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
     public double ZoomBase { get; set; } = 1.1;
 
     /// <summary>
     /// Controls the sensitivity of zoom operations.
     /// </summary>
-    [FloatRange(0, 10), Description("Controls the sensitivity of zoom operations."), Category("Behavior")]
+    [Range(0, 10), Description("Controls the sensitivity of zoom operations."), Category("Behavior")]
     [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
     public double ZoomSensitivity { get; set; } = 0.15;
 

@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Windows.Forms;
 using NanoByte.Common;
@@ -27,7 +28,7 @@ public class AngleControl : UserControl
     /// <summary>
     /// An optional limit to the valid degree values. (Limits beyond 0° and 360° are ignored.)
     /// </summary>
-    public FloatRangeAttribute? Range { get; set; }
+    public RangeAttribute? Range { get; set; }
     #endregion
 
     #region Constructor
@@ -100,7 +101,7 @@ public class AngleControl : UserControl
 
         var center = new Point(Width / 2, Height / 2);
         Angle = GetAngle(center, new(location.X, distortedY));
-        if (Range != null) Angle = Angle.Clamp(Range.Minimum, Range.Maximum);
+        if (Range != null) Angle = Angle.Clamp(Convert.ToDouble(Range.Minimum), Convert.ToDouble(Range.Maximum));
 
         Refresh();
     }

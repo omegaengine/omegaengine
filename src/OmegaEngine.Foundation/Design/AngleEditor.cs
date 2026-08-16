@@ -8,18 +8,20 @@
 
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using NanoByte.Common;
+using NanoByte.Common.Values.Design;
 
 namespace OmegaEngine.Foundation.Design;
 
 /// <summary>
 /// An editor that can be associated with <c>float</c> properties representing angles between 0 and 360 degrees. Uses <see cref="AngleControl"/>.
 /// </summary>
-/// <seealso cref="FloatRangeAttribute"/>
-public class AngleEditor : FloatEditor
+/// <seealso cref="RangeAttribute"/>
+public class AngleEditor : NumericEditor
 {
     /// <inheritdoc/>
     protected override double EditValue(double value, IWindowsFormsEditorService editorService)
@@ -34,7 +36,7 @@ public class AngleEditor : FloatEditor
     }
 
     /// <inheritdoc/>
-    protected override double EditValue(double value, FloatRangeAttribute range, IWindowsFormsEditorService editorService)
+    protected override double EditValue(double value, RangeAttribute range, IWindowsFormsEditorService editorService)
     {
         #region Sanity checks
         if (editorService == null) throw new ArgumentNullException(nameof(editorService));
