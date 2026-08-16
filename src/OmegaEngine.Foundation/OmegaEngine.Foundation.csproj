@@ -14,17 +14,17 @@
   <!-- Dependencies -->
   <ItemGroup>
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
-    <PackageReference Include="NanoByte.Common" Version="3.1.4" />
+    <PackageReference Include="NanoByte.Common" Version="3.1.5" />
     <PackageReference Include="NLua" Version="1.7.9" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net472'">
     <PackageReference Include="SlimDX" Version="4.0.13.44" />
-    <PackageReference Include="NanoByte.Common.WinForms" Version="3.1.4" />
+    <PackageReference Include="NanoByte.Common.WinForms" Version="3.1.5" />
     <PackageReference Include="ICSharpCode.TextEditorEx" Version="1.4.0" />
     <Compile Remove="Shims\**" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'!='net472'">
-    <PackageReference Include="System.Drawing.Common" Version="10.0.10" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.11" />
     <Compile Remove="Design\**" />
   </ItemGroup>
 
