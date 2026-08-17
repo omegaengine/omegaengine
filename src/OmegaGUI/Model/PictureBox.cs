@@ -98,8 +98,7 @@ public class PictureBox : Control
         set
         {
             _alpha = value;
-            if (ControlModel != null)
-                ControlModel[0].TextureColor.States[(int)ControlState.Normal].Alpha = (float)_alpha / 255;
+            ApplyAlpha();
         }
     }
     #endregion
@@ -118,8 +117,7 @@ public class PictureBox : Control
         _textureNumber = Parent.CustomTexture++;
 
         var fill = new Element();
-        fill.TextureColor.States[(int)ControlState.Normal] = Render.Dialog.WhiteColorValue;
-        fill.TextureColor.States[(int)ControlState.Normal].Alpha = (float)_alpha / 255;
+        fill.TextureColor.Initialize(Render.Dialog.WhiteColorValue); // UpdateTexture() below applies Alpha on top once States exist
 
         // Add control to dialog
         UpdateLayout();
@@ -148,9 +146,23 @@ public class PictureBox : Control
         }
         else
         {
-            // No (valid) texture to show; fall back to an empty region so nothing is drawn
-            DXControl[0].SetTexture(0, Rectangle.Empty);
+            // No (valid) texture to show; point at a dummy region of the dialog's default texture
+            // (an empty region would cause a division by zero when scaling the sprite)
+            DXControl[0].SetTexture(0, new(0, 0, 1, 1));
         }
+
+        // Element.SetTexture() re-initializes the color blend states, so Alpha needs to be re-applied afterwards
+        ApplyAlpha();
+    }
+
+    /// <summary>
+    /// Applies <see cref="Alpha"/> to the rendered element, keeping the control fully transparent while there is no valid <see cref="TextureFile"/>.
+    /// </summary>
+    private void ApplyAlpha()
+    {
+        if (DXControl == null) return; // Not generated yet; Generate() will apply this itself once it is
+
+        DXControl[0].TextureColor.States[(int)ControlState.Normal].Alpha = TextureFileValid ? (float)_alpha / 255 : 0;
     }
     #endregion
 }
