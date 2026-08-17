@@ -30,10 +30,15 @@ namespace OmegaGUI.Model;
 public class PictureBox : Control
 {
     #region Properties
+    /// <summary>
+    /// The texture slot in <see cref="Model.Dialog.DialogRender"/> this control's texture is loaded into once generated
+    /// </summary>
+    private uint _textureNumber;
+
     private string _textureFile;
 
     /// <summary>
-    /// The file containing the texture for this picture box - no auto-update
+    /// The file containing the texture for this picture box
     /// </summary>
     [Description("The file containing the texture for this picture box"), Category("Appearance")]
     public string TextureFile
@@ -42,7 +47,7 @@ public class PictureBox : Control
         set
         {
             _textureFile = value;
-            NeedsUpdate();
+            UpdateTexture();
         }
     }
 
@@ -52,7 +57,7 @@ public class PictureBox : Control
     private Point _textureLocation = new(0, 0);
 
     /// <summary>
-    /// The upper left corner of the area in the texture file to use - no auto-update
+    /// The upper left corner of the area in the texture file to use
     /// </summary>
     [Description("The upper left corner of the area in the texture file to use"), Category("Appearance")]
     public Point TextureLocation
@@ -61,14 +66,14 @@ public class PictureBox : Control
         set
         {
             _textureLocation = value;
-            NeedsUpdate();
+            UpdateTexture();
         }
     }
 
     private Size _textureSize = new(256, 256);
 
     /// <summary>
-    /// The distance to the lower right corner of the area in the texture file to use - no auto-update
+    /// The distance to the lower right corner of the area in the texture file to use
     /// </summary>
     [Description("The distance to the lower right corner of the area in the texture file to use"), Category("Appearance")]
     public Size TextureSize
@@ -77,7 +82,7 @@ public class PictureBox : Control
         set
         {
             _textureSize = value;
-            NeedsUpdate();
+            UpdateTexture();
         }
     }
 
@@ -109,14 +114,10 @@ public class PictureBox : Control
     #region Generate
     internal override void Generate()
     {
-        if (!TextureFileValid) return;
-
-        // Load custom texture
-        uint textureNumber = Parent.CustomTexture++;
-        Parent.DialogRender.SetTexture(textureNumber, _textureFile);
+        // Reserve a texture slot; the actual texture is (re-)loaded into it by UpdateTexture(), including on later changes
+        _textureNumber = Parent.CustomTexture++;
 
         var fill = new Element();
-        fill.SetTexture(textureNumber, new(_textureLocation, _textureSize));
         fill.TextureColor.States[(int)ControlState.Normal] = Render.Dialog.WhiteColorValue;
         fill.TextureColor.States[(int)ControlState.Normal].Alpha = (float)_alpha / 255;
 
@@ -128,6 +129,28 @@ public class PictureBox : Control
 
         // Setup event hooks
         SetupMouseEvents();
+
+        UpdateTexture();
+    }
+
+    /// <summary>
+    /// (Re-)loads <see cref="TextureFile"/> into the reserved texture slot and applies it to the rendered element,
+    /// e.g. after (re-)generating or after <see cref="TextureFile"/>/<see cref="TextureLocation"/>/<see cref="TextureSize"/> is changed at runtime.
+    /// </summary>
+    private void UpdateTexture()
+    {
+        if (DXControl == null) return; // Not generated yet; Generate() will call this itself once it is
+
+        if (TextureFileValid)
+        {
+            Parent.DialogRender.SetTexture(_textureNumber, _textureFile);
+            DXControl[0].SetTexture(_textureNumber, new(_textureLocation, _textureSize));
+        }
+        else
+        {
+            // No (valid) texture to show; fall back to an empty region so nothing is drawn
+            DXControl[0].SetTexture(0, Rectangle.Empty);
+        }
     }
     #endregion
 }
