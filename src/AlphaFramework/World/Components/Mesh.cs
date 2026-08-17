@@ -58,28 +58,28 @@ public abstract class Mesh : Render
     }
 
     /// <summary>
-    /// How the mesh loaded from the file shall be rotated around the X axis (east to west).
+    /// How the mesh loaded from the file shall be rotated around the X axis (east to west), in degrees.
     /// </summary>
-    [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the X axis (east to west).")]
-    #if NETFRAMEWORK
+    [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the X axis (east to west), in degrees.")]
+#if NETFRAMEWORK
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
 #endif
     public float RotationX { get; set; }
 
     /// <summary>
-    /// How the mesh loaded from the file shall be rotated around the Y axis (top to bottom).
+    /// How the mesh loaded from the file shall be rotated around the Y axis (top to bottom), in degrees.
     /// </summary>
-    [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Y axis (top to bottom).")]
-    #if NETFRAMEWORK
+    [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Y axis (top to bottom), in degrees.")]
+#if NETFRAMEWORK
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
 #endif
     public float RotationY { get; set; }
 
     /// <summary>
-    /// How the mesh loaded from the file shall be rotated around the Z axis (north to south).
+    /// How the mesh loaded from the file shall be rotated around the Z axis (north to south), in degrees.
     /// </summary>
-    [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Z axis (north to south).")]
-    #if NETFRAMEWORK
+    [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Z axis (north to south), in degrees.")]
+#if NETFRAMEWORK
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
 #endif
     public float RotationZ { get; set; }
