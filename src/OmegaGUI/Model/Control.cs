@@ -311,7 +311,7 @@ public abstract class Control : ICloneable
             DXControl.MouseEnter += delegate { Parent.RaiseEvent(OnMouseEnter, $"{Name}_MouseEnter"); };
 
         if (!string.IsNullOrEmpty(OnMouseExit))
-            DXControl.MouseExit += delegate { Parent.RaiseEvent(OnMouseExit, $"{Name}_MousExit"); };
+            DXControl.MouseExit += delegate { Parent.RaiseEvent(OnMouseExit, $"{Name}_MouseExit"); };
     }
     #endregion
 
