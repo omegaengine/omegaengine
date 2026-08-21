@@ -81,7 +81,7 @@ public struct ColorCorrection : IEquatable<ColorCorrection>
     /// <summary>
     /// Performs interpolation between two or more value sets with easing.
     /// </summary>
-    /// <param name="factor">A factor between 0 and <paramref name="values"/>.Length.</param>
+    /// <param name="factor">A factor between 0 and <paramref name="values"/>.Length - 1.</param>
     /// <param name="values">The value checkpoints.</param>
     [Pure]
     public static ColorCorrection InterpolateEased(float factor, params ColorCorrection[] values)

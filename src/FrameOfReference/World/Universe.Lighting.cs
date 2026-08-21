@@ -223,7 +223,7 @@ partial class Universe
     private bool _bleach;
 
     /// <summary>
-    /// Is the fog active?
+    /// Is the bleach effect active?
     /// </summary>
     [DefaultValue(false), Category("Effects"), Description("Is the bleach effect active?")]
     public bool Bleach { get => _bleach; set => value.To(ref _bleach, OnLightingChanged); }

@@ -98,7 +98,7 @@ public sealed class Entity : EntityBase<Vector2, EntityTemplate>
     /// Determines the currently active <see cref="Waypoints"/> entry.
     /// </summary>
     /// <param name="gameTime">The current <see cref="IUniverse.GameTime"/> value.</param>
-    /// <returns>The currently active <see cref="Waypoint"/>; <c>null</c> if none is active.</returns>
+    /// <returns>The index of the currently active <see cref="Waypoint"/>; <c>-1</c> if none is active.</returns>
     public int GetCurrentWaypointIndex(double gameTime)
     {
         int index = Waypoints.FindLastIndex(x => x.ActivationTime <= gameTime);

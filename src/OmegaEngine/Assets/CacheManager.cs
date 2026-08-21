@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using NanoByte.Common;
 using NanoByte.Common.Collections;
@@ -50,12 +51,12 @@ public sealed class CacheManager : IDisposable
     /// <typeparam name="T">The type of <see cref="Asset"/> to get.</typeparam>
     /// <param name="name">The name (full ID) of the <see cref="Asset"/> to get.</param>
     /// <returns>The <see cref="Asset"/> if found, <c>null</c> otherwise.</returns>
-    /// <exception cref="InvalidOperationException">A different type of asset with this <paramref name="name"/> was found instead.</exception>
+    /// <exception cref="InvalidDataException">A different type of asset with this <paramref name="name"/> was found instead.</exception>
     internal T? GetAsset<T>(string name) where T : Asset
     {
         if (!_assetCache.Contains(name)) return null;
         return _assetCache[name] as T
-            ?? throw new System.IO.InvalidDataException(Resources.WrongAssetType + name);
+            ?? throw new InvalidDataException(Resources.WrongAssetType + name);
     }
     #endregion
 

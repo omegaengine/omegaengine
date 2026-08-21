@@ -51,7 +51,7 @@ public static class ContentManager
     /// <exception cref="DirectoryNotFoundException">The specified directory could not be found.</exception>
     /// <remarks>
     /// You can use the environment variable <see cref="EnvVarNameBaseDir"/> to set this value.
-    /// When using the environment variable, you can also specify multiple directories to be overlaid. This property will then only expose the last directory.
+    /// When using the environment variable, you can also specify multiple directories to be overlaid. This property will then only expose the first directory.
     /// </remarks>
     public static DirectoryInfo BaseDir
     {
@@ -76,7 +76,7 @@ public static class ContentManager
     /// <exception cref="DirectoryNotFoundException">The specified directory could not be found.</exception>
     /// <remarks>
     /// You can use the environment variable <see cref="EnvVarNameModDir"/> to set this value.
-    /// When using the environment variable, you can also specify multiple directories to be overlaid. This property will then only expose the last directory.
+    /// When using the environment variable, you can also specify multiple directories to be overlaid. This property will then only expose the first directory.
     /// </remarks>
     public static DirectoryInfo? ModDir
     {
