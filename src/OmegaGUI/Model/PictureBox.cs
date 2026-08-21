@@ -91,7 +91,7 @@ public class PictureBox : Control
     /// <summary>
     /// The level of transparency from 0 (invisible) to 255 (solid)
     /// </summary>
-    [DefaultValue((byte)0), Description("The level of transparency from 0 (invisible) to 255 (solid)"), Category("Appearance")]
+    [DefaultValue((byte)255), Description("The level of transparency from 0 (invisible) to 255 (solid)"), Category("Appearance")]
     public byte Alpha
     {
         get => _alpha;
