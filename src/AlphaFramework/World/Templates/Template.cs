@@ -79,7 +79,7 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICl
     /// <summary>
     /// The XML file <see cref="Template{TSelf}"/> instances are stored in.
     /// </summary>
-    public static string FileName => $"{typeof(TSelf).Name}s.xml";
+    public static string FileName => $"{typeof(TSelf).Name.Pluralize()}.xml";
 
     private static ClonableNamedCollection<TSelf>? _all;
 
