@@ -58,12 +58,16 @@ partial class Session
     {
         _timeTravelElapsed += elapsedRealTime;
         double timeTravelDuration = Math.Abs(_timeTravelTarget - _timeTravelStart) * TimeTravelSpeedFactor;
-        double intermediateTarget = MathUtils.InterpolateEased(_timeTravelStart, _timeTravelTarget, factor: _timeTravelElapsed / timeTravelDuration);
+
+        // Nothing to interpolate if there is no distance to cover; jumping straight to the target also avoids a division by zero below
+        double intermediateTarget = timeTravelDuration <= 0
+            ? _timeTravelTarget
+            : MathUtils.InterpolateEased(_timeTravelStart, _timeTravelTarget, factor: _timeTravelElapsed / timeTravelDuration);
 
         double gameTimeDelta = intermediateTarget - Universe.GameTime;
         UpdateDeterministic(gameTimeDelta);
 
-        if (_timeTravelElapsed > timeTravelDuration)
+        if (_timeTravelElapsed >= timeTravelDuration)
         {
             TimeTravelInProgress = false;
             _timeTravelStart = _timeTravelTarget = _timeTravelElapsed = 0;
