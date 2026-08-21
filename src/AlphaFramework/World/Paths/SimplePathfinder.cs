@@ -130,6 +130,8 @@ public class SimplePathfinder : IPathfinder<Vector2>
             while (!(nextNode.Parent.Equals(nextNode.Position)))
             {
                 path.Push(nextNode.Position);
+
+                int previousCount = _closeList.Count;
                 foreach (var node in _closeList)
                 {
                     if (node.Position.Equals(nextNode.Parent))
@@ -139,6 +141,9 @@ public class SimplePathfinder : IPathfinder<Vector2>
                         break;
                     }
                 }
+
+                // Give up instead of looping forever if the chain of parent nodes is broken
+                if (_closeList.Count == previousCount) return null;
             }
             return path;
         }
