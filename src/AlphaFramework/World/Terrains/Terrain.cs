@@ -238,7 +238,7 @@ public sealed partial class Terrain<TTemplate> : ITerrain
     /// <summary>
     /// Determines the <typeparamref name="TTemplate"/> effective at specific coordinates.
     /// </summary>
-    /// <param name="coordinates">The world coordinates to check.</param>
+    /// <param name="coordinates">The world coordinates to check. Values outside the terrain are clamped to its edges.</param>
     /// <exception cref="InvalidOperationException">The terrain data was not loaded yet.</exception>
     public byte GetTerrainIndex(Vector2 coordinates)
     {
@@ -246,9 +246,9 @@ public sealed partial class Terrain<TTemplate> : ITerrain
         if (!DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
         #endregion
 
-        return _textureMap[
+        return _textureMap.ClampedRead(
             (int)(coordinates.X / (_size.StretchH * 3)),
-            (int)(coordinates.Y / (_size.StretchH * 3))];
+            (int)(coordinates.Y / (_size.StretchH * 3)));
     }
     #endregion
 }
