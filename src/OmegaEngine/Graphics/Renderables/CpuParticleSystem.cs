@@ -233,17 +233,16 @@ public class CpuParticleSystem : PositionableRenderable
     /// <summary>
     /// Adds a new particle with random values
     /// </summary>
-    /// <param name="lodFactor">A factor by which sizes are multiplied for level-of-detail purposes</param>
-    private void AddParticle(float lodFactor = 1)
+    private void AddParticle()
     {
         var particleOffset = LocalSpace ? new() : Position;
         AddParticle(
             particleOffset + RandomUtils.GetRandomPointInsideSphere(Preset.SpawnRadius),
-            GetFirstLifeParameters(lodFactor),
-            GetSecondLifeParameters(lodFactor));
+            GetFirstLifeParameters(),
+            GetSecondLifeParameters());
     }
 
-    private CpuParticleParametersStruct GetFirstLifeParameters(float lodFactor)
+    private CpuParticleParametersStruct GetFirstLifeParameters()
     {
         // ReSharper disable CompareOfFloatsByEqualityOperator
         return new()
@@ -251,7 +250,7 @@ public class CpuParticleSystem : PositionableRenderable
             LifeTime = Preset.InfiniteLifetime1
                 ? CpuParticleParameters.InfiniteFlag
                 : RandomUtils.GetRandomFloat(Preset.LowerParameters1.LifeTime, Preset.UpperParameters1.LifeTime),
-            Size = (RandomUtils.GetRandomFloat(Preset.LowerParameters1.Size, Preset.UpperParameters1.Size) * lodFactor),
+            Size = RandomUtils.GetRandomFloat(Preset.LowerParameters1.Size, Preset.UpperParameters1.Size),
             DeltaSize = RandomUtils.GetRandomFloat(Preset.LowerParameters1.DeltaSize, Preset.UpperParameters1.DeltaSize),
             Friction = RandomUtils.GetRandomFloat(Preset.LowerParameters1.Friction, Preset.UpperParameters1.Friction),
             Color = RandomUtils.GetRandomColor(Preset.LowerParameters1.Color, Preset.UpperParameters1.Color),
@@ -260,14 +259,14 @@ public class CpuParticleSystem : PositionableRenderable
         // ReSharper restore CompareOfFloatsByEqualityOperator
     }
 
-    private CpuParticleParametersStruct GetSecondLifeParameters(float lodFactor)
+    private CpuParticleParametersStruct GetSecondLifeParameters()
     {
         return new()
         {
             LifeTime = Preset.InfiniteLifetime2
                 ? CpuParticleParameters.InfiniteFlag
                 : RandomUtils.GetRandomFloat(Preset.LowerParameters2.LifeTime, Preset.UpperParameters2.LifeTime),
-            Size = (RandomUtils.GetRandomFloat(Preset.LowerParameters2.Size, Preset.UpperParameters2.Size) * lodFactor),
+            Size = RandomUtils.GetRandomFloat(Preset.LowerParameters2.Size, Preset.UpperParameters2.Size),
             DeltaSize = RandomUtils.GetRandomFloat(Preset.LowerParameters2.DeltaSize, Preset.UpperParameters2.DeltaSize),
             Friction = RandomUtils.GetRandomFloat(Preset.LowerParameters2.Friction, Preset.UpperParameters2.Friction),
             Color = RandomUtils.GetRandomColor(Preset.LowerParameters2.Color, Preset.UpperParameters2.Color),
