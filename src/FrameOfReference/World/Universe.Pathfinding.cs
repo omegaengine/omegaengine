@@ -149,11 +149,6 @@ partial class Universe
             Log.Warn($"{entity} has no Movement component");
             return;
         }
-        if (Terrain == null)
-        {
-            Log.Warn("Terrain data not loaded.");
-            return;
-        }
         if (_pathfinder == null)
         {
             Log.Warn("Initializing pathfinding just-in-time");
