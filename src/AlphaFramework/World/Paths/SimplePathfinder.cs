@@ -30,7 +30,6 @@ public class SimplePathfinder : IPathfinder<Vector2>
     ];
 
     private readonly bool[,] _obstructionMap;
-    private readonly List<Node> _openList = [], _closeList = [];
 
     /// <summary>
     /// Initializes a new pathfinder.
@@ -60,16 +59,17 @@ public class SimplePathfinder : IPathfinder<Vector2>
         bool pathFound = false;
         var path = new Stack<Vector2>();
 
-        _openList.Clear();
-        _closeList.Clear();
+        // Keep the working lists local, so that concurrent or nested calls don't corrupt each other
+        List<Node> openList = [], closeList = [];
+
         var parentNode = GetParentNode(roundedStart, roundedTarget);
-        _openList.Add(parentNode);
+        openList.Add(parentNode);
 
         Node nextNode;
-        while (_openList.Count != 0)
+        while (openList.Count != 0)
         {
-            _openList.Remove(parentNode);
-            _closeList.Add(parentNode);
+            openList.Remove(parentNode);
+            closeList.Add(parentNode);
 
             if (parentNode.Position == roundedTarget)
             {
@@ -95,11 +95,11 @@ public class SimplePathfinder : IPathfinder<Vector2>
                 {
                     if (goneLockup[(int)nextNode.Position.X, (int)nextNode.Position.Y] > nextNode.G)
                     {
-                        for (int x = 0; x < _openList.Count; x++)
+                        for (int x = 0; x < openList.Count; x++)
                         {
-                            if (_openList[x].Position.Equals(nextNode.Position))
+                            if (openList[x].Position.Equals(nextNode.Position))
                             {
-                                _openList[x] = nextNode;
+                                openList[x] = nextNode;
                                 goneLockup[(int)nextNode.Position.X, (int)nextNode.Position.Y] = nextNode.G;
                             }
                         }
@@ -107,18 +107,18 @@ public class SimplePathfinder : IPathfinder<Vector2>
                 }
                 else
                 {
-                    _openList.Add(nextNode);
+                    openList.Add(nextNode);
                     goneLockup[(int)nextNode.Position.X, (int)nextNode.Position.Y] = nextNode.G;
                 }
             }
 
-            if (_openList.Count == 0) continue;
+            if (openList.Count == 0) continue;
 
-            parentNode = _openList[0];
-            for (int i = 1; i < _openList.Count; i++)
+            parentNode = openList[0];
+            for (int i = 1; i < openList.Count; i++)
             {
-                if (parentNode.F > _openList[i].F)
-                    parentNode = _openList[i];
+                if (parentNode.F > openList[i].F)
+                    parentNode = openList[i];
             }
         }
 
@@ -126,24 +126,24 @@ public class SimplePathfinder : IPathfinder<Vector2>
         {
             path.Push(target);
 
-            nextNode = _closeList[^1];
+            nextNode = closeList[^1];
             while (!(nextNode.Parent.Equals(nextNode.Position)))
             {
                 path.Push(nextNode.Position);
 
-                int previousCount = _closeList.Count;
-                foreach (var node in _closeList)
+                int previousCount = closeList.Count;
+                foreach (var node in closeList)
                 {
                     if (node.Position.Equals(nextNode.Parent))
                     {
                         nextNode = node;
-                        _closeList.Remove(nextNode);
+                        closeList.Remove(nextNode);
                         break;
                     }
                 }
 
                 // Give up instead of looping forever if the chain of parent nodes is broken
-                if (_closeList.Count == previousCount) return null;
+                if (closeList.Count == previousCount) return null;
             }
             return path;
         }
