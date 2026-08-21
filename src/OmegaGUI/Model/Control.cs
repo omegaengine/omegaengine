@@ -330,7 +330,7 @@ public abstract class Control : ICloneable
                 (int)(_location.X * Parent.EffectiveScale),
                 (int)(_location.Y * Parent.EffectiveScale));
 
-            EffectiveLocation = _location;
+            EffectiveLocation = scaledLocation;
 
             if (Parent.DialogRender != null)
             {
