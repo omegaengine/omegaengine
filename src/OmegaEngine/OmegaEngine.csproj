@@ -8,6 +8,9 @@ The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games 
     <UseWindowsForms>True</UseWindowsForms>
     <UseWinFormsOutOfProcDesigner>True</UseWinFormsOutOfProcDesigner>
   </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="OmegaEngine.UnitTests" />
+  </ItemGroup>
 
   <!-- Dependencies -->
   <ItemGroup>
@@ -31,13 +34,6 @@ The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games 
     <None Include="..\..\content\Textures\Shaders\**" LinkBase="content\Textures\Shaders\" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\Textures\Shaders\" />
     <None Include="..\..\content\Textures\Water\**" LinkBase="content\Textures\Water" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\Textures\Water\" />
     <None Include="..\..\content\Textures\flag.png" LinkBase="content\Textures" Pack="true" PackageCopyToOutput="true" PackagePath="contentFiles\any\any\content\Textures\" />
-  </ItemGroup>
-
-  <!-- Expose internals to unit tests -->
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-    <_Parameter1>OmegaEngine.UnitTests</_Parameter1>
-    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

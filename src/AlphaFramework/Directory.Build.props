@@ -1,6 +1,9 @@
 ﻿<Project>
 
   <Import Project="$(MSBuildThisFileDirectory)..\Directory.Build.props" />
+  <ItemGroup>
+    <InternalsVisibleTo Include="AlphaFramework.UnitTests" />
+  </ItemGroup>
 
   <!-- NuGet Metadata -->
   <PropertyGroup>
@@ -9,13 +12,6 @@
   <ItemGroup>
     <None Remove="$(MSBuildThisFileDirectory)..\..\icon-omega.png" />
     <None Include="$(MSBuildThisFileDirectory)..\..\icon-alpha.png" Pack="true" PackagePath="" />
-  </ItemGroup>
-
-  <!-- Expose internals to unit tests -->
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-    <_Parameter1>AlphaFramework.UnitTests</_Parameter1>
-    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

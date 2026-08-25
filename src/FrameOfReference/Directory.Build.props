@@ -8,17 +8,13 @@
     <IsPackable>False</IsPackable>
     <DeterministicSourcePaths>False</DeterministicSourcePaths>
   </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="FrameOfReference.UnitTests" />
+  </ItemGroup>
 
   <!-- Remove assets intended for NuGet packaging -->
   <ItemGroup>
     <None Remove="$(MSBuildThisFileDirectory)..\..\*" />
-  </ItemGroup>
-
-  <!-- Expose internals to unit tests -->
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-    <_Parameter1>FrameOfReference.UnitTests</_Parameter1>
-    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

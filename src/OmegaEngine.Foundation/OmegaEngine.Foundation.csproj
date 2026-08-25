@@ -10,6 +10,9 @@
   <PropertyGroup Condition="'$(TargetFramework)'=='net10.0'">
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="OmegaEngine.UnitTests" />
+  </ItemGroup>
 
   <!-- Dependencies -->
   <ItemGroup>
@@ -32,13 +35,6 @@
   <!-- Localization -->
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
-  </ItemGroup>
-
-  <!-- Expose internals to unit tests -->
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>OmegaEngine.UnitTests</_Parameter1>
-    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>
