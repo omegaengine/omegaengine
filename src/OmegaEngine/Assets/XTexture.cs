@@ -9,7 +9,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using NanoByte.Common;
 using NanoByte.Common.Storage;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics;

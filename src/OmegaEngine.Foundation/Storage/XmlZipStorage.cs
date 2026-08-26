@@ -12,7 +12,6 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
-using NanoByte.Common;
 using NanoByte.Common.Storage;
 
 namespace OmegaEngine.Foundation.Storage;

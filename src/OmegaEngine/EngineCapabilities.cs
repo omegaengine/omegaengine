@@ -10,7 +10,6 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Management;
-using NanoByte.Common;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine;

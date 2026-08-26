@@ -12,7 +12,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
-using NanoByte.Common;
 using NanoByte.Common.Values.Design;
 
 namespace OmegaEngine.Foundation.Design;

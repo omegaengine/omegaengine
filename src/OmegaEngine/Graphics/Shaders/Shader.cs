@@ -30,8 +30,6 @@ using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
-using NanoByte.Common;
-using NanoByte.Common.Collections;
 using OmegaEngine.Foundation.Collections;
 using OmegaEngine.Graphics.Shaders.Dxsas;
 using SlimDX;

@@ -26,8 +26,6 @@ using AlphaFramework.Presentation;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World.Positionables;
-using NanoByte.Common;
-using NanoByte.Common.Collections;
 using OmegaEngine;
 using OmegaEngine.Audio;
 using OmegaEngine.Foundation.Geometry;

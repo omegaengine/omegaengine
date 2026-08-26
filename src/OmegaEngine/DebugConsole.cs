@@ -25,7 +25,6 @@ using System.Text;
 using System.Windows.Forms;
 using NLua;
 using NLua.Exceptions;
-using NanoByte.Common;
 using NanoByte.Common.Controls;
 
 namespace OmegaEngine;

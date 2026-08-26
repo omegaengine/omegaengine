@@ -15,7 +15,6 @@ using AlphaFramework.World.Properties;
 using AlphaFramework.World.Templates;
 using JetBrains.Annotations;
 using NLua;
-using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 
 namespace AlphaFramework.World.Terrains;

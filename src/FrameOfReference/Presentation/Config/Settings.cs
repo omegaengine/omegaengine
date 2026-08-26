@@ -26,7 +26,6 @@ using System.Xml.Serialization;
 using AlphaFramework.Presentation.Config;
 using FrameOfReference.World;
 using NLua;
-using NanoByte.Common;
 using NanoByte.Common.Storage;
 using Locations = NanoByte.Common.Storage.Locations;
 

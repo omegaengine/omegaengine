@@ -26,7 +26,6 @@ using System.ComponentModel;
 using System.Drawing;
 using NLua;
 using NLua.Exceptions;
-using NanoByte.Common;
 using OmegaEngine;
 using OmegaGUI.Model;
 

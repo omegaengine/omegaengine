@@ -13,7 +13,6 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using NLua;
-using NanoByte.Common;
 using NanoByte.Common.Storage;
 using OmegaEngine.Assets;
 using OmegaEngine.Audio;

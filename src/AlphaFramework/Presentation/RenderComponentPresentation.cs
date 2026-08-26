@@ -1,5 +1,4 @@
 ﻿using AlphaFramework.World.Components;
-using NanoByte.Common;
 using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.LightSources;

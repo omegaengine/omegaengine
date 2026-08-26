@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
 using AlphaFramework.World.Positionables;
-using NanoByte.Common.Collections;
 
 namespace AlphaFramework.World;
 

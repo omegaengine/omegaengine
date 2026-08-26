@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
-using NanoByte.Common;
 using NanoByte.Common.Storage;
 using OmegaEngine.Graphics;
 using SlimDX;

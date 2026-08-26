@@ -2,7 +2,6 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing.Design;
-using NanoByte.Common;
 using NanoByte.Common.Values.Design;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Properties;

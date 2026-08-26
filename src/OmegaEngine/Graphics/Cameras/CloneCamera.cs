@@ -7,7 +7,6 @@
  */
 
 using System.ComponentModel;
-using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using SlimDX;
 

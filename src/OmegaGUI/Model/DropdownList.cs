@@ -24,7 +24,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Xml.Serialization;
-using NanoByte.Common.Collections;
 using OmegaEngine.Foundation.Design;
 using OmegaGUI.Render;
 

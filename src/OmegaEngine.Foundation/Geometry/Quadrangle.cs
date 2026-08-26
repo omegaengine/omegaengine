@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Globalization;
-using NanoByte.Common;
 using SlimDX;
 
 namespace OmegaEngine.Foundation.Geometry;

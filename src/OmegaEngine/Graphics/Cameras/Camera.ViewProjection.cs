@@ -6,7 +6,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using NanoByte.Common;
 using SlimDX;
 
 namespace OmegaEngine.Graphics.Cameras;

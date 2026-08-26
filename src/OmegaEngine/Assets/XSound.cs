@@ -10,7 +10,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using NAudio.Wave;
-using NanoByte.Common;
 using NanoByte.Common.Storage;
 using OmegaEngine.Audio;
 using OmegaEngine.Foundation.Storage;

@@ -12,8 +12,6 @@ using System.Linq;
 using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
 using AlphaFramework.World.Templates;
-using NanoByte.Common;
-using NanoByte.Common.Collections;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Storage;

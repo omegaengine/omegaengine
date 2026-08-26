@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using JetBrains.Annotations;
-using NanoByte.Common;
 using OmegaEngine.Foundation.Collections;
 using SlimDX.Direct3D9;
 

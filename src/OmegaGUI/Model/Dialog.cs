@@ -30,7 +30,6 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
-using NanoByte.Common;
 using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Light;

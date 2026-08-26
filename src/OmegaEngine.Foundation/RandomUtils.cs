@@ -9,7 +9,6 @@
 using System;
 using System.Drawing;
 using JetBrains.Annotations;
-using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using SlimDX;

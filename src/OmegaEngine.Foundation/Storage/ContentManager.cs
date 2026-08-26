@@ -12,7 +12,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
-using NanoByte.Common.Collections;
 using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Properties;
 

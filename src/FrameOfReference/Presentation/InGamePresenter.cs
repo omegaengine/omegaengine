@@ -28,7 +28,6 @@ using AlphaFramework.World.Positionables;
 using FrameOfReference.World;
 using FrameOfReference.World.Positionables;
 using JetBrains.Annotations;
-using NanoByte.Common;
 using OmegaEngine;
 using OmegaEngine.Graphics.Cameras;
 using SlimDX;

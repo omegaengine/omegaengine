@@ -12,7 +12,6 @@ using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using JetBrains.Annotations;
 using NLua;
-using NanoByte.Common;
 using OmegaEngine.Foundation.Storage;
 
 namespace AlphaFramework.World;

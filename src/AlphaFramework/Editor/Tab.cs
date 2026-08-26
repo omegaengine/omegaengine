@@ -12,7 +12,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
-using NanoByte.Common;
 using NanoByte.Common.Controls;
 using SlimDX.Direct3D9;
 

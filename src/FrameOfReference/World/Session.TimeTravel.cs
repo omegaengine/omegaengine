@@ -24,7 +24,6 @@ using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World;
-using NanoByte.Common;
 
 namespace FrameOfReference.World;
 

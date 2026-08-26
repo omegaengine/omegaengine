@@ -11,8 +11,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
 using AlphaFramework.World.Properties;
-using NanoByte.Common;
-using NanoByte.Common.Collections;
 using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Storage;
 

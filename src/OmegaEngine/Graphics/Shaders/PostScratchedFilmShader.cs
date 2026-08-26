@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using NanoByte.Common;
 using OmegaEngine.Assets;
 using OmegaEngine.Properties;
 

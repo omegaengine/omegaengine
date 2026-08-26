@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using NanoByte.Common;
 using OmegaEngine.Properties;
 
 namespace OmegaEngine;

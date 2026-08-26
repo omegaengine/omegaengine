@@ -8,7 +8,6 @@
 
 using System;
 using System.Drawing;
-using NanoByte.Common;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;

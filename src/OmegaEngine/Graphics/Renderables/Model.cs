@@ -9,7 +9,6 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
-using NanoByte.Common;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;

@@ -51,4 +51,10 @@
     <PackageReference Include="System.Resources.Extensions" Version="10.0.11" />
   </ItemGroup>
 
+  <!-- Global usings -->
+  <ItemGroup>
+    <Using Include="NanoByte.Common" />
+    <Using Include="NanoByte.Common.Collections" />
+  </ItemGroup>
+
 </Project>

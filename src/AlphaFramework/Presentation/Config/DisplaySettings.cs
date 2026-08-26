@@ -26,7 +26,6 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using NanoByte.Common;
 using OmegaEngine;
 
 namespace AlphaFramework.Presentation.Config;

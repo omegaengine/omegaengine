@@ -26,7 +26,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Xml.Serialization;
 using NLua;
-using NanoByte.Common;
 using OmegaEngine.Foundation.Light;
 
 #if NETFRAMEWORK

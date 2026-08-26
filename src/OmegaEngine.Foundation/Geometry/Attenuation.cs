@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Xml.Serialization;
-using NanoByte.Common;
 using SlimDX;
 
 namespace OmegaEngine.Foundation.Geometry;

@@ -1,7 +1,6 @@
 using FrameOfReference.Presentation;
 using FrameOfReference.World;
 using NLua;
-using NanoByte.Common;
 using OmegaEngine;
 
 namespace FrameOfReference.States;

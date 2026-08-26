@@ -22,7 +22,6 @@
 
 using System;
 using System.ComponentModel;
-using NanoByte.Common;
 using OmegaEngine;
 
 namespace AlphaFramework.Presentation.Config;

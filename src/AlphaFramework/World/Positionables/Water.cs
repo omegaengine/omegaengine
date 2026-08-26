@@ -9,7 +9,6 @@
 using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World.Terrains;
-using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using SlimDX;
 

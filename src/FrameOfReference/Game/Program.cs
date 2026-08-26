@@ -28,7 +28,6 @@ using AlphaFramework.Presentation;
 using FrameOfReference.Presentation.Config;
 using FrameOfReference.Properties;
 using FrameOfReference.World;
-using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Native;
 using NanoByte.Common.Storage;

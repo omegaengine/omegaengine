@@ -40,7 +40,6 @@ using FrameOfReference.World;
 using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
 using ICSharpCode.SharpZipLib.Zip;
-using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
 using NanoByte.Common.Tasks;

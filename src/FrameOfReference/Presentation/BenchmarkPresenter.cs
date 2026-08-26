@@ -27,7 +27,6 @@ using System.IO;
 using FrameOfReference.Presentation.Config;
 using FrameOfReference.World;
 using ICSharpCode.SharpZipLib.Zip;
-using NanoByte.Common;
 using NanoByte.Common.Info;
 using NanoByte.Common.Storage;
 using OmegaEngine;

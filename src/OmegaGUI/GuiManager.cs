@@ -26,7 +26,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using NLua;
-using NanoByte.Common;
 using NanoByte.Common.Native;
 using OmegaEngine;
 

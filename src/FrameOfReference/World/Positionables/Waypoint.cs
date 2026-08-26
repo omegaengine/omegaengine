@@ -24,7 +24,6 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
-using NanoByte.Common;
 using SlimDX;
 
 namespace FrameOfReference.World.Positionables;

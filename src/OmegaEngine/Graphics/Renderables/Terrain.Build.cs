@@ -11,7 +11,6 @@ using System.Collections.Immutable;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
-using NanoByte.Common;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Assets;

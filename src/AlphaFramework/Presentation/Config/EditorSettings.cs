@@ -23,8 +23,6 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using NanoByte.Common;
-using NanoByte.Common.Collections;
 
 namespace AlphaFramework.Presentation.Config;
 

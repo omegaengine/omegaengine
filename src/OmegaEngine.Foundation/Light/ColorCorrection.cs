@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using JetBrains.Annotations;
-using NanoByte.Common;
 using SlimDX;
 
 namespace OmegaEngine.Foundation.Light;

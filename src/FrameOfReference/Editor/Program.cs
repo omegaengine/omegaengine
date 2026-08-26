@@ -29,7 +29,6 @@ using AlphaFramework.Editor;
 using AlphaFramework.Editor.Properties;
 using FrameOfReference.Presentation.Config;
 using FrameOfReference.World;
-using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Native;
 using NanoByte.Common.Storage;

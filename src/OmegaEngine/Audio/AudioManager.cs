@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using NanoByte.Common;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 

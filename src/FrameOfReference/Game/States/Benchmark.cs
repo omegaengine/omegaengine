@@ -2,7 +2,6 @@ using System;
 using FrameOfReference.Presentation;
 using FrameOfReference.World;
 using NLua;
-using NanoByte.Common;
 
 namespace FrameOfReference.States;
 

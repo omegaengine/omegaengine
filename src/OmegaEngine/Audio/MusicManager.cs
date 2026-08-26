@@ -11,8 +11,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using NanoByte.Common;
-using NanoByte.Common.Collections;
 using OmegaEngine.Foundation;
 using OmegaEngine.Foundation.Storage;
 using Resources = OmegaEngine.Properties.Resources;

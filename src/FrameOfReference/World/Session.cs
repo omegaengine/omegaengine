@@ -25,7 +25,6 @@ using System.ComponentModel;
 using System.IO;
 using AlphaFramework.World;
 using JetBrains.Annotations;
-using NanoByte.Common;
 
 #if NETFRAMEWORK
 using System.Linq;

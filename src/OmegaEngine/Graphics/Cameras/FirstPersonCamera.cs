@@ -9,7 +9,6 @@
 using System;
 using System.ComponentModel;
 using System.Drawing.Design;
-using NanoByte.Common;
 using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Geometry;
 using SlimDX;

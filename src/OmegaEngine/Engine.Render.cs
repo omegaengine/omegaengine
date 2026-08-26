@@ -14,7 +14,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using NLua;
-using NanoByte.Common;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX.Direct3D9;

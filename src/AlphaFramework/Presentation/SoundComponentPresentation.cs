@@ -1,5 +1,4 @@
-﻿using NanoByte.Common;
-using OmegaEngine;
+﻿using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Audio;
 using SoundComponent = AlphaFramework.World.Components.Sound;

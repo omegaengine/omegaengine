@@ -30,7 +30,6 @@ using FrameOfReference.World;
 using FrameOfReference.World.Templates;
 using JetBrains.Annotations;
 using NLua;
-using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
 using OmegaEngine.Input;

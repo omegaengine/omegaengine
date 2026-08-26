@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using NanoByte.Common;
 using SlimDX;
 using Resources = OmegaEngine.Properties.Resources;
 

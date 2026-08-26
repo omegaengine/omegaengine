@@ -29,8 +29,6 @@ using AlphaFramework.World.Positionables;
 using FrameOfReference.World;
 using FrameOfReference.World.Components;
 using FrameOfReference.World.Positionables;
-using NanoByte.Common;
-using NanoByte.Common.Collections;
 using NanoByte.Common.Dispatch;
 using OmegaEngine;
 using OmegaEngine.Assets;

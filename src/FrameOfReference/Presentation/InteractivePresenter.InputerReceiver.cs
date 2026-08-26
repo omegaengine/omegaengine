@@ -26,7 +26,6 @@ using System.Linq;
 using System.Windows.Forms;
 using AlphaFramework.Presentation;
 using FrameOfReference.World.Positionables;
-using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;

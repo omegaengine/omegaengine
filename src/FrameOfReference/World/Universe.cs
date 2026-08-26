@@ -30,9 +30,7 @@ using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
 using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
-using NanoByte.Common;
 using JetBrains.Annotations;
-using NanoByte.Common.Collections;
 using NanoByte.Common.Native;
 using SlimDX;
 

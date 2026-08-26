@@ -26,8 +26,6 @@ using System.IO;
 using System.Linq;
 using FrameOfReference.World;
 using JetBrains.Annotations;
-using NanoByte.Common;
-using NanoByte.Common.Collections;
 using NanoByte.Common.Storage;
 
 namespace FrameOfReference;

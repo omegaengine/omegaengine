@@ -32,7 +32,6 @@ using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
 using JetBrains.Annotations;
 using NLua;
-using NanoByte.Common;
 using NanoByte.Common.Native;
 using OmegaEngine.Foundation.Storage;
 

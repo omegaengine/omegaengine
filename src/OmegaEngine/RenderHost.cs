@@ -15,7 +15,6 @@ using System.Text;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using NLua;
-using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Native;
 using OmegaEngine.Foundation;

@@ -12,7 +12,6 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World.Paths;
 using AlphaFramework.World.Templates;
-using NanoByte.Common;
 
 namespace AlphaFramework.World.Positionables;
 

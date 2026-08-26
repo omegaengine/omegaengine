@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using NanoByte.Common;
 
 namespace OmegaEngine.Graphics.Shaders;
 

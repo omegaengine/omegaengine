@@ -2,7 +2,6 @@ using FrameOfReference.Presentation;
 using FrameOfReference.World;
 using JetBrains.Annotations;
 using NLua;
-using NanoByte.Common;
 using OmegaEngine;
 
 namespace FrameOfReference.States;

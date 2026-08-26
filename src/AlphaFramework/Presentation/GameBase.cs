@@ -11,7 +11,6 @@ using System.Drawing;
 using AlphaFramework.Presentation.Config;
 using JetBrains.Annotations;
 using NLua;
-using NanoByte.Common;
 using OmegaEngine;
 using OmegaEngine.Foundation.Storage;
 using OmegaGUI;

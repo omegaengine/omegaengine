@@ -8,7 +8,6 @@
 
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
-using NanoByte.Common;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;

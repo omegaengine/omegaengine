@@ -15,7 +15,6 @@ using System.Windows.Forms;
 using AlphaFramework.Editor.Graphics;
 using AlphaFramework.Editor.Gui;
 using AlphaFramework.Editor.Properties;
-using NanoByte.Common;
 using NanoByte.Common.Controls;
 using OmegaEngine.Foundation.Storage;
 
