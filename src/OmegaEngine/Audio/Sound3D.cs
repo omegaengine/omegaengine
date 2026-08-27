@@ -72,14 +72,14 @@ public class Sound3D(XSound sound) : Sound(sound)
     {
         // Seed the placement before the mixer can pull the first buffer
         UpdatePlacement(Engine.Audio.ListenerSnapshot);
-        return _panner = new(Asset.CreateProvider(looping), Attenuation, () => _placement) { Volume = Volume };
+        return _panner = new(Asset.CreateProvider(looping), Attenuation, () => _placement) { Volume = EffectiveVolume };
     }
 
     /// <inheritdoc/>
     protected override void ApplyVolume()
     {
         if (_panner != null)
-            _panner.Volume = Volume;
+            _panner.Volume = EffectiveVolume;
     }
 
     /// <inheritdoc/>

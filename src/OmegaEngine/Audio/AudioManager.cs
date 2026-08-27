@@ -35,7 +35,7 @@ public sealed class AudioManager : IDisposable
     private float _soundVolume = 1f;
 
     /// <summary>
-    /// A global volume multiplier applied to all <see cref="Sound"/> effects, on top of each sound's own <see cref="Sound.Volume"/>.
+    /// A global volume multiplier applied to all <see cref="Sound"/> effects, on top of each sound's own <see cref="AudioElement.Volume"/>.
     /// </summary>
     public float SoundVolume
     {
@@ -50,7 +50,7 @@ public sealed class AudioManager : IDisposable
     private float _musicVolume = 1f;
 
     /// <summary>
-    /// A global volume multiplier applied to all <see cref="Song"/> music, on top of each song's own <see cref="Song.Volume"/>.
+    /// A global volume multiplier applied to all <see cref="Song"/> music, on top of each song's own <see cref="AudioElement.Volume"/>.
     /// </summary>
     public float MusicVolume
     {
@@ -138,7 +138,7 @@ public sealed class AudioManager : IDisposable
             mixer.AddMixerInput(_soundBus);
             mixer.AddMixerInput(_musicBus);
 
-            _output = new WaveOutEvent();
+            _output = new WaveOutEvent {DesiredLatency = 100, NumberOfBuffers = 4};
             _output.Init(mixer);
             _output.Play();
         }

@@ -44,8 +44,18 @@ internal sealed class Positional3DSampleProvider(ISampleProvider source, Attenua
 
         int sourceRead = source.Read(_sourceBuffer, 0, sourceSamplesNeeded);
         int framesRead = sourceRead / _sourceChannels;
+        if (framesRead == 0) return 0;
 
-        var (leftGain, rightGain) = ComputeGains();
+        var (targetLeft, targetRight) = ComputeGains();
+        if (!_gainsKnown)
+        {
+            // Nothing to ramp from on the first buffer
+            (_leftGain, _rightGain) = (targetLeft, targetRight);
+            _gainsKnown = true;
+        }
+
+        float leftStep = (targetLeft - _leftGain) / framesRead, rightStep = (targetRight - _rightGain) / framesRead;
+        float leftGain = _leftGain, rightGain = _rightGain;
 
         for (int i = 0; i < framesRead; i++)
         {
@@ -58,11 +68,20 @@ internal sealed class Positional3DSampleProvider(ISampleProvider source, Attenua
                 mono = sum / _sourceChannels;
             }
 
+            leftGain += leftStep;
+            rightGain += rightStep;
             buffer[offset + i * 2] = mono * leftGain;
             buffer[offset + i * 2 + 1] = mono * rightGain;
         }
+
+        // Pick the exact target up again next time, rather than the accumulated approximation
+        (_leftGain, _rightGain) = (targetLeft, targetRight);
+
         return framesRead * 2;
     }
+
+    private bool _gainsKnown;
+    private float _leftGain, _rightGain;
 
     private (float leftGain, float rightGain) ComputeGains()
     {

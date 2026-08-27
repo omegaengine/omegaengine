@@ -10,7 +10,6 @@ using System;
 using System.IO;
 using System.Threading;
 using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
 using OmegaEngine.Foundation.Storage;
 
 namespace OmegaEngine.Audio;
@@ -19,7 +18,7 @@ namespace OmegaEngine.Audio;
 /// A streamed sound that is played in the background as music.
 /// </summary>
 /// <param name="id">The file name of the song relative to the <c>Music</c> content directory.</param>
-public class Song(string id) : EngineElement, IAudio
+public class Song(string id) : AudioElement
 {
     /// <summary>
     /// The ID of this song (the file name relative to the <c>Music</c> content directory).
@@ -28,30 +27,23 @@ public class Song(string id) : EngineElement, IAudio
 
     private WaveStream? _reader;
     private ISampleProvider? _activeInput;
-    private VolumeSampleProvider? _volumeProvider;
+    private SmoothVolumeSampleProvider? _volumeProvider;
 
     // Set by the audio thread when the song reaches its end; volatile so the main thread sees it promptly.
     private volatile bool _ended;
 
     /// <inheritdoc/>
-    public bool Playing => _activeInput != null && !_ended;
+    public override bool Playing => _activeInput != null && !_ended;
 
     private bool _looping;
 
     /// <inheritdoc/>
-    public bool Looping => Playing && _looping;
-
-    private float _volume = 1f;
+    public override bool Looping => Playing && _looping;
 
     /// <inheritdoc/>
-    public float Volume
+    protected override void ApplyVolume()
     {
-        get => _volume;
-        set
-        {
-            _volume = value;
-            if (_volumeProvider != null) _volumeProvider.Volume = value;
-        }
+        if (_volumeProvider != null) _volumeProvider.Volume = EffectiveVolume;
     }
 
     /// <summary>
@@ -60,7 +52,7 @@ public class Song(string id) : EngineElement, IAudio
     /// <exception cref="FileNotFoundException">The song file could not be found.</exception>
     /// <exception cref="IOException">There was a problem loading the song.</exception>
     /// <exception cref="InvalidDataException">The song file does not contain valid sound data.</exception>
-    public void StartPlayback(bool looping)
+    public override void StartPlayback(bool looping)
     {
         #region Sanity checks
         if (IsDisposed) throw new ObjectDisposedException(ToString());
@@ -74,7 +66,7 @@ public class Song(string id) : EngineElement, IAudio
 
         var chain = AudioHelpers.EnsureStereo(AudioHelpers.ResampleToMixerRate(reader.ToSampleProvider()));
         if (looping) chain = new LoopingSampleProvider(chain, () => reader.Position = 0);
-        _volumeProvider = new(chain) {Volume = _volume};
+        _volumeProvider = new(chain) {Volume = EffectiveVolume};
 
         _looping = looping;
         _ended = false;
@@ -92,8 +84,10 @@ public class Song(string id) : EngineElement, IAudio
     /// <summary>
     /// Stops the song playback
     /// </summary>
-    public void StopPlayback()
+    public override void StopPlayback()
     {
+        CancelFade();
+
         // Remove from the mixer first (outside any lock) so the audio thread stops reading before we release the reader
         var input = Interlocked.Exchange(ref _activeInput, null);
         if (input != null) Engine.Audio.RemoveInput(input, AudioCategory.Music);

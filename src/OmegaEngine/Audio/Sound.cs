@@ -8,7 +8,6 @@
 
 using System;
 using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
 using OmegaEngine.Assets;
 
 namespace OmegaEngine.Audio;
@@ -16,36 +15,23 @@ namespace OmegaEngine.Audio;
 /// <summary>
 /// A memory-cached sound that is played on-demand.
 /// </summary>
-public class Sound : EngineElement, IAudio
+public class Sound : AudioElement
 {
     /// <summary>A reference to the asset providing the data for this sound.</summary>
     protected readonly XSound Asset;
 
     private ISampleProvider? _activeInput;
-    private VolumeSampleProvider? _volumeProvider;
+    private SmoothVolumeSampleProvider? _volumeProvider;
 
     private bool _ended;
 
     /// <inheritdoc/>
-    public bool Playing => _activeInput != null && !_ended;
+    public override bool Playing => _activeInput != null && !_ended;
 
     private bool _looping;
 
     /// <inheritdoc/>
-    public bool Looping => Playing && _looping;
-
-    private float _volume = 1f;
-
-    /// <inheritdoc/>
-    public float Volume
-    {
-        get => _volume;
-        set
-        {
-            _volume = value;
-            ApplyVolume();
-        }
-    }
+    public override bool Looping => Playing && _looping;
 
     /// <summary>
     /// Sets up a new Sound based on an <see cref="XSound"/> asset.
@@ -60,7 +46,7 @@ public class Sound : EngineElement, IAudio
     /// <summary>
     /// Starts the sound playback
     /// </summary>
-    public virtual void StartPlayback(bool looping)
+    public override void StartPlayback(bool looping)
     {
         #region Sanity checks
         if (IsDisposed) throw new ObjectDisposedException(ToString());
@@ -86,8 +72,10 @@ public class Sound : EngineElement, IAudio
     /// <summary>
     /// Stops the sound playback
     /// </summary>
-    public virtual void StopPlayback()
+    public override void StopPlayback()
     {
+        CancelFade();
+
         if (_activeInput != null)
         {
             Engine.Audio.RemoveInput(_activeInput, AudioCategory.Sound);
@@ -106,17 +94,15 @@ public class Sound : EngineElement, IAudio
     protected virtual ISampleProvider CreatePlaybackChain(bool looping)
     {
         var stereo = AudioHelpers.EnsureStereo(Asset.CreateProvider(looping));
-        _volumeProvider = new(stereo) {Volume = _volume};
+        _volumeProvider = new(stereo) {Volume = EffectiveVolume};
         return _volumeProvider;
     }
 
-    /// <summary>
-    /// Applies the current <see cref="Volume"/> to the active playback (if any).
-    /// </summary>
-    protected virtual void ApplyVolume()
+    /// <inheritdoc/>
+    protected override void ApplyVolume()
     {
         if (_volumeProvider != null)
-            _volumeProvider.Volume = _volume;
+            _volumeProvider.Volume = EffectiveVolume;
     }
 
     /// <inheritdoc/>
@@ -124,6 +110,8 @@ public class Sound : EngineElement, IAudio
     {
         try
         {
+            CancelFade();
+
             if (_activeInput != null)
                 Engine.Audio.RemoveInput(_activeInput, AudioCategory.Sound);
             Asset.ReleaseReference();
