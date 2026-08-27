@@ -91,9 +91,8 @@ public static class EngineUtilsAnimation
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
-        engine.Animate(
+        engine.AnimateFadeLevel(
             start: 255, end: 0,
-            callback: value => engine.FadeLevel = (int)value,
             options ?? new(Duration: TimeSpan.FromSeconds(2), EaseIn: false));
         engine.FadeExtra = true;
     }
@@ -109,9 +108,8 @@ public static class EngineUtilsAnimation
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
-        engine.Animate(
+        engine.AnimateFadeLevel(
             start: engine.FadeLevel, end: 80,
-            callback: value => engine.FadeLevel = (int)value,
             options ?? new(Duration: TimeSpan.FromSeconds(1)));
         engine.FadeExtra = false;
     }
@@ -127,10 +125,21 @@ public static class EngineUtilsAnimation
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
-        engine.Animate(
+        engine.AnimateFadeLevel(
             start: engine.FadeLevel, end: 0,
-            callback: value => engine.FadeLevel = (int)value,
             options ?? new(Duration: TimeSpan.FromSeconds(1)));
         engine.FadeExtra = false;
+    }
+
+    /// <summary>
+    /// Animates <see cref="Engine.FadeLevel"/>, cancelling any previous fade animation.
+    /// </summary>
+    private static void AnimateFadeLevel(this Engine engine, double start, double end, AnimationOptions options)
+    {
+        engine.FadeAnimation?.Dispose();
+        engine.FadeAnimation = engine.Animate(
+            start, end,
+            callback: value => engine.FadeLevel = (int)value,
+            options);
     }
 }

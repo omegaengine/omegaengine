@@ -216,6 +216,11 @@ partial class Engine
     public int FadeLevel { get; set; }
 
     /// <summary>
+    /// The animation currently driving <see cref="FadeLevel"/> (if any). Only one may run at a time, otherwise they fight over the property.
+    /// </summary>
+    internal IDisposable? FadeAnimation;
+
+    /// <summary>
     /// Is <see cref="Engine.ExtraRender"/> faded along with the scene?
     /// </summary>
     public bool FadeExtra { get; set; }

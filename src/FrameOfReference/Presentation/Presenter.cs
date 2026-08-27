@@ -209,6 +209,8 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
             _ => null
         };
 
+    private IDisposable? _sepiaAnimation;
+
     /// <inheritdoc/>
     public override void DimDown()
     {
@@ -217,7 +219,8 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
         {
             // Gradually apply sepia effect
             _sepiaShader.Enabled = true;
-            Engine.Animate(
+            _sepiaAnimation?.Dispose();
+            _sepiaAnimation = Engine.Animate(
                 start: 0, end: 0.6,
                 callback: value => _sepiaShader.Desaturation = _sepiaShader.Toning = (float)value,
                 options: new(Duration: TimeSpan.FromSeconds(4)));
@@ -229,6 +232,9 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
     /// <inheritdoc/>
     public override void DimUp()
     {
+        _sepiaAnimation?.Dispose();
+        _sepiaAnimation = null;
+
         if (_sepiaShader != null)
             _sepiaShader.Enabled = false;
 
