@@ -4,9 +4,9 @@ summary: The audio subsystem plays back sound effects and background music.
 ---
 ## Output device and mixer
 
-Each <xref:OmegaEngine.Engine> owns one <xref:OmegaEngine.Audio.AudioManager> (exposed as <xref:OmegaEngine.Engine.Audio>). It holds the shared NAudio output device and a mixer that all sounds and music feed into.
+Each <xref:OmegaEngine.Engine> owns one <xref:OmegaEngine.Audio.AudioManager> (exposed as <xref:OmegaEngine.Engine.Audio>). It holds the shared NAudio output device and a mixer that all sounds and music feed into. Playback goes through WASAPI in shared mode.
 
-All inputs are mixed as 32-bit IEEE-float, stereo, at <xref:OmegaEngine.Audio.AudioManager.SampleRate> (44.1 kHz). Sources in other formats are resampled and converted to match before they reach the mixer.
+All inputs are mixed as 32-bit IEEE-float, stereo, at the output device's native sample rate.
 
 ## Sound effects
 

@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 
@@ -18,13 +19,28 @@ namespace OmegaEngine.Audio;
 /// </summary>
 public sealed class AudioManager : IDisposable
 {
-    /// <summary>The sample rate all audio is mixed and played back at.</summary>
-    public const int SampleRate = 44100;
-
     /// <summary>
-    /// The wave format all mixer inputs must match: 32-bit float, stereo, <see cref="SampleRate"/>.
+    /// The wave format all mixer inputs must match: 32-bit float, stereo.
     /// </summary>
-    public static readonly WaveFormat MixerFormat = WaveFormat.CreateIeeeFloatWaveFormat(SampleRate, channels: 2);
+    public static readonly WaveFormat MixerFormat = WaveFormat.CreateIeeeFloatWaveFormat(GetDeviceSampleRate(), channels: 2);
+
+    private static int GetDeviceSampleRate()
+    {
+        try
+        {
+            using var enumerator = new MMDeviceEnumerator();
+            using var device = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            return device.AudioClient.MixFormat.SampleRate;
+        }
+        #region Error handling
+        catch (Exception ex)
+        {
+            // No sound card / no driver: mixing still needs to work, it just won't reach an output
+            Log.Warn($"Unable to determine the audio device's sample rate: {ex.Message}");
+            return 44100;
+        }
+        #endregion
+    }
 
     private readonly IWavePlayer? _output;
 
@@ -138,7 +154,7 @@ public sealed class AudioManager : IDisposable
             mixer.AddMixerInput(_soundBus);
             mixer.AddMixerInput(_musicBus);
 
-            _output = new WaveOutEvent {DesiredLatency = 100, NumberOfBuffers = 4};
+            _output = new WasapiOut(AudioClientShareMode.Shared, useEventSync: true, latency: 100);
             _output.Init(mixer);
             _output.Play();
         }

@@ -32,7 +32,7 @@ public class AudioHelpersTest
 
         samples.Should().NotBeEmpty();
         format.Encoding.Should().Be(WaveFormatEncoding.IeeeFloat);
-        format.SampleRate.Should().Be(AudioManager.SampleRate);
+        format.SampleRate.Should().Be(AudioManager.MixerFormat.SampleRate);
     }
 
     [Fact]
@@ -43,6 +43,6 @@ public class AudioHelpersTest
         var provider = AudioHelpers.EnsureStereo(AudioHelpers.ResampleToMixerRate(reader.ToSampleProvider()));
 
         provider.WaveFormat.Channels.Should().Be(2);
-        provider.WaveFormat.SampleRate.Should().Be(AudioManager.SampleRate);
+        provider.WaveFormat.SampleRate.Should().Be(AudioManager.MixerFormat.SampleRate);
     }
 }

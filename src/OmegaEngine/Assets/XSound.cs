@@ -21,10 +21,10 @@ namespace OmegaEngine.Assets;
 /// </summary>
 public class XSound : Asset
 {
-    /// <summary>The decoded, interleaved IEEE-float samples at <see cref="AudioManager.SampleRate"/>.</summary>
+    /// <summary>The decoded, interleaved IEEE-float samples.</summary>
     public float[] Samples { get; }
 
-    /// <summary>The format of <see cref="Samples"/> (IEEE-float, <see cref="AudioManager.SampleRate"/>, native channel count).</summary>
+    /// <summary>The format of <see cref="Samples"/> (IEEE-float, native channel count).</summary>
     public WaveFormat Format { get; }
 
     /// <summary>

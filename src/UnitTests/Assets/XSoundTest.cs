@@ -24,7 +24,7 @@ public class XSoundTest : EngineTestBase
 
         sound.Samples.Should().NotBeEmpty();
         sound.Format.Encoding.Should().Be(WaveFormatEncoding.IeeeFloat);
-        sound.Format.SampleRate.Should().Be(AudioManager.SampleRate);
+        sound.Format.SampleRate.Should().Be(AudioManager.MixerFormat.SampleRate);
     }
 
     [Fact]

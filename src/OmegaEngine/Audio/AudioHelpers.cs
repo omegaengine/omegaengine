@@ -30,12 +30,12 @@ internal static class AudioHelpers
     }
 
     /// <summary>
-    /// Resamples a source to <see cref="AudioManager.SampleRate"/> if necessary, keeping its channel count.
+    /// Resamples a source to <see cref="AudioManager.MixerFormat"/>'s sample rate if necessary, keeping its channel count.
     /// </summary>
     public static ISampleProvider ResampleToMixerRate(ISampleProvider source)
-        => source.WaveFormat.SampleRate == AudioManager.SampleRate
+        => source.WaveFormat.SampleRate == AudioManager.MixerFormat.SampleRate
             ? source
-            : new WdlResamplingSampleProvider(source, AudioManager.SampleRate);
+            : new WdlResamplingSampleProvider(source, AudioManager.MixerFormat.SampleRate);
 
     /// <summary>
     /// Converts a mono source to stereo; passes stereo (or higher) sources through unchanged.
@@ -48,7 +48,7 @@ internal static class AudioHelpers
     /// <summary>
     /// Reads a source completely into an in-memory buffer of interleaved IEEE-float samples.
     /// </summary>
-    /// <returns>The samples and their (IEEE-float, <see cref="AudioManager.SampleRate"/>) format.</returns>
+    /// <returns>The samples and their (IEEE-float) format.</returns>
     public static (float[] samples, WaveFormat format) DecodeToMemory(ISampleProvider source)
     {
         source = ResampleToMixerRate(source);

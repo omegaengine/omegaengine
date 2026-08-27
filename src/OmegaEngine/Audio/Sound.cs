@@ -90,7 +90,7 @@ public class Sound : AudioElement
     /// Builds the chain of sample providers feeding the mixer for a single playback.
     /// </summary>
     /// <param name="looping">Whether the playback should loop.</param>
-    /// <returns>The top-level sample provider (stereo, <see cref="AudioManager.SampleRate"/>, IEEE-float).</returns>
+    /// <returns>The top-level sample provider (stereo, IEEE-float).</returns>
     protected virtual ISampleProvider CreatePlaybackChain(bool looping)
     {
         var stereo = AudioHelpers.EnsureStereo(Asset.CreateProvider(looping));
