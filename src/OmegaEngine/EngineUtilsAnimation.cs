@@ -24,7 +24,8 @@ public static class EngineUtilsAnimation
     /// <param name="end">The value to end up at</param>
     /// <param name="callback">The delegate to call for with the updated interpolated value each frame</param>
     /// <param name="options">Options controlling the animation</param>
-    public static void Animate(this Engine engine, double start, double end, Action<double> callback, AnimationOptions options)
+    /// <returns>Disposing this cancels the animation before it has reached <paramref name="end"/>.</returns>
+    public static IDisposable Animate(this Engine engine, double start, double end, Action<double> callback, AnimationOptions options)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -75,6 +76,8 @@ public static class EngineUtilsAnimation
 
         // Run callback for t=0 immediately
         callback(start);
+
+        return new Disposable(() => engine.PreRender -= interpolate);
     }
 
     /// <summary>
