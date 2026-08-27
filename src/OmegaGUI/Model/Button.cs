@@ -28,12 +28,14 @@ namespace OmegaGUI.Model;
 /// <summary>
 /// Button control
 /// </summary>
-public class Button : ButtonBase
+[Cloneable]
+public partial class Button : ButtonBase
 {
     #region Variables
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
+    [IgnoreClone]
     private Render.Button? _button;
     #endregion
 

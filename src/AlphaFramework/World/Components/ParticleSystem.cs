@@ -16,7 +16,8 @@ namespace AlphaFramework.World.Components;
 /// Represents a particle system (e.g. fire or steam) controlled by an XML preset.
 /// </summary>
 /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-public abstract class ParticleSystem : Render
+[Cloneable]
+public abstract partial class ParticleSystem : Render
 {
     /// <summary>
     /// The filename of the XML particle system preset containing detailed settings.

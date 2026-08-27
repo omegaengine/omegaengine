@@ -30,12 +30,14 @@ namespace OmegaGUI.Model;
 /// <summary>
 /// A basic edit box
 /// </summary>
-public class TextBox : Label
+[Cloneable]
+public partial class TextBox : Label
 {
     #region Variables
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
+    [IgnoreClone]
     private Render.TextBox? _editBox;
     #endregion
 

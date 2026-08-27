@@ -15,7 +15,8 @@ namespace AlphaFramework.World.Components;
 /// <summary>
 /// Controls how <see cref="EntityBase{TCoordinates,TTemplate}"/>s occupy space around them.
 /// </summary>
-public abstract class Collision<TCoordinates> : ICloneable
+[Cloneable]
+public abstract partial class Collision<TCoordinates> : ICloneable
     where TCoordinates : struct
 {
     /// <inheritdoc/>
@@ -36,18 +37,4 @@ public abstract class Collision<TCoordinates> : ICloneable
     /// <param name="rotation">How the collision body shall be rotated before performing the collision test.</param>
     /// <returns><c>true</c> if <paramref name="area"/> does collide with the body, <c>false</c> otherwise.</returns>
     public abstract bool CollisionTest(Quadrangle area, float rotation);
-
-    #region Clone
-    /// <summary>
-    /// Creates a copy of this <see cref="Collision{TCoordinates}"/>.
-    /// </summary>
-    /// <returns>The cloned <see cref="Collision{TCoordinates}"/>.</returns>
-    public Collision<TCoordinates> Clone()
-    {
-        // Perform initial shallow copy
-        return (Collision<TCoordinates>)MemberwiseClone();
-    }
-
-    object ICloneable.Clone() => Clone();
-    #endregion
 }

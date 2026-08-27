@@ -31,7 +31,8 @@ namespace FrameOfReference.World.Positionables;
 /// <summary>
 /// A marker used to control automated <see cref="Positionables.Entity"/> movement.
 /// </summary>
-public class Waypoint : Positionable<Vector2>
+[Cloneable]
+public partial class Waypoint : Positionable<Vector2>
 {
     private string? _targetEntity;
 

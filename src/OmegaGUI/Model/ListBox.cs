@@ -33,12 +33,14 @@ namespace OmegaGUI.Model;
 /// <summary>
 /// List box control
 /// </summary>
-public class ListBox : Control
+[Cloneable]
+public partial class ListBox : Control
 {
     #region Variables
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
+    [IgnoreClone]
     private Render.ListBox? _listBox;
     #endregion
 

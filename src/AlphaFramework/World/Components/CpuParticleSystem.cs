@@ -16,7 +16,8 @@ namespace AlphaFramework.World.Components;
 /// Represents a particle system whose particles are tracked by the CPU.
 /// </summary>
 /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-public class CpuParticleSystem : ParticleSystem
+[Cloneable]
+public partial class CpuParticleSystem : ParticleSystem
 {
     /// <summary>
     /// Controls whether particles are tracked relative to the particle system instead of world space.

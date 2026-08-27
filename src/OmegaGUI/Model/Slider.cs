@@ -29,12 +29,14 @@ namespace OmegaGUI.Model;
 /// <summary>
 /// Slider control
 /// </summary>
-public class Slider : Control
+[Cloneable]
+public partial class Slider : Control
 {
     #region Variables
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
+    [IgnoreClone]
     private Render.Slider? _slider;
     #endregion
 

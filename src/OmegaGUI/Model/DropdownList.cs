@@ -32,12 +32,14 @@ namespace OmegaGUI.Model;
 /// <summary>
 /// Combo box control
 /// </summary>
-public class DropdownList : ButtonBase
+[Cloneable]
+public partial class DropdownList : ButtonBase
 {
     #region Variables
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
+    [IgnoreClone]
     private Render.DropdownList? _dropdownList;
     #endregion
 

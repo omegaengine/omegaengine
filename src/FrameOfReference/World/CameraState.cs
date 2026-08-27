@@ -35,7 +35,8 @@ namespace FrameOfReference.World;
 /// </summary>
 /// <seealso cref="Universe.CurrentCamera"/>
 /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
-public class CameraState<TCoordinates> : Positionable<TCoordinates>
+[Cloneable]
+public partial class CameraState<TCoordinates> : Positionable<TCoordinates>
     where TCoordinates : struct
 {
     /// <summary>

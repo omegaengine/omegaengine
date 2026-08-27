@@ -20,7 +20,8 @@ namespace AlphaFramework.World.Positionables;
 /// </summary>
 /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
 /// <typeparam name="TTemplate">The specific type of <see cref="EntityTemplateBase{TSelf}"/> to use as a component container.</typeparam>
-public abstract class EntityBase<TCoordinates, TTemplate> : Positionable<TCoordinates>, IUpdateable, ITemplated
+[Cloneable]
+public abstract partial class EntityBase<TCoordinates, TTemplate> : Positionable<TCoordinates>, IUpdateable, ITemplated
     where TCoordinates : struct
     where TTemplate : EntityTemplateBase<TTemplate>
 {
@@ -129,18 +130,4 @@ public abstract class EntityBase<TCoordinates, TTemplate> : Positionable<TCoordi
             value += $" ({_templateName})";
         return value;
     }
-
-    #region Clone
-    /// <summary>
-    /// Creates a deep copy of this <see cref="EntityBase{TCoordinates,TTemplate}"/>.
-    /// </summary>
-    /// <returns>The cloned <see cref="EntityBase{TCoordinates,TTemplate}"/>.</returns>
-    public override Positionable<TCoordinates> Clone()
-    {
-        var clonedEntity = (EntityBase<TCoordinates, TTemplate>)base.Clone();
-        if (CurrentPath != null) clonedEntity.CurrentPath = CurrentPath.Clone();
-        if (_template != null) clonedEntity._template = _template.Clone();
-        return clonedEntity;
-    }
-    #endregion
 }

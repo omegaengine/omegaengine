@@ -14,7 +14,8 @@ namespace AlphaFramework.World.Templates;
 /// <summary>
 /// A common base for terrain templates. Defines the texture for a patch of terrain.
 /// </summary>
-public abstract class TerrainTemplateBase<TSelf> : Template<TSelf> where TSelf : TerrainTemplateBase<TSelf>
+[Cloneable]
+public abstract partial class TerrainTemplateBase<TSelf> : Template<TSelf> where TSelf : TerrainTemplateBase<TSelf>
 {
     /// <summary>
     /// The filename of the ground texture.

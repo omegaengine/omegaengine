@@ -1,4 +1,5 @@
 using AlphaFramework.World.Positionables;
+using NanoByte.CloneGenerator;
 using SlimDX;
 
 namespace Template.AlphaFramework.World;
@@ -6,7 +7,8 @@ namespace Template.AlphaFramework.World;
 /// <summary>
 /// A placeholder object that can be positioned in the <see cref="Universe"/>.
 /// </summary>
-public class Entity : Positionable<Vector3>
+[Cloneable]
+public partial class Entity : Positionable<Vector3>
 {
     // Add your own gameplay data (health, speed, mesh name, ...) here.
 }

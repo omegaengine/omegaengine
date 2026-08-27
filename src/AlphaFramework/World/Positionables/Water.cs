@@ -17,7 +17,8 @@ namespace AlphaFramework.World.Positionables;
 /// <summary>
 /// A water plane spanning a certain part of the <see cref="Terrain{TTemplate}"/>.
 /// </summary>
-public class Water : Positionable<Vector2>
+[Cloneable]
+public partial class Water : Positionable<Vector2>
 {
     /// <summary>
     /// The position of origin for this water in the engine coordinate system.

@@ -16,7 +16,8 @@ namespace OmegaGUI.Render;
 /// <summary>
 /// Contains all the display tweakables for a control
 /// </summary>
-public class Element : ICloneable
+[Cloneable]
+public partial class Element : ICloneable
 {
     #region Instance Data
     public uint TextureIndex; // Index of the texture for this Element
@@ -71,30 +72,6 @@ public class Element : ICloneable
             TextureColor.Current = TextureColor.States[(int)ControlState.Hidden];
         if (FontColor.States != null)
             FontColor.Current = FontColor.States[(int)ControlState.Hidden];
-    }
-    #endregion
-
-    #region ICloneable Members
-    /// <summary>Clone an object</summary>
-    public Element Clone()
-    {
-        var e = new Element
-        {
-            TextureIndex = TextureIndex,
-            FontIndex = FontIndex,
-            textFormat = textFormat,
-            textureRect = textureRect,
-            TextureColor = TextureColor,
-            FontColor = FontColor
-        };
-
-        return e;
-    }
-
-    /// <summary>Clone an object</summary>
-    object ICloneable.Clone()
-    {
-        throw new NotSupportedException("Use the strongly typed clone.");
     }
     #endregion
 }

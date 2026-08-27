@@ -32,7 +32,8 @@ namespace FrameOfReference.World.Components;
 /// <summary>
 /// Collision-detection using an axis-aligned box.
 /// </summary>
-public class Box : Collision<Vector2>
+[Cloneable]
+public partial class Box : Collision<Vector2>
 {
     /// <summary>
     /// The lower left corner of the box (originating from the body's position).

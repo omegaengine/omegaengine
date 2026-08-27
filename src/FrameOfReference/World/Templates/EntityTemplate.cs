@@ -34,7 +34,8 @@ namespace FrameOfReference.World.Templates;
 /// <summary>
 /// A collection of components used as a prototype for constructing new <see cref="Entity"/>s.
 /// </summary>
-public class EntityTemplate : EntityTemplateBase<EntityTemplate>
+[Cloneable]
+public partial class EntityTemplate : EntityTemplateBase<EntityTemplate>
 {
     /// <summary>
     /// Controls how <see cref="EntityBase{TCoordinates,TTemplate}"/>s occupy space around them.
@@ -42,24 +43,4 @@ public class EntityTemplate : EntityTemplateBase<EntityTemplate>
     [Browsable(false)]
     [XmlElement(typeof(Circle)), XmlElement(typeof(Box))]
     public Collision<Vector2>? Collision { get; set; }
-
-    //--------------------//
-
-    #region Clone
-    /// <summary>
-    /// Creates a deep copy of this <see cref="EntityTemplate"/>.
-    /// </summary>
-    /// <returns>The cloned <see cref="EntityTemplate"/>.</returns>
-    public override EntityTemplate Clone()
-    {
-        // Perform initial shallow copy
-        var newClass = base.Clone();
-
-        // Replace contained lists with deep copies
-        if (Collision != null) newClass.Collision = Collision.Clone();
-        if (Movement != null) newClass.Movement = Movement.Clone();
-
-        return newClass;
-    }
-    #endregion
 }

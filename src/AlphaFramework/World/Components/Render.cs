@@ -19,7 +19,8 @@ namespace AlphaFramework.World.Components;
 /// Controls how an <see cref="EntityBase{TCoordinates,TTemplate}"/> shall be rendered.
 /// </summary>
 /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-public abstract class Render : ICloneable
+[Cloneable]
+public abstract partial class Render : ICloneable
 {
     /// <inheritdoc/>
     public override string ToString() => GetType().Name;
@@ -35,20 +36,4 @@ public abstract class Render : ICloneable
     /// </summary>
     [Browsable(false), XmlIgnore]
     public bool ShiftSpecified { get => Shift != default; set { if (!value) Shift = default; } }
-
-    //--------------------//
-
-    #region Clone
-    /// <summary>
-    /// Creates a shallow copy of this <see cref="Render"/>
-    /// </summary>
-    /// <returns>The cloned <see cref="Render"/>.</returns>
-    public Render Clone()
-    {
-        // Perform initial shallow copy
-        return (Render)MemberwiseClone();
-    }
-
-    object ICloneable.Clone() => Clone();
-    #endregion
 }

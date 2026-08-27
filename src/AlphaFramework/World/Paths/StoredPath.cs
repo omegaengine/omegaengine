@@ -17,7 +17,8 @@ namespace AlphaFramework.World.Paths;
 /// </summary>
 /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
 /// <seealso cref="EntityBase{TCoordinates,TTemplate}.CurrentPath"/>
-public class StoredPath<TCoordinates> : ICloneable
+[Cloneable]
+public partial class StoredPath<TCoordinates> : ICloneable
     where TCoordinates : struct
 {
     /// <summary>
@@ -28,22 +29,8 @@ public class StoredPath<TCoordinates> : ICloneable
     /// <summary>
     /// The path to walk.
     /// </summary>
-    public Queue<TCoordinates> PathNodes { get; } = new();
+    public Queue<TCoordinates> PathNodes { get; private set; } = new();
 
     /// <inheritdoc/>
     public override string ToString() => GetType().Name;
-
-    #region Clone
-    /// <summary>
-    /// Creates a shallow copy of this <see cref="StoredPath{TCoordinates}"/>
-    /// </summary>
-    /// <returns>The cloned <see cref="StoredPath{TCoordinates}"/>.</returns>
-    public StoredPath<TCoordinates> Clone()
-    {
-        // Perform initial shallow copy
-        return (StoredPath<TCoordinates>)MemberwiseClone();
-    }
-
-    object ICloneable.Clone() => Clone();
-    #endregion
 }

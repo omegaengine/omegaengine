@@ -30,12 +30,14 @@ namespace OmegaGUI.Model;
 /// <summary>
 /// CheckBox control
 /// </summary>
-public class CheckBox : ButtonBase
+[Cloneable]
+public partial class CheckBox : ButtonBase
 {
     #region Variables
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
+    [IgnoreClone]
     private Render.CheckBox? _checkbox;
     #endregion
 

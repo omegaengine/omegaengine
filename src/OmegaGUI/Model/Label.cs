@@ -31,12 +31,14 @@ namespace OmegaGUI.Model;
 /// <summary>
 /// Label text control
 /// </summary>
-public class Label : Control
+[Cloneable]
+public partial class Label : Control
 {
     #region Variables
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
+    [IgnoreClone]
     private Render.Label? _staticText;
     #endregion
 

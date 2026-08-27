@@ -20,7 +20,8 @@ namespace AlphaFramework.World.Components;
 /// Represents a point light source.
 /// </summary>
 /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-public class LightSource : Render
+[Cloneable]
+public partial class LightSource : Render
 {
     private Color _color = Color.White;
 

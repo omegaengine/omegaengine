@@ -31,7 +31,8 @@ namespace OmegaGUI.Model;
 /// <summary>
 /// A basis for Button-like control
 /// </summary>
-public abstract class ButtonBase : Label
+[Cloneable]
+public abstract partial class ButtonBase : Label
 {
     #region Properties
     private Keys _hotkey;

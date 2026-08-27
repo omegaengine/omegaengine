@@ -27,12 +27,14 @@ namespace OmegaGUI.Model;
 /// <summary>
 /// A scroll bar control
 /// </summary>
-public class ScrollBar : Slider
+[Cloneable]
+public partial class ScrollBar : Slider
 {
     #region Variables
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
+    [IgnoreClone]
     private Render.ScrollBar? _scrollbar;
     #endregion
 

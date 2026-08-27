@@ -16,7 +16,8 @@ namespace AlphaFramework.World.Components;
 /// Renders a simple (optionally textured) sphere for benchmarks, etc.
 /// </summary>
 /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-public class TestSphere : Render
+[Cloneable]
+public partial class TestSphere : Render
 {
     /// <summary>
     /// The filename of the texture to place on the sphere.

@@ -28,12 +28,14 @@ namespace OmegaGUI.Model;
 /// <summary>
 /// Radio button control
 /// </summary>
-public class RadioButton : CheckBox
+[Cloneable]
+public partial class RadioButton : CheckBox
 {
     #region Variables
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
+    [IgnoreClone]
     private Render.RadioButton? _radioButton;
     #endregion
 

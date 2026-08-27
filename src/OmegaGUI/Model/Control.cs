@@ -62,17 +62,20 @@ public enum VerticalMode
 /// <summary>
 /// Abstract base class for all control views
 /// </summary>
-public abstract class Control : ICloneable
+[Cloneable]
+public abstract partial class Control : ICloneable
 {
     #region Variables
     /// <summary>
     /// The dialog containing this control
     /// </summary>
+    [ShallowClone]
     internal Dialog? Parent;
 
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
+    [IgnoreClone]
     protected Render.Control? DXControl;
 
     /// <summary>
@@ -401,19 +404,5 @@ public abstract class Control : ICloneable
         else
             DXControl.ResetFontColor();
     }
-    #endregion
-
-    #region Clone
-    /// <summary>
-    /// Creates a shallow copy of this control.
-    /// You need to call <see cref="Generate"/> on it before it can be used for rendering.
-    /// </summary>
-    /// <returns>The cloned control</returns>
-    public Control Clone()
-    {
-        return (Control)MemberwiseClone();
-    }
-
-    object ICloneable.Clone() => Clone();
     #endregion
 }

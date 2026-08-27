@@ -17,7 +17,8 @@ namespace AlphaFramework.World.Positionables;
 /// An object that can be positioned in the game world.
 /// </summary>
 /// <typeparam name="TCoordinates">Data type for storing position coordinates of objects in the game world.</typeparam>
-public abstract class Positionable<TCoordinates> : ICloneable, IChangeNotify<Positionable<TCoordinates>>
+[Cloneable]
+public abstract partial class Positionable<TCoordinates> : ICloneable, IChangeNotify<Positionable<TCoordinates>>
     where TCoordinates : struct
 {
     #region Events
@@ -67,26 +68,5 @@ public abstract class Positionable<TCoordinates> : ICloneable, IChangeNotify<Pos
     /// </summary>
     [Description("The entity's position on the terrain.")]
     public TCoordinates Position { get => _position; set => value.To(ref _position, OnChanged); }
-    #endregion
-
-    //--------------------//
-
-    #region Clone
-    /// <summary>
-    /// Creates a deep copy of this <see cref="Positionable{TCoordinates}"/>.
-    /// </summary>
-    /// <returns>The cloned <see cref="Positionable{TCoordinates}"/>.</returns>
-    public virtual Positionable<TCoordinates> Clone()
-    {
-        var clonedPositionable = (Positionable<TCoordinates>)MemberwiseClone();
-
-        // Don't clone event handlers
-        clonedPositionable.Changed = null;
-        clonedPositionable.ChangedRebuild = null;
-
-        return clonedPositionable;
-    }
-
-    object ICloneable.Clone() => Clone();
     #endregion
 }

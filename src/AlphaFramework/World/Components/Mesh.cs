@@ -39,7 +39,8 @@ public enum ViewType
 /// Represents a mesh loaded from a file.
 /// </summary>
 /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-public abstract class Mesh : Render
+[Cloneable]
+public abstract partial class Mesh : Render
 {
     /// <summary>
     /// The filename of the mesh-file to use for rendering.

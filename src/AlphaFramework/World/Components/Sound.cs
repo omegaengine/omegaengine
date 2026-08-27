@@ -20,7 +20,8 @@ namespace AlphaFramework.World.Components;
 /// Makes an <see cref="EntityBase{TCoordinates,TTemplate}"/> emit a positioned 3D sound.
 /// </summary>
 /// <seealso cref="EntityTemplateBase{TSelf}.Sound"/>
-public class Sound : ICloneable
+[Cloneable]
+public partial class Sound : ICloneable
 {
     /// <inheritdoc/>
     public override string ToString() => GetType().Name + (string.IsNullOrEmpty(Filename) ? "" : $": {Filename}");
@@ -56,20 +57,4 @@ public class Sound : ICloneable
     /// </summary>
     [Browsable(false), XmlIgnore]
     public bool ShiftSpecified { get => Shift != default; set { if (!value) Shift = default; } }
-
-    //--------------------//
-
-    #region Clone
-    /// <summary>
-    /// Creates a shallow copy of this <see cref="Sound"/>
-    /// </summary>
-    /// <returns>The cloned <see cref="Sound"/>.</returns>
-    public Sound Clone()
-    {
-        // Perform initial shallow copy
-        return (Sound)MemberwiseClone();
-    }
-
-    object ICloneable.Clone() => Clone();
-    #endregion
 }

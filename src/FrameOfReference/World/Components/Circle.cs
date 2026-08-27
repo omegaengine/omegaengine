@@ -31,7 +31,8 @@ namespace FrameOfReference.World.Components;
 /// <summary>
 /// Collision-detection using a simple uniform circle.
 /// </summary>
-public class Circle : Collision<Vector2>
+[Cloneable]
+public partial class Circle : Collision<Vector2>
 {
     /// <summary>
     /// The radius of the circle.

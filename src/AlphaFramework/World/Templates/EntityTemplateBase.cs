@@ -18,7 +18,8 @@ namespace AlphaFramework.World.Templates;
 /// <summary>
 /// A common base for entity templates (collection of components used as a prototype for constructing new entities). Defines the behavior and look for a certain class of <see cref="EntityBase{TCoordinates,TTemplate}"/>.
 /// </summary>
-public abstract class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : EntityTemplateBase<TSelf>
+[Cloneable]
+public abstract partial class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : EntityTemplateBase<TSelf>
 {
     /// <summary>
     /// Controls how this class of entities shall be rendered.
@@ -38,20 +39,4 @@ public abstract class EntityTemplateBase<TSelf> : Template<TSelf> where TSelf : 
     /// </summary>
     [Browsable(false)]
     public Sound? Sound { get; set; }
-
-    //--------------------//
-
-    #region Clone
-    /// <summary>
-    /// Creates a deep copy of this <see cref="EntityTemplateBase{TSelf}"/>.
-    /// </summary>
-    /// <returns>The cloned <see cref="EntityTemplateBase{TSelf}"/>.</returns>
-    public override TSelf Clone()
-    {
-        var newClass = base.Clone();
-        newClass.Render = Render.Select(x => x.Clone()).ToList();
-        if (Sound != null) newClass.Sound = Sound.Clone();
-        return newClass;
-    }
-    #endregion
 }

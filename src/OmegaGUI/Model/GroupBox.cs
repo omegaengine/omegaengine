@@ -30,12 +30,14 @@ namespace OmegaGUI.Model;
 /// <summary>
 /// GroupBox control
 /// </summary>
-public class GroupBox : Control
+[Cloneable]
+public partial class GroupBox : Control
 {
     #region Variables
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
+    [IgnoreClone]
     private Render.GroupBox? _groupBox;
     #endregion
 

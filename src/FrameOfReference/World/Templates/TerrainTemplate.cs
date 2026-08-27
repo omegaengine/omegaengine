@@ -29,7 +29,8 @@ namespace FrameOfReference.World.Templates;
 /// <summary>
 /// Defines a type of terrain (texture, effects on units, etc.).
 /// </summary>
-public sealed class TerrainTemplate : TerrainTemplateBase<TerrainTemplate>
+[Cloneable]
+public sealed partial class TerrainTemplate : TerrainTemplateBase<TerrainTemplate>
 {
     private float _movementAbility = 1;
 

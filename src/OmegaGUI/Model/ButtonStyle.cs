@@ -34,12 +34,14 @@ namespace OmegaGUI.Model;
 /// <summary>
 /// Represents a custom style for a GUI button
 /// </summary>
-public class ButtonStyle : ICloneable
+[Cloneable]
+public partial class ButtonStyle : ICloneable
 {
     #region Variables
     /// <summary>
     /// The dialog containing this button style
     /// </summary>
+    [ShallowClone]
     internal Dialog? Parent;
 
     public XColor
@@ -53,6 +55,8 @@ public class ButtonStyle : ICloneable
         FillColorPressed = new(0, 0, 0, 0.25f),
         FillColorFocus = new(1.0f, 1.0f, 1.0f, 0.05f);
 
+    /// <summary>The rendered counterparts, (re-)created by <see cref="Generate"/>.</summary>
+    [IgnoreClone]
     internal Element? ButtonElement, FillElement;
     #endregion
 
@@ -156,19 +160,5 @@ public class ButtonStyle : ICloneable
         FillElement.TextureColor.States[(int)ControlState.Pressed] = FillColorPressed.ToColor4();
         FillElement.TextureColor.States[(int)ControlState.Focus] = FillColorFocus.ToColor4();
     }
-    #endregion
-
-    #region Clone
-    /// <summary>
-    /// Creates a shallow copy of this button style.
-    /// You need to call <see cref="Generate"/> on it before it can be used for rendering.
-    /// </summary>
-    /// <returns>The cloned button style</returns>
-    public ButtonStyle Clone()
-    {
-        return (ButtonStyle)MemberwiseClone();
-    }
-
-    object ICloneable.Clone() => Clone();
     #endregion
 }

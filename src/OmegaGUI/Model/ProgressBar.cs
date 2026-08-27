@@ -31,12 +31,14 @@ namespace OmegaGUI.Model;
 /// <summary>
 /// ProgressBar control
 /// </summary>
-public class ProgressBar : Control
+[Cloneable]
+public partial class ProgressBar : Control
 {
     #region Variables
     /// <summary>
     /// The <see cref="OmegaGUI.Render"/> control used for actual rendering
     /// </summary>
+    [IgnoreClone]
     private Render.ProgressBar? _progressBar;
     #endregion
 

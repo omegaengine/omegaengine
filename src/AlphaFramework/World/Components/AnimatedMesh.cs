@@ -14,7 +14,8 @@ namespace AlphaFramework.World.Components;
 /// Represents an animated mesh loaded from a file.
 /// </summary>
 /// <seealso cref="EntityTemplateBase{TSelf}.Render"/>
-public class AnimatedMesh : Mesh
+[Cloneable]
+public partial class AnimatedMesh : Mesh
 {
     // ToDo: Implement
 }

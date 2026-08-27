@@ -41,7 +41,8 @@ namespace FrameOfReference.World.Positionables;
 /// <summary>
 /// An entity that can be placed on a <see cref="Terrain{TTemplate}"/>.
 /// </summary>
-public sealed class Entity : EntityBase<Vector2, EntityTemplate>
+[Cloneable]
+public sealed partial class Entity : EntityBase<Vector2, EntityTemplate>
 {
     private float _rotation;
 
@@ -200,16 +201,6 @@ public sealed class Entity : EntityBase<Vector2, EntityTemplate>
         // Make the entity face the direction it is walking in (unless it's the last step)
         if (CurrentPath != null)
             Rotation = ((float)Math.Atan2(posDifference.Y, posDifference.X)).RadianToDegree() - 90;
-    }
-    #endregion
-
-    #region Clone
-    /// <inheritdoc/>
-    public override Positionable<Vector2> Clone()
-    {
-        var clone = (Entity)base.Clone();
-        clone.Waypoints = new(Waypoints);
-        return clone;
     }
     #endregion
 }

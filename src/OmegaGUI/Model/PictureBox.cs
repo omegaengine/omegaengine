@@ -27,7 +27,8 @@ using OmegaGUI.Render;
 
 namespace OmegaGUI.Model;
 
-public class PictureBox : Control
+[Cloneable]
+public partial class PictureBox : Control
 {
     #region Properties
     /// <summary>

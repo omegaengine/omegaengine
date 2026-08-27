@@ -55,7 +55,8 @@ public delegate void ScriptExecution(string script, string source);
 /// An XML-serializable dialog view
 /// </summary>
 [XmlInclude(typeof(Color4))]
-public class Dialog : ICloneable<Dialog>
+[Cloneable]
+public partial class Dialog : ICloneable<Dialog>
 {
     #region Events
     /// <summary>
@@ -68,6 +69,7 @@ public class Dialog : ICloneable<Dialog>
     /// <summary>
     /// The <see cref="Render.Dialog"/> used for actual rendering
     /// </summary>
+    [IgnoreClone]
     internal Render.Dialog? DialogRender;
 
     /// <summary>
@@ -564,30 +566,6 @@ public class Dialog : ICloneable<Dialog>
     {
         using var stream = ContentManager.GetFileStream("GUI", id);
         return XmlStorage.LoadXml<Dialog>(stream);
-    }
-    #endregion
-
-    #region Clone
-    /// <summary>
-    /// Creates a deep copy of this dialog.
-    /// You need to call <see cref="GenerateRender"/> on it before it can be used for rendering.
-    /// </summary>
-    /// <returns>The cloned dialog.</returns>
-    public Dialog Clone()
-    {
-        var newDialog = (Dialog)MemberwiseClone();
-
-        newDialog.Controls = [];
-        foreach (Control control in Controls)
-            newDialog.Controls.Add(control.Clone());
-
-        newDialog.ButtonStyles = [];
-        foreach (ButtonStyle style in ButtonStyles)
-            newDialog.ButtonStyles.Add(style.Clone());
-
-        newDialog.ScriptFired = null;
-
-        return newDialog;
     }
     #endregion
 }

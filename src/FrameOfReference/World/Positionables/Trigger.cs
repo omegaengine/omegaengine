@@ -37,7 +37,8 @@ namespace FrameOfReference.World.Positionables;
 /// <summary>
 /// Executes Lua scripts on proximity or timers.
 /// </summary>
-public sealed class Trigger : Positionable<Vector2>
+[Cloneable]
+public sealed partial class Trigger : Positionable<Vector2>
 {
     private float _range = 200f;
 

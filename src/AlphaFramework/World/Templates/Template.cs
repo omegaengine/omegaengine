@@ -20,7 +20,8 @@ namespace AlphaFramework.World.Templates;
 /// A set of data used as a prototype for constructing new objects at runtime.
 /// </summary>
 /// <typeparam name="TSelf">The type of the class itself.</typeparam>
-public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICloneable<TSelf>, IComparable<TSelf> where TSelf : Template<TSelf>
+[Cloneable]
+public abstract partial class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICloneable<TSelf>, IComparable<TSelf> where TSelf : Template<TSelf>
 {
     /// <summary>
     /// The name of this class. Used in map files as a reference. Must be unique and is case-sensitive!
@@ -56,22 +57,6 @@ public abstract class Template<TSelf> : INamed, IHighlightColor, ICloneable, ICl
     /// <inheritdoc/>
     int IComparable<TSelf>.CompareTo(TSelf? other) => string.Compare(Name, other?.Name, StringComparison.OrdinalIgnoreCase);
     #endregion
-
-    #region Clone
-    /// <summary>
-    /// Creates a deep copy of this <typeparamref name="TSelf"/>.
-    /// </summary>
-    /// <returns>The cloned <typeparamref name="TSelf"/>.</returns>
-    public virtual TSelf Clone()
-    {
-        // Perform initial shallow copy
-        return (TSelf)MemberwiseClone();
-    }
-
-    object ICloneable.Clone() => Clone();
-    #endregion
-
-    //--------------------//
 
     #region Storage
     /// <summary>
