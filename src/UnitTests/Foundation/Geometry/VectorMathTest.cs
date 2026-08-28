@@ -61,6 +61,17 @@ public class VectorMathTest
     }
 
     [Fact]
+    public void TestGetRotationToSameDirection()
+    {
+        // Normalizing this vector yields components that square to slightly more than 1, which would make unclamped Acos() return NaN
+        var vector = new DoubleVector3(1, 1, 1);
+        (var axis, double rotation) = vector.GetRotationTo(vector);
+
+        rotation.Should().Be(0);
+        axis.Length().Should().Be(0, because: "there is no axis to turn a vector into itself about");
+    }
+
+    [Fact]
     public void TestAdjustReference()
     {
         var vector = DoubleVector3.UnitX;

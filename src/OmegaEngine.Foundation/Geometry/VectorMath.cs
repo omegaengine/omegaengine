@@ -93,7 +93,7 @@ public static class VectorMath
         else
         {
             var axisNormal = from.CrossProduct(to).Normalize();
-            return (axisNormal, Math.Acos(dot));
+            return (axisNormal, Math.Acos(dot.Clamp(-1, 1)));
         }
     }
 
