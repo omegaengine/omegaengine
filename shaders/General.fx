@@ -274,14 +274,13 @@ outTexturedPerVertex VS_TexturedAmbient(inTextured IN, uniform float3 ambCol, un
     OUT.pos = transProj(IN.entityPos);
 
     // Lighting
-    OUT.diffAmbColor = float4(applyEmissive(ambCol, emissiveColor), alpha);
+    OUT.diffAmbColor = float4(ambCol, alpha);
     OUT.specCol = 0;
 
     return OUT;
 }
 
 outTexturedPerVertex VS_TexturedPerVertexTwoDirLights(inTextured IN,
-  uniform bool firstPass,
   uniform float3 lightDir1, uniform float3 lightDir2,
   uniform float4 diffCol1, uniform float3 diffCol2, uniform float3 specCol1, uniform float3 specCol2,
   uniform float3 ambCol1, uniform float3 ambCol2)
@@ -295,14 +294,13 @@ outTexturedPerVertex VS_TexturedPerVertexTwoDirLights(inTextured IN,
     // Lighting
     lightComponents components = calcTwoDirLights(transWorld(IN.entityPos), transNorm(IN.normal), lightDir1, lightDir2, diffCol1.rgb, diffCol2, specCol1, specCol2, ambCol1, ambCol2);
     OUT.diffAmbColor = float4(components.diffuseAmbient, diffCol1.a);
-    if (firstPass) OUT.diffAmbColor.rgb = applyEmissive(OUT.diffAmbColor.rgb, emissiveColor);
     OUT.specCol = components.specular;
 
     return OUT;
 }
 
 outTexturedPerVertex VS_TexturedPerVertexOneDirLight(inTextured IN,
-  uniform bool firstPass, uniform float3 lightDir, uniform float4 diffCol, uniform float3 specCol, uniform float3 ambCol)
+  uniform float3 lightDir, uniform float4 diffCol, uniform float3 specCol, uniform float3 ambCol)
 {
     outTexturedPerVertex OUT;
     OUT.texCoord = IN.texCoord;
@@ -313,14 +311,13 @@ outTexturedPerVertex VS_TexturedPerVertexOneDirLight(inTextured IN,
     // Lighting
     lightComponents components = calcDirLight(transWorld(IN.entityPos), transNorm(IN.normal), lightDir, diffCol.rgb, specCol, ambCol);
     OUT.diffAmbColor = float4(components.diffuseAmbient, diffCol.a);
-    if (firstPass) OUT.diffAmbColor.rgb = applyEmissive(OUT.diffAmbColor.rgb, emissiveColor);
     OUT.specCol = components.specular;
 
     return OUT;
 }
 
 outTexturedPerVertex VS_TexturedPerVertexOnePointLight(inTextured IN,
-  uniform bool firstPass, uniform float3 lightPos, uniform float4 diffCol, uniform float3 specCol, uniform float3 ambCol, uniform float3 att)
+  uniform float3 lightPos, uniform float4 diffCol, uniform float3 specCol, uniform float3 ambCol, uniform float3 att)
 {
     outTexturedPerVertex OUT;
     OUT.texCoord = IN.texCoord;
@@ -331,7 +328,6 @@ outTexturedPerVertex VS_TexturedPerVertexOnePointLight(inTextured IN,
     // Lighting
     lightComponents components = calcPointLight(transWorld(IN.entityPos), transNorm(IN.normal), lightPos, diffCol.rgb, specCol, ambCol, att);
     OUT.diffAmbColor = float4(components.diffuseAmbient, diffCol.a);
-    if (firstPass) OUT.diffAmbColor.rgb = applyEmissive(OUT.diffAmbColor.rgb, emissiveColor);
     OUT.specCol = components.specular;
 
     return OUT;
@@ -600,30 +596,30 @@ technique TexturedPerVertex {
     PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
   }
   pass TwoDirLights {
-    VertexShader = compile vs_1_1 VS_TexturedPerVertexTwoDirLights(/*firstPass*/true, -lightDirection1, -lightDirection2, diffuseColor1, diffuseColor2, specularColor1, specularColor2, ambientColor1, ambientColor2);
+    VertexShader = compile vs_1_1 VS_TexturedPerVertexTwoDirLights(-lightDirection1, -lightDirection2, diffuseColor1, diffuseColor2, specularColor1, specularColor2, ambientColor1, ambientColor2);
     PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
   }
   pass TwoDirLightsAdd {
     ADDITIVE_STATES
-    VertexShader = compile vs_1_1 VS_TexturedPerVertexTwoDirLights(/*firstPass*/false, -lightDirection1, -lightDirection2, diffuseColor1, diffuseColor2, specularColor1, specularColor2, ambientColor1, ambientColor2);
+    VertexShader = compile vs_1_1 VS_TexturedPerVertexTwoDirLights(-lightDirection1, -lightDirection2, diffuseColor1, diffuseColor2, specularColor1, specularColor2, ambientColor1, ambientColor2);
     PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/false);
   }
   pass OneDirLight {
-    VertexShader = compile vs_1_1 VS_TexturedPerVertexOneDirLight(/*firstPass*/true, -lightDirection1, diffuseColor1, specularColor1, ambientColor1);
+    VertexShader = compile vs_1_1 VS_TexturedPerVertexOneDirLight(-lightDirection1, diffuseColor1, specularColor1, ambientColor1);
     PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
   }
   pass OneDirLightAdd {
     ADDITIVE_STATES
-    VertexShader = compile vs_1_1 VS_TexturedPerVertexOneDirLight(/*firstPass*/false, -lightDirection1, diffuseColor1, specularColor1, ambientColor1);
+    VertexShader = compile vs_1_1 VS_TexturedPerVertexOneDirLight(-lightDirection1, diffuseColor1, specularColor1, ambientColor1);
     PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/false);
   }
   pass OnePointLight {
-    VertexShader = compile vs_1_1 VS_TexturedPerVertexOnePointLight(/*firstPass*/true, lightPosition1, diffuseColor1, specularColor1, ambientColor1, attenuation1);
+    VertexShader = compile vs_1_1 VS_TexturedPerVertexOnePointLight(lightPosition1, diffuseColor1, specularColor1, ambientColor1, attenuation1);
     PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
   }
   pass OnePointLightAdd {
     ADDITIVE_STATES
-    VertexShader = compile vs_1_1 VS_TexturedPerVertexOnePointLight(/*firstPass*/false, lightPosition1, diffuseColor1, specularColor1, ambientColor1, attenuation1);
+    VertexShader = compile vs_1_1 VS_TexturedPerVertexOnePointLight(lightPosition1, diffuseColor1, specularColor1, ambientColor1, attenuation1);
     PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/false);
   }
 }
