@@ -265,7 +265,7 @@ outTextured VS_Textured(inTextured IN)
     return OUT;
 }
 
-outTexturedPerVertex VS_TexturedAmbient(inTextured IN, uniform float3 ambCol)
+outTexturedPerVertex VS_TexturedAmbient(inTextured IN, uniform float3 ambCol, uniform float alpha)
 {
     outTexturedPerVertex OUT;
     OUT.texCoord = IN.texCoord;
@@ -274,7 +274,7 @@ outTexturedPerVertex VS_TexturedAmbient(inTextured IN, uniform float3 ambCol)
     OUT.pos = transProj(IN.entityPos);
 
     // Lighting
-    OUT.diffAmbColor = float4(applyEmissive(ambCol, emissiveColor), /*alpha*/1);
+    OUT.diffAmbColor = float4(applyEmissive(ambCol, emissiveColor), alpha);
     OUT.specCol = 0;
 
     return OUT;
@@ -596,7 +596,7 @@ technique ColoredEmissiveOnly {
 
 technique TexturedPerVertex {
   pass AmbientLight {
-    VertexShader = compile vs_1_1 VS_TexturedAmbient(ambientColor1);
+    VertexShader = compile vs_1_1 VS_TexturedAmbient(ambientColor1, diffuseColor1.a);
     PixelShader = compile ps_2_0 PS_Textured(/*useEmissive*/false, /*firstPass*/true);
   }
   pass TwoDirLights {
@@ -630,7 +630,7 @@ technique TexturedPerVertex {
 
 #define TEXTURED(useNormalMap, useSpecularMap, useEmissiveMap) \
 pass AmbientLight { \
-    VertexShader = compile vs_1_1 VS_TexturedAmbient(ambientColor1); \
+    VertexShader = compile vs_1_1 VS_TexturedAmbient(ambientColor1, diffuseColor1.a); \
     PixelShader = compile ps_2_0 PS_Textured(useEmissiveMap, /*firstPass*/true); \
 } \
 pass TwoDirLights { \
@@ -692,14 +692,14 @@ technique TexturedNormalSpecularEmissiveMap < string Script = " Pass=OnePointLig
 
 technique TexturedEmissiveOnly {
   pass Emissive {
-    VertexShader = compile vs_1_1 VS_TexturedAmbient(/*ambCol*/0);
+    VertexShader = compile vs_1_1 VS_TexturedAmbient(/*ambCol*/0, /*alpha*/1);
     PixelShader = compile ps_2_0 PS_Textured(/*useEmissiveMap*/false, /*firstPass*/true);
   }
 }
 
 technique TexturedEmissiveMapOnly {
   pass Emissive {
-    VertexShader = compile vs_1_1 VS_TexturedAmbient(/*ambCol*/0);
+    VertexShader = compile vs_1_1 VS_TexturedAmbient(/*ambCol*/0, /*alpha*/1);
     PixelShader = compile ps_2_0 PS_Textured(/*useEmissiveMap*/true, /*firstPass*/true);
   }
 }
