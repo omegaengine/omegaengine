@@ -11,6 +11,9 @@
     <ApplicationIcon>..\..\..\icon-omega.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DefineConstants>ERROR_REPORT</DefineConstants>
+  </PropertyGroup>
 
   <!-- Dependencies -->
   <ItemGroup>
