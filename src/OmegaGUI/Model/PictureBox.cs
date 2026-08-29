@@ -41,12 +41,14 @@ public partial class PictureBox : Control
     /// <summary>
     /// The file containing the texture for this picture box
     /// </summary>
+    /// <remarks>Assigning the value this already has is a no-op, so scripts can set this on every frame without reloading the texture each time.</remarks>
     [Description("The file containing the texture for this picture box"), Category("Appearance")]
     public string TextureFile
     {
         get => _textureFile;
         set
         {
+            if (value == _textureFile) return;
             _textureFile = value;
             UpdateTexture();
         }
@@ -66,6 +68,7 @@ public partial class PictureBox : Control
         get => _textureLocation;
         set
         {
+            if (value == _textureLocation) return;
             _textureLocation = value;
             UpdateTexture();
         }
@@ -82,6 +85,7 @@ public partial class PictureBox : Control
         get => _textureSize;
         set
         {
+            if (value == _textureSize) return;
             _textureSize = value;
             UpdateTexture();
         }
