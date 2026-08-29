@@ -27,10 +27,23 @@ public abstract class PresenterBase<TUniverse>(Engine engine, TUniverse universe
     /// </summary>
     protected readonly Scene Scene = new();
 
+    private readonly View _view = null!;
+
     /// <summary>
     /// The engine view used to display the <see cref="Scene"/>
     /// </summary>
-    public View View { get; protected init; }
+    public View View
+    {
+        get => _view;
+        protected init
+        {
+            _view = value;
+
+            // Bind the view and (via it) the Scene to the engine right away instead of waiting for HookIn().
+            // Otherwise EngineElement.Dispose() would silently skip a presenter that was initialized but never hooked in, leaking its renderables and the asset references they hold.
+            value.Engine = Engine;
+        }
+    }
 
     /// <inheritdoc/>
     [LuaHide]
