@@ -60,41 +60,39 @@ public class Game(Settings settings)
         using var _ = new TimedLogEvent("Game startup");
         UpdateStatus(Resources.StatusLoading);
 
-        EntityTemplate.LoadAll();
-        TerrainTemplate.LoadAll();
+        try
+        {
+            EntityTemplate.LoadAll();
+            TerrainTemplate.LoadAll();
 
-        if (Arguments.GetOption("map") is {} map)
-            LoadMap(map);
-        else if (Arguments.GetOption("savegame") is {} savegame)
-        {
-            try
-            {
+            if (Arguments.GetOption("map") is {} map)
+                LoadMap(map);
+            else if (Arguments.GetOption("savegame") is {} savegame)
                 new Savegames(this).Load(savegame);
-            }
-            #region Error handling
-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
+            else if (Arguments.GetOption("modify") is {} modify)
+                ModifyMap(modify);
+            else if (Arguments.HasOption("benchmark"))
             {
-                Msg.Inform(Form, ex.Message, MsgSeverity.Error);
-                return false;
+                TransitionTo(new Benchmark(this, onComplete: path =>
+                {
+                    Form.Visible = false;
+                    Msg.Inform(null, $"Please upload the file '{path}'.", MsgSeverity.Info);
+                    Exit();
+                }));
             }
-            #endregion
-        }
-        else if (Arguments.GetOption("modify") is {} modify)
-            ModifyMap(modify);
-        else if (Arguments.HasOption("benchmark"))
-        {
-            TransitionTo(new Benchmark(this, onComplete: path =>
+            else
             {
-                Form.Visible = false;
-                Msg.Inform(null, $"Please upload the file '{path}'.", MsgSeverity.Info);
-                Exit();
-            }));
+                _resumeSession = Savegames.LoadFromResume();
+                SwitchToMenu();
+            }
         }
-        else
+        #region Error handling
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
         {
-            _resumeSession = Savegames.LoadFromResume();
-            SwitchToMenu();
+            Msg.Inform(Form, ex.Message, MsgSeverity.Error);
+            return false;
         }
+        #endregion
 
         return true;
     }
