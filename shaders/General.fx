@@ -427,7 +427,7 @@ float4 PS_Textured(outTexturedPerVertex IN, uniform bool useEmissiveMap, uniform
 
     // Lighting
     lightComponents components;
-    components.diffuseAmbient = IN.diffAmbColor;
+    components.diffuseAmbient = IN.diffAmbColor.rgb;
     components.specular = IN.specCol;
     float3 color = applyLight(diffuse.rgb, components);
     if (firstPass) color = applyEmissive(color, useEmissiveMap ? readEmissiveMap(IN.texCoord) : emissiveColor);
