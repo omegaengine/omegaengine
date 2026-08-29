@@ -38,6 +38,23 @@ namespace OmegaEngine;
 /// </remarks>
 public partial class RenderHost : IRenderHost, IDisposable
 {
+    /// <summary>
+    /// The name of an environment variable that can be set to <c>1</c> to record the stack trace of every SlimDX object creation.
+    /// </summary>
+    /// <remarks>Always enabled in debug builds. Makes leaks reported on shutdown traceable, at the cost of a stack trace capture per COM object.</remarks>
+    [PublicAPI]
+    public const string EnvVarNameTrackObjects = "OMEGAENGINE_TRACK_OBJECTS";
+
+    static RenderHost()
+    {
+        Configuration.EnableObjectTracking =
+#if DEBUG
+            true;
+#else
+            Environment.GetEnvironmentVariable(EnvVarNameTrackObjects) == "1";
+#endif
+    }
+
     /// <summary>Contains a reference to the <see cref="DebugConsole"/> while it is open</summary>
     private DebugConsole? _debugConsole;
 
@@ -213,9 +230,8 @@ public partial class RenderHost : IRenderHost, IDisposable
             TouchInputProvider.Dispose();
 
             // Assume this is the only usage of SlimDX in the entire process (true for games, not for editors)
-            if (ObjectTable.Objects.Count > 0)
+            if (ReportLeaks() is {} leaks)
             {
-                string leaks = ObjectTable.ReportLeaks();
                 Log.Error(leaks);
 #if DEBUG
                 throw new InvalidOperationException(leaks);
@@ -229,6 +245,26 @@ public partial class RenderHost : IRenderHost, IDisposable
             throw new InvalidOperationException($"Forgot to call Dispose on {this}");
 #endif
         }
+    }
+
+    /// <summary>
+    /// Describes all SlimDX objects that were not disposed; <c>null</c> if there are none.
+    /// </summary>
+    private static string? ReportLeaks()
+    {
+        var objects = ObjectTable.Objects;
+        if (objects.Count == 0) return null;
+
+        var builder = new StringBuilder();
+        foreach (var comObject in objects)
+        {
+            builder.AppendLine(comObject.CreationSource is {} creationSource
+                ? $"Object of type {comObject.GetType().FullName} was not disposed. Stack trace of object creation:\n{creationSource}"
+                : $"Object of type {comObject.GetType().FullName} was not disposed. Set {EnvVarNameTrackObjects}=1 to also log the stack trace of the object creation.");
+        }
+        builder.Append($"Total of {objects.Count} objects still alive.");
+
+        return builder.ToString();
     }
 
     /// <summary>
