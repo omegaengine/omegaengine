@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Struct Rotation | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Struct Rotation | OmegaEngine ">
+      
+      <meta name="description" content="Rotation around three axes, in degrees.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.18.3/apiSpec/new?filename=OmegaEngine_Foundation_Geometry_Rotation.md&amp;value=---%0Auid%3A%20OmegaEngine.Foundation.Geometry.Rotation%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="OmegaEngine.Foundation.Geometry.Rotation">
+
+
+
+  <h1 id="OmegaEngine_Foundation_Geometry_Rotation" data-uid="OmegaEngine.Foundation.Geometry.Rotation" class="text-break">
+Struct Rotation  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.18.3/src/OmegaEngine.Foundation/Geometry/Rotation.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="OmegaEngine.html">OmegaEngine</a>.<a class="xref" href="OmegaEngine.Foundation.html">Foundation</a>.<a class="xref" href="OmegaEngine.Foundation.Geometry.html">Geometry</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>OmegaEngine.Foundation.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Rotation around three axes, in degrees.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[TypeConverter(typeof(RotationConverter))]
+public struct Rotation : IEquatable&lt;Rotation&gt;</code></pre>
+  </div>
+
+
+
+
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="OmegaEngine.Foundation.Geometry.Rotation.html">Rotation</a>&gt;</div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.tostring">ValueType.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="OmegaEngine_Foundation_Geometry_Rotation__ctor_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.#ctor*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_Rotation__ctor_System_Single_System_Single_System_Single_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.#ctor(System.Single,System.Single,System.Single)">
+  Rotation(float, float, float)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.18.3/src/OmegaEngine.Foundation/Geometry/Rotation.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Rotation around three axes, in degrees.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Rotation(float yaw = 0, float pitch = 0, float roll = 0)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>yaw</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>Rotation around the Y axis, in degrees.</p>
+</dd>
+    <dt><code>pitch</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>Rotation around the X axis, in degrees.</p>
+</dd>
+    <dt><code>roll</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>Rotation around the Z axis, in degrees.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="OmegaEngine_Foundation_Geometry_Rotation_Pitch_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.Pitch*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_Rotation_Pitch" data-uid="OmegaEngine.Foundation.Geometry.Rotation.Pitch">
+  Pitch
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.18.3/src/OmegaEngine.Foundation/Geometry/Rotation.cs/#L45"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Rotation around the X axis, in degrees.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float Pitch { readonly get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_Rotation_Roll_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.Roll*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_Rotation_Roll" data-uid="OmegaEngine.Foundation.Geometry.Rotation.Roll">
+  Roll
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.18.3/src/OmegaEngine.Foundation/Geometry/Rotation.cs/#L55"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Rotation around the Z axis, in degrees.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float Roll { readonly get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_Rotation_Yaw_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.Yaw*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_Rotation_Yaw" data-uid="OmegaEngine.Foundation.Geometry.Rotation.Yaw">
+  Yaw
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.18.3/src/OmegaEngine.Foundation/Geometry/Rotation.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Rotation around the Y axis, in degrees.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float Yaw { readonly get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="OmegaEngine_Foundation_Geometry_Rotation_Equals_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.Equals*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_Rotation_Equals_OmegaEngine_Foundation_Geometry_Rotation_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.Equals(OmegaEngine.Foundation.Geometry.Rotation)">
+  Equals(Rotation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.18.3/src/OmegaEngine.Foundation/Geometry/Rotation.cs/#L75"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether the current object is equal to another object of the same type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Equals(Rotation other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.Rotation.html">Rotation</a></dt>
+    <dd><p>An object to compare with this object.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_Rotation_Equals_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.Equals*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_Rotation_Equals_System_Object_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.Equals(System.Object)">
+  Equals(object?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.18.3/src/OmegaEngine.Foundation/Geometry/Rotation.cs/#L81"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether this instance and a specified object are equal.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object? obj)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>obj</code> <span class="xref">object</span></dt>
+    <dd><p>The object to compare with the current instance.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if <code class="paramref">obj</code> and this instance are the same type and represent the same value; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_Rotation_GetHashCode_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.GetHashCode*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_Rotation_GetHashCode" data-uid="OmegaEngine.Foundation.Geometry.Rotation.GetHashCode">
+  GetHashCode()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.18.3/src/OmegaEngine.Foundation/Geometry/Rotation.cs/#L88"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the hash code for this instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override readonly int GetHashCode()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>A 32-bit signed integer that is the hash code for this instance.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="operators">Operators
+</h2>
+
+
+  <a id="OmegaEngine_Foundation_Geometry_Rotation_op_Equality_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.op_Equality*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_Rotation_op_Equality_OmegaEngine_Foundation_Geometry_Rotation_OmegaEngine_Foundation_Geometry_Rotation_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.op_Equality(OmegaEngine.Foundation.Geometry.Rotation,OmegaEngine.Foundation.Geometry.Rotation)">
+  operator ==(Rotation, Rotation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.18.3/src/OmegaEngine.Foundation/Geometry/Rotation.cs/#L77"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator ==(Rotation left, Rotation right)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>left</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.Rotation.html">Rotation</a></dt>
+    <dd></dd>
+    <dt><code>right</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.Rotation.html">Rotation</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_Rotation_op_Implicit_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.op_Implicit*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_Rotation_op_Implicit_OmegaEngine_Foundation_Geometry_Rotation__SlimDX_Matrix" data-uid="OmegaEngine.Foundation.Geometry.Rotation.op_Implicit(OmegaEngine.Foundation.Geometry.Rotation)~SlimDX.Matrix">
+  implicit operator Matrix(Rotation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.18.3/src/OmegaEngine.Foundation/Geometry/Rotation.cs/#L69"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Convert <a class="xref" href="OmegaEngine.Foundation.Geometry.Rotation.html">Rotation</a> into <span class="xref">SlimDX.Matrix</span></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator Matrix(Rotation rotation)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>rotation</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.Rotation.html">Rotation</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Matrix</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_Rotation_op_Implicit_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.op_Implicit*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_Rotation_op_Implicit_OmegaEngine_Foundation_Geometry_Rotation__SlimDX_Quaternion" data-uid="OmegaEngine.Foundation.Geometry.Rotation.op_Implicit(OmegaEngine.Foundation.Geometry.Rotation)~SlimDX.Quaternion">
+  implicit operator Quaternion(Rotation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.18.3/src/OmegaEngine.Foundation/Geometry/Rotation.cs/#L63"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Convert <a class="xref" href="OmegaEngine.Foundation.Geometry.Rotation.html">Rotation</a> into <span class="xref">SlimDX.Quaternion</span></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator Quaternion(Rotation rotation)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>rotation</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.Rotation.html">Rotation</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Quaternion</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="OmegaEngine_Foundation_Geometry_Rotation_op_Inequality_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.op_Inequality*"></a>
+
+  <h3 id="OmegaEngine_Foundation_Geometry_Rotation_op_Inequality_OmegaEngine_Foundation_Geometry_Rotation_OmegaEngine_Foundation_Geometry_Rotation_" data-uid="OmegaEngine.Foundation.Geometry.Rotation.op_Inequality(OmegaEngine.Foundation.Geometry.Rotation,OmegaEngine.Foundation.Geometry.Rotation)">
+  operator !=(Rotation, Rotation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.18.3/src/OmegaEngine.Foundation/Geometry/Rotation.cs/#L78"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator !=(Rotation left, Rotation right)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>left</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.Rotation.html">Rotation</a></dt>
+    <dd></dd>
+    <dt><code>right</code> <a class="xref" href="OmegaEngine.Foundation.Geometry.Rotation.html">Rotation</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.18.3/src/OmegaEngine.Foundation/Geometry/Rotation.cs/#L28" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
