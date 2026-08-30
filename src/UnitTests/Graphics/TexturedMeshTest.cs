@@ -64,7 +64,7 @@ public class TexturedMeshTest : EngineTestBase
     {
         using var mesh = TexturedMesh.Box(Engine.Device, new(2, 2, 2), tbn: true);
 
-        var vertexes = mesh.ReadVertexBuffer<PositionNormalBinormalTangentTextured>();
+        var vertexes = mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
         vertexes.Should().Contain(v => v.Tangent != default);
     }
 }

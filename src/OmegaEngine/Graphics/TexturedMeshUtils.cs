@@ -53,7 +53,7 @@ public static class TexturedMeshUtils
 
         // Check if vertex declaration of mesh already is already ok
         var decl = mesh.GetDeclaration();
-        if (CompareDecl(PositionNormalBinormalTangentTextured.GetVertexElements(), decl))
+        if (CompareDecl(PositionNormalTangentBinormalTextured.GetVertexElements(), decl))
         {
             hadNormals = true;
             hadTangents = true;
@@ -77,7 +77,7 @@ public static class TexturedMeshUtils
 
         // Select the appropriate new vertex format
         decl = CompareDecl(PositionMultiTextured.GetVertexElements(), decl) ?
-            PositionNormalMultiTextured.GetVertexElements() : PositionNormalBinormalTangentTextured.GetVertexElements();
+            PositionNormalMultiTextured.GetVertexElements() : PositionNormalTangentBinormalTextured.GetVertexElements();
 
         // Clone the mesh to change the vertex format
         Mesh tempMesh = mesh.Clone(device, mesh.CreationOptions, decl);
@@ -133,7 +133,7 @@ public static class TexturedMeshUtils
 
         bool gotMilkErmTexCoords = false;
         bool gotValidNormals = true;
-        var vertexes = mesh.ReadVertexBuffer<PositionNormalBinormalTangentTextured>();
+        var vertexes = mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
 
         // Check all vertexes
         for (int num = 0; num < vertexes.Length; num++)
@@ -175,7 +175,7 @@ public static class TexturedMeshUtils
     }
 
     /// <summary>
-    /// Generate TBN (tangent, binormal and normal) vectors if not present and convert into <see cref="PositionNormalBinormalTangentTextured"/> format for shaders.
+    /// Generate TBN (tangent, binormal and normal) vectors if not present and convert into <see cref="PositionNormalTangentBinormalTextured"/> format for shaders.
     /// </summary>
     /// <param name="device">The <see cref="Device"/> containing the mesh</param>
     /// <param name="mesh">The mesh to be manipulated</param>
@@ -196,7 +196,7 @@ public static class TexturedMeshUtils
         bool gotMilkErmTexCoords = false;
         bool gotValidNormals = true;
         bool gotValidTangents = true;
-        var vertexes = mesh.ReadVertexBuffer<PositionNormalBinormalTangentTextured>();
+        var vertexes = mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
 
         // Check all vertexes
         for (int num = 0; num < vertexes.Length; num++)
@@ -279,11 +279,11 @@ public static class TexturedMeshUtils
 
                 // Compute tangents
                 dummyTangentGenerationMesh.ComputeTangent(0, 0, 0, false);
-                var tangentVertexes = dummyTangentGenerationMesh.ReadVertexBuffer<PositionNormalBinormalTangentTextured>();
+                var tangentVertexes = dummyTangentGenerationMesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
                 dummyTangentGenerationMesh.Dispose();
 
                 // Copy generated tangents back
-                vertexes = mesh.ReadVertexBuffer<PositionNormalBinormalTangentTextured>();
+                vertexes = mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
                 for (int num = 0; num < vertexes.Length; num++)
                 {
                     // Search for tangent vertex with the exact same position and normal.
