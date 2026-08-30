@@ -19,7 +19,38 @@ namespace OmegaEngine.Foundation.Geometry;
 public class VectorMathTest
 {
     [Fact]
-    public void TestByteToAngle()
+    public void Slerp_FactorZero_ReturnsFrom()
+    {
+        var result = VectorMath.Slerp(DoubleVector3.UnitX, DoubleVector3.UnitY, 0);
+
+        result.X.Should().BeApproximately(1, 1e-10);
+        result.Y.Should().BeApproximately(0, 1e-10);
+        result.Z.Should().BeApproximately(0, 1e-10);
+    }
+
+    [Fact]
+    public void Slerp_FactorOne_ReturnsTo()
+    {
+        var result = VectorMath.Slerp(DoubleVector3.UnitX, DoubleVector3.UnitY, 1);
+
+        result.X.Should().BeApproximately(0, 1e-10);
+        result.Y.Should().BeApproximately(1, 1e-10);
+        result.Z.Should().BeApproximately(0, 1e-10);
+    }
+
+    [Fact]
+    public void Slerp_FactorHalf_ReturnsMidpointOnArc()
+    {
+        var result = VectorMath.Slerp(DoubleVector3.UnitX, DoubleVector3.UnitY, 0.5);
+
+        double expected = Math.Sqrt(0.5);
+        result.X.Should().BeApproximately(expected, 1e-10);
+        result.Y.Should().BeApproximately(expected, 1e-10);
+        result.Z.Should().BeApproximately(0, 1e-10);
+    }
+
+    [Fact]
+    public void ByteToAngle_MapsByteRangeToRadians()
     {
         ((byte)0).ByteToAngle().Should().Be(0);
         ((byte)255).ByteToAngle().Should().BeApproximately(Math.PI, 1e-10);
@@ -27,7 +58,7 @@ public class VectorMathTest
     }
 
     [Fact]
-    public void TestRotateAroundAxis()
+    public void RotateAroundAxis_RotatesVectorByGivenAngle()
     {
         var vector = DoubleVector3.UnitX;
         var axis = DoubleVector3.UnitZ;
@@ -39,7 +70,7 @@ public class VectorMathTest
     }
 
     [Fact]
-    public void TestGetRotationTo()
+    public void GetRotationTo_ReturnsAngleAndAxisBetweenVectors()
     {
         var from = DoubleVector3.UnitX;
         var to = DoubleVector3.UnitY;
@@ -50,7 +81,7 @@ public class VectorMathTest
     }
 
     [Fact]
-    public void TestGetRotationToOpposite()
+    public void GetRotationTo_OppositeVectors_ReturnsPiWithUnitAxis()
     {
         var from = DoubleVector3.UnitX;
         var to = new DoubleVector3(-1, 0, 0);
@@ -61,7 +92,7 @@ public class VectorMathTest
     }
 
     [Fact]
-    public void TestGetRotationToSameDirection()
+    public void GetRotationTo_SameDirection_ReturnsZeroRotationAndNoAxis()
     {
         // Normalizing this vector yields components that square to slightly more than 1, which would make unclamped Acos() return NaN
         var vector = new DoubleVector3(1, 1, 1);
@@ -72,7 +103,7 @@ public class VectorMathTest
     }
 
     [Fact]
-    public void TestAdjustReference()
+    public void AdjustReference_AppliesReferenceFrameRotationToVector()
     {
         var vector = DoubleVector3.UnitX;
         var from = DoubleVector3.UnitX;
@@ -82,6 +113,7 @@ public class VectorMathTest
         adjusted.X.Should().BeApproximately(0, 1e-10);
         adjusted.Y.Should().BeApproximately(1, 1e-10);
     }
+
     [Fact]
     public void PerpendicularDistance_Vector2_PointOnRay_ReturnsZero()
     {
@@ -140,5 +172,25 @@ public class VectorMathTest
 
         float distance = ray.PerpendicularDistance(point);
         distance.Should().BeApproximately(3, precision: 0.0001f);
+    }
+
+    [Fact]
+    public void AnyPerpendicular_ResultIsPerpendicularAndNormalized()
+    {
+        foreach (var vector in new[]
+        {
+            DoubleVector3.UnitX,
+            DoubleVector3.UnitY,
+            DoubleVector3.UnitZ,
+            new DoubleVector3(1, 2, 3),
+            new DoubleVector3(-5, 0.1, 0.2),
+            new DoubleVector3(0, 0, -7)
+        })
+        {
+            var perpendicular = vector.AnyPerpendicular();
+
+            perpendicular.Length().Should().BeApproximately(1, 1e-10);
+            perpendicular.DotProduct(vector).Should().BeApproximately(0, 1e-10);
+        }
     }
 }

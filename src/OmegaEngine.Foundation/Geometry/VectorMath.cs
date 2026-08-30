@@ -29,6 +29,15 @@ public static class VectorMath
         (float)Math.Cos(inclination));
 
     /// <summary>
+    /// Rotates <paramref name="from"/> towards <paramref name="to"/> by <paramref name="factor"/> of the angle between them.
+    /// </summary>
+    public static DoubleVector3 Slerp(DoubleVector3 from, DoubleVector3 to, double factor)
+    {
+        (var axis, double rotation) = from.GetRotationTo(to);
+        return from.RotateAroundAxis(axis, rotation * factor);
+    }
+
+    /// <summary>
     /// Maps a 0-255 byte value to a 0�-180� angle in radians.
     /// </summary>
     [Pure]
@@ -130,5 +139,23 @@ public static class VectorMath
         float projection = Vector3.Dot(toPoint, ray.Direction);
         var projectedPoint = ray.Position + ray.Direction * projection;
         return (point - projectedPoint).Length();
+    }
+
+    /// <summary>
+    /// Returns a normalized vector perpendicular to <paramref name="vector"/>.
+    /// </summary>
+    public static DoubleVector3 AnyPerpendicular(this DoubleVector3 vector)
+    {
+        const double alignmentThreshold = 0.9;
+        var vn = vector.Normalize();
+
+        // Choose an axis that is not nearly parallel to vn
+        var axis = Math.Abs(vn.Y) < alignmentThreshold
+            ? DoubleVector3.UnitY
+            : Math.Abs(vn.X) < alignmentThreshold
+                ? DoubleVector3.UnitX
+                : DoubleVector3.UnitZ;
+
+        return vn.CrossProduct(axis).Normalize();
     }
 }
