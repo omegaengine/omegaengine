@@ -239,7 +239,7 @@ public static class BufferUtils
             ret = new int[indexCount];
             short[]? temp = indexStream.ReadRange<short>(indexCount);
             for (int i = 0; i < indexCount; i++)
-                ret[i] = temp[i];
+                ret[i] = (ushort)temp[i]; // 16-bit indexes are unsigned, so avoid sign-extending values above 32767
         }
         mesh.UnlockIndexBuffer();
 
