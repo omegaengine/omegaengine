@@ -383,7 +383,7 @@ public static class BufferUtils
         #endregion
 
         var vertexStream = mesh.LockVertexBuffer(LockFlags.ReadOnly);
-        var points = D3DX.GetVectors(vertexStream, mesh.VertexCount, mesh.VertexFormat);
+        var points = D3DX.GetVectors(vertexStream, mesh.VertexCount, mesh.BytesPerVertex); // Use the vertex stride rather than the vertex format, because meshes with a custom vertex declaration have no equivalent FVF
         mesh.UnlockVertexBuffer();
         vertexStream.Dispose();
 
