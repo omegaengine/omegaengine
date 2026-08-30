@@ -35,7 +35,7 @@ public static class RenderComponentPresentation
         if (string.IsNullOrEmpty(component.Filename)) return null;
 
         var presentation = new Model(XMesh.Get(engine, component.Filename)) {Name = name};
-        ApplyProperties(component, presentation);
+        presentation.ApplyPropertiesFrom(component);
         return presentation;
     }
 
@@ -48,11 +48,14 @@ public static class RenderComponentPresentation
         if (string.IsNullOrEmpty(component.Filename)) return null;
 
         var presentation = new AnimatedModel(XAnimatedMesh.Get(engine, component.Filename)) {Name = name};
-        ApplyProperties(component, presentation);
+        presentation.ApplyPropertiesFrom(component);
         return presentation;
     }
 
-    private static void ApplyProperties(Mesh component, PositionableRenderable presentation)
+    /// <summary>
+    /// Applies the properties of a <see cref="Mesh"/> component to a <see cref="PositionableRenderable"/>.
+    /// </summary>
+    public static void ApplyPropertiesFrom(this PositionableRenderable presentation, Mesh component)
     {
         presentation.PreTransform = Matrix.Scaling(component.Scale, component.Scale, component.Scale) *
                                     Matrix.RotationYawPitchRoll(
