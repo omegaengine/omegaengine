@@ -58,10 +58,7 @@ public static class RenderComponentPresentation
     public static void ApplyPropertiesFrom(this PositionableRenderable presentation, Mesh component)
     {
         presentation.PreTransform = Matrix.Scaling(component.Scale, component.Scale, component.Scale) *
-                                    Matrix.RotationYawPitchRoll(
-                                        component.RotationY.DegreeToRadian(),
-                                        component.RotationX.DegreeToRadian(),
-                                        component.RotationZ.DegreeToRadian()) *
+                                    component.Rotation *
                                     Matrix.Translation(component.Shift);
         presentation.Alpha = component.Alpha;
         presentation.Pickable = component.Pickable;

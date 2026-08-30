@@ -9,11 +9,7 @@
 using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
-
-#if NETFRAMEWORK
-using System.Drawing.Design;
-using OmegaEngine.Foundation.Design;
-#endif
+using OmegaEngine.Foundation.Geometry;
 
 namespace AlphaFramework.World.Components;
 
@@ -59,31 +55,13 @@ public abstract partial class Mesh : Render
     }
 
     /// <summary>
-    /// How the mesh loaded from the file shall be rotated around the X axis (east to west), in degrees.
+    /// How the mesh loaded from the file shall be rotated.
     /// </summary>
-    [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the X axis (east to west), in degrees.")]
-#if NETFRAMEWORK
-    [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-#endif
-    public float RotationX { get; set; }
+    [DefaultValue(typeof(Rotation), "0,0,0"), Description("How the mesh loaded from the file shall be rotated.")]
+    public Rotation Rotation { get; set; }
 
-    /// <summary>
-    /// How the mesh loaded from the file shall be rotated around the Y axis (top to bottom), in degrees.
-    /// </summary>
-    [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Y axis (top to bottom), in degrees.")]
-#if NETFRAMEWORK
-    [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-#endif
-    public float RotationY { get; set; }
-
-    /// <summary>
-    /// How the mesh loaded from the file shall be rotated around the Z axis (north to south), in degrees.
-    /// </summary>
-    [DefaultValue(0f), Description("How the mesh loaded from the file shall be rotated around the Z axis (north to south), in degrees.")]
-#if NETFRAMEWORK
-    [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
-#endif
-    public float RotationZ { get; set; }
+    /// <summary>Used for XML serialization.</summary>
+    public bool ShouldSerializeRotation() => Rotation != default;
 
     /// <summary>
     /// A factor by which to scale the mesh loaded from the file.
