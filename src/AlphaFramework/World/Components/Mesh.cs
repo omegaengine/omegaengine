@@ -66,7 +66,7 @@ public abstract partial class Mesh : Render
     /// <summary>
     /// A factor by which to scale the mesh loaded from the file.
     /// </summary>
-    [DefaultValue(1), Description("A factor by which to scale the mesh loaded from the file.")]
+    [DefaultValue(1f), Description("A factor by which to scale the mesh loaded from the file.")]
     public float Scale { get; set; } = 1;
 
     /// <summary>
