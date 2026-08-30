@@ -50,11 +50,9 @@ public partial class Sound : ICloneable
     /// A positional offset relative to the entity's origin.
     /// </summary>
     [Description("A positional offset relative to the entity's origin.")]
+    [DefaultValue(typeof(Vector3), "0,0,0")]
     public Vector3 Shift { get; set; }
 
-    /// <summary>
-    /// Indicates whether <see cref="Shift"/> has been set to a non-default value.
-    /// </summary>
-    [Browsable(false), XmlIgnore]
-    public bool ShiftSpecified { get => Shift != default; set { if (!value) Shift = default; } }
+    /// <summary>Used for XML serialization.</summary>
+    public bool ShouldSerializeShift() => Shift != default;
 }

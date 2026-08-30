@@ -71,6 +71,8 @@ internal class DoublePlaneConverter : ValueTypeConverter<DoublePlane>
         if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
         #endregion
 
-        return new((DoubleVector3)propertyValues["Point"]!, (Vector3)propertyValues["Normal"]!);
+        return new(
+            (DoubleVector3)propertyValues[nameof(DoublePlane.Point)]!,
+            (Vector3)propertyValues[nameof(DoublePlane.Normal)]!);
     }
 }

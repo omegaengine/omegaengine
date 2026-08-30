@@ -87,7 +87,9 @@ internal class QuadrangleConverter : ValueTypeConverter<Quadrangle>
         #endregion
 
         return new(
-            (Vector2)propertyValues["P1"]!, (Vector2)propertyValues["P2"]!,
-            (Vector2)propertyValues["P3"]!, (Vector2)propertyValues["P4"]!);
+            (Vector2)propertyValues[nameof(Quadrangle.P1)]!,
+            (Vector2)propertyValues[nameof(Quadrangle.P2)]!,
+            (Vector2)propertyValues[nameof(Quadrangle.P3)]!,
+            (Vector2)propertyValues[nameof(Quadrangle.P4)]!);
     }
 }

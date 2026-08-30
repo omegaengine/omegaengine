@@ -192,7 +192,7 @@ public abstract partial class Control : ICloneable
     /// <summary>
     /// A custom text color override for this control's default state
     /// </summary>
-    [XmlIgnore, DefaultValue(typeof(Color), "0, 0, 0, 0"), Description("A custom text color override for this control's default state"), Category("Appearance")]
+    [XmlIgnore, DefaultValue(typeof(Color), "0,0,0,0"), Description("A custom text color override for this control's default state"), Category("Appearance")]
     public Color TextColor
     {
         get => ColorText;

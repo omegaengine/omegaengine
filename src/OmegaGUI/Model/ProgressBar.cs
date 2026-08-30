@@ -133,7 +133,7 @@ public partial class ProgressBar : Control
     /// <summary>
     /// The color of the bar when <see cref="Value"/> is at <see cref="Min"/>; leave transparent to always use <see cref="FillColor"/>
     /// </summary>
-    [XmlIgnore, DefaultValue(typeof(Color), "0, 0, 0, 0"), Description("The color of the bar when the value is at its minimum; leave transparent to always use the fill color"), Category("Appearance")]
+    [XmlIgnore, DefaultValue(typeof(Color), "0,0,0,0"), Description("The color of the bar when the value is at its minimum; leave transparent to always use the fill color"), Category("Appearance")]
     public Color FillColorLow
     {
         get => ColorFillLow;
@@ -153,7 +153,7 @@ public partial class ProgressBar : Control
     /// <summary>
     /// A custom tint for the area behind the bar; leave transparent to use the default state colors
     /// </summary>
-    [XmlIgnore, DefaultValue(typeof(Color), "0, 0, 0, 0"), Description("A custom tint for the area behind the bar; leave transparent to use the default state colors"), Category("Appearance")]
+    [XmlIgnore, DefaultValue(typeof(Color), "0,0,0,0"), Description("A custom tint for the area behind the bar; leave transparent to use the default state colors"), Category("Appearance")]
     public Color BackgroundColor
     {
         get => ColorBackground;

@@ -47,7 +47,10 @@ internal class AttenuationConverter : ValueTypeConverter<Attenuation>
         if (culture == null) throw new ArgumentNullException(nameof(culture));
         #endregion
 
-        return new(Convert.ToSingle(values[0], culture), Convert.ToSingle(values[1], culture), Convert.ToSingle(values[2], culture));
+        return new(
+            Convert.ToSingle(values[0], culture),
+            Convert.ToSingle(values[1], culture),
+            Convert.ToSingle(values[2], culture));
     }
 
     /// <inheritdoc/>
@@ -57,6 +60,9 @@ internal class AttenuationConverter : ValueTypeConverter<Attenuation>
         if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
         #endregion
 
-        return new((float)propertyValues["Constant"]!, (float)propertyValues["Linear"]!, (float)propertyValues["Quadratic"]!);
+        return new(
+            (float)propertyValues[nameof(Attenuation.Constant)]!,
+            (float)propertyValues[nameof(Attenuation.Linear)]!,
+            (float)propertyValues[nameof(Attenuation.Quadratic)]!);
     }
 }

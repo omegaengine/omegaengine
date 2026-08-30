@@ -47,7 +47,10 @@ internal class DoubleVector3Converter : ValueTypeConverter<DoubleVector3>
         if (culture == null) throw new ArgumentNullException(nameof(culture));
         #endregion
 
-        return new(Convert.ToDouble(values[0], culture), Convert.ToDouble(values[1], culture), Convert.ToDouble(values[2], culture));
+        return new(
+            Convert.ToDouble(values[0], culture),
+            Convert.ToDouble(values[1], culture),
+            Convert.ToDouble(values[2], culture));
     }
 
     /// <inheritdoc/>
@@ -57,6 +60,9 @@ internal class DoubleVector3Converter : ValueTypeConverter<DoubleVector3>
         if (propertyValues == null) throw new ArgumentNullException(nameof(propertyValues));
         #endregion
 
-        return new((double)propertyValues["X"]!, (double)propertyValues["Y"]!, (double)propertyValues["Z"]!);
+        return new(
+            (double)propertyValues[nameof(DoubleVector3.X)]!,
+            (double)propertyValues[nameof(DoubleVector3.Y)]!,
+            (double)propertyValues[nameof(DoubleVector3.Z)]!);
     }
 }

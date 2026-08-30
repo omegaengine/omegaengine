@@ -63,9 +63,9 @@ internal class ColorCorrectionConverter : ValueTypeConverter<ColorCorrection>
         #endregion
 
         return new(
-            brightness: (float)propertyValues["Brightness"]!,
-            contrast: (float)propertyValues["Contrast"]!,
-            saturation: (float)propertyValues["Saturation"]!,
-            hue: (float)propertyValues["Hue"]!);
+            brightness: (float)propertyValues[nameof(ColorCorrection.Brightness)]!,
+            contrast: (float)propertyValues[nameof(ColorCorrection.Contrast)]!,
+            saturation: (float)propertyValues[nameof(ColorCorrection.Saturation)]!,
+            hue: (float)propertyValues[nameof(ColorCorrection.Hue)]!);
     }
 }
