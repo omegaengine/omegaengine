@@ -35,12 +35,16 @@ public record struct XMaterial(Color Diffuse)
     /// <summary>
     /// The diffuse textures maps
     /// </summary>
-    public ImmutableArray<ITextureProvider?> DiffuseMaps = [];
+    public ImmutableArray<ITextureProvider?> DiffuseMaps { get; set; } = [];
 
     /// <summary>
     /// The primary diffuse texture map
     /// </summary>
-    public readonly ITextureProvider? DiffuseMap => DiffuseMaps.IsDefaultOrEmpty ? null : DiffuseMaps[0];
+    public ITextureProvider? DiffuseMap
+    {
+        readonly get => DiffuseMaps.IsDefaultOrEmpty ? null : DiffuseMaps[0];
+        set => DiffuseMaps = DiffuseMaps.IsDefaultOrEmpty ? [value] : [value, .. DiffuseMaps[1..]!];
+    }
 
     /// <summary>
     /// Indicates whether this material uses textures
@@ -148,7 +152,7 @@ public record struct XMaterial(Color Diffuse)
 
     public XMaterial(ITextureProvider? diffuse) : this(Color.White)
     {
-        DiffuseMaps = [diffuse];
+        DiffuseMap = diffuse;
     }
 
     public static implicit operator XMaterial(XTexture texture) => new(texture);

@@ -108,8 +108,10 @@ public class XMesh : Asset
         }
         else
         {
-            BoundingSphere = Mesh.ComputeBoundingSphere();
-            BoundingBox = Mesh.ComputeBoundingBox();
+            // Not using Mesh.ComputeBoundingSphere()/ComputeBoundingBox(), because they derive the vertex stride from the FVF, which is undefined for meshes with a custom vertex declaration
+            var points = Mesh.GetPoints();
+            BoundingSphere = SlimDX.BoundingSphere.FromPoints(points);
+            BoundingBox = SlimDX.BoundingBox.FromPoints(points);
 
             // Heuristic for discarding invalid bounding bodies
             if (BoundingSphere.Value.Radius < 0.01) BoundingSphere = null;
@@ -132,7 +134,7 @@ public class XMesh : Asset
                     string textureFilename = extendedMaterials[i].TextureFileName;
                     if (!string.IsNullOrEmpty(textureFilename))
                     {
-                        material.DiffuseMaps = [ShaderLoadHelper(engine, meshName, textureFilename)];
+                        material.DiffuseMap = ShaderLoadHelper(engine, meshName, textureFilename);
 
                         string baseFilename = Path.Combine(Path.GetDirectoryName(meshName) ?? "", Path.GetFileNameWithoutExtension(textureFilename));
                         string fileExt = Path.GetExtension(textureFilename);
@@ -176,7 +178,7 @@ public class XMesh : Asset
                         foreach (EffectDefault param in parameters)
                         {
                             XTexture extraTexture = ShaderTextureHelper(engine, param, meshName, "diffuseTexture");
-                            if (extraTexture != null) material.DiffuseMaps = [extraTexture];
+                            if (extraTexture != null) material.DiffuseMap = extraTexture;
 
                             extraTexture = ShaderTextureHelper(engine, param, meshName, "normalTexture");
                             if (extraTexture != null)
