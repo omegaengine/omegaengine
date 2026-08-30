@@ -132,7 +132,7 @@ public static class TexturedMeshUtils
         }
 
         bool gotMilkErmTexCoords = false;
-        bool gotValidNormals = true;
+        bool gotValidNormals = false;
         var vertexes = mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
 
         // Check all vertexes
@@ -143,9 +143,11 @@ public static class TexturedMeshUtils
                 vertexes[num].Tv != 0.0f)
                 gotMilkErmTexCoords = true;
 
-            // All normals and tangents must be valid, otherwise generate them below
-            if (vertexes[num].Normal == default)
-                gotValidNormals = false;
+            // A single non-zero value proves the normals were actually filled in (see GenerateTBN)
+            if (vertexes[num].Normal != default)
+                gotValidNormals = true;
+
+            if (gotMilkErmTexCoords && gotValidNormals) break;
         }
 
         // If declaration had normals, but we found no valid normals,
@@ -190,12 +192,25 @@ public static class TexturedMeshUtils
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
         #endregion
 
-        if (!ExpandDeclaration(device, ref mesh, out bool hadNormals, out bool hadTangents)) return;
+        bool expanded = ExpandDeclaration(device, ref mesh, out bool hadNormals, out bool hadTangents);
+
+        // This format can not carry tangents, so there is nothing more we can do here
+        if (CompareDecl(PositionNormalMultiTextured.GetVertexElements(), mesh.GetDeclaration()))
+        {
+            if (!hadNormals)
+            {
+                using (new TimedLogEvent("Computed normals"))
+                    mesh.ComputeNormals();
+                Optimize(mesh);
+            }
+            return;
+        }
+
         var decl = mesh.GetDeclaration();
 
         bool gotMilkErmTexCoords = false;
-        bool gotValidNormals = true;
-        bool gotValidTangents = true;
+        bool gotValidNormals = false;
+        bool gotValidTangents = false;
         var vertexes = mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
 
         // Check all vertexes
@@ -206,15 +221,16 @@ public static class TexturedMeshUtils
                 vertexes[num].Tv != 0.0f)
                 gotMilkErmTexCoords = true;
 
-            // All normals and tangents must be valid, otherwise generate them below
-            if (vertexes[num].Normal == default)
-                gotValidNormals = false;
-            if (vertexes[num].Tangent == default)
-                gotValidTangents = false;
+            // A single non-zero value proves the data was actually filled in. Do not require every vertex to be
+            // non-zero: degenerate faces and vertexes with zero-area texture coordinates legitimately end up at zero,
+            // no matter who computes them, so regenerating would not help.
+            if (vertexes[num].Normal != default)
+                gotValidNormals = true;
+            if (vertexes[num].Tangent != default)
+                gotValidTangents = true;
 
-            // If we found valid texture coordinates and no normals or tangents,
-            // there isn't anything left to check here
-            if (gotMilkErmTexCoords && !gotValidNormals && !gotValidTangents)
+            // Once everything is proven present there isn't anything left to check here
+            if (gotMilkErmTexCoords && gotValidNormals && gotValidTangents)
                 break;
         }
 
@@ -234,8 +250,8 @@ public static class TexturedMeshUtils
                 vertexes[num].Tu = -0.75f + vertexes[num].Position.X / 2.0f;
                 vertexes[num].Tv = +0.75f - vertexes[num].Position.Y / 2.0f;
             }
+            mesh.WriteVertexBuffer(vertexes);
         }
-        mesh.WriteVertexBuffer(vertexes);
 
         if (!hadNormals)
         {
@@ -243,70 +259,71 @@ public static class TexturedMeshUtils
                 mesh.ComputeNormals();
         }
 
-        if (weldVertexes)
+        // Welding is only useful to improve the quality of tangents we generate ourselves
+        if (weldVertexes && !hadTangents)
         {
+            using var _ = new TimedLogEvent("Computed tangents");
+
             // Reduce amount of vertexes
             var weldEpsilons = new WeldEpsilons {Position = 0.0001f, Normal = 0.0001f};
             mesh.WeldVertices(WeldFlags.WeldPartialMatches, weldEpsilons);
 
-            if (!hadTangents)
+            // If the vertexes for a smoothend point exist several times the
+            // DirectX ComputeTangent method is not able to treat them all the
+            // same way.
+            // To circumvent this, we collapse all vertexes in a cloned mesh
+            // even if the texture coordinates don't fit. Then we copy the
+            // generated tangents back to the original mesh vertexes (duplicating
+            // the tangents for vertexes at the same point with the same normals
+            // if required). This happens usually with models exported from 3DSMax.
+
+            // Clone mesh just for tangent generation
+            Mesh dummyTangentGenerationMesh = mesh.Clone(device, mesh.CreationOptions, decl);
+
+            // Reuse weldEpsilons, just change the TextureCoordinates, which we don't care about anymore
+            weldEpsilons.TextureCoordinate1 = 1;
+            weldEpsilons.TextureCoordinate2 = 1;
+            weldEpsilons.TextureCoordinate3 = 1;
+            weldEpsilons.TextureCoordinate4 = 1;
+            weldEpsilons.TextureCoordinate5 = 1;
+            weldEpsilons.TextureCoordinate6 = 1;
+            weldEpsilons.TextureCoordinate7 = 1;
+            weldEpsilons.TextureCoordinate8 = 1;
+            // Rest of the weldEpsilons values can stay 0, we don't use them
+            dummyTangentGenerationMesh.WeldVertices(WeldFlags.WeldPartialMatches, weldEpsilons);
+
+            // Compute tangents
+            dummyTangentGenerationMesh.ComputeTangent(0, 0, 0, false);
+            var tangentVertexes = dummyTangentGenerationMesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
+            dummyTangentGenerationMesh.Dispose();
+
+            // Copy generated tangents back
+            vertexes = mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
+            for (int num = 0; num < vertexes.Length; num++)
             {
-                using var _ = new TimedLogEvent("Computed tangents");
-
-                // If the vertexes for a smoothend point exist several times the
-                // DirectX ComputeTangent method is not able to treat them all the
-                // same way.
-                // To circumvent this, we collapse all vertexes in a cloned mesh
-                // even if the texture coordinates don't fit. Then we copy the
-                // generated tangents back to the original mesh vertexes (duplicating
-                // the tangents for vertexes at the same point with the same normals
-                // if required). This happens usually with models exported from 3DSMax.
-
-                // Clone mesh just for tangent generation
-                Mesh dummyTangentGenerationMesh = mesh.Clone(device, mesh.CreationOptions, decl);
-
-                // Reuse weldEpsilons, just change the TextureCoordinates, which we don't care about anymore
-                weldEpsilons.TextureCoordinate1 = 1;
-                weldEpsilons.TextureCoordinate2 = 1;
-                weldEpsilons.TextureCoordinate3 = 1;
-                weldEpsilons.TextureCoordinate4 = 1;
-                weldEpsilons.TextureCoordinate5 = 1;
-                weldEpsilons.TextureCoordinate6 = 1;
-                weldEpsilons.TextureCoordinate7 = 1;
-                weldEpsilons.TextureCoordinate8 = 1;
-                // Rest of the weldEpsilons values can stay 0, we don't use them
-                dummyTangentGenerationMesh.WeldVertices(WeldFlags.WeldPartialMatches, weldEpsilons);
-
-                // Compute tangents
-                dummyTangentGenerationMesh.ComputeTangent(0, 0, 0, false);
-                var tangentVertexes = dummyTangentGenerationMesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
-                dummyTangentGenerationMesh.Dispose();
-
-                // Copy generated tangents back
-                vertexes = mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
-                for (int num = 0; num < vertexes.Length; num++)
+                // Search for tangent vertex with the exact same position and normal.
+                for (int tangentVertexNum = 0; tangentVertexNum < tangentVertexes.Length; tangentVertexNum++)
                 {
-                    // Search for tangent vertex with the exact same position and normal.
-                    for (int tangentVertexNum = 0; tangentVertexNum < tangentVertexes.Length; tangentVertexNum++)
+                    if (vertexes[num].Position == tangentVertexes[tangentVertexNum].Position && vertexes[num].Normal == tangentVertexes[tangentVertexNum].Normal)
                     {
-                        if (vertexes[num].Position == tangentVertexes[tangentVertexNum].Position && vertexes[num].Normal == tangentVertexes[tangentVertexNum].Normal)
-                        {
-                            // Copy the tangent and binormal over
-                            vertexes[num].Tangent = tangentVertexes[tangentVertexNum].Tangent;
-                            vertexes[num].Binormal = tangentVertexes[tangentVertexNum].Binormal;
-                            // No more checks required, proceed with next vertex
-                            break;
-                        }
+                        // Copy the tangent and binormal over
+                        vertexes[num].Tangent = tangentVertexes[tangentVertexNum].Tangent;
+                        vertexes[num].Binormal = tangentVertexes[tangentVertexNum].Binormal;
+                        // No more checks required, proceed with next vertex
+                        break;
                     }
                 }
-                mesh.WriteVertexBuffer(vertexes);
             }
+            mesh.WriteVertexBuffer(vertexes);
         }
         else if (!hadTangents)
         {
             using (new TimedLogEvent("Computed tangents"))
                 mesh.ComputeTangent(0, 0, 0, false);
         }
+
+        // Assume meshes that already came with complete data have also been optimized for rendering
+        if (!expanded && hadNormals && hadTangents && gotMilkErmTexCoords) return;
 
         Optimize(mesh);
     }

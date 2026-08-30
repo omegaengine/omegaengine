@@ -67,4 +67,61 @@ public class TexturedMeshTest : EngineTestBase
         var vertexes = mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
         vertexes.Should().Contain(v => v.Tangent != default);
     }
+
+    [Fact]
+    public void GetPointsHandlesMeshesWithCustomVertexDeclaration()
+    {
+        using var mesh = TexturedMesh.Box(Engine.Device, new(2, 2, 2), tbn: true);
+
+        // A mesh carrying tangents has no equivalent FVF, so deriving the stride from the vertex format yields garbage
+        var points = mesh.GetPoints();
+
+        points.Should().HaveCount(mesh.VertexCount);
+        SlimDX.BoundingBox.FromPoints(points).Diagonal().Length()
+              .Should().BeApproximately(new SlimDX.Vector3(2, 2, 2).Length(), 0.001f);
+    }
+
+    [Fact]
+    public void GeneratingTbnKeepsExistingTangents()
+    {
+        var mesh = TexturedMesh.Box(Engine.Device, new(2, 2, 2), tbn: true);
+        try
+        {
+            var before = mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
+
+            TexturedMeshUtils.GenerateTBN(Engine.Device, ref mesh, weldVertexes: true);
+
+            mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>()
+                .Should().Equal(before);
+        }
+        finally
+        {
+            mesh.Dispose();
+        }
+    }
+
+    [Fact]
+    public void GeneratingTbnReplacesZeroedTangents()
+    {
+        var mesh = TexturedMesh.Box(Engine.Device, new(2, 2, 2), tbn: true);
+        try
+        {
+            var vertexes = mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
+            for (int i = 0; i < vertexes.Length; i++)
+            {
+                vertexes[i].Tangent = default;
+                vertexes[i].Binormal = default;
+            }
+            mesh.WriteVertexBuffer(vertexes);
+
+            TexturedMeshUtils.GenerateTBN(Engine.Device, ref mesh);
+
+            mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>()
+                .Should().Contain(v => v.Tangent != default);
+        }
+        finally
+        {
+            mesh.Dispose();
+        }
+    }
 }
