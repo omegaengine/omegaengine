@@ -26,7 +26,7 @@ public class VertexGroup : PositionableRenderable
     private readonly int _vertexCount;
 
     private IndexBuffer? _ib;
-    private readonly XMaterial _material = XMaterial.Default;
+    private readonly XMaterial _material;
     private readonly PrimitiveType _primitiveType;
     private int _primitiveCount;
     #endregion
