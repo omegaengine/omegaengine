@@ -347,6 +347,7 @@ public partial class RenderHost : IRenderHost, IDisposable
         // Import .NET constructors
         ImportConstructor(typeof(Point));
         ImportConstructor(typeof(Size));
+        ImportConstructor(typeof(TimeSpan));
         ImportConstructor(typeof(Rectangle));
         ImportConstructor(typeof(Color3));
         ImportConstructor(typeof(Color4));
