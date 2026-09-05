@@ -331,7 +331,7 @@ public partial class View : EngineElement, IFrameResettable, IViewpoint
     /// <param name="location">The screen space location to start the ray from (usually mouse coordinates)</param>
     /// <returns>The picked <see cref="PositionableRenderable"/> or <c>null</c>.</returns>
     public PositionableRenderable? Pick(Point location)
-        => GetClosestBody(PickingRay(location));
+        => GetClosestBody(PickingRay(location), out _);
 
     /// <summary>
     /// Pick an <see cref="PositionableRenderable"/> in 3D-space using the mouse
@@ -343,20 +343,22 @@ public partial class View : EngineElement, IFrameResettable, IViewpoint
     {
         var pickingRay = PickingRay(location);
 
-        if (GetClosestBody(pickingRay) is {} body)
+        // Reuse the distance from the search instead of intersecting the winner a second time
+        if (GetClosestBody(pickingRay, out float distance) is {} body)
         {
-            if (body.Intersects(pickingRay, out position))
-                return body;
+            // Calculate position along the ray and compensate for floating origin
+            position = (pickingRay.Position + distance * pickingRay.Direction) + body.GetFloatingOrigin();
+            return body;
         }
 
         position = default;
         return null;
     }
 
-    private PositionableRenderable? GetClosestBody(Ray pickingRay)
+    private PositionableRenderable? GetClosestBody(Ray pickingRay, out float closestDistance)
     {
         PositionableRenderable? closestBody = null;
-        float closestDistance = float.PositiveInfinity;
+        closestDistance = float.PositiveInfinity;
 
         foreach (PositionableRenderable body in _sortedBodies)
         {

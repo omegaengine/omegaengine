@@ -12,7 +12,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using NLua;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;
@@ -44,20 +43,22 @@ partial class Engine
     public event Action? PostRender;
 
     /// <summary>
-    /// Occurs after the <see cref="Device"/> was lost. This usually happens when switching to or from fullscreen mode.
+    /// Occurs before the <see cref="Device"/> is reset. Subscribers must release all size-dependent resources.
     /// </summary>
-    [Description("Occurs after the DirectX Device was lost. This usually happens when switching to or from fullscreen mode.")]
+    /// <remarks>This usually happens when resizing the window or switching to or from fullscreen mode.</remarks>
+    [Description("Occurs before the DirectX Device is reset. Subscribers must release all size-dependent resources.")]
     public event Action? DeviceLost;
 
     /// <summary>
-    /// Occurs after the <see cref="Device"/> was reset. This needs to be done to continue using it after <see cref="DeviceLost"/>.
+    /// Occurs after the <see cref="Device"/> was reset. Subscribers must recreate everything released on <see cref="DeviceLost"/>.
     /// </summary>
-    [Description("Occurs after the DirectX Device was reset. This needs to be done to continue using it after DeviceLost.")]
+    [Description("Occurs after the DirectX Device was reset. Subscribers must recreate everything released on DeviceLost.")]
     public event Action? DeviceReset;
     #endregion
 
     #region Variables
-    private bool _firstFrameDone, _isResetting;
+    private bool _firstFrameDone, _isResetting, _deviceResourcesReleased;
+    private DeviceState _lastDeviceState = DeviceState.Ok;
     internal readonly Mesh SimpleSphere;
     internal readonly Mesh SimpleBox;
     #endregion
@@ -88,7 +89,7 @@ partial class Engine
     /// The Direct3D device. Use <see cref="State"/> instead of manipulating this directly when possible.
     /// </summary>
     [LuaHide]
-    public Device Device { get; private set; }
+    public DeviceEx Device { get; private set; }
 
     /// <summary>
     /// The engine will be reset on the next <see cref="Render()" /> call
@@ -104,18 +105,21 @@ partial class Engine
     /// Generates a set of <see cref="SlimDX.Direct3D9.PresentParameters"/> for the engine
     /// </summary>
     /// <param name="config">The <see cref="Config"/> with settings to initialize the engine</param>
+    /// <param name="fullscreenDisplayMode">The display mode to use for exclusive fullscreen; <c>null</c> for windowed mode.</param>
     /// <returns>The generated set of <see cref="SlimDX.Direct3D9.PresentParameters"/>.</returns>
-    private static PresentParameters BuildPresentParams(EngineConfig config)
+    private static PresentParameters BuildPresentParams(EngineConfig config, DisplayModeEx? fullscreenDisplayMode)
     {
+        // Deriving the back buffer from the display mode keeps the two from ever contradicting each other
         var presentParams = new PresentParameters
         {
-            Windowed = (!config.Fullscreen),
+            Windowed = (fullscreenDisplayMode == null),
             SwapEffect = SwapEffect.Discard,
             PresentationInterval = (config.VSync ? PresentInterval.One : PresentInterval.Immediate),
             Multisample = (MultisampleType)config.AntiAliasing,
-            BackBufferWidth = config.TargetSize.Width,
-            BackBufferHeight = config.TargetSize.Height,
-            BackBufferFormat = Format.X8R8G8B8, // Format.R5G6B5 for 16bit
+            BackBufferWidth = fullscreenDisplayMode?.Width ?? config.TargetSize.Width,
+            BackBufferHeight = fullscreenDisplayMode?.Height ?? config.TargetSize.Height,
+            BackBufferFormat = fullscreenDisplayMode?.Format ?? Format.X8R8G8B8, // Format.R5G6B5 for 16bit
+            FullScreenRefreshRateInHertz = fullscreenDisplayMode?.RefreshRate ?? 0,
             EnableAutoDepthStencil = true
         };
 
@@ -135,6 +139,11 @@ partial class Engine
     /// The <see cref="PresentParameters"/> auto-generated from <see cref="Config"/>
     /// </summary>
     internal PresentParameters PresentParams { get; private set; }
+
+    /// <summary>
+    /// The fullscreen display mode matching <see cref="PresentParams"/>; <c>null</c> in windowed mode.
+    /// </summary>
+    private DisplayModeEx? FullscreenDisplayMode { get; set; }
 
     /// <summary>
     /// The BackBuffer the D3D Device renders onto
@@ -260,12 +269,40 @@ partial class Engine
         // Lock mouse cursor inside window to prevent glitches with multi-monitor systems
         if (_config.Fullscreen) WinForms.Cursor.Clip = new(new(), RenderSize);
 
-        // Detect and handle lost device (Note: Reset can also be triggered from elsewhere)
-        if (Device.TestCooperativeLevel() != ResultCode.Success)
+        // Detect and handle device state changes (Note: Reset can also be triggered from elsewhere)
+        var deviceState = Device.CheckDeviceState(Target.Handle);
+        if (deviceState != _lastDeviceState)
         {
-            Log.Info("D3D Device lost");
-            NeedsReset = true;
+            if (deviceState != DeviceState.Ok) Log.Info($"D3D device state: {deviceState}");
+            _lastDeviceState = deviceState;
         }
+
+        switch (deviceState)
+        {
+            case DeviceState.Ok:
+                break;
+
+            case DeviceState.PresentModeChanged:
+                // The desktop display mode or the composition state changed, so the swap chain must be rebuilt
+                NeedsReset = true;
+                break;
+
+            case DeviceState.DeviceLost:
+                // Another application holds the exclusive fullscreen device. Resetting would fail right now,
+                // so just remember that a reset is due and skip frames until we get the device back.
+                NeedsReset = true;
+                WinForms.Cursor.Clip = new();
+                return;
+
+            case DeviceState.PresentOccluded:
+                // The window is minimized or completely covered. Nothing to reset, nothing worth drawing.
+                WinForms.Cursor.Clip = new();
+                return;
+
+            default: // DeviceRemoved, DeviceHung, OutOfVideoMemory
+                throw new Direct3D9Exception($"The Direct3D device is in an unrecoverable state ({deviceState}) and would have to be re-created.");
+        }
+
         if (NeedsReset) Reset();
         #endregion
 
@@ -404,29 +441,37 @@ partial class Engine
         // Set flag to prevent infinite loop of resets
         _isResetting = true;
 
-        #region Cleanup
-        Log.Info("Clearing Direct3D resources");
-        BackBuffer.Dispose();
-        DeviceLost?.Invoke();
-        #endregion
-
-        #region Wait
-        // Wait in case the device isn't ready to be reset
-        while (IsDeviceLost())
+        try
         {
-            Thread.Sleep(100);
-            WinForms.Application.DoEvents();
-        }
+            #region Cleanup
+            // Guarded, so a retried reset does not release the same resources twice
+            if (!_deviceResourcesReleased)
+            {
+                Log.Info("Clearing Direct3D resources");
+                BackBuffer.Dispose();
+                DeviceLost?.Invoke();
+                _deviceResourcesReleased = true;
+            }
+            #endregion
 
-        // Catch internal driver errors
-        var result = Device.TestCooperativeLevel();
-        if (result != ResultCode.DeviceNotReset && result != ResultCode.Success) throw new Direct3D9Exception(result);
+            #region Reset
+            Log.Info("Resetting Direct3D device");
+            Log.Info($"Presentation parameters:\n{PresentParams}");
+            if (FullscreenDisplayMode is {} displayMode) Device.ResetEx(displayMode, PresentParams);
+            else Device.ResetEx(PresentParams);
+            #endregion
+        }
+        #region Error handling
+        catch (Direct3D9Exception ex) when (ex.ResultCode == ResultCode.DeviceLost)
+        {
+            // Another application grabbed the device; retry on a later frame
+            Log.Info($"Direct3D device not ready to be reset yet: {ex.Message}");
+            _isResetting = false;
+            return;
+        }
         #endregion
 
-        #region Reset
-        Log.Info("Resetting Direct3D device");
-        Log.Info($"Presentation parameters:\n{PresentParams}");
-        Device.Reset(PresentParams);
+        _deviceResourcesReleased = false;
 
         // Setup the default values for the Direct3D device and restore resources
         SetupTextureFiltering();
@@ -436,24 +481,8 @@ partial class Engine
 
         State.Reset();
         Performance.Reset();
-        #endregion
 
         _isResetting = NeedsReset = false;
-
-        bool IsDeviceLost()
-        {
-            try
-            {
-                return Device.TestCooperativeLevel() == ResultCode.DeviceLost;
-            }
-            #region Error handling
-            catch (NullReferenceException)
-            {
-                // Workaround for SlimDX bug
-                return true;
-            }
-            #endregion
-        }
     }
     #endregion
 }

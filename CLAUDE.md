@@ -7,7 +7,8 @@ This repository also bundles **Frame of Reference** (`src/FrameOfReference`), th
 ## Tech stack
 
 - C# 13 on **.NET Framework 4.7.2**, `x86` only. `EnableWindowsTargeting` is on so it builds from non-Windows hosts too. The graphics-agnostic parts (`OmegaEngine.Foundation`, the `World` layers) multi-target .NET Framework 4.7.2 and .NET 10.
-- DirectX 9 via SlimDX.
+- Direct3D 9Ex (`Direct3DEx`/`DeviceEx`) via SlimDX.
+  - Note the D3D9Ex rules: `Pool.Managed` is rejected, so all resources live in `Pool.Default` (see `BufferUtils.DefaultPool`/`ToDefaultPool()`).
 
 ## Layered architecture
 

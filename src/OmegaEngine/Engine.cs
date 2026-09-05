@@ -31,7 +31,7 @@ namespace OmegaEngine;
 public sealed partial class Engine : EngineElement
 {
     #region Variables
-    private readonly Direct3D _direct3D;
+    private readonly Direct3DEx _direct3D;
 
     /// <summary>
     /// A list of possible <see cref="View"/>s usable for rendering <see cref="Water"/>
@@ -75,7 +75,8 @@ public sealed partial class Engine : EngineElement
                     Log.Info("Engine.Config modified");
                     NeedsReset = true;
                 }
-                PresentParams = BuildPresentParams(_config);
+                FullscreenDisplayMode = _config.Fullscreen ? Capabilities.GetFullscreenDisplayMode(_config.TargetSize) : null;
+                PresentParams = BuildPresentParams(_config, FullscreenDisplayMode);
             });
     }
 
@@ -134,13 +135,16 @@ public sealed partial class Engine : EngineElement
         RegisterChild(_views);
 
         Target = target;
-        Config = config;
         ShaderDir = Path.Combine(Locations.InstallBase, "Shaders");
 
         try
         {
             _direct3D = new();
             Capabilities = new(_direct3D, config);
+
+            // Must happen after Capabilities, because building the presentation parameters enumerates display modes
+            Config = config;
+
             Effects = new(Capabilities)
             {
                 PerPixelLighting = true,
@@ -151,7 +155,9 @@ public sealed partial class Engine : EngineElement
                 WaterEffects = WaterEffectsType.ReflectAll
             };
 
-            Device = new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, Capabilities.GetCreateFlags(), PresentParams);
+            Device = FullscreenDisplayMode is {} displayMode
+                ? new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, Capabilities.GetCreateFlags(), PresentParams, displayMode)
+                : new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, Capabilities.GetCreateFlags(), PresentParams);
 
             RenderViewport = Device.Viewport;
             BackBuffer = Device.GetBackBuffer(0, 0);

@@ -32,12 +32,18 @@ public class XMesh : Asset
     /// </summary>
     public ImmutableArray<XMaterial> Materials { get; }
 
-    private readonly Mesh _mesh;
+    private Mesh _mesh;
+    private Mesh? _pickingMesh;
 
     /// <summary>
-    /// The mesh in DirectX format
+    /// The mesh in DirectX format, ready for rendering. Lives in <see cref="Pool.Default"/> and cannot be read by the CPU.
     /// </summary>
     public Mesh Mesh => _mesh;
+
+    /// <summary>
+    /// The system memory copy of <see cref="Mesh"/> used for intersection tests.
+    /// </summary>
+    public Mesh PickingMesh => _pickingMesh ?? _mesh;
 
     /// <summary>
     /// A bounding sphere surrounding this mesh
@@ -74,19 +80,10 @@ public class XMesh : Asset
         if (stream == null) throw new ArgumentNullException(nameof(stream));
         #endregion
 
-        // Load mesh and materials
+        // Load mesh and materials into system memory; the result is published to Pool.Default at the end
         try
         {
-            try
-            {
-                _mesh = Mesh.FromStream(engine.Device, stream, MeshFlags.Managed);
-            }
-            catch (Direct3D9Exception ex) when (stream.CanSeek)
-            {
-                Log.Warn("Mesh.FromStream with MeshFlags.Managed failed; retrying with MeshFlags.SystemMemory", ex);
-                stream.Position = 0;
-                _mesh = Mesh.FromStream(engine.Device, stream, MeshFlags.SystemMemory);
-            }
+            _mesh = Mesh.FromStream(engine.Device, stream, MeshFlags.SystemMemory);
         }
         #region Error handling
         catch (Direct3D9Exception ex)
@@ -210,6 +207,11 @@ public class XMesh : Asset
                 else
                     TexturedMeshUtils.GenerateNormals(engine.Device, ref _mesh);
             }
+
+            // The mesh is final now, so publish a write-only copy for rendering and keep this one for intersection tests
+            Mesh renderMesh = _mesh.ToDefaultPool();
+            _pickingMesh = _mesh;
+            _mesh = renderMesh;
         }
         #region Error handling
         catch (Exception)
@@ -333,7 +335,8 @@ public class XMesh : Asset
             if (disposing)
             { // This block will only be executed on manual disposal, not by Garbage Collection
                 Log.Info($"Disposing {this}");
-                Mesh.Dispose();
+                _mesh.Dispose();
+                _pickingMesh?.Dispose();
             }
         }
         finally

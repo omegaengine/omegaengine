@@ -57,7 +57,7 @@ partial class Model
 
         var mesh = material.IsTextured
             ? TexturedMesh.Box(engine.Device, size, material.NeedsTBN)
-            : Mesh.CreateBox(engine.Device, size.X, size.Y, size.Z);
+            : CreateInSystemMemory(() => Mesh.CreateBox(engine.Device, size.X, size.Y, size.Z));
 
         return new(mesh, material)
         {
@@ -84,7 +84,7 @@ partial class Model
 
         var mesh = material.IsTextured
             ? TexturedMesh.Sphere(engine.Device, radius, slices, stacks, material.NeedsTBN)
-            : Mesh.CreateSphere(engine.Device, radius, slices, stacks);
+            : CreateInSystemMemory(() => Mesh.CreateSphere(engine.Device, radius, slices, stacks));
 
         return new(mesh, material)
         {
@@ -112,7 +112,7 @@ partial class Model
 
         var mesh = material.IsTextured
             ? TexturedMesh.Cylinder(engine.Device, radiusBottom, radiusTop, length, slices, stacks, material.NeedsTBN)
-            : Mesh.CreateCylinder(engine.Device, radiusBottom, radiusTop, length, slices, stacks);
+            : CreateInSystemMemory(() => Mesh.CreateCylinder(engine.Device, radiusBottom, radiusTop, length, slices, stacks));
 
         float radiusMax = Math.Max(radiusBottom, radiusTop);
         return new(mesh, material)
@@ -202,6 +202,12 @@ partial class Model
         return Disc(engine, material, radiusInner, radiusOuter, height,
             // Auto-determine the number of segments for the disc
             (int)(radiusMean * radiusMean).Clamp(8, 1024));
+    }
+
+    private static Mesh CreateInSystemMemory(Func<Mesh> create)
+    {
+        using var mesh = create();
+        return mesh.ToSystemMemory();
     }
 
     private static BoundingSphere CenteredBoundingSphere(float radius)

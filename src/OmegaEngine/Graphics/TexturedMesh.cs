@@ -27,7 +27,7 @@ public static class TexturedMesh
             throw new ArgumentException("The mesh already contains texture coordinates.", nameof(mesh));
 
         // Clones the mesh, disposes the old one and then swaps them
-        Mesh newMesh = mesh.Clone(mesh.Device, mesh.CreationOptions, mesh.VertexFormat | VertexFormat.Texture1);
+        Mesh newMesh = mesh.Clone(mesh.Device, mesh.CreationOptions.ToSystemMemory(), mesh.VertexFormat | VertexFormat.Texture1);
         mesh.Dispose();
         mesh = newMesh;
     }
@@ -164,7 +164,7 @@ public static class TexturedMesh
         ];
         short[] indexes = [0, 1, 3, 3, 2, 0];
 
-        var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
+        var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.SystemMemory, PositionTextured.Format);
         try
         {
             mesh.WriteVertexBuffer(vertexes);
@@ -277,7 +277,7 @@ public static class TexturedMesh
             }
         }
 
-        var mesh = new Mesh(device, numFaces, numVertexes, MeshFlags.Managed, PositionNormalTextured.Format);
+        var mesh = new Mesh(device, numFaces, numVertexes, MeshFlags.SystemMemory, PositionNormalTextured.Format);
         try
         {
             mesh.WriteVertexBuffer(vertexes);
@@ -438,7 +438,7 @@ public static class TexturedMesh
             attributes[triangleCount++] = subsetId;
         }
 
-        var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionTextured.Format);
+        var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.SystemMemory, PositionTextured.Format);
         try
         {
             mesh.WriteVertexBuffer(vertexes);

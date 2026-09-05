@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Management;
@@ -20,7 +21,7 @@ namespace OmegaEngine;
 public sealed class EngineCapabilities
 {
     #region Dependencies
-    private readonly Direct3D _direct3D;
+    private readonly Direct3DEx _direct3D;
     private readonly Capabilities _capabilities;
     private readonly EngineConfig _engineConfig;
 
@@ -29,7 +30,7 @@ public sealed class EngineCapabilities
     /// </summary>
     /// <param name="direct3D">Provides access to the Direct3D subsystem.</param>
     /// <param name="config">The settings used to initialize the <see cref="Engine"/>.</param>
-    internal EngineCapabilities(Direct3D direct3D, EngineConfig config)
+    internal EngineCapabilities(Direct3DEx direct3D, EngineConfig config)
     {
         _direct3D = direct3D ?? throw new ArgumentNullException(nameof(direct3D));
         _capabilities = _direct3D.GetDeviceCaps(0, DeviceType.Hardware);
@@ -210,7 +211,7 @@ public sealed class EngineCapabilities
     /// <returns><c>true</c> if the level is supported</returns>
     public static bool CheckResolution(int adapter, int width, int height)
     {
-        using var manager = new Direct3D();
+        using var manager = new Direct3DEx();
         return manager.Adapters[adapter].GetDisplayModes(Format.X8R8G8B8).Any(mode => mode.Width == width && mode.Height == height);
     }
 
@@ -228,9 +229,35 @@ public sealed class EngineCapabilities
     /// </summary>
     internal static bool TestDepthStencil(int adapter, Format depthFormat)
     {
-        using var manager = new Direct3D();
+        using var manager = new Direct3DEx();
         return manager.CheckDeviceFormat(adapter, DeviceType.Hardware, Format.X8R8G8B8,
             Usage.DepthStencil, ResourceType.Surface, depthFormat);
+    }
+
+    /// <summary>
+    /// Selects a fullscreen display mode matching a requested resolution.
+    /// </summary>
+    /// <param name="size">The requested resolution.</param>
+    /// <returns>The best matching display mode; the current desktop mode if no match was found.</returns>
+    internal DisplayModeEx GetFullscreenDisplayMode(Size size)
+    {
+        var current = _direct3D.GetAdapterDisplayModeEx(_engineConfig.Adapter);
+
+        var candidates = _direct3D.AdaptersEx[_engineConfig.Adapter]
+                                  .GetDisplayModes(new() {Format = Format.X8R8G8B8, ScanlineOrdering = ScanlineOrdering.Progressive})
+                                  .Where(mode => mode.Width == size.Width && mode.Height == size.Height)
+                                  .ToList();
+
+        if (candidates.Count == 0)
+        {
+            Log.Warn($"No {size.Width}x{size.Height} fullscreen display mode found; falling back to the current desktop mode {current.Width}x{current.Height}@{current.RefreshRate}Hz");
+            return current;
+        }
+
+        return candidates
+              .OrderByDescending(mode => mode.RefreshRate == current.RefreshRate) // Prefer the desktop's refresh rate to avoid a mode switch
+              .ThenByDescending(mode => mode.RefreshRate)
+              .First();
     }
     #endregion
 
@@ -243,7 +270,7 @@ public sealed class EngineCapabilities
     /// <returns><c>true</c> if the level is supported</returns>
     public static bool CheckAA(int adapter, int sample)
     {
-        using var manager = new Direct3D();
+        using var manager = new Direct3DEx();
         return (manager.CheckDeviceMultisampleType(adapter, DeviceType.Hardware,
             manager.Adapters[adapter].CurrentDisplayMode.Format, true, (MultisampleType)sample));
     }

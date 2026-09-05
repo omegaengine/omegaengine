@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -31,6 +32,9 @@ public partial class Terrain : Model
 
     private readonly int[] _indexBuffer;
     private readonly Vector3[] _vertexBuffer;
+
+    /// <summary>The indexes of the faces belonging to each subset (block), used to narrow down intersection tests.</summary>
+    private readonly int[][] _subsetFaces;
     #endregion
 
     #region Properties
@@ -67,40 +71,72 @@ public partial class Terrain : Model
     /// <summary>
     /// Internal helper constructor
     /// </summary>
-    /// <param name="mesh">The mesh use for rendering</param>
+    /// <param name="sourceMesh">The finished terrain mesh in <see cref="Pool.SystemMemory"/>. Disposed once its content has been copied and published.</param>
     /// <param name="material">The material to use for rendering the terrain</param>
     /// <param name="lighting">Use/support lighting when rendering this terrain?</param>
-    protected Terrain(Mesh mesh, XMaterial material, bool lighting) : base(mesh, material)
+    /// <remarks>
+    /// Unlike other <see cref="Model"/>s the terrain keeps no system memory copy of its mesh; it is by far the largest mesh in a scene.
+    /// It is published without <see cref="MeshFlags.WriteOnly"/> instead, so <see cref="ModifyColor"/> and <see cref="ModifyHeight"/> keep working.
+    /// </remarks>
+    protected Terrain(Mesh sourceMesh, XMaterial material, bool lighting)
+        : base((sourceMesh ?? throw new ArgumentNullException(nameof(sourceMesh))).ToDefaultPool(writeOnly: false), pickingMesh: null, [material])
     {
-        #region Sanity checks
-        if (mesh == null) throw new ArgumentNullException(nameof(mesh));
-        #endregion
-
         Lighting = lighting;
 
         #region Copy index and vertex buffer content
-        // Copy buffers to RAM for fast position lookups
+        // Copy buffers to RAM for fast position lookups and intersection tests
         using (new TimedLogEvent("Copy index and vertex buffer content"))
         {
-            _indexBuffer = mesh.ReadIndexBuffer();
+            _indexBuffer = sourceMesh.ReadIndexBuffer();
 
             // Get the vertex positions from the VertexBuffer
             if (lighting) // Different vertex formats
             {
-                var verts = mesh.ReadVertexBuffer<PositionNormalMultiTextured>();
+                var verts = sourceMesh.ReadVertexBuffer<PositionNormalMultiTextured>();
                 _vertexBuffer = new Vector3[verts.Length];
                 for (int i = 0; i < verts.Length; i++)
                     _vertexBuffer[i] = verts[i].Position;
             }
             else
             {
-                var verts = mesh.ReadVertexBuffer<PositionMultiTextured>();
+                var verts = sourceMesh.ReadVertexBuffer<PositionMultiTextured>();
                 _vertexBuffer = new Vector3[verts.Length];
                 for (int i = 0; i < verts.Length; i++)
                     _vertexBuffer[i] = verts[i].Position;
             }
+
+            _subsetFaces = GroupFacesBySubset(sourceMesh.ReadAttributeBuffer());
         }
         #endregion
+
+        sourceMesh.Dispose();
+    }
+
+    /// <summary>
+    /// Groups face indexes by the subset (block) they belong to, so <see cref="Intersects(Ray,out float)"/> can skip whole blocks.
+    /// </summary>
+    /// <param name="attributes">The subset each face belongs to, indexed by face.</param>
+    private static int[][] GroupFacesBySubset(int[] attributes)
+    {
+        int subsetCount = 0;
+        foreach (int subset in attributes)
+            if (subset >= subsetCount) subsetCount = subset + 1;
+
+        var faceCounts = new int[subsetCount];
+        foreach (int subset in attributes) faceCounts[subset]++;
+
+        var subsetFaces = new int[subsetCount][];
+        for (int subset = 0; subset < subsetCount; subset++)
+            subsetFaces[subset] = new int[faceCounts[subset]];
+
+        var nextIndexes = new int[subsetCount];
+        for (int face = 0; face < attributes.Length; face++)
+        {
+            int subset = attributes[face];
+            subsetFaces[subset][nextIndexes[subset]++] = face;
+        }
+
+        return subsetFaces;
     }
     #endregion
 
@@ -223,7 +259,12 @@ public partial class Terrain : Model
 
             // Check if vertex is within the target area
             if (modifyArea.Contains(index))
+            {
                 verts[i].Position.Y = partialHeightMap[index.X - start.X, index.Y - start.Y] * StretchV;
+
+                // Keep the RAM copy used for picking in sync
+                _vertexBuffer[i] = verts[i].Position;
+            }
         }
 
         Mesh.WriteVertexBuffer(verts);
@@ -291,6 +332,59 @@ public partial class Terrain : Model
     {
         // Since the terrain is usually very big, assume its bounding body is everywhere
         return true;
+    }
+
+    /// <inheritdoc/>
+    public override bool Intersects(Ray ray, out float distance)
+    {
+        // Transform the world space picking ray into entity space
+        ray = new(
+            Vector3.TransformCoordinate(ray.Position, InverseWorldTransform),
+            // Do not normalize so that ray length remains the same
+            Vector3.TransformNormal(ray.Direction, InverseWorldTransform));
+
+        distance = float.PositiveInfinity;
+
+        if (SubsetBoundingBoxes is not {} boundingBoxes)
+        { // ModifyHeight() invalidated the per-block bounding boxes, so every face has to be tested
+            for (int face = 0; face < _indexBuffer.Length / 3; face++)
+                IntersectsFace(ray, face, ref distance);
+            return !float.IsPositiveInfinity(distance);
+        }
+
+        #region Collect the blocks the ray passes through, nearest first
+        var blocks = new List<(float Entry, int Subset)>();
+        for (int subset = 0; subset < Math.Min(boundingBoxes.Length, _subsetFaces.Length); subset++)
+        {
+            if (SlimDX.BoundingBox.Intersects(boundingBoxes[subset], ray, out float entry))
+                blocks.Add((entry, subset));
+        }
+        blocks.Sort((first, second) => first.Entry.CompareTo(second.Entry));
+        #endregion
+
+        foreach ((float entry, int subset) in blocks)
+        {
+            // Blocks are ordered by distance, so no later block can hold anything closer than what was already found
+            if (entry > distance) break;
+
+            foreach (int face in _subsetFaces[subset])
+                IntersectsFace(ray, face, ref distance);
+        }
+
+        return !float.IsPositiveInfinity(distance);
+    }
+
+    /// <summary>
+    /// Intersects a single face, keeping <paramref name="distance"/> at the closest hit found so far.
+    /// </summary>
+    private void IntersectsFace(Ray ray, int faceIndex, ref float distance)
+    {
+        if (Ray.Intersects(ray,
+                _vertexBuffer[_indexBuffer[faceIndex * 3]],
+                _vertexBuffer[_indexBuffer[faceIndex * 3 + 1]],
+                _vertexBuffer[_indexBuffer[faceIndex * 3 + 2]],
+                out float faceDistance)
+         && faceDistance < distance) distance = faceDistance;
     }
 
     protected virtual Vector3 GetFacePosition(int faceIndex, float u, float v)

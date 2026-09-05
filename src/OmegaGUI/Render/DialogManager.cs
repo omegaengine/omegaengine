@@ -187,14 +187,14 @@ public sealed class DialogManager : IDisposable
             try
             {
                 tn.Texture = Texture.FromStream(Engine.Device, stream, D3DX.Default, D3DX.Default, D3DX.Default, Usage.None,
-                    Format.Unknown, Pool.Managed, Filter.Default, Filter.Default, 0);
+                    Format.Unknown, Pool.Default, Filter.Default, Filter.Default, 0);
             }
             catch (Direct3D9Exception) when (stream.CanSeek)
             {
                 Log.Warn("Texture.FromStream with D3DX defaults failed; retrying without mip-map generation");
                 stream.Position = 0;
                 tn.Texture = Texture.FromStream(Engine.Device, stream, D3DX.Default, D3DX.Default, 1, Usage.None,
-                    Format.Unknown, Pool.Managed, Filter.None, Filter.None, 0);
+                    Format.Unknown, Pool.Default, Filter.None, Filter.None, 0);
             }
         }
 
