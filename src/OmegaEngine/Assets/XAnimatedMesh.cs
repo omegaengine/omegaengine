@@ -48,7 +48,7 @@ public class XAnimatedMesh : XMesh
         {
             // Load frame hierarchy
             // ToDo: Parse Mesh file
-            //MeshFrame = Mesh.LoadHierarchy(stream, MeshFlags.Managed, engine.Device, new AnimationAllocation(), null);
+            //MeshFrame = Mesh.LoadHierarchy(stream, BufferUtils.DefaultPool, engine.Device, new AnimationAllocation(), null);
 
             // Replace bounding bodies from static mesh with data considering the animation hierarchy
             // ToDo: Calculate bounding sphere

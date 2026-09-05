@@ -21,6 +21,47 @@ namespace OmegaEngine.Graphics;
 public static class BufferUtils
 {
     /// <summary>
+    /// Replaces the pool flags in mesh creation options with <see cref="Pool.SystemMemory"/>.
+    /// </summary>
+    public static MeshFlags ToSystemMemory(this MeshFlags options)
+        => (options & ~(MeshFlags.Managed | MeshFlags.Dynamic | MeshFlags.WriteOnly)) | MeshFlags.SystemMemory;
+
+    /// <summary>
+    /// Strips pool and write-only flags from mesh creation options, so a clone ends up in the lockable <see cref="Pool.Default"/> pool.
+    /// </summary>
+    /// <remarks>All other flags, most importantly <see cref="MeshFlags.Use32Bit"/>, are preserved.</remarks>
+    public static MeshFlags ToDefaultPool(this MeshFlags options)
+        => options & ~(MeshFlags.Managed | MeshFlags.SystemMemory | MeshFlags.Dynamic | MeshFlags.WriteOnly);
+
+    /// <summary>
+    /// Creates a copy of a <see cref="Mesh"/> in system memory, where the CPU can read and modify it at full speed.
+    /// </summary>
+    public static Mesh ToSystemMemory(this Mesh mesh)
+    {
+        #region Sanity checks
+        if (mesh == null) throw new ArgumentNullException(nameof(mesh));
+        #endregion
+
+        return mesh.Clone(mesh.Device, mesh.CreationOptions.ToSystemMemory(), mesh.GetDeclaration());
+    }
+
+    /// <summary>
+    /// Creates a copy of a <see cref="Mesh"/> in <see cref="Pool.Default"/>, ready for rendering.
+    /// </summary>
+    /// <param name="mesh">The finished system memory mesh to publish.</param>
+    /// <param name="writeOnly">Add <see cref="MeshFlags.WriteOnly"/> for the fastest possible rendering. Prevents any CPU read-back.</param>
+    public static Mesh ToDefaultPool(this Mesh mesh, bool writeOnly = true)
+    {
+        #region Sanity checks
+        if (mesh == null) throw new ArgumentNullException(nameof(mesh));
+        #endregion
+
+        var options = mesh.CreationOptions.ToDefaultPool();
+        if (writeOnly) options |= MeshFlags.WriteOnly;
+        return mesh.Clone(mesh.Device, options, mesh.GetDeclaration());
+    }
+
+    /// <summary>
     /// Creates a <see cref="VertexBuffer"/> and fills it with data.
     /// </summary>
     /// <typeparam name="T">The vertex format used in the buffer.</typeparam>
@@ -35,7 +76,7 @@ public static class BufferUtils
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        var buffer = new VertexBuffer(device, Marshal.SizeOf(typeof(T)) * data.Length, Usage.WriteOnly, format, Pool.Managed);
+        var buffer = new VertexBuffer(device, Marshal.SizeOf(typeof(T)) * data.Length, Usage.None, format, Pool.Default);
         try
         {
             buffer.Write(data);
@@ -138,7 +179,7 @@ public static class BufferUtils
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        var buffer = new IndexBuffer(device, sizeof(short) * data.Length, Usage.WriteOnly, Pool.Managed, true);
+        var buffer = new IndexBuffer(device, sizeof(short) * data.Length, Usage.None, Pool.Default, true);
         try
         {
             buffer.Write(data);
@@ -164,7 +205,7 @@ public static class BufferUtils
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        var buffer = new IndexBuffer(device, sizeof(int) * data.Length, Usage.WriteOnly, Pool.Managed, false);
+        var buffer = new IndexBuffer(device, sizeof(int) * data.Length, Usage.None, Pool.Default, false);
         try
         {
             buffer.Write(data);

@@ -80,7 +80,7 @@ public static class TexturedMeshUtils
             PositionNormalMultiTextured.GetVertexElements() : PositionNormalTangentBinormalTextured.GetVertexElements();
 
         // Clone the mesh to change the vertex format
-        Mesh tempMesh = mesh.Clone(device, mesh.CreationOptions, decl);
+        Mesh tempMesh = mesh.Clone(device, mesh.CreationOptions.ToSystemMemory(), decl);
         mesh.Dispose();
         mesh = tempMesh;
 
@@ -278,7 +278,7 @@ public static class TexturedMeshUtils
             // if required). This happens usually with models exported from 3DSMax.
 
             // Clone mesh just for tangent generation
-            Mesh dummyTangentGenerationMesh = mesh.Clone(device, mesh.CreationOptions, decl);
+            Mesh dummyTangentGenerationMesh = mesh.Clone(device, mesh.CreationOptions.ToSystemMemory(), decl);
 
             // Reuse weldEpsilons, just change the TextureCoordinates, which we don't care about anymore
             weldEpsilons.TextureCoordinate1 = 1;

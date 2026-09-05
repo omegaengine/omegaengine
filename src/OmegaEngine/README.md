@@ -13,6 +13,7 @@ The complementary [OmegaGUI](https://www.nuget.org/packages/OmegaGUI), [AlphaFra
 ## First steps
 
 Create a WinForms project targeting .NET Framework 4.7.2 or newer with the platform set to `x86`.
+The engine renders with Direct3D 9Ex, so it requires a graphics driver providing it (Windows Vista or newer).
 Add a reference to the NuGet package `OmegaEngine`. Then add the following code to render a textured sphere:
 
 ```csharp

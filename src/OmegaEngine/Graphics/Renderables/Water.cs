@@ -72,7 +72,7 @@ public class Water : Model
         ];
         short[] indexes = [0, 1, 3, 3, 2, 0];
 
-        var mesh = new Mesh(engine.Device, indexes.Length / 3, vertexes.Length, MeshFlags.Managed, PositionNormalTextured.Format);
+        var mesh = new Mesh(engine.Device, indexes.Length / 3, vertexes.Length, MeshFlags.SystemMemory, PositionNormalTextured.Format);
         try
         {
             mesh.WriteVertexBuffer(vertexes);
