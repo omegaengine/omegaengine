@@ -22,6 +22,7 @@
 
 using System;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using NLua;
 using NLua.Exceptions;
@@ -68,25 +69,49 @@ public partial class DebugConsole : Form
 
     private void DebugForm_Shown(object sender, EventArgs e)
     {
-        UpdateLog();
+        RefreshLog();
         inputBox.Focus();
     }
 
     private void LogHandler(LogSeverity severity, string message, Exception exception)
         => UpdateLog();
 
+    private int _updateQueued;
+
     /// <summary>
-    /// Updates the on-screen representation of the <see cref="Log"/>.
+    /// Schedules an update of the on-screen representation of the <see cref="Log"/>.
     /// </summary>
     private void UpdateLog()
     {
-        outputBox.Invoke(new Action(delegate
-        { // Update the text-box display
-            outputBox.Text = Log.GetBuffer().Trim();
-            outputBox.Select(outputBox.Text.Length, 0);
-            outputBox.ScrollToCaret();
-            Application.DoEvents();
-        }));
+        if (!IsHandleCreated || IsDisposed) return;
+
+        // Collapse bursts of log entries into a single refresh
+        if (Interlocked.Exchange(ref _updateQueued, 1) == 1) return;
+
+        try
+        {
+            BeginInvoke(new Action(delegate
+            {
+                Interlocked.Exchange(ref _updateQueued, 0);
+                RefreshLog();
+            }));
+        }
+        #region Error handling
+        catch (InvalidOperationException)
+        { // The window was closed after the check above
+            Interlocked.Exchange(ref _updateQueued, 0);
+        }
+        #endregion
+    }
+
+    /// <summary>
+    /// Updates the on-screen representation of the <see cref="Log"/>. Must be called on the UI thread.
+    /// </summary>
+    private void RefreshLog()
+    {
+        outputBox.Text = Log.GetBuffer().Trim();
+        outputBox.Select(outputBox.Text.Length, 0);
+        outputBox.ScrollToCaret();
     }
 
     private void runButton_Click(object sender, EventArgs e)
