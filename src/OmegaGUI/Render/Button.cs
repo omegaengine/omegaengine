@@ -21,6 +21,13 @@ public class Button : Label
 {
     public const int ButtonLayer = 0;
     public const int FillLayer = 1;
+
+    /// <summary>An optional foreground image drawn under the button text. Only present when the control view assigned it.</summary>
+    public const int ImageLayer = 2;
+
+    /// <summary>The space, in effective pixels, between the button's edges and the <see cref="ImageLayer"/> image.</summary>
+    public Padding ImagePadding { get; set; }
+
     protected bool isPressed;
 
     #region Event code
@@ -180,6 +187,22 @@ public class Button : Label
         e.FontColor.Blend(state, elapsedTime, blendRate);
 
         parentDialog.DrawSprite(e, buttonRect);
+
+        // Optional foreground image, drawn under the text and shifted along with the button (raised on hover, pushed in when pressed)
+        if (elementList.Count > ImageLayer)
+        {
+            Element image = elementList[ImageLayer];
+            image.TextureColor.Blend(state, elapsedTime, blendRate);
+
+            var imageRect = new Rectangle(
+                buttonRect.Left + ImagePadding.Left,
+                buttonRect.Top + ImagePadding.Top,
+                buttonRect.Width - ImagePadding.Horizontal,
+                buttonRect.Height - ImagePadding.Vertical);
+            if (imageRect is { Width: > 0, Height: > 0 })
+                parentDialog.DrawSprite(image, imageRect);
+        }
+
         parentDialog.DrawText(textData, e, buttonRect);
     }
 }

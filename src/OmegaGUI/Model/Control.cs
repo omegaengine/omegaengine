@@ -362,8 +362,16 @@ public abstract partial class Control : ICloneable
                 DXControl.SetLocation(EffectiveLocation.X, EffectiveLocation.Y);
                 DXControl.SetSize(EffectiveSize.Width, EffectiveSize.Height);
             }
+
+            OnLayoutUpdated();
         }
     }
+
+    /// <summary>
+    /// Called after <see cref="EffectiveLocation"/>/<see cref="EffectiveSize"/> have been (re-)calculated, e.g. following a <see cref="Dialog.Scale"/> change.
+    /// </summary>
+    protected virtual void OnLayoutUpdated()
+    {}
     #endregion
 
     #region Update Font

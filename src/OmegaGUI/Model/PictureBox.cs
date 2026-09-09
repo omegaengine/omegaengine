@@ -22,7 +22,6 @@
 
 using System.ComponentModel;
 using System.Drawing;
-using OmegaEngine.Foundation.Storage;
 using OmegaGUI.Render;
 
 namespace OmegaGUI.Model;
@@ -31,10 +30,9 @@ namespace OmegaGUI.Model;
 public partial class PictureBox : Control
 {
     #region Properties
-    /// <summary>
-    /// The texture slot in <see cref="Model.Dialog.DialogRender"/> this control's texture is loaded into once generated
-    /// </summary>
-    private uint _textureNumber;
+    /// <summary>Handles loading the texture and transferring it into the rendered element.</summary>
+    [IgnoreClone]
+    private readonly ControlTexture _texture = new(0);
 
     private string _textureFile;
 
@@ -55,7 +53,7 @@ public partial class PictureBox : Control
     }
 
     [Description("Is the specified texture file name valid?"), Category("Appearance")]
-    public bool TextureFileValid => !string.IsNullOrEmpty(_textureFile) && ContentManager.FileExists("GUI/Textures", _textureFile);
+    public bool TextureFileValid => ControlTexture.IsValid(_textureFile);
 
     private Point _textureLocation = new(0, 0);
 
@@ -118,21 +116,17 @@ public partial class PictureBox : Control
     #region Generate
     internal override void Generate()
     {
-        // Reserve a texture slot; the actual texture is (re-)loaded into it by UpdateTexture(), including on later changes
-        _textureNumber = Parent.CustomTexture++;
-
-        var fill = new Element();
-        fill.TextureColor.Initialize(Render.Dialog.WhiteColorValue); // UpdateTexture() below applies Alpha on top once States exist
-
         // Add control to dialog
         UpdateLayout();
-        DXControl = Parent.DialogRender.AddPictureBox(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, fill);
+        DXControl = Parent.DialogRender.AddPictureBox(0, EffectiveLocation.X, EffectiveLocation.Y, EffectiveSize.Width, EffectiveSize.Height, new Element());
         ControlModel.IsVisible = IsVisible;
         ControlModel.IsEnabled = IsEnabled;
 
         // Setup event hooks
         SetupMouseEvents();
 
+        // Reserve a texture slot and (re-)load the texture into it, including on later changes
+        _texture.Generate(Parent, DXControl);
         UpdateTexture();
     }
 
@@ -144,20 +138,7 @@ public partial class PictureBox : Control
     {
         if (DXControl == null) return; // Not generated yet; Generate() will call this itself once it is
 
-        if (TextureFileValid)
-        {
-            Parent.DialogRender.SetTexture(_textureNumber, _textureFile);
-            DXControl[0].SetTexture(_textureNumber, new(_textureLocation, _textureSize));
-        }
-        else
-        {
-            // No (valid) texture to show; point at a dummy region of the dialog's default texture
-            // (an empty region would cause a division by zero when scaling the sprite)
-            DXControl[0].SetTexture(0, new(0, 0, 1, 1));
-        }
-
-        // Element.SetTexture() re-initializes the color blend states, so Alpha needs to be re-applied afterwards
-        ApplyAlpha();
+        _texture.Apply(_textureFile, _textureLocation, _textureSize, _alpha);
     }
 
     /// <summary>
@@ -167,7 +148,7 @@ public partial class PictureBox : Control
     {
         if (DXControl == null) return; // Not generated yet; Generate() will apply this itself once it is
 
-        DXControl[0].TextureColor.States[(int)ControlState.Normal].Alpha = TextureFileValid ? (float)_alpha / 255 : 0;
+        _texture.ApplyAlpha(_textureFile, _alpha);
     }
     #endregion
 }

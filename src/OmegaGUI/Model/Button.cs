@@ -21,6 +21,8 @@
  */
 
 using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace OmegaGUI.Model;
@@ -37,6 +39,10 @@ public partial class Button : ButtonBase
     /// </summary>
     [IgnoreClone]
     private Render.Button? _button;
+
+    /// <summary>Handles loading <see cref="ImageFile"/> and transferring it into the button's image layer.</summary>
+    [IgnoreClone]
+    private readonly ControlTexture _image = new(Render.Button.ImageLayer);
     #endregion
 
     #region Properties
@@ -73,6 +79,101 @@ public partial class Button : ButtonBase
 
     [Description("Is the specified style name valid?"), Category("Appearance")]
     public bool StyleValid => Parent?.GetButtonStyle(_customStyle) is { TextureFileValid: true };
+
+    private string _imageFile;
+
+    /// <summary>
+    /// The file containing a custom image to display on the button, drawn underneath any <see cref="Text"/>
+    /// </summary>
+    /// <remarks>Assigning the value this already has is a no-op, so scripts can set this on every frame without reloading the texture each time.</remarks>
+    [DefaultValue(""), Description("The file containing a custom image to display on the button, drawn underneath any text"), Category("Appearance")]
+    public string ImageFile
+    {
+        get => _imageFile;
+        set
+        {
+            if (value == _imageFile) return;
+            _imageFile = value;
+            UpdateImage();
+        }
+    }
+
+    public bool ShouldSerializeImageFile() => !string.IsNullOrEmpty(_imageFile);
+
+    [Description("Is the specified image file name valid?"), Category("Appearance")]
+    public bool ImageFileValid => ControlTexture.IsValid(_imageFile);
+
+    private Point _imageLocation = new(0, 0);
+
+    /// <summary>
+    /// The upper left corner of the area in the image file to use
+    /// </summary>
+    [DefaultValue(typeof(Point), "0,0"), Description("The upper left corner of the area in the image file to use"), Category("Appearance")]
+    public Point ImageLocation
+    {
+        get => _imageLocation;
+        set
+        {
+            if (value == _imageLocation) return;
+            _imageLocation = value;
+            UpdateImage();
+        }
+    }
+
+    public bool ShouldSerializeImageLocation() => _imageLocation != default;
+
+    private Size _imageSize = new(256, 256);
+
+    /// <summary>
+    /// The distance to the lower right corner of the area in the image file to use
+    /// </summary>
+    [Description("The distance to the lower right corner of the area in the image file to use"), Category("Appearance")]
+    public Size ImageSize
+    {
+        get => _imageSize;
+        set
+        {
+            if (value == _imageSize) return;
+            _imageSize = value;
+            UpdateImage();
+        }
+    }
+
+    public bool ShouldSerializeImageSize() => !string.IsNullOrEmpty(_imageFile);
+
+    private Padding _imagePadding;
+
+    /// <summary>
+    /// The space between the button's edges and its <see cref="ImageFile"/>, in unscaled dialog units
+    /// </summary>
+    [DefaultValue(typeof(Padding), "0,0,0,0"), Description("The space between the button's edges and its image, in unscaled dialog units"), Category("Appearance")]
+    public Padding ImagePadding
+    {
+        get => _imagePadding;
+        set
+        {
+            _imagePadding = value;
+            UpdateImage();
+        }
+    }
+
+    public bool ShouldSerializeImagePadding() => _imagePadding != default;
+
+    private byte _imageAlpha = 255;
+
+    /// <summary>
+    /// The level of transparency of the image from 0 (invisible) to 255 (solid)
+    /// </summary>
+    [DefaultValue((byte)255), Description("The level of transparency of the image from 0 (invisible) to 255 (solid)"), Category("Appearance")]
+    public byte ImageAlpha
+    {
+        get => _imageAlpha;
+        set
+        {
+            _imageAlpha = value;
+            _image.ApplyAlpha(_imageFile, _imageAlpha);
+        }
+    }
     #endregion
 
     #region Constructor
@@ -104,6 +205,31 @@ public partial class Button : ButtonBase
         SetupMouseEvents();
         if (!string.IsNullOrEmpty(OnClick))
             _button.Click += delegate { Parent.RaiseEvent(OnClick, $"{Name}_Click"); };
+
+        // Reserve a texture slot for the image layer and (re-)load the image into it, including on later changes
+        _image.Generate(Parent, _button);
+        UpdateImage();
     }
+
+    /// <summary>
+    /// (Re-)loads <see cref="ImageFile"/> into the reserved texture slot and applies it (with <see cref="ImageLocation"/>/<see cref="ImageSize"/>/<see cref="ImagePadding"/>) to the button's image layer,
+    /// e.g. after (re-)generating, after one of those properties is changed at runtime, or after a scale change.
+    /// </summary>
+    private void UpdateImage()
+    {
+        if (_button == null) return; // Not generated yet; Generate() will call this itself once it is
+
+        float scale = Parent.EffectiveScale;
+        _button.ImagePadding = new Padding(
+            (int)(_imagePadding.Left * scale),
+            (int)(_imagePadding.Top * scale),
+            (int)(_imagePadding.Right * scale),
+            (int)(_imagePadding.Bottom * scale));
+
+        _image.Apply(_imageFile, _imageLocation, _imageSize, _imageAlpha);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnLayoutUpdated() => UpdateImage();
     #endregion
 }
