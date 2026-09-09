@@ -12,6 +12,10 @@ using System.Xml.Serialization;
 using NanoByte.Common.Storage;
 using SlimDX;
 
+#if NETFRAMEWORK
+using System.Windows.Forms;
+#endif
+
 namespace OmegaEngine.Foundation.Storage;
 
 /// <summary>
@@ -34,9 +38,15 @@ public static class XmlStorageConfig
 
         // .NET BCL types
         MembersAsAttributes<Point>(nameof(Point.X), nameof(Point.Y));
+        MembersAsAttributes<PointF>(nameof(PointF.X), nameof(PointF.Y));
         MembersAsAttributes<Size>(nameof(Size.Width), nameof(Size.Height));
+        MembersAsAttributes<SizeF>(nameof(SizeF.Width), nameof(SizeF.Height));
         MembersAsAttributes<Rectangle>(nameof(Rectangle.X), nameof(Rectangle.Y), nameof(Rectangle.Width), nameof(Rectangle.Height));
         IgnoreMembers<Rectangle>(nameof(Rectangle.Location), nameof(Rectangle.Size));
+#if NETFRAMEWORK
+        MembersAsAttributes<Padding>(nameof(Padding.Left), nameof(Padding.Top), nameof(Padding.Right), nameof(Padding.Bottom));
+        IgnoreMembers<Padding>(nameof(Padding.All));
+#endif
         IgnoreMembers<Exception>(nameof(Exception.Data));
 
         // SlimDX types
