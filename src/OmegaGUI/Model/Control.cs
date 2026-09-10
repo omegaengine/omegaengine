@@ -202,6 +202,22 @@ public abstract partial class Control : ICloneable
             ApplyTextColor();
         }
     }
+
+    private string? _tooltip;
+
+    /// <summary>
+    /// A text to display in a tooltip when the mouse hovers over this control
+    /// </summary>
+    [XmlAttribute, DefaultValue(""), Description("A text to display in a tooltip when the mouse hovers over this control"), Category("Appearance")]
+    public string? Tooltip
+    {
+        get => _tooltip;
+        set
+        {
+            _tooltip = value;
+            ApplyTooltip();
+        }
+    }
     #endregion
 
     #region Layout
@@ -411,6 +427,15 @@ public abstract partial class Control : ICloneable
             DXControl.SetFontColor(ColorText.ToColor4());
         else
             DXControl.ResetFontColor();
+    }
+
+    /// <summary>
+    /// (Re-)applies <see cref="Tooltip"/> to the control's rendered counterpart, e.g. after (re-)generating
+    /// </summary>
+    internal void ApplyTooltip()
+    {
+        if (DXControl != null && Parent != null)
+            DXControl.Tooltip = Parent.GetLocalized(_tooltip ?? "");
     }
     #endregion
 }

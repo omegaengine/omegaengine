@@ -46,6 +46,12 @@ public abstract class Control
 
     public event EventHandler? MouseEnter , MouseExit;
 
+    /// <summary>An optional text to display in a tooltip while the mouse hovers over this control.</summary>
+    public string? Tooltip { get; set; }
+
+    /// <summary>The rectangle defining the active region of the control</summary>
+    protected internal Rectangle BoundingBox => boundingBox;
+
     /// <summary>Initialize the control</summary>
     public virtual void OnInitialize()
     {}

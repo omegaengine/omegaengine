@@ -135,17 +135,18 @@ public partial class Dialog : ICloneable<Dialog>
     #endregion
 
     #region Colors
-    /// <summary>Used for XML serialization.</summary>
-    public XColor ColorBackground, ColorCaption = Color.FromArgb(128, 96, 128, 255), ColorText = Color.White;
-
     private void UpdateColors()
     {
         if (DialogRender != null)
         {
             DialogRender.SetBackgroundColors(ColorBackground.ToColor4());
             DialogRender.SetCaptionColor(ColorCaption.ToColor4());
+            DialogRender.SetTooltipColors(ColorTooltipFill.ToColor4(), ColorTooltipBorder.ToColor4(), ColorTooltipText.ToColor4());
         }
     }
+
+    /// <summary>Used for XML serialization.</summary>
+    public XColor ColorBackground;
 
     /// <summary>
     /// The dialog's background color
@@ -161,6 +162,9 @@ public partial class Dialog : ICloneable<Dialog>
         }
     }
 
+    /// <summary>Used for XML serialization.</summary>
+    public XColor ColorCaption = Color.FromArgb(128, 96, 128, 255);
+
     /// <summary>
     /// The dialog's caption bar color
     /// </summary>
@@ -175,6 +179,9 @@ public partial class Dialog : ICloneable<Dialog>
         }
     }
 
+    /// <summary>Used for XML serialization.</summary>
+    public XColor ColorText = Color.White;
+
     /// <summary>
     /// The color of text on the dialog - no auto-update
     /// </summary>
@@ -188,6 +195,78 @@ public partial class Dialog : ICloneable<Dialog>
             NeedsUpdate = true;
         }
     }
+
+    private static readonly XColor _defaultColorTooltipFill = Color.FromArgb(217, 32, 32, 32);
+
+    /// <summary>Used for XML serialization.</summary>
+    public XColor ColorTooltipFill = _defaultColorTooltipFill;
+
+    /// <summary>Used for XML serialization.</summary>
+    public bool ShouldSerializeColorTooltipFill() => ColorTooltipFill != _defaultColorTooltipFill;
+
+    /// <summary>
+    /// The fill color of tooltips on the dialog
+    /// </summary>
+    [XmlIgnore, Description("The fill color of tooltips on the dialog"), Category("Appearance")]
+    public Color TooltipFillColor
+    {
+        get => ColorTooltipFill;
+        set
+        {
+            ColorTooltipFill = value;
+            UpdateColors();
+        }
+    }
+
+    private bool ShouldSerializeTooltipFillColor() => ColorTooltipFill != _defaultColorTooltipFill;
+
+    private static readonly XColor _defaultColorTooltipBorder = Color.FromArgb(255, 160, 160, 160);
+
+    /// <summary>Used for XML serialization.</summary>
+    public XColor ColorTooltipBorder = _defaultColorTooltipBorder;
+
+    /// <summary>Used for XML serialization.</summary>
+    public bool ShouldSerializeColorTooltipBorder() => ColorTooltipBorder != _defaultColorTooltipBorder;
+
+    /// <summary>
+    /// The border color of tooltips on the dialog
+    /// </summary>
+    [XmlIgnore, Description("The border color of tooltips on the dialog"), Category("Appearance")]
+    public Color TooltipBorderColor
+    {
+        get => ColorTooltipBorder;
+        set
+        {
+            ColorTooltipBorder = value;
+            UpdateColors();
+        }
+    }
+
+    private bool ShouldSerializeTooltipBorderColor() => ColorTooltipBorder != _defaultColorTooltipBorder;
+
+    private static readonly XColor _defaultColorTooltipText = Color.White;
+
+    /// <summary>Used for XML serialization.</summary>
+    public XColor ColorTooltipText = _defaultColorTooltipText;
+
+    /// <summary>Used for XML serialization.</summary>
+    public bool ShouldSerializeColorTooltipText() => ColorTooltipText != _defaultColorTooltipText;
+
+    /// <summary>
+    /// The text color of tooltips on the dialog
+    /// </summary>
+    [XmlIgnore, Description("The text color of tooltips on the dialog"), Category("Appearance")]
+    public Color TooltipTextColor
+    {
+        get => ColorTooltipText;
+        set
+        {
+            ColorTooltipText = value;
+            UpdateColors();
+        }
+    }
+
+    private bool ShouldSerializeTooltipTextColor() => ColorTooltipText != _defaultColorTooltipText;
     #endregion
 
     #region Events
@@ -503,6 +582,7 @@ public partial class Dialog : ICloneable<Dialog>
             control.Generate();
             control.GenerateFont();
             control.ApplyTextColor();
+            control.ApplyTooltip();
         }
 
         // Update control positions

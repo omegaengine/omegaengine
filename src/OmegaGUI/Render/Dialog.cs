@@ -28,11 +28,22 @@ public class Dialog
 {
     #region Constants
     public const int WheelDelta = 120;
+
+    /// <summary>How long (in seconds) the mouse must hover over a control before its tooltip appears</summary>
+    private const double TooltipDelay = 0.5;
+
+    /// <summary>The gap (in pixels) between a control and its tooltip box</summary>
+    private const int TooltipGap = 4;
+
+    /// <summary>The padding (in pixels) between the tooltip box border and its text</summary>
+    private const int TooltipPadding = 4;
+
     public static readonly Color4 WhiteColorValue = new(1.0f, 1.0f, 1.0f);
     public static readonly Color4 TransparentWhite = new(0.0f, 1.0f, 1.0f, 1.0f);
     public static readonly Color4 BlackColorValue = new(0.0f, 0.0f, 0.0f);
     private static Control? controlFocus; // The control which has focus
     private static Control? controlMouseOver; // The control which is hovered over
+    private static double tooltipHoverStart; // WindowsUtils.AbsoluteTime when controlMouseOver last changed
 
     private static double timeRefresh;
 
@@ -60,12 +71,14 @@ public class Dialog
     private string caption;
     private int captionHeight = 20;
     private Element captionElement;
+    private Element tooltipElement;
     public bool IsMinimized;
 
     // Dialog information
     private int dialogX, dialogY;
     // Colors
     private Color4 topLeftColor, topRightColor, bottomLeftColor, bottomRightColor, captionColor;
+    private Color4 tooltipFillColor, tooltipBorderColor;
 
     // Fonts/Textures
     private readonly List<int> textureList = []; // Index into texture cache
@@ -168,6 +181,15 @@ public class Dialog
         captionColor = color;
         UpdateVertexes();
     }
+
+    /// <summary>Sets the colors used to draw tooltips on this dialog</summary>
+    public void SetTooltipColors(Color4 fill, Color4 border, Color4 text)
+    {
+        tooltipFillColor = fill;
+        tooltipBorderColor = border;
+        tooltipElement.SetFont(tooltipElement.FontIndex, text, tooltipElement.textFormat);
+        tooltipElement.FontColor.Blend(ControlState.Normal, 10.0f);
+    }
     #endregion
 
     #region Constructor
@@ -184,6 +206,8 @@ public class Dialog
         DialogManager = manager;
 
         topLeftColor = topRightColor = bottomLeftColor = bottomRightColor = new();
+        tooltipFillColor = new(0.85f, 0.125f, 0.125f, 0.125f);
+        tooltipBorderColor = new(1.0f, 0.627f, 0.627f, 0.627f);
 
         nextDialog = this; // Only one dialog
         prevDialog = this; // Only one dialog
@@ -219,6 +243,14 @@ public class Dialog
         // Pre-blend as we don't need to transition the state
         captionElement.TextureColor.Blend(ControlState.Normal, 10.0f);
         captionElement.FontColor.Blend(ControlState.Normal, 10.0f);
+
+        //-------------------------------------
+        // Element for tooltips
+        //-------------------------------------
+        tooltipElement = new();
+        tooltipElement.SetFont(0, defaultTextColor, DrawTextFormat.Left | DrawTextFormat.Top);
+        // Pre-blend as we don't need to transition the state
+        tooltipElement.FontColor.Blend(ControlState.Normal, 10.0f);
 
         var e = new Element();
 
@@ -765,6 +797,7 @@ public class Dialog
             }
 
             controlMouseOver = control;
+            tooltipHoverStart = WindowsUtils.AbsoluteTime;
 
             if (controlMouseOver != null)
                 controlMouseOver.OnMouseEnter();
@@ -1444,6 +1477,8 @@ public class Dialog
                         using (new ProfilerEvent(() => $"Render {controlFocus}"))
                             controlFocus.Render(device, elapsedTime);
                     }
+
+                    RenderTooltip();
                 }
             }
 
@@ -1454,6 +1489,40 @@ public class Dialog
                 DialogManager.StateBlock.Apply();
             }
         }
+    }
+
+    /// <summary>
+    /// Draws the tooltip for the currently hovered control, provided it has one and has been hovered over long enough
+    /// </summary>
+    private void RenderTooltip()
+    {
+        if (controlMouseOver?.Parent != this) return;
+        string text = controlMouseOver.Tooltip ?? "";
+        if (text.Length == 0) return;
+        if (WindowsUtils.AbsoluteTime - tooltipHoverStart < TooltipDelay) return;
+
+        // Measure the text
+        FontNode fNode = GetFont(tooltipElement.FontIndex);
+        Rectangle textRect = fNode.Font.MeasureString(DialogManager.Sprite, text, tooltipElement.textFormat);
+        int boxWidth = textRect.Width + 2 * TooltipPadding;
+        int boxHeight = textRect.Height + 2 * TooltipPadding;
+
+        // Lay the box out in dialog-local coordinates, centered below the control (flipping above if it wouldn't fit)
+        Rectangle control = controlMouseOver.BoundingBox;
+        int x = control.Left + (control.Width - boxWidth) / 2;
+        int y = control.Bottom + TooltipGap;
+        if (y + boxHeight > Height)
+            y = control.Top - TooltipGap - boxHeight;
+        x = Math.Max(0, Math.Min(x, Width - boxWidth));
+        y = Math.Max(0, Math.Min(y, Height - boxHeight));
+
+        var box = new Rectangle(x, y, boxWidth, boxHeight);
+        DrawRectangle(box, tooltipFillColor, filled: true);
+        DrawRectangle(box, tooltipBorderColor, filled: false);
+
+        var textArea = box;
+        textArea.Inflate(-TooltipPadding, -TooltipPadding);
+        DrawText(text, tooltipElement, textArea);
     }
 
     /// <summary>
@@ -1473,6 +1542,7 @@ public class Dialog
             {
                 controlMouseOver.OnMouseExit();
                 controlMouseOver = null;
+                tooltipHoverStart = WindowsUtils.AbsoluteTime;
             }
 
             // Refresh any controls

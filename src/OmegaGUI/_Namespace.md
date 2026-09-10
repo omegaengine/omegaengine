@@ -131,9 +131,17 @@ OmegaGUI supports localization through XML `.locale` files stored in `GUI/Langua
 
 At runtime the `[Key]` is replaced by the matching entry from the active language file (e.g. `English.locale`, `German.locale`). The language is selected based on `Resources.Culture`; if no matching file exists the engine falls back to English, then German, then the raw key string.
 
+## Tooltips
+
+Every control has an optional `Tooltip` string (see <xref:OmegaGUI.Model.Control.Tooltip>). When set, the text is shown in a small floating box while the mouse hovers over the control for half a second. The box is drawn below the control, flipping above it when there is not enough room, and clamped to stay within the dialog. `Tooltip` is localizable via the same `[Key]` convention as other control text.
+
+Disabled controls never receive hover events, so a tooltip cannot be used to explain why a control is disabled.
+
 ## Theming
 
 Controls are rendered using texture atlases loaded via the [storage system](xref:OmegaEngine.Foundation.Storage) from `GUI/Textures/<YourThemeName>.png`. The default theme is `base`.
+
+Tooltips are not part of the texture atlas: they are drawn as a solid rectangle whose fill, border and text colors are themed per dialog via <xref:OmegaGUI.Model.Dialog.TooltipFillColor>, <xref:OmegaGUI.Model.Dialog.TooltipBorderColor> and <xref:OmegaGUI.Model.Dialog.TooltipTextColor>.
 
 Create custom themes by:
 1. Creating a texture atlas with the required control elements (see [texture atlas coordinates](#texture-atlas-coordinates))
