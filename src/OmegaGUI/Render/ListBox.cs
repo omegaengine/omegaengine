@@ -610,12 +610,14 @@ public class ListBox : Control
         // Update the scrollbar with the new range
         scrollbarControl.SetTrackRange(0, itemList.Count);
 
+        int oldSelected = selectedIndex;
         if (selectedIndex >= itemList.Count)
             selectedIndex = itemList.Count - 1;
         if (selectedStarted >= itemList.Count)
             selectedStarted = Math.Max(0, itemList.Count - 1);
 
-        RaiseSelectionEvent(this, true);
+        if (oldSelected != selectedIndex)
+            RaiseSelectionEvent(this, false);
     }
 
     /// <summary>Removes all items from the control</summary>
@@ -689,8 +691,13 @@ public class ListBox : Control
             if (itemList[i].ItemText == text) SelectItem(i);
     }
 
+    /// <summary>Selects this item programatically</summary>
+    public void SelectItem(int newIndex) => SelectItem(newIndex, fromInput: false);
+
     /// <summary>Selects this item</summary>
-    public void SelectItem(int newIndex)
+    /// <param name="newIndex">The index of the item to select.</param>
+    /// <param name="fromInput"><c>true</c> if the selection was triggered by user input, <c>false</c> if it was triggered programatically.</param>
+    protected void SelectItem(int newIndex, bool fromInput)
     {
         if (itemList.Count == 0)
             return; // If no items exist there's nothing to do
@@ -707,22 +714,22 @@ public class ListBox : Control
             selectedIndex = itemList.Count - 1;
 
         // Did the selection change?
-        if (oldSelected != selectedIndex)
+        if (oldSelected == selectedIndex) return;
+
+        if (ctrlStyle == ListBoxStyle.MultiSelection)
         {
-            if (ctrlStyle == ListBoxStyle.MultiSelection)
-            {
-                ListItem lbi = itemList[selectedIndex];
-                lbi.IsItemSelected = true;
-                itemList[selectedIndex] = lbi;
-            }
-
-            // Update selection start
-            selectedStarted = selectedIndex;
-
-            // adjust scrollbar
-            scrollbarControl.ShowItem(selectedIndex);
+            ListItem lbi = itemList[selectedIndex];
+            lbi.IsItemSelected = true;
+            itemList[selectedIndex] = lbi;
         }
-        RaiseSelectionEvent(this, true);
+
+        // Update selection start
+        selectedStarted = selectedIndex;
+
+        // adjust scrollbar
+        scrollbarControl.ShowItem(selectedIndex);
+
+        RaiseSelectionEvent(this, fromInput);
     }
     #endregion
 }
