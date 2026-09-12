@@ -108,7 +108,11 @@ public class RenderPanel : TouchPanel, IRenderHost
     {
         if (Engine == null)
         {
-            Engine = new(this, new() {TargetSize = ClientSize});
+            Engine = new(this, new()
+            {
+                TargetSize = ClientSize,
+                AntiAliasing = EngineCapabilities.CheckAA(adapter: 0, sample: 2) ? 2 : 0
+            });
             KeyboardInputProvider = new(this);
             MouseInputProvider = new(this);
             TouchInputProvider = new(this);
