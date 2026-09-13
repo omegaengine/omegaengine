@@ -79,6 +79,11 @@ public static class VectorMath
            (1 - Math.Cos(rotation)) * axis.DotProduct(value) * axis;
 
     /// <summary>
+    /// How short the cross product of two unit vectors has to get before it no longer determines a plane between them.
+    /// </summary>
+    private const double DegenerateCross = 1e-9;
+
+    /// <summary>
     /// Gets the minimal rotation required to rotate one direction vector into another.
     /// </summary>
     /// <param name="from">The starting direction vector.</param>
@@ -89,21 +94,15 @@ public static class VectorMath
     {
         from = from.Normalize();
         to = to.Normalize();
-        double dot = from.DotProduct(to);
+        var cross = from.CrossProduct(to);
+        double sine = cross.Length(), dot = from.DotProduct(to);
 
-        if (Math.Abs(dot + 1.0) < 1e-9)
-        {
-            var arbitrary = Math.Abs(from.X) < 0.9
-                ? DoubleVector3.UnitX
-                : DoubleVector3.UnitY;
-            var perpendicularAxis = from.CrossProduct(arbitrary).Normalize();
-            return (perpendicularAxis, Math.PI);
-        }
-        else
-        {
-            var axisNormal = from.CrossProduct(to).Normalize();
-            return (axisNormal, Math.Acos(dot.Clamp(-1, 1)));
-        }
+        // Nothing left of the cross product to take an axis from, so any perpendicular will do
+        if (sine < DegenerateCross)
+            return dot < 0 ? (from.AnyPerpendicular(), Math.PI) : (default, 0);
+
+        // Accurate all the way to 0 and Pi, unlike Acos() of the dot product alone
+        return (cross.Normalize(), Math.Atan2(sine, dot));
     }
 
     /// <summary>
