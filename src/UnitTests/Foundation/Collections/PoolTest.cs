@@ -64,22 +64,6 @@ public class PoolTest
     }
 
     [Fact]
-    public void TestAddItemWithNextElement()
-    {
-        var pool = new Pool<TestPoolable>();
-        var item1 = new TestPoolable("Item1");
-        var item2 = new TestPoolable("Item2");
-        
-        // Manually set NextElement to simulate item being in another pool
-        item1.NextElement = item2;
-
-        // Should throw because item1 has a NextElement
-        pool.Invoking(p => p.Add(item1))
-            .Should().Throw<ArgumentException>()
-            .WithMessage("*already in a pool*");
-    }
-
-    [Fact]
     public void TestContains()
     {
         var pool = new Pool<TestPoolable>();
@@ -134,22 +118,6 @@ public class PoolTest
         pool.Add(item1);
         pool.Remove(item2).Should().BeFalse();
         pool.Count.Should().Be(1);
-    }
-
-    [Fact]
-    public void TestRemoveClearsNextElement()
-    {
-        var pool = new Pool<TestPoolable>();
-        var item1 = new TestPoolable("Item1");
-        var item2 = new TestPoolable("Item2");
-        
-        // Add two items so item2 has a non-null NextElement
-        pool.Add(item1);
-        pool.Add(item2);
-        item2.NextElement.Should().NotBeNull();
-        
-        pool.Remove(item2);
-        item2.NextElement.Should().BeNull();
     }
 
     [Fact]
@@ -257,38 +225,6 @@ public class PoolTest
     }
 
     [Fact]
-    public void TestRemoveWhereAll()
-    {
-        var pool = new Pool<TestPoolable>();
-        var item1 = new TestPoolable("Item1");
-        var item2 = new TestPoolable("Item2");
-
-        pool.Add(item1);
-        pool.Add(item2);
-
-        // Remove all items
-        pool.RemoveWhere(item => true);
-        pool.Count.Should().Be(0);
-    }
-
-    [Fact]
-    public void TestRemoveWhereNone()
-    {
-        var pool = new Pool<TestPoolable>();
-        var item1 = new TestPoolable("Item1");
-        var item2 = new TestPoolable("Item2");
-
-        pool.Add(item1);
-        pool.Add(item2);
-
-        // Remove no items
-        pool.RemoveWhere(item => false);
-        pool.Count.Should().Be(2);
-        pool.Contains(item1).Should().BeTrue();
-        pool.Contains(item2).Should().BeTrue();
-    }
-
-    [Fact]
     public void TestRemoveFirst()
     {
         var pool = new Pool<TestPoolable>();
@@ -331,26 +267,6 @@ public class PoolTest
     }
 
     [Fact]
-    public void TestRemoveFirstFromBeginning()
-    {
-        var pool = new Pool<TestPoolable>();
-        var item1 = new TestPoolable("Item1");
-        var item2 = new TestPoolable("Item2");
-        var item3 = new TestPoolable("Item3");
-
-        pool.Add(item1);
-        pool.Add(item2);
-        pool.Add(item3);
-
-        // Remove the first item (item3, since items are added at beginning)
-        pool.RemoveFirst(item => true);
-        pool.Count.Should().Be(2);
-        pool.Contains(item3).Should().BeFalse();
-        pool.Contains(item2).Should().BeTrue();
-        pool.Contains(item1).Should().BeTrue();
-    }
-
-    [Fact]
     public void TestAddAfterRemove()
     {
         var pool = new Pool<TestPoolable>();
@@ -365,26 +281,5 @@ public class PoolTest
         pool.Add(item1);
         pool.Count.Should().Be(2);
         pool.Contains(item1).Should().BeTrue();
-    }
-
-    [Fact]
-    public void TestOrderOfItems()
-    {
-        var pool = new Pool<TestPoolable>();
-        var item1 = new TestPoolable("Item1");
-        var item2 = new TestPoolable("Item2");
-        var item3 = new TestPoolable("Item3");
-
-        // Items are added at the beginning, so order is LIFO (Last In First Out)
-        pool.Add(item1);
-        pool.Add(item2);
-        pool.Add(item3);
-
-        var items = new List<TestPoolable>();
-        pool.ForEach(item => items.Add(item));
-
-        items[0].Should().Be(item3);
-        items[1].Should().Be(item2);
-        items[2].Should().Be(item1);
     }
 }

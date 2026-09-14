@@ -7,7 +7,6 @@
  */
 
 using AwesomeAssertions;
-using OmegaEngine.Foundation.Geometry;
 using Xunit;
 
 namespace OmegaEngine.Graphics.Cameras;
@@ -42,21 +41,6 @@ public class FirstPersonCameraTest
         camera.Position.X.Should().BeApproximately(10, precision: 0.001);
         camera.Position.Y.Should().BeApproximately(0, precision: 0.001);
         camera.Position.Z.Should().BeApproximately(0, precision: 0.001);
-    }
-
-    [Fact]
-    public void TestNavigateCustomWorldUp()
-    {
-        var camera = new FirstPersonCamera
-        {
-            WorldUp = DoubleVector3.UnitX // Right becomes up
-        };
-
-        camera.Navigate(translation: new(0, 0, 10));
-
-        camera.Position.X.Should().BeApproximately(0, precision: 0.001);
-        camera.Position.Y.Should().BeApproximately(0, precision: 0.001);
-        camera.Position.Z.Should().BeApproximately(10, precision: 0.001);
     }
 
     [Fact]

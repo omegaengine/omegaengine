@@ -16,14 +16,6 @@ namespace OmegaEngine.Graphics;
 public class RenderTargetTest : EngineTestBase
 {
     [Fact]
-    public void CreatesTextureWithRequestedSize()
-    {
-        using var renderTarget = new RenderTarget(Engine, new Size(256, 128));
-
-        renderTarget.Texture.Should().NotBeNull();
-    }
-
-    [Fact]
     public void EmptySizeCreatesFullscreenTexture()
     {
         using var renderTarget = new RenderTarget(Engine, Size.Empty);

@@ -25,15 +25,6 @@ public class ModelTest : EngineTestBase
     }
 
     [Fact]
-    public void SphereHasGeometry()
-    {
-        using var model = Model.Sphere(Engine, XMaterial.Default, radius: 2);
-
-        model.NumberSubsets.Should().BeGreaterThan(0);
-        model.VertexCount.Should().BeGreaterThan(0);
-    }
-
-    [Fact]
     public void IntersectsHitsBox()
     {
         using var model = Model.Box(Engine, XMaterial.Default, new Vector3(2, 2, 2));

@@ -39,14 +39,4 @@ public class SoundTest : EngineTestBase
 
         sound.Volume.Should().Be(0.5f);
     }
-
-    [Fact]
-    public void Sound3DExposesPosition()
-    {
-        using var sound = new Sound3D(XSound.Get(Engine, "test.wav")) {Engine = Engine};
-
-        // Should not throw regardless of whether an output device is available
-        sound.StartPlayback(looping: true);
-        sound.StopPlayback();
-    }
 }

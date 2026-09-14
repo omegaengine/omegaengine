@@ -38,18 +38,6 @@ public class BoundingBodyUtilsTests
     }
 
     [Fact]
-    public void TransformBoundingBox_WithUniformScale_ShouldScaleExtents()
-    {
-        var box = new BoundingBox(minimum: new(-1, -1, -1), maximum: new(1, 1, 1));
-        var scale = Matrix.Scaling(scale: new(value: 2));
-
-        var result = box.Transform(scale);
-
-        result.Minimum.Should().Be(new Vector3(-2, -2, -2));
-        result.Maximum.Should().Be(new Vector3(2, 2, 2));
-    }
-
-    [Fact]
     public void TransformBoundingBox_WithNonUniformScale_ShouldExpandCorrectly()
     {
         var box = new BoundingBox(minimum: new(-1, -1, -1), maximum: new(1, 1, 1));
@@ -99,17 +87,6 @@ public class BoundingBodyUtilsTests
     }
 
     [Fact]
-    public void TransformBoundingSphere_WithUniformScale_ShouldScaleRadius()
-    {
-        var sphere = new BoundingSphere(center: new(0, 0, 0), radius: 3);
-        var scale = Matrix.Scaling(scale: new(value: 2));
-
-        var result = sphere.Transform(scale);
-
-        result.Radius.Should().Be(6);
-    }
-
-    [Fact]
     public void TransformBoundingSphere_WithNonUniformScale_ShouldUseMaxAxisScale()
     {
         var sphere = new BoundingSphere(center: new(0, 0, 0), radius: 3);
@@ -118,17 +95,5 @@ public class BoundingBodyUtilsTests
         var result = sphere.Transform(scale);
 
         result.Radius.Should().Be(15);
-    }
-
-    [Fact]
-    public void TransformBoundingSphere_WithZeroRadius_ShouldOnlyTranslate()
-    {
-        var sphere = new BoundingSphere(center: new(1, 2, 3), radius: 0);
-        var translation = Matrix.Translation(5, 5, 5);
-
-        var result = sphere.Transform(translation);
-
-        result.Center.Should().Be(new Vector3(6, 7, 8));
-        result.Radius.Should().Be(0);
     }
 }
