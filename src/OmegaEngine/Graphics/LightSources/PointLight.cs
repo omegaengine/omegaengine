@@ -107,9 +107,14 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         _directional.MaxShadowRange = MaxShadowRange;
 
         var delta = target - this.GetFloatingPosition();
+        float distance = delta.Length();
         _directional.Direction = Vector3.Normalize(delta);
 
-        float attenuation = Attenuation.Apply(delta.Length());
+        _directional.SourceRadius = SourceRadius;
+        // Approximates the distance to the shadow casters with the distance to the lit target; negligible as long as the casters are close to the receivers relative to the light source's distance
+        _directional.SourceDistance = distance;
+
+        float attenuation = Attenuation.Apply(distance);
         _directional.Diffuse = Diffuse.Multiply(attenuation);
         _directional.Specular = Specular.Multiply(attenuation);
         _directional.Ambient = Ambient.Multiply(attenuation);
@@ -137,11 +142,8 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         if (projectionDistance <= 0)
             return this; // Receiver is not behind the caster
 
-        float lightToReceiverDistance = lightToCasterDistance + projectionDistance;
-        float shadowRadius = casterSphere.Radius * (lightToReceiverDistance / lightToCasterDistance);
-
         var shadowRay = new Ray(casterSphere.Center, lightDirection);
-        float shadowFactor = GetShadowFactor(receiverSphere, shadowRay, shadowRadius);
+        float shadowFactor = GetShadowFactor(receiverSphere, shadowRay, casterSphere.Radius, lightToCasterDistance, projectionDistance);
 
         if (shadowFactor == 0) return this;
         var lightSource = new PointLight
@@ -149,6 +151,7 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
             Name = Name,
             Enabled = Enabled,
             MaxShadowRange = MaxShadowRange,
+            SourceRadius = SourceRadius,
             Diffuse = Diffuse.Multiply(1 - shadowFactor),
             Specular = Specular.Multiply(1 - shadowFactor),
             Ambient = Ambient,

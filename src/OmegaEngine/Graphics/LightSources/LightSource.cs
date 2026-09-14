@@ -51,6 +51,13 @@ public abstract class LightSource
     [Description("The maximum distance between shadow casters and receivers to consider"), Category("Behavior")]
     public float MaxShadowRange { get; set; } = float.PositiveInfinity;
 
+    /// <summary>
+    /// The radius of the body emitting the light.
+    /// </summary>
+    /// <remarks>Used to taper shadow volumes into umbra cones surrounded by penumbras. 0 for an idealized point source, whose shadow volumes never converge.</remarks>
+    [Description("The radius of the body emitting the light"), Category("Behavior")]
+    public float SourceRadius { get; set; }
+
     private Color _diffuse = Color.White;
 
     /// <summary>
@@ -82,6 +89,35 @@ public abstract class LightSource
     /// <param name="casterSphere">The bounding sphere of the shadow caster in world space.</param>
     [Pure]
     public abstract LightSource GetShadowed(BoundingSphere receiverSphere, BoundingSphere casterSphere);
+
+    /// <summary>
+    /// Calculates the shadow intensity, tapering the shadow volume into an umbra cone surrounded by a penumbra.
+    /// </summary>
+    /// <param name="receiverSphere">Bounding sphere of the shadow receiver in floating world space.</param>
+    /// <param name="shadowRay">Ray pointing from the light source to the shadow caster in floating world space.</param>
+    /// <param name="casterRadius">The radius of the shadow caster.</param>
+    /// <param name="sourceDistance">The distance from the light source to the shadow caster; <see cref="float.PositiveInfinity"/> for an idealized parallel source.</param>
+    /// <param name="projectionDistance">The distance from the shadow caster to the shadow receiver, projected onto the light direction.</param>
+    /// <returns>A value from 0 (fully lit) to 1 (fully shadowed).</returns>
+    /// <remarks>The penumbra is applied as a linear blend rather than an occlusion area computation, so it darkens uniformly instead of fading towards its outer edge.</remarks>
+    protected float GetShadowFactor(BoundingSphere receiverSphere, Ray shadowRay, float casterRadius, float sourceDistance, float projectionDistance)
+    {
+        // A negative radius would make the penumbra narrower than the umbra, breaking the early-out below
+        float sourceRadius = Math.Max(0, SourceRadius);
+
+        // How far the shadow volume widens or narrows per unit of distance behind the caster; 0 for a parallel source
+        float taper = sourceDistance > 0 ? projectionDistance / sourceDistance : 0;
+
+        // The penumbra always widens, so missing it means missing the umbra too
+        float penumbraFactor = GetShadowFactor(receiverSphere, shadowRay, casterRadius + taper * (casterRadius + sourceRadius));
+        if (penumbraFactor == 0) return 0;
+
+        // The umbra narrows when the source is larger than the caster and vanishes past the cone's tip
+        float umbraRadius = casterRadius + taper * (casterRadius - sourceRadius);
+        float umbraFactor = umbraRadius > 0 ? GetShadowFactor(receiverSphere, shadowRay, umbraRadius) : 0;
+
+        return (umbraFactor + penumbraFactor) / 2;
+    }
 
     /// <summary>
     /// Calculates the shadow intensity.

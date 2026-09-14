@@ -133,29 +133,6 @@ public class PointLightTest
     }
 
     [Fact]
-    public void GetShadowed_ConicalShadowVolume_GrowsWithDistance()
-    {
-        var light = CreateLight();
-
-        // Test that point light creates conical shadow (expanding with distance)
-        var casterSphere = new BoundingSphere(new(0, 10, 0), radius: 1);
-
-        // Receiver close to caster (distance from caster = 2)
-        // Shadow radius = casterRadius * (lightToReceiver / lightToCaster) = 1 * (12/10) = 1.2
-        var receiverNear = new BoundingSphere(new(0, 8, 0), radius: 0.5f);
-        var shadowedNear = (PointLight)light.GetShadowed(receiverNear, casterSphere);
-
-        // Receiver far from caster (distance from caster = 10)
-        // Shadow radius = casterRadius * (lightToReceiver / lightToCaster) = 1 * (20/10) = 2.0
-        var receiverFar = new BoundingSphere(new(0, 0, 0), radius: 0.5f);
-        var shadowedFar = (PointLight)light.GetShadowed(receiverFar, casterSphere);
-
-        // Both should be fully shadowed
-        shadowedNear.Diffuse.Should().Be(Color.Black);
-        shadowedFar.Diffuse.Should().Be(Color.Black);
-    }
-
-    [Fact]
     public void GetShadowed_ShadowRadiusProportionalToDistance()
     {
         var light = CreateLight();
@@ -175,6 +152,62 @@ public class PointLightTest
         // First receiver should have no shadow, second should have shadow
         shadowed1.Should().Be(light);
         shadowed2.Should().NotBe(light);
+    }
+
+    [Fact]
+    public void GetShadowed_ConicalShadowVolume_ConvergesWhenSourceLargerThanCaster()
+    {
+        var light = CreateLight();
+        light.SourceRadius = 4;
+
+        // Light-to-caster = 10, so the umbra cone converges to a tip 10 units behind the caster
+        var casterSphere = new BoundingSphere(new(0, 10, 0), radius: 2);
+
+        // Receiver halfway to the tip: umbra radius = 2 + (5/10) * (2 - 4) = 1
+        var receiverNear = new BoundingSphere(new(0, 5, 0), radius: 0.5f);
+        var shadowedNear = (PointLight)light.GetShadowed(receiverNear, casterSphere);
+
+        // Receiver past the tip: umbra radius = 2 + (20/10) * (2 - 4) = -2
+        var receiverFar = new BoundingSphere(new(0, -10, 0), radius: 0.5f);
+        var shadowedFar = (PointLight)light.GetShadowed(receiverFar, casterSphere);
+
+        shadowedNear.Diffuse.Should().Be(Color.Black); // Fully inside the umbra
+
+        // Only the penumbra reaches past the tip
+        shadowedFar.Diffuse.R.Should().BeLessThan(light.Diffuse.R);
+        shadowedFar.Diffuse.R.Should().BeGreaterThan(0);
+    }
+
+    [Fact]
+    public void GetShadowed_PreservesSourceRadius()
+    {
+        var light = CreateLight();
+        light.SourceRadius = 4;
+
+        var casterSphere = new BoundingSphere(new(0, 10, 0), radius: 2);
+        var receiverSphere = new BoundingSphere(new(0, 5, 0), radius: 0.5f);
+
+        var shadowed = (PointLight)light.GetShadowed(receiverSphere, casterSphere);
+
+        shadowed.Should().NotBe(light); // Shadow applied, so the assertion below is not vacuous
+        shadowed.SourceRadius.Should().Be(light.SourceRadius);
+    }
+
+    [Fact]
+    public void AsDirectional_PropagatesSourceProperties()
+    {
+        var light = CreateLight();
+        light.SourceRadius = 4;
+
+        var directional = light.AsDirectional(target: new(0, 0, 0));
+
+        directional.SourceRadius.Should().Be(4);
+        directional.SourceDistance.Should().Be(20);
+
+        // The reused instance must not keep the distance from the previous target
+        directional = light.AsDirectional(target: new(0, 10, 0));
+
+        directional.SourceDistance.Should().Be(10);
     }
 
     [Fact]
