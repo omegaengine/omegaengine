@@ -30,6 +30,19 @@ public abstract class EngineTestBase : IDisposable
     private static string GetContentDir([CallerFilePath] string thisFile = "")
         => Path.Combine(Paths.Parent(thisFile), "..", "..", "content");
 
+    private sealed class InvisibleForm : Form
+    {
+        public InvisibleForm()
+        {
+            Size = new(320, 240);
+            FormBorderStyle = FormBorderStyle.None;
+            ShowInTaskbar = false;
+            Opacity = 0;
+        }
+
+        protected override bool ShowWithoutActivation => true;
+    }
+
     private readonly Form _form;
 
     /// <summary>The engine under test, backed by a hidden window.</summary>
@@ -40,7 +53,7 @@ public abstract class EngineTestBase : IDisposable
         Form? form = null;
         try
         {
-            form = new Form {Size = new(320, 240)};
+            form = new InvisibleForm();
             _ = form.Handle; // Force handle creation
             Engine = new Engine(form, new EngineConfig {TargetSize = form.ClientSize});
             _form = form;
