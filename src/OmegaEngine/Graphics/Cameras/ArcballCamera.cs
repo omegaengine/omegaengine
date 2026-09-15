@@ -139,7 +139,7 @@ public sealed class ArcballCamera : ZoomCamera
                      .AdjustReference(from: _defaultWorldUp, to: _worldUp)
                      .RotateAroundAxis(viewDir, -_roll);
 
-        Yaw += rotation.X;
+        Yaw += IsUpsideDown ? -rotation.X : rotation.X;
         Pitch -= rotation.Y;
         Roll += rotation.Z;
 

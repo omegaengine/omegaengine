@@ -120,6 +120,16 @@ public class ArcballCameraTest
     }
 
     [Fact]
+    public void TestNavigateRotationUpsideDown()
+    {
+        var camera = new ArcballCamera { PitchLimit = 90, Pitch = 135 };
+
+        // Yaw input is mirrored while upside-down, so that dragging keeps orbiting in the same on-screen direction
+        camera.Navigate(rotation: new(45, 0, 0));
+        camera.Yaw.Should().BeApproximately(315, precision: 0.001);
+    }
+
+    [Fact]
     public void TestRollRotation()
     {
         var camera = new ArcballCamera { Roll = 45 };
