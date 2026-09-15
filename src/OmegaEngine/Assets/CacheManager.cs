@@ -66,16 +66,22 @@ public sealed class CacheManager : IDisposable
     {
         using var _ = new ProfilerEvent("Cleaning asset cache");
 
-        // Build a list of elements to remove
-        var pendingRemove = new LinkedList<Asset>();
-        foreach (var asset in _assetCache.Where(x => x.ReferenceCount == 0))
+        // Disposing an asset releases the references it holds to other assets (e.g. an XMesh to its textures), so keep going until a pass finds nothing left to remove
+        int removed;
+        do
         {
-            asset.Dispose();
-            pendingRemove.AddLast(asset);
-        }
+            var pendingRemove = new LinkedList<Asset>();
+            foreach (var asset in _assetCache.Where(x => x.ReferenceCount == 0))
+            {
+                asset.Dispose();
+                pendingRemove.AddLast(asset);
+            }
 
-        // Remove the elements one-by-one
-        foreach (var asset in pendingRemove) _assetCache.Remove(asset);
+            foreach (var asset in pendingRemove)
+                _assetCache.Remove(asset);
+
+            removed = pendingRemove.Count;
+        } while (removed > 0);
 
         GC.Collect();
     }

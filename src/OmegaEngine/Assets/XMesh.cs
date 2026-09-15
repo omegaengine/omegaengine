@@ -204,6 +204,10 @@ public class XMesh : Asset
 
                 Materials = builder.MoveToImmutable();
 
+                // Keep the textures alive for as long as this mesh is cached, even if no Model currently uses them
+                foreach (var material in Materials)
+                    material.HoldReference();
+
                 // Generate normals (plus tangents if normal/height maps are available)
                 if (needsTangents && engine.Capabilities.PerPixelEffects)
                     TexturedMeshUtils.GenerateTBN(engine.Device, ref _mesh, weldVertexes: true);
@@ -340,6 +344,12 @@ public class XMesh : Asset
                 Log.Info($"Disposing {this}");
                 _mesh.Dispose();
                 _pickingMesh?.Dispose();
+
+                if (!Materials.IsDefaultOrEmpty)
+                {
+                    foreach (var material in Materials)
+                        material.ReleaseReference();
+                }
             }
         }
         finally
