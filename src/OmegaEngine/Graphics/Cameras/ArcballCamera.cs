@@ -62,15 +62,55 @@ public sealed class ArcballCamera : ZoomCamera
             if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
             #endregion
 
-            PreventGimbalLock(value.DegreeToRadian().Modulo(2 * Math.PI))
+            LimitPitch(value.DegreeToRadian().Modulo(2 * Math.PI))
                .To(ref _pitch, ref ViewDirty, ref ViewFrustumDirty);
+        }
+    }
+
+    private double _pitchLimit = 89d.DegreeToRadian();
+
+    /// <summary>
+    /// The maximum absolute deviation of <see cref="Pitch"/> from the horizon in degrees. Set to 90 to allow orbiting over the poles.
+    /// </summary>
+    /// <remarks>
+    /// Close to the poles the view direction becomes nearly parallel to <see cref="WorldUp"/>, which makes the view matrix ill-conditioned and causes the image to roll and jitter.
+    /// Raising the limit to 90 trades that stability for the ability to orbit all the way over the target.
+    /// </remarks>
+    [DefaultValue(89.0), Description("The maximum absolute deviation of Pitch from the horizon in degrees. Set to 90 to allow orbiting over the poles."), Category("Behavior")]
+    [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
+    public double PitchLimit
+    {
+        get => _pitchLimit.RadianToDegree();
+        set
+        {
+            #region Sanity checks
+            if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
+            if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value), Resources.ValueNotPositive);
+            if (value > 90) throw new ArgumentOutOfRangeException(nameof(value), Resources.AngleNotAbove90);
+            #endregion
+
+            value.DegreeToRadian().To(ref _pitchLimit, ref ViewDirty, ref ViewFrustumDirty);
+            _pitch = LimitPitch(_pitch); // Apply the new limit to the existing pitch
         }
     }
 
     private const double
         QuarterCircle = Math.PI / 2,
+        HalfCircle = Math.PI,
         ThreeQuarterCircle = Math.PI * 3 / 2,
+        FullCircle = Math.PI * 2,
         Epsilon = 0.000001;
+
+    /// <summary>
+    /// Constrains a pitch value in radians to <see cref="PitchLimit"/>.
+    /// </summary>
+    /// <param name="value">The pitch in radians, normalized to a full circle.</param>
+    private double LimitPitch(double value)
+        => _pitchLimit >= QuarterCircle - Epsilon
+            ? PreventGimbalLock(value) // Limit disabled, keep the camera off the poles by a hair
+            : value > HalfCircle
+                ? Math.Max(value, FullCircle - _pitchLimit) // Below the horizon
+                : Math.Min(value, _pitchLimit); // Above the horizon
 
     private static double PreventGimbalLock(double value)
         => value switch

@@ -109,9 +109,33 @@ public class ArcballCameraTest
     }
 
     [Fact]
+    public void TestPitchLimit()
+    {
+        var camera = new ArcballCamera { PitchLimit = 80 };
+
+        camera.Pitch = 90;
+        camera.Pitch.Should().BeApproximately(80, precision: 0.001);
+
+        camera.Pitch = -90;
+        camera.Pitch.Should().BeApproximately(280, precision: 0.001); // -80
+
+        camera.Pitch = 170; // Over the top
+        camera.Pitch.Should().BeApproximately(80, precision: 0.001);
+    }
+
+    [Fact]
+    public void TestPitchLimitAppliedRetroactively()
+    {
+        var camera = new ArcballCamera { Pitch = 85 };
+
+        camera.PitchLimit = 60;
+        camera.Pitch.Should().BeApproximately(60, precision: 0.001);
+    }
+
+    [Fact]
     public void TestPitchGimbalLockPrevention()
     {
-        var camera = new ArcballCamera { Pitch = 90 };
+        var camera = new ArcballCamera { PitchLimit = 90, Pitch = 90 };
 
         // Pitch should be very close to 90 but not exactly 90
         camera.Pitch.Should().NotBe(90);

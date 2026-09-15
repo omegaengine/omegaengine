@@ -60,6 +60,15 @@ namespace OmegaEngine.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Value must not be larger than 90 degrees.
+        /// </summary>
+        internal static string AngleNotAbove90 {
+            get {
+                return ResourceManager.GetString("AngleNotAbove90", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Value must be smaller than 90 degrees.
         /// </summary>
         internal static string AngleNotBelow90 {
