@@ -172,6 +172,7 @@ public record struct XMaterial(Color Diffuse)
         HeightMap?.HoldReference();
         SpecularMap?.HoldReference();
         EmissiveMap?.HoldReference();
+        GlowMap?.HoldReference();
     }
 
     /// <summary>
@@ -189,5 +190,6 @@ public record struct XMaterial(Color Diffuse)
         HeightMap?.ReleaseReference();
         SpecularMap?.ReleaseReference();
         EmissiveMap?.ReleaseReference();
+        GlowMap?.ReleaseReference();
     }
 }
