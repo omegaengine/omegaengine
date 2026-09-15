@@ -32,8 +32,8 @@ public class XMesh : Asset
     /// </summary>
     public ImmutableArray<XMaterial> Materials { get; }
 
-    private Mesh _mesh;
-    private Mesh? _pickingMesh;
+    private readonly Mesh _mesh;
+    private readonly Mesh? _pickingMesh;
 
     /// <summary>
     /// The mesh in DirectX format, ready for rendering. Lives in <see cref="Pool.Default"/> and cannot be read by the CPU.
