@@ -6,6 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Linq;
 using AwesomeAssertions;
 using OmegaEngine.Graphics;
 using SlimDX.Direct3D9;
@@ -16,6 +17,7 @@ namespace OmegaEngine.Assets;
 public class XMeshTest : EngineTestBase
 {
     private const string BoxMesh = "Test/Box/Normal/Normal.x";
+    private const string DwarfMesh = "Test/Dwarf/Dwarf.x";
 
     [Fact]
     public void LoadsMeshWithMaterialsAndBounds()
@@ -29,6 +31,15 @@ public class XMeshTest : EngineTestBase
         var boundingSphere = mesh.BoundingSphere;
         boundingSphere.Should().NotBeNull();
         boundingSphere!.Value.Radius.Should().BeGreaterThan(0);
+    }
+
+    [Fact]
+    public void GlowMapDoublesAsEmissiveMapWhenThereIsNoDedicatedOne()
+    {
+        var mesh = XMesh.Get(Engine, DwarfMesh);
+
+        var material = mesh.Materials.Single(x => x.GlowMap != null);
+        material.EmissiveMap.Should().BeSameAs(material.GlowMap, "the subset has a glow map but no emissive map");
     }
 
     [Fact]

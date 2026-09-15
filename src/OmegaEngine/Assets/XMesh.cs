@@ -162,10 +162,13 @@ public class XMesh : Asset
                         if (ContentManager.FileExists("Meshes", emissiveFilename))
                             material.EmissiveMap = XTexture.Get(engine, emissiveFilename, meshTexture: true);
 
-                        // Glow map
+                        // Glow map, doubling as the emissive map if there is no dedicated one
                         string glowFilename = $"{baseFilename}_glow{fileExt}";
                         if (ContentManager.FileExists("Meshes", glowFilename))
-                            material.EmissiveMap ??= material.GlowMap = XTexture.Get(engine, glowFilename, meshTexture: true);
+                        {
+                            material.GlowMap = XTexture.Get(engine, glowFilename, meshTexture: true);
+                            material.EmissiveMap ??= material.GlowMap;
+                        }
                     }
 
                     // Search for texture file names in shader effect if present
