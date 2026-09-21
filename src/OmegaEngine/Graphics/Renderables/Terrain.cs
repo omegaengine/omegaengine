@@ -28,7 +28,8 @@ namespace OmegaEngine.Graphics.Renderables;
 public partial class Terrain : Model
 {
     #region Variables
-    private TerrainShader[]? _subsetShaders;
+    /// <summary>Shaders for all subsets (blocks); <c>null</c> if the hardware cannot run them at all, individual entries <c>null</c> if that subset's texture combination could not be compiled.</summary>
+    private TerrainShader?[]? _subsetShaders;
 
     private readonly int[] _indexBuffer;
     private readonly Vector3[] _vertexBuffer;
@@ -280,8 +281,7 @@ public partial class Terrain : Model
     {
         // Rendering this without a shader isn't possible (non-standard FVF)
         if (SurfaceEffect < SurfaceEffect.Shader) SurfaceEffect = SurfaceEffect.Shader;
-        if (_subsetShaders == null) return;
-        var shader = _subsetShaders[i];
+        if (_subsetShaders?[i] is not {} shader) return;
 
         using (new ProfilerEvent(() => $"Subset {i}"))
         {
@@ -312,7 +312,7 @@ public partial class Terrain : Model
 
                 default:
                     // Apply the regular terrain shader
-                    if (_subsetShaders?[i] != null) SurfaceShader = shader;
+                    SurfaceShader = shader;
                     XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
                     var effectiveLights = getEffectiveLights == null
