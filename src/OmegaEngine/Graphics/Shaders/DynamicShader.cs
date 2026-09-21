@@ -190,7 +190,7 @@ public static partial class DynamicShader
             using var compiler = EffectCompiler.FromStream(fxCode.ToStream(), ShaderFlags.None);
             return compiler.CompileEffect(ShaderFlags.EnableBackwardsCompatibility);
         }
-        catch (Direct3D9Exception ex)
+        catch (Exception ex) when (ex is CompilationException or Direct3D9Exception)
         {
             throw new ShaderCompileException(Resources.DynamicShaderCompileFail, ex, fxCode);
         }
