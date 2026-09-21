@@ -33,7 +33,7 @@ public class TerrainShader : LightingShader
         _depth = "Depth";
 
     private readonly bool _lighting;
-    private readonly DataStream _stream;
+    private readonly byte[] _effectCode;
 
     /// <summary>
     /// When set to <c>true</c> before calling <see cref="Apply"/>, causes the shader's technique selection to be overridden to output normalized camera-relative depth as a grayscale color instead of its normal appearance.
@@ -71,6 +71,7 @@ public class TerrainShader : LightingShader
     /// <param name="capabilities">The rendering capabilities available to the shader</param>
     /// <param name="textureMask">A bitmask that indicates which textures are enabled</param>
     /// <exception cref="NotSupportedException">The graphics card does not support this shader.</exception>
+    /// <exception cref="ShaderCompileException">The expanded shader code could not be compiled, e.g. because <paramref name="textureMask"/> selects more textures than the profile implied by <paramref name="capabilities"/> has instruction slots for.</exception>
     public TerrainShader(bool lighting, EngineCapabilities capabilities, int textureMask)
     {
         _lighting = lighting;
@@ -82,11 +83,14 @@ public class TerrainShader : LightingShader
                 textureIndexes.Add(i + 1);
         }
 
-        _stream = DynamicShader.FromContent(
+        using var stream = DynamicShader.FromContent(
             "Terrain.fxd",
             controllers: new() {["textures"] = textureIndexes},
             lighting,
             capabilities);
+        stream.Position = 0;
+        _effectCode = new byte[stream.Length];
+        stream.Read(_effectCode, 0, _effectCode.Length); // Copy to managed array to avoid memory leak if not disposed
     }
     #endregion
 
@@ -138,7 +142,7 @@ public class TerrainShader : LightingShader
     /// <inheritdoc/>
     protected override void OnEngineSet()
     {
-        Effect = Effect.FromStream(Engine.Device, _stream, ShaderFlags.None);
+        Effect = Effect.FromMemory(Engine.Device, _effectCode, ShaderFlags.None);
 
         base.OnEngineSet();
     }
