@@ -4,9 +4,9 @@
 //
 // Techniques:
 // - Simple14 (Shader Model 1.4, 4 textures, no lighting)
-// - Simple20 (Shader Model 2.0, 16 textures, no lighting)
+// - Simple20 (Shader Model 2.0+, 16 textures, no lighting)
 // - Light14 (Shader Model 1.4, 4 textures, per-vertex lighting)
-// - Light20 (Shader Model 2.0, 16 textures, per-pixel lighting)
+// - Light20 (Shader Model 2.0+, 16 textures, per-pixel lighting; only 8 on plain 2.0, see PS_2X below)
 // - Light2a (Shader Model 2.0a, 16 textures, per-pixel lighting, double sampling)
 // - Light2b (Shader Model 2.0b, 16 textures, per-pixel lighting, double sampling)
 // - SimpleBlack (Shader Model 1.1, all black)
@@ -98,17 +98,19 @@ struct inSimple
 };
 
 /// <BeginFilter Target="PS2x" Lighting="true" />
+// Note: All 8 interpolators a Shader Model 2 pixel shader can read are in use here, so worldPos and zDepth
+// share one register to leave room for the 4th texture weight group (textures 13 to 16).
 struct outLight2x
 {
     float4 pos                : POSITION;  // Position in clip space
-    float zDepth              : TEXCOORD1; // Distance from the camera in clip space
-    float3 worldPos           : TEXCOORD2; // Position in world space
+    float4 worldPos           : TEXCOORD2; // Position in world space (xyz) and distance from the camera in clip space (w)
     float3 normal             : TEXCOORD3; // Normal vector in world space
     float2 texCoord           : TEXCOORD0; // Texture coordinates
     float4 occlusionIntervals : TEXCOORD4; // Angles when light 1 and 2 fist become visible and first become covered again
     float4 texWeights1        : TEXCOORD5;
     float4 texWeights2        : TEXCOORD6;
     float4 texWeights3        : TEXCOORD7;
+    float4 texWeights4        : TEXCOORD1;
     float4 color              : COLOR0;
 };
 /// <EndFilter />
@@ -123,10 +125,11 @@ struct outSimple2x
     float4 texWeights1 : TEXCOORD3;
     float4 texWeights2 : TEXCOORD4;
     float4 texWeights3 : TEXCOORD5;
+    float4 texWeights4 : TEXCOORD6;
 };
 /// <EndFilter />
 
-/// <BeginFilter Target="PS14" Lighting="false" />
+/// <BeginFilter Target="PS14" Lighting="true" />
 struct outLight14
 {
     float4 pos          : POSITION;  // Position in clip space
@@ -136,7 +139,9 @@ struct outLight14
     float4 diffAmbColor : COLOR0;
     float4 color        : COLOR1;
 };
+/// <EndFilter />
 
+/// <BeginFilter Target="PS14" Lighting="false" />
 struct outSimple14
 {
     float4 pos         : POSITION;  // Position in clip space
@@ -236,13 +241,13 @@ outLight2x VS_Light2x(inLight IN)
 
     // Apply transforms
     OUT.pos = transProj(IN.entityPos);
-    OUT.zDepth = OUT.pos.z;
-    OUT.worldPos = transWorld(IN.entityPos);
+    OUT.worldPos = float4(transWorld(IN.entityPos), OUT.pos.z);
     OUT.normal = transNorm(IN.normal);
 
     OUT.texWeights1 = IN.texWeights1;
     OUT.texWeights2 = IN.texWeights2;
     OUT.texWeights3 = IN.texWeights3;
+    OUT.texWeights4 = IN.texWeights4;
 
     OUT.texCoord = IN.texCoord;
     OUT.color = IN.color;
@@ -265,6 +270,7 @@ outSimple2x VS_Simple20(inSimple IN)
     OUT.texWeights1 = IN.texWeights1;
     OUT.texWeights2 = IN.texWeights2;
     OUT.texWeights3 = IN.texWeights3;
+    OUT.texWeights4 = IN.texWeights4;
 
     OUT.texCoord = IN.texCoord;
 
@@ -342,7 +348,7 @@ outLight14 VS_Light14(inLight IN,  // Overload for one point light
     OUT.texWeights2 = IN.texWeights1.zw;
 
     OUT.texCoord = IN.texCoord;
-    OUT.diffAmbColor = calcPointLight(transWorld(IN.entityPos), OUT.pos, transNorm(IN.normal), lightPos, diffCol, ambCol, att);
+    OUT.diffAmbColor = calcPointLight(transWorld(IN.entityPos), transNorm(IN.normal), lightPos, diffCol, ambCol, att);
     OUT.color = IN.color;
 
     return OUT;
@@ -407,13 +413,13 @@ outDepth VS_Depth(inSimple IN)
 //---------------- Pixel shaders ----------------
 
 /// <BeginFilter Target="PS2ab" Lighting="true" />
-float4 PS_Helper2ab(float zDepth, float2 texCoord, float4 texWeights1, float4 texWeights2, float4 texWeights3)
+float4 PS_Helper2ab(float zDepth, float2 texCoord, float4 texWeights1, float4 texWeights2, float4 texWeights3, float4 texWeights4)
 {
     // Calculate color values for high camera distance
     float2 farTextureCoords = texCoord * 0.8;
     float4 farColor = 0;
     /// <Counter ID="main" Type="int" Min="1" Max="16" />
-    /// <Counter ID="group" Type="int-step" Min="1" Max="3" Step="0.25" />
+    /// <Counter ID="group" Type="int-step" Min="1" Max="4" Step="0.25" />
     /// <Counter ID="component" Type="char">
     ///   <Char>x</Char>
     ///   <Char>y</Char>
@@ -426,7 +432,7 @@ float4 PS_Helper2ab(float zDepth, float2 texCoord, float4 texWeights1, float4 te
     float2 nearTextureCoords = texCoord * 3.9;
     float4 nearColor = 0;
     /// <Counter ID="main" Type="int" Min="1" Max="16" />
-    /// <Counter ID="group" Type="int-step" Min="1" Max="3" Step="0.25" />
+    /// <Counter ID="group" Type="int-step" Min="1" Max="4" Step="0.25" />
     /// <Counter ID="component" Type="char">
     ///   <Char>x</Char>
     ///   <Char>y</Char>
@@ -443,7 +449,7 @@ float4 PS_Helper2ab(float zDepth, float2 texCoord, float4 texWeights1, float4 te
 float4 PS_Light2ab(outLight2x IN,  // Overload for ambient-only light
   uniform float4 ambCol) : COLOR
 {
-    return PS_Helper2ab(IN.zDepth, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * ambCol * IN.color;
+    return PS_Helper2ab(IN.worldPos.w, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3, IN.texWeights4) * ambCol * IN.color;
 }
 
 float4 PS_Light2ab(outLight2x IN,  // Overload for two directional lights
@@ -453,26 +459,26 @@ float4 PS_Light2ab(outLight2x IN,  // Overload for two directional lights
 {
     float4 diffAmbColor = calcTwoDirLights(IN.normal,
       lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.occlusionIntervals, IN.occlusionIntervals);
-    return PS_Helper2ab(IN.zDepth, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+    return PS_Helper2ab(IN.worldPos.w, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3, IN.texWeights4) * diffAmbColor * IN.color;
 }
 
 float4 PS_Light2ab(outLight2x IN,  // Overload for one directional light
   uniform float3 lightDir, uniform float4 diffCol, uniform float4 ambCol) : COLOR
 {
     float4 diffAmbColor = calcDirLight(IN.normal, lightDir, diffCol, ambCol, IN.occlusionIntervals);
-    return PS_Helper2ab(IN.zDepth, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+    return PS_Helper2ab(IN.worldPos.w, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3, IN.texWeights4) * diffAmbColor * IN.color;
 }
 
 float4 PS_Light2ab(outLight2x IN,  // Overload for one point light
   uniform float3 lightPos, uniform float4 diffCol, uniform float4 ambCol, uniform float3 att) : COLOR
 {
-    float4 diffAmbColor = calcPointLight(IN.worldPos, IN.normal, lightPos, diffCol, ambCol, att);
-    return PS_Helper2ab(IN.zDepth, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+    float4 diffAmbColor = calcPointLight(IN.worldPos.xyz, IN.normal, lightPos, diffCol, ambCol, att);
+    return PS_Helper2ab(IN.worldPos.w, IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3, IN.texWeights4) * diffAmbColor * IN.color;
 }
 /// <EndFilter />
 
 /// <BeginFilter Target="PS2x" />
-float4 PS_Helper20(float2 texCoord, float4 texWeights1, float4 texWeights2, float4 texWeights3)
+float4 PS_Helper20(float2 texCoord, float4 texWeights1, float4 texWeights2, float4 texWeights3, float4 texWeights4)
 {
     // Calculate color values for high camera distance
     float4 color = 0;
@@ -494,7 +500,7 @@ float4 PS_Helper20(float2 texCoord, float4 texWeights1, float4 texWeights2, floa
 float4 PS_Light20(outLight2x IN,  // Overload for ambient-only light
   uniform float4 ambCol) : COLOR
 {
-    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * ambCol * IN.color;
+    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3, IN.texWeights4) * ambCol * IN.color;
 }
 
 float4 PS_Light20(outLight2x IN,  // Overload for two directional lights
@@ -504,32 +510,32 @@ float4 PS_Light20(outLight2x IN,  // Overload for two directional lights
 {
     float4 diffAmbColor = calcTwoDirLights(IN.normal,
       lightDir1, lightDir2, diffCol1, diffCol2, ambCol1, ambCol2, IN.occlusionIntervals, IN.occlusionIntervals);
-    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3, IN.texWeights4) * diffAmbColor * IN.color;
 }
 
 float4 PS_Light20(outLight2x IN,  // Overload for one directional light
   uniform float3 lightDir, uniform float4 diffCol, uniform float4 ambCol) : COLOR
 {
     float4 diffAmbColor = calcDirLight(IN.normal, lightDir, diffCol, ambCol, IN.occlusionIntervals);
-    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3, IN.texWeights4) * diffAmbColor * IN.color;
 }
 
 float4 PS_Light20(outLight2x IN,  // Overload for one point light
   uniform float3 lightPos, uniform float4 diffCol, uniform float4 ambCol, uniform float3 att) : COLOR
 {
-    float4 diffAmbColor = calcPointLight(IN.worldPos, IN.normal, lightPos, diffCol, ambCol, att);
-    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3) * diffAmbColor * IN.color;
+    float4 diffAmbColor = calcPointLight(IN.worldPos.xyz, IN.normal, lightPos, diffCol, ambCol, att);
+    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3, IN.texWeights4) * diffAmbColor * IN.color;
 }
 /// <EndFilter />
 
 /// <BeginFilter Target="PS2x" Lighting="false" />
 float4 PS_Simple20(outSimple2x IN) : COLOR
 {
-    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3);
+    return PS_Helper20(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3, IN.texWeights4);
 }
 /// <EndFilter />
 
-/// <BeginFilter Target="PS14" Lighting="false" />
+/// <BeginFilter Target="PS14" Lighting="true" />
 float4 PS_Light14(outLight14 IN) : COLOR
 {
     // Calculate color values
@@ -545,7 +551,9 @@ float4 PS_Light14(outLight14 IN) : COLOR
     // Apply lighting and distance blending
     return color * IN.diffAmbColor * IN.color;
 }
+/// <EndFilter />
 
+/// <BeginFilter Target="PS14" Lighting="false" />
 float4 PS_Simple14(outSimple14 IN) : COLOR
 {
     // Calculate color values
@@ -571,6 +579,19 @@ float4 PS_Depth(outDepth IN) : COLOR
 
 #define ADDITIVE_STATES ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One;
 
+// The single-sampling techniques are compiled for the best Shader Model 2 profile the hardware offers.
+// ps_2_0 caps arithmetic instructions at 64, which the lit blending code exceeds from 9 textures on;
+// ps_2_a and ps_2_b lift that cap, so only true ps_2_0 hardware is actually limited to 8 textures.
+/// <BeginFilter Target="PS20" />
+#define PS_2X ps_2_0
+/// <EndFilter />
+/// <BeginFilter Target="PS2a" />
+#define PS_2X ps_2_a
+/// <EndFilter />
+/// <BeginFilter Target="PS2b" />
+#define PS_2X ps_2_b
+/// <EndFilter />
+
 /// <BeginFilter Target="PS14" Lighting="false" />
 technique Simple14
 {
@@ -588,7 +609,7 @@ technique Simple20
   pass NoLights
   {
     VertexShader = compile vs_1_1 VS_Simple20();
-    PixelShader = compile ps_2_0 PS_Simple20();
+    PixelShader = compile PS_2X PS_Simple20();
   }
 }
 /// <EndFilter />
@@ -649,46 +670,46 @@ technique Light20
   pass AmbientLight
   {
     VertexShader = compile vs_1_1 VS_Light2x();
-    PixelShader = compile ps_2_a PS_Light20(ambientColor1);
+    PixelShader = compile PS_2X PS_Light20(ambientColor1);
   }
 
   pass TwoDirLights
   {
     VertexShader = compile vs_1_1 VS_Light2x();
-    PixelShader = compile ps_2_0 PS_Light20(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
+    PixelShader = compile PS_2X PS_Light20(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
   }
 
   pass TwoDirLightsAdd
   {
     ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light2x();
-    PixelShader = compile ps_2_0 PS_Light20(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
+    PixelShader = compile PS_2X PS_Light20(-lightDirection1.xyz, -lightDirection2.xyz, diffuseColor1, diffuseColor2, ambientColor1, ambientColor2);
   }
 
   pass OneDirLight
   {
     VertexShader = compile vs_1_1 VS_Light2x();
-    PixelShader = compile ps_2_0 PS_Light20(-lightDirection1.xyz, diffuseColor1, ambientColor1);
+    PixelShader = compile PS_2X PS_Light20(-lightDirection1.xyz, diffuseColor1, ambientColor1);
   }
 
   pass OneDirLightAdd
   {
     ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light2x();
-    PixelShader = compile ps_2_0 PS_Light20(-lightDirection1.xyz, diffuseColor1, ambientColor1);
+    PixelShader = compile PS_2X PS_Light20(-lightDirection1.xyz, diffuseColor1, ambientColor1);
   }
 
   pass OnePointLight
   {
     VertexShader = compile vs_1_1 VS_Light2x();
-    PixelShader = compile ps_2_0 PS_Light20(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
+    PixelShader = compile PS_2X PS_Light20(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
   }
 
   pass OnePointLightAdd
   {
     ADDITIVE_STATES
     VertexShader = compile vs_1_1 VS_Light2x();
-    PixelShader = compile ps_2_0 PS_Light20(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
+    PixelShader = compile PS_2X PS_Light20(lightPosition1.xyz, diffuseColor1, ambientColor1, attenuation1);
   }
 }
 /// <EndFilter />
