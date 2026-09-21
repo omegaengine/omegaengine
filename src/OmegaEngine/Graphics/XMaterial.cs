@@ -83,7 +83,7 @@ public record struct XMaterial(Color Diffuse)
     public Color Emissive { get; set; } = Color.Black;
 
     /// <summary>
-    /// A shader-specific parameter controlling the application of emissive lighting (usually how much emissive light is muted by diffuse and specular light)
+    /// A shader-specific parameter controlling the application of emissive lighting (usually how quickly emissive light fades out as the surface turns towards a light source)
     /// </summary>
     [DefaultValue(0f)]
     public float EmissiveFactor { get; set; } = 0;
