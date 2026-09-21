@@ -50,19 +50,24 @@ partial class Engine
     private TerrainShader GetTerrainShader(bool lighting, int textureMask)
     {
         var terrainShaders = lighting ? _terrainShadersLighting : _terrainShadersNoLighting;
-        if (terrainShaders[textureMask] is {} shader)
-            return shader;
+        if (terrainShaders[textureMask] is {} cached)
+            return cached;
 
         // TerrainShader constructor only generates shader source/bytecode (CPU work) and is therefore thread-safe
-        shader = new TerrainShader(lighting, Capabilities, textureMask);
+        var shader = new TerrainShader(lighting, Capabilities, textureMask);
 
-        // RegisterChild triggers Effect.FromStream(Device, ...) and is not thread-safe
+        // Assigning the Engine creates the effect on the device and is not thread-safe
         lock (_terrainShaderLock)
         {
-            if (terrainShaders[textureMask] == null)
-                RegisterChild(terrainShaders[textureMask] = shader);
-        }
+            if (terrainShaders[textureMask] is {} raced)
+            {
+                // Another thread got there first, so this one is surplus
+                shader.Dispose();
+                return raced;
+            }
 
-        return terrainShaders[textureMask];
+            RegisterChild(shader);
+            return terrainShaders[textureMask] = shader;
+        }
     }
 }
