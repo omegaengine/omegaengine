@@ -16,7 +16,7 @@
   <Label Name="Logo" FontScale="1.5" Text="Frame of Reference">
     <Location X="0" Y="40" />
     <Size Width="188" Height="80" />
-    <AlignVertical>Center</AlignVertical>
+    <AlignHorizontal>Center</AlignHorizontal>
     <TextAlign>Center</TextAlign>
   </Label>
   <Button Name="ResumeGame" Text="[Return]" Hotkey="Escape">
