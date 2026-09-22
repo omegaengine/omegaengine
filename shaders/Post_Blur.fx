@@ -94,7 +94,7 @@ VS_OUTPUT_BLUR VS_Quad_Horizontal_9tap(float3 Position : POSITION,
     VS_OUTPUT_BLUR OUT = (VS_OUTPUT_BLUR)0;
     OUT.Position = float4(Position, 1);
     float TexelIncrement = BlurStrength/QuadScreenSize.x;
-    float2 baseUV = TexCoord.xy + QuadTexelOffsets;
+    float2 baseUV = TexCoord.xy + QuadTexelOffsets + float2(-0.5, 0.5) / QuadScreenSize;
     OUT.TexCoord0 = float4(baseUV.x + TexelIncrement, baseUV.y, TexCoord.z, 1);
     OUT.TexCoord1 = float4(baseUV.x + TexelIncrement * 2, baseUV.y, TexCoord.z, 1);
     OUT.TexCoord2 = float4(baseUV.x + TexelIncrement * 3, baseUV.y, TexCoord.z, 1);
@@ -113,7 +113,7 @@ VS_OUTPUT_BLUR VS_Quad_Vertical_9tap(float3 Position : POSITION,
     VS_OUTPUT_BLUR OUT = (VS_OUTPUT_BLUR)0;
     OUT.Position = float4(Position, 1);
     float TexelIncrement = BlurStrength/QuadScreenSize.y;
-    float2 baseUV = TexCoord.xy + QuadTexelOffsets;
+    float2 baseUV = TexCoord.xy + QuadTexelOffsets + float2(0.5, -0.5) / QuadScreenSize;
     OUT.TexCoord0 = float4(baseUV.x, baseUV.y + TexelIncrement, TexCoord.z, 1);
     OUT.TexCoord1 = float4(baseUV.x, baseUV.y + TexelIncrement * 2, TexCoord.z, 1);
     OUT.TexCoord2 = float4(baseUV.x, baseUV.y + TexelIncrement * 3, TexCoord.z, 1);
